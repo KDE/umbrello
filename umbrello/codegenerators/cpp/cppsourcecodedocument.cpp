@@ -32,7 +32,7 @@
 CPPSourceCodeDocument::CPPSourceCodeDocument (UMLClassifier * concept)
         : ClassifierCodeDocument (concept)
 {
-    setFileExtension(QStringLiteral(".cpp"));
+    setFileExtension(QLatin1String(".cpp"));
 
     m_methodsBlock = 0;
     m_constructorBlock = 0;
@@ -106,15 +106,15 @@ void CPPSourceCodeDocument::updateContent()
     QString includeStatement;
     // Include own header file
     QString myOwnName(getParentClassifier()->name());
-    includeStatement.append(QStringLiteral("#include \"") + CodeGenerator::cleanName(myOwnName.toLower()) + QStringLiteral(".h\"") + endLine);
-    CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments(QStringLiteral("includes"), includeStatement, QString(), 0, false);
+    includeStatement.append(QLatin1String("#include \"") + CodeGenerator::cleanName(myOwnName.toLower()) + QLatin1String(".h\"") + endLine);
+    CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments(QLatin1String("includes"), includeStatement, QString(), 0, false);
     iblock->setWriteOutText(true);
 
     // After the includes we have just 2 big blocks basically, the "constructor" block and the
     // block for the rest of our methods (operations + accessors)
 
-    m_constructorBlock = getHierarchicalCodeBlock(QStringLiteral("constructionMethodsBlock"), QStringLiteral("Constructors/Destructors"), 0);
-    m_methodsBlock = getHierarchicalCodeBlock(QStringLiteral("otherMethodsBlock"), QStringLiteral("Methods"), 0);
+    m_constructorBlock = getHierarchicalCodeBlock(QLatin1String("constructionMethodsBlock"), QLatin1String("Constructors/Destructors"), 0);
+    m_methodsBlock = getHierarchicalCodeBlock(QLatin1String("otherMethodsBlock"), QLatin1String("Methods"), 0);
 
     // add accessors to the methods block
     m_methodsBlock->addCodeClassFieldMethods(staticAttribClassFields);

@@ -7,7 +7,7 @@
 #include "assocrules.h"
 
 // local includes
-#define DBG_SRC QStringLiteral("AssocRules")
+#define DBG_SRC QLatin1String("AssocRules")
 #include "debug_utils.h"
 #include "uml.h"
 #include "umlview.h"

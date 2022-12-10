@@ -7,7 +7,7 @@
 #include "import_argo.h"
 
 // app includes
-#define DBG_SRC QStringLiteral("Import_Argo")
+#define DBG_SRC QLatin1String("Import_Argo")
 #include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
@@ -46,15 +46,15 @@ bool Import_Argo::loadFromArgoFile(const KZip &zipFile, const QString &fileName)
     bool result = true;
     while (!xml.atEnd()) {
         xml.readNext();
-        if (xml.name() == QStringLiteral("member")) {
+        if (xml.name() == QLatin1String("member")) {
             QXmlStreamAttributes attributes = xml.attributes();
-            QString type = attributes.value(QStringLiteral("type")).toString();
-            QString name = attributes.value(QStringLiteral("name")).toString();
-            if (type == QStringLiteral("xmi") && !loadFromXMIFile(zipFile, name))
+            QString type = attributes.value(QLatin1String("type")).toString();
+            QString name = attributes.value(QLatin1String("name")).toString();
+            if (type == QLatin1String("xmi") && !loadFromXMIFile(zipFile, name))
                 result = false;
-            else if (type == QStringLiteral("pgml") && !loadFromPGMLFile(zipFile, name))
+            else if (type == QLatin1String("pgml") && !loadFromPGMLFile(zipFile, name))
                 result = false;
-            else if (type == QStringLiteral("todo") && loadFromTodoFile(zipFile, name))
+            else if (type == QLatin1String("todo") && loadFromTodoFile(zipFile, name))
                 result = false;
             else {
                 logError3("loadFromArgoFile unknown file type %1 in file %2 : %3",
@@ -156,7 +156,7 @@ bool Import_Argo::loadFromZArgoFile(QIODevice &file, UMLPackage *parentPkg)
                 logError1("loadFromZArgoFile: Could not read file from %1", name);
                 continue;
             }
-            if (name.endsWith(QStringLiteral(".argo")))
+            if (name.endsWith(QLatin1String(".argo")))
                 result = loadFromArgoFile(zipFile, name);
         }
     }

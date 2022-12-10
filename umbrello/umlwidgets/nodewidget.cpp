@@ -92,7 +92,7 @@ void NodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     if (UMLWidget::isInstance()) {
         font.setUnderline(true);
         painter->setFont(font);
-        nameStr = UMLWidget::instanceName() + QStringLiteral(" : ") + nameStr;
+        nameStr = UMLWidget::instanceName() + QLatin1String(" : ") + nameStr;
     }
 
     if (lines == 1) {
@@ -121,7 +121,7 @@ QSizeF NodeWidget::minimumSize() const
 
     QString name = m_umlObject->name();
     if (UMLWidget::isInstance()) {
-        name = UMLWidget::instanceName() + QStringLiteral(" : ") + name;
+        name = UMLWidget::instanceName() + QLatin1String(" : ") + name;
     }
 
     int width = fm.width(name) + 2 * defaultMargin;
@@ -145,7 +145,7 @@ QSizeF NodeWidget::minimumSize() const
  */
 void NodeWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("nodewidget"));
+    writer.writeStartElement(QLatin1String("nodewidget"));
     UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }

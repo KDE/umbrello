@@ -91,7 +91,7 @@ QString FloatingTextWidget::text() const
     // the text -b.t.
     if (m_textRole == Uml::TextRole::Seq_Message || m_textRole == Uml::TextRole::Seq_Message_Self ||
             m_textRole == Uml::TextRole::Coll_Message || m_textRole == Uml::TextRole::Coll_Message_Self) {
-        if (m_Text.length() <= 1 || m_Text == QStringLiteral(": "))
+        if (m_Text.length() <= 1 || m_Text == QLatin1String(": "))
             return QString();
     }
     return m_Text;
@@ -110,7 +110,7 @@ void FloatingTextWidget::setText(const QString &t)
             op = m_linkWidget->lwOperationText();
         if (op.length() > 0) {
             if (!m_scene->showOpSig())
-                op.replace(QRegExp(QStringLiteral("\\(.*\\)")), QStringLiteral("()"));
+                op.replace(QRegExp(QLatin1String("\\(.*\\)")), QLatin1String("()"));
             m_Text = op;
         }
         else
@@ -159,7 +159,7 @@ QString FloatingTextWidget::displayText() const
 {
     QString displayText;
     if (!m_SequenceNumber.isEmpty())
-        displayText = m_SequenceNumber + QStringLiteral(": ") + m_Text;
+        displayText = m_SequenceNumber + QLatin1String(": ") + m_Text;
     else
         displayText = m_Text;
     displayText.prepend(m_preText);
@@ -649,13 +649,13 @@ bool FloatingTextWidget::loadFromXMI(QDomElement & qElement)
 
     m_unconstrainedPositionX = x();
     m_unconstrainedPositionY = y();
-    QString role = qElement.attribute(QStringLiteral("role"));
+    QString role = qElement.attribute(QLatin1String("role"));
     if(!role.isEmpty())
         m_textRole = Uml::TextRole::fromInt(role.toInt());
 
-    m_preText = qElement.attribute(QStringLiteral("pretext"));
-    m_postText = qElement.attribute(QStringLiteral("posttext"));
-    setText(qElement.attribute(QStringLiteral("text")));  // use setText for geometry update
+    m_preText = qElement.attribute(QLatin1String("pretext"));
+    m_postText = qElement.attribute(QLatin1String("posttext"));
+    setText(qElement.attribute(QLatin1String("text")));  // use setText for geometry update
     // If all texts are empty then this is a useless widget.
     // In that case we return false.
     // CAVEAT: The caller should not interpret the false return value
@@ -674,18 +674,18 @@ void FloatingTextWidget::saveToXMI(QXmlStreamWriter& writer)
     if (isEmpty())
         return;
 
-    writer.writeStartElement(QStringLiteral("floatingtext"));
+    writer.writeStartElement(QLatin1String("floatingtext"));
     UMLWidget::saveToXMI(writer);
-    writer.writeAttribute(QStringLiteral("text"), m_Text);
-    writer.writeAttribute(QStringLiteral("pretext"), m_preText);
-    writer.writeAttribute(QStringLiteral("posttext"), m_postText);
+    writer.writeAttribute(QLatin1String("text"), m_Text);
+    writer.writeAttribute(QLatin1String("pretext"), m_preText);
+    writer.writeAttribute(QLatin1String("posttext"), m_postText);
 
     /* No need to save these - the messagewidget already did it.
     m_Operation  = qElement.attribute("operation");
     m_SeqNum = qElement.attribute("seqnum");
      */
 
-    writer.writeAttribute(QStringLiteral("role"), QString::number(m_textRole));
+    writer.writeAttribute(QLatin1String("role"), QString::number(m_textRole));
     writer.writeEndElement();
 }
 

@@ -43,7 +43,7 @@ void JavaCodeOperation::updateMethodDeclaration()
     QString strVis = Uml::Visibility::toString(o->visibility());
     // no return type for constructors
     QString fixedReturn = JavaCodeGenerator::fixTypeName(o->getTypeName());
-    QString returnType = o->isConstructorOperation() ? QString() : (fixedReturn + QStringLiteral(" "));
+    QString returnType = o->isConstructorOperation() ? QString() : (fixedReturn + QLatin1String(" "));
     QString methodName = o->name();
     QString paramStr;
 
@@ -58,12 +58,12 @@ void JavaCodeOperation::updateMethodDeclaration()
         paramNum++;
 
         if (paramNum != nrofParam)
-            paramStr  += QStringLiteral(", ");
+            paramStr  += QLatin1String(", ");
     }
     QString maybeStatic;
     if (o->isStatic())
-        maybeStatic = QStringLiteral("static ");
-    QString startText = strVis + QLatin1Char(' ') + maybeStatic + returnType + methodName + QStringLiteral(" (") + paramStr + QLatin1Char(')');
+        maybeStatic = QLatin1String("static ");
+    QString startText = strVis + QLatin1Char(' ') + maybeStatic + returnType + methodName + QLatin1String(" (") + paramStr + QLatin1Char(')');
 
     // IF the parent is an interface, our operations look different
     // e.g. they have no body
@@ -71,8 +71,8 @@ void JavaCodeOperation::updateMethodDeclaration()
         startText += QLatin1Char(';');
         setEndMethodText(QString());
     } else {
-        startText += QStringLiteral(" {");
-        setEndMethodText(QStringLiteral("}"));
+        startText += QLatin1String(" {");
+        setEndMethodText(QLatin1String("}"));
     }
 
     setStartMethodText(startText);
@@ -84,12 +84,12 @@ void JavaCodeOperation::updateMethodDeclaration()
     {
         UMLAttributeList parameters = o->getParmList();
         foreach (UMLAttribute* currentAtt, parameters) {
-            comment += endLine + QStringLiteral("@param ") + currentAtt->name() + QLatin1Char(' ');
+            comment += endLine + QLatin1String("@param ") + currentAtt->name() + QLatin1Char(' ');
             comment += currentAtt->doc();
         }
         // add a returns statement too
         if(!returnType.isEmpty())
-            comment += endLine + QStringLiteral("@return ") + returnType + QLatin1Char(' ');
+            comment += endLine + QLatin1String("@return ") + returnType + QLatin1Char(' ');
         getComment()->setText(comment);
     }
 

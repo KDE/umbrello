@@ -169,7 +169,6 @@ set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello${APP_SUFFIX})
 if(NOT BUILD_KF5)
     macro_display_feature_log()
     KDE4_NO_ENABLE_FINAL(umbrello)
-    add_definitions(-DQStringLiteral=QLatin1String)
 else()
     set(BUILD_UNITTESTS 1)
 

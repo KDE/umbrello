@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2005-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2005-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -86,7 +86,7 @@ bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
         return false;
     }
 
-    QString drawVerticalStr = qElement.attribute(QStringLiteral("drawvertical"), QStringLiteral("0"));
+    QString drawVerticalStr = qElement.attribute(QLatin1String("drawvertical"), QLatin1String("0"));
     bool drawVertical = (bool)drawVerticalStr.toInt();
     if (drawVertical) {
         setOrientation(Qt::Vertical);
@@ -104,13 +104,13 @@ bool ForkJoinWidget::loadFromXMI(QDomElement& qElement)
  */
 void ForkJoinWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("forkjoin"));
+    writer.writeStartElement(QLatin1String("forkjoin"));
     UMLWidget::saveToXMI(writer);
     bool drawVertical = true;
     if (m_orientation == Qt::Horizontal) {
         drawVertical = false;
     }
-    writer.writeAttribute(QStringLiteral("drawvertical"), QString::number(drawVertical));
+    writer.writeAttribute(QLatin1String("drawvertical"), QString::number(drawVertical));
     writer.writeEndElement();
 }
 

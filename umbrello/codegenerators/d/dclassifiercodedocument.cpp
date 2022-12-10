@@ -72,10 +72,10 @@ QString DClassifierCodeDocument::getPath() const
     path = path.simplified();
 
     // Replace all blanks with underscore
-    path.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    path.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
-    path.replace(QRegExp(QStringLiteral("\\.")),QStringLiteral("/"));
-    path.replace(QRegExp(QStringLiteral("::")), QStringLiteral("/"));
+    path.replace(QRegExp(QLatin1String("\\.")),QLatin1String("/"));
+    path.replace(QRegExp(QLatin1String("::")), QLatin1String("/"));
 
     path = path.toLower();
 
@@ -90,7 +90,7 @@ QString DClassifierCodeDocument::getDClassName(const QString &name) const
 // Initialize this d classifier code document
 void DClassifierCodeDocument::init()
 {
-    setFileExtension(QStringLiteral(".d"));
+    setFileExtension(QLatin1String(".d"));
 
     //initCodeClassFields(); // this is dubious because it calls down to
                              // CodeGenFactory::newCodeClassField(this)
@@ -136,7 +136,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
     while (!telement.isNull()) {
         QString nodeName = telement.tagName();
 
-        if (nodeName == QStringLiteral("textblocks")) {
+        if (nodeName == QLatin1String("textblocks")) {
 
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
@@ -147,7 +147,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
             while (!element.isNull()) {
                 QString name = element.tagName();
 
-                if (name == QStringLiteral("codecomment")) {
+                if (name == QLatin1String("codecomment")) {
                     CodeComment * block = new DCodeComment(this);
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -156,9 +156,9 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("codeaccessormethod") ||
-                           name == QStringLiteral("ccfdeclarationcodeblock")) {
-                    QString acctag = element.attribute(QStringLiteral("tag"));
+                } else if (name == QLatin1String("codeaccessormethod") ||
+                           name == QLatin1String("ccfdeclarationcodeblock")) {
+                    QString acctag = element.attribute(QLatin1String("tag"));
                     // search for our method in the
                     TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                     if (!tb || !addTextBlock(tb)) {
@@ -167,7 +167,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("codeblock")) {
+                } else if (name == QLatin1String("codeblock")) {
                     CodeBlock * block = newCodeBlock();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -176,7 +176,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("codeblockwithcomments")) {
+                } else if (name == QLatin1String("codeblockwithcomments")) {
                     CodeBlockWithComments * block = newCodeBlockWithComments();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -185,9 +185,9 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("header")) {
+                } else if (name == QLatin1String("header")) {
                     // do nothing.. this is treated elsewhere
-                } else if (name == QStringLiteral("hierarchicalcodeblock")) {
+                } else if (name == QLatin1String("hierarchicalcodeblock")) {
                     HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -196,9 +196,9 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("codeoperation")) {
+                } else if (name == QLatin1String("codeoperation")) {
                     // find the code operation by id
-                    QString id = element.attribute(QStringLiteral("parent_id"), QStringLiteral("-1"));
+                    QString id = element.attribute(QLatin1String("parent_id"), QLatin1String("-1"));
                     UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
                     UMLOperation * op = obj->asUMLOperation();
                     if (op) {
@@ -213,7 +213,7 @@ void DClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else {
                         logError0("Unable to find operation create codeoperation");
                     }
-                } else if (name == QStringLiteral("dclassdeclarationblock")) {
+                } else if (name == QLatin1String("dclassdeclarationblock")) {
                     DClassDeclarationBlock * block = getClassDecl();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -249,7 +249,7 @@ DClassDeclarationBlock * DClassifierCodeDocument::getClassDecl()
     {
         classDeclCodeBlock = new DClassDeclarationBlock (this);
         classDeclCodeBlock->updateContent();
-        classDeclCodeBlock->setTag(QStringLiteral("ClassDeclBlock"));
+        classDeclCodeBlock->setTag(QLatin1String("ClassDeclBlock"));
     }
     return classDeclCodeBlock;
 }
@@ -323,9 +323,9 @@ void DClassifierCodeDocument::updateContent()
     // PACKAGE CODE BLOCK
     //
     QString pkgs = getPackage();
-    pkgs.replace(QRegExp(QStringLiteral("::")), QStringLiteral("."));
-    QString packageText = getPackage().isEmpty() ? QString() : QString(QStringLiteral("package ")+pkgs+QLatin1Char(';')+endLine);
-    CodeBlockWithComments * pblock = addOrUpdateTaggedCodeBlockWithComments(QStringLiteral("packages"), packageText, QString(), 0, false);
+    pkgs.replace(QRegExp(QLatin1String("::")), QLatin1String("."));
+    QString packageText = getPackage().isEmpty() ? QString() : QString(QLatin1String("package ")+pkgs+QLatin1Char(';')+endLine);
+    CodeBlockWithComments * pblock = addOrUpdateTaggedCodeBlockWithComments(QLatin1String("packages"), packageText, QString(), 0, false);
     if (packageText.isEmpty() && pblock->contentType() == CodeBlock::AutoGenerated)
         pblock->setWriteOutText(false);
     else
@@ -338,7 +338,7 @@ void DClassifierCodeDocument::updateContent()
     //    don't slow down or anything. (TZ)
     QString importStatement;
     if (hasObjectVectorClassFields())
-        importStatement.append(QStringLiteral("import d.util.*;"));
+        importStatement.append(QLatin1String("import d.util.*;"));
 
     //only import classes in a different package from this class
     UMLPackageList imports;
@@ -359,7 +359,7 @@ void DClassifierCodeDocument::updateContent()
             if (con->package() != c->package() ||
                     (c->package().isEmpty() && con->package().isEmpty()))
             {
-                importStatement.append(endLine+QStringLiteral("import "));
+                importStatement.append(endLine+QLatin1String("import "));
                 if (!con->package().isEmpty())
                     importStatement.append(con->package()+QLatin1Char('.'));
                 importStatement.append(CodeGenerator::cleanName(con->name())+QLatin1Char(';'));
@@ -367,7 +367,7 @@ void DClassifierCodeDocument::updateContent()
         }
     }
     // now, add/update the imports codeblock
-    CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments(QStringLiteral("imports"), importStatement, QString(), 0, false);
+    CodeBlockWithComments * iblock = addOrUpdateTaggedCodeBlockWithComments(QLatin1String("imports"), importStatement, QString(), 0, false);
     if (importStatement.isEmpty() && iblock->contentType() == CodeBlock::AutoGenerated)
         iblock->setWriteOutText(false);
     else
@@ -432,7 +432,7 @@ void DClassifierCodeDocument::updateContent()
     //
 
     // get/create the field declaration code block
-    HierarchicalCodeBlock * fieldDeclBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QStringLiteral("fieldsDecl"), QStringLiteral("Fields"), 1);
+    HierarchicalCodeBlock * fieldDeclBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QLatin1String("fieldsDecl"), QLatin1String("Fields"), 1);
 
     // Update the comment: we only set comment to appear under the following conditions
     CodeComment * fcomment = fieldDeclBlock->getComment();
@@ -453,7 +453,7 @@ void DClassifierCodeDocument::updateContent()
     //
 
     // get/create the method codeblock
-    HierarchicalCodeBlock * methodsBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QStringLiteral("methodsBlock"), QStringLiteral("Methods"), 1);
+    HierarchicalCodeBlock * methodsBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QLatin1String("methodsBlock"), QLatin1String("Methods"), 1);
 
     // Update the section comment
     CodeComment * methodsComment = methodsBlock->getComment();
@@ -467,7 +467,7 @@ void DClassifierCodeDocument::updateContent()
     //
 
     // get/create the constructor codeblock
-    HierarchicalCodeBlock * constBlock = methodsBlock->getHierarchicalCodeBlock(QStringLiteral("constructorMethods"), QStringLiteral("Constructors"), 1);
+    HierarchicalCodeBlock * constBlock = methodsBlock->getHierarchicalCodeBlock(QLatin1String("constructorMethods"), QLatin1String("Constructors"), 1);
     constructorBlock = constBlock; // record this codeblock for later, when operations are updated
 
     // special conditions for showing comment: only when autogenerateding empty constructors
@@ -481,9 +481,9 @@ void DClassifierCodeDocument::updateContent()
 
     // add/get the empty constructor
     QString DClassName = getDClassName(c->name());
-    QString emptyConstStatement = QStringLiteral("public ")+DClassName+QStringLiteral(" () { }");
+    QString emptyConstStatement = QLatin1String("public ")+DClassName+QLatin1String(" () { }");
     CodeBlockWithComments * emptyConstBlock =
-        constBlock->addOrUpdateTaggedCodeBlockWithComments(QStringLiteral("emptyconstructor"), emptyConstStatement, QStringLiteral("Empty Constructor"), 1, false);
+        constBlock->addOrUpdateTaggedCodeBlockWithComments(QLatin1String("emptyconstructor"), emptyConstStatement, QLatin1String("Empty Constructor"), 1, false);
     // Now, as an additional condition we only show the empty constructor block
     // IF it was desired to be shown
     if (parentIsClass() && pol->getAutoGenerateConstructors())
@@ -495,7 +495,7 @@ void DClassifierCodeDocument::updateContent()
     //
 
     // get/create the accessor codeblock
-    HierarchicalCodeBlock * accessorBlock = methodsBlock->getHierarchicalCodeBlock(QStringLiteral("accessorMethods"), QStringLiteral("Accessor Methods"), 1);
+    HierarchicalCodeBlock * accessorBlock = methodsBlock->getHierarchicalCodeBlock(QLatin1String("accessorMethods"), QLatin1String("Accessor Methods"), 1);
 
     // set conditions for showing section comment
     CodeComment * accessComment = accessorBlock->getComment();
@@ -506,13 +506,13 @@ void DClassifierCodeDocument::updateContent()
 
     // now, 2 sub-sub sections in accessor block
     // add/update accessor methods for attributes
-    HierarchicalCodeBlock * staticAccessors = accessorBlock->getHierarchicalCodeBlock(QStringLiteral("staticAccessorMethods"), QString(), 1);
+    HierarchicalCodeBlock * staticAccessors = accessorBlock->getHierarchicalCodeBlock(QLatin1String("staticAccessorMethods"), QString(), 1);
     staticAccessors->getComment()->setWriteOutText(false); // never write block comment
     staticAccessors->addCodeClassFieldMethods(staticAttribClassFields);
     staticAccessors->addCodeClassFieldMethods(attribClassFields);
 
     // add/update accessor methods for associations
-    HierarchicalCodeBlock * regularAccessors = accessorBlock->getHierarchicalCodeBlock(QStringLiteral("regularAccessorMethods"), QString(), 1);
+    HierarchicalCodeBlock * regularAccessors = accessorBlock->getHierarchicalCodeBlock(QLatin1String("regularAccessorMethods"), QString(), 1);
     regularAccessors->getComment()->setWriteOutText(false); // never write block comment
     regularAccessors->addCodeClassFieldMethods(plainAssocClassFields);
     regularAccessors->addCodeClassFieldMethods(aggregationClassFields);
@@ -522,7 +522,7 @@ void DClassifierCodeDocument::updateContent()
     //
 
     // get/create the operations codeblock
-    operationsBlock = methodsBlock->getHierarchicalCodeBlock(QStringLiteral("operationMethods"), QStringLiteral("Operations"), 1);
+    operationsBlock = methodsBlock->getHierarchicalCodeBlock(QLatin1String("operationMethods"), QLatin1String("Operations"), 1);
 
     // set conditions for showing section comment
     CodeComment * ocomment = operationsBlock->getComment();

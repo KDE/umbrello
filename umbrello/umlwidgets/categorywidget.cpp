@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header file
@@ -107,7 +107,7 @@ QSizeF CategoryWidget::minimumSize() const
  */
 void CategoryWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("categorywidget"));
+    writer.writeStartElement(QLatin1String("categorywidget"));
     UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }

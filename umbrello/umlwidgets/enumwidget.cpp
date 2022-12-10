@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -160,7 +160,7 @@ bool EnumWidget::loadFromXMI(QDomElement & qElement)
     if (!UMLWidget::loadFromXMI(qElement)) {
         return false;
     }
-    QString showpackage = qElement.attribute(QStringLiteral("showpackage"), QStringLiteral("0"));
+    QString showpackage = qElement.attribute(QLatin1String("showpackage"), QLatin1String("0"));
 
     m_showPackage = (bool)showpackage.toInt();
 
@@ -172,10 +172,10 @@ bool EnumWidget::loadFromXMI(QDomElement & qElement)
  */
 void EnumWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("enumwidget"));
+    writer.writeStartElement(QLatin1String("enumwidget"));
     UMLWidget::saveToXMI(writer);
 
-    writer.writeAttribute(QStringLiteral("showpackage"), QString::number(m_showPackage));
+    writer.writeAttribute(QLatin1String("showpackage"), QString::number(m_showPackage));
     writer.writeEndElement();
 }
 

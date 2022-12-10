@@ -71,10 +71,10 @@ QString RubyClassifierCodeDocument::getPath() const
     path = path.simplified();
 
     // Replace all blanks with underscore
-    path.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    path.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
-    path.replace(QRegExp(QStringLiteral("\\.")),QStringLiteral("/"));
-    path.replace(QRegExp(QStringLiteral("::")), QStringLiteral("/"));
+    path.replace(QRegExp(QLatin1String("\\.")),QLatin1String("/"));
+    path.replace(QRegExp(QLatin1String("::")), QLatin1String("/"));
 
     path = path.toLower();
 
@@ -90,7 +90,7 @@ QString RubyClassifierCodeDocument::getRubyClassName(const QString &name) const
 // Initialize this ruby classifier code document
 void RubyClassifierCodeDocument::init()
 {
-    setFileExtension(QStringLiteral(".rb"));
+    setFileExtension(QLatin1String(".rb"));
 
     //initCodeClassFields(); // this is dubious because it calls down to
                              // CodeGenFactory::newCodeClassField(this)
@@ -168,7 +168,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
     while (!telement.isNull()) {
         QString nodeName = telement.tagName();
 
-        if (nodeName == QStringLiteral("textblocks")) {
+        if (nodeName == QLatin1String("textblocks")) {
 
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
@@ -179,7 +179,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
             while (!element.isNull()) {
                 QString name = element.tagName();
 
-                if (name == QStringLiteral("codecomment")) {
+                if (name == QLatin1String("codecomment")) {
                     CodeComment * block = new RubyCodeComment(this);
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -188,9 +188,9 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("codeaccessormethod") ||
-                           name == QStringLiteral("ccfdeclarationcodeblock")) {
-                    QString acctag = element.attribute(QStringLiteral("tag"));
+                } else if (name == QLatin1String("codeaccessormethod") ||
+                           name == QLatin1String("ccfdeclarationcodeblock")) {
+                    QString acctag = element.attribute(QLatin1String("tag"));
                     // search for our method in the
                     TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                     if (!tb || !addTextBlock(tb)) {
@@ -199,7 +199,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("codeblock")) {
+                } else if (name == QLatin1String("codeblock")) {
                     CodeBlock * block = newCodeBlock();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -208,7 +208,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("codeblockwithcomments")) {
+                } else if (name == QLatin1String("codeblockwithcomments")) {
                     CodeBlockWithComments * block = newCodeBlockWithComments();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -217,9 +217,9 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("header")) {
+                } else if (name == QLatin1String("header")) {
                     // do nothing.. this is treated elsewhere
-                } else if (name == QStringLiteral("hierarchicalcodeblock")) {
+                } else if (name == QLatin1String("hierarchicalcodeblock")) {
                     HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -228,9 +228,9 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("codeoperation")) {
+                } else if (name == QLatin1String("codeoperation")) {
                     // find the code operation by id
-                    QString id = element.attribute(QStringLiteral("parent_id"), QStringLiteral("-1"));
+                    QString id = element.attribute(QLatin1String("parent_id"), QLatin1String("-1"));
                     UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
                     UMLOperation * op = obj->asUMLOperation();
                     if (op) {
@@ -245,7 +245,7 @@ void RubyClassifierCodeDocument::loadChildTextBlocksFromNode(QDomElement & root)
                     } else {
                         logError0("RubyClassifierCodeDocument::loadChildTextBlocksFromNode: Unable to find operation create codeoperation");
                     }
-                } else if (name == QStringLiteral("rubyclassdeclarationblock")) {
+                } else if (name == QLatin1String("rubyclassdeclarationblock")) {
                     RubyClassDeclarationBlock * block = getClassDecl();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -283,7 +283,7 @@ RubyClassDeclarationBlock * RubyClassifierCodeDocument::getClassDecl()
     {
         classDeclCodeBlock = new RubyClassDeclarationBlock (this);
         classDeclCodeBlock->updateContent();
-        classDeclCodeBlock->setTag(QStringLiteral("ClassDeclBlock"));
+        classDeclCodeBlock->setTag(QLatin1String("ClassDeclBlock"));
     }
     return classDeclCodeBlock;
 }
@@ -375,19 +375,19 @@ void RubyClassifierCodeDocument::updateContent()
     // declare public, protected and private methods, attributes (fields).
     // set the start text ONLY if this is the first time we created the objects.
     bool createdPublicBlock = publicBlock == 0 ? true : false;
-    publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QStringLiteral("publicBlock"), QStringLiteral("Public Items"), 0);
+    publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QLatin1String("publicBlock"), QLatin1String("Public Items"), 0);
     if (createdPublicBlock)
-        publicBlock->setStartText(QStringLiteral("public"));
+        publicBlock->setStartText(QLatin1String("public"));
 
     bool createdProtBlock = protectedBlock == 0 ? true : false;
-    protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QStringLiteral("protectedBlock"), QStringLiteral("Protected Items"), 0);
+    protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QLatin1String("protectedBlock"), QLatin1String("Protected Items"), 0);
     if (createdProtBlock)
-        protectedBlock->setStartText(QStringLiteral("protected"));
+        protectedBlock->setStartText(QLatin1String("protected"));
 
     bool createdPrivBlock = privateBlock == 0 ? true : false;
-    privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QStringLiteral("privateBlock"), QStringLiteral("Private Items"), 0);
+    privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QLatin1String("privateBlock"), QLatin1String("Private Items"), 0);
     if (createdPrivBlock)
-        privateBlock->setStartText(QStringLiteral("private"));
+        privateBlock->setStartText(QLatin1String("private"));
 
     // NOW create document in sections..
     // now we want to populate the body of our class
@@ -437,7 +437,7 @@ void RubyClassifierCodeDocument::updateContent()
 
     // get/create the method codeblock
     // public methods
-    HierarchicalCodeBlock * pubMethodsBlock = publicBlock->getHierarchicalCodeBlock(QStringLiteral("pubMethodsBlock"), QString(), 1);
+    HierarchicalCodeBlock * pubMethodsBlock = publicBlock->getHierarchicalCodeBlock(QLatin1String("pubMethodsBlock"), QString(), 1);
     CodeComment * pubMethodsComment = pubMethodsBlock->getComment();
     bool forceDoc = pol->getCodeVerboseDocumentComments();
     // set conditions for showing this comment
@@ -447,7 +447,7 @@ void RubyClassifierCodeDocument::updateContent()
         pubMethodsComment->setWriteOutText(true);
 
     // protected methods
-    HierarchicalCodeBlock * protMethodsBlock = protectedBlock->getHierarchicalCodeBlock(QStringLiteral("protMethodsBlock"), QString(), 1);
+    HierarchicalCodeBlock * protMethodsBlock = protectedBlock->getHierarchicalCodeBlock(QLatin1String("protMethodsBlock"), QString(), 1);
     CodeComment * protMethodsComment = protMethodsBlock->getComment();
     // set conditions for showing this comment
     if (!forceDoc && !hasClassFields() && !hasOperationMethods)
@@ -456,7 +456,7 @@ void RubyClassifierCodeDocument::updateContent()
         protMethodsComment->setWriteOutText(true);
 
     // private methods
-    HierarchicalCodeBlock * privMethodsBlock = privateBlock->getHierarchicalCodeBlock(QStringLiteral("privMethodsBlock"), QString(), 1);
+    HierarchicalCodeBlock * privMethodsBlock = privateBlock->getHierarchicalCodeBlock(QLatin1String("privMethodsBlock"), QString(), 1);
     CodeComment * privMethodsComment = privMethodsBlock->getComment();
     // set conditions for showing this comment
     if (!forceDoc && !hasClassFields() && !hasOperationMethods)
@@ -468,7 +468,7 @@ void RubyClassifierCodeDocument::updateContent()
     //
 
     // public
-    pubConstructorBlock = pubMethodsBlock->getHierarchicalCodeBlock(QStringLiteral("constructionMethods"), QStringLiteral("Constructors"), 1);
+    pubConstructorBlock = pubMethodsBlock->getHierarchicalCodeBlock(QLatin1String("constructionMethods"), QLatin1String("Constructors"), 1);
     // special conditions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * pubConstComment = pubConstructorBlock->getComment();
@@ -478,7 +478,7 @@ void RubyClassifierCodeDocument::updateContent()
         pubConstComment->setWriteOutText(true);
 
     // protected
-    protConstructorBlock = protMethodsBlock->getHierarchicalCodeBlock(QStringLiteral("constructionMethods"), QStringLiteral("Constructors"), 1);
+    protConstructorBlock = protMethodsBlock->getHierarchicalCodeBlock(QLatin1String("constructionMethods"), QLatin1String("Constructors"), 1);
     // special conditions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * protConstComment = protConstructorBlock->getComment();
@@ -488,7 +488,7 @@ void RubyClassifierCodeDocument::updateContent()
         protConstComment->setWriteOutText(true);
 
     // private
-    privConstructorBlock = privMethodsBlock->getHierarchicalCodeBlock(QStringLiteral("constructionMethods"), QStringLiteral("Constructors"), 1);
+    privConstructorBlock = privMethodsBlock->getHierarchicalCodeBlock(QLatin1String("constructionMethods"), QLatin1String("Constructors"), 1);
     // special conditions for showing comment: only when autogenerateding empty constructors
     // Although, we *should* check for other constructor methods too
     CodeComment * privConstComment = privConstructorBlock->getComment();
@@ -499,7 +499,7 @@ void RubyClassifierCodeDocument::updateContent()
 
     // get/create the accessor codeblock
     // public
-    HierarchicalCodeBlock * pubAccessorBlock = pubMethodsBlock->getHierarchicalCodeBlock(QStringLiteral("accessorMethods"), QStringLiteral("Accessor Methods"), 1);
+    HierarchicalCodeBlock * pubAccessorBlock = pubMethodsBlock->getHierarchicalCodeBlock(QLatin1String("accessorMethods"), QLatin1String("Accessor Methods"), 1);
     // set conditions for showing section comment
     CodeComment * pubAccessComment = pubAccessorBlock->getComment();
     if (!forceDoc && !hasClassFields())
@@ -508,7 +508,7 @@ void RubyClassifierCodeDocument::updateContent()
         pubAccessComment->setWriteOutText(true);
 
     // protected
-    HierarchicalCodeBlock * protAccessorBlock = protMethodsBlock->getHierarchicalCodeBlock(QStringLiteral("accessorMethods"), QStringLiteral("Accessor Methods"), 1);
+    HierarchicalCodeBlock * protAccessorBlock = protMethodsBlock->getHierarchicalCodeBlock(QLatin1String("accessorMethods"), QLatin1String("Accessor Methods"), 1);
     // set conditions for showing section comment
     CodeComment * protAccessComment = protAccessorBlock->getComment();
     if (!forceDoc && !hasClassFields())
@@ -517,7 +517,7 @@ void RubyClassifierCodeDocument::updateContent()
         protAccessComment->setWriteOutText(true);
 
     // private
-    HierarchicalCodeBlock * privAccessorBlock = privMethodsBlock->getHierarchicalCodeBlock(QStringLiteral("accessorMethods"), QStringLiteral("Accessor Methods"), 1);
+    HierarchicalCodeBlock * privAccessorBlock = privMethodsBlock->getHierarchicalCodeBlock(QLatin1String("accessorMethods"), QLatin1String("Accessor Methods"), 1);
     // set conditions for showing section comment
     CodeComment * privAccessComment = privAccessorBlock->getComment();
     if (!forceDoc && !hasClassFields())
@@ -527,18 +527,18 @@ void RubyClassifierCodeDocument::updateContent()
 
     // now, 2 sub-sub sections in accessor block
     // add/update accessor methods for attributes
-    HierarchicalCodeBlock * pubStaticAccessors = pubAccessorBlock->getHierarchicalCodeBlock(QStringLiteral("pubStaticAccessorMethods"), QString(), 1);
-    HierarchicalCodeBlock * pubRegularAccessors = pubAccessorBlock->getHierarchicalCodeBlock(QStringLiteral("pubRegularAccessorMethods"), QString(), 1);
+    HierarchicalCodeBlock * pubStaticAccessors = pubAccessorBlock->getHierarchicalCodeBlock(QLatin1String("pubStaticAccessorMethods"), QString(), 1);
+    HierarchicalCodeBlock * pubRegularAccessors = pubAccessorBlock->getHierarchicalCodeBlock(QLatin1String("pubRegularAccessorMethods"), QString(), 1);
     pubStaticAccessors->getComment()->setWriteOutText(false); // never write block comment
     pubRegularAccessors->getComment()->setWriteOutText(false); // never write block comment
 
-    HierarchicalCodeBlock * protStaticAccessors = protAccessorBlock->getHierarchicalCodeBlock(QStringLiteral("protStaticAccessorMethods"), QString(), 1);
-    HierarchicalCodeBlock * protRegularAccessors = protAccessorBlock->getHierarchicalCodeBlock(QStringLiteral("protRegularAccessorMethods"), QString(), 1);
+    HierarchicalCodeBlock * protStaticAccessors = protAccessorBlock->getHierarchicalCodeBlock(QLatin1String("protStaticAccessorMethods"), QString(), 1);
+    HierarchicalCodeBlock * protRegularAccessors = protAccessorBlock->getHierarchicalCodeBlock(QLatin1String("protRegularAccessorMethods"), QString(), 1);
     protStaticAccessors->getComment()->setWriteOutText(false); // never write block comment
     protRegularAccessors->getComment()->setWriteOutText(false); // never write block comment
 
-    HierarchicalCodeBlock * privStaticAccessors = privAccessorBlock->getHierarchicalCodeBlock(QStringLiteral("privStaticAccessorMethods"), QString(), 1);
-    HierarchicalCodeBlock * privRegularAccessors = privAccessorBlock->getHierarchicalCodeBlock(QStringLiteral("privRegularAccessorMethods"), QString(), 1);
+    HierarchicalCodeBlock * privStaticAccessors = privAccessorBlock->getHierarchicalCodeBlock(QLatin1String("privStaticAccessorMethods"), QString(), 1);
+    HierarchicalCodeBlock * privRegularAccessors = privAccessorBlock->getHierarchicalCodeBlock(QLatin1String("privRegularAccessorMethods"), QString(), 1);
     privStaticAccessors->getComment()->setWriteOutText(false); // never write block comment
     privRegularAccessors->getComment()->setWriteOutText(false); // never write block comment
     // now add in accessors as appropriate
@@ -570,7 +570,7 @@ void RubyClassifierCodeDocument::updateContent()
     // setup/get/create the operations codeblock
 
     // public
-    pubOperationsBlock = pubMethodsBlock->getHierarchicalCodeBlock(QStringLiteral("operationMethods"), QStringLiteral("Operations"), 1);
+    pubOperationsBlock = pubMethodsBlock->getHierarchicalCodeBlock(QLatin1String("operationMethods"), QLatin1String("Operations"), 1);
     // set conditions for showing section comment
     CodeComment * pubOcomment = pubOperationsBlock->getComment();
     if (!forceDoc && !hasOperationMethods)
@@ -579,7 +579,7 @@ void RubyClassifierCodeDocument::updateContent()
         pubOcomment->setWriteOutText(true);
 
     //protected
-    protOperationsBlock = protMethodsBlock->getHierarchicalCodeBlock(QStringLiteral("operationMethods"), QStringLiteral("Operations"), 1);
+    protOperationsBlock = protMethodsBlock->getHierarchicalCodeBlock(QLatin1String("operationMethods"), QLatin1String("Operations"), 1);
     // set conditions for showing section comment
     CodeComment * protOcomment = protOperationsBlock->getComment();
     if (!forceDoc && !hasOperationMethods)
@@ -588,7 +588,7 @@ void RubyClassifierCodeDocument::updateContent()
         protOcomment->setWriteOutText(true);
 
     //private
-    privOperationsBlock = privMethodsBlock->getHierarchicalCodeBlock(QStringLiteral("operationMethods"), QStringLiteral("Operations"), 1);
+    privOperationsBlock = privMethodsBlock->getHierarchicalCodeBlock(QLatin1String("operationMethods"), QLatin1String("Operations"), 1);
     // set conditions for showing section comment
     CodeComment * privOcomment = privOperationsBlock->getComment();
     if (!forceDoc && !hasOperationMethods)

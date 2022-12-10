@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -23,17 +23,17 @@ static QStringList mime2KdeFilter(const QStringList &mimeTypes, QString *allExte
         KMimeType::Ptr mime(KMimeType::mimeType(mimeType));
         if (mime) {
             allExt += mime->patterns();
-            kdeFilter.append(mime->patterns().join(QStringLiteral(" ")) + QLatin1Char('|') +
+            kdeFilter.append(mime->patterns().join(QLatin1String(" ")) + QLatin1Char('|') +
             mime->comment(emptyUrl));
         }
         else if (mimeType == QString::fromLatin1("image/x-dot")) {
             allExt += QString::fromLatin1("*.dot");
-            kdeFilter.append(QStringLiteral("*.dot|Dot Files"));
+            kdeFilter.append(QLatin1String("*.dot|Dot Files"));
         }
     }
     if (allExtensions) {
         allExt.sort();
-        *allExtensions = allExt.join(QStringLiteral(" "));
+        *allExtensions = allExt.join(QLatin1String(" "));
     }
     return kdeFilter;
 }
@@ -133,7 +133,7 @@ void UMLFileDialog::setMimeFilter(const QStringList &types, const QString &defau
     if (defaultType.isEmpty() && (types.count() > 1)) {
         filters.prepend(allExtensions + QLatin1Char('|') + i18n("All Supported Files"));
     }
-    m_dialog->setFilter(filters.join(QStringLiteral("\n")));
+    m_dialog->setFilter(filters.join(QLatin1String("\n")));
 }
 
 /**

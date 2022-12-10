@@ -10,7 +10,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "codeimpthread.h"
-#define DBG_SRC QStringLiteral("JavaImport")
+#define DBG_SRC QLatin1String("JavaImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -36,10 +36,10 @@ int JavaImport::s_parseDepth = 0;
  * Constructor.
  */
 JavaImport::JavaImport(CodeImpThread* thread)
-  : NativeImportBase(QStringLiteral("//"), thread),
+  : NativeImportBase(QLatin1String("//"), thread),
     m_defaultCurrentAccess(Uml::Visibility::Public)
 {
-    setMultiLineComment(QStringLiteral("/*"), QStringLiteral("*/"));
+    setMultiLineComment(QLatin1String("/*"), QLatin1String("*/"));
     initVars();
 }
 
@@ -68,8 +68,8 @@ QString JavaImport::joinTypename(const QString& typeName)
 {
     QString typeNameRet(typeName);
     if (m_srcIndex + 1 < m_source.size()) {
-        if (m_source[m_srcIndex + 1] == QStringLiteral("<") ||
-            m_source[m_srcIndex + 1] == QStringLiteral("[")) {
+        if (m_source[m_srcIndex + 1] == QLatin1String("<") ||
+            m_source[m_srcIndex + 1] == QLatin1String("[")) {
             int start = ++m_srcIndex;
             if (! skipToClosing(m_source[start][0]))
                 return typeNameRet;
@@ -79,7 +79,7 @@ QString JavaImport::joinTypename(const QString& typeName)
         }
     }
     // to handle multidimensional arrays, call recursively
-    if ((m_srcIndex + 1 < m_source.size()) && (m_source[m_srcIndex + 1] == QStringLiteral("["))) {
+    if ((m_srcIndex + 1 < m_source.size()) && (m_source[m_srcIndex + 1] == QLatin1String("["))) {
         typeNameRet = joinTypename(typeNameRet);
     }
     return typeNameRet;
@@ -96,8 +96,8 @@ void JavaImport::fillSource(const QString& word)
        type name.  For portability to other C family languages, we replace
        the "..." by "[]".
      */
-    if (w.contains(QStringLiteral("..."))) {
-        w.replace(QStringLiteral("..."), QStringLiteral("[]"));
+    if (w.contains(QLatin1String("..."))) {
+        w.replace(QLatin1String("..."), QLatin1String("[]"));
     }
     QString lexeme;
     const uint len = w.length();
@@ -185,8 +185,8 @@ UMLObject* JavaImport::resolveClass (const QString& className)
     // the file we're looking for might be in the same directory as the
     // current class
     //
-    QString myDir = file.join(QStringLiteral("/"));
-    QString myFile = myDir + QLatin1Char('/') + baseClassName + QStringLiteral(".java");
+    QString myDir = file.join(QLatin1String("/"));
+    QString myFile = myDir + QLatin1Char('/') + baseClassName + QLatin1String(".java");
     if (QFile::exists(myFile)) {
         spawnImport(myFile);
         if (isArray) {
@@ -214,7 +214,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
         file.pop_back();
     }
     // this is now the root of any further source imports
-    QString sourceRoot = file.join(QStringLiteral("/")) + QLatin1Char('/');
+    QString sourceRoot = file.join(QLatin1String("/")) + QLatin1Char('/');
 
     for (QStringList::Iterator pathIt = m_imports.begin();
                                    pathIt != m_imports.end(); ++pathIt) {
@@ -225,7 +225,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
             // check if the file we want is in this imported package
             // convert the org.test type package into a filename
             //
-            QString aFile = sourceRoot + split.join(QStringLiteral("/")) + QLatin1Char('/') + baseClassName + QStringLiteral(".java");
+            QString aFile = sourceRoot + split.join(QLatin1String("/")) + QLatin1Char('/') + baseClassName + QLatin1String(".java");
             if (QFile::exists(aFile)) {
                 spawnImport(aFile);
                 // we need to set the package for the class that will be resolved
@@ -319,7 +319,7 @@ bool JavaImport::parseStmt()
     const int srcLength = m_source.count();
     QString keyword = m_source[m_srcIndex];
     //uDebug() << '"' << keyword << '"';
-    if (keyword == QStringLiteral("package")) {
+    if (keyword == QLatin1String("package")) {
         m_currentPackage = advance();
         const QString& qualifiedName = m_currentPackage;
         const QStringList names = qualifiedName.split(QLatin1Char('.'));
@@ -330,15 +330,15 @@ bool JavaImport::parseStmt()
                             name, currentScope(), m_comment, QString(), true);
             pushScope(ns->asUMLPackage());
         }
-        if (advance() != QStringLiteral(";")) {
+        if (advance() != QLatin1String(";")) {
             logError1("JavaImport::parseStmt: unexpected: %1", m_source[m_srcIndex]);
             skipStmt();
         }
         return true;
     }
-    if (keyword == QStringLiteral("class") || keyword == QStringLiteral("interface")) {
+    if (keyword == QLatin1String("class") || keyword == QLatin1String("interface")) {
         const QString& name = advance();
-        const UMLObject::ObjectType ot = (keyword == QStringLiteral("class") ? UMLObject::ot_Class
+        const UMLObject::ObjectType ot = (keyword == QLatin1String("class") ? UMLObject::ot_Class
                                                                             : UMLObject::ot_Interface);
         log(keyword + QLatin1Char(' ') + name);
         UMLObject *ns = Import_Utils::createUMLObject(ot, name, currentScope(), m_comment);
@@ -365,9 +365,9 @@ bool JavaImport::parseStmt()
         if (m_klass->isInterface()) {
             m_defaultCurrentAccess =  Uml::Visibility::Public;
         }
-        if (advance() == QStringLiteral(";"))   // forward declaration
+        if (advance() == QLatin1String(";"))   // forward declaration
             return true;
-        if (m_source[m_srcIndex] == QStringLiteral("<")) {
+        if (m_source[m_srcIndex] == QLatin1String("<")) {
             // template args - preliminary, rudimentary implementation
             // @todo implement all template arg syntax
             uint start = m_srcIndex;
@@ -377,16 +377,16 @@ bool JavaImport::parseStmt()
             }
             while (1) {
                 const QString arg = m_source[++start];
-                if (! arg.contains(QRegExp(QStringLiteral("^[A-Za-z_]")))) {
+                if (! arg.contains(QRegExp(QLatin1String("^[A-Za-z_]")))) {
                     logDebug2("JavaImport::parseStmt(%1): cannot handle template syntax (%2)",
                               name, arg);
                     break;
                 }
                 /* UMLTemplate *tmpl = */ m_klass->addTemplate(arg);
                 const QString next = m_source[++start];
-                if (next == QStringLiteral(">"))
+                if (next == QLatin1String(">"))
                     break;
-                if (next != QStringLiteral(",")) {
+                if (next != QLatin1String(",")) {
                     logDebug2("JavaImport::parseStmt(%1): cannot handle template syntax (%2)",
                               name, next);
                     break;
@@ -394,7 +394,7 @@ bool JavaImport::parseStmt()
             }
             advance();  // skip over ">"
         }
-        if (m_source[m_srcIndex] == QStringLiteral("extends")) {
+        if (m_source[m_srcIndex] == QLatin1String("extends")) {
             const QString& baseName = advance();
             // try to resolve the class we are extending, or if impossible
             // create a placeholder
@@ -408,8 +408,8 @@ bool JavaImport::parseStmt()
             }
             advance();
         }
-        if (m_source[m_srcIndex] == QStringLiteral("implements")) {
-            while (m_srcIndex < srcLength - 1 && advance() != QStringLiteral("{")) {
+        if (m_source[m_srcIndex] == QLatin1String("implements")) {
+            while (m_srcIndex < srcLength - 1 && advance() != QLatin1String("{")) {
                 const QString& baseName = m_source[m_srcIndex];
                 // try to resolve the interface we are implementing, if this fails
                 // create a placeholder
@@ -421,17 +421,17 @@ bool JavaImport::parseStmt()
                               "Creating placeholder", baseName);
                     Import_Utils::createGeneralization(m_klass, baseName);
                 }
-                if (advance() != QStringLiteral(","))
+                if (advance() != QLatin1String(","))
                     break;
             }
         }
-        if (m_source[m_srcIndex] != QStringLiteral("{")) {
+        if (m_source[m_srcIndex] != QLatin1String("{")) {
             logError2("JavaImport::parseStmt: ignoring excess chars at %1 (%2)", name, m_source[m_srcIndex]);
-            skipStmt(QStringLiteral("{"));
+            skipStmt(QLatin1String("{"));
         }
         return true;
     }
-    if (keyword == QStringLiteral("enum")) {
+    if (keyword == QLatin1String("enum")) {
         const QString& name = advance();
         log(keyword + QLatin1Char(' ') + name);
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
@@ -439,18 +439,18 @@ bool JavaImport::parseStmt()
         UMLEnum *enumType = ns->asUMLEnum();
         if (enumType == 0)
             enumType = Import_Utils::remapUMLEnum(ns, currentScope());
-        skipStmt(QStringLiteral("{"));
-        while (m_srcIndex < srcLength - 1 && advance() != QStringLiteral("}")) {
+        skipStmt(QLatin1String("{"));
+        while (m_srcIndex < srcLength - 1 && advance() != QLatin1String("}")) {
             if (enumType != 0)
                 Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
             QString next = advance();
-            if (next == QStringLiteral("{") || next == QStringLiteral("(")) {
+            if (next == QLatin1String("{") || next == QLatin1String("(")) {
                 if (! skipToClosing(next[0]))
                     return false;
                 next = advance();
             }
-            if (next != QStringLiteral(",")) {
-                if (next == QStringLiteral(";")) {
+            if (next != QLatin1String(",")) {
+                if (next == QLatin1String(";")) {
                     // @todo handle methods in enum
                     // For now, we cheat (skip them)
                     m_source[m_srcIndex] = QLatin1Char('{');
@@ -462,41 +462,41 @@ bool JavaImport::parseStmt()
         }
         return true;
     }
-    if (keyword == QStringLiteral("static")) {
+    if (keyword == QLatin1String("static")) {
         m_isStatic = true;
         return true;
     }
     // if we detected static previously and keyword is { then this is a static block
-    if (m_isStatic && keyword == QStringLiteral("{")) {
+    if (m_isStatic && keyword == QLatin1String("{")) {
         // reset static flag and jump to end of static block
         m_isStatic = false;
         return skipToClosing(QLatin1Char('{'));
     }
-    if (keyword == QStringLiteral("abstract")) {
+    if (keyword == QLatin1String("abstract")) {
         m_isAbstract = true;
         return true;
     }
-    if (keyword == QStringLiteral("public")) {
+    if (keyword == QLatin1String("public")) {
         m_currentAccess = Uml::Visibility::Public;
         return true;
     }
-    if (keyword == QStringLiteral("protected")) {
+    if (keyword == QLatin1String("protected")) {
         m_currentAccess = Uml::Visibility::Protected;
         return true;
     }
-    if (keyword == QStringLiteral("private")) {
+    if (keyword == QLatin1String("private")) {
         m_currentAccess = Uml::Visibility::Private;
         return true;
     }
-    if (keyword == QStringLiteral("final") ||
-        keyword == QStringLiteral("native") ||
-        keyword == QStringLiteral("synchronized") ||
-        keyword == QStringLiteral("transient") ||
-        keyword == QStringLiteral("volatile")) {
+    if (keyword == QLatin1String("final") ||
+        keyword == QLatin1String("native") ||
+        keyword == QLatin1String("synchronized") ||
+        keyword == QLatin1String("transient") ||
+        keyword == QLatin1String("volatile")) {
         //@todo anything to do here?
         return true;
     }
-    if (keyword == QStringLiteral("import")) {
+    if (keyword == QLatin1String("import")) {
         // keep track of imports so we can resolve classes we are dependent on
         QString import = advance();
         if (import.endsWith(QLatin1Char('.'))) {
@@ -510,15 +510,15 @@ bool JavaImport::parseStmt()
         skipStmt();
         return true;
     }
-    if (keyword == QStringLiteral("@")) {  // annotation
+    if (keyword == QLatin1String("@")) {  // annotation
         advance();
-        if (m_source[m_srcIndex + 1] == QStringLiteral("(")) {
+        if (m_source[m_srcIndex + 1] == QLatin1String("(")) {
             advance();
             skipToClosing(QLatin1Char('('));
         }
         return true;
     }
-    if (keyword == QStringLiteral("}")) {
+    if (keyword == QLatin1String("}")) {
         if (scopeIndex()) {
             m_klass = popScope()->asUMLClassifier();
         }
@@ -526,7 +526,7 @@ bool JavaImport::parseStmt()
             logError1("JavaImport::parseStmt: too many } at index %1", m_srcIndex);
         return true;
     }
-    if (keyword == QStringLiteral("<")) {  // @todo generic parameters
+    if (keyword == QLatin1String("<")) {  // @todo generic parameters
         if (! skipToClosing(QLatin1Char('<'))) {
             logError1("JavaImport::parseStmt(%1): template syntax error", keyword);
             return false;
@@ -540,7 +540,7 @@ bool JavaImport::parseStmt()
     // (of a member of class or interface, or return type
     // of an operation.) Up next is the name of the attribute
     // or operation.
-    if (! keyword.contains(QRegExp(QStringLiteral("^\\w")))) {
+    if (! keyword.contains(QRegExp(QLatin1String("^\\w")))) {
         if (m_klass) {
             logError4("JavaImport::parseStmt: ignoring %1 at index %2 of %3 in %4",
                       keyword, m_srcIndex, m_source.count(), m_klass->name());
@@ -559,7 +559,7 @@ bool JavaImport::parseStmt()
     }
     QString name = advance();
     QString nextToken;
-    if (typeName == m_klass->name() && name == QStringLiteral("(")) {
+    if (typeName == m_klass->name() && name == QLatin1String("(")) {
         // Constructor.
         nextToken = name;
         name = typeName;
@@ -567,17 +567,17 @@ bool JavaImport::parseStmt()
     } else {
         nextToken = advance();
     }
-    if (name.contains(QRegExp(QStringLiteral("\\W")))) {
+    if (name.contains(QRegExp(QLatin1String("\\W")))) {
         logError1("JavaImport::parseStmt: expecting name in %1", name);
         return false;
     }
-    if (nextToken == QStringLiteral("(")) {
+    if (nextToken == QLatin1String("(")) {
         // operation
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         m_srcIndex++;
-        while (m_srcIndex < srcLength && m_source[m_srcIndex] != QStringLiteral(")")) {
+        while (m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String(")")) {
             QString typeName = m_source[m_srcIndex];
-            if (typeName == QStringLiteral("final") || typeName.startsWith(QStringLiteral("//"))) {
+            if (typeName == QLatin1String("final") || typeName.startsWith(QLatin1String("//"))) {
                 // ignore the "final" keyword and any comments in method args
                 typeName = advance();
             }
@@ -587,19 +587,19 @@ bool JavaImport::parseStmt()
             UMLObject *obj = resolveClass(typeName);
             if (obj) {
                 // by prepending the package, unwanted placeholder types will not get created
-                typeName = obj->fullyQualifiedName(QStringLiteral("."));
+                typeName = obj->fullyQualifiedName(QLatin1String("."));
             }
             /* UMLAttribute *att = */ Import_Utils::addMethodParameter(op, typeName, parName);
-            if (advance() != QStringLiteral(","))
+            if (advance() != QLatin1String(","))
                 break;
             m_srcIndex++;
         }
-        if (!typeName.isEmpty() && typeName != QStringLiteral("void")) {
+        if (!typeName.isEmpty() && typeName != QLatin1String("void")) {
             // before adding the method, try resolving the return type
             UMLObject *obj = resolveClass(typeName);
             if (obj) {
                 // using the fully qualified name means that a placeholder type will not be created.
-                typeName = obj->fullyQualifiedName(QStringLiteral("."));
+                typeName = obj->fullyQualifiedName(QLatin1String("."));
             }
         }
         Import_Utils::insertMethod(m_klass, op, m_currentAccess, typeName,
@@ -611,8 +611,8 @@ bool JavaImport::parseStmt()
         // At this point we do not know whether the method has a body or not.
         do {
             nextToken = advance();
-        } while (nextToken != QStringLiteral("{") && nextToken != QStringLiteral(";"));
-        if (nextToken == QStringLiteral(";")) {
+        } while (nextToken != QLatin1String("{") && nextToken != QLatin1String(";"));
+        if (nextToken == QLatin1String(";")) {
             // No body (interface or abstract)
             return true;
         } else {
@@ -621,13 +621,13 @@ bool JavaImport::parseStmt()
     }
     // At this point we know it's some kind of attribute declaration.
     while (1) {
-        while (nextToken != QStringLiteral(",") && nextToken != QStringLiteral(";")) {
-            if (nextToken == QStringLiteral("=")) {
-                if ((nextToken = advance()) == QStringLiteral("new")) {
+        while (nextToken != QLatin1String(",") && nextToken != QLatin1String(";")) {
+            if (nextToken == QLatin1String("=")) {
+                if ((nextToken = advance()) == QLatin1String("new")) {
                     advance();
-                    if ((nextToken = advance()) == QStringLiteral("(")) {
+                    if ((nextToken = advance()) == QLatin1String("(")) {
                         skipToClosing(QLatin1Char('('));
-                        if ((nextToken = advance()) == QStringLiteral("{")) {
+                        if ((nextToken = advance()) == QLatin1String("{")) {
                             skipToClosing(QLatin1Char('{'));
                         } else {
                             skipStmt();
@@ -661,7 +661,7 @@ bool JavaImport::parseStmt()
                         typeName, m_comment, m_isStatic);
         }
         // UMLAttribute *attr = o->asUMLAttribute();
-        if (nextToken != QStringLiteral(",")) {
+        if (nextToken != QLatin1String(",")) {
             // reset the modifiers
             m_isStatic = m_isAbstract = false;
             break;
@@ -672,7 +672,7 @@ bool JavaImport::parseStmt()
     // reset visibility to default
     m_currentAccess = m_defaultCurrentAccess;
     if (m_srcIndex < m_source.count()) {
-        if (m_source[m_srcIndex] != QStringLiteral(";")) {
+        if (m_source[m_srcIndex] != QLatin1String(";")) {
             logError1("JavaImport::parseStmt: ignoring trailing items at %1", name);
             skipStmt();
         }

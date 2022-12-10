@@ -582,7 +582,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
 
     QString displayedName;
     if (m_umlObject && m_umlObject->isUMLInstance())
-        displayedName = m_umlObject->name() + QStringLiteral(" : ") + name;
+        displayedName = m_umlObject->name() + QLatin1String(" : ") + name;
     else
         displayedName = name;
 
@@ -865,7 +865,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     if (!m_umlObject) {
         displayedName = m_Text;
     } else if (m_umlObject->isUMLInstance()) {
-        displayedName = m_umlObject->name() + QStringLiteral(" : ");
+        displayedName = m_umlObject->name() + QLatin1String(" : ");
         if (umlc) {
             if (visualProperty(ShowPackage))
                 displayedName.append(umlc->fullyQualifiedName());
@@ -1077,7 +1077,7 @@ void ClassifierWidget::drawAsPackage(QPainter *painter, const QStyleOptionGraphi
     const int fontHeight  = fm.lineSpacing();
 
     painter->drawRect(0, 0, 50, fontHeight);
-    if (m_umlObject->stereotype() == QStringLiteral("subsystem")) {
+    if (m_umlObject->stereotype() == QLatin1String("subsystem")) {
         const int fHalf = fontHeight / 2;
         const int symY = fHalf;
         const int symX = 38;
@@ -1360,15 +1360,15 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
         loadShowAttributes = false;
     }
     if (loadShowAttributes) {
-        QString showatts = qElement.attribute(QStringLiteral("showattributes"), QStringLiteral("0"));
-        QString showops = qElement.attribute(QStringLiteral("showoperations"), QStringLiteral("1"));
-        QString showpubliconly = qElement.attribute(QStringLiteral("showpubliconly"), QStringLiteral("0"));
-        QString showattsigs = qElement.attribute(QStringLiteral("showattsigs"), QStringLiteral("600"));
-        QString showopsigs = qElement.attribute(QStringLiteral("showopsigs"), QStringLiteral("600"));
-        QString showpackage = qElement.attribute(QStringLiteral("showpackage"), QStringLiteral("0"));
-        QString showscope = qElement.attribute(QStringLiteral("showscope"), QStringLiteral("0"));
-        QString drawascircle = qElement.attribute(QStringLiteral("drawascircle"), QStringLiteral("0"));
-        QString showstereotype = qElement.attribute(QStringLiteral("showstereotype"), QStringLiteral("1"));
+        QString showatts = qElement.attribute(QLatin1String("showattributes"), QLatin1String("0"));
+        QString showops = qElement.attribute(QLatin1String("showoperations"), QLatin1String("1"));
+        QString showpubliconly = qElement.attribute(QLatin1String("showpubliconly"), QLatin1String("0"));
+        QString showattsigs = qElement.attribute(QLatin1String("showattsigs"), QLatin1String("600"));
+        QString showopsigs = qElement.attribute(QLatin1String("showopsigs"), QLatin1String("600"));
+        QString showpackage = qElement.attribute(QLatin1String("showpackage"), QLatin1String("0"));
+        QString showscope = qElement.attribute(QLatin1String("showscope"), QLatin1String("0"));
+        QString drawascircle = qElement.attribute(QLatin1String("drawascircle"), QLatin1String("0"));
+        QString showstereotype = qElement.attribute(QLatin1String("showstereotype"), QLatin1String("1"));
         setVisualPropertyCmd(ShowAttributes, (bool)showatts.toInt());
         setVisualPropertyCmd(ShowOperations, (bool)showops.toInt());
         setVisualPropertyCmd(ShowPublicOnly, (bool)showpubliconly.toInt());
@@ -1381,7 +1381,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     }
 
 #ifdef ENABLE_WIDGET_SHOW_DOC
-    QString showDocumentation = qElement.attribute(QStringLiteral("showdocumentation"), QStringLiteral("0"));
+    QString showDocumentation = qElement.attribute(QLatin1String("showdocumentation"), QLatin1String("0"));
     setVisualPropertyCmd(ShowDocumentation, (bool)showDocumentation.toInt());
 #endif
 
@@ -1393,7 +1393,7 @@ bool ClassifierWidget::loadFromXMI(QDomElement & qElement)
     QDomElement element = node.toElement();
     if (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == QStringLiteral("floatingtext")) {
+        if (tag == QLatin1String("floatingtext")) {
             if (m_pInterfaceName == nullptr) {
                 m_pInterfaceName = new FloatingTextWidget(m_scene,
                                                           Uml::TextRole::Floating,
@@ -1425,33 +1425,33 @@ void ClassifierWidget::saveToXMI(QXmlStreamWriter& writer)
     UMLClassifier *umlc = classifier();
     QString tag;
     if (umlObject()->baseType() == UMLObject::ot_Package) {
-        tag = QStringLiteral("packagewidget");
+        tag = QLatin1String("packagewidget");
         saveShowAttributes = false;
     } else if (umlObject()->baseType() == UMLObject::ot_Instance) {
-        tag = QStringLiteral("instancewidget");
+        tag = QLatin1String("instancewidget");
         saveShowAttributes = false;
     } else if (umlc && umlc->isInterface()) {
-        tag = QStringLiteral("interfacewidget");
+        tag = QLatin1String("interfacewidget");
     } else {
-        tag = QStringLiteral("classwidget");
+        tag = QLatin1String("classwidget");
     }
     writer.writeStartElement(tag);
 
     UMLWidget::saveToXMI(writer);
     if (saveShowAttributes) {
-        writer.writeAttribute(QStringLiteral("showoperations"), QString::number(visualProperty(ShowOperations)));
-        writer.writeAttribute(QStringLiteral("showpubliconly"), QString::number(visualProperty(ShowPublicOnly)));
-        writer.writeAttribute(QStringLiteral("showopsigs"),     QString::number(m_operationSignature));
-        writer.writeAttribute(QStringLiteral("showpackage"),    QString::number(visualProperty(ShowPackage)));
-        writer.writeAttribute(QStringLiteral("showscope"),      QString::number(visualProperty(ShowVisibility)));
-        writer.writeAttribute(QStringLiteral("showattributes"), QString::number(visualProperty(ShowAttributes)));
-        writer.writeAttribute(QStringLiteral("showattsigs"),    QString::number(m_attributeSignature));
+        writer.writeAttribute(QLatin1String("showoperations"), QString::number(visualProperty(ShowOperations)));
+        writer.writeAttribute(QLatin1String("showpubliconly"), QString::number(visualProperty(ShowPublicOnly)));
+        writer.writeAttribute(QLatin1String("showopsigs"),     QString::number(m_operationSignature));
+        writer.writeAttribute(QLatin1String("showpackage"),    QString::number(visualProperty(ShowPackage)));
+        writer.writeAttribute(QLatin1String("showscope"),      QString::number(visualProperty(ShowVisibility)));
+        writer.writeAttribute(QLatin1String("showattributes"), QString::number(visualProperty(ShowAttributes)));
+        writer.writeAttribute(QLatin1String("showattsigs"),    QString::number(m_attributeSignature));
     }
 #ifdef ENABLE_WIDGET_SHOW_DOC
-    writer.writeAttribute(QStringLiteral("showdocumentation"), QString::number(visualProperty(ShowDocumentation)));
+    writer.writeAttribute(QLatin1String("showdocumentation"), QString::number(visualProperty(ShowDocumentation)));
 #endif
     if (umlc && (umlc->isInterface() || umlc->isAbstract())) {
-        writer.writeAttribute(QStringLiteral("drawascircle"), QString::number(visualProperty(DrawAsCircle)));
+        writer.writeAttribute(QLatin1String("drawascircle"), QString::number(visualProperty(DrawAsCircle)));
         if (visualProperty(DrawAsCircle) && m_pInterfaceName) {
             m_pInterfaceName->saveToXMI(writer);
         }

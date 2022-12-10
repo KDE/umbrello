@@ -90,11 +90,11 @@ void CodeImpSelectPage::setupTreeView()
     model->setRootPath(QString());
     model->setNameFilterDisables(false);
 
-    m_fileExtensions << QStringLiteral("*.h")
-                     << QStringLiteral("*.hpp")
-                     << QStringLiteral("*.hh")
-                     << QStringLiteral("*.hxx")
-                     << QStringLiteral("*.H");  //:TODO set according to the current language!
+    m_fileExtensions << QLatin1String("*.h")
+                     << QLatin1String("*.hpp")
+                     << QLatin1String("*.hh")
+                     << QLatin1String("*.hxx")
+                     << QLatin1String("*.H");  //:TODO set according to the current language!
     model->setNameFilters(m_fileExtensions);
 
     ui_treeView->setSelectionMode(QAbstractItemView::MultiSelection);
@@ -124,7 +124,7 @@ void CodeImpSelectPage::setupTreeView()
  */
 void CodeImpSelectPage::setupFileExtEdit()
 {
-    ui_fileExtLineEdit->setText(m_fileExtensions.join(QStringLiteral(", ")));
+    ui_fileExtLineEdit->setText(m_fileExtensions.join(QLatin1String(", ")));
 }
 
 /**
@@ -200,13 +200,13 @@ void CodeImpSelectPage::subdirStateChanged(int state)
     QString strState;
     switch (state) {
     case Qt::Unchecked:
-        strState = QStringLiteral("Unchecked");
+        strState = QLatin1String("Unchecked");
         break;
     case Qt::Checked:
-        strState = QStringLiteral("Checked");
+        strState = QLatin1String("Checked");
         break;
     default:
-        strState = QStringLiteral("not known");
+        strState = QLatin1String("not known");
         break;
     }
     logDebug1("CodeImpSelectPage::subdirStateChanged: state set to %1", strState);
@@ -218,9 +218,9 @@ void CodeImpSelectPage::subdirStateChanged(int state)
 void CodeImpSelectPage::fileExtChanged()
 {
     QString inputStr = ui_fileExtLineEdit->text();
-    m_fileExtensions = inputStr.split(QRegExp(QStringLiteral("[,;: ]*")));
+    m_fileExtensions = inputStr.split(QRegExp(QLatin1String("[,;: ]*")));
     logDebug1("CodeImpSelectPage: editing of file extension line edit finished and set to %1",
-              m_fileExtensions.join(QStringLiteral(" ")));
+              m_fileExtensions.join(QLatin1String(" ")));
 
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
     model->setNameFilters(m_fileExtensions);
@@ -322,12 +322,12 @@ void CodeImpSelectPage::changeLanguage()
     // set the file extension pattern with which the files are filtered
     m_fileExtensions = Uml::ProgrammingLanguage::toExtensions(pl);
     logDebug1("CodeImpSelectPage::changeLanguage: File extensions %1",
-              m_fileExtensions.join(QStringLiteral(" ")));
+              m_fileExtensions.join(QLatin1String(" ")));
 
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
     model->setNameFilters(m_fileExtensions);
 
-    ui_fileExtLineEdit->setText(m_fileExtensions.join(QStringLiteral(", ")));
+    ui_fileExtLineEdit->setText(m_fileExtensions.join(QLatin1String(", ")));
 }
 
 /**

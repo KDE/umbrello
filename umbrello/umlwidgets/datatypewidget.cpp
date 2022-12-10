@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -89,7 +89,7 @@ bool DatatypeWidget::loadFromXMI(QDomElement & qElement)
  */
 void DatatypeWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("datatypewidget"));
+    writer.writeStartElement(QLatin1String("datatypewidget"));
     UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }

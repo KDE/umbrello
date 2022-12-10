@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "cppheaderclassdeclarationblock.h"
@@ -43,7 +43,7 @@ void CPPHeaderClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
  */
 void CPPHeaderClassDeclarationBlock::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("cppheaderclassdeclarationblock"));
+    writer.writeStartElement(QLatin1String("cppheaderclassdeclarationblock"));
 
     setAttributesOnNode(writer);
 
@@ -67,16 +67,16 @@ void CPPHeaderClassDeclarationBlock::updateContent ()
     //check if class is abstract.. it should have abstract methods
     if(!isInterface && c->isAbstract() && !c->hasAbstractOps())
     {
-        getComment()->setText(QStringLiteral("******************************* Abstract Class ****************************") + endLine
-                              + CPPHeaderClassName + QStringLiteral(" does not have any pure virtual methods, but its author") + endLine
-                              + QStringLiteral("  defined it as an abstract class, so you should not use it directly.") + endLine
-                              + QStringLiteral("  Inherit from it instead and create only objects from the derived classes") + endLine
-                              + QStringLiteral("*****************************************************************************"));
+        getComment()->setText(QLatin1String("******************************* Abstract Class ****************************") + endLine
+                              + CPPHeaderClassName + QLatin1String(" does not have any pure virtual methods, but its author") + endLine
+                              + QLatin1String("  defined it as an abstract class, so you should not use it directly.") + endLine
+                              + QLatin1String("  Inherit from it instead and create only objects from the derived classes") + endLine
+                              + QLatin1String("*****************************************************************************"));
     } else {
         if(isInterface)
-            getComment()->setText(QStringLiteral("Interface ") + CPPHeaderClassName + endLine + c->doc());
+            getComment()->setText(QLatin1String("Interface ") + CPPHeaderClassName + endLine + c->doc());
         else
-            getComment()->setText(QStringLiteral("Class ") + CPPHeaderClassName + endLine + c->doc());
+            getComment()->setText(QLatin1String("Class ") + CPPHeaderClassName + endLine + c->doc());
     }
 
     if(forceDoc || !c->doc().isEmpty())
@@ -93,10 +93,10 @@ void CPPHeaderClassDeclarationBlock::updateContent ()
 
     /*
         if(parentDoc->parentIsInterface())
-                startText.append(QStringLiteral("interface "));
+                startText.append(QLatin1String("interface "));
         else
     */
-    startText.append(QStringLiteral("class "));
+    startText.append(QLatin1String("class "));
 
     startText.append(CPPHeaderClassName);
 
@@ -107,19 +107,19 @@ void CPPHeaderClassDeclarationBlock::updateContent ()
     // write out inheritance
     int i = 0;
     if(nrof_superclasses >0)
-        startText.append(QStringLiteral(" : "));
+        startText.append(QLatin1String(" : "));
     foreach (UMLClassifier* concept, superclasses) {
         startText.append(Uml::Visibility::toString(concept->visibility()) + QLatin1Char(' ') +
             CodeGenerator::cleanName(concept->name()));
         if(i != (nrof_superclasses-1))
-            startText.append(QStringLiteral(", "));
+            startText.append(QLatin1String(", "));
         i++;
     }
 
     // Set the header and end text for the hier.codeblock
-    setStartText(startText + QStringLiteral(" {"));
+    setStartText(startText + QLatin1String(" {"));
 
-    // setEndText(QStringLiteral("}")); // not needed
+    // setEndText(QLatin1String("}")); // not needed
 }
 
 void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, const QString &comment)
@@ -127,6 +127,6 @@ void CPPHeaderClassDeclarationBlock::init (CPPHeaderCodeDocument *parentDoc, con
     setComment(new CPPCodeDocumentation(parentDoc));
     getComment()->setText(comment);
 
-    setEndText(QStringLiteral("};"));
+    setEndText(QLatin1String("};"));
 }
 

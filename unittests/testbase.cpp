@@ -58,7 +58,7 @@ void TestCodeGeneratorBase::initTestCase()
 
 #if QT_VERSION >= 0x050000
     static QTemporaryDir tmpDir;
-    m_tempPath = tmpDir.path() + QStringLiteral("/");
+    m_tempPath = tmpDir.path() + QLatin1String("/");
 #else
     static KTempDir tmpDir;
     m_tempPath = tmpDir.name();

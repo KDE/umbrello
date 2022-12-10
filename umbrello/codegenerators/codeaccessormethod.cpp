@@ -106,7 +106,7 @@ void CodeAccessorMethod::loadFromXMI(QDomElement & root)
  */
 void CodeAccessorMethod::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("codeaccessormethod"));
+    writer.writeStartElement(QLatin1String("codeaccessormethod"));
 
     setAttributesOnNode(writer);
 
@@ -123,8 +123,8 @@ void CodeAccessorMethod::setAttributesOnNode(QXmlStreamWriter& writer)
     CodeMethodBlock::setAttributesOnNode(writer);
 
     // set local class attributes
-    writer.writeAttribute(QStringLiteral("accessType"), QString::number(getType()));
-    writer.writeAttribute(QStringLiteral("classfield_id"), getParentClassField()->ID());
+    writer.writeAttribute(QLatin1String("accessType"), QString::number(getType()));
+    writer.writeAttribute(QLatin1String("classfield_id"), getParentClassField()->ID());
 }
 
 /**
@@ -158,7 +158,7 @@ void CodeAccessorMethod::setAttributesFromNode(QDomElement & root)
 
     */
     // now load/set other local attributes
-    setType((AccessorType)root.attribute(QStringLiteral("accessType"),QStringLiteral("0")).toInt());
+    setType((AccessorType)root.attribute(QLatin1String("accessType"),QLatin1String("0")).toInt());
 }
 
 /**

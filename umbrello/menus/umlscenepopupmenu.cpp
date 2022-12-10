@@ -99,7 +99,7 @@ void UMLScenePopupMenu::insertLayoutItems()
             foreach(const QString &key, configFiles.keys()) { // krazy:exclude=foreach
                 if (i >= types.size())
                     break;
-                if (key == QStringLiteral("export") &&
+                if (key == QLatin1String("export") &&
                         !Settings::optionState().autoLayoutState.showExportLayout)
                     continue;
                 insert(types[i], QPixmap(), i18n("apply '%1'", configFiles[key]));

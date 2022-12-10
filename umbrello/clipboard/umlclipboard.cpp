@@ -197,7 +197,7 @@ bool UMLClipboard::paste(const QMimeData* data)
             && UMLApp::app()->currentView()) {
         return Diagram_Utils::importGraph(data, UMLApp::app()->currentView()->umlScene());
     }
-    QString mimeType = QStringLiteral("application/x-uml-clip") + QString::number(codingType);
+    QString mimeType = QLatin1String("application/x-uml-clip") + QString::number(codingType);
     logDebug1("UMLClipboard::paste: Pasting mimeType %1", mimeType);
 
     bool result = false;

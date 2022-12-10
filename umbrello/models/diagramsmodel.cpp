@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2016-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2016-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "diagramsmodel.h"
@@ -86,7 +86,7 @@ QVariant DiagramsModel::data(const QModelIndex & index, int role) const
         return v->umlScene()->folder()->name();
     else
         return QVariant(QString::number(v->umlScene()->widgetList().size())
-                        + QStringLiteral("/")
+                        + QLatin1String("/")
                         + QString::number(v->umlScene()->associationList().size()));
 }
 

@@ -199,7 +199,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
     QString entityname = cleanName(m_pEntity->name());
 
     //find an appropriate name for our file
-    QString fileName = findFileName(m_pEntity, QStringLiteral(".sql"));
+    QString fileName = findFileName(m_pEntity, QLatin1String(".sql"));
     if (fileName.isEmpty()) {
         emit codeGenerated(m_pEntity, false);
         return;
@@ -216,10 +216,10 @@ void SQLWriter::writeClass(UMLClassifier *c)
     QTextStream sql(&file);
     //try to find a heading file (license, comments, etc)
     QString str;
-    str = getHeadingFile(QStringLiteral(".sql"));
+    str = getHeadingFile(QLatin1String(".sql"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
+        str.replace(QRegExp(QLatin1String("%filename%")), fileName);
+        str.replace(QRegExp(QLatin1String("%filepath%")), file.fileName());
         sql << str << m_endl;
     }
 
@@ -227,7 +227,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
     if (forceDoc() || !m_pEntity->doc().isEmpty()) {
         sql << m_endl << "--" << m_endl;
         sql << "-- TABLE: " << entityname << m_endl;
-        sql << formatDoc(m_pEntity->doc(),QStringLiteral("-- "));
+        sql << formatDoc(m_pEntity->doc(),QLatin1String("-- "));
         sql << "--  " << m_endl << m_endl;
     }
 
@@ -241,11 +241,11 @@ void SQLWriter::writeClass(UMLClassifier *c)
                     continue;
                 m_enumsGenerated.append(at->getTypeName());
                 sql << "CREATE TYPE " << at->getTypeName() << " AS ENUM (";
-                QString delimiter(QStringLiteral(""));
+                QString delimiter(QLatin1String(""));
                 UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
                 foreach (UMLClassifierListItem* enumLiteral, enumLiterals) {
                     sql << delimiter << "'" << enumLiteral->name() << "'";
-                    delimiter = QStringLiteral(", ");
+                    delimiter = QLatin1String(", ");
                 }
                 sql << ");\n";
             }
@@ -331,30 +331,30 @@ Uml::ProgrammingLanguage::Enum SQLWriter::language() const
 QStringList SQLWriter::defaultDatatypes() const
 {
     QStringList l;
-    l.append(QStringLiteral("blob"));
-    l.append(QStringLiteral("bigint"));
-    l.append(QStringLiteral("char"));
-    l.append(QStringLiteral("float"));
-    l.append(QStringLiteral("date"));
-    l.append(QStringLiteral("datetime"));
-    l.append(QStringLiteral("decimal"));
-    l.append(QStringLiteral("double"));
-    l.append(QStringLiteral("enum"));
-    l.append(QStringLiteral("longblob"));
-    l.append(QStringLiteral("longtext"));
-    l.append(QStringLiteral("mediumblob"));
-    l.append(QStringLiteral("mediumint"));
-    l.append(QStringLiteral("mediumtext"));
-    l.append(QStringLiteral("set"));
-    l.append(QStringLiteral("smallint"));
-    l.append(QStringLiteral("text"));
-    l.append(QStringLiteral("time"));
-    l.append(QStringLiteral("timestamp"));
-    l.append(QStringLiteral("tinyblob"));
-    l.append(QStringLiteral("tinyint"));
-    l.append(QStringLiteral("tinytext"));
-    l.append(QStringLiteral("varchar"));
-    l.append(QStringLiteral("year"));
+    l.append(QLatin1String("blob"));
+    l.append(QLatin1String("bigint"));
+    l.append(QLatin1String("char"));
+    l.append(QLatin1String("float"));
+    l.append(QLatin1String("date"));
+    l.append(QLatin1String("datetime"));
+    l.append(QLatin1String("decimal"));
+    l.append(QLatin1String("double"));
+    l.append(QLatin1String("enum"));
+    l.append(QLatin1String("longblob"));
+    l.append(QLatin1String("longtext"));
+    l.append(QLatin1String("mediumblob"));
+    l.append(QLatin1String("mediumint"));
+    l.append(QLatin1String("mediumtext"));
+    l.append(QLatin1String("set"));
+    l.append(QLatin1String("smallint"));
+    l.append(QLatin1String("text"));
+    l.append(QLatin1String("time"));
+    l.append(QLatin1String("timestamp"));
+    l.append(QLatin1String("tinyblob"));
+    l.append(QLatin1String("tinyint"));
+    l.append(QLatin1String("tinytext"));
+    l.append(QLatin1String("varchar"));
+    l.append(QLatin1String("year"));
     return l;
 }
 
@@ -367,7 +367,7 @@ QStringList SQLWriter::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         for (int i = 0; reserved_words[i]; ++i) {
-            keywords.append(QStringLiteral(reserved_words[i]));
+            keywords.append(QLatin1String(reserved_words[i]));
         }
     }
 
@@ -408,11 +408,11 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
                 at->getType() && at->getType()->baseType() == UMLObject::ot_Enum) {
             const UMLEnum *_enum = at->getType()->asUMLEnum();
             sql << " ENUM(";
-            QString delimiter(QStringLiteral(""));
+            QString delimiter(QLatin1String(""));
             UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
             foreach (UMLClassifierListItem* enumLiteral, enumLiterals) {
                 sql << delimiter << "'" << enumLiteral->name() << "'";
-                delimiter = QStringLiteral(", ");
+                delimiter = QLatin1String(", ");
             }
             sql << ')';
         } else
@@ -440,9 +440,9 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
         // write any default values
         if (!at->getInitialValue().isEmpty()) {
             if (at->getType()->baseType() == UMLObject::ot_Enum) {
-                sql << QStringLiteral(" DEFAULT '") << at->getInitialValue() << QStringLiteral("'");
+                sql << QLatin1String(" DEFAULT '") << at->getInitialValue() << QLatin1String("'");
             } else {
-                sql << QStringLiteral(" DEFAULT ") + at->getInitialValue();
+                sql << QLatin1String(" DEFAULT ") + at->getInitialValue();
             }
         }
         // now get documentation/comment of current attribute

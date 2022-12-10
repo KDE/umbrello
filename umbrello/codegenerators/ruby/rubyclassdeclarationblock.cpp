@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "rubyclassdeclarationblock.h"
@@ -26,7 +26,7 @@ RubyClassDeclarationBlock::~RubyClassDeclarationBlock ()
  */
 void RubyClassDeclarationBlock::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("rubyclassdeclarationblock"));
+    writer.writeStartElement(QLatin1String("rubyclassdeclarationblock"));
 
     setAttributesOnNode(writer);
 
@@ -57,15 +57,15 @@ void RubyClassDeclarationBlock::updateContent ()
 
     // COMMENT
     QString comment = c->doc();
-    comment.remove(QStringLiteral("@ref "));
-    comment.replace(QStringLiteral("@see"), QStringLiteral("_See_"));
-    comment.replace(QStringLiteral("@short"), QStringLiteral("_Summary_"));
-    comment.replace(QStringLiteral("@author"), QStringLiteral("_Author_"));
+    comment.remove(QLatin1String("@ref "));
+    comment.replace(QLatin1String("@see"), QLatin1String("_See_"));
+    comment.replace(QLatin1String("@short"), QLatin1String("_Summary_"));
+    comment.replace(QLatin1String("@author"), QLatin1String("_Author_"));
 
     if (isInterface)
-        getComment()->setText(QStringLiteral("Module ") + RubyClassName + endLine + comment);
+        getComment()->setText(QLatin1String("Module ") + RubyClassName + endLine + comment);
     else
-        getComment()->setText(QStringLiteral("Class ") + RubyClassName + endLine + comment);
+        getComment()->setText(QLatin1String("Class ") + RubyClassName + endLine + comment);
 
     if (forceDoc || !c->doc().isEmpty())
         getComment()->setWriteOutText(true);
@@ -76,9 +76,9 @@ void RubyClassDeclarationBlock::updateContent ()
     QString startText;
 
     if (parentDoc->parentIsInterface()) {
-        startText.append(QStringLiteral("module "));
+        startText.append(QLatin1String("module "));
     } else {
-        startText.append(QStringLiteral("class "));
+        startText.append(QLatin1String("class "));
     }
 
     UMLClassifierList superclasses = c->findSuperClassConcepts(UMLClassifier::CLASS);
@@ -90,18 +90,18 @@ void RubyClassDeclarationBlock::updateContent ()
     int i = 0;
     foreach (UMLClassifier* concept, superclasses) {
         if (i == 0) {
-            startText.append(QString(QStringLiteral(" < ")) + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
+            startText.append(QString(QLatin1String(" < ")) + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
         } else {
             // After the first superclass name in the list, assume the classes
             // are ruby modules that can be mixed in,
-            startText.append(QStringLiteral("include ") + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
+            startText.append(QLatin1String("include ") + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
         }
         i++;
     }
 
     // Write out the interfaces we 'implement'. Are these modules to be mixed in, in Ruby?
     foreach (UMLClassifier* concept, superinterfaces) {
-        startText.append(QString(QStringLiteral("include ")) + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
+        startText.append(QString(QLatin1String("include ")) + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
     }
 
     // Set the header and end text for the hier.codeblock
@@ -113,6 +113,6 @@ void RubyClassDeclarationBlock::init (RubyClassifierCodeDocument *parentDoc, con
     setComment(new RubyCodeDocumentation(parentDoc));
     getComment()->setText(comment);
 
-    setEndText(QStringLiteral("end"));
+    setEndText(QLatin1String("end"));
 }
 

@@ -81,7 +81,7 @@ void UMLStereotypeWidget::insertItems(UMLStereotype *type)
     }
 
     m_editField->clear();
-    m_editField->addItem(QStringLiteral(""), QVariant(0));
+    m_editField->addItem(QLatin1String(""), QVariant(0));
     foreach(const QString &key, types.keys()) { // krazy:exclude=foreach
         m_editField->addItem(key, QVariant::fromValue((types[key])));
     }

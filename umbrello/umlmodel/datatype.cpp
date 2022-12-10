@@ -16,7 +16,7 @@ UMLDatatype::UMLDatatype(const QString & name, Uml::ID::Type id)
     m_isRef(false), m_isActive(true)
 {
     m_BaseType = UMLObject::ot_Datatype;
-    setStereotype(QStringLiteral("dataType"));
+    setStereotype(QLatin1String("dataType"));
 }
 
 /**
@@ -88,13 +88,13 @@ bool UMLDatatype::isActive() const
  */
 bool UMLDatatype::load1(QDomElement & element)
 {
-    m_SecondaryId = element.attribute(QStringLiteral("elementReference"));
+    m_SecondaryId = element.attribute(QLatin1String("elementReference"));
     if (!m_SecondaryId.isEmpty()) {
         // @todo We do not currently support composition.
         m_isRef = true;
     }
-    QString active = element.attribute(QStringLiteral("isActive"));
-    m_isActive = (active != QStringLiteral("false"));
+    QString active = element.attribute(QLatin1String("isActive"));
+    m_isActive = (active != QLatin1String("false"));
     return true;
 }
 
@@ -106,13 +106,13 @@ bool UMLDatatype::load1(QDomElement & element)
  */
 void UMLDatatype::saveToXMI(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(writer, QStringLiteral("DataType"));
+    UMLObject::save1(writer, QLatin1String("DataType"));
 
     if (m_pSecondary != 0)
-        writer.writeAttribute(QStringLiteral("elementReference"),
+        writer.writeAttribute(QLatin1String("elementReference"),
                                         Uml::ID::toString(m_pSecondary->id()));
     if (!m_isActive)
-        writer.writeAttribute(QStringLiteral("isActive"), QStringLiteral("false"));
+        writer.writeAttribute(QLatin1String("isActive"), QLatin1String("false"));
 
     UMLObject::save1end(writer);
 }

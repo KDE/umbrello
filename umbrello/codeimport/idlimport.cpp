@@ -10,7 +10,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "codeimpthread.h"
-#define DBG_SRC QStringLiteral("IDLImport")
+#define DBG_SRC QLatin1String("IDLImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -43,11 +43,11 @@ QString IDLImport::m_preProcessor;
 QStringList IDLImport::m_preProcessorArguments;
 bool IDLImport::m_preProcessorChecked = false;
 
-IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QStringLiteral("//"), thread)
+IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QLatin1String("//"), thread)
 {
     m_doc = UMLApp::app()->document();
     m_isOneway = m_isReadonly = m_isAttribute = m_isUnionDefault = false;
-    setMultiLineComment(QStringLiteral("/*"), QStringLiteral("*/"));
+    setMultiLineComment(QLatin1String("/*"), QLatin1String("*/"));
 
     // we do not want to find the executable on each imported file
     if (m_preProcessorChecked) {
@@ -57,31 +57,31 @@ IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QStringLiteral("/
 
     QStringList arguments;
 #if QT_VERSION >= 0x050000
-    QString executable = QStandardPaths::findExecutable(QStringLiteral("cpp"));
+    QString executable = QStandardPaths::findExecutable(QLatin1String("cpp"));
 #else
-    QString executable = KStandardDirs::findExe(QStringLiteral("cpp"));
+    QString executable = KStandardDirs::findExe(QLatin1String("cpp"));
 #endif
     if (!executable.isEmpty()) {
-        arguments << QStringLiteral("-C");   // -C means "preserve comments"
+        arguments << QLatin1String("-C");   // -C means "preserve comments"
     }
 #ifdef Q_OS_WIN
     else {
 #if QT_VERSION >= 0x050000
-        executable = QStandardPaths::findExecutable(QStringLiteral("cl"));
+        executable = QStandardPaths::findExecutable(QLatin1String("cl"));
 #else
-        executable = KStandardDirs::findExe(QStringLiteral("cl"));
+        executable = KStandardDirs::findExe(QLatin1String("cl"));
 #endif
         if (executable.isEmpty()) {
-            QString path = QStringLiteral(qgetenv("VS100COMNTOOLS").constData());
+            QString path = QLatin1String(qgetenv("VS100COMNTOOLS").constData());
             if (!path.isEmpty())
 #if QT_VERSION >= 0x050000
-                executable = QStandardPaths::findExecutable(QStringLiteral("cl"), QStringList() << path + QStringLiteral("/../../VC/bin"));
+                executable = QStandardPaths::findExecutable(QLatin1String("cl"), QStringList() << path + QLatin1String("/../../VC/bin"));
 #else
-                executable = KStandardDirs::findExe(QStringLiteral("cl"), path + QStringLiteral("/../../VC/bin"));
+                executable = KStandardDirs::findExe(QLatin1String("cl"), path + QLatin1String("/../../VC/bin"));
 #endif
         }
         if (!executable.isEmpty()) {
-            arguments << QStringLiteral("-E");   // -E means "preprocess to stdout"
+            arguments << QLatin1String("-E");   // -E means "preprocess to stdout"
         }
     }
 #endif
@@ -104,11 +104,11 @@ IDLImport::~IDLImport()
 QString IDLImport::joinTypename()
 {
     QString typeName = m_source[m_srcIndex];
-    if (m_source[m_srcIndex] == QStringLiteral("unsigned"))
+    if (m_source[m_srcIndex] == QLatin1String("unsigned"))
         typeName += QLatin1Char(' ') + advance();
-    if (m_source[m_srcIndex] == QStringLiteral("long") &&
-            (m_source[m_srcIndex + 1] == QStringLiteral("long") ||
-             m_source[m_srcIndex + 1] == QStringLiteral("double")))
+    if (m_source[m_srcIndex] == QLatin1String("long") &&
+            (m_source[m_srcIndex + 1] == QLatin1String("long") ||
+             m_source[m_srcIndex + 1] == QLatin1String("double")))
         typeName += QLatin1Char(' ') + advance();
     return typeName;
 }
@@ -137,7 +137,7 @@ void IDLImport::fillSource(const QString& word)
             lexeme += c;
         } else if (c == QLatin1Char(':') && i < len-1 && word[i + 1] == QLatin1Char(':')) {
             // compress scoped name into lexeme
-            lexeme += QStringLiteral("::");
+            lexeme += QLatin1String("::");
             i++;
         } else {
             if (!lexeme.isEmpty()) {
@@ -159,7 +159,7 @@ bool IDLImport::parseFile(const QString& filename)
 {
     if (filename.contains(QLatin1Char('/'))) {
         QString path = filename;
-        path.remove(QRegExp(QStringLiteral("/[^/]+$")));
+        path.remove(QRegExp(QLatin1String("/[^/]+$")));
         logDebug1("IDLImport::parseFile adding path %1", path);
         Import_Utils::addIncludePath(path);
     }
@@ -175,10 +175,10 @@ bool IDLImport::parseFile(const QString& filename)
     for (QStringList::ConstIterator pathIt = includePaths.begin();
             pathIt != includePaths.end(); ++pathIt) {
         QString path = (*pathIt);
-        arguments << QStringLiteral("-I") + path;
+        arguments << QLatin1String("-I") + path;
     }
     arguments << filename;
-    logDebug2("importIDL::parseFile: %1 %2", m_preProcessor, arguments.join(QStringLiteral(" ")));
+    logDebug2("importIDL::parseFile: %1 %2", m_preProcessor, arguments.join(QLatin1String(" ")));
     p.start(m_preProcessor, arguments);
     if (!p.waitForStarted()) {
         log("Error: could not run preprocessor");
@@ -191,7 +191,7 @@ bool IDLImport::parseFile(const QString& filename)
     }
     int exitCode = p.exitCode();
     if (exitCode  != 0) {
-        QString errMsg = QStringLiteral("Error: preprocessor returned error");
+        QString errMsg = QLatin1String("Error: preprocessor returned error");
         log(errMsg + QString::number(exitCode));
         return false;
     }
@@ -241,7 +241,7 @@ bool IDLImport::skipStructure()
  * Returns true if the given text is a valid IDL scoped name.
  */
 bool IDLImport::isValidScopedName(QString text) {
-    QRegExp validScopedName(QStringLiteral("^[A-Za-z_:][A-Za-z0-9_:]*$"));
+    QRegExp validScopedName(QLatin1String("^[A-Za-z_:][A-Za-z0-9_:]*$"));
     return text.contains(validScopedName);
 }
 
@@ -261,122 +261,122 @@ bool IDLImport::parseStmt()
     QString keyword = m_source[m_srcIndex];
     const int srcLength = m_source.count();
     logDebug1("IDLImport::parseStmt: keyword is %1", keyword);
-    if (keyword == QStringLiteral("module")) {
+    if (keyword == QLatin1String("module")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
                                                       name, currentScope(), m_comment);
         pushScope(ns->asUMLPackage());
-        currentScope()->setStereotype(QStringLiteral("idlModule"));
-        if (advance() != QStringLiteral("{")) {
-            log(QStringLiteral("Error: importIDL: unexpected: ") + m_source[m_srcIndex]);
-            skipStmt(QStringLiteral("{"));
+        currentScope()->setStereotype(QLatin1String("idlModule"));
+        if (advance() != QLatin1String("{")) {
+            log(QLatin1String("Error: importIDL: unexpected: ") + m_source[m_srcIndex]);
+            skipStmt(QLatin1String("{"));
         }
         return true;
     }
-    if (keyword == QStringLiteral("interface")) {
+    if (keyword == QLatin1String("interface")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                                                       name, currentScope(), m_comment);
         m_klass = ns->asUMLClassifier();
-        m_klass->setStereotype(QStringLiteral("idlInterface"));
+        m_klass->setStereotype(QLatin1String("idlInterface"));
         m_klass->setAbstract(m_isAbstract);
         m_isAbstract = false;
         m_comment.clear();
-        if (advance() == QStringLiteral(";"))   // forward declaration
+        if (advance() == QLatin1String(";"))   // forward declaration
             return true;
         pushScope(m_klass);
-        if (m_source[m_srcIndex] == QStringLiteral(":")) {
-            while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QStringLiteral("{")) {
+        if (m_source[m_srcIndex] == QLatin1String(":")) {
+            while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String("{")) {
                 const QString& baseName = m_source[m_srcIndex];
                 Import_Utils::createGeneralization(m_klass, baseName);
-                if (advance() != QStringLiteral(","))
+                if (advance() != QLatin1String(","))
                     break;
             }
         }
-        if (m_source[m_srcIndex] != QStringLiteral("{")) {
-            log(QStringLiteral("Error: importIDL: ignoring excess chars at ") + name);
-            skipStmt(QStringLiteral("{"));
+        if (m_source[m_srcIndex] != QLatin1String("{")) {
+            log(QLatin1String("Error: importIDL: ignoring excess chars at ") + name);
+            skipStmt(QLatin1String("{"));
         }
         return true;
     }
-    if (keyword == QStringLiteral("struct") || keyword == QStringLiteral("exception")) {
+    if (keyword == QLatin1String("struct") || keyword == QLatin1String("exception")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                                                       name, currentScope(), m_comment);
         m_klass = ns->asUMLClassifier();
         pushScope(m_klass);
-        if (keyword == QStringLiteral("struct"))
-            m_klass->setStereotype(QStringLiteral("idlStruct"));
+        if (keyword == QLatin1String("struct"))
+            m_klass->setStereotype(QLatin1String("idlStruct"));
         else
-            m_klass->setStereotype(QStringLiteral("idlException"));
-        if (advance() != QStringLiteral("{")) {
-            log(QStringLiteral("Error: importIDL: expecting '{' at ") + name);
-            skipStmt(QStringLiteral("{"));
+            m_klass->setStereotype(QLatin1String("idlException"));
+        if (advance() != QLatin1String("{")) {
+            log(QLatin1String("Error: importIDL: expecting '{' at ") + name);
+            skipStmt(QLatin1String("{"));
         }
         return true;
     }
-    if (keyword == QStringLiteral("union")) {
+    if (keyword == QLatin1String("union")) {
         const QString& name = advance();
         // create union type
         UMLObject *u = Import_Utils::createUMLObject(UMLObject::ot_Class,
                                                      name, currentScope(), m_comment,
-                                                     QStringLiteral("idlUnion"));
+                                                     QLatin1String("idlUnion"));
         if (!u) {
-            log(QStringLiteral("Error: importIDL: Could not create union ") + name);
+            log(QLatin1String("Error: importIDL: Could not create union ") + name);
             return skipStructure();
         }
         UMLClassifier *uc = u->asUMLClassifier();
         if (!uc) {
-            log(QStringLiteral("Error: importIDL(") + name +
-                QStringLiteral("): Expecting type ot_Class, actual type is ") +
+            log(QLatin1String("Error: importIDL(") + name +
+                QLatin1String("): Expecting type ot_Class, actual type is ") +
                 UMLObject::toString(u->baseType()));
             return skipStructure();
         }
-        if (advance() != QStringLiteral("switch")) {
-            log(QStringLiteral("Error: importIDL: expecting 'switch' after ") + name);
+        if (advance() != QLatin1String("switch")) {
+            log(QLatin1String("Error: importIDL: expecting 'switch' after ") + name);
             return skipStructure();
         }
-        if (advance() != QStringLiteral("(")) {
-            log(QStringLiteral("Error: importIDL: expecting '(' after 'switch'"));
+        if (advance() != QLatin1String("(")) {
+            log(QLatin1String("Error: importIDL: expecting '(' after 'switch'"));
             return skipStructure();
         }
         const QString& switchType = advance();
         if (!isValidScopedName(switchType)) {
-            log(QStringLiteral("Error: importIDL: expecting typename after 'switch'"));
+            log(QLatin1String("Error: importIDL: expecting typename after 'switch'"));
             return skipStructure();
         }
         // find or create discriminator type
         UMLObject *dt = Import_Utils::createUMLObject(UMLObject::ot_Class,
                          switchType, currentScope(), m_comment);
         if (!dt) {
-            log(QStringLiteral("Error: importIDL(") + name +
-                                              QStringLiteral("): Could not create switchtype ") + switchType);
+            log(QLatin1String("Error: importIDL(") + name +
+                                              QLatin1String("): Could not create switchtype ") + switchType);
             return skipStructure();
         }
         UMLClassifier *discrType = dt->asUMLClassifier();
         if (!discrType) {
-            log(QStringLiteral("Error: importIDL(") + name +
-                QStringLiteral(") swichtype: Expecting classifier type, found ") +
+            log(QLatin1String("Error: importIDL(") + name +
+                QLatin1String(") swichtype: Expecting classifier type, found ") +
                 UMLObject::toString(dt->baseType()));
             return skipStructure();
         }
         m_currentAccess = Uml::Visibility::Public;
         UMLAttribute *discr = Import_Utils::insertAttribute(uc, m_currentAccess,
-                                                            QStringLiteral("discriminator"),
+                                                            QLatin1String("discriminator"),
                                                             discrType, m_comment);
         if (!discr) {
-            log(QStringLiteral("Error: importIDL(") + name +
-                QStringLiteral("): Could not create switch attribute"));
+            log(QLatin1String("Error: importIDL(") + name +
+                QLatin1String("): Could not create switch attribute"));
             return skipStructure();
         }
-        discr->setStereotype(QStringLiteral("idlSwitch"));
-        if (advance() != QStringLiteral(")")) {
-            log(QStringLiteral("Error: importIDL: expecting ')' after switch type"));
+        discr->setStereotype(QLatin1String("idlSwitch"));
+        if (advance() != QLatin1String(")")) {
+            log(QLatin1String("Error: importIDL: expecting ')' after switch type"));
             return skipStructure();
         }
-        if (advance() != QStringLiteral("{")) {
-            log(QStringLiteral("Error: importIDL(") + name +
-                QStringLiteral("): expecting '{' after switch type"));
+        if (advance() != QLatin1String("{")) {
+            log(QLatin1String("Error: importIDL(") + name +
+                QLatin1String("): expecting '{' after switch type"));
             return skipStructure();
         }
         m_klass = uc;
@@ -385,26 +385,26 @@ bool IDLImport::parseStmt()
         m_isUnionDefault = false;
         return true;
     }
-    if (keyword == QStringLiteral("case")) {
+    if (keyword == QLatin1String("case")) {
         QString caseValue = advance();
         if (!isValidScopedName(caseValue)) {
-            log(QStringLiteral("Error: importIDL: expecting symbolic identifier after 'case'"));
-            skipStmt(QStringLiteral(":"));
+            log(QLatin1String("Error: importIDL: expecting symbolic identifier after 'case'"));
+            skipStmt(QLatin1String(":"));
         }
         m_unionCases.append(caseValue);
-        if (advance() != QStringLiteral(":")) {
-            log(QStringLiteral("Error: importIDL: expecting ':' after 'case'"));
+        if (advance() != QLatin1String(":")) {
+            log(QLatin1String("Error: importIDL: expecting ':' after 'case'"));
         }
         return true;
     }
-    if (keyword == QStringLiteral("default")) {
+    if (keyword == QLatin1String("default")) {
         m_isUnionDefault = true;
-        if (advance() != QStringLiteral(":")) {
-            log(QStringLiteral("Error: importIDL: expecting ':' after 'default'"));
+        if (advance() != QLatin1String(":")) {
+            log(QLatin1String("Error: importIDL: expecting ':' after 'default'"));
         }
         return true;
     }
-    if (keyword == QStringLiteral("enum")) {
+    if (keyword == QLatin1String("enum")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, currentScope(), m_comment);
@@ -412,32 +412,32 @@ bool IDLImport::parseStmt()
         if (enumType == 0)
             enumType = Import_Utils::remapUMLEnum(ns, currentScope());
         m_srcIndex++;  // skip name
-        while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QStringLiteral("}")) {
+        while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String("}")) {
             if (enumType != 0)
                 Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
-            if (advance() != QStringLiteral(","))
+            if (advance() != QLatin1String(","))
                 break;
         }
         skipStmt();
         return true;
     }
-    if (keyword == QStringLiteral("typedef")) {
-        if (m_source[m_srcIndex + 2] == QStringLiteral("<")) {
+    if (keyword == QLatin1String("typedef")) {
+        if (m_source[m_srcIndex + 2] == QLatin1String("<")) {
             keyword = advance();
             m_srcIndex += 2;
             QString oldType;
             QString bound;
-            if (keyword == QStringLiteral("sequence")) {
+            if (keyword == QLatin1String("sequence")) {
                 oldType = joinTypename();
-                if (advance() == QStringLiteral(",")) {
+                if (advance() == QLatin1String(",")) {
                     bound = advance();
                     m_srcIndex++;  // position on ">"
                 }
-            } else if (keyword ==  QStringLiteral("string")) {
+            } else if (keyword ==  QLatin1String("string")) {
                 bound = m_source[m_srcIndex];
                 m_srcIndex++;  // position on ">"
             } else {
-                log(QStringLiteral("Error: parseStmt: Expecting 'sequence' or 'string', found ") +
+                log(QLatin1String("Error: parseStmt: Expecting 'sequence' or 'string', found ") +
                     keyword);
                 skipStmt();
                 return true;
@@ -451,20 +451,20 @@ bool IDLImport::parseStmt()
             }
             UMLObject *dt = Import_Utils::createUMLObject(ot, newType, currentScope(), m_comment);
             if (!dt) {
-                log(QStringLiteral("Error: importIDL(typedef ") + keyword +
-                    QStringLiteral("): Could not create datatype ") + newType);
+                log(QLatin1String("Error: importIDL(typedef ") + keyword +
+                    QLatin1String("): Could not create datatype ") + newType);
                 return true;
             }
-            QString stereoName = (oldType.length() ? QStringLiteral("idlSequence") : QStringLiteral("idlString"));
+            QString stereoName = (oldType.length() ? QLatin1String("idlSequence") : QLatin1String("idlString"));
             UMLStereotype *pStereo = m_doc->findStereotype(stereoName);
             if (pStereo == 0) {
                 pStereo = m_doc->createStereotype(stereoName);
-                UMLStereotype::AttributeDef tagDef(QStringLiteral("bound"), Uml::PrimitiveTypes::UnlimitedNatural);
+                UMLStereotype::AttributeDef tagDef(QLatin1String("bound"), Uml::PrimitiveTypes::UnlimitedNatural);
                 // Empty bound stands for "unbounded".
                 pStereo->getAttributeDefs().append(tagDef);
             }
             if (oldType.length()) {
-                UMLAttribute *typeAttr = Object_Factory::createAttribute(dt, QStringLiteral("members"), pOld);
+                UMLAttribute *typeAttr = Object_Factory::createAttribute(dt, QLatin1String("members"), pOld);
                 Q_UNUSED(typeAttr);
                 /*
                 UMLClassifier *cl = dt->asUMLClassifier();
@@ -492,113 +492,113 @@ bool IDLImport::parseStmt()
         }
         UMLClassifier *oldClassifier = pOld->asUMLClassifier();
         UMLObject *pNew = Import_Utils::createUMLObject(ot, newType, currentScope(), m_comment,
-                                                        QStringLiteral("idlTypedef")); /* stereotype */
+                                                        QLatin1String("idlTypedef")); /* stereotype */
         UMLClassifier *newClassifier = pNew->asUMLClassifier();
         if (oldClassifier == 0) {
-            log(QStringLiteral("Error: importIDL(typedef ") + newType +
-                QStringLiteral("): Origin type ") + oldType + QStringLiteral(" is not a classifier"));
+            log(QLatin1String("Error: importIDL(typedef ") + newType +
+                QLatin1String("): Origin type ") + oldType + QLatin1String(" is not a classifier"));
         } else if (newClassifier == 0) {
-            log(QStringLiteral("Error: importIDL(typedef ") + newType +
-                QStringLiteral(") internal error: Import_Utils::createUMLObject did not return a classifier"));
+            log(QLatin1String("Error: importIDL(typedef ") + newType +
+                QLatin1String(") internal error: Import_Utils::createUMLObject did not return a classifier"));
         } else {
             Import_Utils::createGeneralization(newClassifier, oldClassifier);
         }
         skipStmt();
         return true;
     }
-    if (keyword == QStringLiteral("const")) {
+    if (keyword == QLatin1String("const")) {
         skipStmt();
         return true;
     }
-    if (keyword == QStringLiteral("custom")) {
+    if (keyword == QLatin1String("custom")) {
         return true;
     }
-    if (keyword == QStringLiteral("abstract")) {
+    if (keyword == QLatin1String("abstract")) {
         m_isAbstract = true;
         return true;
     }
-    if (keyword == QStringLiteral("valuetype")) {
+    if (keyword == QLatin1String("valuetype")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class,
                         name, currentScope(), m_comment);
         m_klass = ns->asUMLClassifier();
-        m_klass->setStereotype(QStringLiteral("idlValue"));
+        m_klass->setStereotype(QLatin1String("idlValue"));
         m_klass->setAbstract(m_isAbstract);
         m_isAbstract = false;
-        if (advance() == QStringLiteral(";"))   // forward declaration
+        if (advance() == QLatin1String(";"))   // forward declaration
             return true;
         pushScope(m_klass);
-        if (m_source[m_srcIndex] == QStringLiteral(":")) {
-            if (advance() == QStringLiteral("truncatable"))
+        if (m_source[m_srcIndex] == QLatin1String(":")) {
+            if (advance() == QLatin1String("truncatable"))
                 m_srcIndex++;
-            while (m_srcIndex < srcLength && m_source[m_srcIndex] != QStringLiteral("{")) {
+            while (m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String("{")) {
                 const QString& baseName = m_source[m_srcIndex];
                 Import_Utils::createGeneralization(m_klass, baseName);
-                if (advance() != QStringLiteral(","))
+                if (advance() != QLatin1String(","))
                     break;
                 m_srcIndex++;
             }
         }
-        if (m_source[m_srcIndex] != QStringLiteral("{")) {
-            log(QStringLiteral("Error: importIDL: ignoring excess chars at ") + name);
-            skipStmt(QStringLiteral("{"));
+        if (m_source[m_srcIndex] != QLatin1String("{")) {
+            log(QLatin1String("Error: importIDL: ignoring excess chars at ") + name);
+            skipStmt(QLatin1String("{"));
         }
         return true;
     }
-    if (keyword == QStringLiteral("public")) {
+    if (keyword == QLatin1String("public")) {
         return true;
     }
-    if (keyword == QStringLiteral("private")) {
+    if (keyword == QLatin1String("private")) {
         m_currentAccess = Uml::Visibility::Private;
         return true;
     }
-    if (keyword == QStringLiteral("readonly")) {
+    if (keyword == QLatin1String("readonly")) {
         m_isReadonly = true;
         return true;
     }
-    if (keyword == QStringLiteral("attribute")) {
+    if (keyword == QLatin1String("attribute")) {
         m_isAttribute = true;
         return true;
     }
-    if (keyword == QStringLiteral("oneway")) {
+    if (keyword == QLatin1String("oneway")) {
         m_isOneway = true;
         return true;
     }
-    if (keyword == QStringLiteral("}")) {
+    if (keyword == QLatin1String("}")) {
         if (scopeIndex())
             m_klass = popScope()->asUMLClassifier();
         else
-            log(QStringLiteral("Error: importIDL: too many }"));
+            log(QLatin1String("Error: importIDL: too many }"));
         m_srcIndex++;  // skip ';'
         return true;
     }
-    if (keyword == QStringLiteral(";"))
+    if (keyword == QLatin1String(";"))
         return true;
     // At this point, we expect `keyword` to be a type name
     // (of a member of struct or valuetype, or return type
     // of an operation.) Up next is the name of the attribute
     // or operation.
-    if (! keyword.contains(QRegExp(QStringLiteral("^\\w")))) {
-        log(QStringLiteral("Error: importIDL: ignoring ") + keyword);
+    if (! keyword.contains(QRegExp(QLatin1String("^\\w")))) {
+        log(QLatin1String("Error: importIDL: ignoring ") + keyword);
         return false;
     }
     QString typeName = joinTypename();
     QString name = advance();
-    if (name.contains(QRegExp(QStringLiteral("\\W")))) {
-        log(QStringLiteral("Error: importIDL: expecting name in ") + name);
+    if (name.contains(QRegExp(QLatin1String("\\W")))) {
+        log(QLatin1String("Error: importIDL: expecting name in ") + name);
         return false;
     }
     // At this point we most definitely need a class.
     if (m_klass == 0) {
-        log(QStringLiteral("Error: importIDL: no class set for ") + name);
+        log(QLatin1String("Error: importIDL: no class set for ") + name);
         return false;
     }
     QString nextToken = advance();
-    if (nextToken == QStringLiteral("(")) {
+    if (nextToken == QLatin1String("(")) {
         // operation
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
         m_srcIndex++;
-        while (m_srcIndex < srcLength && m_source[m_srcIndex] != QStringLiteral(")")) {
+        while (m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String(")")) {
             const QString &direction = m_source[m_srcIndex++];
             QString typeName = joinTypename();
             const QString &parName = advance();
@@ -607,16 +607,16 @@ bool IDLImport::parseStmt()
             if (Model_Utils::stringToDirection(direction, dir))
                 att->setParmKind(dir);
             else
-                log(QStringLiteral("Error: importIDL: expecting parameter direction at ") +
+                log(QLatin1String("Error: importIDL: expecting parameter direction at ") +
                     direction);
-            if (advance() != QStringLiteral(","))
+            if (advance() != QLatin1String(","))
                 break;
             m_srcIndex++;
         }
         Import_Utils::insertMethod(m_klass, op, Uml::Visibility::Public, typeName,
                                   false, false, false, false, false, m_comment);
         if (m_isOneway) {
-            op->setStereotype(QStringLiteral("oneway"));
+            op->setStereotype(QLatin1String("oneway"));
             m_isOneway = false;
         }
         skipStmt();  // skip possible "raises" clause
@@ -624,21 +624,21 @@ bool IDLImport::parseStmt()
     }
     // At this point we know it's some kind of attribute declaration.
     while (1) {
-        while (nextToken != QStringLiteral(",") && nextToken != QStringLiteral(";")) {
+        while (nextToken != QLatin1String(",") && nextToken != QLatin1String(";")) {
             name += nextToken;  // add possible array dimensions to `name`
             nextToken = advance();
         }
         UMLAttribute *attr = Import_Utils::insertAttribute(m_klass, m_currentAccess, name, typeName, m_comment);
         if (m_isReadonly) {
-            attr->setStereotype(QStringLiteral("readonly"));
+            attr->setStereotype(QLatin1String("readonly"));
             m_isReadonly = false;
         }
         if (m_unionCases.count()) {
-            const QString stereoName = QStringLiteral("idlCase");
+            const QString stereoName = QLatin1String("idlCase");
             UMLStereotype *pStereo = m_doc->findStereotype(stereoName);
             if (pStereo == 0) {
                 pStereo = m_doc->createStereotype(stereoName);
-                UMLStereotype::AttributeDef tagDef(QStringLiteral("label"), Uml::PrimitiveTypes::String);
+                UMLStereotype::AttributeDef tagDef(QLatin1String("label"), Uml::PrimitiveTypes::String);
                 pStereo->getAttributeDefs().append(tagDef);
             }
             attr->setUMLStereotype(pStereo);
@@ -646,10 +646,10 @@ bool IDLImport::parseStmt()
             attr->tags().append(caseLabels);
             m_unionCases.clear();
         } else if (m_isUnionDefault) {
-            attr->setStereotype(QStringLiteral("idlDefault"));
+            attr->setStereotype(QLatin1String("idlDefault"));
             m_isUnionDefault = false;
         }
-        if (nextToken != QStringLiteral(","))
+        if (nextToken != QLatin1String(","))
             break;
         name = advance();
         nextToken = advance();

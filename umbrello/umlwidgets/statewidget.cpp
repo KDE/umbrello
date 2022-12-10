@@ -150,12 +150,12 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             painter->setFont(UMLWidget::font());
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing() / 2;
-            const int xStar = fm.boundingRect(QStringLiteral("H")).width();
+            const int xStar = fm.boundingRect(QLatin1String("H")).width();
             const int yStar = fontHeight / 4;
             painter->drawText((w / 6),
-                       (h / 4) + fontHeight, QStringLiteral("H"));
+                       (h / 4) + fontHeight, QLatin1String("H"));
             painter->drawText((w / 6) + xStar,
-                       (h / 4) + fontHeight - yStar, QStringLiteral("*"));
+                       (h / 4) + fontHeight - yStar, QLatin1String("*"));
         }
         break;
     case StateWidget::ShallowHistory:
@@ -167,7 +167,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing() / 2;
             painter->drawText((w / 6),
-                       (h / 4) + fontHeight, QStringLiteral("H"));
+                       (h / 4) + fontHeight, QLatin1String("H"));
         }
         break;
     case StateWidget::Choice:
@@ -397,7 +397,7 @@ StateWidget::StateType StateWidget::stateType() const
  */
 QString StateWidget::stateTypeStr() const
 {
-    return QStringLiteral(ENUM_NAME(StateWidget, StateType, m_stateType));
+    return QLatin1String(ENUM_NAME(StateWidget, StateType, m_stateType));
 }
 
 /**
@@ -506,20 +506,20 @@ bool StateWidget::showPropertiesDialog()
  */
 void StateWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("statewidget"));
+    writer.writeStartElement(QLatin1String("statewidget"));
     UMLWidget::saveToXMI(writer);
-    writer.writeAttribute(QStringLiteral("statename"), m_Text);
-    writer.writeAttribute(QStringLiteral("documentation"), m_Doc);
-    writer.writeAttribute(QStringLiteral("statetype"), QString::number(m_stateType));
+    writer.writeAttribute(QLatin1String("statename"), m_Text);
+    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
+    writer.writeAttribute(QLatin1String("statetype"), QString::number(m_stateType));
     if (m_stateType == Fork || m_stateType == Join)
-        writer.writeAttribute(QStringLiteral("drawvertical"), QString::number(m_drawVertical));
+        writer.writeAttribute(QLatin1String("drawvertical"), QString::number(m_drawVertical));
     //save states activities
-    writer.writeStartElement(QStringLiteral("Activities"));
+    writer.writeStartElement(QLatin1String("Activities"));
 
     QStringList::Iterator end(m_Activities.end());
     for (QStringList::Iterator it(m_Activities.begin()); it != end; ++it) {
-        writer.writeStartElement(QStringLiteral("Activity"));
-        writer.writeAttribute(QStringLiteral("name"), *it);
+        writer.writeStartElement(QLatin1String("Activity"));
+        writer.writeAttribute(QLatin1String("name"), *it);
         writer.writeEndElement();
     }
     writer.writeEndElement();            // Activities
@@ -533,22 +533,22 @@ bool StateWidget::loadFromXMI(QDomElement & qElement)
 {
     if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    m_Text = qElement.attribute(QStringLiteral("statename"));
-    m_Doc = qElement.attribute(QStringLiteral("documentation"));
-    QString type = qElement.attribute(QStringLiteral("statetype"), QStringLiteral("1"));
+    m_Text = qElement.attribute(QLatin1String("statename"));
+    m_Doc = qElement.attribute(QLatin1String("documentation"));
+    QString type = qElement.attribute(QLatin1String("statetype"), QLatin1String("1"));
     setStateType((StateType)type.toInt());
     setAspectRatioMode();
-    QString drawVertical = qElement.attribute(QStringLiteral("drawvertical"), QStringLiteral("1"));
+    QString drawVertical = qElement.attribute(QLatin1String("drawvertical"), QLatin1String("1"));
     m_drawVertical = (bool)drawVertical.toInt();
     //load states activities
     QDomNode node = qElement.firstChild();
     QDomElement tempElement = node.toElement();
-    if(!tempElement.isNull() && tempElement.tagName() == QStringLiteral("Activities")) {
+    if(!tempElement.isNull() && tempElement.tagName() == QLatin1String("Activities")) {
         QDomNode node = tempElement.firstChild();
         QDomElement activityElement = node.toElement();
         while(!activityElement.isNull()) {
-            if(activityElement.tagName() == QStringLiteral("Activity")) {
-                QString name = activityElement.attribute(QStringLiteral("name"));
+            if(activityElement.tagName() == QLatin1String("Activity")) {
+                QString name = activityElement.attribute(QLatin1String("name"));
                 if(!name.isEmpty())
                     m_Activities.append(name);
             }//end if

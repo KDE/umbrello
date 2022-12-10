@@ -5,7 +5,7 @@
 
 #include "umlappprivate.h"
 
-#define DBG_SRC QStringLiteral("UMLAppPrivate")
+#define DBG_SRC QLatin1String("UMLAppPrivate")
 #include "debug_utils.h"
 
 #include <KFilterDev>
@@ -21,7 +21,7 @@ QString UMLAppPrivate::findWelcomeFile()
 {
     QStringList dirList;
     // from build dir
-    dirList.append(QCoreApplication::applicationDirPath() + QStringLiteral("/../doc/apphelp"));
+    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../doc/apphelp"));
 
     // determine path from installation
 #if QT_VERSION > 0x050000
@@ -34,30 +34,30 @@ QString UMLAppPrivate::findWelcomeFile()
 
     // from custom install
     foreach(const QString &lang, langList) {
-        dirList.append(QCoreApplication::applicationDirPath() + QString(QStringLiteral("/../share/doc/HTML/%1/umbrello/apphelp")).arg(lang));
+        dirList.append(QCoreApplication::applicationDirPath() + QString(QLatin1String("/../share/doc/HTML/%1/umbrello/apphelp")).arg(lang));
     }
-    dirList.append(QCoreApplication::applicationDirPath() + QStringLiteral("/../share/doc/HTML/en/umbrello/apphelp"));
+    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../share/doc/HTML/en/umbrello/apphelp"));
 
     QStringList locations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
     // from real installation
     foreach(const QString &location, locations) {
         foreach(const QString &lang, langList) {
-            dirList.append(QString(QStringLiteral("%1/doc/HTML/%2/umbrello/apphelp")).arg(location).arg(lang));
+            dirList.append(QString(QLatin1String("%1/doc/HTML/%2/umbrello/apphelp")).arg(location).arg(lang));
         }
-        dirList.append(QString(QStringLiteral("%1/doc/HTML/en/umbrello/apphelp")).arg(location));
+        dirList.append(QString(QLatin1String("%1/doc/HTML/en/umbrello/apphelp")).arg(location));
     }
 #else
     KLocale *local = KGlobal::locale();
     QString lang = local->language();
     // from custom install
-    dirList.append(QCoreApplication::applicationDirPath() + QString(QStringLiteral("/../share/doc/HTML/%1/umbrello/apphelp")).arg(lang));
-    dirList.append(QCoreApplication::applicationDirPath() + QStringLiteral("/../share/doc/HTML/en/umbrello/apphelp"));
+    dirList.append(QCoreApplication::applicationDirPath() + QString(QLatin1String("/../share/doc/HTML/%1/umbrello/apphelp")).arg(lang));
+    dirList.append(QCoreApplication::applicationDirPath() + QLatin1String("/../share/doc/HTML/en/umbrello/apphelp"));
 
     // /usr/share/doc/kde
-    dirList.append(KStandardDirs::installPath("html") + lang + QStringLiteral("/umbrello/apphelp"));
+    dirList.append(KStandardDirs::installPath("html") + lang + QLatin1String("/umbrello/apphelp"));
 #endif
     foreach(const QString &dir, dirList) {
-        QString filePath = dir + QStringLiteral("/index.cache.bz2");
+        QString filePath = dir + QLatin1String("/index.cache.bz2");
         QFileInfo fi(filePath);
         if (fi.exists()) {
             DEBUG() << "UMLAppPrivate::findWelcomeFile found " << filePath;
@@ -79,7 +79,7 @@ QString UMLAppPrivate::findWelcomeFile()
 QString UMLAppPrivate::readWelcomeFile(const QString &file)
 {
     QString html;
-    if (file.endsWith(QStringLiteral(".cache.bz2"))) {
+    if (file.endsWith(QLatin1String(".cache.bz2"))) {
         QIODevice *d =  KFilterDev::deviceForFile(file);
         if (!d->open(QIODevice::ReadOnly)) {
             uError() << "could not open archive " << file;
@@ -102,19 +102,19 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
         return QString();
     }
 
-    html.replace(QStringLiteral("<FILENAME filename=\"index.html\">"),QStringLiteral(""));
-    html.replace(QStringLiteral("</FILENAME>"),QStringLiteral(""));
+    html.replace(QLatin1String("<FILENAME filename=\"index.html\">"),QLatin1String(""));
+    html.replace(QLatin1String("</FILENAME>"),QLatin1String(""));
 //#define WITH_HEADER
 #ifndef WITH_HEADER
 #ifdef WEBKIT_WELCOMEPAGE
-    html.replace(QStringLiteral("<div id=\"header\""),QStringLiteral("<div id=\"header\" hidden"));
-    html.replace(QStringLiteral("<div class=\"navCenter\""),QStringLiteral("<div id=\"navCenter\" hidden"));
-    html.replace(QStringLiteral("<div id=\"footer\""), QStringLiteral("<div id=\"footer\" hidden"));
+    html.replace(QLatin1String("<div id=\"header\""),QLatin1String("<div id=\"header\" hidden"));
+    html.replace(QLatin1String("<div class=\"navCenter\""),QLatin1String("<div id=\"navCenter\" hidden"));
+    html.replace(QLatin1String("<div id=\"footer\""), QLatin1String("<div id=\"footer\" hidden"));
 #else
-    html.replace(QStringLiteral("<div id=\"header\""), QStringLiteral("<!-- <div id=\"header\""));
-    html.replace(QStringLiteral("<div id=\"contentBody\""), QStringLiteral("--> <div id=\"contentBody\""));
-    html.replace(QStringLiteral("<div id=\"footer\""), QStringLiteral("<!-- <div id=\"footer\""));
-    html.replace(QStringLiteral("</div></body>"), QStringLiteral("--> </div></body>"));
+    html.replace(QLatin1String("<div id=\"header\""), QLatin1String("<!-- <div id=\"header\""));
+    html.replace(QLatin1String("<div id=\"contentBody\""), QLatin1String("--> <div id=\"contentBody\""));
+    html.replace(QLatin1String("<div id=\"footer\""), QLatin1String("<!-- <div id=\"footer\""));
+    html.replace(QLatin1String("</div></body>"), QLatin1String("--> </div></body>"));
 #endif
 #else
     // replace help:/ urls in html file to be able to find css files and images from kde help system
@@ -122,7 +122,7 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
     QString path;
     QStringList locations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
     foreach(const QString &l, locations) {
-        QString a = QString(QStringLiteral("%1/doc/HTML/en/")).arg(l);
+        QString a = QString(QLatin1String("%1/doc/HTML/en/")).arg(l);
         QFileInfo fi(a);
         if (fi.exists()) {
             path = a;
@@ -130,11 +130,11 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
         }
     }
 #else
-    QString path = KStandardDirs::installPath("html") +  QStringLiteral("en/");
+    QString path = KStandardDirs::installPath("html") +  QLatin1String("en/");
 #endif
     QUrl url(QUrl::fromLocalFile(path));
     QByteArray a = url.toEncoded();
-    html.replace(QStringLiteral("help:/"), QString::fromLocal8Bit(a));
+    html.replace(QLatin1String("help:/"), QString::fromLocal8Bit(a));
 #endif
     return html;
 }
@@ -153,7 +153,7 @@ bool UMLAppPrivate::openFileInEditor(const QUrl &file, int startCursor, int endC
     }
 
     if (!editorWindow) {
-        editorWindow = new QDockWidget(QStringLiteral("Editor"));
+        editorWindow = new QDockWidget(QLatin1String("Editor"));
         parent->addDockWidget(Qt::RightDockWidgetArea, editorWindow);
     }
 

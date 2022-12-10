@@ -9,7 +9,7 @@
 // app includes
 #include "associationwidget.h"
 #include "association.h"
-#define DBG_SRC QStringLiteral("Diagram_Utils")
+#define DBG_SRC QLatin1String("Diagram_Utils")
 #include "debug_utils.h"
 #include "import_utils.h"
 #include "messagewidget.h"
@@ -42,27 +42,27 @@ SequenceLineFormat detectSequenceLineFormat(const QStringList &lines)
 {
     QStringList l = lines;
     while(l.size() > 0) {
-        QStringList cols = l.takeFirst().split(QRegExp(QStringLiteral("\\s+")),QString::SkipEmptyParts);
+        QStringList cols = l.takeFirst().split(QRegExp(QLatin1String("\\s+")),QString::SkipEmptyParts);
         if (cols.size() < 1)
             continue;
 
-        if (cols[0] == QStringLiteral("#")) {
+        if (cols[0] == QLatin1String("#")) {
             continue;
         }
         /*
          * #0  0x000000000050d0b0 in Import_Utils::importStackTrace(QString const&, UMLScene*) (fileName=..., scene=scene@entry=0x12bd0f0)
          */
-        if (cols.size() > 2 && cols[0].startsWith(QStringLiteral("#")))
+        if (cols.size() > 2 && cols[0].startsWith(QLatin1String("#")))
             return GDB;
         /*
          *  6	Driver::ParseHelper::ParseHelper	driver.cpp	299	0x634c44
          */
-        else if (cols[cols.size()-1].startsWith(QStringLiteral("0x")))
+        else if (cols[cols.size()-1].startsWith(QLatin1String("0x")))
             return QtCreatorGDB;
         /*
          * FloatingTextWidget::setPreText
          */
-        else if (cols[cols.size()-1].contains(QStringLiteral("::")))
+        else if (cols[cols.size()-1].contains(QLatin1String("::")))
             return Simple;
         else
             return Invalid;
@@ -85,13 +85,13 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
 {
     QString identifier;
     QString module;
-    QStringList cols = s.split(QRegExp(QStringLiteral("\\s+")),QString::SkipEmptyParts);
+    QStringList cols = s.split(QRegExp(QLatin1String("\\s+")),QString::SkipEmptyParts);
     if (cols.size() < 1) {
-        error = QStringLiteral("could not parse");
+        error = QLatin1String("could not parse");
         return false;
     }
     // skip comments
-    if (cols[0] == QStringLiteral("#")) {
+    if (cols[0] == QLatin1String("#")) {
         return false;
     }
 
@@ -100,30 +100,30 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
      * #25 0x00007fffefe1670c in g_main_context_iteration () from /usr/lib64/libglib-2.0.so.0
      * #0  Import_Utils::importStackTrace (fileName=..., scene=scene@entry=0x137c000) at /home/ralf.habacker/src/umbrello-3/umbrello/codeimport/import_utils.cpp:715
      */
-    if (cols.size() > 2 && cols[0].startsWith(QStringLiteral("#"))) {
+    if (cols.size() > 2 && cols[0].startsWith(QLatin1String("#"))) {
         QString file;
         sequence = cols.takeFirst();
-        if (cols[cols.size()-2] == QStringLiteral("at")) {
+        if (cols[cols.size()-2] == QLatin1String("at")) {
             file = cols.takeLast();
             cols.takeLast();
         }
-        else if (cols[cols.size()-2] == QStringLiteral("from")) {
+        else if (cols[cols.size()-2] == QLatin1String("from")) {
             module = cols.takeLast();
             cols.takeLast();
         }
 
-        if (cols[1] == QStringLiteral("in")) {
+        if (cols[1] == QLatin1String("in")) {
             cols.takeFirst(); // remove address
             cols.takeFirst(); // in
         }
 
-        identifier = cols.join(QStringLiteral(" "));
+        identifier = cols.join(QLatin1String(" "));
 
-        if (identifier.contains(QStringLiteral("::"))) {
-            QStringList b = identifier.split( QStringLiteral("::"));
+        if (identifier.contains(QLatin1String("::"))) {
+            QStringList b = identifier.split( QLatin1String("::"));
             // TODO handle multiple '::'
             package = b.takeFirst();
-            method = b.join(QStringLiteral("::"));
+            method = b.join(QLatin1String("::"));
         }
         else {
             method = identifier;
@@ -142,8 +142,8 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
      * 13  ??                                                       0x7ffff41152d9
      * @endverbatim
      */
-    else if (cols[cols.size()-1].startsWith(QStringLiteral("0x"))) {
-        if (cols[0] == QStringLiteral("...") || cols[1] == QStringLiteral("??"))
+    else if (cols[cols.size()-1].startsWith(QLatin1String("0x"))) {
+        if (cols[0] == QLatin1String("...") || cols[1] == QLatin1String("??"))
             return false;
 
         sequence = cols.takeFirst();
@@ -152,17 +152,17 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
         QString line, file;
         if (cols.size() == 2) {
             module = cols.takeLast();
-            identifier = cols.join(QStringLiteral(" "));
+            identifier = cols.join(QLatin1String(" "));
         } else if (cols.size() > 2) {
             line = cols.takeLast();
             file = cols.takeLast();
-            identifier = cols.join(QStringLiteral(" "));
+            identifier = cols.join(QLatin1String(" "));
         }
 
-        if (identifier.contains(QStringLiteral("::"))) {
-            QStringList b = identifier.split( QStringLiteral("::"));
+        if (identifier.contains(QLatin1String("::"))) {
+            QStringList b = identifier.split( QLatin1String("::"));
             method = b.takeLast();
-            package = b.join(QStringLiteral("::"));
+            package = b.join(QLatin1String("::"));
         }
         else {
             method = identifier;
@@ -172,17 +172,17 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
         if (package.isEmpty() && !file.isEmpty())
             package = file;
 
-        if (!method.endsWith(QStringLiteral(")")))
-            method.append(QStringLiteral("()"));
+        if (!method.endsWith(QLatin1String(")")))
+            method.append(QLatin1String("()"));
 
         return true;
-    } else if (cols[cols.size()-1].contains(QStringLiteral("::"))) {
-       QStringList b = s.split( QStringLiteral("::"));
+    } else if (cols[cols.size()-1].contains(QLatin1String("::"))) {
+       QStringList b = s.split( QLatin1String("::"));
        method = b.takeLast();
-       package = b.join(QStringLiteral("::"));
+       package = b.join(QLatin1String("::"));
        return true;
     }
-    error = QStringLiteral("unsupported line format");
+    error = QLatin1String("unsupported line format");
     return false;
 }
 
@@ -202,7 +202,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &f
 
     // create "client widget"
     UMLDoc *umldoc = UMLApp::app()->document();
-    QString name(QStringLiteral("client"));
+    QString name(QLatin1String("client"));
     UMLObject *left = umldoc->findUMLObject(name, UMLObject::ot_Class);
     if (!left ) {
         left = new UMLObject(0, name);
@@ -249,7 +249,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &f
             createObject = true;
 
         if (package.isEmpty())
-            package = QStringLiteral("unknown");
+            package = QLatin1String("unknown");
 
         // get or create right object widget
         if (objectsMap.contains(package)) {
@@ -322,15 +322,15 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
 
     UMLWidget *lastWidget = 0;
     UMLClassifier *c = 0;
-    QString methodIdentifier(QStringLiteral("()"));
+    QString methodIdentifier(QLatin1String("()"));
     QMap<QString, QPointer<UMLWidget>> widgetList;
     int lineNumber = 0;
     // for each line
     foreach(const QString &line, lines) {
         lineNumber++;
-        if (line.trimmed().isEmpty() || line.startsWith(QLatin1Char('#')) || line.startsWith(QStringLiteral("//")))
+        if (line.trimmed().isEmpty() || line.startsWith(QLatin1Char('#')) || line.startsWith(QLatin1String("//")))
             continue;
-        QStringList l = line.split(QStringLiteral(" "));
+        QStringList l = line.split(QLatin1String(" "));
         if (l.size() == 1) {
             UMLObject *o = umldoc->findUMLObject(l[0], UMLObject::ot_Class);
             if (!o)
@@ -356,17 +356,17 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
             Uml::AssociationType::Enum type = Uml::AssociationType::Unknown;
             UMLAssociation *assoc = 0;
             bool newAssoc = false;
-            if (l[1] == QStringLiteral("---")) {
+            if (l[1] == QLatin1String("---")) {
                 type = Uml::AssociationType::Association;
-            } else if (l[1] == QStringLiteral("-->")) {
+            } else if (l[1] == QLatin1String("-->")) {
                 type = Uml::AssociationType::UniAssociation;
-            } else if (l[1] == QStringLiteral("-<>")) {
+            } else if (l[1] == QLatin1String("-<>")) {
                 type = Uml::AssociationType::Aggregation;
                 swapObjects = true;
-            } else if (l[1] == QStringLiteral("--*")) {
+            } else if (l[1] == QLatin1String("--*")) {
                 type = Uml::AssociationType::Composition;
                 swapObjects = true;
-            } else if (l[1] == QStringLiteral("-|>")) {
+            } else if (l[1] == QLatin1String("-|>")) {
                 type = Uml::AssociationType::Generalization;
             }
             QPointer<UMLWidget> w1 = 0;
@@ -412,7 +412,7 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
                 // in case of error, assoc remains nullptr
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(lineNumber)
-                        .arg(1).arg(line).arg(QStringLiteral("error:could not add association"));
+                        .arg(1).arg(line).arg(QLatin1String("error:could not add association"));
                 UMLApp::app()->log(item);
             }
         } else if (l[0].isEmpty() && c && l.size() == 2) {
@@ -420,9 +420,9 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
             if (name.contains(methodIdentifier)) {
                 name.remove(methodIdentifier);
                 UMLOperation *m = Import_Utils::makeOperation(c, name);
-                Import_Utils::insertMethod(c, m, Uml::Visibility::Public, QStringLiteral("void"), false, false);
+                Import_Utils::insertMethod(c, m, Uml::Visibility::Public, QLatin1String("void"), false, false);
             } else {
-                Import_Utils::insertAttribute(c, Uml::Visibility::Public, name, QStringLiteral("int"));
+                Import_Utils::insertAttribute(c, Uml::Visibility::Public, name, QLatin1String("int"));
             }
         } else if (l[0].isEmpty() && c && l.size() >= 3) {
             QString name = l.takeLast();
@@ -433,7 +433,7 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
                 visibility = Uml::Visibility::Public;
             else
                 l.takeFirst();
-            QString type = l.join(QStringLiteral(" "));
+            QString type = l.join(QLatin1String(" "));
             if (name.contains(methodIdentifier)) {
                 name.remove(methodIdentifier);
                 UMLOperation *m = Import_Utils::makeOperation(c, name);
@@ -444,7 +444,7 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
         } else {
             QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                     .arg(fileName).arg(lineNumber)
-                    .arg(1).arg(line).arg(QStringLiteral("syntax error"));
+                    .arg(1).arg(line).arg(QLatin1String("syntax error"));
             UMLApp::app()->log(item);
         }
     }
@@ -461,7 +461,7 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
  */
 bool importGraph(const QMimeData* mimeData, UMLScene *scene)
 {
-    QString requestedFormat = QStringLiteral("text/plain");
+    QString requestedFormat = QLatin1String("text/plain");
     if (!mimeData->hasFormat(requestedFormat))
         return false;
 
@@ -470,7 +470,7 @@ bool importGraph(const QMimeData* mimeData, UMLScene *scene)
         return false;
     }
     QString data = QString::fromUtf8(payload);
-    QStringList lines = data.split(QStringLiteral("\n"));
+    QStringList lines = data.split(QLatin1String("\n"));
 
     UMLDoc *doc = UMLApp::app()->document();
     doc->beginPaste();

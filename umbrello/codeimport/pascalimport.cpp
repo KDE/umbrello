@@ -10,7 +10,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "datatype.h"
-#define DBG_SRC QStringLiteral("PascalImport")
+#define DBG_SRC QLatin1String("PascalImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -29,10 +29,10 @@ DEBUG_REGISTER(PascalImport)
 /**
  * Constructor.
  */
-PascalImport::PascalImport(CodeImpThread* thread) : NativeImportBase(QStringLiteral("//"), thread)
+PascalImport::PascalImport(CodeImpThread* thread) : NativeImportBase(QLatin1String("//"), thread)
 {
-    setMultiLineComment(QStringLiteral("(*"), QStringLiteral("*)"));
-    setMultiLineAltComment(QStringLiteral("{"), QStringLiteral("}"));
+    setMultiLineComment(QLatin1String("(*"), QLatin1String("*)"));
+    setMultiLineAltComment(QLatin1String("{"), QLatin1String("}"));
     initVars();
 }
 
@@ -82,7 +82,7 @@ void PascalImport::fillSource(const QString& word)
                 lexeme.clear();
             }
             if (i+1 < len && c == QLatin1Char(':') && word[i + 1] == QLatin1Char('=')) {
-                m_source.append(QStringLiteral(":="));
+                m_source.append(QLatin1String(":="));
                 i++;
             } else {
                 m_source.append(QString(c));
@@ -104,16 +104,16 @@ void PascalImport::checkModifiers(bool& isVirtual, bool& isAbstract)
     const int srcLength = m_source.count();
     while (m_srcIndex < srcLength - 1) {
         QString lookAhead = m_source[m_srcIndex + 1].toLower();
-        if (lookAhead != QStringLiteral("virtual") && lookAhead != QStringLiteral("abstract") &&
-            lookAhead != QStringLiteral("override") &&
-            lookAhead != QStringLiteral("register") && lookAhead != QStringLiteral("cdecl") &&
-            lookAhead != QStringLiteral("pascal") && lookAhead != QStringLiteral("stdcall") &&
-            lookAhead != QStringLiteral("safecall") && lookAhead != QStringLiteral("saveregisters") &&
-            lookAhead != QStringLiteral("popstack"))
+        if (lookAhead != QLatin1String("virtual") && lookAhead != QLatin1String("abstract") &&
+            lookAhead != QLatin1String("override") &&
+            lookAhead != QLatin1String("register") && lookAhead != QLatin1String("cdecl") &&
+            lookAhead != QLatin1String("pascal") && lookAhead != QLatin1String("stdcall") &&
+            lookAhead != QLatin1String("safecall") && lookAhead != QLatin1String("saveregisters") &&
+            lookAhead != QLatin1String("popstack"))
             break;
-        if (lookAhead == QStringLiteral("abstract"))
+        if (lookAhead == QLatin1String("abstract"))
             isAbstract = true;
-        else if (lookAhead == QStringLiteral("virtual"))
+        else if (lookAhead == QLatin1String("virtual"))
             isVirtual = true;
         advance();
         skipStmt();
@@ -128,24 +128,24 @@ bool PascalImport::parseStmt()
 {
     const int srcLength = m_source.count();
     QString token   = m_source[m_srcIndex];
-    QString nextTok = (m_srcIndex < srcLength-1 ? m_source[m_srcIndex + 1] : QStringLiteral("!END!"));
+    QString nextTok = (m_srcIndex < srcLength-1 ? m_source[m_srcIndex + 1] : QLatin1String("!END!"));
     QString keyword = token.toLower();
     logDebug3("PascalImport::parseStmt : %1 (%2) index %3", token, nextTok, m_srcIndex);
-    if (keyword == QStringLiteral("uses")) {
+    if (keyword == QLatin1String("uses")) {
         while (m_srcIndex < srcLength - 1) {
             QString unit = advance();
             const QString& prefix = unit.toLower();
-            if (prefix == QStringLiteral("sysutils") || prefix == QStringLiteral("types") || prefix == QStringLiteral("classes") ||
-                prefix == QStringLiteral("graphics") || prefix == QStringLiteral("controls") || prefix == QStringLiteral("strings") ||
-                prefix == QStringLiteral("forms") || prefix == QStringLiteral("windows") || prefix == QStringLiteral("messages") ||
-                prefix == QStringLiteral("variants") || prefix == QStringLiteral("stdctrls") || prefix == QStringLiteral("extctrls") ||
-                prefix == QStringLiteral("activex") || prefix == QStringLiteral("comobj") || prefix == QStringLiteral("registry") ||
-                prefix == QStringLiteral("classes") || prefix == QStringLiteral("dialogs")) {
-                if (advance() != QStringLiteral(","))
+            if (prefix == QLatin1String("sysutils") || prefix == QLatin1String("types") || prefix == QLatin1String("classes") ||
+                prefix == QLatin1String("graphics") || prefix == QLatin1String("controls") || prefix == QLatin1String("strings") ||
+                prefix == QLatin1String("forms") || prefix == QLatin1String("windows") || prefix == QLatin1String("messages") ||
+                prefix == QLatin1String("variants") || prefix == QLatin1String("stdctrls") || prefix == QLatin1String("extctrls") ||
+                prefix == QLatin1String("activex") || prefix == QLatin1String("comobj") || prefix == QLatin1String("registry") ||
+                prefix == QLatin1String("classes") || prefix == QLatin1String("dialogs")) {
+                if (advance() != QLatin1String(","))
                     break;
                 continue;
             }
-            QString filename = unit + QStringLiteral(".pas");
+            QString filename = unit + QLatin1String(".pas");
             if (! m_parsedFiles.contains(unit)) {
                 // Save current m_source and m_srcIndex.
                 QStringList source(m_source);
@@ -159,13 +159,13 @@ bool PascalImport::parseStmt()
                 // CHECK: need to reset more stuff?
                 m_currentAccess = Uml::Visibility::Public;
             }
-            if (advance() != QStringLiteral(","))
+            if (advance() != QLatin1String(","))
                 break;
         }
         skipStmt();
         return true;
     }
-    if (keyword == QStringLiteral("unit")) {
+    if (keyword == QLatin1String("unit")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package, name,
                                                       currentScope(), m_comment);
@@ -173,11 +173,11 @@ bool PascalImport::parseStmt()
         skipStmt();
         return true;
     }
-    if (keyword == QStringLiteral("interface")) {
+    if (keyword == QLatin1String("interface")) {
         m_inInterface = true;
         return true;
     }
-    if (keyword == QStringLiteral("initialization") || keyword == QStringLiteral("implementation")) {
+    if (keyword == QLatin1String("initialization") || keyword == QLatin1String("implementation")) {
         m_inInterface = false;
         return true;
     }
@@ -185,48 +185,48 @@ bool PascalImport::parseStmt()
         // @todo parseStmt() should support a notion for "quit parsing, close file immediately"
         return false;
     }
-    if (keyword == QStringLiteral("label")) {
+    if (keyword == QLatin1String("label")) {
         m_section = sect_LABEL;
         return true;
     }
-    if (keyword == QStringLiteral("const")) {
+    if (keyword == QLatin1String("const")) {
         m_section = sect_CONST;
         return true;
     }
-    if (keyword == QStringLiteral("resourcestring")) {
+    if (keyword == QLatin1String("resourcestring")) {
         m_section = sect_RESOURCESTRING;
         return true;
     }
-    if (keyword == QStringLiteral("type")) {
+    if (keyword == QLatin1String("type")) {
         m_section = sect_TYPE;
         return true;
     }
-    if (keyword == QStringLiteral("var")) {
+    if (keyword == QLatin1String("var")) {
         m_section = sect_VAR;
         return true;
     }
-    if (keyword == QStringLiteral("threadvar")) {
+    if (keyword == QLatin1String("threadvar")) {
         m_section = sect_THREADVAR;
         return true;
     }
-    if (keyword == QStringLiteral("automated") || keyword == QStringLiteral("published")  // no concept in UML
-     || keyword == QStringLiteral("public")) {
+    if (keyword == QLatin1String("automated") || keyword == QLatin1String("published")  // no concept in UML
+     || keyword == QLatin1String("public")) {
         m_currentAccess = Uml::Visibility::Public;
         return true;
     }
-    if (keyword == QStringLiteral("protected")) {
+    if (keyword == QLatin1String("protected")) {
         m_currentAccess = Uml::Visibility::Protected;
         return true;
     }
-    if (keyword == QStringLiteral("private")) {
+    if (keyword == QLatin1String("private")) {
         m_currentAccess = Uml::Visibility::Private;
         return true;
     }
-    if (keyword == QStringLiteral("packed")) {
+    if (keyword == QLatin1String("packed")) {
         return true;  // TBC: perhaps this could be stored in a TaggedValue
     }
-    if (keyword == QStringLiteral("[")) {
-        //skipStmt(QStringLiteral("]"));
+    if (keyword == QLatin1String("[")) {
+        //skipStmt(QLatin1String("]"));
         //  Not using skipStmt here because the closing bracket may be glued on to
         //  some other character(s), e.g. ']  (quote)
         // This is an imperfection in the token splitter.
@@ -237,7 +237,7 @@ bool PascalImport::parseStmt()
         }
         return true;
     }
-    if (keyword == QStringLiteral("end")) {
+    if (keyword == QLatin1String("end")) {
         if (m_klass) {
             m_klass = 0;
         } else if (scopeIndex()) {
@@ -250,8 +250,8 @@ bool PascalImport::parseStmt()
         skipStmt();
         return true;
     }
-    if (keyword == QStringLiteral("function") || keyword == QStringLiteral("procedure") ||
-        keyword == QStringLiteral("constructor") || keyword == QStringLiteral("destructor")) {
+    if (keyword == QLatin1String("function") || keyword == QLatin1String("procedure") ||
+        keyword == QLatin1String("constructor") || keyword == QLatin1String("destructor")) {
         if (m_klass == 0) {
             // Unlike a Pascal unit, a UML package does not support subprograms.
             // In order to map those, we would need to create a UML class with
@@ -264,18 +264,18 @@ bool PascalImport::parseStmt()
         }
         const QString& name = advance();
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
-        if (m_source[m_srcIndex + 1] == QStringLiteral("(")) {
+        if (m_source[m_srcIndex + 1] == QLatin1String("(")) {
             advance();
             const uint MAX_PARNAMES = 16;
-            while (m_srcIndex < srcLength && m_source[m_srcIndex] != QStringLiteral(")")) {
+            while (m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String(")")) {
                 QString nextToken = m_source[m_srcIndex + 1].toLower();
                 Uml::ParameterDirection::Enum dir = Uml::ParameterDirection::In;
-                if (nextToken == QStringLiteral("var")) {
+                if (nextToken == QLatin1String("var")) {
                     dir = Uml::ParameterDirection::InOut;
                     advance();
-                } else if (nextToken == QStringLiteral("const")) {
+                } else if (nextToken == QLatin1String("const")) {
                     advance();
-                } else if (nextToken == QStringLiteral("out")) {
+                } else if (nextToken == QLatin1String("out")) {
                     dir = Uml::ParameterDirection::Out;
                     advance();
                 }
@@ -287,16 +287,16 @@ bool PascalImport::parseStmt()
                         break;
                     }
                     parName[parNameCount++] = advance();
-                } while (advance() == QStringLiteral(","));
-                if (m_source[m_srcIndex] != QStringLiteral(":")) {
+                } while (advance() == QLatin1String(","));
+                if (m_source[m_srcIndex] != QLatin1String(":")) {
                     logError1("PascalImport::parseStmt: expecting ':' at %1", m_source[m_srcIndex]);
                     skipStmt();
                     break;
                 }
                 nextToken = advance();
-                if (nextToken.toLower() == QStringLiteral("array")) {
+                if (nextToken.toLower() == QLatin1String("array")) {
                     nextToken = advance().toLower();
-                    if (nextToken != QStringLiteral("of")) {
+                    if (nextToken != QLatin1String("of")) {
                         logError2("PascalImport::parseStmt(%1) : expecting 'array OF' at %2", name, nextToken);
                         skipStmt();
                         return false;
@@ -307,22 +307,22 @@ bool PascalImport::parseStmt()
                     UMLAttribute *att = Import_Utils::addMethodParameter(op, nextToken, parName[i]);
                     att->setParmKind(dir);
                 }
-                if (advance() != QStringLiteral(";"))
+                if (advance() != QLatin1String(";"))
                     break;
             }
         }
         bool isConstructor = false;
         bool isDestructor = false;
         QString returnType;
-        if (keyword == QStringLiteral("function")) {
-            if (advance() != QStringLiteral(":")) {
+        if (keyword == QLatin1String("function")) {
+            if (advance() != QLatin1String(":")) {
                 logError1("PascalImport::parseStmt: expecting \":\" at function %1", name);
                 return false;
             }
             returnType = advance();
-        } else if (keyword == QStringLiteral("constructor")) {
+        } else if (keyword == QLatin1String("constructor")) {
             isConstructor = true;
-        } else if (keyword == QStringLiteral("destructor")) {
+        } else if (keyword == QLatin1String("destructor")) {
             isDestructor = true;
         }
         skipStmt();
@@ -341,53 +341,53 @@ bool PascalImport::parseStmt()
     if (m_klass == 0) {
         const QString& name = m_source[m_srcIndex];
         QString nextToken = advance();
-        if (nextToken != QStringLiteral("=")) {
+        if (nextToken != QLatin1String("=")) {
             logDebug2("PascalImport::parseStmt %1: expecting '=' at %2", name, nextToken);
             return false;
         }
         QString rhsName = advance();
         keyword = rhsName.toLower();
-        if (keyword == QStringLiteral("(")) {
+        if (keyword == QLatin1String("(")) {
             // enum type
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                             name, currentScope(), m_comment);
             UMLEnum *enumType = ns->asUMLEnum();
             if (enumType == 0)
                 enumType = Import_Utils::remapUMLEnum(ns, currentScope());
-            while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QStringLiteral(")")) {
+            while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String(")")) {
                 if (enumType != 0)
                     Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
-                if (advance() != QStringLiteral(","))
+                if (advance() != QLatin1String(","))
                     break;
             }
             skipStmt();
             return true;
         }
-        if (keyword == QStringLiteral("set")) {  // @todo implement Pascal set types
+        if (keyword == QLatin1String("set")) {  // @todo implement Pascal set types
             skipStmt();
             return true;
         }
-        if (keyword == QStringLiteral("array")) {  // @todo implement Pascal array types
+        if (keyword == QLatin1String("array")) {  // @todo implement Pascal array types
             skipStmt();
             return true;
         }
-        if (keyword == QStringLiteral("file")) {  // @todo implement Pascal file types
+        if (keyword == QLatin1String("file")) {  // @todo implement Pascal file types
             skipStmt();
             return true;
         }
-        if (keyword == QStringLiteral("^")) {  // @todo implement Pascal pointer types
+        if (keyword == QLatin1String("^")) {  // @todo implement Pascal pointer types
             skipStmt();
             return true;
         }
-        if (keyword == QStringLiteral("class") || keyword == QStringLiteral("interface")) {
-            UMLObject::ObjectType t = (keyword == QStringLiteral("class") ? UMLObject::ot_Class
+        if (keyword == QLatin1String("class") || keyword == QLatin1String("interface")) {
+            UMLObject::ObjectType t = (keyword == QLatin1String("class") ? UMLObject::ot_Class
                                                                          : UMLObject::ot_Interface);
             UMLObject *ns = Import_Utils::createUMLObject(t, name,
                                                           currentScope(), m_comment);
             UMLClassifier *klass = ns->asUMLClassifier();
             m_comment.clear();
             QString lookAhead = m_source[m_srcIndex + 1];
-            if (lookAhead == QStringLiteral("(")) {
+            if (lookAhead == QLatin1String("(")) {
                 advance();
                 do {
                     QString base = advance();
@@ -395,18 +395,18 @@ bool PascalImport::parseStmt()
                     UMLClassifier *parent = ns->asUMLClassifier();
                     m_comment.clear();
                     Import_Utils::createGeneralization(klass, parent);
-                } while (advance() == QStringLiteral(","));
-                if (m_source[m_srcIndex] != QStringLiteral(")")) {
+                } while (advance() == QLatin1String(","));
+                if (m_source[m_srcIndex] != QLatin1String(")")) {
                     logError1("PascalImport::parseStmt: expecting \")\" at %1", m_source[m_srcIndex]);
                     return false;
                 }
                 lookAhead = m_source[m_srcIndex + 1];
             }
-            if (lookAhead == QStringLiteral(";")) {
+            if (lookAhead == QLatin1String(";")) {
                 skipStmt();
                 return true;
             }
-            if (lookAhead == QStringLiteral("of")) {
+            if (lookAhead == QLatin1String("of")) {
                 // @todo implement class-reference type
                 return false;
             }
@@ -414,17 +414,17 @@ bool PascalImport::parseStmt()
             m_currentAccess = Uml::Visibility::Public;
             return true;
         }
-        if (keyword == QStringLiteral("record")) {
+        if (keyword == QLatin1String("record")) {
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, name,
                                                           currentScope(), m_comment);
-            ns->setStereotype(QStringLiteral("record"));
+            ns->setStereotype(QLatin1String("record"));
             m_klass = ns->asUMLClassifier();
             return true;
         }
-        if (keyword == QStringLiteral("function") || keyword == QStringLiteral("procedure")) {
+        if (keyword == QLatin1String("function") || keyword == QLatin1String("procedure")) {
             /*UMLObject *ns =*/ Import_Utils::createUMLObject(UMLObject::ot_Datatype, name,
                                                           currentScope(), m_comment);
-            if (m_source[m_srcIndex + 1] == QStringLiteral("("))
+            if (m_source[m_srcIndex + 1] == QLatin1String("("))
                 skipToClosing(QLatin1Char('('));
             skipStmt();
             return true;
@@ -459,23 +459,23 @@ bool PascalImport::parseStmt()
         return true;
     }
     QString name, stereotype;
-    if (keyword == QStringLiteral("property")) {
+    if (keyword == QLatin1String("property")) {
         stereotype = keyword;
         name = advance();
     } else {
         name = m_source[m_srcIndex];
     }
-    if (advance() != QStringLiteral(":")) {
+    if (advance() != QLatin1String(":")) {
         logError2("PascalImport::parseStmt: expecting ':' at %1 %2", name, m_source[m_srcIndex]);
         skipStmt();
         return true;
     }
     QString typeName = advance();
     QString initialValue;
-    if (advance() == QStringLiteral("=")) {
+    if (advance() == QLatin1String("=")) {
         initialValue = advance();
         QString token;
-        while ((token = advance()) != QStringLiteral(";")) {
+        while ((token = advance()) != QLatin1String(";")) {
             initialValue.append(QLatin1Char(' ') + token);
         }
     }

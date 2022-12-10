@@ -25,9 +25,9 @@ DEBUG_REGISTER(JavaANTCodeDocument)
 
 JavaANTCodeDocument::JavaANTCodeDocument ()
 {
-    setFileName(QStringLiteral("build")); // default name
-    setFileExtension(QStringLiteral(".xml"));
-    setID(QStringLiteral("ANTDOC")); // default id tag for this type of document
+    setFileName(QLatin1String("build")); // default name
+    setFileExtension(QLatin1String(".xml"));
+    setID(QLatin1String("ANTDOC")); // default id tag for this type of document
 }
 
 JavaANTCodeDocument::~JavaANTCodeDocument ()
@@ -47,7 +47,7 @@ CodeBlockWithComments * JavaANTCodeDocument::newCodeBlockWithComments ()
 
 HierarchicalCodeBlock * JavaANTCodeDocument::newHierarchicalCodeBlock ()
 {
-    return new XMLElementCodeBlock(this, QStringLiteral("empty"));
+    return new XMLElementCodeBlock(this, QLatin1String("empty"));
 }
 
 // Sigh. NOT optimal. The only reason that we need to have this
@@ -62,7 +62,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
     while (!telement.isNull()) {
         QString nodeName = telement.tagName();
 
-        if (nodeName == QStringLiteral("textblocks")) {
+        if (nodeName == QLatin1String("textblocks")) {
 
             QDomNode node = telement.firstChild();
             QDomElement element = node.toElement();
@@ -73,7 +73,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
             while (!element.isNull()) {
                 QString name = element.tagName();
 
-                if (name == QStringLiteral("codecomment")) {
+                if (name == QLatin1String("codecomment")) {
                     CodeComment * block = new XMLCodeComment(this);
                     block->loadFromXMI(element);
                     if (!addTextBlock(block))
@@ -82,9 +82,9 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                         delete block;
                     } else
                         loadCheckForChildrenOK= true;
-                } else if (name == QStringLiteral("codeaccessormethod") ||
-                           name == QStringLiteral("ccfdeclarationcodeblock")) {
-                    QString acctag = element.attribute(QStringLiteral("tag"));
+                } else if (name == QLatin1String("codeaccessormethod") ||
+                           name == QLatin1String("ccfdeclarationcodeblock")) {
+                    QString acctag = element.attribute(QLatin1String("tag"));
                     // search for our method in the
                     TextBlock * tb = findCodeClassFieldTextBlockByTag(acctag);
                     if (!tb || !addTextBlock(tb)) {
@@ -93,7 +93,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("codeblock")) {
+                } else if (name == QLatin1String("codeblock")) {
                     CodeBlock * block = newCodeBlock();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -102,7 +102,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("codeblockwithcomments")) {
+                } else if (name == QLatin1String("codeblockwithcomments")) {
                     CodeBlockWithComments * block = newCodeBlockWithComments();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -111,9 +111,9 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("header")) {
+                } else if (name == QLatin1String("header")) {
                     // do nothing.. this is treated elsewhere
-                } else if (name == QStringLiteral("hierarchicalcodeblock")) {
+                } else if (name == QLatin1String("hierarchicalcodeblock")) {
                     HierarchicalCodeBlock * block = newHierarchicalCodeBlock();
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -122,9 +122,9 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     } else {
                         loadCheckForChildrenOK= true;
                     }
-                } else if (name == QStringLiteral("codeoperation")) {
+                } else if (name == QLatin1String("codeoperation")) {
                     // find the code operation by id
-                    QString id = element.attribute(QStringLiteral("parent_id"),QStringLiteral("-1"));
+                    QString id = element.attribute(QLatin1String("parent_id"),QLatin1String("-1"));
                     UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
                     const UMLOperation * op = obj->asUMLOperation();
                     if (op) {
@@ -141,8 +141,8 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     } else {
                         logError0("JavaANTCodeDocument: Unable to find operation create codeoperation");
                     }
-                } else if (name == QStringLiteral("xmlelementblock")) {
-                    QString xmltag = element.attribute(QStringLiteral("nodeName"),QStringLiteral("UNKNOWN"));
+                } else if (name == QLatin1String("xmlelementblock")) {
+                    QString xmltag = element.attribute(QLatin1String("nodeName"),QLatin1String("UNKNOWN"));
                     XMLElementCodeBlock * block = new XMLElementCodeBlock(this, xmltag);
                     block->loadFromXMI(element);
                     if (!addTextBlock(block)) {
@@ -210,7 +210,7 @@ void JavaANTCodeDocument::setAttributesOnNode (QXmlStreamWriter& writer)
  */
 void JavaANTCodeDocument::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("codedocument"));
+    writer.writeStartElement(QLatin1String("codedocument"));
 
     setAttributesOnNode(writer);
 
@@ -223,12 +223,12 @@ void JavaANTCodeDocument::updateContent()
 {
     // FIX : fill in more content based on classes
     // which exist
-    CodeBlockWithComments * xmlDecl = getCodeBlockWithComments(QStringLiteral("xmlDecl"), QString(), 0);
-    xmlDecl->setText(QStringLiteral("<?xml version=\"1.0\"?>"));
+    CodeBlockWithComments * xmlDecl = getCodeBlockWithComments(QLatin1String("xmlDecl"), QString(), 0);
+    xmlDecl->setText(QLatin1String("<?xml version=\"1.0\"?>"));
     addTextBlock(xmlDecl);
 
-    XMLElementCodeBlock * rootNode = new XMLElementCodeBlock(this, QStringLiteral("project"), QStringLiteral("Java ANT build document"));
-    rootNode->setTag(QStringLiteral("projectDecl"));
+    XMLElementCodeBlock * rootNode = new XMLElementCodeBlock(this, QLatin1String("project"), QLatin1String("Java ANT build document"));
+    rootNode->setTag(QLatin1String("projectDecl"));
     addTextBlock(rootNode);
 
     // <project name="XDF" default="help" basedir=".">
@@ -260,10 +260,10 @@ QString JavaANTCodeDocument::getPath () const
     path = path.simplified();
 
     // Replace all blanks with underscore
-    path.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    path.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
-    path.replace(QRegExp(QStringLiteral("\\.")),QStringLiteral("/"));
-    path.replace(QRegExp(QStringLiteral("::")), QStringLiteral("/"));
+    path.replace(QRegExp(QLatin1String("\\.")),QLatin1String("/"));
+    path.replace(QRegExp(QLatin1String("::")), QLatin1String("/"));
 
     path = path.toLower();
 

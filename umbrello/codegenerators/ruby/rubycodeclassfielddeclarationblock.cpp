@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "rubycodeclassfielddeclarationblock.h"
@@ -46,7 +46,7 @@ void RubyCodeClassFieldDeclarationBlock::updateContent()
     getComment()->setText(notes);
 
     // Set the body
-    QString staticValue = getParentObject()->isStatic() ? QStringLiteral("static ") : QString();
+    QString staticValue = getParentObject()->isStatic() ? QLatin1String("static ") : QString();
     QString scopeStr = Uml::Visibility::toString(getParentObject()->visibility());
 
     // IF this is from an association, then scope taken as appropriate to policy
@@ -70,11 +70,11 @@ void RubyCodeClassFieldDeclarationBlock::updateContent()
     QString initialV = rcf->getInitialValue();
 
     if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
-        typeName = QStringLiteral("Array");
+        typeName = QLatin1String("Array");
 
     QString body = staticValue + scopeStr + QLatin1Char(' ') + typeName + QLatin1Char(' ') + fieldName;
     if (!initialV.isEmpty())
-        body.append(QStringLiteral(" = ") + initialV);
+        body.append(QLatin1String(" = ") + initialV);
     else if (!cf->parentIsAttribute())
     {
         const UMLRole * role = cf->getParentObject()->asUMLRole();
@@ -88,9 +88,9 @@ void RubyCodeClassFieldDeclarationBlock::updateContent()
             if (cf->fieldIsSingleValue())
             {
                 if (!typeName.isEmpty())
-                    body.append(QStringLiteral(" = ") + typeName + QStringLiteral(".new()"));
+                    body.append(QLatin1String(" = ") + typeName + QLatin1String(".new()"));
             } else
-                body.append(QStringLiteral(" = []"));
+                body.append(QLatin1String(" = []"));
         }
     }
 

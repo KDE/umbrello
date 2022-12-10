@@ -116,8 +116,8 @@ void AssociationWidgetRole::saveToXMI(QXmlStreamWriter& writer)
 
 bool AssociationWidgetRole::loadFromXMI(QDomElement &qElement, const QString &suffix)
 {
-    QString index = qElement.attribute(QString(QStringLiteral("index%1")).arg(suffix), QStringLiteral("0"));
-    QString totalcount = qElement.attribute(QString(QStringLiteral("totalcount%1")).arg(suffix), QStringLiteral("0"));
+    QString index = qElement.attribute(QString(QLatin1String("index%1")).arg(suffix), QLatin1String("0"));
+    QString totalcount = qElement.attribute(QString(QLatin1String("totalcount%1")).arg(suffix), QLatin1String("0"));
     m_nIndex = index.toInt();
     m_nTotalCount = totalcount.toInt();
     // for remaining see AssociationWidget::loadFromXMI

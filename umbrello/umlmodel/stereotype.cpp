@@ -127,19 +127,19 @@ UMLStereotype::AttributeDefs& UMLStereotype::getAttributeDefs()
 void UMLStereotype::saveToXMI(QXmlStreamWriter& writer)
 {
     //FIXME: uml13.dtd compliance
-    UMLObject::save1(writer, QStringLiteral("Stereotype"));
+    UMLObject::save1(writer, QLatin1String("Stereotype"));
     if (!m_attrDefs.isEmpty()) {
         if (! Settings::optionState().generalState.uml2) {
-            writer.writeStartElement(QStringLiteral("UML:Stereotype.feature"));
+            writer.writeStartElement(QLatin1String("UML:Stereotype.feature"));
         }
         foreach (AttributeDef ad, m_attrDefs) {
             const QString tag = (Settings::optionState().generalState.uml2 ?
-                                 QStringLiteral("ownedAttribute") : QStringLiteral("UML:Attribute"));
+                                 QLatin1String("ownedAttribute") : QLatin1String("UML:Attribute"));
             writer.writeStartElement(tag);
-            writer.writeAttribute(QStringLiteral("name"), ad.name);
-            writer.writeAttribute(QStringLiteral("type"), Uml::PrimitiveTypes::toString(ad.type));
+            writer.writeAttribute(QLatin1String("name"), ad.name);
+            writer.writeAttribute(QLatin1String("type"), Uml::PrimitiveTypes::toString(ad.type));
             if (!ad.defaultVal.isEmpty())
-                writer.writeAttribute(QStringLiteral("initialValue"), ad.defaultVal);
+                writer.writeAttribute(QLatin1String("initialValue"), ad.defaultVal);
             writer.writeEndElement();            // UML:Attribute
         }
         if (! Settings::optionState().generalState.uml2) {
@@ -163,16 +163,16 @@ bool UMLStereotype::load1(QDomElement& element)
             continue;
         element = node.toElement();
         QString tag = element.tagName();
-        if (UMLDoc::tagEq(tag, QStringLiteral("Stereotype.feature"))) {
+        if (UMLDoc::tagEq(tag, QLatin1String("Stereotype.feature"))) {
             QDomNode attNode = element.firstChild();
             QDomElement attElem = attNode.toElement();
             while (!attElem.isNull()) {
                 tag = attElem.tagName();
-                if (UMLDoc::tagEq(tag, QStringLiteral("Attribute"))) {
-                    QString name = attElem.attribute(QStringLiteral("name"));
-                    QString typeStr = attElem.attribute(QStringLiteral("type"));
+                if (UMLDoc::tagEq(tag, QLatin1String("Attribute"))) {
+                    QString name = attElem.attribute(QLatin1String("name"));
+                    QString typeStr = attElem.attribute(QLatin1String("type"));
                     Uml::PrimitiveTypes::Enum type = Uml::PrimitiveTypes::fromString(typeStr);
-                    QString dfltVal = attElem.attribute(QStringLiteral("initialValue"));
+                    QString dfltVal = attElem.attribute(QLatin1String("initialValue"));
                     AttributeDef ad(name, type, dfltVal);
                     m_attrDefs.append(ad);
                 } else {

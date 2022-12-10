@@ -195,21 +195,21 @@ void CodeGenStatusPage::classGenerated(UMLClassifier* classifier, CodeGenerator:
  */
 void CodeGenStatusPage::showFileGenerated(const QString& filename)
 {
-    ui_textEditLogger->insertHtml(QStringLiteral("<b>") + filename + QStringLiteral(":</b><br>"));
+    ui_textEditLogger->insertHtml(QLatin1String("<b>") + filename + QLatin1String(":</b><br>"));
 
     QFile file(filename);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&file);
         while (!in.atEnd()) {
             QString line = in.readLine();
-            ui_textEditLogger->insertHtml(line + QStringLiteral("<br>"));
+            ui_textEditLogger->insertHtml(line + QLatin1String("<br>"));
         }
         file.close();
     }
     else {
-        ui_textEditLogger->insertHtml(i18n("Cannot open file!") + QStringLiteral("<br>"));
+        ui_textEditLogger->insertHtml(i18n("Cannot open file!") + QLatin1String("<br>"));
     }
-    ui_textEditLogger->insertHtml(QStringLiteral("<br><HR><br>"));
+    ui_textEditLogger->insertHtml(QLatin1String("<br><HR><br>"));
 }
 
 /**
@@ -229,7 +229,7 @@ void CodeGenStatusPage::loggerExport()
 {
     const QString caption = i18n("Umbrello Code Generation - Logger Export");
 #if QT_VERSION >= 0x050000
-    QString fileName = QFileDialog::getSaveFileName(this, caption, QStringLiteral("UmbrelloCodeGenerationLogger.html"));
+    QString fileName = QFileDialog::getSaveFileName(this, caption, QLatin1String("UmbrelloCodeGenerationLogger.html"));
 #else
     QString fileName = KFileDialog::getSaveFileName(KUrl(), QString(), 0, caption);
 #endif

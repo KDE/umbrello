@@ -29,7 +29,7 @@ DEBUG_REGISTER(StereotypesWindow)
 StereotypesWindow::StereotypesWindow(const QString &title, QWidget *parent)
   : QDockWidget(title, parent)
 {
-    setObjectName(QStringLiteral("StereotypesWindow"));
+    setObjectName(QLatin1String("StereotypesWindow"));
 
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel;
     proxy->setSourceModel(UMLApp::app()->document()->stereotypesModel());

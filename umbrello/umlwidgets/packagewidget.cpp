@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -72,7 +72,7 @@ void PackageWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 
     painter->drawRect(0, 0, 50, fontHeight);
     if (m_umlObject != 0
-         && m_umlObject->stereotype() == QStringLiteral("subsystem")) {
+         && m_umlObject->stereotype() == QLatin1String("subsystem")) {
 
         const int fHalf = fontHeight / 2;
         const int symY = fHalf;
@@ -140,7 +140,7 @@ QSizeF PackageWidget::minimumSize() const
  */
 void PackageWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("packagewidget"));
+    writer.writeStartElement(QLatin1String("packagewidget"));
     UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }

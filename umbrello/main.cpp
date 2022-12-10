@@ -4,7 +4,7 @@
 */
 
 // app includes
-#define DBG_SRC QStringLiteral("main")
+#define DBG_SRC QLatin1String("main")
 #include "debug_utils.h"
 #include "uml.h"
 #include "version.h"
@@ -263,9 +263,9 @@ int main(int argc, char *argv[])
             value = parsedArgs->value("set-language");
 #endif
             // special cases: C++, C#
-            if (value == QStringLiteral("C++")) {
+            if (value == QLatin1String("C++")) {
                 lang = Uml::ProgrammingLanguage::Cpp;
-            } else if (value == QStringLiteral("C#")) {
+            } else if (value == QLatin1String("C#")) {
                 lang = Uml::ProgrammingLanguage::CSharp;
             } else {
                 value = value.toLower();

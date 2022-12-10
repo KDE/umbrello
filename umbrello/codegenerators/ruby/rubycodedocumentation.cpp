@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -27,7 +27,7 @@ RubyCodeDocumentation::~RubyCodeDocumentation()
 
 void RubyCodeDocumentation::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("rubycodedocumentation"));
+    writer.writeStartElement(QLatin1String("rubycodedocumentation"));
     setAttributesOnNode(writer); // as we added no additional fields to this class we may
     // just use parent TextBlock method
     writer.writeEndElement();
@@ -53,11 +53,11 @@ QString RubyCodeDocumentation::toString() const
         if (useHashOutput)
         {
             if (!body.isEmpty())
-                output.append(formatMultiLineText (body, indent + QStringLiteral("# "), endLine));
+                output.append(formatMultiLineText (body, indent + QLatin1String("# "), endLine));
         } else {
-            output.append(QStringLiteral("=begin rdoc") + endLine);
+            output.append(QLatin1String("=begin rdoc") + endLine);
             output.append(formatMultiLineText (body, indent + QLatin1Char(' '), endLine));
-            output.append(QStringLiteral("=end") + endLine);
+            output.append(QLatin1String("=end") + endLine);
         }
     }
 
@@ -70,7 +70,7 @@ QString RubyCodeDocumentation::getNewEditorLine(int amount)
     if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
         return getIndentationString(amount) + QLatin1Char(' ');
     else
-        return getIndentationString(amount) + QStringLiteral("# ");
+        return getIndentationString(amount) + QLatin1String("# ");
 }
 
 int RubyCodeDocumentation::firstEditableLine()
@@ -99,10 +99,10 @@ QString RubyCodeDocumentation::unformatText(const QString & text, const QString 
     mytext.remove(QRegExp(QLatin1Char('^') + indent));
     if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
-        mytext.remove(QRegExp(QStringLiteral("^=begin\\s*(rdoc)?\\s*\n?")));
-        mytext.remove(QRegExp(QStringLiteral("^=end\\s*\n?$")));
+        mytext.remove(QRegExp(QLatin1String("^=begin\\s*(rdoc)?\\s*\n?")));
+        mytext.remove(QRegExp(QLatin1String("^=end\\s*\n?$")));
     } else
-        mytext.remove(QRegExp(QStringLiteral("^#\\s*")));
+        mytext.remove(QRegExp(QLatin1String("^#\\s*")));
 
     return mytext;
 }

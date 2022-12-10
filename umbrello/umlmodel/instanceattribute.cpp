@@ -96,7 +96,7 @@ QString UMLInstanceAttribute::getValue() const
  */
 QString UMLInstanceAttribute::toString() const
 {
-    QString result(m_pSecondary->name() + QStringLiteral(" = ") + m_value);
+    QString result(m_pSecondary->name() + QLatin1String(" = ") + m_value);
     return result;
 }
 
@@ -105,15 +105,15 @@ QString UMLInstanceAttribute::toString() const
  */
 void UMLInstanceAttribute::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("slot"));
+    writer.writeStartElement(QLatin1String("slot"));
     if (Settings::optionState().generalState.uml2) {
-        writer.writeAttribute(QStringLiteral("xmi:id"), Uml::ID::toString(m_nId));
+        writer.writeAttribute(QLatin1String("xmi:id"), Uml::ID::toString(m_nId));
     } else {
-        writer.writeAttribute(QStringLiteral("xmi.id"), Uml::ID::toString(m_nId));
+        writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_nId));
     }
     Q_ASSERT(m_pSecondary);
-    writer.writeAttribute(QStringLiteral("attribute"), Uml::ID::toString(m_pSecondary->id()));
-    writer.writeAttribute(QStringLiteral("value"), m_value);
+    writer.writeAttribute(QLatin1String("attribute"), Uml::ID::toString(m_pSecondary->id()));
+    writer.writeAttribute(QLatin1String("value"), m_value);
     writer.writeEndElement();
 }
 
@@ -123,14 +123,14 @@ void UMLInstanceAttribute::saveToXMI(QXmlStreamWriter& writer)
 bool UMLInstanceAttribute::load1(QDomElement & element)
 {
     QString id = Model_Utils::getXmiId(element);
-    if (id.isEmpty() || id == QStringLiteral("-1")) {
+    if (id.isEmpty() || id == QLatin1String("-1")) {
         logWarn0("UMLInstanceAttribute::load1: xmi.id not present, generating a new one");
         m_nId = UniqueID::gen();
     } else {
         m_nId = Uml::ID::fromString(id);
     }
-    m_SecondaryId = element.attribute(QStringLiteral("attribute"));
-    if (m_SecondaryId.isEmpty() || m_SecondaryId == QStringLiteral("-1")) {
+    m_SecondaryId = element.attribute(QLatin1String("attribute"));
+    if (m_SecondaryId.isEmpty() || m_SecondaryId == QLatin1String("-1")) {
         logError0("UMLInstanceAttribute::load1: element 'attribute' not set or empty");
         return false;
     }
@@ -138,7 +138,7 @@ bool UMLInstanceAttribute::load1(QDomElement & element)
     m_pSecondary = pDoc->findObjectById(Uml::ID::fromString(m_SecondaryId));
     if (m_pSecondary)
         m_SecondaryId.clear();
-    m_value = element.attribute(QStringLiteral("value"));
+    m_value = element.attribute(QLatin1String("value"));
     return true;
 }
 

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2002-2020 Luis De la Parra <luis@delaparra.org>
-    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -16,7 +16,7 @@ CodeViewerOptionsPage::CodeViewerOptionsPage(Settings::CodeViewerState options, 
   : DialogPageBase(parent),
     m_options(options)
 {
-    setObjectName(QStringLiteral(name));
+    setObjectName(QLatin1String(name));
     setupUi(this);
 
     // set widget stuff

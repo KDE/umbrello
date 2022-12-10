@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -94,7 +94,7 @@ bool RubyCodeGenerator::getAutoGenerateAssocAccessors()
  */
 QString RubyCodeGenerator::getListFieldClassName()
 {
-    return QString(QStringLiteral("Array"));
+    return QString(QLatin1String("Array"));
 }
 
 /**
@@ -106,17 +106,17 @@ QString RubyCodeGenerator::getListFieldClassName()
 QString RubyCodeGenerator::cppToRubyType(const QString &cppType)
 {
     QString type = cleanName(cppType);
-    type.remove(QStringLiteral("const "));
-    type.remove(QRegExp(QStringLiteral("[*&\\s]")));
-    type.replace(QRegExp(QStringLiteral("[<>]")), QStringLiteral("_"));
-    type.replace(QStringLiteral("QStringList"), QStringLiteral("Array"));
-    type.replace(QRegExp(QStringLiteral("^string$")),QStringLiteral("String"));
-    type.replace(QStringLiteral("QString"), QStringLiteral("String"));
-    type.replace(QStringLiteral("bool"), QStringLiteral("true|false"));
-    type.replace(QRegExp(QStringLiteral("^(uint|int|ushort|short|ulong|long)$")), QStringLiteral("Integer"));
-    type.replace(QRegExp(QStringLiteral("^(float|double)$")), QStringLiteral("Float"));
-    type.replace(QRegExp(QStringLiteral("^Q(?=[A-Z])")), QStringLiteral("Qt::"));
-    type.replace(QRegExp(QStringLiteral("^K(?!(DE|Parts|IO)")), QStringLiteral("KDE::"));
+    type.remove(QLatin1String("const "));
+    type.remove(QRegExp(QLatin1String("[*&\\s]")));
+    type.replace(QRegExp(QLatin1String("[<>]")), QLatin1String("_"));
+    type.replace(QLatin1String("QStringList"), QLatin1String("Array"));
+    type.replace(QRegExp(QLatin1String("^string$")),QLatin1String("String"));
+    type.replace(QLatin1String("QString"), QLatin1String("String"));
+    type.replace(QLatin1String("bool"), QLatin1String("true|false"));
+    type.replace(QRegExp(QLatin1String("^(uint|int|ushort|short|ulong|long)$")), QLatin1String("Integer"));
+    type.replace(QRegExp(QLatin1String("^(float|double)$")), QLatin1String("Float"));
+    type.replace(QRegExp(QLatin1String("^Q(?=[A-Z])")), QLatin1String("Qt::"));
+    type.replace(QRegExp(QLatin1String("^K(?!(DE|Parts|IO)")), QLatin1String("KDE::"));
 
     return type;
 }
@@ -130,8 +130,8 @@ QString RubyCodeGenerator::cppToRubyType(const QString &cppType)
 QString RubyCodeGenerator::cppToRubyName(const QString &cppName)
 {
     QString name = cleanName(cppName);
-    name.remove(QRegExp(QStringLiteral("^m_")));
-    name.remove(QRegExp(QStringLiteral("^[pbn](?=[A-Z])")));
+    name.remove(QRegExp(QLatin1String("^m_")));
+    name.remove(QRegExp(QLatin1String("^[pbn](?=[A-Z])")));
     name = name.mid(0, 1).toLower() + name.mid(1);
     return name;
 }
@@ -158,46 +158,46 @@ QStringList RubyCodeGenerator::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         keywords
-          << QStringLiteral("__FILE__")
-          << QStringLiteral("__LINE__")
-          << QStringLiteral("BEGIN")
-          << QStringLiteral("END")
-          << QStringLiteral("alias")
-          << QStringLiteral("and")
-          << QStringLiteral("begin")
-          << QStringLiteral("break")
-          << QStringLiteral("case")
-          << QStringLiteral("class")
-          << QStringLiteral("def")
-          << QStringLiteral("defined?")
-          << QStringLiteral("do")
-          << QStringLiteral("else")
-          << QStringLiteral("elsif")
-          << QStringLiteral("end")
-          << QStringLiteral("ensure")
-          << QStringLiteral("false")
-          << QStringLiteral("for")
-          << QStringLiteral("if")
-          << QStringLiteral("in")
-          << QStringLiteral("module")
-          << QStringLiteral("next")
-          << QStringLiteral("nil")
-          << QStringLiteral("not")
-          << QStringLiteral("or")
-          << QStringLiteral("redo")
-          << QStringLiteral("rescue")
-          << QStringLiteral("retry")
-          << QStringLiteral("return")
-          << QStringLiteral("self")
-          << QStringLiteral("super")
-          << QStringLiteral("then")
-          << QStringLiteral("true")
-          << QStringLiteral("undef")
-          << QStringLiteral("unless")
-          << QStringLiteral("until")
-          << QStringLiteral("when")
-          << QStringLiteral("while")
-          << QStringLiteral("yield");
+          << QLatin1String("__FILE__")
+          << QLatin1String("__LINE__")
+          << QLatin1String("BEGIN")
+          << QLatin1String("END")
+          << QLatin1String("alias")
+          << QLatin1String("and")
+          << QLatin1String("begin")
+          << QLatin1String("break")
+          << QLatin1String("case")
+          << QLatin1String("class")
+          << QLatin1String("def")
+          << QLatin1String("defined?")
+          << QLatin1String("do")
+          << QLatin1String("else")
+          << QLatin1String("elsif")
+          << QLatin1String("end")
+          << QLatin1String("ensure")
+          << QLatin1String("false")
+          << QLatin1String("for")
+          << QLatin1String("if")
+          << QLatin1String("in")
+          << QLatin1String("module")
+          << QLatin1String("next")
+          << QLatin1String("nil")
+          << QLatin1String("not")
+          << QLatin1String("or")
+          << QLatin1String("redo")
+          << QLatin1String("rescue")
+          << QLatin1String("retry")
+          << QLatin1String("return")
+          << QLatin1String("self")
+          << QLatin1String("super")
+          << QLatin1String("then")
+          << QLatin1String("true")
+          << QLatin1String("undef")
+          << QLatin1String("unless")
+          << QLatin1String("until")
+          << QLatin1String("when")
+          << QLatin1String("while")
+          << QLatin1String("yield");
     }
 
     return keywords;

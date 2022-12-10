@@ -46,13 +46,13 @@ void TestAssociation::test_toString()
     UMLObject o1(nullptr, "objectA");
     UMLObject o2(nullptr, "objectB");
     UMLAssociation a(Uml::AssociationType::Association, &o1, nullptr);
-    QString ar = QString(QStringLiteral("objectA: %1 null")).arg(Uml::AssociationType::toStringI18n(Uml::AssociationType::Association));
+    QString ar = QString(QLatin1String("objectA: %1 null")).arg(Uml::AssociationType::toStringI18n(Uml::AssociationType::Association));
     QCOMPARE(a.toString(), ar);
     UMLAssociation b(Uml::AssociationType::Association, nullptr, &o2);
-    QString br = QString(QStringLiteral("null %1 objectB:")).arg(Uml::AssociationType::toStringI18n(Uml::AssociationType::Association));
+    QString br = QString(QLatin1String("null %1 objectB:")).arg(Uml::AssociationType::toStringI18n(Uml::AssociationType::Association));
     QCOMPARE(b.toString(), br);
     UMLAssociation c(Uml::AssociationType::Association, &o1, &o2);
-    QString cr = QString(QStringLiteral("objectA: %1 objectB:")).arg(Uml::AssociationType::toStringI18n(Uml::AssociationType::Association));
+    QString cr = QString(QLatin1String("objectA: %1 objectB:")).arg(Uml::AssociationType::toStringI18n(Uml::AssociationType::Association));
     QCOMPARE(c.toString(), cr);
 }
 
@@ -137,8 +137,8 @@ void TestAssociation::test_multiplicity()
     QCOMPARE(a.getMultiplicity(Uml::RoleType::B), QString());
     a.setMultiplicity("1", Uml::RoleType::A);
     a.setMultiplicity("2", Uml::RoleType::B);
-    QCOMPARE(a.getMultiplicity(Uml::RoleType::A), QStringLiteral("1"));
-    QCOMPARE(a.getMultiplicity(Uml::RoleType::B), QStringLiteral("2"));
+    QCOMPARE(a.getMultiplicity(Uml::RoleType::A), QLatin1String("1"));
+    QCOMPARE(a.getMultiplicity(Uml::RoleType::B), QLatin1String("2"));
 }
 
 void TestAssociation::test_roleName()
@@ -150,8 +150,8 @@ void TestAssociation::test_roleName()
     QCOMPARE(a.getRoleName(Uml::RoleType::B), QString());
     a.setRoleName("test1", Uml::RoleType::A);
     a.setRoleName("test2", Uml::RoleType::B);
-    QCOMPARE(a.getRoleName(Uml::RoleType::A), QStringLiteral("test1"));
-    QCOMPARE(a.getRoleName(Uml::RoleType::B), QStringLiteral("test2"));
+    QCOMPARE(a.getRoleName(Uml::RoleType::A), QLatin1String("test1"));
+    QCOMPARE(a.getRoleName(Uml::RoleType::B), QLatin1String("test2"));
 }
 
 void TestAssociation::test_roleDoc()
@@ -163,8 +163,8 @@ void TestAssociation::test_roleDoc()
     QCOMPARE(a.getRoleDoc(Uml::RoleType::B), QString());
     a.setRoleDoc("test1", Uml::RoleType::A);
     a.setRoleDoc("test2", Uml::RoleType::B);
-    QCOMPARE(a.getRoleDoc(Uml::RoleType::A), QStringLiteral("test1"));
-    QCOMPARE(a.getRoleDoc(Uml::RoleType::B), QStringLiteral("test2"));
+    QCOMPARE(a.getRoleDoc(Uml::RoleType::A), QLatin1String("test1"));
+    QCOMPARE(a.getRoleDoc(Uml::RoleType::B), QLatin1String("test2"));
 }
 
 void TestAssociation::resolveRef()
@@ -186,9 +186,9 @@ void TestAssociation::resolveRef()
     QCOMPARE(a.resolveRef(), true);
 
     // secondary fallback
-    a.getUMLRole(Uml::RoleType::A)->setSecondaryId(QStringLiteral(""));
+    a.getUMLRole(Uml::RoleType::A)->setSecondaryId(QLatin1String(""));
     a.getUMLRole(Uml::RoleType::A)->setSecondaryFallback(Uml::ID::toString(stereotype1->id()));
-    a.getUMLRole(Uml::RoleType::B)->setSecondaryId(QStringLiteral(""));
+    a.getUMLRole(Uml::RoleType::B)->setSecondaryId(QLatin1String(""));
     a.getUMLRole(Uml::RoleType::B)->setSecondaryFallback(Uml::ID::toString(stereotype2->id()));
     QCOMPARE(a.resolveRef(), true);
 }

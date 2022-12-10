@@ -97,7 +97,7 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
     {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const QString precondition_value = QStringLiteral("{ ") + name() + QStringLiteral(" }");
+        const QString precondition_value = QLatin1String("{ ") + name() + QLatin1String(" }");
         //int middleX = w / 2;
         int textStartY = (h / 2) - (fontHeight / 2);
         painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
@@ -278,12 +278,12 @@ void PreconditionWidget::slotMenuSelection(QAction* action)
  */
 void PreconditionWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("preconditionwidget"));
+    writer.writeStartElement(QLatin1String("preconditionwidget"));
     UMLWidget::saveToXMI(writer);
 
-    writer.writeAttribute(QStringLiteral("widgetaid"), Uml::ID::toString(m_objectWidget->localID()));
-    writer.writeAttribute(QStringLiteral("preconditionname"), name());
-    writer.writeAttribute(QStringLiteral("documentation"), documentation());
+    writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(m_objectWidget->localID()));
+    writer.writeAttribute(QLatin1String("preconditionname"), name());
+    writer.writeAttribute(QLatin1String("documentation"), documentation());
     writer.writeEndElement();
 }
 
@@ -294,9 +294,9 @@ bool PreconditionWidget::loadFromXMI(QDomElement& qElement)
 {
     if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    setName(qElement.attribute(QStringLiteral("preconditionname")));
-    setDocumentation(qElement.attribute(QStringLiteral("documentation")));
-    QString widgetaid = qElement.attribute(QStringLiteral("widgetaid"), QStringLiteral("-1"));
+    setName(qElement.attribute(QLatin1String("preconditionname")));
+    setDocumentation(qElement.attribute(QLatin1String("documentation")));
+    QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
     m_widgetAId = Uml::ID::fromString(widgetaid);
     return true;
 }

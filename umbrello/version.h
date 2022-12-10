@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef UMBRELLO_VERSION_H
@@ -21,12 +21,12 @@ inline QByteArray umbrelloVersion()
         .arg(KDE::versionRelease());
 #endif
 #if defined(ENABLE_WIDGET_SHOW_DOC) || defined(ENABLE_XMIRESOLUTION)
-    versionStr.append(QStringLiteral(" (experimental)"));
+    versionStr.append(QLatin1String(" (experimental)"));
 #endif
 #ifdef APPLICATIONS_VERSION_STRING
-    versionStr.append(QStringLiteral(" (Applications "));
+    versionStr.append(QLatin1String(" (Applications "));
     versionStr.append(QString::fromLatin1(APPLICATIONS_VERSION_STRING));
-    versionStr.append(QStringLiteral(")"));
+    versionStr.append(QLatin1String(")"));
     return versionStr.toLatin1();
 #endif
 }

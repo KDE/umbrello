@@ -102,11 +102,11 @@ QString CodeDocument::getPath () const
     path = path.simplified();
 
     // Replace all blanks with underscore
-    path.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    path.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
     // this allows multiple directory paths (ala Java, some other languages)
     // in from the package specification
-    path.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("/"));
+    path.replace(QRegExp(QLatin1String("\\.")), QLatin1String("/"));
     // Simple hack!.. but this is more or less language
     // dependent and should probably be commented out.
     // Still, as a general default it may be useful -b.t.
@@ -191,9 +191,9 @@ QString CodeDocument::getUniqueTag (const QString& prefix)
 {
     QString tag = prefix ;
     if(tag.isEmpty())
-        tag += QStringLiteral("tblock");
+        tag += QLatin1String("tblock");
 
-    tag = tag + QStringLiteral("_0");
+    tag = tag + QLatin1String("_0");
     int number = m_lastTagIndex;
     for (; findTextBlockByTag(tag, true); ++number) {
         tag = prefix + QLatin1Char('_') + QString::number(number);
@@ -278,10 +278,10 @@ void CodeDocument::updateHeader ()
     //try to find a heading file (license, comments, etc) then extract its text
     QString headingText = UMLApp::app()->commonPolicy()->getHeadingFile(getFileExtension());
 
-    headingText.replace(QRegExp(QStringLiteral("%filename%")), getFileName()+getFileExtension());
-    headingText.replace(QRegExp(QStringLiteral("%filepath%")), getPath());
-    headingText.replace(QRegExp(QStringLiteral("%time%")), QTime::currentTime().toString());
-    headingText.replace(QRegExp(QStringLiteral("%date%")), QDate::currentDate().toString());
+    headingText.replace(QRegExp(QLatin1String("%filename%")), getFileName()+getFileExtension());
+    headingText.replace(QRegExp(QLatin1String("%filepath%")), getPath());
+    headingText.replace(QRegExp(QLatin1String("%time%")), QTime::currentTime().toString());
+    headingText.replace(QRegExp(QLatin1String("%date%")), QDate::currentDate().toString());
 
     getHeader()->setText(headingText);
 
@@ -357,19 +357,19 @@ void CodeDocument::setAttributesOnNode (QXmlStreamWriter& writer)
     CodeGenObjectWithTextBlocks::setAttributesOnNode(writer);
 
     // now set local attributes/fields
-    writer.writeAttribute(QStringLiteral("fileName"), getFileName());
-    writer.writeAttribute(QStringLiteral("fileExt"), getFileExtension());
+    writer.writeAttribute(QLatin1String("fileName"), getFileName());
+    writer.writeAttribute(QLatin1String("fileExt"), getFileExtension());
     Uml::ID::Type pkgId = Uml::ID::None;
     if (m_package)
         pkgId = m_package->id();
-    writer.writeAttribute(QStringLiteral("package"), Uml::ID::toString(pkgId));
-    writer.writeAttribute(QStringLiteral("writeOutCode"), getWriteOutCode() ? QStringLiteral("true")
-                                                                             : QStringLiteral("false"));
-    writer.writeAttribute(QStringLiteral("id"), ID());
+    writer.writeAttribute(QLatin1String("package"), Uml::ID::toString(pkgId));
+    writer.writeAttribute(QLatin1String("writeOutCode"), getWriteOutCode() ? QLatin1String("true")
+                                                                             : QLatin1String("false"));
+    writer.writeAttribute(QLatin1String("id"), ID());
 
     // set the a header
     // which we will store in its own separate child node block
-    writer.writeStartElement(QStringLiteral("header"));
+    writer.writeStartElement(QLatin1String("header"));
     getHeader()->saveToXMI(writer); // comment
     writer.writeEndElement();
 
@@ -385,12 +385,12 @@ void CodeDocument::setAttributesOnNode (QXmlStreamWriter& writer)
 void CodeDocument::setAttributesFromNode (QDomElement & root)
 {
     // now set local attributes
-    setFileName(root.attribute(QStringLiteral("fileName")));
-    setFileExtension(root.attribute(QStringLiteral("fileExt")));
-    QString pkgStr = root.attribute(QStringLiteral("package"));
-    if (!pkgStr.isEmpty() && pkgStr != QStringLiteral("-1")) {
+    setFileName(root.attribute(QLatin1String("fileName")));
+    setFileExtension(root.attribute(QLatin1String("fileExt")));
+    QString pkgStr = root.attribute(QLatin1String("package"));
+    if (!pkgStr.isEmpty() && pkgStr != QLatin1String("-1")) {
         UMLDoc *umldoc = UMLApp::app()->document();
-        if (pkgStr.contains(QRegExp(QStringLiteral("\\D")))) {
+        if (pkgStr.contains(QRegExp(QLatin1String("\\D")))) {
             // suspecting pre-1.5.3 file format where the package name was
             // saved instead of the package ID.
             UMLObject *o = umldoc->findUMLObject(pkgStr);
@@ -401,10 +401,10 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
             m_package = o->asUMLPackage();
         }
     }
-    const QString trueStr = QStringLiteral("true");
-    const QString wrOutCode = root.attribute(QStringLiteral("writeOutCode"), trueStr);
+    const QString trueStr = QLatin1String("true");
+    const QString wrOutCode = root.attribute(QLatin1String("writeOutCode"), trueStr);
     setWriteOutCode(wrOutCode == trueStr);
-    setID(root.attribute(QStringLiteral("id")));
+    setID(root.attribute(QLatin1String("id")));
 
     // load comment now
     // by looking for our particular child element
@@ -412,7 +412,7 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
     QDomElement element = node.toElement();
     while (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == QStringLiteral("header")) {
+        if (tag == QLatin1String("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
             getHeader()->loadFromXMI(celem);
@@ -432,7 +432,7 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
  */
 void CodeDocument::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("codedocument"));
+    writer.writeStartElement(QLatin1String("codedocument"));
     setAttributesOnNode(writer);
     writer.writeEndElement();
 }

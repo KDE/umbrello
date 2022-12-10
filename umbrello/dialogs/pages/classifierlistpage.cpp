@@ -8,7 +8,7 @@
 #include "basictypes.h"
 #include "classifierlistitem.h"
 #include "codetextedit.h"
-#define DBG_SRC QStringLiteral("ClassifierListPage")
+#define DBG_SRC QLatin1String("ClassifierListPage")
 #include "debug_utils.h"
 #include "umldoc.h"
 #include "uml.h"  // only needed for log{Warn,Error}
@@ -574,7 +574,7 @@ void ClassifierListPage::slotTopClicked()
     m_pItemListLB->setCurrentItem(item);
 
     //now change around in the list
-    printItemList(QStringLiteral("itemList before change: "));
+    printItemList(QLatin1String("itemList before change: "));
     UMLClassifierListItem* currentAtt = getItemList().at(index);
     // NB: The index in the m_pItemListLB is not necessarily the same
     //     as the index in the UMLClassifier::m_List.
@@ -584,7 +584,7 @@ void ClassifierListPage::slotTopClicked()
     logDebug2("ClassifierListPage::slotTopClicked %1: peer index in UMLCanvasItem::m_List is %2",
               currentAtt->name(), index);
     addToClassifier(currentAtt, 0);
-    printItemList(QStringLiteral("itemList after change: "));
+    printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
 }
 
@@ -610,7 +610,7 @@ void ClassifierListPage::slotUpClicked()
     m_pItemListLB->setCurrentItem(item);
 
     //now change around in the list
-    printItemList(QStringLiteral("itemList before change: "));
+    printItemList(QLatin1String("itemList before change: "));
     UMLClassifierListItem* currentAtt = getItemList().at(index);
     // NB: The index in the m_pItemListLB is not necessarily the same
     //     as the index in the UMLClassifier::m_List.
@@ -622,7 +622,7 @@ void ClassifierListPage::slotUpClicked()
     if (index == -1)
         index = 0;
     addToClassifier(currentAtt, index);
-    printItemList(QStringLiteral("itemList after change: "));
+    printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
 }
 
@@ -647,7 +647,7 @@ void ClassifierListPage::slotDownClicked()
     QListWidgetItem* item = m_pItemListLB->item(index + 1);
     m_pItemListLB->setCurrentItem(item);
     //now change around in the list
-    printItemList(QStringLiteral("itemList before change: "));
+    printItemList(QLatin1String("itemList before change: "));
     UMLClassifierListItem* currentAtt = getItemList().at(index);
     // NB: The index in the m_pItemListLB is not necessarily the same
     //     as the index in the UMLClassifier::m_List.
@@ -659,7 +659,7 @@ void ClassifierListPage::slotDownClicked()
     if (index != -1)
         index++;   // because we want to go _after_ the following peer item
     addToClassifier(currentAtt, index);
-    printItemList(QStringLiteral("itemList after change: "));
+    printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
 }
 
@@ -684,7 +684,7 @@ void ClassifierListPage::slotBottomClicked()
     m_pItemListLB->setCurrentItem(item);
 
     //now change around in the list
-    printItemList(QStringLiteral("itemList before change: "));
+    printItemList(QLatin1String("itemList before change: "));
     UMLClassifierListItem* currentAtt = getItemList().at(index);
     // NB: The index in the m_pItemListLB is not necessarily the same
     //     as the index in the UMLClassifier::m_List.
@@ -694,7 +694,7 @@ void ClassifierListPage::slotBottomClicked()
     logDebug2("ClassifierListPage::slotBottomClicked %1: peer index in UMLCanvasItem::m_List is %2",
               currentAtt->name(), index);
     addToClassifier(currentAtt, getItemList().count());
-    printItemList(QStringLiteral("itemList after change: "));
+    printItemList(QLatin1String("itemList after change: "));
     slotActivateItem(item);
 }
 

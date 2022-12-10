@@ -65,8 +65,8 @@ public:
 };
 
 #define DEBUG_AddAction(m) d->debugActions.append(DebugMenu(m))
-#define DEBUG_StartMenu(m) d->debugActions.append(DebugMenu(m->title() + QStringLiteral(" - start")))
-#define DEBUG_EndMenu(m) d->debugActions.append(DebugMenu(m->title() + QStringLiteral(" - end")))
+#define DEBUG_StartMenu(m) d->debugActions.append(DebugMenu(m->title() + QLatin1String(" - start")))
+#define DEBUG_EndMenu(m) d->debugActions.append(DebugMenu(m->title() + QLatin1String(" - end")))
 
 /**
  * Constructs the popup menu
@@ -164,14 +164,14 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_CombinedState:              LPMISI(it_State,                 i18nc("add new combined state", "Combined state...")); break;
     case mt_Component:                  LPMISI(it_Component,             i18n("Component")); break;
     //case mt_Component:                  LPMISI(it_Component,             i18n("Component...")); break;
-    case mt_Component_Diagram:          insertFromActionKey(m, menu, QStringLiteral("new_component_diagram")); break;
+    case mt_Component_Diagram:          insertFromActionKey(m, menu, QLatin1String("new_component_diagram")); break;
     case mt_Component_Folder:           LPMIBI(it_Folder,                i18n("Folder")); break;
     case mt_Copy:                       LPMISI(it_Copy,                  i18n("Copy")); break;
     case mt_Cut:                        LPMISI(it_Cut,                   i18n("Cut")); break;
     case mt_Datatype:                   LPMISI(it_Datatype,              i18n("Datatype...")); break;
     case mt_DeepHistory:                LPMISI(it_History_Deep,          i18n("Deep History")); break;
     case mt_Delete:                     LPMISI(it_Delete,                i18n("Delete")); break;
-    case mt_Deployment_Diagram:         insertFromActionKey(m, menu, QStringLiteral("new_deployment_diagram")); break;
+    case mt_Deployment_Diagram:         insertFromActionKey(m, menu, QLatin1String("new_deployment_diagram")); break;
     case mt_Deployment_Folder:          LPMIBI(it_Folder,                i18n("Folder")); break;
     case mt_EditCombinedState:          LPMISI(it_State,                 i18n("Edit combined state")); break;
     case mt_End_Activity:               LPMISI(it_EndState,              i18n("End Activity")); break;
@@ -179,7 +179,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_Entity:                     LPMISI(it_Entity,                i18n("Entity")); break;
     //case mt_Entity:                     LPMISI(it_Entity,                i18n("Entity...")); break;
     case mt_EntityAttribute:            LPMISI(it_Entity_Attribute,      i18n("Entity Attribute...")); break;
-    case mt_EntityRelationship_Diagram: insertFromActionKey(m, menu, QStringLiteral("new_entityrelationship_diagram")); break;
+    case mt_EntityRelationship_Diagram: insertFromActionKey(m, menu, QLatin1String("new_entityrelationship_diagram")); break;
     case mt_EntityRelationship_Folder:  LPMIBI(it_Folder,                i18n("Folder")); break;
     case mt_Enum:                       LPMISI(it_Enum,                  i18n("Enum...")); break;
     case mt_EnumLiteral:                LPMISI(it_Enum_Literal,          i18n("Enum Literal...")); break;
@@ -260,7 +260,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_StateFork:                  LPMISI(it_Fork_State,            i18n("Fork")); break;
     case mt_StateJoin:                  LPMISI(it_Join,                  i18n("Join")); break;
     case mt_StateTransition:            LPMISI(it_State_Transition,      i18n("State Transition")); break;
-    case mt_State_Diagram:              insertFromActionKey(m, menu, QStringLiteral("new_state_diagram")); break;
+    case mt_State_Diagram:              insertFromActionKey(m, menu, QLatin1String("new_state_diagram")); break;
     case mt_Subsystem:                  LPMISI(it_Subsystem,             i18n("Subsystem")); break;
     //case mt_Subsystem:                  LPMISI(it_Subsystem,             i18n("Subsystem...")); break;
     case mt_Template:                   LPMISI(it_Template_Class,        i18n("Template")); break;
@@ -269,7 +269,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu)
     case mt_UniqueConstraint:           LPMISI(it_Constraint_Unique,     i18n("Unique Constraint...")); break;
     case mt_UseCase:                    LPMISI(it_UseCase,               i18n("Use Case")); break;
     //case mt_UseCase:                    LPMISI(it_UseCase,               i18n("Use Case...")); break;
-    case mt_UseCase_Diagram:            insertFromActionKey(m, menu, QStringLiteral("new_use_case_diagram")); break;
+    case mt_UseCase_Diagram:            insertFromActionKey(m, menu, QLatin1String("new_use_case_diagram")); break;
     case mt_UseCase_Folder:             LPMIBI(it_Folder,                i18n("Folder")); break;
 
     default:
@@ -375,11 +375,11 @@ void ListPopupMenu::insertContainerItems(KMenu* menu, bool folders, bool diagram
     if (packages)
         insert(mt_Package, menu);
     if (diagrams) {
-        insertFromActionKey(mt_Class_Diagram, menu, QStringLiteral("new_class_diagram"));
-        insertFromActionKey(mt_Sequence_Diagram, menu, QStringLiteral("new_sequence_diagram"));
-        insertFromActionKey(mt_Collaboration_Diagram, menu, QStringLiteral("new_collaboration_diagram"));
-        insertFromActionKey(mt_State_Diagram, menu, QStringLiteral("new_state_diagram"));
-        insertFromActionKey(mt_Activity_Diagram, menu, QStringLiteral("new_activity_diagram"));
+        insertFromActionKey(mt_Class_Diagram, menu, QLatin1String("new_class_diagram"));
+        insertFromActionKey(mt_Sequence_Diagram, menu, QLatin1String("new_sequence_diagram"));
+        insertFromActionKey(mt_Collaboration_Diagram, menu, QLatin1String("new_collaboration_diagram"));
+        insertFromActionKey(mt_State_Diagram, menu, QLatin1String("new_state_diagram"));
+        insertFromActionKey(mt_Activity_Diagram, menu, QLatin1String("new_activity_diagram"));
     }
 }
 
@@ -607,7 +607,7 @@ void ListPopupMenu::setupActionsData()
  */
 QString ListPopupMenu::toString(MenuType menu)
 {
-    return QStringLiteral(ENUM_NAME(ListPopupMenu, MenuType, menu));
+    return QLatin1String(ENUM_NAME(ListPopupMenu, MenuType, menu));
 }
 
 /**
@@ -615,7 +615,7 @@ QString ListPopupMenu::toString(MenuType menu)
  */
 QString ListPopupMenu::toString(DataType data)
 {
-    return QStringLiteral(ENUM_NAME(ListPopupMenu, DataType, data));
+    return QLatin1String(ENUM_NAME(ListPopupMenu, DataType, data));
 }
 
 //QList<DebugMenu> &ListPopupMenu::debugActions()

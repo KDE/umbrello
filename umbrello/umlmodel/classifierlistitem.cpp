@@ -136,7 +136,7 @@ void UMLClassifierListItem::setType(UMLObject *type)
  */
 void UMLClassifierListItem::setTypeName(const QString &type)
 {
-    if (type.isEmpty() || type == QStringLiteral("void")) {
+    if (type.isEmpty() || type == QLatin1String("void")) {
         m_pSecondary = 0;
         m_SecondaryId.clear();
         return;

@@ -64,7 +64,7 @@ MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton
                                          QDialogButtonBox::Apply |
                                          QDialogButtonBox::Cancel |
                                          QDialogButtonBox::Help);
-        QDialogButtonBox * dlgButtonBox = m_pageDialog->findChild<QDialogButtonBox*>(QStringLiteral("buttonbox"));
+        QDialogButtonBox * dlgButtonBox = m_pageDialog->findChild<QDialogButtonBox*>(QLatin1String("buttonbox"));
         if (withDefaultButton) {
             QPushButton *defaultButton = new QPushButton(i18n("Default"));
             m_pageDialog->addActionButton(defaultButton);
@@ -265,7 +265,7 @@ void MultiPageDialogBase::slotDefaultClicked()
 void MultiPageDialogBase::slotHelpClicked()
 {
     logDebug0("MultiPageDialogBase::slotHelpClicked is handled directly");
-    KHelpClient::invokeHelp(QStringLiteral("settings"), QStringLiteral("umbrello"));
+    KHelpClient::invokeHelp(QLatin1String("settings"), QLatin1String("umbrello"));
 }
 
 /**

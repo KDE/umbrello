@@ -32,7 +32,7 @@ XMLElementCodeBlock::~XMLElementCodeBlock ()
  */
 void XMLElementCodeBlock::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("xmlelementblock"));
+    writer.writeStartElement(QLatin1String("xmlelementblock"));
 
     setAttributesOnNode(writer);
 
@@ -57,7 +57,7 @@ void XMLElementCodeBlock::setAttributesOnNode (QXmlStreamWriter& writer)
     HierarchicalCodeBlock::setAttributesOnNode(writer);
 
     // now set local attributes/fields
-    writer.writeAttribute(QStringLiteral("nodeName"), getNodeName());
+    writer.writeAttribute(QLatin1String("nodeName"), getNodeName());
 }
 
 /**
@@ -70,7 +70,7 @@ void XMLElementCodeBlock::setAttributesFromNode (QDomElement & root)
     HierarchicalCodeBlock::setAttributesFromNode(root);
 
     // now set local attributes
-    setNodeName(root.attribute(QStringLiteral("nodeName"), QStringLiteral("UNKNOWN")));
+    setNodeName(root.attribute(QLatin1String("nodeName"), QLatin1String("UNKNOWN")));
 }
 
 void XMLElementCodeBlock::setNodeName (const QString &name)
@@ -112,18 +112,18 @@ void XMLElementCodeBlock::updateContent ()
         if(at->getInitialValue().isEmpty())
             logWarn0("XMLElementCodeBlock : cant print out attribute that lacks an initial value");
         else {
-            startText.append(QStringLiteral(" ") + at->name() + QStringLiteral("=\""));
-            startText.append(at->getInitialValue() + QStringLiteral("\""));
+            startText.append(QLatin1String(" ") + at->name() + QLatin1String("=\""));
+            startText.append(at->getInitialValue() + QLatin1String("\""));
         }
     }
 
     // now set close of starting/ending node, the style depending on whether we have child text or not
     if(getTextBlockList()->count())
     {
-        startText.append(QStringLiteral(">"));
-        endText = QStringLiteral("</") + nodeName + QLatin1Char('>');
+        startText.append(QLatin1String(">"));
+        endText = QLatin1String("</") + nodeName + QLatin1Char('>');
     } else {
-        startText.append(QStringLiteral("/>"));
+        startText.append(QLatin1String("/>"));
         endText = QString();
     }
 

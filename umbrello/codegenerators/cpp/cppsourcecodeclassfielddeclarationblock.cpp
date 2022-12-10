@@ -39,7 +39,7 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent()
     getComment()->setText(notes);
 
     // Set the body
-    QString staticValue = getParentObject()->isStatic() ? QStringLiteral("static ") : QString();
+    QString staticValue = getParentObject()->isStatic() ? QLatin1String("static ") : QString();
     QString scopeStr = Uml::Visibility::toString(getParentObject()->visibility());
 
     QString typeName = jcf->getTypeName();
@@ -48,7 +48,7 @@ void CPPSourceCodeClassFieldDeclarationBlock::updateContent()
 
     QString body = staticValue+scopeStr + QLatin1Char(' ') + typeName + QLatin1Char(' ') + fieldName;
     if (!initialV.isEmpty())
-            body.append(QStringLiteral(" = ") + initialV);
+            body.append(QLatin1String(" = ") + initialV);
     setText(body + QLatin1Char(';'));
 }
 

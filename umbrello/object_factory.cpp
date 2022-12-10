@@ -18,7 +18,7 @@
 #include "codegenerator.h"
 #include "component.h"
 #include "datatype.h"
-#define DBG_SRC QStringLiteral("Object_Factory")
+#define DBG_SRC QLatin1String("Object_Factory")
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "enum.h"
@@ -156,7 +156,7 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
             break;
         case UMLObject::ot_SubSystem: {
             o = new UMLPackage(name, g_predefinedId);
-            o->setStereotypeCmd(QStringLiteral("subsystem"));
+            o->setStereotypeCmd(QLatin1String("subsystem"));
             break;
         }
         default:
@@ -381,67 +381,67 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
                              const QString& stereoID /* = QString() */)
 {
     UMLObject* pObject = 0;
-    if (UMLDoc::tagEq(xmiTag, QStringLiteral("UseCase"))) {
+    if (UMLDoc::tagEq(xmiTag, QLatin1String("UseCase"))) {
         pObject = new UMLUseCase();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Actor"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Actor"))) {
         pObject = new UMLActor();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Class"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Class"))) {
         pObject = new UMLClassifier();
-    } else if(UMLDoc::tagEq(xmiTag, QStringLiteral("Instance"))) {
+    } else if(UMLDoc::tagEq(xmiTag, QLatin1String("Instance"))) {
         pObject = new UMLInstance();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Package"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Package"))) {
         if (!stereoID.isEmpty()) {
             UMLDoc *doc = UMLApp::app()->document();
             UMLObject *stereo = doc->findStereotypeById(Uml::ID::fromString(stereoID));
-            if (stereo && stereo->name() == QStringLiteral("folder"))
+            if (stereo && stereo->name() == QLatin1String("folder"))
                 pObject = new UMLFolder();
         }
         if (pObject == 0)
             pObject = new UMLPackage();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Component"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Component"))) {
         pObject = new UMLComponent();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Port"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Port"))) {
         pObject = new UMLPort();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Node"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Node"))) {
         pObject = new UMLNode();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Artifact"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Artifact"))) {
         pObject = new UMLArtifact();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Interface"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Interface"))) {
         UMLClassifier *c = new UMLClassifier();
         c->setBaseType(UMLObject::ot_Interface);
         pObject = c;
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("DataType"))
-            || UMLDoc::tagEq(xmiTag, QStringLiteral("Datatype"))   // for bkwd compat.
-            || UMLDoc::tagEq(xmiTag, QStringLiteral("Primitive"))
-            || UMLDoc::tagEq(xmiTag, QStringLiteral("PrimitiveType"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("DataType"))
+            || UMLDoc::tagEq(xmiTag, QLatin1String("Datatype"))   // for bkwd compat.
+            || UMLDoc::tagEq(xmiTag, QLatin1String("Primitive"))
+            || UMLDoc::tagEq(xmiTag, QLatin1String("PrimitiveType"))) {
         UMLDatatype *c = new UMLDatatype();
         pObject = c;
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Enumeration")) ||
-               UMLDoc::tagEq(xmiTag, QStringLiteral("Enum"))) {   // for bkwd compat.
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Enumeration")) ||
+               UMLDoc::tagEq(xmiTag, QLatin1String("Enum"))) {   // for bkwd compat.
         pObject = new UMLEnum();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Entity"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Entity"))) {
         pObject = new UMLEntity();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Category"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Category"))) {
         pObject = new UMLCategory();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Stereotype"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Stereotype"))) {
         pObject = new UMLStereotype();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Association")) ||
-               UMLDoc::tagEq(xmiTag, QStringLiteral("AssociationClass"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Association")) ||
+               UMLDoc::tagEq(xmiTag, QLatin1String("AssociationClass"))) {
         pObject = new UMLAssociation();
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Generalization")) ||
-               UMLDoc::tagEq(xmiTag, QStringLiteral("generalization"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Generalization")) ||
+               UMLDoc::tagEq(xmiTag, QLatin1String("generalization"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Generalization);
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Realization")) ||
-               UMLDoc::tagEq(xmiTag, QStringLiteral("Abstraction")) ||
-               UMLDoc::tagEq(xmiTag, QStringLiteral("interfaceRealization"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Realization")) ||
+               UMLDoc::tagEq(xmiTag, QLatin1String("Abstraction")) ||
+               UMLDoc::tagEq(xmiTag, QLatin1String("interfaceRealization"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Realization);
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Dependency"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Dependency"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Dependency);
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Aggregation"))) {  // Embarcadero's Describe
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Aggregation"))) {  // Embarcadero's Describe
         pObject = new UMLAssociation(Uml::AssociationType::Aggregation);
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Child2Category"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Child2Category"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Child2Category);
-    } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Category2Parent"))) {
+    } else if (UMLDoc::tagEq(xmiTag, QLatin1String("Category2Parent"))) {
         pObject = new UMLAssociation(Uml::AssociationType::Category2Parent);
     }
 

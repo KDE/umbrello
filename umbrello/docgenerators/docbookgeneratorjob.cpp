@@ -55,7 +55,7 @@ static xmlParserInputPtr xsltprocExternalEntityLoader(const char *_URL, const ch
     warningSAXFunc warning = NULL;
 
     // use local available dtd versions instead of fetching it every time from the internet
-    QString url = QStringLiteral(_URL);
+    QString url = QLatin1String(_URL);
     QHash<QString, QString>::const_iterator i;
     for(i = replaceURLList.constBegin(); i != replaceURLList.constEnd(); i++)
     {
@@ -163,8 +163,8 @@ void DocbookGeneratorJob::run()
         QFileInfo xsltFilePath(xsltFile);
 
         // Note: This would not be required if the dtd were registered in global xml catalog
-        QString sdocbookDtdUrlTmpl(QStringLiteral("file://%1/simple4125/sdocbook.dtd"));
-        replaceURLList[QStringLiteral("http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd")] =
+        QString sdocbookDtdUrlTmpl(QLatin1String("file://%1/simple4125/sdocbook.dtd"));
+        replaceURLList[QLatin1String("http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd")] =
                                                           sdocbookDtdUrlTmpl.arg(xsltFilePath.absolutePath());
     }
 #endif

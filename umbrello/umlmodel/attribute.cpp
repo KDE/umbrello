@@ -167,13 +167,13 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig, bool withStereotype
         // Perhaps we should include a pd_Unspecified in
         // Uml::ParameterDirection::Enum to have better control over this.
         if (m_ParmKind == Uml::ParameterDirection::InOut)
-            s += QStringLiteral("inout ");
+            s += QLatin1String("inout ");
         else if (m_ParmKind == Uml::ParameterDirection::Out)
-            s += QStringLiteral("out ");
+            s += QLatin1String("out ");
         // Construct the attribute text.
-        QString string = s + name() + QStringLiteral(" : ") + typeName;
+        QString string = s + name() + QLatin1String(" : ") + typeName;
         if (m_InitialValue.length() > 0)
-            string += QStringLiteral(" = ") + m_InitialValue;
+            string += QLatin1String(" = ") + m_InitialValue;
         if (withStereotype) {
             QString st = stereotype(true);
             if (!st.isEmpty())
@@ -266,18 +266,18 @@ UMLObject* UMLAttribute::clone() const
 void UMLAttribute::saveToXMI(QXmlStreamWriter& writer)
 {
     if (Settings::optionState().generalState.uml2) {
-        UMLObject::save1(writer, QStringLiteral("Property"), QStringLiteral("ownedAttribute"));
+        UMLObject::save1(writer, QLatin1String("Property"), QLatin1String("ownedAttribute"));
     } else {
-        UMLObject::save1(writer, QStringLiteral("Attribute"));
+        UMLObject::save1(writer, QLatin1String("Attribute"));
     }
     if (m_pSecondary == 0) {
         logDebug2("UMLAttribute::saveToXMI(%1) : m_pSecondary is null, m_SecondaryId is '%2'",
                   name(), m_SecondaryId);
     } else {
-        writer.writeAttribute(QStringLiteral("type"), Uml::ID::toString(m_pSecondary->id()));
+        writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
     }
     if (! m_InitialValue.isEmpty())
-        writer.writeAttribute(QStringLiteral("initialValue"), m_InitialValue);
+        writer.writeAttribute(QLatin1String("initialValue"), m_InitialValue);
     UMLObject::save1end(writer);
 }
 
@@ -286,7 +286,7 @@ void UMLAttribute::saveToXMI(QXmlStreamWriter& writer)
  */
 bool UMLAttribute::load1(QDomElement & element)
 {
-    m_SecondaryId = element.attribute(QStringLiteral("type"));
+    m_SecondaryId = element.attribute(QLatin1String("type"));
     // We use the m_SecondaryId as a temporary store for the xmi.id
     // of the attribute type model object.
     // It is resolved later on, when all classes have been loaded.
@@ -303,28 +303,28 @@ bool UMLAttribute::load1(QDomElement & element)
             }
             QDomElement tempElement = node.toElement();
             QString tag = tempElement.tagName();
-            if (!UMLDoc::tagEq(tag, QStringLiteral("type"))) {
+            if (!UMLDoc::tagEq(tag, QLatin1String("type"))) {
                 node = node.nextSibling();
                 continue;
             }
             m_SecondaryId = Model_Utils::getXmiId(tempElement);
             if (m_SecondaryId.isEmpty())
-                m_SecondaryId = tempElement.attribute(QStringLiteral("xmi.idref"));
+                m_SecondaryId = tempElement.attribute(QLatin1String("xmi.idref"));
             if (!m_SecondaryId.isEmpty())
                 break;
-            QString href = tempElement.attribute(QStringLiteral("href"));
+            QString href = tempElement.attribute(QLatin1String("href"));
             if (href.isEmpty()) {
                 QDomNode inner = node.firstChild();
                 QDomElement tmpElem = inner.toElement();
                 m_SecondaryId = Model_Utils::getXmiId(tmpElem);
                 if (m_SecondaryId.isEmpty())
-                    m_SecondaryId = tmpElem.attribute(QStringLiteral("xmi.idref"));
+                    m_SecondaryId = tmpElem.attribute(QLatin1String("xmi.idref"));
             } else {
-                QString xmiType = tempElement.attribute(QStringLiteral("xmi:type"));
+                QString xmiType = tempElement.attribute(QLatin1String("xmi:type"));
                 bool isPrimitive = (xmiType.isEmpty() ?
-                                    href.contains(QStringLiteral("PrimitiveType")) :
-                                    xmiType.contains(QStringLiteral("PrimitiveType")));
-                if (isPrimitive && href.contains(QRegExp(QStringLiteral("#[A-Za-z][a-z]+$")))) {
+                                    href.contains(QLatin1String("PrimitiveType")) :
+                                    xmiType.contains(QLatin1String("PrimitiveType")));
+                if (isPrimitive && href.contains(QRegExp(QLatin1String("#[A-Za-z][a-z]+$")))) {
                     // Example from OMG XMI:
                     //   <type xmi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20090901/UML.xmi#Boolean"/>
                     // Example from MagicDraw:
@@ -363,10 +363,10 @@ bool UMLAttribute::load1(QDomElement & element)
             logDebug1("UMLAttribute::load1(%1): cannot find type.", name());
         }
     }
-    m_InitialValue = element.attribute(QStringLiteral("initialValue"));
+    m_InitialValue = element.attribute(QLatin1String("initialValue"));
     if (m_InitialValue.isEmpty()) {
         // for backward compatibility
-        m_InitialValue = element.attribute(QStringLiteral("value"));
+        m_InitialValue = element.attribute(QLatin1String("value"));
     }
     return true;
 }

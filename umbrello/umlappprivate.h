@@ -99,7 +99,7 @@ public:
 #endif
         logWindow = new QListWidget;
         QFont mono;
-        mono.setFamily(QStringLiteral("Monospace"));
+        mono.setFamily(QLatin1String("Monospace"));
         logWindow->setFont(mono);
         connect(logWindow, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotLogWindowItemDoubleClicked(QListWidgetItem *)));
     }
@@ -130,7 +130,7 @@ public slots:
         diagramsWindow = new DiagramsWindow(i18n("&Diagrams"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, diagramsWindow);
 
-        viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_diagrams"));
+        viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_show_diagrams"));
         connect(viewDiagramsWindow, SIGNAL(triggered(bool)), diagramsWindow, SLOT(setVisible(bool)));
     }
 
@@ -140,7 +140,7 @@ public slots:
         objectsWindow = new ObjectsWindow(i18n("&UML Objects"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, objectsWindow);
 
-        viewObjectsWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_objects"));
+        viewObjectsWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_show_objects"));
         connect(viewObjectsWindow, SIGNAL(triggered(bool)), objectsWindow, SLOT(setVisible(bool)));
     }
 
@@ -150,7 +150,7 @@ public slots:
         stereotypesWindow = new StereotypesWindow(i18n("&Stereotypes"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, stereotypesWindow);
 
-        viewStereotypesWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_stereotypes"));
+        viewStereotypesWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_show_stereotypes"));
         connect(viewStereotypesWindow, SIGNAL(triggered(bool)), stereotypesWindow, SLOT(setVisible(bool)));
     }
 
@@ -164,7 +164,7 @@ public slots:
             return;
         // qDebug() << html;
         welcomeWindow = new QDockWidget(i18n("Welcome"), parent);
-        welcomeWindow->setObjectName(QStringLiteral("WelcomeDock"));
+        welcomeWindow->setObjectName(QLatin1String("WelcomeDock"));
 #ifdef WEBKIT_WELCOMEPAGE
         QWebView *view = new QWebView;
         view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
@@ -183,14 +183,14 @@ public slots:
 #endif
         parent->addDockWidget(Qt::RightDockWidgetArea, welcomeWindow);
 
-        viewWelcomeWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_welcome"));
+        viewWelcomeWindow = parent->actionCollection()->add<KToggleAction>(QLatin1String("view_show_welcome"));
         connect(viewWelcomeWindow, SIGNAL(triggered(bool)), welcomeWindow, SLOT(setVisible(bool)));
     }
 
     void slotWelcomeWindowLinkClicked(const QUrl &url)
     {
         //qDebug() << url;
-        if (url.scheme() == QStringLiteral("mailto") || url.scheme().startsWith(QStringLiteral("http"))) {
+        if (url.scheme() == QLatin1String("mailto") || url.scheme().startsWith(QLatin1String("http"))) {
             QDesktopServices::openUrl(url);
             return;
         }

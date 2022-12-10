@@ -46,7 +46,7 @@ QString CPPCodeClassField::getFieldName()
         if(fieldIsSingleValue()) {
             return roleName.replace(0, 1, roleName.left(1).toLower());
         } else {
-            return roleName.toLower() + QStringLiteral("Vector");
+            return roleName.toLower() + QLatin1String("Vector");
         }
     }
 }
@@ -77,7 +77,7 @@ QString CPPCodeClassField::getInitialValue()
             //       then we can just return 'empty' string (minor problem).
             return QString();
         } else {
-            return QStringLiteral(" new ") + getListFieldClassName() + QStringLiteral("()");
+            return QLatin1String(" new ") + getListFieldClassName() + QLatin1String("()");
         }
     }
 }

@@ -53,7 +53,7 @@ CodeComment * CodeBlockWithComments::getComment () const
  */
 void CodeBlockWithComments::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("codeblockwithcomments"));
+    writer.writeStartElement(QLatin1String("codeblockwithcomments"));
 
     // set attributes
     setAttributesOnNode(writer);
@@ -72,7 +72,7 @@ void CodeBlockWithComments::setAttributesOnNode (QXmlStreamWriter& writer)
 
     // set local attributes now..e.g. a comment
     // which we will store in its own separate child node block
-    writer.writeStartElement(QStringLiteral("header"));
+    writer.writeStartElement(QLatin1String("header"));
     getComment()->saveToXMI(writer); // comment
     writer.writeEndElement();
 }
@@ -114,7 +114,7 @@ void CodeBlockWithComments::setAttributesFromNode(QDomElement & root)
     bool gotComment = false;
     while (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == QStringLiteral("header")) {
+        if (tag == QLatin1String("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
             getComment()->loadFromXMI(celem);

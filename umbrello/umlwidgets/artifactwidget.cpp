@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -85,7 +85,7 @@ void ArtifactWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
  */
 void ArtifactWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("artifactwidget"));
+    writer.writeStartElement(QLatin1String("artifactwidget"));
     UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }

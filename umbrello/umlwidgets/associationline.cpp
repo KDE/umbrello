@@ -327,7 +327,7 @@ void AssociationLine::dumpPoints()
  */
 bool AssociationLine::loadFromXMI(QDomElement &qElement)
 {
-    QString layout = qElement.attribute(QStringLiteral("layout"), QStringLiteral("polyline"));
+    QString layout = qElement.attribute(QLatin1String("layout"), QLatin1String("polyline"));
     m_layout = Uml::LayoutType::fromString(layout);
 
     QDomNode node = qElement.firstChild();
@@ -335,25 +335,25 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
     m_points.clear();
 
     QDomElement startElement = node.toElement();
-    if(startElement.isNull() || startElement.tagName() != QStringLiteral("startpoint")) {
+    if(startElement.isNull() || startElement.tagName() != QLatin1String("startpoint")) {
         return false;
     }
     UMLScene* umlScene = m_associationWidget->umlScene();
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
-    QString x = startElement.attribute(QStringLiteral("startx"), QStringLiteral("0"));
+    QString x = startElement.attribute(QLatin1String("startx"), QLatin1String("0"));
     qreal nX = toDoubleFromAnyLocale(x) + umlScene->fixX();
-    QString y = startElement.attribute(QStringLiteral("starty"), QStringLiteral("0"));
+    QString y = startElement.attribute(QLatin1String("starty"), QLatin1String("0"));
     qreal nY = toDoubleFromAnyLocale(y) + umlScene->fixY();
     QPointF startPoint(nX, nY);
 
     node = startElement.nextSibling();
     QDomElement endElement = node.toElement();
-    if(endElement.isNull() || endElement.tagName() != QStringLiteral("endpoint")) {
+    if(endElement.isNull() || endElement.tagName() != QLatin1String("endpoint")) {
         return false;
     }
-    x = endElement.attribute(QStringLiteral("endx"), QStringLiteral("0"));
+    x = endElement.attribute(QLatin1String("endx"), QLatin1String("0"));
     nX = toDoubleFromAnyLocale(x) + umlScene->fixX();
-    y = endElement.attribute(QStringLiteral("endy"), QStringLiteral("0"));
+    y = endElement.attribute(QLatin1String("endy"), QLatin1String("0"));
     nY = toDoubleFromAnyLocale(y) + umlScene->fixY();
     QPointF endPoint(nX, nY);
     setEndPoints(startPoint * dpiScale, endPoint * dpiScale);
@@ -362,9 +362,9 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
     QDomElement element = node.toElement();
     int i = 1;
     while (!element.isNull()) {
-        if (element.tagName() == QStringLiteral("point")) {
-            x = element.attribute(QStringLiteral("x"), QStringLiteral("0"));
-            y = element.attribute(QStringLiteral("y"), QStringLiteral("0"));
+        if (element.tagName() == QLatin1String("point")) {
+            x = element.attribute(QLatin1String("x"), QLatin1String("0"));
+            y = element.attribute(QLatin1String("y"), QLatin1String("0"));
             point.setX(toDoubleFromAnyLocale(x) + umlScene->fixX());
             point.setY(toDoubleFromAnyLocale(y) + umlScene->fixY());
             insertPoint(i++, point * dpiScale);
@@ -382,28 +382,28 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
  */
 void AssociationLine::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("linepath"));
-    writer.writeAttribute(QStringLiteral("layout"), Uml::LayoutType::toString(m_layout));
-    writer.writeStartElement(QStringLiteral("startpoint"));
+    writer.writeStartElement(QLatin1String("linepath"));
+    writer.writeAttribute(QLatin1String("layout"), Uml::LayoutType::toString(m_layout));
+    writer.writeStartElement(QLatin1String("startpoint"));
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
     QPointF point = m_associationWidget->mapToScene(startPoint());
     point /= dpiScale;
-    writer.writeAttribute(QStringLiteral("startx"), QString::number(point.x()));
-    writer.writeAttribute(QStringLiteral("starty"), QString::number(point.y()));
+    writer.writeAttribute(QLatin1String("startx"), QString::number(point.x()));
+    writer.writeAttribute(QLatin1String("starty"), QString::number(point.y()));
     writer.writeEndElement();            // startpoint
-    writer.writeStartElement(QStringLiteral("endpoint"));
+    writer.writeStartElement(QLatin1String("endpoint"));
     point = m_associationWidget->mapToScene(endPoint());
     point /= dpiScale;
-    writer.writeAttribute(QStringLiteral("endx"), QString::number(point.x()));
-    writer.writeAttribute(QStringLiteral("endy"), QString::number(point.y()));
+    writer.writeAttribute(QLatin1String("endx"), QString::number(point.x()));
+    writer.writeAttribute(QLatin1String("endy"), QString::number(point.y()));
     writer.writeEndElement();            // endpoint
     for(int i = 1; i < count()-1; ++i) {
-        writer.writeStartElement(QStringLiteral("point"));
+        writer.writeStartElement(QLatin1String("point"));
         point = m_associationWidget->mapToScene(this->point(i));
         point /= dpiScale;
-        writer.writeAttribute(QStringLiteral("x"), QString::number(point.x()));
-        writer.writeAttribute(QStringLiteral("y"), QString::number(point.y()));
+        writer.writeAttribute(QLatin1String("x"), QString::number(point.x()));
+        writer.writeAttribute(QLatin1String("y"), QString::number(point.y()));
         writer.writeEndElement();        // point
     }
     writer.writeEndElement();   // linepath
@@ -827,11 +827,11 @@ QString AssociationLine::toString(Uml::LayoutType::Enum layout)
  */
 Uml::LayoutType::Enum AssociationLine::fromString(const QString &layout)
 {
-    if (layout == QStringLiteral("Direct"))
+    if (layout == QLatin1String("Direct"))
         return Uml::LayoutType::Direct;
-    if (layout == QStringLiteral("Spline"))
+    if (layout == QLatin1String("Spline"))
         return Uml::LayoutType::Spline;
-    if (layout == QStringLiteral("Orthogonal"))
+    if (layout == QLatin1String("Orthogonal"))
         return Uml::LayoutType::Orthogonal;
     return Uml::LayoutType::Polyline;
 }

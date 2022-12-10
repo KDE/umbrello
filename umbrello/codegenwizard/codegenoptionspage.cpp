@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2002 Luis De la Parra <luis@delaparra.org>
-    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -329,10 +329,10 @@ void CodeGenOptionsPage::browseClicked()
     if (dir.isEmpty()) {
         return;
     }
-    if (button == QStringLiteral("ui_browseOutput")) {
+    if (button == QLatin1String("ui_browseOutput")) {
         ui_outputDir->setText(dir);
     }
-    else if (button == QStringLiteral("ui_browseHeadings")) {
+    else if (button == QLatin1String("ui_browseHeadings")) {
         ui_headingsDir->setText(dir);
     }
 }

@@ -118,9 +118,9 @@ QString UMLUniqueConstraint::toString(Uml::SignatureType::Enum sig,
 
         const UMLEntity *e = umlParent()->asUMLEntity();
         if (e && e->isPrimaryKey(this)) {
-           s += QStringLiteral("Primary Key (");
+           s += QLatin1String("Primary Key (");
         } else {
-           s += QStringLiteral("Unique (");
+           s += QLatin1String("Unique (");
         }
 
         bool first = true;
@@ -149,13 +149,13 @@ QString UMLUniqueConstraint::getFullyQualifiedName(const QString& separator,
  */
 void UMLUniqueConstraint::saveToXMI(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(writer, QStringLiteral("UniqueConstraint"));
+    UMLObject::save1(writer, QLatin1String("UniqueConstraint"));
 
     const UMLEntity* parentEnt = umlParent()->asUMLEntity();
     if (parentEnt && parentEnt->isPrimaryKey(this)) {
-        writer.writeAttribute(QStringLiteral("isPrimary"), QStringLiteral("1"));
+        writer.writeAttribute(QLatin1String("isPrimary"), QLatin1String("1"));
     } else {
-        writer.writeAttribute(QStringLiteral("isPrimary"), QStringLiteral("0"));
+        writer.writeAttribute(QLatin1String("isPrimary"), QLatin1String("0"));
     }
 
     foreach(UMLEntityAttribute* att, m_EntityAttributeList) {
@@ -179,7 +179,7 @@ bool UMLUniqueConstraint::showPropertiesDialog(QWidget* parent)
  */
 bool UMLUniqueConstraint::load1(QDomElement & element)
 {
-    int isPrimary = element.attribute(QStringLiteral("isPrimary"), QStringLiteral("0")).toInt();
+    int isPrimary = element.attribute(QLatin1String("isPrimary"), QLatin1String("0")).toInt();
     UMLEntity* parentEnt = umlParent()->asUMLEntity();
 
     if (isPrimary == 1) {
@@ -194,12 +194,12 @@ bool UMLUniqueConstraint::load1(QDomElement & element)
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (UMLDoc::tagEq(tag, QStringLiteral("ownedAttribute"))) {
-            tag = tempElement.attribute(QStringLiteral("xmi:type"));
+        if (UMLDoc::tagEq(tag, QLatin1String("ownedAttribute"))) {
+            tag = tempElement.attribute(QLatin1String("xmi:type"));
         }
-        if (UMLDoc::tagEq(tag, QStringLiteral("EntityAttribute"))) {
+        if (UMLDoc::tagEq(tag, QLatin1String("EntityAttribute"))) {
 
-            QString attName = tempElement.attribute(QStringLiteral("name"));
+            QString attName = tempElement.attribute(QLatin1String("name"));
             UMLObject* obj = parentEnt->findChildObject(attName);
 
             UMLEntityAttribute* entAtt = obj->asUMLEntityAttribute();

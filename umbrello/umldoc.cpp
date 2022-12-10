@@ -177,7 +177,7 @@ void UMLDoc::init()
 void UMLDoc::createDatatypeFolder()
 {
     delete m_datatypeRoot;
-    m_datatypeRoot = new UMLFolder(QStringLiteral("Datatypes"), "Datatypes");
+    m_datatypeRoot = new UMLFolder(QLatin1String("Datatypes"), "Datatypes");
     m_datatypeRoot->setLocalName(i18n("Datatypes"));
     m_datatypeRoot->setUMLPackage(m_root[Uml::ModelType::Logical]);
     Q_ASSERT(m_root[Uml::ModelType::Logical]);
@@ -591,10 +591,10 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
     // check if the xmi file is a compressed archive like tar.bzip2 or tar.gz
     QString filetype = m_doc_url.fileName();
     QString mimetype;
-    if (filetype.endsWith(QStringLiteral(".tgz")) || filetype.endsWith(QStringLiteral(".tar.gz"))) {
-        mimetype = QStringLiteral("application/x-gzip");
-    } else if (filetype.endsWith(QStringLiteral(".tar.bz2"))) {
-        mimetype = QStringLiteral("application/x-bzip");
+    if (filetype.endsWith(QLatin1String(".tgz")) || filetype.endsWith(QLatin1String(".tar.gz"))) {
+        mimetype = QLatin1String("application/x-gzip");
+    } else if (filetype.endsWith(QLatin1String(".tar.bz2"))) {
+        mimetype = QLatin1String("application/x-bzip");
     }
 
     if (mimetype.isEmpty() == false) {
@@ -635,7 +635,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
 #else
                 entryMimeType = KMimeType::findByPath(*it, 0, true)->name();
 #endif
-                if (entryMimeType == QStringLiteral("application/x-uml")) {
+                if (entryMimeType == QLatin1String("application/x-uml")) {
                     foundXMI = true;
                     break;
                 }
@@ -750,7 +750,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
             newDocument();
             return false;
         }
-        if (filetype.endsWith(QStringLiteral(".mdl"))) {
+        if (filetype.endsWith(QLatin1String(".mdl"))) {
             setUrlUntitled();
             m_bTypesAreResolved = false;
             status = Import_Rose::loadFromMDL(file);
@@ -764,7 +764,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
                 }
             }
         }
-        else if (filetype.endsWith(QStringLiteral(".zargo"))) {
+        else if (filetype.endsWith(QLatin1String(".zargo"))) {
             setUrlUntitled();
             status = Import_Argo::loadFromZArgoFile(file);
         }
@@ -788,7 +788,7 @@ bool UMLDoc::openDocument(const KUrl& url, const char* format /* =0 */)
         QString msg = i18n("There was a problem loading file: %1", url.pathOrUrl());
 #endif
         if (m_d->errors.size() > 0)
-            msg += QStringLiteral("<br/>") + i18n("Reason: %1", m_d->errors.join(QStringLiteral("<br/>")));
+            msg += QLatin1String("<br/>") + i18n("Reason: %1", m_d->errors.join(QLatin1String("<br/>")));
         KMessageBox::error(nullptr, msg, i18n("Load Error"));
         newDocument();
         return false;
@@ -829,20 +829,20 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 #endif
     QFileInfo fileInfo(strFileName);
     QString fileExt = fileInfo.completeSuffix();
-    QString fileFormat = QStringLiteral("xmi");
-    if (fileExt == QStringLiteral("xmi") || fileExt == QStringLiteral("bak.xmi")) {
-        fileFormat = QStringLiteral("xmi");
-    } else if (fileExt == QStringLiteral("xmi.tgz") || fileExt == QStringLiteral("bak.xmi.tgz")) {
-        fileFormat = QStringLiteral("tgz");
-    } else if (fileExt == QStringLiteral("xmi.tar.bz2") || fileExt == QStringLiteral("bak.xmi.tar.bz2")) {
-        fileFormat = QStringLiteral("bz2");
+    QString fileFormat = QLatin1String("xmi");
+    if (fileExt == QLatin1String("xmi") || fileExt == QLatin1String("bak.xmi")) {
+        fileFormat = QLatin1String("xmi");
+    } else if (fileExt == QLatin1String("xmi.tgz") || fileExt == QLatin1String("bak.xmi.tgz")) {
+        fileFormat = QLatin1String("tgz");
+    } else if (fileExt == QLatin1String("xmi.tar.bz2") || fileExt == QLatin1String("bak.xmi.tar.bz2")) {
+        fileFormat = QLatin1String("bz2");
     } else {
-        fileFormat = QStringLiteral("xmi");
+        fileFormat = QLatin1String("xmi");
     }
 
     initSaveTimer();
 
-    if (fileFormat == QStringLiteral("tgz") || fileFormat == QStringLiteral("bz2")) {
+    if (fileFormat == QLatin1String("tgz") || fileFormat == QLatin1String("bz2")) {
         KTar * archive;
 #if QT_VERSION >= 0x050000
         QTemporaryFile tmp_tgz_file;
@@ -854,16 +854,16 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
         // first we have to check if we are saving to a local or remote file
         if (url.isLocalFile()) {
-            if (fileFormat == QStringLiteral("tgz")) {  // check tgz or bzip
-                archive = new KTar(url.toLocalFile(), QStringLiteral("application/x-gzip"));
+            if (fileFormat == QLatin1String("tgz")) {  // check tgz or bzip
+                archive = new KTar(url.toLocalFile(), QLatin1String("application/x-gzip"));
             } else {
-                archive = new KTar(url.toLocalFile(), QStringLiteral("application/x-bzip"));
+                archive = new KTar(url.toLocalFile(), QLatin1String("application/x-bzip"));
             }
         } else {
-            if (fileFormat == QStringLiteral("tgz")) {  // check tgz or bzip2
-                archive = new KTar(tmp_tgz_file.fileName(), QStringLiteral("application/x-gzip"));
+            if (fileFormat == QLatin1String("tgz")) {  // check tgz or bzip2
+                archive = new KTar(tmp_tgz_file.fileName(), QLatin1String("application/x-gzip"));
             } else {
-                archive = new KTar(tmp_tgz_file.fileName(), QStringLiteral("application/x-bzip"));
+                archive = new KTar(tmp_tgz_file.fileName(), QLatin1String("application/x-bzip"));
             }
         }
 
@@ -901,11 +901,11 @@ bool UMLDoc::saveDocument(const KUrl& url, const char * format)
 
         // now add this file to the archive, but without the extension
         QString tmpQString = url.fileName();
-        if (fileFormat == QStringLiteral("tgz")) {
-            tmpQString.remove(QRegExp(QStringLiteral("\\.tgz$")));
+        if (fileFormat == QLatin1String("tgz")) {
+            tmpQString.remove(QRegExp(QLatin1String("\\.tgz$")));
         }
         else {
-            tmpQString.remove(QRegExp(QStringLiteral("\\.tar\\.bz2$")));
+            tmpQString.remove(QRegExp(QLatin1String("\\.tar\\.bz2$")));
         }
         archive->addLocalFile(tmp_xmi_file.fileName(), tmpQString);
 
@@ -2128,61 +2128,61 @@ void UMLDoc::saveToXMI(QIODevice& file)
         writer.setAutoFormattingIndent(2);
     else
         writer.setAutoFormattingIndent(1);
-    // writer.writeProcessingInstruction(QStringLiteral("xml"));
+    // writer.writeProcessingInstruction(QLatin1String("xml"));
     writer.writeStartDocument();
-    QString expoText(QStringLiteral("umbrello uml modeller "));
-    expoText += QStringLiteral(umbrelloVersion());
-    expoText += QStringLiteral(" http://umbrello.kde.org");
+    QString expoText(QLatin1String("umbrello uml modeller "));
+    expoText += QLatin1String(umbrelloVersion());
+    expoText += QLatin1String(" http://umbrello.kde.org");
     if (Settings::optionState().generalState.uml2) {
-        writer.writeStartElement(QStringLiteral("xmi:XMI"));
-        writer.writeAttribute(QStringLiteral("xmi:version"), QStringLiteral("2.1"));
-        writer.writeAttribute(QStringLiteral("xmlns:xmi"), QStringLiteral("http://schema.omg.org/spec/XMI/2.1"));
-        writer.writeAttribute(QStringLiteral("xmlns:xsi"), QStringLiteral("http://www.w3.org/2001/XMLSchema-instance"));
-        writer.writeNamespace(QStringLiteral("http://schema.omg.org/spec/UML/2.1"), QStringLiteral("uml"));
-        writer.writeStartElement(QStringLiteral("xmi:Documentation"));
-        writer.writeAttribute(QStringLiteral("exporter"), expoText);
-        writer.writeAttribute(QStringLiteral("exporterVersion"), QStringLiteral(XMI2_FILE_VERSION));
+        writer.writeStartElement(QLatin1String("xmi:XMI"));
+        writer.writeAttribute(QLatin1String("xmi:version"), QLatin1String("2.1"));
+        writer.writeAttribute(QLatin1String("xmlns:xmi"), QLatin1String("http://schema.omg.org/spec/XMI/2.1"));
+        writer.writeAttribute(QLatin1String("xmlns:xsi"), QLatin1String("http://www.w3.org/2001/XMLSchema-instance"));
+        writer.writeNamespace(QLatin1String("http://schema.omg.org/spec/UML/2.1"), QLatin1String("uml"));
+        writer.writeStartElement(QLatin1String("xmi:Documentation"));
+        writer.writeAttribute(QLatin1String("exporter"), expoText);
+        writer.writeAttribute(QLatin1String("exporterVersion"), QLatin1String(XMI2_FILE_VERSION));
         writer.writeEndElement();  // xmi:Documentation
-        writer.writeStartElement(QStringLiteral("uml:Model"));
-        writer.writeAttribute(QStringLiteral("xmi:id"), Uml::ID::toString(m_modelID));
+        writer.writeStartElement(QLatin1String("uml:Model"));
+        writer.writeAttribute(QLatin1String("xmi:id"), Uml::ID::toString(m_modelID));
     } else {
-        writer.writeStartElement(QStringLiteral("XMI"));
-        writer.writeAttribute(QStringLiteral("xmi.version"), QStringLiteral("1.2"));
+        writer.writeStartElement(QLatin1String("XMI"));
+        writer.writeAttribute(QLatin1String("xmi.version"), QLatin1String("1.2"));
         QDateTime now = QDateTime::currentDateTime();
-        writer.writeAttribute(QStringLiteral("timestamp"), now.toString(Qt::ISODate));
-        writer.writeAttribute(QStringLiteral("verified"), QStringLiteral("false"));
+        writer.writeAttribute(QLatin1String("timestamp"), now.toString(Qt::ISODate));
+        writer.writeAttribute(QLatin1String("verified"), QLatin1String("false"));
 
-        writer.writeNamespace(QStringLiteral("http://schema.omg.org/spec/UML/1.4"), QStringLiteral("UML"));
-        writer.writeStartElement(QStringLiteral("XMI.header"));
+        writer.writeNamespace(QLatin1String("http://schema.omg.org/spec/UML/1.4"), QLatin1String("UML"));
+        writer.writeStartElement(QLatin1String("XMI.header"));
 
-        writer.writeStartElement(QStringLiteral("XMI.documentation"));
-        writer.writeTextElement(QStringLiteral("XMI.exporter"), expoText);
+        writer.writeStartElement(QLatin1String("XMI.documentation"));
+        writer.writeTextElement(QLatin1String("XMI.exporter"), expoText);
 
-        writer.writeTextElement(QStringLiteral("XMI.exporterVersion"), QStringLiteral(XMI1_FILE_VERSION));
+        writer.writeTextElement(QLatin1String("XMI.exporterVersion"), QLatin1String(XMI1_FILE_VERSION));
 
         // all files are now saved with correct Unicode encoding, we add this
         // information to the header, so that the file will be loaded correctly
-        writer.writeTextElement(QStringLiteral("XMI.exporterEncoding"), QStringLiteral("UnicodeUTF8"));
+        writer.writeTextElement(QLatin1String("XMI.exporterEncoding"), QLatin1String("UnicodeUTF8"));
         writer.writeEndElement();  // XMI.documentation
-        writer.writeStartElement(QStringLiteral("XMI.metamodel"));
-        writer.writeAttribute(QStringLiteral("xmi.name"), QStringLiteral("UML"));
-        writer.writeAttribute(QStringLiteral("xmi.version"), QStringLiteral("1.4"));
-        writer.writeAttribute(QStringLiteral("href"), QStringLiteral("UML.xml"));
+        writer.writeStartElement(QLatin1String("XMI.metamodel"));
+        writer.writeAttribute(QLatin1String("xmi.name"), QLatin1String("UML"));
+        writer.writeAttribute(QLatin1String("xmi.version"), QLatin1String("1.4"));
+        writer.writeAttribute(QLatin1String("href"), QLatin1String("UML.xml"));
         writer.writeEndElement();  // XMI.metamodel
         writer.writeEndElement();  // XMI.header
-        writer.writeStartElement(QStringLiteral("XMI.content"));             // content
-        writer.writeStartElement(QStringLiteral("UML:Model"));
-        writer.writeAttribute(QStringLiteral("xmi.id"), Uml::ID::toString(m_modelID));
+        writer.writeStartElement(QLatin1String("XMI.content"));             // content
+        writer.writeStartElement(QLatin1String("UML:Model"));
+        writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_modelID));
     }
 
-    writer.writeAttribute(QStringLiteral("name"), m_Name);
+    writer.writeAttribute(QLatin1String("name"), m_Name);
     if (! Settings::optionState().generalState.uml2) {
-        writer.writeAttribute(QStringLiteral("isSpecification"), QStringLiteral("false"));
-        writer.writeAttribute(QStringLiteral("isAbstract"), QStringLiteral("false"));
-        writer.writeAttribute(QStringLiteral("isRoot"), QStringLiteral("false"));
-        writer.writeAttribute(QStringLiteral("isLeaf"), QStringLiteral("false"));
+        writer.writeAttribute(QLatin1String("isSpecification"), QLatin1String("false"));
+        writer.writeAttribute(QLatin1String("isAbstract"), QLatin1String("false"));
+        writer.writeAttribute(QLatin1String("isRoot"), QLatin1String("false"));
+        writer.writeAttribute(QLatin1String("isLeaf"), QLatin1String("false"));
 
-        writer.writeStartElement(QStringLiteral("UML:Namespace.ownedElement"));  // ownedNS
+        writer.writeStartElement(QLatin1String("UML:Namespace.ownedElement"));  // ownedNS
     }
 
     // Save stereotypes and toplevel datatypes first so that upon loading
@@ -2213,22 +2213,22 @@ void UMLDoc::saveToXMI(QIODevice& file)
 
     // Save the XMI extensions: docsettings, diagrams, listview, and codegeneration.
     if (Settings::optionState().generalState.uml2) {
-        writer.writeStartElement(QStringLiteral("xmi:Extension"));
-        writer.writeAttribute(QStringLiteral("extender"), QStringLiteral("umbrello"));
+        writer.writeStartElement(QLatin1String("xmi:Extension"));
+        writer.writeAttribute(QLatin1String("extender"), QLatin1String("umbrello"));
     } else {
-        writer.writeStartElement(QStringLiteral("XMI.extensions"));
-        writer.writeAttribute(QStringLiteral("xmi.extender"), QStringLiteral("umbrello"));
+        writer.writeStartElement(QLatin1String("XMI.extensions"));
+        writer.writeAttribute(QLatin1String("xmi.extender"), QLatin1String("umbrello"));
     }
 
-    writer.writeStartElement(QStringLiteral("docsettings"));
+    writer.writeStartElement(QLatin1String("docsettings"));
     Uml::ID::Type viewID = Uml::ID::None;
     UMLView *currentView = UMLApp::app()->currentView();
     if (currentView) {
         viewID = currentView->umlScene()->ID();
     }
-    writer.writeAttribute(QStringLiteral("viewid"), Uml::ID::toString(viewID));
-    writer.writeAttribute(QStringLiteral("documentation"), m_Doc);
-    writer.writeAttribute(QStringLiteral("uniqueid"), Uml::ID::toString(UniqueID::get()));
+    writer.writeAttribute(QLatin1String("viewid"), Uml::ID::toString(viewID));
+    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
+    writer.writeAttribute(QLatin1String("uniqueid"), Uml::ID::toString(UniqueID::get()));
     writer.writeEndElement();  // docsettings
 
     //  save listview
@@ -2237,7 +2237,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
     // save code generator
     CodeGenerator *codegen = UMLApp::app()->generator();
     if (codegen) {
-        writer.writeStartElement(QStringLiteral("codegeneration"));
+        writer.writeStartElement(QLatin1String("codegeneration"));
         codegen->saveToXMI(writer);
         writer.writeEndElement();  // codegeneration
     }
@@ -2278,13 +2278,13 @@ short UMLDoc::encoding(QIODevice & file)
     while (node.isComment() || node.isProcessingInstruction()) {
         if (node.isProcessingInstruction()) {
             const QDomProcessingInstruction& pi = node.toProcessingInstruction();
-            QRegExp rx(QStringLiteral("\\bencoding=['\"]([^'\"]+)['\"]"));
+            QRegExp rx(QLatin1String("\\bencoding=['\"]([^'\"]+)['\"]"));
             const int pos = rx.indexIn(pi.data());
             if (pos >= 0) {
                 const QString& encData = rx.cap(1);
-                if (QString::compare(encData, QStringLiteral("UTF-8"), Qt::CaseInsensitive) == 0) {
+                if (QString::compare(encData, QLatin1String("UTF-8"), Qt::CaseInsensitive) == 0) {
                     enc = ENC_UNICODE;
-                } else if (QString::compare(encData, QStringLiteral("windows-1252"), Qt::CaseInsensitive) == 0) {
+                } else if (QString::compare(encData, QLatin1String("windows-1252"), Qt::CaseInsensitive) == 0) {
                     enc = ENC_WINDOWS;
                 } else {
                     logDebug1("UMLDoc::encoding : ProcessingInstruction encoding=%1 is not yet implemented",
@@ -2355,10 +2355,10 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
 
     QString outerTag = root.tagName();
     // The element <XMI> / <xmi:XMI> is optional
-    if (outerTag == QStringLiteral("XMI") || outerTag == QStringLiteral("xmi:XMI")) {
-        QString versionString = root.attribute(QStringLiteral("xmi.version"));
+    if (outerTag == QLatin1String("XMI") || outerTag == QLatin1String("xmi:XMI")) {
+        QString versionString = root.attribute(QLatin1String("xmi.version"));
         if (versionString.isEmpty())
-            versionString = root.attribute(QStringLiteral("xmi:version"));
+            versionString = root.attribute(QLatin1String("xmi:version"));
         if (! versionString.isEmpty()) {
             double version = versionString.toDouble();
             if (version < 1.0) {
@@ -2383,33 +2383,33 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
             bool recognized = false;
             outerTag = element.tagName();
             //check header
-            if (outerTag == QStringLiteral("XMI.header")) {
+            if (outerTag == QLatin1String("XMI.header")) {
                 QDomNode headerNode = node.firstChild();
                 if (!validateXMI1Header(headerNode)) {
                     return false;
                 }
                 recognized = true;
-            } else if (outerTag == QStringLiteral("XMI.extensions") ||
-                       outerTag == QStringLiteral("xmi:Extension")) {
+            } else if (outerTag == QLatin1String("XMI.extensions") ||
+                       outerTag == QLatin1String("xmi:Extension")) {
                 QDomNode extensionsNode = node.firstChild();
                 while (! extensionsNode.isNull()) {
                     loadExtensionsFromXMI1(extensionsNode);
                     extensionsNode = extensionsNode.nextSibling();
                 }
                 recognized = true;
-            } else if (tagEq(outerTag, QStringLiteral("Model")) ||
-                       tagEq(outerTag, QStringLiteral("Package")) ||
-                       tagEq(outerTag, QStringLiteral("packagedElement"))) {
+            } else if (tagEq(outerTag, QLatin1String("Model")) ||
+                       tagEq(outerTag, QLatin1String("Package")) ||
+                       tagEq(outerTag, QLatin1String("packagedElement"))) {
                 if (!loadUMLObjectsFromXMI(element)) {
                     logWarn1("loadUMLObjectsFromXMI returned false for outerTag %1", outerTag);
                     continue;  //return false;
                 }
-                m_Name = element.attribute(QStringLiteral("name"), i18n("UML Model"));
+                m_Name = element.attribute(QLatin1String("name"), i18n("UML Model"));
                 UMLListView *lv = UMLApp::app()->listView();
                 lv->setTitle(0, m_Name);
                 recognized = true;
             }
-            if (outerTag != QStringLiteral("XMI.content")) {
+            if (outerTag != QLatin1String("XMI.content")) {
                 if (!recognized) {
                     logDebug1("UMLDoc::loadFromXMI skipping <%1>", outerTag);
                 }
@@ -2424,25 +2424,25 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                 }
                 element = child.toElement();
                 QString tag = element.tagName();
-                if (tag == QStringLiteral("umlobjects")  // for bkwd compat.
-                        || tagEq(tag, QStringLiteral("Subsystem"))
-                        || tagEq(tag, QStringLiteral("Project"))  // Embarcadero's Describe
-                        || tagEq(tag, QStringLiteral("Model"))) {
+                if (tag == QLatin1String("umlobjects")  // for bkwd compat.
+                        || tagEq(tag, QLatin1String("Subsystem"))
+                        || tagEq(tag, QLatin1String("Project"))  // Embarcadero's Describe
+                        || tagEq(tag, QLatin1String("Model"))) {
                     if (!loadUMLObjectsFromXMI(element)) {
                         logWarn0("UMLDoc::loadFromXMI failed load on objects");
                         return false;
                     }
-                    m_Name = element.attribute(QStringLiteral("name"), i18n("UML Model"));
+                    m_Name = element.attribute(QLatin1String("name"), i18n("UML Model"));
                     UMLListView *lv = UMLApp::app()->listView();
                     lv->setTitle(0, m_Name);
                     seen_UMLObjects = true;
-                } else if (tagEq(tag, QStringLiteral("Package")) ||
-                           tagEq(tag, QStringLiteral("Class")) ||
-                           tagEq(tag, QStringLiteral("Interface")) ||
-                           tagEq(tag, QStringLiteral("DataType"))) {
+                } else if (tagEq(tag, QLatin1String("Package")) ||
+                           tagEq(tag, QLatin1String("Class")) ||
+                           tagEq(tag, QLatin1String("Interface")) ||
+                           tagEq(tag, QLatin1String("DataType"))) {
                     // These tests are only for foreign XMI files that
                     // are missing the <Model> tag (e.g. NSUML)
-                    QString stID = element.attribute(QStringLiteral("stereotype"));
+                    QString stID = element.attribute(QLatin1String("stereotype"));
                     UMLObject *pObject = Object_Factory::makeObjectFromXMI(tag, stID);
                     if (!pObject) {
                         logWarn1("UMLDoc::loadFromXMI Unknown type of umlobject to create: %1", tag);
@@ -2475,18 +2475,18 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                         return false;
                     }
                     seen_UMLObjects = true;
-                } else if (tagEq(tag, QStringLiteral("TaggedValue"))) {
+                } else if (tagEq(tag, QLatin1String("TaggedValue"))) {
                     // This tag is produced here, i.e. outside of <UML:Model>,
                     // by the Unisys.JCR.1 Rose-to-XMI tool.
                     if (! seen_UMLObjects) {
                         logDebug0("skipping TaggedValue because not seen_UMLObjects");
                         continue;
                     }
-                    tag = element.attribute(QStringLiteral("tag"));
-                    if (tag != QStringLiteral("documentation")) {
+                    tag = element.attribute(QLatin1String("tag"));
+                    if (tag != QLatin1String("documentation")) {
                         continue;
                     }
-                    QString modelElement = element.attribute(QStringLiteral("modelElement"));
+                    QString modelElement = element.attribute(QLatin1String("modelElement"));
                     if (modelElement.isEmpty()) {
                         logDebug0("skipping TaggedValue(documentation) because modelElement.isEmpty()");
                         continue;
@@ -2497,11 +2497,11 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                                   modelElement);
                         continue;
                     }
-                    QString value = element.attribute(QStringLiteral("value"));
+                    QString value = element.attribute(QLatin1String("value"));
                     if (! value.isEmpty()) {
                         o->setDoc(value);
                     }
-                } else if (tagEq(tag, QStringLiteral("ownedComment"))) {
+                } else if (tagEq(tag, QLatin1String("ownedComment"))) {
                     m_Doc = Model_Utils::loadCommentFromXMI(element);
                 } else {
                     // for backward compatibility
@@ -2509,13 +2509,13 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                 }
             }
         }
-    } else if (tagEq(outerTag, QStringLiteral("Model")) ||
-               tagEq(outerTag, QStringLiteral("Package"))) {
+    } else if (tagEq(outerTag, QLatin1String("Model")) ||
+               tagEq(outerTag, QLatin1String("Package"))) {
         if (!loadUMLObjectsFromXMI(root)) {
             logWarn0("UMLDoc::loadFromXMI (without XMI element) failed load on objects");
             return false;
         }
-        m_Name = root.attribute(QStringLiteral("name"), i18n("UML Model"));
+        m_Name = root.attribute(QLatin1String("name"), i18n("UML Model"));
         UMLListView *lv = UMLApp::app()->listView();
         lv->setTitle(0, m_Name);
     } else {
@@ -2675,11 +2675,11 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
         QDomElement tempElement = node.toElement();
         QString type = tempElement.tagName();
-        QString xmiType = tempElement.attribute(QStringLiteral("xmi:type"));
-        if (tagEq(type, QStringLiteral("packagedElement")) && !xmiType.isEmpty()) {
+        QString xmiType = tempElement.attribute(QLatin1String("xmi:type"));
+        if (tagEq(type, QLatin1String("packagedElement")) && !xmiType.isEmpty()) {
             type = xmiType;
         }
-        if (tagEq(type, QStringLiteral("Model"))) {
+        if (tagEq(type, QLatin1String("Model"))) {
             // Handling of Umbrello native XMI files:
             // We get here from a recursive call to loadUMLObjectsFromXMI()
             // a few lines below, see
@@ -2701,7 +2701,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             // Namespace.ownedElement is the container of all stereotypes
             // (<UML:Stereotype>).
             bool foundUmbrelloRootFolder = false;
-            QString name = tempElement.attribute(QStringLiteral("name"));
+            QString name = tempElement.attribute(QLatin1String("name"));
             for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
                 if (name == m_root[i]->name()) {
                     UMLFolder *curRootSave = m_pCurrentRoot;
@@ -2722,11 +2722,11 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         if (Model_Utils::isCommonXMI1Attribute(type)) {
             continue;
         }
-        if (tagEq(type, QStringLiteral("Namespace.ownedElement")) ||
-                tagEq(type, QStringLiteral("Namespace.contents")) ||
-                tagEq(type, QStringLiteral("Element.ownedElement")) ||  // Embarcadero's Describe
-                tagEq(type, QStringLiteral("Model")) ||
-                type == QStringLiteral("ownedElement")) {
+        if (tagEq(type, QLatin1String("Namespace.ownedElement")) ||
+                tagEq(type, QLatin1String("Namespace.contents")) ||
+                tagEq(type, QLatin1String("Element.ownedElement")) ||  // Embarcadero's Describe
+                tagEq(type, QLatin1String("Model")) ||
+                type == QLatin1String("ownedElement")) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
             // Therefore the <UML:Namespace.ownedElement> tag is of no
@@ -2741,9 +2741,9 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
         // From here on, it's support for stereotypes, pre 1.5.5 versions,
         // and foreign files
-        if (!tempElement.hasAttribute(QStringLiteral("xmi.id")) &&
-            !tempElement.hasAttribute(QStringLiteral("xmi:id"))) {
-            QString idref = tempElement.attribute(QStringLiteral("xmi.idref"));
+        if (!tempElement.hasAttribute(QLatin1String("xmi.id")) &&
+            !tempElement.hasAttribute(QLatin1String("xmi:id"))) {
+            QString idref = tempElement.attribute(QLatin1String("xmi.idref"));
             if (! idref.isEmpty()) {
                 logDebug1("UMLDoc::loadUMLObjectsFromXMI resolution of xmi.idref %1"
                           " is not yet implemented", idref);
@@ -2753,11 +2753,11 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
             }
             continue;
         }
-        if (UMLDoc::tagEq(type, QStringLiteral("ownedComment"))) {
+        if (UMLDoc::tagEq(type, QLatin1String("ownedComment"))) {
             m_Doc = Model_Utils::loadCommentFromXMI(tempElement);
             continue;
         }
-        QString stID = tempElement.attribute(QStringLiteral("stereotype"));
+        QString stID = tempElement.attribute(QLatin1String("stereotype"));
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stID);
         if (!pObject) {
             logWarn1("UMLDoc::loadUMLObjectsFromXMI unknown type of umlobject to create: %1", type);
@@ -2848,30 +2848,30 @@ void UMLDoc::loadExtensionsFromXMI1(QDomNode& node)
     QDomElement element = node.toElement();
     QString tag = element.tagName();
 
-    if (tag == QStringLiteral("docsettings")) {
-        QString viewID = element.attribute(QStringLiteral("viewid"), QStringLiteral("-1"));
-        m_Doc = element.attribute(QStringLiteral("documentation"));
-        QString uniqueid = element.attribute(QStringLiteral("uniqueid"), QStringLiteral("0"));
+    if (tag == QLatin1String("docsettings")) {
+        QString viewID = element.attribute(QLatin1String("viewid"), QLatin1String("-1"));
+        m_Doc = element.attribute(QLatin1String("documentation"));
+        QString uniqueid = element.attribute(QLatin1String("uniqueid"), QLatin1String("0"));
 
         m_nViewID = Uml::ID::fromString(viewID);
         UniqueID::set(Uml::ID::fromString(uniqueid));
         UMLApp::app()->docWindow()->reset();
 
-    } else if (tag == QStringLiteral("diagrams") || tag == QStringLiteral("UISModelElement")) {
+    } else if (tag == QLatin1String("diagrams") || tag == QLatin1String("UISModelElement")) {
         // For backward compatibility only:
         // Since version 1.5.5 diagrams are saved as part of the UMLFolder.
         QDomNode diagramNode = node.firstChild();
-        if (tag == QStringLiteral("UISModelElement")) {          // Unisys.IntegratePlus.2
+        if (tag == QLatin1String("UISModelElement")) {          // Unisys.IntegratePlus.2
             element = diagramNode.toElement();
             tag = element.tagName();
-            if (tag != QStringLiteral("uisOwnedDiagram")) {
+            if (tag != QLatin1String("uisOwnedDiagram")) {
                 logError1("UMLDoc::loadExtensionsFromXMI1 unknown child node %1", tag);
                 return;
             }
             diagramNode = diagramNode.firstChild();
         } else {
             qreal resolution = 0.0;
-            QString res = node.toElement().attribute(QStringLiteral("resolution"), QStringLiteral(""));
+            QString res = node.toElement().attribute(QLatin1String("resolution"), QLatin1String(""));
             if (!res.isEmpty()) {
                resolution = res.toDouble();
             }
@@ -2886,7 +2886,7 @@ void UMLDoc::loadExtensionsFromXMI1(QDomNode& node)
             logWarn0("UMLDoc::loadExtensionsFromXMI1 failed load on diagrams");
         }
 
-    } else if (tag == QStringLiteral("listview")) {
+    } else if (tag == QLatin1String("listview")) {
         //FIXME: Need to resolveTypes() before loading listview,
         //       else listview items are duplicated.
         resolveTypes();
@@ -2894,12 +2894,12 @@ void UMLDoc::loadExtensionsFromXMI1(QDomNode& node)
             logWarn0("UMLDoc::loadExtensionsFromXMI1 failed load on listview");
         }
 
-    } else if (tag == QStringLiteral("codegeneration")) {
+    } else if (tag == QLatin1String("codegeneration")) {
         QDomNode cgnode = node.firstChild();
         QDomElement cgelement = cgnode.toElement();
         while (!cgelement.isNull()) {
             QString nodeName = cgelement.tagName();
-            QString lang = cgelement.attribute(QStringLiteral("language"), QStringLiteral("UNKNOWN"));
+            QString lang = cgelement.attribute(QLatin1String("language"), QLatin1String("UNKNOWN"));
             Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromString(lang);
             if (pl != Uml::ProgrammingLanguage::Reserved) {
                 CodeGenerator *g = UMLApp::app()->setGenerator(pl);
@@ -2938,7 +2938,7 @@ bool UMLDoc::loadDiagramsFromXMI1(QDomNode & node)
     int count = 0;
     while (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == QStringLiteral("diagram") || tag == QStringLiteral("UISDiagram")) {
+        if (tag == QLatin1String("diagram") || tag == QLatin1String("UISDiagram")) {
             pView = new UMLView(0);
             // IMPORTANT: Set OptionState of new UMLView _BEFORE_
             // reading the corresponding diagram:
@@ -2946,7 +2946,7 @@ bool UMLDoc::loadDiagramsFromXMI1(QDomNode & node)
             // + avoid crashes due to uninitialized values for lineWidth
             pView->umlScene()->setOptionState(state);
             bool success = false;
-            if (tag == QStringLiteral("UISDiagram")) {
+            if (tag == QLatin1String("UISDiagram")) {
                 success = pView->umlScene()->loadUISDiagram(element);
             } else {
                 success = pView->umlScene()->loadFromXMI(element);
@@ -3463,9 +3463,9 @@ void UMLDoc::slotAutoSave()
 #endif
     if (tempUrl.fileName() == i18n("Untitled")) {
 #if QT_VERSION >= 0x050000
-        tempUrl.setScheme(QStringLiteral("file"));
+        tempUrl.setScheme(QLatin1String("file"));
 #endif
-        tempUrl.setPath(QDir::homePath() + i18n("/autosave%1", QStringLiteral(".xmi")));
+        tempUrl.setPath(QDir::homePath() + i18n("/autosave%1", QLatin1String(".xmi")));
         saveDocument(tempUrl);
         setUrlUntitled();
         m_modified = true;
@@ -3481,7 +3481,7 @@ void UMLDoc::slotAutoSave()
         // don't overwrite manually saved file with autosave content
         QString fileName = tempUrl.fileName();
         Settings::OptionState optionState = Settings::optionState();
-        fileName.replace(QStringLiteral(".xmi"), optionState.generalState.autosavesuffix);
+        fileName.replace(QLatin1String(".xmi"), optionState.generalState.autosavesuffix);
 #if QT_VERSION >= 0x050000
         tempUrl.setUrl(tempUrl.toString(QUrl::RemoveFilename) + fileName);
 #else
@@ -3493,7 +3493,7 @@ void UMLDoc::slotAutoSave()
         // 2004-05-17 Achim Spangler
         // re-activate m_modified if autosave is writing to other file
         // than the main project file->autosave-suffix != ".xmi"
-        if (optionState.generalState.autosavesuffix != QStringLiteral(".xmi")) {
+        if (optionState.generalState.autosavesuffix != QLatin1String(".xmi")) {
             m_modified = true;
             UMLApp::app()->setModified(m_modified);
         }
@@ -3653,7 +3653,7 @@ bool UMLDoc::tagEq (const QString& inTag, const QString& inPattern)
 {
     QString tag = inTag;
     QString pattern = inPattern;
-    tag.remove(QRegExp(QStringLiteral("^\\w+:")));  // remove leading "UML:" or other
+    tag.remove(QRegExp(QLatin1String("^\\w+:")));  // remove leading "UML:" or other
     int patSections = pattern.count(QLatin1Char('.')) + 1;
     QString tagEnd = tag.section(QLatin1Char('.'), -patSections);
     return (tagEnd.toLower() == pattern.toLower());

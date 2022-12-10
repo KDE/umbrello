@@ -101,7 +101,7 @@ bool DiagramProxyWidget::activate(IDChangeLog *changeLog)
 
 bool DiagramProxyWidget::loadFromXMI(QDomElement &qElement)
 {
-    QString linkID = qElement.attribute(QStringLiteral("diagramlinkid"), QStringLiteral("-1"));
+    QString linkID = qElement.attribute(QLatin1String("diagramlinkid"), QLatin1String("-1"));
     m_diagramLinkId = Uml::ID::fromString(linkID);
     return true;
 }
@@ -109,7 +109,7 @@ bool DiagramProxyWidget::loadFromXMI(QDomElement &qElement)
 void DiagramProxyWidget::saveToXMI(QXmlStreamWriter& writer)
 {
     if (m_diagramLinkId != Uml::ID::None)
-        writer.writeAttribute(QStringLiteral("diagramlinkid"), Uml::ID::toString(m_diagramLinkId));
+        writer.writeAttribute(QLatin1String("diagramlinkid"), Uml::ID::toString(m_diagramLinkId));
 }
 
 bool DiagramProxyWidget::isProxyWidget() const
@@ -329,7 +329,7 @@ void DiagramProxyWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
 
     if (m_showLinkedDiagram) {
         m_sceneRect = linkedDiagram()->sceneRect().adjusted(-1,-1, 1, 1);
-        if (Tracer::instance()->isEnabled(QStringLiteral("DiagramProxyWidget"))) {
+        if (Tracer::instance()->isEnabled(QLatin1String("DiagramProxyWidget"))) {
             painter->setPen(Qt::magenta);
             painter->drawRect(m_clientRect);
         }
@@ -359,7 +359,7 @@ void DiagramProxyWidget::slotMenuSelection(QAction* action)
             bool ok;
             do {
                 if (!Diagram_Utils::isUniqueDiagramName(Uml::DiagramType::State, name))
-                    name.append(QStringLiteral("_1"));
+                    name.append(QLatin1String("_1"));
                 ok = Dialog_Utils::askNewName(WidgetBase::WidgetType::wt_State, name);
             } while(ok && !Diagram_Utils::isUniqueDiagramName(Uml::DiagramType::State, name));
             if (ok) {

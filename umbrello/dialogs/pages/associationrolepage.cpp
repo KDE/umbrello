@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -63,9 +63,9 @@ void AssociationRolePage::constructWidget()
     QString widgetNameA = m_pAssociationWidget->widgetForRole(Uml::RoleType::A)->name();
     QString widgetNameB = m_pAssociationWidget->widgetForRole(Uml::RoleType::B)->name();
     if(!widgetNameA.isEmpty())
-        titleA.append(QStringLiteral(" (") + widgetNameA + QLatin1Char(')'));
+        titleA.append(QLatin1String(" (") + widgetNameA + QLatin1Char(')'));
     if(!widgetNameB.isEmpty())
-        titleB.append(QStringLiteral(" (") + widgetNameB + QLatin1Char(')'));
+        titleB.append(QLatin1String(" (") + widgetNameB + QLatin1Char(')'));
 
     // general configuration of the GUI
     int margin = fontMetrics().height();
@@ -95,10 +95,10 @@ void AssociationRolePage::constructWidget()
 
     QStringList multiplicities;
     multiplicities << QString()
-                   << QStringLiteral("1")
-                   << QStringLiteral("*")
-                   << QStringLiteral("1..*")
-                   << QStringLiteral("0..1");
+                   << QLatin1String("1")
+                   << QLatin1String("*")
+                   << QLatin1String("1..*")
+                   << QLatin1String("0..1");
 
     // Properties
     //

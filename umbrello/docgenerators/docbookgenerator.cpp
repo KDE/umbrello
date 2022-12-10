@@ -7,7 +7,7 @@
 
 #include "docbookgenerator.h"
 
-#define DBG_SRC QStringLiteral("DocbookGenerator")
+#define DBG_SRC QLatin1String("DocbookGenerator")
 #include "debug_utils.h"
 #include "docbookgeneratorjob.h"
 #include "optionstate.h"
@@ -68,7 +68,7 @@ bool DocbookGenerator::generateDocbookForProject()
     KUrl url = umlDoc->url();
 #endif
   QString fileName = url.fileName();
-  fileName.remove(QRegExp(QStringLiteral(".xmi$")));
+  fileName.remove(QRegExp(QLatin1String(".xmi$")));
 #if QT_VERSION >= 0x050000
   url.setPath(url.path() + QLatin1Char('/') + fileName);
 #else
@@ -97,7 +97,7 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
 
     UMLViewList views = UMLApp::app()->document()->viewIterator();
     QStringList errors = UMLViewImageExporterModel().exportViews(views,
-        UMLViewImageExporterModel::mimeTypeToImageType(QStringLiteral("image/png")), destDir, false);
+        UMLViewImageExporterModel::mimeTypeToImageType(QLatin1String("image/png")), destDir, false);
     if (!errors.empty()) {
         KMessageBox::errorList(UMLApp::app(), i18n("Some errors happened when exporting the images:"), errors);
         return;
@@ -121,7 +121,7 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
     KUrl url = umlDoc->url();
 #endif
     QString fileName = url.fileName();
-    fileName.replace(QRegExp(QStringLiteral(".xmi$")), QStringLiteral(".docbook"));
+    fileName.replace(QRegExp(QLatin1String(".xmi$")), QLatin1String(".docbook"));
 #if QT_VERSION >= 0x050000
     url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
 #else
@@ -168,17 +168,17 @@ QString DocbookGenerator::customXslFile()
 {
     QString xslBaseName;
     if (Settings::optionState().generalState.uml2) {
-        xslBaseName = QStringLiteral("xmi2docbook.xsl");
+        xslBaseName = QLatin1String("xmi2docbook.xsl");
     } else {
-        xslBaseName = QStringLiteral("xmi1docbook.xsl");
+        xslBaseName = QLatin1String("xmi1docbook.xsl");
     }
 #if QT_VERSION >= 0x050000
-    QString xsltFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello5/") + xslBaseName));
+    QString xsltFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + xslBaseName));
 #else
-    QString xsltFile(KGlobal::dirs()->findResource("data", QStringLiteral("umbrello/") + xslBaseName));
+    QString xsltFile(KGlobal::dirs()->findResource("data", QLatin1String("umbrello/") + xslBaseName));
 #endif
     if (xsltFile.isEmpty())
-        xsltFile = QStringLiteral(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
+        xsltFile = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
 
     logDebug1("DocbookGenerator::customXslFile returning %1", xsltFile);
     return xsltFile;

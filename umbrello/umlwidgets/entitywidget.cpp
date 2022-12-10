@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -80,11 +80,11 @@ QSizeF EntityWidget::calculateSize(bool withExtensions /* = true */) const
         QString text = entityattribute->name();
         UMLEntityAttribute* umlEA = entityattribute->asUMLEntityAttribute();
         if (showAttributeSignature()) {
-            text.append(QStringLiteral(" : ") + umlEA->getTypeName());
-            text.append(QStringLiteral(" [") + umlEA->getAttributes() + QStringLiteral("]"));
+            text.append(QLatin1String(" : ") + umlEA->getTypeName());
+            text.append(QLatin1String(" [") + umlEA->getAttributes() + QLatin1String("]"));
         }
         if (showStereotype()) {
-            text.append(QStringLiteral(" ") + umlEA->stereotype(true));
+            text.append(QLatin1String(" ") + umlEA->stereotype(true));
         }
         const int nameWidth = bfm.size(0, text).width();
         if (nameWidth > width)
@@ -159,11 +159,11 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
         painter->setPen(textColor());
         const UMLEntityAttribute* umlEA = entityattribute->asUMLEntityAttribute();
         if (showAttributeSignature()) {
-            text.append(QStringLiteral(" : ") + umlEA->getTypeName());
-            text.append(QStringLiteral(" [") + umlEA->getAttributes() + QStringLiteral("]"));
+            text.append(QLatin1String(" : ") + umlEA->getTypeName());
+            text.append(QLatin1String(" [") + umlEA->getAttributes() + QLatin1String("]"));
         }
         if (showStereotype()) {
-            text.append(QStringLiteral(" ") + umlEA->stereotype(true));
+            text.append(QLatin1String(" ") + umlEA->stereotype(true));
         }
         if (umlEA && umlEA->indexType() == UMLEntityAttribute::Primary)
         {
@@ -184,7 +184,7 @@ bool EntityWidget::loadFromXMI(QDomElement & qElement)
 {
     if (!UMLWidget::loadFromXMI(qElement))
         return false;
-    QString showAttributeSignatures = qElement.attribute(QStringLiteral("showattsigs"), QStringLiteral("0"));
+    QString showAttributeSignatures = qElement.attribute(QLatin1String("showattsigs"), QLatin1String("0"));
     m_showAttributeSignatures = (bool)showAttributeSignatures.toInt();
     return true;
 }
@@ -194,9 +194,9 @@ bool EntityWidget::loadFromXMI(QDomElement & qElement)
  */
 void EntityWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("entitywidget"));
+    writer.writeStartElement(QLatin1String("entitywidget"));
     UMLWidget::saveToXMI(writer);
-    writer.writeAttribute(QStringLiteral("showattsigs"), QString::number(m_showAttributeSignatures));
+    writer.writeAttribute(QLatin1String("showattsigs"), QString::number(m_showAttributeSignatures));
 
     writer.writeEndElement();
 }

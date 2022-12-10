@@ -24,7 +24,7 @@ CPPSourceCodeAccessorMethod::CPPSourceCodeAccessorMethod(CodeClassField * field,
   : CodeAccessorMethod(field)
 {
     setType(type);
-    setEndMethodText(QStringLiteral("}"));
+    setEndMethodText(QLatin1String("}"));
 }
 
 void CPPSourceCodeAccessorMethod::update()
@@ -75,12 +75,12 @@ void CPPSourceCodeAccessorMethod::updateContent()
             text = policy->getVectorMethodRemove(variableName, itemClassName);
             break;
         case CodeAccessorMethod::SET:
-            text = variableName + QStringLiteral(" = value;");
+            text = variableName + QLatin1String(" = value;");
             break;
         case CodeAccessorMethod::LIST:
         case CodeAccessorMethod::GET:
         default:
-            text = QStringLiteral("return ") + variableName + QLatin1Char(';');
+            text = QLatin1String("return ") + variableName + QLatin1Char(';');
             break;
         }
     }
@@ -124,42 +124,42 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     if(objectType.isEmpty())
         objectType = fieldName;
 
-    QString methodReturnType(QStringLiteral("void"));
-    QString methodName; // QStringLiteral("get") + cppdoc->capitalizeFirstLetter(fieldName);
-    QString methodParams = QChar(QLatin1Char(' ')); // QStringLiteral("get") + cppdoc->capitalizeFirstLetter(fieldName);
+    QString methodReturnType(QLatin1String("void"));
+    QString methodName; // QLatin1String("get") + cppdoc->capitalizeFirstLetter(fieldName);
+    QString methodParams = QChar(QLatin1Char(' ')); // QLatin1String("get") + cppdoc->capitalizeFirstLetter(fieldName);
     QString headerText;
     QString className = CodeGenerator::cleanName(c->name());
     QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
     switch(getType()) {
     case CodeAccessorMethod::ADD:
-        methodName = QStringLiteral("add_") + fieldType;
-        methodReturnType = QStringLiteral("void");
-        methodParams = objectType + QStringLiteral(" value ");
-        headerText = QStringLiteral("Add a ") + fieldName + QStringLiteral(" object to the ") + fieldName + QStringLiteral("List") + endLine + getParentObject()->doc() + endLine + tag + QStringLiteral("return void");
+        methodName = QLatin1String("add_") + fieldType;
+        methodReturnType = QLatin1String("void");
+        methodParams = objectType + QLatin1String(" value ");
+        headerText = QLatin1String("Add a ") + fieldName + QLatin1String(" object to the ") + fieldName + QLatin1String("List") + endLine + getParentObject()->doc() + endLine + tag + QLatin1String("return void");
         break;
     case CodeAccessorMethod::REMOVE:
-        methodName = QStringLiteral("remove_") + fieldType;
-        methodParams = objectType + QStringLiteral(" value ");
-        methodReturnType = QStringLiteral("void");
-        headerText = QStringLiteral("Remove a ") + fieldName + QStringLiteral(" object from the ") + fieldName + QStringLiteral("List") + endLine + getParentObject()->doc() + endLine + tag + QStringLiteral("return void");
+        methodName = QLatin1String("remove_") + fieldType;
+        methodParams = objectType + QLatin1String(" value ");
+        methodReturnType = QLatin1String("void");
+        headerText = QLatin1String("Remove a ") + fieldName + QLatin1String(" object from the ") + fieldName + QLatin1String("List") + endLine + getParentObject()->doc() + endLine + tag + QLatin1String("return void");
         break;
     case CodeAccessorMethod::LIST:
-        methodName = QStringLiteral("get_") + fieldType + QStringLiteral("_list");
+        methodName = QLatin1String("get_") + fieldType + QLatin1String("_list");
         methodReturnType = vectorClassName;
-        headerText = QStringLiteral("Get the ") + fieldName + QStringLiteral("List") + endLine + getParentObject()->doc() + endLine + tag + QStringLiteral("return ") + vectorClassName + QStringLiteral("with list of objects");
+        headerText = QLatin1String("Get the ") + fieldName + QLatin1String("List") + endLine + getParentObject()->doc() + endLine + tag + QLatin1String("return ") + vectorClassName + QLatin1String("with list of objects");
         break;
     case CodeAccessorMethod::SET:
-        methodName = QStringLiteral("set_") + fieldName;
-        methodParams = fieldType + QStringLiteral(" value ");
-        methodReturnType = QStringLiteral("void");
-        headerText = QStringLiteral("Set the value of ") + fieldName + endLine + getParentObject()->doc() + endLine + tag + QStringLiteral("param value the value of ") + fieldName;
+        methodName = QLatin1String("set_") + fieldName;
+        methodParams = fieldType + QLatin1String(" value ");
+        methodReturnType = QLatin1String("void");
+        headerText = QLatin1String("Set the value of ") + fieldName + endLine + getParentObject()->doc() + endLine + tag + QLatin1String("param value the value of ") + fieldName;
         break;
     case CodeAccessorMethod::GET:
     default:
-        methodName = QStringLiteral("get_") + fieldName;
+        methodName = QLatin1String("get_") + fieldName;
         methodReturnType = fieldType;
-        headerText = QStringLiteral("Get the value of ") + fieldName + endLine + getParentObject()->doc() + endLine + tag + QStringLiteral("return the value of ") + fieldName;
+        headerText = QLatin1String("Get the value of ") + fieldName + endLine + getParentObject()->doc() + endLine + tag + QLatin1String("return the value of ") + fieldName;
         break;
     }
 
@@ -170,7 +170,7 @@ void CPPSourceCodeAccessorMethod::updateMethodDeclaration()
     setComment(header);
 
     // set start method text (EndText never changes)
-    setStartMethodText(methodReturnType + QLatin1Char(' ') + className + QStringLiteral("::") + methodName + QStringLiteral(" (") + methodParams + QLatin1Char(')') + QStringLiteral(" {"));
+    setStartMethodText(methodReturnType + QLatin1Char(' ') + className + QLatin1String("::") + methodName + QLatin1String(" (") + methodParams + QLatin1Char(')') + QLatin1String(" {"));
 
     setOverallIndentationLevel(0);
 

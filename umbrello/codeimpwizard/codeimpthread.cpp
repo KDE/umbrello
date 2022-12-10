@@ -42,27 +42,27 @@ void CodeImpThread::run()
     QString fileName = m_file.absoluteFilePath();
 
     if (classImporter) {
-        emit messageToLog(m_file.fileName(), QStringLiteral("start import..."));
-        emit messageToWiz(m_file.fileName(), QStringLiteral("started"));
+        emit messageToLog(m_file.fileName(), QLatin1String("start import..."));
+        emit messageToWiz(m_file.fileName(), QLatin1String("started"));
         emit messageToApp(i18n("Importing file: %1", fileName));
         // FIXME: ClassImport still uses umldoc->writeToStatusBar for log writing
 
         if (!classImporter->importFile(fileName)) {
             emit messageToApp(i18nc("show failed on status bar", "Failed."));
             emit messageToWiz(m_file.fileName(), QString());
-            emit messageToLog(m_file.fileName(), QStringLiteral("...import failed"));
+            emit messageToLog(m_file.fileName(), QLatin1String("...import failed"));
             emit finished(false);
         }
         else {
             emit messageToApp(i18nc("show Ready on status bar", "Ready."));
-            emit messageToWiz(m_file.fileName(), QStringLiteral("finished"));
-            emit messageToLog(m_file.fileName(), QStringLiteral("...import finished"));
+            emit messageToWiz(m_file.fileName(), QLatin1String("finished"));
+            emit messageToLog(m_file.fileName(), QLatin1String("...import finished"));
             emit finished(true);
         }
         delete classImporter;
     }
     else {
-        emit messageToWiz(m_file.fileName(), QStringLiteral("aborted"));
+        emit messageToWiz(m_file.fileName(), QLatin1String("aborted"));
         emit messageToApp(i18n("No code importer for file: %1", fileName));
         emit aborted();
     }
@@ -104,6 +104,6 @@ void CodeImpThread::emitMessageToLog(const QString& file, const QString& text)
 void CodeImpThread::questionAsked(const QString& question, int& answer)
 {
     //QMutexLocker locker(&m_mutex);
-    answer = KMessageBox::questionYesNo(0, question, QStringLiteral("Question code import:")); // @todo i18n
+    answer = KMessageBox::questionYesNo(0, question, QLatin1String("Question code import:")); // @todo i18n
     //m_waitCondition.wakeOne();
 }

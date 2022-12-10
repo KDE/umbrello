@@ -41,7 +41,7 @@ void TestPythonWriter::test_writeClass()
 
     py->writeClass(c);
     // does the just created file exist?
-    QFile file(temporaryPath() + py->findFileName(c, QStringLiteral(".py")));
+    QFile file(temporaryPath() + py->findFileName(c, QLatin1String(".py")));
     QCOMPARE(file.exists(), true);
 }
 
@@ -50,9 +50,9 @@ void TestPythonWriter::test_reservedKeywords()
     PythonWriter* py = new PythonWriter();
     QStringList list = py->reservedKeywords();
     QCOMPARE(list.empty(), false);
-    QCOMPARE(list[0], QStringLiteral("abs"));
-    QCOMPARE(list[11], QStringLiteral("class"));
-    QCOMPARE(list.last(), QStringLiteral("zip"));
+    QCOMPARE(list[0], QLatin1String("abs"));
+    QCOMPARE(list[11], QLatin1String("class"));
+    QCOMPARE(list.last(), QLatin1String("zip"));
 }
 
 QTEST_MAIN(TestPythonWriter)

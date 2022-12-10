@@ -52,12 +52,12 @@ UMLObject* UMLComponent::clone() const
  */
 void UMLComponent::saveToXMI(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(writer, QStringLiteral("Component"));
-    writer.writeAttribute(QStringLiteral("executable"), QString::number(m_executable));
+    UMLObject::save1(writer, QLatin1String("Component"));
+    writer.writeAttribute(QLatin1String("executable"), QString::number(m_executable));
     // Save contained components if any.
     if (m_objects.count()) {
         if (! Settings::optionState().generalState.uml2) {
-            writer.writeStartElement(QStringLiteral("UML:Namespace.ownedElement"));
+            writer.writeStartElement(QLatin1String("UML:Namespace.ownedElement"));
         }
         for (UMLObjectListIt objectsIt(m_objects); objectsIt.hasNext();) {
             UMLObject* obj = objectsIt.next();
@@ -76,7 +76,7 @@ void UMLComponent::saveToXMI(QXmlStreamWriter& writer)
  */
 bool UMLComponent::load1(QDomElement& element)
 {
-    QString executable = element.attribute(QStringLiteral("executable"), QStringLiteral("0"));
+    QString executable = element.attribute(QLatin1String("executable"), QLatin1String("0"));
     m_executable = (bool)executable.toInt();
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {
@@ -86,8 +86,8 @@ bool UMLComponent::load1(QDomElement& element)
         QString type = tempElement.tagName();
         if (Model_Utils::isCommonXMI1Attribute(type))
             continue;
-        if (UMLDoc::tagEq(type, QStringLiteral("Namespace.ownedElement")) ||
-                UMLDoc::tagEq(type, QStringLiteral("Namespace.contents"))) {
+        if (UMLDoc::tagEq(type, QLatin1String("Namespace.ownedElement")) ||
+                UMLDoc::tagEq(type, QLatin1String("Namespace.contents"))) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
             // Therefore these tags are not further interpreted.
@@ -95,8 +95,8 @@ bool UMLComponent::load1(QDomElement& element)
                 return false;
             continue;
         }
-        if (UMLDoc::tagEq(type, QStringLiteral("ownedAttribute"))) {
-            type = tempElement.attribute(QStringLiteral("xmi:type"));
+        if (UMLDoc::tagEq(type, QLatin1String("ownedAttribute"))) {
+            type = tempElement.attribute(QLatin1String("xmi:type"));
         }
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type);
         if (!pObject) {

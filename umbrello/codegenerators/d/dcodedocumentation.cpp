@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
-    SPDX-FileCopyrightText: 2008-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -28,7 +28,7 @@ DCodeDocumentation::~DCodeDocumentation()
 
 void DCodeDocumentation::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("dcodedocumentation"));
+    writer.writeStartElement(QLatin1String("dcodedocumentation"));
     setAttributesOnNode(writer); // as we added no additional fields to this class we may
     // just use parent TextBlock method
     writer.writeEndElement();
@@ -55,12 +55,12 @@ QString DCodeDocumentation::toString() const
         if(useDoubleDashOutput)
         {
             if(!body.isEmpty()) {
-                output += (formatMultiLineText (body, indent + QStringLiteral("// "), endLine));
+                output += (formatMultiLineText (body, indent + QLatin1String("// "), endLine));
             }
         } else {
-            output += indent + QStringLiteral("/**") + endLine;
-            output += formatMultiLineText (body, indent + QStringLiteral(" * "), endLine);
-            output += indent + QStringLiteral(" */") + endLine;
+            output += indent + QLatin1String("/**") + endLine;
+            output += formatMultiLineText (body, indent + QLatin1String(" * "), endLine);
+            output += indent + QLatin1String(" */") + endLine;
         }
     }
 
@@ -71,9 +71,9 @@ QString DCodeDocumentation::getNewEditorLine(int amount)
 {
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
-        return getIndentationString(amount) + QStringLiteral(" * ");
+        return getIndentationString(amount) + QLatin1String(" * ");
     else
-        return getIndentationString(amount) + QStringLiteral("// ");
+        return getIndentationString(amount) + QLatin1String("// ");
 }
 
 int DCodeDocumentation::firstEditableLine()
@@ -106,11 +106,11 @@ QString DCodeDocumentation::unformatText(const QString & text, const QString & i
     mytext.remove(QRegExp(QLatin1Char('^') + indent));
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
-        mytext.remove(QRegExp(QStringLiteral("^\\/\\*\\*\\s*\n?")));
-        mytext.remove(QRegExp(QStringLiteral("\\s*\\*\\/\\s*\n?$")));
-        mytext.remove(QRegExp(QStringLiteral("^\\s*\\*\\s*")));
+        mytext.remove(QRegExp(QLatin1String("^\\/\\*\\*\\s*\n?")));
+        mytext.remove(QRegExp(QLatin1String("\\s*\\*\\/\\s*\n?$")));
+        mytext.remove(QRegExp(QLatin1String("^\\s*\\*\\s*")));
     } else
-        mytext.remove(QRegExp(QStringLiteral("^\\/\\/\\s*")));
+        mytext.remove(QRegExp(QLatin1String("^\\/\\/\\s*")));
 
     return mytext;
 }

@@ -57,9 +57,9 @@ void TestUMLObject::test_doc()
     UMLPackage parent("Test Parent");
     UMLObject a("Test A");
     QCOMPARE(a.hasDoc(), false);
-    a.setDoc(QStringLiteral("new doc"));
+    a.setDoc(QLatin1String("new doc"));
     QCOMPARE(a.hasDoc(), true);
-    QCOMPARE(a.doc(), QStringLiteral("new doc"));
+    QCOMPARE(a.doc(), QLatin1String("new doc"));
 }
 
 void TestUMLObject::test_equal()
@@ -81,7 +81,7 @@ void TestUMLObject::test_fullyQualifiedName()
 {
     UMLObject* a = new UMLObject("Test A");
     cleanupOnExit(a);
-    QCOMPARE(a->fullyQualifiedName(), QStringLiteral("Test A"));
+    QCOMPARE(a->fullyQualifiedName(), QLatin1String("Test A"));
 
     UMLPackage* topParent = new UMLPackage("Top Parent");
     cleanupOnExit(topParent);
@@ -90,12 +90,12 @@ void TestUMLObject::test_fullyQualifiedName()
     parent->setUMLPackage(topParent);
     a->setUMLPackage(parent);
     QCOMPARE(a->umlPackage()->fullyQualifiedName(), a->package());
-    QCOMPARE(a->fullyQualifiedName(), QStringLiteral("Top Parent::Test Parent::Test A"));
-    QCOMPARE(a->fullyQualifiedName(QStringLiteral("-")), QStringLiteral("Top Parent-Test Parent-Test A"));
+    QCOMPARE(a->fullyQualifiedName(), QLatin1String("Top Parent::Test Parent::Test A"));
+    QCOMPARE(a->fullyQualifiedName(QLatin1String("-")), QLatin1String("Top Parent-Test Parent-Test A"));
 
     UMLFolder *f = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
     parent->setUMLPackage(f);
-    QCOMPARE(a->fullyQualifiedName(QStringLiteral("::"), true), QStringLiteral("Logical View::Test Parent::Test A"));
+    QCOMPARE(a->fullyQualifiedName(QLatin1String("::"), true), QLatin1String("Logical View::Test Parent::Test A"));
 }
 
 void TestUMLObject::test_isAbstract()
@@ -131,7 +131,7 @@ void TestUMLObject::test_resolveRef()
     QCOMPARE(a.resolveRef(), true);
 
     // secondary fallback
-    a.setSecondaryId(QStringLiteral(""));
+    a.setSecondaryId(QLatin1String(""));
     a.setSecondaryFallback(Uml::ID::toString(stereotype->id()));
     QCOMPARE(a.resolveRef(), true);
 
@@ -142,7 +142,7 @@ void TestUMLObject::test_resolveRef()
     b.setSecondaryId(Uml::ID::toString(stereotype2.id()));
     QCOMPARE(b.resolveRef(), true);
     // resolveRef creates an "undef" datatype and assigns it to m_Secondary
-    QCOMPARE(b.secondary()->name(), QStringLiteral("undef"));
+    QCOMPARE(b.secondary()->name(), QLatin1String("undef"));
 }
 
 void TestUMLObject::test_saveAndLoad()
@@ -183,9 +183,9 @@ void TestUMLObject::test_setBaseType()
 void TestUMLObject::test_setStereotype()
 {
     UMLObject a("Test A");
-    QCOMPARE(a.stereotype(), QStringLiteral(""));
-    a.setStereotypeCmd(QStringLiteral("test"));
-    QCOMPARE(a.stereotype(), QStringLiteral("test"));
+    QCOMPARE(a.stereotype(), QLatin1String(""));
+    a.setStereotypeCmd(QLatin1String("test"));
+    QCOMPARE(a.stereotype(), QLatin1String("test"));
 }
 
 void TestUMLObject::test_setUMLPackage()
@@ -214,7 +214,7 @@ void TestUMLObject::test_setVisibility()
 
 void TestUMLObject::test_toString()
 {
-    QCOMPARE(UMLObject::toString(UMLObject::ot_Class), QStringLiteral("ot_Class"));
+    QCOMPARE(UMLObject::toString(UMLObject::ot_Class), QLatin1String("ot_Class"));
     QCOMPARE(UMLObject::toI18nString(UMLObject::ot_Class), i18n("Class &name:"));
 }
 

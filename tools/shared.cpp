@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2014-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2014-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
     SPDX-FileCopyrightText: 2014-2020 Ralf Habacker <ralf.habacker@freenet.de>
 */
 
@@ -175,11 +175,11 @@ bool fetchPoFile(const QString &fileName, TranslationMap &map)
     while (!in.atEnd()) {
         QString line = in.readLine();
         // handle multilines
-        if (line.startsWith(QStringLiteral("msgid"))) {
+        if (line.startsWith(QLatin1String("msgid"))) {
             key = line.mid(7,line.length()-7-1);
             if (key.isEmpty())
                 multiLineID = true;
-        } else if (line.startsWith(QStringLiteral("msgstr"))) {
+        } else if (line.startsWith(QLatin1String("msgstr"))) {
             value = line.mid(8, line.length()-8-1);
             if (multiLineID && !key.isEmpty() && value.isEmpty())
                 multiLineValue = true;

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2015-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2015-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "stereotypesmodel.h"
@@ -71,7 +71,7 @@ QVariant StereotypesModel::data(const QModelIndex & index, int role) const
 
     UMLStereotype *s = m_stereotypes.at(index.row());
     if (cCount == 1) {
-        QString a = s->name() + QString(QStringLiteral(" (%1)")).arg(s->refCount());
+        QString a = s->name() + QString(QLatin1String(" (%1)")).arg(s->refCount());
         return a;
       }
 

@@ -53,15 +53,15 @@ QString UMLTemplate::toString(Uml::SignatureType::Enum sig,
     Q_UNUSED(sig);
     QString s;
 
-    if (m_pSecondary == 0 || m_pSecondary->name() == QStringLiteral("class")) {
+    if (m_pSecondary == 0 || m_pSecondary->name() == QLatin1String("class")) {
         s = name();
     } else {
-        s = name() + QStringLiteral(" : ") + m_pSecondary->name();
+        s = name() + QLatin1String(" : ") + m_pSecondary->name();
     }
     if (withStereotype) {
         QString st = stereotype(true);
         if (!st.isEmpty())
-            s += QStringLiteral(" ") + st;
+            s += QLatin1String(" ") + st;
     }
     return s;
 }
@@ -77,7 +77,7 @@ QString UMLTemplate::toString(Uml::SignatureType::Enum sig,
 QString UMLTemplate::getTypeName() const
 {
     if (m_pSecondary == 0)
-        return QStringLiteral("class");
+        return QLatin1String("class");
     return m_pSecondary->name();
 }
 
@@ -125,11 +125,11 @@ void UMLTemplate::saveToXMI(QXmlStreamWriter& writer)
 {
     //FIXME: uml13.dtd compliance
     const QString xmiType = (Settings::optionState().generalState.uml2 ?
-                             QStringLiteral("ClassifierTemplateParameter") :
-                                       QStringLiteral("TemplateParameter"));
-    UMLObject::save1(writer, xmiType, QStringLiteral("ownedParameter"));
+                             QLatin1String("ClassifierTemplateParameter") :
+                                       QLatin1String("TemplateParameter"));
+    UMLObject::save1(writer, xmiType, QLatin1String("ownedParameter"));
     if (m_pSecondary)
-        writer.writeAttribute(QStringLiteral("type"), Uml::ID::toString(m_pSecondary->id()));
+        writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
     writer.writeEndElement();
 }
 
@@ -138,7 +138,7 @@ void UMLTemplate::saveToXMI(QXmlStreamWriter& writer)
  */
 bool UMLTemplate::load1(QDomElement& element)
 {
-    m_SecondaryId = element.attribute(QStringLiteral("type"));
+    m_SecondaryId = element.attribute(QLatin1String("type"));
     return true;
 }
 

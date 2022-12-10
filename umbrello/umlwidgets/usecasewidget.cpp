@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header file
@@ -64,11 +64,11 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
         txt = umlObject()->stereotype(true);
     }
     if (!txt.isEmpty())
-        txt.append(QStringLiteral("\n"));
+        txt.append(QLatin1String("\n"));
     QString name_txt = name();
 
     // Replace user-entered "\n" with real line breaks:
-    name_txt.replace(QStringLiteral("\\n"),QStringLiteral("\n"));
+    name_txt.replace(QLatin1String("\\n"),QLatin1String("\n"));
     txt += name_txt;
     qreal dy = 0.0;
     if (drawStereotype)
@@ -86,7 +86,7 @@ void UseCaseWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
  */
 void UseCaseWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("usecasewidget"));
+    writer.writeStartElement(QLatin1String("usecasewidget"));
     UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }

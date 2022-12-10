@@ -106,10 +106,10 @@ QString PetalNode::viewTag() const
  */
 QString PetalNode::documentation() const
 {
-    QString s = findAttribute(QStringLiteral("documentation")).string.trimmed();
+    QString s = findAttribute(QLatin1String("documentation")).string.trimmed();
     if (s.isEmpty())
         return s;
-    s.replace(QStringLiteral("\\n"), QStringLiteral("\n"));
+    s.replace(QLatin1String("\\n"), QLatin1String("\n"));
     if (s.startsWith(QLatin1Char('\"')) && s.endsWith(QLatin1Char('\"')))
         return s.mid(1 ,s.length()-2);
     else

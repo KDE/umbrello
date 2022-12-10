@@ -31,7 +31,7 @@ void TestOptionState::test_saveAndLoad()
     // save
     QString xml;
     QXmlStreamWriter stream(&xml);
-    stream.writeStartElement(QStringLiteral("test"));
+    stream.writeStartElement(QLatin1String("test"));
     options.saveToXMI(stream);
     stream.writeEndElement();
 

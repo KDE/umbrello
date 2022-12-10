@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "javaclassdeclarationblock.h"
@@ -28,7 +28,7 @@ JavaClassDeclarationBlock::~JavaClassDeclarationBlock ()
  */
 void JavaClassDeclarationBlock::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("javaclassdeclarationblock"));
+    writer.writeStartElement(QLatin1String("javaclassdeclarationblock"));
     setAttributesOnNode(writer);
     writer.writeEndElement();
 }
@@ -56,9 +56,9 @@ void JavaClassDeclarationBlock::updateContent ()
 
     // COMMENT
     if (isInterface)
-        getComment()->setText(QStringLiteral("Interface ")+JavaClassName+endLine+c->doc());
+        getComment()->setText(QLatin1String("Interface ")+JavaClassName+endLine+c->doc());
     else
-        getComment()->setText(QStringLiteral("Class ")+JavaClassName+endLine+c->doc());
+        getComment()->setText(QLatin1String("Class ")+JavaClassName+endLine+c->doc());
 
     bool forceDoc = UMLApp::app()->commonPolicy()->getCodeVerboseDocumentComments();
     if (forceDoc || !c->doc().isEmpty())
@@ -70,7 +70,7 @@ void JavaClassDeclarationBlock::updateContent ()
     QString startText;
     // In Java, we need declare abstract only on classes
     if (c->isAbstract() && !isInterface)
-        startText.append(QStringLiteral("abstract "));
+        startText.append(QLatin1String("abstract "));
 
     if (c->visibility() != Uml::Visibility::Public) {
         // We should probably emit a warning in here .. java doesn't like to allow
@@ -79,12 +79,12 @@ void JavaClassDeclarationBlock::updateContent ()
         // which is a level between traditional "private" and "protected"
         // scopes. To get this visibility level we just print nothing..
     } else
-        startText.append(QStringLiteral("public "));
+        startText.append(QLatin1String("public "));
 
     if (parentDoc->parentIsInterface())
-        startText.append(QStringLiteral("interface "));
+        startText.append(QLatin1String("interface "));
     else
-        startText.append(QStringLiteral("class "));
+        startText.append(QLatin1String("class "));
 
     startText.append(JavaClassName);
 
@@ -99,11 +99,11 @@ void JavaClassDeclarationBlock::updateContent ()
     // write out inheritance
     int i = 0;
     if (nrof_superclasses >0)
-        startText.append(QStringLiteral(" extends "));
+        startText.append(QLatin1String(" extends "));
     foreach (UMLClassifier* concept, superclasses) {
         startText.append(parentDoc->cleanName(concept->name()));
         if(i != (nrof_superclasses-1))
-            startText.append(QStringLiteral(", "));
+            startText.append(QLatin1String(", "));
         i++;
     }
 
@@ -113,28 +113,28 @@ void JavaClassDeclarationBlock::updateContent ()
     {
         // In Java interfaces "extend" other interfaces. Classes "implement" interfaces
         if(isInterface)
-            startText.append(QStringLiteral(" extends "));
+            startText.append(QLatin1String(" extends "));
         else
-            startText.append(QStringLiteral(" implements "));
+            startText.append(QLatin1String(" implements "));
     }
     foreach (UMLClassifier* concept, superinterfaces) {
         startText.append(parentDoc->cleanName(concept->name()));
         if(i != (nrof_superinterfaces-1))
-            startText.append(QStringLiteral(", "));
+            startText.append(QLatin1String(", "));
         i++;
     }
 
     // Set the header and end text for the hier.codeblock
-    setStartText(startText+QStringLiteral(" {"));
+    setStartText(startText+QLatin1String(" {"));
 
-    // setEndText(QStringLiteral("}")); // not needed
+    // setEndText(QLatin1String("}")); // not needed
 }
 
 void JavaClassDeclarationBlock::init (JavaClassifierCodeDocument *parentDoc, const QString &comment)
 {
     setComment(new JavaCodeDocumentation(parentDoc));
     getComment()->setText(comment);
-    setEndText(QStringLiteral("}"));
+    setEndText(QLatin1String("}"));
 }
 
 

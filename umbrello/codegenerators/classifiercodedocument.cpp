@@ -139,8 +139,8 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields() const
             }
             QString multi = role->multiplicity();
             if (
-                multi.contains(QRegExp(QStringLiteral("[23456789\\*]"))) ||
-                multi.contains(QRegExp(QStringLiteral("1\\d")))
+                multi.contains(QRegExp(QLatin1String("[23456789\\*]"))) ||
+                multi.contains(QRegExp(QLatin1String("1\\d")))
            )
                 return true;
         }
@@ -631,7 +631,7 @@ void ClassifierCodeDocument::setAttributesFromNode (QDomElement & elem)
     QDomElement childElem = node.toElement();
     while(!childElem.isNull()) {
         QString tag = childElem.tagName();
-        if(tag == QStringLiteral("classfields")) {
+        if(tag == QLatin1String("classfields")) {
             // load classfields
             loadClassFieldsFromXMI(childElem);
             break;
@@ -684,10 +684,10 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
     QDomElement childElem = node.toElement();
     while(!childElem.isNull()) {
         QString nodeName = childElem.tagName();
-        if(nodeName == QStringLiteral("codeclassfield"))
+        if(nodeName == QLatin1String("codeclassfield"))
         {
-            QString id = childElem.attribute(QStringLiteral("parent_id"), QStringLiteral("-1"));
-            int role_id = childElem.attribute(QStringLiteral("role_id"), QStringLiteral("-1")).toInt();
+            QString id = childElem.attribute(QLatin1String("parent_id"), QLatin1String("-1"));
+            int role_id = childElem.attribute(QLatin1String("role_id"), QLatin1String("-1")).toInt();
             CodeClassField * cf = findCodeClassFieldFromParentID(Uml::ID::fromString(id), role_id);
             if(cf)
             {
@@ -725,7 +725,7 @@ void ClassifierCodeDocument::saveToXMI(QXmlStreamWriter& writer)
            return;
     }
 #endif
-    writer.writeStartElement(QStringLiteral("classifiercodedocument"));
+    writer.writeStartElement(QLatin1String("classifiercodedocument"));
 
     setAttributesOnNode(writer);
 
@@ -754,11 +754,11 @@ void ClassifierCodeDocument::setAttributesOnNode (QXmlStreamWriter& writer)
     CodeDocument::setAttributesOnNode(writer);
 
     // cache local attributes/fields
-    writer.writeAttribute(QStringLiteral("parent_class"), Uml::ID::toString(getParentClassifier()->id()));
+    writer.writeAttribute(QLatin1String("parent_class"), Uml::ID::toString(getParentClassifier()->id()));
 
     // (code) class fields
     // which we will store in its own separate child node block
-    writer.writeStartElement(QStringLiteral("classfields"));
+    writer.writeStartElement(QLatin1String("classfields"));
     CodeClassFieldList::Iterator it = m_classfieldVector.begin();
     CodeClassFieldList::Iterator end = m_classfieldVector.end();
     for (; it!= end; ++it)

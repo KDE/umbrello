@@ -7,7 +7,7 @@
 
 #include "xhtmlgenerator.h"
 
-#define DBG_SRC QStringLiteral("XhtmlGenerator")
+#define DBG_SRC QLatin1String("XhtmlGenerator")
 #include "debug_utils.h"
 #include "docbook2xhtmlgeneratorjob.h"
 #include "uml.h"
@@ -71,7 +71,7 @@ bool XhtmlGenerator::generateXhtmlForProject()
     KUrl url = m_umlDoc->url();
 #endif
     QString fileName = url.fileName();
-    fileName.remove(QRegExp(QStringLiteral(".xmi$")));
+    fileName.remove(QRegExp(QLatin1String(".xmi$")));
 #if QT_VERSION >= 0x050000
     url.setPath(fileName);
 #else
@@ -124,7 +124,7 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
         KUrl url = m_umlDoc->url();
 #endif
         QString fileName = url.fileName();
-        fileName.replace(QRegExp(QStringLiteral(".xmi$")), QStringLiteral(".docbook"));
+        fileName.replace(QRegExp(QLatin1String(".xmi$")), QLatin1String(".docbook"));
 #if QT_VERSION >= 0x050000
         url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
 #else
@@ -155,7 +155,7 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     KUrl url = m_umlDoc->url();
 #endif
     QString fileName = url.fileName();
-    fileName.replace(QRegExp(QStringLiteral(".xmi$")), QStringLiteral(".html"));
+    fileName.replace(QRegExp(QLatin1String(".xmi$")), QLatin1String(".html"));
 #if QT_VERSION >= 0x050000
     url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
 #else
@@ -179,14 +179,14 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 
     m_umlDoc->writeToStatusBar(i18n("Copying CSS..."));
 
-    QString cssBaseName = QStringLiteral("xmi.css");
+    QString cssBaseName = QLatin1String("xmi.css");
 #if QT_VERSION >= 0x050000
-    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello5/") + cssBaseName));
+    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + cssBaseName));
 #else
-    QString cssFileName(KGlobal::dirs()->findResource("data", QStringLiteral("umbrello/") + cssBaseName));
+    QString cssFileName(KGlobal::dirs()->findResource("data", QLatin1String("umbrello/") + cssBaseName));
 #endif
     if (cssFileName.isEmpty())
-        cssFileName = QStringLiteral(DOCGENERATORS_DIR) + QLatin1Char('/') + cssBaseName;
+        cssFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + cssBaseName;
 
 #if QT_VERSION >= 0x050000
     QUrl cssUrl = m_destDir;
@@ -237,14 +237,14 @@ void XhtmlGenerator::threadFinished()
  */
 QString XhtmlGenerator::customXslFile()
 {
-  QString xslBaseName = QStringLiteral("docbook2xhtml.xsl");
+  QString xslBaseName = QLatin1String("docbook2xhtml.xsl");
 #if QT_VERSION >= 0x050000
-    QString xsltFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello5/") + xslBaseName));
+    QString xsltFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/") + xslBaseName));
 #else
-    QString xsltFileName(KGlobal::dirs()->findResource("data", QStringLiteral("umbrello/") + xslBaseName));
+    QString xsltFileName(KGlobal::dirs()->findResource("data", QLatin1String("umbrello/") + xslBaseName));
 #endif
   if (xsltFileName.isEmpty())
-      xsltFileName = QStringLiteral(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
+      xsltFileName = QLatin1String(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
 
   logDebug1("XhtmlGenerator::customXslFile returning %1", xsltFileName);
   return xsltFileName;

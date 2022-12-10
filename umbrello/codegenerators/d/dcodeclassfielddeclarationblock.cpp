@@ -55,7 +55,7 @@ void DCodeClassFieldDeclarationBlock::updateContent()
     getComment()->setText(notes);
 
     // Set the body
-    QString staticValue = getParentObject()->isStatic() ? QStringLiteral("static ") : QString();
+    QString staticValue = getParentObject()->isStatic() ? QLatin1String("static ") : QString();
     QString scopeStr = Uml::Visibility::toString(getParentObject()->visibility());
 
     // IF this is from an association, then scope taken as appropriate to policy
@@ -79,11 +79,11 @@ void DCodeClassFieldDeclarationBlock::updateContent()
     QString initialV = jcf->getInitialValue();
 
     if (!cf->parentIsAttribute() && !cf->fieldIsSingleValue())
-        typeName = QStringLiteral("List");
+        typeName = QLatin1String("List");
 
     QString body = staticValue + scopeStr + QLatin1Char(' ') + typeName + QLatin1Char(' ') + fieldName;
     if (!initialV.isEmpty())
-        body.append(QStringLiteral(" = ") + initialV);
+        body.append(QLatin1String(" = ") + initialV);
     else if (!cf->parentIsAttribute())
     {
         const UMLRole * role = cf->getParentObject()->asUMLRole();
@@ -105,9 +105,9 @@ void DCodeClassFieldDeclarationBlock::updateContent()
             if(cf->fieldIsSingleValue())
             {
                 if(!typeName.isEmpty())
-                    body.append(QStringLiteral(" = new ") + typeName + QStringLiteral(" ()"));
+                    body.append(QLatin1String(" = new ") + typeName + QLatin1String(" ()"));
             } else
-                body.append(QStringLiteral(" = new Vector ()"));
+                body.append(QLatin1String(" = new Vector ()"));
         }
     }
 

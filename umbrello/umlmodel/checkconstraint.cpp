@@ -109,7 +109,7 @@ QString UMLCheckConstraint::getFullyQualifiedName(const QString& separator,
  */
 void UMLCheckConstraint::saveToXMI(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(writer, QStringLiteral("CheckConstraint"));
+    UMLObject::save1(writer, QLatin1String("CheckConstraint"));
 
     writer.writeTextElement(QString(), m_CheckCondition);
 

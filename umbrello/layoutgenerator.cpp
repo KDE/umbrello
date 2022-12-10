@@ -8,7 +8,7 @@
 #include "associationline.h"
 #include "associationwidget.h"
 #include "cmds.h"
-#define DBG_SRC QStringLiteral("LayoutGenerator")
+#define DBG_SRC QLatin1String("LayoutGenerator")
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
 #include "uml.h"
@@ -49,12 +49,12 @@
 static QString pngViewer()
 {
 #ifdef Q_OS_WIN
-    return QStringLiteral("start");
+    return QLatin1String("start");
 #else
 #ifdef Q_OS_MAC
-    return QStringLiteral("unknown");
+    return QLatin1String("unknown");
 #else
-    return QStringLiteral("okular");
+    return QLatin1String("okular");
 #endif
 #endif
 }
@@ -62,12 +62,12 @@ static QString pngViewer()
 static QString textViewer()
 {
 #ifdef Q_OS_WIN
-    return QStringLiteral("start");
+    return QLatin1String("start");
 #else
 #ifdef Q_OS_MAC
-    return QStringLiteral("unknown");
+    return QLatin1String("unknown");
 #else
-    return QStringLiteral("mcedit");
+    return QLatin1String("mcedit");
 #endif
 #endif
 }
@@ -150,23 +150,23 @@ bool LayoutGenerator::generate(UMLScene *scene, const QString &variant)
 
     QProcess p;
     QStringList args;
-    args << QStringLiteral("-o") << out.fileName() << QStringLiteral("-Tplain-ext") << in.fileName();
+    args << QLatin1String("-o") << out.fileName() << QLatin1String("-Tplain-ext") << in.fileName();
     p.start(executable, args);
     p.waitForFinished();
 
     args.clear();
-    args << QStringLiteral("-o") << xdotOut.fileName() << QStringLiteral("-Txdot") << in.fileName();
+    args << QLatin1String("-o") << xdotOut.fileName() << QLatin1String("-Txdot") << in.fileName();
     p.start(executable, args);
     p.waitForFinished();
 
 #ifdef LAYOUTGENERATOR_DEBUG
     QTemporaryFile pngFile;
     pngFile.setAutoRemove(false);
-    pngFile.setFileTemplate(QDir::tempPath() + QStringLiteral("/umbrello-layoutgenerator-XXXXXX.png"));
+    pngFile.setFileTemplate(QDir::tempPath() + QLatin1String("/umbrello-layoutgenerator-XXXXXX.png"));
     pngFile.open();
     pngFile.close();
     args.clear();
-    args << QStringLiteral("-o") << pngFile.fileName() << QStringLiteral("-Tpng") << in.fileName();
+    args << QLatin1String("-o") << pngFile.fileName() << QLatin1String("-Tpng") << in.fileName();
     p.start(executable, args);
     p.waitForFinished();
     qDebug() << pngViewer() << pngFile.fileName();
@@ -196,10 +196,10 @@ bool LayoutGenerator::apply(UMLScene *scene)
     foreach(AssociationWidget *assoc, scene->associationList()) {
         AssociationLine& path = assoc->associationLine();
         QString type = Uml::AssociationType::toString(assoc->associationType()).toLower();
-        QString key = QStringLiteral("type::") + type;
+        QString key = QLatin1String("type::") + type;
 
         QString id;
-        if (m_edgeParameters.contains(QStringLiteral("id::") + key) && m_edgeParameters[QStringLiteral("id::") + key] == QStringLiteral("swap"))
+        if (m_edgeParameters.contains(QLatin1String("id::") + key) && m_edgeParameters[QLatin1String("id::") + key] == QLatin1String("swap"))
             id = fixID(Uml::ID::toString(assoc->widgetLocalIDForRole(Uml::RoleType::A)) + Uml::ID::toString(assoc->widgetLocalIDForRole(Uml::RoleType::B)));
         else
             id = fixID(Uml::ID::toString(assoc->widgetLocalIDForRole(Uml::RoleType::B)) + Uml::ID::toString(assoc->widgetLocalIDForRole(Uml::RoleType::A)));
@@ -307,7 +307,7 @@ bool LayoutGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QStrin
 {
     QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
 #if QT_VERSION >= 0x050000
-    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello5/layouts"), QStandardPaths::LocateDirectory);
+    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QLatin1String("umbrello5/layouts"), QStandardPaths::LocateDirectory);
     QStringList fileNames;
     foreach(const QString& dir, dirs) {
         const QStringList entries = QDir(dir).entryList(QStringList() << QString::fromLatin1("%1*.desktop").arg(diagramType));
@@ -322,12 +322,12 @@ bool LayoutGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QStrin
     foreach(const QString &fileName, fileNames) {
         QFileInfo fi(fileName);
         QString baseName;
-        if (fi.baseName().contains(QStringLiteral("-")))
+        if (fi.baseName().contains(QLatin1String("-")))
             baseName = fi.baseName().remove(diagramType + QLatin1Char('-'));
         else if (fi.baseName() == diagramType)
             baseName = fi.baseName();
         else
-            baseName = QStringLiteral("default");
+            baseName = QLatin1String("default");
         KDesktopFile desktopFile(fileName);
         configFiles[baseName] = desktopFile.readName();
     }
@@ -395,15 +395,15 @@ bool LayoutGenerator::readGeneratedDotFile(const QString &fileName)
 bool LayoutGenerator::parseLine(const QString &line)
 {
     QStringList a = line.split(QLatin1Char(' '));
-    if (a[0] == QStringLiteral("graph")) {
+    if (a[0] == QLatin1String("graph")) {
         m_boundingRect = QRectF(0, 0, a[2].toDouble()*m_scale, a[3].toDouble()*m_scale);
         return true;
-    } else if (a[0] == QStringLiteral("node")) {
+    } else if (a[0] == QLatin1String("node")) {
         QString key = fixID(a[1]);
         m_nodes[key] = QRectF(a[2].toDouble()*m_scale, a[3].toDouble()*m_scale,
                               a[4].toDouble()*m_scale, a[5].toDouble()*m_scale);
         return true;
-    } else if (a[0] == QStringLiteral("edge")) {
+    } else if (a[0] == QLatin1String("edge")) {
         QString key = fixID(a[1]+a[2]);
         EdgePoints p;
         int len = a[3].toInt();
@@ -422,7 +422,7 @@ bool LayoutGenerator::parseLine(const QString &line)
         m_edgeLabelPosition[key] = QPointF(x*m_scale, y*m_scale);
 
         return true;
-    } else if (a[0] == QStringLiteral("stop")) {
+    } else if (a[0] == QLatin1String("stop")) {
         return true;
     }
     return false;
@@ -434,8 +434,8 @@ typedef QMap<QString,QStringList> ParameterList;
 bool LayoutGenerator::splitParameters(QMap<QString,QStringList> &map, const QString &s)
 {
     // FIXME: add shape=box without '"'
-    static QRegExp rx(QStringLiteral("([a-zA-Z_]+)=\"([a-zA-Z0-9.- #]+)\""));
-    static QRegExp rx2(QStringLiteral("([a-zA-Z_]+)=([a-zA-Z0-9.- #]+)"));
+    static QRegExp rx(QLatin1String("([a-zA-Z_]+)=\"([a-zA-Z0-9.- #]+)\""));
+    static QRegExp rx2(QLatin1String("([a-zA-Z_]+)=([a-zA-Z0-9.- #]+)"));
     int pos = 0;
     int count = 0;
     /*
@@ -460,13 +460,13 @@ bool LayoutGenerator::splitParameters(QMap<QString,QStringList> &map, const QStr
         //qDebug() << key << value;
 
         QStringList data;
-        if (key == QStringLiteral("pos")) {
-            value.remove(QStringLiteral("e,"));
+        if (key == QLatin1String("pos")) {
+            value.remove(QLatin1String("e,"));
             data = value.split(QLatin1Char(' '));
         } else if (key.startsWith(QLatin1Char('_'))) {
             data = value.split(QLatin1Char(' '));
         }
-        else if (key == QStringLiteral("label"))
+        else if (key == QLatin1String("label"))
             data = QStringList() << value;
         else
             data = value.split(QLatin1Char(','));
@@ -494,7 +494,7 @@ digraph G {
 
 bool LayoutGenerator::parseLine(const QString &line)
 {
-    static QRegExp m_cols(QStringLiteral("^[\t ]*(.*)[\t ]*\\[(.*)\\]"));
+    static QRegExp m_cols(QLatin1String("^[\t ]*(.*)[\t ]*\\[(.*)\\]"));
     static int m_level = -1;
 
     if (line.contains(QLatin1Char('{'))) {
@@ -516,27 +516,27 @@ bool LayoutGenerator::parseLine(const QString &line)
     splitParameters(attributes, attributeString);
     DEBUG() << attributes;
 
-    if (keyword == QStringLiteral("graph")) {
-        if (attributes.contains(QStringLiteral("bb"))) {
-            QStringList &a = attributes[QStringLiteral("bb")];
+    if (keyword == QLatin1String("graph")) {
+        if (attributes.contains(QLatin1String("bb"))) {
+            QStringList &a = attributes[QLatin1String("bb")];
             m_boundingRect.setLeft(a[0].toDouble());
             m_boundingRect.setTop(a[1].toDouble());
             m_boundingRect.setRight(a[2].toDouble());
             m_boundingRect.setBottom(a[3].toDouble());
         }
-    } else if (keyword == QStringLiteral("node")) {
+    } else if (keyword == QLatin1String("node")) {
         return true;
-    } else if (keyword == QStringLiteral("edge")) {
+    } else if (keyword == QLatin1String("edge")) {
         return true;
     // transition
-    } else if (line.contains(QStringLiteral("->"))) {
+    } else if (line.contains(QLatin1String("->"))) {
         QStringList k = keyword.split(QLatin1Char(' '));
         if (k.size() < 3)
             return false;
         QString key = fixID(k[0]+k[2]);
 
-        if (attributes.contains(QStringLiteral("pos"))) {
-            QStringList &a = attributes[QStringLiteral("pos")];
+        if (attributes.contains(QLatin1String("pos"))) {
+            QStringList &a = attributes[QLatin1String("pos")];
             EdgePoints points;
 
             for(int i = 1; i < a.size(); i++) {
@@ -550,9 +550,9 @@ bool LayoutGenerator::parseLine(const QString &line)
 
             m_edges[key] = points;
         }
-        if (0 && attributes.contains(QStringLiteral("_draw_"))) {
-            QStringList &a = attributes[QStringLiteral("_draw_")];
-            if (a.size() < 5 || (a[3] != QStringLiteral("L") && a[3] != QStringLiteral("p")))
+        if (0 && attributes.contains(QLatin1String("_draw_"))) {
+            QStringList &a = attributes[QLatin1String("_draw_")];
+            if (a.size() < 5 || (a[3] != QLatin1String("L") && a[3] != QLatin1String("p")))
                 return false;
             int size = a[4].toInt();
             EdgePoints points;
@@ -569,19 +569,19 @@ bool LayoutGenerator::parseLine(const QString &line)
         double scale = 72.0;
         QRectF f(0, 0, 0, 0);
         QString id = fixID(keyword);
-        if (attributes.contains(QStringLiteral("pos"))) {
-            QStringList &a = attributes[QStringLiteral("pos")];
+        if (attributes.contains(QLatin1String("pos"))) {
+            QStringList &a = attributes[QLatin1String("pos")];
             QStringList b = a[0].split(QLatin1Char(','));
             f.setLeft(b[0].toDouble());
             f.setTop(b[1].toDouble());
         }
-        if (attributes.contains(QStringLiteral("height"))) {
-            QStringList &a = attributes[QStringLiteral("height")];
+        if (attributes.contains(QLatin1String("height"))) {
+            QStringList &a = attributes[QLatin1String("height")];
             f.setHeight(a[0].toDouble()*scale);
         }
 
-        if (attributes.contains(QStringLiteral("width"))) {
-            QStringList &a = attributes[QStringLiteral("width")];
+        if (attributes.contains(QLatin1String("width"))) {
+            QStringList &a = attributes[QLatin1String("width")];
             f.setWidth(a[0].toDouble()*scale);
         }
         DEBUG() << "LayoutGenerator::parseLine adding " << id << f;

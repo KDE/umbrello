@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -48,7 +48,7 @@ bool NoteDialog::apply()
     MultiPageDialogBase::apply();
     if (m_widget) {
         applyFontPage(m_widget);
-        QString key = QStringLiteral("Diagram:");
+        QString key = QLatin1String("Diagram:");
         QString str = m_widget->documentation();
         if (!str.startsWith(key)) {
             m_widget->setDiagramLink(QString());

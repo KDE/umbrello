@@ -11,7 +11,7 @@
 #include "artifact.h"
 #include "classifier.h"
 #include "datatype.h"
-#define DBG_SRC QStringLiteral("Import_Utils")
+#define DBG_SRC QLatin1String("Import_Utils")
 #include "debug_utils.h"
 #include "folder.h"
 #include "enum.h"
@@ -122,8 +122,8 @@ QString formatComment(const QString &comment)
 
     QStringList lines = comment.split(QLatin1Char('\n'));
     QString& first = lines.first();
-    QRegExp wordex(QStringLiteral("\\w"));
-    if (first.startsWith(QStringLiteral(QStringLiteral("/*")))) {
+    QRegExp wordex(QLatin1String("\\w"));
+    if (first.startsWith(QLatin1String(QLatin1String("/*")))) {
         int wordpos = wordex.indexIn(first);
         if (wordpos != -1)
             first = first.mid(wordpos);  // remove comment start
@@ -134,7 +134,7 @@ QString formatComment(const QString &comment)
         return QString();
 
     QString& last = lines.last();
-    int endpos = last.indexOf(QStringLiteral("*/"));
+    int endpos = last.indexOf(QLatin1String("*/"));
     if (endpos != -1) {
         if (last.contains(wordex))
             last = last.mid(0, endpos - 1);  // remove comment end
@@ -146,10 +146,10 @@ QString formatComment(const QString &comment)
 
     QStringList::Iterator end(lines.end());
     for (QStringList::Iterator lit(lines.begin()); lit != end; ++lit) {
-        (*lit).remove(QRegExp(QStringLiteral("^\\s+")));
-        (*lit).remove(QRegExp(QStringLiteral("^\\*+\\s?")));
+        (*lit).remove(QRegExp(QLatin1String("^\\s+")));
+        (*lit).remove(QRegExp(QLatin1String("^\\*+\\s?")));
     }
-    return lines.join(QStringLiteral("\n"));
+    return lines.join(QLatin1String("\n"));
 }
 
 /**
@@ -166,8 +166,8 @@ QString formatComment(const QString &comment)
  */
 void checkStdString(QString& typeName)
 {
-    if (typeName == QStringLiteral("std::string"))
-        typeName = QStringLiteral("string");
+    if (typeName == QLatin1String("std::string"))
+        typeName = QLatin1String("string");
 }
 
 /**
@@ -208,11 +208,11 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                qPrintable(name));
 #endif
         parentPkg = logicalView;
-    } else if (name.startsWith(QStringLiteral("::"))) {
+    } else if (name.startsWith(QLatin1String("::"))) {
         name = name.mid(2);
         parentPkg = logicalView;
     } else if (UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Ada &&
-               name.startsWith(QStringLiteral("Standard."), Qt::CaseInsensitive)) {
+               name.startsWith(QLatin1String("Standard."), Qt::CaseInsensitive)) {
         name = name.mid(9);
         parentPkg = logicalView;
     }
@@ -232,27 +232,27 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     if (o == 0) {
         // Strip possible adornments and look again.
         bool isConst = false;
-        if (name.contains(QRegExp(QStringLiteral("^const ")))) {
-            name.remove(QRegExp(QStringLiteral("^const\\s+")));
+        if (name.contains(QRegExp(QLatin1String("^const ")))) {
+            name.remove(QRegExp(QLatin1String("^const\\s+")));
             isConst = true;
         }
-        if (name.contains(QRegExp(QStringLiteral("\\bconst\\b")))) {
+        if (name.contains(QRegExp(QLatin1String("\\bconst\\b")))) {
             // Here, we lose info of the exact placement of the `const` qualifier.
             // I argue that we are looking at a level of C++ detail that UML was not
             // designed for.  Feel free to disagree and implement this :)
-            name.remove(QRegExp(QStringLiteral("\\s+const\\b")));
-            name.remove(QRegExp(QStringLiteral("\\bconst\\s+")));
+            name.remove(QRegExp(QLatin1String("\\s+const\\b")));
+            name.remove(QRegExp(QLatin1String("\\bconst\\s+")));
             isConst = true;
         }
-        const bool isVolatile = name.contains(QRegExp(QStringLiteral("^volatile ")));
-        name.remove(QRegExp(QStringLiteral("^volatile\\s+")));
-        const bool isMutable = name.contains(QRegExp(QStringLiteral("^mutable ")));
-        name.remove(QRegExp(QStringLiteral("^mutable\\s+")));
+        const bool isVolatile = name.contains(QRegExp(QLatin1String("^volatile ")));
+        name.remove(QRegExp(QLatin1String("^volatile\\s+")));
+        const bool isMutable = name.contains(QRegExp(QLatin1String("^mutable ")));
+        name.remove(QRegExp(QLatin1String("^mutable\\s+")));
         QString typeName(name);
-        bool isAdorned = typeName.contains(QRegExp(QStringLiteral("[^\\w:\\. ]")));
+        bool isAdorned = typeName.contains(QRegExp(QLatin1String("[^\\w:\\. ]")));
         const bool isPointer = typeName.contains(QLatin1Char('*'));
         const bool isRef = typeName.contains(QLatin1Char('&'));
-        typeName.remove(QRegExp(QStringLiteral("[^\\w:\\. ].*$")));
+        typeName.remove(QRegExp(QLatin1String("[^\\w:\\. ].*$")));
         typeName = typeName.simplified();
         checkStdString(typeName);
         UMLObject *origType = umldoc->findUMLObject(typeName, UMLObject::ot_UMLObject, parentPkg);
@@ -265,7 +265,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             QString scopeSeparator = UMLApp::app()->activeLanguageScopeSeparator();
             if (typeName.contains(scopeSeparator)) {
                 components = typeName.split(scopeSeparator, QString::SkipEmptyParts);
-            } else if (typeName.contains(QStringLiteral("..."))) {
+            } else if (typeName.contains(QLatin1String("..."))) {
                 // Java variable length arguments
                 type = UMLObject::ot_Datatype;
                 parentPkg = umldoc->datatypeFolder();
@@ -284,7 +284,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
                         continue;
                     }
                     o = Object_Factory::createUMLObject(UMLObject::ot_Class, scopeName, parentPkg);
-                    o->setStereotypeCmd(QStringLiteral("class-or-package"));
+                    o->setStereotypeCmd(QLatin1String("class-or-package"));
                     // setStereotypeCmd() triggers tree view item update if not loading by default
                     if (umldoc->loading()) {
                         UMLListViewItem *item = UMLApp::app()->listView()->findUMLObject(o);
@@ -307,11 +307,11 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         if (isConst || isAdorned || isMutable || isVolatile) {
             // Create the full given type (including adornments.)
             if (isVolatile)
-                name.prepend(QStringLiteral("volatile "));
+                name.prepend(QLatin1String("volatile "));
             if (isMutable)
-                name.prepend(QStringLiteral("mutable "));
+                name.prepend(QLatin1String("mutable "));
             if (isConst)
-                name.prepend(QStringLiteral("const "));
+                name.prepend(QLatin1String("const "));
             o = Object_Factory::createUMLObject(UMLObject::ot_Datatype, name,
                                                 umldoc->datatypeFolder(),
                                                 false); //solicitNewName
@@ -360,13 +360,13 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     }
     if (gRelatedClassifier == 0 || gRelatedClassifier == o)
         return o;
-    QRegExp templateInstantiation(QStringLiteral("^[\\w:\\.]+\\s*<(.*)>"));
+    QRegExp templateInstantiation(QLatin1String("^[\\w:\\.]+\\s*<(.*)>"));
     int pos = templateInstantiation.indexIn(name);
     if (pos == -1)
         return o;
     // Create dependencies on template parameters.
     QString caption = templateInstantiation.cap(1);
-    const QStringList params = caption.split(QRegExp(QStringLiteral("[^\\w:\\.]+")));
+    const QStringList params = caption.split(QRegExp(QLatin1String("[^\\w:\\.]+")));
     if (!params.count())
         return o;
     QStringList::ConstIterator end(params.end());
@@ -416,7 +416,7 @@ UMLObject* createUMLObjectHierarchy(UMLObject::ObjectType type, const QString &n
             }
             o = Object_Factory::createNewUMLObject(UMLObject::ot_Class, scopeName, parent, false);
             parent->addObject(o);
-            o->setStereotypeCmd(QStringLiteral("class-or-package"));
+            o->setStereotypeCmd(QLatin1String("class-or-package"));
             parent = o->asUMLPackage();
         }
     } else {
@@ -529,7 +529,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
 {
     op->setVisibilityCmd(scope);
     if (!type.isEmpty()     // return type may be missing (constructor/destructor)
-        && type != QStringLiteral("void")) {
+        && type != QLatin1String("void")) {
         if (type == klass->name()) {
             op->setType(klass);
         } else {
@@ -550,12 +550,12 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
 
     // if the operation is friend, add it as a stereotype
     if (isFriend)
-        op->setStereotype(QStringLiteral("friend"));
+        op->setStereotype(QLatin1String("friend"));
     // if the operation is a constructor, add it as a stereotype
     if (isConstructor)
-        op->setStereotype(QStringLiteral("constructor"));
+        op->setStereotype(QLatin1String("constructor"));
     if (isDestructor)
-        op->setStereotype(QStringLiteral("destructor"));
+        op->setStereotype(QLatin1String("destructor"));
 
     QString strippedComment = formatComment(comment);
     if (! strippedComment.isEmpty()) {
@@ -792,7 +792,7 @@ UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope)
         return 0;
     }
     e->setDoc(comment);
-    e->setStereotypeCmd(stereotype.isEmpty() ? QStringLiteral("enum") : stereotype);
+    e->setStereotypeCmd(stereotype.isEmpty() ? QLatin1String("enum") : stereotype);
     e->setVisibilityCmd(visibility);
     // add to parents child list
     if (currentScope->addObject(e, false))  // false => non interactively

@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 // own header
 #include "floatingdashlinewidget.h"
@@ -157,11 +157,11 @@ qreal FloatingDashLineWidget::getDiffY() const
  */
 void FloatingDashLineWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("floatingdashlinewidget"));
+    writer.writeStartElement(QLatin1String("floatingdashlinewidget"));
     UMLWidget::saveToXMI(writer);
-    writer.writeAttribute(QStringLiteral("text"), m_Text);
-    writer.writeAttribute(QStringLiteral("minY"), QString::number(m_yMin));
-    writer.writeAttribute(QStringLiteral("maxY"), QString::number(m_yMax));
+    writer.writeAttribute(QLatin1String("text"), m_Text);
+    writer.writeAttribute(QLatin1String("minY"), QString::number(m_yMin));
+    writer.writeAttribute(QLatin1String("maxY"), QString::number(m_yMax));
 
     writer.writeEndElement();
 }
@@ -171,9 +171,9 @@ void FloatingDashLineWidget::saveToXMI(QXmlStreamWriter& writer)
  */
 bool FloatingDashLineWidget::loadFromXMI(QDomElement & qElement)
 {
-    m_yMax = qElement.attribute(QStringLiteral("maxY")).toFloat();
-    m_yMin = qElement.attribute(QStringLiteral("minY")).toFloat();
-    m_Text = qElement.attribute(QStringLiteral("text"));
+    m_yMax = qElement.attribute(QLatin1String("maxY")).toFloat();
+    m_yMin = qElement.attribute(QLatin1String("minY")).toFloat();
+    m_Text = qElement.attribute(QLatin1String("text"));
 
     if(!UMLWidget::loadFromXMI(qElement)) {
         return false;

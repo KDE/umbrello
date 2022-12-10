@@ -108,7 +108,7 @@ void TclWriter::writeClass(UMLClassifier * c)
     QFile fileh, filetcl;
 
     // find an appropriate name for our file
-    fileName_ = findFileName(c, QStringLiteral(".tcl"));
+    fileName_ = findFileName(c, QLatin1String(".tcl"));
     if (fileName_.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -121,11 +121,11 @@ void TclWriter::writeClass(UMLClassifier * c)
     // preparations
     className_ = cleanName(c->name());
     if (!c->package().isEmpty()) {
-        mNamespace = QStringLiteral("::") + cleanName(c->package());
-        mClassGlobal = mNamespace + QStringLiteral("::") + className_;
+        mNamespace = QLatin1String("::") + cleanName(c->package());
+        mClassGlobal = mNamespace + QLatin1String("::") + className_;
     } else {
-        mNamespace = QStringLiteral("::");
-        mClassGlobal = QStringLiteral("::") + className_;
+        mNamespace = QLatin1String("::");
+        mClassGlobal = QLatin1String("::") + className_;
     }
 
     // write Header file
@@ -140,7 +140,7 @@ void TclWriter::writeClass(UMLClassifier * c)
             need_impl = false;
     }
     if (need_impl) {
-        if (!openFile(filetcl, fileName_ + QStringLiteral("body"))) {
+        if (!openFile(filetcl, fileName_ + QLatin1String("body"))) {
             emit codeGenerated(c, false);
             return;
         }
@@ -169,25 +169,25 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     m_indentLevel = 0;
 
     // write header blurb
-    QString str = getHeadingFile(QStringLiteral(".tcl"));
+    QString str = getHeadingFile(QLatin1String(".tcl"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName_);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), fileh.fileName());
+        str.replace(QRegExp(QLatin1String("%filename%")), fileName_);
+        str.replace(QRegExp(QLatin1String("%filepath%")), fileh.fileName());
         writeCode(str);
     }
     // set current namespace
-    writeCode(QStringLiteral("namespace eval ") + mNamespace + QStringLiteral(" {"));
+    writeCode(QLatin1String("namespace eval ") + mNamespace + QLatin1String(" {"));
     m_indentLevel++;
 
     // check on already existing
-    writeComm(QStringLiteral("Do not load twice"));
-    writeCode(QStringLiteral("if {[namespace exist ") + className_ + QStringLiteral("]} return"));
+    writeComm(QLatin1String("Do not load twice"));
+    writeCode(QLatin1String("if {[namespace exist ") + className_ + QLatin1String("]} return"));
 
     // source used superclass files
     UMLClassifierList superclasses = c->getSuperClasses();
     if (superclasses.count() > 0) {
         writeComm
-        (QStringLiteral("Source found and used class files and import class command if necessary"));
+        (QLatin1String("Source found and used class files and import class command if necessary"));
 
         foreach (UMLClassifier * classifier, superclasses) {
             writeUse(classifier);
@@ -196,20 +196,20 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     // write all "source" we need to include other classes, that arent us.
     if (c->hasAssociations()) {
         writeAssociationIncl(c->getSpecificAssocs(Uml::AssociationType::Association), c->id(),
-                             QStringLiteral("Associations"));
+                             QLatin1String("Associations"));
         writeAssociationIncl(c->getAggregations(), c->id(),
-                             QStringLiteral("Aggregations"));
+                             QLatin1String("Aggregations"));
         writeAssociationIncl(c->getCompositions(), c->id(),
-                             QStringLiteral("Compositions"));
+                             QLatin1String("Compositions"));
     }
     //Write class Documentation
-    writeDocu(QStringLiteral("\n@class\t") + className_ + m_endl + c->doc());
+    writeDocu(QLatin1String("\n@class\t") + className_ + m_endl + c->doc());
 
     //check if class is abstract and / or has abstract methods
     if ((c->isAbstract() || c->isInterface())
             && !hasAbstractOps(c)) {
-        writeComm(QStringLiteral("TODO abstract class") + className_ +
-                  QStringLiteral("\nInherit from it and create only objects from the derived classes"));
+        writeComm(QLatin1String("TODO abstract class") + className_ +
+                  QLatin1String("\nInherit from it and create only objects from the derived classes"));
     }
     // check on enum classes
     if (!c->isInterface()) {
@@ -217,44 +217,44 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
         if (c->baseType() == UMLObject::ot_Enum) {
             UMLClassifierListItemList litList =
                 c->getFilteredList(UMLObject::ot_EnumLiteral);
-            writeCode(QStringLiteral("set enum_") + className_ + QStringLiteral(" [list\\"));
+            writeCode(QLatin1String("set enum_") + className_ + QLatin1String(" [list\\"));
             m_indentLevel++;
             foreach (UMLClassifierListItem * lit, litList) {
                 QString enumLiteral = cleanName(lit->name());
-                writeCode(enumLiteral + QStringLiteral("\\"));
+                writeCode(enumLiteral + QLatin1String("\\"));
             }
             m_indentLevel--;
-            writeCode(QStringLiteral("];# end of enum"));
+            writeCode(QLatin1String("];# end of enum"));
             m_indentLevel--;
-            writeCode(QStringLiteral("};# end of namespace"));
+            writeCode(QLatin1String("};# end of namespace"));
             return;
         }
     }
     // Generate template parameters.
     UMLTemplateList template_params = c->getTemplateList();
     if (template_params.count()) {
-        writeCode(QStringLiteral("#TODO template<"));
+        writeCode(QLatin1String("#TODO template<"));
         foreach (UMLTemplate * t, template_params) {
             QString formalName = t->name();
             QString typeName = t->getTypeName();
-            writeCode(typeName + QStringLiteral("# ") + formalName);
+            writeCode(typeName + QLatin1String("# ") + formalName);
         }
     }
     // start my own class
-    writeCode(QStringLiteral("class ") + className_ + QStringLiteral(" {"));
+    writeCode(QLatin1String("class ") + className_ + QLatin1String(" {"));
     m_indentLevel++;
     if (c->getSuperClasses().count() > 0) {
-        QString code = QStringLiteral("inherit");
+        QString code = QLatin1String("inherit");
         foreach (UMLClassifier * superClass, c->getSuperClasses()) {
             /*
             if (superClass->getAbstract() || superClass->isInterface())
-                stream << indent() << QStringLiteral("virtual ");
+                stream << indent() << QLatin1String("virtual ");
             */
             if (superClass->package().isEmpty()) {
-                code += QStringLiteral(" ::") + cleanName(superClass->name());
+                code += QLatin1String(" ::") + cleanName(superClass->name());
             } else {
                 code +=
-                    QStringLiteral(" ::") + cleanName(superClass->package()) + QStringLiteral("::") +
+                    QLatin1String(" ::") + cleanName(superClass->package()) + QLatin1String("::") +
                     cleanName(superClass->name());
             }
         }
@@ -277,11 +277,11 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     writeAttributeDecl(c, Uml::Visibility::Public, false);
     // associations
     writeAssociationDecl(c->getSpecificAssocs(Uml::AssociationType::Association), Uml::Visibility::Public, c->id(),
-                         QStringLiteral("Associations"));
+                         QLatin1String("Associations"));
     writeAssociationDecl(c->getAggregations(), Uml::Visibility::Public, c->id(),
-                         QStringLiteral("Aggregations"));
+                         QLatin1String("Aggregations"));
     writeAssociationDecl(c->getCompositions(), Uml::Visibility::Public, c->id(),
-                         QStringLiteral("Compositions"));
+                         QLatin1String("Compositions"));
     //TODO  writeHeaderAccessorMethodDecl(c, Uml::Visibility::Public, stream);
     writeOperationHeader(c, Uml::Visibility::Public);
 
@@ -292,11 +292,11 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     writeAttributeDecl(c, Uml::Visibility::Protected, false);
     // associations
     writeAssociationDecl(c->getSpecificAssocs(Uml::AssociationType::Association), Uml::Visibility::Protected,
-                         c->id(), QStringLiteral("Association"));
+                         c->id(), QLatin1String("Association"));
     writeAssociationDecl(c->getAggregations(), Uml::Visibility::Protected,
-                         c->id(), QStringLiteral("Aggregation"));
+                         c->id(), QLatin1String("Aggregation"));
     writeAssociationDecl(c->getCompositions(), Uml::Visibility::Protected,
-                         c->id(), QStringLiteral("Composition"));
+                         c->id(), QLatin1String("Composition"));
     //TODO  writeHeaderAccessorMethodDecl(c, Uml::Visibility::Protected, stream);
     writeOperationHeader(c, Uml::Visibility::Protected);
 
@@ -307,22 +307,22 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     writeAttributeDecl(c, Uml::Visibility::Private, false);
     // associations
     writeAssociationDecl(c->getSpecificAssocs(Uml::AssociationType::Association), Uml::Visibility::Private,
-                         c->id(), QStringLiteral("Associations"));
+                         c->id(), QLatin1String("Associations"));
     writeAssociationDecl(c->getAggregations(), Uml::Visibility::Private, c->id(),
-                         QStringLiteral("Aggregations"));
+                         QLatin1String("Aggregations"));
     writeAssociationDecl(c->getCompositions(), Uml::Visibility::Private, c->id(),
-                         QStringLiteral("Compositions"));
+                         QLatin1String("Compositions"));
     //TODO  writeHeaderAccessorMethodDecl(c, Uml::Visibility::Public, stream);
     writeOperationHeader(c, Uml::Visibility::Private);
     writeInitAttributeHeader(c); // this is always private, used by constructors to initialize class
 
     // end of class header
     m_indentLevel--;
-    writeCode(QStringLiteral("};# end of class"));
+    writeCode(QLatin1String("};# end of class"));
 
     // end of class namespace, if any
     m_indentLevel--;
-    writeCode(QStringLiteral("};# end of namespace"));
+    writeCode(QLatin1String("};# end of namespace"));
 }
 
 /**
@@ -339,10 +339,10 @@ void TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
 
     //try to find a heading file (license, comments, etc)
     QString         str;
-    str = getHeadingFile(QStringLiteral(".tclbody"));
+    str = getHeadingFile(QLatin1String(".tclbody"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName_ + QStringLiteral("body"));
-        str.replace(QRegExp(QStringLiteral("%filepath%")), filetcl.fileName());
+        str.replace(QRegExp(QLatin1String("%filename%")), fileName_ + QLatin1String("body"));
+        str.replace(QRegExp(QLatin1String("%filepath%")), filetcl.fileName());
         writeCode(str);
     }
     // Start body of class
@@ -379,9 +379,9 @@ void TclWriter::writeCode(const QString &text)
  */
 void TclWriter::writeComm(const QString &text)
 {
-    QStringList lines = text.split(QRegExp(QStringLiteral("\n")));
+    QStringList lines = text.split(QRegExp(QLatin1String("\n")));
     for (int i = 0; i < lines.count(); ++i) {
-        *mStream << indent() << QStringLiteral("# ") << lines[i] << m_endl;
+        *mStream << indent() << QLatin1String("# ") << lines[i] << m_endl;
     }
 }
 
@@ -390,9 +390,9 @@ void TclWriter::writeComm(const QString &text)
  */
 void TclWriter::writeDocu(const QString &text)
 {
-    QStringList lines = text.split(QRegExp(QStringLiteral("\n")));
+    QStringList lines = text.split(QRegExp(QLatin1String("\n")));
     for (int i = 0; i < lines.count(); ++i) {
-        *mStream << indent() << QStringLiteral("## ") << lines[i] << m_endl;
+        *mStream << indent() << QLatin1String("## ") << lines[i] << m_endl;
     }
 }
 
@@ -420,13 +420,13 @@ void TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::ID::Type myId
             if (classifier == 0)
                 continue;
             if (classifier->package().isEmpty())
-                writeCode(QStringLiteral("namespace eval ") + cleanName(classifier->name()) +
-                          QStringLiteral(" {}"));
+                writeCode(QLatin1String("namespace eval ") + cleanName(classifier->name()) +
+                          QLatin1String(" {}"));
         } else {
             // CHECK: This crashes (classifier still NULL from above)
             /*
-            writeCode(QStringLiteral("namespace eval ") + cleanName(classifier->getPackage()) +
-                      QStringLiteral("::") + cleanName(classifier->getName()) + QStringLiteral(" {}"));
+            writeCode(QLatin1String("namespace eval ") + cleanName(classifier->getPackage()) +
+                      QLatin1String("::") + cleanName(classifier->getName()) + QLatin1String(" {}"));
              */
         }
     }
@@ -440,51 +440,51 @@ void TclWriter::writeUse(UMLClassifier * c)
         myNs = cleanName(c->package());
     }
     // if different package
-    if (QString(QStringLiteral("::") + myNs) != mNamespace) {
+    if (QString(QLatin1String("::") + myNs) != mNamespace) {
         if (c->package().isEmpty()) {
-            writeCode(QStringLiteral("source ") + findFileName(c, QStringLiteral(".tcl")));
-            writeCode(QStringLiteral("namespace import ::") + cleanName(c->name()));
+            writeCode(QLatin1String("source ") + findFileName(c, QLatin1String(".tcl")));
+            writeCode(QLatin1String("namespace import ::") + cleanName(c->name()));
         } else {
-            writeCode(QStringLiteral("package require ") + myNs);
-            writeCode(QStringLiteral("namespace import ::") + myNs + QStringLiteral("::") +
+            writeCode(QLatin1String("package require ") + myNs);
+            writeCode(QLatin1String("namespace import ::") + myNs + QLatin1String("::") +
                       cleanName(c->name()));
         }
     } else {
         // source the file
-        writeCode(QStringLiteral("source ") + findFileName(c, QStringLiteral(".tcl")));
+        writeCode(QLatin1String("source ") + findFileName(c, QLatin1String(".tcl")));
     }
 }
 
 void TclWriter::writeConstructorHeader()
 {
-    writeDocu(m_endl + QStringLiteral("@func constructor") + m_endl +
-        QStringLiteral("@par args contain all configuration parameters") + m_endl);
-    writeCode(QStringLiteral("constructor {args} {}") + m_endl);
+    writeDocu(m_endl + QLatin1String("@func constructor") + m_endl +
+        QLatin1String("@par args contain all configuration parameters") + m_endl);
+    writeCode(QLatin1String("constructor {args} {}") + m_endl);
 }
 
 void TclWriter::writeConstructorSource(UMLClassifier * c)
 {
-    writeComm(mClassGlobal + QStringLiteral("::constructor"));
-    writeCode(mClassGlobal + QStringLiteral("::constructor {args} {"));
+    writeComm(mClassGlobal + QLatin1String("::constructor"));
+    writeCode(mClassGlobal + QLatin1String("::constructor {args} {"));
     m_indentLevel++;
     if (c->hasAttributes()) {
-        writeCode(QStringLiteral("initAttributes"));
+        writeCode(QLatin1String("initAttributes"));
     }
-    writeCode(QStringLiteral("eval configure $args"));
+    writeCode(QLatin1String("eval configure $args"));
     m_indentLevel--;
     writeCode(QLatin1Char('}') + m_endl);
 }
 
 void TclWriter::writeDestructorHeader()
 {
-    writeDocu(m_endl + QStringLiteral("@func destructor") + m_endl);
-    writeCode(QStringLiteral("destructor {} {}"));
+    writeDocu(m_endl + QLatin1String("@func destructor") + m_endl);
+    writeCode(QLatin1String("destructor {} {}"));
 }
 
 void TclWriter::writeDestructorSource()
 {
-    writeComm(mClassGlobal + QStringLiteral("::destructor"));
-    writeCode(mClassGlobal + QStringLiteral("::destructor {} {") + m_endl + QLatin1Char('}') + m_endl);
+    writeComm(mClassGlobal + QLatin1String("::destructor"));
+    writeCode(mClassGlobal + QLatin1String("::destructor {} {") + m_endl + QLatin1Char('}') + m_endl);
 }
 
 /**
@@ -501,9 +501,9 @@ void TclWriter::writeAttributeDecl(UMLClassifier * c, Uml::Visibility::Enum visi
     QString scope = Uml::Visibility::toString(visibility);
     QString type;
     if (writeStatic) {
-        type = QStringLiteral("common");
+        type = QLatin1String("common");
     } else {
-        type = QStringLiteral("variable");
+        type = QLatin1String("variable");
     }
     UMLAttributeList list;
     if (writeStatic) {
@@ -514,14 +514,14 @@ void TclWriter::writeAttributeDecl(UMLClassifier * c, Uml::Visibility::Enum visi
     }
 
     if (list.count() > 0) {
-        writeComm(m_endl + scope + QLatin1Char(' ') + type + QStringLiteral(" attributes") + m_endl);
+        writeComm(m_endl + scope + QLatin1Char(' ') + type + QLatin1String(" attributes") + m_endl);
         // write attrib declarations now
         QString documentation;
         foreach (UMLAttribute * at, list) {
             documentation = at->doc();
             QString varName = cleanName(at->name());
             QString typeName = fixTypeName(at->getTypeName());
-            writeDocu(m_endl + QStringLiteral("@var ") + scope + QLatin1Char(' ') + type + QLatin1Char(' ') + typeName + QLatin1Char(' ') +
+            writeDocu(m_endl + QLatin1String("@var ") + scope + QLatin1Char(' ') + type + QLatin1Char(' ') + typeName + QLatin1Char(' ') +
                       varName + m_endl + documentation);
             writeCode(scope + QLatin1Char(' ') + type + QLatin1Char(' ') + varName + m_endl);
         }
@@ -587,21 +587,21 @@ void TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QS
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    if (multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^[01]$")))) {
+    if (multi.isEmpty() || multi.contains(QRegExp(QLatin1String("^[01]$")))) {
         QString fieldVarName = roleName.toLower();
 
         // record this for later consideration of initialization IF the
         // multi value requires 1 of these objects
         if (ObjectFieldVariables.indexOf(fieldVarName) == -1 &&
-                multi.contains(QRegExp(QStringLiteral("^1$")))
+                multi.contains(QRegExp(QLatin1String("^1$")))
           ) {
             // ugh. UGLY. Storing variable name and its class in pairs.
             ObjectFieldVariables.append(fieldVarName);
             ObjectFieldVariables.append(fieldClassName);
         }
-        writeDocu(m_endl + QStringLiteral("@var ") + scope + QStringLiteral(" variable <") + fieldClassName +
-                  QStringLiteral("> ") + fieldVarName + m_endl + doc);
-        writeCode(scope + QStringLiteral(" variable ") + fieldVarName + m_endl);
+        writeDocu(m_endl + QLatin1String("@var ") + scope + QLatin1String(" variable <") + fieldClassName +
+                  QLatin1String("> ") + fieldVarName + m_endl + doc);
+        writeCode(scope + QLatin1String(" variable ") + fieldVarName + m_endl);
     } else {
         QString fieldVarName = roleName.toLower();
 
@@ -609,9 +609,9 @@ void TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QS
         // for initialization of this vector
         if (VectorFieldVariables.indexOf(fieldVarName) == -1)
             VectorFieldVariables.append(fieldVarName);
-        writeDocu(m_endl + QStringLiteral("@var") + scope + QStringLiteral(" variable <") + fieldClassName +
-                  QStringLiteral("*> ") + fieldVarName + m_endl + doc);
-        writeCode(scope + QStringLiteral(" variable ") + fieldVarName + m_endl);
+        writeDocu(m_endl + QLatin1String("@var") + scope + QLatin1String(" variable <") + fieldClassName +
+                  QLatin1String("*> ") + fieldVarName + m_endl + doc);
+        writeCode(scope + QLatin1String(" variable ") + fieldVarName + m_endl);
     }
 }
 
@@ -621,9 +621,9 @@ void TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QS
 void TclWriter::writeInitAttributeHeader(UMLClassifier * c)
 {
     if (c->hasAttributes()) {
-        writeDocu(QStringLiteral("@method private initAttributes") + m_endl +
-                  QStringLiteral("Initialize all internal variables"));
-        writeCode(QStringLiteral("private method initAttributes {}"));
+        writeDocu(QLatin1String("@method private initAttributes") + m_endl +
+                  QLatin1String("Initialize all internal variables"));
+        writeCode(QLatin1String("private method initAttributes {}"));
     }
 }
 
@@ -636,8 +636,8 @@ void TclWriter::writeInitAttributeSource(UMLClassifier* c)
     if (c->hasAttributes()) {
         QString varName;
 
-        writeComm(mClassGlobal + QStringLiteral("::initAttributes"));
-        writeCode(QStringLiteral("body ") + mClassGlobal + QStringLiteral("::initAttributes {} {"));
+        writeComm(mClassGlobal + QLatin1String("::initAttributes"));
+        writeCode(QLatin1String("body ") + mClassGlobal + QLatin1String("::initAttributes {} {"));
         m_indentLevel++;
 
         // first, initiation of fields derived from attributes
@@ -645,7 +645,7 @@ void TclWriter::writeInitAttributeSource(UMLClassifier* c)
         foreach (UMLAttribute * at, atl) {
             if (!at->getInitialValue().isEmpty()) {
                 varName = cleanName(at->name());
-                writeCode(QStringLiteral("set ") + varName + QLatin1Char(' ') + at->getInitialValue());
+                writeCode(QLatin1String("set ") + varName + QLatin1Char(' ') + at->getInitialValue());
             }
         }
         // Now initialize the association related fields (e.g. vectors)
@@ -653,7 +653,7 @@ void TclWriter::writeInitAttributeSource(UMLClassifier* c)
         for (it = VectorFieldVariables.begin();
                 it != VectorFieldVariables.end(); ++it) {
             varName = *it;
-            writeCode(QStringLiteral("set ") + varName + QStringLiteral(" [list]"));
+            writeCode(QLatin1String("set ") + varName + QLatin1String(" [list]"));
         }
 
         for (it = ObjectFieldVariables.begin();
@@ -661,7 +661,7 @@ void TclWriter::writeInitAttributeSource(UMLClassifier* c)
             varName = *it;
             it++;
             QString fieldClassName = *it;
-            writeCode(QStringLiteral("set ") + varName + QStringLiteral(" [list]"));
+            writeCode(QLatin1String("set ") + varName + QLatin1String(" [list]"));
         }
         // clean up
         ObjectFieldVariables.clear();   // shouldn't be needed?
@@ -700,7 +700,7 @@ void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility::Enum pe
 
     // generate method decl for each operation given
     if (oplist.count() > 0) {
-        writeComm(QStringLiteral("Operations"));
+        writeComm(QLatin1String("Operations"));
     }
     foreach (UMLOperation* op, oplist) {
         QString doc;
@@ -714,11 +714,11 @@ void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility::Enum pe
         }
         // declaration for header file
         if (op->isStatic()) {
-            doc = m_endl + QStringLiteral("@fn ") + scope + QStringLiteral(" proc ") + name + m_endl;
-            code = scope + QStringLiteral(" proc ") + name + QStringLiteral(" {");
+            doc = m_endl + QLatin1String("@fn ") + scope + QLatin1String(" proc ") + name + m_endl;
+            code = scope + QLatin1String(" proc ") + name + QLatin1String(" {");
         } else {
-            doc = m_endl + QStringLiteral("@fn ") + scope + QStringLiteral(" method ") + name + m_endl;
-            code = scope + QStringLiteral(" method ") + name + QStringLiteral(" {");
+            doc = m_endl + QLatin1String("@fn ") + scope + QLatin1String(" method ") + name + m_endl;
+            code = scope + QLatin1String(" method ") + name + QLatin1String(" {");
         }
         // method parameters
         UMLAttributeList atl = op->getParmList();
@@ -728,22 +728,22 @@ void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility::Enum pe
             QString atName = cleanName(at->name());
             if (at->getInitialValue().isEmpty()) {
                 doc +=
-                    QStringLiteral("@param ") + typeName + QLatin1Char(' ') + atName + m_endl + at->doc() +
+                    QLatin1String("@param ") + typeName + QLatin1Char(' ') + atName + m_endl + at->doc() +
                     m_endl;
                 code += QLatin1Char(' ') + atName;
             } else {
                 doc +=
-                    QStringLiteral("@param ") + typeName + QLatin1Char(' ') + atName + QStringLiteral(" (default=") +
-                    at->getInitialValue() + QStringLiteral(") ") + m_endl + at->doc() + m_endl;
-                code += QStringLiteral(" {") + atName + QLatin1Char(' ') + at->getInitialValue() + QStringLiteral("} ");
+                    QLatin1String("@param ") + typeName + QLatin1Char(' ') + atName + QLatin1String(" (default=") +
+                    at->getInitialValue() + QLatin1String(") ") + m_endl + at->doc() + m_endl;
+                code += QLatin1String(" {") + atName + QLatin1Char(' ') + at->getInitialValue() + QLatin1String("} ");
             }
             j++;
         }
-        if (methodReturnType != QStringLiteral("void")) {
-            doc += QStringLiteral("@return     ") + methodReturnType + m_endl;
+        if (methodReturnType != QLatin1String("void")) {
+            doc += QLatin1String("@return     ") + methodReturnType + m_endl;
         }
         writeDocu(doc + op->doc());
-        writeCode(code + QStringLiteral("} {}") + m_endl);
+        writeCode(code + QLatin1String("} {}") + m_endl);
     }
 }
 
@@ -782,9 +782,9 @@ void TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility::Enum pe
         if (op->isAbstract() || c->isInterface()) {
             continue;
         }
-        name = mClassGlobal + QStringLiteral("::") + cleanName(op->name());
+        name = mClassGlobal + QLatin1String("::") + cleanName(op->name());
         writeComm(name);
-        code = QStringLiteral("body ") + name + QStringLiteral(" {");
+        code = QLatin1String("body ") + name + QLatin1String(" {");
         // parameters
         UMLAttributeList atl = op->getParmList();
         j = 0;
@@ -793,20 +793,20 @@ void TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility::Enum pe
             if (at->getInitialValue().isEmpty()) {
                 code += QLatin1Char(' ') + atName;
             } else {
-                code += QStringLiteral(" {") + atName + QLatin1Char(' ') + at->getInitialValue() + QStringLiteral("} ");
+                code += QLatin1String(" {") + atName + QLatin1Char(' ') + at->getInitialValue() + QLatin1String("} ");
             }
             j++;
         }
-        writeCode(code += QStringLiteral("} {"));
+        writeCode(code += QLatin1String("} {"));
         m_indentLevel++;
         QString sourceCode = op->getSourceCode();
         if (!sourceCode.isEmpty()) {
             *mStream << formatSourceCode(sourceCode, indent());
         }
-        if (methodReturnType != QStringLiteral("void")) {
-            writeCode(QStringLiteral("return ") + methodReturnType);
+        if (methodReturnType != QLatin1String("void")) {
+            writeCode(QLatin1String("return ") + methodReturnType);
         } else {
-            writeCode(QStringLiteral("return"));
+            writeCode(QLatin1String("return"));
         }
         m_indentLevel--;
         writeCode(QLatin1Char('}') + m_endl);
@@ -818,10 +818,10 @@ void TclWriter::writeAttributeSource(UMLClassifier * c)
     UMLAttributeList list = c->getAttributeList(Uml::Visibility::Public);
 
     foreach (UMLAttribute* at, list) {
-        QString name = mClassGlobal + QStringLiteral("::") + cleanName(at->name());
+        QString name = mClassGlobal + QLatin1String("::") + cleanName(at->name());
 
         writeComm(name);
-        writeCode(QStringLiteral("configbody ") + name + QStringLiteral(" {} {") + m_endl + QLatin1Char('}') + m_endl);
+        writeCode(QLatin1String("configbody ") + name + QLatin1String(" {} {") + m_endl + QLatin1Char('}') + m_endl);
     }
 }
 
@@ -875,34 +875,34 @@ void TclWriter::writeAssociationRoleSource(const QString &fieldClassName,
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    if (multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^[01]$")))) {
+    if (multi.isEmpty() || multi.contains(QRegExp(QLatin1String("^[01]$")))) {
         QString fieldVarName = roleName.toLower();
 
-        writeCode(QStringLiteral("configbody ") + mClassGlobal + QStringLiteral("::") + fieldVarName + QStringLiteral(" {} {"));
+        writeCode(QLatin1String("configbody ") + mClassGlobal + QLatin1String("::") + fieldVarName + QLatin1String(" {} {"));
         m_indentLevel++;
-        writeCode(QStringLiteral("if {![$") + fieldVarName + QStringLiteral(" isa ") + fieldClassName + QStringLiteral("]} {"));
+        writeCode(QLatin1String("if {![$") + fieldVarName + QLatin1String(" isa ") + fieldClassName + QLatin1String("]} {"));
         m_indentLevel++;
-        writeCode(QStringLiteral("return -code error \"expected object of class: ") +
-                  fieldClassName + QStringLiteral("\""));
+        writeCode(QLatin1String("return -code error \"expected object of class: ") +
+                  fieldClassName + QLatin1String("\""));
         m_indentLevel--;
-        writeCode(QStringLiteral("}"));
+        writeCode(QLatin1String("}"));
         m_indentLevel--;
 
     } else {
         QString fieldVarName = roleName.toLower();
 
-        writeCode(QStringLiteral("configbody ") + mClassGlobal + QStringLiteral("::") + fieldVarName + QStringLiteral(" {} {"));
+        writeCode(QLatin1String("configbody ") + mClassGlobal + QLatin1String("::") + fieldVarName + QLatin1String(" {} {"));
         m_indentLevel++;
-        writeCode(QStringLiteral("foreach myObj $") + fieldVarName + QStringLiteral(" {"));
+        writeCode(QLatin1String("foreach myObj $") + fieldVarName + QLatin1String(" {"));
         m_indentLevel++;
-        writeCode(QStringLiteral("if {![$myObj isa ") + fieldClassName + QStringLiteral("]} {"));
+        writeCode(QLatin1String("if {![$myObj isa ") + fieldClassName + QLatin1String("]} {"));
         m_indentLevel++;
-        writeCode(QStringLiteral("return -code error \"expected object of class: ") +
-                  fieldClassName + QStringLiteral("\""));
+        writeCode(QLatin1String("return -code error \"expected object of class: ") +
+                  fieldClassName + QLatin1String("\""));
         m_indentLevel--;
-        writeCode(QStringLiteral("}"));
+        writeCode(QLatin1String("}"));
         m_indentLevel--;
-        writeCode(QStringLiteral("}"));
+        writeCode(QLatin1String("}"));
         m_indentLevel--;
     }
     writeCode(QLatin1Char('}') + m_endl);
@@ -914,7 +914,7 @@ void TclWriter::writeAssociationRoleSource(const QString &fieldClassName,
 QString TclWriter::fixTypeName(const QString &string)
 {
     if (string.isEmpty())
-        return QStringLiteral("void");
+        return QLatin1String("void");
     return string;
 }
 
@@ -924,7 +924,7 @@ QString TclWriter::fixTypeName(const QString &string)
  */
 QString TclWriter::getUMLObjectName(UMLObject * obj)
 {
-    return (obj != 0) ? obj->name() : QStringLiteral("NULL");
+    return (obj != 0) ? obj->name() : QLatin1String("NULL");
 }
 
 /**
@@ -937,7 +937,7 @@ QStringList TclWriter::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         for (int i = 0; reserved_words[i]; ++i) {
-            keywords.append(QStringLiteral(reserved_words[i]));
+            keywords.append(QLatin1String(reserved_words[i]));
         }
     }
 

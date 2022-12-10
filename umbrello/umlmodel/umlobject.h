@@ -125,7 +125,7 @@ public:
 
     virtual void setBaseType(ObjectType ot);
     ObjectType baseType() const;
-    QStringLiteral baseTypeStr() const;
+    QLatin1String baseTypeStr() const;
 
     virtual void setID(Uml::ID::Type NewID);
     virtual Uml::ID::Type id() const;

@@ -79,7 +79,7 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     if (m_objectNodeType == Flow) {
         QString objectflow_value;
-        if (state() == QStringLiteral("-") || state().isEmpty()) {
+        if (state() == QLatin1String("-") || state().isEmpty()) {
             objectflow_value = QLatin1Char(' ');
         } else {
             objectflow_value = QLatin1Char('[') + state() + QLatin1Char(']');
@@ -93,9 +93,9 @@ void ObjectNodeWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
                           w - OBJECTNODE_MARGIN * 2, fontHeight, Qt::AlignHCenter, objectflow_value);
     } else {
         painter->setPen(textColor());
-        const QString stereoType = (m_objectNodeType == Normal ? QStringLiteral("object") :
-                                    m_objectNodeType == Buffer ? QStringLiteral("centralBuffer")
-                                                               : QStringLiteral("datastore"));
+        const QString stereoType = (m_objectNodeType == Normal ? QLatin1String("object") :
+                                    m_objectNodeType == Buffer ? QLatin1String("centralBuffer")
+                                                               : QLatin1String("datastore"));
         painter->drawText(OBJECTNODE_MARGIN, textStartY / 2, w - OBJECTNODE_MARGIN * 2, fontHeight,
                           Qt::AlignHCenter, Widget_Utils::adornStereo(stereoType));
         painter->drawText(OBJECTNODE_MARGIN, (textStartY / 2) + fontHeight + 5,
@@ -114,7 +114,7 @@ QSizeF ObjectNodeWidget::minimumSize() const
     if (m_objectNodeType == Buffer) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width(Widget_Utils::adornStereo(QStringLiteral("centralBuffer")));
+        const int textWidth = fm.width(Widget_Utils::adornStereo(QLatin1String("centralBuffer")));
         const int namewidth = fm.width(name());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
@@ -125,7 +125,7 @@ QSizeF ObjectNodeWidget::minimumSize() const
     } else if (m_objectNodeType == Data) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width(Widget_Utils::adornStereo(QStringLiteral("datastore")));
+        const int textWidth = fm.width(Widget_Utils::adornStereo(QLatin1String("datastore")));
         const int namewidth = fm.width(name());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
@@ -162,11 +162,11 @@ ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::objectNodeType() const
  */
 ObjectNodeWidget::ObjectNodeType ObjectNodeWidget::toObjectNodeType(const QString& type)
 {
-    if (type == QStringLiteral("Central buffer"))
+    if (type == QLatin1String("Central buffer"))
        return ObjectNodeWidget::Buffer;
-    if (type == QStringLiteral("Data store"))
+    if (type == QLatin1String("Data store"))
        return ObjectNodeWidget::Data;
-    if (type == QStringLiteral("Object Flow"))
+    if (type == QLatin1String("Object Flow"))
        return ObjectNodeWidget::Flow;
     // Shouldn't happen
     Q_ASSERT(0);
@@ -258,12 +258,12 @@ bool ObjectNodeWidget::showPropertiesDialog()
  */
 void ObjectNodeWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("objectnodewidget"));
+    writer.writeStartElement(QLatin1String("objectnodewidget"));
     UMLWidget::saveToXMI(writer);
-    writer.writeAttribute(QStringLiteral("objectnodename"), m_Text);
-    writer.writeAttribute(QStringLiteral("documentation"), m_Doc);
-    writer.writeAttribute(QStringLiteral("objectnodetype"), QString::number(m_objectNodeType));
-    writer.writeAttribute(QStringLiteral("objectnodestate"), m_state);
+    writer.writeAttribute(QLatin1String("objectnodename"), m_Text);
+    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
+    writer.writeAttribute(QLatin1String("objectnodetype"), QString::number(m_objectNodeType));
+    writer.writeAttribute(QLatin1String("objectnodestate"), m_state);
     writer.writeEndElement();
 }
 
@@ -274,10 +274,10 @@ bool ObjectNodeWidget::loadFromXMI(QDomElement& qElement)
 {
     if(!UMLWidget::loadFromXMI(qElement) )
         return false;
-    m_Text = qElement.attribute(QStringLiteral("objectnodename"));
-    m_Doc = qElement.attribute(QStringLiteral("documentation"));
-    QString type = qElement.attribute(QStringLiteral("objectnodetype"), QStringLiteral("1"));
-    m_state = qElement.attribute(QStringLiteral("objectnodestate"));
+    m_Text = qElement.attribute(QLatin1String("objectnodename"));
+    m_Doc = qElement.attribute(QLatin1String("documentation"));
+    QString type = qElement.attribute(QLatin1String("objectnodetype"), QLatin1String("1"));
+    m_state = qElement.attribute(QLatin1String("objectnodestate"));
     setObjectNodeType((ObjectNodeType)type.toInt());
     return true;
 }
@@ -290,9 +290,9 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
     bool pressedOK = false;
     int current = 0;
     const QStringList list = QStringList()
-                             << QStringLiteral("Central buffer")
-                             << QStringLiteral("Data store")
-                             << QStringLiteral("Object Flow");
+                             << QLatin1String("Central buffer")
+                             << QLatin1String("Data store")
+                             << QLatin1String("Object Flow");
 
 #if QT_VERSION >= 0x050000
     QString type = QInputDialog::getItem (UMLApp::app(),
@@ -305,11 +305,11 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
 
     if (pressedOK) {
         targetWidget->asObjectNodeWidget()->setObjectNodeType(type);
-        if (type == QStringLiteral("Data store"))
+        if (type == QLatin1String("Data store"))
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the data store node"), i18n("Enter the name of the data store node"), i18n("data store name"));
-        if (type == QStringLiteral("Central buffer"))
+        if (type == QLatin1String("Central buffer"))
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the buffer node"), i18n("Enter the name of the buffer"), i18n("centralBuffer"));
-        if (type == QStringLiteral("Object Flow")) {
+        if (type == QLatin1String("Object Flow")) {
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the object flow"), i18n("Enter the name of the object flow"), i18n("object flow"));
             askStateForWidget();
         }

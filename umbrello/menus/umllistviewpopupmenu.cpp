@@ -155,7 +155,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
             insertStdItems();
             insert(mt_Show);
             addSeparator();
-            if (object && object->stereotype() == QStringLiteral("class-or-package")) {
+            if (object && object->stereotype() == QLatin1String("class-or-package")) {
                 insert(mt_ChangeToClass, i18n("Change into Class"));
                 insert(mt_ChangeToPackage, i18n("Change into Package"));
             }

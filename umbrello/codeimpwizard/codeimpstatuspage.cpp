@@ -131,7 +131,7 @@ void CodeImpStatusPage::importCode()
 
     ui_textEditLogger->setHtml(i18np("<b>Code import of 1 file:</b><br>", "<b>Code import of %1 files:</b><br>", m_files.size()));
     
-    ui_textEditLogger->insertHtml(QStringLiteral("\n") + QStringLiteral("<br>"));
+    ui_textEditLogger->insertHtml(QLatin1String("\n") + QLatin1String("<br>"));
     ui_textEditLogger->moveCursor (QTextCursor::End);
     ui_textEditLogger->verticalScrollBar()->setValue(ui_textEditLogger->verticalScrollBar()->maximum()); // move Cursor to the end
 
@@ -271,10 +271,10 @@ bool CodeImpStatusPage::isComplete() const
 void CodeImpStatusPage::messageToLog(const QString& file, const QString& text)
 {
     if (file.isEmpty()) {
-        ui_textEditLogger->insertHtml(QStringLiteral("\n    ") + text + QStringLiteral("<br>"));
+        ui_textEditLogger->insertHtml(QLatin1String("\n    ") + text + QLatin1String("<br>"));
     }
     else {
-        ui_textEditLogger->insertHtml(QStringLiteral("\n<b>") + file + QStringLiteral(":</b> ") + text + QStringLiteral("<br>"));
+        ui_textEditLogger->insertHtml(QLatin1String("\n<b>") + file + QLatin1String(":</b> ") + text + QLatin1String("<br>"));
     }
     // move Cursor to the end
     ui_textEditLogger->verticalScrollBar()->setValue(ui_textEditLogger->verticalScrollBar()->maximum());

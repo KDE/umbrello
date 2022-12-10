@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -27,7 +27,7 @@ ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
     setupUi(mainWidget());
 
     // create and initialize m_imageType
-    m_imageType = new ImageTypeWidget(UMLViewImageExporterModel::supportedMimeTypes(), QStringLiteral("image/png"), this);
+    m_imageType = new ImageTypeWidget(UMLViewImageExporterModel::supportedMimeTypes(), QLatin1String("image/png"), this);
     m_imageResolution = new ResolutionWidget(this);
 
     // Cannot give an object name to the layout when using QtDesigner,
@@ -68,9 +68,9 @@ void ExportAllViewsDialog::slotImageTypeChanged(QString imageType)
 {
     Q_UNUSED(imageType);
     QString mimeType = m_imageType->currentType();
-    bool hide = mimeType == QStringLiteral("image/x-dot") ||
-        mimeType == QStringLiteral("image/x-eps") ||
-        mimeType == QStringLiteral("image/svg+xml");
+    bool hide = mimeType == QLatin1String("image/x-dot") ||
+        mimeType == QLatin1String("image/x-eps") ||
+        mimeType == QLatin1String("image/svg+xml");
 
     m_imageResolution->setVisible(!hide);
 }

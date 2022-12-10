@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -112,7 +112,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     if (UMLWidget::isInstance()) {
         font.setUnderline(true);
         painter->setFont(font);
-        nameStr = UMLWidget::instanceName() + QStringLiteral(" : ") + nameStr;
+        nameStr = UMLWidget::instanceName() + QLatin1String(" : ") + nameStr;
     }
 
     if (lines == 1) {
@@ -184,7 +184,7 @@ void ComponentWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
  */
 void ComponentWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("componentwidget"));
+    writer.writeStartElement(QLatin1String("componentwidget"));
     UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }
@@ -202,7 +202,7 @@ QSizeF ComponentWidget::minimumSize() const
 
     QString name = m_umlObject->name();
     if (UMLWidget::isInstance()) {
-        name = UMLWidget::instanceName() + QStringLiteral(" : ") + name;
+        name = UMLWidget::instanceName() + QLatin1String(" : ") + name;
     }
 
     int width = fm.width(name);

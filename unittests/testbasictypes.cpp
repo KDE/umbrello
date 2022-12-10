@@ -58,7 +58,7 @@ void TestBasicTypes::test_QString_english()
     QLocale english(QLocale::English);
     QLocale::setDefault(english);
 
-    QString value1String(QStringLiteral("123.456"));
+    QString value1String(QLatin1String("123.456"));
     float referenceValue = 123.456;
     qreal referenceDValue = 123.456;
 
@@ -81,7 +81,7 @@ void TestBasicTypes::test_QString_non_english()
     QLocale hungarian(QLocale::Hungarian);
     QLocale::setDefault(hungarian);
 
-    QString value1String(QStringLiteral("123.456"));
+    QString value1String(QLatin1String("123.456"));
     float referenceValue = 123.456;
     qreal referenceDValue = 123.456;
 
@@ -107,7 +107,7 @@ void TestBasicTypes::test_DomDocument_english()
 
     float fVar = 123.456;
     double dVar = 123.456;
-    QString refValue(QStringLiteral("123.456"));
+    QString refValue(QLatin1String("123.456"));
     QString localeValue;
     localeValue.replace(QLatin1Char('.'), _default.decimalPoint());
 
@@ -142,7 +142,7 @@ void TestBasicTypes::test_DomDocument_non_english()
 
     float fVar = 123.456;
     double dVar = 123.456;
-    QString refValue(QStringLiteral("123.456"));
+    QString refValue(QLatin1String("123.456"));
     QString localeValue;
     localeValue.replace(QLatin1Char('.'), _default.decimalPoint());
 

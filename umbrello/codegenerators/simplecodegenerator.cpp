@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -93,25 +93,25 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
     //else, determine the "natural" file name
     QString name;
     // Get the package name
-    QString package = concept->package(QStringLiteral("."));
+    QString package = concept->package(QLatin1String("."));
 
     // Replace all white spaces with blanks
     package = package.simplified();
 
     // Replace all blanks with underscore
-    package.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    package.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
     // Convert all "::" to "/" : Platform-specific path separator
-    // package.replace(QRegExp(QStringLiteral("::")), QStringLiteral("/"));
+    // package.replace(QRegExp(QLatin1String("::")), QLatin1String("/"));
 
     // if package is given add this as a directory to the file name
     if (!package.isEmpty() && m_createDirHierarchyForPackages) {
         name = package + QLatin1Char('.') + concept->name();
-        name.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("/"));
-        package.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("/"));
+        name.replace(QRegExp(QLatin1String("\\.")), QLatin1String("/"));
+        package.replace(QRegExp(QLatin1String("\\.")), QLatin1String("/"));
         package = QLatin1Char('/') + package;
     } else {
-        name = concept->fullyQualifiedName(QStringLiteral("-"));
+        name = concept->fullyQualifiedName(QLatin1String("-"));
     }
 
     if (! UMLApp::app()->activeLanguageIsCaseSensitive()) {
@@ -145,7 +145,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
     }
 
     name = name.simplified();
-    name.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    name.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
     QString extension = ext.simplified();
     extension.replace(QLatin1Char(' '), QLatin1Char('_'));
@@ -197,7 +197,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
 #endif
             suffix = 1;
             while (1) {
-                filename = name + QStringLiteral("__") + QString::number(suffix) + ext;
+                filename = name + QLatin1String("__") + QString::number(suffix) + ext;
                 if (!outputDir.exists(filename))
                     break;
                 suffix++;
@@ -226,7 +226,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
     case CodeGenerationPolicy::Never: //generate similar name
         suffix = 1;
         while (1) {
-            filename = name + QStringLiteral("__") + QString::number(suffix) + ext;
+            filename = name + QLatin1String("__") + QString::number(suffix) + ext;
             if (!outputDir.exists(filename))
                 break;
             suffix++;

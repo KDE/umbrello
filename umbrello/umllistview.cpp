@@ -536,17 +536,17 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             // configure & show the file dialog
 #if QT_VERSION >= 0x050000
             const QString rootDir(m_doc->url().adjusted(QUrl::RemoveFilename).path());
-            QPointer<QFileDialog> fileDialog = new QFileDialog(this, i18n("Externalize Folder"), rootDir, QStringLiteral("*.xml"));
+            QPointer<QFileDialog> fileDialog = new QFileDialog(this, i18n("Externalize Folder"), rootDir, QLatin1String("*.xml"));
 #else
             const QString rootDir(m_doc->url().directory());
-            QPointer<KFileDialog> fileDialog = new KFileDialog(rootDir, QStringLiteral("*.xml"), this);
+            QPointer<KFileDialog> fileDialog = new KFileDialog(rootDir, QLatin1String("*.xml"), this);
             fileDialog->setCaption(i18n("Externalize Folder"));
             fileDialog->setOperationMode(KFileDialog::Other);
 #endif
             // set a sensible default filename
             QString defaultFilename = current->text(0).toLower();
-            defaultFilename.replace(QRegExp(QStringLiteral("\\W+")), QStringLiteral("_"));
-            defaultFilename.append(QStringLiteral(".xml"));  // default extension
+            defaultFilename.replace(QRegExp(QLatin1String("\\W+")), QLatin1String("_"));
+            defaultFilename.append(QLatin1String(".xml"));  // default extension
 #if QT_VERSION >= 0x050000
             fileDialog->selectFile(defaultFilename);
             QList<QUrl> selURL;
@@ -599,8 +599,8 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             modelFolder->setFolderFile(fileName);
             // Recompute text of the folder
             QString folderText = current->text(0);
-            folderText.remove(QRegExp(QStringLiteral("\\s*\\(.*$")));
-            folderText.append(QStringLiteral(" (") + fileName + QLatin1Char(')'));
+            folderText.remove(QRegExp(QLatin1String("\\s*\\(.*$")));
+            folderText.append(QLatin1String(" (") + fileName + QLatin1Char(')'));
             current->setText(folderText);
             break;
         }
@@ -616,7 +616,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             modelFolder->setFolderFile(QString());
             // Recompute text of the folder
             QString folderText = current->text(0);
-            folderText.remove(QRegExp(QStringLiteral("\\s*\\(.*$")));
+            folderText.remove(QRegExp(QLatin1String("\\s*\\(.*$")));
             current->setText(folderText);
             break;
         }
@@ -1017,7 +1017,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
         const UMLFolder *f = object->asUMLFolder();
         QString folderFile = f->folderFile();
         if (!folderFile.isEmpty())
-            name.append(QStringLiteral(" (") + folderFile + QLatin1Char(')'));
+            name.append(QLatin1String(" (") + folderFile + QLatin1Char(')'));
     }
     newItem = new UMLListViewItem(parentItem, name, lvt, object);
     parentItem->addChildItem(object, newItem);  // for updating the ChildObjectMap
@@ -2321,9 +2321,9 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         }
 
         if (type == UMLListViewItem::lvt_Subsystem) {
-            object->setStereotypeCmd(QStringLiteral("subsystem"));
+            object->setStereotypeCmd(QLatin1String("subsystem"));
         } else if (Model_Utils::typeIsFolder(type)) {
-            object->setStereotypeCmd(QStringLiteral("folder"));
+            object->setStereotypeCmd(QLatin1String("folder"));
         } else if (instanceOfClass) {
             qApp->processEvents();
             UMLInstance *inst = object->asUMLInstance();
@@ -2464,7 +2464,7 @@ bool UMLListView::isUnique(UMLListViewItem * item, const QString &name) const
  */
 void UMLListView::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("listview"));
+    writer.writeStartElement(QLatin1String("listview"));
     m_rv->saveToXMI(writer);
     writer.writeEndElement();
 }
@@ -2478,9 +2478,9 @@ bool UMLListView::loadFromXMI(QDomElement & element)
     QDomElement domElement = node.toElement();
     m_doc->writeToStatusBar(i18n("Loading listview..."));
     while (!domElement.isNull()) {
-        if (domElement.tagName() == QStringLiteral("listitem")) {
-            QString type = domElement.attribute(QStringLiteral("type"), QStringLiteral("-1"));
-            if (type == QStringLiteral("-1"))
+        if (domElement.tagName() == QLatin1String("listitem")) {
+            QString type = domElement.attribute(QLatin1String("type"), QLatin1String("-1"));
+            if (type == QLatin1String("-1"))
                 return false;
             UMLListViewItem::ListViewType lvType = (UMLListViewItem::ListViewType)type.toInt();
             if (lvType == UMLListViewItem::lvt_View) {
@@ -2505,15 +2505,15 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
     QDomElement domElement = node.toElement();
     while (!domElement.isNull()) {
         node = domElement.nextSibling();
-        if (domElement.tagName() != QStringLiteral("listitem")) {
+        if (domElement.tagName() != QLatin1String("listitem")) {
             domElement = node.toElement();
             continue;
         }
-        QString id = domElement.attribute(QStringLiteral("id"), QStringLiteral("-1"));
-        QString type = domElement.attribute(QStringLiteral("type"), QStringLiteral("-1"));
-        QString label = domElement.attribute(QStringLiteral("label"));
-        QString open = domElement.attribute(QStringLiteral("open"), QStringLiteral("1"));
-        if (type == QStringLiteral("-1"))
+        QString id = domElement.attribute(QLatin1String("id"), QLatin1String("-1"));
+        QString type = domElement.attribute(QLatin1String("type"), QLatin1String("-1"));
+        QString label = domElement.attribute(QLatin1String("label"));
+        QString open = domElement.attribute(QLatin1String("open"), QLatin1String("1"));
+        if (type == QLatin1String("-1"))
             return false;
         UMLListViewItem::ListViewType lvType = (UMLListViewItem::ListViewType)type.toInt();
         bool bOpen = (bool)open.toInt();
@@ -2607,7 +2607,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
                 UMLListViewItem *itmParent = dynamic_cast<UMLListViewItem*>(item->parent());
                 logDebug3("UMLListView::loadChildrenFromXMI: Loaded <listview> entry does not match uml model "
                           "item %1 parent %2 != %3", item->text(0), parent->text(0),
-                          (itmParent ? itmParent->text(0) : QStringLiteral("")));
+                          (itmParent ? itmParent->text(0) : QLatin1String("")));
             }
             break;
         case UMLListViewItem::lvt_Attribute:

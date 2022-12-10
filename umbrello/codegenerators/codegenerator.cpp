@@ -90,8 +90,8 @@ QString CodeGenerator::getUniqueID(CodeDocument * codeDoc)
         id = Uml::ID::toString(c->id()); // this is supposed to be unique already..
     }
     else {
-        QString prefix = QStringLiteral("doc");
-        QString id = prefix + QStringLiteral("_0");
+        QString prefix = QLatin1String("doc");
+        QString id = prefix + QLatin1String("_0");
         int number = m_lastIDIndex;
         for (; findCodeDocumentByID(id); ++number) {
             id = prefix + QLatin1Char('_') + QString::number(number);
@@ -181,8 +181,8 @@ void CodeGenerator::loadFromXMI(QDomElement & qElement)
     QDomElement element = node.toElement();
     QString langType = Uml::ProgrammingLanguage::toString(language());
 
-    if (qElement.tagName() != QStringLiteral("codegenerator")
-        || qElement.attribute(QStringLiteral("language"), QStringLiteral("UNKNOWN")) != langType) {
+    if (qElement.tagName() != QLatin1String("codegenerator")
+        || qElement.attribute(QLatin1String("language"), QLatin1String("UNKNOWN")) != langType) {
         return;
     }
     // got our code generator element, now load
@@ -191,11 +191,11 @@ void CodeGenerator::loadFromXMI(QDomElement & qElement)
     QDomElement codeDocElement = codeDocNode.toElement();
     while (!codeDocElement.isNull()) {
         QString docTag = codeDocElement.tagName();
-        QString id = codeDocElement.attribute(QStringLiteral("id"), QStringLiteral("-1"));
-        if (docTag == QStringLiteral("sourcecode")) {
+        QString id = codeDocElement.attribute(QLatin1String("id"), QLatin1String("-1"));
+        if (docTag == QLatin1String("sourcecode")) {
             loadCodeForOperation(id, codeDocElement);
         }
-        else if (docTag == QStringLiteral("codedocument") || docTag == QStringLiteral("classifiercodedocument")) {
+        else if (docTag == QLatin1String("codedocument") || docTag == QLatin1String("classifiercodedocument")) {
             CodeDocument * codeDoc = findCodeDocumentByID(id);
             if (codeDoc) {
                 codeDoc->loadFromXMI(codeDocElement);
@@ -222,7 +222,7 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
     UMLObject *obj = m_document->findObjectById(id);
     if (obj) {
         logDebug1("CodeGenerator::loadCodeForOperation found UMLObject for id: %1", idStr);
-        QString value = codeDocElement.attribute(QStringLiteral("value"));
+        QString value = codeDocElement.attribute(QLatin1String("value"));
 
         UMLObject::ObjectType t = obj->baseType();
         if (t == UMLObject::ot_Operation) {
@@ -244,8 +244,8 @@ void CodeGenerator::loadCodeForOperation(const QString& idStr, const QDomElement
 void CodeGenerator::saveToXMI(QXmlStreamWriter& writer)
 {
     QString langType = Uml::ProgrammingLanguage::toString(language());
-    writer.writeStartElement(QStringLiteral("codegenerator"));
-    writer.writeAttribute(QStringLiteral("language"), langType);
+    writer.writeStartElement(QLatin1String("codegenerator"));
+    writer.writeAttribute(QLatin1String("language"), langType);
 
     if (dynamic_cast<SimpleCodeGenerator*>(this)) {
         UMLClassifierList concepts = m_document->classesAndInterfaces();
@@ -258,9 +258,9 @@ void CodeGenerator::saveToXMI(QXmlStreamWriter& writer)
                 if (code.isEmpty()) {
                     continue;
                 }
-                writer.writeStartElement(QStringLiteral("sourcecode"));
-                writer.writeAttribute(QStringLiteral("id"), Uml::ID::toString(op->id()));
-                writer.writeAttribute(QStringLiteral("value"), code);
+                writer.writeStartElement(QLatin1String("sourcecode"));
+                writer.writeAttribute(QLatin1String("id"), Uml::ID::toString(op->id()));
+                writer.writeAttribute(QLatin1String("value"), code);
                 writer.writeEndElement();
             }
         }
@@ -463,7 +463,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
 #endif
             suffix = 1;
             while (1) {
-                filename = name + QStringLiteral("__") + QString::number(suffix) + extension;
+                filename = name + QLatin1String("__") + QString::number(suffix) + extension;
                 if (!outputDirectory.exists(filename))
                     break;
                 suffix++;
@@ -494,7 +494,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
     case CodeGenerationPolicy::Never: //generate similar name
         suffix = 1;
         while (1) {
-            filename = name + QStringLiteral("__") + QString::number(suffix) + extension;
+            filename = name + QLatin1String("__") + QString::number(suffix) + extension;
             if (!outputDirectory.exists(filename)) {
                 break;
             }
@@ -548,7 +548,7 @@ bool CodeGenerator::openFile(QFile & file, const QString &fileName)
 QString CodeGenerator::cleanName(const QString &name)
 {
     QString retval = name;
-    retval.replace(QRegExp(QStringLiteral("\\W+")), QStringLiteral("_"));
+    retval.replace(QRegExp(QLatin1String("\\W+")), QLatin1String("_"));
     return retval;
 }
 
@@ -569,7 +569,7 @@ QString CodeGenerator::findFileName(CodeDocument * codeDocument)
     // if path is given add this as a directory to the file name
     QString name;
     if (!path.isEmpty()) {
-        path.replace(QRegExp(QStringLiteral("::")), QStringLiteral("/")); // Simple hack!
+        path.replace(QRegExp(QLatin1String("::")), QLatin1String("/")); // Simple hack!
         name = path + QLatin1Char('/') + codeDocument->getFileName();
         path = QLatin1Char('/') + path;
     }
@@ -578,7 +578,7 @@ QString CodeGenerator::findFileName(CodeDocument * codeDocument)
     }
 
     // Convert all "::" to "/" : Platform-specific path separator
-    name.replace(QRegExp(QStringLiteral("::")), QStringLiteral("/")); // Simple hack!
+    name.replace(QRegExp(QLatin1String("::")), QLatin1String("/")); // Simple hack!
 
     // if a path name exists check the existence of the path directory
     if (!path.isEmpty()) {
@@ -605,7 +605,7 @@ QString CodeGenerator::findFileName(CodeDocument * codeDocument)
     }
 
     name = name.simplified();
-    name.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    name.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
 
     return overwritableName(name, codeDocument->getFileExtension());
 }
@@ -715,13 +715,13 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
     QStringList lines = text.split(endLine);
     for (QStringList::ConstIterator lit = lines.constBegin(); lit != lines.constEnd(); ++lit) {
         QString input = *lit;
-        input.remove(QRegExp(QStringLiteral("\\s+$")));
+        input.remove(QRegExp(QLatin1String("\\s+$")));
         if (input.length() < lineWidth) {
             output += linePrefix + input + endLine;
             continue;
         }
         int index;
-        while ((index = input.lastIndexOf(QStringLiteral(" "), lineWidth)) >= 0) {
+        while ((index = input.lastIndexOf(QLatin1String(" "), lineWidth)) >= 0) {
             output += linePrefix + input.left(index) + endLine; // add line
             input.remove(0, index + 1); // remove processed string, including white space
         }

@@ -91,15 +91,15 @@ void NoteWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     switch(m_noteType) {
     case NoteWidget::PreCondition :
         painter->drawText(0, defaultMargin , w, fontHeight, Qt::AlignCenter,
-                          Widget_Utils::adornStereo(QStringLiteral("precondition")));
+                          Widget_Utils::adornStereo(QLatin1String("precondition")));
         break;
     case NoteWidget::PostCondition :
         painter->drawText(0, defaultMargin , w, fontHeight, Qt::AlignCenter,
-                          Widget_Utils::adornStereo(QStringLiteral("postcondition")));
+                          Widget_Utils::adornStereo(QLatin1String("postcondition")));
         break;
     case NoteWidget::Transformation :
         painter->drawText(0, defaultMargin , w, fontHeight, Qt::AlignCenter,
-                          Widget_Utils::adornStereo(QStringLiteral("transformation")));
+                          Widget_Utils::adornStereo(QLatin1String("transformation")));
         break;
     case NoteWidget::Normal :
     default :
@@ -125,11 +125,11 @@ NoteWidget::NoteType NoteWidget::noteType() const
  */
 NoteWidget::NoteType NoteWidget::stringToNoteType(const QString& noteType)
 {
-    if (noteType == QStringLiteral("Precondition"))
+    if (noteType == QLatin1String("Precondition"))
         return NoteWidget::PreCondition;
-    else if (noteType == QStringLiteral("Postcondition"))
+    else if (noteType == QLatin1String("Postcondition"))
         return NoteWidget::PostCondition;
-    else if (noteType == QStringLiteral("Transformation"))
+    else if (noteType == QLatin1String("Transformation"))
         return NoteWidget::Transformation;
     else
         return NoteWidget::Normal;
@@ -177,7 +177,7 @@ void NoteWidget::setDiagramLink(Uml::ID::Type viewID)
                   Uml::ID::toString(viewID));
         return;
     }
-    QString linkText(QStringLiteral("Diagram: ") + view->umlScene()->name());
+    QString linkText(QLatin1String("Diagram: ") + view->umlScene()->name());
     setDocumentation(linkText);
     m_diagramLink = viewID;
     update();
@@ -252,11 +252,11 @@ bool NoteWidget::loadFromXMI(QDomElement & qElement)
     if (!UMLWidget::loadFromXMI(qElement))
         return false;
     setZValue(20); //make sure always on top.
-    setDocumentation(qElement.attribute(QStringLiteral("text")));
-    QString diagramlink = qElement.attribute(QStringLiteral("diagramlink"));
+    setDocumentation(qElement.attribute(QLatin1String("text")));
+    QString diagramlink = qElement.attribute(QLatin1String("diagramlink"));
     if (!diagramlink.isEmpty())
         m_diagramLink = Uml::ID::fromString(diagramlink);
-    QString type = qElement.attribute(QStringLiteral("noteType"));
+    QString type = qElement.attribute(QLatin1String("noteType"));
     setNoteType((NoteType)type.toInt());
     return true;
 }
@@ -266,12 +266,12 @@ bool NoteWidget::loadFromXMI(QDomElement & qElement)
  */
 void NoteWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QStringLiteral("notewidget"));
+    writer.writeStartElement(QLatin1String("notewidget"));
     UMLWidget::saveToXMI(writer);
-    writer.writeAttribute(QStringLiteral("text"), documentation());
+    writer.writeAttribute(QLatin1String("text"), documentation());
     if (m_diagramLink != Uml::ID::None)
-        writer.writeAttribute(QStringLiteral("diagramlink"), Uml::ID::toString(m_diagramLink));
-    writer.writeAttribute(QStringLiteral("noteType"), QString::number(m_noteType));
+        writer.writeAttribute(QLatin1String("diagramlink"), Uml::ID::toString(m_diagramLink));
+    writer.writeAttribute(QLatin1String("noteType"), QString::number(m_noteType));
     writer.writeEndElement();
 }
 
@@ -338,15 +338,15 @@ QSizeF NoteWidget::calculateSize(bool withExtensions /* = true */) const
     const int textWidth = size.width();
     const int textHeight = size.height();
     if (m_noteType == PreCondition) {
-        const int widthtemp = fm.width(Widget_Utils::adornStereo(QStringLiteral("precondition")));
+        const int widthtemp = fm.width(Widget_Utils::adornStereo(QLatin1String("precondition")));
         width = textWidth > widthtemp ? textWidth : widthtemp;
     }
     else if (m_noteType == PostCondition) {
-        const int widthtemp = fm.width(Widget_Utils::adornStereo(QStringLiteral("postcondition")));
+        const int widthtemp = fm.width(Widget_Utils::adornStereo(QLatin1String("postcondition")));
         width = textWidth > widthtemp ? textWidth : widthtemp;
     }
     else if (m_noteType == Transformation) {
-        const int widthtemp = fm.width(Widget_Utils::adornStereo(QStringLiteral("transformation")));
+        const int widthtemp = fm.width(Widget_Utils::adornStereo(QLatin1String("transformation")));
         width = textWidth > widthtemp ? textWidth : widthtemp;
     }
 
