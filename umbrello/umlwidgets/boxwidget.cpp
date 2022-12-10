@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -59,7 +59,7 @@ void BoxWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
  */
 void BoxWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QLatin1String("boxwidget"));
+    writer.writeStartElement(QStringLiteral("boxwidget"));
     UMLWidget::saveToXMI(writer);
     writer.writeEndElement();
 }

@@ -20,7 +20,7 @@
 CodeGenerationPolicyPage::CodeGenerationPolicyPage(QWidget *parent, const char *name, CodeGenPolicyExt * policy)
   : DialogPageBase(parent)
 {
-    setObjectName(QLatin1String(name));
+    setObjectName(QStringLiteral(name));
     m_parentPolicy = policy;
 }
 

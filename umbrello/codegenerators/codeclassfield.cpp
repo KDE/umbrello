@@ -145,7 +145,7 @@ CodeClassFieldDialog * CodeClassField::getDialog ()
 // methods like this _shouldn't_ be needed IF we properly did things thruought the code.
 QString CodeClassField::getUMLObjectName(UMLObject *obj)
 {
-    return (obj ? obj->name() : QLatin1String("NULL"));
+    return (obj ? obj->name() : QStringLiteral("NULL"));
 }
 
 /**
@@ -238,10 +238,10 @@ void CodeClassField::setAttributesOnNode (QXmlStreamWriter& writer)
     CodeParameter::setAttributesOnNode(writer);
 
     // now set local attributes/fields
-    writer.writeAttribute(QLatin1String("field_type"), QString::number(m_classFieldType));
-    writer.writeAttribute(QLatin1String("listClassName"), m_listClassName);
-    writer.writeAttribute(QLatin1String("writeOutMethods"), getWriteOutMethods() ? QLatin1String("true")
-                                                                                 : QLatin1String("false"));
+    writer.writeAttribute(QStringLiteral("field_type"), QString::number(m_classFieldType));
+    writer.writeAttribute(QStringLiteral("listClassName"), m_listClassName);
+    writer.writeAttribute(QStringLiteral("writeOutMethods"), getWriteOutMethods() ? QStringLiteral("true")
+                                                                                 : QStringLiteral("false"));
     // record tag on declaration codeblock
     // which we will store in its own separate child node block
     m_declCodeBlock->saveToXMI(writer);
@@ -269,11 +269,11 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
     // and re-check we have all needed child accessor methods and decl blocks
     initFields();
 
-    const QString trueStr = QLatin1String("true");
-    const QString wrOutMeth = root.attribute(QLatin1String("writeOutMethods"), trueStr);
+    const QString trueStr = QStringLiteral("true");
+    const QString wrOutMeth = root.attribute(QStringLiteral("writeOutMethods"), trueStr);
     setWriteOutMethods(wrOutMeth == trueStr);
-    m_listClassName = root.attribute(QLatin1String("listClassName"));
-    const QString fieldType = root.attribute(QLatin1String("field_type"), QLatin1String("0"));
+    m_listClassName = root.attribute(QStringLiteral("listClassName"));
+    const QString fieldType = root.attribute(QStringLiteral("field_type"), QStringLiteral("0"));
     m_classFieldType = (ClassFieldType)fieldType.toInt();
 
     // load accessor methods now
@@ -282,12 +282,12 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
     QDomElement element = node.toElement();
     while (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == QLatin1String("ccfdeclarationcodeblock")) {
+        if (tag == QStringLiteral("ccfdeclarationcodeblock")) {
             m_declCodeBlock->loadFromXMI(element);
         } else
-            if (tag == QLatin1String("codeaccessormethod")) {
-                int type = element.attribute(QLatin1String("accessType"), QLatin1String("0")).toInt();
-                int role_id = element.attribute(QLatin1String("role_id"), QLatin1String("-1")).toInt();
+            if (tag == QStringLiteral("codeaccessormethod")) {
+                int type = element.attribute(QStringLiteral("accessType"), QStringLiteral("0")).toInt();
+                int role_id = element.attribute(QStringLiteral("role_id"), QStringLiteral("-1")).toInt();
                 CodeAccessorMethod * method = findMethodByType((CodeAccessorMethod::AccessorType) type, role_id);
                 if (method)
                     method->loadFromXMI(element);
@@ -295,7 +295,7 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
                     logError1("Cannot load code accessor method for type %1 which does not exist in this codeclassfield. Is XMI out-dated or corrupt?", type);
 
             } else
-                if (tag == QLatin1String("header")) {
+                if (tag == QStringLiteral("header")) {
                     // this is treated in parent.. skip over here
                 } else
                     logWarn1("bad savefile? code classfield loadFromXMI got child element with unknown tag %1, ignoring node.", tag);
@@ -310,7 +310,7 @@ void CodeClassField::setAttributesFromNode (QDomElement & root)
  */
 void CodeClassField::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QLatin1String("codeclassfield"));
+    writer.writeStartElement(QStringLiteral("codeclassfield"));
 
     setAttributesOnNode(writer);
 
@@ -336,8 +336,8 @@ int CodeClassField::minimumListOccurances()
         // ush. IF we had a multiplicity object, this would be much easier.
         if (!multi.isEmpty())
         {
-            QString lowerBoundString = multi.remove(QRegExp(QLatin1String("\\.\\.\\d+$")));
-            if(!lowerBoundString.isEmpty() &&lowerBoundString.contains(QRegExp(QLatin1String("^\\d+$"))))
+            QString lowerBoundString = multi.remove(QRegExp(QStringLiteral("\\.\\.\\d+$")));
+            if(!lowerBoundString.isEmpty() &&lowerBoundString.contains(QRegExp(QStringLiteral("^\\d+$"))))
                 return lowerBoundString.toInt();
         }
 
@@ -364,8 +364,8 @@ int CodeClassField::maximumListOccurances()
         // ush. IF we had a multiplicity object, this would be much easier.
         if (!multi.isEmpty())
         {
-            QString upperBoundString = multi.section(QRegExp(QLatin1String("(\\.\\.)")), 1);
-            if (!upperBoundString.isEmpty() && upperBoundString.contains(QRegExp(QLatin1String("^\\d+$"))))
+            QString upperBoundString = multi.section(QRegExp(QStringLiteral("(\\.\\.)")), 1);
+            if (!upperBoundString.isEmpty() && upperBoundString.contains(QRegExp(QStringLiteral("^\\d+$"))))
                 return upperBoundString.toInt();
             else
                 return -1; // unbounded
@@ -393,7 +393,7 @@ QString CodeClassField::fixInitialStringDeclValue(const QString& val, const QStr
 {
     QString value = val;
     // check for strings only<F2>String value = val;
-    if (!value.isEmpty() && type == QLatin1String("String")) {
+    if (!value.isEmpty() && type == QStringLiteral("String")) {
         if (!value.startsWith(QLatin1Char('"')))
             value.prepend(QLatin1Char('"'));
         if (!value.endsWith(QLatin1Char('"')))
@@ -625,8 +625,8 @@ bool CodeClassField::fieldIsSingleValue ()
 
     QString multi = role->multiplicity();
 
-    if(multi.isEmpty() || multi.contains(QRegExp(QLatin1String("^(0|1)$")))
-            || multi.contains(QRegExp(QLatin1String("^0\\.\\.1$"))))
+    if(multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^(0|1)$")))
+            || multi.contains(QRegExp(QStringLiteral("^0\\.\\.1$"))))
         return true;
 
     return false;

@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
-    SPDX-FileCopyrightText: 2008-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2008-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "dclassdeclarationblock.h"
@@ -36,7 +36,7 @@ void DClassDeclarationBlock::setAttributesFromObject (TextBlock * obj)
 
 void DClassDeclarationBlock::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QLatin1String("dclassdeclarationblock"));
+    writer.writeStartElement(QStringLiteral("dclassdeclarationblock"));
 
     setAttributesOnNode(writer);
 
@@ -55,7 +55,7 @@ void DClassDeclarationBlock::updateContent ()
     // COMMENT
 
     getComment()->setText(
-        (isInterface ? QLatin1String("Interface ") : QLatin1String("Class ")) +
+        (isInterface ? QStringLiteral("Interface ") : QStringLiteral("Class ")) +
         DClassName + endLine + c->doc());
 
     bool forceDoc = commonPolicy->getCodeVerboseDocumentComments();
@@ -73,19 +73,19 @@ void DClassDeclarationBlock::updateContent ()
 
     // (a) visibility modifier
     switch(c->visibility()) {
-        case Uml::Visibility::Private: startText += QLatin1String("private "); break;
+        case Uml::Visibility::Private: startText += QStringLiteral("private "); break;
         default: break;
     }
 
     // (b) keyword
     if (isInterface) {
-        startText += QLatin1String("interface ");
+        startText += QStringLiteral("interface ");
     } else {
         if (c->isAbstract()) {
-            startText += QLatin1String("abstract ");
+            startText += QStringLiteral("abstract ");
         }
 
-        startText += QLatin1String("class ");
+        startText += QStringLiteral("class ");
     }
 
     // (c) class name
@@ -99,7 +99,7 @@ void DClassDeclarationBlock::updateContent ()
 
     int count = superclasses.count() + superinterfaces.count();
 
-    if (count > 0) startText += QLatin1String(QLatin1String(" : "));
+    if (count > 0) startText += QStringLiteral(QStringLiteral(" : "));
 
     // (e) base classes
     foreach (UMLClassifier* concept, superclasses) {
@@ -107,7 +107,7 @@ void DClassDeclarationBlock::updateContent ()
 
         count--;
 
-        if (count>0) startText += QLatin1String(QLatin1String(", "));
+        if (count>0) startText += QStringLiteral(QStringLiteral(", "));
     }
 
     // (f) interfaces
@@ -116,11 +116,11 @@ void DClassDeclarationBlock::updateContent ()
 
         count--;
 
-        if (count>0) startText += QLatin1String(QLatin1String(", "));
+        if (count>0) startText += QStringLiteral(QStringLiteral(", "));
     }
 
     // (g) block start
-    startText += QLatin1String(QLatin1String(" {"));
+    startText += QStringLiteral(QStringLiteral(" {"));
 
     setStartText(startText);
 }
@@ -130,7 +130,7 @@ void DClassDeclarationBlock::init (DClassifierCodeDocument *parentDoc, const QSt
     setComment(new DCodeDocumentation(parentDoc));
     getComment()->setText(comment);
 
-    setEndText(QLatin1String(QLatin1String("}")));
+    setEndText(QStringLiteral(QStringLiteral("}")));
 }
 
 

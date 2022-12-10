@@ -36,7 +36,7 @@ namespace Uml
         // Save diagram XMI for undo
         QString xmi;
         QXmlStreamWriter stream(&xmi);
-        stream.writeStartElement(QLatin1String("diagram"));
+        stream.writeStartElement(QStringLiteral("diagram"));
         scene->saveToXMI(stream);
         stream.writeEndElement();  // diagram
         QString error;

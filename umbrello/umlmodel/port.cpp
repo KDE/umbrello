@@ -49,7 +49,7 @@ UMLObject* UMLPort::clone() const
  */
 void UMLPort::saveToXMI(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(writer, QLatin1String("Port"), QLatin1String("ownedAttribute"));
+    UMLObject::save1(writer, QStringLiteral("Port"), QStringLiteral("ownedAttribute"));
     UMLObject::save1end(writer);
 }
 

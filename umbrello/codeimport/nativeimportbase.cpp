@@ -8,7 +8,7 @@
 
 // app includes
 #include "codeimpthread.h"
-#define DBG_SRC QLatin1String("NativeImportBase")
+#define DBG_SRC QStringLiteral("NativeImportBase")
 #include "debug_utils.h"
 #include "import_utils.h"
 #include "uml.h"  // only needed for log{Warn,Error}
@@ -98,16 +98,16 @@ bool NativeImportBase::skipToClosing(QChar opener)
     QString closing;
     switch (opener.toLatin1()) {
         case '{':
-            closing = QLatin1String("}");
+            closing = QStringLiteral("}");
             break;
         case '[':
-            closing = QLatin1String("]");
+            closing = QStringLiteral("]");
             break;
         case '(':
-            closing = QLatin1String(")");
+            closing = QStringLiteral(")");
             break;
         case '<':
-            closing = QLatin1String(">");
+            closing = QStringLiteral(">");
             break;
         default:
             logError1("NativeImportBase::skipToClosing opener='%1': illegal input character", opener);
@@ -397,7 +397,7 @@ void NativeImportBase::scan(const QString& line)
             return;
         ln = ln.left(pos);
     }
-    if (ln.contains(QRegExp(QLatin1String("^\\s*$"))))
+    if (ln.contains(QRegExp(QStringLiteral("^\\s*$"))))
         return;
     const QStringList words = split(ln);
     for (QStringList::ConstIterator it = words.begin(); it != words.end(); ++it) {
@@ -429,15 +429,15 @@ void NativeImportBase::initVars()
 bool NativeImportBase::parseFile(const QString& filename)
 {
     QString nameWithoutPath = filename;
-    nameWithoutPath.remove(QRegExp(QLatin1String("^.*/")));
+    nameWithoutPath.remove(QRegExp(QStringLiteral("^.*/")));
     if (m_parsedFiles.contains(nameWithoutPath))
         return true;
     m_parsedFiles.append(nameWithoutPath);
     QString fname = filename;
-    const QString msgPrefix = filename + QLatin1String(": ");
+    const QString msgPrefix = filename + QStringLiteral(": ");
     if (filename.contains(QLatin1Char('/'))) {
         QString path = filename;
-        path.remove(QRegExp(QLatin1String("/[^/]+$")));
+        path.remove(QRegExp(QStringLiteral("/[^/]+$")));
         logDebug2("NativeImportBase::parseFile %1 adding path %2", msgPrefix, path);
         Import_Utils::addIncludePath(path);
     }
@@ -471,7 +471,7 @@ bool NativeImportBase::parseFile(const QString& filename)
         logError1("NativeImportBase::parseFile: cannot open file %1", fname);
         return false;
     }
-    log(nameWithoutPath, QLatin1String("parsing..."));
+    log(nameWithoutPath, QStringLiteral("parsing..."));
     // Scan the input file into the QStringList m_source.
     m_source.clear();
     m_srcIndex = 0;
@@ -483,8 +483,8 @@ bool NativeImportBase::parseFile(const QString& filename)
         lineCount++;
         scan(line);
     }
-    log(nameWithoutPath, QLatin1String("file size: ") + QString::number(file.size()) +
-                         QLatin1String(" / lines: ") + QString::number(lineCount));
+    log(nameWithoutPath, QStringLiteral("file size: ") + QString::number(file.size()) +
+                         QStringLiteral(" / lines: ") + QString::number(lineCount));
     file.close();
     // Parse the QStringList m_source.
     m_klass = 0;
@@ -503,7 +503,7 @@ bool NativeImportBase::parseFile(const QString& filename)
            skipStmt();
         m_comment.clear();
     }
-    log(nameWithoutPath, QLatin1String("...end of parse"));
+    log(nameWithoutPath, QStringLiteral("...end of parse"));
     return true;
 }
 

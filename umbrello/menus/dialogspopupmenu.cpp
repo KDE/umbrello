@@ -127,7 +127,7 @@ void DialogsPopupMenu::insertSubMenuNew(TriggerType type)
  */
 QString DialogsPopupMenu::toString(TriggerType type)
 {
-    return QLatin1String(ENUM_NAME(DialogsPopupMenu, TriggerType, type));
+    return QStringLiteral(ENUM_NAME(DialogsPopupMenu, TriggerType, type));
 }
 
 QDebug operator<<(QDebug out, DialogsPopupMenu::TriggerType type)

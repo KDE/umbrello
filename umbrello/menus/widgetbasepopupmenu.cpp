@@ -196,7 +196,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
             insertStdItems(true, type);
             insert(mt_Rename);
             insert(mt_Change_Font);
-            if (c->umlObject() && c->umlObject()->stereotype() == QLatin1String("class-or-package")) {
+            if (c->umlObject() && c->umlObject()->stereotype() == QStringLiteral("class-or-package")) {
                 insert(mt_ChangeToClass, i18n("Change into Class"));
                 insert(mt_ChangeToPackage, i18n("Change into Package"));
             } else {

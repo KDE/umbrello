@@ -49,7 +49,7 @@ QString RubyCodeClassField::getFieldName()
         if(fieldIsSingleValue()) {
             return roleName.replace(0, 1, roleName.left(1).toLower());
         } else {
-            return roleName.toLower() + QLatin1String("Array");
+            return roleName.toLower() + QStringLiteral("Array");
         }
     }
 }
@@ -74,7 +74,7 @@ QString RubyCodeClassField::getInitialValue()
             //       then we can just return 'empty' string (minor problem).
             return QString();
         } else {
-            return RubyCodeGenerator::getListFieldClassName() + QLatin1String(".new()");
+            return RubyCodeGenerator::getListFieldClassName() + QStringLiteral(".new()");
         }
     }
 

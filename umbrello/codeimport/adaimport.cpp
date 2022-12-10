@@ -10,7 +10,7 @@
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
-#define DBG_SRC QLatin1String("AdaImport")
+#define DBG_SRC QStringLiteral("AdaImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "folder.h"
@@ -31,7 +31,7 @@ DEBUG_REGISTER(AdaImport)
  * Constructor.
  */
 AdaImport::AdaImport(CodeImpThread* thread)
-  : NativeImportBase(QLatin1String("--"), thread)
+  : NativeImportBase(QStringLiteral("--"), thread)
 {
     initVars();
 }
@@ -136,7 +136,7 @@ void AdaImport::fillSource(const QString& word)
                 lexeme.clear();
             }
             if (c == QLatin1Char(':') && i < len - 1 && word[i + 1] == QLatin1Char('=')) {
-                m_source.append(QLatin1String(":="));
+                m_source.append(QStringLiteral(":="));
                 i++;
             } else {
                 m_source.append(QString(c));
@@ -153,7 +153,7 @@ void AdaImport::fillSource(const QString& word)
  */
 QString AdaImport::expand(const QString& name)
 {
-    QRegExp pfxRegExp(QLatin1String("^(\\w+)\\."));
+    QRegExp pfxRegExp(QStringLiteral("^(\\w+)\\."));
     pfxRegExp.setCaseSensitivity(Qt::CaseInsensitive);
     int pos = pfxRegExp.indexIn(name);
     if (pos == -1)
@@ -177,7 +177,7 @@ void AdaImport::parseStems(const QStringList& stems)
     QString base = stems.first();
     int i = 0;
     while (1) {
-        QString filename = base + QLatin1String(".ads");
+        QString filename = base + QStringLiteral(".ads");
         if (! m_parsedFiles.contains(filename)) {
             // Save current m_source and m_srcIndex.
             QStringList source(m_source);
@@ -206,54 +206,54 @@ bool AdaImport::parseStmt()
     QString keyword = m_source[m_srcIndex];
     UMLDoc *umldoc = UMLApp::app()->document();
     //uDebug() << '"' << keyword << '"';
-    if (keyword == QLatin1String("with")) {
+    if (keyword == QStringLiteral("with")) {
         if (m_inGenericFormalPart) {
             // mapping of generic formal subprograms or packages is not yet implemented
             return false;
         }
-        while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String(";")) {
+        while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QStringLiteral(";")) {
             QStringList components = m_source[m_srcIndex].toLower().split(QLatin1Char('.'));
             const QString& prefix = components.first();
-            if (prefix == QLatin1String("system")
-                || prefix == QLatin1String("ada")
-                || prefix == QLatin1String("gnat")
-                || prefix == QLatin1String("interfaces")
-                || prefix == QLatin1String("text_io")
-                || prefix == QLatin1String("unchecked_conversion")
-                || prefix == QLatin1String("unchecked_deallocation")) {
-                if (advance() != QLatin1String(","))
+            if (prefix == QStringLiteral("system")
+                || prefix == QStringLiteral("ada")
+                || prefix == QStringLiteral("gnat")
+                || prefix == QStringLiteral("interfaces")
+                || prefix == QStringLiteral("text_io")
+                || prefix == QStringLiteral("unchecked_conversion")
+                || prefix == QStringLiteral("unchecked_deallocation")) {
+                if (advance() != QStringLiteral(","))
                     break;
                 continue;
             }
             parseStems(components);
-            if (advance() != QLatin1String(","))
+            if (advance() != QStringLiteral(","))
                 break;
         }
         return true;
     }
-    if (keyword == QLatin1String("generic")) {
+    if (keyword == QStringLiteral("generic")) {
         m_inGenericFormalPart = true;
         return true;
     }
-    if (keyword == QLatin1String("package")) {
+    if (keyword == QStringLiteral("package")) {
         const QString& name = advance();
         QStringList parentPkgs = name.toLower().split(QLatin1Char('.'));
         parentPkgs.pop_back();  // exclude the current package
         parseStems(parentPkgs);
         UMLObject *ns = 0;
-        if (advance() == QLatin1String("is")) {
+        if (advance() == QStringLiteral("is")) {
             ns = Import_Utils::createUMLObject(UMLObject::ot_Package, name,
                                                currentScope(), m_comment);
-            if (m_source[m_srcIndex + 1] == QLatin1String("new")) {
+            if (m_source[m_srcIndex + 1] == QStringLiteral("new")) {
                 m_srcIndex++;
                 QString pkgName = advance();
                 UMLObject *gp = Import_Utils::createUMLObject(UMLObject::ot_Package, pkgName,
                                                               currentScope());
-                gp->setStereotype(QLatin1String("generic"));
+                gp->setStereotype(QStringLiteral("generic"));
                 // Add binding from instantiator to instantiatee
                 UMLAssociation *assoc = new UMLAssociation(Uml::AssociationType::Dependency, ns, gp);
                 assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
-                assoc->setStereotype(QLatin1String("bind"));
+                assoc->setStereotype(QStringLiteral("bind"));
                 // Work around missing display of stereotype in AssociationWidget:
                 assoc->setName(assoc->stereotype(true));
                 umldoc->addAssociation(assoc);
@@ -261,26 +261,26 @@ bool AdaImport::parseStmt()
             } else {
                 pushScope(ns->asUMLPackage());
             }
-        } else if (m_source[m_srcIndex] == QLatin1String("renames")) {
+        } else if (m_source[m_srcIndex] == QStringLiteral("renames")) {
             m_renaming[name] = advance();
         } else {
             logError1("AdaImport::parseStmt unexpected: %1", m_source[m_srcIndex]);
-            skipStmt(QLatin1String("is"));
+            skipStmt(QStringLiteral("is"));
         }
         if (m_inGenericFormalPart) {
             if (ns)
-                ns->setStereotype(QLatin1String("generic"));
+                ns->setStereotype(QStringLiteral("generic"));
             m_inGenericFormalPart = false;
         }
         return true;
     }
     if (m_inGenericFormalPart)
         return false;  // skip generic formal parameter (not yet implemented)
-    if (keyword == QLatin1String("subtype")) {
+    if (keyword == QStringLiteral("subtype")) {
         QString name = advance();
         advance();  // "is"
         QString base = expand(advance());
-        base.remove(QLatin1String("Standard."), Qt::CaseInsensitive);
+        base.remove(QStringLiteral("Standard."), Qt::CaseInsensitive);
         UMLObject *type = umldoc->findUMLObject(base, UMLObject::ot_UMLObject, currentScope());
         if (type == 0) {
             type = Import_Utils::createUMLObject(UMLObject::ot_Datatype, base, currentScope());
@@ -289,81 +289,81 @@ bool AdaImport::parseStmt()
                                                            currentScope(), m_comment);
         UMLAssociation *assoc = new UMLAssociation(Uml::AssociationType::Dependency, subtype, type);
         assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
-        assoc->setStereotype(QLatin1String("subtype"));
+        assoc->setStereotype(QStringLiteral("subtype"));
         // Work around missing display of stereotype in AssociationWidget:
         assoc->setName(assoc->stereotype(true));
         umldoc->addAssociation(assoc);
         skipStmt();
         return true;
     }
-    if (keyword == QLatin1String("type")) {
+    if (keyword == QStringLiteral("type")) {
         QString name = advance();
         QString next = advance();
-        if (next == QLatin1String("(")) {
+        if (next == QStringLiteral("(")) {
             logDebug1("AdaImport::parseStmt %1: discriminant handling is not yet implemented", name);
             // @todo Find out how to map discriminated record to UML.
             //       For now, we just create a pro forma empty record.
             Import_Utils::createUMLObject(UMLObject::ot_Class, name, currentScope(),
-                                          m_comment, QLatin1String("record"));
-            skipStmt(QLatin1String("end"));
-            if ((next = advance()) == QLatin1String("case"))
+                                          m_comment, QStringLiteral("record"));
+            skipStmt(QStringLiteral("end"));
+            if ((next = advance()) == QStringLiteral("case"))
                 m_srcIndex += 2;  // skip "case" ";"
             skipStmt();
             return true;
         }
-        if (next == QLatin1String(";")) {
+        if (next == QStringLiteral(";")) {
             // forward declaration
             Import_Utils::createUMLObject(UMLObject::ot_Class, name, currentScope(),
                                           m_comment);
             return true;
         }
-        if (next != QLatin1String("is")) {
+        if (next != QStringLiteral("is")) {
             logError1("AdaImport::parseStmt: expecting \"is\" at %1", next);
             return false;
         }
         next = advance();
-        if (next == QLatin1String("(")) {
+        if (next == QStringLiteral("(")) {
             // enum type
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                             name, currentScope(), m_comment);
             UMLEnum *enumType = ns->asUMLEnum();
             if (enumType == 0)
                 enumType = Import_Utils::remapUMLEnum(ns, enumType);
-            while ((next = advance()) != QLatin1String(")")) {
+            while ((next = advance()) != QStringLiteral(")")) {
                 if (enumType != 0)
                     Import_Utils::addEnumLiteral(enumType, next, m_comment);
                 m_comment.clear();
-                if (advance() != QLatin1String(","))
+                if (advance() != QStringLiteral(","))
                     break;
             }
             skipStmt();
             return true;
         }
         bool isTaggedType = false;
-        if (next == QLatin1String("abstract")) {
+        if (next == QStringLiteral("abstract")) {
             m_isAbstract = true;
             next = advance();
         }
-        if (next == QLatin1String("tagged")) {
+        if (next == QStringLiteral("tagged")) {
             isTaggedType = true;
             next = advance();
         }
-        if (next == QLatin1String("limited") ||
-            next == QLatin1String("task") ||
-            next == QLatin1String("protected") ||
-            next == QLatin1String("synchronized")) {
+        if (next == QStringLiteral("limited") ||
+            next == QStringLiteral("task") ||
+            next == QStringLiteral("protected") ||
+            next == QStringLiteral("synchronized")) {
             next = advance();  // we can't (yet?) represent that
         }
-        if (next == QLatin1String("private") ||
-            next == QLatin1String("interface") ||
-            next == QLatin1String("record") ||
-            (next == QLatin1String("null") &&
-             m_source[m_srcIndex+1] == QLatin1String("record"))) {
-            UMLObject::ObjectType t = (next == QLatin1String("interface") ? UMLObject::ot_Interface
+        if (next == QStringLiteral("private") ||
+            next == QStringLiteral("interface") ||
+            next == QStringLiteral("record") ||
+            (next == QStringLiteral("null") &&
+             m_source[m_srcIndex+1] == QStringLiteral("record"))) {
+            UMLObject::ObjectType t = (next == QStringLiteral("interface") ? UMLObject::ot_Interface
                                                                           : UMLObject::ot_Class);
             UMLObject *ns = Import_Utils::createUMLObject(t, name, currentScope(), m_comment);
             if (t == UMLObject::ot_Interface) {
-                while ((next = advance()) == QLatin1String("and")) {
+                while ((next = advance()) == QStringLiteral("and")) {
                     UMLClassifier *klass = ns->asUMLClassifier();
                     QString base = expand(advance());
                     UMLObject *p = Import_Utils::createUMLObject(UMLObject::ot_Interface, base, currentScope());
@@ -378,26 +378,26 @@ bool AdaImport::parseStmt()
                 if (! m_classesDefinedInThisScope.contains(ns))
                     m_classesDefinedInThisScope.append(ns);
             } else {
-                ns->setStereotype(QLatin1String("record"));
+                ns->setStereotype(QStringLiteral("record"));
             }
-            if (next == QLatin1String("record"))
+            if (next == QStringLiteral("record"))
                 m_klass = ns->asUMLClassifier();
             else
                 skipStmt();
             return true;
         }
-        if (next == QLatin1String("new")) {
+        if (next == QStringLiteral("new")) {
             QString base = expand(advance());
             QStringList baseInterfaces;
-            while ((next = advance()) == QLatin1String("and")) {
+            while ((next = advance()) == QStringLiteral("and")) {
                 baseInterfaces.append(expand(advance()));
             }
-            const bool isExtension = (next == QLatin1String("with"));
+            const bool isExtension = (next == QStringLiteral("with"));
             UMLObject::ObjectType t;
             if (isExtension || m_isAbstract) {
                 t = UMLObject::ot_Class;
             } else {
-                base.remove(QLatin1String("Standard."), Qt::CaseInsensitive);
+                base.remove(QStringLiteral("Standard."), Qt::CaseInsensitive);
                 UMLObject *known = umldoc->findUMLObject(base, UMLObject::ot_UMLObject, currentScope());
                 t = (known ? known->baseType() : UMLObject::ot_Datatype);
             }
@@ -406,10 +406,10 @@ bool AdaImport::parseStmt()
             ns = Import_Utils::createUMLObject(t, name, currentScope(), m_comment);
             if (isExtension) {
                 next = advance();
-                if (next == QLatin1String("null") || next == QLatin1String("record")) {
+                if (next == QStringLiteral("null") || next == QStringLiteral("record")) {
                     UMLClassifier *klass = ns->asUMLClassifier();
                     Import_Utils::createGeneralization(klass, parent);
-                    if (next == QLatin1String("record")) {
+                    if (next == QStringLiteral("record")) {
                         // Set the m_klass for attributes.
                         m_klass = klass;
                     }
@@ -430,19 +430,19 @@ bool AdaImport::parseStmt()
         // Datatypes: TO BE DONE
         return false;
     }
-    if (keyword == QLatin1String("private")) {
+    if (keyword == QStringLiteral("private")) {
         m_currentAccess = Uml::Visibility::Private;
         return true;
     }
-    if (keyword == QLatin1String("end")) {
+    if (keyword == QStringLiteral("end")) {
         if (m_klass) {
-            if (advance() != QLatin1String("record")) {
+            if (advance() != QStringLiteral("record")) {
                 logError1("AdaImport::parseStmt end: expecting \"record\" at %1",
                           m_source[m_srcIndex]);
             }
             m_klass = 0;
         } else if (scopeIndex()) {
-            if (advance() != QLatin1String(";")) {
+            if (advance() != QStringLiteral(";")) {
                 QString scopeName = currentScope()->fullyQualifiedName();
                 if (scopeName.toLower() != m_source[m_srcIndex].toLower())
                     logError2("AdaImport::parseStmt end: expecting %1, found %2",
@@ -457,14 +457,14 @@ bool AdaImport::parseStmt()
         return true;
     }
     // subprogram
-    if (keyword == QLatin1String("not"))
+    if (keyword == QStringLiteral("not"))
         keyword = advance();
-    if (keyword == QLatin1String("overriding"))
+    if (keyword == QStringLiteral("overriding"))
         keyword = advance();
-    if (keyword == QLatin1String("function") || keyword == QLatin1String("procedure")) {
+    if (keyword == QStringLiteral("function") || keyword == QStringLiteral("procedure")) {
         const QString& name = advance();
         QString returnType;
-        if (advance() != QLatin1String("(")) {
+        if (advance() != QStringLiteral("(")) {
             // Unlike an Ada package, a UML package does not support
             // subprograms.
             // In order to map those, we would need to create a UML
@@ -476,7 +476,7 @@ bool AdaImport::parseStmt()
         UMLClassifier *klass = 0;
         UMLOperation *op = 0;
         const uint MAX_PARNAMES = 16;
-        while (m_srcIndex < srcLength && m_source[m_srcIndex] != QLatin1String(")")) {
+        while (m_srcIndex < srcLength && m_source[m_srcIndex] != QStringLiteral(")")) {
             QString parName[MAX_PARNAMES];
             uint parNameCount = 0;
             do {
@@ -485,8 +485,8 @@ bool AdaImport::parseStmt()
                     break;
                 }
                 parName[parNameCount++] = advance();
-            } while (advance() == QLatin1String(","));
-            if (m_source[m_srcIndex] != QLatin1String(":")) {
+            } while (advance() == QStringLiteral(","));
+            if (m_source[m_srcIndex] != QStringLiteral(":")) {
                 logError2("AdaImport::parseStmt: expecting ':' at %1 (index %2)",
                           m_source[m_srcIndex], m_srcIndex);
                 skipStmt();
@@ -495,36 +495,36 @@ bool AdaImport::parseStmt()
             const QString &direction = advance();
             QString typeName;
             Uml::ParameterDirection::Enum dir = Uml::ParameterDirection::In;
-            if (direction == QLatin1String("access")) {
+            if (direction == QStringLiteral("access")) {
                 // Oops, we have to improvise here because there
                 // is no such thing as "access" in UML.
                 // So we use the next best thing, "inout".
                 // Better ideas, anyone?
                 dir = Uml::ParameterDirection::InOut;
                 typeName = advance();
-            } else if (direction == QLatin1String("in")) {
-                if (m_source[m_srcIndex + 1] == QLatin1String("out")) {
+            } else if (direction == QStringLiteral("in")) {
+                if (m_source[m_srcIndex + 1] == QStringLiteral("out")) {
                     dir = Uml::ParameterDirection::InOut;
                     m_srcIndex++;
                 }
                 typeName = advance();
-            } else if (direction == QLatin1String("out")) {
+            } else if (direction == QStringLiteral("out")) {
                 dir = Uml::ParameterDirection::Out;
                 typeName = advance();
             } else {
                 typeName = direction;  // In Ada, the default direction is "in"
             }
-            typeName.remove(QLatin1String("Standard."), Qt::CaseInsensitive);
+            typeName.remove(QStringLiteral("Standard."), Qt::CaseInsensitive);
             typeName = expand(typeName);
             if (op == 0) {
                 // In Ada, the first parameter indicates the class.
                 UMLObject *type = Import_Utils::createUMLObject(UMLObject::ot_Class, typeName, currentScope());
                 UMLObject::ObjectType t = type->baseType();
                 if ((t != UMLObject::ot_Interface &&
-                     (t != UMLObject::ot_Class || type->stereotype() == QLatin1String("record"))) ||
+                     (t != UMLObject::ot_Class || type->stereotype() == QStringLiteral("record"))) ||
                     !m_classesDefinedInThisScope.contains(type)) {
                     // Not an instance bound method - we cannot represent it.
-                    skipStmt(QLatin1String(")"));
+                    skipStmt(QStringLiteral(")"));
                     break;
                 }
                 klass = type->asUMLClassifier();
@@ -541,11 +541,11 @@ bool AdaImport::parseStmt()
                 UMLAttribute *att = Import_Utils::addMethodParameter(op, typeName, parName[i]);
                 att->setParmKind(dir);
             }
-            if (advance() != QLatin1String(";"))
+            if (advance() != QStringLiteral(";"))
                 break;
         }
-        if (keyword == QLatin1String("function")) {
-            if (advance() != QLatin1String("return")) {
+        if (keyword == QStringLiteral("function")) {
+            if (advance() != QStringLiteral("return")) {
                 if (klass)
                     logError1("AdaImport::parseStmt: expecting \"return\" at function %1", name);
                 else
@@ -553,10 +553,10 @@ bool AdaImport::parseStmt()
                 return false;
             }
             returnType = expand(advance());
-            returnType.remove(QLatin1String("Standard."), Qt::CaseInsensitive);
+            returnType.remove(QStringLiteral("Standard."), Qt::CaseInsensitive);
         }
         bool isAbstract = false;
-        if (advance() == QLatin1String("is") && advance() == QLatin1String("abstract"))
+        if (advance() == QStringLiteral("is") && advance() == QStringLiteral("abstract"))
             isAbstract = true;
         if (klass != 0 && op != 0)
             Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
@@ -564,32 +564,32 @@ bool AdaImport::parseStmt()
         skipStmt();
         return true;
     }
-    if (keyword == QLatin1String("task") || keyword == QLatin1String("protected")) {
+    if (keyword == QStringLiteral("task") || keyword == QStringLiteral("protected")) {
         // Can task and protected objects/types be mapped to UML?
         QString name = advance();
-        if (name == QLatin1String("type")) {
+        if (name == QStringLiteral("type")) {
             name = advance();
         }
         QString next = advance();
-        if (next == QLatin1String("(")) {
-            skipStmt(QLatin1String(")"));  // skip discriminant
+        if (next == QStringLiteral("(")) {
+            skipStmt(QStringLiteral(")"));  // skip discriminant
             next = advance();
         }
-        if (next == QLatin1String("is"))
-            skipStmt(QLatin1String("end"));
+        if (next == QStringLiteral("is"))
+            skipStmt(QStringLiteral("end"));
         skipStmt();
         return true;
     }
-    if (keyword == QLatin1String("for")) {    // rep spec
+    if (keyword == QStringLiteral("for")) {    // rep spec
         QString typeName = advance();
         QString next = advance();
-        if (next == QLatin1String("'")) {
+        if (next == QStringLiteral("'")) {
             advance();  // skip qualifier
             next = advance();
         }
-        if (next == QLatin1String("use")) {
-            if (advance() == QLatin1String("record"))
-                skipStmt(QLatin1String("end"));
+        if (next == QStringLiteral("use")) {
+            if (advance() == QStringLiteral("record"))
+                skipStmt(QStringLiteral("end"));
         } else {
             logError1("AdaImport::parseStmt: expecting \"use\" at rep spec of %1", typeName);
         }
@@ -597,25 +597,25 @@ bool AdaImport::parseStmt()
         return true;
     }
     // At this point we're only interested in attribute declarations.
-    if (m_klass == 0 || keyword == QLatin1String("null")) {
+    if (m_klass == 0 || keyword == QStringLiteral("null")) {
         skipStmt();
         return true;
     }
     const QString& name = keyword;
-    if (advance() != QLatin1String(":")) {
+    if (advance() != QStringLiteral(":")) {
         logError2("AdaImport::parseStmt:: expecting \":\" at %1 %2", name, m_source[m_srcIndex]);
         skipStmt();
         return true;
     }
     QString nextToken = advance();
-    if (nextToken == QLatin1String("aliased"))
+    if (nextToken == QStringLiteral("aliased"))
         nextToken = advance();
     QString typeName = expand(nextToken);
     QString initialValue;
-    if (advance() == QLatin1String(":=")) {
+    if (advance() == QStringLiteral(":=")) {
         initialValue = advance();
         QString token;
-        while ((token = advance()) != QLatin1String(";")) {
+        while ((token = advance()) != QStringLiteral(";")) {
             initialValue.append(QLatin1Char(' ') + token);
         }
     }

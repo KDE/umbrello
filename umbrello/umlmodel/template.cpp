@@ -53,15 +53,15 @@ QString UMLTemplate::toString(Uml::SignatureType::Enum sig,
     Q_UNUSED(sig);
     QString s;
 
-    if (m_pSecondary == 0 || m_pSecondary->name() == QLatin1String("class")) {
+    if (m_pSecondary == 0 || m_pSecondary->name() == QStringLiteral("class")) {
         s = name();
     } else {
-        s = name() + QLatin1String(" : ") + m_pSecondary->name();
+        s = name() + QStringLiteral(" : ") + m_pSecondary->name();
     }
     if (withStereotype) {
         QString st = stereotype(true);
         if (!st.isEmpty())
-            s += QLatin1String(" ") + st;
+            s += QStringLiteral(" ") + st;
     }
     return s;
 }
@@ -77,7 +77,7 @@ QString UMLTemplate::toString(Uml::SignatureType::Enum sig,
 QString UMLTemplate::getTypeName() const
 {
     if (m_pSecondary == 0)
-        return QLatin1String("class");
+        return QStringLiteral("class");
     return m_pSecondary->name();
 }
 
@@ -125,11 +125,11 @@ void UMLTemplate::saveToXMI(QXmlStreamWriter& writer)
 {
     //FIXME: uml13.dtd compliance
     const QString xmiType = (Settings::optionState().generalState.uml2 ?
-                             QLatin1String("ClassifierTemplateParameter") :
-                                       QLatin1String("TemplateParameter"));
-    UMLObject::save1(writer, xmiType, QLatin1String("ownedParameter"));
+                             QStringLiteral("ClassifierTemplateParameter") :
+                                       QStringLiteral("TemplateParameter"));
+    UMLObject::save1(writer, xmiType, QStringLiteral("ownedParameter"));
     if (m_pSecondary)
-        writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
+        writer.writeAttribute(QStringLiteral("type"), Uml::ID::toString(m_pSecondary->id()));
     writer.writeEndElement();
 }
 
@@ -138,7 +138,7 @@ void UMLTemplate::saveToXMI(QXmlStreamWriter& writer)
  */
 bool UMLTemplate::load1(QDomElement& element)
 {
-    m_SecondaryId = element.attribute(QLatin1String("type"));
+    m_SecondaryId = element.attribute(QStringLiteral("type"));
     return true;
 }
 

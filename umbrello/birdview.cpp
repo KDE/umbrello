@@ -179,19 +179,19 @@ void BirdView::keyPressEvent(QKeyEvent *event)
     QPoint newPoint;
     switch (event->key()) {
     case Qt::Key_Left:
-        key = QLatin1String("LEFT");
+        key = QStringLiteral("LEFT");
         newPoint = QPoint(point.x() - STEP, point.y());
         break;
     case Qt::Key_Right:
-        key = QLatin1String("RIGHT");
+        key = QStringLiteral("RIGHT");
         newPoint = QPoint(point.x() + STEP, point.y());
         break;
     case Qt::Key_Up:
-        key = QLatin1String("UP");
+        key = QStringLiteral("UP");
         newPoint = QPoint(point.x(), point.y() - STEP);
         break;
     case Qt::Key_Down:
-        key = QLatin1String("DOWN");
+        key = QStringLiteral("DOWN");
         newPoint = QPoint(point.x(), point.y() + STEP);
         break;
     default:

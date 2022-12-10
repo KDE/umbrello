@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2005 Richard Dale <Richard_Dale@tipitina.demon.co.uk>
-    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef RUBYCLASSDECLARATIONBLOCK_H
@@ -21,7 +21,7 @@ public:
     /**
      * Empty Constructor
      */
-    explicit RubyClassDeclarationBlock (RubyClassifierCodeDocument * parentDoc, const QString &start = QString(), const QString &endText = QLatin1String("end"), const QString &comment = QString());
+    explicit RubyClassDeclarationBlock (RubyClassifierCodeDocument * parentDoc, const QString &start = QString(), const QString &endText = QStringLiteral("end"), const QString &comment = QString());
 
     /**
      * Empty Destructor

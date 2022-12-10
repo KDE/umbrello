@@ -76,7 +76,7 @@ QString UMLRole::toString() const
         result += QLatin1Char(':');
         result += name();
     } else
-        result = QLatin1String("null");
+        result = QStringLiteral("null");
     return result;
 }
 
@@ -175,52 +175,52 @@ Uml::RoleType::Enum UMLRole::role() const
  */
 void UMLRole::saveToXMI(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(writer, QLatin1String("AssociationEnd"), QLatin1String("ownedEnd"));
+    UMLObject::save1(writer, QStringLiteral("AssociationEnd"), QStringLiteral("ownedEnd"));
     if (m_pSecondary)
-        writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
+        writer.writeAttribute(QStringLiteral("type"), Uml::ID::toString(m_pSecondary->id()));
     else
         logError1("UMLRole::saveToXMI(id %1) : m_pSecondary is null", Uml::ID::toString(m_nId));
     if (!m_Multi.isEmpty())
-        writer.writeAttribute(QLatin1String("multiplicity"), m_Multi);
+        writer.writeAttribute(QStringLiteral("multiplicity"), m_Multi);
     if (m_role == Uml::RoleType::A) {  // role aggregation based on parent type
         // role A
         switch (m_pAssoc->getAssocType()) {
         case Uml::AssociationType::Composition:
-            writer.writeAttribute(QLatin1String("aggregation"), QLatin1String("composite"));
+            writer.writeAttribute(QStringLiteral("aggregation"), QStringLiteral("composite"));
             break;
         case Uml::AssociationType::Aggregation:
-            writer.writeAttribute(QLatin1String("aggregation"), QLatin1String("aggregate"));
+            writer.writeAttribute(QStringLiteral("aggregation"), QStringLiteral("aggregate"));
             break;
         default:
-            writer.writeAttribute(QLatin1String("aggregation"), QLatin1String("none"));
+            writer.writeAttribute(QStringLiteral("aggregation"), QStringLiteral("none"));
             break;
         }
         if (m_pAssoc->getAssocType() == Uml::AssociationType::UniAssociation) {
             // Normally the isNavigable attribute is "true".
             // We set it to false on role A to indicate that
             // role B gets an explicit arrowhead.
-            writer.writeAttribute(QLatin1String("isNavigable"), QLatin1String("false"));
+            writer.writeAttribute(QStringLiteral("isNavigable"), QStringLiteral("false"));
         } else {
-            writer.writeAttribute(QLatin1String("isNavigable"), QLatin1String("true"));
+            writer.writeAttribute(QStringLiteral("isNavigable"), QStringLiteral("true"));
         }
     } else {
-        writer.writeAttribute(QLatin1String("aggregation"), QLatin1String("none"));
-        writer.writeAttribute(QLatin1String("isNavigable"), QLatin1String("true"));
+        writer.writeAttribute(QStringLiteral("aggregation"), QStringLiteral("none"));
+        writer.writeAttribute(QStringLiteral("isNavigable"), QStringLiteral("true"));
         //FIXME obviously this isn't standard XMI
         if (m_pAssoc->getAssocType() == Uml::AssociationType::Relationship) {
-            writer.writeAttribute(QLatin1String("relationship"), QLatin1String("true"));
+            writer.writeAttribute(QStringLiteral("relationship"), QStringLiteral("true"));
         }
     }
 
     switch (m_Changeability) {
         case Uml::Changeability::Frozen:
-            writer.writeAttribute(QLatin1String("changeability"), QLatin1String("frozen"));
+            writer.writeAttribute(QStringLiteral("changeability"), QStringLiteral("frozen"));
             break;
         case Uml::Changeability::AddOnly:
-            writer.writeAttribute(QLatin1String("changeability"), QLatin1String("addOnly"));
+            writer.writeAttribute(QStringLiteral("changeability"), QStringLiteral("addOnly"));
             break;
         case Uml::Changeability::Changeable:
-            writer.writeAttribute(QLatin1String("changeability"), QLatin1String("changeable"));
+            writer.writeAttribute(QStringLiteral("changeability"), QStringLiteral("changeable"));
             break;
     }
     writer.writeEndElement();
@@ -247,7 +247,7 @@ bool UMLRole::showPropertiesDialog(QWidget *parent)
 bool UMLRole::load1(QDomElement & element)
 {
     UMLDoc * doc = UMLApp::app()->document();
-    QString type = element.attribute(QLatin1String("type"));
+    QString type = element.attribute(QStringLiteral("type"));
     if (!type.isEmpty()) {
         if (!m_SecondaryId.isEmpty())
             logWarn2("UMLRole::load1 overwriting old m_SecondaryId %1 with new value %2",
@@ -260,9 +260,9 @@ bool UMLRole::load1(QDomElement & element)
             continue;
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (UMLDoc::tagEq(tag, QLatin1String("name"))) {
+        if (UMLDoc::tagEq(tag, QStringLiteral("name"))) {
             m_name = tempElement.text();
-        } else if (UMLDoc::tagEq(tag, QLatin1String("AssociationEnd.multiplicity"))) {
+        } else if (UMLDoc::tagEq(tag, QStringLiteral("AssociationEnd.multiplicity"))) {
             /*
              * There are different ways in which the multiplicity might be given:
              *  - direct value in the <AssociationEnd.multiplicity> tag,
@@ -278,31 +278,31 @@ bool UMLRole::load1(QDomElement & element)
             }
             tempElement = n.toElement();
             tag = tempElement.tagName();
-            if (!UMLDoc::tagEq(tag, QLatin1String("Multiplicity"))) {
+            if (!UMLDoc::tagEq(tag, QStringLiteral("Multiplicity"))) {
                 m_Multi = tempElement.text().trimmed();
                 continue;
             }
             n = tempElement.firstChild();
             tempElement = n.toElement();
             tag = tempElement.tagName();
-            if (!UMLDoc::tagEq(tag, QLatin1String("Multiplicity.range"))) {
+            if (!UMLDoc::tagEq(tag, QStringLiteral("Multiplicity.range"))) {
                 m_Multi = tempElement.text().trimmed();
                 continue;
             }
             n = tempElement.firstChild();
             tempElement = n.toElement();
             tag = tempElement.tagName();
-            if (!UMLDoc::tagEq(tag, QLatin1String("MultiplicityRange"))) {
+            if (!UMLDoc::tagEq(tag, QStringLiteral("MultiplicityRange"))) {
                 m_Multi = tempElement.text().trimmed();
                 continue;
             }
             QString multiUpper;
-            if (tempElement.hasAttribute(QLatin1String("lower"))) {
-                m_Multi = tempElement.attribute(QLatin1String("lower"));
-                multiUpper = tempElement.attribute(QLatin1String("upper"));
+            if (tempElement.hasAttribute(QStringLiteral("lower"))) {
+                m_Multi = tempElement.attribute(QStringLiteral("lower"));
+                multiUpper = tempElement.attribute(QStringLiteral("upper"));
                 if (!multiUpper.isEmpty()) {
                     if (!m_Multi.isEmpty())
-                        m_Multi.append(QLatin1String(".."));
+                        m_Multi.append(QStringLiteral(".."));
                     m_Multi.append(multiUpper);
                 }
                 continue;
@@ -311,30 +311,30 @@ bool UMLRole::load1(QDomElement & element)
             while (!n.isNull()) {
                 tempElement = n.toElement();
                 tag = tempElement.tagName();
-                if (UMLDoc::tagEq(tag, QLatin1String("MultiplicityRange.lower"))) {
+                if (UMLDoc::tagEq(tag, QStringLiteral("MultiplicityRange.lower"))) {
                     m_Multi = tempElement.text();
-                } else if (UMLDoc::tagEq(tag, QLatin1String("MultiplicityRange.upper"))) {
+                } else if (UMLDoc::tagEq(tag, QStringLiteral("MultiplicityRange.upper"))) {
                     multiUpper = tempElement.text();
                 }
                 n = n.nextSibling();
             }
             if (!multiUpper.isEmpty()) {
                 if (!m_Multi.isEmpty())
-                    m_Multi.append(QLatin1String(".."));
+                    m_Multi.append(QStringLiteral(".."));
                 m_Multi.append(multiUpper);
             }
         } else if (m_SecondaryId.isEmpty() &&
-                   (UMLDoc::tagEq(tag, QLatin1String("type")) ||
-                    UMLDoc::tagEq(tag, QLatin1String("participant")))) {
+                   (UMLDoc::tagEq(tag, QStringLiteral("type")) ||
+                    UMLDoc::tagEq(tag, QStringLiteral("participant")))) {
             m_SecondaryId = Model_Utils::getXmiId(tempElement);
             if (m_SecondaryId.isEmpty())
-                m_SecondaryId = tempElement.attribute(QLatin1String("xmi.idref"));
+                m_SecondaryId = tempElement.attribute(QStringLiteral("xmi.idref"));
             if (m_SecondaryId.isEmpty()) {
                 QDomNode inner = tempElement.firstChild();
                 QDomElement innerElem = inner.toElement();
                 m_SecondaryId = Model_Utils::getXmiId(innerElem);
                 if (m_SecondaryId.isEmpty())
-                    m_SecondaryId = innerElem.attribute(QLatin1String("xmi.idref"));
+                    m_SecondaryId = innerElem.attribute(QStringLiteral("xmi.idref"));
             }
         }
     }
@@ -368,14 +368,14 @@ bool UMLRole::load1(QDomElement & element)
     // when (m_role == Uml::RoleType::A) but some XMI writers (e.g. StarUML) place
     // the aggregation attribute at role B.
     // The role end with the aggregation unequal to "none" wins.
-    QString aggregation = element.attribute(QLatin1String("aggregation"), QLatin1String("none"));
-    if (aggregation == QLatin1String("composite"))
+    QString aggregation = element.attribute(QStringLiteral("aggregation"), QStringLiteral("none"));
+    if (aggregation == QStringLiteral("composite"))
         m_pAssoc->setAssociationType(Uml::AssociationType::Composition);
-    else if (aggregation == QLatin1String("shared")       // UML1.3
-          || aggregation == QLatin1String("aggregate"))   // UML1.4
+    else if (aggregation == QStringLiteral("shared")       // UML1.3
+          || aggregation == QStringLiteral("aggregate"))   // UML1.4
         m_pAssoc->setAssociationType(Uml::AssociationType::Aggregation);
 
-    if (!element.hasAttribute(QLatin1String("isNavigable"))) {
+    if (!element.hasAttribute(QStringLiteral("isNavigable"))) {
         // Backward compatibility mode: In Umbrello version 1.3.x the
         // logic for saving the isNavigable flag was wrong.
         // May happen on loading role A.
@@ -391,30 +391,30 @@ bool UMLRole::load1(QDomElement & element)
         //  The case that isNavigable is given as "false" is ignored.
         //  Combined with the association type logic for role A, this
         //  allows us to support at_Association and at_UniAssociation."
-        if (element.attribute(QLatin1String("isNavigable")) == QLatin1String("true"))
+        if (element.attribute(QStringLiteral("isNavigable")) == QStringLiteral("true"))
             m_pAssoc->setAssociationType(Uml::AssociationType::UniAssociation);
-    } else if (element.attribute(QLatin1String("isNavigable")) == QLatin1String("false")) {
+    } else if (element.attribute(QStringLiteral("isNavigable")) == QStringLiteral("false")) {
         m_pAssoc->setAssociationType(Uml::AssociationType::UniAssociation);
     }
 
     //FIXME not standard XMI
-    if (element.hasAttribute(QLatin1String("relationship"))) {
-        if (element.attribute(QLatin1String("relationship")) == QLatin1String("true")) {
+    if (element.hasAttribute(QStringLiteral("relationship"))) {
+        if (element.attribute(QStringLiteral("relationship")) == QStringLiteral("true")) {
             m_pAssoc->setAssociationType(Uml::AssociationType::Relationship);
         }
     }
 
     if (m_Multi.isEmpty())
-        m_Multi = element.attribute(QLatin1String("multiplicity"));
+        m_Multi = element.attribute(QStringLiteral("multiplicity"));
 
     // Changeability defaults to Changeable if it cant set it here..
     m_Changeability = Uml::Changeability::Changeable;
-    QString changeability = element.attribute(QLatin1String("changeability"));
+    QString changeability = element.attribute(QStringLiteral("changeability"));
     if (changeability.isEmpty())
-        element.attribute(QLatin1String("changeable"));  // for backward compatibility
-    if (changeability == QLatin1String("frozen"))
+        element.attribute(QStringLiteral("changeable"));  // for backward compatibility
+    if (changeability == QStringLiteral("frozen"))
         m_Changeability = Uml::Changeability::Frozen;
-    else if (changeability == QLatin1String("addOnly"))
+    else if (changeability == QStringLiteral("addOnly"))
         m_Changeability = Uml::Changeability::AddOnly;
 
     // finished config, now unblock

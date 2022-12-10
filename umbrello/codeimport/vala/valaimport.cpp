@@ -27,5 +27,5 @@ ValaImport::~ValaImport()
  */
 QString ValaImport::fileExtension()
 {
-    return QLatin1String(".vala");
+    return QStringLiteral(".vala");
 }

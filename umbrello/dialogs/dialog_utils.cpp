@@ -27,9 +27,9 @@
 #include <QLabel>
 #include <QLineEdit>
 
-DefineDontAskAgainItem(allItem, QLatin1String("all"), i18n("Enable all messages"));
-DefineDontAskAgainItem(askDeleteAssociationItem, QLatin1String("delete-association"), i18n("Enable 'delete association' related messages"));
-DefineDontAskAgainItem(askDeleteDiagramItem, QLatin1String("delete-diagram"), i18n("Enable 'delete diagram' related messages"));
+DefineDontAskAgainItem(allItem, QStringLiteral("all"), i18n("Enable all messages"));
+DefineDontAskAgainItem(askDeleteAssociationItem, QStringLiteral("delete-association"), i18n("Enable 'delete association' related messages"));
+DefineDontAskAgainItem(askDeleteDiagramItem, QStringLiteral("delete-diagram"), i18n("Enable 'delete diagram' related messages"));
 
 namespace Dialog_Utils {
 

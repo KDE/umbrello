@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "cppsourcecodeoperation.h"
@@ -22,7 +22,7 @@ CPPSourceCodeOperation::CPPSourceCodeOperation(CPPSourceCodeDocument * doc, UMLO
 
     // these things never change..
     setOverallIndentationLevel(0);
-    setEndMethodText(QLatin1String("}"));
+    setEndMethodText(QStringLiteral("}"));
 }
 
 CPPSourceCodeOperation::~CPPSourceCodeOperation()
@@ -73,7 +73,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
         paramNum++;
 
         if (paramNum != nrofParam)
-            paramStr  += QLatin1String(", ");
+            paramStr  += QStringLiteral(", ");
     }
 
     // no return type for constructors/destructors
@@ -82,20 +82,20 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     // if an operation isn't a constructor/destructor and it has no return type
     // this operation should be  void
     else if (returnType.isEmpty())
-        returnType = QString(QLatin1String("void"));
+        returnType = QString(QStringLiteral("void"));
 
     QString startText = returnType + QLatin1Char(' ');
 
     // if a property has a friend stereotype, the operation should
     // not be a class name
-    if (o->stereotype() != QLatin1String("friend"))
-        startText += className + QLatin1String("::");
-    startText += methodName + QLatin1String(" (") + paramStr + QLatin1Char(')');
+    if (o->stereotype() != QStringLiteral("friend"))
+        startText += className + QStringLiteral("::");
+    startText += methodName + QStringLiteral(" (") + paramStr + QLatin1Char(')');
     if (o->getConst())
-        startText += QLatin1String(" const");
+        startText += QStringLiteral(" const");
     if (o->getOverride())
-        startText += QLatin1String(" override");
-    startText += QLatin1String(" {");
+        startText += QStringLiteral(" override");
+    startText += QStringLiteral(" {");
 
     setStartMethodText(startText);
 

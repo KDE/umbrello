@@ -290,15 +290,15 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
         continue;
     QString neatName = cleanName(conc->name());
     if (neatName != AV && neatName != SV && neatName != HV) {
-      QString OtherPkgName =  conc->package(QLatin1String("."));
-      OtherPkgName.replace(QRegExp(QLatin1String("\\.")), QLatin1String("::"));
-      QString OtherName = OtherPkgName + QLatin1String("::") + cleanName(conc->name());
+      QString OtherPkgName =  conc->package(QStringLiteral("."));
+      OtherPkgName.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("::"));
+      QString OtherName = OtherPkgName + QStringLiteral("::") + cleanName(conc->name());
 
       // Only print out the use statement if the other package isn't the
       // same as the one we are working on. (This happens for the
       // "Singleton" design pattern.)
       if (OtherName != ThisPkgName){
-        Ret += QLatin1String("use ");
+        Ret += QStringLiteral("use ");
         Ret += OtherName;
         Ret +=  QLatin1Char(';');
         Ret += m_endl;
@@ -308,14 +308,14 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   UMLClassifierList  superclasses = c->getSuperClasses();
   if (superclasses.count()) {
     Ret += m_endl;
-    Ret += QLatin1String("use base qw(");
+    Ret += QStringLiteral("use base qw(");
     foreach (UMLClassifier *obj, superclasses) {
-      QString packageName =  obj->package(QLatin1String("."));
-      packageName.replace(QRegExp(QLatin1String("\\.")), QLatin1String("::"));
+      QString packageName =  obj->package(QStringLiteral("."));
+      packageName.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("::"));
 
-      Ret += packageName + QLatin1String("::") + cleanName(obj->name()) + QLatin1Char(' ');
+      Ret += packageName + QStringLiteral("::") + cleanName(obj->name()) + QLatin1Char(' ');
     }
-    Ret += QLatin1String(");") + m_endl;
+    Ret += QStringLiteral(");") + m_endl;
   }
 
   return(true);
@@ -332,23 +332,23 @@ void PerlWriter::writeClass(UMLClassifier *c)
       return;
   }
   QString classname = cleanName(c->name());// this is fine: cleanName is "::-clean"
-  QString packageName =  c->package(QLatin1String("."));
+  QString packageName =  c->package(QStringLiteral("."));
   QString fileName;
 
   // Replace all white spaces with blanks
   packageName = packageName.simplified();
 
   // Replace all blanks with underscore
-  packageName.replace(QRegExp(QLatin1String(" ")), QLatin1String("_"));
+  packageName.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
 
   // Replace all dots (".") with double colon scope resolution operators
   // ("::")
-  packageName.replace(QRegExp(QLatin1String("\\.")), QLatin1String("::"));
+  packageName.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("::"));
 
   // Store complete package name
-  QString ThisPkgName = packageName + QLatin1String("::") + classname;
+  QString ThisPkgName = packageName + QStringLiteral("::") + classname;
 
-  fileName = findFileName(c, QLatin1String(".pm"));
+  fileName = findFileName(c, QStringLiteral(".pm"));
   // the above lower-cases my nice class names. That is bad.
   // correct solution: refactor,
   // split massive findFileName up, reimplement
@@ -357,13 +357,13 @@ void PerlWriter::writeClass(UMLClassifier *c)
 
   CodeGenerationPolicy *pol = UMLApp::app()->commonPolicy();
   QString curDir = pol->getOutputDirectory().absolutePath();
-  if (fileName.contains(QLatin1String("::"))) {
+  if (fileName.contains(QStringLiteral("::"))) {
     // create new directories for each level
     QString newDir;
     newDir = curDir;
     QString fragment = fileName;
     QDir* existing = new QDir (curDir);
-    QRegExp regEx(QLatin1String("(.*)(::)"));
+    QRegExp regEx(QStringLiteral("(.*)(::)"));
     regEx.setMinimal(true);
     while (regEx.indexIn(fragment) > -1) {
       newDir = regEx.cap(1);
@@ -378,7 +378,7 @@ void PerlWriter::writeClass(UMLClassifier *c)
       }
       curDir += QLatin1Char('/') + newDir;
     }
-    fileName = fragment + QLatin1String(".pm");
+    fileName = fragment + QStringLiteral(".pm");
   }
   if (fileName.isEmpty()) {
     emit codeGenerated(c, false);
@@ -403,30 +403,30 @@ void PerlWriter::writeClass(UMLClassifier *c)
   bool bPackageDeclared = false;
   bool bUseStmsWritten  = false;
 
-  str = getHeadingFile(QLatin1String(".pm"));   // what this mean?
+  str = getHeadingFile(QStringLiteral(".pm"));   // what this mean?
   if (!str.isEmpty()) {
-    str.replace(QRegExp(QLatin1String("%filename%")), fileName);
-    str.replace(QRegExp(QLatin1String("%filepath%")), fileperl.fileName());
-    str.replace(QRegExp(QLatin1String("%year%")), QDate::currentDate().toString(QLatin1String("yyyy")));
-    str.replace(QRegExp(QLatin1String("%date%")), QDate::currentDate().toString());
-    str.replace(QRegExp(QLatin1String("%time%")), QTime::currentTime().toString());
-    str.replace(QRegExp(QLatin1String("%package-name%")), ThisPkgName);
-    if(str.indexOf(QRegExp(QLatin1String("%PACKAGE-DECLARE%")))){
-      str.replace(QRegExp(QLatin1String("%PACKAGE-DECLARE%")),
-                  QLatin1String("package ") + ThisPkgName + QLatin1Char(';')
+    str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
+    str.replace(QRegExp(QStringLiteral("%filepath%")), fileperl.fileName());
+    str.replace(QRegExp(QStringLiteral("%year%")), QDate::currentDate().toString(QStringLiteral("yyyy")));
+    str.replace(QRegExp(QStringLiteral("%date%")), QDate::currentDate().toString());
+    str.replace(QRegExp(QStringLiteral("%time%")), QTime::currentTime().toString());
+    str.replace(QRegExp(QStringLiteral("%package-name%")), ThisPkgName);
+    if(str.indexOf(QRegExp(QStringLiteral("%PACKAGE-DECLARE%")))){
+      str.replace(QRegExp(QStringLiteral("%PACKAGE-DECLARE%")),
+                  QStringLiteral("package ") + ThisPkgName + QLatin1Char(';')
                   + m_endl + m_endl
-                  + QLatin1String("#UML_MODELER_BEGIN_PERSONAL_VARS_") + classname
+                  + QStringLiteral("#UML_MODELER_BEGIN_PERSONAL_VARS_") + classname
                   + m_endl + m_endl
-                  + QLatin1String("#UML_MODELER_END_PERSONAL_VARS_") + classname
+                  + QStringLiteral("#UML_MODELER_END_PERSONAL_VARS_") + classname
                   + m_endl
                  );
       bPackageDeclared = true;
     }
 
-    if (str.indexOf(QRegExp(QLatin1String("%USE-STATEMENTS%")))){
+    if (str.indexOf(QRegExp(QStringLiteral("%USE-STATEMENTS%")))){
       QString UseStms;
       if(GetUseStatements(c, UseStms, ThisPkgName)){
-        str.replace(QRegExp(QLatin1String("%USE-STATEMENTS%")), UseStms);
+        str.replace(QRegExp(QStringLiteral("%USE-STATEMENTS%")), UseStms);
         bUseStmsWritten = true;
       }
     }
@@ -716,9 +716,9 @@ void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
 QStringList PerlWriter::defaultDatatypes() const
 {
     QStringList l;
-    l.append(QLatin1String("$"));
-    l.append(QLatin1String("@"));
-    l.append(QLatin1String("%"));
+    l.append(QStringLiteral("$"));
+    l.append(QStringLiteral("@"));
+    l.append(QStringLiteral("%"));
     return l;
 }
 
@@ -732,7 +732,7 @@ QStringList PerlWriter::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         for (int i = 0; reserved_words[i]; ++i) {
-            keywords.append(QLatin1String(reserved_words[i]));
+            keywords.append(QStringLiteral(reserved_words[i]));
         }
     }
 

@@ -104,9 +104,9 @@ UMLClassifier *UMLInstance::classifier() const
  */
 void UMLInstance::saveToXMI(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(writer, QLatin1String("Instance"));
+    UMLObject::save1(writer, QStringLiteral("Instance"));
     if (m_pSecondary) {
-        writer.writeAttribute(QLatin1String("classifier"), Uml::ID::toString(m_pSecondary->id()));
+        writer.writeAttribute(QStringLiteral("classifier"), Uml::ID::toString(m_pSecondary->id()));
         //save attributes
         foreach (UMLObject *pObject, subordinates()) {
             pObject->saveToXMI(writer);
@@ -120,7 +120,7 @@ void UMLInstance::saveToXMI(QXmlStreamWriter& writer)
  */
 bool UMLInstance::load1(QDomElement &element)
 {
-    m_SecondaryId = element.attribute(QLatin1String("classifier"));
+    m_SecondaryId = element.attribute(QStringLiteral("classifier"));
     QDomNode node = element.firstChild();
     while (!node.isNull()) {
         if (node.isComment()) {
@@ -129,7 +129,7 @@ bool UMLInstance::load1(QDomElement &element)
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (UMLDoc::tagEq(tag, QLatin1String("slot"))) {
+        if (UMLDoc::tagEq(tag, QStringLiteral("slot"))) {
             UMLInstanceAttribute *pInstanceAttribute = new UMLInstanceAttribute(this, 0);
             if (!pInstanceAttribute->loadFromXMI(tempElement)) {
                 return false;

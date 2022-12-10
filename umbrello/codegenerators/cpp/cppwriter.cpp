@@ -47,16 +47,16 @@ CppWriter::CppWriter()
     // You can insert code here. 3 general variables exist: "%VARNAME%"
     // allows you to specify where the vector variable should be in your code,
     // and "%ITEMCLASS%", if needed, where the class of the item is declared.
-    VECTOR_METHOD_APPEND = QLatin1String("%VARNAME%.push_back(add_object);"); // for std::vector
-    VECTOR_METHOD_REMOVE = QString(QLatin1String("int i, size = %VARNAME%.size();\nfor (i = 0; i < size; ++i) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == remove_object) {\n\t\t%1<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }")).arg(policyExt()->getVectorClassName()); // for std::vector
+    VECTOR_METHOD_APPEND = QStringLiteral("%VARNAME%.push_back(add_object);"); // for std::vector
+    VECTOR_METHOD_REMOVE = QString(QStringLiteral("int i, size = %VARNAME%.size();\nfor (i = 0; i < size; ++i) {\n\t%ITEMCLASS% item = %VARNAME%.at(i);\n\tif(item == remove_object) {\n\t\t%1<%ITEMCLASS%>::iterator it = %VARNAME%.begin() + i;\n\t\t%VARNAME%.erase(it);\n\t\treturn;\n\t}\n }")).arg(policyExt()->getVectorClassName()); // for std::vector
     VECTOR_METHOD_INIT.clear(); // nothing to be done
     /*
-        VECTOR_METHOD_APPEND = QLatin1String("%VARNAME%.append(&add_object);"); // Qt lib implementation
-        VECTOR_METHOD_REMOVE = QLatin1String("%VARNAME%.removeRef(&remove_object);"); // Qt lib implementation
-        VECTOR_METHOD_INIT = QLatin1String("%VARNAME%.setAutoDelete(false);"); // Qt library
+        VECTOR_METHOD_APPEND = QStringLiteral("%VARNAME%.append(&add_object);"); // Qt lib implementation
+        VECTOR_METHOD_REMOVE = QStringLiteral("%VARNAME%.removeRef(&remove_object);"); // Qt lib implementation
+        VECTOR_METHOD_INIT = QStringLiteral("%VARNAME%.setAutoDelete(false);"); // Qt library
     */
 
-    OBJECT_METHOD_INIT = QLatin1String("%VARNAME% = new %ITEMCLASS%();"); // Qt library
+    OBJECT_METHOD_INIT = QStringLiteral("%VARNAME% = new %ITEMCLASS%();"); // Qt library
 
     // boolean config params
     INLINE_ASSOCIATION_METHODS = false;
@@ -100,7 +100,7 @@ void CppWriter::writeClass(UMLClassifier *c)
     QFile fileh, filecpp;
 
     // find an appropriate name for our file
-    fileName_ = findFileName(c, QLatin1String(".h"));
+    fileName_ = findFileName(c, QStringLiteral(".h"));
     if (fileName_.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -125,7 +125,7 @@ void CppWriter::writeClass(UMLClassifier *c)
         need_impl = false;
     }
     if (need_impl) {
-        fileName_.replace(QRegExp(QLatin1String(".h$")), QLatin1String(".cpp"));
+        fileName_.replace(QRegExp(QStringLiteral(".h$")), QStringLiteral(".cpp"));
         if (!openFile(filecpp, fileName_)) {
             emit codeGenerated(c, false);
             return;
@@ -150,15 +150,15 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &file)
     m_indentLevel = 1;
 
     // write header blurb
-    QString str = getHeadingFile(QLatin1String(".h"));
+    QString str = getHeadingFile(QStringLiteral(".h"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QLatin1String("%filename%")), fileName_ + QLatin1String(".h"));
-        str.replace(QRegExp(QLatin1String("%filepath%")), file.fileName());
+        str.replace(QRegExp(QStringLiteral("%filename%")), fileName_ + QStringLiteral(".h"));
+        str.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
         h << str<< m_endl;
     }
 
     // Write the hash define stuff to prevent multiple parsing/inclusion of header
-    QString hashDefine = className_.toUpper().simplified().replace(QRegExp(QLatin1String(" ")),  QLatin1String("_"));
+    QString hashDefine = className_.toUpper().simplified().replace(QRegExp(QStringLiteral(" ")),  QStringLiteral("_"));
     writeBlankLine(h);
     h << "#ifndef "<< hashDefine << "_H" << m_endl;
     h << "#define "<< hashDefine << "_H" << m_endl;
@@ -223,10 +223,10 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
 
     //try to find a heading file (license, comments, etc)
     QString str;
-    str = getHeadingFile(QLatin1String(".cpp"));
+    str = getHeadingFile(QStringLiteral(".cpp"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QLatin1String("%filename%")), fileName_ + QLatin1String(".cpp"));
-        str.replace(QRegExp(QLatin1String("%filepath%")), file.fileName());
+        str.replace(QRegExp(QStringLiteral("%filename%")), fileName_ + QStringLiteral(".cpp"));
+        str.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
         cpp << str << m_endl;
     }
 
@@ -254,17 +254,17 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
     // write comment for section IF needed
     QString indnt = indent();
     if (forceDoc() || c->hasAccessorMethods() || c->hasOperationMethods()) {
-        writeComment(QLatin1String(" "), indnt, cpp);
-        writeComment(QLatin1String("Methods"), indnt, cpp);
-        writeComment(QLatin1String(" "), indnt, cpp);
+        writeComment(QStringLiteral(" "), indnt, cpp);
+        writeComment(QStringLiteral("Methods"), indnt, cpp);
+        writeComment(QStringLiteral(" "), indnt, cpp);
         writeBlankLine(cpp);
         writeBlankLine(cpp);
     }
 
     // write comment for sub-section IF needed
     if (forceDoc() || c->hasAccessorMethods()) {
-        writeComment(QLatin1String("Accessor methods"), indnt, cpp);
-        writeComment(QLatin1String(" "), indnt, cpp);
+        writeComment(QStringLiteral("Accessor methods"), indnt, cpp);
+        writeComment(QStringLiteral(" "), indnt, cpp);
         writeBlankLine(cpp);
     }
 
@@ -317,8 +317,8 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
 
     // write comment for sub-section IF needed
     if (forceDoc() || c->hasOperationMethods()) {
-        writeComment(QLatin1String("Other methods"), indnt, cpp);
-        writeComment(QLatin1String(" "), indnt, cpp);
+        writeComment(QStringLiteral("Other methods"), indnt, cpp);
+        writeComment(QStringLiteral(" "), indnt, cpp);
         writeBlankLine(cpp);
     }
 
@@ -343,7 +343,7 @@ void CppWriter::writeIncludes(UMLClassifier *c, QTextStream &stream)
 {
     UMLClassifierList superclasses = c->getSuperClasses();
     foreach (UMLClassifier* classifier, superclasses) {
-        QString headerName = findFileName(classifier, QLatin1String(".h"));
+        QString headerName = findFileName(classifier, QStringLiteral(".h"));
         if (!headerName.isEmpty()) {
             stream << "#include \"" << headerName << "\"" << m_endl;
         }
@@ -391,7 +391,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     if (forceDoc() || !c->doc().isEmpty()) {
         cpp << m_endl << "/**" << m_endl;
         cpp << "  * class " << className_ << m_endl;
-        cpp << formatDoc(c->doc(), QLatin1String("  * "));
+        cpp << formatDoc(c->doc(), QStringLiteral("  * "));
         cpp << "  */";
         writeBlankLine(cpp);
         writeBlankLine(cpp);
@@ -533,9 +533,9 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility::Enum vis
     if (forceDoc() || list.count() > 0)
     {
         QString strVis = Codegen_Utils::capitalizeFirstLetter(Uml::Visibility::toString(visibility));
-        QString strStatic = writeStatic ? QLatin1String("Static ") : QString();
-        writeComment(strStatic + strVis + QLatin1String(" attributes"), indent(), stream);
-        writeComment(QLatin1String(" "), indent(), stream);
+        QString strStatic = writeStatic ? QStringLiteral("Static ") : QString();
+        writeComment(strStatic + strVis + QStringLiteral(" attributes"), indent(), stream);
+        writeComment(QStringLiteral(" "), indent(), stream);
         writeBlankLine(stream);
     }
 
@@ -558,7 +558,7 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility::Enum vis
 
             QString varName = getAttributeVariableName(at);
 
-            QString staticValue = at->isStatic() ? QLatin1String("static ") : QString();
+            QString staticValue = at->isStatic() ? QStringLiteral("static ") : QString();
             QString typeName = fixTypeName(at->getTypeName());
             int i = typeName.indexOf(QLatin1Char('['));
             if (i > -1) {
@@ -614,10 +614,10 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
     if (forceDoc() || attribs.count() > 0)
     {
         QString strVis = Codegen_Utils::capitalizeFirstLetter(Uml::Visibility::toString(visibility));
-        QString strStatic = (isStatic ? QLatin1String(" static") : QString());
+        QString strStatic = (isStatic ? QStringLiteral(" static") : QString());
         writeBlankLine(stream);
-        writeComment(strVis + strStatic + QLatin1String(" attribute accessor methods"), indent(), stream);
-        writeComment(QLatin1String(" "), indent(), stream);
+        writeComment(strVis + strStatic + QStringLiteral(" attribute accessor methods"), indent(), stream);
+        writeComment(QStringLiteral(" "), indent(), stream);
         writeBlankLine(stream);
     }
 
@@ -644,17 +644,17 @@ void CppWriter::writeComment(const QString &comment, const QString &myIndent, QT
     // in the case we have several line comment..
     // NOTE: this part of the method has the problem of adopting UNIX newline,
     // need to resolve for using with MAC/WinDoze eventually I assume
-    if (comment.contains(QRegExp(QLatin1String("\n")))) {
+    if (comment.contains(QRegExp(QStringLiteral("\n")))) {
 
         QStringList lines = comment.split(QLatin1Char('\n'));
         for (int i= 0; i < lines.count(); ++i)
         {
-            cpp << myIndent << QLatin1String("// ") << lines[i] << m_endl;
+            cpp << myIndent << QStringLiteral("// ") << lines[i] << m_endl;
         }
     } else {
         // this should be more fancy in the future, breaking it up into 80 char
         // lines so that it doesn't look too bad
-        cpp << myIndent << QLatin1String("// ")<< comment << m_endl;
+        cpp << myIndent << QStringLiteral("// ")<< comment << m_endl;
     }
 }
 
@@ -666,18 +666,18 @@ void CppWriter::writeDocumentation(QString header, QString body, QString end, QT
     writeBlankLine(cpp);
     QString indnt = indent();
 
-    cpp << indnt << QLatin1String("/**") << m_endl;
+    cpp << indnt << QStringLiteral("/**") << m_endl;
     if (!header.isEmpty())
-        cpp << formatDoc(header, indnt + QLatin1String(" * "));
+        cpp << formatDoc(header, indnt + QStringLiteral(" * "));
     if (!body.isEmpty())
-        cpp << formatDoc(body, indnt + QLatin1String(" * "));
+        cpp << formatDoc(body, indnt + QStringLiteral(" * "));
     if (!end.isEmpty()) {
         QStringList lines = end.split(QLatin1Char('\n'));
         for (int i = 0; i < lines.count(); ++i) {
-            cpp << formatDoc(lines[i], indnt + QLatin1String(" * "));
+            cpp << formatDoc(lines[i], indnt + QStringLiteral(" * "));
         }
     }
-    cpp << indnt << QLatin1String(" */") << m_endl;
+    cpp << indnt << QStringLiteral(" */") << m_endl;
 }
 
 /**
@@ -746,14 +746,14 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    if (multi.isEmpty() || multi.contains(QRegExp(QLatin1String("^[01]$"))))
+    if (multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^[01]$"))))
     {
-        QString fieldVarName = QLatin1String("m_") + roleName.toLower();
+        QString fieldVarName = QStringLiteral("m_") + roleName.toLower();
 
         // record this for later consideration of initialization IF the
         // multi value requires 1 of these objects
         if (ObjectFieldVariables.indexOf(fieldVarName) == -1 &&
-                multi.contains(QRegExp(QLatin1String("^1$"))))
+                multi.contains(QRegExp(QStringLiteral("^1$"))))
         {
             // ugh. UGLY. Storing variable name and its class in pairs.
             ObjectFieldVariables.append(fieldVarName);
@@ -764,7 +764,7 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
     }
     else
     {
-        QString fieldVarName = QLatin1String("m_") + roleName.toLower() + QLatin1String("Vector");
+        QString fieldVarName = QStringLiteral("m_") + roleName.toLower() + QStringLiteral("Vector");
 
         // record unique occurrences for later when we want to check
         // for initialization of this vector
@@ -798,7 +798,7 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
             {
                 // only write out IF there is a rolename given
                 if (!a->getRoleName(Uml::RoleType::B).isEmpty()) {
-                    QString fieldClassName = umlObjectName(a->getObject(Uml::RoleType::B)) + (writePointerVar ? QLatin1String(" *") : QString());
+                    QString fieldClassName = umlObjectName(a->getObject(Uml::RoleType::B)) + (writePointerVar ? QStringLiteral(" *") : QString());
                     writeAssociationRoleMethod(fieldClassName,
                                                isHeaderMethod,
                                                writeMethodBody,
@@ -812,7 +812,7 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
             {
                 // only write out IF there is a rolename given
                 if (!a->getRoleName(Uml::RoleType::A).isEmpty()) {
-                    QString fieldClassName = umlObjectName(a->getObject(Uml::RoleType::A)) + (writePointerVar ? QLatin1String(" *") : QString());
+                    QString fieldClassName = umlObjectName(a->getObject(Uml::RoleType::A)) + (writePointerVar ? QStringLiteral(" *") : QString());
                     writeAssociationRoleMethod(fieldClassName,
                                                isHeaderMethod,
                                                writeMethodBody,
@@ -840,15 +840,15 @@ void CppWriter::writeAssociationRoleMethod (const QString &fieldClassName,
         const QString &description, Uml::Changeability::Enum change,
         QTextStream &stream)
 {
-    if (multi.isEmpty() || multi.contains(QRegExp(QLatin1String("^[01]$"))))
+    if (multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^[01]$"))))
     {
-        QString fieldVarName = QLatin1String("m_") + roleName.toLower();
+        QString fieldVarName = QStringLiteral("m_") + roleName.toLower();
         writeSingleAttributeAccessorMethods(fieldClassName, fieldVarName, roleName,
                                             description, change, isHeaderMethod, false, writeMethodBody, stream);
     }
     else
     {
-        QString fieldVarName = QLatin1String("m_") + roleName.toLower() + QLatin1String("Vector");
+        QString fieldVarName = QStringLiteral("m_") + roleName.toLower() + QStringLiteral("Vector");
         writeVectorAttributeAccessorMethods(fieldClassName, fieldVarName, roleName,
                                             description, change, isHeaderMethod, writeMethodBody, stream);
     }
@@ -872,16 +872,16 @@ void CppWriter::writeVectorAttributeAccessorMethods (
     // ONLY IF changeability is NOT Frozen
     if (changeType != Uml::Changeability::Frozen)
     {
-        writeDocumentation(QLatin1String("Add a ") + fldName + QLatin1String(" object to the ") + fieldVarName + QLatin1String(" List"), description, QString(), stream);
-        stream << indnt << QLatin1String("void ");
+        writeDocumentation(QStringLiteral("Add a ") + fldName + QStringLiteral(" object to the ") + fieldVarName + QStringLiteral(" List"), description, QString(), stream);
+        stream << indnt << QStringLiteral("void ");
         if (!isHeaderMethod)
             stream << className_ << "::";
         stream << "add" << fldName << " (" << className << " add_object)";
         if (writeMethodBody) {
             QString method = VECTOR_METHOD_APPEND;
-            method.replace(QRegExp(QLatin1String("%VARNAME%")), fieldVarName);
-            method.replace(QRegExp(QLatin1String("%VECTORTYPENAME%")), policyExt()->getVectorClassName());
-            method.replace(QRegExp(QLatin1String("%ITEMCLASS%")), className);
+            method.replace(QRegExp(QStringLiteral("%VARNAME%")), fieldVarName);
+            method.replace(QRegExp(QStringLiteral("%VECTORTYPENAME%")), policyExt()->getVectorClassName());
+            method.replace(QRegExp(QStringLiteral("%ITEMCLASS%")), className);
             stream << indnt << " {" << m_endl;
             m_indentLevel++;
             printTextAsSeparateLinesWithIndent(method, indent(), stream);
@@ -894,7 +894,7 @@ void CppWriter::writeVectorAttributeAccessorMethods (
     // ONLY IF changeability is Changeable
     if (changeType == Uml::Changeability::Changeable)
     {
-        writeDocumentation(QLatin1String("Remove a ") + fldName + QLatin1String(" object from ") + fieldVarName + QLatin1String(" List"),
+        writeDocumentation(QStringLiteral("Remove a ") + fldName + QStringLiteral(" object from ") + fieldVarName + QStringLiteral(" List"),
                            description, QString(), stream);
         stream << indnt << "void ";
         if (!isHeaderMethod)
@@ -902,9 +902,9 @@ void CppWriter::writeVectorAttributeAccessorMethods (
         stream << "remove" << fldName << " (" << className << " remove_object)";
         if (writeMethodBody) {
             QString method = VECTOR_METHOD_REMOVE;
-            method.replace(QRegExp(QLatin1String("%VARNAME%")), fieldVarName);
-            method.replace(QRegExp(QLatin1String("%VECTORTYPENAME%")), policyExt()->getVectorClassName());
-            method.replace(QRegExp(QLatin1String("%ITEMCLASS%")), className);
+            method.replace(QRegExp(QStringLiteral("%VARNAME%")), fieldVarName);
+            method.replace(QRegExp(QStringLiteral("%VECTORTYPENAME%")), policyExt()->getVectorClassName());
+            method.replace(QRegExp(QStringLiteral("%ITEMCLASS%")), className);
             stream << indnt << " {" << m_endl;
             m_indentLevel++;
             printTextAsSeparateLinesWithIndent(method, indent(), stream);
@@ -916,9 +916,9 @@ void CppWriter::writeVectorAttributeAccessorMethods (
 
     // always allow getting the list of stuff
     QString returnVarName = policyExt()->getVectorClassName() + QLatin1Char('<') + className + QLatin1Char('>');
-    writeDocumentation(QLatin1String("Get the list of ") + fldName + QLatin1String(" objects held by ") + fieldVarName,
+    writeDocumentation(QStringLiteral("Get the list of ") + fldName + QStringLiteral(" objects held by ") + fieldVarName,
                        description,
-                       policyExt()->getDocToolTag() + QLatin1String("return ") + returnVarName + QLatin1String(" list of ") + fldName + QLatin1String(" objects held by ") + fieldVarName,
+                       policyExt()->getDocToolTag() + QStringLiteral("return ") + returnVarName + QStringLiteral(" list of ") + fldName + QStringLiteral(" objects held by ") + fieldVarName,
                        stream);
     stream << indnt << returnVarName << " ";
     if (!isHeaderMethod)
@@ -954,7 +954,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
 
     QString className = fixTypeName(fieldClassName);
     QString indnt = indent();
-    QString varName = QLatin1String("value");
+    QString varName = QStringLiteral("value");
     QString fullVarName = varName;
 
     int i = className.indexOf(QLatin1Char('['));
@@ -970,7 +970,7 @@ void CppWriter::writeSingleAttributeAccessorMethods(
 
     // set method
     if (change == Uml::Changeability::Changeable) {
-        writeDocumentation(QLatin1String("Set the value of ") + fieldVarName, description, policyExt()->getDocToolTag() + QString(QLatin1String("param %1 the new value of ")).arg(varName) + fieldVarName, stream);
+        writeDocumentation(QStringLiteral("Set the value of ") + fieldVarName, description, policyExt()->getDocToolTag() + QString(QStringLiteral("param %1 the new value of ")).arg(varName) + fieldVarName, stream);
         stream << indnt << "void ";
         if (!isHeaderMethod)
             stream << className_ << "::";
@@ -993,10 +993,10 @@ void CppWriter::writeSingleAttributeAccessorMethods(
     }
 
     if (i > -1)
-        className += QLatin1String("*");
+        className += QStringLiteral("*");
 
     // get method
-    writeDocumentation(QLatin1String("Get the value of ") + fieldVarName, description, policyExt()->getDocToolTag() + QLatin1String("return the value of ") + fieldVarName, stream);
+    writeDocumentation(QStringLiteral("Get the value of ") + fieldVarName, description, policyExt()->getDocToolTag() + QStringLiteral("return the value of ") + fieldVarName, stream);
     stream << indnt << className << " ";
     if (!isHeaderMethod)
         stream << className_ << "::";
@@ -1031,16 +1031,16 @@ void CppWriter::writeConstructorDecls(QTextStream &stream)
         UMLApp::app()->commonPolicy()->getAutoGenerateConstructors();
     if (forceDoc() || generateEmptyConstructors)
     {
-        writeComment(QLatin1String("Constructors/Destructors"), indent(), stream);
-        writeComment(QLatin1String(" "), indent(), stream);
+        writeComment(QStringLiteral("Constructors/Destructors"), indent(), stream);
+        writeComment(QStringLiteral(" "), indent(), stream);
         writeBlankLine(stream);
     }
     if (!generateEmptyConstructors)
         return;
 
-    writeDocumentation(QString(), QLatin1String("Empty Constructor"), QString(), stream);
+    writeDocumentation(QString(), QStringLiteral("Empty Constructor"), QString(), stream);
     stream << indent() << className_ << "();" << m_endl;
-    writeDocumentation(QString(), QLatin1String("Empty Destructor"), QString(), stream);
+    writeDocumentation(QString(), QStringLiteral("Empty Destructor"), QString(), stream);
     stream << indent();
     stream << "virtual ~" << className_ << "();" << m_endl;
     writeBlankLine(stream);
@@ -1086,8 +1086,8 @@ void CppWriter::writeInitAttributeMethod(UMLClassifier * c, QTextStream &stream)
         for (it = VectorFieldVariables.begin(); it != VectorFieldVariables.end(); ++it) {
             QString fieldVarName = *it;
             QString method = VECTOR_METHOD_INIT;
-            method.replace(QRegExp(QLatin1String("%VARNAME%")), fieldVarName);
-            method.replace(QRegExp(QLatin1String("%VECTORTYPENAME%")), policyExt()->getVectorClassName());
+            method.replace(QRegExp(QStringLiteral("%VARNAME%")), fieldVarName);
+            method.replace(QRegExp(QStringLiteral("%VECTORTYPENAME%")), policyExt()->getVectorClassName());
             stream << indent() << method << m_endl;
         }
     }
@@ -1099,8 +1099,8 @@ void CppWriter::writeInitAttributeMethod(UMLClassifier * c, QTextStream &stream)
             it++;
             QString fieldClassName = *it;
             QString method = OBJECT_METHOD_INIT;
-            method.replace(QRegExp(QLatin1String("%VARNAME%")), fieldVarName);
-            method.replace(QRegExp(QLatin1String("%ITEMCLASS%")), fieldClassName);
+            method.replace(QRegExp(QStringLiteral("%VARNAME%")), fieldVarName);
+            method.replace(QRegExp(QStringLiteral("%ITEMCLASS%")), fieldClassName);
             stream << indent() << method << m_endl;
         }
     }
@@ -1121,8 +1121,8 @@ void CppWriter::writeConstructorMethods(UMLClassifier * c, QTextStream &stream)
         UMLApp::app()->commonPolicy()->getAutoGenerateConstructors();
 
     if (forceDoc() || generateEmptyConstructors) {
-        writeComment(QLatin1String("Constructors/Destructors"), indent(), stream);
-        writeComment(QLatin1String(" "), indent(), stream);
+        writeComment(QStringLiteral("Constructors/Destructors"), indent(), stream);
+        writeComment(QStringLiteral(" "), indent(), stream);
         writeBlankLine(stream);
     }
     if (!generateEmptyConstructors)
@@ -1173,8 +1173,8 @@ void CppWriter::writeDataTypes(UMLClassifier *c, Uml::Visibility::Enum permitSco
 QString CppWriter::fixTypeName(const QString &string)
 {
     if (string.isEmpty())
-        return QLatin1String("void");
-    if (string == QLatin1String("string")) {
+        return QStringLiteral("void");
+    if (string == QStringLiteral("string")) {
         m_stringIncludeRequired = true;
         return policyExt()->getStringClassName();
     }
@@ -1205,7 +1205,7 @@ void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod,
     /*
       if (forceSections() || oppub.count())
       {
-      writeComment(QLatin1String("public operations"), indent(), cpp);
+      writeComment(QStringLiteral("public operations"), indent(), cpp);
         writeBlankLine(cpp);
       }
     */
@@ -1239,29 +1239,29 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
                 continue;  // it's already been written, see writeConstructor{Decls, Methods}
         } else {
             methodReturnType = fixTypeName(op->getTypeName());
-            if (methodReturnType != QLatin1String("void"))
-                doc += policyExt()->getDocToolTag() + QLatin1String("return ") + methodReturnType + QLatin1Char('\n');
+            if (methodReturnType != QStringLiteral("void"))
+                doc += policyExt()->getDocToolTag() + QStringLiteral("return ") + methodReturnType + QLatin1Char('\n');
         }
 
         QString str;
         if (op->isAbstract() || c->isInterface()) {
             if (isHeaderMethod) {
                 // declare abstract method as 'virtual'
-                str += QLatin1String("virtual ");
+                str += QStringLiteral("virtual ");
             }
         }
 
         // static declaration for header file
         if (isHeaderMethod && op->isStatic())
-            str += QLatin1String("static ");
+            str += QStringLiteral("static ");
 
         // returntype of method
         str += methodReturnType + QLatin1Char(' ');
 
         if (!isHeaderMethod)
-            str += className_ + QLatin1String("::");
+            str += className_ + QStringLiteral("::");
 
-        str += cleanName(op->name()) + QLatin1String("(");
+        str += cleanName(op->name()) + QStringLiteral("(");
 
         // generate parameters
         uint j = 0;
@@ -1279,22 +1279,22 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
             str += typeName + QLatin1Char(' ') + atName;
             const QString initVal = at->getInitialValue();
             if (! initVal.isEmpty())
-                str += QLatin1String(" = ") + initVal;
+                str += QStringLiteral(" = ") + initVal;
             if (j < (uint)(atl.count() - 1))
-                str += QLatin1String(", ");
-            doc += policyExt()->getDocToolTag() + QLatin1String("param  ") + atName + QLatin1Char(' ') + at->doc() + m_endl;
+                str += QStringLiteral(", ");
+            doc += policyExt()->getDocToolTag() + QStringLiteral("param  ") + atName + QLatin1Char(' ') + at->doc() + m_endl;
         }
         doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
         str += QLatin1Char(')');
 
         if (op->getConst())
-            str += QLatin1String(" const");
+            str += QStringLiteral(" const");
 
         if (op->getOverride())
-            str += QLatin1String(" override");
+            str += QStringLiteral(" override");
 
         if (isHeaderMethod && op->isAbstract()) {
-            str += QLatin1String(" = 0;");
+            str += QStringLiteral(" = 0;");
         }
         // method body : only gets IF it is not in a header
         else if (isHeaderMethod && !policyExt()->getOperationsAreInline()) {
@@ -1376,7 +1376,7 @@ QString CppWriter::fixInitialStringDeclValue(const QString &value, const QString
  */
 QString CppWriter::umlObjectName(UMLObject *obj)
 {
-    return (obj ? obj->name() : QLatin1String("NULL"));
+    return (obj ? obj->name() : QStringLiteral("NULL"));
 }
 
 /**
@@ -1422,7 +1422,7 @@ QString CppWriter::getAttributeMethodBaseName(const QString &fieldName)
 {
     QString fldName = fieldName;
     if (policyExt()->getRemovePrefixFromAccessorMethods())
-        fldName.replace(QRegExp(QLatin1String("^[a-zA-Z]_")), QLatin1String(""));
+        fldName.replace(QRegExp(QStringLiteral("^[a-zA-Z]_")), QStringLiteral(""));
     return fldName;
 }
 

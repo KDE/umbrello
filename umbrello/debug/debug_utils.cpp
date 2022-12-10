@@ -116,7 +116,7 @@ Tracer* Tracer::instance()
         // Transfer g_clientInfo (C plain old data) to s_classes (C++)
         for (int i = 0; i < n_clients; i++) {
             ClientInfo_POD & cli = g_clientInfo[i];
-            QFileInfo fi(QLatin1String(cli.filePath));
+            QFileInfo fi(QStringLiteral(cli.filePath));
             QString dirName = fi.absolutePath();
             QFileInfo f(dirName);
             QString path = f.fileName();
@@ -125,7 +125,7 @@ Tracer* Tracer::instance()
             (*s_classes)[name] = MapEntry(path, cli.state);
         }
         QString umbrello_logToConsole = QString::fromLatin1(qgetenv("UMBRELLO_LOG_TO_CONSOLE"));
-        s_logToConsole = (umbrello_logToConsole == QLatin1String("1"));
+        s_logToConsole = (umbrello_logToConsole == QStringLiteral("1"));
     }
     return s_instance;
 }

@@ -10,7 +10,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "codeimpthread.h"
-#define DBG_SRC QLatin1String("PythonImport")
+#define DBG_SRC QStringLiteral("PythonImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"
@@ -29,9 +29,9 @@ DEBUG_REGISTER(PythonImport)
  * Constructor.
  */
 PythonImport::PythonImport(CodeImpThread* thread)
-  : NativeImportBase(QLatin1String("#"), thread)
+  : NativeImportBase(QStringLiteral("#"), thread)
 {
-    setMultiLineComment(QLatin1String("\"\"\""), QLatin1String("\"\"\""));
+    setMultiLineComment(QStringLiteral("\"\"\""), QStringLiteral("\"\"\""));
     initVars();
 }
 
@@ -76,14 +76,14 @@ bool PythonImport::preprocess(QString& line)
         if (pos == 0)
             return true;
         line = line.left(pos);
-        line.remove(QRegExp(QLatin1String("\\s+$")));
+        line.remove(QRegExp(QStringLiteral("\\s+$")));
     }
     // Transform changes in indentation into braces a la C++/Java/Perl/...
-    pos = line.indexOf(QRegExp(QLatin1String("\\S")));
+    pos = line.indexOf(QRegExp(QStringLiteral("\\S")));
     if (pos == -1)
         return true;
     bool isContinuation = false;
-    int leadingWhite = line.left(pos).count(QRegExp(QLatin1String("\\s")));
+    int leadingWhite = line.left(pos).count(QRegExp(QStringLiteral("\\s")));
     if (leadingWhite > m_srcIndent[m_srcIndentIndex]) {
         if (m_srcIndex == 0) {
             logError0("PythonImport::preprocess internal error");
@@ -98,18 +98,18 @@ bool PythonImport::preprocess(QString& line)
     } else {
         while (m_srcIndentIndex > 0 && leadingWhite < m_srcIndent[m_srcIndentIndex]) {
             m_srcIndentIndex--;
-            m_source.append(QLatin1String("}"));
+            m_source.append(QStringLiteral("}"));
             m_srcIndex++;
         }
     }
 
     if (m_braceWasOpened && m_srcIndentIndex == 0) {
-        m_source.append(QLatin1String("}"));
+        m_source.append(QStringLiteral("}"));
         m_srcIndex++;
     }
 
     if (line.endsWith(QLatin1Char(':'))) {
-        line.replace(QRegExp(QLatin1String(":$")), QLatin1String("{"));
+        line.replace(QRegExp(QStringLiteral(":$")), QStringLiteral("{"));
         m_braceWasOpened = true;
     } else {
         m_braceWasOpened = false;
@@ -131,7 +131,7 @@ void PythonImport::fillSource(const QString& word)
     if (word[0] == QLatin1Char('-') && len > 1) {
         const QChar& c1 = word[1];
         if (c1 == QLatin1Char('>')) {
-            m_source.append(QLatin1String("->"));
+            m_source.append(QStringLiteral("->"));
             i = 2;
         } else if (c1.isDigit()) {
             lexeme.append(word[0]).append(word[1]);
@@ -167,7 +167,7 @@ QString PythonImport::indentation(int level)
 {
     QString spaces;
     for (int i = 0; i < level; ++i) {
-        spaces += QLatin1String("  ");
+        spaces += QStringLiteral("  ");
     }
     return spaces;
 }
@@ -198,14 +198,14 @@ QString PythonImport::skipBody(Uml::PrimitiveTypes::Enum *foundReturn)
     QString body;
     if (foundReturn != nullptr)
         *foundReturn = Uml::PrimitiveTypes::Reserved;
-    if (m_source[m_srcIndex] != QLatin1String("{"))
-        skipStmt(QLatin1String("{"));
+    if (m_source[m_srcIndex] != QStringLiteral("{"))
+        skipStmt(QStringLiteral("{"));
     bool firstTokenAfterNewline = true;
     bool dictInitializer = false;
     int braceNesting = 0;
     QString token;
     while (!(token = advance()).isNull()) {
-        if (token == QLatin1String("}")) {
+        if (token == QStringLiteral("}")) {
             if (dictInitializer) {
                 body += QLatin1Char('}');
                 dictInitializer = false;
@@ -216,8 +216,8 @@ QString PythonImport::skipBody(Uml::PrimitiveTypes::Enum *foundReturn)
             }
             body += QLatin1Char('\n');
             firstTokenAfterNewline = true;
-        } else if (token == QLatin1String("{")) {
-            if (m_source[m_srcIndex - 1] == QLatin1String("=")) {
+        } else if (token == QStringLiteral("{")) {
+            if (m_source[m_srcIndex - 1] == QStringLiteral("=")) {
                 body += QLatin1Char('{');
                 dictInitializer = true;
             } else {
@@ -226,29 +226,29 @@ QString PythonImport::skipBody(Uml::PrimitiveTypes::Enum *foundReturn)
             }
             body += QLatin1Char('\n');
             firstTokenAfterNewline = true;
-        } else if (token == QLatin1String(";")) {
+        } else if (token == QStringLiteral(";")) {
             body += QLatin1Char('\n');
             firstTokenAfterNewline = true;
         } else {
             if (firstTokenAfterNewline) {
                 body += indentation(braceNesting);
                 firstTokenAfterNewline = false;
-                if (foundReturn != nullptr && token == QLatin1String("return") &&
+                if (foundReturn != nullptr && token == QStringLiteral("return") &&
                         (*foundReturn == Uml::PrimitiveTypes::Reserved ||
                          *foundReturn == Uml::PrimitiveTypes::String)) {
                     QString next = lookAhead();
-                    if (next == QLatin1String("False") || next == QLatin1String("True")) {
+                    if (next == QStringLiteral("False") || next == QStringLiteral("True")) {
                         *foundReturn = Uml::PrimitiveTypes::Boolean;
                     } else if (next.contains(QRegExp("^-?\\d+$"))) {
                         *foundReturn = Uml::PrimitiveTypes::Integer;
                     } else if (next.contains(QRegExp("^-?\\d+\\."))) {
                         *foundReturn = Uml::PrimitiveTypes::Real;
-                    } else if (next != QLatin1String("None")) {
+                    } else if (next != QStringLiteral("None")) {
                         *foundReturn = Uml::PrimitiveTypes::String;
                     }
                 }
-            } else if (body.contains(QRegExp(QLatin1String("\\w$"))) &&
-                       token.contains(QRegExp(QLatin1String("^\\w")))) {
+            } else if (body.contains(QRegExp(QStringLiteral("\\w$"))) &&
+                       token.contains(QRegExp(QStringLiteral("^\\w")))) {
                 body += QLatin1Char(' ');
             }
             body += token;
@@ -267,44 +267,44 @@ QString PythonImport::skipBody(Uml::PrimitiveTypes::Enum *foundReturn)
 bool PythonImport::parseInitializer(const QString &_keyword, QString &type, QString &value)
 {
     QString keyword = _keyword;
-    if (_keyword == QLatin1String("-"))
+    if (_keyword == QStringLiteral("-"))
         keyword.append(advance());
 
-    if (keyword == QLatin1String("[")) {
-        type = QLatin1String("list");
+    if (keyword == QStringLiteral("[")) {
+        type = QStringLiteral("list");
         int index = m_srcIndex;
         skipToClosing(QLatin1Char('['));
         for (int i = index; i <= m_srcIndex; i++)
             value += m_source[i];
-    } else if (keyword == QLatin1String("{")) {
-        type = QLatin1String("dict");
+    } else if (keyword == QStringLiteral("{")) {
+        type = QStringLiteral("dict");
         int index = m_srcIndex;
         skipToClosing(QLatin1Char('{'));
         for (int i = index; i <= m_srcIndex; i++)
             value += m_source[i];
-    } else if (keyword == QLatin1String("(")) {
-        type = QLatin1String("tuple");
+    } else if (keyword == QStringLiteral("(")) {
+        type = QStringLiteral("tuple");
         int index = m_srcIndex;
         skipToClosing(QLatin1Char('('));
         for (int i = index; i <= m_srcIndex; i++)
             value += m_source[i];
-    } else if (keyword.startsWith(QLatin1String("\""))) {
-        type = QLatin1String("str");
+    } else if (keyword.startsWith(QStringLiteral("\""))) {
+        type = QStringLiteral("str");
         value = keyword;
-    } else if (keyword == QLatin1String("True") || keyword == QLatin1String("False")) {
-        type = QLatin1String("bool");
+    } else if (keyword == QStringLiteral("True") || keyword == QStringLiteral("False")) {
+        type = QStringLiteral("bool");
         value = keyword;
-    } else if (keyword.contains(QRegExp(QLatin1String("-?\\d+\\.\\d*")))) {
-        type = QLatin1String("float");
+    } else if (keyword.contains(QRegExp(QStringLiteral("-?\\d+\\.\\d*")))) {
+        type = QStringLiteral("float");
         value = keyword;
-    } else if (keyword.contains(QRegExp(QLatin1String("-?\\d+")))) {
-        type = QLatin1String("int");
+    } else if (keyword.contains(QRegExp(QStringLiteral("-?\\d+")))) {
+        type = QStringLiteral("int");
         value = keyword;
-    } else if (keyword.toLower() == QLatin1String("none")) {
-        type = QLatin1String("object");
+    } else if (keyword.toLower() == QStringLiteral("none")) {
+        type = QStringLiteral("object");
         value = keyword;
     } else if (!keyword.isEmpty()) {
-        if (lookAhead() == QLatin1String("(")) {
+        if (lookAhead() == QStringLiteral("(")) {
             advance();
             type = keyword;
             int index = m_srcIndex;
@@ -312,10 +312,10 @@ bool PythonImport::parseInitializer(const QString &_keyword, QString &type, QStr
             for (int i = index; i <= m_srcIndex; i++)
                 value += m_source[i];
         } else {
-            type = QLatin1String("object");
+            type = QStringLiteral("object");
         }
     } else {
-        type = QLatin1String("object");
+        type = QStringLiteral("object");
     }
     return true;
 }
@@ -331,22 +331,22 @@ bool PythonImport::parseAssignmentStmt(const QString &keyword)
     QString variableName = keyword;
 
     bool isStatic = true;
-    if (variableName.startsWith(QLatin1String("self."))) {
+    if (variableName.startsWith(QStringLiteral("self."))) {
         variableName.remove(0,5);
         isStatic = false;
     }
     Uml::Visibility::Enum visibility = Uml::Visibility::Public;
-    if (variableName.startsWith(QLatin1String("__"))) {
+    if (variableName.startsWith(QStringLiteral("__"))) {
         visibility = Uml::Visibility::Private;
         variableName.remove(0, 2);
-    } else if (variableName.startsWith(QLatin1String("_"))) {
+    } else if (variableName.startsWith(QStringLiteral("_"))) {
         visibility = Uml::Visibility::Protected;
         variableName.remove(0, 1);
     }
 
     QString type;
     QString initialValue;
-    if (advance() == QLatin1String("=")) {
+    if (advance() == QStringLiteral("=")) {
 
         if (!parseInitializer(advance(), type, initialValue))
             return false;
@@ -368,12 +368,12 @@ bool PythonImport::parseAssignmentStmt(const QString &keyword)
 bool PythonImport::parseMethodParameters(UMLOperation *op)
 {
     bool firstParam = true;
-    while (m_srcIndex < m_source.count() && advance() != QLatin1String(")")) {
+    while (m_srcIndex < m_source.count() && advance() != QStringLiteral(")")) {
         const QString& parName = m_source[m_srcIndex];
         if (firstParam) {
             firstParam = false;
-            if (parName.compare(QLatin1String("self"), Qt::CaseInsensitive) == 0) {
-                if (lookAhead() == QLatin1String(","))
+            if (parName.compare(QStringLiteral("self"), Qt::CaseInsensitive) == 0) {
+                if (lookAhead() == QStringLiteral(","))
                     advance();
                 continue;
             }
@@ -381,10 +381,10 @@ bool PythonImport::parseMethodParameters(UMLOperation *op)
         }
         QString type, value;
         QString next = lookAhead();
-        if (next == QLatin1String(":")) {
+        if (next == QStringLiteral(":")) {
             advance();
             type = advance();
-            if (lookAhead() == QLatin1String("[")) {
+            if (lookAhead() == QStringLiteral("[")) {
                  int index = ++m_srcIndex;
                  skipToClosing(QLatin1Char('['));
                  for (int i = index; i <= m_srcIndex; i++) {
@@ -393,7 +393,7 @@ bool PythonImport::parseMethodParameters(UMLOperation *op)
              }
              next = lookAhead();
         }
-        if (next == QLatin1String("=")) {
+        if (next == QStringLiteral("=")) {
             advance();
             QString iniType;
             parseInitializer(advance(), iniType, value);
@@ -403,7 +403,7 @@ bool PythonImport::parseMethodParameters(UMLOperation *op)
         UMLAttribute *attr = Import_Utils::addMethodParameter(op, type, parName);
         if (!value.isEmpty())
             attr->setInitialValue(value);
-        if (lookAhead() == QLatin1String(","))
+        if (lookAhead() == QStringLiteral(","))
             advance();
     }
     return true;
@@ -417,34 +417,34 @@ bool PythonImport::parseStmt()
 {
     const int srcLength = m_source.count();
     QString keyword = m_source[m_srcIndex];
-    if (keyword == QLatin1String("class")) {
+    if (keyword == QStringLiteral("class")) {
         const QString& name = advance();
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, name,
                                                       currentScope(), m_comment);
         pushScope(m_klass = ns->asUMLClassifier());
         m_comment.clear();
-        if (advance() == QLatin1String("(")) {
-            while (m_srcIndex < srcLength - 1 && advance() != QLatin1String(")")) {
+        if (advance() == QStringLiteral("(")) {
+            while (m_srcIndex < srcLength - 1 && advance() != QStringLiteral(")")) {
                 const QString& baseName = m_source[m_srcIndex];
                 Import_Utils::createGeneralization(m_klass, baseName);
-                if (advance() != QLatin1String(","))
+                if (advance() != QStringLiteral(","))
                     break;
             }
         }
-        if (m_source[m_srcIndex] != QLatin1String("{")) {
-            skipStmt(QLatin1String("{"));
+        if (m_source[m_srcIndex] != QStringLiteral("{")) {
+            skipStmt(QStringLiteral("{"));
         }
-        log(QLatin1String("class ") + name);
+        log(QStringLiteral("class ") + name);
         return true;
     }
-    if (keyword == QLatin1String("@")) {
+    if (keyword == QStringLiteral("@")) {
         const QString& annotation = m_source[++m_srcIndex];
         logDebug1("PythonImport::parseStmt annotation: %1", annotation);
-        if (annotation == QLatin1String("staticmethod"))
+        if (annotation == QStringLiteral("staticmethod"))
             m_isStatic = true;
         return true;
     }
-    if (keyword == QLatin1String("def")) {
+    if (keyword == QStringLiteral("def")) {
         if (m_klass == 0) {
             // skip functions outside of a class
             skipBody();
@@ -457,19 +457,19 @@ bool PythonImport::parseStmt()
         }
 
         QString name = advance();
-        bool isConstructor = name == QLatin1String("__init__");
+        bool isConstructor = name == QStringLiteral("__init__");
         Uml::Visibility::Enum visibility = Uml::Visibility::Public;
         if (!isConstructor) {
-            if (name.startsWith(QLatin1String("__"))) {
+            if (name.startsWith(QStringLiteral("__"))) {
                 name = name.mid(2);
                 visibility = Uml::Visibility::Private;
-            } else if (name.startsWith(QLatin1String("_"))) {
+            } else if (name.startsWith(QStringLiteral("_"))) {
                 name = name.mid(1);
                 visibility = Uml::Visibility::Protected;
             }
         }
         UMLOperation *op = Import_Utils::makeOperation(m_klass, name);
-        if (advance() != QLatin1String("(")) {
+        if (advance() != QStringLiteral("(")) {
             logError1("PythonImport::parseStmt def %1: expecting \" (\"",  name);
             skipBody();
             return true;
@@ -482,9 +482,9 @@ bool PythonImport::parseStmt()
         // m_srcIndex is now at ")"
         int srcIndex = ++m_srcIndex;
         QString returnTypeName;
-        if (current() == QLatin1String("->")) {  // type hint
+        if (current() == QStringLiteral("->")) {  // type hint
             returnTypeName = advance();
-            if (returnTypeName == QLatin1String("None"))
+            if (returnTypeName == QStringLiteral("None"))
                 returnTypeName.clear();
             ++m_srcIndex;
         }
@@ -493,16 +493,16 @@ bool PythonImport::parseStmt()
         if (returnTypeName.isEmpty() && foundReturn != Uml::PrimitiveTypes::Reserved) {
             switch (foundReturn) {
             case Uml::PrimitiveTypes::Boolean :
-                returnTypeName = QLatin1String("bool");
+                returnTypeName = QStringLiteral("bool");
                 break;
             case Uml::PrimitiveTypes::Integer :
-                returnTypeName = QLatin1String("int");
+                returnTypeName = QStringLiteral("int");
                 break;
             case Uml::PrimitiveTypes::Real :
-                returnTypeName = QLatin1String("float");
+                returnTypeName = QStringLiteral("float");
                 break;
             case Uml::PrimitiveTypes::String :
-                returnTypeName = QLatin1String("str");
+                returnTypeName = QStringLiteral("str");
                 break;
             default:
                 break;
@@ -526,33 +526,33 @@ bool PythonImport::parseStmt()
             advance();
             keyword = advance();
             while (m_srcIndex < indexSave) {
-                if (lookAhead() == QLatin1String("=")) {
+                if (lookAhead() == QStringLiteral("=")) {
                     parseAssignmentStmt(keyword);
                     // skip ; inserted by lexer
-                    if (lookAhead() == QLatin1String(";")) {
+                    if (lookAhead() == QStringLiteral(";")) {
                         advance();
                         keyword = advance();
                     }
                 } else {
-                    skipStmt(QLatin1String(";"));
+                    skipStmt(QStringLiteral(";"));
                     keyword = advance();
                 }
             }
             m_srcIndex = indexSave;
         }
-        log(QLatin1String("def ") + name);
+        log(QStringLiteral("def ") + name);
 
         return true;
     }
 
     // parse class variables
-    if (m_klass && lookAhead() == QLatin1String("=")) {
+    if (m_klass && lookAhead() == QStringLiteral("=")) {
         bool result = parseAssignmentStmt(keyword);
-        log(QLatin1String("class attribute ") + keyword);
+        log(QStringLiteral("class attribute ") + keyword);
         return result;
     }
 
-    if (keyword == QLatin1String("}")) {
+    if (keyword == QStringLiteral("}")) {
         if (scopeIndex()) {
             m_klass = popScope()->asUMLClassifier();
         }

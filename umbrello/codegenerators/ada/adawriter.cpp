@@ -28,7 +28,7 @@
 #include <QRegExp>
 #include <QTextStream>
 
-const QString AdaWriter::defaultPackageSuffix = QLatin1String("_Holder");
+const QString AdaWriter::defaultPackageSuffix = QStringLiteral("_Holder");
 
 /**
  * Basic Constructor
@@ -70,8 +70,8 @@ bool AdaWriter::isOOClass(const UMLClassifier *c)
         return false;
     }
     QString stype = c->stereotype();
-    if (stype == QLatin1String("CORBAConstant") || stype == QLatin1String("CORBATypedef") ||
-            stype == QLatin1String("CORBAStruct") || stype == QLatin1String("CORBAUnion"))
+    if (stype == QStringLiteral("CORBAConstant") || stype == QStringLiteral("CORBATypedef") ||
+            stype == QStringLiteral("CORBAStruct") || stype == QStringLiteral("CORBAUnion"))
         return false;
     // CORBAValue, CORBAInterface, and all empty/unknown stereotypes are
     // assumed to be object oriented classes.
@@ -93,10 +93,10 @@ QString AdaWriter::className(UMLClassifier *c, bool inOwnScope)
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical)) {
         if (! inOwnScope)
             retval = className + QLatin1Char('.');
-        retval.append(QLatin1String("Object"));
+        retval.append(QStringLiteral("Object"));
     } else {
         if (! inOwnScope)
-            retval = umlPkg->fullyQualifiedName(QLatin1String(".")) + QLatin1Char('.');
+            retval = umlPkg->fullyQualifiedName(QStringLiteral(".")) + QLatin1Char('.');
         retval.append(className);
     }
     return retval;
@@ -124,7 +124,7 @@ QString AdaWriter::packageName(UMLPackage *p)
         if (c == 0 || !isOOClass(c))
             retval.append(defaultPackageSuffix);
     } else {
-        retval = umlPkg->fullyQualifiedName(QLatin1String("."));
+        retval = umlPkg->fullyQualifiedName(QStringLiteral("."));
     }
     return retval;
 }
@@ -148,8 +148,8 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
     if (assocType != Uml::AssociationType::Aggregation && assocType != Uml::AssociationType::Composition)
         return;
     const QString multi = a->getMultiplicity(Uml::RoleType::B);
-    bool hasNonUnityMultiplicity = (!multi.isEmpty() && multi != QLatin1String("1"));
-    hasNonUnityMultiplicity &= !multi.contains(QRegExp(QLatin1String("^1 *\\.\\. *1$")));
+    bool hasNonUnityMultiplicity = (!multi.isEmpty() && multi != QStringLiteral("1"));
+    hasNonUnityMultiplicity &= !multi.contains(QRegExp(QStringLiteral("^1 *\\.\\. *1$")));
     roleName = cleanName(a->getRoleName(Uml::RoleType::B));
     if (roleName.isEmpty())
         roleName = cleanName(a->name());
@@ -157,17 +157,17 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
         QString artificialName = cleanName(assocEnd->name());
         if (hasNonUnityMultiplicity) {
             roleName = artificialName;
-            roleName.append(QLatin1String("_Vector"));
+            roleName.append(QStringLiteral("_Vector"));
         } else {
-            roleName = QLatin1String("M_");
+            roleName = QStringLiteral("M_");
             roleName.append(artificialName);
         }
     }
     typeName = className(assocEnd, (assocEnd == c));
     if (hasNonUnityMultiplicity)
-        typeName.append(QLatin1String("_Array_Ptr"));
+        typeName.append(QStringLiteral("_Array_Ptr"));
     else if (assocType == Uml::AssociationType::Aggregation)
-        typeName.append(QLatin1String("_Ptr"));
+        typeName.append(QStringLiteral("_Ptr"));
 }
 
 void AdaWriter::declareClass(UMLClassifier *c, QTextStream &ada)
@@ -220,7 +220,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     fileName.replace(QLatin1Char('.'), QLatin1Char('-'));
 
     //find an appropriate name for our file
-    fileName = overwritableName(c, fileName, QLatin1String(".ads"));
+    fileName = overwritableName(c, fileName, QStringLiteral(".ads"));
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -248,10 +248,10 @@ void AdaWriter::writeClass(UMLClassifier *c)
     if (isNewFile) {
         //try to find a heading file(license, comments, etc)
         QString str;
-        str = getHeadingFile(QLatin1String(".ads"));
+        str = getHeadingFile(QStringLiteral(".ads"));
         if (!str.isEmpty()) {
-            str.replace(QRegExp(QLatin1String("%filename%")), fileName);
-            str.replace(QRegExp(QLatin1String("%filepath%")), file->fileName());
+            str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
+            str.replace(QRegExp(QStringLiteral("%filepath%")), file->fileName());
             ada << str << m_endl;
         }
 
@@ -277,7 +277,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
             foreach (UMLTemplate* t, template_params) {
                 QString formalName = t->name();
                 QString typeName = t->getTypeName();
-                if (typeName == QLatin1String("class")) {
+                if (typeName == QStringLiteral("class")) {
                     ada << indent() << "type " << formalName << " is tagged private;"
                         << m_endl;
                 } else {
@@ -323,9 +323,9 @@ void AdaWriter::writeClass(UMLClassifier *c)
     }
     if (! isOOClass(c)) {
         QString stype = c->stereotype();
-        if (stype == QLatin1String("CORBAConstant")) {
+        if (stype == QStringLiteral("CORBAConstant")) {
             ada << indent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
-        } else if (stype == QLatin1String("CORBAStruct")) {
+        } else if (stype == QStringLiteral("CORBAStruct")) {
             if (isClass) {
                 UMLAttributeList atl = c->getAttributeList();
                 ada << indent() << "type " << classname << " is record" << m_endl;
@@ -342,9 +342,9 @@ void AdaWriter::writeClass(UMLClassifier *c)
                 m_indentLevel--;
                 ada << indent() << "end record;" << m_endl << m_endl;
             }
-        } else if (stype == QLatin1String("CORBAUnion")) {
+        } else if (stype == QStringLiteral("CORBAUnion")) {
             ada << indent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
-        } else if (stype == QLatin1String("CORBATypedef")) {
+        } else if (stype == QStringLiteral("CORBATypedef")) {
             ada << indent() << "-- " << stype << " is Not Yet Implemented" << m_endl << m_endl;
         } else {
             ada << indent() << "-- " << stype << ": Unknown stereotype" << m_endl << m_endl;
@@ -368,7 +368,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     if (forceDoc() || !c->doc().isEmpty()) {
         ada << "--" << m_endl;
         ada << "-- class " << classname << m_endl;
-        ada << formatDoc(c->doc(), QLatin1String("-- "));
+        ada << formatDoc(c->doc(), QStringLiteral("-- "));
         ada << m_endl;
     }
 
@@ -442,7 +442,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 {
     UMLAttributeList atl = op->getParmList();
     QString rettype = op->getTypeName();
-    bool use_procedure = (rettype.isEmpty() || rettype == QLatin1String("void"));
+    bool use_procedure = (rettype.isEmpty() || rettype == QStringLiteral("void"));
 
     ada << indent();
     if (is_comment)
@@ -498,17 +498,17 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
 QStringList AdaWriter::defaultDatatypes() const
 {
     QStringList l;
-    l.append(QLatin1String("Boolean"));
-    l.append(QLatin1String("Character"));
-    l.append(QLatin1String("Positive"));
-    l.append(QLatin1String("Natural"));
-    l.append(QLatin1String("Integer"));
-    l.append(QLatin1String("Short_Integer"));
-    l.append(QLatin1String("Long_Integer"));
-    l.append(QLatin1String("Float"));
-    l.append(QLatin1String("Long_Float"));
-    l.append(QLatin1String("Duration"));
-    l.append(QLatin1String("String"));
+    l.append(QStringLiteral("Boolean"));
+    l.append(QStringLiteral("Character"));
+    l.append(QStringLiteral("Positive"));
+    l.append(QStringLiteral("Natural"));
+    l.append(QStringLiteral("Integer"));
+    l.append(QStringLiteral("Short_Integer"));
+    l.append(QStringLiteral("Long_Integer"));
+    l.append(QStringLiteral("Float"));
+    l.append(QStringLiteral("Long_Float"));
+    l.append(QStringLiteral("Duration"));
+    l.append(QStringLiteral("String"));
     return l;
 }
 
@@ -540,122 +540,122 @@ QStringList AdaWriter::reservedKeywords() const
     static QStringList keywords;
 
     if (keywords.isEmpty()) {
-        keywords.append(QLatin1String("abort"));
-        keywords.append(QLatin1String("abs"));
-        keywords.append(QLatin1String("abstract"));
-        keywords.append(QLatin1String("accept"));
-        keywords.append(QLatin1String("access"));
-        keywords.append(QLatin1String("aliased"));
-        keywords.append(QLatin1String("all"));
-        keywords.append(QLatin1String("and"));
-        keywords.append(QLatin1String("Argument_Error"));
-        keywords.append(QLatin1String("array"));
-        keywords.append(QLatin1String("Assert_Failure"));
-        keywords.append(QLatin1String("at"));
-        keywords.append(QLatin1String("begin"));
-        keywords.append(QLatin1String("body"));
-        keywords.append(QLatin1String("Boolean"));
-        keywords.append(QLatin1String("case"));
-        keywords.append(QLatin1String("Character"));
-        keywords.append(QLatin1String("constant"));
-        keywords.append(QLatin1String("Constraint_Error"));
-        keywords.append(QLatin1String("Conversion_Error"));
-        keywords.append(QLatin1String("Data_Error"));
-        keywords.append(QLatin1String("declare"));
-        keywords.append(QLatin1String("delay"));
-        keywords.append(QLatin1String("delta"));
-        keywords.append(QLatin1String("Dereference_Error"));
-        keywords.append(QLatin1String("Device_Error"));
-        keywords.append(QLatin1String("digits"));
-        keywords.append(QLatin1String("do"));
-        keywords.append(QLatin1String("Duration"));
-        keywords.append(QLatin1String("else"));
-        keywords.append(QLatin1String("elsif"));
-        keywords.append(QLatin1String("end"));
-        keywords.append(QLatin1String("End_Error"));
-        keywords.append(QLatin1String("entry"));
-        keywords.append(QLatin1String("exception"));
-        keywords.append(QLatin1String("exit"));
-        keywords.append(QLatin1String("false"));
-        keywords.append(QLatin1String("Float"));
-        keywords.append(QLatin1String("for"));
-        keywords.append(QLatin1String("function"));
-        keywords.append(QLatin1String("generic"));
-        keywords.append(QLatin1String("goto"));
-        keywords.append(QLatin1String("if"));
-        keywords.append(QLatin1String("in"));
-        keywords.append(QLatin1String("Index_Error"));
-        keywords.append(QLatin1String("Integer"));
-        keywords.append(QLatin1String("interface"));
-        keywords.append(QLatin1String("is"));
-        keywords.append(QLatin1String("Layout_Error"));
-        keywords.append(QLatin1String("Length_Error"));
-        keywords.append(QLatin1String("limited"));
-        keywords.append(QLatin1String("Long_Float"));
-        keywords.append(QLatin1String("Long_Integer"));
-        keywords.append(QLatin1String("Long_Long_Float"));
-        keywords.append(QLatin1String("Long_Long_Integer"));
-        keywords.append(QLatin1String("loop"));
-        keywords.append(QLatin1String("mod"));
-        keywords.append(QLatin1String("Mode_Error"));
-        keywords.append(QLatin1String("Name_Error"));
-        keywords.append(QLatin1String("Natural"));
-        keywords.append(QLatin1String("new"));
-        keywords.append(QLatin1String("not"));
-        keywords.append(QLatin1String("null"));
-        keywords.append(QLatin1String("of"));
-        keywords.append(QLatin1String("or"));
-        keywords.append(QLatin1String("others"));
-        keywords.append(QLatin1String("out"));
-        keywords.append(QLatin1String("package"));
-        keywords.append(QLatin1String("Pattern_Error"));
-        keywords.append(QLatin1String("Picture_Error"));
-        keywords.append(QLatin1String("Pointer_Error"));
-        keywords.append(QLatin1String("Positive"));
-        keywords.append(QLatin1String("pragma"));
-        keywords.append(QLatin1String("private"));
-        keywords.append(QLatin1String("procedure"));
-        keywords.append(QLatin1String("Program_Error"));
-        keywords.append(QLatin1String("protected"));
-        keywords.append(QLatin1String("raise"));
-        keywords.append(QLatin1String("range"));
-        keywords.append(QLatin1String("record"));
-        keywords.append(QLatin1String("rem"));
-        keywords.append(QLatin1String("renames"));
-        keywords.append(QLatin1String("requeue"));
-        keywords.append(QLatin1String("return"));
-        keywords.append(QLatin1String("reverse"));
-        keywords.append(QLatin1String("select"));
-        keywords.append(QLatin1String("separate"));
-        keywords.append(QLatin1String("Short_Float"));
-        keywords.append(QLatin1String("Short_Integer"));
-        keywords.append(QLatin1String("Short_Short_Float"));
-        keywords.append(QLatin1String("Short_Short_Integer"));
-        keywords.append(QLatin1String("Status_Error"));
-        keywords.append(QLatin1String("Storage_Error"));
-        keywords.append(QLatin1String("String"));
-        keywords.append(QLatin1String("subtype"));
-        keywords.append(QLatin1String("Tag_Error"));
-        keywords.append(QLatin1String("tagged"));
-        keywords.append(QLatin1String("task"));
-        keywords.append(QLatin1String("Tasking_Error"));
-        keywords.append(QLatin1String("terminate"));
-        keywords.append(QLatin1String("Terminator_Error"));
-        keywords.append(QLatin1String("then"));
-        keywords.append(QLatin1String("Time_Error"));
-        keywords.append(QLatin1String("Translation_Error"));
-        keywords.append(QLatin1String("true"));
-        keywords.append(QLatin1String("type"));
-        keywords.append(QLatin1String("until"));
-        keywords.append(QLatin1String("Update_Error"));
-        keywords.append(QLatin1String("use"));
-        keywords.append(QLatin1String("Use_Error"));
-        keywords.append(QLatin1String("when"));
-        keywords.append(QLatin1String("while"));
-        keywords.append(QLatin1String("Wide_Character"));
-        keywords.append(QLatin1String("Wide_String"));
-        keywords.append(QLatin1String("with"));
-        keywords.append(QLatin1String("xor"));
+        keywords.append(QStringLiteral("abort"));
+        keywords.append(QStringLiteral("abs"));
+        keywords.append(QStringLiteral("abstract"));
+        keywords.append(QStringLiteral("accept"));
+        keywords.append(QStringLiteral("access"));
+        keywords.append(QStringLiteral("aliased"));
+        keywords.append(QStringLiteral("all"));
+        keywords.append(QStringLiteral("and"));
+        keywords.append(QStringLiteral("Argument_Error"));
+        keywords.append(QStringLiteral("array"));
+        keywords.append(QStringLiteral("Assert_Failure"));
+        keywords.append(QStringLiteral("at"));
+        keywords.append(QStringLiteral("begin"));
+        keywords.append(QStringLiteral("body"));
+        keywords.append(QStringLiteral("Boolean"));
+        keywords.append(QStringLiteral("case"));
+        keywords.append(QStringLiteral("Character"));
+        keywords.append(QStringLiteral("constant"));
+        keywords.append(QStringLiteral("Constraint_Error"));
+        keywords.append(QStringLiteral("Conversion_Error"));
+        keywords.append(QStringLiteral("Data_Error"));
+        keywords.append(QStringLiteral("declare"));
+        keywords.append(QStringLiteral("delay"));
+        keywords.append(QStringLiteral("delta"));
+        keywords.append(QStringLiteral("Dereference_Error"));
+        keywords.append(QStringLiteral("Device_Error"));
+        keywords.append(QStringLiteral("digits"));
+        keywords.append(QStringLiteral("do"));
+        keywords.append(QStringLiteral("Duration"));
+        keywords.append(QStringLiteral("else"));
+        keywords.append(QStringLiteral("elsif"));
+        keywords.append(QStringLiteral("end"));
+        keywords.append(QStringLiteral("End_Error"));
+        keywords.append(QStringLiteral("entry"));
+        keywords.append(QStringLiteral("exception"));
+        keywords.append(QStringLiteral("exit"));
+        keywords.append(QStringLiteral("false"));
+        keywords.append(QStringLiteral("Float"));
+        keywords.append(QStringLiteral("for"));
+        keywords.append(QStringLiteral("function"));
+        keywords.append(QStringLiteral("generic"));
+        keywords.append(QStringLiteral("goto"));
+        keywords.append(QStringLiteral("if"));
+        keywords.append(QStringLiteral("in"));
+        keywords.append(QStringLiteral("Index_Error"));
+        keywords.append(QStringLiteral("Integer"));
+        keywords.append(QStringLiteral("interface"));
+        keywords.append(QStringLiteral("is"));
+        keywords.append(QStringLiteral("Layout_Error"));
+        keywords.append(QStringLiteral("Length_Error"));
+        keywords.append(QStringLiteral("limited"));
+        keywords.append(QStringLiteral("Long_Float"));
+        keywords.append(QStringLiteral("Long_Integer"));
+        keywords.append(QStringLiteral("Long_Long_Float"));
+        keywords.append(QStringLiteral("Long_Long_Integer"));
+        keywords.append(QStringLiteral("loop"));
+        keywords.append(QStringLiteral("mod"));
+        keywords.append(QStringLiteral("Mode_Error"));
+        keywords.append(QStringLiteral("Name_Error"));
+        keywords.append(QStringLiteral("Natural"));
+        keywords.append(QStringLiteral("new"));
+        keywords.append(QStringLiteral("not"));
+        keywords.append(QStringLiteral("null"));
+        keywords.append(QStringLiteral("of"));
+        keywords.append(QStringLiteral("or"));
+        keywords.append(QStringLiteral("others"));
+        keywords.append(QStringLiteral("out"));
+        keywords.append(QStringLiteral("package"));
+        keywords.append(QStringLiteral("Pattern_Error"));
+        keywords.append(QStringLiteral("Picture_Error"));
+        keywords.append(QStringLiteral("Pointer_Error"));
+        keywords.append(QStringLiteral("Positive"));
+        keywords.append(QStringLiteral("pragma"));
+        keywords.append(QStringLiteral("private"));
+        keywords.append(QStringLiteral("procedure"));
+        keywords.append(QStringLiteral("Program_Error"));
+        keywords.append(QStringLiteral("protected"));
+        keywords.append(QStringLiteral("raise"));
+        keywords.append(QStringLiteral("range"));
+        keywords.append(QStringLiteral("record"));
+        keywords.append(QStringLiteral("rem"));
+        keywords.append(QStringLiteral("renames"));
+        keywords.append(QStringLiteral("requeue"));
+        keywords.append(QStringLiteral("return"));
+        keywords.append(QStringLiteral("reverse"));
+        keywords.append(QStringLiteral("select"));
+        keywords.append(QStringLiteral("separate"));
+        keywords.append(QStringLiteral("Short_Float"));
+        keywords.append(QStringLiteral("Short_Integer"));
+        keywords.append(QStringLiteral("Short_Short_Float"));
+        keywords.append(QStringLiteral("Short_Short_Integer"));
+        keywords.append(QStringLiteral("Status_Error"));
+        keywords.append(QStringLiteral("Storage_Error"));
+        keywords.append(QStringLiteral("String"));
+        keywords.append(QStringLiteral("subtype"));
+        keywords.append(QStringLiteral("Tag_Error"));
+        keywords.append(QStringLiteral("tagged"));
+        keywords.append(QStringLiteral("task"));
+        keywords.append(QStringLiteral("Tasking_Error"));
+        keywords.append(QStringLiteral("terminate"));
+        keywords.append(QStringLiteral("Terminator_Error"));
+        keywords.append(QStringLiteral("then"));
+        keywords.append(QStringLiteral("Time_Error"));
+        keywords.append(QStringLiteral("Translation_Error"));
+        keywords.append(QStringLiteral("true"));
+        keywords.append(QStringLiteral("type"));
+        keywords.append(QStringLiteral("until"));
+        keywords.append(QStringLiteral("Update_Error"));
+        keywords.append(QStringLiteral("use"));
+        keywords.append(QStringLiteral("Use_Error"));
+        keywords.append(QStringLiteral("when"));
+        keywords.append(QStringLiteral("while"));
+        keywords.append(QStringLiteral("Wide_Character"));
+        keywords.append(QStringLiteral("Wide_String"));
+        keywords.append(QStringLiteral("with"));
+        keywords.append(QStringLiteral("xor"));
     }
 
     return keywords;

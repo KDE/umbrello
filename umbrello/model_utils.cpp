@@ -8,7 +8,7 @@
 
 // app includes
 #include "floatingtextwidget.h"
-#define DBG_SRC QLatin1String("Model_Utils")
+#define DBG_SRC QStringLiteral("Model_Utils")
 #include "debug_utils.h"
 #include "umlobject.h"
 #include "umlpackagelist.h"
@@ -81,19 +81,19 @@ QString normalize(QString type)
     QString str = type.simplified();
     int pos;
     // Remove space between word and non word
-    QRegExp word_nonword(QLatin1String("\\w \\W"));
+    QRegExp word_nonword(QStringLiteral("\\w \\W"));
     pos = 0;
     while ((pos = word_nonword.indexIn(str, pos)) != -1) {
         str.remove(++pos, 1);
     }
     // Remove space between non word and word
-    QRegExp nonword_word(QLatin1String("\\W \\w"));
+    QRegExp nonword_word(QStringLiteral("\\W \\w"));
     pos = 0;
     while ((pos = nonword_word.indexIn(str, pos)) != -1) {
         str.remove(++pos, 1);
     }
     // Remove space between non word and non word
-    QRegExp nonword_nonword(QLatin1String("\\W \\W"));
+    QRegExp nonword_nonword(QStringLiteral("\\W \\W"));
     pos = 0;
     while ((pos = nonword_nonword.indexIn(str, pos)) != -1) {
         str.remove(++pos, 1);
@@ -189,7 +189,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     QString name = normalize(inName);
-    const bool atGlobalScope = name.startsWith(QLatin1String("::"));
+    const bool atGlobalScope = name.startsWith(QStringLiteral("::"));
     if (atGlobalScope) {
         name = name.mid(2);
         currentObj = 0;
@@ -282,7 +282,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
                         }
                         // Code import may set <<class-or-package>> stereotype
                         if ((type == UMLObject::ot_Package || type == UMLObject::ot_Class)
-                            && obj->stereotype() == QLatin1String("class-or-package")) {
+                            && obj->stereotype() == QStringLiteral("class-or-package")) {
                             return obj;
                         }
                         continue;
@@ -318,7 +318,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
             if (type != UMLObject::ot_UMLObject && type != foundType) {
                 // Code import may set <<class-or-package>> stereotype
                 if ((type == UMLObject::ot_Package || type == UMLObject::ot_Class)
-                    && obj->stereotype() == QLatin1String("class-or-package")) {
+                    && obj->stereotype() == QStringLiteral("class-or-package")) {
                     return obj;
                 }
                 logDebug3("findUMLObject type mismatch for %1 (seeking type: %2, found type: %3)",
@@ -771,9 +771,9 @@ QString renameText(UMLObject::ObjectType type)
  */
 QString getXmiId(QDomElement element)
 {
-    QString idStr = element.attribute(QLatin1String("xmi:id"));
+    QString idStr = element.attribute(QStringLiteral("xmi:id"));
     if (idStr.isEmpty())
-        idStr = element.attribute(QLatin1String("xmi.id"));
+        idStr = element.attribute(QStringLiteral("xmi.id"));
     return idStr;
 }
 
@@ -782,13 +782,13 @@ QString getXmiId(QDomElement element)
  */
 QString loadCommentFromXMI(QDomElement elem)
 {
-    QString body = elem.attribute(QLatin1String("body"));
+    QString body = elem.attribute(QStringLiteral("body"));
     if (body.isEmpty()) {
         QDomNode innerNode = elem.firstChild();
         QDomElement innerElem = innerNode.toElement();
         while (!innerElem.isNull()) {
             QString innerTag = innerElem.tagName();
-            if (UMLDoc::tagEq(innerTag, QLatin1String("body"))) {
+            if (UMLDoc::tagEq(innerTag, QStringLiteral("body"))) {
                 body = innerElem.text();
                 break;
             }
@@ -807,20 +807,20 @@ QString loadCommentFromXMI(QDomElement elem)
  */
 bool isCommonXMI1Attribute(const QString &tag)
 {
-    bool retval = (UMLDoc::tagEq(tag, QLatin1String("name")) ||
-                   UMLDoc::tagEq(tag, QLatin1String("visibility")) ||
-                   UMLDoc::tagEq(tag, QLatin1String("isRoot")) ||
-                   UMLDoc::tagEq(tag, QLatin1String("isLeaf")) ||
-                   UMLDoc::tagEq(tag, QLatin1String("isAbstract")) ||
-                   UMLDoc::tagEq(tag, QLatin1String("isSpecification")) ||
-                   UMLDoc::tagEq(tag, QLatin1String("isActive")) ||
-                   UMLDoc::tagEq(tag, QLatin1String("namespace")) ||
-                   UMLDoc::tagEq(tag, QLatin1String("ownerScope")) ||
-                   UMLDoc::tagEq(tag, QLatin1String("ModelElement.stereotype")) ||
-                   UMLDoc::tagEq(tag, QLatin1String("GeneralizableElement.generalization")) ||
-                   UMLDoc::tagEq(tag, QLatin1String("specialization")) ||   //NYI
-                   UMLDoc::tagEq(tag, QLatin1String("clientDependency")) || //NYI
-                   UMLDoc::tagEq(tag, QLatin1String("supplierDependency"))  //NYI
+    bool retval = (UMLDoc::tagEq(tag, QStringLiteral("name")) ||
+                   UMLDoc::tagEq(tag, QStringLiteral("visibility")) ||
+                   UMLDoc::tagEq(tag, QStringLiteral("isRoot")) ||
+                   UMLDoc::tagEq(tag, QStringLiteral("isLeaf")) ||
+                   UMLDoc::tagEq(tag, QStringLiteral("isAbstract")) ||
+                   UMLDoc::tagEq(tag, QStringLiteral("isSpecification")) ||
+                   UMLDoc::tagEq(tag, QStringLiteral("isActive")) ||
+                   UMLDoc::tagEq(tag, QStringLiteral("namespace")) ||
+                   UMLDoc::tagEq(tag, QStringLiteral("ownerScope")) ||
+                   UMLDoc::tagEq(tag, QStringLiteral("ModelElement.stereotype")) ||
+                   UMLDoc::tagEq(tag, QStringLiteral("GeneralizableElement.generalization")) ||
+                   UMLDoc::tagEq(tag, QStringLiteral("specialization")) ||   //NYI
+                   UMLDoc::tagEq(tag, QStringLiteral("clientDependency")) || //NYI
+                   UMLDoc::tagEq(tag, QStringLiteral("supplierDependency"))  //NYI
                  );
     return retval;
 }
@@ -884,7 +884,7 @@ bool isClassifierListitem(UMLObject::ObjectType type)
 Uml::ModelType::Enum guessContainer(UMLObject *o)
 {
     UMLObject::ObjectType ot = o->baseType();
-    if (ot == UMLObject::ot_Package && o->stereotype() == QLatin1String("subsystem"))
+    if (ot == UMLObject::ot_Package && o->stereotype() == QStringLiteral("subsystem"))
         return Uml::ModelType::Component;
     Uml::ModelType::Enum mt = Uml::ModelType::N_MODELTYPES;
     switch (ot) {
@@ -963,7 +963,7 @@ Uml::ModelType::Enum guessContainer(UMLObject *o)
  */
 int stringToDirection(QString input, Uml::ParameterDirection::Enum & result)
 {
-    QRegExp dirx(QLatin1String("^(in|out|inout)"));
+    QRegExp dirx(QStringLiteral("^(in|out|inout)"));
     int pos = dirx.indexIn(input);
     if (pos == -1)
         return 0;
@@ -971,9 +971,9 @@ int stringToDirection(QString input, Uml::ParameterDirection::Enum & result)
     int dirLen = dirStr.length();
     if (input.length() > dirLen && !input[dirLen].isSpace())
         return 0;       // no match after all.
-    if (dirStr == QLatin1String("out"))
+    if (dirStr == QStringLiteral("out"))
         result = Uml::ParameterDirection::Out;
-    else if (dirStr == QLatin1String("inout"))
+    else if (dirStr == QStringLiteral("inout"))
         result = Uml::ParameterDirection::InOut;
     else
         result = Uml::ParameterDirection::In;
@@ -998,10 +998,10 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
     if (t.isEmpty())
         return PS_Empty;
 
-    QStringList nameAndType = t.split(QRegExp(QLatin1String("\\s*:\\s*")));
+    QStringList nameAndType = t.split(QRegExp(QStringLiteral("\\s*:\\s*")));
     if (nameAndType.count() == 2) {
         UMLObject *pType = 0;
-        if (nameAndType[1] != QLatin1String("class")) {
+        if (nameAndType[1] != QStringLiteral("class")) {
             pType = pDoc->findUMLObject(nameAndType[1], UMLObject::ot_UMLObject, owningScope);
             if (pType == 0)
                 return PS_Unknown_ArgType;
@@ -1046,18 +1046,18 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
     }
     QString name = a.left(colonPos).trimmed();
     if (vis) {
-        QRegExp mnemonicVis(QLatin1String("^([\\+\\#\\-\\~] *)"));
+        QRegExp mnemonicVis(QStringLiteral("^([\\+\\#\\-\\~] *)"));
         int pos = mnemonicVis.indexIn(name);
         if (pos == -1) {
             *vis = Uml::Visibility::Private;  // default value
         } else {
             QString caption = mnemonicVis.cap(1);
             QString strVis = caption.left(1);
-            if (strVis == QLatin1String("+"))
+            if (strVis == QStringLiteral("+"))
                 *vis = Uml::Visibility::Public;
-            else if (strVis == QLatin1String("#"))
+            else if (strVis == QStringLiteral("#"))
                 *vis = Uml::Visibility::Protected;
-            else if (strVis == QLatin1String("-"))
+            else if (strVis == QStringLiteral("-"))
                 *vis = Uml::Visibility::Private;
             else
                 *vis = Uml::Visibility::Implementation;
@@ -1065,13 +1065,13 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
         name.remove(mnemonicVis);
     }
     Uml::ParameterDirection::Enum pd = Uml::ParameterDirection::In;
-    if (name.startsWith(QLatin1String(QLatin1String("in ")))) {
+    if (name.startsWith(QStringLiteral(QStringLiteral("in ")))) {
         pd = Uml::ParameterDirection::In;
         name = name.mid(3);
-    } else if (name.startsWith(QLatin1String(QLatin1String("inout ")))) {
+    } else if (name.startsWith(QStringLiteral(QStringLiteral("inout ")))) {
         pd = Uml::ParameterDirection::InOut;
         name = name.mid(6);
-    } else if (name.startsWith(QLatin1String(QLatin1String("out ")))) {
+    } else if (name.startsWith(QStringLiteral(QStringLiteral("out ")))) {
         pd = Uml::ParameterDirection::Out;
         name = name.mid(4);
     }
@@ -1080,7 +1080,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
         nmTp = NameAndType(name, 0, pd);
         return PS_OK;
     }
-    QStringList typeAndInitialValue = a.split(QRegExp(QLatin1String("\\s*=\\s*")));
+    QStringList typeAndInitialValue = a.split(QRegExp(QStringLiteral("\\s*=\\s*")));
     const QString &type = typeAndInitialValue[0];
     UMLObject *pType = pDoc->findUMLObject(type, UMLObject::ot_UMLObject, owningScope);
     if (pType == 0) {
@@ -1112,29 +1112,29 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     m = m.simplified();
     if (m.isEmpty())
         return PS_Empty;
-    if (m.contains(QRegExp(QLatin1String("operator *()")))) {
+    if (m.contains(QRegExp(QStringLiteral("operator *()")))) {
         // C++ special case: two sets of parentheses
-        desc.m_name = QLatin1String("operator()");
-        m.remove(QRegExp(QLatin1String("operator *()")));
+        desc.m_name = QStringLiteral("operator()");
+        m.remove(QRegExp(QStringLiteral("operator *()")));
     } else {
         /**
          * The search pattern includes everything up to the opening parenthesis
          * because UML also permits non programming-language oriented designs
          * using narrative names, for example "check water temperature".
          */
-        QRegExp beginningUpToOpenParenth(QLatin1String("^([^\\(]+)"));
+        QRegExp beginningUpToOpenParenth(QStringLiteral("^([^\\(]+)"));
         int pos = beginningUpToOpenParenth.indexIn(m);
         if (pos == -1)
             return PS_Illegal_MethodName;
         desc.m_name = beginningUpToOpenParenth.cap(1);
     }
     desc.m_pReturnType = 0;
-    QRegExp pat = QRegExp(QLatin1String("\\) *:(.*)$"));
+    QRegExp pat = QRegExp(QStringLiteral("\\) *:(.*)$"));
     int pos = pat.indexIn(m);
     if (pos != -1) {  // return type is optional
         QString retType = pat.cap(1);
         retType = retType.trimmed();
-        if (retType != QLatin1String("void")) {
+        if (retType != QStringLiteral("void")) {
             UMLObject *pRetType = owningScope ? owningScope->findTemplate(retType) : 0;
             if (pRetType == 0) {
                 pRetType = pDoc->findUMLObject(retType, UMLObject::ot_UMLObject, owningScope);
@@ -1145,9 +1145,9 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
         }
     }
     // Remove possible empty parentheses ()
-    m.remove(QRegExp(QLatin1String("\\s*\\(\\s*\\)")));
+    m.remove(QRegExp(QStringLiteral("\\s*\\(\\s*\\)")));
     desc.m_args.clear();
-    pat = QRegExp(QLatin1String("\\((.*)\\)"));
+    pat = QRegExp(QStringLiteral("\\((.*)\\)"));
     pos = pat.indexIn(m);
     if (pos == -1)  // argument list is optional
         return PS_OK;
@@ -1155,7 +1155,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     arglist = arglist.trimmed();
     if (arglist.isEmpty())
         return PS_OK;
-    const QStringList args = arglist.split(QRegExp(QLatin1String("\\s*, \\s*")));
+    const QStringList args = arglist.split(QRegExp(QStringLiteral("\\s*, \\s*")));
     for (QStringList::ConstIterator lit = args.begin(); lit != args.end(); ++lit) {
         NameAndType nmTp;
         Parse_Status ps = parseAttribute(*lit, nmTp, owningScope);
@@ -1642,7 +1642,7 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
         break;
 
     case UMLObject::ot_Package:
-        if (o->stereotype() == QLatin1String("subsystem"))
+        if (o->stereotype() == QStringLiteral("subsystem"))
             type = UMLListViewItem::lvt_Subsystem;
         else
             type = UMLListViewItem::lvt_Package;
@@ -1938,7 +1938,7 @@ Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject
             icon = Icon_Utils::it_UseCase;
             break;
         case UMLListViewItem::lvt_Class:
-            if (o && o->stereotype() == QLatin1String("class-or-package"))
+            if (o && o->stereotype() == QStringLiteral("class-or-package"))
                 icon = Icon_Utils::it_ClassOrPackage;
             else
                 icon = Icon_Utils::it_Class;
@@ -2205,15 +2205,15 @@ QString updateDeleteActionToString(UMLForeignKeyConstraint::UpdateDeleteAction u
 {
     switch(uda) {
      case UMLForeignKeyConstraint::uda_NoAction:
-         return QLatin1String("NO ACTION");
+         return QStringLiteral("NO ACTION");
      case  UMLForeignKeyConstraint::uda_Restrict:
-         return QLatin1String("RESTRICT");
+         return QStringLiteral("RESTRICT");
      case UMLForeignKeyConstraint::uda_Cascade:
-         return QLatin1String("CASCADE");
+         return QStringLiteral("CASCADE");
      case  UMLForeignKeyConstraint::uda_SetNull:
-         return QLatin1String("SET NULL");
+         return QStringLiteral("SET NULL");
      case  UMLForeignKeyConstraint::uda_SetDefault:
-         return QLatin1String("SET DEFAULT");
+         return QStringLiteral("SET DEFAULT");
      default:
          return QString();
     }
@@ -2280,7 +2280,7 @@ bool typeIsAllowedInDiagram(UMLObject* o, UMLScene *scene)
                  ot != UMLObject::ot_Node)
             bAccept = false;
         else if (ot == UMLObject::ot_Package &&
-                 o->stereotype() != QLatin1String("subsystem"))
+                 o->stereotype() != QStringLiteral("subsystem"))
             bAccept = false;
         break;
     case Uml::DiagramType::Component:

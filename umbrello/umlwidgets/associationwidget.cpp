@@ -14,7 +14,7 @@
 #include "attribute.h"
 #include "classifier.h"
 #include "classifierwidget.h"
-#define DBG_SRC QLatin1String("AssociationWidget")
+#define DBG_SRC QStringLiteral("AssociationWidget")
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "docwindow.h"
@@ -1170,8 +1170,8 @@ void AssociationWidget::setChangeWidget(const QString &strChangeWidget, Uml::Rol
         m_role[role].changeabilityWidget->setParentItem(this);
         m_role[role].changeabilityWidget->setLink(this);
         m_scene->addFloatingTextWidget(m_role[role].changeabilityWidget);
-        m_role[role].changeabilityWidget->setPreText(QLatin1String("{")); // all types have this
-        m_role[role].changeabilityWidget->setPostText(QLatin1String("}")); // all types have this
+        m_role[role].changeabilityWidget->setPreText(QStringLiteral("{")); // all types have this
+        m_role[role].changeabilityWidget->setPostText(QStringLiteral("}")); // all types have this
     } else {
         if (m_role[role].changeabilityWidget->text().isEmpty()) {
             newLabel = true;
@@ -3451,39 +3451,39 @@ void AssociationWidget::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
  */
 void AssociationWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QLatin1String("assocwidget"));
+    writer.writeStartElement(QStringLiteral("assocwidget"));
 
     WidgetBase::saveToXMI(writer);
     LinkWidget::saveToXMI(writer);
-    writer.writeAttribute(QLatin1String("type"), QString::number(associationType()));
+    writer.writeAttribute(QStringLiteral("type"), QString::number(associationType()));
     if (!association()) {
-        writer.writeAttribute(QLatin1String("visibilityA"), QString::number(visibility(RoleType::A)));
-        writer.writeAttribute(QLatin1String("visibilityB"), QString::number(visibility(RoleType::B)));
-        writer.writeAttribute(QLatin1String("changeabilityA"), QString::number(changeability(RoleType::A)));
-        writer.writeAttribute(QLatin1String("changeabilityB"), QString::number(changeability(RoleType::B)));
+        writer.writeAttribute(QStringLiteral("visibilityA"), QString::number(visibility(RoleType::A)));
+        writer.writeAttribute(QStringLiteral("visibilityB"), QString::number(visibility(RoleType::B)));
+        writer.writeAttribute(QStringLiteral("changeabilityA"), QString::number(changeability(RoleType::A)));
+        writer.writeAttribute(QStringLiteral("changeabilityB"), QString::number(changeability(RoleType::B)));
         if (m_umlObject == 0) {
-            writer.writeAttribute(QLatin1String("roleAdoc"), roleDocumentation(RoleType::A));
-            writer.writeAttribute(QLatin1String("roleBdoc"), roleDocumentation(RoleType::B));
-            writer.writeAttribute(QLatin1String("documentation"), documentation());
+            writer.writeAttribute(QStringLiteral("roleAdoc"), roleDocumentation(RoleType::A));
+            writer.writeAttribute(QStringLiteral("roleBdoc"), roleDocumentation(RoleType::B));
+            writer.writeAttribute(QStringLiteral("documentation"), documentation());
         }
     }
-    writer.writeAttribute(QLatin1String("widgetaid"), Uml::ID::toString(widgetIDForRole(RoleType::A)));
-    writer.writeAttribute(QLatin1String("widgetbid"), Uml::ID::toString(widgetIDForRole(RoleType::B)));
+    writer.writeAttribute(QStringLiteral("widgetaid"), Uml::ID::toString(widgetIDForRole(RoleType::A)));
+    writer.writeAttribute(QStringLiteral("widgetbid"), Uml::ID::toString(widgetIDForRole(RoleType::B)));
 
     if (m_associationClass) {
         QString acid = Uml::ID::toString(m_associationClass->id());
-        writer.writeAttribute(QLatin1String("assocclass"), acid);
-        writer.writeAttribute(QLatin1String("aclsegindex"), QString::number(m_nLinePathSegmentIndex));
+        writer.writeAttribute(QStringLiteral("assocclass"), acid);
+        writer.writeAttribute(QStringLiteral("aclsegindex"), QString::number(m_nLinePathSegmentIndex));
     }
 
     // save attributes of m_role[A]
     const AssociationWidgetRole& roleA = m_role[RoleType::A];
-    writer.writeAttribute(QLatin1String("indexa"), QString::number(roleA.m_nIndex));
-    writer.writeAttribute(QLatin1String("totalcounta"), QString::number(roleA.m_nTotalCount));
+    writer.writeAttribute(QStringLiteral("indexa"), QString::number(roleA.m_nIndex));
+    writer.writeAttribute(QStringLiteral("totalcounta"), QString::number(roleA.m_nTotalCount));
     // save attributes of m_role[B]
     const AssociationWidgetRole& roleB = m_role[RoleType::B];
-    writer.writeAttribute(QLatin1String("indexb"), QString::number(roleB.m_nIndex));
-    writer.writeAttribute(QLatin1String("totalcountb"), QString::number(roleB.m_nTotalCount));
+    writer.writeAttribute(QStringLiteral("indexb"), QString::number(roleB.m_nIndex));
+    writer.writeAttribute(QStringLiteral("totalcountb"), QString::number(roleB.m_nTotalCount));
 
     // Save subelements of m_role[A] and m_role[B].
     m_role[RoleType::A].saveToXMI(writer);
@@ -3519,8 +3519,8 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     }
 
     // load child widgets first
-    QString widgetaid = qElement.attribute(QLatin1String("widgetaid"), QLatin1String("-1"));
-    QString widgetbid = qElement.attribute(QLatin1String("widgetbid"), QLatin1String("-1"));
+    QString widgetaid = qElement.attribute(QStringLiteral("widgetaid"), QStringLiteral("-1"));
+    QString widgetbid = qElement.attribute(QStringLiteral("widgetbid"), QStringLiteral("-1"));
     Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
     Uml::ID::Type bId = Uml::ID::fromString(widgetbid);
     UMLWidget *pWidgetA = Widget_Utils::findWidget(aId, widgets, messages);
@@ -3538,7 +3538,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     setWidgetForRole(pWidgetA, RoleType::A);
     setWidgetForRole(pWidgetB, RoleType::B);
 
-    QString type = qElement.attribute(QLatin1String("type"), QLatin1String("-1"));
+    QString type = qElement.attribute(QStringLiteral("type"), QStringLiteral("-1"));
     Uml::AssociationType::Enum aType = Uml::AssociationType::fromInt(type.toInt());
 
     bool oldStyleLoad = false;
@@ -3587,19 +3587,19 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             }
         }
 
-        setDocumentation(qElement.attribute(QLatin1String("documentation")));
-        setRoleDocumentation(qElement.attribute(QLatin1String("roleAdoc")), RoleType::A);
-        setRoleDocumentation(qElement.attribute(QLatin1String("roleBdoc")), RoleType::B);
+        setDocumentation(qElement.attribute(QStringLiteral("documentation")));
+        setRoleDocumentation(qElement.attribute(QStringLiteral("roleAdoc")), RoleType::A);
+        setRoleDocumentation(qElement.attribute(QStringLiteral("roleBdoc")), RoleType::B);
 
         // visibility defaults to Public if it cant set it here..
-        QString visibilityA = qElement.attribute(QLatin1String("visibilityA"), QLatin1String("0"));
+        QString visibilityA = qElement.attribute(QStringLiteral("visibilityA"), QStringLiteral("0"));
         int vis = visibilityA.toInt();
         if (vis >= 200) {  // bkwd compat.
             vis -= 200;
         }
         setVisibility((Uml::Visibility::Enum)vis, RoleType::A);
 
-        QString visibilityB = qElement.attribute(QLatin1String("visibilityB"), QLatin1String("0"));
+        QString visibilityB = qElement.attribute(QStringLiteral("visibilityB"), QStringLiteral("0"));
         vis = visibilityB.toInt();
         if (vis >= 200) { // bkwd compat.
             vis -= 200;
@@ -3607,11 +3607,11 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
         setVisibility((Uml::Visibility::Enum)vis, RoleType::B);
 
         // Changeability defaults to "Changeable" if it cant set it here..
-        QString changeabilityA = qElement.attribute(QLatin1String("changeabilityA"), QLatin1String("0"));
+        QString changeabilityA = qElement.attribute(QStringLiteral("changeabilityA"), QStringLiteral("0"));
         if (changeabilityA.toInt() > 0)
             setChangeability(Uml::Changeability::fromInt(changeabilityA.toInt()), RoleType::A);
 
-        QString changeabilityB = qElement.attribute(QLatin1String("changeabilityB"), QLatin1String("0"));
+        QString changeabilityB = qElement.attribute(QStringLiteral("changeabilityB"), QStringLiteral("0"));
         if (changeabilityB.toInt() > 0)
             setChangeability(Uml::Changeability::fromInt(changeabilityB.toInt()), RoleType::B);
 
@@ -3635,7 +3635,7 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
             } else {
                 UMLAssociation * myAssoc = myObj->asUMLAssociation();
                 setUMLAssociation(myAssoc);
-                if (type == QLatin1String("-1"))
+                if (type == QStringLiteral("-1"))
                     aType = myAssoc->getAssocType();
             }
         }
@@ -3643,16 +3643,16 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
 
     setAssociationType(aType);
 
-    m_role[RoleType::A].loadFromXMI(qElement, QLatin1String("a"));
-    m_role[RoleType::B].loadFromXMI(qElement, QLatin1String("b"));
+    m_role[RoleType::A].loadFromXMI(qElement, QStringLiteral("a"));
+    m_role[RoleType::B].loadFromXMI(qElement, QStringLiteral("b"));
 
-    QString assocclassid = qElement.attribute(QLatin1String("assocclass"));
+    QString assocclassid = qElement.attribute(QStringLiteral("assocclass"));
     if (! assocclassid.isEmpty()) {
         Uml::ID::Type acid = Uml::ID::fromString(assocclassid);
         UMLWidget *w = Widget_Utils::findWidget(acid, widgets);
         if (w) {
             ClassifierWidget* aclWidget = static_cast<ClassifierWidget*>(w);
-            QString aclSegIndex = qElement.attribute(QLatin1String("aclsegindex"), QLatin1String("0"));
+            QString aclSegIndex = qElement.attribute(QStringLiteral("aclsegindex"), QStringLiteral("0"));
             createAssocClassLine(aclWidget, aclSegIndex.toInt());
         } else {
             logError1("AssociationWidget::loadFromXMI cannot find assocclass %1", assocclassid);
@@ -3664,14 +3664,14 @@ bool AssociationWidget::loadFromXMI(QDomElement& qElement,
     QDomElement element = node.toElement();
     while (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == QLatin1String("linepath")) {
+        if (tag == QStringLiteral("linepath")) {
             if (!m_associationLine.loadFromXMI(element)) {
                 return false;
             }
-        } else if (tag == QLatin1String("floatingtext") ||
-                   tag == QLatin1String("UML:FloatingTextWidget")) {  // for bkwd compatibility
-            QString r = element.attribute(QLatin1String("role"), QLatin1String("-1"));
-            if (r == QLatin1String("-1"))
+        } else if (tag == QStringLiteral("floatingtext") ||
+                   tag == QStringLiteral("UML:FloatingTextWidget")) {  // for bkwd compatibility
+            QString r = element.attribute(QStringLiteral("role"), QStringLiteral("-1"));
+            if (r == QStringLiteral("-1"))
                 return false;
             Uml::TextRole::Enum role = Uml::TextRole::fromInt(r.toInt());
             FloatingTextWidget *ft = new FloatingTextWidget(m_scene, role, QString(), Uml::ID::Reserved);

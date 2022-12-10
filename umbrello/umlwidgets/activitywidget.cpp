@@ -64,7 +64,7 @@ ActivityWidget::ActivityType ActivityWidget::activityType() const
  */
 QString ActivityWidget::activityTypeStr() const
 {
-    return QLatin1String(ENUM_NAME(ActivityWidget, ActivityType, m_activityType));
+    return QStringLiteral(ENUM_NAME(ActivityWidget, ActivityType, m_activityType));
 }
 
 /**
@@ -283,8 +283,8 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
         {
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
-            QString preCond = Widget_Utils::adornStereo(QLatin1String("precondition")) + preconditionText();
-            QString postCond = Widget_Utils::adornStereo(QLatin1String("postcondition")) + postconditionText();
+            QString preCond = Widget_Utils::adornStereo(QStringLiteral("precondition")) + preconditionText();
+            QString postCond = Widget_Utils::adornStereo(QStringLiteral("postcondition")) + postconditionText();
             //int textStartY = (h / 2) - (fontHeight / 2);
             painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
             painter->setPen(textColor());
@@ -318,12 +318,12 @@ bool ActivityWidget::loadFromXMI(QDomElement& qElement)
 {
     if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    setName(qElement.attribute(QLatin1String("activityname")));
-    setDocumentation(qElement.attribute(QLatin1String("documentation")));
-    setPreconditionText(qElement.attribute(QLatin1String("precondition")));
-    setPostconditionText(qElement.attribute(QLatin1String("postcondition")));
+    setName(qElement.attribute(QStringLiteral("activityname")));
+    setDocumentation(qElement.attribute(QStringLiteral("documentation")));
+    setPreconditionText(qElement.attribute(QStringLiteral("precondition")));
+    setPostconditionText(qElement.attribute(QStringLiteral("postcondition")));
 
-    QString type = qElement.attribute(QLatin1String("activitytype"), QLatin1String("1"));
+    QString type = qElement.attribute(QStringLiteral("activitytype"), QStringLiteral("1"));
     setActivityType((ActivityType)type.toInt());
 
     return true;
@@ -334,13 +334,13 @@ bool ActivityWidget::loadFromXMI(QDomElement& qElement)
  */
 void ActivityWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QLatin1String("activitywidget"));
+    writer.writeStartElement(QStringLiteral("activitywidget"));
     UMLWidget::saveToXMI(writer);
-    writer.writeAttribute(QLatin1String("activityname"), name());
-    writer.writeAttribute(QLatin1String("documentation"), documentation());
-    writer.writeAttribute(QLatin1String("precondition"), preconditionText());
-    writer.writeAttribute(QLatin1String("postcondition"), postconditionText());
-    writer.writeAttribute(QLatin1String("activitytype"), QString::number(m_activityType));
+    writer.writeAttribute(QStringLiteral("activityname"), name());
+    writer.writeAttribute(QStringLiteral("documentation"), documentation());
+    writer.writeAttribute(QStringLiteral("precondition"), preconditionText());
+    writer.writeAttribute(QStringLiteral("postcondition"), postconditionText());
+    writer.writeAttribute(QStringLiteral("activitytype"), QString::number(m_activityType));
     writer.writeEndElement();
 }
 

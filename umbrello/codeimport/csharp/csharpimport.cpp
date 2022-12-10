@@ -28,7 +28,7 @@ CSharpImport::~CSharpImport()
  */
 QString CSharpImport::fileExtension()
 {
-    return QLatin1String(".cs");
+    return QStringLiteral(".cs");
 }
  
 /**
@@ -62,8 +62,8 @@ void CSharpImport::fillSource(const QString& word)
     };
     QString& last = m_source.last();
     for (size_t i = 0; i < sizeof(dotNet2CSharp) / sizeof(char*); i += 2) {
-        if (last == QLatin1String(dotNet2CSharp[i]))
-            last = QLatin1String(dotNet2CSharp[i + 1]);
+        if (last == QStringLiteral(dotNet2CSharp[i]))
+            last = QStringLiteral(dotNet2CSharp[i + 1]);
     }
 }
 

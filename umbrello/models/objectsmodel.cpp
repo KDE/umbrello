@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2016-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2016-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "objectsmodel.h"
@@ -132,30 +132,30 @@ QVariant ObjectsModel::data(const QModelIndex & index, int role) const
             if (f) {
                 UMLObjectList content = f->containedObjects();
                 if (content.contains(o))
-                    return QLatin1String("package +");
+                    return QStringLiteral("package +");
                 content = f->subordinates();
                 if (content.contains(o))
-                    return QLatin1String("list +");
+                    return QStringLiteral("list +");
             }
             else
-                return QLatin1String("package -");
+                return QStringLiteral("package -");
         } else if (o->umlParent()) {
             if (o->isUMLAttribute()) {
                 const UMLOperation *op = o->umlParent()->asUMLOperation();
                 if (op && op->getParmList().contains(o->asUMLAttribute()))
-                    return QLatin1String("parent +");
+                    return QStringLiteral("parent +");
                 else
-                    return QLatin1String("parent -");
+                    return QStringLiteral("parent -");
             } else if (o->isUMLOperation()) {
                 const UMLClassifier *c = o->umlParent()->asUMLClassifier();
                 if (c && c->getOpList().contains(o->asUMLOperation()))
-                    return QLatin1String("parent +");
+                    return QStringLiteral("parent +");
                 else
-                    return QLatin1String("parent -");
+                    return QStringLiteral("parent -");
             }
-            return QLatin1String("not implemented");
+            return QStringLiteral("not implemented");
         } else
-            return QLatin1String("no parent");
+            return QStringLiteral("no parent");
         return QVariant();
     case 6:
         return QString::number((quintptr)o, 16);

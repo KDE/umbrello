@@ -48,7 +48,7 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent()
         getComment()->setWriteOutText(true);
 
     // Set the body
-    QString staticValue = umlparent->isStatic() ? QLatin1String("static ") : QString();
+    QString staticValue = umlparent->isStatic() ? QStringLiteral("static ") : QString();
     QString typeName = hcppcf->getTypeName();
     QString fieldName = hcppcf->getFieldName();
 

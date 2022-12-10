@@ -7,7 +7,7 @@
 #include "cmdlineexportallviewsevent.h"
 
 // app includes
-#define DBG_SRC QLatin1String("CmdLineExportAllViewsEvent")
+#define DBG_SRC QStringLiteral("CmdLineExportAllViewsEvent")
 #include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"

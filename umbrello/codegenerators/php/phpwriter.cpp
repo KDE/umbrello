@@ -2995,7 +2995,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
 
     QString classname = cleanName(c->name());
     //find an appropriate name for our file
-    QString fileName = findFileName(c, QLatin1String(".php"));
+    QString fileName = findFileName(c, QStringLiteral(".php"));
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -3014,10 +3014,10 @@ void PhpWriter::writeClass(UMLClassifier *c)
 
     //try to find a heading file (license, comments, etc)
     QString str;
-    str = getHeadingFile(QLatin1String(".php"));
+    str = getHeadingFile(QStringLiteral(".php"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QLatin1String("%filename%")), fileName);
-        str.replace(QRegExp(QLatin1String("%filepath%")), filephp.fileName());
+        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegExp(QStringLiteral("%filepath%")), filephp.fileName());
         php << str << m_endl;
     }
 
@@ -3026,7 +3026,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
     findObjectsRelated(c, includes);
 
     foreach(UMLPackage* conc, includes) {
-        QString headerName = findFileName(conc, QLatin1String(".php"));
+        QString headerName = findFileName(conc, QStringLiteral(".php"));
         if (headerName.isEmpty()) {
             php << "include '" << headerName << "';" << m_endl;
         }
@@ -3037,7 +3037,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
     if (forceDoc() || !c->doc().isEmpty()) {
         php << m_endl << "/**" << m_endl;
         php << " * class " << classname << m_endl;
-        php << formatDoc(c->doc(), QLatin1String(" * "));
+        php << formatDoc(c->doc(), QStringLiteral(" * "));
         php << " */" << m_endl ;
     }
 
@@ -3054,7 +3054,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
             << "  Inherit from it instead and create only objects from the derived classes" << m_endl
             << "*****************************************************************************/" << m_endl << m_endl;
 
-    php << "class " << classname << (superclasses.count() > 0 ? QLatin1String(" extends ") : QString());
+    php << "class " << classname << (superclasses.count() > 0 ? QStringLiteral(" extends ") : QString());
     foreach (UMLClassifier *obj, superclasses) {
         php << cleanName(obj->name());
     }
@@ -3105,9 +3105,9 @@ void PhpWriter::writeClass(UMLClassifier *c)
         php << m_endl;
 
         php << m_indentation << "/**" << m_endl;
-        QString temp = QLatin1String("initAttributes sets all ") + classname + QLatin1String(" attributes to its default value.")
-                     + QLatin1String(" Make sure to call this method within your class constructor");
-        php << formatDoc(temp, m_indentation + QLatin1String(" * "));
+        QString temp = QStringLiteral("initAttributes sets all ") + classname + QStringLiteral(" attributes to its default value.")
+                     + QStringLiteral(" Make sure to call this method within your class constructor");
+        php << formatDoc(temp, m_indentation + QStringLiteral(" * "));
         php << m_indentation << " */" << m_endl;
         php << m_indentation << "function " << "initAttributes()" << m_endl;
         php << m_indentation << "{" << m_endl;
@@ -3202,7 +3202,7 @@ void PhpWriter::writeOperations(const QString& classname,
 
         if (writeDoc)  //write method documentation
         {
-            php <<m_indentation << "/**" << m_endl <<formatDoc(op->doc(), m_indentation + QLatin1String(" * "));
+            php <<m_indentation << "/**" << m_endl <<formatDoc(op->doc(), m_indentation + QStringLiteral(" * "));
             php << m_indentation << " *" << m_endl;
 
             foreach (UMLAttribute* at, atl)  //write parameter documentation
@@ -3238,8 +3238,8 @@ void PhpWriter::writeOperations(const QString& classname,
         foreach (UMLAttribute* at, atl) {
             php << " $" << cleanName(at->name())
                 << (!(at->getInitialValue().isEmpty()) ?
-                    QLatin1String(" = ") + at->getInitialValue() : QString())
-                << ((j < i-1) ? QLatin1String(", ") : QString());
+                    QStringLiteral(" = ") + at->getInitialValue() : QString())
+                << ((j < i-1) ? QStringLiteral(", ") : QString());
             j++;
         }
         php <<")" << m_endl;
@@ -3311,7 +3311,7 @@ void PhpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &php)
 {
     foreach (UMLAttribute *at, atList) {
         if (forceDoc() || !at->doc().isEmpty()) {
-            php << m_indentation << "/**" << m_endl << formatDoc(at->doc(), m_indentation + QLatin1String(" * "));
+            php << m_indentation << "/**" << m_endl << formatDoc(at->doc(), m_indentation + QStringLiteral(" * "));
             switch(at->visibility()) {
               case Uml::Visibility::Public:
                 php << m_indentation << " * @access public" << m_endl;
@@ -3353,7 +3353,7 @@ QStringList PhpWriter::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         for (int i = 0; reserved_words[i]; ++i)
-            keywords.append(QLatin1String(reserved_words[i]));
+            keywords.append(QStringLiteral(reserved_words[i]));
     }
 
     return keywords;

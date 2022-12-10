@@ -30,7 +30,7 @@
 CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
   : QWidget(parent)
 {
-    setObjectName(QLatin1String(name));
+    setObjectName(QStringLiteral(name));
     setupUi(this);
 
     Qt::ItemFlags flags = Qt::ItemIsUserCheckable | Qt::ItemIsEnabled;
@@ -101,19 +101,19 @@ void CPPCodeGenerationForm::browseClicked()
 {
     QString button = sender()->objectName();
 #if QT_VERSION >= 0x050000
-    QString file = QFileDialog::getOpenFileName(this, QLatin1String("Get Header File"), QString(), QLatin1String("*.h"));
+    QString file = QFileDialog::getOpenFileName(this, QStringLiteral("Get Header File"), QString(), QStringLiteral("*.h"));
 #else
-    QString file = KFileDialog::getOpenFileName(KUrl(), QLatin1String("*.h"), this, QLatin1String("Get Header File"));
+    QString file = KFileDialog::getOpenFileName(KUrl(), QStringLiteral("*.h"), this, QStringLiteral("Get Header File"));
 #endif
     if (file.isEmpty()) {
         return;
     }
 
-    if (button == QLatin1String("m_browseStringButton")) {
+    if (button == QStringLiteral("m_browseStringButton")) {
         // search for match in history list, if absent, then add it
         ui_stringIncludeFileHistoryCombo->setCurrentItem(file, true);
     }
-    else if (button == QLatin1String("m_browseListButton")) {
+    else if (button == QStringLiteral("m_browseListButton")) {
         // search for match in history list, if absent, then add it
         ui_listIncludeFileHistoryCombo->setCurrentItem(file, true);
     }
@@ -300,7 +300,7 @@ void CPPCodeGenerationForm::setAccessorMethodsStartWithUpperCase(bool bFlag)
  */
 void CPPCodeGenerationForm::setDocToolTag(const QString &value)
 {
-    m_optionDocToolTag->setCheckState(toCheckState(value == QLatin1String("\\")));
+    m_optionDocToolTag->setCheckState(toCheckState(value == QStringLiteral("\\")));
 }
 
 /**
@@ -408,7 +408,7 @@ bool CPPCodeGenerationForm::getAccessorMethodsStartWithUpperCase()
  */
 QString CPPCodeGenerationForm::getDocToolTag()
 {
-    return m_optionDocToolTag->checkState() == Qt::Checked ? QLatin1String("\\") : QLatin1String("@");
+    return m_optionDocToolTag->checkState() == Qt::Checked ? QStringLiteral("\\") : QStringLiteral("@");
 }
 
 /**

@@ -256,7 +256,7 @@ void ToolBarStateAssociation::setSecondWidget()
             else if (type == Uml::AssociationType::Aggregation) {
                 UMLClassifier *c = widgetA->umlObject()->asUMLClassifier();
                 UMLAttribute *attr = new UMLAttribute(c, c->uniqChildName(UMLObject::ot_Attribute));
-                attr->setTypeName(QString(QLatin1String("%1*")).arg(widgetB->umlObject()->name()));
+                attr->setTypeName(QString(QStringLiteral("%1*")).arg(widgetB->umlObject()->name()));
                 c->addAttribute(attr);
                 cleanAssociation();
                 emit finished();

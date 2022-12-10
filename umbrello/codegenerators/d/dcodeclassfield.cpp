@@ -53,7 +53,7 @@ QString DCodeClassField::getFieldName()
         if(fieldIsSingleValue()) {
             return roleName;
         } else {
-            return roleName + (roleName.right(1) == QLatin1String("s") ? QLatin1String("es") : QLatin1String("s"));
+            return roleName + (roleName.right(1) == QStringLiteral("s") ? QStringLiteral("es") : QStringLiteral("s"));
         }
     }
 }
@@ -77,7 +77,7 @@ QString DCodeClassField::getInitialValue()
             //       then we can just return 'empty' string (minor problem).
             return QString();
         } else {
-            return QLatin1String(" new ") + DCodeGenerator::getListFieldClassName() + QLatin1String("()");
+            return QStringLiteral(" new ") + DCodeGenerator::getListFieldClassName() + QStringLiteral("()");
         }
     }
 

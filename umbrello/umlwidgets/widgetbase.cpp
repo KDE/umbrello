@@ -142,10 +142,10 @@ void WidgetBase::setBaseType(const WidgetType& baseType)
 /**
  * @return The type used for rtti as string.
  */
-QLatin1String WidgetBase::baseTypeStr() const
+QStringLiteral WidgetBase::baseTypeStr() const
 {
     Q_ASSERT(m_baseType > wt_Min && m_baseType < wt_Max);
-    return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, m_baseType));
+    return QStringLiteral(ENUM_NAME(WidgetBase, WidgetType, m_baseType));
 }
 
 /**
@@ -154,7 +154,7 @@ QLatin1String WidgetBase::baseTypeStr() const
 QString WidgetBase::baseTypeStrWithoutPrefix() const
 {
     QString rawType = baseTypeStr();
-    return rawType.remove(QLatin1String("wt_"));
+    return rawType.remove(QStringLiteral("wt_"));
 }
 
 /*
@@ -628,34 +628,34 @@ bool WidgetBase::showPropertiesDialog()
  */
 void WidgetBase::saveToXMI(QXmlStreamWriter& writer)
  {
-    writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(id()));
+    writer.writeAttribute(QStringLiteral("xmi.id"), Uml::ID::toString(id()));
     // Unique identifier for widget (todo: id() should be unique, new attribute
     // should indicate the UMLObject's ID it belongs to)
-    writer.writeAttribute(QLatin1String("localid"), Uml::ID::toString(m_nLocalID));
+    writer.writeAttribute(QStringLiteral("localid"), Uml::ID::toString(m_nLocalID));
 
-    writer.writeAttribute(QLatin1String("textcolor"), m_usesDiagramTextColor ? QLatin1String("none")
+    writer.writeAttribute(QStringLiteral("textcolor"), m_usesDiagramTextColor ? QStringLiteral("none")
                                                                              : m_textColor.name());
     if (m_usesDiagramLineColor) {
-        writer.writeAttribute(QLatin1String("linecolor"), QLatin1String("none"));
+        writer.writeAttribute(QStringLiteral("linecolor"), QStringLiteral("none"));
     } else {
-        writer.writeAttribute(QLatin1String("linecolor"), m_lineColor.name());
+        writer.writeAttribute(QStringLiteral("linecolor"), m_lineColor.name());
     }
     if (m_usesDiagramLineWidth) {
-        writer.writeAttribute(QLatin1String("linewidth"), QLatin1String("none"));
+        writer.writeAttribute(QStringLiteral("linewidth"), QStringLiteral("none"));
     } else {
-        writer.writeAttribute(QLatin1String("linewidth"), QString::number(m_lineWidth));
+        writer.writeAttribute(QStringLiteral("linewidth"), QString::number(m_lineWidth));
     }
-    writer.writeAttribute(QLatin1String("usefillcolor"), QString::number(m_useFillColor));
+    writer.writeAttribute(QStringLiteral("usefillcolor"), QString::number(m_useFillColor));
     // for consistency the following attributes now use american spelling for "color"
-    writer.writeAttribute(QLatin1String("usesdiagramfillcolor"), QString::number(m_usesDiagramFillColor));
-    writer.writeAttribute(QLatin1String("usesdiagramusefillcolor"), QString::number(m_usesDiagramUseFillColor));
+    writer.writeAttribute(QStringLiteral("usesdiagramfillcolor"), QString::number(m_usesDiagramFillColor));
+    writer.writeAttribute(QStringLiteral("usesdiagramusefillcolor"), QString::number(m_usesDiagramUseFillColor));
     if (m_usesDiagramFillColor) {
-        writer.writeAttribute(QLatin1String("fillcolor"), QLatin1String("none"));
+        writer.writeAttribute(QStringLiteral("fillcolor"), QStringLiteral("none"));
     } else {
-        writer.writeAttribute(QLatin1String("fillcolor"), m_fillColor.name());
+        writer.writeAttribute(QStringLiteral("fillcolor"), m_fillColor.name());
     }
-    writer.writeAttribute(QLatin1String("font"), m_font.toString());
-    writer.writeAttribute(QLatin1String("autoresize"), QString::number(m_autoResize ? 1 : 0));
+    writer.writeAttribute(QStringLiteral("font"), m_font.toString());
+    writer.writeAttribute(QStringLiteral("autoresize"), QString::number(m_autoResize ? 1 : 0));
 }
 
 
@@ -735,64 +735,64 @@ void WidgetBase::removeAssoc(AssociationWidget *pAssoc)
  */
 bool WidgetBase::loadFromXMI(QDomElement& qElement)
 {
-    QString id = qElement.attribute(QLatin1String("xmi.id"), QLatin1String("-1"));
+    QString id = qElement.attribute(QStringLiteral("xmi.id"), QStringLiteral("-1"));
     m_nId = Uml::ID::fromString(id);
 
-    QString localid = qElement.attribute(QLatin1String("localid"), QLatin1String("0"));
-    if (localid != QLatin1String("0")) {
+    QString localid = qElement.attribute(QStringLiteral("localid"), QStringLiteral("0"));
+    if (localid != QStringLiteral("0")) {
         m_nLocalID = Uml::ID::fromString(localid);
     }
 
     // first load from "linecolour" and then overwrite with the "linecolor"
     // attribute if that one is present. The "linecolour" name was a "typo" in
     // earlier versions of Umbrello
-    QString lineColor = qElement.attribute(QLatin1String("linecolour"), QLatin1String("none"));
-    lineColor = qElement.attribute(QLatin1String("linecolor"), lineColor);
-    if (lineColor != QLatin1String("none")) {
+    QString lineColor = qElement.attribute(QStringLiteral("linecolour"), QStringLiteral("none"));
+    lineColor = qElement.attribute(QStringLiteral("linecolor"), lineColor);
+    if (lineColor != QStringLiteral("none")) {
         setLineColor(QColor(lineColor));
         m_usesDiagramLineColor = false;
     } else if (m_baseType != WidgetBase::wt_Box && m_scene != 0) {
         setLineColor(m_scene->lineColor());
         m_usesDiagramLineColor = true;
     }
-    QString lineWidth = qElement.attribute(QLatin1String("linewidth"), QLatin1String("none"));
-    if (lineWidth != QLatin1String("none")) {
+    QString lineWidth = qElement.attribute(QStringLiteral("linewidth"), QStringLiteral("none"));
+    if (lineWidth != QStringLiteral("none")) {
         setLineWidth(lineWidth.toInt());
         m_usesDiagramLineWidth = false;
     } else if (m_scene) {
         setLineWidth(m_scene->lineWidth());
         m_usesDiagramLineWidth = true;
     }
-    QString textColor = qElement.attribute(QLatin1String("textcolor"), QLatin1String("none"));
-    if (textColor != QLatin1String("none")) {
+    QString textColor = qElement.attribute(QStringLiteral("textcolor"), QStringLiteral("none"));
+    if (textColor != QStringLiteral("none")) {
         m_textColor = QColor(textColor);
         m_usesDiagramTextColor = false;
     } else if (m_scene) {
         m_textColor = m_scene->textColor();
         m_usesDiagramTextColor = true;
     }
-    QString usefillcolor = qElement.attribute(QLatin1String("usefillcolor"), QLatin1String("1"));
+    QString usefillcolor = qElement.attribute(QStringLiteral("usefillcolor"), QStringLiteral("1"));
     m_useFillColor = (bool)usefillcolor.toInt();
     /*
       For the next three *color attributes, there was a mixup of american and english spelling for "color".
       So first we need to keep backward compatibility and try to retrieve the *colour attribute.
       Next we overwrite this value if we find a *color, otherwise the former *colour is kept.
     */
-    QString fillColor = qElement.attribute(QLatin1String("fillcolour"), QLatin1String("none"));
-    fillColor = qElement.attribute(QLatin1String("fillcolor"), fillColor);
-    if (fillColor != QLatin1String("none")) {
+    QString fillColor = qElement.attribute(QStringLiteral("fillcolour"), QStringLiteral("none"));
+    fillColor = qElement.attribute(QStringLiteral("fillcolor"), fillColor);
+    if (fillColor != QStringLiteral("none")) {
         m_fillColor = QColor(fillColor);
     }
 
-    QString usesDiagramFillColor = qElement.attribute(QLatin1String("usesdiagramfillcolour"), QLatin1String("1"));
-    usesDiagramFillColor = qElement.attribute(QLatin1String("usesdiagramfillcolor"), usesDiagramFillColor);
+    QString usesDiagramFillColor = qElement.attribute(QStringLiteral("usesdiagramfillcolour"), QStringLiteral("1"));
+    usesDiagramFillColor = qElement.attribute(QStringLiteral("usesdiagramfillcolor"), usesDiagramFillColor);
     m_usesDiagramFillColor = (bool)usesDiagramFillColor.toInt();
 
-    QString usesDiagramUseFillColor = qElement.attribute(QLatin1String("usesdiagramusefillcolour"), QLatin1String("1"));
-    usesDiagramUseFillColor = qElement.attribute(QLatin1String("usesdiagramusefillcolor"), usesDiagramUseFillColor);
+    QString usesDiagramUseFillColor = qElement.attribute(QStringLiteral("usesdiagramusefillcolour"), QStringLiteral("1"));
+    usesDiagramUseFillColor = qElement.attribute(QStringLiteral("usesdiagramusefillcolor"), usesDiagramUseFillColor);
     m_usesDiagramUseFillColor = (bool)usesDiagramUseFillColor.toInt();
 
-    QString font = qElement.attribute(QLatin1String("font"));
+    QString font = qElement.attribute(QStringLiteral("font"));
     if (!font.isEmpty()) {
         QFont newFont;
         newFont.fromString(font);
@@ -801,7 +801,7 @@ bool WidgetBase::loadFromXMI(QDomElement& qElement)
         logWarn2("WidgetBase::loadFromXMI: Using default font %1 for widget with xmi.id %2", 
                  m_font.toString(), Uml::ID::toString(m_nId));
     }
-    QString autoResize = qElement.attribute(QLatin1String("autoresize"), QLatin1String("1"));
+    QString autoResize = qElement.attribute(QStringLiteral("autoresize"), QStringLiteral("1"));
     m_autoResize = (bool)autoResize.toInt();
 
     return true;
@@ -1234,7 +1234,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
  */
 QString WidgetBase::toString(WidgetType wt)
 {
-    return QLatin1String(ENUM_NAME(WidgetBase, WidgetType, wt));
+    return QStringLiteral(ENUM_NAME(WidgetBase, WidgetType, wt));
 }
 
 /**
@@ -1338,7 +1338,7 @@ QString WidgetBase::toI18nString(WidgetType wt)
         name = i18n("Instance");
         break;
     default:
-        name = QLatin1String("<unknown> &name:");
+        name = QStringLiteral("<unknown> &name:");
         logWarn1("WidgetBase::toI18nString: unknown widget type %1", wt);
         break;
     }

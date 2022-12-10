@@ -34,16 +34,16 @@ QString toString(Enum item)
 {
     switch (item) {
         case UseCase:
-            return QString(QLatin1String("UseCase"));
+            return QString(QStringLiteral("UseCase"));
         case Component:
-            return QString(QLatin1String("Component"));
+            return QString(QStringLiteral("Component"));
         case Deployment:
-            return QString(QLatin1String("Deployment"));
+            return QString(QStringLiteral("Deployment"));
         case EntityRelationship:
-            return QString(QLatin1String("EntityRelationship"));
+            return QString(QStringLiteral("EntityRelationship"));
         case Logical:
         default:
-            return QString(QLatin1String("Logical"));
+            return QString(QStringLiteral("Logical"));
     }
 }
 
@@ -54,13 +54,13 @@ QString toString(Enum item)
  */
 Enum fromString(const QString& item)
 {
-    if (item == QLatin1String("UseCase"))
+    if (item == QStringLiteral("UseCase"))
         return UseCase;
-    else if (item == QLatin1String("Component"))
+    else if (item == QStringLiteral("Component"))
         return Component;
-    else if (item == QLatin1String("Deployment"))
+    else if (item == QStringLiteral("Deployment"))
         return Deployment;
-    else if (item == QLatin1String("EntityRelationship"))
+    else if (item == QStringLiteral("EntityRelationship"))
         return EntityRelationship;
     else
         return Logical;
@@ -94,14 +94,14 @@ QString toString(Enum item, bool mnemonic)
 {
     switch (item) {
         case Protected:
-            return (mnemonic ? QLatin1String("#") : QLatin1String("protected"));
+            return (mnemonic ? QStringLiteral("#") : QStringLiteral("protected"));
         case Private:
-            return (mnemonic ? QLatin1String("-") : QLatin1String("private"));
+            return (mnemonic ? QStringLiteral("-") : QStringLiteral("private"));
         case Implementation:
-            return (mnemonic ? QLatin1String("~") : QLatin1String("implementation"));
+            return (mnemonic ? QStringLiteral("~") : QStringLiteral("implementation"));
         case Public:
         default:
-            return (mnemonic ? QLatin1String("+") : QLatin1String("public"));
+            return (mnemonic ? QStringLiteral("+") : QStringLiteral("public"));
     }
 }
 
@@ -114,17 +114,17 @@ QString toString(Enum item, bool mnemonic)
  */
 Enum fromString(const QString& item, bool checkUnknown)
 {
-    if (item == QLatin1String("public") || item == QLatin1String("+"))
+    if (item == QStringLiteral("public") || item == QStringLiteral("+"))
         return Public;
-    else if (item == QLatin1String("protected") || item == QLatin1String("#"))
+    else if (item == QStringLiteral("protected") || item == QStringLiteral("#"))
         return Protected;
-    else if (item == QLatin1String("private") || item == QLatin1String("-"))
+    else if (item == QStringLiteral("private") || item == QStringLiteral("-"))
         return Private;
-    else if (item == QLatin1String("~"))
+    else if (item == QStringLiteral("~"))
         return Implementation;
-    else if (item == QLatin1String("signals"))
+    else if (item == QStringLiteral("signals"))
         return Protected;
-    else if (item == QLatin1String("class"))
+    else if (item == QStringLiteral("class"))
         return Private;
     else if (checkUnknown)
         return Unknown;
@@ -157,31 +157,31 @@ QString toString(Enum item)
 {
     switch (item) {
         case Undefined:
-            return QLatin1String("Undefined");
+            return QStringLiteral("Undefined");
         case Class:
-            return QLatin1String("Class");
+            return QStringLiteral("Class");
         case Object:
-            return QLatin1String("Object");
+            return QStringLiteral("Object");
         case UseCase:
-            return QLatin1String("UseCase");
+            return QStringLiteral("UseCase");
         case Sequence:
-            return QLatin1String("Sequence");
+            return QStringLiteral("Sequence");
         case Collaboration:
-            return QLatin1String("Collaboration");
+            return QStringLiteral("Collaboration");
         case State:
-            return QLatin1String("State");
+            return QStringLiteral("State");
         case Activity:
-            return QLatin1String("Activity");
+            return QStringLiteral("Activity");
         case Component:
-            return QLatin1String("Component");
+            return QStringLiteral("Component");
         case Deployment:
-            return QLatin1String("Deployment");
+            return QStringLiteral("Deployment");
         case EntityRelationship:
-            return QLatin1String("EntityRelationship");
+            return QStringLiteral("EntityRelationship");
         case N_DIAGRAMTYPES:   // must remain last
-            return QLatin1String("N_DIAGRAMTYPES");
+            return QStringLiteral("N_DIAGRAMTYPES");
         default:
-            return QLatin1String("? DiagramType ?");
+            return QStringLiteral("? DiagramType ?");
     }
 }
 
@@ -223,25 +223,25 @@ QString toStringI18n(Enum item)
  */
 Enum fromString(const QString& item)
 {
-    if (item == QLatin1String("Undefined"))
+    if (item == QStringLiteral("Undefined"))
         return Undefined;
-    else if (item == QLatin1String("Class"))
+    else if (item == QStringLiteral("Class"))
         return Class;
-    else if (item == QLatin1String("UseCase"))
+    else if (item == QStringLiteral("UseCase"))
         return UseCase;
-    else if (item == QLatin1String("Sequence"))
+    else if (item == QStringLiteral("Sequence"))
         return Sequence;
-    else if (item == QLatin1String("Collaboration"))
+    else if (item == QStringLiteral("Collaboration"))
         return Collaboration;
-    else if (item == QLatin1String("State"))
+    else if (item == QStringLiteral("State"))
         return State;
-    else if (item == QLatin1String("Activity"))
+    else if (item == QStringLiteral("Activity"))
         return Activity;
-    else if (item == QLatin1String("Component"))
+    else if (item == QStringLiteral("Component"))
         return Component;
-    else if (item == QLatin1String("Deployment"))
+    else if (item == QStringLiteral("Deployment"))
         return Deployment;
-    else if (item == QLatin1String("EntityRelationship"))
+    else if (item == QStringLiteral("EntityRelationship"))
         return EntityRelationship;
     else
         return Undefined;
@@ -272,51 +272,51 @@ QString toString(Enum item)
 {
     switch (item) {
         case Generalization:
-            return QLatin1String("Generalization");
+            return QStringLiteral("Generalization");
         case Aggregation:
-            return QLatin1String("Aggregation");
+            return QStringLiteral("Aggregation");
         case Dependency:
-            return QLatin1String("Dependency");
+            return QStringLiteral("Dependency");
         case Association:
-            return QLatin1String("Association");
+            return QStringLiteral("Association");
         case Association_Self:
-            return QLatin1String("Association_Self");
+            return QStringLiteral("Association_Self");
         case Coll_Mesg_Async:
-            return QLatin1String("Coll_Mesg_Async");
+            return QStringLiteral("Coll_Mesg_Async");
         case Coll_Mesg_Sync:
-            return QLatin1String("Coll_Mesg_Sync");
+            return QStringLiteral("Coll_Mesg_Sync");
         case Seq_Message:
-            return QLatin1String("Seq_Message");
+            return QStringLiteral("Seq_Message");
         case Coll_Mesg_Self:
-            return QLatin1String("Coll_Mesg_Self");
+            return QStringLiteral("Coll_Mesg_Self");
         case Seq_Message_Self:
-            return QLatin1String("Seq_Message_Self");
+            return QStringLiteral("Seq_Message_Self");
         case Containment:
-            return QLatin1String("Containment");
+            return QStringLiteral("Containment");
         case Composition:
-          return QLatin1String("Composition");
+          return QStringLiteral("Composition");
         case Realization:
-          return QLatin1String("Realization");
+          return QStringLiteral("Realization");
         case UniAssociation:
-          return QLatin1String("UniAssociation");
+          return QStringLiteral("UniAssociation");
         case Anchor:
-          return QLatin1String("Anchor");
+          return QStringLiteral("Anchor");
         case State:
-          return QLatin1String("State");
+          return QStringLiteral("State");
         case Activity:
-          return QLatin1String("Activity");
+          return QStringLiteral("Activity");
         case Exception:
-          return QLatin1String("Exception");
+          return QStringLiteral("Exception");
         case Category2Parent:
-          return QLatin1String("Category2Parent");
+          return QStringLiteral("Category2Parent");
         case Child2Category:
-          return QLatin1String("Child2Category");
+          return QStringLiteral("Child2Category");
         case Relationship:
-          return QLatin1String("Relationship");
+          return QStringLiteral("Relationship");
         case Unknown:
-            return QLatin1String("Unknown");
+            return QStringLiteral("Unknown");
         default:
-            return QLatin1String("? AssociationType ?");
+            return QStringLiteral("? AssociationType ?");
     }
 }
 
@@ -383,47 +383,47 @@ QString toStringI18n(Enum item)
  */
 Enum fromString(const QString& item)
 {
-    if (item == QLatin1String("Generalization"))
+    if (item == QStringLiteral("Generalization"))
         return Generalization;
-    else if (item == QLatin1String("Aggregation"))
+    else if (item == QStringLiteral("Aggregation"))
         return Aggregation;
-    else if (item == QLatin1String("Dependency"))
+    else if (item == QStringLiteral("Dependency"))
         return Dependency;
-    else if (item == QLatin1String("Association"))
+    else if (item == QStringLiteral("Association"))
         return Association;
-    else if (item == QLatin1String("Association_Self"))
+    else if (item == QStringLiteral("Association_Self"))
         return Association_Self;
-    else if (item == QLatin1String("Coll_Mesg_Async"))
+    else if (item == QStringLiteral("Coll_Mesg_Async"))
         return Coll_Mesg_Async;
-    else if (item == QLatin1String("Coll_Mesg_Sync"))
+    else if (item == QStringLiteral("Coll_Mesg_Sync"))
         return Coll_Mesg_Sync;
-    else if (item == QLatin1String("Seq_Message"))
+    else if (item == QStringLiteral("Seq_Message"))
         return Seq_Message;
-    else if (item == QLatin1String("Coll_Mesg_Self"))
+    else if (item == QStringLiteral("Coll_Mesg_Self"))
         return Coll_Mesg_Self;
-    else if (item == QLatin1String("Seq_Message_Self"))
+    else if (item == QStringLiteral("Seq_Message_Self"))
         return Seq_Message_Self;
-    else if (item == QLatin1String("Containment"))
+    else if (item == QStringLiteral("Containment"))
         return Containment;
-    else if (item == QLatin1String("Composition"))
+    else if (item == QStringLiteral("Composition"))
         return Composition;
-    else if (item == QLatin1String("Realization"))
+    else if (item == QStringLiteral("Realization"))
         return Realization;
-    else if (item == QLatin1String("UniAssociation"))
+    else if (item == QStringLiteral("UniAssociation"))
         return UniAssociation;
-    else if (item == QLatin1String("Anchor"))
+    else if (item == QStringLiteral("Anchor"))
         return Anchor;
-    else if (item == QLatin1String("State"))
+    else if (item == QStringLiteral("State"))
         return State;
-    else if (item == QLatin1String("Activity"))
+    else if (item == QStringLiteral("Activity"))
         return Activity;
-    else if (item == QLatin1String("Exception"))
+    else if (item == QStringLiteral("Exception"))
         return Exception;
-    else if (item == QLatin1String("Category2Parent"))
+    else if (item == QStringLiteral("Category2Parent"))
         return Category2Parent;
-    else if (item == QLatin1String("Child2Category"))
+    else if (item == QStringLiteral("Child2Category"))
         return Child2Category;
-    else if (item == QLatin1String("Relationship"))
+    else if (item == QStringLiteral("Relationship"))
         return Relationship;
     else
         return Unknown;
@@ -474,13 +474,13 @@ QString toString(Enum item)
 {
     switch (item) {
         case Direct:
-            return QLatin1String("Direct");
+            return QStringLiteral("Direct");
         case Orthogonal:
-            return QLatin1String("Orthogonal");
+            return QStringLiteral("Orthogonal");
         case Polyline:
-            return QLatin1String("Polyline");
+            return QStringLiteral("Polyline");
         case Spline:
-            return QLatin1String("Spline");
+            return QStringLiteral("Spline");
         default:
             break;
     }
@@ -492,13 +492,13 @@ QString toString(Enum item)
  */
 Enum fromString(const QString& item)
 {
-    if (item == QLatin1String("Direct"))
+    if (item == QStringLiteral("Direct"))
         return Direct;
-    if (item == QLatin1String("Orthogonal"))
+    if (item == QStringLiteral("Orthogonal"))
         return Orthogonal;
-    if (item == QLatin1String("Polyline"))
+    if (item == QStringLiteral("Polyline"))
         return Polyline;
-    if (item == QLatin1String("Spline"))
+    if (item == QStringLiteral("Spline"))
         return Spline;
     return Direct;
 }
@@ -525,13 +525,13 @@ QString toString(Enum item)
 {
     switch (item) {
         case NoSig:
-            return QLatin1String("NoSig");
+            return QStringLiteral("NoSig");
         case ShowSig:
-            return QLatin1String("ShowSig");
+            return QStringLiteral("ShowSig");
         case SigNoVis:
-            return QLatin1String("SigNoVis");
+            return QStringLiteral("SigNoVis");
         case NoSigNoVis:
-            return QLatin1String("NoSigNoVis");
+            return QStringLiteral("NoSigNoVis");
         default:
             break;
     }
@@ -543,13 +543,13 @@ QString toString(Enum item)
  */
 Enum fromString(const QString& item)
 {
-    if (item == QLatin1String("NoSig"))
+    if (item == QStringLiteral("NoSig"))
         return NoSig;
-    if (item == QLatin1String("ShowSig"))
+    if (item == QStringLiteral("ShowSig"))
         return ShowSig;
-    if (item == QLatin1String("SigNoVis"))
+    if (item == QStringLiteral("SigNoVis"))
         return SigNoVis;
-    if (item == QLatin1String("NoSigNoVis"))
+    if (item == QStringLiteral("NoSigNoVis"))
         return NoSigNoVis;
     return NoSig;
 }
@@ -577,35 +577,35 @@ QString toString(Enum item)
 {
     switch (item) {
         case Floating:
-            return QLatin1String("Floating");
+            return QStringLiteral("Floating");
         case MultiA:
-            return QLatin1String("MultiA");
+            return QStringLiteral("MultiA");
         case MultiB:
-            return QLatin1String("MultiB");
+            return QStringLiteral("MultiB");
         case Name:
-            return QLatin1String("Name");
+            return QStringLiteral("Name");
         case Seq_Message:
-            return QLatin1String("Seq_Message");
+            return QStringLiteral("Seq_Message");
         case Seq_Message_Self:
-            return QLatin1String("Seq_Message_Self");
+            return QStringLiteral("Seq_Message_Self");
         case Coll_Message:
-            return QLatin1String("Coll_Message");
+            return QStringLiteral("Coll_Message");
         case Coll_Message_Self:
-            return QLatin1String("Coll_Message_Self");
+            return QStringLiteral("Coll_Message_Self");
         case State:
-            return QLatin1String("State");
+            return QStringLiteral("State");
         case RoleAName:
-            return QLatin1String("RoleAName");
+            return QStringLiteral("RoleAName");
         case RoleBName:
-            return QLatin1String("RoleBName");
+            return QStringLiteral("RoleBName");
         case ChangeA:
-            return QLatin1String("ChangeA");
+            return QStringLiteral("ChangeA");
         case ChangeB:
-            return QLatin1String("ChangeB");
+            return QStringLiteral("ChangeB");
         default:
             break;
     }
-    return QLatin1String("? TextRole ?");
+    return QStringLiteral("? TextRole ?");
 }
 
 /**
@@ -613,31 +613,31 @@ QString toString(Enum item)
  */
 Enum fromString(const QString& item)
 {
-    if (item == QLatin1String("Floating"))
+    if (item == QStringLiteral("Floating"))
         return Floating;
-    if (item == QLatin1String("MultiA"))
+    if (item == QStringLiteral("MultiA"))
         return MultiA;
-    if (item == QLatin1String("MultiB"))
+    if (item == QStringLiteral("MultiB"))
         return MultiB;
-    if (item == QLatin1String("Name"))
+    if (item == QStringLiteral("Name"))
         return Name;
-    if (item == QLatin1String("Seq_Message"))
+    if (item == QStringLiteral("Seq_Message"))
         return Seq_Message;
-    if (item == QLatin1String("Seq_Message_Self"))
+    if (item == QStringLiteral("Seq_Message_Self"))
         return Seq_Message_Self;
-    if (item == QLatin1String("Coll_Message"))
+    if (item == QStringLiteral("Coll_Message"))
         return Coll_Message;
-    if (item == QLatin1String("Coll_Message_Self"))
+    if (item == QStringLiteral("Coll_Message_Self"))
         return Coll_Message_Self;
-    if (item == QLatin1String("State"))
+    if (item == QStringLiteral("State"))
         return State;
-    if (item == QLatin1String("RoleAName"))
+    if (item == QStringLiteral("RoleAName"))
         return RoleAName;
-    if (item == QLatin1String("RoleBName"))
+    if (item == QStringLiteral("RoleBName"))
         return RoleBName;
-    if (item == QLatin1String("ChangeA"))
+    if (item == QStringLiteral("ChangeA"))
         return ChangeA;
-    if (item == QLatin1String("ChangeB"))
+    if (item == QStringLiteral("ChangeB"))
         return ChangeB;
     return Floating;
 }
@@ -666,15 +666,15 @@ QString toString(Enum item)
 {
     switch (item) {
         case Changeability::Frozen:
-            return QLatin1String("frozen");
+            return QStringLiteral("frozen");
         case Changeability::AddOnly:
-            return QLatin1String("addOnly");
+            return QStringLiteral("addOnly");
         case Changeability::Changeable:
-            return QLatin1String("changeable");
+            return QStringLiteral("changeable");
         default:
             break;
     }
-    return QLatin1String("? Changeability ?");
+    return QStringLiteral("? Changeability ?");
 }
 
 /**
@@ -682,11 +682,11 @@ QString toString(Enum item)
  */
 Enum fromString(const QString& item)
 {
-    if (item == QLatin1String("frozen"))
+    if (item == QStringLiteral("frozen"))
         return Frozen;
-    if (item == QLatin1String("addOnly"))
+    if (item == QStringLiteral("addOnly"))
         return AddOnly;
-    if (item == QLatin1String("changeable"))
+    if (item == QStringLiteral("changeable"))
         return Changeable;
     return Changeable;
 }
@@ -714,19 +714,19 @@ QString toString(Enum item)
 {
     switch (item) {
         case Synchronous:
-            return QLatin1String("Synchronous");
+            return QStringLiteral("Synchronous");
         case Asynchronous:
-            return QLatin1String("Asynchronous");
+            return QStringLiteral("Asynchronous");
         case Creation:
-            return QLatin1String("Creation");
+            return QStringLiteral("Creation");
         case Lost:
-            return QLatin1String("Lost");
+            return QStringLiteral("Lost");
         case Found:
-            return QLatin1String("Found");
+            return QStringLiteral("Found");
         default:
             break;
     }
-    return QLatin1String("? SequenceMessage ?");
+    return QStringLiteral("? SequenceMessage ?");
 }
 
 /**
@@ -734,15 +734,15 @@ QString toString(Enum item)
  */
 Enum fromString(const QString& item)
 {
-    if (item == QLatin1String("Synchronous"))
+    if (item == QStringLiteral("Synchronous"))
         return Synchronous;
-    if (item == QLatin1String("Asynchronous"))
+    if (item == QStringLiteral("Asynchronous"))
         return Asynchronous;
-    if (item == QLatin1String("Creation"))
+    if (item == QStringLiteral("Creation"))
         return Creation;
-    if (item == QLatin1String("Lost"))
+    if (item == QStringLiteral("Lost"))
         return Lost;
-    if (item == QLatin1String("Found"))
+    if (item == QStringLiteral("Found"))
         return Found;
     return Synchronous;
 }
@@ -770,13 +770,13 @@ QString toString(Enum item)
 {
     switch (item) {
         case A:
-            return QLatin1String("A");
+            return QStringLiteral("A");
         case B:
-            return QLatin1String("B");
+            return QStringLiteral("B");
         default:
             break;
     }
-    return QLatin1String("? RoleType ?");
+    return QStringLiteral("? RoleType ?");
 }
 
 /**
@@ -784,9 +784,9 @@ QString toString(Enum item)
  */
 Enum fromString(const QString& item)
 {
-    if (item == QLatin1String("A"))
+    if (item == QStringLiteral("A"))
         return A;
-    if (item == QLatin1String("B"))
+    if (item == QStringLiteral("B"))
         return B;
     return A;
 }
@@ -814,15 +814,15 @@ QString toString(Enum item)
 {
     switch (item) {
         case In:
-            return QLatin1String("In");
+            return QStringLiteral("In");
         case InOut:
-            return QLatin1String("InOut");
+            return QStringLiteral("InOut");
         case Out:
-            return QLatin1String("Out");
+            return QStringLiteral("Out");
         default:
             break;
     }
-    return QLatin1String("? ParameterDirection ?");
+    return QStringLiteral("? ParameterDirection ?");
 }
 
 /**
@@ -830,11 +830,11 @@ QString toString(Enum item)
  */
 Enum fromString(const QString& item)
 {
-    if (item == QLatin1String("In"))
+    if (item == QStringLiteral("In"))
         return In;
-    if (item == QLatin1String("InOut"))
+    if (item == QStringLiteral("InOut"))
         return InOut;
-    if (item == QLatin1String("Out"))
+    if (item == QStringLiteral("Out"))
         return Out;
     return In;
 }
@@ -866,14 +866,14 @@ const char *strings[] = {
 
 QString toString(Enum item)
 {
-    return QLatin1String(strings[item]);
+    return QStringLiteral(strings[item]);
 }
 
 QString toString(int item)
 {
     if (item < 0 || item >= n_types)
-        return QLatin1String(strings[Reserved]);
-    return QLatin1String(strings[item]);
+        return QStringLiteral(strings[Reserved]);
+    return QStringLiteral(strings[item]);
 }
 
 /**
@@ -913,49 +913,49 @@ QString toString(Enum item)
 {
     switch (item) {
         case ActionScript:
-            return QLatin1String("ActionScript");
+            return QStringLiteral("ActionScript");
         case Ada:
-            return QLatin1String("Ada");
+            return QStringLiteral("Ada");
         case Cpp:
-            return QLatin1String("C++");
+            return QStringLiteral("C++");
         case CSharp:
-            return QLatin1String("C#");
+            return QStringLiteral("C#");
         case D:
-            return QLatin1String("D");
+            return QStringLiteral("D");
         case IDL:
-            return QLatin1String("IDL");
+            return QStringLiteral("IDL");
         case Java:
-            return QLatin1String("Java");
+            return QStringLiteral("Java");
         case JavaScript:
-            return QLatin1String("JavaScript");
+            return QStringLiteral("JavaScript");
         case MySQL:
-            return QLatin1String("MySQL");
+            return QStringLiteral("MySQL");
         case Pascal:
-            return QLatin1String("Pascal");
+            return QStringLiteral("Pascal");
         case Perl:
-            return QLatin1String("Perl");
+            return QStringLiteral("Perl");
         case PHP:
-            return QLatin1String("PHP");
+            return QStringLiteral("PHP");
         case PHP5:
-            return QLatin1String("PHP5");
+            return QStringLiteral("PHP5");
         case PostgreSQL:
-            return QLatin1String("PostgreSQL");
+            return QStringLiteral("PostgreSQL");
         case Python:
-            return QLatin1String("Python");
+            return QStringLiteral("Python");
         case Ruby:
-            return QLatin1String("Ruby");
+            return QStringLiteral("Ruby");
         case SQL:
-            return QLatin1String("SQL");
+            return QStringLiteral("SQL");
         case Tcl:
-            return QLatin1String("Tcl");
+            return QStringLiteral("Tcl");
         case Vala:
-            return QLatin1String("Vala");
+            return QStringLiteral("Vala");
         case XMLSchema:
-            return QLatin1String("XMLSchema");
+            return QStringLiteral("XMLSchema");
         default:
             break;
     }
-    return QLatin1String("none");
+    return QStringLiteral("none");
 }
 
 /**
@@ -963,45 +963,45 @@ QString toString(Enum item)
  */
 Enum fromString(const QString& item)
 {
-    if (item == QLatin1String("ActionScript"))
+    if (item == QStringLiteral("ActionScript"))
         return ActionScript;
-    if (item == QLatin1String("Ada"))
+    if (item == QStringLiteral("Ada"))
         return Ada;
-    if (item == QLatin1String("C++") || item == QLatin1String("Cpp"))  // "Cpp" only for bkwd compatibility
+    if (item == QStringLiteral("C++") || item == QStringLiteral("Cpp"))  // "Cpp" only for bkwd compatibility
         return Cpp;
-    if (item == QLatin1String("C#"))
+    if (item == QStringLiteral("C#"))
         return CSharp;
-    if (item == QLatin1String("D"))
+    if (item == QStringLiteral("D"))
         return D;
-    if (item == QLatin1String("IDL"))
+    if (item == QStringLiteral("IDL"))
         return IDL;
-    if (item == QLatin1String("Java"))
+    if (item == QStringLiteral("Java"))
         return Java;
-    if (item == QLatin1String("JavaScript"))
+    if (item == QStringLiteral("JavaScript"))
         return JavaScript;
-    if (item == QLatin1String("MySQL"))
+    if (item == QStringLiteral("MySQL"))
         return MySQL;
-    if (item == QLatin1String("Pascal"))
+    if (item == QStringLiteral("Pascal"))
         return Pascal;
-    if (item == QLatin1String("Perl"))
+    if (item == QStringLiteral("Perl"))
         return Perl;
-    if (item == QLatin1String("PHP"))
+    if (item == QStringLiteral("PHP"))
         return PHP;
-    if (item == QLatin1String("PHP5"))
+    if (item == QStringLiteral("PHP5"))
         return PHP5;
-    if (item == QLatin1String("PostgreSQL"))
+    if (item == QStringLiteral("PostgreSQL"))
         return PostgreSQL;
-    if (item == QLatin1String("Python"))
+    if (item == QStringLiteral("Python"))
         return Python;
-    if (item == QLatin1String("Ruby"))
+    if (item == QStringLiteral("Ruby"))
         return Ruby;
-    if (item == QLatin1String("SQL"))
+    if (item == QStringLiteral("SQL"))
         return SQL;
-    if (item == QLatin1String("Tcl"))
+    if (item == QStringLiteral("Tcl"))
         return Tcl;
-    if (item == QLatin1String("Vala"))
+    if (item == QStringLiteral("Vala"))
         return Vala;
-    if (item == QLatin1String("XMLSchema"))
+    if (item == QStringLiteral("XMLSchema"))
         return XMLSchema;
     return Reserved;
 }
@@ -1026,68 +1026,68 @@ QStringList toExtensions(Enum item)
     QStringList result;
     switch (item) {  //:TODO: More languages?
         case ActionScript:
-            result << QLatin1String("*.as");
+            result << QStringLiteral("*.as");
             break;
         case Ada:
-            result << QLatin1String("*.ads")
-                   << QLatin1String("*.adb")
-                   << QLatin1String("*.ada");
+            result << QStringLiteral("*.ads")
+                   << QStringLiteral("*.adb")
+                   << QStringLiteral("*.ada");
             break;
         case Cpp:
-            result << QLatin1String("*.h")
-                   << QLatin1String("*.hpp")
-                   << QLatin1String("*.hh")
-                   << QLatin1String("*.hxx")
-                   << QLatin1String("*.H");
+            result << QStringLiteral("*.h")
+                   << QStringLiteral("*.hpp")
+                   << QStringLiteral("*.hh")
+                   << QStringLiteral("*.hxx")
+                   << QStringLiteral("*.H");
             break;
         case CSharp:
-            result << QLatin1String("*.cs");
+            result << QStringLiteral("*.cs");
             break;
         case D:
-            result << QLatin1String("*.d");
+            result << QStringLiteral("*.d");
             break;
         case IDL:
-            result << QLatin1String("*.idl");
+            result << QStringLiteral("*.idl");
             break;
         case Java:
-            result << QLatin1String("*.java");
+            result << QStringLiteral("*.java");
             break;
         case JavaScript:
-            result << QLatin1String("*.js");
+            result << QStringLiteral("*.js");
             break;
         case Pascal:
-            result << QLatin1String("*.pas");
+            result << QStringLiteral("*.pas");
             break;
         case Perl:
-            result << QLatin1String("*.pl");
+            result << QStringLiteral("*.pl");
             break;
         case PHP:
-            result << QLatin1String("*.php") << QLatin1String("*.inc");
+            result << QStringLiteral("*.php") << QStringLiteral("*.inc");
             break;
         case PHP5:
-            result << QLatin1String("*.php") << QLatin1String("*.php5") << QLatin1String("*.inc");
+            result << QStringLiteral("*.php") << QStringLiteral("*.php5") << QStringLiteral("*.inc");
             break;
         case Python:
-            result << QLatin1String("*.py") << QLatin1String("*.pyw");
+            result << QStringLiteral("*.py") << QStringLiteral("*.pyw");
             break;
         case Ruby:
-            result << QLatin1String("*.rb");
+            result << QStringLiteral("*.rb");
             break;
         case SQL:
         case MySQL:
         case PostgreSQL:
-            result << QLatin1String("*.sql");
+            result << QStringLiteral("*.sql");
             if (item == MySQL)
-                result << QLatin1String("*.frm");
+                result << QStringLiteral("*.frm");
             break;
         case Tcl:
-            result << QLatin1String("*.tcl");
+            result << QStringLiteral("*.tcl");
             break;
         case Vala:
-            result << QLatin1String("*.vala") << QLatin1String("*.vapi");
+            result << QStringLiteral("*.vala") << QStringLiteral("*.vapi");
             break;
         case XMLSchema:
-            result << QLatin1String("*.xsd");
+            result << QStringLiteral("*.xsd");
             break;
         default:
             break;
@@ -1105,39 +1105,39 @@ QString toExtensionsDescription(Enum item)
     QString result = QString::fromLatin1("Files");
     switch (item) {  //:TODO: More languages?
         case Uml::ProgrammingLanguage::Ada:
-            result = QLatin1String("Source files");
+            result = QStringLiteral("Source files");
             break;
         case Uml::ProgrammingLanguage::Cpp:
-            result = QLatin1String("Header files");
+            result = QStringLiteral("Header files");
             break;
         case Uml::ProgrammingLanguage::IDL:
-            result = QLatin1String("Source files");
+            result = QStringLiteral("Source files");
             break;
         case Uml::ProgrammingLanguage::Java:
-            result = QLatin1String("Source files");
+            result = QStringLiteral("Source files");
             break;
         case Uml::ProgrammingLanguage::Pascal:
-            result = QLatin1String("Source files");
+            result = QStringLiteral("Source files");
             break;
         case Uml::ProgrammingLanguage::Python:
-            result = QLatin1String("Source files");
+            result = QStringLiteral("Source files");
             break;
         case Uml::ProgrammingLanguage::CSharp:
-            result = QLatin1String("Source files");
+            result = QStringLiteral("Source files");
             break;
         case Uml::ProgrammingLanguage::PHP:
-            result = QLatin1String("Source files");
+            result = QStringLiteral("Source files");
             break;
         case Uml::ProgrammingLanguage::PHP5:
-            result = QLatin1String("Source files");
+            result = QStringLiteral("Source files");
             break;
         case Uml::ProgrammingLanguage::Vala:
-            result = QLatin1String("Source files");
+            result = QStringLiteral("Source files");
             break;
         default:
             break;
     }
-    return toString(item) + QLatin1String(" ") + result;
+    return toString(item) + QStringLiteral(" ") + result;
 }
 
 bool isCaseSensitive(Enum item)
@@ -1159,8 +1159,8 @@ QString scopeSeparator(Enum item)
         item == Uml::ProgrammingLanguage::JavaScript ||
         item == Uml::ProgrammingLanguage::Vala ||
         item == Uml::ProgrammingLanguage::Python)  // CHECK: more?
-        return QLatin1String(".");
-    return QLatin1String("::");
+        return QStringLiteral(".");
+    return QStringLiteral("::");
 }
 
 }  // end namespace ProgrammingLanguage
@@ -1176,29 +1176,29 @@ QString toString(Enum item)
 {
     switch (item) {
         case Error:
-            return QLatin1String("Error");
+            return QStringLiteral("Error");
         case West:
-            return QLatin1String("West");
+            return QStringLiteral("West");
         case North:
-            return QLatin1String("North");
+            return QStringLiteral("North");
         case East:
-            return QLatin1String("East");
+            return QStringLiteral("East");
         case South:
-            return QLatin1String("South");
+            return QStringLiteral("South");
         case NorthWest:
-            return QLatin1String("NorthWest");
+            return QStringLiteral("NorthWest");
         case NorthEast:
-            return QLatin1String("NorthEast");
+            return QStringLiteral("NorthEast");
         case SouthEast:
-            return QLatin1String("SouthEast");
+            return QStringLiteral("SouthEast");
         case SouthWest:
-            return QLatin1String("SouthWest");
+            return QStringLiteral("SouthWest");
         case Center:
-            return QLatin1String("Center");
+            return QStringLiteral("Center");
         default:
             break;
     }
-    return QLatin1String("? Region ?");
+    return QStringLiteral("? Region ?");
 }
 
 /**
@@ -1206,25 +1206,25 @@ QString toString(Enum item)
  */
 Enum fromString(const QString& item)
 {
-    if (item == QLatin1String("Error"))
+    if (item == QStringLiteral("Error"))
         return Error;
-    if (item == QLatin1String("West"))
+    if (item == QStringLiteral("West"))
         return West;
-    if (item == QLatin1String("North"))
+    if (item == QStringLiteral("North"))
         return North;
-    if (item == QLatin1String("East"))
+    if (item == QStringLiteral("East"))
         return East;
-    if (item == QLatin1String("South"))
+    if (item == QStringLiteral("South"))
         return South;
-    if (item == QLatin1String("NorthWest"))
+    if (item == QStringLiteral("NorthWest"))
         return NorthWest;
-    if (item == QLatin1String("NorthEast"))
+    if (item == QStringLiteral("NorthEast"))
         return NorthEast;
-    if (item == QLatin1String("SouthEast"))
+    if (item == QStringLiteral("SouthEast"))
         return SouthEast;
-    if (item == QLatin1String("SouthWest"))
+    if (item == QStringLiteral("SouthWest"))
         return SouthWest;
-    if (item == QLatin1String("Center"))
+    if (item == QStringLiteral("Center"))
         return Center;
     return Error;
 }
@@ -1252,17 +1252,17 @@ QString Corner::toString(Enum item)
 {
     switch (item) {
         case TopLeft:
-            return QLatin1String("TopLeft");
+            return QStringLiteral("TopLeft");
         case TopRight:
-            return QLatin1String("TopRight");
+            return QStringLiteral("TopRight");
         case BottomRight:
-            return QLatin1String("BottomRight");
+            return QStringLiteral("BottomRight");
         case BottomLeft:
-            return QLatin1String("BottomLeft");
+            return QStringLiteral("BottomLeft");
         default:
             break;
     }
-    return QLatin1String("? Corner ?");
+    return QStringLiteral("? Corner ?");
 }
 
 /**
@@ -1270,13 +1270,13 @@ QString Corner::toString(Enum item)
  */
 Corner::Enum Corner::fromString(const QString& item)
 {
-    if (item == QLatin1String("TopLeft"))
+    if (item == QStringLiteral("TopLeft"))
         return TopLeft;
-    if (item == QLatin1String("TopRight"))
+    if (item == QStringLiteral("TopRight"))
         return TopRight;
-    if (item == QLatin1String("BottomRight"))
+    if (item == QStringLiteral("BottomRight"))
         return BottomRight;
-    if (item == QLatin1String("BottomLeft"))
+    if (item == QStringLiteral("BottomLeft"))
         return BottomLeft;
     return TopLeft;
 }
@@ -1305,7 +1305,7 @@ QDebug operator<<(QDebug out, ID::Type &type)
 
 QString toString(const ID::Type &id)
 {
-    return QLatin1String(id.c_str());
+    return QStringLiteral(id.c_str());
 }
 
 ID::Type fromString(const QString &id)

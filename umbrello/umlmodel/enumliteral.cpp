@@ -82,7 +82,7 @@ QString UMLEnumLiteral::toString(Uml::SignatureType::Enum sig,
 
     s = name();
     if (m_Value.length() > 0)
-        s += QLatin1String(" = ") + m_Value;
+        s += QStringLiteral(" = ") + m_Value;
     return s;
 }
 
@@ -128,9 +128,9 @@ UMLObject* UMLEnumLiteral::clone() const
  */
 void UMLEnumLiteral::saveToXMI(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(writer, QLatin1String("EnumerationLiteral"), QLatin1String("ownedLiteral"));
+    UMLObject::save1(writer, QStringLiteral("EnumerationLiteral"), QStringLiteral("ownedLiteral"));
     if (! m_Value.isEmpty())
-        writer.writeAttribute(QLatin1String("value"), m_Value);
+        writer.writeAttribute(QStringLiteral("value"), m_Value);
     UMLObject::save1end(writer);
 }
 
@@ -139,7 +139,7 @@ void UMLEnumLiteral::saveToXMI(QXmlStreamWriter& writer)
  */
 bool UMLEnumLiteral::load1(QDomElement& element)
 {
-    m_Value = element.attribute(QLatin1String("value"));
+    m_Value = element.attribute(QStringLiteral("value"));
     return true;
 }
 

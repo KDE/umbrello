@@ -31,7 +31,7 @@ namespace Uml
             uIgnoreZeroPointer(child);
             QString xmi;
             QXmlStreamWriter kidStream(&xmi);
-            kidStream.writeStartElement(QLatin1String("child"));
+            kidStream.writeStartElement(QStringLiteral("child"));
             child->saveToXMI(kidStream);
             kidStream.writeEndElement();  // child
             QString error;
@@ -52,7 +52,7 @@ namespace Uml
         // save "widget" element
         QString xmi;
         QXmlStreamWriter stream(&xmi);
-        stream.writeStartElement(QLatin1String("widget"));
+        stream.writeStartElement(QStringLiteral("widget"));
         widget->saveToXMI(stream);
         stream.writeEndElement();  // widget
         QString error;
@@ -79,7 +79,7 @@ namespace Uml
         // save "widget" element
         QString xmi;
         QXmlStreamWriter stream(&xmi);
-        stream.writeStartElement(QLatin1String("widget"));
+        stream.writeStartElement(QStringLiteral("widget"));
         widget->saveToXMI(stream);
         stream.writeEndElement();  // widget
         QString error;

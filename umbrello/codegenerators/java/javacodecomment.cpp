@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "javacodecomment.h"
@@ -20,7 +20,7 @@ JavaCodeComment::~JavaCodeComment ()
 
 QString JavaCodeComment::getNewEditorLine (int amount)
 {
-    QString line = getIndentationString(amount) + QLatin1String("// ");
+    QString line = getIndentationString(amount) + QStringLiteral("// ");
     return line;
 }
 
@@ -33,7 +33,7 @@ QString JavaCodeComment::unformatText (const QString & text, const QString & ind
     QString mytext = TextBlock::unformatText(text, indent);
 
     // now leading slashes
-    mytext.remove(QRegExp(QLatin1String("^\\/\\/\\s*")));
+    mytext.remove(QRegExp(QStringLiteral("^\\/\\/\\s*")));
     return mytext;
 }
 
@@ -48,7 +48,7 @@ QString JavaCodeComment::toString () const
     if (getWriteOutText()) {
         QString indent = getIndentationString();
         QString endLine = getNewLineEndingChars();
-        output.append(formatMultiLineText (getText(), indent + QLatin1String("// "), endLine));
+        output.append(formatMultiLineText (getText(), indent + QStringLiteral("// "), endLine));
     }
 
     return output;

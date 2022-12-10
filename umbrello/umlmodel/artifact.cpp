@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "artifact.h"
@@ -48,8 +48,8 @@ UMLObject* UMLArtifact::clone() const
  */
 void UMLArtifact::saveToXMI(QXmlStreamWriter& writer) 
 {
-    UMLObject::save1(writer, QLatin1String("Artifact"));
-    writer.writeAttribute(QLatin1String("drawas"), QString::number(m_drawAsType));
+    UMLObject::save1(writer, QStringLiteral("Artifact"));
+    writer.writeAttribute(QStringLiteral("drawas"), QString::number(m_drawAsType));
     UMLObject::save1end(writer);
 }
 
@@ -61,7 +61,7 @@ void UMLArtifact::saveToXMI(QXmlStreamWriter& writer)
  */
 bool UMLArtifact::load1(QDomElement& element)
 {
-    QString drawAs = element.attribute(QLatin1String("drawas"), QLatin1String("0"));
+    QString drawAs = element.attribute(QStringLiteral("drawas"), QStringLiteral("0"));
     m_drawAsType = (Draw_Type)drawAs.toInt();
     return true;
 }

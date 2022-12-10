@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2007 Jari-Matti Mäkelä <jmjm@iki.fi>
-    SPDX-FileCopyrightText: 2008-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2008-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "dcodeoperation.h"
@@ -54,7 +54,7 @@ void DCodeOperation::updateMethodDeclaration()
     //FIXME: startText += o->getVisibility().toString() + " ";
 
     // (b) static
-    if (o->isStatic()) startText += QLatin1String("static ");
+    if (o->isStatic()) startText += QStringLiteral("static ");
 
     // (c) abstract
     //TODO
@@ -64,7 +64,7 @@ void DCodeOperation::updateMethodDeclaration()
 
     // (e) return type
     if (!o->isConstructorOperation()) {
-    //FIXME:     startText += DCodeGenerator::fixTypeName(o->getTypeName()) + QLatin1String(" ");
+    //FIXME:     startText += DCodeGenerator::fixTypeName(o->getTypeName()) + QStringLiteral(" ");
     }
 
     // (f) name
@@ -84,7 +84,7 @@ void DCodeOperation::updateMethodDeclaration()
         paramStr += rType + QLatin1Char(' ') + paramName;
         paramNum--;
 
-        if (paramNum > 0) paramStr += QLatin1String(", ");
+        if (paramNum > 0) paramStr += QStringLiteral(", ");
     }
 
     startText += paramStr;
@@ -96,8 +96,8 @@ void DCodeOperation::updateMethodDeclaration()
         startText += QLatin1Char(';');
         setEndMethodText(QString());
     } else {
-        startText += QLatin1String(" {");
-        setEndMethodText(QLatin1String("}"));
+        startText += QStringLiteral(" {");
+        setEndMethodText(QStringLiteral("}"));
     }
 
     setStartMethodText(startText);
@@ -109,13 +109,13 @@ void DCodeOperation::updateMethodDeclaration()
     {
         UMLAttributeList parameters = o->getParmList();
         foreach (UMLAttribute* currentAtt, parameters) {
-            comment += endLine + QLatin1String("@param ") + currentAtt->name() + QLatin1Char(' ');
+            comment += endLine + QStringLiteral("@param ") + currentAtt->name() + QLatin1Char(' ');
             comment += currentAtt->doc();
         }
         // add a returns statement too
         // TODO proper return type comments
         //if(!returnType.isEmpty())
-        //    comment += endLine + QLatin1String("@return ") + returnType + QLatin1Char(' ');
+        //    comment += endLine + QStringLiteral("@return ") + returnType + QLatin1Char(' ');
 
         getComment()->setText(comment);
     }

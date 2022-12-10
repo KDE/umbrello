@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2018-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2018-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef DONTASKAGAIN_H
@@ -40,7 +40,7 @@ protected:
 class DontAskAgainItem##name : public DontAskAgainItem \
 { \
 public: \
-    DontAskAgainItem##name() : DontAskAgainItem(QLatin1String(key)) {} \
+    DontAskAgainItem##name() : DontAskAgainItem(QStringLiteral(key)) {} \
     virtual QString text() const { return _text; } \
 }; \
 static DontAskAgainItem##name name;

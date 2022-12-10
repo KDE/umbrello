@@ -7,7 +7,7 @@
 
 #include "layoutgrid.h"
 
-#define DBG_SRC QLatin1String("LayoutGrid")
+#define DBG_SRC QStringLiteral("LayoutGrid")
 #include "debug_utils.h"
 #include "umlscene.h"
 #include "uml.h"

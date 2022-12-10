@@ -6,7 +6,7 @@
 #include "file_utils.h"
 
 // app includes
-#define DBG_SRC QLatin1String("File_Utils")
+#define DBG_SRC QStringLiteral("File_Utils")
 #include "debug_utils.h"
 #include "uml.h"  // Only needed for logDebug
 
@@ -25,11 +25,11 @@ namespace File_Utils {
 QString xmlCatalogFilePath()
 {
 #ifdef Q_OS_WIN
-    QString dataRoot = QCoreApplication::applicationDirPath() + QLatin1String("/../");
+    QString dataRoot = QCoreApplication::applicationDirPath() + QStringLiteral("/../");
 #else
-    QString dataRoot = QLatin1String("/");
+    QString dataRoot = QStringLiteral("/");
 #endif
-    QFileInfo fi(dataRoot + QLatin1String("etc/xml/catalog"));
+    QFileInfo fi(dataRoot + QStringLiteral("etc/xml/catalog"));
     logDebug1("File_Utils::xmlCatalogFilePath: %1", fi.canonicalFilePath());
     return fi.canonicalFilePath();
 }
