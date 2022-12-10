@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-05 00:49+0000\n"
-"PO-Revision-Date: 2022-11-13 00:11+0100\n"
+"PO-Revision-Date: 2022-12-08 00:19+0100\n"
 "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -4360,10 +4360,9 @@ msgid "set active language"
 msgstr "imposta il linguaggio attivo"
 
 #: main.cpp:221
-#, fuzzy, kde-format
-#| msgid "set active language"
+#, kde-format
 msgid "set language"
-msgstr "imposta il linguaggio attivo"
+msgstr "imposta il linguaggio"
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
