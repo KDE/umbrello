@@ -38,7 +38,7 @@ UMLFolder::UMLFolder(const QString & name, Uml::ID::Type id)
   : UMLPackage(name, id)
 {
     m_BaseType = UMLObject::ot_Folder;
-    UMLObject::setStereotypeCmd(QLatin1String("folder"));
+    UMLObject::setStereotypeCmd(QStringLiteral("folder"));
 }
 
 /**
@@ -270,7 +270,7 @@ QString UMLFolder::folderFile() const
 void UMLFolder::saveContents(QXmlStreamWriter& writer)
 {
     if (! Settings::optionState().generalState.uml2) {
-        writer.writeStartElement(QLatin1String("UML:Namespace.ownedElement"));
+        writer.writeStartElement(QStringLiteral("UML:Namespace.ownedElement"));
     }
     // Save contained objects if any.
     foreach (UMLObject *obj, m_objects) {
@@ -287,15 +287,15 @@ void UMLFolder::saveContents(QXmlStreamWriter& writer)
     // Save diagrams to `extension'.
     if (m_diagrams.count()) {
         if (Settings::optionState().generalState.uml2) {
-            writer.writeStartElement(QLatin1String("xmi:Extension"));
-            writer.writeAttribute(QLatin1String("extender"), QLatin1String("umbrello"));
+            writer.writeStartElement(QStringLiteral("xmi:Extension"));
+            writer.writeAttribute(QStringLiteral("extender"), QStringLiteral("umbrello"));
         } else {
-            writer.writeStartElement(QLatin1String("XMI.extension"));
-            writer.writeAttribute(QLatin1String("xmi.extender"), QLatin1String("umbrello"));
+            writer.writeStartElement(QStringLiteral("XMI.extension"));
+            writer.writeAttribute(QStringLiteral("xmi.extender"), QStringLiteral("umbrello"));
         }
-        writer.writeStartElement(QLatin1String("diagrams"));
+        writer.writeStartElement(QStringLiteral("diagrams"));
         if (!qFuzzyIsNull(UMLApp::app()->document()->resolution())) {
-            writer.writeAttribute(QLatin1String("resolution"),
+            writer.writeAttribute(QStringLiteral("resolution"),
                                   QString::number(UMLApp::app()->document()->resolution()));
         }
         foreach (UMLView* pView, m_diagrams) {
@@ -318,13 +318,13 @@ void UMLFolder::saveContents(QXmlStreamWriter& writer)
 void UMLFolder::save1(QXmlStreamWriter& writer)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
-    QString elementName(QLatin1String("Package"));
-    QString elementTag (QLatin1String("<use_type_as_tag>"));
+    QString elementName(QStringLiteral("Package"));
+    QString elementTag (QStringLiteral("<use_type_as_tag>"));
     const Uml::ModelType::Enum mt = umldoc->rootFolderType(this);
     if (mt != Uml::ModelType::N_MODELTYPES) {
-        elementName = QLatin1String("Model");
+        elementName = QStringLiteral("Model");
         if (Settings::optionState().generalState.uml2)
-            elementTag  = QLatin1String("packagedElement");
+            elementTag  = QStringLiteral("packagedElement");
     }
     UMLObject::save1(writer, elementName, elementTag);
     saveContents(writer);
@@ -361,16 +361,16 @@ void UMLFolder::saveToXMI(QXmlStreamWriter& writer)
         return;
     }
     // External file is writable.  Create XMI.extension stub in main file.
-    UMLObject::save1(writer, QLatin1String("Package"));
+    UMLObject::save1(writer, QStringLiteral("Package"));
     if (Settings::optionState().generalState.uml2) {
-        writer.writeStartElement(QLatin1String("xmi:Extension"));
-        writer.writeAttribute(QLatin1String("extender"), QLatin1String("umbrello"));
+        writer.writeStartElement(QStringLiteral("xmi:Extension"));
+        writer.writeAttribute(QStringLiteral("extender"), QStringLiteral("umbrello"));
     } else {
-        writer.writeStartElement(QLatin1String("XMI.extension"));
-        writer.writeAttribute(QLatin1String("xmi.extender"), QLatin1String("umbrello"));
+        writer.writeStartElement(QStringLiteral("XMI.extension"));
+        writer.writeAttribute(QStringLiteral("xmi.extender"), QStringLiteral("umbrello"));
     }
-    writer.writeStartElement(QLatin1String("external_file"));
-    writer.writeAttribute(QLatin1String("name"), m_folderFile);
+    writer.writeStartElement(QStringLiteral("external_file"));
+    writer.writeAttribute(QStringLiteral("name"), m_folderFile);
     writer.writeEndElement();            // external_file
     writer.writeEndElement();        // XMI.extension
     writer.writeEndElement();    // UML:Package
@@ -381,12 +381,12 @@ void UMLFolder::saveToXMI(QXmlStreamWriter& writer)
     xfWriter.setAutoFormatting(true);
     xfWriter.setAutoFormattingIndent(2);
     xfWriter.writeStartDocument();
-    xfWriter.writeStartElement(QLatin1String("external_file"));
-    xfWriter.writeAttribute(QLatin1String("name"), name());
-    xfWriter.writeAttribute(QLatin1String("filename"), m_folderFile);
-    xfWriter.writeAttribute(QLatin1String("mainModel"), umldoc->url().fileName());
-    xfWriter.writeAttribute(QLatin1String("parentId"), Uml::ID::toString(umlPackage()->id()));
-    xfWriter.writeAttribute(QLatin1String("parent"), umlPackage()->fullyQualifiedName(QLatin1String("::"), true));
+    xfWriter.writeStartElement(QStringLiteral("external_file"));
+    xfWriter.writeAttribute(QStringLiteral("name"), name());
+    xfWriter.writeAttribute(QStringLiteral("filename"), m_folderFile);
+    xfWriter.writeAttribute(QStringLiteral("mainModel"), umldoc->url().fileName());
+    xfWriter.writeAttribute(QStringLiteral("parentId"), Uml::ID::toString(umlPackage()->id()));
+    xfWriter.writeAttribute(QStringLiteral("parent"), umlPackage()->fullyQualifiedName(QStringLiteral("::"), true));
     saveContents(xfWriter);
     xfWriter.writeEndElement();
     file.close();
@@ -399,7 +399,7 @@ void UMLFolder::saveToXMI(QXmlStreamWriter& writer)
 bool UMLFolder::loadDiagramsFromXMI1(QDomNode& node)
 {
     qreal resolution = 0.0;
-    QString res = node.toElement().attribute(QLatin1String("resolution"), QLatin1String(""));
+    QString res = node.toElement().attribute(QStringLiteral("resolution"), QStringLiteral(""));
     if (!res.isEmpty()) {
        resolution = res.toDouble();
     }
@@ -421,7 +421,7 @@ bool UMLFolder::loadDiagramsFromXMI1(QDomNode& node)
     for (QDomElement diagram = diagrams.toElement(); !diagram.isNull();
          diagrams = diagrams.nextSibling(), diagram = diagrams.toElement()) {
         QString tag = diagram.tagName();
-        if (tag != QLatin1String("diagram")) {
+        if (tag != QStringLiteral("diagram")) {
             logDebug1("UMLFolder::loadDiagramsFromXMI1: ignoring %1 in <diagrams>", tag);
             continue;
         }
@@ -479,7 +479,7 @@ bool UMLFolder::loadFolderFile(const QString& path)
     }
     QDomElement element = rootNode.toElement();
     QString type = element.tagName();
-    if (type != QLatin1String("external_file")) {
+    if (type != QStringLiteral("external_file")) {
         logError1("UMLFolder::loadFolderFile: Root node has unknown type %1", type);
         return false;
     }
@@ -502,8 +502,8 @@ bool UMLFolder::load1(QDomElement& element)
         QString type = tempElement.tagName();
         if (Model_Utils::isCommonXMI1Attribute(type))
             continue;
-        if (UMLDoc::tagEq(type, QLatin1String("Namespace.ownedElement")) ||
-                UMLDoc::tagEq(type, QLatin1String("Namespace.contents"))) {
+        if (UMLDoc::tagEq(type, QStringLiteral("Namespace.ownedElement")) ||
+                UMLDoc::tagEq(type, QStringLiteral("Namespace.contents"))) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
             // Therefore these tags are not further interpreted.
@@ -512,24 +512,24 @@ bool UMLFolder::load1(QDomElement& element)
                 totalSuccess = false;
             }
             continue;
-        } else if (type == QLatin1String("packagedElement") ||
-                   type == QLatin1String("ownedElement")) {
-            type = tempElement.attribute(QLatin1String("xmi:type"));
-        } else if (type == QLatin1String("XMI.extension") ||
-                   type == QLatin1String("xmi:Extension")) {
+        } else if (type == QStringLiteral("packagedElement") ||
+                   type == QStringLiteral("ownedElement")) {
+            type = tempElement.attribute(QStringLiteral("xmi:type"));
+        } else if (type == QStringLiteral("XMI.extension") ||
+                   type == QStringLiteral("xmi:Extension")) {
             for (QDomNode xtnode = node.firstChild(); !xtnode.isNull();
                                               xtnode = xtnode.nextSibling()) {
                 QDomElement el = xtnode.toElement();
                 const QString xtag = el.tagName();
-                if (xtag == QLatin1String("diagrams")) {
+                if (xtag == QStringLiteral("diagrams")) {
                     umldoc->addDiagramToLoad(this, xtnode);
-                } else if (xtag == QLatin1String("external_file")) {
+                } else if (xtag == QStringLiteral("external_file")) {
 #if QT_VERSION >= 0x050000
                     const QString rootDir(umldoc->url().adjusted(QUrl::RemoveFilename).path());
 #else
                     const QString rootDir(umldoc->url().directory());
 #endif
-                    QString fileName = el.attribute(QLatin1String("name"));
+                    QString fileName = el.attribute(QStringLiteral("name"));
                     const QString path(rootDir + QLatin1Char('/') + fileName);
                     if (loadFolderFile(path))
                         m_folderFile = fileName;
@@ -543,9 +543,9 @@ bool UMLFolder::load1(QDomElement& element)
         // Do not re-create the predefined Datatypes folder in the Logical View,
         // it already exists.
         UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
-        if (this == logicalView && UMLDoc::tagEq(type, QLatin1String("Package"))) {
-            QString thisName = tempElement.attribute(QLatin1String("name"));
-            if (thisName == QLatin1String("Datatypes")) {
+        if (this == logicalView && UMLDoc::tagEq(type, QStringLiteral("Package"))) {
+            QString thisName = tempElement.attribute(QStringLiteral("name"));
+            if (thisName == QStringLiteral("Datatypes")) {
                 UMLFolder *datatypeFolder = umldoc->datatypeFolder();
                 if (!datatypeFolder->loadFromXMI(tempElement))
                     totalSuccess = false;
@@ -564,14 +564,14 @@ bool UMLFolder::load1(QDomElement& element)
         }
         // Avoid duplicate creation of datatype
         if (pObject == 0 && this == umldoc->datatypeFolder()) {
-            QString name = tempElement.attribute(QLatin1String("name"));
+            QString name = tempElement.attribute(QStringLiteral("name"));
             foreach (UMLObject *o, m_objects) {
                 uIgnoreZeroPointer(o);
                 if (o->name() == name) {
                     UMLDatatype *dt = o->asUMLDatatype();
                     if (dt) {
-                        QString isActive = tempElement.attribute(QLatin1String("isActive"));
-                        dt->setActive(isActive != QLatin1String("false"));
+                        QString isActive = tempElement.attribute(QStringLiteral("isActive"));
+                        dt->setActive(isActive != QStringLiteral("false"));
                         pObject = dt;
                         break;
                     }
@@ -579,7 +579,7 @@ bool UMLFolder::load1(QDomElement& element)
             }
         }
         if (pObject == 0) {
-            QString stereoID = tempElement.attribute(QLatin1String("stereotype"));
+            QString stereoID = tempElement.attribute(QStringLiteral("stereotype"));
             pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
             if (!pObject) {
                 logWarn1("UMLFolder::load1 unknown type of umlobject to create: %1", type);

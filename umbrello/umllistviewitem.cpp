@@ -7,7 +7,7 @@
 #include "umllistviewitem.h"
 
 // definition required by debug_utils.h
-#define DBG_SRC QLatin1String("UMLListViewItem")
+#define DBG_SRC QStringLiteral("UMLListViewItem")
 
 // app includes
 #include "debug_utils.h"
@@ -385,7 +385,7 @@ void UMLListViewItem::updateObject()
     Icon_Utils::IconType icon = Icon_Utils::it_Home;
     switch (ot) {
     case UMLObject::ot_Package:
-        if (m_object->stereotype() == QLatin1String("subsystem"))
+        if (m_object->stereotype() == QStringLiteral("subsystem"))
             icon = Icon_Utils::it_Subsystem;
         else
             icon = Icon_Utils::it_Package;
@@ -939,18 +939,18 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::ID::Type id)
  */
 void UMLListViewItem::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QLatin1String("listitem"));
+    writer.writeStartElement(QStringLiteral("listitem"));
     Uml::ID::Type id = ID();
     QString idStr = Uml::ID::toString(id);
     //logDebug2("UMLListViewItem::saveToXMI: id = %1, type =%2", idStr, m_type);
     if (id != Uml::ID::None)
-        writer.writeAttribute(QLatin1String("id"), idStr);
-    writer.writeAttribute(QLatin1String("type"), QString::number(m_type));
+        writer.writeAttribute(QStringLiteral("id"), idStr);
+    writer.writeAttribute(QStringLiteral("type"), QString::number(m_type));
     if (m_object == 0) {
         if (! Model_Utils::typeIsDiagram(m_type) && m_type != lvt_View)
             logError1("UMLListViewItem::saveToXMI(%1) : m_object is NULL", text(0));
         if (m_type != lvt_View)
-            writer.writeAttribute(QLatin1String("label"), text(0));
+            writer.writeAttribute(QStringLiteral("label"), text(0));
     } else if (m_object->id() == Uml::ID::None) {
         if (text(0).isEmpty()) {
             logDebug0("UMLListViewItem::saveToXMI(: Skipping empty item");
@@ -959,16 +959,16 @@ void UMLListViewItem::saveToXMI(QXmlStreamWriter& writer)
         logDebug1("UMLListViewItem::saveToXMI saving local label %1 because umlobject ID is not set",
                   text(0));
         if (m_type != lvt_View)
-            writer.writeAttribute(QLatin1String("label"), text(0));
+            writer.writeAttribute(QStringLiteral("label"), text(0));
     } else if (m_object->baseType() == UMLObject::ot_Folder) {
         const UMLFolder *extFolder = m_object->asUMLFolder();
         if (!extFolder->folderFile().isEmpty()) {
-            writer.writeAttribute(QLatin1String("open"), QLatin1String("0"));
+            writer.writeAttribute(QStringLiteral("open"), QStringLiteral("0"));
             writer.writeEndElement();
             return;
         }
     }
-    writer.writeAttribute(QLatin1String("open"), QString::number(isExpanded()));
+    writer.writeAttribute(QStringLiteral("open"), QString::number(isExpanded()));
     for (int i = 0; i < childCount(); i++) {
         UMLListViewItem *childItem = static_cast<UMLListViewItem*>(child(i));
         childItem->saveToXMI(writer);
@@ -981,13 +981,13 @@ void UMLListViewItem::saveToXMI(QXmlStreamWriter& writer)
  */
 bool UMLListViewItem::loadFromXMI(QDomElement& qElement)
 {
-    QString id = qElement.attribute(QLatin1String("id"), QLatin1String("-1"));
-    QString type = qElement.attribute(QLatin1String("type"), QLatin1String("-1"));
-    QString label = qElement.attribute(QLatin1String("label"));
-    QString open = qElement.attribute(QLatin1String("open"), QLatin1String("1"));
+    QString id = qElement.attribute(QStringLiteral("id"), QStringLiteral("-1"));
+    QString type = qElement.attribute(QStringLiteral("type"), QStringLiteral("-1"));
+    QString label = qElement.attribute(QStringLiteral("label"));
+    QString open = qElement.attribute(QStringLiteral("open"), QStringLiteral("1"));
     if (!label.isEmpty())
         setText(label);
-    else if (id == QLatin1String("-1")) {
+    else if (id == QStringLiteral("-1")) {
         logError1("UMLListViewItem::saveToXMI: Item of type %1 has neither ID nor label", type);
         return false;
     }
@@ -1013,111 +1013,111 @@ QString UMLListViewItem::toString(ListViewType type)
 {
     switch (type) {
         case lvt_View:
-            return QLatin1String("lvt_View");
+            return QStringLiteral("lvt_View");
         case lvt_Logical_View:
-            return QLatin1String("lvt_Logical_View");
+            return QStringLiteral("lvt_Logical_View");
         case lvt_UseCase_View:
-            return QLatin1String("lvt_UseCase_View");
+            return QStringLiteral("lvt_UseCase_View");
         case lvt_Logical_Folder:
-            return QLatin1String("lvt_Logical_Folder");
+            return QStringLiteral("lvt_Logical_Folder");
         case lvt_UseCase_Folder:
-            return QLatin1String("lvt_UseCase_Folder");
+            return QStringLiteral("lvt_UseCase_Folder");
         case lvt_UseCase_Diagram:
-            return QLatin1String("lvt_UseCase_Diagram");
+            return QStringLiteral("lvt_UseCase_Diagram");
         case lvt_Collaboration_Diagram:
-            return QLatin1String("lvt_Collaboration_Diagram");
+            return QStringLiteral("lvt_Collaboration_Diagram");
         case lvt_Class_Diagram:
-            return QLatin1String("lvt_Class_Diagram");
+            return QStringLiteral("lvt_Class_Diagram");
         case lvt_State_Diagram:
-            return QLatin1String("lvt_State_Diagram");
+            return QStringLiteral("lvt_State_Diagram");
         case lvt_Activity_Diagram:
-            return QLatin1String("lvt_Activity_Diagram");
+            return QStringLiteral("lvt_Activity_Diagram");
         case lvt_Sequence_Diagram:
-            return QLatin1String("lvt_Sequence_Diagram");
+            return QStringLiteral("lvt_Sequence_Diagram");
         case lvt_Object_Diagram:
-            return QLatin1String("lvt_Object_Diagram");
+            return QStringLiteral("lvt_Object_Diagram");
         case lvt_Actor:
-            return QLatin1String("lvt_Actor");
+            return QStringLiteral("lvt_Actor");
         case lvt_Association:
-            return QLatin1String("lvt_Association");
+            return QStringLiteral("lvt_Association");
         case lvt_UseCase:
-            return QLatin1String("lvt_UseCase");
+            return QStringLiteral("lvt_UseCase");
         case lvt_Class:
-            return QLatin1String("lvt_Class");
+            return QStringLiteral("lvt_Class");
         case lvt_Attribute:
-            return QLatin1String("lvt_Attribute");
+            return QStringLiteral("lvt_Attribute");
         case lvt_Operation:
-            return QLatin1String("lvt_Operation");
+            return QStringLiteral("lvt_Operation");
         case lvt_Template:
-            return QLatin1String("lvt_Template");
+            return QStringLiteral("lvt_Template");
         case lvt_Interface:
-            return QLatin1String("lvt_Interface");
+            return QStringLiteral("lvt_Interface");
         case lvt_Package:
-            return QLatin1String("lvt_Package");
+            return QStringLiteral("lvt_Package");
         case lvt_Component_Diagram:
-            return QLatin1String("lvt_Component_Diagram");
+            return QStringLiteral("lvt_Component_Diagram");
         case lvt_Component_Folder:
-            return QLatin1String("lvt_Component_Folder");
+            return QStringLiteral("lvt_Component_Folder");
         case lvt_Component_View:
-            return QLatin1String("lvt_Component_View");
+            return QStringLiteral("lvt_Component_View");
         case lvt_Component:
-            return QLatin1String("lvt_Component");
+            return QStringLiteral("lvt_Component");
         case lvt_Diagrams:
-            return QLatin1String("lvt_Diagrams");
+            return QStringLiteral("lvt_Diagrams");
         case lvt_Artifact:
-            return QLatin1String("lvt_Artifact");
+            return QStringLiteral("lvt_Artifact");
         case lvt_Deployment_Diagram:
-            return QLatin1String("lvt_Deployment_Diagram");
+            return QStringLiteral("lvt_Deployment_Diagram");
         case lvt_Deployment_Folder:
-            return QLatin1String("lvt_Deployment_Folder");
+            return QStringLiteral("lvt_Deployment_Folder");
         case lvt_Deployment_View:
-            return QLatin1String("lvt_Deployment_View");
+            return QStringLiteral("lvt_Deployment_View");
         case lvt_Port:
-            return QLatin1String("lvt_Port");
+            return QStringLiteral("lvt_Port");
         case lvt_Node:
-            return QLatin1String("lvt_Node");
+            return QStringLiteral("lvt_Node");
         case lvt_Datatype:
-            return QLatin1String("lvt_Datatype");
+            return QStringLiteral("lvt_Datatype");
         case lvt_Datatype_Folder:
-            return QLatin1String("lvt_Datatype_Folder");
+            return QStringLiteral("lvt_Datatype_Folder");
         case lvt_Enum:
-            return QLatin1String("lvt_Enum");
+            return QStringLiteral("lvt_Enum");
         case lvt_Entity:
-            return QLatin1String("lvt_Entity");
+            return QStringLiteral("lvt_Entity");
         case lvt_EntityAttribute:
-            return QLatin1String("lvt_EntityAttribute");
+            return QStringLiteral("lvt_EntityAttribute");
         case lvt_EntityRelationship_Diagram:
-            return QLatin1String("lvt_EntityRelationship_Diagram");
+            return QStringLiteral("lvt_EntityRelationship_Diagram");
         case lvt_EntityRelationship_Folder:
-            return QLatin1String("lvt_EntityRelationship_Folder");
+            return QStringLiteral("lvt_EntityRelationship_Folder");
         case lvt_EntityRelationship_Model:
-            return QLatin1String("lvt_EntityRelationship_Model");
+            return QStringLiteral("lvt_EntityRelationship_Model");
         case lvt_Subsystem:
-            return QLatin1String("lvt_Subsystem");
+            return QStringLiteral("lvt_Subsystem");
         case lvt_Model:
-            return QLatin1String("lvt_Model");
+            return QStringLiteral("lvt_Model");
         case lvt_EnumLiteral:
-            return QLatin1String("lvt_EnumLiteral");
+            return QStringLiteral("lvt_EnumLiteral");
         case lvt_UniqueConstraint:
-            return QLatin1String("lvt_UniqueConstraint");
+            return QStringLiteral("lvt_UniqueConstraint");
         case lvt_PrimaryKeyConstraint:
-            return QLatin1String("lvt_PrimaryKeyConstraint");
+            return QStringLiteral("lvt_PrimaryKeyConstraint");
         case lvt_ForeignKeyConstraint:
-            return QLatin1String("lvt_ForeignKeyConstraint");
+            return QStringLiteral("lvt_ForeignKeyConstraint");
         case lvt_CheckConstraint:
-            return QLatin1String("lvt_CheckConstraint");
+            return QStringLiteral("lvt_CheckConstraint");
         case lvt_Category:
-            return QLatin1String("lvt_Category");
+            return QStringLiteral("lvt_Category");
         case lvt_Properties:
-            return QLatin1String("lvt_Properties");
+            return QStringLiteral("lvt_Properties");
         case lvt_Unknown:
-            return QLatin1String("lvt_Unknown");
+            return QStringLiteral("lvt_Unknown");
         case lvt_Instance:
-            return QLatin1String("lvt_Instance");
+            return QStringLiteral("lvt_Instance");
         case lvt_InstanceAttribute:
-            return QLatin1String("lvt_InstanceAttribute");
+            return QStringLiteral("lvt_InstanceAttribute");
         default:
-            return QLatin1String("? ListViewType ?");
+            return QStringLiteral("? ListViewType ?");
     }
 }
 

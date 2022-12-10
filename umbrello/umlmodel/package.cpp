@@ -442,9 +442,9 @@ bool UMLPackage::resolveRef()
  */
 void UMLPackage::saveToXMI(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(writer, QLatin1String("Package"));
+    UMLObject::save1(writer, QStringLiteral("Package"));
     if (! Settings::optionState().generalState.uml2) {
-        writer.writeStartElement(QLatin1String("UML:Namespace.ownedElement"));
+        writer.writeStartElement(QStringLiteral("UML:Namespace.ownedElement"));
     }
     // save classifiers etc.
     foreach (UMLObject *obj, m_objects) {
@@ -475,20 +475,20 @@ bool UMLPackage::load1(QDomElement& element)
         QString type = tempElement.tagName();
         if (Model_Utils::isCommonXMI1Attribute(type))
             continue;
-        if (UMLDoc::tagEq(type, QLatin1String("Namespace.ownedElement")) ||
-                UMLDoc::tagEq(type, QLatin1String("Element.ownedElement")) ||  // Embarcadero's Describe
-                UMLDoc::tagEq(type, QLatin1String("Namespace.contents"))) {
+        if (UMLDoc::tagEq(type, QStringLiteral("Namespace.ownedElement")) ||
+                UMLDoc::tagEq(type, QStringLiteral("Element.ownedElement")) ||  // Embarcadero's Describe
+                UMLDoc::tagEq(type, QStringLiteral("Namespace.contents"))) {
             //CHECK: Umbrello currently assumes that nested elements
             // are ownedElements anyway.
             // Therefore these tags are not further interpreted.
             if (! load1(tempElement))
                 return false;
             continue;
-        } else if (UMLDoc::tagEq(type, QLatin1String("packagedElement")) ||
-                   UMLDoc::tagEq(type, QLatin1String("ownedElement"))) {
-            type = tempElement.attribute(QLatin1String("xmi:type"));
+        } else if (UMLDoc::tagEq(type, QStringLiteral("packagedElement")) ||
+                   UMLDoc::tagEq(type, QStringLiteral("ownedElement"))) {
+            type = tempElement.attribute(QStringLiteral("xmi:type"));
         }
-        QString stereoID = tempElement.attribute(QLatin1String("stereotype"));
+        QString stereoID = tempElement.attribute(QStringLiteral("stereotype"));
         UMLObject *pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
         if (!pObject) {
             logWarn1("UMLPackage::load1 unknown type of umlobject to create: %1", type);

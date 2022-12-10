@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef JAVACLASSDECLARATIONBLOCK_H
@@ -21,7 +21,7 @@ public:
     /**
      * Empty Constructor
      */
-    explicit JavaClassDeclarationBlock (JavaClassifierCodeDocument * parentDoc, const QString &start = QString(), const QString &endText = QLatin1String("}"), const QString &comment = QString());
+    explicit JavaClassDeclarationBlock (JavaClassifierCodeDocument * parentDoc, const QString &start = QString(), const QString &endText = QStringLiteral("}"), const QString &comment = QString());
 
     /**
      * Empty Destructor

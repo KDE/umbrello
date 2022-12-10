@@ -12,7 +12,7 @@
 #include "classifierwidget.h"
 #include "signalwidget.h"
 #include "statewidget.h"
-#define DBG_SRC QLatin1String("DotGenerator")
+#define DBG_SRC QStringLiteral("DotGenerator")
 #include "debug_utils.h"
 #include "uml.h"  // only needed for log{Warn,Error}
 
@@ -41,7 +41,7 @@ DEBUG_REGISTER(DotGenerator)
 QString dotType(WidgetBase *widget)
 {
     const QString rawType = widget->baseTypeStr();
-    return rawType.toLower().remove(QLatin1String("wt_"));
+    return rawType.toLower().remove(QStringLiteral("wt_"));
 }
 
 /**
@@ -136,7 +136,7 @@ protected:
  */
 DotGenerator::DotGenerator()
   : m_scale(72),
-    m_generator(QLatin1String("dot")),
+    m_generator(QStringLiteral("dot")),
     m_usePosition(false),
     m_useFullNodeLabels(true)
 {
@@ -157,9 +157,9 @@ DotGenerator::DotGenerator()
 QString DotGenerator::currentDotPath()
 {
 #if QT_VERSION >= 0x050000
-    QString executable = QStandardPaths::findExecutable(QLatin1String("dot"));
+    QString executable = QStandardPaths::findExecutable(QStringLiteral("dot"));
 #else
-    QString executable = KStandardDirs::findExe(QLatin1String("dot"));
+    QString executable = KStandardDirs::findExe(QStringLiteral("dot"));
 #endif
     if (!executable.isEmpty()) {
         QFileInfo fi(executable);
@@ -170,13 +170,13 @@ QString DotGenerator::currentDotPath()
     QString appDir(QLatin1String(qgetenv("ProgramFiles").constData()));
     QDir dir(appDir);
     dir.setFilter(QDir::Dirs);
-    dir.setNameFilters(QStringList() << QLatin1String("Graphviz*"));
+    dir.setNameFilters(QStringList() << QStringLiteral("Graphviz*"));
     dir.setSorting(QDir::Reversed);
     QFileInfoList list = dir.entryInfoList();
     if (list.size() > 0) {
         QString dotPath = list.at(0).absoluteFilePath();
-        QString exePath = QFile::exists(dotPath + QLatin1String("\\bin")) ? dotPath + QLatin1String("\\bin") : dotPath;
-        return QFile::exists(exePath + QLatin1String("\\dot.exe")) ? exePath : QString();
+        QString exePath = QFile::exists(dotPath + QStringLiteral("\\bin")) ? dotPath + QStringLiteral("\\bin") : dotPath;
+        return QFile::exists(exePath + QStringLiteral("\\dot.exe")) ? exePath : QString();
     }
 #endif
     return QString();
@@ -257,12 +257,12 @@ bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString, QString>
     foreach(const QString &fileName, fileNames) {
         QFileInfo fi(fileName);
         QString baseName;
-        if (fi.baseName().contains(QLatin1String("-")))
+        if (fi.baseName().contains(QStringLiteral("-")))
             baseName = fi.baseName().remove(diagramType + QLatin1Char('-'));
         else if (fi.baseName() == diagramType)
             baseName = fi.baseName();
         else
-            baseName = QLatin1String("default");
+            baseName = QStringLiteral("default");
         KDesktopFile desktopFile(fileName);
         configFiles[baseName] = desktopFile.readName();
     }
@@ -283,7 +283,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     if (!variant.isEmpty())
         fileNames << QString::fromLatin1("%1-%2.desktop").arg(diagramType).arg(variant);
     fileNames << QString::fromLatin1("%1-default.desktop").arg(diagramType);
-    fileNames << QLatin1String("default.desktop");
+    fileNames << QStringLiteral("default.desktop");
 
     QString configFileName;
     foreach(const QString &fileName, fileNames) {
@@ -313,7 +313,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     KConfigGroup nodesAttributes(&desktopFile,"X-UMBRELLO-Dot-Nodes");
     KConfigGroup attributes(&desktopFile,"X-UMBRELLO-Dot-Attributes");
     QString layoutType = Uml::LayoutType::toString(Settings::optionState().generalState.layoutType);
-    KConfigGroup layoutAttributes(&desktopFile,QString(QLatin1String("X-UMBRELLO-Dot-Attributes-%1")).arg(layoutType));
+    KConfigGroup layoutAttributes(&desktopFile,QString(QStringLiteral("X-UMBRELLO-Dot-Attributes-%1")).arg(layoutType));
     // settings are not needed by dotgenerator
     KConfigGroup settings(&desktopFile,"X-UMBRELLO-Dot-Settings");
 
@@ -333,7 +333,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
             if (!m_dotParameters.contains(key))
                 m_dotParameters[key] = value;
             else
-                m_dotParameters[key].append(QLatin1String(",") + value);
+                m_dotParameters[key].append(QStringLiteral(",") + value);
         }
     }
 
@@ -351,7 +351,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
         }
     }
 
-    QString value = settings.readEntry(QLatin1String("origin"));
+    QString value = settings.readEntry(QStringLiteral("origin"));
     QStringList a = value.split(QLatin1Char(','));
     if (a.size() == 2)
         m_origin = QPointF(a[0].toDouble(), a[1].toDouble());
@@ -396,58 +396,58 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
     foreach(UMLWidget *widget, scene->widgetList()) {
         QStringList params;
 
-        if (m_nodeParameters.contains(QLatin1String("all")))
-            params << m_nodeParameters[QLatin1String("all")].split(QLatin1Char(','));
+        if (m_nodeParameters.contains(QStringLiteral("all")))
+            params << m_nodeParameters[QStringLiteral("all")].split(QLatin1Char(','));
 
         if (usePosition())
             params  << QString::fromLatin1("pos=\"%1, %2\"").arg(widget->x()+widget->width()/2).arg(widget->y()+widget->height()/2);
 
         QString type = dotType(widget);
 
-        if (type == QLatin1String("state")) {
+        if (type == QStringLiteral("state")) {
             StateWidget *w = static_cast<StateWidget *>(widget);
             type = w->stateTypeStr().toLower();
         }
-        else if (type == QLatin1String("activity")) {
+        else if (type == QStringLiteral("activity")) {
             ActivityWidget *w = static_cast<ActivityWidget *>(widget);
             type = w->activityTypeStr().toLower();
         }
-        else if (type == QLatin1String("signal")) {
+        else if (type == QStringLiteral("signal")) {
             SignalWidget *w = static_cast<SignalWidget *>(widget);
             type = w->signalTypeStr().toLower();
         }
 
-        QString key = QLatin1String("type::") + type;
+        QString key = QStringLiteral("type::") + type;
 
         QString label;
 
         if (!useFullNodeLabels())
-            label = widget->name() + QLatin1String("\\n") + type;
+            label = widget->name() + QStringLiteral("\\n") + type;
         else {
             DotPaintDevice d;
             QPainter p(&d);
             QStyleOptionGraphicsItem options;
             widget->paint(&p, &options);
-            label = d.data().join(QLatin1String("\\n"));
+            label = d.data().join(QStringLiteral("\\n"));
         }
 
-        if (label.contains(QLatin1String("\""))) {
-            label = label.replace(QLatin1Char('"'), QLatin1String("\\\""));
+        if (label.contains(QStringLiteral("\""))) {
+            label = label.replace(QLatin1Char('"'), QStringLiteral("\\\""));
             logDebug2("DotGenerator::createDotFile(%1) replaced \" in %2", fileName, label);
         }
 
         if (m_nodeParameters.contains(key))
             params << m_nodeParameters[key].split(QLatin1Char(','));
-        else if (m_nodeParameters.contains(QLatin1String("type::default")))
-            params << m_nodeParameters[QLatin1String("type::default")].split(QLatin1Char(','));
+        else if (m_nodeParameters.contains(QStringLiteral("type::default")))
+            params << m_nodeParameters[QStringLiteral("type::default")].split(QLatin1Char(','));
 
-        if (!findItem(params, QLatin1String("label=")))
+        if (!findItem(params, QStringLiteral("label=")))
             params << QString::fromLatin1("label=\"%1\"").arg(label);
 
-        if (!findItem(params, QLatin1String("width=")))
+        if (!findItem(params, QStringLiteral("width=")))
             params << QString::fromLatin1("width=\"%1\"").arg(widget->width()/m_scale);
 
-        if (!findItem(params, QLatin1String("height=")))
+        if (!findItem(params, QStringLiteral("height=")))
             params << QString::fromLatin1("height=\"%1\"").arg(widget->height()/m_scale);
 
 #ifdef DOTGENERATOR_DATA_DEBUG
@@ -456,7 +456,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         QString id = fixID(Uml::ID::toString(widget->localID()));
         if (!widget->isTextWidget())
             out << "\"" << id << "\""
-                << " [" << params.join(QLatin1String(",")) << "];\n";
+                << " [" << params.join(QStringLiteral(",")) << "];\n";
         // add associations for child items
         foreach(QGraphicsItem *item, widget->childItems()) {
             UMLWidget *w2 = dynamic_cast<UMLWidget *>(item);
@@ -467,7 +467,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             QString type2 = dotType(w2);
             QString id2 = fixID(Uml::ID::toString(w2->localID()));
             QStringList params2;
-            QString vkey = QString(QLatin1String("visual::type::%1::%2")).arg(type).arg(type2);
+            QString vkey = QString(QStringLiteral("visual::type::%1::%2")).arg(type).arg(type2);
             if (m_edgeParameters.contains(vkey)) {
                 params2 << m_edgeParameters[vkey];
             } else {
@@ -475,30 +475,30 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
                           fileName, vkey);
                 continue;
             }
-            vkey = QString(QLatin1String("ranking::type::%1::%2")).arg(type).arg(type2);
+            vkey = QString(QStringLiteral("ranking::type::%1::%2")).arg(type).arg(type2);
             if (m_edgeParameters.contains(vkey)) {
                 params2 << m_edgeParameters[vkey];
             } else {
                 logDebug2("DotGenerator::createDotFile(%1) key %2 not found", fileName, vkey);
             }
             out << "\"" << id << "\" -> \"" << id2 << "\""
-                << " [" << params2.join(QLatin1String(",")) << "];\n";
+                << " [" << params2.join(QStringLiteral(",")) << "];\n";
         }
     }
 
     foreach(AssociationWidget *assoc, scene->associationList()) {
         QString type = Uml::AssociationType::toString(assoc->associationType()).toLower();
-        QString key = QLatin1String("type::") + type;
+        QString key = QStringLiteral("type::") + type;
         bool swapId = false;
 
-        if (m_edgeParameters.contains(QLatin1String("id::") + key))
-            swapId = m_edgeParameters[QLatin1String("id::") + key] == QLatin1String("swap");
-        else if (m_edgeParameters.contains(QLatin1String("id::type::default")))
-            swapId = m_edgeParameters[QLatin1String("id::type::default")] == QLatin1String("swap");
+        if (m_edgeParameters.contains(QStringLiteral("id::") + key))
+            swapId = m_edgeParameters[QStringLiteral("id::") + key] == QStringLiteral("swap");
+        else if (m_edgeParameters.contains(QStringLiteral("id::type::default")))
+            swapId = m_edgeParameters[QStringLiteral("id::type::default")] == QStringLiteral("swap");
 
         QString label;
         if (!useFullNodeLabels())
-            label = assoc->name() + QLatin1String("\\n") + type;
+            label = assoc->name() + QStringLiteral("\\n") + type;
         else
             label = assoc->name();
 
@@ -506,38 +506,38 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         QString tailLabel = assoc->roleName(swapId ? Uml::RoleType::A : Uml::RoleType::B);
 
         if (!headLabel.isEmpty())
-            headLabel.prepend(QLatin1String("+"));
+            headLabel.prepend(QStringLiteral("+"));
         if (!tailLabel.isEmpty())
-            tailLabel.prepend(QLatin1String("+"));
+            tailLabel.prepend(QStringLiteral("+"));
 
-        headLabel += QLatin1String(QLatin1String("  ")) + assoc->multiplicity(swapId ? Uml::RoleType::B : Uml::RoleType::A);
-        tailLabel += QLatin1String(QLatin1String("  ")) + assoc->multiplicity(swapId ? Uml::RoleType::A : Uml::RoleType::B);
+        headLabel += QLatin1String("  ") + assoc->multiplicity(swapId ? Uml::RoleType::B : Uml::RoleType::A);
+        tailLabel += QLatin1String("  ") + assoc->multiplicity(swapId ? Uml::RoleType::A : Uml::RoleType::B);
 
         QString edgeParameters;
         QStringList params;
-        QString rkey = QLatin1String(QLatin1String("ranking::")) + key;
+        QString rkey = QLatin1String("ranking::") + key;
         if (m_edgeParameters.contains(rkey))
             edgeParameters = m_edgeParameters[rkey];
-        else if (m_edgeParameters.contains(QLatin1String("ranking::type::default"))) {
-            edgeParameters = m_edgeParameters[QLatin1String("ranking::type::default")];
+        else if (m_edgeParameters.contains(QStringLiteral("ranking::type::default"))) {
+            edgeParameters = m_edgeParameters[QStringLiteral("ranking::type::default")];
         }
         params << edgeParameters.split(QLatin1Char(','));
 
-        QString vkey = QLatin1String(QLatin1String("visual::")) + key;
+        QString vkey = QLatin1String("visual::") + key;
         if (m_edgeParameters.contains(vkey))
             edgeParameters = m_edgeParameters[vkey];
-        else if (m_edgeParameters.contains(QLatin1String("visual::type::default"))) {
-            edgeParameters = m_edgeParameters[QLatin1String("visual::type::default")];
+        else if (m_edgeParameters.contains(QStringLiteral("visual::type::default"))) {
+            edgeParameters = m_edgeParameters[QStringLiteral("visual::type::default")];
         }
         params << edgeParameters.split(QLatin1Char(','));
 
-        if (!findItem(params, QLatin1String("label=")))
+        if (!findItem(params, QStringLiteral("label=")))
             params << QString::fromLatin1("label=\"%1\"").arg(label);
 
-        if (!findItem(params, QLatin1String("headlabel=")))
+        if (!findItem(params, QStringLiteral("headlabel=")))
             params << QString::fromLatin1("headlabel=\"%1\"").arg(headLabel);
 
-        if (!findItem(params, QLatin1String("taillabel=")))
+        if (!findItem(params, QStringLiteral("taillabel=")))
             params << QString::fromLatin1("taillabel=\"%1\"").arg(tailLabel);
 
 #ifdef DOTGENERATOR_DATA_DEBUG
@@ -546,7 +546,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         QString aID = fixID(Uml::ID::toString(assoc->widgetLocalIDForRole(swapId ? Uml::RoleType::A : Uml::RoleType::B)));
         QString bID = fixID(Uml::ID::toString(assoc->widgetLocalIDForRole(swapId ? Uml::RoleType::B : Uml::RoleType::A)));
 
-        out << "\"" << aID << "\" -> \"" << bID << "\"" << " [" << params.join(QLatin1String(",")) << "];\n";
+        out << "\"" << aID << "\" -> \"" << bID << "\"" << " [" << params.join(QStringLiteral(",")) << "];\n";
     }
 
     QTextStream o(&file);
@@ -597,11 +597,11 @@ int DotGenerator::generatorVersion() const
 {
     QProcess p;
     QStringList args;
-    args << QLatin1String("-V");
+    args << QStringLiteral("-V");
     p.start(generatorFullPath(), args);
     p.waitForFinished();
     QString out(QLatin1String(p.readAllStandardError()));
-    QRegExp rx(QLatin1String("\\((.*)\\."));
+    QRegExp rx(QStringLiteral("\\((.*)\\."));
     QString version = rx.indexIn(out) != -1 ? rx.cap(1) : QString();
     return version.toInt(0);
 }

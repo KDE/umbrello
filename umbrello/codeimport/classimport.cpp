@@ -7,7 +7,7 @@
 #include "classimport.h"
 
 // app includes
-#define DBG_SRC QLatin1String("ClassImport")
+#define DBG_SRC QStringLiteral("ClassImport")
 #include "debug_utils.h"
 #include "folder.h"
 #include "uml.h"
@@ -41,24 +41,24 @@
 ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeImpThread* thread)
 {
     ClassImport *classImporter;
-    if (fileName.endsWith(QLatin1String(".idl")))
+    if (fileName.endsWith(QStringLiteral(".idl")))
         classImporter = new IDLImport(thread);
-    else if (fileName.contains(QRegExp(QLatin1String("\\.pyw?$"))))
+    else if (fileName.contains(QRegExp(QStringLiteral("\\.pyw?$"))))
         classImporter = new PythonImport(thread);
-    else if (fileName.endsWith(QLatin1String(".java")))
+    else if (fileName.endsWith(QStringLiteral(".java")))
         classImporter = new JavaImport(thread);
-    else if (fileName.contains(QRegExp(QLatin1String("\\.ad[sba]$"))))
+    else if (fileName.contains(QRegExp(QStringLiteral("\\.ad[sba]$"))))
         classImporter = new AdaImport(thread);
-    else if (fileName.endsWith(QLatin1String(".pas")))
+    else if (fileName.endsWith(QStringLiteral(".pas")))
         classImporter = new PascalImport(thread);
-    else if (fileName.endsWith(QLatin1String(".cs")))
+    else if (fileName.endsWith(QStringLiteral(".cs")))
         classImporter = new CSharpImport(thread);
-    else if (fileName.contains(QRegExp(QLatin1String(".va[lp][ai]$"))))
+    else if (fileName.contains(QRegExp(QStringLiteral(".va[lp][ai]$"))))
         classImporter = new ValaImport(thread);
-    else if (fileName.endsWith(QLatin1String(".sql")))
+    else if (fileName.endsWith(QStringLiteral(".sql")))
         classImporter = new SQLImport(thread);
 #ifdef ENABLE_PHP_IMPORT
-    else if (fileName.endsWith(QLatin1String(".php")))
+    else if (fileName.endsWith(QStringLiteral(".php")))
         classImporter = new PHPImport(thread);
 #endif
     else
@@ -137,7 +137,7 @@ void ClassImport::log(const QString& file, const QString& text)
     } else {
         QString msg;
         if (!file.isEmpty())
-            msg.append(file).append(QLatin1String(" - "));
+            msg.append(file).append(QStringLiteral(" - "));
         msg.append(text);
         UMLApp::app()->log(msg);
     }

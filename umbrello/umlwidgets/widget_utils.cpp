@@ -7,7 +7,7 @@
 #include "widget_utils.h"
 
 // app includes
-#define DBG_SRC QLatin1String("Widget_Utils")
+#define DBG_SRC QStringLiteral("Widget_Utils")
 #include "debug_utils.h"
 #include "objectwidget.h"
 #include "messagewidget.h"
@@ -276,7 +276,7 @@ namespace Widget_Utils
         if (pixEle.isNull()) {
             return false;
         }
-        QDomElement xpmElement = pixEle.firstChildElement(QLatin1String("xpm"));
+        QDomElement xpmElement = pixEle.firstChildElement(QStringLiteral("xpm"));
 
         QByteArray xpmData = xpmElement.text().toLatin1();
         QBuffer buffer(&xpmData);
@@ -300,9 +300,9 @@ namespace Widget_Utils
      */
     void savePixmapToXMI(QXmlStreamWriter& stream, const QPixmap& pixmap)
     {
-        stream.writeStartElement(QLatin1String("pixmap"));
+        stream.writeStartElement(QStringLiteral("pixmap"));
 
-        stream.writeStartElement(QLatin1String("xpm"));
+        stream.writeStartElement(QStringLiteral("xpm"));
         stream.writeEndElement();
 
         QBuffer buffer;
@@ -341,42 +341,42 @@ namespace Widget_Utils
         QGradient::CoordinateMode cmode = QGradient::LogicalMode;
         QGradient::Spread spread = QGradient::PadSpread;
 
-        type_as_int = gradientElement.attribute(QLatin1String("type")).toInt();
+        type_as_int = gradientElement.attribute(QStringLiteral("type")).toInt();
         type = QGradient::Type(type_as_int);
-        type_as_int = gradientElement.attribute(QLatin1String("spread")).toInt();
+        type_as_int = gradientElement.attribute(QStringLiteral("spread")).toInt();
         spread = QGradient::Spread(type_as_int);
-        type_as_int = gradientElement.attribute(QLatin1String("coordinatemode")).toInt();
+        type_as_int = gradientElement.attribute(QStringLiteral("coordinatemode")).toInt();
         cmode = QGradient::CoordinateMode(type_as_int);
 
-        QDomElement stopElement = gradientElement.firstChildElement(QLatin1String("stops"));
+        QDomElement stopElement = gradientElement.firstChildElement(QStringLiteral("stops"));
         if(stopElement.isNull()) {
             return false;
         }
         for(QDomNode node = stopElement.firstChild(); !node.isNull(); node = node.nextSibling()) {
             QDomElement ele = node.toElement();
-            if(ele.tagName() != QLatin1String("stop")) {
+            if(ele.tagName() != QStringLiteral("stop")) {
                 continue;
             }
 
-            qreal posn = ele.attribute(QLatin1String("position")).toDouble();
-            QColor color = QColor(ele.attribute(QLatin1String("color")));
+            qreal posn = ele.attribute(QStringLiteral("position")).toDouble();
+            QColor color = QColor(ele.attribute(QStringLiteral("color")));
             stops << QGradientStop(posn, color);
         }
 
         if (type == QGradient::LinearGradient) {
-            QPointF p1 = stringToPoint(gradientElement.attribute(QLatin1String("start")));
-            QPointF p2 = stringToPoint(gradientElement.attribute(QLatin1String("finalstop")));
+            QPointF p1 = stringToPoint(gradientElement.attribute(QStringLiteral("start")));
+            QPointF p2 = stringToPoint(gradientElement.attribute(QStringLiteral("finalstop")));
             gradient = new QLinearGradient(p1, p2);
         }
         else if (type == QGradient::RadialGradient) {
-            QPointF center = stringToPoint(gradientElement.attribute(QLatin1String("center")));
-            QPointF focal = stringToPoint(gradientElement.attribute(QLatin1String("focalpoint")));
-            double radius = gradientElement.attribute(QLatin1String("radius")).toDouble();
+            QPointF center = stringToPoint(gradientElement.attribute(QStringLiteral("center")));
+            QPointF focal = stringToPoint(gradientElement.attribute(QStringLiteral("focalpoint")));
+            double radius = gradientElement.attribute(QStringLiteral("radius")).toDouble();
             gradient = new QRadialGradient(center, radius, focal);
         }
         else { // type == QGradient::ConicalGradient
-            QPointF center = stringToPoint(gradientElement.attribute(QLatin1String("center")));
-            double angle = gradientElement.attribute(QLatin1String("angle")).toDouble();
+            QPointF center = stringToPoint(gradientElement.attribute(QStringLiteral("center")));
+            double angle = gradientElement.attribute(QStringLiteral("angle")).toDouble();
             gradient = new QConicalGradient(center, angle);
         }
 
@@ -398,37 +398,37 @@ namespace Widget_Utils
      */
     void saveGradientToXMI(QXmlStreamWriter& stream, const QGradient *gradient)
     {
-        stream.writeStartElement(QLatin1String("gradient"));
+        stream.writeStartElement(QStringLiteral("gradient"));
 
-        stream.writeAttribute(QLatin1String("type"), QString::number(gradient->type()));
-        stream.writeAttribute(QLatin1String("spread"), QString::number(gradient->spread()));
-        stream.writeAttribute(QLatin1String("coordinatemode"), QString::number(gradient->coordinateMode()));
+        stream.writeAttribute(QStringLiteral("type"), QString::number(gradient->type()));
+        stream.writeAttribute(QStringLiteral("spread"), QString::number(gradient->spread()));
+        stream.writeAttribute(QStringLiteral("coordinatemode"), QString::number(gradient->coordinateMode()));
 
         QGradient::Type type = gradient->type();
 
         if(type == QGradient::LinearGradient) {
             const QLinearGradient *lg = static_cast<const QLinearGradient*>(gradient);
-            stream.writeAttribute(QLatin1String("start"), pointToString(lg->start()));
-            stream.writeAttribute(QLatin1String("finalstop"), pointToString(lg->finalStop()));
+            stream.writeAttribute(QStringLiteral("start"), pointToString(lg->start()));
+            stream.writeAttribute(QStringLiteral("finalstop"), pointToString(lg->finalStop()));
         }
         else if(type == QGradient::RadialGradient) {
             const QRadialGradient *rg = static_cast<const QRadialGradient*>(gradient);
-            stream.writeAttribute(QLatin1String("center"), pointToString(rg->center()));
-            stream.writeAttribute(QLatin1String("focalpoint"), pointToString(rg->focalPoint()));
-            stream.writeAttribute(QLatin1String("radius"), QString::number(rg->radius()));
+            stream.writeAttribute(QStringLiteral("center"), pointToString(rg->center()));
+            stream.writeAttribute(QStringLiteral("focalpoint"), pointToString(rg->focalPoint()));
+            stream.writeAttribute(QStringLiteral("radius"), QString::number(rg->radius()));
         }
         else { //type == QGradient::ConicalGradient
             const QConicalGradient *cg = static_cast<const QConicalGradient*>(gradient);
-            stream.writeAttribute(QLatin1String("center"), pointToString(cg->center()));
-            stream.writeAttribute(QLatin1String("angle"), QString::number(cg->angle()));
+            stream.writeAttribute(QStringLiteral("center"), pointToString(cg->center()));
+            stream.writeAttribute(QStringLiteral("angle"), QString::number(cg->angle()));
         }
 
-        stream.writeStartElement(QLatin1String("stops"));
+        stream.writeStartElement(QStringLiteral("stops"));
 
         foreach (const QGradientStop& stop, gradient->stops()) {
-            stream.writeStartElement(QLatin1String("stop"));
-            stream.writeAttribute(QLatin1String("position"), QString::number(stop.first));
-            stream.writeAttribute(QLatin1String("color"), stop.second.name());
+            stream.writeStartElement(QStringLiteral("stop"));
+            stream.writeAttribute(QStringLiteral("position"), QString::number(stop.first));
+            stream.writeAttribute(QStringLiteral("color"), stop.second.name());
             stream.writeEndElement();
         }
 
@@ -452,14 +452,14 @@ namespace Widget_Utils
             return false;
         }
 
-        quint8 style = qElement.attribute(QLatin1String("style")).toShort();
-        const QString colorString = qElement.attribute(QLatin1String("color"));
+        quint8 style = qElement.attribute(QStringLiteral("style")).toShort();
+        const QString colorString = qElement.attribute(QStringLiteral("color"));
         QColor color;
         color.setNamedColor(colorString);
 
         if(style == Qt::TexturePattern) {
             QPixmap pixmap;
-            QDomElement pixElement = qElement.firstChildElement(QLatin1String("pixmap"));
+            QDomElement pixElement = qElement.firstChildElement(QStringLiteral("pixmap"));
             if(!loadPixmapFromXMI(pixElement, pixmap)) {
                 return false;
             }
@@ -470,7 +470,7 @@ namespace Widget_Utils
                 || style == Qt::RadialGradientPattern
                 || style == Qt::ConicalGradientPattern) {
             QGradient *gradient = 0;
-            QDomElement gradElement = qElement.firstChildElement(QLatin1String("gradient"));
+            QDomElement gradElement = qElement.firstChildElement(QStringLiteral("gradient"));
 
             if(!loadGradientFromXMI(gradElement, gradient) || !gradient) {
                 delete gradient;
@@ -498,10 +498,10 @@ namespace Widget_Utils
      */
     void saveBrushToXMI(QXmlStreamWriter& stream, const QBrush& brush)
     {
-        stream.writeStartElement(QLatin1String("brush"));
+        stream.writeStartElement(QStringLiteral("brush"));
 
-        stream.writeAttribute(QLatin1String("style"), QString::number(brush.style()));
-        stream.writeAttribute(QLatin1String("color"), brush.color().name());
+        stream.writeAttribute(QStringLiteral("style"), QString::number(brush.style()));
+        stream.writeAttribute(QStringLiteral("color"), brush.color().name());
 
         if(brush.style() == Qt::TexturePattern) {
             savePixmapToXMI(stream, brush.texture());

@@ -125,7 +125,7 @@ Tracer* Tracer::instance()
             (*s_classes)[name] = MapEntry(path, cli.state);
         }
         QString umbrello_logToConsole = QString::fromLatin1(qgetenv("UMBRELLO_LOG_TO_CONSOLE"));
-        s_logToConsole = (umbrello_logToConsole == QLatin1String("1"));
+        s_logToConsole = (umbrello_logToConsole == QStringLiteral("1"));
     }
     return s_instance;
 }

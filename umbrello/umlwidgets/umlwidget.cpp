@@ -65,7 +65,7 @@ using namespace Uml;
 
 DEBUG_REGISTER_DISABLED(UMLWidget)
 
-#define I18N_NEXT_RELEASE(a,b) QString(QLatin1String(a)).arg(b))
+#define I18N_NEXT_RELEASE(a,b) QString(QStringLiteral(a)).arg(b))
 
 const QSizeF UMLWidget::DefaultMinimumSize(50, 20);
 const QSizeF UMLWidget::DefaultMaximumSize(1000, 5000);
@@ -1415,8 +1415,8 @@ bool UMLWidget::isLocatedIn(const UMLWidget *other) const
 {
     const QPointF pos = scenePos();
     const QPointF otherPos = other->scenePos();
-    const QString msgProlog = QLatin1String("UMLWidget ") + name() +
-                              QLatin1String(" isLocatedIn(") + other->name() + QLatin1String(")");
+    const QString msgProlog = QStringLiteral("UMLWidget ") + name() +
+                              QStringLiteral(" isLocatedIn(") + other->name() + QStringLiteral(")");
 
     if (otherPos.x() > pos.x() || otherPos.y() > pos.y()) {
         logDebug1("%1 returns false due to x or y out of range", msgProlog);
@@ -1552,7 +1552,7 @@ void UMLWidget::resize(QGraphicsSceneMouseEvent *me)
     else if (isObjectWidget())
         msg = msgX;
     else
-        msg = QString(QLatin1String("%1 %2")).arg(msgX, msgY);
+        msg = QString(QStringLiteral("%1 %2")).arg(msgX, msgY);
     UMLApp::app()->document()->writeToStatusBar(msg);
 
     m_resized = true;
@@ -2144,11 +2144,11 @@ QString UMLWidget::tags() const
     if (adefs.isEmpty())
         return QString();
     const QStringList& umlTags = m_umlObject->tags();
-    QString taggedValues(QLatin1String("{"));
+    QString taggedValues(QStringLiteral("{"));
     for (int i = 0; i < adefs.size(); i++) {
         UMLStereotype::AttributeDef ad = adefs.at(i);
         taggedValues.append(ad.name);
-        taggedValues.append(QLatin1String("="));
+        taggedValues.append(QStringLiteral("="));
         QString value = ad.defaultVal;
         if (i < umlTags.size()) {
             QString umlTag = umlTags.at(i);
@@ -2156,12 +2156,12 @@ QString UMLWidget::tags() const
                 value = umlTag;
         }
         if (ad.type == Uml::PrimitiveTypes::String)
-            value = QLatin1String("\"") + value + QLatin1String("\"");
+            value = QStringLiteral("\"") + value + QStringLiteral("\"");
         taggedValues.append(value);
         if (i < adefs.size() - 1)
-            taggedValues.append(QLatin1String(","));
+            taggedValues.append(QStringLiteral(","));
      }
-     taggedValues.append(QLatin1String("}"));
+     taggedValues.append(QStringLiteral("}"));
      return taggedValues;
 }
 
@@ -2196,25 +2196,25 @@ void UMLWidget::saveToXMI(QXmlStreamWriter& writer)
     DiagramProxyWidget::saveToXMI(writer);
 
     qreal dpiScale = UMLApp::app()->document()->dpiScale();
-    writer.writeAttribute(QLatin1String("x"), QString::number(x() / dpiScale));
-    writer.writeAttribute(QLatin1String("y"), QString::number(y() / dpiScale));
-    writer.writeAttribute(QLatin1String("width"), QString::number(width() / dpiScale));
-    writer.writeAttribute(QLatin1String("height"), QString::number(height() / dpiScale));
+    writer.writeAttribute(QStringLiteral("x"), QString::number(x() / dpiScale));
+    writer.writeAttribute(QStringLiteral("y"), QString::number(y() / dpiScale));
+    writer.writeAttribute(QStringLiteral("width"), QString::number(width() / dpiScale));
+    writer.writeAttribute(QStringLiteral("height"), QString::number(height() / dpiScale));
 
-    writer.writeAttribute(QLatin1String("isinstance"), QString::number(m_isInstance));
+    writer.writeAttribute(QStringLiteral("isinstance"), QString::number(m_isInstance));
     if (!m_instanceName.isEmpty())
-        writer.writeAttribute(QLatin1String("instancename"), m_instanceName);
-    writer.writeAttribute(QLatin1String("showstereotype"), QString::number(m_showStereotype));
+        writer.writeAttribute(QStringLiteral("instancename"), m_instanceName);
+    writer.writeAttribute(QStringLiteral("showstereotype"), QString::number(m_showStereotype));
 }
 
 bool UMLWidget::loadFromXMI(QDomElement & qElement)
 {
     WidgetBase::loadFromXMI(qElement);
     DiagramProxyWidget::loadFromXMI(qElement);
-    QString x = qElement.attribute(QLatin1String("x"), QLatin1String("0"));
-    QString y = qElement.attribute(QLatin1String("y"), QLatin1String("0"));
-    QString h = qElement.attribute(QLatin1String("height"), QLatin1String("0"));
-    QString w = qElement.attribute(QLatin1String("width"), QLatin1String("0"));
+    QString x = qElement.attribute(QStringLiteral("x"), QStringLiteral("0"));
+    QString y = qElement.attribute(QStringLiteral("y"), QStringLiteral("0"));
+    QString h = qElement.attribute(QStringLiteral("height"), QStringLiteral("0"));
+    QString w = qElement.attribute(QStringLiteral("width"), QStringLiteral("0"));
     const qreal dpiScale = UMLApp::app()->document()->dpiScale();
     const qreal scaledW = toDoubleFromAnyLocale(w) * dpiScale;
     const qreal scaledH = toDoubleFromAnyLocale(h) * dpiScale;
@@ -2240,10 +2240,10 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     setX(scaledX);
     setY(scaledY);
 
-    QString isinstance = qElement.attribute(QLatin1String("isinstance"), QLatin1String("0"));
+    QString isinstance = qElement.attribute(QStringLiteral("isinstance"), QStringLiteral("0"));
     m_isInstance = (bool)isinstance.toInt();
-    m_instanceName = qElement.attribute(QLatin1String("instancename"));
-    QString showstereo = qElement.attribute(QLatin1String("showstereotype"), QLatin1String("0"));
+    m_instanceName = qElement.attribute(QStringLiteral("instancename"));
+    QString showstereo = qElement.attribute(QStringLiteral("showstereotype"), QStringLiteral("0"));
     m_showStereotype = (Uml::ShowStereoType::Enum)showstereo.toInt();
 
     return true;

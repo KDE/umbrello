@@ -47,7 +47,7 @@ void RubyWriter::writeClass(UMLClassifier *c)
     UMLAssociationList compositions = c->getCompositions();
 
     //find an appropriate name for our file
-    fileName_ = findFileName(c, QLatin1String(".rb"));
+    fileName_ = findFileName(c, QStringLiteral(".rb"));
     if (fileName_.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -69,20 +69,20 @@ void RubyWriter::writeClass(UMLClassifier *c)
     //try to find a heading file (license, comments, etc)
     QString str;
 
-    str = getHeadingFile(QLatin1String(".rb"));
+    str = getHeadingFile(QStringLiteral(".rb"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QLatin1String("%filename%")), fileName_);
-        str.replace(QRegExp(QLatin1String("%filepath%")), fileh.fileName());
+        str.replace(QRegExp(QStringLiteral("%filename%")), fileName_);
+        str.replace(QRegExp(QStringLiteral("%filepath%")), fileh.fileName());
         h << str << m_endl;
     }
 
     if (forceDoc() || !c->doc().isEmpty()) {
         QString docStr = c->doc();
-        docStr.replace(QRegExp(QLatin1String("\\n")), QLatin1String("\n# "));
-        docStr.remove(QLatin1String("@ref "));
-        docStr.replace(QLatin1String("@see"), QLatin1String("_See_"));
-        docStr.replace(QLatin1String("@short"), QLatin1String("_Summary_"));
-        docStr.replace(QLatin1String("@author"), QLatin1String("_Author_"));
+        docStr.replace(QRegExp(QStringLiteral("\\n")), QStringLiteral("\n# "));
+        docStr.remove(QStringLiteral("@ref "));
+        docStr.replace(QStringLiteral("@see"), QStringLiteral("_See_"));
+        docStr.replace(QStringLiteral("@short"), QStringLiteral("_Summary_"));
+        docStr.replace(QStringLiteral("@author"), QStringLiteral("_Author_"));
         h << "#" << m_endl;
         h << "# " << docStr << m_endl;
         h << "#" << m_endl << m_endl;
@@ -91,7 +91,7 @@ void RubyWriter::writeClass(UMLClassifier *c)
     // write inheritances out
     UMLClassifier *concept;
 
-    h <<  "class " << cppToRubyType(className_) << (superclasses.count() > 0 ? QLatin1String(" < ") : QString());
+    h <<  "class " << cppToRubyType(className_) << (superclasses.count() > 0 ? QStringLiteral(" < ") : QString());
 
     int i = 0;
     foreach (concept, superclasses) {
@@ -139,16 +139,16 @@ void RubyWriter::writeClass(UMLClassifier *c)
 QString RubyWriter::cppToRubyType(const QString &typeStr)
 {
     QString type = cleanName(typeStr);
-    type.remove(QLatin1String("const "));
-    type.remove(QRegExp(QLatin1String("[*&\\s]")));
-    type.replace(QRegExp(QLatin1String("[<>]")), QLatin1String("_"));
-    type.replace(QLatin1String("QStringList"), QLatin1String("Array"));
-    type.replace(QLatin1String("QString"), QLatin1String("String"));
-    type.replace(QLatin1String("bool"), QLatin1String("true|false"));
-    type.replace(QRegExp(QLatin1String("^(uint|int|ushort|short|ulong|long)$")), QLatin1String("Integer"));
-    type.replace(QRegExp(QLatin1String("^(float|double)$")), QLatin1String("Float"));
-    type.replace(QRegExp(QLatin1String("^Q(?=[A-Z])")), QLatin1String("Qt::"));
-    type.replace(QRegExp(QLatin1String("^K(?!(DE|Parts|IO)")), QLatin1String("KDE::"));
+    type.remove(QStringLiteral("const "));
+    type.remove(QRegExp(QStringLiteral("[*&\\s]")));
+    type.replace(QRegExp(QStringLiteral("[<>]")), QStringLiteral("_"));
+    type.replace(QStringLiteral("QStringList"), QStringLiteral("Array"));
+    type.replace(QStringLiteral("QString"), QStringLiteral("String"));
+    type.replace(QStringLiteral("bool"), QStringLiteral("true|false"));
+    type.replace(QRegExp(QStringLiteral("^(uint|int|ushort|short|ulong|long)$")), QStringLiteral("Integer"));
+    type.replace(QRegExp(QStringLiteral("^(float|double)$")), QStringLiteral("Float"));
+    type.replace(QRegExp(QStringLiteral("^Q(?=[A-Z])")), QStringLiteral("Qt::"));
+    type.replace(QRegExp(QStringLiteral("^K(?!(DE|Parts|IO)")), QStringLiteral("KDE::"));
 
     return type;
 }
@@ -161,8 +161,8 @@ QString RubyWriter::cppToRubyType(const QString &typeStr)
 QString RubyWriter::cppToRubyName(const QString &nameStr)
 {
     QString name = cleanName(nameStr);
-    name.remove(QRegExp(QLatin1String("^m_")));
-    name.remove(QRegExp(QLatin1String("^[pbn](?=[A-Z])")));
+    name.remove(QRegExp(QStringLiteral("^m_")));
+    name.remove(QRegExp(QStringLiteral("^[pbn](?=[A-Z])")));
     name = name.mid(0, 1).toLower() + name.mid(1);
     return name;
 }
@@ -245,19 +245,19 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
         // Skip destructors, and operator methods which
         // can't be defined in ruby
         if (methodName.startsWith(QLatin1Char('~'))
-                || methodName == QLatin1String("operator =")
-                || methodName == QLatin1String("operator --")
-                || methodName == QLatin1String("operator ++")
-                || methodName == QLatin1String("operator !="))
+                || methodName == QStringLiteral("operator =")
+                || methodName == QStringLiteral("operator --")
+                || methodName == QStringLiteral("operator ++")
+                || methodName == QStringLiteral("operator !="))
         {
             continue;
         }
 
         if (methodName == classname) {
-            methodName = QLatin1String("initialize");
+            methodName = QStringLiteral("initialize");
         }
 
-        methodName.remove(QLatin1String("operator "));
+        methodName.remove(QStringLiteral("operator "));
         methodName = methodName.mid(0, 1).toLower() + methodName.mid(1);
 
         UMLAttributeList atl = op->getParmList();
@@ -271,51 +271,51 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
             h << m_indentation << "#" << m_endl;
             QString docStr = op->doc();
 
-            docStr.replace(QRegExp(QLatin1String("[\\n\\r]+ *")), m_endl);
-            docStr.replace(QRegExp(QLatin1String("[\\n\\r]+\\t*")), m_endl);
+            docStr.replace(QRegExp(QStringLiteral("[\\n\\r]+ *")), m_endl);
+            docStr.replace(QRegExp(QStringLiteral("[\\n\\r]+\\t*")), m_endl);
 
-            docStr.replace(QLatin1String(" m_"), QLatin1String(" "));
-            docStr.replace(QRegExp(QLatin1String("\\s[npb](?=[A-Z])")), QLatin1String(" "));
-            QRegExp re_params(QLatin1String("@param (\\w)(\\w*)"));
+            docStr.replace(QStringLiteral(" m_"), QStringLiteral(" "));
+            docStr.replace(QRegExp(QStringLiteral("\\s[npb](?=[A-Z])")), QStringLiteral(" "));
+            QRegExp re_params(QStringLiteral("@param (\\w)(\\w*)"));
             int pos = re_params.indexIn(docStr);
             while (pos != -1) {
                 docStr.replace(re_params.cap(0),
-                                QString(QLatin1String("@param _")) + re_params.cap(1).toLower() + re_params.cap(2) + QLatin1Char('_'));
+                                QString(QStringLiteral("@param _")) + re_params.cap(1).toLower() + re_params.cap(2) + QLatin1Char('_'));
                 commentedParams.append(re_params.cap(1).toLower() + re_params.cap(2));
 
                 pos += re_params.matchedLength() + 3;
                 pos = re_params.indexIn(docStr, pos);
             }
 
-            docStr.replace(QLatin1Char('\n'), QString(QLatin1String("\n")) + m_indentation + QLatin1String("# "));
+            docStr.replace(QLatin1Char('\n'), QString(QStringLiteral("\n")) + m_indentation + QStringLiteral("# "));
 
             // Write parameter documentation
             foreach (UMLAttribute* at, atl) {
                 // Only write an individual @param entry if one hasn't been found already
                 // in the main doc comment
                 if (commentedParams.contains(cppToRubyName(at->name())) == 0) {
-                    docStr += (m_endl + m_indentation + QLatin1String("# @param _") + cppToRubyName(at->name()) + QLatin1Char('_'));
+                    docStr += (m_endl + m_indentation + QStringLiteral("# @param _") + cppToRubyName(at->name()) + QLatin1Char('_'));
                     if (at->doc().isEmpty()) {
                         docStr += (QLatin1Char(' ') + cppToRubyType(at->getTypeName()));
                     } else {
-                        docStr += (QLatin1Char(' ') + at->doc().replace(QRegExp(QLatin1String("[\\n\\r]+[\\t ]*")), m_endl + QLatin1String("   ")));
+                        docStr += (QLatin1Char(' ') + at->doc().replace(QRegExp(QStringLiteral("[\\n\\r]+[\\t ]*")), m_endl + QStringLiteral("   ")));
                     }
                 }
             }
 
-            docStr.remove(QLatin1String("@ref "));
-            docStr.replace(QLatin1String("@param"), QLatin1String("*"));
-            docStr.replace(QLatin1String("@return"), QLatin1String("* _returns_"));
+            docStr.remove(QStringLiteral("@ref "));
+            docStr.replace(QStringLiteral("@param"), QStringLiteral("*"));
+            docStr.replace(QStringLiteral("@return"), QStringLiteral("* _returns_"));
 
             // All lines after the first '# *' in the doc comment
             // must be indented correctly. If they aren't a list
             // item starting with '# *', then indent the text with
             // three spaces, '#   ', to line up with the list item.
-            pos = docStr.indexOf(QLatin1String("# *"));
-            QRegExp re_linestart(QLatin1String("# (?!\\*)"));
+            pos = docStr.indexOf(QStringLiteral("# *"));
+            QRegExp re_linestart(QStringLiteral("# (?!\\*)"));
             pos = re_linestart.indexIn(docStr, pos);
             while (pos > 0) {
-                docStr.insert(pos + 1, QLatin1String("  "));
+                docStr.insert(pos + 1, QStringLiteral("  "));
 
                 pos += re_linestart.matchedLength() + 2;
                 pos = re_linestart.indexIn(docStr, pos);
@@ -324,7 +324,7 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
             h << m_indentation << "# " <<  docStr << m_endl;
 
             QString typeStr = cppToRubyType(op->getTypeName());
-            if (!typeStr.isEmpty() && typeStr != QLatin1String("void") && docStr.contains(QLatin1String("_returns_")) == 0) {
+            if (!typeStr.isEmpty() && typeStr != QStringLiteral("void") && docStr.contains(QStringLiteral("_returns_")) == 0) {
                 h << m_indentation << "# * _returns_ " << typeStr << m_endl;
             }
         }
@@ -340,7 +340,7 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
                 h << nameStr;
             }
             h << (!(at->getInitialValue().isEmpty()) ?
-                QLatin1String(" = ") + cppToRubyType(at->getInitialValue()) :
+                QStringLiteral(" = ") + cppToRubyType(at->getInitialValue()) :
                 QString());
             j++;
         }
@@ -397,9 +397,9 @@ void RubyWriter::writeSingleAttributeAccessorMethods(
         QTextStream &h)
 {
     QString description = descr;
-    description.remove(QRegExp(QLatin1String("m_[npb](?=[A-Z])")));
-    description.remove(QLatin1String("m_"));
-    description.replace(QLatin1Char('\n'), QString(QLatin1String("\n")) + m_indentation + QLatin1String("# "));
+    description.remove(QRegExp(QStringLiteral("m_[npb](?=[A-Z])")));
+    description.remove(QStringLiteral("m_"));
+    description.replace(QLatin1Char('\n'), QString(QStringLiteral("\n")) + m_indentation + QStringLiteral("# "));
 
     if (!description.isEmpty()) {
         h << m_indentation << "# " << description << m_endl;
@@ -429,46 +429,46 @@ QStringList RubyWriter::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         keywords
-          << QLatin1String("__FILE__")
-          << QLatin1String("__LINE__")
-          << QLatin1String("BEGIN")
-          << QLatin1String("END")
-          << QLatin1String("alias")
-          << QLatin1String("and")
-          << QLatin1String("begin")
-          << QLatin1String("break")
-          << QLatin1String("case")
-          << QLatin1String("class")
-          << QLatin1String("def")
-          << QLatin1String("defined?")
-          << QLatin1String("do")
-          << QLatin1String("else")
-          << QLatin1String("elsif")
-          << QLatin1String("end")
-          << QLatin1String("ensure")
-          << QLatin1String("false")
-          << QLatin1String("for")
-          << QLatin1String("if")
-          << QLatin1String("in")
-          << QLatin1String("module")
-          << QLatin1String("next")
-          << QLatin1String("nil")
-          << QLatin1String("not")
-          << QLatin1String("or")
-          << QLatin1String("redo")
-          << QLatin1String("rescue")
-          << QLatin1String("retry")
-          << QLatin1String("return")
-          << QLatin1String("self")
-          << QLatin1String("super")
-          << QLatin1String("then")
-          << QLatin1String("true")
-          << QLatin1String("undef")
-          << QLatin1String("unless")
-          << QLatin1String("until")
-          << QLatin1String("when")
-          << QLatin1String("while")
-          << QLatin1String("yield");
+          << QStringLiteral("__FILE__")
+          << QStringLiteral("__LINE__")
+          << QStringLiteral("BEGIN")
+          << QStringLiteral("END")
+          << QStringLiteral("alias")
+          << QStringLiteral("and")
+          << QStringLiteral("begin")
+          << QStringLiteral("break")
+          << QStringLiteral("case")
+          << QStringLiteral("class")
+          << QStringLiteral("def")
+          << QStringLiteral("defined?")
+          << QStringLiteral("do")
+          << QStringLiteral("else")
+          << QStringLiteral("elsif")
+          << QStringLiteral("end")
+          << QStringLiteral("ensure")
+          << QStringLiteral("false")
+          << QStringLiteral("for")
+          << QStringLiteral("if")
+          << QStringLiteral("in")
+          << QStringLiteral("module")
+          << QStringLiteral("next")
+          << QStringLiteral("nil")
+          << QStringLiteral("not")
+          << QStringLiteral("or")
+          << QStringLiteral("redo")
+          << QStringLiteral("rescue")
+          << QStringLiteral("retry")
+          << QStringLiteral("return")
+          << QStringLiteral("self")
+          << QStringLiteral("super")
+          << QStringLiteral("then")
+          << QStringLiteral("true")
+          << QStringLiteral("undef")
+          << QStringLiteral("unless")
+          << QStringLiteral("until")
+          << QStringLiteral("when")
+          << QStringLiteral("while")
+          << QStringLiteral("yield");
     }
 
     return keywords;

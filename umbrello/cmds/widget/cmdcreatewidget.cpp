@@ -30,7 +30,7 @@ namespace Uml
 
         QString xmi;
         QXmlStreamWriter stream(&xmi);
-        stream.writeStartElement(QLatin1String("widget"));
+        stream.writeStartElement(QStringLiteral("widget"));
         widget->saveToXMI(stream);
         stream.writeEndElement();  // widget
         QString error;
@@ -55,7 +55,7 @@ namespace Uml
 
         QString xmi;
         QXmlStreamWriter stream(&xmi);
-        stream.writeStartElement(QLatin1String("widget"));
+        stream.writeStartElement(QStringLiteral("widget"));
         widget->saveToXMI(stream);
         stream.writeEndElement();  // widget
         QString error;

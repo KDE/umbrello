@@ -29,7 +29,7 @@
 
 void TestListPopupMenu::test_createWidgetsSingleSelect()
 {
-    UMLFolder folder(QLatin1String("test"));
+    UMLFolder folder(QStringLiteral("test"));
     UMLView view(&folder);
     UMLScene scene(&folder, &view);
     QWidget qWidget;
@@ -54,7 +54,7 @@ void TestListPopupMenu::test_createWidgetsSingleSelect()
 
 void TestListPopupMenu::test_createWidgetsMultiSelect()
 {
-    UMLFolder folder(QLatin1String("test"));
+    UMLFolder folder(QStringLiteral("test"));
     UMLView view(&folder);
     UMLScene scene(&folder, &view);
     QWidget qWidget;
@@ -79,7 +79,7 @@ void TestListPopupMenu::test_createWidgetsMultiSelect()
 
 void TestListPopupMenu::test_createAssociationWidget()
 {
-    UMLFolder folder(QLatin1String("test"));
+    UMLFolder folder(QStringLiteral("test"));
     UMLView view(&folder);
     UMLScene scene(&folder, &view);
     QWidget qWidget;
@@ -94,7 +94,7 @@ void TestListPopupMenu::test_createAssociationWidget()
 
 void TestListPopupMenu::test_createUMLScene()
 {
-    UMLFolder folder(QLatin1String("test"));
+    UMLFolder folder(QStringLiteral("test"));
     UMLView view(&folder);
     QWidget qWidget;
     for(int i = Uml::DiagramType::Undefined+1; i < Uml::DiagramType::N_DIAGRAMTYPES; i++) {
@@ -113,7 +113,7 @@ void TestListPopupMenu::test_createUMLListview()
     UMLListView view;
     for(int i = UMLListViewItem::ListViewType::lvt_Min+1; i < UMLListViewItem::ListViewType::lvt_Max; i++) {
         UMLListViewItem::ListViewType type = static_cast<UMLListViewItem::ListViewType>(i);
-        UMLListViewItem item(&view, QLatin1String("test"), type);
+        UMLListViewItem item(&view, QStringLiteral("test"), type);
         item.setUMLObject(type == UMLListViewItem::ListViewType::lvt_Category ? &category : &object);
         UMLListViewPopupMenu popup(&qWidget, &item);
         popup.dumpActions(UMLListViewItem::toString(type));

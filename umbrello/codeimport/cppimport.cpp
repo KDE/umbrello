@@ -11,7 +11,7 @@
 #include "kdevcppparser/cpptree2uml.h"
 
 // app includes
-#define DBG_SRC QLatin1String("CppImport")
+#define DBG_SRC QStringLiteral("CppImport")
 #include "debug_utils.h"
 #include "import_utils.h"
 #include "uml.h"
@@ -111,10 +111,10 @@ void CppImport::initialize()
     ms_driver->setResolveDependencesEnabled(Settings::optionState().codeImportState.resolveDependencies);
     // FIXME: port to win32
     // Add some standard include paths
-    ms_driver->addIncludePath(QLatin1String("/usr/include"));
-    ms_driver->addIncludePath(QLatin1String("/usr/include/c++"));
-    ms_driver->addIncludePath(QLatin1String("/usr/include/g++"));
-    ms_driver->addIncludePath(QLatin1String("/usr/local/include"));
+    ms_driver->addIncludePath(QStringLiteral("/usr/include"));
+    ms_driver->addIncludePath(QStringLiteral("/usr/include/c++"));
+    ms_driver->addIncludePath(QStringLiteral("/usr/include/g++"));
+    ms_driver->addIncludePath(QStringLiteral("/usr/local/include"));
     const QStringList incPathList = Import_Utils::includePathList();
     if (incPathList.count()) {
         QStringList::ConstIterator end(incPathList.end());
@@ -144,13 +144,13 @@ bool CppImport::parseFile(const QString& fileName)
     foreach(const Problem &problem, ms_driver->problems(fileName)) {
         QString level;
         if (problem.level() == Problem::Level_Error)
-            level = QLatin1String("error");
+            level = QStringLiteral("error");
         else if (problem.level() == Problem::Level_Warning)
-            level = QLatin1String("warning");
+            level = QStringLiteral("warning");
         else if (problem.level() == Problem::Level_Todo)
-            level = QLatin1String("todo");
+            level = QStringLiteral("todo");
         else if (problem.level() == Problem::Level_Fixme)
-            level = QLatin1String("fixme");
+            level = QStringLiteral("fixme");
 
         QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                 .arg(problem.fileName()).arg(problem.line()+1)

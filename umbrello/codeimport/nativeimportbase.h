@@ -75,7 +75,7 @@ protected:
      */
     virtual bool parseStmt() = 0;
 
-    void skipStmt(const QString& until = QLatin1String(";"));
+    void skipStmt(const QString& until = QStringLiteral(";"));
     bool skipToClosing(QChar opener);
 
     QString current();

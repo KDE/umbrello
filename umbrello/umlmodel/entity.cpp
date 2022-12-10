@@ -433,7 +433,7 @@ bool UMLEntity::resolveRef()
  */
 void UMLEntity::saveToXMI(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(writer, QLatin1String("Entity"));
+    UMLObject::save1(writer, QStringLiteral("Entity"));
 
     // save entity attributes
     UMLClassifierListItemList entityAttributes = getFilteredList(UMLObject::ot_EntityAttribute);
@@ -463,29 +463,29 @@ bool UMLEntity::load1(QDomElement& element)
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (UMLDoc::tagEq(tag, QLatin1String("ownedAttribute"))) {
-            tag = tempElement.attribute(QLatin1String("xmi:type"));
+        if (UMLDoc::tagEq(tag, QStringLiteral("ownedAttribute"))) {
+            tag = tempElement.attribute(QStringLiteral("xmi:type"));
         }
-        if (UMLDoc::tagEq(tag, QLatin1String("EntityAttribute"))) {   // for backward compatibility
+        if (UMLDoc::tagEq(tag, QStringLiteral("EntityAttribute"))) {   // for backward compatibility
             UMLEntityAttribute* pEntityAttribute = new UMLEntityAttribute(this);
             if(!pEntityAttribute->loadFromXMI(tempElement)) {
                 return false;
             }
             subordinates().append(pEntityAttribute);
-        } else if (UMLDoc::tagEq(tag, QLatin1String("UniqueConstraint"))) {
+        } else if (UMLDoc::tagEq(tag, QStringLiteral("UniqueConstraint"))) {
             UMLUniqueConstraint* pUniqueConstraint = new UMLUniqueConstraint(this);
             if (!pUniqueConstraint->loadFromXMI(tempElement)) {
                 return false;
             }
             addConstraint(pUniqueConstraint);
-        } else if (UMLDoc::tagEq(tag, QLatin1String("ForeignKeyConstraint"))) {
+        } else if (UMLDoc::tagEq(tag, QStringLiteral("ForeignKeyConstraint"))) {
             UMLForeignKeyConstraint* pForeignKeyConstraint = new UMLForeignKeyConstraint(this);
             if (!pForeignKeyConstraint->loadFromXMI(tempElement)) {
                 return false;
             }
 
             addConstraint(pForeignKeyConstraint);
-        } else if (UMLDoc::tagEq(tag, QLatin1String("CheckConstraint"))) {
+        } else if (UMLDoc::tagEq(tag, QStringLiteral("CheckConstraint"))) {
 
             UMLCheckConstraint* pCheckConstraint = new UMLCheckConstraint(this);
             if (!pCheckConstraint->loadFromXMI(tempElement)) {
@@ -493,7 +493,7 @@ bool UMLEntity::load1(QDomElement& element)
             }
 
             addConstraint(pCheckConstraint);
-        } else if (tag == QLatin1String("stereotype")) {
+        } else if (tag == QStringLiteral("stereotype")) {
             logDebug1("UMLEntity::load1 %1: losing old-format stereotype.", name());
         } else {
             logWarn1("UMLEntity::load1: unknown child type %1", tag);
@@ -713,7 +713,7 @@ UMLEntityAttributeList UMLEntity::getEntityAttributes() const
 UMLClassifierListItem* UMLEntity::makeChildObject(const QString& xmiTag)
 {
     UMLClassifierListItem* pObject = 0;
-    if (UMLDoc::tagEq(xmiTag, QLatin1String("EntityAttribute"))) {
+    if (UMLDoc::tagEq(xmiTag, QStringLiteral("EntityAttribute"))) {
         pObject = new UMLEntityAttribute(this);
     }
     return pObject;

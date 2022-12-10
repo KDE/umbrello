@@ -291,7 +291,7 @@ QString TextBlock::formatMultiLineText(const QString & work, const QString & lin
     if (matches >= 0) {
         // check that last part of string matches, if not, then
         // we have to tack on extra match
-        if (!text.contains(QRegExp(breakStr + QLatin1String("\\$"))))
+        if (!text.contains(QRegExp(breakStr + QStringLiteral("\\$"))))
             matches++;
 
         for (int i=0; i < matches; ++i) {
@@ -318,19 +318,19 @@ void TextBlock::setAttributesOnNode(QXmlStreamWriter& writer)
 {
     QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
-    writer.writeAttribute(QLatin1String("tag"), getTag());
+    writer.writeAttribute(QStringLiteral("tag"), getTag());
 
     // only write these if different from defaults
-    const QString trueStr  = QLatin1String("true");
-    const QString falseStr = QLatin1String("false");
+    const QString trueStr  = QStringLiteral("true");
+    const QString falseStr = QStringLiteral("false");
     if (getIndentationLevel())
-        writer.writeAttribute(QLatin1String("indentLevel"), QString::number(getIndentationLevel()));
+        writer.writeAttribute(QStringLiteral("indentLevel"), QString::number(getIndentationLevel()));
     if (!m_text.isEmpty())
-        writer.writeAttribute(QLatin1String("text"), encodeText(m_text, endLine));
+        writer.writeAttribute(QStringLiteral("text"), encodeText(m_text, endLine));
     if (!getWriteOutText())
-        writer.writeAttribute(QLatin1String("writeOutText"), getWriteOutText() ? trueStr : falseStr);
+        writer.writeAttribute(QStringLiteral("writeOutText"), getWriteOutText() ? trueStr : falseStr);
     if (!canDelete())
-        writer.writeAttribute(QLatin1String("canDelete"), canDelete() ? trueStr : falseStr);
+        writer.writeAttribute(QStringLiteral("canDelete"), canDelete() ? trueStr : falseStr);
 }
 
 /**
@@ -355,12 +355,12 @@ void TextBlock::setAttributesFromNode(QDomElement & root)
 {
     QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
 
-    setIndentationLevel(root.attribute(QLatin1String("indentLevel"), QLatin1String("0")).toInt());
-    setTag(root.attribute(QLatin1String("tag")));
-    setText(decodeText(root.attribute(QLatin1String("text")), endLine));
-    const QString trueStr = QLatin1String("true");
-    setWriteOutText(root.attribute(QLatin1String("writeOutText"), trueStr) == trueStr);
-    m_canDelete = root.attribute(QLatin1String("canDelete"), trueStr) == trueStr;
+    setIndentationLevel(root.attribute(QStringLiteral("indentLevel"), QStringLiteral("0")).toInt());
+    setTag(root.attribute(QStringLiteral("tag")));
+    setText(decodeText(root.attribute(QStringLiteral("text")), endLine));
+    const QString trueStr = QStringLiteral("true");
+    setWriteOutText(root.attribute(QStringLiteral("writeOutText"), trueStr) == trueStr);
+    m_canDelete = root.attribute(QStringLiteral("canDelete"), trueStr) == trueStr;
 }
 
 /**
@@ -374,7 +374,7 @@ void TextBlock::setAttributesFromNode(QDomElement & root)
 QString TextBlock::encodeText(const QString & text, const QString & endLine)
 {
     QString encoded = text;
-    encoded.replace(QRegExp(endLine), QLatin1String("&#010;"));
+    encoded.replace(QRegExp(endLine), QStringLiteral("&#010;"));
     return encoded;
 }
 
@@ -388,7 +388,7 @@ QString TextBlock::encodeText(const QString & text, const QString & endLine)
 QString TextBlock::decodeText(const QString & text, const QString & endLine)
 {
     QString decoded = text;
-    decoded.replace(QRegExp(QLatin1String("&#010;")), endLine);
+    decoded.replace(QRegExp(QStringLiteral("&#010;")), endLine);
     return decoded;
 }
 
@@ -419,7 +419,7 @@ QDebug operator<<(QDebug os, const TextBlock& obj)
        << ", canDelete=" << (obj.canDelete() ? "true" : "false")
        << ", indentationLevel=" << obj.getIndentationLevel()
        << ", parentDocument id=" << (obj.getParentDocument() ? obj.getParentDocument()->ID()
-                                                             : QLatin1String("null"))
+                                                             : QStringLiteral("null"))
        << ", text=" << obj.getText();
     return os.space();
 }

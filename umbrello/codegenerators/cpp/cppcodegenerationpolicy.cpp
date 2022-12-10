@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -296,10 +296,10 @@ QString CPPCodeGenerationPolicy::getVectorMethodAppend(const QString & variableN
 {
     QString value = m_vectorMethodAppendBase;
     if(!variableName.isEmpty())
-        value.replace(QRegExp(QLatin1String("%VARNAME%")), variableName);
-    value.replace(QRegExp(QLatin1String("%VECTORTYPENAME%")), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
+        value.replace(QRegExp(QStringLiteral("%VARNAME%")), variableName);
+    value.replace(QRegExp(QStringLiteral("%VECTORTYPENAME%")), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
     if(!itemClassName.isEmpty())
-        value.replace(QRegExp(QLatin1String("%ITEMCLASS%")), itemClassName);
+        value.replace(QRegExp(QStringLiteral("%ITEMCLASS%")), itemClassName);
     return value;
 }
 
@@ -307,10 +307,10 @@ QString CPPCodeGenerationPolicy::getVectorMethodRemove(const QString & variableN
 {
     QString value = m_vectorMethodRemoveBase;
     if(!variableName.isEmpty())
-        value.replace(QRegExp(QLatin1String("%VARNAME%")), variableName);
-    value.replace(QRegExp(QLatin1String("%VECTORTYPENAME%")), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
+        value.replace(QRegExp(QStringLiteral("%VARNAME%")), variableName);
+    value.replace(QRegExp(QStringLiteral("%VECTORTYPENAME%")), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
     if(!itemClassName.isEmpty())
-        value.replace(QRegExp(QLatin1String("%ITEMCLASS%")), itemClassName);
+        value.replace(QRegExp(QStringLiteral("%ITEMCLASS%")), itemClassName);
     return value;
 }
 
@@ -318,10 +318,10 @@ QString CPPCodeGenerationPolicy::getVectorMethodInit(const QString & variableNam
 {
     QString value = m_vectorMethodInitBase;
     if(!variableName.isEmpty())
-        value.replace(QRegExp(QLatin1String("%VARNAME%")), variableName);
-    value.replace(QRegExp(QLatin1String("%VECTORTYPENAME%")), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
+        value.replace(QRegExp(QStringLiteral("%VARNAME%")), variableName);
+    value.replace(QRegExp(QStringLiteral("%VECTORTYPENAME%")), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
     if(!itemClassName.isEmpty())
-        value.replace(QRegExp(QLatin1String("%ITEMCLASS%")), itemClassName);
+        value.replace(QRegExp(QStringLiteral("%ITEMCLASS%")), itemClassName);
     return value;
 }
 
@@ -336,10 +336,10 @@ QString CPPCodeGenerationPolicy::getObjectMethodInit(const QString & variableNam
 {
     QString value = m_objectMethodInitBase;
     if(!variableName.isEmpty())
-        value.replace(QRegExp(QLatin1String("%VARNAME%")), variableName);
-    value.replace(QRegExp(QLatin1String("%VECTORTYPENAME%")), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
+        value.replace(QRegExp(QStringLiteral("%VARNAME%")), variableName);
+    value.replace(QRegExp(QStringLiteral("%VECTORTYPENAME%")), Settings::optionState().codeGenerationState.cppCodeGenerationState.vectorClassName);
     if(!itemClassName.isEmpty())
-        value.replace(QRegExp(QLatin1String("%ITEMCLASS%")), itemClassName);
+        value.replace(QRegExp(QStringLiteral("%ITEMCLASS%")), itemClassName);
     return value;
 }
 

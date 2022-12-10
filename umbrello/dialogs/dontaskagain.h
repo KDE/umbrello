@@ -40,7 +40,7 @@ protected:
 class DontAskAgainItem##name : public DontAskAgainItem \
 { \
 public: \
-    DontAskAgainItem##name() : DontAskAgainItem(QLatin1String(key)) {} \
+    DontAskAgainItem##name() : DontAskAgainItem(QStringLiteral(key)) {} \
     virtual QString text() const { return _text; } \
 }; \
 static DontAskAgainItem##name name;

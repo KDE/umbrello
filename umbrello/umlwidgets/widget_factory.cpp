@@ -23,7 +23,7 @@
 #include "component.h"
 #include "componentwidget.h"
 #include "datatypewidget.h"
-#define DBG_SRC QLatin1String("Widget_Factory")
+#define DBG_SRC QStringLiteral("Widget_Factory")
 #include "debug_utils.h"
 #include "entity.h"
 #include "entitywidget.h"
@@ -181,7 +181,7 @@ bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::ID::Typ
     if (o == 0) {
         logDebug1("Widget_Factory::validateObjType: creating new object of type %1",
                   expected);
-        QString artificialName = QLatin1String("LOST_") + Uml::ID::toString(id);
+        QString artificialName = QStringLiteral("LOST_") + Uml::ID::toString(id);
         o = Object_Factory::createUMLObject(expected, artificialName, 0, false);
         if (o == 0)
             return false;
@@ -210,33 +210,33 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         // just graphic stuff with no real model information
         //FIXME while boxes and texts are just diagram objects, activities and
         // states should be UMLObjects
-    if (tag == QLatin1String("statewidget") || tag == QLatin1String("UML:StateWidget")) {
+    if (tag == QStringLiteral("statewidget") || tag == QStringLiteral("UML:StateWidget")) {
         widget = new StateWidget(scene, StateWidget::Normal, Uml::ID::Reserved);
-    } else if (tag == QLatin1String("notewidget") || tag == QLatin1String("UML:NoteWidget")) {
+    } else if (tag == QStringLiteral("notewidget") || tag == QStringLiteral("UML:NoteWidget")) {
         widget = new NoteWidget(scene, NoteWidget::Normal, Uml::ID::Reserved);
-    } else if (tag == QLatin1String("boxwidget")) {
+    } else if (tag == QStringLiteral("boxwidget")) {
         widget = new BoxWidget(scene, Uml::ID::Reserved);
-    } else if (tag == QLatin1String("floatingtext") || tag == QLatin1String("UML:FloatingTextWidget")) {
+    } else if (tag == QStringLiteral("floatingtext") || tag == QStringLiteral("UML:FloatingTextWidget")) {
         widget = new FloatingTextWidget(scene, Uml::TextRole::Floating, QString(), Uml::ID::Reserved);
-    } else if (tag == QLatin1String("activitywidget") || tag == QLatin1String("UML:ActivityWidget")) {
+    } else if (tag == QStringLiteral("activitywidget") || tag == QStringLiteral("UML:ActivityWidget")) {
         widget = new ActivityWidget(scene, ActivityWidget::Initial, Uml::ID::Reserved);
-    } else if (tag == QLatin1String("messagewidget")) {
+    } else if (tag == QStringLiteral("messagewidget")) {
         widget = new MessageWidget(scene, Uml::SequenceMessage::Asynchronous, Uml::ID::Reserved);
-    } else if (tag == QLatin1String("forkjoin")) {
+    } else if (tag == QStringLiteral("forkjoin")) {
         widget = new ForkJoinWidget(scene, Qt::Vertical, Uml::ID::Reserved);
-    } else if (tag == QLatin1String("preconditionwidget")) {
+    } else if (tag == QStringLiteral("preconditionwidget")) {
         widget = new PreconditionWidget(scene, 0, Uml::ID::Reserved);
-    } else if (tag == QLatin1String("combinedFragmentwidget")) {
+    } else if (tag == QStringLiteral("combinedFragmentwidget")) {
         widget = new CombinedFragmentWidget(scene, CombinedFragmentWidget::Ref, Uml::ID::Reserved);
-    } else if (tag == QLatin1String("signalwidget")) {
+    } else if (tag == QStringLiteral("signalwidget")) {
         widget = new SignalWidget(scene, SignalWidget::Send,  Uml::ID::Reserved);
-    } else if (tag == QLatin1String("floatingdashlinewidget")) {
+    } else if (tag == QStringLiteral("floatingdashlinewidget")) {
         widget = new FloatingDashLineWidget(scene, Uml::ID::Reserved);
-    } else if (tag == QLatin1String("objectnodewidget")) {
+    } else if (tag == QStringLiteral("objectnodewidget")) {
         widget = new ObjectNodeWidget(scene, ObjectNodeWidget::Normal, Uml::ID::Reserved);
-    } else if (tag == QLatin1String("regionwidget")) {
+    } else if (tag == QStringLiteral("regionwidget")) {
         widget = new RegionWidget(scene, Uml::ID::Reserved);
-    } else if (tag == QLatin1String("pinwidget")) {
+    } else if (tag == QStringLiteral("pinwidget")) {
         widget = new PinWidget(scene, 0, Uml::ID::Reserved);
     }
     else
@@ -254,49 +254,49 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
             return 0;
         }
 
-        if (tag == QLatin1String("actorwidget") || tag == QLatin1String("UML:ActorWidget")) {
+        if (tag == QStringLiteral("actorwidget") || tag == QStringLiteral("UML:ActorWidget")) {
             if (validateObjType(UMLObject::ot_Actor, o, id))
                 widget = new ActorWidget(scene, o->asUMLActor());
-        } else if (tag == QLatin1String("usecasewidget") || tag ==  QLatin1String("UML:UseCaseWidget")) {
+        } else if (tag == QStringLiteral("usecasewidget") || tag ==  QStringLiteral("UML:UseCaseWidget")) {
             if (validateObjType(UMLObject::ot_UseCase, o, id))
                 widget = new UseCaseWidget(scene, o->asUMLUseCase());
-        } else if (tag == QLatin1String("classwidget") ||
-                   tag == QLatin1String("UML:ClassWidget") || tag == QLatin1String("UML:ConceptWidget")) {
+        } else if (tag == QStringLiteral("classwidget") ||
+                   tag == QStringLiteral("UML:ClassWidget") || tag == QStringLiteral("UML:ConceptWidget")) {
             if (validateObjType(UMLObject::ot_Class, o, id) || validateObjType(UMLObject::ot_Package, o, id))
                 widget = new ClassifierWidget(scene, o->asUMLClassifier());
-        } else if (tag == QLatin1String("packagewidget")) {
+        } else if (tag == QStringLiteral("packagewidget")) {
             if (validateObjType(UMLObject::ot_Package, o, id))
                 widget = new ClassifierWidget(scene, o->asUMLPackage());
-        } else if (tag == QLatin1String("componentwidget")) {
+        } else if (tag == QStringLiteral("componentwidget")) {
             if (validateObjType(UMLObject::ot_Component, o, id))
                 widget = new ComponentWidget(scene, o->asUMLComponent());
-        } else if (tag == QLatin1String("portwidget")) {
+        } else if (tag == QStringLiteral("portwidget")) {
             if (validateObjType(UMLObject::ot_Port, o, id))
                 widget = new PortWidget(scene, o->asUMLPort());
-        } else if (tag == QLatin1String("nodewidget")) {
+        } else if (tag == QStringLiteral("nodewidget")) {
             if (validateObjType(UMLObject::ot_Node, o, id))
                 widget = new NodeWidget(scene, o->asUMLNode());
-        } else if (tag == QLatin1String("artifactwidget")) {
+        } else if (tag == QStringLiteral("artifactwidget")) {
             if (validateObjType(UMLObject::ot_Artifact, o, id))
                 widget = new ArtifactWidget(scene, o->asUMLArtifact());
-        } else if (tag == QLatin1String("interfacewidget")) {
+        } else if (tag == QStringLiteral("interfacewidget")) {
             if (validateObjType(UMLObject::ot_Interface, o, id))
                 widget = new InterfaceWidget(scene, o->asUMLClassifier());
-        } else if (tag == QLatin1String("datatypewidget")) {
+        } else if (tag == QStringLiteral("datatypewidget")) {
             if (validateObjType(UMLObject::ot_Datatype, o, id))
                 widget = new DatatypeWidget(scene, o->asUMLClassifier());
-        } else if (tag == QLatin1String("enumwidget")) {
+        } else if (tag == QStringLiteral("enumwidget")) {
             if (validateObjType(UMLObject::ot_Enum, o, id))
                 widget = new EnumWidget(scene, o->asUMLEnum());
-        } else if (tag == QLatin1String("entitywidget")) {
+        } else if (tag == QStringLiteral("entitywidget")) {
             if (validateObjType(UMLObject::ot_Entity, o, id))
                 widget = new EntityWidget(scene, o->asUMLEntity());
-        } else if (tag == QLatin1String("categorywidget")) {
+        } else if (tag == QStringLiteral("categorywidget")) {
             if (validateObjType(UMLObject::ot_Category, o, id))
                 widget = new CategoryWidget(scene, o->asUMLCategory());
-        } else if (tag == QLatin1String("objectwidget") || tag == QLatin1String("UML:ObjectWidget")) {
+        } else if (tag == QStringLiteral("objectwidget") || tag == QStringLiteral("UML:ObjectWidget")) {
             widget = new ObjectWidget(scene, o);
-        } else if(tag == QLatin1String("instancewidget") || tag == QLatin1String("UML:InstanceWidget")) {
+        } else if(tag == QStringLiteral("instancewidget") || tag == QStringLiteral("UML:InstanceWidget")) {
             if (validateObjType(UMLObject::ot_Instance, o, id))
                 widget = new ClassifierWidget(scene, o->asUMLInstance());
         }

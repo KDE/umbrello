@@ -7,7 +7,7 @@
 #include "umlviewimageexporter.h"
 
 // application specific includes
-#define DBG_SRC QLatin1String("UMLViewImageExporter")
+#define DBG_SRC QStringLiteral("UMLViewImageExporter")
 #include "debug_utils.h"
 #include "dotgenerator.h"
 #include "umlfiledialog.h"
@@ -190,7 +190,7 @@ void UMLViewImageExporter::prepareFileDialog(UMLFileDialog *fileDialog)
 
     QHash<QString, QString> configFiles;
     if (!DotGenerator::availableConfigFiles(m_scene, configFiles) || configFiles.size() == 0)
-        mimeTypes.removeOne(QLatin1String("image/x-dot"));
+        mimeTypes.removeOne(QStringLiteral("image/x-dot"));
 
     fileDialog->setCaption(i18n("Save As"));
 #if QT_VERSION >= 0x050000

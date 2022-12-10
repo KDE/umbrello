@@ -45,8 +45,8 @@ void TestCppWriter::test_writeClass()
 
     cpp->writeClass(c);
     // does the just created file exist?
-    QFile fileHeader(temporaryPath() + cpp->findFileName(c, QLatin1String(".h")));
-    QFile fileCPP(temporaryPath() + cpp->findFileName(c, QLatin1String(".cpp")));
+    QFile fileHeader(temporaryPath() + cpp->findFileName(c, QStringLiteral(".h")));
+    QFile fileCPP(temporaryPath() + cpp->findFileName(c, QStringLiteral(".cpp")));
     QCOMPARE(fileHeader.exists(), true);
     QCOMPARE(fileCPP.exists(), true);
 }
@@ -56,9 +56,9 @@ void TestCppWriter::test_reservedKeywords()
     CppWriter* cpp = new CppWriter();
     QStringList list = cpp->reservedKeywords();
     QCOMPARE(list.empty(), false);
-    QCOMPARE(list[0], QLatin1String("and"));
-    QCOMPARE(list[11], QLatin1String("case"));
-    QCOMPARE(list.last(), QLatin1String("xor_eq"));
+    QCOMPARE(list[0], QStringLiteral("and"));
+    QCOMPARE(list[11], QStringLiteral("case"));
+    QCOMPARE(list.last(), QStringLiteral("xor_eq"));
 }
 
 void TestCppWriter::test_defaultDatatypes()
@@ -66,9 +66,9 @@ void TestCppWriter::test_defaultDatatypes()
     CppWriter* cpp = new CppWriter();
     QStringList list = cpp->defaultDatatypes();
     QCOMPARE(list.empty(), false);
-    QCOMPARE(list[1], QLatin1String("int"));
-    QCOMPARE(list[10], QLatin1String("short int"));
-    QCOMPARE(list[5], QLatin1String("string"));
+    QCOMPARE(list[1], QStringLiteral("int"));
+    QCOMPARE(list[10], QStringLiteral("short int"));
+    QCOMPARE(list[5], QStringLiteral("string"));
 }
 
 QTEST_MAIN(TestCppWriter)

@@ -48,9 +48,9 @@ DEBUG_REGISTER(SQLImport)
  *
  * @param thread                  thread in which the code import runs
  */
-SQLImport::SQLImport(CodeImpThread* thread) : NativeImportBase(QLatin1String("--"), thread)
+SQLImport::SQLImport(CodeImpThread* thread) : NativeImportBase(QStringLiteral("--"), thread)
 {
-    setMultiLineComment(QLatin1String("/*"), QLatin1String("*/"));
+    setMultiLineComment(QStringLiteral("/*"), QStringLiteral("*/"));
 }
 
 /**
@@ -91,12 +91,12 @@ void SQLImport::fillSource(const QString& word)
  */
 QString &stripQuotes(QString &token)
 {
-    if (token.contains(QLatin1String("\"")))
-        token.replace(QLatin1String("\""), QLatin1String(""));
-    else if (token.contains(QLatin1String("`")))
-        token.replace(QLatin1String("`"), QLatin1String(""));
-    else if (token.contains(QLatin1String("'")))
-        token.replace(QLatin1String("'"), QLatin1String(""));
+    if (token.contains(QStringLiteral("\"")))
+        token.replace(QStringLiteral("\""), QStringLiteral(""));
+    else if (token.contains(QStringLiteral("`")))
+        token.replace(QStringLiteral("`"), QStringLiteral(""));
+    else if (token.contains(QStringLiteral("'")))
+        token.replace(QStringLiteral("'"), QStringLiteral(""));
     return token;
 }
 
@@ -109,13 +109,13 @@ QString &stripQuotes(QString &token)
 QString SQLImport::parseIdentifier(QString &token)
 {
     QString value;
-    if (token == QLatin1String("`")) { // mysql
+    if (token == QStringLiteral("`")) { // mysql
         value = advance();
         token = advance();
     } else
         value = token;
     token = advance();
-    if (token == QLatin1String(".")) {
+    if (token == QStringLiteral(".")) {
         // FIXME we do not support packages yet
 #if 0
         value += token;
@@ -139,9 +139,9 @@ QString SQLImport::parseIdentifier(QString &token)
 QStringList SQLImport::parseIdentifierList(QString &token)
 {
     QStringList values;
-    if (token.toLower() == QLatin1String("(")) {
-        for (token = advance(); token != QLatin1String(")");) {
-            if (token == QLatin1String(",")) {
+    if (token.toLower() == QStringLiteral("(")) {
+        for (token = advance(); token != QStringLiteral(")");) {
+            if (token == QStringLiteral(",")) {
                 token = advance();
                 continue;
             }
@@ -171,54 +171,54 @@ QStringList SQLImport::parseFieldType(QString &token)
     token = advance();
 
     // schema.type
-    if (token == QLatin1String(".")) {
+    if (token == QStringLiteral(".")) {
         type += token;
         type += advance();
         token = advance();
-        if (token.toLower() == QLatin1String("precision")) {
+        if (token.toLower() == QStringLiteral("precision")) {
             type += token;
             token = advance();
         }
     }
 
-    if (type.toLower() == QLatin1String("enum")) {
+    if (type.toLower() == QStringLiteral("enum")) {
         QStringList values = parseIdentifierList(token);
         return QStringList() << type << QString() << values;
     }
 
-    if (token.toLower() == QLatin1String("varying")) {
-        type += QLatin1String(" ") + token;
+    if (token.toLower() == QStringLiteral("varying")) {
+        type += QStringLiteral(" ") + token;
         token = advance(); // '('
     }
     // (number) | (number,number)
-    if (token.toLower() == QLatin1String("(")) {
+    if (token.toLower() == QStringLiteral("(")) {
         typeLength = advance(); // value
         token = advance();
-        if (token == QLatin1String(",")) {
+        if (token == QStringLiteral(",")) {
             typeLength += token;
             typeLength += advance();
             token = advance();
         }
         token = advance();
-    } else if (token.toLower() == QLatin1String("precision")) {
-        type += QLatin1String(" ") + token;
+    } else if (token.toLower() == QStringLiteral("precision")) {
+        type += QStringLiteral(" ") + token;
         token = advance();
     }
 
-    if (token == QLatin1String("[")) {
+    if (token == QStringLiteral("[")) {
         token = advance();
-        if (token == QLatin1String("]")) {
-            type += QLatin1String("[]");
+        if (token == QStringLiteral("]")) {
+            type += QStringLiteral("[]");
             token = advance();
         }
-    } else if (token.toLower().startsWith(QLatin1String("with"))) {
-        type += QLatin1String(" ") + token;
+    } else if (token.toLower().startsWith(QStringLiteral("with"))) {
+        type += QStringLiteral(" ") + token;
         token = advance();
-        type += QLatin1String(" ") + token;
+        type += QStringLiteral(" ") + token;
         token = advance();
-        type += QLatin1String(" ") + token;
+        type += QStringLiteral(" ") + token;
         token = advance();
-    } else if (token.toLower() == QLatin1String("unsigned")) { // mysql
+    } else if (token.toLower() == QStringLiteral("unsigned")) { // mysql
         token = advance();
     }
     return QStringList() << type << typeLength;
@@ -238,7 +238,7 @@ QString SQLImport::parseDefaultExpression(QString &token)
 {
     QString defaultValue;
 
-    if (token == QLatin1String("(")) {
+    if (token == QStringLiteral("(")) {
         int index = m_srcIndex;
         skipToClosing(QLatin1Char('('));
         token = advance();
@@ -248,17 +248,17 @@ QString SQLImport::parseDefaultExpression(QString &token)
         defaultValue += token;
         token = advance();
     }
-    if (token == (QLatin1String(":"))) {
+    if (token == (QStringLiteral(":"))) {
         defaultValue += token;
         token = advance();
-        if (token == (QLatin1String(":"))) {
+        if (token == (QStringLiteral(":"))) {
             defaultValue += token;
             token = advance();
             defaultValue += parseFieldType(token).first();
         }
     }
 
-    if (token == QLatin1String("(")) {
+    if (token == QStringLiteral("(")) {
         int index = m_srcIndex;
         skipToClosing(QLatin1Char('('));
         token = advance();
@@ -298,12 +298,12 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
 {
     ColumnConstraints constraints;
 
-    while (token != QLatin1String(",") && token != QLatin1String(")") && token.toLower() != QLatin1String("comment")) {
+    while (token != QStringLiteral(",") && token != QStringLiteral(")") && token.toLower() != QStringLiteral("comment")) {
         const int origIndex = m_srcIndex;
 
-        if (token.toLower() == QLatin1String("character")) { // mysql
+        if (token.toLower() == QStringLiteral("character")) { // mysql
             token = advance(); // set
-            if (token.toLower() == QLatin1String("set")) {
+            if (token.toLower() == QStringLiteral("set")) {
                 constraints.characterSet = advance(); // <value>
                 token = advance();
             }
@@ -313,55 +313,55 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
             }
         }
 
-        if (token.toLower() == QLatin1String("collate")) { // mysql
+        if (token.toLower() == QStringLiteral("collate")) { // mysql
             constraints.collate = advance();
             token = advance();
         }
 
         // [ CONSTRAINT constraint_name ]
-        if (token.toLower() == QLatin1String("constraint")) {
+        if (token.toLower() == QStringLiteral("constraint")) {
             constraints.constraintName = advance();
             token = advance();
         }
 
         // NOT NULL
-        if (token.toLower() == QLatin1String("not")) {
+        if (token.toLower() == QStringLiteral("not")) {
             token = advance();
-            if (token.toLower() == QLatin1String("null")) {
+            if (token.toLower() == QStringLiteral("null")) {
                 constraints.notNullConstraint = true;
                 token = advance();
             }
         }
 
         // NULL
-        if (token.toLower() == QLatin1String("null")) {
+        if (token.toLower() == QStringLiteral("null")) {
             constraints.notNullConstraint = false;
             token = advance();
         }
 
         // CHECK ( expression )
-        if (token.toLower() == QLatin1String("check")) {
-            skipStmt(QLatin1String(")"));
+        if (token.toLower() == QStringLiteral("check")) {
+            skipStmt(QStringLiteral(")"));
             token = advance();
         }
 
         // DEFAULT default_expr
-        if (token.toLower() == QLatin1String("default")) {
+        if (token.toLower() == QStringLiteral("default")) {
             token = advance();
             constraints.defaultValue = parseDefaultExpression(token);
         }
 
         // UNIQUE index_parameters
-        if (token.toLower() == QLatin1String("unique")) {
+        if (token.toLower() == QStringLiteral("unique")) {
             constraints.uniqueKey = true;
             token = advance();
             // WITH ( storage_parameter [= value] [, ... ] )
-            if (token.toLower() == QLatin1String("with")) {
-                skipStmt(QLatin1String(")"));
+            if (token.toLower() == QStringLiteral("with")) {
+                skipStmt(QStringLiteral(")"));
                 token = advance();
             }
             // USING INDEX TABLESPACE tablespace
-            if (token.toLower() == QLatin1String("using")) {
+            if (token.toLower() == QStringLiteral("using")) {
                 token = advance();
                 token = advance();
                 token = advance();
@@ -370,18 +370,18 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
         }
 
         // PRIMARY KEY index_parameters
-        if (token.toLower() == QLatin1String("primary")) {
+        if (token.toLower() == QStringLiteral("primary")) {
             token = advance();
-            if (token.toLower() == QLatin1String("key")) {
+            if (token.toLower() == QStringLiteral("key")) {
                 constraints.primaryKey = true;
                 token = advance();
                 // WITH ( storage_parameter [= value] [, ... ] )
-                if (token.toLower() == QLatin1String("with")) {
-                    skipStmt(QLatin1String(")"));
+                if (token.toLower() == QStringLiteral("with")) {
+                    skipStmt(QStringLiteral(")"));
                     token = advance();
                 }
                 // USING INDEX TABLESPACE tablespace
-                if (token.toLower() == QLatin1String("using")) {
+                if (token.toLower() == QStringLiteral("using")) {
                     token = advance();  // INDEX
                     token = advance();  // TABLESPACE
                     token = advance();  // tablespace
@@ -391,29 +391,29 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
         }
 
         // REFERENCES reftable [ ( refcolumn ) ]
-        if (token.toLower() == QLatin1String("references")) {
+        if (token.toLower() == QStringLiteral("references")) {
             token = advance();
             token = advance();
-            if (token == QLatin1String("(")) {
-                skipStmt(QLatin1String(")"));
+            if (token == QStringLiteral("(")) {
+                skipStmt(QStringLiteral(")"));
                 token = advance();
             }
 
             // [ MATCH FULL | MATCH PARTIAL | MATCH SIMPLE ]
-            if (token.toLower() == QLatin1String("match")) {
+            if (token.toLower() == QStringLiteral("match")) {
                 token = advance();
                 token = advance();
             }
 
             // [ ON DELETE action ]
-            if (token.toLower() == QLatin1String("on")) {
+            if (token.toLower() == QStringLiteral("on")) {
                 token = advance();
                 token = advance();
                 token = advance();
             }
 
             // [ ON UPDATE action ]
-            if (token.toLower() == QLatin1String("on")) {
+            if (token.toLower() == QStringLiteral("on")) {
                 token = advance();
                 token = advance();
                 token = advance();
@@ -421,32 +421,32 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
         }
 
         // [ DEFERRABLE | NOT DEFERRABLE ]
-        if (token.toLower() == QLatin1String("deferrable")) {
+        if (token.toLower() == QStringLiteral("deferrable")) {
             token = advance();
         }
-        else if (token.toLower() == QLatin1String("not")) {
+        else if (token.toLower() == QStringLiteral("not")) {
             token = advance();
             token = advance();
         }
 
         // [ INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
-        if (token.toLower() == QLatin1String("initially")) {
+        if (token.toLower() == QStringLiteral("initially")) {
             token = advance();
             token = advance();
         }
 
-        if (token.toLower() == QLatin1String("auto_increment")) { // mysql
+        if (token.toLower() == QStringLiteral("auto_increment")) { // mysql
             constraints.autoIncrement = true;
             token = advance();
         }
 
         if (m_srcIndex == origIndex) {
-            log(m_parsedFiles.first(), QLatin1String("could not parse column constraint '") + token + QLatin1String("'"));
+            log(m_parsedFiles.first(), QStringLiteral("could not parse column constraint '") + token + QStringLiteral("'"));
             token = advance();
         }
     }
-    if (token.toLower() == QLatin1String("comment")) {
-        while (token != QLatin1String(",") && token != QLatin1String(")")) {
+    if (token.toLower() == QStringLiteral("comment")) {
+        while (token != QStringLiteral(",") && token != QStringLiteral(")")) {
             token = advance();
         }
     }
@@ -479,15 +479,15 @@ SQLImport::TableConstraints SQLImport::parseTableConstraints(QString &token)
 {
     TableConstraints constraints;
 
-    if (token.toLower() == QLatin1String("constraint")) {
+    if (token.toLower() == QStringLiteral("constraint")) {
         constraints.constraintName = advance();
         token = advance();
     }
 
     // CHECK ( expression )
-    if (token.toLower() == QLatin1String("check")) {
+    if (token.toLower() == QStringLiteral("check")) {
         token = advance();
-        if (token == QLatin1String("(")) {
+        if (token == QStringLiteral("(")) {
             int index = m_srcIndex;
             skipToClosing(QLatin1Char('('));
             token = advance();
@@ -498,7 +498,7 @@ SQLImport::TableConstraints SQLImport::parseTableConstraints(QString &token)
     }
 
     // PRIMARY KEY (`uid`, `pid`),
-    if (token.toLower() == QLatin1String("primary")) {
+    if (token.toLower() == QStringLiteral("primary")) {
         token = advance(); // key
         token = advance(); // (
         constraints.primaryKey = true;
@@ -506,7 +506,7 @@ SQLImport::TableConstraints SQLImport::parseTableConstraints(QString &token)
     }
 
     // UNIQUE KEY `entry_identifier` (`entry_namespace`,`entry_key`)
-    else if (token.toLower() == QLatin1String("unique")) {
+    else if (token.toLower() == QStringLiteral("unique")) {
         token = advance();
         token = advance();
         constraints.uniqueKeys = true;
@@ -515,8 +515,8 @@ SQLImport::TableConstraints SQLImport::parseTableConstraints(QString &token)
     }
 
     // KEY `t3ver_oid` (`t3ver_oid`,`t3ver_wsid`) // mysql
-    else if (token.toLower() == QLatin1String("key")) {
-        if (m_source[m_srcIndex+4] == QLatin1String("(") ) {
+    else if (token.toLower() == QStringLiteral("key")) {
+        if (m_source[m_srcIndex+4] == QStringLiteral("(") ) {
             token = advance();
             constraints.uniqueKeys = true;
             constraints.uniqueKeyName = parseIdentifier(token);
@@ -537,15 +537,15 @@ SQLImport::TableConstraints SQLImport::parseTableConstraints(QString &token)
  */
 bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
 {
-    if (token != QLatin1String("(")) {
-        skipStmt(QLatin1String(";"));
+    if (token != QStringLiteral("(")) {
+        skipStmt(QStringLiteral(";"));
         return false;
     }
 
     while (m_source.count() > m_srcIndex) {
         token = advance();
 
-        if (token == QLatin1String(")")) {
+        if (token == QStringLiteral(")")) {
             break;
         }
 
@@ -569,7 +569,7 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
                 if (!tableConstraints.constraintName.isEmpty())
                     name = tableConstraints.constraintName;
                 else
-                    name = entity->name() + QLatin1String("_check");
+                    name = entity->name() + QStringLiteral("_check");
                 UMLCheckConstraint *cc = new UMLCheckConstraint(entity, name);
                 cc->setCheckCondition(tableConstraints.checkExpression);
                 entity->addConstraint(cc);
@@ -579,9 +579,9 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
             }
         }
 
-        if (token == QLatin1String(","))
+        if (token == QStringLiteral(","))
             continue;
-        else if (token == QLatin1String(")"))
+        else if (token == QStringLiteral(")"))
             break;
 
         // handle field name
@@ -620,29 +620,29 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
             a->setValues(fieldType.at(1));
             a->setAutoIncrement(constraints.autoIncrement);
             if (constraints.primaryKey) {
-                UMLUniqueConstraint *pkey = new UMLUniqueConstraint(a, a->name() + QLatin1String("_pkey"));
+                UMLUniqueConstraint *pkey = new UMLUniqueConstraint(a, a->name() + QStringLiteral("_pkey"));
                 entity->setAsPrimaryKey(pkey);
             }
             else if (constraints.uniqueKey) {
-                UMLUniqueConstraint *uc = new UMLUniqueConstraint(a, a->name() + QLatin1String("_unique"));
+                UMLUniqueConstraint *uc = new UMLUniqueConstraint(a, a->name() + QStringLiteral("_unique"));
                 entity->addConstraint(uc);
             }
 
             QStringList attributes;
             if (!constraints.characterSet.isEmpty())
-                attributes.append(QLatin1String("CHARACTER SET ") + constraints.characterSet);
+                attributes.append(QStringLiteral("CHARACTER SET ") + constraints.characterSet);
             if (!constraints.collate.isEmpty())
-                attributes.append(QLatin1String("COLLATE ") + constraints.collate);
+                attributes.append(QStringLiteral("COLLATE ") + constraints.collate);
             if (attributes.size() > 0)
-                a->setAttributes(attributes.join(QLatin1String(" ")));
+                a->setAttributes(attributes.join(QStringLiteral(" ")));
 
             entity->addEntityAttribute(a);
         } else if (!entity) {
             logError1("SQLImport::parseCreateDefinition: Could not add field '%1' because of zero entity.", fieldName);
         }
-        if (token == QLatin1String(","))
+        if (token == QStringLiteral(","))
             continue;
-        else if (token == QLatin1String(")"))
+        else if (token == QStringLiteral(")"))
             break;
     }
     token = advance();
@@ -667,16 +667,16 @@ bool SQLImport::parseCreateTable(QString &token)
                    tableName, folder, m_comment);
     UMLEntity *entity = o->asUMLEntity();
     m_comment.clear();
-    if (token.toLower() == QLatin1String("as")) {
-        skipStmt(QLatin1String(";"));
+    if (token.toLower() == QStringLiteral("as")) {
+        skipStmt(QStringLiteral(";"));
         return false;
-    } else if (token == QLatin1String("(")) {
+    } else if (token == QStringLiteral("(")) {
         parseCreateDefinition(token, entity);
     } else {
-        skipStmt(QLatin1String(";"));
+        skipStmt(QStringLiteral(";"));
         return false;
     }
-    if (token.toLower() == QLatin1String("inherits")) {
+    if (token.toLower() == QStringLiteral("inherits")) {
         token = advance(); // (
         const QString &baseTable = advance();
         token = advance(); // )
@@ -692,7 +692,7 @@ bool SQLImport::parseCreateTable(QString &token)
         }
     }
 
-    skipStmt(QLatin1String(";"));
+    skipStmt(QStringLiteral(";"));
     return returnValue;
 }
 
@@ -705,29 +705,29 @@ bool SQLImport::parseCreateTable(QString &token)
  */
 bool SQLImport::parseAlterTable(QString &token)
 {
-    if (token.toLower() == QLatin1String("only"))
+    if (token.toLower() == QStringLiteral("only"))
         token = advance();
 
     QString tableName = token;
     token = advance();
 
-    if (token == QLatin1String(".")) {
+    if (token == QStringLiteral(".")) {
         tableName += token;
         token = advance();
-        if (token.contains(QLatin1String("\"")))
-            token.replace(QLatin1String("\""), QLatin1String(""));
+        if (token.contains(QStringLiteral("\"")))
+            token.replace(QStringLiteral("\""), QStringLiteral(""));
         tableName += token;
         token = advance();
     }
 
-    if (token.toLower() == QLatin1String("add")) {
+    if (token.toLower() == QStringLiteral("add")) {
         token = advance();
-        if (token.toLower() == QLatin1String("constraint")) {
+        if (token.toLower() == QStringLiteral("constraint")) {
             const QString &constraintName = advance();
             token = advance();
             UMLFolder *folder = UMLApp::app()->document()->rootFolder(Uml::ModelType::EntityRelationship);
             UMLObject *o = UMLApp::app()->document()->findUMLObject(tableName, UMLObject::ot_Entity, folder);
-            if (token.toLower() == QLatin1String("primary")) {
+            if (token.toLower() == QStringLiteral("primary")) {
                 token = advance(); // key
                 token = advance();
                 const QStringList &fieldNames = parseIdentifierList(token);
@@ -739,7 +739,7 @@ bool SQLImport::parseAlterTable(QString &token)
                     ; // reporter error
                 }
             }
-            else if (token.toLower() == QLatin1String("unique")) {
+            else if (token.toLower() == QStringLiteral("unique")) {
                 token = advance();
                 const QStringList &fieldNames = parseIdentifierList(token);
                 if (!o) {
@@ -751,7 +751,7 @@ bool SQLImport::parseAlterTable(QString &token)
                 }
             }
             // FOREIGN KEY (<NAME>) REFERENCES <TABLE> (<FIELD>)
-            else if (token.toLower() == QLatin1String("foreign")) {
+            else if (token.toLower() == QStringLiteral("foreign")) {
                 token = advance(); // key
                 token = advance();
                 const QStringList &localFieldNames = parseIdentifierList(token);
@@ -760,13 +760,13 @@ bool SQLImport::parseAlterTable(QString &token)
                 const QStringList &referencedFieldNames = parseIdentifierList(token);
                 // ON DELETE SET NULL DEFERRABLE INITIALLY DEFERRED;
                 // use parseColumnConstraint()
-                if (token.toLower() == QLatin1String("on")) {
+                if (token.toLower() == QStringLiteral("on")) {
                     token = advance();
                     token = advance(); // delete/update
-                    if (token.toLower() == QLatin1String("cascade"))
+                    if (token.toLower() == QStringLiteral("cascade"))
                         token = advance();
                 }
-                else if (token.toLower() == QLatin1String("match")) {
+                else if (token.toLower() == QStringLiteral("match")) {
                     token = advance();
                     token = advance(); // full
                 }
@@ -781,7 +781,7 @@ bool SQLImport::parseAlterTable(QString &token)
             }
         }
     } else
-        skipStmt(QLatin1String(";"));
+        skipStmt(QStringLiteral(";"));
 
     return true;
 }
@@ -792,49 +792,49 @@ bool SQLImport::parseAlterTable(QString &token)
 bool SQLImport::parseStmt()
 {
     const QString& keyword = m_source[m_srcIndex];
-    if (keyword.toLower() == QLatin1String("set")) {
-        skipStmt(QLatin1String(";"));
+    if (keyword.toLower() == QStringLiteral("set")) {
+        skipStmt(QStringLiteral(";"));
         return true;
     }
     // CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXISTS ]
-    else if (keyword.toLower() == QLatin1String("create")) {
+    else if (keyword.toLower() == QStringLiteral("create")) {
         QString type = advance();
         // [ GLOBAL | LOCAL ]
-        if (type.toLower() == QLatin1String("global"))
+        if (type.toLower() == QStringLiteral("global"))
             type = advance();
-        else if (type.toLower() == QLatin1String("local"))
+        else if (type.toLower() == QStringLiteral("local"))
             type = advance();
 
         // [ { TEMPORARY | TEMP } | UNLOGGED ]
-        if (type.toLower() == QLatin1String("temp"))
+        if (type.toLower() == QStringLiteral("temp"))
             type = advance();
-        else if (type.toLower() == QLatin1String("temporary"))
+        else if (type.toLower() == QStringLiteral("temporary"))
             type = advance();
 
-        if (type.toLower() == QLatin1String("unlogged"))
+        if (type.toLower() == QStringLiteral("unlogged"))
             type = advance();
 
         // TABLE
-        if (type.toLower() == QLatin1String("table")) {
+        if (type.toLower() == QStringLiteral("table")) {
             QString token = advance();
             // [ IF NOT EXISTS ]
-            if (token.toLower() == QLatin1String("if")) {
+            if (token.toLower() == QStringLiteral("if")) {
                 token = advance();
                 token = advance();
                 token = advance();
             }
             return parseCreateTable(token);
-        } else if (m_source[m_srcIndex] != QLatin1String(";")) {
-            skipStmt(QLatin1String(";"));
+        } else if (m_source[m_srcIndex] != QStringLiteral(";")) {
+            skipStmt(QStringLiteral(";"));
             return true;
         }
-    } else if (keyword.toLower() == QLatin1String("alter")) {
+    } else if (keyword.toLower() == QStringLiteral("alter")) {
         QString type = advance();
-        if (type.toLower() == QLatin1String("table")) {
+        if (type.toLower() == QStringLiteral("table")) {
             QString token = advance();
             return parseAlterTable(token);
-        } else if (m_source[m_srcIndex] != QLatin1String(";")) {
-            skipStmt(QLatin1String(";"));
+        } else if (m_source[m_srcIndex] != QStringLiteral(";")) {
+            skipStmt(QStringLiteral(";"));
             return true;
         }
     }
@@ -856,7 +856,7 @@ UMLObject *SQLImport::addDatatype(const QStringList &type)
 {
     UMLObject *datatype = 0;
     UMLPackage *parent = UMLApp::app()->document()->datatypeFolder();
-    if (type.at(0).toLower() == QLatin1String("enum")) {
+    if (type.at(0).toLower() == QStringLiteral("enum")) {
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Enum, parent, type.at(0));
         datatype = Import_Utils::createUMLObject(UMLObject::ot_Enum, name, parent);
         UMLEnum *enumType = datatype->asUMLEnum();
@@ -884,7 +884,7 @@ bool SQLImport::addPrimaryKey(UMLEntity *entity, const QString &_name, const QSt
 
     QString name;
     if (_name.isEmpty())
-        name = entity->name() + QLatin1String("_pkey");
+        name = entity->name() + QStringLiteral("_pkey");
     else
         name = _name;
 
@@ -929,7 +929,7 @@ bool SQLImport::addUniqueConstraint(UMLEntity *entity, const QString &_name, con
 
     QString name;
     if (_name.isEmpty())
-        name = entity->name() + QLatin1String("_unique");
+        name = entity->name() + QStringLiteral("_unique");
     else
         name = _name;
 
@@ -970,7 +970,7 @@ bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, c
 
     QString name;
     if (_name.isEmpty())
-        name = entityA->name() + QLatin1String("_foreign");
+        name = entityA->name() + QStringLiteral("_foreign");
     else
         name = _name;
 

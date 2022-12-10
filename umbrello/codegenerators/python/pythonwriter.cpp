@@ -190,7 +190,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
     m_bNeedPass = true;
 
     //find an appropriate name for our file
-    QString fileName = findFileName(c, QLatin1String(".py"));
+    QString fileName = findFileName(c, QStringLiteral(".py"));
 
     // Do not generate files for classes that has a container
     if (hasContainer(fileName)) {
@@ -218,10 +218,10 @@ void PythonWriter::writeClass(UMLClassifier *c)
     //try to find a heading file (license, comments, etc)
     QString str;
 
-    str = getHeadingFile(QLatin1String(".py"));
+    str = getHeadingFile(QStringLiteral(".py"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QLatin1String("%filename%")), fileName);
-        str.replace(QRegExp(QLatin1String("%filepath%")), fileh.fileName());
+        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegExp(QStringLiteral("%filepath%")), fileh.fileName());
         h<<str<<m_endl;
     }
 
@@ -247,9 +247,9 @@ void PythonWriter::writeClass(UMLClassifier *c)
     findObjectsRelated(c, includes);
 
     foreach(UMLPackage* conc, includes) {
-        QString headerName = findFileName(conc, QLatin1String(".py"));
+        QString headerName = findFileName(conc, QStringLiteral(".py"));
         if (!headerName.isEmpty()) {
-            headerName.remove(QRegExp(QLatin1String(".py$")));
+            headerName.remove(QRegExp(QStringLiteral(".py$")));
             str = findIncludeFromType(headerName.replace(QLatin1Char('/'), QLatin1Char('.')));
             // not yet imported
             if (includesList.indexOf(str) < 0)  {
@@ -262,12 +262,12 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
     h << "class " << classname;
     if (superclasses.count()) {
-        h << QLatin1String("(");
+        h << QStringLiteral("(");
         h << cleanName(superclasses.front()->name());
         for (auto superclass = std::next(std::begin(superclasses)); superclass != std::end(superclasses); superclass++) {
-            h << QLatin1String(", ") << cleanName((*superclass)->name());
+            h << QStringLiteral(", ") << cleanName((*superclass)->name());
         }
-        h << QLatin1String(")");
+        h << QStringLiteral(")");
     }
 
     h << ":" << m_endl << m_endl;
@@ -391,10 +391,10 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
         sAccess = QString();
         break;
     case Uml::Visibility::Private:
-        sAccess = QLatin1String("__");
+        sAccess = QStringLiteral("__");
         break;
     case Uml::Visibility::Protected:
-        sAccess = QLatin1String("_");
+        sAccess = QStringLiteral("_");
         break;
     default:
         break;
@@ -413,7 +413,7 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
         foreach (UMLAttribute* at, atl) {
             h << ", " << cleanName(at->name()) << ": " << PythonWriter::fixTypeName(at->getTypeName())
               << (!(at->getInitialValue().isEmpty()) ?
-                  (QLatin1String(" = ") + at->getInitialValue()) : QString());
+                  (QStringLiteral(" = ") + at->getInitialValue()) : QString());
             j++;
         }
 
@@ -454,7 +454,7 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
  */
 bool PythonWriter::hasContainer(const QString &string)
 {
-    return string.contains(QLatin1String("<")) && string.contains(QLatin1String(">"));
+    return string.contains(QStringLiteral("<")) && string.contains(QStringLiteral(">"));
 }
 
 /**
@@ -464,12 +464,12 @@ bool PythonWriter::hasContainer(const QString &string)
  */
 QString PythonWriter::fixTypeName(const QString &string)
 {
-    if (string == QLatin1String("string")) {
-        return QLatin1String("str");
+    if (string == QStringLiteral("string")) {
+        return QStringLiteral("str");
     }
-    QRegExp re(QLatin1String("^vector<(.*)>$"));
+    QRegExp re(QStringLiteral("^vector<(.*)>$"));
     if (re.indexIn(string) >= 0) {
-        const QString listOf(QLatin1String("List[%1]"));
+        const QString listOf(QStringLiteral("List[%1]"));
         return listOf.arg(fixTypeName(re.cap(1)));
     }
     return string;
@@ -478,9 +478,9 @@ QString PythonWriter::fixTypeName(const QString &string)
 QString PythonWriter::findIncludeFromType(const QString &string)
 {
     const QString fixedTypeName = fixTypeName(string);
-    QRegExp re(QLatin1String("^(Any|Dict|List|Tuple)\\["));
+    QRegExp re(QStringLiteral("^(Any|Dict|List|Tuple)\\["));
     if (re.indexIn(fixedTypeName) >= 0) {
-        return QLatin1String("typing");
+        return QStringLiteral("typing");
     }
     return string;
 }
@@ -500,17 +500,17 @@ Uml::ProgrammingLanguage::Enum PythonWriter::language() const
 QStringList PythonWriter::defaultDatatypes() const
 {
     QStringList l;
-    l.append(QLatin1String("array"));
-    l.append(QLatin1String("bool"));
-    l.append(QLatin1String("tuple"));
-    l.append(QLatin1String("float"));
-    l.append(QLatin1String("int"));
-    l.append(QLatin1String("list"));
-    l.append(QLatin1String("long"));
-    l.append(QLatin1String("dict"));
-    l.append(QLatin1String("object"));
-    l.append(QLatin1String("set"));
-    l.append(QLatin1String("str"));
+    l.append(QStringLiteral("array"));
+    l.append(QStringLiteral("bool"));
+    l.append(QStringLiteral("tuple"));
+    l.append(QStringLiteral("float"));
+    l.append(QStringLiteral("int"));
+    l.append(QStringLiteral("list"));
+    l.append(QStringLiteral("long"));
+    l.append(QStringLiteral("dict"));
+    l.append(QStringLiteral("object"));
+    l.append(QStringLiteral("set"));
+    l.append(QStringLiteral("str"));
     return l;
 }
 

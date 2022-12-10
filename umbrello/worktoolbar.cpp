@@ -30,7 +30,7 @@
  * @param parentWindow      The parent of the toolbar.
  */
 WorkToolBar::WorkToolBar(QMainWindow *parentWindow)
-  : KToolBar(QLatin1String("worktoolbar"), parentWindow, Qt::TopToolBarArea, true, true, true)
+  : KToolBar(QStringLiteral("worktoolbar"), parentWindow, Qt::TopToolBarArea, true, true, true)
 {
     m_CurrentButtonID = tbb_Undefined;
     loadPixmaps();
@@ -498,8 +498,8 @@ void WorkToolBar::setupActions()
 {
     foreach(QAction *action, m_actions) {
         if (!action->shortcut().isEmpty()) {
-            action->setToolTip(action->text() + QLatin1String("\t[") +
-                               action->shortcut().toString() + QLatin1String("]"));
+            action->setToolTip(action->text() + QStringLiteral("\t[") +
+                               action->shortcut().toString() + QStringLiteral("]"));
         }
         else
             action->setToolTip(action->text());

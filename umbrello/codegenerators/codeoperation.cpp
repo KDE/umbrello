@@ -70,7 +70,7 @@ UMLOperation * CodeOperation::getParentOperation()
  */
 void CodeOperation::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QLatin1String("codeoperation"));
+    writer.writeStartElement(QStringLiteral("codeoperation"));
     // set attributes
     setAttributesOnNode(writer);
     writer.writeEndElement();
@@ -89,7 +89,7 @@ void CodeOperation::loadFromXMI (QDomElement & root)
  */
 QString CodeOperation::findTag (UMLOperation * op)
 {
-    return QString(QLatin1String("operation_") + Uml::ID::toString(op->id()));
+    return QString(QStringLiteral("operation_") + Uml::ID::toString(op->id()));
 }
 
 /**
@@ -115,7 +115,7 @@ void CodeOperation::setAttributesFromNode (QDomElement & element)
     // we simply need to record the parent operation here
     // m_parentOperation->disconnect(this); // always disconnect from current parent
 
-    QString idStr = element.attribute(QLatin1String("parent_id"), QLatin1String("-1"));
+    QString idStr = element.attribute(QStringLiteral("parent_id"), QStringLiteral("-1"));
     Uml::ID::Type id = Uml::ID::fromString(idStr);
     UMLObject * obj = UMLApp::app()->document()->findObjectById(id);
     UMLOperation * op = obj->asUMLOperation();

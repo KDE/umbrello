@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "category.h"
@@ -62,8 +62,8 @@ UMLObject* UMLCategory::clone() const
  */
 void UMLCategory::saveToXMI(QXmlStreamWriter& writer)
 {
-     UMLObject::save1(writer, QLatin1String("Category"));
-     writer.writeAttribute(QLatin1String("categoryType"), QString::number(m_CategoryType));
+     UMLObject::save1(writer, QStringLiteral("Category"));
+     writer.writeAttribute(QStringLiteral("categoryType"), QString::number(m_CategoryType));
      UMLObject::save1end(writer);
 }
 
@@ -72,8 +72,8 @@ void UMLCategory::saveToXMI(QXmlStreamWriter& writer)
  */
 bool UMLCategory::load1(QDomElement& element)
 {
-    m_CategoryType = (Category_Type)element.attribute(QLatin1String("categoryType"),
-                                                      QLatin1String("0")).toInt();
+    m_CategoryType = (Category_Type)element.attribute(QStringLiteral("categoryType"),
+                                                      QStringLiteral("0")).toInt();
     return true;
 }
 

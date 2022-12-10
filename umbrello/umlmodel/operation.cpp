@@ -216,7 +216,7 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype
 
     if (sig == Uml::SignatureType::NoSig || sig == Uml::SignatureType::NoSigNoVis) {
         if (parameterlessOpNeedsParentheses)
-            s.append(QLatin1String("()"));
+            s.append(QStringLiteral("()"));
         if (withStereotype) {
             QString st = stereotype(true);
             if (!st.isEmpty())
@@ -226,17 +226,17 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype
     }
     int last = m_args.count();
     if (last) {
-        s.append(QLatin1String("("));
+        s.append(QStringLiteral("("));
         int i = 0;
         foreach (UMLAttribute *param, m_args) {
             i++;
             s.append(param->toString(Uml::SignatureType::SigNoVis, withStereotype));
             if (i < last)
-                s.append(QLatin1String(", "));
+                s.append(QStringLiteral(", "));
         }
-        s.append(QLatin1String(")"));
+        s.append(QStringLiteral(")"));
     } else if (parameterlessOpNeedsParentheses) {
-        s.append(QLatin1String("()"));
+        s.append(QStringLiteral("()"));
     }
     const UMLClassifier *ownParent = umlParent()->asUMLClassifier();
     QString returnType;
@@ -248,10 +248,10 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype
         else
             returnType = retType->name();
     }
-    if (returnType.length() > 0 && returnType != QLatin1String("void")) {
-        s.append(QLatin1String(" : "));
+    if (returnType.length() > 0 && returnType != QStringLiteral("void")) {
+        s.append(QStringLiteral(" : "));
 
-        if (returnType.startsWith(QLatin1String("virtual "))) {
+        if (returnType.startsWith(QStringLiteral("virtual "))) {
             s += returnType.mid(8);
         } else {
             s += returnType;
@@ -370,7 +370,7 @@ bool UMLOperation::isConstructorOperation() const
 {
     // if an operation has the stereotype constructor
     // return true
-    if (stereotype() == QLatin1String("constructor"))
+    if (stereotype() == QStringLiteral("constructor"))
         return true;
 
     const UMLClassifier * c = umlParent()->asUMLClassifier();
@@ -390,7 +390,7 @@ bool UMLOperation::isConstructorOperation() const
  */
 bool UMLOperation::isDestructorOperation() const
 {
-    if (stereotype() == QLatin1String("destructor"))
+    if (stereotype() == QStringLiteral("destructor"))
         return true;
     const UMLClassifier * c = umlParent()->asUMLClassifier();
     if (!c)
@@ -402,7 +402,7 @@ bool UMLOperation::isDestructorOperation() const
     // with "~" followed by the name of the parent classifier.
     if (! opName.startsWith(QLatin1Char('~')))
         return false;
-    opName.remove(QRegExp(QLatin1String("^~\\s*")));
+    opName.remove(QRegExp(QStringLiteral("^~\\s*")));
     return (cName == opName);
 }
 
@@ -530,41 +530,41 @@ QString UMLOperation::getSourceCode() const
  */
 void UMLOperation::saveToXMI(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(writer, QLatin1String("Operation"), QLatin1String("ownedOperation"));
+    UMLObject::save1(writer, QStringLiteral("Operation"), QStringLiteral("ownedOperation"));
     if (m_bConst)
-        writer.writeAttribute(QLatin1String("isQuery"), QLatin1String("true"));
+        writer.writeAttribute(QStringLiteral("isQuery"), QStringLiteral("true"));
     if (m_bOverride)
-        writer.writeAttribute(QLatin1String("isOverride"), QLatin1String("true"));
+        writer.writeAttribute(QStringLiteral("isOverride"), QStringLiteral("true"));
     if (m_bFinal)
-        writer.writeAttribute(QLatin1String("isFinal"), QLatin1String("true"));
+        writer.writeAttribute(QStringLiteral("isFinal"), QStringLiteral("true"));
     if (m_bVirtual)
-        writer.writeAttribute(QLatin1String("isVirtual"), QLatin1String("true"));
+        writer.writeAttribute(QStringLiteral("isVirtual"), QStringLiteral("true"));
     if (m_bInline)
-        writer.writeAttribute(QLatin1String("isInline"), QLatin1String("true"));
+        writer.writeAttribute(QStringLiteral("isInline"), QStringLiteral("true"));
     if (m_pSecondary == 0 && m_args.isEmpty()) {
         writer.writeEndElement();  // UML:Operation
         return;
     }
     if (! Settings::optionState().generalState.uml2) {
-        writer.writeStartElement(QLatin1String("UML:BehavioralFeature.parameter"));
+        writer.writeStartElement(QStringLiteral("UML:BehavioralFeature.parameter"));
     }
     const QString dirAttrName = (Settings::optionState().generalState.uml2 ?
-                                 QLatin1String("direction") : QLatin1String("kind"));
+                                 QStringLiteral("direction") : QStringLiteral("kind"));
     if (m_pSecondary) {
         if (m_returnId == Uml::ID::None) {
             logDebug1("UMLOperation::saveToXMI %1: m_returnId is not set, setting it now.", name());
             m_returnId = UniqueID::gen();
         }
         if (Settings::optionState().generalState.uml2) {
-            writer.writeStartElement(QLatin1String("ownedParameter"));
-            writer.writeAttribute(QLatin1String("xmi:type"), QLatin1String("uml:Parameter"));
-            writer.writeAttribute(QLatin1String("xmi:id"), Uml::ID::toString(m_returnId));
+            writer.writeStartElement(QStringLiteral("ownedParameter"));
+            writer.writeAttribute(QStringLiteral("xmi:type"), QStringLiteral("uml:Parameter"));
+            writer.writeAttribute(QStringLiteral("xmi:id"), Uml::ID::toString(m_returnId));
         } else {
-            writer.writeStartElement(QLatin1String("UML:Parameter"));
-            writer.writeAttribute(QLatin1String("xmi.id"), Uml::ID::toString(m_returnId));
+            writer.writeStartElement(QStringLiteral("UML:Parameter"));
+            writer.writeAttribute(QStringLiteral("xmi.id"), Uml::ID::toString(m_returnId));
         }
-        writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(m_pSecondary->id()));
-        writer.writeAttribute(dirAttrName, QLatin1String("return"));
+        writer.writeAttribute(QStringLiteral("type"), Uml::ID::toString(m_pSecondary->id()));
+        writer.writeAttribute(dirAttrName, QStringLiteral("return"));
         writer.writeEndElement();
     } else {
         logDebug1("UMLOperation::saveToXMI: m_SecondaryId is %1", m_SecondaryId);
@@ -572,20 +572,20 @@ void UMLOperation::saveToXMI(QXmlStreamWriter& writer)
 
     //save each attribute here, type different
     foreach(UMLAttribute* pAtt, m_args) {
-        pAtt->UMLObject::save1(writer, QLatin1String("Parameter"), QLatin1String("ownedParameter"));
+        pAtt->UMLObject::save1(writer, QStringLiteral("Parameter"), QStringLiteral("ownedParameter"));
         UMLClassifier *attrType = pAtt->getType();
         if (attrType) {
-            writer.writeAttribute(QLatin1String("type"), Uml::ID::toString(attrType->id()));
+            writer.writeAttribute(QStringLiteral("type"), Uml::ID::toString(attrType->id()));
         } else {
-            writer.writeAttribute(QLatin1String("type"), pAtt->getTypeName());
+            writer.writeAttribute(QStringLiteral("type"), pAtt->getTypeName());
         }
-        writer.writeAttribute(QLatin1String("value"), pAtt->getInitialValue());
+        writer.writeAttribute(QStringLiteral("value"), pAtt->getInitialValue());
 
         Uml::ParameterDirection::Enum kind = pAtt->getParmKind();
         if (kind == Uml::ParameterDirection::Out)
-            writer.writeAttribute(dirAttrName, QLatin1String("out"));
+            writer.writeAttribute(dirAttrName, QStringLiteral("out"));
         else if (kind == Uml::ParameterDirection::InOut)
-            writer.writeAttribute(dirAttrName, QLatin1String("inout"));
+            writer.writeAttribute(dirAttrName, QStringLiteral("inout"));
         // The default for the parameter kind is "in".
 
         writer.writeEndElement();
@@ -601,36 +601,36 @@ void UMLOperation::saveToXMI(QXmlStreamWriter& writer)
  */
 bool UMLOperation::load1(QDomElement & element)
 {
-    m_SecondaryId = element.attribute(QLatin1String("type"));
-    QString isQuery = element.attribute(QLatin1String("isQuery"));
+    m_SecondaryId = element.attribute(QStringLiteral("type"));
+    QString isQuery = element.attribute(QStringLiteral("isQuery"));
     if (!isQuery.isEmpty()) {
         // We need this extra test for isEmpty() because load() might have been
         // called again by the processing for BehavioralFeature.parameter (see below)
-        m_bConst = (isQuery == QLatin1String("true"));
+        m_bConst = (isQuery == QStringLiteral("true"));
     }
-    QString isOverride = element.attribute(QLatin1String("isOverride"));
-    m_bOverride = (isOverride == QLatin1String("true"));
-    QString isFinal = element.attribute(QLatin1String("isFinal"));
-    m_bFinal = (isFinal == QLatin1String("true"));
-    QString isVirtual = element.attribute(QLatin1String("isVirtual"));
-    m_bVirtual = (isVirtual == QLatin1String("true"));
-    QString isInline = element.attribute(QLatin1String("isInline"));
-    m_bInline = (isInline == QLatin1String("true"));
+    QString isOverride = element.attribute(QStringLiteral("isOverride"));
+    m_bOverride = (isOverride == QStringLiteral("true"));
+    QString isFinal = element.attribute(QStringLiteral("isFinal"));
+    m_bFinal = (isFinal == QStringLiteral("true"));
+    QString isVirtual = element.attribute(QStringLiteral("isVirtual"));
+    m_bVirtual = (isVirtual == QStringLiteral("true"));
+    QString isInline = element.attribute(QStringLiteral("isInline"));
+    m_bInline = (isInline == QStringLiteral("true"));
     QDomNode node = element.firstChild();
     if (node.isComment())
         node = node.nextSibling();
     QDomElement attElement = node.toElement();
     while (!attElement.isNull()) {
         QString tag = attElement.tagName();
-        if (UMLDoc::tagEq(tag, QLatin1String("BehavioralFeature.parameter")) ||
-            UMLDoc::tagEq(tag, QLatin1String("Element.ownedElement"))) {  // Embarcadero's Describe
+        if (UMLDoc::tagEq(tag, QStringLiteral("BehavioralFeature.parameter")) ||
+            UMLDoc::tagEq(tag, QStringLiteral("Element.ownedElement"))) {  // Embarcadero's Describe
             if (! load1(attElement))
                 return false;
-        } else if (UMLDoc::tagEq(tag, QLatin1String("Parameter")) ||
-                   UMLDoc::tagEq(tag, QLatin1String("ownedParameter"))) {
-            QString kind = attElement.attribute(QLatin1String("kind"));
+        } else if (UMLDoc::tagEq(tag, QStringLiteral("Parameter")) ||
+                   UMLDoc::tagEq(tag, QStringLiteral("ownedParameter"))) {
+            QString kind = attElement.attribute(QStringLiteral("kind"));
             if (kind.isEmpty()) {
-                kind = attElement.attribute(QLatin1String("direction"));  // UML2
+                kind = attElement.attribute(QStringLiteral("direction"));  // UML2
                 if (kind.isEmpty()) {
                     // Perhaps the kind is stored in a child node:
                     for (QDomNode n = attElement.firstChild(); !n.isNull(); n = n.nextSibling()) {
@@ -638,22 +638,22 @@ bool UMLOperation::load1(QDomElement & element)
                             continue;
                         QDomElement tempElement = n.toElement();
                         QString tag = tempElement.tagName();
-                        if (!UMLDoc::tagEq(tag, QLatin1String("kind")))
+                        if (!UMLDoc::tagEq(tag, QStringLiteral("kind")))
                             continue;
-                        kind = tempElement.attribute(QLatin1String("xmi.value"));
+                        kind = tempElement.attribute(QStringLiteral("xmi.value"));
                         break;
                     }
                 }
                 if (kind.isEmpty()) {
-                    kind = QLatin1String("in");
+                    kind = QStringLiteral("in");
                 }
             }
-            if (kind == QLatin1String("return") ||
-                kind == QLatin1String("result")) {  // Embarcadero's Describe
+            if (kind == QStringLiteral("return") ||
+                kind == QStringLiteral("result")) {  // Embarcadero's Describe
                 QString returnId = Model_Utils::getXmiId(attElement);
                 if (!returnId.isEmpty())
                     m_returnId = Uml::ID::fromString(returnId);
-                m_SecondaryId = attElement.attribute(QLatin1String("type"));
+                m_SecondaryId = attElement.attribute(QStringLiteral("type"));
                 if (m_SecondaryId.isEmpty()) {
                     // Perhaps the type is stored in a child node:
                     QDomNode node = attElement.firstChild();
@@ -664,19 +664,19 @@ bool UMLOperation::load1(QDomElement & element)
                         }
                         QDomElement tempElement = node.toElement();
                         QString tag = tempElement.tagName();
-                        if (!UMLDoc::tagEq(tag, QLatin1String("type"))) {
+                        if (!UMLDoc::tagEq(tag, QStringLiteral("type"))) {
                             node = node.nextSibling();
                             continue;
                         }
                         m_SecondaryId = Model_Utils::getXmiId(tempElement);
                         if (m_SecondaryId.isEmpty())
-                            m_SecondaryId = tempElement.attribute(QLatin1String("xmi.idref"));
+                            m_SecondaryId = tempElement.attribute(QStringLiteral("xmi.idref"));
                         if (m_SecondaryId.isEmpty()) {
                             QDomNode inner = node.firstChild();
                             QDomElement tmpElem = inner.toElement();
                             m_SecondaryId = Model_Utils::getXmiId(tmpElem);
                             if (m_SecondaryId.isEmpty())
-                                m_SecondaryId = tmpElem.attribute(QLatin1String("xmi.idref"));
+                                m_SecondaryId = tmpElem.attribute(QStringLiteral("xmi.idref"));
                         }
                         break;
                     }
@@ -692,9 +692,9 @@ bool UMLOperation::load1(QDomElement & element)
                     delete pAtt;
                     return false;
                 }
-                if (kind == QLatin1String("out"))
+                if (kind == QStringLiteral("out"))
                     pAtt->setParmKind(Uml::ParameterDirection::Out);
-                else if (kind == QLatin1String("inout"))
+                else if (kind == QStringLiteral("inout"))
                     pAtt->setParmKind(Uml::ParameterDirection::InOut);
                 else
                     pAtt->setParmKind(Uml::ParameterDirection::In);

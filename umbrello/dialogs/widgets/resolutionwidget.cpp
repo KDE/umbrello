@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2015-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2015-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
@@ -24,7 +24,7 @@ ResolutionWidget::ResolutionWidget(QWidget *parent) :
     ComboBoxWidgetBase(i18n("&Resolution:"), i18n("DPI"), parent)
 {
     m_editField->clear();
-    m_editField->addItem(QLatin1String("default"), QVariant(0.0));
+    m_editField->addItem(QStringLiteral("default"), QVariant(0.0));
     foreach(const QString &key, resolutions()) {
         m_editField->addItem(key, QVariant(key.toFloat()));
     }
@@ -59,12 +59,12 @@ bool numberLessThan(const QString &s1, const QString &s2)
 QStringList ResolutionWidget::resolutions()
 {
     QStringList result;
-    result << QLatin1String("72");
-    result << QLatin1String("96");
-    result << QLatin1String("150");
-    result << QLatin1String("300");
-    result << QLatin1String("600");
-    result << QLatin1String("1200");
+    result << QStringLiteral("72");
+    result << QStringLiteral("96");
+    result << QStringLiteral("150");
+    result << QStringLiteral("300");
+    result << QStringLiteral("600");
+    result << QStringLiteral("1200");
 
     QString currentResolution = QString::number(qApp->desktop()->logicalDpiX());
     if (!result.contains(currentResolution))
@@ -79,10 +79,10 @@ QStringList ResolutionWidget::resolutions()
  */
 void ResolutionWidget::slotTextChanged(const QString &text)
 {
-    if (m_editField->currentText() == QLatin1String("default"))
+    if (m_editField->currentText() == QStringLiteral("default"))
         return;
     bool ok;
     text.toFloat(&ok);
     if (!ok)
-        m_editField->setEditText(QLatin1String(""));
+        m_editField->setEditText(QStringLiteral(""));
 }

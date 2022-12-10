@@ -28,7 +28,7 @@ CSharpImport::~CSharpImport()
  */
 QString CSharpImport::fileExtension()
 {
-    return QLatin1String(".cs");
+    return QStringLiteral(".cs");
 }
  
 /**

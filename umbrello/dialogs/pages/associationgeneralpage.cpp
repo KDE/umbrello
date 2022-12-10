@@ -218,11 +218,11 @@ void AssociationGeneralPage::apply()
         if (m_pStereoChkB && m_pStereoChkB->isChecked()) {
             QString stereo = m_pAssocNameComB->currentText();
             // keep the order
-            m_pAssociationWidget->setName(QLatin1String(""));
+            m_pAssociationWidget->setName(QStringLiteral(""));
             m_pAssociationWidget->setStereotype(stereo);
         } else {
             // keep the order
-            m_pAssociationWidget->setStereotype(QLatin1String(""));
+            m_pAssociationWidget->setStereotype(QStringLiteral(""));
             m_pAssociationWidget->setName(m_pAssocNameLE->text());
         }
     }

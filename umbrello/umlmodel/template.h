@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef TEMPLATE_H
@@ -23,7 +23,7 @@ class UMLTemplate : public UMLClassifierListItem
 public:
 
     UMLTemplate(UMLObject *parent, const QString& name,
-                Uml::ID::Type id = Uml::ID::None, const QString& type = QLatin1String("class"));
+                Uml::ID::Type id = Uml::ID::None, const QString& type = QStringLiteral("class"));
 
     explicit UMLTemplate(UMLObject *parent);
 

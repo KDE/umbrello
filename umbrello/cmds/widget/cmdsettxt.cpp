@@ -6,7 +6,7 @@
 #include "cmdsettxt.h"
 
 // app includes
-#define DBG_SRC QLatin1String("CmdSetTxt")
+#define DBG_SRC QStringLiteral("CmdSetTxt")
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
 #include "uml.h"
@@ -40,7 +40,7 @@ namespace Uml
 
     void CmdSetTxt::undo()
     {
-        m_ftw->setName(QLatin1String("balbalbalbalbla"));
+        m_ftw->setName(QStringLiteral("balbalbalbalbla"));
         m_ftw->setTextcmd(m_oldstring);
         logDebug3("CmdSetTxt::undo: string after undo: %1, oldstring: %2, newstring: %3",
                   m_ftw->text(), m_oldstring, m_newstring);

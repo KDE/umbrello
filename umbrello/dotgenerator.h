@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef DOTGENERATOR_H
@@ -28,9 +28,9 @@ public:
     void setUseFullNodeLabels(bool state);
 
     static bool availableConfigFiles(UMLScene *scene, QHash<QString, QString> &configFiles);
-    bool readConfigFile(QString diagramType, const QString &variant = QLatin1String("default"));
+    bool readConfigFile(QString diagramType, const QString &variant = QStringLiteral("default"));
 
-    bool createDotFile(UMLScene *scene, const QString &fileName, const QString &variant = QLatin1String("default"));
+    bool createDotFile(UMLScene *scene, const QString &fileName, const QString &variant = QStringLiteral("default"));
 
     static QString currentDotPath();
     void setGeneratorName(const QString &name);

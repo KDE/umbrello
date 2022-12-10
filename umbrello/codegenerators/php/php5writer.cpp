@@ -2999,7 +2999,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
 
     QString classname = cleanName(c->name());
     //find an appropriate name for our file
-    QString fileName = findFileName(c, QLatin1String(".php"));
+    QString fileName = findFileName(c, QStringLiteral(".php"));
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -3018,10 +3018,10 @@ void Php5Writer::writeClass(UMLClassifier *c)
 
     //try to find a heading file (license, comments, etc)
     QString str;
-    str = getHeadingFile(QLatin1String(".php"));
+    str = getHeadingFile(QStringLiteral(".php"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QLatin1String("%filename%")), fileName);
-        str.replace(QRegExp(QLatin1String("%filepath%")), filephp.fileName());
+        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegExp(QStringLiteral("%filepath%")), filephp.fileName());
         php<<str<<m_endl;
     } else {
         php << "<?php" << m_endl;
@@ -3031,7 +3031,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
     UMLPackageList includes;
     findObjectsRelated(c, includes);
     foreach(UMLPackage* conc, includes) {
-        QString headerName = findFileName(conc, QLatin1String(".php"));
+        QString headerName = findFileName(conc, QStringLiteral(".php"));
         if (!headerName.isEmpty()) {
             php << "require_once '" << headerName << "';" << m_endl;
         }
@@ -3042,7 +3042,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
     if (forceDoc() || !c->doc().isEmpty()) {
         php << m_endl << "/**" << m_endl;
         php << " * class " << classname << m_endl;
-        php << formatDoc(c->doc(), QLatin1String(" * "));
+        php << formatDoc(c->doc(), QStringLiteral(" * "));
         php << " */" << m_endl ;
     }
 
@@ -3060,7 +3060,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
         //check if class is abstract and / or has abstract methods
         if (c->isAbstract())
             php << "abstract ";
-        php << "class " << classname << (superclasses.count() > 0 ? QLatin1String(" extends ") : QString());
+        php << "class " << classname << (superclasses.count() > 0 ? QStringLiteral(" extends ") : QString());
         if (superclasses.count() > 0) {
             //php5 does not support multiple inheritance so only use the first one and print a warning if more are used
             UMLClassifier *obj = superclasses.first();
@@ -3077,7 +3077,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
                 QString typeName = cleanName(o->name());
                 if (ri == rc)
                     php << m_endl << m_indentation << m_indentation << m_indentation <<  "implements ";
-                php << typeName << (--rc == 0 ? QString() : QLatin1String(", "));
+                php << typeName << (--rc == 0 ? QString() : QStringLiteral(", "));
             }
         }
     }
@@ -3243,7 +3243,7 @@ void Php5Writer::writeOperations(const QString & classname, UMLOperationList &op
 
         if (writeDoc)  //write method documentation
         {
-            php << m_indentation << "/**" << m_endl <<formatDoc(op->doc(), m_indentation + QLatin1String(" * "));
+            php << m_indentation << "/**" << m_endl <<formatDoc(op->doc(), m_indentation + QStringLiteral(" * "));
             php << m_indentation << " *" << m_endl;
 
             foreach (UMLAttribute* at, atl)  //write parameter documentation
@@ -3255,7 +3255,7 @@ void Php5Writer::writeOperations(const QString & classname, UMLOperationList &op
             }//end for : write parameter documentation
             QString str = op->getTypeName();
             if (str.isEmpty()) {
-                str = QLatin1String("void");
+                str = QStringLiteral("void");
             }
             php << m_indentation << " * @return " << str << m_endl;
             if (op->isAbstract()) php << m_indentation << " * @abstract" << m_endl;
@@ -3301,8 +3301,8 @@ void Php5Writer::writeOperations(const QString & classname, UMLOperationList &op
         foreach (UMLAttribute* at, atl) {
             php << " $" << cleanName(at->name())
                 << (!(at->getInitialValue().isEmpty()) ?
-                    (QLatin1String(" = ") + at->getInitialValue()) : QString())
-                << ((j < i-1) ? QLatin1String(", ") : QString());
+                    (QStringLiteral(" = ") + at->getInitialValue()) : QString())
+                << ((j < i-1) ? QStringLiteral(", ") : QString());
             j++;
         }
         php << ")";
@@ -3383,7 +3383,7 @@ void Php5Writer::writeAttributes(UMLAttributeList &atList, QTextStream &php)
     foreach (UMLAttribute *at, atList) {
         bool isStatic = at->isStatic();
         if (forceDoc() || !at->doc().isEmpty()) {
-            php << m_indentation << "/**" << m_endl << formatDoc(at->doc(), m_indentation + QLatin1String(" * "));
+            php << m_indentation << "/**" << m_endl << formatDoc(at->doc(), m_indentation + QStringLiteral(" * "));
             if (isStatic) php << m_indentation << " * @static" << m_endl;
             switch(at->visibility()) {
               case Uml::Visibility::Public:

@@ -252,10 +252,10 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
 {
     if(!UMLWidget::loadFromXMI(qElement))
         return false;
-    m_Text = qElement.attribute(QLatin1String("signalname"));
-    m_Doc = qElement.attribute(QLatin1String("documentation"));
-    QString type = qElement.attribute(QLatin1String("signaltype"));
-    QString textid = qElement.attribute(QLatin1String("textid"), QLatin1String("-1"));
+    m_Text = qElement.attribute(QStringLiteral("signalname"));
+    m_Doc = qElement.attribute(QStringLiteral("documentation"));
+    QString type = qElement.attribute(QStringLiteral("signaltype"));
+    QString textid = qElement.attribute(QStringLiteral("textid"), QStringLiteral("-1"));
     Uml::ID::Type textId = Uml::ID::fromString(textid);
 
     setSignalType((SignalType)type.toInt());
@@ -279,7 +279,7 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
     QDomElement element = node.toElement();
     if (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == QLatin1String("floatingtext") || tag == QLatin1String("UML::FloatingTextWidget")) {
+        if (tag == QStringLiteral("floatingtext") || tag == QStringLiteral("UML::FloatingTextWidget")) {
             m_pName = new FloatingTextWidget(m_scene, Uml::TextRole::Floating, m_Text, textId);
             if(! m_pName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
@@ -300,13 +300,13 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
  */
 void SignalWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QLatin1String("signalwidget"));
+    writer.writeStartElement(QStringLiteral("signalwidget"));
     UMLWidget::saveToXMI(writer);
-    writer.writeAttribute(QLatin1String("signalname"), m_Text);
-    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
-    writer.writeAttribute(QLatin1String("signaltype"), QString::number(m_signalType));
+    writer.writeAttribute(QStringLiteral("signalname"), m_Text);
+    writer.writeAttribute(QStringLiteral("documentation"), m_Doc);
+    writer.writeAttribute(QStringLiteral("signaltype"), QString::number(m_signalType));
     if (m_pName && !m_pName->text().isEmpty()) {
-        writer.writeAttribute(QLatin1String("textid"), Uml::ID::toString(m_pName->id()));
+        writer.writeAttribute(QStringLiteral("textid"), Uml::ID::toString(m_pName->id()));
         m_pName -> saveToXMI(writer);
     }
     writer.writeEndElement();

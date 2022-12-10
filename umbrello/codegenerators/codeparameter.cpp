@@ -28,7 +28,7 @@
 CodeParameter::CodeParameter(ClassifierCodeDocument * parentDoc, UMLObject * parentObject)
         : QObject(parentObject)
 {
-    setObjectName(QLatin1String("ACodeParam"));
+    setObjectName(QStringLiteral("ACodeParam"));
     initFields(parentDoc, parentObject);
 }
 
@@ -165,21 +165,21 @@ QString CodeParameter::ID() const
 void CodeParameter::setAttributesOnNode(QXmlStreamWriter& writer)
 {
     // set local attributes
-    writer.writeAttribute(QLatin1String("parent_id"), ID());
+    writer.writeAttribute(QStringLiteral("parent_id"), ID());
 
     // setting ID's takes special treatment
     // as UMLRoles arent properly stored in the XMI right now.
     // (change would break the XMI format..save for big version change)
     const UMLRole * role = m_parentObject->asUMLRole();
     if (role)
-        writer.writeAttribute(QLatin1String("role_id"), QString::number(role->role()));
+        writer.writeAttribute(QStringLiteral("role_id"), QString::number(role->role()));
     else
-        writer.writeAttribute(QLatin1String("role_id"), QLatin1String("-1"));
+        writer.writeAttribute(QStringLiteral("role_id"), QStringLiteral("-1"));
 
-    writer.writeAttribute(QLatin1String("initialValue"), getInitialValue());
+    writer.writeAttribute(QStringLiteral("initialValue"), getInitialValue());
 
     // a comment which we will store in its own separate child node block
-    writer.writeStartElement(QLatin1String("header"));
+    writer.writeStartElement(QStringLiteral("header"));
     getComment()->saveToXMI(writer); // comment
     writer.writeEndElement();
 }
@@ -191,7 +191,7 @@ void CodeParameter::setAttributesOnNode(QXmlStreamWriter& writer)
 void CodeParameter::setAttributesFromNode(QDomElement & root)
 {
     // set local attributes, parent object first
-    QString idStr = root.attribute(QLatin1String("parent_id"), QLatin1String("-1"));
+    QString idStr = root.attribute(QStringLiteral("parent_id"), QStringLiteral("-1"));
     Uml::ID::Type id = Uml::ID::fromString(idStr);
 
     // always disconnect
@@ -215,7 +215,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
         if (assoc) {
             // In this case we init with indicated role child obj.
             UMLRole * role = 0;
-            int role_id = root.attribute(QLatin1String("role_id"), QLatin1String("-1")).toInt();
+            int role_id = root.attribute(QStringLiteral("role_id"), QStringLiteral("-1")).toInt();
             if (role_id == 1)
                 role = assoc->getUMLRole(Uml::RoleType::A);
             else if (role_id == 0)
@@ -237,7 +237,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
                   Uml::ID::toString(id));
 
     // other attribs now
-    setInitialValue(root.attribute(QLatin1String("initialValue")));
+    setInitialValue(root.attribute(QStringLiteral("initialValue")));
 
     // load comment now
     // by looking for our particular child element
@@ -246,7 +246,7 @@ void CodeParameter::setAttributesFromNode(QDomElement & root)
     bool gotComment = false;
     while (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == QLatin1String("header")) {
+        if (tag == QStringLiteral("header")) {
             QDomNode cnode = element.firstChild();
             QDomElement celem = cnode.toElement();
             getComment()->loadFromXMI(celem);

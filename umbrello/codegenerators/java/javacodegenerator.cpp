@@ -221,7 +221,7 @@ Uml::ProgrammingLanguage::Enum JavaCodeGenerator::language() const
 void JavaCodeGenerator::setCreateANTBuildFile(bool buildIt)
 {
     m_createANTBuildFile = buildIt;
-    CodeDocument * antDoc = findCodeDocumentByID(QLatin1String("ANTDOC"));
+    CodeDocument * antDoc = findCodeDocumentByID(QStringLiteral("ANTDOC"));
     if (antDoc)
         antDoc->setWriteOutCode(buildIt);
 }
@@ -244,7 +244,7 @@ CodeViewerDialog * JavaCodeGenerator::getCodeViewerDialog(QWidget* parent, CodeD
 {
     CodeViewerDialog *dialog = new CodeViewerDialog(parent, doc, state);
     if(getCreateANTBuildFile())
-        dialog->addCodeDocument(findCodeDocumentByID(QLatin1String("ANTDOC")));
+        dialog->addCodeDocument(findCodeDocumentByID(QStringLiteral("ANTDOC")));
     return dialog;
 }
 
@@ -277,7 +277,7 @@ bool JavaCodeGenerator::getAutoGenerateAssocAccessors()
  */
 QString JavaCodeGenerator::getListFieldClassName()
 {
-    return QLatin1String("Vector");
+    return QStringLiteral("Vector");
 }
 
 /**
@@ -287,12 +287,12 @@ QString JavaCodeGenerator::getListFieldClassName()
  */
 QString JavaCodeGenerator::fixTypeName(const QString &string)
 {
-    if (string.isEmpty() || string.contains(QRegExp(QLatin1String("^\\s+$"))))
-        return QLatin1String("void");
-    if (string == QLatin1String("string"))
-        return QLatin1String("String");
-    if (string == QLatin1String("bool"))
-        return QLatin1String("boolean");
+    if (string.isEmpty() || string.contains(QRegExp(QStringLiteral("^\\s+$"))))
+        return QStringLiteral("void");
+    if (string == QStringLiteral("string"))
+        return QStringLiteral("String");
+    if (string == QStringLiteral("bool"))
+        return QStringLiteral("boolean");
     return cleanName(string);
 }
 
@@ -324,25 +324,25 @@ CodeDocument * JavaCodeGenerator::newClassifierCodeDocument(UMLClassifier * clas
 QStringList JavaCodeGenerator::defaultDatatypes() const
 {
     QStringList l;
-    l.append(QLatin1String("int"));
-    l.append(QLatin1String("char"));
-    l.append(QLatin1String("boolean"));
-    l.append(QLatin1String("float"));
-    l.append(QLatin1String("double"));
-    l.append(QLatin1String("byte"));
-    l.append(QLatin1String("short"));
-    l.append(QLatin1String("long"));
-    l.append(QLatin1String("String"));
-    l.append(QLatin1String("Integer"));
-    l.append(QLatin1String("Character"));
-    l.append(QLatin1String("Boolean"));
-    l.append(QLatin1String("Float"));
-    l.append(QLatin1String("Double"));
-    l.append(QLatin1String("Byte"));
-    l.append(QLatin1String("Short"));
-    l.append(QLatin1String("Long"));
-    l.append(QLatin1String("StringBuffer"));
-    l.append(QLatin1String("StringBuilder"));
+    l.append(QStringLiteral("int"));
+    l.append(QStringLiteral("char"));
+    l.append(QStringLiteral("boolean"));
+    l.append(QStringLiteral("float"));
+    l.append(QStringLiteral("double"));
+    l.append(QStringLiteral("byte"));
+    l.append(QStringLiteral("short"));
+    l.append(QStringLiteral("long"));
+    l.append(QStringLiteral("String"));
+    l.append(QStringLiteral("Integer"));
+    l.append(QStringLiteral("Character"));
+    l.append(QStringLiteral("Boolean"));
+    l.append(QStringLiteral("Float"));
+    l.append(QStringLiteral("Double"));
+    l.append(QStringLiteral("Byte"));
+    l.append(QStringLiteral("Short"));
+    l.append(QStringLiteral("Long"));
+    l.append(QStringLiteral("StringBuffer"));
+    l.append(QStringLiteral("StringBuilder"));
     return l;
 }
 

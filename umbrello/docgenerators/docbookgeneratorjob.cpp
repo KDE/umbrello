@@ -163,8 +163,8 @@ void DocbookGeneratorJob::run()
         QFileInfo xsltFilePath(xsltFile);
 
         // Note: This would not be required if the dtd were registered in global xml catalog
-        QString sdocbookDtdUrlTmpl(QLatin1String("file://%1/simple4125/sdocbook.dtd"));
-        replaceURLList[QLatin1String("http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd")] =
+        QString sdocbookDtdUrlTmpl(QStringLiteral("file://%1/simple4125/sdocbook.dtd"));
+        replaceURLList[QStringLiteral("http://www.oasis-open.org/docbook/xml/simple/4.1.2.5/sdocbook.dtd")] =
                                                           sdocbookDtdUrlTmpl.arg(xsltFilePath.absolutePath());
     }
 #endif

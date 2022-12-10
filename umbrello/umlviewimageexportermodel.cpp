@@ -7,7 +7,7 @@
 #include "umlviewimageexportermodel.h"
 
 // application specific includes
-#define DBG_SRC QLatin1String("UMLViewImageExporterModel")
+#define DBG_SRC QStringLiteral("UMLViewImageExporterModel")
 #include "debug_utils.h"
 #include "dotgenerator.h"
 #include "model_utils.h"
@@ -71,12 +71,12 @@ QStringList UMLViewImageExporterModel::supportedImageTypes()
                 *s_supportedImageTypesList << format;
         }
         // specific supported formats
-        if (!s_supportedImageTypesList->contains(QLatin1String("dot")))
-            *s_supportedImageTypesList << QLatin1String("dot");
-        if (!s_supportedImageTypesList->contains(QLatin1String("eps")))
-            *s_supportedImageTypesList << QLatin1String("eps");
-        if (!s_supportedImageTypesList->contains(QLatin1String("svg")))
-            *s_supportedImageTypesList << QLatin1String("svg");
+        if (!s_supportedImageTypesList->contains(QStringLiteral("dot")))
+            *s_supportedImageTypesList << QStringLiteral("dot");
+        if (!s_supportedImageTypesList->contains(QStringLiteral("eps")))
+            *s_supportedImageTypesList << QStringLiteral("eps");
+        if (!s_supportedImageTypesList->contains(QStringLiteral("svg")))
+            *s_supportedImageTypesList << QStringLiteral("svg");
     }
     s_supportedImageTypesList->sort();
 
@@ -225,7 +225,7 @@ QStringList UMLViewImageExporterModel::exportViews(const UMLViewList &views, con
         QString returnString = exportView(view->umlScene(), imageType, url);
         if (!returnString.isNull()) {
             // [PORT]
-            errors.append(view->umlScene()->name() + QLatin1String(": ") + returnString);
+            errors.append(view->umlScene()->name() + QStringLiteral(": ") + returnString);
         }
     }
 
@@ -399,15 +399,15 @@ bool UMLViewImageExporterModel::exportViewTo(UMLScene* scene, const QString &ima
     scene->clearSelected();
 
     QString imageMimeType = UMLViewImageExporterModel::imageTypeToMimeType(imageType);
-    if (imageMimeType == QLatin1String("image/x-dot")) {
+    if (imageMimeType == QStringLiteral("image/x-dot")) {
         if (!exportViewToDot(scene, fileName)) {
             return false;
         }
-    } else if (imageMimeType == QLatin1String("image/x-eps")) {
+    } else if (imageMimeType == QStringLiteral("image/x-eps")) {
         if (!exportViewToEps(scene, fileName)) {
             return false;
         }
-    } else if (imageMimeType == QLatin1String("image/svg+xml")) {
+    } else if (imageMimeType == QStringLiteral("image/svg+xml")) {
         if (!exportViewToSvg(scene, fileName)) {
             return false;
         }
@@ -436,7 +436,7 @@ bool UMLViewImageExporterModel::exportViewToDot(UMLScene* scene, const QString &
     }
 
     DotGenerator dot;
-    bool result = dot.createDotFile(scene, fileName, QLatin1String("export"));
+    bool result = dot.createDotFile(scene, fileName, QStringLiteral("export"));
 
     logDebug2("UMLViewImageExporterModel::exportViewToDot saving to file %1 : %2",
               fileName, result);

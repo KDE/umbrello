@@ -73,7 +73,7 @@ UMLObject* UMLEnum::clone() const
 void UMLEnum::init()
 {
     m_BaseType = UMLObject::ot_Enum;
-    setStereotypeCmd(QLatin1String("enum"));
+    setStereotypeCmd(QStringLiteral("enum"));
 }
 
 /**
@@ -238,10 +238,10 @@ void UMLEnum::signalEnumLiteralRemoved(UMLClassifierListItem *elit)
  */
 void UMLEnum::saveToXMI(QXmlStreamWriter& writer)
 {
-    UMLObject::save1(writer, QLatin1String("Enumeration"));
+    UMLObject::save1(writer, QStringLiteral("Enumeration"));
     // save enum literals
     if (! Settings::optionState().generalState.uml2) {
-        writer.writeStartElement(QLatin1String("UML:Enumeration.literal"));
+        writer.writeStartElement(QStringLiteral("UML:Enumeration.literal"));
     }
     UMLClassifierListItemList enumLiterals = getFilteredList(UMLObject::ot_EnumLiteral);
     foreach (UMLClassifierListItem* pEnumLiteral, enumLiterals) {
@@ -266,18 +266,18 @@ bool UMLEnum::load1(QDomElement& element)
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (UMLDoc::tagEq(tag, QLatin1String("EnumerationLiteral")) ||
-            UMLDoc::tagEq(tag, QLatin1String("ownedLiteral")) ||
-                UMLDoc::tagEq(tag, QLatin1String("EnumLiteral"))) {   // for backward compatibility
+        if (UMLDoc::tagEq(tag, QStringLiteral("EnumerationLiteral")) ||
+            UMLDoc::tagEq(tag, QStringLiteral("ownedLiteral")) ||
+                UMLDoc::tagEq(tag, QStringLiteral("EnumLiteral"))) {   // for backward compatibility
             UMLEnumLiteral* pEnumLiteral = new UMLEnumLiteral(this);
             if(!pEnumLiteral->loadFromXMI(tempElement)) {
                 return false;
             }
             subordinates().append(pEnumLiteral);
-        } else if (UMLDoc::tagEq(tag, QLatin1String("Enumeration.literal"))) {  // UML 1.4
+        } else if (UMLDoc::tagEq(tag, QStringLiteral("Enumeration.literal"))) {  // UML 1.4
             if (! load1(tempElement))
                 return false;
-        } else if (tag == QLatin1String("stereotype")) {
+        } else if (tag == QStringLiteral("stereotype")) {
             logDebug1("UMLEnum::load1 %1: losing old-format stereotype.", name());
         } else {
             logWarn1("UMLEnum::load1: unknown child type %1", tag);
@@ -298,8 +298,8 @@ bool UMLEnum::load1(QDomElement& element)
 UMLClassifierListItem* UMLEnum::makeChildObject(const QString& xmiTag)
 {
     UMLClassifierListItem* pObject = 0;
-    if (UMLDoc::tagEq(xmiTag, QLatin1String("EnumerationLiteral")) ||
-               UMLDoc::tagEq(xmiTag, QLatin1String("EnumLiteral"))) {
+    if (UMLDoc::tagEq(xmiTag, QStringLiteral("EnumerationLiteral")) ||
+               UMLDoc::tagEq(xmiTag, QStringLiteral("EnumLiteral"))) {
         pObject = new UMLEnumLiteral(this);
     }
     return pObject;

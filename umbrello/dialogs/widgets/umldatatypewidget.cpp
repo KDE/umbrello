@@ -349,7 +349,7 @@ void UMLDatatypeWidget::insertTypesSortedOperation(const QString& type)
     // For example, the Ada generator would interpret the return type
     // "void" as an instruction to generate a procedure instead of a
     // function.
-    types << QLatin1String("void");
+    types << QStringLiteral("void");
     // add template parameters
     const UMLClassifier *classifier = m_parent->asUMLClassifier();
     if (classifier) {
@@ -396,7 +396,7 @@ void UMLDatatypeWidget::insertTypesSortedTemplate(const QString& type)
 {
     QStringList types;
     // "class" is the nominal type of template parameter
-    types << QLatin1String("class");
+    types << QStringLiteral("class");
     insertTypesFromConcepts(types, false);
     initTypesBox(types, type);
 }

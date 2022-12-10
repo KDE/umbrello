@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "mysqlwriter.h"
@@ -39,38 +39,38 @@ QStringList MySQLWriter::defaultDatatypes() const
 {
     QStringList l;
 
-    l.append(QLatin1String("ascii"));
-    l.append(QLatin1String("bigint"));
-    l.append(QLatin1String("bit"));
-    l.append(QLatin1String("binary"));
-    l.append(QLatin1String("blob"));
-    l.append(QLatin1String("bool"));
-    l.append(QLatin1String("char"));
-    l.append(QLatin1String("charset"));
-    l.append(QLatin1String("date"));
-    l.append(QLatin1String("datetime"));
-    l.append(QLatin1String("decimal"));
-    l.append(QLatin1String("double"));
-    l.append(QLatin1String("enum"));
-    l.append(QLatin1String("float"));
-    l.append(QLatin1String("integer"));
-    l.append(QLatin1String("longblob"));
-    l.append(QLatin1String("longtext"));
-    l.append(QLatin1String("mediumblob"));
-    l.append(QLatin1String("mediumint"));
-    l.append(QLatin1String("mediumtext"));
-    l.append(QLatin1String("serial"));
-    l.append(QLatin1String("set"));
-    l.append(QLatin1String("smallint"));
-    l.append(QLatin1String("timestamp"));
-    l.append(QLatin1String("time"));
-    l.append(QLatin1String("tinyblob"));
-    l.append(QLatin1String("tinyint"));
-    l.append(QLatin1String("tinytext"));
-    l.append(QLatin1String("text"));
-    l.append(QLatin1String("unicode"));
-    l.append(QLatin1String("varbinary"));
-    l.append(QLatin1String("varchar"));
+    l.append(QStringLiteral("ascii"));
+    l.append(QStringLiteral("bigint"));
+    l.append(QStringLiteral("bit"));
+    l.append(QStringLiteral("binary"));
+    l.append(QStringLiteral("blob"));
+    l.append(QStringLiteral("bool"));
+    l.append(QStringLiteral("char"));
+    l.append(QStringLiteral("charset"));
+    l.append(QStringLiteral("date"));
+    l.append(QStringLiteral("datetime"));
+    l.append(QStringLiteral("decimal"));
+    l.append(QStringLiteral("double"));
+    l.append(QStringLiteral("enum"));
+    l.append(QStringLiteral("float"));
+    l.append(QStringLiteral("integer"));
+    l.append(QStringLiteral("longblob"));
+    l.append(QStringLiteral("longtext"));
+    l.append(QStringLiteral("mediumblob"));
+    l.append(QStringLiteral("mediumint"));
+    l.append(QStringLiteral("mediumtext"));
+    l.append(QStringLiteral("serial"));
+    l.append(QStringLiteral("set"));
+    l.append(QStringLiteral("smallint"));
+    l.append(QStringLiteral("timestamp"));
+    l.append(QStringLiteral("time"));
+    l.append(QStringLiteral("tinyblob"));
+    l.append(QStringLiteral("tinyint"));
+    l.append(QStringLiteral("tinytext"));
+    l.append(QStringLiteral("text"));
+    l.append(QStringLiteral("unicode"));
+    l.append(QStringLiteral("varbinary"));
+    l.append(QStringLiteral("varchar"));
 
     return l;
 }

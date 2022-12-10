@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2006-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2006-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "optionstate.h"
@@ -97,18 +97,18 @@ namespace Settings {
      */
     void ClassState::saveToXMI(QXmlStreamWriter& writer)
     {
-        writer.writeAttribute(QLatin1String("showattribassocs"), QString::number(showAttribAssocs));
-        writer.writeAttribute(QLatin1String("showatts"),         QString::number(showAtts));
-        writer.writeAttribute(QLatin1String("showattsig"),       QString::number(showAttSig));
-        writer.writeAttribute(QLatin1String("showops"),          QString::number(showOps));
-        writer.writeAttribute(QLatin1String("showopsig"),        QString::number(showOpSig));
-        writer.writeAttribute(QLatin1String("showpackage"),      QString::number(showPackage));
-        writer.writeAttribute(QLatin1String("showpubliconly"),   QString::number(showPublicOnly));
-        writer.writeAttribute(QLatin1String("showscope"),        QString::number(showVisibility));
+        writer.writeAttribute(QStringLiteral("showattribassocs"), QString::number(showAttribAssocs));
+        writer.writeAttribute(QStringLiteral("showatts"),         QString::number(showAtts));
+        writer.writeAttribute(QStringLiteral("showattsig"),       QString::number(showAttSig));
+        writer.writeAttribute(QStringLiteral("showops"),          QString::number(showOps));
+        writer.writeAttribute(QStringLiteral("showopsig"),        QString::number(showOpSig));
+        writer.writeAttribute(QStringLiteral("showpackage"),      QString::number(showPackage));
+        writer.writeAttribute(QStringLiteral("showpubliconly"),   QString::number(showPublicOnly));
+        writer.writeAttribute(QStringLiteral("showscope"),        QString::number(showVisibility));
 #ifdef ENABLE_WIDGET_SHOW_DOC
-        writer.writeAttribute(QLatin1String("showdocumentation"),QString::number(showDocumentation));
+        writer.writeAttribute(QStringLiteral("showdocumentation"),QString::number(showDocumentation));
 #endif
-        writer.writeAttribute(QLatin1String("showstereotype"),   QString::number(showStereoType));
+        writer.writeAttribute(QStringLiteral("showstereotype"),   QString::number(showStereoType));
     }
 
     /**
@@ -119,27 +119,27 @@ namespace Settings {
      */
     bool ClassState::loadFromXMI(QDomElement &element)
     {
-        QString temp = element.attribute(QLatin1String("showattribassocs"), QLatin1String("0"));
+        QString temp = element.attribute(QStringLiteral("showattribassocs"), QStringLiteral("0"));
         showAttribAssocs = (bool)temp.toInt();
-        temp = element.attribute(QLatin1String("showatts"), QLatin1String("0"));
+        temp = element.attribute(QStringLiteral("showatts"), QStringLiteral("0"));
         showAtts = (bool)temp.toInt();
-        temp = element.attribute(QLatin1String("showattsig"), QLatin1String("0"));
+        temp = element.attribute(QStringLiteral("showattsig"), QStringLiteral("0"));
         showAttSig = (bool)temp.toInt();
-        temp = element.attribute(QLatin1String("showops"), QLatin1String("0"));
+        temp = element.attribute(QStringLiteral("showops"), QStringLiteral("0"));
         showOps = (bool)temp.toInt();
-        temp = element.attribute(QLatin1String("showopsig"), QLatin1String("0"));
+        temp = element.attribute(QStringLiteral("showopsig"), QStringLiteral("0"));
         showOpSig = (bool)temp.toInt();
-        temp = element.attribute(QLatin1String("showpackage"), QLatin1String("0"));
+        temp = element.attribute(QStringLiteral("showpackage"), QStringLiteral("0"));
         showPackage = (bool)temp.toInt();
 #ifdef ENABLE_WIDGET_SHOW_DOC
-        temp = element.attribute(QLatin1String("showdocumentation"), QLatin1String("0"));
+        temp = element.attribute(QStringLiteral("showdocumentation"), QStringLiteral("0"));
         showDocumentation = (bool)temp.toInt();
 #endif
-        temp = element.attribute(QLatin1String("showpubliconly"), QLatin1String("0"));
+        temp = element.attribute(QStringLiteral("showpubliconly"), QStringLiteral("0"));
         showPublicOnly = (bool)temp.toInt();
-        temp = element.attribute(QLatin1String("showscope"), QLatin1String("0"));
+        temp = element.attribute(QStringLiteral("showscope"), QStringLiteral("0"));
         showVisibility = (bool)temp.toInt();
-        temp = element.attribute(QLatin1String("showstereotype"), QLatin1String("0"));
+        temp = element.attribute(QStringLiteral("showstereotype"), QStringLiteral("0"));
         showStereoType = (Uml::ShowStereoType::Enum)temp.toInt();
         return true;
     }
@@ -174,14 +174,14 @@ namespace Settings {
      */
     void UIState::saveToXMI(QXmlStreamWriter& writer)
     {
-        writer.writeAttribute(QLatin1String("backgroundcolor"),  backgroundColor.name());
-        writer.writeAttribute(QLatin1String("fillcolor"),        fillColor.name());
-        writer.writeAttribute(QLatin1String("font"),             font.toString());
-        writer.writeAttribute(QLatin1String("griddotcolor"),     gridDotColor.name());
-        writer.writeAttribute(QLatin1String("linecolor"),        lineColor.name());
-        writer.writeAttribute(QLatin1String("linewidth"),        QString::number(lineWidth));
-        writer.writeAttribute(QLatin1String("textcolor"),        textColor.name());
-        writer.writeAttribute(QLatin1String("usefillcolor"),     QString::number(useFillColor));
+        writer.writeAttribute(QStringLiteral("backgroundcolor"),  backgroundColor.name());
+        writer.writeAttribute(QStringLiteral("fillcolor"),        fillColor.name());
+        writer.writeAttribute(QStringLiteral("font"),             font.toString());
+        writer.writeAttribute(QStringLiteral("griddotcolor"),     gridDotColor.name());
+        writer.writeAttribute(QStringLiteral("linecolor"),        lineColor.name());
+        writer.writeAttribute(QStringLiteral("linewidth"),        QString::number(lineWidth));
+        writer.writeAttribute(QStringLiteral("textcolor"),        textColor.name());
+        writer.writeAttribute(QStringLiteral("usefillcolor"),     QString::number(useFillColor));
     }
 
     /**
@@ -192,30 +192,30 @@ namespace Settings {
      */
     bool UIState::loadFromXMI(QDomElement &element)
     {
-        QString backgroundColor = element.attribute(QLatin1String("backgroundcolor"));
+        QString backgroundColor = element.attribute(QStringLiteral("backgroundcolor"));
         if (!backgroundColor.isEmpty())
             this->backgroundColor = QColor(backgroundColor);
-        QString fillcolor = element.attribute(QLatin1String("fillcolor"));
+        QString fillcolor = element.attribute(QStringLiteral("fillcolor"));
         if (!fillcolor.isEmpty())
             this->fillColor = QColor(fillcolor);
-        QString font = element.attribute(QLatin1String("font"));
+        QString font = element.attribute(QStringLiteral("font"));
         if (!font.isEmpty()) {
             this->font.fromString(font);
             this->font.setUnderline(false);
         }
-        QString gridDotColor = element.attribute(QLatin1String("griddotcolor"));
+        QString gridDotColor = element.attribute(QStringLiteral("griddotcolor"));
         if (!gridDotColor.isEmpty())
             this->gridDotColor = QColor(gridDotColor);
-        QString linecolor = element.attribute(QLatin1String("linecolor"));
+        QString linecolor = element.attribute(QStringLiteral("linecolor"));
         if (!linecolor.isEmpty())
             this->lineColor = QColor(linecolor);
-        QString linewidth = element.attribute(QLatin1String("linewidth"));
+        QString linewidth = element.attribute(QStringLiteral("linewidth"));
         if (!linewidth.isEmpty())
             this->lineWidth = linewidth.toInt();
-        QString textColor = element.attribute(QLatin1String("textcolor"));
+        QString textColor = element.attribute(QStringLiteral("textcolor"));
         if (!textColor.isEmpty())
             this->textColor = QColor(textColor);
-        QString usefillcolor = element.attribute(QLatin1String("usefillcolor"), QLatin1String("0"));
+        QString usefillcolor = element.attribute(QStringLiteral("usefillcolor"), QStringLiteral("0"));
         this->useFillColor = (bool)usefillcolor.toInt();
 
         return true;
@@ -241,9 +241,9 @@ namespace Settings {
      */
     void CodeImportState::saveToXMI(QXmlStreamWriter& writer)
     {
-        writer.writeAttribute(QLatin1String("createartifacts"), QString::number(createArtifacts));
-        writer.writeAttribute(QLatin1String("resolvedependencies"), QString::number(resolveDependencies));
-        writer.writeAttribute(QLatin1String("supportcpp11"), QString::number(supportCPP11));
+        writer.writeAttribute(QStringLiteral("createartifacts"), QString::number(createArtifacts));
+        writer.writeAttribute(QStringLiteral("resolvedependencies"), QString::number(resolveDependencies));
+        writer.writeAttribute(QStringLiteral("supportcpp11"), QString::number(supportCPP11));
     }
 
     /**
@@ -254,11 +254,11 @@ namespace Settings {
      */
     bool CodeImportState::loadFromXMI(QDomElement &element)
     {
-        QString temp = element.attribute(QLatin1String("createartifacts"), QLatin1String("0"));
+        QString temp = element.attribute(QStringLiteral("createartifacts"), QStringLiteral("0"));
         createArtifacts = (bool)temp.toInt();
-        temp = element.attribute(QLatin1String("resolvedependencies"), QLatin1String("0"));
+        temp = element.attribute(QStringLiteral("resolvedependencies"), QStringLiteral("0"));
         resolveDependencies = (bool)temp.toInt();
-        temp = element.attribute(QLatin1String("supportcpp11"), QLatin1String("0"));
+        temp = element.attribute(QStringLiteral("supportcpp11"), QStringLiteral("0"));
         supportCPP11 = (bool)temp.toInt();
 
         return true;

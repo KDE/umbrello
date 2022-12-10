@@ -58,7 +58,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     }
 
     // find an appropriate name for our file
-    QString fileName = findFileName(c,QLatin1String(".xsd"));
+    QString fileName = findFileName(c,QStringLiteral(".xsd"));
 
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
@@ -85,16 +85,16 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     xs << "<?xml version=\"1.0\"?>" << m_endl;
 
     // 1. create the header
-    QString headerText = getHeadingFile(QLatin1String(".xsd"));
+    QString headerText = getHeadingFile(QStringLiteral(".xsd"));
     if (!headerText.isEmpty()) {
-        headerText.replace(QRegExp(QLatin1String("%filename%")), fileName);
-        headerText.replace(QRegExp(QLatin1String("%filepath%")), file.fileName());
+        headerText.replace(QRegExp(QStringLiteral("%filename%")), fileName);
+        headerText.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
     }
     if (!headerText.isEmpty())
         xs << headerText << m_endl;
 
     // 2. Open schema element node with appropriate namespace decl
-    xs << "<" << makeSchemaTag(QLatin1String("schema"));
+    xs << "<" << makeSchemaTag(QStringLiteral("schema"));
     // common namespaces we know will be in the file..
     xs << " targetNamespace=\"" << packageNamespaceURI << packageNamespaceTag << "\"" << m_endl;
     xs << " xmlns:" << schemaNamespaceTag << "=\"" << schemaNamespaceURI << "\"";
@@ -128,7 +128,7 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 
     // 6. Finished: now we may close schema decl
     m_indentLevel--;
-    xs << indent() << "</" << makeSchemaTag(QLatin1String("schema")) << ">" << m_endl; // finished.. close schema node
+    xs << indent() << "</" << makeSchemaTag(QStringLiteral("schema")) << ">" << m_endl; // finished.. close schema node
 
     // tidy up. no dangling open files please..
     file.close();
@@ -148,9 +148,9 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
 void XMLSchemaWriter::writeElementDecl(const QString &elementName, const QString &elementTypeName, QTextStream &xs)
 {
     if (forceDoc())
-        writeComment(elementName + QLatin1String(" is the root element, declared here."), xs);
+        writeComment(elementName + QStringLiteral(" is the root element, declared here."), xs);
 
-    xs << indent() << "<" << makeSchemaTag(QLatin1String("element"))
+    xs << indent() << "<" << makeSchemaTag(QStringLiteral("element"))
        << " name=\"" << elementName << "\""
        << " type=\"" << makePackageTag(elementTypeName) << "\""
        << "/>" << m_endl;
@@ -257,23 +257,23 @@ void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
     QString elementTypeName = getElementGroupTypeName(c);
 
     // start Writing node but only if it has subclasses? Nah..right now put in empty group
-    xs << indent() << "<" << makeSchemaTag(QLatin1String("group")) << " name=\"" << elementTypeName << "\">" << m_endl;
+    xs << indent() << "<" << makeSchemaTag(QStringLiteral("group")) << " name=\"" << elementTypeName << "\">" << m_endl;
     m_indentLevel++;
 
-    xs << indent() << "<" << makeSchemaTag(QLatin1String("choice")) << ">" << m_endl;
+    xs << indent() << "<" << makeSchemaTag(QStringLiteral("choice")) << ">" << m_endl;
     m_indentLevel++;
 
     foreach(UMLClassifier *classifier, subclasses) {
-        writeAssociationRoleDecl(classifier, QLatin1String("1"), xs);
+        writeAssociationRoleDecl(classifier, QStringLiteral("1"), xs);
     }
 
     m_indentLevel--;
-    xs << indent() << "</" << makeSchemaTag(QLatin1String("choice")) << ">" << m_endl;
+    xs << indent() << "</" << makeSchemaTag(QStringLiteral("choice")) << ">" << m_endl;
 
     m_indentLevel--;
 
     // finish node
-    xs << indent() << "</" << makeSchemaTag(QLatin1String("group")) << ">" << m_endl;
+    xs << indent() << "</" << makeSchemaTag(QStringLiteral("group")) << ">" << m_endl;
 }
 
 /**
@@ -303,7 +303,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
     // start body of element
     QString elementTypeName = getElementTypeName(c);
 
-    xs << indent() << "<" << makeSchemaTag(QLatin1String("complexType")) << " name=\"" << elementTypeName << "\"";
+    xs << indent() << "<" << makeSchemaTag(QStringLiteral("complexType")) << " name=\"" << elementTypeName << "\"";
 
     if (hasAssociations || hasAttributes || hasSuperclass)
     {
@@ -314,11 +314,11 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
         if (hasSuperclass)
         {
             QString superClassName = getElementTypeName(superclasses.first());
-            xs << indent() << "<" << makeSchemaTag(QLatin1String("complexContent")) << ">" << m_endl;
+            xs << indent() << "<" << makeSchemaTag(QStringLiteral("complexContent")) << ">" << m_endl;
 
             //PROBLEM: we only treat ONE superclass for inheritance.. bah.
             m_indentLevel++;
-            xs << indent() << "<" << makeSchemaTag(QLatin1String("extension")) << " base=\"" << makePackageTag(superClassName)
+            xs << indent() << "<" << makeSchemaTag(QStringLiteral("extension")) << " base=\"" << makePackageTag(superClassName)
                <<"\"";
             if (hasAssociations || hasAttributes)
                 xs << ">" << m_endl;
@@ -339,7 +339,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
 
             if (didFirstOne) {
                 m_indentLevel--;
-                xs << indent() << "</" << makeSchemaTag(QLatin1String("sequence")) << ">" << m_endl;
+                xs << indent() << "</" << makeSchemaTag(QStringLiteral("sequence")) << ">" << m_endl;
             }
         }
 
@@ -349,7 +349,7 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
         {
             writeAttributeDecls(attribs, xs);
             for (int i= 0; i < attribGroups.count(); ++i) {
-                xs << indent() << "<" << makeSchemaTag(QLatin1String("attributeGroup")) << " ref=\""
+                xs << indent() << "<" << makeSchemaTag(QStringLiteral("attributeGroup")) << " ref=\""
                    << makePackageTag(attribGroups[i]) << "\"/>" << m_endl;
             }
         }
@@ -359,15 +359,15 @@ void XMLSchemaWriter::writeComplexTypeClassifierDecl (UMLClassifier *c,
             m_indentLevel--;
 
             if (hasAssociations || hasAttributes)
-                xs << indent() << "</" << makeSchemaTag(QLatin1String("extension")) << ">" << m_endl;
+                xs << indent() << "</" << makeSchemaTag(QStringLiteral("extension")) << ">" << m_endl;
 
             m_indentLevel--;
-            xs << indent() << "</" << makeSchemaTag(QLatin1String("complexContent")) << ">" << m_endl;
+            xs << indent() << "</" << makeSchemaTag(QStringLiteral("complexContent")) << ">" << m_endl;
         }
 
         // close this element decl
         m_indentLevel--;
-        xs << indent() << "</" << makeSchemaTag(QLatin1String("complexType")) << ">" << m_endl;
+        xs << indent() << "</" << makeSchemaTag(QStringLiteral("complexType")) << ">" << m_endl;
 
     } else
         xs << "/>" << m_endl; // empty node. just close this element decl
@@ -422,7 +422,7 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
             if (!classifier->isInterface()) {
                 UMLAttributeList attribs = c->getAttributeList();
                 if (attribs.count() > 0)
-                    list.append(getElementName(classifier) + QLatin1String("AttribGroupType"));
+                    list.append(getElementName(classifier) + QStringLiteral("AttribGroupType"));
             }
         }
     }
@@ -501,7 +501,7 @@ void XMLSchemaWriter::writeAttributeDecl(UMLAttribute *attrib, QTextStream &xs)
     if (!documentation.isEmpty())
         writeComment(documentation, xs);
 
-    xs << indent() << "<" << makeSchemaTag(QLatin1String(QLatin1String("attribute")))
+    xs << indent() << "<" << makeSchemaTag(QStringLiteral("attribute"))
        << " name=\"" << cleanName(attrib->name()) << "\""
        << " type=\"" << typeName << "\"";
 
@@ -528,10 +528,10 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
     if (attribs.count()> 0) {
 
         // write a little documentation
-        writeComment(QLatin1String("attributes for element ") + elementName, xs);
+        writeComment(QStringLiteral("attributes for element ") + elementName, xs);
 
         // open attribute group
-        xs << indent() << "<" << makeSchemaTag(QLatin1String("attributeGroup")) << " name=\"" << elementName << "AttribGroupType" << "\">" << m_endl;
+        xs << indent() << "<" << makeSchemaTag(QStringLiteral("attributeGroup")) << " name=\"" << elementName << "AttribGroupType" << "\">" << m_endl;
 
         m_indentLevel++;
 
@@ -543,7 +543,7 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
         m_indentLevel--;
 
         // close attrib group node
-        xs << indent() << "</" << makeSchemaTag(QLatin1String("attributeGroup")) << ">" << m_endl;
+        xs << indent() << "</" << makeSchemaTag(QStringLiteral("attributeGroup")) << ">" << m_endl;
     }
 }
 
@@ -557,7 +557,7 @@ void XMLSchemaWriter::writeComment(const QString &comment, QTextStream &xs)
     // need to resolve for using with MAC/WinDoze eventually I assume
     QString indnt = indent();
     xs << indnt << "<!-- ";
-    if (comment.contains(QRegExp(QLatin1String("\n")))) {
+    if (comment.contains(QRegExp(QStringLiteral("\n")))) {
         xs << m_endl;
         QStringList lines = comment.split(QLatin1Char('\n'));
         for (int i= 0; i < lines.count(); i++)
@@ -609,7 +609,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
             if (!didFirstOne && (printRoleA || printRoleB))
             {
                 didFirstOne = true;
-                xs << indent() << "<" << makeSchemaTag(QLatin1String("sequence")) << ">" << m_endl;
+                xs << indent() << "<" << makeSchemaTag(QStringLiteral("sequence")) << ">" << m_endl;
                 m_indentLevel++;
             }
 
@@ -690,18 +690,18 @@ void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &
     // Min/Max Occurs is based on whether it is this a single element
     // or a List (maxoccurs>1). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    QString minOccurs = QLatin1String("0");
-    QString maxOccurs = QLatin1String("unbounded");
+    QString minOccurs = QStringLiteral("0");
+    QString maxOccurs = QStringLiteral("unbounded");
     if (multi.isEmpty())
     {
         // in this case, association will only specify ONE element can exist
         // as a child
-        minOccurs = QLatin1String("1");
-        maxOccurs = QLatin1String("1");
+        minOccurs = QStringLiteral("1");
+        maxOccurs = QStringLiteral("1");
     }
     else
     {
-        QStringList values = multi.split(QRegExp(QLatin1String("[^\\d{1,}|\\*]")));
+        QStringList values = multi.split(QRegExp(QStringLiteral("[^\\d{1,}|\\*]")));
 
         // could use some improvement here.. for sequences like "0..1, 3..5, 10" we
         // don't capture the whole "richness" of the multi. Instead we translate it
@@ -710,10 +710,10 @@ void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &
         {
             // populate both with the actual value as long as our value isnt an asterix
             // In that case, use special value (from above)
-            if (values[0].contains(QRegExp(QLatin1String("\\d{1,}"))))
+            if (values[0].contains(QRegExp(QStringLiteral("\\d{1,}"))))
                 minOccurs = values[0]; // use first number in sequence
 
-            if (values[values.count()-1].contains(QRegExp(QLatin1String("\\d{1,}"))))
+            if (values[values.count()-1].contains(QRegExp(QStringLiteral("\\d{1,}"))))
                 maxOccurs = values[values.count()-1]; // use only last number in sequence
         }
     }
@@ -749,18 +749,18 @@ void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &
     //         AND a group declaration for interfaces AND classes which are inherited from.
     //
     if ((isAbstract || isInterface) && c->findSubClassConcepts().count() > 0)
-        xs << indent() << "<" << makeSchemaTag(QLatin1String("group"))
+        xs << indent() << "<" << makeSchemaTag(QStringLiteral("group"))
         <<" ref=\"" << makePackageTag(getElementGroupTypeName(c)) << "\"";
     else
-        xs << indent() << "<" << makeSchemaTag(QLatin1String("element"))
+        xs << indent() << "<" << makeSchemaTag(QStringLiteral("element"))
         <<" name=\"" << getElementName(c) << "\""
         <<" type=\"" << makePackageTag(getElementTypeName(c)) << "\"";
 
     // min/max occurs
-    if (minOccurs != QLatin1String("1"))
+    if (minOccurs != QStringLiteral("1"))
         xs << " minOccurs=\"" << minOccurs << "\"";
 
-    if (maxOccurs != QLatin1String("1"))
+    if (maxOccurs != QStringLiteral("1"))
         xs << " maxOccurs=\"" << maxOccurs << "\"";
 
     // tidy up the node
@@ -787,7 +787,7 @@ QString XMLSchemaWriter::fixTypeName(const QString& string)
 QString XMLSchemaWriter::fixInitialStringDeclValue(QString value, const QString &type)
 {
     // check for strings only
-    if (!value.isEmpty() && type == QLatin1String("xs:string")) {
+    if (!value.isEmpty() && type == QStringLiteral("xs:string")) {
         if (!value.startsWith(QLatin1Char('"')))
             value.remove(0, 1);
         if (!value.endsWith(QLatin1Char('"')))
@@ -811,7 +811,7 @@ QString XMLSchemaWriter::getElementName(UMLClassifier *c)
 QString XMLSchemaWriter::getElementTypeName(UMLClassifier *c)
 {
     QString elementName = getElementName(c);
-    return elementName + QLatin1String("ComplexType");
+    return elementName + QStringLiteral("ComplexType");
 }
 
 /**
@@ -820,7 +820,7 @@ QString XMLSchemaWriter::getElementTypeName(UMLClassifier *c)
 QString XMLSchemaWriter::getElementGroupTypeName(UMLClassifier *c)
 {
     QString elementName = getElementName(c);
-    return elementName + QLatin1String("GroupType");
+    return elementName + QStringLiteral("GroupType");
 }
 
 /**
@@ -850,22 +850,22 @@ QStringList XMLSchemaWriter::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         keywords
-          << QLatin1String("ATTLIST")
-          << QLatin1String("CDATA")
-          << QLatin1String("DOCTYPE")
-          << QLatin1String("ELEMENT")
-          << QLatin1String("ENTITIES")
-          << QLatin1String("ENTITY")
-          << QLatin1String("ID")
-          << QLatin1String("IDREF")
-          << QLatin1String("IDREFS")
-          << QLatin1String("NMTOKEN")
-          << QLatin1String("NMTOKENS")
-          << QLatin1String("NOTATION")
-          << QLatin1String("PUBLIC")
-          << QLatin1String("SHORTREF")
-          << QLatin1String("SYSTEM")
-          << QLatin1String("USEMAP");
+          << QStringLiteral("ATTLIST")
+          << QStringLiteral("CDATA")
+          << QStringLiteral("DOCTYPE")
+          << QStringLiteral("ELEMENT")
+          << QStringLiteral("ENTITIES")
+          << QStringLiteral("ENTITY")
+          << QStringLiteral("ID")
+          << QStringLiteral("IDREF")
+          << QStringLiteral("IDREFS")
+          << QStringLiteral("NMTOKEN")
+          << QStringLiteral("NMTOKENS")
+          << QStringLiteral("NOTATION")
+          << QStringLiteral("PUBLIC")
+          << QStringLiteral("SHORTREF")
+          << QStringLiteral("SYSTEM")
+          << QStringLiteral("USEMAP");
     }
 
     return keywords;

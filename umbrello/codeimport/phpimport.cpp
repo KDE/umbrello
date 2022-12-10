@@ -11,7 +11,7 @@
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"
-#define DBG_SRC QLatin1String("PHPImport")
+#define DBG_SRC QStringLiteral("PHPImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "import_utils.h"

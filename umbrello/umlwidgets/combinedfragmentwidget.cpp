@@ -84,29 +84,29 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
 
     painter->setPen(textColor());
     painter->setFont(UMLWidget::font());
-        QString temp = QLatin1String("loop");
+        QString temp = QStringLiteral("loop");
 
     switch (m_CombinedFragment)
     {
         case Ref :
         painter->drawText(defaultMargin, textStartY, w - defaultMargin * 2, fontHeight, Qt::AlignCenter, combined_fragment_value);
-        painter->drawText(defaultMargin, 0, w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("ref"));
+        painter->drawText(defaultMargin, 0, w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QStringLiteral("ref"));
         break;
 
         case Opt :
         painter->drawText(defaultMargin, 0,
-            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("opt"));
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QStringLiteral("opt"));
         break;
 
         case Break :
         painter->drawText(defaultMargin, 0,
-            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("break"));
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QStringLiteral("break"));
         break;
 
         case Loop :
-                if (combined_fragment_value != QLatin1String("-"))
+                if (combined_fragment_value != QStringLiteral("-"))
                 {
-                     temp += QLatin1String(" [") + combined_fragment_value + QLatin1Char(']');
+                     temp += QStringLiteral(" [") + combined_fragment_value + QLatin1Char(']');
                      line_width += (combined_fragment_value.size() + 2) * 8;
                 }
         painter->drawText(defaultMargin, 0, w - defaultMargin * 2, fontHeight, Qt::AlignLeft, temp);
@@ -115,21 +115,21 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
 
         case Neg :
         painter->drawText(defaultMargin, 0,
-            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("neg"));
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QStringLiteral("neg"));
         break;
 
         case Crit :
         painter->drawText(defaultMargin, 0,
-            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("critical"));
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QStringLiteral("critical"));
         break;
 
         case Ass :
         painter->drawText(defaultMargin, 0,
-            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("assert"));
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QStringLiteral("assert"));
         break;
 
         case Alt :
-                if (combined_fragment_value != QLatin1String("-"))
+                if (combined_fragment_value != QStringLiteral("-"))
                 {
                      temp = QLatin1Char('[') + combined_fragment_value + QLatin1Char(']');
             painter->drawText(defaultMargin, labelHeight,
@@ -138,7 +138,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
                         m_dashLines.first()->setY(y() + h/2);
                 }
                 painter->drawText(defaultMargin, 0,
-            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("alt"));
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QStringLiteral("alt"));
                 // dash lines
                 //m_dashLines.first()->paint(painter);
                 // TODO: move to UMLWidget::calculateSize api
@@ -157,7 +157,7 @@ void CombinedFragmentWidget::paint(QPainter *painter, const QStyleOptionGraphics
 
         case Par :
                 painter->drawText(defaultMargin, 0,
-            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QLatin1String("parallel"));
+            w - defaultMargin * 2, fontHeight, Qt::AlignLeft, QStringLiteral("parallel"));
                 // dash lines
                 if (m_dashLines.size() != 0) {
                     //m_dashLines.first()->paint(painter);
@@ -238,23 +238,23 @@ void CombinedFragmentWidget::setCombinedFragmentType(CombinedFragmentType combin
  */
 CombinedFragmentWidget::CombinedFragmentType CombinedFragmentWidget::combinedFragmentType(const QString& type) const
 {
-    if (type == QLatin1String("Reference"))
+    if (type == QStringLiteral("Reference"))
         return (CombinedFragmentWidget::Ref);
-    if (type == QLatin1String("Option"))
+    if (type == QStringLiteral("Option"))
         return (CombinedFragmentWidget::Opt);
-    if (type == QLatin1String("Break"))
+    if (type == QStringLiteral("Break"))
         return (CombinedFragmentWidget::Break);
-    if (type == QLatin1String("Loop"))
+    if (type == QStringLiteral("Loop"))
         return (CombinedFragmentWidget::Loop);
-    if (type == QLatin1String("Negative"))
+    if (type == QStringLiteral("Negative"))
         return (CombinedFragmentWidget::Neg);
-    if (type == QLatin1String("Critical"))
+    if (type == QStringLiteral("Critical"))
         return (CombinedFragmentWidget::Crit);
-    if (type == QLatin1String("Assertion"))
+    if (type == QStringLiteral("Assertion"))
         return (CombinedFragmentWidget::Ass);
-    if (type == QLatin1String("Alternative"))
+    if (type == QStringLiteral("Alternative"))
         return (CombinedFragmentWidget::Alt);
-    if (type == QLatin1String("Parallel"))
+    if (type == QStringLiteral("Parallel"))
         return (CombinedFragmentWidget::Par);
     // Shouldn't happen
     Q_ASSERT(0);
@@ -278,15 +278,15 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
     Q_UNUSED(defaultName);
     bool pressedOK = false;
     const QStringList list = QStringList()
-                             << QLatin1String("Reference")
-                             << QLatin1String("Option")
-                             << QLatin1String("Break")
-                             << QLatin1String("Loop")
-                             << QLatin1String("Negative")
-                             << QLatin1String("Critical")
-                             << QLatin1String("Assertion")
-                             << QLatin1String("Alternative")
-                             << QLatin1String("Parallel") ;
+                             << QStringLiteral("Reference")
+                             << QStringLiteral("Option")
+                             << QStringLiteral("Break")
+                             << QStringLiteral("Loop")
+                             << QStringLiteral("Negative")
+                             << QStringLiteral("Critical")
+                             << QStringLiteral("Assertion")
+                             << QStringLiteral("Alternative")
+                             << QStringLiteral("Parallel") ;
 #if QT_VERSION >= 0x050000
     QPointer<QInputDialog> inputDlg = new QInputDialog();
     inputDlg->setComboBoxItems(list);
@@ -304,11 +304,11 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
     if (pressedOK) {
         QString type = result.join(QString());
         targetWidget->asCombinedFragmentWidget()->setCombinedFragmentType(type);
-        if (type == QLatin1String("Reference"))
+        if (type == QStringLiteral("Reference"))
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the name of the diagram referenced"), i18n("Enter the name of the diagram referenced"), i18n("Diagram name"));
-        else if (type == QLatin1String(QLatin1String("Loop")))
+        else if (type == QStringLiteral("Loop"))
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the guard of the loop"), i18n("Enter the guard of the loop"), i18n("-"));
-        else if (type == QLatin1String("Alternative"))
+        else if (type == QStringLiteral("Alternative"))
             Dialog_Utils::askNameForWidget(targetWidget, i18n("Enter the first alternative name"), i18n("Enter the first alternative name"), i18n("-"));
     } else {
         targetWidget->cleanup();
@@ -322,11 +322,11 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
  */
 void CombinedFragmentWidget::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QLatin1String("combinedFragmentwidget"));
+    writer.writeStartElement(QStringLiteral("combinedFragmentwidget"));
     UMLWidget::saveToXMI(writer);
-    writer.writeAttribute(QLatin1String("combinedFragmentname"), m_Text);
-    writer.writeAttribute(QLatin1String("documentation"), m_Doc);
-    writer.writeAttribute(QLatin1String("CombinedFragmenttype"), QString::number(m_CombinedFragment));
+    writer.writeAttribute(QStringLiteral("combinedFragmentname"), m_Text);
+    writer.writeAttribute(QStringLiteral("documentation"), m_Doc);
+    writer.writeAttribute(QStringLiteral("CombinedFragmenttype"), QString::number(m_CombinedFragment));
 
     // save the corresponding floating dash lines
     for (QList<FloatingDashLineWidget*>::iterator it = m_dashLines.begin() ; it != m_dashLines.end() ; ++it) {
@@ -343,16 +343,16 @@ bool CombinedFragmentWidget::loadFromXMI(QDomElement & qElement)
 {
     if (!UMLWidget::loadFromXMI(qElement))
         return false;
-    m_Text = qElement.attribute(QLatin1String("combinedFragmentname"));
-    m_Doc = qElement.attribute(QLatin1String("documentation"));
-    QString type = qElement.attribute(QLatin1String("CombinedFragmenttype"));
+    m_Text = qElement.attribute(QStringLiteral("combinedFragmentname"));
+    m_Doc = qElement.attribute(QStringLiteral("documentation"));
+    QString type = qElement.attribute(QStringLiteral("CombinedFragmenttype"));
 
     //now load child elements
     QDomNode node = qElement.firstChild();
     QDomElement element = node.toElement();
     while (!element.isNull()) {
         QString tag = element.tagName();
-        if (tag == QLatin1String("floatingdashlinewidget")) {
+        if (tag == QStringLiteral("floatingdashlinewidget")) {
             FloatingDashLineWidget * fdlwidget = new FloatingDashLineWidget(m_scene, Uml::ID::None, this);
             m_dashLines.push_back(fdlwidget);
             if (!fdlwidget->loadFromXMI(element)) {
@@ -412,7 +412,7 @@ void CombinedFragmentWidget::slotMenuSelection(QAction* action)
         m_dashLines.push_back(new FloatingDashLineWidget(m_scene, Uml::ID::None, this));
         if (m_CombinedFragment == Alt)
         {
-            m_dashLines.back()->setText(QLatin1String("else"));
+            m_dashLines.back()->setText(QStringLiteral("else"));
         }
         // TODO: move to UMLWidget::calculateSize api
         m_dashLines.back()->setX(x());
@@ -477,7 +477,7 @@ void CombinedFragmentWidget::setDashLineGeometryAndPosition() const
 {
     if (m_CombinedFragment == Alt && !m_dashLines.isEmpty())
     {
-        m_dashLines.back()->setText(QLatin1String("else"));
+        m_dashLines.back()->setText(QStringLiteral("else"));
         m_dashLines.back()->setX(x());
         m_dashLines.back()->setYMin(y());
         m_dashLines.back()->setYMax(y() + height());
@@ -508,7 +508,7 @@ QPainterPath CombinedFragmentWidget::shape() const
     qreal lw = m_labelWidth + r;
     qreal lh = labelHeight + r;
     if (m_CombinedFragment == Alt) {
-        const int textWidth = fm.width(name() + QLatin1String("[]"));
+        const int textWidth = fm.width(name() + QStringLiteral("[]"));
         lh += fontHeight;
         if (lw < textWidth)
             lw = textWidth + r;

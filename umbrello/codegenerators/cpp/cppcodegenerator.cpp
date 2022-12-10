@@ -92,7 +92,7 @@ bool CPPCodeGenerator::addHeaderCodeDocument(CPPHeaderCodeDocument * doc)
 
     // assign a tag if one doesn't already exist
     if (tag.isEmpty()) {
-        tag = QLatin1String("cppheader")+Uml::ID::toString(doc->getParentClassifier()->id());
+        tag = QStringLiteral("cppheader")+Uml::ID::toString(doc->getParentClassifier()->id());
         doc->setID(tag);
     }
 
@@ -178,8 +178,8 @@ QString CPPCodeGenerator::fixTypeName(const QString &name)
  */
 void CPPCodeGenerator::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QLatin1String("codegenerator"));
-    writer.writeAttribute(QLatin1String("language"), QLatin1String("C++"));
+    writer.writeStartElement(QStringLiteral("codegenerator"));
+    writer.writeAttribute(QStringLiteral("language"), QStringLiteral("C++"));
 
     const CodeDocumentList * docList = getCodeDocumentList();
     CodeDocumentList::ConstIterator it  = docList->begin();
@@ -258,7 +258,7 @@ void CPPCodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
  */
 CPPHeaderCodeDocument * CPPCodeGenerator::findHeaderCodeDocumentByClassifier(UMLClassifier * classifier)
 {
-    CodeDocument * doc = findCodeDocumentByID(QLatin1String("cppheader")+Uml::ID::toString(classifier->id()));
+    CodeDocument * doc = findCodeDocumentByID(QStringLiteral("cppheader")+Uml::ID::toString(classifier->id()));
     return dynamic_cast<CPPHeaderCodeDocument*>(doc);
 }
 

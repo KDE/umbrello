@@ -35,7 +35,7 @@ IDLWriter::~IDLWriter()
 bool IDLWriter::isOOClass(UMLClassifier *c)
 {
     QString stype = c->stereotype();
-    QRegExp nonOO(QLatin1String("(Constant|Enum|Struct|Union|Sequence|Array|Typedef)$"),
+    QRegExp nonOO(QStringLiteral("(Constant|Enum|Struct|Union|Sequence|Array|Typedef)$"),
                   Qt::CaseInsensitive);
     if (stype.contains(nonOO))
         return false;
@@ -86,8 +86,8 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
         multiplicity = a->getMultiplicity(Uml::RoleType::B);
     else
         multiplicity = a->getMultiplicity(Uml::RoleType::A);
-    if (!multiplicity.isEmpty() && multiplicity != QLatin1String("1"))
-        typeName.append(QLatin1String("Vector"));
+    if (!multiplicity.isEmpty() && multiplicity != QStringLiteral("1"))
+        typeName.append(QStringLiteral("Vector"));
     // Construct the member name:
     if (IAmRoleA)
         roleName = a->getRoleName(Uml::RoleType::B);
@@ -96,7 +96,7 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
     if (roleName.isEmpty()) {
         roleName = a->name();
         if (roleName.isEmpty()) {
-            roleName = QLatin1String("m_") + typeName;
+            roleName = QStringLiteral("m_") + typeName;
         }
     }
 }
@@ -116,7 +116,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     QString classname = cleanName(c->name());
 
     //find an appropriate name for our file
-    QString fileName = findFileName(c, QLatin1String(".idl"));
+    QString fileName = findFileName(c, QStringLiteral(".idl"));
     if (fileName.isEmpty()) {
         emit codeGenerated(c, false);
         return;
@@ -133,10 +133,10 @@ void IDLWriter::writeClass(UMLClassifier *c)
     QTextStream idl(&file);
     //try to find a heading file(license, comments, etc)
     QString str;
-    str = getHeadingFile(QLatin1String(".idl"));
+    str = getHeadingFile(QStringLiteral(".idl"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QLatin1String("%filename%")), fileName);
-        str.replace(QRegExp(QLatin1String("%filepath%")), file.fileName());
+        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
         idl << str << m_endl;
     }
 
@@ -147,7 +147,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
         foreach (UMLPackage* conc, includes) {
             if (conc->isUMLDatatype())
                 continue;
-            QString incName = findFileName(conc, QLatin1String(".idl"));
+            QString incName = findFileName(conc, QStringLiteral(".idl"));
             if (!incName.isEmpty())
                 idl << "#include \"" << incName << "\"" << m_endl;
         }
@@ -167,7 +167,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     if (forceDoc() || !c->doc().isEmpty()) {
         idl << "//" << m_endl;
         idl << "// class " << classname << m_endl;
-        idl << formatDoc(c->doc(), QLatin1String("// "));
+        idl << formatDoc(c->doc(), QStringLiteral("// "));
         idl << m_endl;
     }
 
@@ -194,7 +194,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     }
     if (! isOOClass(c)) {
         QString stype = c->stereotype();
-        if (stype.contains(QLatin1String("Constant"))) {
+        if (stype.contains(QStringLiteral("Constant"))) {
             logError2("The stereotype %1 cannot be applied to %2 but only to attributes",
                       stype, c->name());
             return;
@@ -204,7 +204,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
                      stype, c->name());
             return;
         }
-        if (stype.contains(QLatin1String("Enum"))) {
+        if (stype.contains(QStringLiteral("Enum"))) {
             UMLAttributeList atl = c->getAttributeList();
 
             idl << indent() << "enum " << classname << " {" << m_endl;
@@ -219,7 +219,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             }
             m_indentLevel--;
             idl << indent() << "};" << m_endl << m_endl;
-        } else if (stype.contains(QLatin1String("Struct"))) {
+        } else if (stype.contains(QStringLiteral("Struct"))) {
             UMLAttributeList atl = c->getAttributeList();
 
             idl << indent() << "struct " << classname << " {" << m_endl;
@@ -249,7 +249,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             }
             m_indentLevel--;
             idl << indent() << "};" << m_endl << m_endl;
-        } else if (stype.contains(QLatin1String("Union"))) {
+        } else if (stype.contains(QStringLiteral("Union"))) {
             // idl << indent() << "// " << stype << " " << c->name() << " is Not Yet Implemented" << m_endl << m_endl;
             UMLAttributeList atl = c->getAttributeList();
             if (atl.count()) {
@@ -280,7 +280,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
                 idl << indent() << "// <<union>> " << c->name() << " is empty, please check model" << m_endl;
                 idl << indent() << "union " << c->name() << ";" << m_endl << m_endl;
             }
-        } else if (stype.contains(QLatin1String("Typedef"))) {
+        } else if (stype.contains(QStringLiteral("Typedef"))) {
             UMLClassifierList superclasses = c->getSuperClasses();
             if (superclasses.count()) {
                 UMLClassifier* firstParent = superclasses.first();
@@ -305,7 +305,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     idl << indent();
     if (c->isAbstract())
         idl << "abstract ";
-    bool isValuetype = (c->stereotype().contains(QLatin1String("Value")));
+    bool isValuetype = (c->stereotype().contains(QStringLiteral("Value")));
     if (isValuetype)
         idl << "valuetype ";
     else
@@ -317,7 +317,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
         int count = superclasses.count();
         foreach(UMLClassifier* parent, superclasses) {
             count--;
-            idl << parent->fullyQualifiedName(QLatin1String("::"));
+            idl << parent->fullyQualifiedName(QStringLiteral("::"));
             if (count)
                 idl << ", ";
         }
@@ -333,7 +333,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
         if (! assocTypeIsMappableToAttribute(a->getAssocType()))
             continue;
         QString multiplicity = a->getMultiplicity(Uml::RoleType::A);
-        if (multiplicity.isEmpty() || multiplicity == QLatin1String("1"))
+        if (multiplicity.isEmpty() || multiplicity == QStringLiteral("1"))
             continue;
         if (!didComment) {
             idl << indent() << "// Types for association multiplicities" << m_endl << m_endl;
@@ -341,7 +341,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
         }
         UMLClassifier* other = (UMLClassifier*)a->getObject(Uml::RoleType::A);
         QString bareName = cleanName(other->name());
-        idl << indent() << "typedef sequence<" << other->fullyQualifiedName(QLatin1String("::"))
+        idl << indent() << "typedef sequence<" << other->fullyQualifiedName(QStringLiteral("::"))
             << "> " << bareName << "Vector;" << m_endl << m_endl;
     }
 
@@ -435,7 +435,7 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
     QString rettype = op->getTypeName();
 
     if (rettype.isEmpty())
-        rettype = QLatin1String("void");
+        rettype = QStringLiteral("void");
     idl << indent();
     if (is_comment)
         idl << "// ";
@@ -467,20 +467,20 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
 QStringList IDLWriter::defaultDatatypes() const
 {
     QStringList l;
-    l.append(QLatin1String("boolean"));
-    l.append(QLatin1String("char"));
-    l.append(QLatin1String("octet"));
-    l.append(QLatin1String("short"));
-    l.append(QLatin1String("unsigned short"));
-    l.append(QLatin1String("long"));
-    l.append(QLatin1String("unsigned long"));
-    l.append(QLatin1String("long long"));
-    l.append(QLatin1String("unsigned long long"));
-    l.append(QLatin1String("float"));
-    l.append(QLatin1String("double"));
-    l.append(QLatin1String("long double"));
-    l.append(QLatin1String("string"));
-    l.append(QLatin1String("any"));
+    l.append(QStringLiteral("boolean"));
+    l.append(QStringLiteral("char"));
+    l.append(QStringLiteral("octet"));
+    l.append(QStringLiteral("short"));
+    l.append(QStringLiteral("unsigned short"));
+    l.append(QStringLiteral("long"));
+    l.append(QStringLiteral("unsigned long"));
+    l.append(QStringLiteral("long long"));
+    l.append(QStringLiteral("unsigned long long"));
+    l.append(QStringLiteral("float"));
+    l.append(QStringLiteral("double"));
+    l.append(QStringLiteral("long double"));
+    l.append(QStringLiteral("string"));
+    l.append(QStringLiteral("any"));
     return l;
 }
 
@@ -493,39 +493,39 @@ QStringList IDLWriter::reservedKeywords() const
 
     if (keywords.isEmpty()) {
         keywords
-          << QLatin1String("any")
-          << QLatin1String("attribute")
-          << QLatin1String("boolean")
-          << QLatin1String("case")
-          << QLatin1String("char")
-          << QLatin1String("const")
-          << QLatin1String("context")
-          << QLatin1String("default")
-          << QLatin1String("double")
-          << QLatin1String("enum")
-          << QLatin1String("exception")
-          << QLatin1String("FALSE")
-          << QLatin1String("float")
-          << QLatin1String("in")
-          << QLatin1String("inout")
-          << QLatin1String("interface")
-          << QLatin1String("long")
-          << QLatin1String("module")
-          << QLatin1String("octet")
-          << QLatin1String("oneway")
-          << QLatin1String("out")
-          << QLatin1String("raises")
-          << QLatin1String("readonly")
-          << QLatin1String("sequence")
-          << QLatin1String("short")
-          << QLatin1String("string")
-          << QLatin1String("struct")
-          << QLatin1String("switch")
-          << QLatin1String("TRUE")
-          << QLatin1String("typedef")
-          << QLatin1String("union")
-          << QLatin1String("unsigned")
-          << QLatin1String("void");
+          << QStringLiteral("any")
+          << QStringLiteral("attribute")
+          << QStringLiteral("boolean")
+          << QStringLiteral("case")
+          << QStringLiteral("char")
+          << QStringLiteral("const")
+          << QStringLiteral("context")
+          << QStringLiteral("default")
+          << QStringLiteral("double")
+          << QStringLiteral("enum")
+          << QStringLiteral("exception")
+          << QStringLiteral("FALSE")
+          << QStringLiteral("float")
+          << QStringLiteral("in")
+          << QStringLiteral("inout")
+          << QStringLiteral("interface")
+          << QStringLiteral("long")
+          << QStringLiteral("module")
+          << QStringLiteral("octet")
+          << QStringLiteral("oneway")
+          << QStringLiteral("out")
+          << QStringLiteral("raises")
+          << QStringLiteral("readonly")
+          << QStringLiteral("sequence")
+          << QStringLiteral("short")
+          << QStringLiteral("string")
+          << QStringLiteral("struct")
+          << QStringLiteral("switch")
+          << QStringLiteral("TRUE")
+          << QStringLiteral("typedef")
+          << QStringLiteral("union")
+          << QStringLiteral("unsigned")
+          << QStringLiteral("void");
     }
 
     return keywords;

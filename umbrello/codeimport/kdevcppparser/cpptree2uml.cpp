@@ -14,7 +14,7 @@
 #include "umllistview.h"
 #include "datatype.h"
 #include "operation.h"
-#define DBG_SRC QLatin1String("CppTree2Uml")
+#define DBG_SRC QStringLiteral("CppTree2Uml")
 #include "debug_utils.h"
 #include "ast_utils.h"
 #include "codeimpthread.h"
@@ -91,7 +91,7 @@ void CppTree2Uml::parseTranslationUnit(const ParsedFile &file)
         UMLFolder *parent = m_rootFolder;
         QString path;
         if (!m_rootPath.isEmpty())
-            path = fi.path().replace(m_rootPath + QLatin1String("/"), QLatin1String(""));
+            path = fi.path().replace(m_rootPath + QStringLiteral("/"), QStringLiteral(""));
         else
             path = fi.absolutePath();
         if (!path.isEmpty())
@@ -121,12 +121,12 @@ void CppTree2Uml::parseNamespace(NamespaceAST* ast)
     }
     logDebug1("CppTree2Uml::parseNamespace %1", nsName);
     if (m_thread) {
-        m_thread->emitMessageToLog(QString(), QLatin1String("namespace ") + nsName);
+        m_thread->emitMessageToLog(QString(), QStringLiteral("namespace ") + nsName);
     }
     UMLObject *o = m_doc->findUMLObject(nsName, UMLObject::ot_Package, m_currentNamespace[m_nsCnt]);
     if (!o)
         o = m_doc->findUMLObject(nsName, UMLObject::ot_Class, m_currentNamespace[m_nsCnt]);
-    if (o && o->stereotype() == QLatin1String("class-or-package")) {
+    if (o && o->stereotype() == QStringLiteral("class-or-package")) {
         o->setStereotype(QString());
         o->setBaseType(UMLObject::ot_Package);
     }
@@ -210,7 +210,7 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
                 Import_Utils::createUMLObject(UMLObject::ot_Class, id,
                                                m_currentNamespace[m_nsCnt],
                                                QString() /* doc */,
-                                               QLatin1String("typedef") /* stereotype */);
+                                               QStringLiteral("typedef") /* stereotype */);
             }
         }
 
@@ -270,7 +270,7 @@ void CppTree2Uml::parseSimpleDeclaration(SimpleDeclarationAST* ast)
     InitDeclaratorListAST* declarators = ast->initDeclaratorList();
     GroupAST* storageSpec = ast->storageSpecifier();
 
-    if (storageSpec && storageSpec->text() == QLatin1String("friend"))
+    if (storageSpec && storageSpec->text() == QStringLiteral("friend"))
         return;
 
     m_comment = ast->comment();
@@ -313,11 +313,11 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
         QList<AST*> l = funSpec->nodeList();
         for (int i = 0; i < l.size(); ++i) {
             QString text = l.at(i)->text();
-            if (text == QLatin1String("virtual"))
+            if (text == QStringLiteral("virtual"))
                 isVirtual = true;
-            else if (text == QLatin1String("inline"))
+            else if (text == QStringLiteral("inline"))
                 isInline = true;
-            else if (text == QLatin1String("explicit"))
+            else if (text == QStringLiteral("explicit"))
                 isExplicit = true;
         }
     }
@@ -326,18 +326,18 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
         QList<AST*> l = storageSpec->nodeList();
         for (int i = 0; i < l.size(); ++i) {
             QString text = l.at(i)->text();
-            if (text == QLatin1String("friend"))
+            if (text == QStringLiteral("friend"))
                 isFriend = true;
-            else if (text == QLatin1String("static"))
+            else if (text == QStringLiteral("static"))
                 isStatic = true;
-            else if (text == QLatin1String("constexpr"))
+            else if (text == QStringLiteral("constexpr"))
                 isConstExpression = true;
         }
     }
 
     QString id = d->declaratorId()->unqualifiedName()->text().trimmed();
     if (m_thread) {
-        m_thread->emitMessageToLog(QString(), QLatin1String("method ") + id);
+        m_thread->emitMessageToLog(QString(), QStringLiteral("method ") + id);
     }
     logDebug1("CppTree2Uml::parseFunctionDefinition %1", id);
 
@@ -350,7 +350,7 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
     QString returnType = typeOfDeclaration(typeSpec, d);
     UMLOperation *m = Import_Utils::makeOperation(c, id);
     if (isConstExpression)
-        m->setStereotype(QLatin1String("constexpr"));
+        m->setStereotype(QStringLiteral("constexpr"));
     if (isVirtual)
         m->setVirtual(true);
     if (isInline)
@@ -378,13 +378,13 @@ void CppTree2Uml::parseFunctionDefinition(FunctionDefinitionAST* ast)
     if  (isConstructor) {
         QString stereotype;
         if (isExplicit)
-            stereotype.append(QLatin1String("explicit "));
+            stereotype.append(QStringLiteral("explicit "));
         if (isConstExpression)
-            stereotype.append(QLatin1String("constexpr "));
-        stereotype.append(QLatin1String("constructor"));
+            stereotype.append(QStringLiteral("constexpr "));
+        stereotype.append(QStringLiteral("constructor"));
         m->setStereotype(stereotype);
     } else if (isConstExpression)
-        m->setStereotype(QLatin1String("constexpr"));
+        m->setStereotype(QStringLiteral("constexpr"));
 
 /* For reference, Kdevelop does some more:
     method->setFileName(m_fileName);
@@ -418,33 +418,33 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
     }
     logDebug1("CppTree2Uml::parseClassSpecifier name=%1", className);
     if (m_thread) {
-        m_thread->emitMessageToLog(QString(), QLatin1String("class ") + className);
+        m_thread->emitMessageToLog(QString(), QStringLiteral("class ") + className);
     }
     QStringList scope = scopeOfName(ast->name(), QStringList());
     UMLObject *localParent = 0;
     if (!scope.isEmpty()) {
-        localParent = m_doc->findUMLObject(scope.join(QLatin1String("::")),
+        localParent = m_doc->findUMLObject(scope.join(QStringLiteral("::")),
                                            UMLObject::ot_Class, m_currentNamespace[m_nsCnt]);
         if (!localParent)
-            localParent = m_doc->findUMLObject(scope.join(QLatin1String("::")),
+            localParent = m_doc->findUMLObject(scope.join(QStringLiteral("::")),
                                                UMLObject::ot_Package, m_currentNamespace[m_nsCnt]);
         if (!localParent) {
             localParent = Import_Utils::createUMLObject(UMLObject::ot_Class, className,
                                                         m_currentNamespace[m_nsCnt],
                                                         ast->comment(), QString(), true);
-            localParent->setStereotype(QLatin1String("class-or-package"));
+            localParent->setStereotype(QStringLiteral("class-or-package"));
         }
         m_currentNamespace[++m_nsCnt] = localParent->asUMLPackage();
     }
 
     if (className.isEmpty()) {
-        className = QLatin1String("anon_") + QString::number(m_anon);
+        className = QStringLiteral("anon_") + QString::number(m_anon);
         m_anon++;
     }
     UMLObject *o = m_doc->findUMLObject(className, UMLObject::ot_Class, m_currentNamespace[m_nsCnt]);
     if (!o)
         o = m_doc->findUMLObject(className, UMLObject::ot_Datatype, m_currentNamespace[m_nsCnt]);
-    if (o && o->stereotype() == QLatin1String("class-or-package")) {
+    if (o && o->stereotype() == QStringLiteral("class-or-package")) {
         o->setStereotype(QString());
         o->setBaseType(UMLObject::ot_Class);
     }
@@ -486,7 +486,7 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
     }
 
     foreach(UMLAttribute *attr, klass->getAttributeList()) {
-        if (!(attr->isStatic() && attr->getTypeName().contains(QLatin1String("const"))))
+        if (!(attr->isStatic() && attr->getTypeName().contains(QStringLiteral("const"))))
             isInterface = false;
     }
 
@@ -532,9 +532,9 @@ void CppTree2Uml::parseElaboratedTypeSpecifier(ElaboratedTypeSpecifierAST* typeS
     QString text = typeSpec->text();
     logDebug1("CppTree2Uml::parseElaboratedTypeSpecifier forward declaration of %1", text);
     if (m_thread) {
-        m_thread->emitMessageToLog(QString(), QLatin1String("forward declaration of ") + text);
+        m_thread->emitMessageToLog(QString(), QStringLiteral("forward declaration of ") + text);
     }
-    text.remove(QRegExp(QLatin1String("^class\\s+")));
+    text.remove(QRegExp(QStringLiteral("^class\\s+")));
     UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Class, text, m_currentNamespace[m_nsCnt]);
     flushTemplateParams(o->asUMLClassifier());
 }
@@ -581,18 +581,18 @@ void CppTree2Uml::parseDeclaration2(GroupAST* funSpec, GroupAST* storageSpec,
         QList<AST*> l = storageSpec->nodeList();
         for (int i = 0; i < l.size(); ++i) {
             QString text = l.at(i)->text();
-            if (text == QLatin1String("static"))
+            if (text == QStringLiteral("static"))
                 isStatic = true;
-            else if (text == QLatin1String("mutable"))
-                typeName.prepend(text + QLatin1String(" "));
-            else if (text == QLatin1String("friend"))
+            else if (text == QStringLiteral("mutable"))
+                typeName.prepend(text + QStringLiteral(" "));
+            else if (text == QStringLiteral("friend"))
                 isFriend = true;
         }
     }
 
     UMLAttribute *attribute = Import_Utils::insertAttribute(c, m_currentAccess, id, typeName, m_comment, isStatic);
     if (isFriend)
-        attribute->setStereotype(QLatin1String("friend"));
+        attribute->setStereotype(QStringLiteral("friend"));
     m_comment = QString();
 }
 
@@ -604,8 +604,8 @@ void CppTree2Uml::parseAccessDeclaration(AccessDeclarationAST * access)
 
     m_currentAccess=Uml::Visibility::fromString(accessStr);
 
-    m_inSlots = l.count() > 1 ? l.at(1)->text() == QLatin1String("slots") : false;
-    m_inSignals = l.count() >= 1 ? l.at(0)->text() == QLatin1String("signals") : false;
+    m_inSlots = l.count() > 1 ? l.at(1)->text() == QStringLiteral("slots") : false;
+    m_inSignals = l.count() >= 1 ? l.at(0)->text() == QStringLiteral("signals") : false;
 }
 
 void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageSpec,
@@ -625,11 +625,11 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
         QList<AST*> l = funSpec->nodeList();
         for (int i = 0; i < l.size(); ++i) {
             QString text = l.at(i)->text();
-            if (text == QLatin1String("virtual"))
+            if (text == QStringLiteral("virtual"))
                 isVirtual = true;
-            else if (text == QLatin1String("inline"))
+            else if (text == QStringLiteral("inline"))
                 isInline = true;
-            else if (text == QLatin1String("explicit"))
+            else if (text == QStringLiteral("explicit"))
                 isExplicit = true;
         }
     }
@@ -638,9 +638,9 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
         QList<AST*> l = storageSpec->nodeList();
         for (int i = 0; i < l.size(); ++i) {
             QString text = l.at(i)->text();
-            if (text == QLatin1String("friend")) isFriend = true;
-            else if (text == QLatin1String("static")) isStatic = true;
-            else if (text == QLatin1String("constexpr"))
+            if (text == QStringLiteral("friend")) isFriend = true;
+            else if (text == QStringLiteral("static")) isStatic = true;
+            else if (text == QStringLiteral("constexpr"))
                 isConstExpression = true;
         }
     }
@@ -659,7 +659,7 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
     if (d && returnType.isEmpty()) {
         if (id.contains(QLatin1Char('~'))) {
             isDestructor = true;
-            id.remove(QLatin1String(" "));
+            id.remove(QStringLiteral(" "));
         } else {
             isConstructor = true;
         }
@@ -672,7 +672,7 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
     if (d->constant())
         m->setConst(true);
     if (isConstExpression)
-        m->setStereotype(QLatin1String("constexpr"));
+        m->setStereotype(QStringLiteral("constexpr"));
     if (isVirtual)
         m->setVirtual(true);
     if (isInline)
@@ -687,13 +687,13 @@ void CppTree2Uml::parseFunctionDeclaration(GroupAST* funSpec, GroupAST* storageS
     if  (isConstructor) {
         QString stereotype;
         if (isExplicit)
-            stereotype.append(QLatin1String("explicit "));
+            stereotype.append(QStringLiteral("explicit "));
         if (isConstExpression)
-            stereotype.append(QLatin1String("constexpr "));
-        stereotype.append(QLatin1String("constructor"));
+            stereotype.append(QStringLiteral("constexpr "));
+        stereotype.append(QStringLiteral("constructor"));
         m->setStereotype(stereotype);
     } else if (isConstExpression)
-        m->setStereotype(QLatin1String("constexpr"));
+        m->setStereotype(QStringLiteral("constexpr"));
 
     m_comment = QString();
 }
@@ -717,7 +717,7 @@ void CppTree2Uml::parseFunctionArguments(DeclaratorAST* declarator,
 
             QString tp = typeOfDeclaration(param->typeSpec(), param->declarator());
 
-            if (tp != QLatin1String("void"))
+            if (tp != QStringLiteral("void"))
                 Import_Utils::addMethodParameter(method, tp, name);
         }
     }
@@ -735,13 +735,13 @@ QString CppTree2Uml::typeOfDeclaration(TypeSpecifierAST* typeSpec, DeclaratorAST
     QList<AST*> ptrOpList = declarator->ptrOpList();
     for (int i = 0; i < ptrOpList.size(); ++i) {
         QString ptr = ptrOpList.at(i)->text();
-        text += ptr.replace(QLatin1String(" "), QLatin1String(""));
+        text += ptr.replace(QStringLiteral(" "), QStringLiteral(""));
     }
 
     QList<AST*> arrays = declarator->arrayDimensionList();
     for(int i = 0; i < arrays.size(); ++i) {
         QString dim = arrays.at(i)->text();
-        text += dim.replace(QLatin1String(" "), QLatin1String(""));
+        text += dim.replace(QStringLiteral(" "), QStringLiteral(""));
     }
 
     return text;

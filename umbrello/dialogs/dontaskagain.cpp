@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2018-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2018-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #include "dontaskagain.h"
@@ -35,7 +35,7 @@ QString &DontAskAgainItem::name()
 
 bool DontAskAgainItem::isAll()
 {
-    return m_name == QLatin1String("all");
+    return m_name == QStringLiteral("all");
 }
 
 bool DontAskAgainItem::isEnabled()

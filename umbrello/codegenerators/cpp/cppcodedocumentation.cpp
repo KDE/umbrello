@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <thomas@mail630.gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -31,7 +31,7 @@ CPPCodeDocumentation::~CPPCodeDocumentation()
  */
 void CPPCodeDocumentation::saveToXMI(QXmlStreamWriter& writer)
 {
-    writer.writeStartElement(QLatin1String("cppcodedocumentation"));
+    writer.writeStartElement(QStringLiteral("cppcodedocumentation"));
     setAttributesOnNode(writer); // as we added no additional fields to this class we may
     // just use parent TextBlock method
     writer.writeEndElement();
@@ -60,11 +60,11 @@ QString CPPCodeDocumentation::toString() const
         if(useDoubleDashOutput)
         {
             if(!body.isEmpty())
-                output.append(formatMultiLineText (body, indent + QLatin1String("// "), endLine));
+                output.append(formatMultiLineText (body, indent + QStringLiteral("// "), endLine));
         } else {
-            output.append(indent + QLatin1String("/**") + endLine);
-            output.append(formatMultiLineText (body, indent + QLatin1String(" * "), endLine));
-            output.append(indent + QLatin1String(" */") + endLine);
+            output.append(indent + QStringLiteral("/**") + endLine);
+            output.append(formatMultiLineText (body, indent + QStringLiteral(" * "), endLine));
+            output.append(indent + QStringLiteral(" */") + endLine);
         }
     }
 
@@ -75,9 +75,9 @@ QString CPPCodeDocumentation::getNewEditorLine(int amount)
 {
     CodeGenerationPolicy * p = UMLApp::app()->commonPolicy();
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
-        return getIndentationString(amount) + QLatin1String(" * ");
+        return getIndentationString(amount) + QStringLiteral(" * ");
     else
-        return getIndentationString(amount) + QLatin1String("// ");
+        return getIndentationString(amount) + QStringLiteral("// ");
 }
 
 int CPPCodeDocumentation::firstEditableLine()
@@ -109,11 +109,11 @@ QString CPPCodeDocumentation::unformatText(const QString & text, const QString &
     mytext.remove(QRegExp(QLatin1Char('^') + indent));
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
-        mytext.remove(QRegExp(QLatin1String("^\\/\\*\\*\\s*\n?")));
-        mytext.remove(QRegExp(QLatin1String("\\s*\\*\\/\\s*\n?$")));
-        mytext.remove(QRegExp(QLatin1String("^\\s*\\*\\s*")));
+        mytext.remove(QRegExp(QStringLiteral("^\\/\\*\\*\\s*\n?")));
+        mytext.remove(QRegExp(QStringLiteral("\\s*\\*\\/\\s*\n?$")));
+        mytext.remove(QRegExp(QStringLiteral("^\\s*\\*\\s*")));
     } else
-        mytext.remove(QRegExp(QLatin1String("^\\/\\/\\s*")));
+        mytext.remove(QRegExp(QStringLiteral("^\\/\\/\\s*")));
 
     return mytext;
 }
