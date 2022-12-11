@@ -16,7 +16,7 @@
 #include <QList>
 
 class KComboBox;
-class KLineEdit;
+class QLineEdit;
 class UMLDoc;
 class UMLForeignKeyConstraint;
 class QGroupBox;
@@ -61,7 +61,7 @@ private:
         QLabel* referencedEntityL;
         QLabel* nameL;
 
-        KLineEdit* nameT;
+        QLineEdit* nameT;
 
         KComboBox* referencedEntityCB;
 

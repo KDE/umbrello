@@ -13,7 +13,7 @@
 class QGroupBox;
 class QLabel;
 class UMLEnumLiteral;
-class KLineEdit;
+class QLineEdit;
 
 /**
  * @author Tzvetelin Katchov
@@ -40,7 +40,7 @@ protected:
     //GUI Widgets
     QGroupBox * m_pValuesGB;
     QLabel * m_pNameL, * m_pValueL;
-    KLineEdit * m_pNameLE, * m_pValueLE;
+    QLineEdit * m_pNameLE, * m_pValueLE;
 
 public slots:
     void slotNameChanged(const QString &);

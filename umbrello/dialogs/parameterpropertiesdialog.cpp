@@ -23,7 +23,7 @@
 
 // kde includes
 #include <KComboBox>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 

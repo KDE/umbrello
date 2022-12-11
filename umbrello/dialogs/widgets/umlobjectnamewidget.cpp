@@ -5,7 +5,7 @@
 
 #include "umlobjectnamewidget.h"
 
-#include <KLineEdit>
+#include <QLineEdit>
 
 #include <QGridLayout>
 #include <QHBoxLayout>
@@ -21,7 +21,7 @@ UMLObjectNameWidget::UMLObjectNameWidget(const QString &label, const QString &te
     m_label = new QLabel(label, this);
     layout->addWidget(m_label);
 
-    m_editField = new KLineEdit(this);
+    m_editField = new QLineEdit(this);
     layout->addWidget(m_editField, 2);
     m_editField->setText(text);
 

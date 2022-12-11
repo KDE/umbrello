@@ -36,7 +36,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KLineEdit" name="ui_diagramName"/>
+         <widget class="QLineEdit" name="ui_diagramName"/>
         </item>
        </layout>
       </item>
@@ -337,11 +337,6 @@ If 'Snap to Grid' is enabled a component will always be aligned with the grid on
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
   <customwidget>
    <class>KTextEdit</class>
    <extends>QTextEdit</extends>

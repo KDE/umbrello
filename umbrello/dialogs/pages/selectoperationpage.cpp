@@ -19,7 +19,7 @@
 #include "dialog_utils.h"
 
 // kde includes
-#include <klineedit.h>
+#include <QLineEdit>
 #include <kcombobox.h>
 #include <KLocalizedString>
 
@@ -87,7 +87,7 @@ SelectOperationPage::SelectOperationPage(UMLView *parent, UMLClassifier *c, Link
     m_pCustomRB = new QLabel(i18n("Custom operation:"), m_pOpGB);
     mainLayout->addWidget(m_pCustomRB, 2, 0);
 
-    m_pOpLE = new KLineEdit(m_pOpGB);
+    m_pOpLE = new QLineEdit(m_pOpGB);
     connect(m_pOpLE, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
     mainLayout->addWidget(m_pOpLE, 2, 1, 1, 2);
     if (m_widget->operation())

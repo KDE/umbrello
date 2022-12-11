@@ -19,7 +19,7 @@
 // kde includes
 #include <KMessageBox>
 #include <KLocalizedString>
-#include <klineedit.h>
+#include <QLineEdit>
 #include <kcombobox.h>
 
 // qt includes
@@ -40,19 +40,19 @@ namespace Dialog_Utils {
  * @param row                   The row number within the QGridLayout.
  * @param label                 The QLabel object allocated (return value)
  * @param labelText             The label text.
- * @param editField             The KLineEdit object allocated (return value)
+ * @param editField             The QLineEdit object allocated (return value)
  * @param editFieldText         Initialization text in the editField (optional.)
  * @param columnOffset          Optional column number within the QGridLayout (default: 0)
- * @return a pointer to the KLineEdit so you can setFocus() if necessary
+ * @return a pointer to the QLineEdit so you can setFocus() if necessary
  */
-KLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,
+QLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,
                                 QLabel*     &label,     const QString& labelText,
-                                KLineEdit*  &editField, const QString& editFieldText /* = QString() */,
+                                QLineEdit*  &editField, const QString& editFieldText /* = QString() */,
                                 int columnOffset /* = 0 */)
 {
     label = new QLabel(labelText);
     layout->addWidget(label, row, columnOffset);
-    editField = new KLineEdit(editFieldText);
+    editField = new QLineEdit(editFieldText);
     layout->addWidget(editField, row, columnOffset + 1);
     label->setBuddy(editField);
     return editField;
@@ -66,7 +66,7 @@ KLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,
  */
 void makeTagEditFields(UMLObject *o, QGridLayout *genLayout,
                        QLabel    *pTagLabel   [N_STEREOATTRS],
-                       KLineEdit *pTagLineEdit[N_STEREOATTRS],
+                       QLineEdit *pTagLineEdit[N_STEREOATTRS],
                        int row /* = 1 */)
 {
     UMLStereotype *stereo = o->umlStereotype();
@@ -99,7 +99,7 @@ void makeTagEditFields(UMLObject *o, QGridLayout *genLayout,
 void remakeTagEditFields(const QString &stereoText,
                          UMLObject *, QGridLayout * genLayout,
                          QLabel    * pTagLabel[N_STEREOATTRS],
-                         KLineEdit * pTagLineEdit[N_STEREOATTRS],
+                         QLineEdit * pTagLineEdit[N_STEREOATTRS],
                          int row /* = 1 */)
 {
     // Remove existing tag input fields
@@ -132,12 +132,12 @@ void remakeTagEditFields(const QString &stereoText,
 
 /**
  * Update the stereotype tag values of the given UMLObject from the
- * corresponding values in the given array of KLineEdit widgets.
+ * corresponding values in the given array of QLineEdit widgets.
  * This is useful as the action in the slot method when the Apply or
  * OK button is pressed.
  */
 void updateTagsFromEditFields(UMLObject * o,
-                              KLineEdit *pTagLineEdit[N_STEREOATTRS])
+                              QLineEdit *pTagLineEdit[N_STEREOATTRS])
 {
     UMLStereotype *stereo = o->umlStereotype();
     if (stereo == 0)

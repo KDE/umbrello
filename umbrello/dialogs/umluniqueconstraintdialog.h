@@ -13,7 +13,7 @@
 #include "singlepagedialogbase.h"
 
 class KComboBox;
-class KLineEdit;
+class QLineEdit;
 class QGroupBox;
 class QLabel;
 class QListWidget;
@@ -45,7 +45,7 @@ private:
     // GUI Widgets
     QGroupBox* m_pAttributeListGB;
     QLabel* m_pNameL;
-    KLineEdit* m_pNameLE;
+    QLineEdit* m_pNameLE;
     QListWidget* m_pAttributeListLW;
     KComboBox* m_pAttributeCB;
     QPushButton* m_pAddPB, *m_pRemovePB;

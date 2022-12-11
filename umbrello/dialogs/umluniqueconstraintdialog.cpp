@@ -23,7 +23,7 @@
 #if QT_VERSION < 0x050000
 #include <kdialogbuttonbox.h>
 #endif
-#include <klineedit.h>
+#include <QLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -82,7 +82,7 @@ void UMLUniqueConstraintDialog::setupDialog()
     m_pNameL = new QLabel(i18nc("name label", "Name"), this);
     nameLayout->addWidget(m_pNameL);
     // name lineEdit
-    m_pNameLE = new KLineEdit(this);
+    m_pNameLE = new QLineEdit(this);
     nameLayout->addWidget(m_pNameLE);
 
     // group box to hold the column details

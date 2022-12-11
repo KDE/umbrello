@@ -16,7 +16,7 @@ class ObjectNodeWidget;
 class QGroupBox;
 class QLabel;
 class QRadioButton;
-class KLineEdit;
+class QLineEdit;
 
 /**
  *   Displays the properties for a @ref ObjectNodeWidget
@@ -57,7 +57,7 @@ protected:
 
     struct GeneralPageWidgets {
         QLabel * nameL, * typeL, * stateL;
-        KLineEdit * nameLE, * typeLE, * stateLE;
+        QLineEdit * nameLE, * typeLE, * stateLE;
         QRadioButton * bufferRB, * dataRB, * flowRB;
         QGroupBox * generalGB;
         DocumentationWidget *docWidget;

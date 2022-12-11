@@ -10,7 +10,7 @@
 #include "layoutgenerator.h"
 
 // kde includes
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KLocalizedString>
 
 // qt includes

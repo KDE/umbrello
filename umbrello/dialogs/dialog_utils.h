@@ -21,7 +21,7 @@
 class QGridLayout;
 class QLabel;
 class UMLWidget;
-class KLineEdit;
+class QLineEdit;
 class KComboBox;
 
 /**
@@ -31,25 +31,25 @@ class KComboBox;
  */
 namespace Dialog_Utils {
 
-KLineEdit* makeLabeledEditField(QGridLayout *layout, int row,
+QLineEdit* makeLabeledEditField(QGridLayout *layout, int row,
                                 QLabel * &label, const QString& labelText,
-                                KLineEdit * &editField,
+                                QLineEdit * &editField,
                                 const QString& editFieldText = QString(),
                                 int columnOffset = 0);
 
 void makeTagEditFields(UMLObject * o, QGridLayout * genLayout,
                        QLabel * pTagLabel[N_STEREOATTRS],
-                       KLineEdit *pTagLineEdit[N_STEREOATTRS],
+                       QLineEdit *pTagLineEdit[N_STEREOATTRS],
                        int row = 1);
 
 void remakeTagEditFields(const QString &stereoText,
                          UMLObject * o, QGridLayout * genLayout,
                          QLabel * pTagLabel[N_STEREOATTRS],
-                         KLineEdit * pTagLineEdit[N_STEREOATTRS],
+                         QLineEdit * pTagLineEdit[N_STEREOATTRS],
                          int row = 1);
 
 void updateTagsFromEditFields(UMLObject * o,
-                              KLineEdit *pTagLineEdit[N_STEREOATTRS]);
+                              QLineEdit *pTagLineEdit[N_STEREOATTRS]);
 
 void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
                       const QString& dialogPrompt, const QString& defaultName);

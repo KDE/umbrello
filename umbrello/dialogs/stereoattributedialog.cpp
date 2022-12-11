@@ -15,7 +15,7 @@
 #include "debug_utils.h"
 
 // kde includes
-#include <klineedit.h>
+#include <QLineEdit>
 #include <kcombobox.h>
 #include <kcompletion.h>
 #include <KLocalizedString>
@@ -64,7 +64,7 @@ void StereoAttributeDialog::setupDialog()
 
     /*
     QLabel    *m_pNameLabel[N_STEREOATTRS];
-    KLineEdit *m_pNameEdit [N_STEREOATTRS];
+    QLineEdit *m_pNameEdit [N_STEREOATTRS];
     QLabel    *m_pTypeLabel[N_STEREOATTRS];
     QComboBox *m_pTypeCombo[N_STEREOATTRS];
      */

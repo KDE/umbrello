@@ -10,7 +10,7 @@
 
 class AssociationWidget;
 class KComboBox;
-class KLineEdit;
+class QLineEdit;
 class KTextEdit;
 class ObjectWidget;
 class QRadioButton;
@@ -36,7 +36,7 @@ public:
     void apply();
 
 private:
-    KLineEdit *m_pRoleALE, *m_pRoleBLE;
+    QLineEdit *m_pRoleALE, *m_pRoleBLE;
     KComboBox *m_pMultiACB, *m_pMultiBCB;
     KTextEdit *m_docA, *m_docB;
     AssociationWidget *m_pAssociationWidget;

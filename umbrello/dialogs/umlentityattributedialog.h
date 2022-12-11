@@ -17,7 +17,7 @@ class UMLDatatypeWidget;
 class UMLEntityAttribute;
 class UMLStereotypeWidget;
 class KComboBox;
-class KLineEdit;
+class QLineEdit;
 
 /**
  * @author Jonathan Riddell
@@ -49,7 +49,7 @@ protected:
     QRadioButton * m_pPublicRB, * m_pPrivateRB,  * m_pProtectedRB, * m_pNoneRB;
     QLabel * m_pNameL, * m_pInitialL, * m_pValuesL, * m_pAttributesL ;
     KComboBox * m_pAttributesCB;
-    KLineEdit * m_pNameLE, * m_pInitialLE, * m_pValuesLE;
+    QLineEdit * m_pNameLE, * m_pInitialLE, * m_pValuesLE;
     QCheckBox* m_pAutoIncrementCB;
     QCheckBox* m_pNullCB;
     UMLDatatypeWidget *m_datatypeWidget;

@@ -12,7 +12,7 @@
 
 class QGroupBox;
 class QLabel;
-class KLineEdit;
+class QLineEdit;
 class QComboBox;
 class UMLStereotype;
 
@@ -39,11 +39,11 @@ protected:
     //GUI Widgets
     QGroupBox * m_pValuesGB;
     QLabel    * m_pNameLabel        [N_STEREOATTRS];
-    KLineEdit * m_pNameEdit         [N_STEREOATTRS];
+    QLineEdit * m_pNameEdit         [N_STEREOATTRS];
     QLabel    * m_pTypeLabel        [N_STEREOATTRS];
     QComboBox * m_pTypeCombo        [N_STEREOATTRS];
     QLabel    * m_pDefaultValueLabel[N_STEREOATTRS];
-    KLineEdit * m_pDefaultValueEdit [N_STEREOATTRS];
+    QLineEdit * m_pDefaultValueEdit [N_STEREOATTRS];
 
 };
 

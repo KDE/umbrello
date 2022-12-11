@@ -18,7 +18,7 @@ class QCheckBox;
 class QGridLayout;
 class QLabel;
 class KComboBox;
-class KLineEdit;
+class QLineEdit;
 class ObjectWidget;
 class UMLDoc;
 class UMLObject;
@@ -43,7 +43,7 @@ public:
 private:
     QGridLayout *m_pNameAndTypeLayout;
     QLabel    *m_pAssocNameL;
-    KLineEdit *m_pAssocNameLE;   // is used if m_pStereoChkB is unchecked
+    QLineEdit *m_pAssocNameLE;   // is used if m_pStereoChkB is unchecked
     KComboBox *m_pAssocNameComB; // is used if m_pStereoChkB is checked
     QCheckBox *m_pStereoChkB;
     KComboBox *m_pTypeCB;

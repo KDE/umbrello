@@ -17,7 +17,7 @@
 #include <KDialog>
 #include <KIntSpinBox>
 #endif
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KLocalizedString>
 
 // qt includes

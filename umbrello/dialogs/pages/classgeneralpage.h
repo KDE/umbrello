@@ -17,7 +17,7 @@ class QRadioButton;
 class QCheckBox;
 class QLineEdit;
 class KComboBox;
-class KLineEdit;
+class QLineEdit;
 
 class UMLObject;
 class UMLWidget;
@@ -89,7 +89,7 @@ private:
     UMLObjectNameWidget *m_instanceNameWidget;
     UMLStereotypeWidget *m_stereotypeWidget;
     QLabel              *m_pTagL [N_STEREOATTRS];
-    KLineEdit           *m_pTagLE[N_STEREOATTRS];
+    QLineEdit           *m_pTagLE[N_STEREOATTRS];
     UMLPackageWidget *m_packageWidget;
     UMLArtifactTypeWidget *m_artifactTypeWidget;
     VisibilityEnumWidget *m_visibilityEnumWidget;

@@ -20,7 +20,7 @@
 
 // kde includes
 #include <kcombobox.h>
-#include <klineedit.h>
+#include <QLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <ktextedit.h>
@@ -86,7 +86,7 @@ void AssociationGeneralPage::constructWidget()
     m_pAssocNameL = new QLabel(i18nc("name of association widget", "Name:"));
     m_pNameAndTypeLayout->addWidget(m_pAssocNameL, 0, 0);
 
-    m_pAssocNameLE = new KLineEdit(m_pAssociationWidget->name());
+    m_pAssocNameLE = new QLineEdit(m_pAssociationWidget->name());
     m_pAssocNameComB = new KComboBox(true, nameAndTypeGB);
 #if QT_VERSION < 0x050000
     m_pAssocNameComB->setCompletionMode(KGlobalSettings::CompletionPopup);

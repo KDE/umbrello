@@ -136,7 +136,7 @@
         </widget>
        </item>
        <item>
-        <widget class="KLineEdit" name="ui_searchTerm"/>
+        <widget class="QLineEdit" name="ui_searchTerm"/>
        </item>
       </layout>
      </item>
@@ -144,13 +144,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>ui_searchTerm</tabstop>
   <tabstop>ui_treeView</tabstop>

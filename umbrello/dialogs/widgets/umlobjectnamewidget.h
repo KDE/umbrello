@@ -8,7 +8,7 @@
 
 #include <QWidget>
 
-class KLineEdit;
+class QLineEdit;
 
 class QGridLayout;
 class QLabel;
@@ -25,7 +25,7 @@ public:
 
 protected:
     QLabel *m_label;
-    KLineEdit *m_editField;
+    QLineEdit *m_editField;
     QString m_text;
 };
 

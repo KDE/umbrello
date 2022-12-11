@@ -9,7 +9,7 @@
 #include "singlepagedialogbase.h"
 
 class KComboBox;
-class KLineEdit;
+class QLineEdit;
 class QCheckBox;
 class QGroupBox;
 class QLabel;
@@ -57,7 +57,7 @@ private:
     QGroupBox        *m_pOpGB;
     KComboBox        *m_pOpCB;
     QLabel           *m_pSeqL;
-    KLineEdit        *m_pOpLE, *m_pSeqLE;
+    QLineEdit        *m_pOpLE, *m_pSeqLE;
     QLabel           *m_pCustomRB, *m_pOpRB;
     QPushButton      *m_newOperationButton;
     QCheckBox        *m_pOpAS;

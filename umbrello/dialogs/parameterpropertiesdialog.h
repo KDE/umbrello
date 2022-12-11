@@ -13,7 +13,7 @@
 class DocumentationWidget;
 class DefaultValueWidget;
 class KComboBox;
-class KLineEdit;
+class QLineEdit;
 class QGroupBox;
 class QLabel;
 class QRadioButton;
@@ -52,7 +52,7 @@ private:
     QGroupBox * m_pKindGB;
     QRadioButton * m_pIn, * m_pOut, *m_pInOut;
     QLabel * m_pNameL;
-    KLineEdit * m_pNameLE;
+    QLineEdit * m_pNameLE;
     DefaultValueWidget * m_defaultValueWidget;
     DocumentationWidget * m_docWidget;
     UMLDoc * m_pUmldoc;

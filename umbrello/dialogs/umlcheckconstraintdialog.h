@@ -11,7 +11,7 @@
 
 class UMLDoc;
 class UMLCheckConstraint;
-class KLineEdit;
+class QLineEdit;
 class KTextEdit;
 class QLabel;
 
@@ -54,7 +54,7 @@ private:
      * The GUI widgets
      */
     QLabel* m_pNameL;
-    KLineEdit* m_pNameLE;
+    QLineEdit* m_pNameLE;
     QLabel* m_pCheckConditionL;
     KTextEdit* m_pCheckConditionTE;
 };

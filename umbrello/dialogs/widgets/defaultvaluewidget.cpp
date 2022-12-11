@@ -10,7 +10,7 @@
 #include "uml.h"
 #include "umldoc.h"
 
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KLocalizedString>
 
 #include <QLabel>
@@ -23,7 +23,7 @@ public:
     QPointer<UMLObject>type;
     QPointer<QLabel> label;
     QPointer<QListWidget> listWidget;
-    QPointer<KLineEdit> lineWidget;
+    QPointer<QLineEdit> lineWidget;
     QString initialValue;
 
     Private(DefaultValueWidget *parent, UMLObject *_type, const QString &_value)
@@ -39,7 +39,7 @@ public:
         listWidget = new QListWidget(p);
         layout->addWidget(listWidget, 2);
 
-        lineWidget = new KLineEdit(p);
+        lineWidget = new QLineEdit(p);
         layout->addWidget(lineWidget, 2);
 
         label->setBuddy(listWidget);

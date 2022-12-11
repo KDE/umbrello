@@ -15,7 +15,7 @@ class DocumentationWidget;
 class SelectDiagramWidget;
 class StateWidget;
 class KComboBox;
-class KLineEdit;
+class QLineEdit;
 class QGroupBox;
 class QLabel;
 
@@ -55,7 +55,7 @@ protected:
     struct GeneralPageWidgets {
         QLabel * nameL, * typeL;
         SelectDiagramWidget *diagramLinkWidget;
-        KLineEdit * nameLE, * typeLE;
+        QLineEdit * nameLE, * typeLE;
         DocumentationWidget *docWidget;
         QGroupBox * generalGB;
     }

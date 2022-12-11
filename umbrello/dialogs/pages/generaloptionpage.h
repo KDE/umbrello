@@ -11,7 +11,7 @@
 #if QT_VERSION < 0x050000
 class KIntSpinBox;
 #endif
-class KLineEdit;
+class QLineEdit;
 class KComboBox;
 class QGroupBox;
 class QCheckBox;
@@ -67,7 +67,7 @@ protected:
 
         // Allow definition of Suffix for autosave
         // (Default: ".xmi"), private Ui::GeneralOptionPage
-        KLineEdit * autosaveSuffixT;
+        QLineEdit * autosaveSuffixT;
         QLabel    * autosaveSuffixL;
         // End AutoSave Suffix
 
