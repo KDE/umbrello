@@ -531,9 +531,6 @@ if(NOT BUILD_KF5)
         ${KDE4_KFILE_LIBS}
         codeimport
     )
-    if(WEBKIT_WELCOMEPAGE)
-        target_link_libraries(libumbrello Qt4::QtWebKit)
-    endif()
 
     kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-apps-umbrello.png")
     kde4_add_executable(umbrello ${umbrello_SRCS})
@@ -566,9 +563,6 @@ else()
         ${LIBXML2_LIBRARIES}
         codeimport
     )
-    if(WEBKIT_WELCOMEPAGE)
-        target_link_libraries(libumbrello Qt5::WebKitWidgets)
-    endif()
     ecm_add_app_icon(umbrello_SRCS
         ICONS
         ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/16-apps-umbrello.png

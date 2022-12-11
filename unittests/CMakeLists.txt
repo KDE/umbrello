@@ -48,7 +48,6 @@ if(NOT BUILD_KF5)
         Qt4::QtGui
         Qt4::QtXml
         Qt4::QtTest
-        Qt4::QtWebKit
         ${KDE4_KFILE_LIBS}
         ${LIBXML2_LIBRARIES}
         ${LIBXSLT_LIBRARIES}
@@ -65,9 +64,6 @@ else()
         ${LIBXSLT_LIBRARIES}
         libumbrello
     )
-    if(WEBKIT_WELCOMEPAGE)
-        list(APPEND LIBS Qt5::WebKitWidgets)
-    endif()
 endif()
 
 ecm_add_test(
