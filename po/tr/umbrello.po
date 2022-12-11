@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-02 00:52+0000\n"
-"PO-Revision-Date: 2022-11-22 16:58+0300\n"
+"PO-Revision-Date: 2022-12-10 18:34+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1019,7 +1019,7 @@ msgstr "Kod oluşturucusu ile oluşturulmuş dosyalar dizine yazılacaktır"
 #: codegenwizard/codegenoptionspage.ui:96
 #, kde-format
 msgid "Bro&wse..."
-msgstr "&Gözat..."
+msgstr "&Göz At..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_includeHeadings)
 #: codegenwizard/codegenoptionspage.ui:105
@@ -1040,7 +1040,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:124
 #, kde-format
 msgid "B&rowse..."
-msgstr "Gö&zat..."
+msgstr "&Göz At..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxOverwritePolicy)
 #. i18n: ectx: label, entry (overwritePolicy), group (Code Generation)
@@ -3101,10 +3101,9 @@ msgid "Custom grid color"
 msgstr "Özel kılavuz rengi:"
 
 #: dialogs/pages/uioptionspage.cpp:113
-#, fuzzy, kde-format
-#| msgid "Custom background color:"
+#, kde-format
 msgid "Custom background color"
-msgstr "Özel arkaplan rengi:"
+msgstr "Özel arka plan rengi"
 
 #: dialogs/pages/uioptionspage.cpp:119
 #, fuzzy, kde-format
@@ -3209,7 +3208,7 @@ msgstr "Doldurmayı k&ullan"
 #, kde-format
 msgctxt "background color"
 msgid "&Background:"
-msgstr "&Arkaplan:"
+msgstr "&Arka plan:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:161
 #, kde-format
@@ -6557,13 +6556,13 @@ msgstr "Kullanılacak Yazıtipi"
 #: umbrello.kcfg:182
 #, kde-format
 msgid "Background Color"
-msgstr "Arkaplan Rengi "
+msgstr "Arka Plan Rengi"
 
 #. i18n: ectx: whatsthis, entry (backgroundColor), group (UI Options)
 #: umbrello.kcfg:183
 #, kde-format
 msgid "The Color of the diagram background"
-msgstr "Diyagramların arkaplan rengi"
+msgstr "Diyagram arka planının rengi"
 
 #. i18n: ectx: label, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:187
