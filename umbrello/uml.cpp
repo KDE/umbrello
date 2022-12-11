@@ -210,7 +210,6 @@ UMLApp::UMLApp(QWidget* parent)
     deleteSelectedWidget(0),
     deleteDiagram(0),
     m_newSessionButton(0),
-    m_diagramMenu(0),
     m_toolsbar(0),
     m_clipTimer(0),
     m_copyTimer(0),
@@ -986,7 +985,6 @@ void UMLApp::initView()
 //     m_mainDock = new QDockWidget(this);
 //     addDockWidget (Qt::RightDockWidgetArea, m_mainDock);
     m_newSessionButton = 0;
-    m_diagramMenu = 0;
 
     // Prepare Stacked Diagram Representation
     m_viewStack = new QStackedWidget(this);

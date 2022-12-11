@@ -460,7 +460,6 @@ private:
     KAction* deleteDiagram;
 #endif
     QToolButton* m_newSessionButton;
-    KMenu* m_diagramMenu;
     WorkToolBar* m_toolsbar;
     QTimer* m_clipTimer;
     QTimer* m_copyTimer;
