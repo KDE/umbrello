@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-05 00:49+0000\n"
+"POT-Creation-Date: 2022-12-11 00:50+0000\n"
 "PO-Revision-Date: 2019-08-12 18:54+0800\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -2800,7 +2800,7 @@ msgid "The name you have entered is invalid."
 msgstr "您輸入的名稱不合法。"
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:256
-#: umldoc.cpp:1685 umldoc.cpp:1749 umldoc.cpp:1778 umldoc.cpp:1813
+#: umldoc.cpp:1686 umldoc.cpp:1750 umldoc.cpp:1779 umldoc.cpp:1814
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:178
@@ -2813,7 +2813,7 @@ msgstr "無效名稱"
 msgid "The name you have entered is not unique."
 msgstr "您輸入的名稱不唯一。"
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1817
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1818
 #, kde-format
 msgid "Name Not Unique"
 msgstr "名稱不唯一"
@@ -6081,7 +6081,7 @@ msgstr "指標"
 msgid "Usage"
 msgstr "使用量"
 
-#: object_factory.cpp:255 umldoc.cpp:1778 umldoc.cpp:1813
+#: object_factory.cpp:255 umldoc.cpp:1779 umldoc.cpp:1814
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:177
@@ -6100,7 +6100,7 @@ msgstr "這是配置的代碼產生器語言所用的保留關鍵字。"
 msgid "Reserved Keyword"
 msgstr "保留的關鍵字"
 
-#: object_factory.cpp:268 umldoc.cpp:1784 umldoc.cpp:1822
+#: object_factory.cpp:268 umldoc.cpp:1785 umldoc.cpp:1823
 #: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
@@ -6108,8 +6108,8 @@ msgstr "保留的關鍵字"
 msgid "That name is already being used."
 msgstr "名稱已被使用。"
 
-#: object_factory.cpp:269 umldoc.cpp:1687 umldoc.cpp:1756 umldoc.cpp:1784
-#: umldoc.cpp:1822 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
+#: object_factory.cpp:269 umldoc.cpp:1688 umldoc.cpp:1757 umldoc.cpp:1785
+#: umldoc.cpp:1823 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
@@ -7537,7 +7537,7 @@ msgid "&Command history"
 msgstr "命令歷史(&C)"
 
 #. i18n("&Properties"), this);
-#. m_propertyDock->setObjectName(QLatin1String("PropertyDock"));
+#. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
 #: uml.cpp:607 uml.cpp:1095
@@ -7652,8 +7652,8 @@ msgstr "紀錄(&L)"
 msgid "Opening file..."
 msgstr "正在開啟檔案..."
 
-#: uml.cpp:1176 uml.cpp:1261 uml.cpp:1447 umldoc.cpp:378 umldoc.cpp:380
-#: umldoc.cpp:404 umldoc.cpp:3464
+#: uml.cpp:1176 uml.cpp:1261 uml.cpp:1447 umldoc.cpp:379 umldoc.cpp:381
+#: umldoc.cpp:405 umldoc.cpp:3465
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
@@ -7860,7 +7860,7 @@ msgstr "模板造型(&S)"
 msgid "Welcome"
 msgstr "歡迎"
 
-#: umldoc.cpp:109 umldoc.cpp:2407 umldoc.cpp:2435 umldoc.cpp:2518
+#: umldoc.cpp:109 umldoc.cpp:2408 umldoc.cpp:2436 umldoc.cpp:2519
 #, kde-format
 msgid "UML Model"
 msgstr "UML 模型"
@@ -7895,7 +7895,7 @@ msgstr "實體關係模型"
 msgid "Datatypes"
 msgstr "資料型態"
 
-#: umldoc.cpp:399
+#: umldoc.cpp:400
 #, kde-format
 msgid ""
 "The current file has been modified.\n"
@@ -7904,174 +7904,174 @@ msgstr ""
 "目前的檔案已修改。\n"
 "要儲存嗎？"
 
-#: umldoc.cpp:400
+#: umldoc.cpp:401
 #, kde-format
 msgctxt "warning message"
 msgid "Warning"
 msgstr "警告"
 
-#: umldoc.cpp:565
+#: umldoc.cpp:566
 #, kde-format
 msgid "The file <%1> does not exist."
 msgstr "檔案 <%1> 不存在。"
 
-#: umldoc.cpp:565 umldoc.cpp:578 umldoc.cpp:580 umldoc.cpp:608 umldoc.cpp:610
-#: umldoc.cpp:660 umldoc.cpp:663 umldoc.cpp:678 umldoc.cpp:681 umldoc.cpp:705
-#: umldoc.cpp:708 umldoc.cpp:724 umldoc.cpp:727 umldoc.cpp:742 umldoc.cpp:745
-#: umldoc.cpp:792 umlmodel/folder.cpp:455 umlmodel/folder.cpp:459
+#: umldoc.cpp:566 umldoc.cpp:579 umldoc.cpp:581 umldoc.cpp:609 umldoc.cpp:611
+#: umldoc.cpp:661 umldoc.cpp:664 umldoc.cpp:679 umldoc.cpp:682 umldoc.cpp:706
+#: umldoc.cpp:709 umldoc.cpp:725 umldoc.cpp:728 umldoc.cpp:743 umldoc.cpp:746
+#: umldoc.cpp:793 umlmodel/folder.cpp:455 umlmodel/folder.cpp:459
 #, kde-format
 msgid "Load Error"
 msgstr "載入時發生錯誤"
 
-#: umldoc.cpp:578 umldoc.cpp:580
+#: umldoc.cpp:579 umldoc.cpp:581
 #, kde-format
 msgid "The file %1 does not exist."
 msgstr "檔案 %1 不存在。"
 
-#: umldoc.cpp:608 umldoc.cpp:610
+#: umldoc.cpp:609 umldoc.cpp:611
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "檔案 %1 似乎已損壞。"
 
-#: umldoc.cpp:659 umldoc.cpp:662 umldoc.cpp:677 umldoc.cpp:680 umldoc.cpp:723
-#: umldoc.cpp:726
+#: umldoc.cpp:660 umldoc.cpp:663 umldoc.cpp:678 umldoc.cpp:681 umldoc.cpp:724
+#: umldoc.cpp:727
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "壓縮檔案 %1 中找不到 XMI 檔。"
 
-#: umldoc.cpp:704 umldoc.cpp:707
+#: umldoc.cpp:705 umldoc.cpp:708
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "載入解出來的檔案時發生錯誤：%1"
 
-#: umldoc.cpp:741 umldoc.cpp:744 umldoc.cpp:786 umldoc.cpp:788
+#: umldoc.cpp:742 umldoc.cpp:745 umldoc.cpp:787 umldoc.cpp:789
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "載入檔案時發生錯誤：%1"
 
-#: umldoc.cpp:791
+#: umldoc.cpp:792
 #, kde-format
 msgid "Reason: %1"
 msgstr ""
 
-#: umldoc.cpp:874 umldoc.cpp:893 umldoc.cpp:915 umldoc.cpp:973 umldoc.cpp:1018
+#: umldoc.cpp:875 umldoc.cpp:894 umldoc.cpp:916 umldoc.cpp:974 umldoc.cpp:1019
 #, kde-format
 msgid "There was a problem saving: %1"
 msgstr "儲存檔案時發生錯誤：%1"
 
-#: umldoc.cpp:874 umldoc.cpp:876 umldoc.cpp:893 umldoc.cpp:895 umldoc.cpp:915
-#: umldoc.cpp:917 umldoc.cpp:973 umldoc.cpp:975 umldoc.cpp:1018 umldoc.cpp:1021
-#: umldoc.cpp:1030 umldoc.cpp:1032 umllistview.cpp:596
+#: umldoc.cpp:875 umldoc.cpp:877 umldoc.cpp:894 umldoc.cpp:896 umldoc.cpp:916
+#: umldoc.cpp:918 umldoc.cpp:974 umldoc.cpp:976 umldoc.cpp:1019 umldoc.cpp:1022
+#: umldoc.cpp:1031 umldoc.cpp:1033 umllistview.cpp:596
 #, kde-format
 msgid "Save Error"
 msgstr "儲存時發生錯誤"
 
-#: umldoc.cpp:876 umldoc.cpp:895 umldoc.cpp:917 umldoc.cpp:975 umldoc.cpp:1021
+#: umldoc.cpp:877 umldoc.cpp:896 umldoc.cpp:918 umldoc.cpp:976 umldoc.cpp:1022
 #: umllistview.cpp:595 umlviewimageexportermodel.cpp:300
 #, kde-format
 msgid "There was a problem saving file: %1"
 msgstr "儲存檔案時發生錯誤：%1"
 
-#: umldoc.cpp:1030
+#: umldoc.cpp:1031
 #, kde-format
 msgid "There was a problem uploading: %1"
 msgstr "上傳檔案時發生錯誤：%1"
 
-#: umldoc.cpp:1032
+#: umldoc.cpp:1033
 #, kde-format
 msgid "There was a problem uploading file: %1"
 msgstr "上傳檔案時發生錯誤：%1"
 
-#: umldoc.cpp:1584
+#: umldoc.cpp:1585
 #, kde-format
 msgid "use case diagram"
 msgstr "用例圖"
 
-#: umldoc.cpp:1587
+#: umldoc.cpp:1588
 #, kde-format
 msgid "class diagram"
 msgstr "類別圖"
 
-#: umldoc.cpp:1590
+#: umldoc.cpp:1591
 #, kde-format
 msgid "sequence diagram"
 msgstr "序列圖"
 
-#: umldoc.cpp:1593
+#: umldoc.cpp:1594
 #, kde-format
 msgid "communication diagram"
 msgstr "協作圖"
 
-#: umldoc.cpp:1596
+#: umldoc.cpp:1597
 #, kde-format
 msgid "object diagram"
 msgstr "物件圖表"
 
-#: umldoc.cpp:1599
+#: umldoc.cpp:1600
 #, kde-format
 msgid "state diagram"
 msgstr "狀態圖"
 
-#: umldoc.cpp:1602
+#: umldoc.cpp:1603
 #, kde-format
 msgid "activity diagram"
 msgstr "活動圖"
 
-#: umldoc.cpp:1605
+#: umldoc.cpp:1606
 #, kde-format
 msgid "component diagram"
 msgstr "元件圖"
 
-#: umldoc.cpp:1608
+#: umldoc.cpp:1609
 #, kde-format
 msgid "deployment diagram"
 msgstr "部署圖"
 
-#: umldoc.cpp:1611
+#: umldoc.cpp:1612
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "實體關係圖"
 
-#: umldoc.cpp:1681
+#: umldoc.cpp:1682
 #, kde-format
 msgctxt "diagram name"
 msgid "Name"
 msgstr "名稱"
 
-#: umldoc.cpp:1681 umldoc.cpp:1743 umldoc.cpp:1772 umldoc.cpp:1807
+#: umldoc.cpp:1682 umldoc.cpp:1744 umldoc.cpp:1773 umldoc.cpp:1808
 #, kde-format
 msgid "Enter name:"
 msgstr "輸入名稱："
 
-#: umldoc.cpp:1685 umldoc.cpp:1749
+#: umldoc.cpp:1686 umldoc.cpp:1750
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "圖名無效。"
 
-#: umldoc.cpp:1687 umldoc.cpp:1756
+#: umldoc.cpp:1688 umldoc.cpp:1757
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "圖名已被使用。"
 
-#: umldoc.cpp:1742
+#: umldoc.cpp:1743
 #, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "名稱"
 
-#: umldoc.cpp:1771
+#: umldoc.cpp:1772
 #, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "名稱"
 
-#: umldoc.cpp:1806
+#: umldoc.cpp:1807
 #, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "名稱"
 
-#: umldoc.cpp:1816
+#: umldoc.cpp:1817
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
@@ -8080,42 +8080,42 @@ msgstr ""
 "所輸入的名稱不唯一。\n"
 "您確定這就是您要的嗎？"
 
-#: umldoc.cpp:1817
+#: umldoc.cpp:1818
 #, kde-format
 msgid "Use Name"
 msgstr "使用此名稱"
 
-#: umldoc.cpp:1817
+#: umldoc.cpp:1818
 #, kde-format
 msgid "Enter New Name"
 msgstr "輸入新名稱"
 
-#: umldoc.cpp:2365
+#: umldoc.cpp:2366
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2529
+#: umldoc.cpp:2530
 #, kde-format
 msgid "Setting up the document..."
 msgstr "正在設立文件..."
 
-#: umldoc.cpp:2558
+#: umldoc.cpp:2559
 #, kde-format
 msgid "Resolving object references..."
 msgstr "正在反解物件參考..."
 
-#: umldoc.cpp:2666
+#: umldoc.cpp:2667
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "正在載入 UML 元素...."
 
-#: umldoc.cpp:2928
+#: umldoc.cpp:2929
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "正在載入圖表..."
 
-#: umldoc.cpp:3468
+#: umldoc.cpp:3469
 #, kde-format
 msgid "/autosave%1"
 msgstr "/自動儲存 %1"
