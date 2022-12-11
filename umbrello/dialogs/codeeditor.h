@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 
     SPDX-FileCopyrightText: 2003 Brian Thomas <brian.thomas@gsfc.nasa.gov>
-    SPDX-FileCopyrightText: 2004-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2004-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CODEEDITOR_H
@@ -23,7 +23,7 @@ class CodeClassFieldDeclarationBlock;
 class CodeMethodBlock;
 class CodeBlockWithComments;
 class HierarchicalCodeBlock;
-class KMenu;
+class QMenu;
 class QLabel;
 class TextBlock;
 class UMLObject;
@@ -96,7 +96,7 @@ protected:
 #if QT_VERSION >= 0x050000
     QMenu * createPopup();
 #else
-    KMenu * createPopup();
+    QMenu * createPopup();
 #endif
 
 private:

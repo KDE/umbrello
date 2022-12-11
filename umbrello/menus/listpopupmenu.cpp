@@ -74,7 +74,7 @@ public:
  * @param parent   The parent to ListPopupMenu.
  */
 ListPopupMenu::ListPopupMenu(QWidget *parent)
-  : KMenu(parent),
+  : QMenu(parent),
     d(new ListPopupMenuPrivate)
 {
 }
@@ -91,16 +91,16 @@ ListPopupMenu::~ListPopupMenu()
     delete d;
 }
 
-KMenu *ListPopupMenu::newMenu(const QString &title, QWidget *widget)
+QMenu *ListPopupMenu::newMenu(const QString &title, QWidget *widget)
 {
-    KMenu *menu = new KMenu(title, widget);
+    QMenu *menu = new QMenu(title, widget);
     DEBUG_StartMenu(menu);
     return menu;
 }
 
-void ListPopupMenu::addMenu(KMenu *menu)
+void ListPopupMenu::addMenu(QMenu *menu)
 {
-    KMenu::addMenu(menu);
+    QMenu::addMenu(menu);
     DEBUG_EndMenu(menu);
 }
 
@@ -118,10 +118,10 @@ void ListPopupMenu::insert(MenuType m)
  * Shortcut for the frequently used addAction() calls.
  *
  * @param m      The MenuType for which to insert a menu item.
- * @param menu   The KMenu for which to insert a menu item.
+ * @param menu   The QMenu for which to insert a menu item.
  * @param s      The entry to be inserted from the action collection
  */
-void ListPopupMenu::insertFromActionKey(const MenuType m, KMenu *menu, const QString &s)
+void ListPopupMenu::insertFromActionKey(const MenuType m, QMenu *menu, const QString &s)
 {
     QAction* action = UMLApp::app()->actionCollection()->action(s);
     insert(m, menu, action->icon(), action->text());
@@ -131,9 +131,9 @@ void ListPopupMenu::insertFromActionKey(const MenuType m, KMenu *menu, const QSt
  * Shortcut for the frequently used addAction() calls.
  *
  * @param m      The MenuType for which to insert a menu item.
- * @param menu   The KMenu for which to insert a menu item.
+ * @param menu   The QMenu for which to insert a menu item.
  */
-void ListPopupMenu::insert(const MenuType m, KMenu* menu)
+void ListPopupMenu::insert(const MenuType m, QMenu* menu)
 {
     // Preprocessor macro for List Popup Menu Insert Small Icon
 #define LPMISI(IT, TXT) m_actions[m] = menu->addAction(Icon_Utils::SmallIcon(Icon_Utils::IT), TXT)
@@ -309,11 +309,11 @@ void ListPopupMenu::insert(const MenuType m, const QString & text, const bool ch
  * Shortcut for the frequently used addAction() calls.
  *
  * @param m      The MenuType for which to insert a menu item.
- * @param menu   The KMenu for which to insert a menu item.
+ * @param menu   The QMenu for which to insert a menu item.
  * @param icon   The icon for this action.
  * @param text   The text for this action.
  */
-void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QIcon & icon, const QString & text)
+void ListPopupMenu::insert(const MenuType m, QMenu* menu, const QIcon & icon, const QString & text)
 {
     DEBUG_AddAction(m);
     m_actions[m] = menu->addAction(icon, text);
@@ -323,11 +323,11 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QIcon & icon, co
  * Shortcut for the frequently used addAction() calls.
  *
  * @param m      The MenuType for which to insert a menu item.
- * @param menu   The KMenu for which to insert a menu item.
+ * @param menu   The QMenu for which to insert a menu item.
  * @param text   The text for this action.
  * @param checkable   Sets the action to checkable.
  */
-void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QString & text, const bool checkable)
+void ListPopupMenu::insert(const MenuType m, QMenu* menu, const QString & text, const bool checkable)
 {
     DEBUG_AddAction(m);
     m_actions[m] = menu->addAction(text);
@@ -348,7 +348,7 @@ void ListPopupMenu::insert(const MenuType m, KMenu* menu, const QString & text, 
  */
 void ListPopupMenu::insertContainerItems(bool folders, bool diagrams, bool packages)
 {
-    KMenu* menu = newMenu(i18nc("new container menu", "New"), this);
+    QMenu* menu = newMenu(i18nc("new container menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     insertContainerItems(menu, folders, diagrams, packages);
     addMenu(menu);
@@ -363,7 +363,7 @@ void ListPopupMenu::insertContainerItems(bool folders, bool diagrams, bool packa
  * @param diagrams   Set this true if diagram types shall be included as choices.
  * @param packages   Set this true if packages shall be included as choices.
  */
-void ListPopupMenu::insertContainerItems(KMenu* menu, bool folders, bool diagrams, bool packages)
+void ListPopupMenu::insertContainerItems(QMenu* menu, bool folders, bool diagrams, bool packages)
 {
     if (folders)
         insert(mt_Logical_Folder, menu, Icon_Utils::BarIcon(Icon_Utils::it_Folder), i18n("Folder"));
@@ -497,9 +497,9 @@ ListPopupMenu* ListPopupMenu::menuFromAction(QAction *action)
  * Create the 'new' menu
  * @return menu instance
  */
-KMenu *ListPopupMenu::makeNewMenu()
+QMenu *ListPopupMenu::makeNewMenu()
 {
-    KMenu *menu = newMenu(i18nc("new sub menu", "New"), this);
+    QMenu *menu = newMenu(i18nc("new sub menu", "New"), this);
     menu->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_New));
     return menu;
 }
@@ -510,7 +510,7 @@ KMenu *ListPopupMenu::makeNewMenu()
  */
 void ListPopupMenu::insertSubMenuCategoryType(UMLCategory* category)
 {
-    KMenu* menu = newMenu(i18nc("category type sub menu", "Category Type"), this);
+    QMenu* menu = newMenu(i18nc("category type sub menu", "Category Type"), this);
     insert(mt_DisjointSpecialisation, menu, i18n("Disjoint(Specialisation)"), CHECKABLE);
     insert(mt_OverlappingSpecialisation, menu, i18n("Overlapping(Specialisation)"), CHECKABLE);
     insert(mt_Union, menu, i18n("Union"), CHECKABLE);

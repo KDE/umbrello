@@ -35,7 +35,7 @@
 // kde includes
 #if QT_VERSION < 0x050000
 #include <kaction.h>
-#include <kmenu.h>
+#include <QMenu>
 #endif
 #include <KLocalizedString>
 
@@ -735,7 +735,7 @@ void CodeEditor::contextMenuEvent(QContextMenuEvent * event)
 #if QT_VERSION >= 0x050000
     QMenu* menu = createPopup();
 #else
-    KMenu* menu = createPopup();
+    QMenu* menu = createPopup();
 #endif
     menu->exec(event->globalPos());
     delete menu;
@@ -748,7 +748,7 @@ void CodeEditor::contextMenuEvent(QContextMenuEvent * event)
 #if QT_VERSION >= 0x050000
 QMenu * CodeEditor::createPopup()
 #else
-KMenu * CodeEditor::createPopup()
+QMenu * CodeEditor::createPopup()
 #endif
 {
     logDebug0("CodeEditor::createPopup is called");
@@ -756,7 +756,7 @@ KMenu * CodeEditor::createPopup()
 #if QT_VERSION >= 0x050000
     QMenu * menu = new QMenu(this);
 #else
-    KMenu * menu = new KMenu(this);
+    QMenu * menu = new QMenu(this);
 #endif
 
     TextBlock * tb = m_selectedTextBlock;

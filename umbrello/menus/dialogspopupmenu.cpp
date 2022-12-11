@@ -111,7 +111,7 @@ DialogsPopupMenu::DialogsPopupMenu(QWidget *parent, TriggerType type)
  */
 void DialogsPopupMenu::insertSubMenuNew(TriggerType type)
 {
-    KMenu * menu = makeNewMenu();
+    QMenu * menu = makeNewMenu();
     switch (type) {
         case tt_New_Activity:
         case tt_Activity_Selected:

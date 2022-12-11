@@ -308,7 +308,7 @@ UMLListViewPopupMenu::UMLListViewPopupMenu(QWidget *parent, UMLListViewItem *ite
  */
 void UMLListViewPopupMenu::insertSubMenuNew(UMLListViewItem::ListViewType type)
 {
-    KMenu * menu = makeNewMenu();
+    QMenu * menu = makeNewMenu();
 
     switch(type) {
         case UMLListViewItem::lvt_Deployment_View:

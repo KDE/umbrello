@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef CONSTRAINTLISTPAGE_H
@@ -15,7 +15,7 @@
 
 #if QT_VERSION < 0x050000
 class KAction;
-class KMenu;
+class QMenu;
 #else
 class QAction;
 class QMenu;
@@ -67,7 +67,7 @@ protected:
 #if QT_VERSION >= 0x050000
     QMenu* buttonMenu;
 #else
-    KMenu* buttonMenu;
+    QMenu* buttonMenu;
 #endif
 
 };

@@ -26,7 +26,7 @@
 #endif
 #include <KLocalizedString>
 #if QT_VERSION < 0x050000
-#include <kmenu.h>
+#include <QMenu>
 #include <kpushbutton.h>
 #endif
 
@@ -55,7 +55,7 @@ ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifie
 #if QT_VERSION >= 0x050000
     buttonMenu = new QMenu(this);
 #else
-    buttonMenu = new KMenu(this);
+    buttonMenu = new QMenu(this);
 #endif
     // add a button menu
     m_pNewClassifierListItemButton->setMenu(buttonMenu);

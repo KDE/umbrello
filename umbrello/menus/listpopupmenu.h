@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2003-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef LISTPOPUPMENU_H
@@ -10,7 +10,7 @@
 #include "umllistviewitem.h"
 #include "umlobject.h"
 #include "widgetbase.h"
-#include <kmenu.h>
+#include <QMenu>
 
 #include <QHash>
 
@@ -29,7 +29,7 @@ class ListPopupMenuPrivate;
  * @author Paul Hensgen <phensgen@techie.com>
  * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
-class ListPopupMenu : public KMenu
+class ListPopupMenu : public QMenu
 {
     Q_OBJECT
     Q_ENUMS(MenuType)
@@ -285,22 +285,22 @@ public:
 
     void dumpActions(const QString &title);
 
-    KMenu *newMenu(const QString &title, QWidget *widget);
-    void addMenu(KMenu *menu);
+    QMenu *newMenu(const QString &title, QWidget *widget);
+    void addMenu(QMenu *menu);
 protected:
     void insert(MenuType m);
-    void insertFromActionKey(const MenuType m, KMenu *menu, const QString &action);
-    void insert(const MenuType m, KMenu* menu);
-    void insert(const MenuType m, KMenu* menu, const QIcon & icon, const QString & text);
-    void insert(const MenuType m, KMenu* menu, const QString & text, const bool checkable = false);
+    void insertFromActionKey(const MenuType m, QMenu *menu, const QString &action);
+    void insert(const MenuType m, QMenu* menu);
+    void insert(const MenuType m, QMenu* menu, const QIcon & icon, const QString & text);
+    void insert(const MenuType m, QMenu* menu, const QString & text, const bool checkable = false);
     void insert(const MenuType m, const QIcon & icon, const QString & text);
     void insert(const MenuType m, const QString & text, const bool checkable = false);
 
     void insertContainerItems(bool folders, bool diagrams, bool packages);
-    void insertContainerItems(KMenu* menu, bool folders, bool diagrams, bool packages);
+    void insertContainerItems(QMenu* menu, bool folders, bool diagrams, bool packages);
     void insertAssociationTextItem(const QString &label, MenuType mt);
 
-    KMenu *makeNewMenu();
+    QMenu *makeNewMenu();
     void insertSubMenuCategoryType(UMLCategory *category);
 
     void setActionChecked(MenuType idx, bool value);

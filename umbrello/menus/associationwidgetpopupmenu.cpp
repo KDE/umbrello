@@ -91,7 +91,7 @@ AssociationWidgetPopupMenu::AssociationWidgetPopupMenu(QWidget *parent, Uml::Ass
  */
 void AssociationWidgetPopupMenu::insertSubMenuLayout(const AssociationLine& associationLine)
 {
-    KMenu* layout = newMenu(i18nc("Layout menu", "Layout"), this);
+    QMenu* layout = newMenu(i18nc("Layout menu", "Layout"), this);
     insert(mt_LayoutPolyline, layout, i18n("Polyline"), true);
     insert(mt_LayoutDirect, layout, i18n("Direct"), true);
     insert(mt_LayoutSpline, layout, i18n("Spline"), true);

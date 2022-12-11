@@ -120,7 +120,7 @@ void UMLScenePopupMenu::insertLayoutItems()
 
 void UMLScenePopupMenu::insertSubMenuNew(Uml::DiagramType::Enum type)
 {
-    KMenu * menu = makeNewMenu();
+    QMenu * menu = makeNewMenu();
 
     switch(type) {
         case Uml::DiagramType::UseCase:

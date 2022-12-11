@@ -48,7 +48,7 @@ class KActionMenu;
 class KRecentFilesAction;
 class KToggleAction;
 class KTabWidget;
-class KMenu;
+class QMenu;
 #if QT_VERSION < 0x050000
 class KUndoStack;
 #endif

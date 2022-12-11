@@ -26,7 +26,7 @@ protected:
     void insertSubMenuColor(bool fc);
     void insertSubMenuNew(WidgetBase::WidgetType type);
     void insertSubMenuShowEntity(EntityWidget *widget);
-    KMenu *makeCategoryTypeMenu(UMLCategory *category);
+    QMenu *makeCategoryTypeMenu(UMLCategory *category);
 };
 
 #endif // WIDGETBASEPOPUPMENU_H
