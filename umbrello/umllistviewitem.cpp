@@ -522,6 +522,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
     case lvt_Component_Folder:
     case lvt_Deployment_Folder:
     case lvt_EntityRelationship_Folder:
+    case lvt_Entity:
     case lvt_Interface:
     case lvt_Datatype:
     case lvt_Enum:
