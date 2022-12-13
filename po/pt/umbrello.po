@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-12 00:50+0000\n"
-"PO-Revision-Date: 2022-11-02 13:52+0000\n"
+"PO-Revision-Date: 2022-12-12 14:02+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
 "Language: pt\n"
@@ -4387,10 +4387,9 @@ msgid "set active language"
 msgstr "definir a linguagem activa"
 
 #: main.cpp:221
-#, fuzzy, kde-format
-#| msgid "set active language"
+#, kde-format
 msgid "set language"
-msgstr "definir a linguagem activa"
+msgstr "definir a linguagem"
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
