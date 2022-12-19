@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2012-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2012-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef SINGLEPAGEDIALOGBASE_H
@@ -36,7 +36,7 @@ public:
     virtual bool apply();
 
 #if QT_VERSION >= 0x050000
-    typedef enum { Cancel = 0, Ok = 1, Apply = 2, No = 2 } ButtonCode;
+    enum ButtonCode { Cancel = 0, Ok = 1, Apply = 2 };
     // keep in sync with MultiPageDialogBase
     void setCaption(const QString &caption);
 

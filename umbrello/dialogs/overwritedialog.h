@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef OVERWRITEDIALOG_H
@@ -30,6 +30,8 @@ public:
     ~OverwriteDialog();
 
     bool applyToAllRemaining();
+
+    static const int No = SinglePageDialogBase::Apply;  // "Apply" button is repurposed for "No"
 
 private:
     QCheckBox* m_applyToAllRemaining;
