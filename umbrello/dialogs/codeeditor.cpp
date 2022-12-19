@@ -35,7 +35,6 @@
 // kde includes
 #if QT_VERSION < 0x050000
 #include <kaction.h>
-#include <QMenu>
 #endif
 #include <KLocalizedString>
 

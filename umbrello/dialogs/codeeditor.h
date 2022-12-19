@@ -93,11 +93,7 @@ protected:
 
     void loadFromDocument();
 
-#if QT_VERSION >= 0x050000
     QMenu * createPopup();
-#else
-    QMenu * createPopup();
-#endif
 
 private:
     QString            m_parentDocName;

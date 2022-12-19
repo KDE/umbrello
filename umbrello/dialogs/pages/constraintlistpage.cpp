@@ -25,17 +25,10 @@
 #include <kdialogbuttonbox.h>
 #endif
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
 #include <QMenu>
-#include <kpushbutton.h>
-#endif
-
 #include <QApplication>
 #include <QHBoxLayout>
-#if QT_VERSION >= 0x050000
-#include <QMenu>
 #include <QPushButton>
-#endif
 #include <QVBoxLayout>
 
 /**
