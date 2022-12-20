@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:50+0000\n"
+"POT-Creation-Date: 2022-12-20 00:49+0000\n"
 "PO-Revision-Date: 2008-11-05 23:34+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -1885,7 +1885,7 @@ msgstr "クラスの操作"
 msgid "Add operations to the new class."
 msgstr "新しいクラスに操作を追加します。"
 
-#: dialogs/codeeditor.cpp:766 dialogs/codeeditor.cpp:768
+#: dialogs/codeeditor.cpp:765 dialogs/codeeditor.cpp:767
 #: menus/widgetbasepopupmenu.cpp:118 menus/widgetbasepopupmenu.cpp:126
 #: menus/widgetbasepopupmenu.cpp:133 menus/widgetbasepopupmenu.cpp:140
 #: menus/widgetbasepopupmenu.cpp:146
@@ -1893,7 +1893,7 @@ msgstr "新しいクラスに操作を追加します。"
 msgid "Hide"
 msgstr "隠す"
 
-#: dialogs/codeeditor.cpp:776 dialogs/codeeditor.cpp:778
+#: dialogs/codeeditor.cpp:775 dialogs/codeeditor.cpp:777
 #: dialogs/pages/classoptionspage.cpp:144
 #: dialogs/pages/classoptionspage.cpp:217
 #: dialogs/pages/classoptionspage.cpp:239
@@ -1906,39 +1906,39 @@ msgstr "隠す"
 msgid "Show"
 msgstr "表示"
 
-#: dialogs/codeeditor.cpp:789 dialogs/codeeditor.cpp:791
+#: dialogs/codeeditor.cpp:788 dialogs/codeeditor.cpp:790
 #, kde-format
 msgid "Hide Comment"
 msgstr "コメントを隠す"
 
-#: dialogs/codeeditor.cpp:799 dialogs/codeeditor.cpp:801
+#: dialogs/codeeditor.cpp:798 dialogs/codeeditor.cpp:800
 #, kde-format
 msgid "Show Comment"
 msgstr "コメントを表示"
 
-#: dialogs/codeeditor.cpp:811 dialogs/codeeditor.cpp:813
+#: dialogs/codeeditor.cpp:810 dialogs/codeeditor.cpp:812
 #, kde-format
 msgid "Insert Code Block Before"
 msgstr "コードブロックを前に挿入"
 
-#: dialogs/codeeditor.cpp:820 dialogs/codeeditor.cpp:822
+#: dialogs/codeeditor.cpp:819 dialogs/codeeditor.cpp:821
 #, kde-format
 msgid "Insert Code Block After"
 msgstr "コードブロックを後に挿入"
 
-#: dialogs/codeeditor.cpp:831 dialogs/codeeditor.cpp:833
+#: dialogs/codeeditor.cpp:830 dialogs/codeeditor.cpp:832
 #: menus/listpopupmenu.cpp:169
 #, kde-format
 msgid "Copy"
 msgstr "コピー"
 
-#: dialogs/codeeditor.cpp:840 dialogs/codeeditor.cpp:842
+#: dialogs/codeeditor.cpp:839 dialogs/codeeditor.cpp:841
 #: menus/listpopupmenu.cpp:237
 #, kde-format
 msgid "Paste"
 msgstr "貼り付け"
 
-#: dialogs/codeeditor.cpp:849 dialogs/codeeditor.cpp:851
+#: dialogs/codeeditor.cpp:848 dialogs/codeeditor.cpp:850
 #: menus/listpopupmenu.cpp:170
 #, kde-format
 msgid "Cut"
@@ -2823,26 +2823,26 @@ msgstr "オブジェクト間参照を解決しています..."
 msgid "Enable C++11 standard (experimental)"
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:81
-#: dialogs/pages/constraintlistpage.cpp:83 menus/listpopupmenu.cpp:269
+#: dialogs/pages/constraintlistpage.cpp:74
+#: dialogs/pages/constraintlistpage.cpp:76 menus/listpopupmenu.cpp:269
 #, kde-format
 msgid "Unique Constraint..."
 msgstr "一意制約..."
 
-#: dialogs/pages/constraintlistpage.cpp:89
-#: dialogs/pages/constraintlistpage.cpp:91 menus/listpopupmenu.cpp:242
+#: dialogs/pages/constraintlistpage.cpp:82
+#: dialogs/pages/constraintlistpage.cpp:84 menus/listpopupmenu.cpp:242
 #, kde-format
 msgid "Primary Key Constraint..."
 msgstr "主キー制約..."
 
-#: dialogs/pages/constraintlistpage.cpp:97
-#: dialogs/pages/constraintlistpage.cpp:99 menus/listpopupmenu.cpp:195
+#: dialogs/pages/constraintlistpage.cpp:90
+#: dialogs/pages/constraintlistpage.cpp:92 menus/listpopupmenu.cpp:195
 #, kde-format
 msgid "Foreign Key Constraint..."
 msgstr "外部キー制約..."
 
-#: dialogs/pages/constraintlistpage.cpp:105
-#: dialogs/pages/constraintlistpage.cpp:107 menus/listpopupmenu.cpp:159
+#: dialogs/pages/constraintlistpage.cpp:98
+#: dialogs/pages/constraintlistpage.cpp:100 menus/listpopupmenu.cpp:159
 #, kde-format
 msgid "Check Constraint..."
 msgstr "チェック制約..."

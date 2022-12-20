@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:50+0000\n"
+"POT-Creation-Date: 2022-12-20 00:49+0000\n"
 "PO-Revision-Date: 2022-12-05 19:13+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -1858,7 +1858,7 @@ msgstr "Opérations de la classe"
 msgid "Add operations to the new class."
 msgstr "Ajoutez des opérations à la nouvelle classe."
 
-#: dialogs/codeeditor.cpp:766 dialogs/codeeditor.cpp:768
+#: dialogs/codeeditor.cpp:765 dialogs/codeeditor.cpp:767
 #: menus/widgetbasepopupmenu.cpp:118 menus/widgetbasepopupmenu.cpp:126
 #: menus/widgetbasepopupmenu.cpp:133 menus/widgetbasepopupmenu.cpp:140
 #: menus/widgetbasepopupmenu.cpp:146
@@ -1866,7 +1866,7 @@ msgstr "Ajoutez des opérations à la nouvelle classe."
 msgid "Hide"
 msgstr "Cacher"
 
-#: dialogs/codeeditor.cpp:776 dialogs/codeeditor.cpp:778
+#: dialogs/codeeditor.cpp:775 dialogs/codeeditor.cpp:777
 #: dialogs/pages/classoptionspage.cpp:144
 #: dialogs/pages/classoptionspage.cpp:217
 #: dialogs/pages/classoptionspage.cpp:239
@@ -1879,39 +1879,39 @@ msgstr "Cacher"
 msgid "Show"
 msgstr "Afficher"
 
-#: dialogs/codeeditor.cpp:789 dialogs/codeeditor.cpp:791
+#: dialogs/codeeditor.cpp:788 dialogs/codeeditor.cpp:790
 #, kde-format
 msgid "Hide Comment"
 msgstr "Cacher le commentaire"
 
-#: dialogs/codeeditor.cpp:799 dialogs/codeeditor.cpp:801
+#: dialogs/codeeditor.cpp:798 dialogs/codeeditor.cpp:800
 #, kde-format
 msgid "Show Comment"
 msgstr "Afficher le commentaire"
 
-#: dialogs/codeeditor.cpp:811 dialogs/codeeditor.cpp:813
+#: dialogs/codeeditor.cpp:810 dialogs/codeeditor.cpp:812
 #, kde-format
 msgid "Insert Code Block Before"
 msgstr "Insérer un bloc de code avant"
 
-#: dialogs/codeeditor.cpp:820 dialogs/codeeditor.cpp:822
+#: dialogs/codeeditor.cpp:819 dialogs/codeeditor.cpp:821
 #, kde-format
 msgid "Insert Code Block After"
 msgstr "Insérer un bloc de code après"
 
-#: dialogs/codeeditor.cpp:831 dialogs/codeeditor.cpp:833
+#: dialogs/codeeditor.cpp:830 dialogs/codeeditor.cpp:832
 #: menus/listpopupmenu.cpp:169
 #, kde-format
 msgid "Copy"
 msgstr "Copier"
 
-#: dialogs/codeeditor.cpp:840 dialogs/codeeditor.cpp:842
+#: dialogs/codeeditor.cpp:839 dialogs/codeeditor.cpp:841
 #: menus/listpopupmenu.cpp:237
 #, kde-format
 msgid "Paste"
 msgstr "Coller"
 
-#: dialogs/codeeditor.cpp:849 dialogs/codeeditor.cpp:851
+#: dialogs/codeeditor.cpp:848 dialogs/codeeditor.cpp:850
 #: menus/listpopupmenu.cpp:170
 #, kde-format
 msgid "Cut"
@@ -2788,26 +2788,26 @@ msgstr "Résoudre les dépendances (réduit la vitesse d'importation)"
 msgid "Enable C++11 standard (experimental)"
 msgstr "Activer le standard C++11 (expérimental)"
 
-#: dialogs/pages/constraintlistpage.cpp:81
-#: dialogs/pages/constraintlistpage.cpp:83 menus/listpopupmenu.cpp:269
+#: dialogs/pages/constraintlistpage.cpp:74
+#: dialogs/pages/constraintlistpage.cpp:76 menus/listpopupmenu.cpp:269
 #, kde-format
 msgid "Unique Constraint..."
 msgstr "Contrainte d'unicité..."
 
-#: dialogs/pages/constraintlistpage.cpp:89
-#: dialogs/pages/constraintlistpage.cpp:91 menus/listpopupmenu.cpp:242
+#: dialogs/pages/constraintlistpage.cpp:82
+#: dialogs/pages/constraintlistpage.cpp:84 menus/listpopupmenu.cpp:242
 #, kde-format
 msgid "Primary Key Constraint..."
 msgstr "Contrainte de clé primaire..."
 
-#: dialogs/pages/constraintlistpage.cpp:97
-#: dialogs/pages/constraintlistpage.cpp:99 menus/listpopupmenu.cpp:195
+#: dialogs/pages/constraintlistpage.cpp:90
+#: dialogs/pages/constraintlistpage.cpp:92 menus/listpopupmenu.cpp:195
 #, kde-format
 msgid "Foreign Key Constraint..."
 msgstr "Contrainte de clé étrangère..."
 
-#: dialogs/pages/constraintlistpage.cpp:105
-#: dialogs/pages/constraintlistpage.cpp:107 menus/listpopupmenu.cpp:159
+#: dialogs/pages/constraintlistpage.cpp:98
+#: dialogs/pages/constraintlistpage.cpp:100 menus/listpopupmenu.cpp:159
 #, kde-format
 msgid "Check Constraint..."
 msgstr "Vérifier la contrainte..."
