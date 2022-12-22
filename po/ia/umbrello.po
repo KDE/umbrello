@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-20 00:49+0000\n"
-"PO-Revision-Date: 2022-02-18 23:18+0100\n"
+"PO-Revision-Date: 2022-12-21 12:35+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.2\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -675,7 +675,7 @@ msgstr ""
 #: codegenerators/cpp/cppcodegenerationformbase.ui:514
 #, kde-format
 msgid "<i><p align=\"center\">Include file</p></i>"
-msgstr ""
+msgstr "<i><p align=\"center\">Include file</p></i>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelHelpMethodBodyGen)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:526
@@ -1388,7 +1388,7 @@ msgstr ""
 #: codeimpwizard/codeimpselectpage.ui:40
 #, kde-format
 msgid "Programming Language:"
-msgstr ""
+msgstr "Linguage de Programmation:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_subdirCheckBox)
 #: codeimpwizard/codeimpselectpage.ui:66
@@ -1766,7 +1766,7 @@ msgstr ""
 #: dialogs/classwizard.cpp:77
 #, kde-format
 msgid "New Class"
-msgstr ""
+msgstr "Nove classe"
 
 #: dialogs/classwizard.cpp:78
 #, kde-format
@@ -2105,7 +2105,7 @@ msgstr "Attributo"
 #: dialogs/finddialog.ui:131
 #, kde-format
 msgid "Search Term:"
-msgstr ""
+msgstr "Termino de cerca:"
 
 #: dialogs/multipagedialogbase.cpp:69
 #, kde-format
@@ -2141,7 +2141,7 @@ msgstr "Stilo"
 #: dialogs/multipagedialogbase.cpp:475
 #, kde-format
 msgid "Widget Style"
-msgstr ""
+msgstr "Stilo de Elemento Graphic de Fenestra (Widget)"
 
 #: dialogs/multipagedialogbase.cpp:486
 #, kde-format
@@ -2168,7 +2168,7 @@ msgstr ""
 #: dialogs/notedialog.cpp:20
 #, kde-format
 msgid "Note Properties"
-msgstr ""
+msgstr "Proprietates de nota"
 
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
@@ -2519,7 +2519,7 @@ msgstr ""
 #: dialogs/pages/classifierlistpage.cpp:138
 #, kde-format
 msgid "Constraints"
-msgstr ""
+msgstr "Coercitiones"
 
 #: dialogs/pages/classifierlistpage.cpp:139
 #, kde-format
@@ -2833,7 +2833,7 @@ msgstr ""
 #: dialogs/pages/diagrampropertiespage.ui:224
 #, kde-format
 msgid "Grid spacing:  "
-msgstr ""
+msgstr "Spatiamento de grillia:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelX)
 #: dialogs/pages/diagrampropertiespage.ui:247
@@ -3692,7 +3692,7 @@ msgstr ""
 #: dialogs/umlinstanceattributedialog.ui:27
 #, kde-format
 msgid "Attribute Name:"
-msgstr ""
+msgstr "Nomine de attributo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/umlinstanceattributedialog.ui:37
@@ -3734,7 +3734,7 @@ msgstr "&incorpora..."
 #: dialogs/umloperationdialog.cpp:130
 #, kde-format
 msgid "&Override"
-msgstr ""
+msgstr "&Ultrapassar"
 
 #: dialogs/umloperationdialog.cpp:141
 #, kde-format
@@ -4235,7 +4235,7 @@ msgstr ""
 #: main.cpp:159 main.cpp:213
 #, kde-format
 msgid "import files"
-msgstr ""
+msgstr "Importa Files"
 
 #: main.cpp:160 main.cpp:215
 #, kde-format
@@ -4260,10 +4260,9 @@ msgid "set active language"
 msgstr ""
 
 #: main.cpp:221
-#, fuzzy, kde-format
-#| msgid "Language"
+#, kde-format
 msgid "set language"
-msgstr "Linguage"
+msgstr "fixa Linguage"
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
@@ -4446,7 +4445,7 @@ msgstr ""
 #: worktoolbar.cpp:368
 #, kde-format
 msgid "Entity"
-msgstr ""
+msgstr "Entitate"
 
 #. i18n("Entity...")); break;
 #: menus/listpopupmenu.cpp:181
@@ -4548,7 +4547,7 @@ msgstr ""
 #, kde-format
 msgctxt "new instance menu item"
 msgid "Instance..."
-msgstr ""
+msgstr "Instantia..."
 
 #: menus/listpopupmenu.cpp:205 menus/listpopupmenu.cpp:221
 #: menus/listpopupmenu.cpp:224
@@ -5236,7 +5235,7 @@ msgstr ""
 #: model_utils.cpp:615 umlwidgets/widget_utils.cpp:877
 #, kde-format
 msgid "New class"
-msgstr ""
+msgstr "Nove classe"
 
 #: model_utils.cpp:616 umlwidgets/widget_utils.cpp:879
 #, kde-format
@@ -5511,7 +5510,7 @@ msgstr ""
 #: model_utils.cpp:696
 #, kde-format
 msgid "Rename attribute"
-msgstr ""
+msgstr "Renomina attributo"
 
 #: model_utils.cpp:697 umlwidgets/widget_utils.cpp:967
 #, kde-format
@@ -5917,7 +5916,7 @@ msgstr ""
 #: refactoring/refactoringassistant.cpp:471
 #, kde-format
 msgid "Add Attribute"
-msgstr ""
+msgstr "Adde attributo"
 
 #: refactoring/refactoringassistant.cpp:454
 #, kde-format
@@ -6500,7 +6499,7 @@ msgstr ""
 #: umbrello.kcfg:312 umbrello.kcfg:313
 #, kde-format
 msgid "Selected Color"
-msgstr ""
+msgstr "Color selectionate "
 
 #. i18n: ectx: label, entry (editBlockColor), group (Code Viewer Options)
 #: umbrello.kcfg:317
@@ -7224,15 +7223,14 @@ msgid "Pastes the contents of the clipboard"
 msgstr ""
 
 #: uml.cpp:507
-#, fuzzy, kde-format
-#| msgid "Invoke action"
+#, kde-format
 msgid "Undo last action"
-msgstr "Invoca action"
+msgstr "Annulla ultime action"
 
 #: uml.cpp:508
 #, kde-format
 msgid "Redo last undone action"
-msgstr ""
+msgstr "Face de nove ultime action annullate"
 
 #: uml.cpp:510
 #, kde-format
@@ -7383,7 +7381,7 @@ msgstr ""
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
-msgstr ""
+msgstr " &%1%"
 
 #: uml.cpp:910
 #, kde-format
@@ -7394,7 +7392,7 @@ msgstr "Preste"
 #: uml.cpp:918 uml.cpp:931
 #, kde-format
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: uml.cpp:923
 #, kde-format
@@ -8088,7 +8086,7 @@ msgstr "Nomi&ne de interfacie"
 #: umlmodel/umlobject.cpp:1260
 #, kde-format
 msgid "Node &name:"
-msgstr ""
+msgstr "&Nomine de nodo:"
 
 #: umlmodel/umlobject.cpp:1263
 #, kde-format
@@ -8262,7 +8260,7 @@ msgstr ""
 #: umlwidgets/objectnodewidget.cpp:329
 #, kde-format
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: umlwidgets/combinedfragmentwidget.cpp:310
 #: umlwidgets/combinedfragmentwidget.cpp:441
@@ -8446,7 +8444,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of custom toolbar button"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: umlwidgets/umlwidget.cpp:464
 #, kde-format
@@ -8508,7 +8506,7 @@ msgstr "Nove categoria"
 #: umlwidgets/widget_utils.cpp:830
 #, kde-format
 msgid "new class"
-msgstr ""
+msgstr "nove classe"
 
 #: umlwidgets/widget_utils.cpp:831
 #, kde-format
@@ -9033,7 +9031,7 @@ msgstr ""
 #: umlwidgets/widgetbase.cpp:1338 worktoolbar.cpp:396
 #, kde-format
 msgid "Instance"
-msgstr ""
+msgstr "Instantia"
 
 #: worktoolbar.cpp:326
 #, kde-format
