@@ -76,11 +76,7 @@ protected:
     KColorButton * m_GridDotColorB;
     SelectLayoutTypeWidget *m_layoutTypeW;
 
-#if QT_VERSION >= 0x050000
     QSpinBox * m_lineWidthB;
-#else
-    QSpinBox * m_lineWidthB;
-#endif
 
 private:
     void init();

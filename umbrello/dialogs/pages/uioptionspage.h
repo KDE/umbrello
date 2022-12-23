@@ -59,11 +59,7 @@ protected:
     KColorButton * m_fillColorB;
     KColorButton * m_gridColorB;
     KColorButton * m_bgColorB;
-#if QT_VERSION >= 0x050000
     QSpinBox     * m_lineWidthB;
-#else
-    QSpinBox  * m_lineWidthB;
-#endif
     QCheckBox * m_useFillColorCB;
     QCheckBox *m_angularLinesCB;
     SelectLayoutTypeWidget *m_layoutTypeW;

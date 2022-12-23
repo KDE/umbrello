@@ -119,19 +119,11 @@ void UIOptionsPage::setupPage()
     m_lineWidthCB = new QCheckBox(i18n("Custom line width"), m_colorGB);
     colorLayout->addWidget(m_lineWidthCB, 5, 0);
 
-#if QT_VERSION >= 0x050000
     m_lineWidthB = new QSpinBox(m_colorGB);
     m_lineWidthB->setMinimum(0);
     m_lineWidthB->setMaximum(10);
     m_lineWidthB->setSingleStep(1);
     m_lineWidthB->setValue(m_options->uiState.lineWidth);
-#else
-    m_lineWidthB = new QSpinBox(m_colorGB);
-    m_lineWidthB->setMaximum(10);
-    m_lineWidthB->setMinimum(0);
-    m_lineWidthB->setSingleStep(1);
-    m_lineWidthB->setValue(m_options->uiState.lineWidth);
-#endif
     colorLayout->addWidget(m_lineWidthB, 5, 1);
 
     m_useFillColorCB = new QCheckBox(i18n("&Use fill color"), m_colorGB);
