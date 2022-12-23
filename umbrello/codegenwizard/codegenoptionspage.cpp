@@ -19,7 +19,6 @@
 // kde includes
 #if QT_VERSION < 0x050000
 #include <kfiledialog.h>
-#include <KIntSpinBox>
 #endif
 #include <KMessageBox>
 #include <KLocalizedString>

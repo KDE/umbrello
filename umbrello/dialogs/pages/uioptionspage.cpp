@@ -15,7 +15,6 @@
 //// kde includes
 #include <KLocalizedString>
 #include <KColorButton>
-#include <KIntSpinBox>
 
 //// qt includes
 #include <QCheckBox>
@@ -24,6 +23,7 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QSpinBox>
 
 /**
  * Constructor - observe and modify an OptionState structure
@@ -126,7 +126,11 @@ void UIOptionsPage::setupPage()
     m_lineWidthB->setSingleStep(1);
     m_lineWidthB->setValue(m_options->uiState.lineWidth);
 #else
-    m_lineWidthB = new KIntSpinBox(0, 10, 1, m_options->uiState.lineWidth, m_colorGB);
+    m_lineWidthB = new QSpinBox(m_colorGB);
+    m_lineWidthB->setMaximum(10);
+    m_lineWidthB->setMinimum(0);
+    m_lineWidthB->setSingleStep(1);
+    m_lineWidthB->setValue(m_options->uiState.lineWidth);
 #endif
     colorLayout->addWidget(m_lineWidthB, 5, 1);
 

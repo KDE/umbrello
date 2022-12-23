@@ -14,7 +14,7 @@
 // kde includes
 #include <KComboBox>
 #if QT_VERSION < 0x050000
-#include <KIntSpinBox>
+#include <QSpinBox>
 #endif
 #include <QLineEdit>
 #include <KLocalizedString>
@@ -91,7 +91,11 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.timeISB->setSingleStep(1);
     m_GeneralWidgets.timeISB->setValue(optionState.generalState.autosavetime);
 #else
-    m_GeneralWidgets.timeISB = new KIntSpinBox(1, 600, 1, optionState.generalState.autosavetime, m_GeneralWidgets.autosaveGB);
+    m_GeneralWidgets.timeISB = new QSpinBox(m_GeneralWidgets.autosaveGB);
+    timeISB->setMaximum(600);
+    timeISB->setMinimum(1);
+    timeISB->setSingleStep(1);
+    timeISB->setValue(optionState.generalState.autosavetime);
 #endif
     m_GeneralWidgets.timeISB->setEnabled(optionState.generalState.autosave);
     autosaveLayout->addWidget(m_GeneralWidgets.timeISB, 1, 1);

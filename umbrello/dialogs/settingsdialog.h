@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 #ifndef SETTINGSDIALOG_H
 #define SETTINGSDIALOG_H
@@ -23,9 +23,6 @@ class DontAskAgainWidget;
 class GeneralOptionPage;
 class KColorButton;
 class KFontChooser;
-#if QT_VERSION < 0x050000
-class KIntSpinBox;
-#endif
 class UIOptionsPage;
 
 class QCheckBox;
@@ -33,9 +30,7 @@ class QCheckBox;
 class QFontDialog;
 #endif
 class QGroupBox;
-#if QT_VERSION >= 0x050000
 class QSpinBox;
-#endif
 class UMLWidgetStylePage;
 
 /**
@@ -80,11 +75,7 @@ private:
         KColorButton * fillColorB;
         KColorButton * gridColorB;
         KColorButton * bgColorB;
-#if QT_VERSION >= 0x050000
         QSpinBox     * lineWidthB;
-#else
-        KIntSpinBox  * lineWidthB;
-#endif
         QCheckBox * useFillColorCB;
     }
     ;//end struct UIWidgets

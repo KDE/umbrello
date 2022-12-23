@@ -14,16 +14,11 @@ class SelectLayoutTypeWidget;
 class UMLScene;
 class WidgetBase;
 class KColorButton;
-#if QT_VERSION < 0x050000
-class KIntSpinBox;
-#endif
 class QLabel;
 class QPushButton;
 class QCheckBox;
 class QGroupBox;
-#if QT_VERSION >= 0x050000
 class QSpinBox;
-#endif
 
 /**
  * @author Paul Hensgen
@@ -84,7 +79,7 @@ protected:
 #if QT_VERSION >= 0x050000
     QSpinBox * m_lineWidthB;
 #else
-    KIntSpinBox * m_lineWidthB;
+    QSpinBox * m_lineWidthB;
 #endif
 
 private:

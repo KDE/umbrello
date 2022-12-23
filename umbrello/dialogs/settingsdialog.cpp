@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -25,7 +25,6 @@
 #include <KColorButton>
 #if QT_VERSION < 0x050000
 #include <kfontchooser.h>
-#include <KIntSpinBox>
 #endif
 
 // qt includes
@@ -34,9 +33,6 @@
 #include <QFontDialog>
 #endif
 #include <QGroupBox>
-#if QT_VERSION >= 0x050000
-#include <QSpinBox>
-#endif
 
 SettingsDialog::SettingsDialog(QWidget * parent, Settings::OptionState *state)
   : MultiPageDialogBase(parent, true)

@@ -16,7 +16,7 @@ class SelectLayoutTypeWidget;
 
 class KColorButton;
 class KComboBox;
-class KIntSpinBox;
+class QSpinBox;
 
 class QCheckBox;
 class QGroupBox;
@@ -62,7 +62,7 @@ protected:
 #if QT_VERSION >= 0x050000
     QSpinBox     * m_lineWidthB;
 #else
-    KIntSpinBox  * m_lineWidthB;
+    QSpinBox  * m_lineWidthB;
 #endif
     QCheckBox * m_useFillColorCB;
     QCheckBox *m_angularLinesCB;

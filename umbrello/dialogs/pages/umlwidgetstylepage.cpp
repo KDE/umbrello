@@ -18,7 +18,7 @@
 #include <KLocalizedString>
 #include <kcolorbutton.h>
 #if QT_VERSION < 0x050000
-#include <KIntSpinBox>
+#include <QSpinBox>
 #endif
 
 #include <QCheckBox>
@@ -190,7 +190,11 @@ void UMLWidgetStylePage::init()
     m_lineWidthB->setSingleStep(1);
     m_lineWidthB->setValue(0);
 #else
-    m_lineWidthB = new KIntSpinBox(0, 10, 1, 0, m_pStyleGB);
+    m_lineWidthB = new QSpinBox(m_pStyleGB);
+    m_lineWidthB->setMaximum(10);
+    m_lineWidthB->setMinimum(0);
+    m_lineWidthB->setSingleStep(1);
+    m_lineWidthB->setValue(0);
 #endif
     m_lineWidthL->setBuddy(m_lineWidthB);
     styleLayout->addWidget(m_lineWidthB, row, 1);

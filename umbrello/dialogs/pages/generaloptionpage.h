@@ -8,17 +8,12 @@
 
 #include "dialogpagebase.h"
 
-#if QT_VERSION < 0x050000
-class KIntSpinBox;
-#endif
 class QLineEdit;
 class KComboBox;
 class QGroupBox;
 class QCheckBox;
 class QLabel;
-#if QT_VERSION >= 0x050000
 class QSpinBox;
-#endif
 
 class SelectLayoutTypeWidget;
 
@@ -48,11 +43,7 @@ protected:
         QGroupBox * autosaveGB;
         QGroupBox * startupGB;
 
-#if QT_VERSION >= 0x050000
         QSpinBox  * timeISB;
-#else
-        KIntSpinBox * timeISB;
-#endif
         KComboBox * diagramKB;
         KComboBox * languageKB;
 
