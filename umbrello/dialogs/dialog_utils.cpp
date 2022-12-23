@@ -19,13 +19,14 @@
 // kde includes
 #include <KMessageBox>
 #include <KLocalizedString>
-#include <QLineEdit>
 #include <kcombobox.h>
 
 // qt includes
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QApplication>
+#include <QStyle>
 
 DefineDontAskAgainItem(allItem, "all", i18n("Enable all messages"));
 DefineDontAskAgainItem(askDeleteAssociationItem, "delete-association", i18n("Enable 'delete association' related messages"));
@@ -346,6 +347,16 @@ void insertStereotypesSorted(KComboBox *kcb, const QString& type)
         kcb->setCurrentIndex(currentIndex);
     }
     kcb->completionObject()->addItem(type);
+}
+
+/**
+ * Returns the number of pixels that should be used between
+ * widgets inside a dialog according to the KDE standard.
+ * Source: kdelibs4support/src/kdeui/kdialog.cpp
+ */
+int spacingHint()
+{
+    return QApplication::style()->pixelMetric(QStyle::PM_DefaultLayoutSpacing);
 }
 
 }  // end namespace Dialog_Utils

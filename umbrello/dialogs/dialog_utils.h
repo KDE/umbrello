@@ -68,6 +68,8 @@ void insertStereotypesSorted(KComboBox *kcb, const QString& type);
 
 bool askDeleteAssociation();
 bool askDeleteDiagram(const QString &name = QString());
+
+int spacingHint();
 }
 
 #endif

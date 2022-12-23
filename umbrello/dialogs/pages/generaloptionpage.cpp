@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -14,7 +14,6 @@
 // kde includes
 #include <KComboBox>
 #if QT_VERSION < 0x050000
-#include <KDialog>
 #include <KIntSpinBox>
 #endif
 #include <QLineEdit>
@@ -39,11 +38,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
   : DialogPageBase(parent)
 {
     Settings::OptionState &optionState = Settings::optionState();
-#if QT_VERSION >= 0x050000
-    int spacingHint = 2;
-#else
-    int spacingHint = static_cast<KDialog*>(parent)->spacingHint();
-#endif
+    int spacingHint = Dialog_Utils::spacingHint();
 
     QVBoxLayout *topLayout = new QVBoxLayout(this);
 

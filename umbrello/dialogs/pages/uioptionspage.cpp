@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2020 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -9,7 +9,7 @@
 //// local includes
 #include "optionstate.h"
 #include "umbrellosettings.h"
-
+// #include "dialog_utils.h"
 #include "selectlayouttypewidget.h"
 
 //// kde includes
@@ -53,7 +53,7 @@ void UIOptionsPage::setupPage()
     QVBoxLayout* uiPageLayout = new QVBoxLayout(this);
     QGroupBox *box = new QGroupBox(i18nc("General options", "General"), this);
     QGridLayout * otherLayout = new QGridLayout(box);
-    //otherLayout->setSpacing(spacingHint());
+    //otherLayout->setSpacing(Dialog_Utils::spacingHint());
     otherLayout->setMargin(fontMetrics().height());
     uiPageLayout->addWidget(box);
 

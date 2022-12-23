@@ -206,15 +206,6 @@ void MultiPageDialogBase::setCurrentPage(KPageWidgetItem *page)
         m_pageWidget->setCurrentPage(page);
 }
 
-int MultiPageDialogBase::spacingHint()
-{
-#if QT_VERSION >= 0x050000
-    return 0;  // FIXME KF5 was QDialog::spacingHint();
-#else
-    return KDialog::spacingHint();
-#endif
-}
-
 int MultiPageDialogBase::exec()
 {
     if (m_pageDialog)
