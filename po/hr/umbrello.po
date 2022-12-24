@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-20 00:49+0000\n"
+"POT-Creation-Date: 2022-12-24 00:52+0000\n"
 "PO-Revision-Date: 2004-04-20 13:30+CEST\n"
 "Last-Translator: auto\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -911,68 +911,68 @@ msgstr "Čarobnjak za generiranje kôda"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenOptionsPage)
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeImpSelectPage)
-#: codegenwizard/codegenoptionspage.cpp:39
+#: codegenwizard/codegenoptionspage.cpp:38
 #: codegenwizard/codegenoptionspage.ui:20 codeimpwizard/codeimpselectpage.ui:20
 #, fuzzy, kde-format
 msgid "Code Generation Options"
 msgstr "Opcije za generiranje kôda"
 
-#: codegenwizard/codegenoptionspage.cpp:40
+#: codegenwizard/codegenoptionspage.cpp:39
 #, fuzzy, kde-format
 msgid "Adjust code generation options."
 msgstr "Opcije za generiranje kôda"
 
-#: codegenwizard/codegenoptionspage.cpp:197
+#: codegenwizard/codegenoptionspage.cpp:196
 #, fuzzy, kde-format
 msgid "Language Options"
 msgstr "Opcije jezika"
 
-#: codegenwizard/codegenoptionspage.cpp:258
+#: codegenwizard/codegenoptionspage.cpp:257
 #, kde-format
 msgid ""
 "The output folder exists, but it is not writable.\n"
 "Please set the appropriate permissions or choose another folder."
 msgstr ""
 
-#: codegenwizard/codegenoptionspage.cpp:259
+#: codegenwizard/codegenoptionspage.cpp:258
 #, fuzzy, kde-format
 msgid "Error Writing to Output Folder"
 msgstr "Ne mogu napraviti direktorij"
 
-#: codegenwizard/codegenoptionspage.cpp:264
+#: codegenwizard/codegenoptionspage.cpp:263
 #, fuzzy, kde-format
 msgid "%1 does not seem to be a folder. Please choose a valid folder."
 msgstr "%1 se čini da nije direktorij. Molim, odaberite ispravan direktorij."
 
-#: codegenwizard/codegenoptionspage.cpp:265
+#: codegenwizard/codegenoptionspage.cpp:264
 #, kde-format
 msgid "Please Choose Valid Folder"
 msgstr ""
 
-#: codegenwizard/codegenoptionspage.cpp:271
+#: codegenwizard/codegenoptionspage.cpp:270
 #, fuzzy, kde-format
 msgid "The folder %1 does not exist. Do you want to create it now?"
 msgstr ""
 "Odabrani datoteka %1 postoji.\n"
 "Želite li da ga prebrišete?"
 
-#: codegenwizard/codegenoptionspage.cpp:272
-#: codegenwizard/codegenoptionspage.cpp:284
+#: codegenwizard/codegenoptionspage.cpp:271
+#: codegenwizard/codegenoptionspage.cpp:283
 #, kde-format
 msgid "Output Folder Does Not Exist"
 msgstr ""
 
-#: codegenwizard/codegenoptionspage.cpp:272
+#: codegenwizard/codegenoptionspage.cpp:271
 #, fuzzy, kde-format
 msgid "Create Folder"
 msgstr "Ne mogu napraviti direktorij"
 
-#: codegenwizard/codegenoptionspage.cpp:272
+#: codegenwizard/codegenoptionspage.cpp:271
 #, fuzzy, kde-format
 msgid "Do Not Create"
 msgstr "Ne&moj da praviš datoteka"
 
-#: codegenwizard/codegenoptionspage.cpp:276
+#: codegenwizard/codegenoptionspage.cpp:275
 #, kde-format
 msgid ""
 "The folder could not be created.\n"
@@ -980,12 +980,12 @@ msgid ""
 "another, valid, folder."
 msgstr ""
 
-#: codegenwizard/codegenoptionspage.cpp:277
+#: codegenwizard/codegenoptionspage.cpp:276
 #, fuzzy, kde-format
 msgid "Error Creating Folder"
 msgstr "Ne mogu napraviti direktorij"
 
-#: codegenwizard/codegenoptionspage.cpp:283
+#: codegenwizard/codegenoptionspage.cpp:282
 #, kde-format
 msgid "Please select a valid folder."
 msgstr ""
@@ -1264,47 +1264,47 @@ msgstr ""
 msgid "Classes Selected"
 msgstr "Odabrane klase"
 
-#: codegenwizard/codegenstatuspage.cpp:45
+#: codegenwizard/codegenstatuspage.cpp:44
 #, fuzzy, kde-format
 msgid "Status of Code Generation Progress"
 msgstr "Opcije za generiranje kôda"
 
-#: codegenwizard/codegenstatuspage.cpp:46
+#: codegenwizard/codegenstatuspage.cpp:45
 #, fuzzy, kde-format
 msgid ""
 "Press the button Generate to start the code generation.\n"
 "Check the success state for every class."
 msgstr "Pritisnite gumb za generiranje za početak generiranja kôda"
 
-#: codegenwizard/codegenstatuspage.cpp:87
+#: codegenwizard/codegenstatuspage.cpp:86
 #: codeimpwizard/codeimpstatuspage.cpp:102
 #, fuzzy, kde-format
 msgid "Not Yet Generated"
 msgstr "Još uvijek nije generiran"
 
-#: codegenwizard/codegenstatuspage.cpp:176
+#: codegenwizard/codegenstatuspage.cpp:175
 #, fuzzy, kde-format
 msgid "Code Generated"
 msgstr "Kôd je generiran"
 
-#: codegenwizard/codegenstatuspage.cpp:180
+#: codegenwizard/codegenstatuspage.cpp:179
 #, fuzzy, kde-format
 msgid "Not Generated"
 msgstr "Nije generiran"
 
-#: codegenwizard/codegenstatuspage.cpp:185
+#: codegenwizard/codegenstatuspage.cpp:184
 #, kde-format
 msgid "Skipped"
 msgstr ""
 
-#: codegenwizard/codegenstatuspage.cpp:210
-#: codegenwizard/codegenstatuspage.cpp:244
+#: codegenwizard/codegenstatuspage.cpp:209
+#: codegenwizard/codegenstatuspage.cpp:243
 #: codeimpwizard/codeimpstatuspage.cpp:344
 #, fuzzy, kde-format
 msgid "Cannot open file!"
 msgstr "Ne mogu otvoriti datoteka"
 
-#: codegenwizard/codegenstatuspage.cpp:230
+#: codegenwizard/codegenstatuspage.cpp:229
 #, kde-format
 msgid "Umbrello Code Generation - Logger Export"
 msgstr ""
@@ -1684,8 +1684,8 @@ msgid "General"
 msgstr "Općenito"
 
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
-#: dialogs/multipagedialogbase.cpp:361 dialogs/multipagedialogbase.cpp:375
-#: dialogs/multipagedialogbase.cpp:385 dialogs/settingsdialog.cpp:116
+#: dialogs/multipagedialogbase.cpp:352 dialogs/multipagedialogbase.cpp:366
+#: dialogs/multipagedialogbase.cpp:376 dialogs/settingsdialog.cpp:112
 #: dialogs/umlforeignkeyconstraintdialog.cpp:207 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgid "General Settings"
@@ -1969,32 +1969,32 @@ msgstr "<p align=\"right\">Neizmjenljiv tekst:</p>"
 msgid "<p align=\"right\">Editable text:</p>"
 msgstr "<p align=\"right\">Urediv tekst:</p>"
 
-#: dialogs/dialog_utils.cpp:30
+#: dialogs/dialog_utils.cpp:31
 #, fuzzy, kde-format
 msgid "Enable all messages"
 msgstr "&Uključi automatsko spremanje"
 
-#: dialogs/dialog_utils.cpp:31
+#: dialogs/dialog_utils.cpp:32
 #, kde-format
 msgid "Enable 'delete association' related messages"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:32
+#: dialogs/dialog_utils.cpp:33
 #, kde-format
 msgid "Enable 'delete diagram' related messages"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:213
+#: dialogs/dialog_utils.cpp:214
 #, kde-format
 msgid "You are about to delete an association. Do you really want to continue?"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:214
+#: dialogs/dialog_utils.cpp:215
 #, fuzzy, kde-format
 msgid "Delete Association"
 msgstr "Samopridruživanje"
 
-#: dialogs/dialog_utils.cpp:228
+#: dialogs/dialog_utils.cpp:229
 #, kde-format
 msgid ""
 "You are about to delete the entire diagram.\n"
@@ -2003,17 +2003,17 @@ msgstr ""
 "Odabrali ste prisanje cijelog dijagrama.\n"
 "Da li ste sigurni?"
 
-#: dialogs/dialog_utils.cpp:229
+#: dialogs/dialog_utils.cpp:230
 #, fuzzy, kde-format
 msgid "Are you sure you want to delete diagram %1?"
 msgstr "Jeste li sigurni da želite da obrišete dijagram %1?"
 
-#: dialogs/dialog_utils.cpp:234
+#: dialogs/dialog_utils.cpp:235
 #, kde-format
 msgid "Delete Diagram?"
 msgstr "Izbristai dijagram?"
 
-#: dialogs/dialog_utils.cpp:235 dialogs/pages/classifierlistpage.cpp:215
+#: dialogs/dialog_utils.cpp:236 dialogs/pages/classifierlistpage.cpp:215
 #: dialogs/pages/classifierlistpage.cpp:223
 #: dialogs/umlforeignkeyconstraintdialog.cpp:324
 #: dialogs/umlforeignkeyconstraintdialog.cpp:330
@@ -2162,8 +2162,8 @@ msgstr ""
 msgid "Default"
 msgstr "&Uobičajeno"
 
-#: dialogs/multipagedialogbase.cpp:361 dialogs/multipagedialogbase.cpp:375
-#: dialogs/multipagedialogbase.cpp:385
+#: dialogs/multipagedialogbase.cpp:352 dialogs/multipagedialogbase.cpp:366
+#: dialogs/multipagedialogbase.cpp:376
 #, fuzzy, kde-format
 #| msgid "General"
 msgctxt "general settings"
@@ -2172,49 +2172,49 @@ msgstr "Općenito"
 
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
-#: dialogs/multipagedialogbase.cpp:400 umbrello.kcfg:177 umbrello.kcfg:297
+#: dialogs/multipagedialogbase.cpp:391 umbrello.kcfg:177 umbrello.kcfg:297
 #: umllistview.cpp:1472
 #, fuzzy, kde-format
 msgid "Font"
 msgstr "Pismo:"
 
-#: dialogs/multipagedialogbase.cpp:400
+#: dialogs/multipagedialogbase.cpp:391
 #, kde-format
 msgid "Font Settings"
 msgstr "Postavke pisma"
 
-#: dialogs/multipagedialogbase.cpp:475
+#: dialogs/multipagedialogbase.cpp:466
 #, fuzzy, kde-format
 #| msgid "Style:"
 msgctxt "widget style page"
 msgid "Style"
 msgstr "Stil:"
 
-#: dialogs/multipagedialogbase.cpp:475
+#: dialogs/multipagedialogbase.cpp:466
 #, fuzzy, kde-format
 msgid "Widget Style"
 msgstr "Boja kontrole"
 
-#: dialogs/multipagedialogbase.cpp:486
+#: dialogs/multipagedialogbase.cpp:477
 #, fuzzy, kde-format
 #| msgid "Style:"
 msgctxt "style page name"
 msgid "Style"
 msgstr "Stil:"
 
-#: dialogs/multipagedialogbase.cpp:486
+#: dialogs/multipagedialogbase.cpp:477
 #, fuzzy, kde-format
 msgid "Line Style"
 msgstr "Boja kontrole"
 
-#: dialogs/multipagedialogbase.cpp:506
+#: dialogs/multipagedialogbase.cpp:497
 #, fuzzy, kde-format
 #| msgid "Roles"
 msgctxt "role page name"
 msgid "Roles"
 msgstr "Funkcije"
 
-#: dialogs/multipagedialogbase.cpp:506
+#: dialogs/multipagedialogbase.cpp:497
 #, fuzzy, kde-format
 msgid "Role Settings"
 msgstr "Postavke uloge"
@@ -2938,59 +2938,59 @@ msgstr "Y"
 msgid "Autoincrement Sequence "
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:51
-#: dialogs/pages/umlwidgetstylepage.cpp:207
+#: dialogs/pages/generaloptionpage.cpp:41
+#: dialogs/pages/umlwidgetstylepage.cpp:198
 #, kde-format
 msgctxt "miscellaneous group box"
 msgid "Miscellaneous"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:58
+#: dialogs/pages/generaloptionpage.cpp:48
 #, fuzzy, kde-format
 msgid "Enable undo"
 msgstr "&Uključi automatsko spremanje"
 
-#: dialogs/pages/generaloptionpage.cpp:62
+#: dialogs/pages/generaloptionpage.cpp:52
 #, fuzzy, kde-format
 msgid "Use tabbed diagrams"
 msgstr "dijagram stanja"
 
-#: dialogs/pages/generaloptionpage.cpp:66
+#: dialogs/pages/generaloptionpage.cpp:56
 #, kde-format
 msgid "Use new C++/Java/Ruby generators"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:70
+#: dialogs/pages/generaloptionpage.cpp:60
 #, kde-format
 msgid "Turn on footer and page numbers when printing"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:74
+#: dialogs/pages/generaloptionpage.cpp:64
 #, fuzzy, kde-format
 msgid "Enable UML2 support"
 msgstr "&Uključi automatsko spremanje"
 
-#: dialogs/pages/generaloptionpage.cpp:79
+#: dialogs/pages/generaloptionpage.cpp:69
 #, kde-format
 msgid "Autosave"
 msgstr "Automatsko spremanje"
 
-#: dialogs/pages/generaloptionpage.cpp:86
+#: dialogs/pages/generaloptionpage.cpp:76
 #, fuzzy, kde-format
 msgid "E&nable autosave"
 msgstr "&Uključi automatsko spremanje"
 
-#: dialogs/pages/generaloptionpage.cpp:90
+#: dialogs/pages/generaloptionpage.cpp:80
 #, fuzzy, kde-format
 msgid "Select auto-save time interval (mins):"
 msgstr "Odaberite period automatskog spremanja (minuti):"
 
-#: dialogs/pages/generaloptionpage.cpp:106
+#: dialogs/pages/generaloptionpage.cpp:92
 #, kde-format
 msgid "Set autosave suffix:"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:108
+#: dialogs/pages/generaloptionpage.cpp:94
 #, kde-format
 msgid ""
 "<qt><p>The autosave file will be saved to ~/autosave.xmi if the autosaving "
@@ -3001,22 +3001,22 @@ msgid ""
 "autosave will overwrite your file automatically.</p></qt>"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:119
+#: dialogs/pages/generaloptionpage.cpp:105
 #, kde-format
 msgid "Startup"
 msgstr "Podizanje"
 
-#: dialogs/pages/generaloptionpage.cpp:126
+#: dialogs/pages/generaloptionpage.cpp:112
 #, fuzzy, kde-format
 msgid "&Load last project"
 msgstr "&Učitaj posljednji projekat"
 
-#: dialogs/pages/generaloptionpage.cpp:130
+#: dialogs/pages/generaloptionpage.cpp:116
 #, fuzzy, kde-format
 msgid "Start new project with:"
 msgstr "Počni novi projekat:"
 
-#: dialogs/pages/generaloptionpage.cpp:150
+#: dialogs/pages/generaloptionpage.cpp:136
 #, fuzzy, kde-format
 msgid "Default Language :"
 msgstr "&Uobičajeno"
@@ -3134,7 +3134,7 @@ msgstr "Boja"
 msgid "Custom line width"
 msgstr "Promijeni pismo"
 
-#: dialogs/pages/uioptionspage.cpp:133
+#: dialogs/pages/uioptionspage.cpp:129
 #, fuzzy, kde-format
 msgid "&Use fill color"
 msgstr "&Koristi boju za popunjavanje"
@@ -3181,103 +3181,103 @@ msgstr "Zamrznut"
 msgid "Add only"
 msgstr "Dodaj samo"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:109
+#: dialogs/pages/umlwidgetstylepage.cpp:104
 #, fuzzy, kde-format
 #| msgid "Color"
 msgctxt "title of color group"
 msgid "Color"
 msgstr "Boja"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:114
+#: dialogs/pages/umlwidgetstylepage.cpp:109
 #, kde-format
 msgctxt "text color"
 msgid "&Text:"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:121
+#: dialogs/pages/umlwidgetstylepage.cpp:116
 #, fuzzy, kde-format
 #| msgid "&Default"
 msgctxt "default text color button"
 msgid "Defaul&t"
 msgstr "&Uobičajeno"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:124
+#: dialogs/pages/umlwidgetstylepage.cpp:119
 #, fuzzy, kde-format
 #| msgid "&Line:"
 msgctxt "line color"
 msgid "&Line:"
 msgstr "&Redak:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:131
+#: dialogs/pages/umlwidgetstylepage.cpp:126
 #, fuzzy, kde-format
 #| msgid "&Default"
 msgctxt "default line color button"
 msgid "&Default"
 msgstr "&Uobičajeno"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:134
+#: dialogs/pages/umlwidgetstylepage.cpp:129
 #, kde-format
 msgid "&Fill:"
 msgstr "&Ispuni:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:141
+#: dialogs/pages/umlwidgetstylepage.cpp:136
 #, fuzzy, kde-format
 #| msgid "D&efault"
 msgctxt "default fill color button"
 msgid "D&efault"
 msgstr "&Uobičajeno"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:144
+#: dialogs/pages/umlwidgetstylepage.cpp:139
 #, fuzzy, kde-format
 msgid "&Use fill"
 msgstr "&Koristi popunjavanje"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:154
+#: dialogs/pages/umlwidgetstylepage.cpp:149
 #, kde-format
 msgctxt "background color"
 msgid "&Background:"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:161
+#: dialogs/pages/umlwidgetstylepage.cpp:156
 #, fuzzy, kde-format
 #| msgid "&Default"
 msgctxt "default background color button"
 msgid "De&fault"
 msgstr "&Uobičajeno"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:164
+#: dialogs/pages/umlwidgetstylepage.cpp:159
 #, kde-format
 msgctxt "grid dot color"
 msgid "&Grid dot:"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:171
+#: dialogs/pages/umlwidgetstylepage.cpp:166
 #, fuzzy, kde-format
 #| msgid "&Default"
 msgctxt "default grid dot color button"
 msgid "Def&ault"
 msgstr "&Uobičajeno"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:179
+#: dialogs/pages/umlwidgetstylepage.cpp:174
 #, kde-format
 msgctxt "title of width group"
 msgid "Width"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:184
+#: dialogs/pages/umlwidgetstylepage.cpp:179
 #, kde-format
 msgctxt "line width"
 msgid "Line &width:"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:198
+#: dialogs/pages/umlwidgetstylepage.cpp:189
 #, fuzzy, kde-format
 #| msgid "&Default"
 msgctxt "default line width button"
 msgid "Defa&ult"
 msgstr "&Uobičajeno"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:212
+#: dialogs/pages/umlwidgetstylepage.cpp:203
 #, fuzzy, kde-format
 msgid "Layout of the line:"
 msgstr "Prikazivač koda"
@@ -3327,77 +3327,77 @@ msgstr "&Odaberi dijagram"
 msgid "Diagram"
 msgstr "&Grafikon"
 
-#: dialogs/settingsdialog.cpp:44
+#: dialogs/settingsdialog.cpp:40
 #, fuzzy, kde-format
 msgid "Umbrello Setup"
 msgstr "Podešavanje Umbrello-a"
 
-#: dialogs/settingsdialog.cpp:109 umllistview.cpp:1474
+#: dialogs/settingsdialog.cpp:105 umllistview.cpp:1474
 #, kde-format
 msgid "User Interface"
 msgstr "Korisničko sučelje"
 
-#: dialogs/settingsdialog.cpp:109
+#: dialogs/settingsdialog.cpp:105
 #, fuzzy, kde-format
 msgid "User Interface Settings"
 msgstr "Postavke korisničkog interfejsa"
 
-#: dialogs/settingsdialog.cpp:116 dialogs/umlviewdialog.cpp:88
+#: dialogs/settingsdialog.cpp:112 dialogs/umlviewdialog.cpp:88
 #, fuzzy, kde-format
 #| msgid "General"
 msgctxt "general settings page"
 msgid "General"
 msgstr "Općenito"
 
-#: dialogs/settingsdialog.cpp:125
+#: dialogs/settingsdialog.cpp:121
 #, fuzzy, kde-format
 #| msgid "Class"
 msgctxt "class settings page"
 msgid "Class"
 msgstr "Klasa"
 
-#: dialogs/settingsdialog.cpp:125
+#: dialogs/settingsdialog.cpp:121
 #, fuzzy, kde-format
 msgid "Class Settings"
 msgstr "Postavke klase"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1469
+#: dialogs/settingsdialog.cpp:128 umllistview.cpp:1469
 #, fuzzy, kde-format
 msgid "Code Importer"
 msgstr "Nije generiran"
 
-#: dialogs/settingsdialog.cpp:132
+#: dialogs/settingsdialog.cpp:128
 #, fuzzy, kde-format
 msgid "Code Import Settings"
 msgstr "Postavke prikazivača kôda"
 
-#: dialogs/settingsdialog.cpp:141 umllistview.cpp:1470
+#: dialogs/settingsdialog.cpp:137 umllistview.cpp:1470
 #, fuzzy, kde-format
 msgid "Code Generation"
 msgstr "Generiranje kôda"
 
-#: dialogs/settingsdialog.cpp:141
+#: dialogs/settingsdialog.cpp:137
 #, fuzzy, kde-format
 msgid "Code Generation Settings"
 msgstr "Postavke generiranja kôda"
 
-#: dialogs/settingsdialog.cpp:149 umllistview.cpp:1471
+#: dialogs/settingsdialog.cpp:145 umllistview.cpp:1471
 #, fuzzy, kde-format
 msgid "Code Viewer"
 msgstr "Prikazivač koda"
 
-#: dialogs/settingsdialog.cpp:149
+#: dialogs/settingsdialog.cpp:145
 #, fuzzy, kde-format
 msgid "Code Viewer Settings"
 msgstr "Postavke prikazivača kôda"
 
-#: dialogs/settingsdialog.cpp:156 umllistview.cpp:1467
+#: dialogs/settingsdialog.cpp:152 umllistview.cpp:1467
 #, fuzzy, kde-format
 #| msgid "Autosave"
 msgid "Auto Layout"
 msgstr "Automatsko spremanje"
 
-#: dialogs/settingsdialog.cpp:156
+#: dialogs/settingsdialog.cpp:152
 #, fuzzy, kde-format
 msgid "Auto Layout Settings"
 msgstr "Postavke atributa"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-20 00:49+0000\n"
+"POT-Creation-Date: 2022-12-24 00:52+0000\n"
 "PO-Revision-Date: 2022-12-08 00:19+0100\n"
 "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -909,23 +909,23 @@ msgstr "Assistente di generazione del codice"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenOptionsPage)
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeImpSelectPage)
-#: codegenwizard/codegenoptionspage.cpp:39
+#: codegenwizard/codegenoptionspage.cpp:38
 #: codegenwizard/codegenoptionspage.ui:20 codeimpwizard/codeimpselectpage.ui:20
 #, kde-format
 msgid "Code Generation Options"
 msgstr "Opzioni per la generazione del codice"
 
-#: codegenwizard/codegenoptionspage.cpp:40
+#: codegenwizard/codegenoptionspage.cpp:39
 #, kde-format
 msgid "Adjust code generation options."
 msgstr "Regola le opzioni di generazione del codice."
 
-#: codegenwizard/codegenoptionspage.cpp:197
+#: codegenwizard/codegenoptionspage.cpp:196
 #, kde-format
 msgid "Language Options"
 msgstr "Opzioni di linguaggio"
 
-#: codegenwizard/codegenoptionspage.cpp:258
+#: codegenwizard/codegenoptionspage.cpp:257
 #, kde-format
 msgid ""
 "The output folder exists, but it is not writable.\n"
@@ -934,43 +934,43 @@ msgstr ""
 "La cartella di output esiste, ma non è scrivibile.\n"
 "Imposta i permessi appropriati o scegli un'altra cartella."
 
-#: codegenwizard/codegenoptionspage.cpp:259
+#: codegenwizard/codegenoptionspage.cpp:258
 #, kde-format
 msgid "Error Writing to Output Folder"
 msgstr "Errore nella scrittura sulla cartella di output"
 
-#: codegenwizard/codegenoptionspage.cpp:264
+#: codegenwizard/codegenoptionspage.cpp:263
 #, kde-format
 msgid "%1 does not seem to be a folder. Please choose a valid folder."
 msgstr "%1 non sembra essere una cartella. Scegli una cartella valida."
 
-#: codegenwizard/codegenoptionspage.cpp:265
+#: codegenwizard/codegenoptionspage.cpp:264
 #, kde-format
 msgid "Please Choose Valid Folder"
 msgstr "Scegli una cartella valida"
 
-#: codegenwizard/codegenoptionspage.cpp:271
+#: codegenwizard/codegenoptionspage.cpp:270
 #, kde-format
 msgid "The folder %1 does not exist. Do you want to create it now?"
 msgstr "La cartella %1 non esiste. Vuoi crearla adesso?"
 
-#: codegenwizard/codegenoptionspage.cpp:272
-#: codegenwizard/codegenoptionspage.cpp:284
+#: codegenwizard/codegenoptionspage.cpp:271
+#: codegenwizard/codegenoptionspage.cpp:283
 #, kde-format
 msgid "Output Folder Does Not Exist"
 msgstr "La cartella di output non esiste"
 
-#: codegenwizard/codegenoptionspage.cpp:272
+#: codegenwizard/codegenoptionspage.cpp:271
 #, kde-format
 msgid "Create Folder"
 msgstr "Crea cartella"
 
-#: codegenwizard/codegenoptionspage.cpp:272
+#: codegenwizard/codegenoptionspage.cpp:271
 #, kde-format
 msgid "Do Not Create"
 msgstr "Non creare"
 
-#: codegenwizard/codegenoptionspage.cpp:276
+#: codegenwizard/codegenoptionspage.cpp:275
 #, kde-format
 msgid ""
 "The folder could not be created.\n"
@@ -981,12 +981,12 @@ msgstr ""
 "Assicurati di avere il permesso di scrittura nella cartella madre o "
 "seleziona una cartella valida."
 
-#: codegenwizard/codegenoptionspage.cpp:277
+#: codegenwizard/codegenoptionspage.cpp:276
 #, kde-format
 msgid "Error Creating Folder"
 msgstr "Errore nella creazione della cartella"
 
-#: codegenwizard/codegenoptionspage.cpp:283
+#: codegenwizard/codegenoptionspage.cpp:282
 #, kde-format
 msgid "Please select a valid folder."
 msgstr "Seleziona una cartella valida."
@@ -1263,12 +1263,12 @@ msgstr "<< Rimuovi"
 msgid "Classes Selected"
 msgstr "Classi selezionate"
 
-#: codegenwizard/codegenstatuspage.cpp:45
+#: codegenwizard/codegenstatuspage.cpp:44
 #, kde-format
 msgid "Status of Code Generation Progress"
 msgstr "Stato della generazione del codice"
 
-#: codegenwizard/codegenstatuspage.cpp:46
+#: codegenwizard/codegenstatuspage.cpp:45
 #, kde-format
 msgid ""
 "Press the button Generate to start the code generation.\n"
@@ -1277,35 +1277,35 @@ msgstr ""
 "Premi il pulsante Genera per avviare la generazione del codice.\n"
 "Controlla lo stato di riuscita di ogni classe."
 
-#: codegenwizard/codegenstatuspage.cpp:87
+#: codegenwizard/codegenstatuspage.cpp:86
 #: codeimpwizard/codeimpstatuspage.cpp:102
 #, kde-format
 msgid "Not Yet Generated"
 msgstr "Non ancora generato"
 
-#: codegenwizard/codegenstatuspage.cpp:176
+#: codegenwizard/codegenstatuspage.cpp:175
 #, kde-format
 msgid "Code Generated"
 msgstr "Codice generato"
 
-#: codegenwizard/codegenstatuspage.cpp:180
+#: codegenwizard/codegenstatuspage.cpp:179
 #, kde-format
 msgid "Not Generated"
 msgstr "Non generato"
 
-#: codegenwizard/codegenstatuspage.cpp:185
+#: codegenwizard/codegenstatuspage.cpp:184
 #, kde-format
 msgid "Skipped"
 msgstr "Saltato"
 
-#: codegenwizard/codegenstatuspage.cpp:210
-#: codegenwizard/codegenstatuspage.cpp:244
+#: codegenwizard/codegenstatuspage.cpp:209
+#: codegenwizard/codegenstatuspage.cpp:243
 #: codeimpwizard/codeimpstatuspage.cpp:344
 #, kde-format
 msgid "Cannot open file!"
 msgstr "Impossibile aprire il file"
 
-#: codegenwizard/codegenstatuspage.cpp:230
+#: codegenwizard/codegenstatuspage.cpp:229
 #, kde-format
 msgid "Umbrello Code Generation - Logger Export"
 msgstr "Generazione di codice di Umbrello: esportazione del registro"
@@ -1678,8 +1678,8 @@ msgid "General"
 msgstr "Generale"
 
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
-#: dialogs/multipagedialogbase.cpp:361 dialogs/multipagedialogbase.cpp:375
-#: dialogs/multipagedialogbase.cpp:385 dialogs/settingsdialog.cpp:116
+#: dialogs/multipagedialogbase.cpp:352 dialogs/multipagedialogbase.cpp:366
+#: dialogs/multipagedialogbase.cpp:376 dialogs/settingsdialog.cpp:112
 #: dialogs/umlforeignkeyconstraintdialog.cpp:207 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgid "General Settings"
@@ -1961,32 +1961,32 @@ msgstr "<p align=\"right\">Testo non modificabile:</p>"
 msgid "<p align=\"right\">Editable text:</p>"
 msgstr "<p align=\"right\">Testo modificabile:</p>"
 
-#: dialogs/dialog_utils.cpp:30
+#: dialogs/dialog_utils.cpp:31
 #, kde-format
 msgid "Enable all messages"
 msgstr "Attiva tutti i messaggi"
 
-#: dialogs/dialog_utils.cpp:31
+#: dialogs/dialog_utils.cpp:32
 #, kde-format
 msgid "Enable 'delete association' related messages"
 msgstr "Abilita i messaggi relativi all'eliminazione di associazioni"
 
-#: dialogs/dialog_utils.cpp:32
+#: dialogs/dialog_utils.cpp:33
 #, kde-format
 msgid "Enable 'delete diagram' related messages"
 msgstr "Abilita i messaggi relativi all'eliminazione di diagrammi"
 
-#: dialogs/dialog_utils.cpp:213
+#: dialogs/dialog_utils.cpp:214
 #, kde-format
 msgid "You are about to delete an association. Do you really want to continue?"
 msgstr "Stai per eliminare un'associazione. Vuoi davvero continuare?"
 
-#: dialogs/dialog_utils.cpp:214
+#: dialogs/dialog_utils.cpp:215
 #, kde-format
 msgid "Delete Association"
 msgstr "Elimina associazione"
 
-#: dialogs/dialog_utils.cpp:228
+#: dialogs/dialog_utils.cpp:229
 #, kde-format
 msgid ""
 "You are about to delete the entire diagram.\n"
@@ -1995,17 +1995,17 @@ msgstr ""
 "Stai per eliminare l'intero diagramma.\n"
 "Sei sicuro?"
 
-#: dialogs/dialog_utils.cpp:229
+#: dialogs/dialog_utils.cpp:230
 #, kde-format
 msgid "Are you sure you want to delete diagram %1?"
 msgstr "Sei sicuro di voler eliminare il diagramma %1?"
 
-#: dialogs/dialog_utils.cpp:234
+#: dialogs/dialog_utils.cpp:235
 #, kde-format
 msgid "Delete Diagram?"
 msgstr "Elimina il diagramma?"
 
-#: dialogs/dialog_utils.cpp:235 dialogs/pages/classifierlistpage.cpp:215
+#: dialogs/dialog_utils.cpp:236 dialogs/pages/classifierlistpage.cpp:215
 #: dialogs/pages/classifierlistpage.cpp:223
 #: dialogs/umlforeignkeyconstraintdialog.cpp:324
 #: dialogs/umlforeignkeyconstraintdialog.cpp:330
@@ -2159,8 +2159,8 @@ msgstr "Cerca termine:"
 msgid "Default"
 msgstr "Predefinito"
 
-#: dialogs/multipagedialogbase.cpp:361 dialogs/multipagedialogbase.cpp:375
-#: dialogs/multipagedialogbase.cpp:385
+#: dialogs/multipagedialogbase.cpp:352 dialogs/multipagedialogbase.cpp:366
+#: dialogs/multipagedialogbase.cpp:376
 #, kde-format
 msgctxt "general settings"
 msgid "General"
@@ -2168,46 +2168,46 @@ msgstr "Generale"
 
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
-#: dialogs/multipagedialogbase.cpp:400 umbrello.kcfg:177 umbrello.kcfg:297
+#: dialogs/multipagedialogbase.cpp:391 umbrello.kcfg:177 umbrello.kcfg:297
 #: umllistview.cpp:1472
 #, kde-format
 msgid "Font"
 msgstr "Carattere"
 
-#: dialogs/multipagedialogbase.cpp:400
+#: dialogs/multipagedialogbase.cpp:391
 #, kde-format
 msgid "Font Settings"
 msgstr "Impostazioni dei caratteri"
 
-#: dialogs/multipagedialogbase.cpp:475
+#: dialogs/multipagedialogbase.cpp:466
 #, kde-format
 msgctxt "widget style page"
 msgid "Style"
 msgstr "Stile"
 
-#: dialogs/multipagedialogbase.cpp:475
+#: dialogs/multipagedialogbase.cpp:466
 #, kde-format
 msgid "Widget Style"
 msgstr "Stile dell'oggetto"
 
-#: dialogs/multipagedialogbase.cpp:486
+#: dialogs/multipagedialogbase.cpp:477
 #, kde-format
 msgctxt "style page name"
 msgid "Style"
 msgstr "Stile"
 
-#: dialogs/multipagedialogbase.cpp:486
+#: dialogs/multipagedialogbase.cpp:477
 #, kde-format
 msgid "Line Style"
 msgstr "Stile della linea"
 
-#: dialogs/multipagedialogbase.cpp:506
+#: dialogs/multipagedialogbase.cpp:497
 #, kde-format
 msgctxt "role page name"
 msgid "Roles"
 msgstr "Ruoli"
 
-#: dialogs/multipagedialogbase.cpp:506
+#: dialogs/multipagedialogbase.cpp:497
 #, kde-format
 msgid "Role Settings"
 msgstr "Impostazioni ruoli"
@@ -2922,59 +2922,59 @@ msgstr "Y"
 msgid "Autoincrement Sequence "
 msgstr "Sequenza di autoincremento"
 
-#: dialogs/pages/generaloptionpage.cpp:51
-#: dialogs/pages/umlwidgetstylepage.cpp:207
+#: dialogs/pages/generaloptionpage.cpp:41
+#: dialogs/pages/umlwidgetstylepage.cpp:198
 #, kde-format
 msgctxt "miscellaneous group box"
 msgid "Miscellaneous"
 msgstr "Varie"
 
-#: dialogs/pages/generaloptionpage.cpp:58
+#: dialogs/pages/generaloptionpage.cpp:48
 #, kde-format
 msgid "Enable undo"
 msgstr "Abilita l'annullamento"
 
-#: dialogs/pages/generaloptionpage.cpp:62
+#: dialogs/pages/generaloptionpage.cpp:52
 #, kde-format
 msgid "Use tabbed diagrams"
 msgstr "Usa diagrammi a scheda"
 
-#: dialogs/pages/generaloptionpage.cpp:66
+#: dialogs/pages/generaloptionpage.cpp:56
 #, kde-format
 msgid "Use new C++/Java/Ruby generators"
 msgstr "Usa i nuovi generatori C++/Java/Ruby"
 
-#: dialogs/pages/generaloptionpage.cpp:70
+#: dialogs/pages/generaloptionpage.cpp:60
 #, kde-format
 msgid "Turn on footer and page numbers when printing"
 msgstr "Attiva i piè e i numeri di pagina durante la stampa"
 
-#: dialogs/pages/generaloptionpage.cpp:74
+#: dialogs/pages/generaloptionpage.cpp:64
 #, kde-format
 msgid "Enable UML2 support"
 msgstr "Abilita il supporto per UML2"
 
-#: dialogs/pages/generaloptionpage.cpp:79
+#: dialogs/pages/generaloptionpage.cpp:69
 #, kde-format
 msgid "Autosave"
 msgstr "Salvataggio automatico"
 
-#: dialogs/pages/generaloptionpage.cpp:86
+#: dialogs/pages/generaloptionpage.cpp:76
 #, kde-format
 msgid "E&nable autosave"
 msgstr "A&bilita il salvataggio automatico"
 
-#: dialogs/pages/generaloptionpage.cpp:90
+#: dialogs/pages/generaloptionpage.cpp:80
 #, kde-format
 msgid "Select auto-save time interval (mins):"
 msgstr "Seleziona l'intervallo per il salvataggio automatico (minuti):"
 
-#: dialogs/pages/generaloptionpage.cpp:106
+#: dialogs/pages/generaloptionpage.cpp:92
 #, kde-format
 msgid "Set autosave suffix:"
 msgstr "Imposta il suffisso per il salvataggio automatico:"
 
-#: dialogs/pages/generaloptionpage.cpp:108
+#: dialogs/pages/generaloptionpage.cpp:94
 #, kde-format
 msgid ""
 "<qt><p>The autosave file will be saved to ~/autosave.xmi if the autosaving "
@@ -2992,22 +2992,22 @@ msgstr ""
 "hai salvato, il salvataggio automatico sovrascriverà automaticamente il file."
 "</p></qt>"
 
-#: dialogs/pages/generaloptionpage.cpp:119
+#: dialogs/pages/generaloptionpage.cpp:105
 #, kde-format
 msgid "Startup"
 msgstr "Avvio"
 
-#: dialogs/pages/generaloptionpage.cpp:126
+#: dialogs/pages/generaloptionpage.cpp:112
 #, kde-format
 msgid "&Load last project"
 msgstr "&Carica l'ultimo progetto"
 
-#: dialogs/pages/generaloptionpage.cpp:130
+#: dialogs/pages/generaloptionpage.cpp:116
 #, kde-format
 msgid "Start new project with:"
 msgstr "Avvia nuovo progetto con:"
 
-#: dialogs/pages/generaloptionpage.cpp:150
+#: dialogs/pages/generaloptionpage.cpp:136
 #, kde-format
 msgid "Default Language :"
 msgstr "Linguaggio predefinito:"
@@ -3120,7 +3120,7 @@ msgstr "Colore di sfondo personalizzato"
 msgid "Custom line width"
 msgstr "Spessore delle linee personalizzato"
 
-#: dialogs/pages/uioptionspage.cpp:133
+#: dialogs/pages/uioptionspage.cpp:129
 #, kde-format
 msgid "&Use fill color"
 msgstr "&Usa colore di riempimento"
@@ -3167,95 +3167,95 @@ msgstr "Bloccato"
 msgid "Add only"
 msgstr "Aggiungi solo"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:109
+#: dialogs/pages/umlwidgetstylepage.cpp:104
 #, kde-format
 msgctxt "title of color group"
 msgid "Color"
 msgstr "Colore"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:114
+#: dialogs/pages/umlwidgetstylepage.cpp:109
 #, kde-format
 msgctxt "text color"
 msgid "&Text:"
 msgstr "&Testo:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:121
+#: dialogs/pages/umlwidgetstylepage.cpp:116
 #, kde-format
 msgctxt "default text color button"
 msgid "Defaul&t"
 msgstr "Predefini&to"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:124
+#: dialogs/pages/umlwidgetstylepage.cpp:119
 #, kde-format
 msgctxt "line color"
 msgid "&Line:"
 msgstr "&Linea:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:131
+#: dialogs/pages/umlwidgetstylepage.cpp:126
 #, kde-format
 msgctxt "default line color button"
 msgid "&Default"
 msgstr "&Predefinito"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:134
+#: dialogs/pages/umlwidgetstylepage.cpp:129
 #, kde-format
 msgid "&Fill:"
 msgstr "&Riempi:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:141
+#: dialogs/pages/umlwidgetstylepage.cpp:136
 #, kde-format
 msgctxt "default fill color button"
 msgid "D&efault"
 msgstr "Pr&edefinito"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:144
+#: dialogs/pages/umlwidgetstylepage.cpp:139
 #, kde-format
 msgid "&Use fill"
 msgstr "&Usa riempimento"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:154
+#: dialogs/pages/umlwidgetstylepage.cpp:149
 #, kde-format
 msgctxt "background color"
 msgid "&Background:"
 msgstr "S&fondo:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:161
+#: dialogs/pages/umlwidgetstylepage.cpp:156
 #, kde-format
 msgctxt "default background color button"
 msgid "De&fault"
 msgstr "Prede&finito"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:164
+#: dialogs/pages/umlwidgetstylepage.cpp:159
 #, kde-format
 msgctxt "grid dot color"
 msgid "&Grid dot:"
 msgstr "Punto della &griglia:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:171
+#: dialogs/pages/umlwidgetstylepage.cpp:166
 #, kde-format
 msgctxt "default grid dot color button"
 msgid "Def&ault"
 msgstr "Pred&efinito"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:179
+#: dialogs/pages/umlwidgetstylepage.cpp:174
 #, kde-format
 msgctxt "title of width group"
 msgid "Width"
 msgstr "Spessore"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:184
+#: dialogs/pages/umlwidgetstylepage.cpp:179
 #, kde-format
 msgctxt "line width"
 msgid "Line &width:"
 msgstr "S&pessore delle linee:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:198
+#: dialogs/pages/umlwidgetstylepage.cpp:189
 #, kde-format
 msgctxt "default line width button"
 msgid "Defa&ult"
 msgstr "Prede&finita"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:212
+#: dialogs/pages/umlwidgetstylepage.cpp:203
 #, kde-format
 msgid "Layout of the line:"
 msgstr "Disposizione della linea:"
@@ -3305,74 +3305,74 @@ msgstr "Seleziona diagramma"
 msgid "Diagram"
 msgstr "Diagramma"
 
-#: dialogs/settingsdialog.cpp:44
+#: dialogs/settingsdialog.cpp:40
 #, kde-format
 msgid "Umbrello Setup"
 msgstr "Configurazione di Umbrello"
 
-#: dialogs/settingsdialog.cpp:109 umllistview.cpp:1474
+#: dialogs/settingsdialog.cpp:105 umllistview.cpp:1474
 #, kde-format
 msgid "User Interface"
 msgstr "Interfaccia utente"
 
-#: dialogs/settingsdialog.cpp:109
+#: dialogs/settingsdialog.cpp:105
 #, kde-format
 msgid "User Interface Settings"
 msgstr "Impostazioni per l'interfaccia utente"
 
-#: dialogs/settingsdialog.cpp:116 dialogs/umlviewdialog.cpp:88
+#: dialogs/settingsdialog.cpp:112 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgctxt "general settings page"
 msgid "General"
 msgstr "Generale"
 
-#: dialogs/settingsdialog.cpp:125
+#: dialogs/settingsdialog.cpp:121
 #, kde-format
 msgctxt "class settings page"
 msgid "Class"
 msgstr "Classe"
 
-#: dialogs/settingsdialog.cpp:125
+#: dialogs/settingsdialog.cpp:121
 #, kde-format
 msgid "Class Settings"
 msgstr "Impostazioni della classe"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1469
+#: dialogs/settingsdialog.cpp:128 umllistview.cpp:1469
 #, kde-format
 msgid "Code Importer"
 msgstr "Importatore di codice"
 
-#: dialogs/settingsdialog.cpp:132
+#: dialogs/settingsdialog.cpp:128
 #, kde-format
 msgid "Code Import Settings"
 msgstr "Impostazioni di importazione del codice"
 
-#: dialogs/settingsdialog.cpp:141 umllistview.cpp:1470
+#: dialogs/settingsdialog.cpp:137 umllistview.cpp:1470
 #, kde-format
 msgid "Code Generation"
 msgstr "Generazione del codice"
 
-#: dialogs/settingsdialog.cpp:141
+#: dialogs/settingsdialog.cpp:137
 #, kde-format
 msgid "Code Generation Settings"
 msgstr "Impostazioni per la generazione del codice"
 
-#: dialogs/settingsdialog.cpp:149 umllistview.cpp:1471
+#: dialogs/settingsdialog.cpp:145 umllistview.cpp:1471
 #, kde-format
 msgid "Code Viewer"
 msgstr "Visore del codice"
 
-#: dialogs/settingsdialog.cpp:149
+#: dialogs/settingsdialog.cpp:145
 #, kde-format
 msgid "Code Viewer Settings"
 msgstr "Impostazioni per la visualizzazione del codice"
 
-#: dialogs/settingsdialog.cpp:156 umllistview.cpp:1467
+#: dialogs/settingsdialog.cpp:152 umllistview.cpp:1467
 #, kde-format
 msgid "Auto Layout"
 msgstr "Disposizione automatica"
 
-#: dialogs/settingsdialog.cpp:156
+#: dialogs/settingsdialog.cpp:152
 #, kde-format
 msgid "Auto Layout Settings"
 msgstr "Impostazioni della disposizione automatica"

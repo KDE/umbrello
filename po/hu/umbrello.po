@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-20 00:49+0000\n"
+"POT-Creation-Date: 2022-12-24 00:52+0000\n"
 "PO-Revision-Date: 2022-02-14 09:24+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -905,23 +905,23 @@ msgstr "Kódgenerálási varázsló"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenOptionsPage)
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeImpSelectPage)
-#: codegenwizard/codegenoptionspage.cpp:39
+#: codegenwizard/codegenoptionspage.cpp:38
 #: codegenwizard/codegenoptionspage.ui:20 codeimpwizard/codeimpselectpage.ui:20
 #, kde-format
 msgid "Code Generation Options"
 msgstr "Kódgenerálási opciók"
 
-#: codegenwizard/codegenoptionspage.cpp:40
+#: codegenwizard/codegenoptionspage.cpp:39
 #, kde-format
 msgid "Adjust code generation options."
 msgstr "Kódgenerálási opciók beállítása."
 
-#: codegenwizard/codegenoptionspage.cpp:197
+#: codegenwizard/codegenoptionspage.cpp:196
 #, kde-format
 msgid "Language Options"
 msgstr "Nyelvi beállítások"
 
-#: codegenwizard/codegenoptionspage.cpp:258
+#: codegenwizard/codegenoptionspage.cpp:257
 #, kde-format
 msgid ""
 "The output folder exists, but it is not writable.\n"
@@ -930,43 +930,43 @@ msgstr ""
 "A kimeneti mappa létezik, de nem lehet bele írni.\n"
 "Állítsa be a szükséges jogosultságokat vagy válasszon egy másik mappát."
 
-#: codegenwizard/codegenoptionspage.cpp:259
+#: codegenwizard/codegenoptionspage.cpp:258
 #, kde-format
 msgid "Error Writing to Output Folder"
 msgstr "Hiba a kimeneti mappába íráskor"
 
-#: codegenwizard/codegenoptionspage.cpp:264
+#: codegenwizard/codegenoptionspage.cpp:263
 #, kde-format
 msgid "%1 does not seem to be a folder. Please choose a valid folder."
 msgstr "A(z) %1 nem mappa, válasszon egy érvényes mappát."
 
-#: codegenwizard/codegenoptionspage.cpp:265
+#: codegenwizard/codegenoptionspage.cpp:264
 #, kde-format
 msgid "Please Choose Valid Folder"
 msgstr "Válasszon egy érvényes mappát"
 
-#: codegenwizard/codegenoptionspage.cpp:271
+#: codegenwizard/codegenoptionspage.cpp:270
 #, kde-format
 msgid "The folder %1 does not exist. Do you want to create it now?"
 msgstr "Nem létezik %1 nevű mappa. Létre szeretné hozni most?"
 
-#: codegenwizard/codegenoptionspage.cpp:272
-#: codegenwizard/codegenoptionspage.cpp:284
+#: codegenwizard/codegenoptionspage.cpp:271
+#: codegenwizard/codegenoptionspage.cpp:283
 #, kde-format
 msgid "Output Folder Does Not Exist"
 msgstr "A kimeneti mappa nem létezik"
 
-#: codegenwizard/codegenoptionspage.cpp:272
+#: codegenwizard/codegenoptionspage.cpp:271
 #, kde-format
 msgid "Create Folder"
 msgstr "Mappa létrehozása"
 
-#: codegenwizard/codegenoptionspage.cpp:272
+#: codegenwizard/codegenoptionspage.cpp:271
 #, kde-format
 msgid "Do Not Create"
 msgstr "Nem kell létrehozni"
 
-#: codegenwizard/codegenoptionspage.cpp:276
+#: codegenwizard/codegenoptionspage.cpp:275
 #, kde-format
 msgid ""
 "The folder could not be created.\n"
@@ -977,12 +977,12 @@ msgstr ""
 "Ellenőrizze, hogy van-e írási jogosultsága a szülőmappában, vagy válasszon "
 "egy másik, érvényes mappát."
 
-#: codegenwizard/codegenoptionspage.cpp:277
+#: codegenwizard/codegenoptionspage.cpp:276
 #, kde-format
 msgid "Error Creating Folder"
 msgstr "Hiba a mappa létrehozása közben"
 
-#: codegenwizard/codegenoptionspage.cpp:283
+#: codegenwizard/codegenoptionspage.cpp:282
 #, kde-format
 msgid "Please select a valid folder."
 msgstr "Válasszon egy érvényes mappát."
@@ -1259,12 +1259,12 @@ msgstr "<< Eltávolítás"
 msgid "Classes Selected"
 msgstr "Kijelölt osztályok"
 
-#: codegenwizard/codegenstatuspage.cpp:45
+#: codegenwizard/codegenstatuspage.cpp:44
 #, kde-format
 msgid "Status of Code Generation Progress"
 msgstr "A kódgenerálás állása"
 
-#: codegenwizard/codegenstatuspage.cpp:46
+#: codegenwizard/codegenstatuspage.cpp:45
 #, kde-format
 msgid ""
 "Press the button Generate to start the code generation.\n"
@@ -1273,35 +1273,35 @@ msgstr ""
 "Nyomja meg a Kódgenerálás gombot a kódgenerálás elkezdéséhez.\n"
 "Ellenőrizze az eredményt mindegyik osztálynál."
 
-#: codegenwizard/codegenstatuspage.cpp:87
+#: codegenwizard/codegenstatuspage.cpp:86
 #: codeimpwizard/codeimpstatuspage.cpp:102
 #, kde-format
 msgid "Not Yet Generated"
 msgstr "Még nem történt kódgenerálás"
 
-#: codegenwizard/codegenstatuspage.cpp:176
+#: codegenwizard/codegenstatuspage.cpp:175
 #, kde-format
 msgid "Code Generated"
 msgstr "A kód generálása megtörtént"
 
-#: codegenwizard/codegenstatuspage.cpp:180
+#: codegenwizard/codegenstatuspage.cpp:179
 #, kde-format
 msgid "Not Generated"
 msgstr "Nem történt kódgenerálás"
 
-#: codegenwizard/codegenstatuspage.cpp:185
+#: codegenwizard/codegenstatuspage.cpp:184
 #, kde-format
 msgid "Skipped"
 msgstr "Kihagyva"
 
-#: codegenwizard/codegenstatuspage.cpp:210
-#: codegenwizard/codegenstatuspage.cpp:244
+#: codegenwizard/codegenstatuspage.cpp:209
+#: codegenwizard/codegenstatuspage.cpp:243
 #: codeimpwizard/codeimpstatuspage.cpp:344
 #, kde-format
 msgid "Cannot open file!"
 msgstr "A fájl megnyitása nem sikerült!"
 
-#: codegenwizard/codegenstatuspage.cpp:230
+#: codegenwizard/codegenstatuspage.cpp:229
 #, kde-format
 msgid "Umbrello Code Generation - Logger Export"
 msgstr "Umbrello kódgenerálás - Naplózó exportálás"
@@ -1673,8 +1673,8 @@ msgid "General"
 msgstr "Általános"
 
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
-#: dialogs/multipagedialogbase.cpp:361 dialogs/multipagedialogbase.cpp:375
-#: dialogs/multipagedialogbase.cpp:385 dialogs/settingsdialog.cpp:116
+#: dialogs/multipagedialogbase.cpp:352 dialogs/multipagedialogbase.cpp:366
+#: dialogs/multipagedialogbase.cpp:376 dialogs/settingsdialog.cpp:112
 #: dialogs/umlforeignkeyconstraintdialog.cpp:207 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgid "General Settings"
@@ -1956,32 +1956,32 @@ msgstr "<p align=\"right\">Nem szerkeszthető szöveg:</p>"
 msgid "<p align=\"right\">Editable text:</p>"
 msgstr "<p align=\"right\">Szerkeszthető szöveg:</p>"
 
-#: dialogs/dialog_utils.cpp:30
+#: dialogs/dialog_utils.cpp:31
 #, kde-format
 msgid "Enable all messages"
 msgstr "Összes üzenet engedélyezése"
 
-#: dialogs/dialog_utils.cpp:31
+#: dialogs/dialog_utils.cpp:32
 #, kde-format
 msgid "Enable 'delete association' related messages"
 msgstr "A „társítás törlése” kapcsolódó üzeneteinek engedélyezése"
 
-#: dialogs/dialog_utils.cpp:32
+#: dialogs/dialog_utils.cpp:33
 #, kde-format
 msgid "Enable 'delete diagram' related messages"
 msgstr "A „diagram törlése” kapcsolódó üzeneteinek engedélyezése"
 
-#: dialogs/dialog_utils.cpp:213
+#: dialogs/dialog_utils.cpp:214
 #, kde-format
 msgid "You are about to delete an association. Do you really want to continue?"
 msgstr "Egy társítás törlésére készül. Biztosan szeretné folytatni?"
 
-#: dialogs/dialog_utils.cpp:214
+#: dialogs/dialog_utils.cpp:215
 #, kde-format
 msgid "Delete Association"
 msgstr "Társítás törlése"
 
-#: dialogs/dialog_utils.cpp:228
+#: dialogs/dialog_utils.cpp:229
 #, kde-format
 msgid ""
 "You are about to delete the entire diagram.\n"
@@ -1990,17 +1990,17 @@ msgstr ""
 "Az egész diagram el lesz távolítva.\n"
 "Biztosan ezt szeretné?"
 
-#: dialogs/dialog_utils.cpp:229
+#: dialogs/dialog_utils.cpp:230
 #, kde-format
 msgid "Are you sure you want to delete diagram %1?"
 msgstr "Biztosan törölni szeretné a(z) %1 diagramot?"
 
-#: dialogs/dialog_utils.cpp:234
+#: dialogs/dialog_utils.cpp:235
 #, kde-format
 msgid "Delete Diagram?"
 msgstr "Törölni szeretné a diagramot?"
 
-#: dialogs/dialog_utils.cpp:235 dialogs/pages/classifierlistpage.cpp:215
+#: dialogs/dialog_utils.cpp:236 dialogs/pages/classifierlistpage.cpp:215
 #: dialogs/pages/classifierlistpage.cpp:223
 #: dialogs/umlforeignkeyconstraintdialog.cpp:324
 #: dialogs/umlforeignkeyconstraintdialog.cpp:330
@@ -2154,8 +2154,8 @@ msgstr "Keresési kifejezés:"
 msgid "Default"
 msgstr "Alapértelmezés"
 
-#: dialogs/multipagedialogbase.cpp:361 dialogs/multipagedialogbase.cpp:375
-#: dialogs/multipagedialogbase.cpp:385
+#: dialogs/multipagedialogbase.cpp:352 dialogs/multipagedialogbase.cpp:366
+#: dialogs/multipagedialogbase.cpp:376
 #, kde-format
 msgctxt "general settings"
 msgid "General"
@@ -2163,46 +2163,46 @@ msgstr "Általános"
 
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
-#: dialogs/multipagedialogbase.cpp:400 umbrello.kcfg:177 umbrello.kcfg:297
+#: dialogs/multipagedialogbase.cpp:391 umbrello.kcfg:177 umbrello.kcfg:297
 #: umllistview.cpp:1472
 #, kde-format
 msgid "Font"
 msgstr "Betűtípus"
 
-#: dialogs/multipagedialogbase.cpp:400
+#: dialogs/multipagedialogbase.cpp:391
 #, kde-format
 msgid "Font Settings"
 msgstr "Betűtípus-beállítások"
 
-#: dialogs/multipagedialogbase.cpp:475
+#: dialogs/multipagedialogbase.cpp:466
 #, kde-format
 msgctxt "widget style page"
 msgid "Style"
 msgstr "Stílus"
 
-#: dialogs/multipagedialogbase.cpp:475
+#: dialogs/multipagedialogbase.cpp:466
 #, kde-format
 msgid "Widget Style"
 msgstr "Elemstílus"
 
-#: dialogs/multipagedialogbase.cpp:486
+#: dialogs/multipagedialogbase.cpp:477
 #, kde-format
 msgctxt "style page name"
 msgid "Style"
 msgstr "Stílus"
 
-#: dialogs/multipagedialogbase.cpp:486
+#: dialogs/multipagedialogbase.cpp:477
 #, kde-format
 msgid "Line Style"
 msgstr "Vonalstílus"
 
-#: dialogs/multipagedialogbase.cpp:506
+#: dialogs/multipagedialogbase.cpp:497
 #, kde-format
 msgctxt "role page name"
 msgid "Roles"
 msgstr "Szerepek"
 
-#: dialogs/multipagedialogbase.cpp:506
+#: dialogs/multipagedialogbase.cpp:497
 #, kde-format
 msgid "Role Settings"
 msgstr "Szerepbeállítások"
@@ -2926,59 +2926,59 @@ msgstr "Y"
 msgid "Autoincrement Sequence "
 msgstr "Sorozat automatikus növelése "
 
-#: dialogs/pages/generaloptionpage.cpp:51
-#: dialogs/pages/umlwidgetstylepage.cpp:207
+#: dialogs/pages/generaloptionpage.cpp:41
+#: dialogs/pages/umlwidgetstylepage.cpp:198
 #, kde-format
 msgctxt "miscellaneous group box"
 msgid "Miscellaneous"
 msgstr "Egyéb"
 
-#: dialogs/pages/generaloptionpage.cpp:58
+#: dialogs/pages/generaloptionpage.cpp:48
 #, kde-format
 msgid "Enable undo"
 msgstr "A visszavonási lehetőség bekapcsolása"
 
-#: dialogs/pages/generaloptionpage.cpp:62
+#: dialogs/pages/generaloptionpage.cpp:52
 #, kde-format
 msgid "Use tabbed diagrams"
 msgstr "Lapozós diagramok használata"
 
-#: dialogs/pages/generaloptionpage.cpp:66
+#: dialogs/pages/generaloptionpage.cpp:56
 #, kde-format
 msgid "Use new C++/Java/Ruby generators"
 msgstr "Új C++/Java/Ruby-generátorok használata"
 
-#: dialogs/pages/generaloptionpage.cpp:70
+#: dialogs/pages/generaloptionpage.cpp:60
 #, kde-format
 msgid "Turn on footer and page numbers when printing"
 msgstr "Lábléc és oldalszámok nyomtatása"
 
-#: dialogs/pages/generaloptionpage.cpp:74
+#: dialogs/pages/generaloptionpage.cpp:64
 #, kde-format
 msgid "Enable UML2 support"
 msgstr "UML2 támogatás engedélyezése"
 
-#: dialogs/pages/generaloptionpage.cpp:79
+#: dialogs/pages/generaloptionpage.cpp:69
 #, kde-format
 msgid "Autosave"
 msgstr "Automatikus mentés"
 
-#: dialogs/pages/generaloptionpage.cpp:86
+#: dialogs/pages/generaloptionpage.cpp:76
 #, kde-format
 msgid "E&nable autosave"
 msgstr "Az automatikus mentés bekapcs&olása"
 
-#: dialogs/pages/generaloptionpage.cpp:90
+#: dialogs/pages/generaloptionpage.cpp:80
 #, kde-format
 msgid "Select auto-save time interval (mins):"
 msgstr "Az automatikus mentés időköze (min):"
 
-#: dialogs/pages/generaloptionpage.cpp:106
+#: dialogs/pages/generaloptionpage.cpp:92
 #, kde-format
 msgid "Set autosave suffix:"
 msgstr "Az automatikus mentés utótagjának beállítása:"
 
-#: dialogs/pages/generaloptionpage.cpp:108
+#: dialogs/pages/generaloptionpage.cpp:94
 #, kde-format
 msgid ""
 "<qt><p>The autosave file will be saved to ~/autosave.xmi if the autosaving "
@@ -2995,22 +2995,22 @@ msgstr ""
 "fájlnévhez.</p><p>Ha a kiterjesztés megegyezik a fájlnév kiterjesztésével, "
 "akkor az automatikus mentés az eredeti fájlt fogja felülírni.</p></qt>"
 
-#: dialogs/pages/generaloptionpage.cpp:119
+#: dialogs/pages/generaloptionpage.cpp:105
 #, kde-format
 msgid "Startup"
 msgstr "Indulás"
 
-#: dialogs/pages/generaloptionpage.cpp:126
+#: dialogs/pages/generaloptionpage.cpp:112
 #, kde-format
 msgid "&Load last project"
 msgstr "Az utolsó pr&ojekt betöltése"
 
-#: dialogs/pages/generaloptionpage.cpp:130
+#: dialogs/pages/generaloptionpage.cpp:116
 #, kde-format
 msgid "Start new project with:"
 msgstr "Új projekt kezdése:"
 
-#: dialogs/pages/generaloptionpage.cpp:150
+#: dialogs/pages/generaloptionpage.cpp:136
 #, kde-format
 msgid "Default Language :"
 msgstr "Alapértelmezett nyelv:"
@@ -3123,7 +3123,7 @@ msgstr "Egyéni háttérszín"
 msgid "Custom line width"
 msgstr "Egyéni vonalvastagság"
 
-#: dialogs/pages/uioptionspage.cpp:133
+#: dialogs/pages/uioptionspage.cpp:129
 #, kde-format
 msgid "&Use fill color"
 msgstr "A &kitöltési szín használata"
@@ -3170,95 +3170,95 @@ msgstr "Nem módosítható"
 msgid "Add only"
 msgstr "Csak hozzáadás"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:109
+#: dialogs/pages/umlwidgetstylepage.cpp:104
 #, kde-format
 msgctxt "title of color group"
 msgid "Color"
 msgstr "Szín"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:114
+#: dialogs/pages/umlwidgetstylepage.cpp:109
 #, kde-format
 msgctxt "text color"
 msgid "&Text:"
 msgstr "&Szöveg:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:121
+#: dialogs/pages/umlwidgetstylepage.cpp:116
 #, kde-format
 msgctxt "default text color button"
 msgid "Defaul&t"
 msgstr "Alapért&elmezés"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:124
+#: dialogs/pages/umlwidgetstylepage.cpp:119
 #, kde-format
 msgctxt "line color"
 msgid "&Line:"
 msgstr "&Vonal:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:131
+#: dialogs/pages/umlwidgetstylepage.cpp:126
 #, kde-format
 msgctxt "default line color button"
 msgid "&Default"
 msgstr "&Alapértelmezés"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:134
+#: dialogs/pages/umlwidgetstylepage.cpp:129
 #, kde-format
 msgid "&Fill:"
 msgstr "Kitö&ltés:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:141
+#: dialogs/pages/umlwidgetstylepage.cpp:136
 #, kde-format
 msgctxt "default fill color button"
 msgid "D&efault"
 msgstr "A&lapértelmezés"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:144
+#: dialogs/pages/umlwidgetstylepage.cpp:139
 #, kde-format
 msgid "&Use fill"
 msgstr "K&itöltés használata"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:154
+#: dialogs/pages/umlwidgetstylepage.cpp:149
 #, kde-format
 msgctxt "background color"
 msgid "&Background:"
 msgstr "&Háttér:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:161
+#: dialogs/pages/umlwidgetstylepage.cpp:156
 #, kde-format
 msgctxt "default background color button"
 msgid "De&fault"
 msgstr "&Alapértelmezés"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:164
+#: dialogs/pages/umlwidgetstylepage.cpp:159
 #, kde-format
 msgctxt "grid dot color"
 msgid "&Grid dot:"
 msgstr "&Rácspont:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:171
+#: dialogs/pages/umlwidgetstylepage.cpp:166
 #, kde-format
 msgctxt "default grid dot color button"
 msgid "Def&ault"
 msgstr "&Alapértelmezés"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:179
+#: dialogs/pages/umlwidgetstylepage.cpp:174
 #, kde-format
 msgctxt "title of width group"
 msgid "Width"
 msgstr "Szélesség"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:184
+#: dialogs/pages/umlwidgetstylepage.cpp:179
 #, kde-format
 msgctxt "line width"
 msgid "Line &width:"
 msgstr "V&onalvastagság:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:198
+#: dialogs/pages/umlwidgetstylepage.cpp:189
 #, kde-format
 msgctxt "default line width button"
 msgid "Defa&ult"
 msgstr "&Alapértelmezés"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:212
+#: dialogs/pages/umlwidgetstylepage.cpp:203
 #, kde-format
 msgid "Layout of the line:"
 msgstr "A vonal elrendezése:"
@@ -3308,74 +3308,74 @@ msgstr "A kijelölt diagram"
 msgid "Diagram"
 msgstr "Diagram"
 
-#: dialogs/settingsdialog.cpp:44
+#: dialogs/settingsdialog.cpp:40
 #, kde-format
 msgid "Umbrello Setup"
 msgstr "Az Umbrello beállításai"
 
-#: dialogs/settingsdialog.cpp:109 umllistview.cpp:1474
+#: dialogs/settingsdialog.cpp:105 umllistview.cpp:1474
 #, kde-format
 msgid "User Interface"
 msgstr "Felhasználói felület"
 
-#: dialogs/settingsdialog.cpp:109
+#: dialogs/settingsdialog.cpp:105
 #, kde-format
 msgid "User Interface Settings"
 msgstr "A felhasználói felület beállításai"
 
-#: dialogs/settingsdialog.cpp:116 dialogs/umlviewdialog.cpp:88
+#: dialogs/settingsdialog.cpp:112 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgctxt "general settings page"
 msgid "General"
 msgstr "Általános"
 
-#: dialogs/settingsdialog.cpp:125
+#: dialogs/settingsdialog.cpp:121
 #, kde-format
 msgctxt "class settings page"
 msgid "Class"
 msgstr "Osztály"
 
-#: dialogs/settingsdialog.cpp:125
+#: dialogs/settingsdialog.cpp:121
 #, kde-format
 msgid "Class Settings"
 msgstr "Osztálybeállítások"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1469
+#: dialogs/settingsdialog.cpp:128 umllistview.cpp:1469
 #, kde-format
 msgid "Code Importer"
 msgstr "Kódimportáló"
 
-#: dialogs/settingsdialog.cpp:132
+#: dialogs/settingsdialog.cpp:128
 #, kde-format
 msgid "Code Import Settings"
 msgstr "Kódimportálási beállítások"
 
-#: dialogs/settingsdialog.cpp:141 umllistview.cpp:1470
+#: dialogs/settingsdialog.cpp:137 umllistview.cpp:1470
 #, kde-format
 msgid "Code Generation"
 msgstr "Kódgenerálás"
 
-#: dialogs/settingsdialog.cpp:141
+#: dialogs/settingsdialog.cpp:137
 #, kde-format
 msgid "Code Generation Settings"
 msgstr "Kódgenerálási beállítások"
 
-#: dialogs/settingsdialog.cpp:149 umllistview.cpp:1471
+#: dialogs/settingsdialog.cpp:145 umllistview.cpp:1471
 #, kde-format
 msgid "Code Viewer"
 msgstr "Kódnézegető"
 
-#: dialogs/settingsdialog.cpp:149
+#: dialogs/settingsdialog.cpp:145
 #, kde-format
 msgid "Code Viewer Settings"
 msgstr "Kódnézegető beállítások"
 
-#: dialogs/settingsdialog.cpp:156 umllistview.cpp:1467
+#: dialogs/settingsdialog.cpp:152 umllistview.cpp:1467
 #, kde-format
 msgid "Auto Layout"
 msgstr "Automatikus elrendezés"
 
-#: dialogs/settingsdialog.cpp:156
+#: dialogs/settingsdialog.cpp:152
 #, kde-format
 msgid "Auto Layout Settings"
 msgstr "Automatikus elrendezés beállítások"

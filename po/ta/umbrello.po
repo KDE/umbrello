@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-20 00:49+0000\n"
+"POT-Creation-Date: 2022-12-24 00:52+0000\n"
 "PO-Revision-Date: 2021-01-18 19:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -926,24 +926,24 @@ msgstr "குறிப்பு உருவாக்க வழிகாட்�
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenOptionsPage)
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeImpSelectPage)
-#: codegenwizard/codegenoptionspage.cpp:39
+#: codegenwizard/codegenoptionspage.cpp:38
 #: codegenwizard/codegenoptionspage.ui:20 codeimpwizard/codeimpselectpage.ui:20
 #, kde-format
 msgid "Code Generation Options"
 msgstr "கோடு உருவாக்கு விருப்பங்கள்"
 
-#: codegenwizard/codegenoptionspage.cpp:40
+#: codegenwizard/codegenoptionspage.cpp:39
 #, fuzzy, kde-format
 #| msgid "Code Generation Options"
 msgid "Adjust code generation options."
 msgstr "கோடு உருவாக்கு விருப்பங்கள்"
 
-#: codegenwizard/codegenoptionspage.cpp:197
+#: codegenwizard/codegenoptionspage.cpp:196
 #, kde-format
 msgid "Language Options"
 msgstr "மொழித் தேர்வுகள்"
 
-#: codegenwizard/codegenoptionspage.cpp:258
+#: codegenwizard/codegenoptionspage.cpp:257
 #, fuzzy, kde-format
 msgid ""
 "The output folder exists, but it is not writable.\n"
@@ -952,45 +952,45 @@ msgstr ""
 "வெளியீட்டு அடைவு இருக்குகிறது, ஆனால் இதனை எழுத முடியாது.\n"
 "தயவுச் செய்து சரியான அனுமதிகள் அல்லது பிற அடைவினைத் தேர்ந்தெடுக்கவும்."
 
-#: codegenwizard/codegenoptionspage.cpp:259
+#: codegenwizard/codegenoptionspage.cpp:258
 #, fuzzy, kde-format
 msgid "Error Writing to Output Folder"
 msgstr "வெளியீடு அடைவில் பிழையை எழுது"
 
-#: codegenwizard/codegenoptionspage.cpp:264
+#: codegenwizard/codegenoptionspage.cpp:263
 #, fuzzy, kde-format
 msgid "%1 does not seem to be a folder. Please choose a valid folder."
 msgstr "%1 அடைவாக இல்லை. செல்லுபடியாகும் அடைவை தேர்ந்தெடுக்கவும்."
 
-#: codegenwizard/codegenoptionspage.cpp:265
+#: codegenwizard/codegenoptionspage.cpp:264
 #, fuzzy, kde-format
 msgid "Please Choose Valid Folder"
 msgstr "தயவுச் செய்துச் செல்லுப்படியாகும் அடைவினை தேர்ந்தெடுக்கவும்"
 
-#: codegenwizard/codegenoptionspage.cpp:271
+#: codegenwizard/codegenoptionspage.cpp:270
 #, fuzzy, kde-format
 msgid "The folder %1 does not exist. Do you want to create it now?"
 msgstr ""
 "கோப்பு %1 ஏற்கனவே உள்ளது.\n"
 " அதனை மேல் எழுத வேண்டுமா?"
 
-#: codegenwizard/codegenoptionspage.cpp:272
-#: codegenwizard/codegenoptionspage.cpp:284
+#: codegenwizard/codegenoptionspage.cpp:271
+#: codegenwizard/codegenoptionspage.cpp:283
 #, fuzzy, kde-format
 msgid "Output Folder Does Not Exist"
 msgstr "வெளியீடு அடைவு இல்லை"
 
-#: codegenwizard/codegenoptionspage.cpp:272
+#: codegenwizard/codegenoptionspage.cpp:271
 #, fuzzy, kde-format
 msgid "Create Folder"
 msgstr "அடைவினை உருவாக்க முடியவில்லை"
 
-#: codegenwizard/codegenoptionspage.cpp:272
+#: codegenwizard/codegenoptionspage.cpp:271
 #, fuzzy, kde-format
 msgid "Do Not Create"
 msgstr "கோப்பினை உருவாக்கக்கூடாது."
 
-#: codegenwizard/codegenoptionspage.cpp:276
+#: codegenwizard/codegenoptionspage.cpp:275
 #, fuzzy, kde-format
 msgid ""
 "The folder could not be created.\n"
@@ -1000,12 +1000,12 @@ msgstr ""
 "இந்த அடைவுத் தோன்றவில்லை.\n"
 "தயவுச் செய்து பெற்றோர் அடைவு அல்லது செல்லுபடியாகும் அடைவினை எழுதுவும்."
 
-#: codegenwizard/codegenoptionspage.cpp:277
+#: codegenwizard/codegenoptionspage.cpp:276
 #, fuzzy, kde-format
 msgid "Error Creating Folder"
 msgstr "பிழை உருவாக்கும் அடைவு"
 
-#: codegenwizard/codegenoptionspage.cpp:283
+#: codegenwizard/codegenoptionspage.cpp:282
 #, fuzzy, kde-format
 msgid "Please select a valid folder."
 msgstr "தயவுச் செய்து முறையான அடைவினை தேர்ந்தெடுக்கவும்"
@@ -1280,49 +1280,49 @@ msgstr ""
 msgid "Classes Selected"
 msgstr "தேர்ந்தெடுத்த வகுப்புகள்"
 
-#: codegenwizard/codegenstatuspage.cpp:45
+#: codegenwizard/codegenstatuspage.cpp:44
 #, fuzzy, kde-format
 #| msgid "Code Generation Options"
 msgid "Status of Code Generation Progress"
 msgstr "கோடு உருவாக்கு விருப்பங்கள்"
 
-#: codegenwizard/codegenstatuspage.cpp:46
+#: codegenwizard/codegenstatuspage.cpp:45
 #, fuzzy, kde-format
 msgid ""
 "Press the button Generate to start the code generation.\n"
 "Check the success state for every class."
 msgstr "உற்பத்திப் பொத்தானை அழுத்திக் குறியீடு உருவாக்கத்தை தொடங்கு"
 
-#: codegenwizard/codegenstatuspage.cpp:87
+#: codegenwizard/codegenstatuspage.cpp:86
 #: codeimpwizard/codeimpstatuspage.cpp:102
 #, kde-format
 msgid "Not Yet Generated"
 msgstr "இன்னும் உருவாக்கப்படவில்லை "
 
-#: codegenwizard/codegenstatuspage.cpp:176
+#: codegenwizard/codegenstatuspage.cpp:175
 #, kde-format
 msgid "Code Generated"
 msgstr "கோடு உருவாக்கப்பட்டது."
 
-#: codegenwizard/codegenstatuspage.cpp:180
+#: codegenwizard/codegenstatuspage.cpp:179
 #, kde-format
 msgid "Not Generated"
 msgstr "உருவாக்கப்படவில்லை "
 
-#: codegenwizard/codegenstatuspage.cpp:185
+#: codegenwizard/codegenstatuspage.cpp:184
 #, kde-format
 msgid "Skipped"
 msgstr ""
 
-#: codegenwizard/codegenstatuspage.cpp:210
-#: codegenwizard/codegenstatuspage.cpp:244
+#: codegenwizard/codegenstatuspage.cpp:209
+#: codegenwizard/codegenstatuspage.cpp:243
 #: codeimpwizard/codeimpstatuspage.cpp:344
 #, fuzzy, kde-format
 #| msgid "Cannot Open File"
 msgid "Cannot open file!"
 msgstr "கோப்பினை திறக்க முடியவில்லை"
 
-#: codegenwizard/codegenstatuspage.cpp:230
+#: codegenwizard/codegenstatuspage.cpp:229
 #, kde-format
 msgid "Umbrello Code Generation - Logger Export"
 msgstr ""
@@ -1712,8 +1712,8 @@ msgid "General"
 msgstr "பொது"
 
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
-#: dialogs/multipagedialogbase.cpp:361 dialogs/multipagedialogbase.cpp:375
-#: dialogs/multipagedialogbase.cpp:385 dialogs/settingsdialog.cpp:116
+#: dialogs/multipagedialogbase.cpp:352 dialogs/multipagedialogbase.cpp:366
+#: dialogs/multipagedialogbase.cpp:376 dialogs/settingsdialog.cpp:112
 #: dialogs/umlforeignkeyconstraintdialog.cpp:207 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgid "General Settings"
@@ -1999,34 +1999,34 @@ msgstr "<p align=\"right\">திருத்தமுடியாத உரை:
 msgid "<p align=\"right\">Editable text:</p>"
 msgstr "<p align=\"right\">திருத்தமுடிந்த உரை</p>"
 
-#: dialogs/dialog_utils.cpp:30
+#: dialogs/dialog_utils.cpp:31
 #, fuzzy, kde-format
 #| msgid "E&nable autosave"
 msgid "Enable all messages"
 msgstr "தானாகவே சேர்வதை செயல்படுத்து"
 
-#: dialogs/dialog_utils.cpp:31
+#: dialogs/dialog_utils.cpp:32
 #, kde-format
 msgid "Enable 'delete association' related messages"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:32
+#: dialogs/dialog_utils.cpp:33
 #, kde-format
 msgid "Enable 'delete diagram' related messages"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:213
+#: dialogs/dialog_utils.cpp:214
 #, kde-format
 msgid "You are about to delete an association. Do you really want to continue?"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:214
+#: dialogs/dialog_utils.cpp:215
 #, fuzzy, kde-format
 #| msgid "Self Association"
 msgid "Delete Association"
 msgstr "சொந்தக் கழகம்"
 
-#: dialogs/dialog_utils.cpp:228
+#: dialogs/dialog_utils.cpp:229
 #, kde-format
 msgid ""
 "You are about to delete the entire diagram.\n"
@@ -2035,17 +2035,17 @@ msgstr ""
 "முழு வடிவத்தையும் அழிக்க விரும்புகிறீர்களா.\n"
 "கண்டிப்பாக?"
 
-#: dialogs/dialog_utils.cpp:229
+#: dialogs/dialog_utils.cpp:230
 #, kde-format
 msgid "Are you sure you want to delete diagram %1?"
 msgstr "வரைப்படம் %1 நீக்க வேண்டுமா?"
 
-#: dialogs/dialog_utils.cpp:234
+#: dialogs/dialog_utils.cpp:235
 #, kde-format
 msgid "Delete Diagram?"
 msgstr "வரைப்படத்தை நீக்கு "
 
-#: dialogs/dialog_utils.cpp:235 dialogs/pages/classifierlistpage.cpp:215
+#: dialogs/dialog_utils.cpp:236 dialogs/pages/classifierlistpage.cpp:215
 #: dialogs/pages/classifierlistpage.cpp:223
 #: dialogs/umlforeignkeyconstraintdialog.cpp:324
 #: dialogs/umlforeignkeyconstraintdialog.cpp:330
@@ -2195,8 +2195,8 @@ msgstr ""
 msgid "Default"
 msgstr " &முன்னிருந்த"
 
-#: dialogs/multipagedialogbase.cpp:361 dialogs/multipagedialogbase.cpp:375
-#: dialogs/multipagedialogbase.cpp:385
+#: dialogs/multipagedialogbase.cpp:352 dialogs/multipagedialogbase.cpp:366
+#: dialogs/multipagedialogbase.cpp:376
 #, fuzzy, kde-format
 #| msgid "General"
 msgctxt "general settings"
@@ -2205,51 +2205,51 @@ msgstr "பொது"
 
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
-#: dialogs/multipagedialogbase.cpp:400 umbrello.kcfg:177 umbrello.kcfg:297
+#: dialogs/multipagedialogbase.cpp:391 umbrello.kcfg:177 umbrello.kcfg:297
 #: umllistview.cpp:1472
 #, fuzzy, kde-format
 msgid "Font"
 msgstr "எழுத்துரு:"
 
-#: dialogs/multipagedialogbase.cpp:400
+#: dialogs/multipagedialogbase.cpp:391
 #, kde-format
 msgid "Font Settings"
 msgstr "எழுத்துரு அமைப்புகள்"
 
-#: dialogs/multipagedialogbase.cpp:475
+#: dialogs/multipagedialogbase.cpp:466
 #, fuzzy, kde-format
 #| msgid "Style:"
 msgctxt "widget style page"
 msgid "Style"
 msgstr "பாணி:"
 
-#: dialogs/multipagedialogbase.cpp:475
+#: dialogs/multipagedialogbase.cpp:466
 #, fuzzy, kde-format
 #| msgid "Widget Color"
 msgid "Widget Style"
 msgstr "சாளர வண்ணம்"
 
-#: dialogs/multipagedialogbase.cpp:486
+#: dialogs/multipagedialogbase.cpp:477
 #, fuzzy, kde-format
 #| msgid "Style:"
 msgctxt "style page name"
 msgid "Style"
 msgstr "பாணி:"
 
-#: dialogs/multipagedialogbase.cpp:486
+#: dialogs/multipagedialogbase.cpp:477
 #, fuzzy, kde-format
 #| msgid "Widget Color"
 msgid "Line Style"
 msgstr "சாளர வண்ணம்"
 
-#: dialogs/multipagedialogbase.cpp:506
+#: dialogs/multipagedialogbase.cpp:497
 #, fuzzy, kde-format
 #| msgid "Roles"
 msgctxt "role page name"
 msgid "Roles"
 msgstr "பங்குகள்"
 
-#: dialogs/multipagedialogbase.cpp:506
+#: dialogs/multipagedialogbase.cpp:497
 #, kde-format
 msgid "Role Settings"
 msgstr "பங்கு அமைப்புகள்"
@@ -2983,60 +2983,60 @@ msgstr "Y"
 msgid "Autoincrement Sequence "
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:51
-#: dialogs/pages/umlwidgetstylepage.cpp:207
+#: dialogs/pages/generaloptionpage.cpp:41
+#: dialogs/pages/umlwidgetstylepage.cpp:198
 #, kde-format
 msgctxt "miscellaneous group box"
 msgid "Miscellaneous"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:58
+#: dialogs/pages/generaloptionpage.cpp:48
 #, kde-format
 msgid "Enable undo"
 msgstr "மீட்டு செயல்படுத்து"
 
-#: dialogs/pages/generaloptionpage.cpp:62
+#: dialogs/pages/generaloptionpage.cpp:52
 #, fuzzy, kde-format
 msgid "Use tabbed diagrams"
 msgstr "மநில வரைப்படம் "
 
-#: dialogs/pages/generaloptionpage.cpp:66
+#: dialogs/pages/generaloptionpage.cpp:56
 #, kde-format
 msgid "Use new C++/Java/Ruby generators"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:70
+#: dialogs/pages/generaloptionpage.cpp:60
 #, kde-format
 msgid "Turn on footer and page numbers when printing"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:74
+#: dialogs/pages/generaloptionpage.cpp:64
 #, fuzzy, kde-format
 #| msgid "Enable undo"
 msgid "Enable UML2 support"
 msgstr "மீட்டு செயல்படுத்து"
 
-#: dialogs/pages/generaloptionpage.cpp:79
+#: dialogs/pages/generaloptionpage.cpp:69
 #, kde-format
 msgid "Autosave"
 msgstr "தானே சேமி"
 
-#: dialogs/pages/generaloptionpage.cpp:86
+#: dialogs/pages/generaloptionpage.cpp:76
 #, kde-format
 msgid "E&nable autosave"
 msgstr "தானாகவே சேர்வதை செயல்படுத்து"
 
-#: dialogs/pages/generaloptionpage.cpp:90
+#: dialogs/pages/generaloptionpage.cpp:80
 #, kde-format
 msgid "Select auto-save time interval (mins):"
 msgstr "தானியங்கு நேர இடைவெளியை தேர்வு செய்(நிமிடங்கள்):"
 
-#: dialogs/pages/generaloptionpage.cpp:106
+#: dialogs/pages/generaloptionpage.cpp:92
 #, kde-format
 msgid "Set autosave suffix:"
 msgstr "தானாக சேமிக்கும் பின்னொட்டை அமை"
 
-#: dialogs/pages/generaloptionpage.cpp:108
+#: dialogs/pages/generaloptionpage.cpp:94
 #, kde-format
 msgid ""
 "<qt><p>The autosave file will be saved to ~/autosave.xmi if the autosaving "
@@ -3047,22 +3047,22 @@ msgid ""
 "autosave will overwrite your file automatically.</p></qt>"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:119
+#: dialogs/pages/generaloptionpage.cpp:105
 #, kde-format
 msgid "Startup"
 msgstr "ஆரம்பி"
 
-#: dialogs/pages/generaloptionpage.cpp:126
+#: dialogs/pages/generaloptionpage.cpp:112
 #, kde-format
 msgid "&Load last project"
 msgstr "இறுதி திட்டத்தை ஏற்று"
 
-#: dialogs/pages/generaloptionpage.cpp:130
+#: dialogs/pages/generaloptionpage.cpp:116
 #, kde-format
 msgid "Start new project with:"
 msgstr "புது பிராஜக்டை இதனுடன் துவக்கு"
 
-#: dialogs/pages/generaloptionpage.cpp:150
+#: dialogs/pages/generaloptionpage.cpp:136
 #, fuzzy, kde-format
 msgid "Default Language :"
 msgstr " &முன்னிருந்த"
@@ -3184,7 +3184,7 @@ msgstr "வண்ணம்"
 msgid "Custom line width"
 msgstr "கோட்டின் அகலம்:"
 
-#: dialogs/pages/uioptionspage.cpp:133
+#: dialogs/pages/uioptionspage.cpp:129
 #, kde-format
 msgid "&Use fill color"
 msgstr "வண்ணம் நிரப்பை உபயோகி"
@@ -3231,105 +3231,105 @@ msgstr "உறைந்த:"
 msgid "Add only"
 msgstr "மட்டும் சேர்"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:109
+#: dialogs/pages/umlwidgetstylepage.cpp:104
 #, fuzzy, kde-format
 #| msgid "Color"
 msgctxt "title of color group"
 msgid "Color"
 msgstr "வண்ணம்"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:114
+#: dialogs/pages/umlwidgetstylepage.cpp:109
 #, kde-format
 msgctxt "text color"
 msgid "&Text:"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:121
+#: dialogs/pages/umlwidgetstylepage.cpp:116
 #, fuzzy, kde-format
 #| msgid "&Default"
 msgctxt "default text color button"
 msgid "Defaul&t"
 msgstr " &முன்னிருந்த"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:124
+#: dialogs/pages/umlwidgetstylepage.cpp:119
 #, fuzzy, kde-format
 #| msgid "&Line:"
 msgctxt "line color"
 msgid "&Line:"
 msgstr "வரி"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:131
+#: dialogs/pages/umlwidgetstylepage.cpp:126
 #, fuzzy, kde-format
 #| msgid "&Default"
 msgctxt "default line color button"
 msgid "&Default"
 msgstr " &முன்னிருந்த"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:134
+#: dialogs/pages/umlwidgetstylepage.cpp:129
 #, kde-format
 msgid "&Fill:"
 msgstr "நிரப்பு"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:141
+#: dialogs/pages/umlwidgetstylepage.cpp:136
 #, fuzzy, kde-format
 #| msgid "D&efault"
 msgctxt "default fill color button"
 msgid "D&efault"
 msgstr "முன்னிருந்த"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:144
+#: dialogs/pages/umlwidgetstylepage.cpp:139
 #, kde-format
 msgid "&Use fill"
 msgstr "நிரப்பு பயன்படுத்து"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:154
+#: dialogs/pages/umlwidgetstylepage.cpp:149
 #, kde-format
 msgctxt "background color"
 msgid "&Background:"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:161
+#: dialogs/pages/umlwidgetstylepage.cpp:156
 #, fuzzy, kde-format
 #| msgid "&Default"
 msgctxt "default background color button"
 msgid "De&fault"
 msgstr " &முன்னிருந்த"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:164
+#: dialogs/pages/umlwidgetstylepage.cpp:159
 #, kde-format
 msgctxt "grid dot color"
 msgid "&Grid dot:"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:171
+#: dialogs/pages/umlwidgetstylepage.cpp:166
 #, fuzzy, kde-format
 #| msgid "&Default"
 msgctxt "default grid dot color button"
 msgid "Def&ault"
 msgstr " &முன்னிருந்த"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:179
+#: dialogs/pages/umlwidgetstylepage.cpp:174
 #, fuzzy, kde-format
 #| msgid "Line width:"
 msgctxt "title of width group"
 msgid "Width"
 msgstr "கோட்டின் அகலம்:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:184
+#: dialogs/pages/umlwidgetstylepage.cpp:179
 #, fuzzy, kde-format
 #| msgid "Line width:  "
 msgctxt "line width"
 msgid "Line &width:"
 msgstr "கோட்டின் அகலம்:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:198
+#: dialogs/pages/umlwidgetstylepage.cpp:189
 #, fuzzy, kde-format
 #| msgid "&Default"
 msgctxt "default line width button"
 msgid "Defa&ult"
 msgstr " &முன்னிருந்த"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:212
+#: dialogs/pages/umlwidgetstylepage.cpp:203
 #, fuzzy, kde-format
 #| msgid "Code Viewer"
 msgid "Layout of the line:"
@@ -3383,79 +3383,79 @@ msgstr "&வரைபடத்தை தேர்ந்தெடு"
 msgid "Diagram"
 msgstr "&வரைப்படம் "
 
-#: dialogs/settingsdialog.cpp:44
+#: dialogs/settingsdialog.cpp:40
 #, kde-format
 msgid "Umbrello Setup"
 msgstr " Umbrello அமைத்தல்"
 
-#: dialogs/settingsdialog.cpp:109 umllistview.cpp:1474
+#: dialogs/settingsdialog.cpp:105 umllistview.cpp:1474
 #, kde-format
 msgid "User Interface"
 msgstr "பயனீட்டாளர் இடைமுகம்"
 
-#: dialogs/settingsdialog.cpp:109
+#: dialogs/settingsdialog.cpp:105
 #, kde-format
 msgid "User Interface Settings"
 msgstr "பயன்படுத்துவோர் இடைமுக அமைப்புகளை"
 
-#: dialogs/settingsdialog.cpp:116 dialogs/umlviewdialog.cpp:88
+#: dialogs/settingsdialog.cpp:112 dialogs/umlviewdialog.cpp:88
 #, fuzzy, kde-format
 #| msgid "General"
 msgctxt "general settings page"
 msgid "General"
 msgstr "பொது"
 
-#: dialogs/settingsdialog.cpp:125
+#: dialogs/settingsdialog.cpp:121
 #, fuzzy, kde-format
 #| msgid "Class"
 msgctxt "class settings page"
 msgid "Class"
 msgstr "வகுப்பு"
 
-#: dialogs/settingsdialog.cpp:125
+#: dialogs/settingsdialog.cpp:121
 #, kde-format
 msgid "Class Settings"
 msgstr "வகுப்பு அமைப்புகள்"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1469
+#: dialogs/settingsdialog.cpp:128 umllistview.cpp:1469
 #, fuzzy, kde-format
 #| msgid "Not Generated"
 msgid "Code Importer"
 msgstr "உருவாக்கப்படவில்லை "
 
-#: dialogs/settingsdialog.cpp:132
+#: dialogs/settingsdialog.cpp:128
 #, fuzzy, kde-format
 #| msgid "Code Viewer Settings"
 msgid "Code Import Settings"
 msgstr "குறிப்புறை கட்சியக அமைவுகள்"
 
-#: dialogs/settingsdialog.cpp:141 umllistview.cpp:1470
+#: dialogs/settingsdialog.cpp:137 umllistview.cpp:1470
 #, kde-format
 msgid "Code Generation"
 msgstr "குறிப்புறை உருவாக்கம்"
 
-#: dialogs/settingsdialog.cpp:141
+#: dialogs/settingsdialog.cpp:137
 #, kde-format
 msgid "Code Generation Settings"
 msgstr "குறிப்புறை உருவாக்க அமைவுகள்"
 
-#: dialogs/settingsdialog.cpp:149 umllistview.cpp:1471
+#: dialogs/settingsdialog.cpp:145 umllistview.cpp:1471
 #, kde-format
 msgid "Code Viewer"
 msgstr "கோடு பார்வையாளர்"
 
-#: dialogs/settingsdialog.cpp:149
+#: dialogs/settingsdialog.cpp:145
 #, kde-format
 msgid "Code Viewer Settings"
 msgstr "குறிப்புறை கட்சியக அமைவுகள்"
 
-#: dialogs/settingsdialog.cpp:156 umllistview.cpp:1467
+#: dialogs/settingsdialog.cpp:152 umllistview.cpp:1467
 #, fuzzy, kde-format
 #| msgid "Autosave"
 msgid "Auto Layout"
 msgstr "தானே சேமி"
 
-#: dialogs/settingsdialog.cpp:156
+#: dialogs/settingsdialog.cpp:152
 #, fuzzy, kde-format
 msgid "Auto Layout Settings"
 msgstr "பண்புக்கூறு அமைவுகள்"
