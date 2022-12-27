@@ -68,7 +68,7 @@ DEBUG_REGISTER_DISABLED(UMLWidget)
 #define I18N_NEXT_RELEASE(a,b) QString(QStringLiteral(a)).arg(b))
 
 const QSizeF UMLWidget::DefaultMinimumSize(50, 20);
-const QSizeF UMLWidget::DefaultMaximumSize(1000, 5000);
+const QSizeF UMLWidget::DefaultMaximumSize(5000, 5000);
 const int UMLWidget::defaultMargin = 5;
 const int UMLWidget::selectionMarkerSize = 4;
 const int UMLWidget::resizeMarkerLineCount = 3;
