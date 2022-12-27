@@ -69,7 +69,16 @@ if(NOT BUILD_KF5)
     endif()
 else()
     target_link_libraries(codeimport
-        KF5::KDELibs4Support
+        Qt5::Widgets
+        Qt5::Xml
+        KF5::CoreAddons
+        KF5::I18n
+        KF5::IconThemes
+        KF5::KIOCore
+        KF5::TextEditor
+        KF5::WidgetsAddons
+        KF5::XmlGui
+        KF5::Crash
     )
     if(BUILD_PHP_IMPORT)
         target_link_libraries(codeimport

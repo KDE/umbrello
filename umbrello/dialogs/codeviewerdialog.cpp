@@ -19,6 +19,8 @@
 #include <KLocalizedString>
 #include <QString>
 #include <QTabWidget>
+#include <QPushButton>
+#include <QDialogButtonBox>
 
 DEBUG_REGISTER(CodeViewerDialog)
 
@@ -27,10 +29,10 @@ CodeViewerDialog::CodeViewerDialog (QWidget* parent, CodeDocument * doc,
   : SinglePageDialogBase(parent), m_state(state)
 {
     setModal(false);
-    setupUi(mainWidget());
+    setupUi(SinglePageDialogBase::mainWidget());
     initGUI();
     addCodeDocument(doc);
-    connect(this, SIGNAL(cancelClicked()), mainWidget(), SLOT(close()));
+    connect(SinglePageDialogBase::m_buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), mainWidget(), SLOT(close()));
 }
 
 CodeViewerDialog::~CodeViewerDialog()

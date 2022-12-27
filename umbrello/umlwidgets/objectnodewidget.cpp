@@ -339,7 +339,7 @@ void ObjectNodeWidget::askStateForWidget()
 
 void ObjectNodeWidget::slotOk()
 {
-     //   KDialog::accept();
+     //   QDialog::accept();
 }
 
 

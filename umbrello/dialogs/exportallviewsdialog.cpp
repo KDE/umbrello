@@ -18,7 +18,7 @@
  * @param parent The parent of the dialog.
  * @param name The internal name.
  *
- * @see KDialog::KDialog
+ * @see QDialog::QDialog
  */
 ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
   : SinglePageDialogBase(parent)

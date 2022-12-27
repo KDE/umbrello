@@ -71,8 +71,10 @@ else()
 
     set(APP_SUFFIX 5)
     set(LIB_PREFIX Qt5::)
+    set(KF5_MIN_VERSION "5.2.0")
     # we need some parts of the ECM CMake helpers
-    find_package(ECM 1.1.0 REQUIRED NO_MODULE)
+    find_package(ECM ${KF5_MIN_VERSION} NO_MODULE REQUIRED)
+
     list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
     include(KDEInstallDirs)
@@ -115,7 +117,6 @@ find_package(KF5 REQUIRED COMPONENTS
     DocTools
     I18n
     IconThemes
-    KDELibs4Support
     KIO
     TextEditor
     WidgetsAddons

@@ -11,13 +11,11 @@
 
 // kde include
 #include <KLocalizedString>
-
-DEBUG_REGISTER(SinglePageDialogBase)
-
-#if QT_VERSION >= 0x050000
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
 #include <QPushButton>
+
+DEBUG_REGISTER(SinglePageDialogBase)
 
 /**
  * Constructor
@@ -27,43 +25,35 @@ SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton
     m_mainWidget(0)
 {
     setModal(true);
-    QDialogButtonBox::StandardButtons buttons;
+    QDialogButtonBox::StandardButtons buttons = QDialogButtonBox::Ok | QDialogButtonBox::Cancel;
+    // buttons |= QDialogButtonBox::Help;
     if (withApplyButton)
-        buttons = QDialogButtonBox::Ok | QDialogButtonBox::Apply | QDialogButtonBox::Cancel;
-    else
-        buttons = QDialogButtonBox::Ok | QDialogButtonBox::Cancel;
+        buttons |= QDialogButtonBox::Apply;
 
     m_buttonBox = new QDialogButtonBox(buttons);
     if (withSearchButton)
         m_buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("Search"));
 
     connect(m_buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(slotClicked(QAbstractButton*)));
-    mainWidget();
-}
-#else
 
-/**
- * Constructor
- */
-SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton, bool withSearchButton)
-  : KDialog(parent)
-{
-    if (withApplyButton)
-        setButtons(Help | Ok | Cancel | Apply);
-    else
-        setButtons(Help | Ok | Cancel);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
+    QPushButton *okButton = m_buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    connect(m_buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(m_buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    mainLayout->addWidget(m_buttonBox);
 
     if (withSearchButton)
-        setButtonText(Ok, i18n("Search"));
+        okButton->setText(i18n("Search"));
 
-    setDefaultButton(Ok);
-    setModal(true);
-    showButtonSeparator(true);
+    okButton->setDefault(true);
 
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(okButton, SIGNAL(clicked()), this, SLOT(slotOk()));
+    if (withApplyButton)
+        connect(m_buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApply()));
 }
-#endif
 
 SinglePageDialogBase::~SinglePageDialogBase()
 {
@@ -84,7 +74,6 @@ bool SinglePageDialogBase::apply()
     return true;
 }
 
-#if QT_VERSION >= 0x050000
 void SinglePageDialogBase::setCaption(const QString &caption)
 {
     setWindowTitle(caption);
@@ -104,6 +93,8 @@ void SinglePageDialogBase::setMainWidget(QWidget *widget)
     }
 
     delete layout();
+    if (!m_mainWidget)
+        return;
     QVBoxLayout* vlayout = new QVBoxLayout(this);
     vlayout->setMargin(0);
     vlayout->addWidget(m_mainWidget);
@@ -135,7 +126,7 @@ void SinglePageDialogBase::setButtonText(SinglePageDialogBase::ButtonCode code, 
 }
 
 /**
- * @return The current main widget. Will create a QWidget as the mainWidget
+ * @return The main widget.  Will return `this` as the mainWidget
  * if none was set before. This way you can write
  * \code
  *   ui.setupUi(mainWidget());
@@ -144,12 +135,10 @@ void SinglePageDialogBase::setButtonText(SinglePageDialogBase::ButtonCode code, 
  */
 QWidget *SinglePageDialogBase::mainWidget()
 {
-    if (!m_mainWidget)
-        setMainWidget(new QWidget(this));
-
-    return m_mainWidget;
+    if (m_mainWidget)
+        return m_mainWidget;
+    return this;
 }
-#endif
 
 /**
  * Used when the Apply button is clicked. Calls apply().
@@ -172,7 +161,6 @@ void SinglePageDialogBase::slotOk()
     }
 }
 
-#if QT_VERSION >= 0x050000
 /**
  * Used when the Cancel button is clicked.
  */
@@ -202,7 +190,6 @@ void SinglePageDialogBase::enableButtonOk(bool enable)
 {
     m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(enable);
 }
-#endif
 
 /**
  * Return state of dialog input validation.

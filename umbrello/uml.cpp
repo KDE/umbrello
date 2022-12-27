@@ -92,6 +92,7 @@
 #include <QClipboard>
 #include <QDesktopWidget>
 #include <QDockWidget>
+#include <QDialogButtonBox>
 #if QT_VERSION >= 0x050000
 #include <QFileDialog>
 #endif
@@ -1573,7 +1574,6 @@ bool UMLApp::slotPrintSettings()
         delete m_printSettings;
     }
     m_printSettings = new DiagramPrintPage(0, m_doc);
-#if QT_VERSION >= 0x050000
     QPointer<QDialog> dlg = new QDialog();
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(m_printSettings);
@@ -1588,13 +1588,6 @@ bool UMLApp::slotPrintSettings()
     bool result = dlg->exec() == QDialog::Accepted;
     // keep settings
     layout->removeWidget(m_printSettings);
-#else
-    QPointer<KDialog> dlg = new KDialog();
-    dlg->setMainWidget(m_printSettings);
-    bool result = dlg->exec() == QDialog::Accepted;
-    // keep settings
-    dlg->setMainWidget(0);
-#endif
     m_printSettings->setParent(0);
 
     delete dlg;
@@ -2200,7 +2193,7 @@ void UMLApp::slotPrefs(MultiPageDialogBase::PageType page)
 
        m_settingsDialog = new SettingsDialog(this, &optionState);
        m_settingsDialog->setCurrentPage(page);
-       connect(m_settingsDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyPrefs()));
+       connect(m_settingsDialog, SIGNAL(clicked()), this, SLOT(slotApplyPrefs()));
 
        if (m_settingsDialog->exec() == QDialog::Accepted && m_settingsDialog->getChangesApplied()) {
            slotApplyPrefs();

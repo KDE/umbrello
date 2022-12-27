@@ -84,9 +84,5 @@ void FindDialog::slotFilterButtonClicked(int button)
 void FindDialog::showEvent(QShowEvent *event)
 {
     ui_searchTerm->setFocus();
-#if QT_VERSION >= 0x050000
     QDialog::showEvent(event);
-#else
-    KDialog::showEvent(event);
-#endif
 }

@@ -326,11 +326,7 @@ void RefactoringAssistant::editProperties()
  */
 void RefactoringAssistant::editProperties(UMLObject *obj)
 {
-#if QT_VERSION >= 0x050000
     QDialog *dia(0);
-#else
-    KDialog *dia(0);
-#endif
     UMLObject::ObjectType t = obj->baseType();
     if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
         ClassPropertiesDialog *dialog = new ClassPropertiesDialog(this, obj, true);

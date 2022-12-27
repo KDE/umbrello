@@ -554,7 +554,6 @@ else()
         KF5::I18n
         KF5::IconThemes
         KF5::KIOCore
-        KF5::KDELibs4Support
         KF5::TextEditor
         KF5::WidgetsAddons
         KF5::XmlGui
@@ -577,7 +576,7 @@ else()
         libumbrello
         KF5::Crash
         KF5::WindowSystem
-        KF5::KDELibs4Support
+        # KF5::KDELibs4Support
     )
     set_target_properties(umbrello PROPERTIES OUTPUT_NAME umbrello5)
 endif()
