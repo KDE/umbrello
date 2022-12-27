@@ -3378,7 +3378,7 @@ QString UMLApp::imageMimeType() const
 void UMLApp::slotTabChanged(int index)
 {
     UMLView* view = (UMLView*)m_tabWidget->widget(index);
-    if (view && !s_shuttingDown) {
+    if (view && !m_doc->closing() && !s_shuttingDown) {
         m_doc->changeCurrentView(view->umlScene()->ID());
     }
 }
