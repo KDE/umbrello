@@ -49,7 +49,7 @@ class MultiPageDialogBase : public QWidget
 
 public:
     /// Available page types
-    typedef enum {
+    enum PageType {
         AutoLayoutPage,
         ClassPage,
         CodeImportPage,
@@ -58,7 +58,7 @@ public:
         FontPage,
         GeneralPage,
         UserInterfacePage,
-    } PageType;
+    };
 
     explicit MultiPageDialogBase(QWidget *parent, bool withDefaultButton=false);
     virtual ~MultiPageDialogBase();
