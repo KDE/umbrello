@@ -32,7 +32,7 @@
 #include <KLocalizedString>
 #include <kcrash.h>
 #include <ktip.h>
-#include <KUrl>
+#include <QUrl>
 
 #include <stdio.h>
 
@@ -66,6 +66,17 @@ bool showGUI(const QCommandLineParser *args)
 #endif
 
 /**
+ * Creates a QUrl from a string.
+ * @return QUrl::fromLocalFile(input) if input does not contain a URI prefix.
+ */
+static QUrl makeURL(const QString& input)
+{
+    if (input.indexOf(QStringLiteral("://")) < 0)
+        return QUrl::fromLocalFile(input);
+    return QUrl(input);
+}
+
+/**
  * Initializes the document used by the application.
  * If a file was specified in command line arguments, opens that file. Else, it
  * opens the last opened file, or a new file if there isn't any "last file used"
@@ -77,12 +88,12 @@ bool showGUI(const QCommandLineParser *args)
 void initDocument(const QStringList& args, Uml::ProgrammingLanguage::Enum progLang)
 {
     if (args.count()) {
-        UMLApp::app()->openDocumentFile(KUrl(args.first()));
+        UMLApp::app()->openDocumentFile(makeURL(args.first()));
     } else {
         bool last = UmbrelloSettings::loadlast();
         QString file = UmbrelloSettings::lastFile();
         if(last && !file.isEmpty()) {
-            UMLApp::app()->openDocumentFile(KUrl(file));
+            UMLApp::app()->openDocumentFile(makeURL(file));
         } else {
             UMLApp::app()->newDocument();
             if (progLang != Uml::ProgrammingLanguage::Reserved)
