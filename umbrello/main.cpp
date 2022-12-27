@@ -129,38 +129,56 @@ void exportAllViews(const QString &extension, QUrl directory, bool useFolders)
 
 int main(int argc, char *argv[])
 {
+#if QT_VERSION > 0x050000
+# define EmptyString QString()
+# define LocalName(s) QStringLiteral(s)
+    QApplication app(argc, argv);
+    KCrash::initialize();
+    KLocalizedString::setApplicationDomain("umbrello");
+    Q_INIT_RESOURCE(ui);
+#else
+# define EmptyString KLocalizedString()
+# define LocalName(s) i18n(s)
+#endif
+    KAboutData aboutData("umbrello",                                   // componentName
 #if QT_VERSION < 0x050000
-    KAboutData aboutData("umbrello",
                          0,
-                         i18n("Umbrello UML Modeller"),
-                         umbrelloVersion(),
+#endif
+                         i18n("Umbrello UML Modeller"),                // displayName
+                         umbrelloVersion(),                            // version
                          i18n("Umbrello – Visual development environment for software, "
                               "based on the industry standard Unified Modelling Language (UML).<br/>"
                               "See also <a href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."),
+#if QT_VERSION < 0x050000
                          KAboutData::License_GPL,
+#else
+                         KAboutLicense::GPL,                           // licenseType
+#endif
                          i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2022 Umbrello UML Modeller Authors"),
-                         KLocalizedString(),
-                         "http://umbrello.kde.org/");
-    aboutData.addAuthor(i18n("Paul Hensgen"), i18n("Author of initial version."), "phensgen@users.sourceforge.net");
-    aboutData.addAuthor(i18n("Umbrello UML Modeller Authors"), KLocalizedString(), "umbrello-devel@kde.org");
+                         EmptyString,                                  // otherText
+                         "http://umbrello.kde.org/");                  // homePageAddress
+
+    aboutData.addAuthor(LocalName("Paul Hensgen"), i18n("Author of initial version."), "phensgen@users.sourceforge.net");
+    aboutData.addAuthor(i18n("Umbrello UML Modeller Authors"), EmptyString, "umbrello-devel@kde.org");
 
     // authors with more than 200 commits: git shortlog -seu | sort -g
-    aboutData.addCredit(i18n("Oliver Kellogg"),
+    aboutData.addCredit(LocalName("Oliver Kellogg"),
                         i18n("Bug fixing, porting work, code cleanup, new features."),
                         "okellogg@users.sourceforge.net");
-    aboutData.addCredit(i18n("Ralf Habacker"),
+    aboutData.addCredit(LocalName("Ralf Habacker"),
                         i18n("Bug fixing, porting work, code cleanup, new features."),
                         "ralf.habacker@freenet.de");
-    aboutData.addCredit(i18n("Andi Fischer"),
+    aboutData.addCredit(LocalName("Andi Fischer"),
                         i18n("Porting work, code cleanup, new features."),
                         "andi.fischer@hispeed.ch");
-    aboutData.addCredit(i18n("Jonathan Riddell"),
+    aboutData.addCredit(LocalName("Jonathan Riddell"),
                         i18n("Current maintainer."),
                         "jr@jriddell.org");
-    aboutData.addCredit(i18n("Brian Thomas"),
+    aboutData.addCredit(LocalName("Brian Thomas"),
                         i18n("A lot of work for C++ and Java code generation. Codeeditor."),
                         "thomas@mail630.gsfc.nasa.gov");
 
+#if QT_VERSION < 0x050000
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineOptions options;
     options.add("+[File]", i18n("File to open"));
@@ -176,39 +194,6 @@ int main(int argc, char *argv[])
     KApplication app;
     KCmdLineArgs *parsedArgs = KCmdLineArgs::parsedArgs();
 #else
-    QApplication app(argc, argv);
-    KCrash::initialize();
-    KLocalizedString::setApplicationDomain("umbrello");
-    Q_INIT_RESOURCE(ui);
-    KAboutData aboutData(QStringLiteral("umbrello"),                   // componentName
-                         i18n("Umbrello UML Modeller"),                // displayName
-                         umbrelloVersion(),                            // version
-                         i18n("Umbrello – Visual development environment for software, "
-                              "based on the industry standard Unified Modelling Language (UML).<br/>"
-                              "See also <a href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."),
-                         KAboutLicense::GPL,                           // licenseType
-                         i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2022 Umbrello UML Modeller Authors"),
-                         QString(),                                    // otherText
-                         QStringLiteral("http://umbrello.kde.org/"));  // homePageAddress
-    aboutData.addAuthor(QStringLiteral("Paul Hensgen"), i18n("Author of initial version."), QStringLiteral("phensgen@users.sourceforge.net"));
-    aboutData.addAuthor(i18n("Umbrello UML Modeller Authors"), QString(), QStringLiteral("umbrello-devel@kde.org"));
-
-    aboutData.addCredit(QStringLiteral("Oliver Kellogg"),
-                        i18n("Bug fixing, porting work, code cleanup, new features."),
-                        QStringLiteral("okellogg@users.sourceforge.net"));
-    aboutData.addCredit(QStringLiteral("Ralf Habacker"),
-                        i18n("Bug fixing, porting work, code cleanup, new features."),
-                        QStringLiteral("ralf.habacker@freenet.de"));
-    aboutData.addCredit(QStringLiteral("Andi Fischer"),
-                        i18n("Porting work, code cleanup, new features."),
-                        QStringLiteral("andi.fischer@hispeed.ch"));
-    aboutData.addCredit(QStringLiteral("Jonathan Riddell"),
-                        i18n("Current maintainer."),
-                        QStringLiteral("jr@jriddell.org"));
-    aboutData.addCredit(QStringLiteral("Brian Thomas"),
-                        i18n("A lot of work for C++ and Java code generation. Codeeditor."),
-                        QStringLiteral("thomas@mail630.gsfc.nasa.gov"));
-
     KAboutData::setApplicationData(aboutData);
     QCommandLineParser parser;
     //PORTING SCRIPT: adapt aboutdata variable if necessary
