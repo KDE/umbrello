@@ -391,7 +391,7 @@ void UMLPackage::appendEntities(UMLEntityList& entities,
 }
 
 /**
- * Append all classes and interfaces from this package (and those
+ * Append all classes, interfaces, and enums from this package (and those
  * from nested packages) to the given UMLClassifierList.
  *
  * @param classifiers     The list to append to.
@@ -404,7 +404,7 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
     foreach (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
-        if (ot == ot_Class || ot == ot_Interface) {
+        if (ot == ot_Class || ot == ot_Interface || ot == ot_Enum) {
             UMLClassifier *c = o->asUMLClassifier();
             classifiers.append(c);
         } else if (includeNested && (ot == ot_Package || ot == ot_Folder)) {

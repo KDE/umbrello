@@ -3040,7 +3040,7 @@ UMLClassifierList UMLDoc::concepts(bool includeNested /* =true */) const
 }
 
 /**
- * Returns a list of the classes and interfaces in this UMLDoc.
+ * Returns a list of the classes, interfaces, and enumerations in this UMLDoc.
  *
  * @param includeNested   Whether to include the concepts from
  *                        nested packages (default: true.)
