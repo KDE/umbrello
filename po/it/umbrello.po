@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-24 00:52+0000\n"
+"POT-Creation-Date: 2022-12-28 00:52+0000\n"
 "PO-Revision-Date: 2022-12-08 00:19+0100\n"
 "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -213,7 +213,7 @@ msgstr ""
 "elemento con lo stesso nome esiste già. Ogni altro elemento è stato "
 "incollato."
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1796
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1789
 #, kde-format
 msgid "Paste Error"
 msgstr "Errore di incollamento"
@@ -1578,7 +1578,7 @@ msgstr "Nome della classe"
 #: dialogs/pages/associationgeneralpage.cpp:78
 #: dialogs/parameterpropertiesdialog.cpp:61 dialogs/statedialog.cpp:44
 #: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:38
-#: menus/listpopupmenu.cpp:243 refactoring/refactoringassistant.cpp:463
+#: menus/listpopupmenu.cpp:243 refactoring/refactoringassistant.cpp:459
 #, kde-format
 msgid "Properties"
 msgstr "Proprietà"
@@ -1678,8 +1678,8 @@ msgid "General"
 msgstr "Generale"
 
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
-#: dialogs/multipagedialogbase.cpp:352 dialogs/multipagedialogbase.cpp:366
-#: dialogs/multipagedialogbase.cpp:376 dialogs/settingsdialog.cpp:112
+#: dialogs/multipagedialogbase.cpp:334 dialogs/multipagedialogbase.cpp:348
+#: dialogs/multipagedialogbase.cpp:358 dialogs/settingsdialog.cpp:112
 #: dialogs/umlforeignkeyconstraintdialog.cpp:207 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgid "General Settings"
@@ -1698,7 +1698,7 @@ msgstr "Opzioni di visualizzazione"
 
 #: dialogs/classpropertiesdialog.cpp:277
 #: dialogs/pages/classifierlistpage.cpp:118 menus/widgetbasepopupmenu.cpp:81
-#: menus/widgetbasepopupmenu.cpp:115 refactoring/refactoringassistant.cpp:669
+#: menus/widgetbasepopupmenu.cpp:115 refactoring/refactoringassistant.cpp:665
 #, kde-format
 msgid "Attributes"
 msgstr "Attributi"
@@ -1710,7 +1710,7 @@ msgstr "Impostazioni degli attributi"
 
 #: dialogs/classpropertiesdialog.cpp:287
 #: dialogs/pages/classifierlistpage.cpp:122 menus/widgetbasepopupmenu.cpp:84
-#: menus/widgetbasepopupmenu.cpp:124 refactoring/refactoringassistant.cpp:685
+#: menus/widgetbasepopupmenu.cpp:124 refactoring/refactoringassistant.cpp:681
 #, kde-format
 msgid "Operations"
 msgstr "Operazioni"
@@ -1890,7 +1890,7 @@ msgstr "Incolla"
 msgid "Cut"
 msgstr "Taglia"
 
-#: dialogs/codeviewerdialog.cpp:95
+#: dialogs/codeviewerdialog.cpp:97
 #, kde-format
 msgid "Code Viewer - %1"
 msgstr "Visore del codice - %1"
@@ -2154,13 +2154,13 @@ msgstr "Attributo"
 msgid "Search Term:"
 msgstr "Cerca termine:"
 
-#: dialogs/multipagedialogbase.cpp:69
+#: dialogs/multipagedialogbase.cpp:72
 #, kde-format
 msgid "Default"
 msgstr "Predefinito"
 
-#: dialogs/multipagedialogbase.cpp:352 dialogs/multipagedialogbase.cpp:366
-#: dialogs/multipagedialogbase.cpp:376
+#: dialogs/multipagedialogbase.cpp:334 dialogs/multipagedialogbase.cpp:348
+#: dialogs/multipagedialogbase.cpp:358
 #, kde-format
 msgctxt "general settings"
 msgid "General"
@@ -2168,46 +2168,46 @@ msgstr "Generale"
 
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
-#: dialogs/multipagedialogbase.cpp:391 umbrello.kcfg:177 umbrello.kcfg:297
+#: dialogs/multipagedialogbase.cpp:373 umbrello.kcfg:177 umbrello.kcfg:297
 #: umllistview.cpp:1472
 #, kde-format
 msgid "Font"
 msgstr "Carattere"
 
-#: dialogs/multipagedialogbase.cpp:391
+#: dialogs/multipagedialogbase.cpp:373
 #, kde-format
 msgid "Font Settings"
 msgstr "Impostazioni dei caratteri"
 
-#: dialogs/multipagedialogbase.cpp:466
+#: dialogs/multipagedialogbase.cpp:448
 #, kde-format
 msgctxt "widget style page"
 msgid "Style"
 msgstr "Stile"
 
-#: dialogs/multipagedialogbase.cpp:466
+#: dialogs/multipagedialogbase.cpp:448
 #, kde-format
 msgid "Widget Style"
 msgstr "Stile dell'oggetto"
 
-#: dialogs/multipagedialogbase.cpp:477
+#: dialogs/multipagedialogbase.cpp:459
 #, kde-format
 msgctxt "style page name"
 msgid "Style"
 msgstr "Stile"
 
-#: dialogs/multipagedialogbase.cpp:477
+#: dialogs/multipagedialogbase.cpp:459
 #, kde-format
 msgid "Line Style"
 msgstr "Stile della linea"
 
-#: dialogs/multipagedialogbase.cpp:497
+#: dialogs/multipagedialogbase.cpp:479
 #, kde-format
 msgctxt "role page name"
 msgid "Roles"
 msgstr "Ruoli"
 
-#: dialogs/multipagedialogbase.cpp:497
+#: dialogs/multipagedialogbase.cpp:479
 #, kde-format
 msgid "Role Settings"
 msgstr "Impostazioni ruoli"
@@ -2338,7 +2338,7 @@ msgid "New Activity..."
 msgstr "Nuova attività..."
 
 #: dialogs/pages/activitypage.cpp:107 dialogs/pages/activitypage.cpp:115
-#: menus/listpopupmenu.cpp:173 refactoring/refactoringassistant.cpp:464
+#: menus/listpopupmenu.cpp:173 refactoring/refactoringassistant.cpp:460
 #, kde-format
 msgid "Delete"
 msgstr "Elimina"
@@ -2602,7 +2602,7 @@ msgstr "Nuovo attributo d&ell'istanza..."
 
 #: dialogs/pages/classifierlistpage.cpp:217
 #: dialogs/pages/classifierlistpage.cpp:225 dialogs/umloperationdialog.cpp:170
-#: dialogs/umloperationdialog.cpp:178 uml.cpp:639
+#: dialogs/umloperationdialog.cpp:178 uml.cpp:640
 #, kde-format
 msgid "&Properties"
 msgstr "&Proprietà"
@@ -2620,7 +2620,7 @@ msgid "Source Code"
 msgstr "Codice sorgente"
 
 #: dialogs/pages/classoptionspage.cpp:152
-#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:594
+#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:595
 #, kde-format
 msgid "&Documentation"
 msgstr "&Documentazione"
@@ -3377,7 +3377,7 @@ msgstr "Disposizione automatica"
 msgid "Auto Layout Settings"
 msgstr "Impostazioni della disposizione automatica"
 
-#: dialogs/singlepagedialogbase.cpp:38 dialogs/singlepagedialogbase.cpp:57
+#: dialogs/singlepagedialogbase.cpp:35 dialogs/singlepagedialogbase.cpp:49
 #, kde-format
 msgid "Search"
 msgstr "Cerca"
@@ -3512,7 +3512,7 @@ msgid "You have entered an invalid attribute name."
 msgstr "Hai inserito un nome di attributo non valido."
 
 #: dialogs/umlattributedialog.cpp:124 dialogs/umlenumliteraldialog.cpp:85
-#: refactoring/refactoringassistant.cpp:849
+#: refactoring/refactoringassistant.cpp:845
 #, kde-format
 msgid "Attribute Name Invalid"
 msgstr "Nome di attributo non valido"
@@ -3855,17 +3855,17 @@ msgid "You have entered an invalid operation name."
 msgstr "Hai inserito un nome di operazione non valido."
 
 #: dialogs/umloperationdialog.cpp:426 dialogs/umloperationdialog.cpp:438
-#: refactoring/refactoringassistant.cpp:828
+#: refactoring/refactoringassistant.cpp:824
 #, kde-format
 msgid "Operation Name Invalid"
 msgstr "Nome di operazione non valido"
 
-#: dialogs/umloperationdialog.cpp:435 refactoring/refactoringassistant.cpp:825
+#: dialogs/umloperationdialog.cpp:435 refactoring/refactoringassistant.cpp:821
 #, kde-format
 msgid "An operation with that signature already exists in %1.\n"
 msgstr "Un'operazione con questa firma esiste già in %1.\n"
 
-#: dialogs/umloperationdialog.cpp:437 refactoring/refactoringassistant.cpp:827
+#: dialogs/umloperationdialog.cpp:437 refactoring/refactoringassistant.cpp:823
 #, kde-format
 msgid "Choose a different name or parameter list."
 msgstr "Scegli un nome diverso o un elenco di parametri."
@@ -4159,7 +4159,7 @@ msgstr ""
 msgid "Gael de Chalendar (aka Kleag)"
 msgstr "Gael de Chalendar (aka Kleag)"
 
-#: docgenerators/main.cpp:51 main.cpp:134 main.cpp:183
+#: docgenerators/main.cpp:51 main.cpp:162
 #, kde-format
 msgid "Umbrello UML Modeller Authors"
 msgstr "Autori del modellatore UML Umbrello"
@@ -4224,12 +4224,12 @@ msgstr ""
 msgid "Apply layout"
 msgstr "Applica disposizione"
 
-#: main.cpp:124 main.cpp:173
+#: main.cpp:147
 #, kde-format
 msgid "Umbrello UML Modeller"
 msgstr "Modellatore UML Umbrello"
 
-#: main.cpp:126 main.cpp:175
+#: main.cpp:149
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
@@ -4240,7 +4240,7 @@ msgstr ""
 "industriale UML.<br/>Vedi anche <a href=\"http://www.omg.org/spec/\">http://"
 "www.omg.org/spec/</a>."
 
-#: main.cpp:130 main.cpp:179
+#: main.cpp:157
 #, kde-format
 msgid ""
 "Copyright © 2001 Paul Hensgen,\n"
@@ -4249,98 +4249,68 @@ msgstr ""
 "Copyright © 2001 di Paul Hensgen,\n"
 "Copyright © 2002-2022 degli autori del modellatore UML Umbrello"
 
-#: main.cpp:133
-#, kde-format
-msgid "Paul Hensgen"
-msgstr "Paul Hensgen"
-
-#: main.cpp:133 main.cpp:182
+#: main.cpp:161
 #, kde-format
 msgid "Author of initial version."
 msgstr "Autore della versione iniziale."
 
-#: main.cpp:137
-#, kde-format
-msgid "Oliver Kellogg"
-msgstr "Oliver Kellogg"
-
-#: main.cpp:138 main.cpp:141 main.cpp:186 main.cpp:189
+#: main.cpp:166 main.cpp:169
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr "Correzioni, trasferimento, pulizia e nuove funzioni."
 
-#: main.cpp:140
-#, kde-format
-msgid "Ralf Habacker"
-msgstr "Ralf Habacker"
-
-#: main.cpp:143
-#, kde-format
-msgid "Andi Fischer"
-msgstr "Andi Fischer"
-
-#: main.cpp:144 main.cpp:192
+#: main.cpp:172
 #, kde-format
 msgid "Porting work, code cleanup, new features."
 msgstr "Trasferimento, pulizia e nuove funzioni."
 
-#: main.cpp:146
-#, kde-format
-msgid "Jonathan Riddell"
-msgstr "Jonathan Riddell"
-
-#: main.cpp:147 main.cpp:195
+#: main.cpp:175
 #, kde-format
 msgid "Current maintainer."
 msgstr "Responsabile attuale."
 
-#: main.cpp:149
-#, kde-format
-msgid "Brian Thomas"
-msgstr "Brian Thomas"
-
-#: main.cpp:150 main.cpp:198
+#: main.cpp:178
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 "Molto lavoro per la generazione di codice C++ e Java, editor del codice."
 
-#: main.cpp:155 main.cpp:206
+#: main.cpp:184 main.cpp:202
 #, kde-format
 msgid "File to open"
 msgstr "File da aprire"
 
-#: main.cpp:156 main.cpp:207
+#: main.cpp:185 main.cpp:203
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "esporta i diagrammi all'estensione ed esci"
 
-#: main.cpp:157 main.cpp:209
+#: main.cpp:186 main.cpp:205
 #, kde-format
 msgid "list available export extensions"
 msgstr "elenca le estensioni di esportazione disponibili"
 
-#: main.cpp:158 main.cpp:211
+#: main.cpp:187 main.cpp:207
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "la cartella locale in cui salvare i diagrammi esportati"
 
-#: main.cpp:158
+#: main.cpp:187
 #, kde-format
 msgid "the directory of the file"
 msgstr "la cartella del file"
 
-#: main.cpp:159 main.cpp:213
+#: main.cpp:188 main.cpp:209
 #, kde-format
 msgid "import files"
 msgstr "importa file"
 
-#: main.cpp:160 main.cpp:215
+#: main.cpp:189 main.cpp:211
 #, kde-format
 msgid "list supported languages"
 msgstr "elenco di linguaggi supportati"
 
-#: main.cpp:161 main.cpp:217
+#: main.cpp:190 main.cpp:213
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4349,17 +4319,17 @@ msgstr ""
 "mantieni la struttura ad albero usata per salvare le viste del documento "
 "nella cartella di destinazione"
 
-#: main.cpp:162 main.cpp:219
+#: main.cpp:191 main.cpp:215
 #, kde-format
 msgid "import files from directory <dir>"
 msgstr "importa file dalla cartella <dir>"
 
-#: main.cpp:163
+#: main.cpp:192
 #, kde-format
 msgid "set active language"
 msgstr "imposta il linguaggio attivo"
 
-#: main.cpp:221
+#: main.cpp:217
 #, kde-format
 msgid "set language"
 msgstr "imposta il linguaggio"
@@ -4623,7 +4593,7 @@ msgstr "Nascondi riquadro di distruzione"
 msgid "Import File(s)..."
 msgstr "Importa file..."
 
-#: menus/listpopupmenu.cpp:200 uml.cpp:436
+#: menus/listpopupmenu.cpp:200 uml.cpp:437
 #, kde-format
 msgid "Import from Directory..."
 msgstr "Importa da cartella..."
@@ -5122,42 +5092,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "Allinea"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:658
+#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:659
 #, kde-format
 msgid "Align Right"
 msgstr "Allinea a destra"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:663
+#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:664
 #, kde-format
 msgid "Align Left"
 msgstr "Allinea a sinistra"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:668
+#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:669
 #, kde-format
 msgid "Align Top"
 msgstr "Allinea in alto"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:673
+#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:674
 #, kde-format
 msgid "Align Bottom"
 msgstr "Allinea in basso"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:678
+#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:679
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr "Allinea verticalmente al centro"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:683
+#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:684
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr "Allinea orizzontalmente al centro"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:688
+#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:689
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr "Allinea verticalmente distribuito"
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:693
+#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:694
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr "Allinea orizzontalmente distribuito"
@@ -5996,58 +5966,58 @@ msgstr "Questo nome è già in uso."
 msgid "Not a Unique Name"
 msgstr "Non è un nome univoco"
 
-#: refactoring/refactoringassistant.cpp:447
+#: refactoring/refactoringassistant.cpp:443
 #, kde-format
 msgid "Add Base Class"
 msgstr "Aggiungi classe base"
 
-#: refactoring/refactoringassistant.cpp:448
+#: refactoring/refactoringassistant.cpp:444
 #, kde-format
 msgid "Add Derived Class"
 msgstr "Aggiungi classe derivata"
 
 #. i18n("Add Interface Implementation"), SLOT(addInterfaceImplementation()), Icon_Utils::it_Implementation));
-#: refactoring/refactoringassistant.cpp:450
-#: refactoring/refactoringassistant.cpp:456
-#: refactoring/refactoringassistant.cpp:468
+#: refactoring/refactoringassistant.cpp:446
+#: refactoring/refactoringassistant.cpp:452
+#: refactoring/refactoringassistant.cpp:464
 #, kde-format
 msgid "Add Operation"
 msgstr "Aggiungi operazione"
 
-#: refactoring/refactoringassistant.cpp:451
-#: refactoring/refactoringassistant.cpp:471
+#: refactoring/refactoringassistant.cpp:447
+#: refactoring/refactoringassistant.cpp:467
 #, kde-format
 msgid "Add Attribute"
 msgstr "Aggiungi attributo"
 
-#: refactoring/refactoringassistant.cpp:454
+#: refactoring/refactoringassistant.cpp:450
 #, kde-format
 msgid "Add Base Interface"
 msgstr "Aggiungi interfaccia base"
 
-#: refactoring/refactoringassistant.cpp:455
+#: refactoring/refactoringassistant.cpp:451
 #, kde-format
 msgid "Add Derived Interface"
 msgstr "Aggiungi interfaccia derivata"
 
-#: refactoring/refactoringassistant.cpp:514
-#: refactoring/refactoringassistant.cpp:695
+#: refactoring/refactoringassistant.cpp:510
+#: refactoring/refactoringassistant.cpp:691
 #, kde-format
 msgid "Base Classifiers"
 msgstr "Classificatori base"
 
-#: refactoring/refactoringassistant.cpp:559
-#: refactoring/refactoringassistant.cpp:714
+#: refactoring/refactoringassistant.cpp:555
+#: refactoring/refactoringassistant.cpp:710
 #, kde-format
 msgid "Derived Classifiers"
 msgstr "Classificatori derivati"
 
-#: refactoring/refactoringassistant.cpp:846
+#: refactoring/refactoringassistant.cpp:842
 #, kde-format
 msgid "An attribute with that name already exists in %1.\n"
 msgstr "Esiste già un attributo con quel nome in %1.\n"
 
-#: refactoring/refactoringassistant.cpp:848
+#: refactoring/refactoringassistant.cpp:844
 #, kde-format
 msgid "Choose a different name."
 msgstr "Scegli un altro nome."
@@ -7239,198 +7209,198 @@ msgstr "&Linguaggio attivo"
 msgid "&Settings"
 msgstr "Imp&ostazioni"
 
-#: uml.cpp:412
+#: uml.cpp:413
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr "&Esporta il modello come docbook"
 
-#: uml.cpp:416
+#: uml.cpp:417
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr "&Esporta il modello come XHTML"
 
-#: uml.cpp:420
+#: uml.cpp:421
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "Assistente per &nuova classe..."
 
-#: uml.cpp:424
+#: uml.cpp:425
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "&Aggiungi i tipi di dati predefiniti per il linguaggio attivo"
 
-#: uml.cpp:431
+#: uml.cpp:432
 #, kde-format
 msgid "Code &Importing Wizard..."
 msgstr "Assistente di &importazione del codice..."
 
-#: uml.cpp:441
+#: uml.cpp:442
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "Assistente per la generazione del &codice..."
 
-#: uml.cpp:446
+#: uml.cpp:447
 #, kde-format
 msgid "&Generate All Code"
 msgstr "&Genera tutto il codice"
 
-#: uml.cpp:493
+#: uml.cpp:494
 #, kde-format
 msgid "Creates a new document"
 msgstr "Crea un nuovo documento"
 
-#: uml.cpp:494
+#: uml.cpp:495
 #, kde-format
 msgid "Opens an existing document"
 msgstr "Apre un documento esistente"
 
-#: uml.cpp:495
+#: uml.cpp:496
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "Apre un file usato recentemente"
 
-#: uml.cpp:496
+#: uml.cpp:497
 #, kde-format
 msgid "Saves the document"
 msgstr "Salva il documento"
 
-#: uml.cpp:497
+#: uml.cpp:498
 #, kde-format
 msgid "Saves the document as..."
 msgstr "Salva il documento come..."
 
-#: uml.cpp:498
+#: uml.cpp:499
 #, kde-format
 msgid "Closes the document"
 msgstr "Chiude il documento"
 
-#: uml.cpp:499
+#: uml.cpp:500
 #, kde-format
 msgid "Prints out the document"
 msgstr "Stampa il documento"
 
-#: uml.cpp:500
+#: uml.cpp:501
 #, kde-format
 msgid "Print Preview of the document"
 msgstr "Anteprima di stampa del documento"
 
-#: uml.cpp:501
+#: uml.cpp:502
 #, kde-format
 msgid "Quits the application"
 msgstr "Termina l'applicazione"
 
-#: uml.cpp:502
+#: uml.cpp:503
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr "Esporta il modello nel formato docbook"
 
-#: uml.cpp:503
+#: uml.cpp:504
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr "Esporta il modello nel formato XHTML"
 
-#: uml.cpp:504
+#: uml.cpp:505
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "Taglia la sezione selezionata e la mette negli appunti"
 
-#: uml.cpp:505
+#: uml.cpp:506
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "Copia la sezione selezionata negli appunti"
 
-#: uml.cpp:506
+#: uml.cpp:507
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr "Incolla il contenuto degli appunti"
 
-#: uml.cpp:507
+#: uml.cpp:508
 #, kde-format
 msgid "Undo last action"
 msgstr "Annulla l'ultima azione"
 
-#: uml.cpp:508
+#: uml.cpp:509
 #, kde-format
 msgid "Redo last undone action"
 msgstr "Rifai l'ultima azione annullata"
 
-#: uml.cpp:510
+#: uml.cpp:511
 #, kde-format
 msgid "Set the default program preferences"
 msgstr "Imposta le preferenze predefinite per il programma"
 
-#: uml.cpp:514
+#: uml.cpp:515
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "Elimina &selezionati"
 
-#: uml.cpp:525
+#: uml.cpp:526
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "Diagramma delle &classi..."
 
-#: uml.cpp:532
+#: uml.cpp:533
 #, kde-format
 msgid "&Object Diagram..."
 msgstr "Diagramma degli &oggetti..."
 
-#: uml.cpp:539
+#: uml.cpp:540
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "Diagramma di &sequenza..."
 
-#: uml.cpp:545
+#: uml.cpp:546
 #, kde-format
 msgid "C&ommunication Diagram..."
 msgstr "Diagramma di c&omunicazione..."
 
-#: uml.cpp:551
+#: uml.cpp:552
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr "Diagramma dei casi d'&uso..."
 
-#: uml.cpp:557
+#: uml.cpp:558
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "Diagramma di s&tato..."
 
-#: uml.cpp:563
+#: uml.cpp:564
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "Di&agramma di attività..."
 
-#: uml.cpp:569
+#: uml.cpp:570
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "Diagramma dei co&mponenti..."
 
-#: uml.cpp:575
+#: uml.cpp:576
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr "Diagramma di &dispiegamento..."
 
-#: uml.cpp:581
+#: uml.cpp:582
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "Diagramma di relazioni tra &entità..."
 
-#: uml.cpp:586 uml.cpp:1036
+#: uml.cpp:587 uml.cpp:1037
 #, kde-format
 msgid "&Tree View"
 msgstr "&Vista ad albero"
 
-#: uml.cpp:590
+#: uml.cpp:591
 #, kde-format
 msgid "&Debugging"
 msgstr "&Debug"
 
-#: uml.cpp:598
+#: uml.cpp:599
 #, kde-format
 msgid "&Logging"
 msgstr "&Registrazione"
 
-#: uml.cpp:602
+#: uml.cpp:603
 #, kde-format
 msgid "&Command history"
 msgstr "Cronologia dei co&mandi"
@@ -7439,135 +7409,135 @@ msgstr "Cronologia dei co&mandi"
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:606 uml.cpp:1093
+#: uml.cpp:607 uml.cpp:1094
 #, kde-format
 msgid "&Bird's eye view"
 msgstr "&Vista a volo d'aquila"
 
-#: uml.cpp:611
+#: uml.cpp:612
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "&Pulisci diagramma"
 
-#: uml.cpp:615
+#: uml.cpp:616
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "Aggancia alla &griglia"
 
-#: uml.cpp:619
+#: uml.cpp:620
 #, kde-format
 msgid "S&how Grid"
 msgstr "Mos&tra griglia"
 
-#: uml.cpp:624
+#: uml.cpp:625
 #, kde-format
 msgid "&Delete Diagram"
 msgstr "Elimina &diagramma"
 
-#: uml.cpp:629
+#: uml.cpp:630
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "&Esporta come immagine..."
 
-#: uml.cpp:634
+#: uml.cpp:635
 #, kde-format
 msgid "Export &Diagrams as Pictures..."
 msgstr "Esporta i &diagrammi come immagini..."
 
-#: uml.cpp:654
+#: uml.cpp:655
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "Ingrandiment&o al 100%"
 
-#: uml.cpp:697
+#: uml.cpp:698
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "Sposta la scheda a &sinistra"
 
-#: uml.cpp:698
+#: uml.cpp:699
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "Sposta la scheda a &destra"
 
-#: uml.cpp:721
+#: uml.cpp:722
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr "Seleziona diagramma sulla sinistra"
 
-#: uml.cpp:722
+#: uml.cpp:723
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr "Seleziona diagramma sulla destra"
 
-#: uml.cpp:860
+#: uml.cpp:861
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr " &%1%"
 
-#: uml.cpp:910
+#: uml.cpp:911
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Pronto"
 
-#: uml.cpp:918 uml.cpp:931
+#: uml.cpp:919 uml.cpp:932
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: uml.cpp:923
+#: uml.cpp:924
 #, kde-format
 msgid "Fit"
 msgstr "Adatta"
 
-#: uml.cpp:982
+#: uml.cpp:983
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "Barra degli strumenti dei diagrammi"
 
-#: uml.cpp:1047
+#: uml.cpp:1048
 #, kde-format
 msgid "Doc&umentation"
 msgstr "Doc&umentazione"
 
-#: uml.cpp:1058
+#: uml.cpp:1059
 #, kde-format
 msgid "Co&mmand history"
 msgstr "Cronologia dei co&mandi"
 
-#: uml.cpp:1074
+#: uml.cpp:1075
 #, kde-format
 msgid "&Debug"
 msgstr "&Debug"
 
-#: uml.cpp:1081
+#: uml.cpp:1082
 #, kde-format
 msgid "&Log"
 msgstr "&Registro"
 
-#: uml.cpp:1123 uml.cpp:1360 uml.cpp:1410
+#: uml.cpp:1124 uml.cpp:1361 uml.cpp:1411
 #, kde-format
 msgid "Opening file..."
 msgstr "Apertura del file..."
 
-#: uml.cpp:1174 uml.cpp:1259 uml.cpp:1445 umldoc.cpp:379 umldoc.cpp:381
+#: uml.cpp:1175 uml.cpp:1260 uml.cpp:1446 umldoc.cpp:379 umldoc.cpp:381
 #: umldoc.cpp:405 umldoc.cpp:3465
 #, kde-format
 msgid "Untitled"
 msgstr "Senza titolo"
 
-#: uml.cpp:1342
+#: uml.cpp:1343
 #, kde-format
 msgid "Creating new document..."
 msgstr "Creazione nuovo documento..."
 
-#: uml.cpp:1368 uml.cpp:1384
+#: uml.cpp:1369 uml.cpp:1385
 #, kde-format
 msgid "Open File"
 msgstr "Apri file"
 
-#: uml.cpp:1372
+#: uml.cpp:1373
 #, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7588,22 +7558,22 @@ msgstr ""
 "*.mdl|File modello Rose (*.mdl)\n"
 "*.zargo|File argo compressi (*.zargo)\n"
 
-#: uml.cpp:1444
+#: uml.cpp:1445
 #, kde-format
 msgid "Saving file..."
 msgstr "Salvataggio file..."
 
-#: uml.cpp:1461
+#: uml.cpp:1462
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Salvataggio del file con un nuovo nome file..."
 
-#: uml.cpp:1471 uml.cpp:1477 umlviewimageexporter.cpp:195
+#: uml.cpp:1472 uml.cpp:1478 umlviewimageexporter.cpp:195
 #, kde-format
 msgid "Save As"
 msgstr "Salva come"
 
-#: uml.cpp:1472
+#: uml.cpp:1473
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7613,7 +7583,7 @@ msgstr ""
 "tgz);;*.xmi.tar.bz2 | File XMI compresso con bzip2 (*.xmi.tar.bz2);;* | "
 "Tutti i file (*)"
 
-#: uml.cpp:1477
+#: uml.cpp:1478
 #, kde-format
 msgid ""
 "*.xmi|XMI File\n"
@@ -7626,7 +7596,7 @@ msgstr ""
 "*.xmi.tar.bz2|File XMI compresso con bzip2\n"
 "*|Tutti i file"
 
-#: uml.cpp:1501
+#: uml.cpp:1502
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7635,67 +7605,67 @@ msgstr ""
 "Il file %1 esiste.\n"
 "Vuoi sovrascriverlo?"
 
-#: uml.cpp:1502
+#: uml.cpp:1503
 #, kde-format
 msgid "Warning"
 msgstr "Attenzione"
 
-#: uml.cpp:1502
+#: uml.cpp:1503
 #, kde-format
 msgid "Overwrite"
 msgstr "Sovrascrivi"
 
-#: uml.cpp:1528
+#: uml.cpp:1529
 #, kde-format
 msgid "Closing file..."
 msgstr "Chiusura del file..."
 
-#: uml.cpp:1539
+#: uml.cpp:1540
 #, kde-format
 msgid "No search term entered"
 msgstr "Nessun termine di ricerca inserito"
 
-#: uml.cpp:1545
+#: uml.cpp:1546
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "«%1»: trovati %2"
 
-#: uml.cpp:1609
+#: uml.cpp:1602
 #, kde-format
 msgid "Print Preview..."
 msgstr "Anteprima di stampa..."
 
-#: uml.cpp:1636
+#: uml.cpp:1629
 #, kde-format
 msgid "Printing..."
 msgstr "Stampa..."
 
-#: uml.cpp:1643 uml.cpp:1647
+#: uml.cpp:1636 uml.cpp:1640
 #, kde-format
 msgid "Print %1"
 msgstr "Stampa %1"
 
-#: uml.cpp:1667
+#: uml.cpp:1660
 #, kde-format
 msgid "Exiting..."
 msgstr "Uscita..."
 
-#: uml.cpp:1754
+#: uml.cpp:1747
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Taglio della selezione..."
 
-#: uml.cpp:1777
+#: uml.cpp:1770
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Copia della selezione negli appunti..."
 
-#: uml.cpp:1789
+#: uml.cpp:1782
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Inserimento del contenuto degli appunti..."
 
-#: uml.cpp:1794
+#: uml.cpp:1787
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7704,38 +7674,38 @@ msgstr ""
 "Umbrello non ha potuto incollare il contenuto degli appunti. Gli oggetti "
 "negli appunti potrebbero essere del tipo sbagliato da incollare qui."
 
-#: uml.cpp:1820 umlviewimageexporter.cpp:87 umlviewimageexporterall.cpp:118
+#: uml.cpp:1813 umlviewimageexporter.cpp:87 umlviewimageexporterall.cpp:118
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Pronto."
 
-#: uml.cpp:2429
+#: uml.cpp:2422
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "Impossibile visualizzare il codice finché prima non se ne genera."
 
-#: uml.cpp:2429 uml.cpp:2432
+#: uml.cpp:2422 uml.cpp:2425
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Impossibile visualizzare il codice"
 
-#: uml.cpp:2432
+#: uml.cpp:2425
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Impossibile visualizzare il codice da un semplice editor di codice."
 
-#: uml.cpp:2911 uml.cpp:2913
+#: uml.cpp:2904 uml.cpp:2906
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Seleziona file da importare:"
 
-#: uml.cpp:2944 uml.cpp:2946
+#: uml.cpp:2937 uml.cpp:2939
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Seleziona la cartella da importare:"
 
-#: uml.cpp:3518
+#: uml.cpp:3511
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Generazione di XHTML non riuscita."
@@ -9288,6 +9258,24 @@ msgstr "Stato"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "Pre- o postcondizione"
+
+#~ msgid "Paul Hensgen"
+#~ msgstr "Paul Hensgen"
+
+#~ msgid "Oliver Kellogg"
+#~ msgstr "Oliver Kellogg"
+
+#~ msgid "Ralf Habacker"
+#~ msgstr "Ralf Habacker"
+
+#~ msgid "Andi Fischer"
+#~ msgstr "Andi Fischer"
+
+#~ msgid "Jonathan Riddell"
+#~ msgstr "Jonathan Riddell"
+
+#~ msgid "Brian Thomas"
+#~ msgstr "Brian Thomas"
 
 #~ msgid "Rename type: %1 to %2"
 #~ msgstr "Rinomina tipo: %1 in %2"

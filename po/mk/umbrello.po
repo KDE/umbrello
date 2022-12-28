@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-24 00:52+0000\n"
+"POT-Creation-Date: 2022-12-28 00:52+0000\n"
 "PO-Revision-Date: 2006-09-30 17:38+0200\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -213,7 +213,7 @@ msgstr ""
 "Барем еден од објектите во таблата со исечоци неможе да биде вметнат поради "
 "објект со истото име кое постои.  Сите останати објекти беа вметнати."
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1796
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1789
 #, kde-format
 msgid "Paste Error"
 msgstr "Грешка при вметнувањето"
@@ -1622,7 +1622,7 @@ msgstr "Име на класата"
 #: dialogs/pages/associationgeneralpage.cpp:78
 #: dialogs/parameterpropertiesdialog.cpp:61 dialogs/statedialog.cpp:44
 #: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:38
-#: menus/listpopupmenu.cpp:243 refactoring/refactoringassistant.cpp:463
+#: menus/listpopupmenu.cpp:243 refactoring/refactoringassistant.cpp:459
 #, fuzzy, kde-format
 msgid "Properties"
 msgstr "&Својства"
@@ -1730,8 +1730,8 @@ msgid "General"
 msgstr "Општо"
 
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
-#: dialogs/multipagedialogbase.cpp:352 dialogs/multipagedialogbase.cpp:366
-#: dialogs/multipagedialogbase.cpp:376 dialogs/settingsdialog.cpp:112
+#: dialogs/multipagedialogbase.cpp:334 dialogs/multipagedialogbase.cpp:348
+#: dialogs/multipagedialogbase.cpp:358 dialogs/settingsdialog.cpp:112
 #: dialogs/umlforeignkeyconstraintdialog.cpp:207 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgid "General Settings"
@@ -1751,7 +1751,7 @@ msgstr "Опции за приказот"
 
 #: dialogs/classpropertiesdialog.cpp:277
 #: dialogs/pages/classifierlistpage.cpp:118 menus/widgetbasepopupmenu.cpp:81
-#: menus/widgetbasepopupmenu.cpp:115 refactoring/refactoringassistant.cpp:669
+#: menus/widgetbasepopupmenu.cpp:115 refactoring/refactoringassistant.cpp:665
 #, kde-format
 msgid "Attributes"
 msgstr "Атрибути"
@@ -1764,7 +1764,7 @@ msgstr "Својства на атрибутите на ентитетот"
 
 #: dialogs/classpropertiesdialog.cpp:287
 #: dialogs/pages/classifierlistpage.cpp:122 menus/widgetbasepopupmenu.cpp:84
-#: menus/widgetbasepopupmenu.cpp:124 refactoring/refactoringassistant.cpp:685
+#: menus/widgetbasepopupmenu.cpp:124 refactoring/refactoringassistant.cpp:681
 #, kde-format
 msgid "Operations"
 msgstr "Операции"
@@ -1948,7 +1948,7 @@ msgstr "Приватно"
 msgid "Cut"
 msgstr ""
 
-#: dialogs/codeviewerdialog.cpp:95
+#: dialogs/codeviewerdialog.cpp:97
 #, fuzzy, kde-format
 #| msgid "Code Viewer"
 msgid "Code Viewer - %1"
@@ -2215,14 +2215,14 @@ msgstr "Атрибут"
 msgid "Search Term:"
 msgstr ""
 
-#: dialogs/multipagedialogbase.cpp:69
+#: dialogs/multipagedialogbase.cpp:72
 #, fuzzy, kde-format
 #| msgid "&Default"
 msgid "Default"
 msgstr "&Стандардно"
 
-#: dialogs/multipagedialogbase.cpp:352 dialogs/multipagedialogbase.cpp:366
-#: dialogs/multipagedialogbase.cpp:376
+#: dialogs/multipagedialogbase.cpp:334 dialogs/multipagedialogbase.cpp:348
+#: dialogs/multipagedialogbase.cpp:358
 #, fuzzy, kde-format
 #| msgid "General"
 msgctxt "general settings"
@@ -2231,51 +2231,51 @@ msgstr "Општо"
 
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
-#: dialogs/multipagedialogbase.cpp:391 umbrello.kcfg:177 umbrello.kcfg:297
+#: dialogs/multipagedialogbase.cpp:373 umbrello.kcfg:177 umbrello.kcfg:297
 #: umllistview.cpp:1472
 #, fuzzy, kde-format
 msgid "Font"
 msgstr "Фонт:"
 
-#: dialogs/multipagedialogbase.cpp:391
+#: dialogs/multipagedialogbase.cpp:373
 #, kde-format
 msgid "Font Settings"
 msgstr "Поставувања за фонт"
 
-#: dialogs/multipagedialogbase.cpp:466
+#: dialogs/multipagedialogbase.cpp:448
 #, fuzzy, kde-format
 #| msgid "Style:"
 msgctxt "widget style page"
 msgid "Style"
 msgstr "Стил:"
 
-#: dialogs/multipagedialogbase.cpp:466
+#: dialogs/multipagedialogbase.cpp:448
 #, fuzzy, kde-format
 #| msgid "Widget Color"
 msgid "Widget Style"
 msgstr "Боја на графичка контрола"
 
-#: dialogs/multipagedialogbase.cpp:477
+#: dialogs/multipagedialogbase.cpp:459
 #, fuzzy, kde-format
 #| msgid "Style:"
 msgctxt "style page name"
 msgid "Style"
 msgstr "Стил:"
 
-#: dialogs/multipagedialogbase.cpp:477
+#: dialogs/multipagedialogbase.cpp:459
 #, fuzzy, kde-format
 #| msgid "Widget Color"
 msgid "Line Style"
 msgstr "Боја на графичка контрола"
 
-#: dialogs/multipagedialogbase.cpp:497
+#: dialogs/multipagedialogbase.cpp:479
 #, fuzzy, kde-format
 #| msgid "Roles"
 msgctxt "role page name"
 msgid "Roles"
 msgstr "Улоги"
 
-#: dialogs/multipagedialogbase.cpp:497
+#: dialogs/multipagedialogbase.cpp:479
 #, kde-format
 msgid "Role Settings"
 msgstr "Својства за улога"
@@ -2417,7 +2417,7 @@ msgid "New Activity..."
 msgstr "Нова активност..."
 
 #: dialogs/pages/activitypage.cpp:107 dialogs/pages/activitypage.cpp:115
-#: menus/listpopupmenu.cpp:173 refactoring/refactoringassistant.cpp:464
+#: menus/listpopupmenu.cpp:173 refactoring/refactoringassistant.cpp:460
 #, fuzzy, kde-format
 msgid "Delete"
 msgstr "Избери"
@@ -2682,7 +2682,7 @@ msgstr "Н&ов атрибут на ентитетот..."
 
 #: dialogs/pages/classifierlistpage.cpp:217
 #: dialogs/pages/classifierlistpage.cpp:225 dialogs/umloperationdialog.cpp:170
-#: dialogs/umloperationdialog.cpp:178 uml.cpp:639
+#: dialogs/umloperationdialog.cpp:178 uml.cpp:640
 #, kde-format
 msgid "&Properties"
 msgstr "&Својства"
@@ -2702,7 +2702,7 @@ msgid "Source Code"
 msgstr "Види код"
 
 #: dialogs/pages/classoptionspage.cpp:152
-#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:594
+#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:595
 #, kde-format
 msgid "&Documentation"
 msgstr "Документација"
@@ -3509,7 +3509,7 @@ msgstr "&Автоматски распоред..."
 msgid "Auto Layout Settings"
 msgstr "Својства на атрибутите на ентитетот"
 
-#: dialogs/singlepagedialogbase.cpp:38 dialogs/singlepagedialogbase.cpp:57
+#: dialogs/singlepagedialogbase.cpp:35 dialogs/singlepagedialogbase.cpp:49
 #, kde-format
 msgid "Search"
 msgstr ""
@@ -3660,7 +3660,7 @@ msgid "You have entered an invalid attribute name."
 msgstr "Внесовте невалидно име за атрибутот."
 
 #: dialogs/umlattributedialog.cpp:124 dialogs/umlenumliteraldialog.cpp:85
-#: refactoring/refactoringassistant.cpp:849
+#: refactoring/refactoringassistant.cpp:845
 #, kde-format
 msgid "Attribute Name Invalid"
 msgstr "Невалидно име за атрибут"
@@ -4029,17 +4029,17 @@ msgid "You have entered an invalid operation name."
 msgstr "Внесовте невалидно име за операцијата."
 
 #: dialogs/umloperationdialog.cpp:426 dialogs/umloperationdialog.cpp:438
-#: refactoring/refactoringassistant.cpp:828
+#: refactoring/refactoringassistant.cpp:824
 #, kde-format
 msgid "Operation Name Invalid"
 msgstr "Невалидно име на операција"
 
-#: dialogs/umloperationdialog.cpp:435 refactoring/refactoringassistant.cpp:825
+#: dialogs/umloperationdialog.cpp:435 refactoring/refactoringassistant.cpp:821
 #, fuzzy, kde-format
 msgid "An operation with that signature already exists in %1.\n"
 msgstr "Операција со тој потпис веќе постои во %1.\n"
 
-#: dialogs/umloperationdialog.cpp:437 refactoring/refactoringassistant.cpp:827
+#: dialogs/umloperationdialog.cpp:437 refactoring/refactoringassistant.cpp:823
 #, kde-format
 msgid "Choose a different name or parameter list."
 msgstr "Изберете друго име или листа на параметри."
@@ -4359,7 +4359,7 @@ msgstr "(c) 2001 Paul Hensgen, (c) 2002-2006 авторите на Umbrello UML 
 msgid "Gael de Chalendar (aka Kleag)"
 msgstr ""
 
-#: docgenerators/main.cpp:51 main.cpp:134 main.cpp:183
+#: docgenerators/main.cpp:51 main.cpp:162
 #, fuzzy, kde-format
 msgid "Umbrello UML Modeller Authors"
 msgstr "Автори на Umbrello UML Моделар"
@@ -4424,12 +4424,12 @@ msgstr ""
 msgid "Apply layout"
 msgstr "&Автоматски распоред..."
 
-#: main.cpp:124 main.cpp:173
+#: main.cpp:147
 #, fuzzy, kde-format
 msgid "Umbrello UML Modeller"
 msgstr "Umbrello UML моделар"
 
-#: main.cpp:126 main.cpp:175
+#: main.cpp:149
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
@@ -4437,7 +4437,7 @@ msgid ""
 "\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 msgstr ""
 
-#: main.cpp:130 main.cpp:179
+#: main.cpp:157
 #, fuzzy, kde-format
 #| msgid "(c) 2001 Paul Hensgen, (c) 2002-2006 Umbrello UML Modeller Authors"
 msgid ""
@@ -4445,100 +4445,70 @@ msgid ""
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
 msgstr "(c) 2001 Paul Hensgen, (c) 2002-2006 авторите на Umbrello UML Modeller"
 
-#: main.cpp:133
-#, kde-format
-msgid "Paul Hensgen"
-msgstr ""
-
-#: main.cpp:133 main.cpp:182
+#: main.cpp:161
 #, kde-format
 msgid "Author of initial version."
 msgstr ""
 
-#: main.cpp:137
-#, kde-format
-msgid "Oliver Kellogg"
-msgstr ""
-
-#: main.cpp:138 main.cpp:141 main.cpp:186 main.cpp:189
+#: main.cpp:166 main.cpp:169
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr ""
 
-#: main.cpp:140
-#, kde-format
-msgid "Ralf Habacker"
-msgstr ""
-
-#: main.cpp:143
-#, kde-format
-msgid "Andi Fischer"
-msgstr ""
-
-#: main.cpp:144 main.cpp:192
+#: main.cpp:172
 #, kde-format
 msgid "Porting work, code cleanup, new features."
 msgstr ""
 
-#: main.cpp:146
-#, kde-format
-msgid "Jonathan Riddell"
-msgstr ""
-
-#: main.cpp:147 main.cpp:195
+#: main.cpp:175
 #, fuzzy, kde-format
 #| msgid "&Current diagram"
 msgid "Current maintainer."
 msgstr "&Тековен дијаграм"
 
-#: main.cpp:149
-#, kde-format
-msgid "Brian Thomas"
-msgstr ""
-
-#: main.cpp:150 main.cpp:198
+#: main.cpp:178
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 
-#: main.cpp:155 main.cpp:206
+#: main.cpp:184 main.cpp:202
 #, kde-format
 msgid "File to open"
 msgstr "Датотека за отворање"
 
-#: main.cpp:156 main.cpp:207
+#: main.cpp:185 main.cpp:203
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "Ги изнесува дијаграмите со наставка „extension“ и напушта"
 
-#: main.cpp:157 main.cpp:209
+#: main.cpp:186 main.cpp:205
 #, kde-format
 msgid "list available export extensions"
 msgstr ""
 
-#: main.cpp:158 main.cpp:211
+#: main.cpp:187 main.cpp:207
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "локалната папка за зачувување на изнесените дијаграми"
 
-#: main.cpp:158
+#: main.cpp:187
 #, kde-format
 msgid "the directory of the file"
 msgstr "папката на датотеката"
 
-#: main.cpp:159 main.cpp:213
+#: main.cpp:188 main.cpp:209
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "import files"
 msgstr "Изнесување на погледот..."
 
-#: main.cpp:160 main.cpp:215
+#: main.cpp:189 main.cpp:211
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "list supported languages"
 msgstr "Сите датотеки"
 
-#: main.cpp:161 main.cpp:217
+#: main.cpp:190 main.cpp:213
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4547,18 +4517,18 @@ msgstr ""
 "ја задржува структурата на стебло што се користи за зачувување на прегледите "
 "во документот во одредишната папка"
 
-#: main.cpp:162 main.cpp:219
+#: main.cpp:191 main.cpp:215
 #, fuzzy, kde-format
 msgid "import files from directory <dir>"
 msgstr "Внеси класи..."
 
-#: main.cpp:163
+#: main.cpp:192
 #, fuzzy, kde-format
 #| msgid "Active &Language"
 msgid "set active language"
 msgstr "&Активен јазик"
 
-#: main.cpp:221
+#: main.cpp:217
 #, fuzzy, kde-format
 #| msgid "Active &Language"
 msgid "set language"
@@ -4836,7 +4806,7 @@ msgstr "Прикажи уништување"
 msgid "Import File(s)..."
 msgstr "Внеси класи..."
 
-#: menus/listpopupmenu.cpp:200 uml.cpp:436
+#: menus/listpopupmenu.cpp:200 uml.cpp:437
 #, fuzzy, kde-format
 msgid "Import from Directory..."
 msgstr "Внеси класи..."
@@ -5368,42 +5338,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "Порамни на врв"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:658
+#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:659
 #, kde-format
 msgid "Align Right"
 msgstr "Порамни десно"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:663
+#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:664
 #, kde-format
 msgid "Align Left"
 msgstr "Порамни лево"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:668
+#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:669
 #, kde-format
 msgid "Align Top"
 msgstr "Порамни на врв"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:673
+#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:674
 #, kde-format
 msgid "Align Bottom"
 msgstr "Порамни на дно"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:678
+#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:679
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr "Порамни вертикално во средина"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:683
+#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:684
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr "Порамни хоризонтално во средина"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:688
+#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:689
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr "Порамни вертикално распределено"
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:693
+#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:694
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr "Порамни хоризонтално распределено"
@@ -6373,62 +6343,62 @@ msgstr "Името е веќе во употреба."
 msgid "Not a Unique Name"
 msgstr "Името не е единствено"
 
-#: refactoring/refactoringassistant.cpp:447
+#: refactoring/refactoringassistant.cpp:443
 #, kde-format
 msgid "Add Base Class"
 msgstr "Додај основна класа"
 
-#: refactoring/refactoringassistant.cpp:448
+#: refactoring/refactoringassistant.cpp:444
 #, fuzzy, kde-format
 #| msgid "Add Base Class"
 msgid "Add Derived Class"
 msgstr "Додај основна класа"
 
 #. i18n("Add Interface Implementation"), SLOT(addInterfaceImplementation()), Icon_Utils::it_Implementation));
-#: refactoring/refactoringassistant.cpp:450
-#: refactoring/refactoringassistant.cpp:456
-#: refactoring/refactoringassistant.cpp:468
+#: refactoring/refactoringassistant.cpp:446
+#: refactoring/refactoringassistant.cpp:452
+#: refactoring/refactoringassistant.cpp:464
 #, kde-format
 msgid "Add Operation"
 msgstr "Додај операција"
 
-#: refactoring/refactoringassistant.cpp:451
-#: refactoring/refactoringassistant.cpp:471
+#: refactoring/refactoringassistant.cpp:447
+#: refactoring/refactoringassistant.cpp:467
 #, kde-format
 msgid "Add Attribute"
 msgstr "Додај атрибут"
 
-#: refactoring/refactoringassistant.cpp:454
+#: refactoring/refactoringassistant.cpp:450
 #, kde-format
 msgid "Add Base Interface"
 msgstr "Додај основен интерфејс"
 
-#: refactoring/refactoringassistant.cpp:455
+#: refactoring/refactoringassistant.cpp:451
 #, fuzzy, kde-format
 #| msgid "Add Base Interface"
 msgid "Add Derived Interface"
 msgstr "Додај основен интерфејс"
 
-#: refactoring/refactoringassistant.cpp:514
-#: refactoring/refactoringassistant.cpp:695
+#: refactoring/refactoringassistant.cpp:510
+#: refactoring/refactoringassistant.cpp:691
 #, fuzzy, kde-format
 #| msgid "Add Base Class"
 msgid "Base Classifiers"
 msgstr "Додај основна класа"
 
-#: refactoring/refactoringassistant.cpp:559
-#: refactoring/refactoringassistant.cpp:714
+#: refactoring/refactoringassistant.cpp:555
+#: refactoring/refactoringassistant.cpp:710
 #, fuzzy, kde-format
 #| msgid "Select Classes"
 msgid "Derived Classifiers"
 msgstr "Избери класи"
 
-#: refactoring/refactoringassistant.cpp:846
+#: refactoring/refactoringassistant.cpp:842
 #, fuzzy, kde-format
 msgid "An attribute with that name already exists in %1.\n"
 msgstr "Операција со тој потпис веќе постои во %1.\n"
 
-#: refactoring/refactoringassistant.cpp:848
+#: refactoring/refactoringassistant.cpp:844
 #, fuzzy, kde-format
 #| msgid "&Use a different name"
 msgid "Choose a different name."
@@ -7724,203 +7694,203 @@ msgstr "&Активен јазик"
 msgid "&Settings"
 msgstr "Својства за улога"
 
-#: uml.cpp:412
+#: uml.cpp:413
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr ""
 
-#: uml.cpp:416
+#: uml.cpp:417
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr ""
 
-#: uml.cpp:420
+#: uml.cpp:421
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "Волшебник за нова &класа..."
 
-#: uml.cpp:424
+#: uml.cpp:425
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "&Додај стандардни типови на податоци за активен јазик"
 
-#: uml.cpp:431
+#: uml.cpp:432
 #, fuzzy, kde-format
 #| msgid "&Code Generation Wizard..."
 msgid "Code &Importing Wizard..."
 msgstr "Волшебник за генерирање ко&д..."
 
-#: uml.cpp:441
+#: uml.cpp:442
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "Волшебник за генерирање ко&д..."
 
-#: uml.cpp:446
+#: uml.cpp:447
 #, kde-format
 msgid "&Generate All Code"
 msgstr "&Генерирај го целиот код"
 
-#: uml.cpp:493
+#: uml.cpp:494
 #, kde-format
 msgid "Creates a new document"
 msgstr "Креира нов документ"
 
-#: uml.cpp:494
+#: uml.cpp:495
 #, kde-format
 msgid "Opens an existing document"
 msgstr "Отвора постоечки документ"
 
-#: uml.cpp:495
+#: uml.cpp:496
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "Отвора скорешно користена датотека"
 
-#: uml.cpp:496
+#: uml.cpp:497
 #, kde-format
 msgid "Saves the document"
 msgstr "Го зачувува документот"
 
-#: uml.cpp:497
+#: uml.cpp:498
 #, kde-format
 msgid "Saves the document as..."
 msgstr "Го зачувува документот како..."
 
-#: uml.cpp:498
+#: uml.cpp:499
 #, kde-format
 msgid "Closes the document"
 msgstr "Го затвора документот"
 
-#: uml.cpp:499
+#: uml.cpp:500
 #, kde-format
 msgid "Prints out the document"
 msgstr "Го печати документот"
 
-#: uml.cpp:500
+#: uml.cpp:501
 #, fuzzy, kde-format
 #| msgid "Prints out the document"
 msgid "Print Preview of the document"
 msgstr "Го печати документот"
 
-#: uml.cpp:501
+#: uml.cpp:502
 #, kde-format
 msgid "Quits the application"
 msgstr "Излегува од апликацијата"
 
-#: uml.cpp:502
+#: uml.cpp:503
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr ""
 
-#: uml.cpp:503
+#: uml.cpp:504
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr ""
 
-#: uml.cpp:504
+#: uml.cpp:505
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "Ја сече избраната секција и ја става на таблата со исечоци"
 
-#: uml.cpp:505
+#: uml.cpp:506
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "Ја копира избраната секција на таблата со исечоци"
 
-#: uml.cpp:506
+#: uml.cpp:507
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr "Ја вметнува содржината од таблата со исечоци"
 
-#: uml.cpp:507
+#: uml.cpp:508
 #, fuzzy, kde-format
 msgid "Undo last action"
 msgstr "нова_операција"
 
-#: uml.cpp:508
+#: uml.cpp:509
 #, kde-format
 msgid "Redo last undone action"
 msgstr ""
 
-#: uml.cpp:510
+#: uml.cpp:511
 #, kde-format
 msgid "Set the default program preferences"
 msgstr "Постави ги стандардните апликациски подесувања"
 
-#: uml.cpp:514
+#: uml.cpp:515
 #, fuzzy, kde-format
 #| msgid "Delete &Selected"
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "&Отстрани го избраното"
 
-#: uml.cpp:525
+#: uml.cpp:526
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "Дијаграм на &класа..."
 
-#: uml.cpp:532
+#: uml.cpp:533
 #, fuzzy, kde-format
 #| msgid "S&tate Diagram..."
 msgid "&Object Diagram..."
 msgstr "Дијаграм на сос&тојба..."
 
-#: uml.cpp:539
+#: uml.cpp:540
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "Дијаграм на &секвенци..."
 
-#: uml.cpp:545
+#: uml.cpp:546
 #, fuzzy, kde-format
 #| msgid "C&ollaboration Diagram..."
 msgid "C&ommunication Diagram..."
 msgstr "Дијаграм на соо&днос..."
 
-#: uml.cpp:551
+#: uml.cpp:552
 #, fuzzy, kde-format
 msgid "&Use Case Diagram..."
 msgstr "&Употреби дијаграм"
 
-#: uml.cpp:557
+#: uml.cpp:558
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "Дијаграм на сос&тојба..."
 
-#: uml.cpp:563
+#: uml.cpp:564
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "Дијаграм на а&ктивност..."
 
-#: uml.cpp:569
+#: uml.cpp:570
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "Дијаграм на ко&мпоненти..."
 
-#: uml.cpp:575
+#: uml.cpp:576
 #, fuzzy, kde-format
 msgid "&Deployment Diagram..."
 msgstr "Дијаграм на &поставување..."
 
-#: uml.cpp:581
+#: uml.cpp:582
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "Дијаграм на а&трибути..."
 
-#: uml.cpp:586 uml.cpp:1036
+#: uml.cpp:587 uml.cpp:1037
 #, kde-format
 msgid "&Tree View"
 msgstr "Поглед со &стебло"
 
-#: uml.cpp:590
+#: uml.cpp:591
 #, kde-format
 msgid "&Debugging"
 msgstr ""
 
-#: uml.cpp:598
+#: uml.cpp:599
 #, kde-format
 msgid "&Logging"
 msgstr ""
 
-#: uml.cpp:602
+#: uml.cpp:603
 #, kde-format
 msgid "&Command history"
 msgstr ""
@@ -7929,140 +7899,140 @@ msgstr ""
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:606 uml.cpp:1093
+#: uml.cpp:607 uml.cpp:1094
 #, kde-format
 msgid "&Bird's eye view"
 msgstr ""
 
-#: uml.cpp:611
+#: uml.cpp:612
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "Избриши ди&јаграм"
 
-#: uml.cpp:615
+#: uml.cpp:616
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "Прикачи за &мрежа"
 
-#: uml.cpp:619
+#: uml.cpp:620
 #, kde-format
 msgid "S&how Grid"
 msgstr "Прикажи м&режа"
 
-#: uml.cpp:624
+#: uml.cpp:625
 #, fuzzy, kde-format
 #| msgid "Delete Diagram"
 msgid "&Delete Diagram"
 msgstr "Бришење дијаграм"
 
-#: uml.cpp:629
+#: uml.cpp:630
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "И&знеси како слика..."
 
-#: uml.cpp:634
+#: uml.cpp:635
 #, fuzzy, kde-format
 #| msgid "Export &All Diagrams as Pictures..."
 msgid "Export &Diagrams as Pictures..."
 msgstr "Из&неси ги сите дијаграми како слики..."
 
-#: uml.cpp:654
+#: uml.cpp:655
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "Зголеми на &100%"
 
-#: uml.cpp:697
+#: uml.cpp:698
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "Премести го ливчето &лево"
 
-#: uml.cpp:698
+#: uml.cpp:699
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "Премести го ливчето &десно"
 
-#: uml.cpp:721
+#: uml.cpp:722
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr "Избери го левиот дијаграм"
 
-#: uml.cpp:722
+#: uml.cpp:723
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr "Избери го десниот дијаграм"
 
-#: uml.cpp:860
+#: uml.cpp:861
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:910
+#: uml.cpp:911
 #, fuzzy, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Подготвен."
 
-#: uml.cpp:918 uml.cpp:931
+#: uml.cpp:919 uml.cpp:932
 #, fuzzy, kde-format
 #| msgid "&100%"
 msgid "100%"
 msgstr "&100%"
 
-#: uml.cpp:923
+#: uml.cpp:924
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Fit"
 msgstr "Филтер"
 
-#: uml.cpp:982
+#: uml.cpp:983
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "Дијаграм на лентата со алатки"
 
-#: uml.cpp:1047
+#: uml.cpp:1048
 #, fuzzy, kde-format
 #| msgid "Documentation"
 msgid "Doc&umentation"
 msgstr "Документација"
 
-#: uml.cpp:1058
+#: uml.cpp:1059
 #, kde-format
 msgid "Co&mmand history"
 msgstr ""
 
-#: uml.cpp:1074
+#: uml.cpp:1075
 #, kde-format
 msgid "&Debug"
 msgstr ""
 
-#: uml.cpp:1081
+#: uml.cpp:1082
 #, kde-format
 msgid "&Log"
 msgstr ""
 
-#: uml.cpp:1123 uml.cpp:1360 uml.cpp:1410
+#: uml.cpp:1124 uml.cpp:1361 uml.cpp:1411
 #, kde-format
 msgid "Opening file..."
 msgstr "Отворам датотека..."
 
-#: uml.cpp:1174 uml.cpp:1259 uml.cpp:1445 umldoc.cpp:379 umldoc.cpp:381
+#: uml.cpp:1175 uml.cpp:1260 uml.cpp:1446 umldoc.cpp:379 umldoc.cpp:381
 #: umldoc.cpp:405 umldoc.cpp:3465
 #, kde-format
 msgid "Untitled"
 msgstr ""
 
-#: uml.cpp:1342
+#: uml.cpp:1343
 #, kde-format
 msgid "Creating new document..."
 msgstr "Создавам нов документ..."
 
-#: uml.cpp:1368 uml.cpp:1384
+#: uml.cpp:1369 uml.cpp:1385
 #, kde-format
 msgid "Open File"
 msgstr "Отвори датотека"
 
-#: uml.cpp:1372
+#: uml.cpp:1373
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi."
@@ -8088,22 +8058,22 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 Компресирани XMI датотеки (*.xmi.tar.bz2)\n"
 "*.mdl|Rose моделарни датотеки"
 
-#: uml.cpp:1444
+#: uml.cpp:1445
 #, kde-format
 msgid "Saving file..."
 msgstr "Зачувувам датотека..."
 
-#: uml.cpp:1461
+#: uml.cpp:1462
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Зачувувам датотека со ново име..."
 
-#: uml.cpp:1471 uml.cpp:1477 umlviewimageexporter.cpp:195
+#: uml.cpp:1472 uml.cpp:1478 umlviewimageexporter.cpp:195
 #, kde-format
 msgid "Save As"
 msgstr ""
 
-#: uml.cpp:1472
+#: uml.cpp:1473
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -8119,7 +8089,7 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 компресирана XMI датотека\n"
 "*|Сите датотеки"
 
-#: uml.cpp:1477
+#: uml.cpp:1478
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -8137,7 +8107,7 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 компресирана XMI датотека\n"
 "*|Сите датотеки"
 
-#: uml.cpp:1501
+#: uml.cpp:1502
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -8146,68 +8116,68 @@ msgstr ""
 "Датотеката %1 веќе постои.\n"
 "Дали сакате да запишете врз неа."
 
-#: uml.cpp:1502
+#: uml.cpp:1503
 #, fuzzy, kde-format
 msgid "Warning"
 msgstr "стринг"
 
-#: uml.cpp:1502
+#: uml.cpp:1503
 #, kde-format
 msgid "Overwrite"
 msgstr "Презапиши"
 
-#: uml.cpp:1528
+#: uml.cpp:1529
 #, kde-format
 msgid "Closing file..."
 msgstr "Ја затворам датотеката..."
 
-#: uml.cpp:1539
+#: uml.cpp:1540
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: uml.cpp:1545
+#: uml.cpp:1546
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: uml.cpp:1609
+#: uml.cpp:1602
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "Print Preview..."
 msgstr "Изнесување на погледот..."
 
-#: uml.cpp:1636
+#: uml.cpp:1629
 #, kde-format
 msgid "Printing..."
 msgstr "Печатам..."
 
-#: uml.cpp:1643 uml.cpp:1647
+#: uml.cpp:1636 uml.cpp:1640
 #, kde-format
 msgid "Print %1"
 msgstr "Печати %1"
 
-#: uml.cpp:1667
+#: uml.cpp:1660
 #, kde-format
 msgid "Exiting..."
 msgstr "Излегувам..."
 
-#: uml.cpp:1754
+#: uml.cpp:1747
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Го сечам избраното..."
 
-#: uml.cpp:1777
+#: uml.cpp:1770
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Го копирам избраното во таблата со исечоци..."
 
-#: uml.cpp:1789
+#: uml.cpp:1782
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Ја вметнувам содржината на таблата со исечоци..."
 
-#: uml.cpp:1794
+#: uml.cpp:1787
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -8216,41 +8186,41 @@ msgstr ""
 "Umbrello неможе да ја вметни содржината од таблата со исечоци.  Објектите од "
 "таблата со исечоци можат да бидат од погрешен вид и да бидат вметнати овде."
 
-#: uml.cpp:1820 umlviewimageexporter.cpp:87 umlviewimageexporterall.cpp:118
+#: uml.cpp:1813 umlviewimageexporter.cpp:87 umlviewimageexporterall.cpp:118
 #, fuzzy, kde-format
 #| msgid "Ready."
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Подготвен."
 
-#: uml.cpp:2429
+#: uml.cpp:2422
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "Неможе да се прегледа кодот додека не се генерира."
 
-#: uml.cpp:2429 uml.cpp:2432
+#: uml.cpp:2422 uml.cpp:2425
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Неможе да се прегледа кодот"
 
-#: uml.cpp:2432
+#: uml.cpp:2425
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Неможе да се прегледа кодот од едноставен пишувач на код."
 
-#: uml.cpp:2911 uml.cpp:2913
+#: uml.cpp:2904 uml.cpp:2906
 #, fuzzy, kde-format
 #| msgid "Select Code to Import"
 msgid "Select file(s) to import:"
 msgstr "Изберете код за внесување"
 
-#: uml.cpp:2944 uml.cpp:2946
+#: uml.cpp:2937 uml.cpp:2939
 #, fuzzy, kde-format
 #| msgid "Select Code to Import"
 msgid "Select directory to import:"
 msgstr "Изберете код за внесување"
 
-#: uml.cpp:3518
+#: uml.cpp:3511
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""
