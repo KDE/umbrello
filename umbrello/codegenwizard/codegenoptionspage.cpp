@@ -45,7 +45,7 @@ CodeGenOptionsPage::CodeGenOptionsPage(QWidget *parent)
     CodeGenerator* gen = UMLApp::app()->generator();
 
     ui_forceDoc->setChecked(m_parentPolicy->getCodeVerboseDocumentComments());
-    ui_forceSections->setChecked(m_parentPolicy->getCodeVerboseSectionComments());
+    ui_writeSectionComments->setCurrentIndex(m_parentPolicy->getSectionCommentsPolicy());
 
     ui_outputDir->setText(m_parentPolicy->getOutputDirectory().absolutePath());
     ui_includeHeadings->setChecked(m_parentPolicy->getIncludeHeadings());
@@ -215,7 +215,8 @@ void CodeGenOptionsPage::apply()
 {
     if (m_parentPolicy) {
         m_parentPolicy->setCodeVerboseDocumentComments(ui_forceDoc->isChecked());
-        m_parentPolicy->setCodeVerboseSectionComments(ui_forceSections->isChecked());
+        m_parentPolicy->setSectionCommentsPolicy((CodeGenerationPolicy::WriteSectionCommentsPolicy)
+                                                 ui_writeSectionComments->currentIndex());
         m_parentPolicy->setOutputDirectory(QDir(ui_outputDir->text()));
         m_parentPolicy->setIncludeHeadings(ui_includeHeadings->isChecked());
         m_parentPolicy->setHeadingFileDir(ui_headingsDir->text());

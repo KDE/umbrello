@@ -103,26 +103,29 @@ CodeGenerationPolicy::CommentStyle CodeGenerationPolicy::getCommentStyle()
 }
 
 /**
- * Set the value of m_codeVerboseSectionComments
- * Whether or not verbose code commenting for sections is desired. If true, comments
- * for sections will be written even if the section is empty.
- * @param new_var the new value of m_codeVerboseSectionComments
+ * Set the value of Settings::optionState().codeGenerationState.writeSectionComments
+ * Whether or not verbose code commenting for sections is desired.
+ * If the value is Always, comments for sections will be written even if the section
+ * is empty.
+ * @param new_var the new WriteSectionCommentsPolicy to set
  */
-void CodeGenerationPolicy::setCodeVerboseSectionComments (bool new_var)
+void CodeGenerationPolicy::setSectionCommentsPolicy (WriteSectionCommentsPolicy new_var)
 {
-    Settings::optionState().codeGenerationState.forceSections = new_var;
+    Settings::optionState().codeGenerationState.writeSectionComments = new_var;
     emit modifiedCodeContent();
 }
 
 /**
- * Get the value of m_codeVerboseSectionComments
- * Whether or not verbose code commenting for sections is desired. If true, comments
- * for sections will be written even if the section is empty.
+ * Get the value of Settings::optionState().codeGenerationState.writeSectionComments
+ * Whether or not verbose code commenting for sections is desired.
+ * If the value is Always, comments for sections will be written even if the section
+ * is empty.
  * @return the flag whether verbose code commenting for sections is desired
  */
-bool CodeGenerationPolicy::getCodeVerboseSectionComments () const
+CodeGenerationPolicy::WriteSectionCommentsPolicy
+CodeGenerationPolicy::getSectionCommentsPolicy () const
 {
-    return Settings::optionState().codeGenerationState.forceSections;
+    return Settings::optionState().codeGenerationState.writeSectionComments;
 }
 
 /**
@@ -431,7 +434,7 @@ void CodeGenerationPolicy::setDefaults (CodeGenerationPolicy * clone, bool emitU
     // settors below will each send the modifiedCodeContent() signal
     // needlessly (we can just make one call at the end).
 
-    setCodeVerboseSectionComments (clone->getCodeVerboseSectionComments());
+    setSectionCommentsPolicy (clone->getSectionCommentsPolicy());
     setCodeVerboseDocumentComments (clone->getCodeVerboseDocumentComments());
     setHeadingFileDir (clone->getHeadingFileDir());
     setIncludeHeadings (clone->getIncludeHeadings());
@@ -458,7 +461,7 @@ void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     // settors below will each send the modifiedCodeContent() signal
     // needlessly (we can just make one call at the end).
 
-    setCodeVerboseSectionComments(UmbrelloSettings::forceSections());
+    setSectionCommentsPolicy(UmbrelloSettings::writeSectionComments());
     setCodeVerboseDocumentComments(UmbrelloSettings::forceDoc());
     setLineEndingType(UmbrelloSettings::lineEndingType());
     setIndentationType(UmbrelloSettings::indentationType());
@@ -509,7 +512,7 @@ void CodeGenerationPolicy::writeConfig ()
     UmbrelloSettings::setAutoGenEmptyConstructors(getAutoGenerateConstructors());
     //UmbrelloSettings::setNewcodegen(getNewCodegen());
     UmbrelloSettings::setForceDoc(getCodeVerboseDocumentComments());
-    UmbrelloSettings::setForceSections(getCodeVerboseSectionComments());
+    UmbrelloSettings::setWriteSectionComments(getSectionCommentsPolicy());
 
     UmbrelloSettings::setLineEndingType(getLineEndingType());
     UmbrelloSettings::setIndentationType(getIndentationType());

@@ -1,4 +1,4 @@
-<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>CodeGenOptionsPage</class>
  <widget class="QWidget" name="CodeGenOptionsPage">
@@ -32,7 +32,7 @@
       </sizepolicy>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="ui_tabGeneral">
       <attribute name="title">
@@ -217,25 +217,96 @@ generator wants to use as output file already exists:</string>
            </property>
            <layout class="QVBoxLayout">
             <item>
-             <widget class="QCheckBox" name="ui_forceDoc">
-              <property name="whatsThis">
-               <string>Write comments &amp;for class and method documentation even if empty</string>
-              </property>
-              <property name="text">
-               <string>&amp;Write documentation comments even if empty</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="ui_forceSections">
-              <property name="whatsThis">
-               <string>Writes comments to indicate the different sections (public, private etc) in a class, even if the sections are empty</string>
-              </property>
-              <property name="text">
-               <string>Write comments &amp;for sections even if section 
-is empty</string>
-              </property>
-             </widget>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <spacer name="verticalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="ui_forceDoc">
+                <property name="whatsThis">
+                 <string>Write comments &amp;for class and method documentation even if empty</string>
+                </property>
+                <property name="text">
+                 <string>&amp;Write documentation comments even if empty</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="QLabel" name="ui_textLabelSectionComments">
+                  <property name="text">
+                   <string>Write section comments:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="ui_writeSectionComments">
+                  <property name="whatsThis">
+                   <string>Writes comments to indicate the different sections (public, private etc) in a class, even if the sections are empty</string>
+                  </property>
+                  <property name="currentText">
+                   <string>None</string>
+                  </property>
+                  <property name="currentIndex">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>None</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>When section is non empty</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Always</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>

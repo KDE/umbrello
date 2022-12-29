@@ -136,7 +136,7 @@ public:
         defaultAssocFieldScope(Uml::Visibility::Public),
         defaultAttributeAccessorScope(Uml::Visibility::Public),
         forceDoc(false),
-        forceSections(false),
+        writeSectionComments(CodeGenerationPolicy::None),
         includeHeadings(false),
         indentationAmount(false),
         indentationType(CodeGenerationPolicy::NONE),
@@ -160,7 +160,7 @@ public:
     Uml::Visibility::Enum defaultAssocFieldScope;
     Uml::Visibility::Enum defaultAttributeAccessorScope;
     bool forceDoc;
-    bool forceSections;
+    CodeGenerationPolicy::WriteSectionCommentsPolicy writeSectionComments;
     QDir headingsDirectory;
     bool includeHeadings;
     int indentationAmount;

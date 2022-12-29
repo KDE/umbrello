@@ -146,9 +146,6 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &file)
     // open stream for writing
     QTextStream h(&file);
 
-    // up the indent level to one
-    m_indentLevel = 1;
-
     // write header blurb
     QString str = getHeadingFile(QStringLiteral(".h"));
     if (!str.isEmpty()) {
@@ -253,18 +250,16 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
 
     // write comment for section IF needed
     QString indnt = indent();
-    if (forceDoc() || c->hasAccessorMethods() || c->hasOperationMethods()) {
-        writeComment(QStringLiteral(" "), indnt, cpp);
+    if (forceSections() || c->hasAccessorMethods() || c->hasOperationMethods()) {
         writeComment(QStringLiteral("Methods"), indnt, cpp);
-        writeComment(QStringLiteral(" "), indnt, cpp);
         writeBlankLine(cpp);
         writeBlankLine(cpp);
     }
 
     // write comment for sub-section IF needed
-    if (forceDoc() || c->hasAccessorMethods()) {
+    if (forceSections() || c->hasAccessorMethods()) {
         writeComment(QStringLiteral("Accessor methods"), indnt, cpp);
-        writeComment(QStringLiteral(" "), indnt, cpp);
+        writeBlankLine(cpp);
         writeBlankLine(cpp);
     }
 
@@ -316,9 +311,9 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
     //
 
     // write comment for sub-section IF needed
-    if (forceDoc() || c->hasOperationMethods()) {
+    if (forceSections() || c->hasOperationMethods()) {
         writeComment(QStringLiteral("Other methods"), indnt, cpp);
-        writeComment(QStringLiteral(" "), indnt, cpp);
+        writeBlankLine(cpp);
         writeBlankLine(cpp);
     }
 
@@ -389,13 +384,14 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
 
     //Write class Documentation if there is something or if force option
     if (forceDoc() || !c->doc().isEmpty()) {
-        cpp << m_endl << "/**" << m_endl;
-        cpp << "  * class " << className_ << m_endl;
-        cpp << formatDoc(c->doc(), QStringLiteral("  * "));
-        cpp << "  */";
-        writeBlankLine(cpp);
+        writeDocumentation(QString(), QStringLiteral("class ") + className_, c->doc(), cpp);
         writeBlankLine(cpp);
     }
+
+    // Up the indent level to one.
+    // Do this _after_ call to writeDocumentation() because the class documentation
+    // shall not be indented.
+    m_indentLevel = 1;
 
     //check if class is abstract and / or has abstract methods
     if ((c->isAbstract() || c->isInterface())
@@ -530,12 +526,12 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility::Enum vis
         list = c->getAttributeList(visibility);
 
     //write documentation
-    if (forceDoc() || list.count() > 0)
+    if (forceSections() || list.count() > 0)
     {
         QString strVis = Codegen_Utils::capitalizeFirstLetter(Uml::Visibility::toString(visibility));
         QString strStatic = writeStatic ? QStringLiteral("Static ") : QString();
         writeComment(strStatic + strVis + QStringLiteral(" attributes"), indent(), stream);
-        writeComment(QStringLiteral(" "), indent(), stream);
+        writeBlankLine(stream);
         writeBlankLine(stream);
     }
 
@@ -589,14 +585,8 @@ void CppWriter::writeHeaderAttributeAccessorMethods (UMLClassifier *c, Uml::Visi
 
     // write accessor methods for attribs we found
     // if getAccessorsArePublic policy is true, all attribute accessors are public.
-    if (policyExt()->getAccessorsArePublic())
-    {
-        writeAttributeMethods(list, Uml::Visibility::Public, true, false, policyExt()->getAccessorsAreInline(), stream);
-    }
-    else 
-    {
-        writeAttributeMethods(list, visibility, true, false, policyExt()->getAccessorsAreInline(), stream);
-    }
+    const Uml::Visibility::Enum vis = policyExt()->getAccessorsArePublic() ? Uml::Visibility::Public : visibility;
+    writeAttributeMethods(list, vis, true, writeStatic, policyExt()->getAccessorsAreInline(), stream);
 }
 
 /**
@@ -611,13 +601,13 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
     if (!policyExt()->getAutoGenerateAccessors())
         return;
 
-    if (forceDoc() || attribs.count() > 0)
+    if (forceSections() || attribs.count() > 0)
     {
         QString strVis = Codegen_Utils::capitalizeFirstLetter(Uml::Visibility::toString(visibility));
         QString strStatic = (isStatic ? QStringLiteral(" static") : QString());
         writeBlankLine(stream);
         writeComment(strVis + strStatic + QStringLiteral(" attribute accessor methods"), indent(), stream);
-        writeComment(QStringLiteral(" "), indent(), stream);
+        writeBlankLine(stream);
         writeBlankLine(stream);
     }
 
@@ -637,25 +627,26 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
 }
 
 /**
- * Writes a // style comment.
+ * Writes a general comment.
  */
 void CppWriter::writeComment(const QString &comment, const QString &myIndent, QTextStream &cpp)
 {
-    // in the case we have several line comment..
-    // NOTE: this part of the method has the problem of adopting UNIX newline,
-    // need to resolve for using with MAC/WinDoze eventually I assume
-    if (comment.contains(QRegExp(QStringLiteral("\n")))) {
+    CodeGenerationPolicy::CommentStyle const cStyle = UMLApp::app()->commonPolicy()->getCommentStyle();
+    QString commentHeadingStr;
+    QString intermediateLinePrefixStr;
+    QString commentFooterStr;
 
-        QStringList lines = comment.split(QLatin1Char('\n'));
-        for (int i= 0; i < lines.count(); ++i)
-        {
-            cpp << myIndent << QStringLiteral("// ") << lines[i] << m_endl;
-        }
-    } else {
-        // this should be more fancy in the future, breaking it up into 80 char
-        // lines so that it doesn't look too bad
-        cpp << myIndent << QStringLiteral("// ")<< comment << m_endl;
+    if (cStyle == CodeGenerationPolicy::MultiLine) {
+        commentHeadingStr         = QStringLiteral("/* ");
+        intermediateLinePrefixStr = QStringLiteral(" * ");
+        commentFooterStr          = QStringLiteral(" */");
+    } else if (cStyle == CodeGenerationPolicy::SingleLine) {
+        commentHeadingStr         = QStringLiteral("// ");
+        intermediateLinePrefixStr = commentHeadingStr;
     }
+
+    cpp << formatFullDocBlock(comment, myIndent + commentHeadingStr,
+                              myIndent + commentFooterStr, myIndent + intermediateLinePrefixStr);
 }
 
 /**
@@ -663,21 +654,36 @@ void CppWriter::writeComment(const QString &comment, const QString &myIndent, QT
  */
 void CppWriter::writeDocumentation(QString header, QString body, QString end, QTextStream &cpp)
 {
+    CodeGenerationPolicy::CommentStyle const cStyle = UMLApp::app()->commonPolicy()->getCommentStyle();
+    QString commentHeadingStr;
+    QString intermediateLinePrefixStr;
+    QString commentFooterStr;
+
+    if (cStyle == CodeGenerationPolicy::MultiLine) {
+      commentHeadingStr         = QStringLiteral("/** ");
+      intermediateLinePrefixStr = QStringLiteral(" * ");
+      commentFooterStr          = QStringLiteral(" */");
+    } else if (cStyle == CodeGenerationPolicy::SingleLine) {
+      commentHeadingStr         = QStringLiteral("/// ");
+      intermediateLinePrefixStr = commentHeadingStr;
+    }
     writeBlankLine(cpp);
     QString indnt = indent();
 
-    cpp << indnt << QStringLiteral("/**") << m_endl;
+    cpp << indnt << commentHeadingStr << m_endl;
     if (!header.isEmpty())
-        cpp << formatDoc(header, indnt + QStringLiteral(" * "));
+        cpp << formatDoc(header, indnt + intermediateLinePrefixStr);
     if (!body.isEmpty())
-        cpp << formatDoc(body, indnt + QStringLiteral(" * "));
+        cpp << formatDoc(body, indnt + intermediateLinePrefixStr);
     if (!end.isEmpty()) {
         QStringList lines = end.split(QLatin1Char('\n'));
         for (int i = 0; i < lines.count(); ++i) {
-            cpp << formatDoc(lines[i], indnt + QStringLiteral(" * "));
+            cpp << indnt << intermediateLinePrefixStr << lines[i] << m_endl;
         }
     }
-    cpp << indnt << QStringLiteral(" */") << m_endl;
+    if (!commentFooterStr.isEmpty()) {
+        cpp << indnt << commentFooterStr << m_endl;
+    }
 }
 
 /**
@@ -1029,10 +1035,10 @@ void CppWriter::writeConstructorDecls(QTextStream &stream)
 {
     const bool generateEmptyConstructors =
         UMLApp::app()->commonPolicy()->getAutoGenerateConstructors();
-    if (forceDoc() || generateEmptyConstructors)
+    if (forceSections() || generateEmptyConstructors)
     {
         writeComment(QStringLiteral("Constructors/Destructors"), indent(), stream);
-        writeComment(QStringLiteral(" "), indent(), stream);
+        writeBlankLine(stream);
         writeBlankLine(stream);
     }
     if (!generateEmptyConstructors)
@@ -1120,9 +1126,9 @@ void CppWriter::writeConstructorMethods(UMLClassifier * c, QTextStream &stream)
     const bool generateEmptyConstructors =
         UMLApp::app()->commonPolicy()->getAutoGenerateConstructors();
 
-    if (forceDoc() || generateEmptyConstructors) {
+    if (forceSections() || generateEmptyConstructors) {
         writeComment(QStringLiteral("Constructors/Destructors"), indent(), stream);
-        writeComment(QStringLiteral(" "), indent(), stream);
+        writeBlankLine(stream);
         writeBlankLine(stream);
     }
     if (!generateEmptyConstructors)

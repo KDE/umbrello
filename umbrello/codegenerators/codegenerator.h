@@ -81,8 +81,8 @@ public:
     void setForceDoc(bool f);
     bool forceDoc() const;
 
-    void setForceSections(bool f);
-    bool forceSections() const;
+    void setSectionCommentPolicy(CodeGenerationPolicy::WriteSectionCommentsPolicy f);
+    bool forceSections() const; // TODO change to WriteSectionCommentsPolicy
 
     virtual QString getHeadingFile(const QString &file);
 
@@ -91,6 +91,10 @@ public:
     static QString cleanName(const QString &name);
 
     static QString formatDoc(const QString& text, const QString& linePrefix = QStringLiteral(" *"), int lineWidth = 80);
+    static QString formatFullDocBlock(const QString &text,
+                                      const QString &blockHeader = QStringLiteral("/* "),
+                                      const QString &blockFooter = QStringLiteral(" */"),
+                                      const QString &linePrefix = QStringLiteral(" *"), int lineWidth = 80);
 
     static QString formatSourceCode(const QString& code, const QString& indentation);
 

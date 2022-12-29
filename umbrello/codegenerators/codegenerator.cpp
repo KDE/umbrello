@@ -733,6 +733,73 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
 }
 
 /**
+ * Format full documentation block for output in source files
+ *
+ * @param text         the documentation which has to be formatted
+ * @param blockHeader   the prefix which has to be added in the beginning of each line (instead of the first)
+ * @param blockFooter   the prefix which has to be added in the beginning of each line (instead of the first)
+ * @param linePrefix   the prefix which has to be added in the beginning of each line (instead of the first)
+ * @param lineWidth    the line width used for word-wrapping the documentation
+ *
+ * @return the formatted documentation text
+ */
+QString CodeGenerator::formatFullDocBlock(const QString &text, const QString &blockHeader,
+                                          const QString &blockFooter, const QString &linePrefix, int lineWidth)
+{
+    const QString endLine = UMLApp::app()->commonPolicy()->getNewLineEndingChars();
+    QString output;
+    QStringList lines = text.split(endLine);
+    int lineIndex = 0;
+    for (QStringList::ConstIterator lit = lines.constBegin(); lit != lines.constEnd(); ++lit) {
+        QString input = *lit;
+        input.remove(QRegExp(QStringLiteral("\\s+$")));
+        if (input.length() < lineWidth) {
+            if (lineIndex == 0) {
+                output += blockHeader;
+            } else {
+              output += linePrefix;
+            }
+            output += input;
+            if (lineIndex == lines.count()-1) {
+                output += blockFooter;
+            }
+            output += endLine;
+            lineIndex++;
+            continue;
+        }
+        int index;
+        while ((index = input.lastIndexOf(QStringLiteral(" "), lineWidth)) >= 0) {
+            if (lineIndex == 0) {
+                output += blockHeader;
+            } else {
+                output += linePrefix;
+            }
+            output += input.left(index); // add line
+            if (lineIndex == lines.count() - 1) {
+                output += blockFooter;
+            }
+            output += endLine;
+            lineIndex++;
+            input.remove(0, index + 1); // remove processed string, including white space
+        }
+        if (!input.isEmpty()) {
+            if (lineIndex == 0) {
+                output += blockHeader;
+            } else {
+                output += linePrefix;
+            }
+            output += input;
+            if (lineIndex == lines.count() - 1) {
+                output += blockFooter;
+            }
+            output += endLine;
+            lineIndex++;
+        }
+    }
+    return output;
+}
+
+/**
  * Format source code for output in source files by
  * adding the correct indentation to every line of code.
  *
@@ -766,14 +833,14 @@ bool CodeGenerator::forceDoc() const
     return UMLApp::app()->commonPolicy()->getCodeVerboseDocumentComments();
 }
 
-void CodeGenerator::setForceSections(bool f)
+void CodeGenerator::setSectionCommentPolicy(CodeGenerationPolicy::WriteSectionCommentsPolicy f)
 {
-    UMLApp::app()->commonPolicy()->setCodeVerboseSectionComments(f);
+    UMLApp::app()->commonPolicy()->setSectionCommentsPolicy(f);
 }
 
-bool CodeGenerator::forceSections() const
+bool CodeGenerator::forceSections() const // TODO change to CodeGenerationPolicy::WriteSectionCommentsPolicy
 {
-    return UMLApp::app()->commonPolicy()->getCodeVerboseSectionComments();
+    return UMLApp::app()->commonPolicy()->getSectionCommentsPolicy() == CodeGenerationPolicy::Always;
 }
 
 /**

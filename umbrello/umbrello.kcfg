@@ -395,10 +395,15 @@
          <whatsthis>Enables/Disables Verbose Documentation</whatsthis>
          <default>true</default>
        </entry>
-       <entry name="forceSections" type="Bool">
-         <label>Force Section Documentation</label>
-         <whatsthis>Enables/Disables verbose section documentation</whatsthis>
-         <default>true</default>
+       <entry name="writeSectionComments" type="Enum">
+         <label>Section Comment Policy</label>
+         <whatsthis>Whether section comments shall be written</whatsthis>
+         <choices name="CodeGenerationPolicy::WriteSectionCommentsPolicy">
+            <choice name="None" />
+            <choice name="WhenNonEmpty" />
+            <choice name="Always" />
+         </choices>
+         <default>CodeGenerationPolicy::None</default>
        </entry>
        <entry name="headingsDirectory" type="Path">
          <label>Headings Directory</label>

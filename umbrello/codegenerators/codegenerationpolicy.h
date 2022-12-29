@@ -41,6 +41,7 @@ public:
      */
     enum OverwritePolicy {Ok=0, Ask, Never, Cancel};
     enum ModifyNamePolicy {No=0, Underscore, Capitalise};
+    enum WriteSectionCommentsPolicy { None=0, WhenNonEmpty, Always };
     enum NewLineType {UNIX=0, DOS, MAC};
     enum IndentationType {NONE=0, TAB, SPACE};
     enum CommentStyle { SingleLine=0, MultiLine };
@@ -53,8 +54,8 @@ public:
     void setOverwritePolicy(OverwritePolicy new_var);
     OverwritePolicy getOverwritePolicy() const;
 
-    void setCodeVerboseSectionComments(bool new_var);
-    bool getCodeVerboseSectionComments() const;
+    void setSectionCommentsPolicy(WriteSectionCommentsPolicy new_var);
+    WriteSectionCommentsPolicy getSectionCommentsPolicy() const;
 
     void setCodeVerboseDocumentComments(bool new_var);
     bool getCodeVerboseDocumentComments() const;
@@ -119,7 +120,7 @@ protected:
 
     // Whether or not verbose code commenting for sections is desired.
     // If true, comments for sections will be written even if the section is empty.
-    bool m_codeVerboseSectionComments;
+    WriteSectionCommentsPolicy m_sectionCommentsPolicy;
 
     // Whether or not verbose code commenting for documentation is desired.
     // If true, documentation for various code will be written even if no
