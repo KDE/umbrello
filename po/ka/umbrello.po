@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-28 00:52+0000\n"
-"PO-Revision-Date: 2022-12-06 06:20+0100\n"
+"PO-Revision-Date: 2022-12-28 09:50+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4171,7 +4171,7 @@ msgstr ""
 #: main.cpp:175
 #, kde-format
 msgid "Current maintainer."
-msgstr ""
+msgstr "პროექტის მიმდინარე ხელმძღვანელი."
 
 #: main.cpp:178
 #, kde-format
@@ -5756,7 +5756,7 @@ msgstr ""
 #: model_utils.cpp:1201
 #, kde-format
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: model_utils.cpp:1201
 #, kde-format
@@ -7409,7 +7409,7 @@ msgstr "უსახელო"
 #: uml.cpp:1343
 #, kde-format
 msgid "Creating new document..."
-msgstr ""
+msgstr "ახალი დოკუმენტის შექმნა..."
 
 #: uml.cpp:1369 uml.cpp:1385
 #, kde-format
@@ -9006,7 +9006,7 @@ msgstr "ეგზემპლარი"
 #, kde-format
 msgctxt "selection arrow"
 msgid "Select"
-msgstr ""
+msgstr "მონიშნეთ"
 
 #: worktoolbar.cpp:328
 #, kde-format
