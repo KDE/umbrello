@@ -82,9 +82,17 @@ CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
             SIGNAL(itemClicked(QListWidgetItem*)), this,
             SLOT(generalOptionsListWidgetClicked(QListWidgetItem*)));
 
+    /*
+     Commenting this out due to runtime error,
+     QObject::connect: No such slot CPPCodeGenerationForm::editClassMemberPrefixDoubleClicked(QListWidgetItem*)
+                       in umbrello/codegenerators/cpp/cppcodegenerationform.cpp:87
+     QObject::connect:  (sender name:   'ui_generalOptionsListWidget')
+     QObject::connect:  (receiver name: 'CPPCodeGenerationFormBase')
+
     connect(ui_generalOptionsListWidget,
             SIGNAL(itemDoubleClicked(QListWidgetItem*)), this,
             SLOT(editClassMemberPrefixDoubleClicked(QListWidgetItem*)));
+     */
 }
 
 /**
