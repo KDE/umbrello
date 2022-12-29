@@ -268,9 +268,6 @@ generator wants to use as output file already exists:</string>
                   <property name="whatsThis">
                    <string>Writes comments to indicate the different sections (public, private etc) in a class, even if the sections are empty</string>
                   </property>
-                  <property name="currentText">
-                   <string>None</string>
-                  </property>
                   <property name="currentIndex">
                    <number>0</number>
                   </property>
