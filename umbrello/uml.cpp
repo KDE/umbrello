@@ -2193,7 +2193,7 @@ void UMLApp::slotPrefs(MultiPageDialogBase::PageType page)
 
        m_settingsDialog = new SettingsDialog(this, &optionState);
        m_settingsDialog->setCurrentPage(page);
-       connect(m_settingsDialog, SIGNAL(clicked()), this, SLOT(slotApplyPrefs()));
+       connect(m_settingsDialog, SIGNAL(applyClicked()), this, SLOT(slotApplyPrefs()));
 
        if (m_settingsDialog->exec() == QDialog::Accepted && m_settingsDialog->getChangesApplied()) {
            slotApplyPrefs();
