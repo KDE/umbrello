@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2021 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 #ifndef UMLSCENE_H
@@ -321,7 +321,7 @@ public:
     void setWidgetLink(WidgetBase *w);
     WidgetBase *widgetLink();
 
-    qreal maxCanvasSize() { return s_maxCanvasSize; }
+    static qreal maxCanvasSize();
 
     void updateCanvasSizeEstimate(qreal x, qreal y, qreal w, qreal h);
 

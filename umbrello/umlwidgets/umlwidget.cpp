@@ -1764,7 +1764,7 @@ QPointF UMLWidget::getPos() const
  */
 void UMLWidget::setX(qreal x)
 {
-    if (x < -umlScene()->maxCanvasSize() || x > umlScene()->maxCanvasSize())
+    if (x < -UMLScene::maxCanvasSize() || x > UMLScene::maxCanvasSize())
         logError1("UMLWidget::setX refusing to set X to %1", x);
     else
         QGraphicsObjectWrapper::setX(x);
@@ -1779,7 +1779,7 @@ void UMLWidget::setX(qreal x)
  */
 void UMLWidget::setY(qreal y)
 {
-    if (y < -umlScene()->maxCanvasSize() || y > umlScene()->maxCanvasSize())
+    if (y < -UMLScene::maxCanvasSize() || y > UMLScene::maxCanvasSize())
         logError1("UMLWidget::setY refusing to set Y to %1", y);
     else
         QGraphicsObjectWrapper::setY(y);
@@ -2219,8 +2219,21 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     const qreal scaledW = toDoubleFromAnyLocale(w) * dpiScale;
     const qreal scaledH = toDoubleFromAnyLocale(h) * dpiScale;
     setSize(scaledW, scaledH);
-    const qreal nX = toDoubleFromAnyLocale(x);
-    const qreal nY = toDoubleFromAnyLocale(y);
+    qreal nX = toDoubleFromAnyLocale(x);
+    qreal nY = toDoubleFromAnyLocale(y);
+    bool applyOffsetCorrection = true;
+    if (nX < -UMLScene::maxCanvasSize() || nX > UMLScene::maxCanvasSize()) {
+        logWarn2("UMLWidget::loadFromXMI: widget of type %1 has illegal X value %2, setting to default position 10",
+                 baseType(), nX);
+        nX = 10.0;
+        applyOffsetCorrection = false;
+    }
+    if (nY < -UMLScene::maxCanvasSize() || nY > UMLScene::maxCanvasSize()) {
+        logWarn2("UMLWidget::loadFromXMI: widget of type %1 has illegal Y value %2, setting to default position 10",
+                 baseType(), nY);
+        nY = 10.0;
+        applyOffsetCorrection = false;
+    }
     qreal fixedX = nX;
     qreal fixedY = nY;
     bool usesRelativeCoords = (baseType() == wt_Pin || baseType() == wt_Port);
@@ -2228,13 +2241,13 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
         UMLWidget *parent = dynamic_cast<UMLWidget*>(parentItem());
         usesRelativeCoords = (parent != 0);
     }
-    if (!usesRelativeCoords) {
+    if (applyOffsetCorrection && !usesRelativeCoords) {
         fixedX += umlScene()->fixX();  // bug 449622
         fixedY += umlScene()->fixY();
     }
     const qreal scaledX = fixedX * dpiScale;
     const qreal scaledY = fixedY * dpiScale;
-    if (!usesRelativeCoords) {
+    if (applyOffsetCorrection && !usesRelativeCoords) {
         umlScene()->updateCanvasSizeEstimate(scaledX, scaledY, scaledW, scaledH);
     }
     setX(scaledX);

@@ -332,6 +332,20 @@ UMLScene::~UMLScene()
     delete m_d;
 }
 
+
+/**
+ * The size returned is large enough to account for possible bogus widget
+ * coordinate offsets as described in
+ *     https://bugs.kde.org/show_bug.cgi?id=449622
+ * Coordinate values below -maxCanvasSize() or above maxCanvasSize() are
+ * deemed unrecoverable.
+ *
+ * @return the maximum possible canvas size
+ */
+qreal UMLScene::maxCanvasSize() {
+    return s_maxCanvasSize;
+}
+
 /**
  * Return the UMLFolder in which this diagram lives.
  */
