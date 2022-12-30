@@ -42,29 +42,16 @@ include_directories(
       ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-if(NOT BUILD_KF5)
-    set(LIBS
-        Qt4::QtCore
-        Qt4::QtGui
-        Qt4::QtXml
-        Qt4::QtTest
-        ${KDE4_KFILE_LIBS}
-        ${LIBXML2_LIBRARIES}
-        ${LIBXSLT_LIBRARIES}
-        libumbrello
-    )
-else()
-    set(LIBS
-        Qt5::Xml
-        Qt5::Test
-        Qt5::Widgets
-        KF5::I18n
-        KF5::Crash
-        ${LIBXML2_LIBRARIES}
-        ${LIBXSLT_LIBRARIES}
-        libumbrello
-    )
-endif()
+set(LIBS
+    Qt5::Xml
+    Qt5::Test
+    Qt5::Widgets
+    KF5::I18n
+    KF5::Crash
+    ${LIBXML2_LIBRARIES}
+    ${LIBXSLT_LIBRARIES}
+    libumbrello
+)
 
 ecm_add_test(
     testbasictypes.cpp

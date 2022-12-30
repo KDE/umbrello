@@ -6,9 +6,7 @@ if(ENABLE_OBJECT_DIAGRAM)
     set(ACTION_NEW_OBJECT_DIAGRAM "<Action name=\"new_object_diagram\"/>")
 endif()
 configure_file(umbrelloui.rc.cmake ${CMAKE_CURRENT_BINARY_DIR}/umbrelloui.rc @ONLY)
-if(BUILD_KF5)
-    configure_file(ui.qrc.cmake ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc @ONLY)
-endif()
+configure_file(ui.qrc.cmake ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc @ONLY)
 
 ########### set variables #############
 
@@ -513,73 +511,45 @@ set(umbrello_SRCS
 
 set(LIB_BUILD_MODE STATIC)
 
-if(NOT BUILD_KF5)
-    if(CMAKE_MAJOR_VERSION LESS 3)
-        qt4_add_resources(libumbrello_SRCS icons.qrc)
-    else()
-        list(APPEND libumbrello_SRCS icons.qrc)
-    endif()
-    kde4_add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
-    set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
-    target_link_libraries(libumbrello
-        Qt4::QtCore
-        Qt4::QtGui
-        Qt4::QtXml
-        ${LIBXML2_LIBRARIES}
-        ${LIBXSLT_LIBRARIES}
-        ${KDE4_KTEXTEDITOR_LIBS}
-        ${KDE4_KFILE_LIBS}
-        codeimport
-    )
-
-    kde4_add_app_icon(umbrello_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/pics/global/hi*-apps-umbrello.png")
-    kde4_add_executable(umbrello ${umbrello_SRCS})
-    target_link_libraries(umbrello ${LIBXML2_LIBRARIES} ${LIBXSLT_LIBRARIES} ${KDE4_KTEXTEDITOR_LIBS} ${KDE4_KFILE_LIBS} libumbrello)
-else()
-    if(CMAKE_MAJOR_VERSION LESS 3)
-        qt5_add_resources(libumbrello_SRCS icons.qrc ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc)
-    else()
-        list(APPEND libumbrello_SRCS icons.qrc ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc)
-    endif()
-    add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
-    set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
-    target_link_libraries(libumbrello
-        Qt5::Widgets
-        Qt5::Xml
-        Qt5::PrintSupport
-        Qt5::Svg
-        KF5::Archive
-        KF5::Completion
-        KF5::CoreAddons
-        KF5::I18n
-        KF5::IconThemes
-        KF5::KIOCore
-        KF5::TextEditor
-        KF5::WidgetsAddons
-        KF5::XmlGui
-        KF5::Crash
-        ${LIBXSLT_LIBRARIES}
-        ${LIBXML2_LIBRARIES}
-        codeimport
-    )
-    ecm_add_app_icon(umbrello_SRCS
-        ICONS
-        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/16-apps-umbrello.png
-        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/22-apps-umbrello.png
-        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/32-apps-umbrello.png
-        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/48-apps-umbrello.png
-        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/64-apps-umbrello.png
-        ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/128-apps-umbrello.png
-    )
-    add_executable(umbrello ${umbrello_SRCS})
-    target_link_libraries(umbrello
-        libumbrello
-        KF5::Crash
-        KF5::WindowSystem
-        # KF5::KDELibs4Support
-    )
-    set_target_properties(umbrello PROPERTIES OUTPUT_NAME umbrello5)
-endif()
+list(APPEND libumbrello_SRCS icons.qrc ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc)
+add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
+set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
+target_link_libraries(libumbrello
+    Qt5::Widgets
+    Qt5::Xml
+    Qt5::PrintSupport
+    Qt5::Svg
+    KF5::Archive
+    KF5::Completion
+    KF5::CoreAddons
+    KF5::I18n
+    KF5::IconThemes
+    KF5::KIOCore
+    KF5::TextEditor
+    KF5::WidgetsAddons
+    KF5::XmlGui
+    KF5::Crash
+    ${LIBXSLT_LIBRARIES}
+    ${LIBXML2_LIBRARIES}
+    codeimport
+)
+ecm_add_app_icon(umbrello_SRCS
+    ICONS
+    ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/16-apps-umbrello.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/22-apps-umbrello.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/32-apps-umbrello.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/48-apps-umbrello.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/64-apps-umbrello.png
+    ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/128-apps-umbrello.png
+)
+add_executable(umbrello ${umbrello_SRCS})
+target_link_libraries(umbrello
+    libumbrello
+    KF5::Crash
+    KF5::WindowSystem
+    # KF5::KDELibs4Support
+)
+set_target_properties(umbrello PROPERTIES OUTPUT_NAME umbrello5)
 
 target_compile_definitions(libumbrello PRIVATE -DQT_NO_CAST_TO_ASCII -DQT_NO_CAST_FROM_ASCII)
 
@@ -590,18 +560,11 @@ install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files #############
 
-if(NOT BUILD_KF5)
-    install( PROGRAMS org.kde.umbrello.desktop DESTINATION  ${XDG_APPS_INSTALL_DIR} )
-    install( FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/umbrelloui.rc
-        DESTINATION ${UMBRELLO_DATA_INSTALL_DIR} )
-else()
-    file(READ org.kde.umbrello.desktop UMBRELLO_DESKTOP_OUT)
-    string(REPLACE "Exec=umbrello" "Exec=umbrello5" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP_OUT}")
-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
-    install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.desktop DESTINATION  ${XDG_APPS_INSTALL_DIR})
-    install(FILES org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
-endif()
+file(READ org.kde.umbrello.desktop UMBRELLO_DESKTOP_OUT)
+string(REPLACE "Exec=umbrello" "Exec=umbrello5" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP_OUT}")
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
+install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.desktop DESTINATION  ${XDG_APPS_INSTALL_DIR})
+install(FILES org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
 
 install( DIRECTORY
     layouts

@@ -49,45 +49,25 @@ set(libkdevcppparser_SRCS
 )
 
 add_library(codeimport STATIC ${libcodeimport_SRCS} ${libkdevcppparser_SRCS})
-if(NOT BUILD_KF5)
-    if(BUILD_PHP_IMPORT)
-        target_link_libraries(codeimport
-            ${KDEVPLATFORM_INTERFACES_LIBRARIES}
-            ${KDEVPLATFORM_LANGUAGE_LIBRARIES}
-            ${KDEVPLATFORM_OUTPUTVIEW_LIBRARIES}
-            ${KDEVPLATFORM_PROJECT_LIBRARIES}
-            ${KDEVPLATFORM_SUBLIME_LIBRARIES}
-            ${KDEVPLATFORM_SHELL_LIBRARIES}
-            ${KDEVPLATFORM_UTIL_LIBRARIES}
-            ${KDEVPLATFORM_VCS_LIBRARIES}
-            ${KDEVPLATFORM_DEBUGGER_LIBRARIES}
-            ${KDEVPLATFORM_DOCUMENTATION_LIBRARIES}
-            ${KDEVPLATFORM_TESTS_LIBRARIES}
-            ${KDEVPLATFORM_JSONTESTS_LIBRARIES}
-            kdev4phpparser
-        )
-    endif()
-else()
+target_link_libraries(codeimport
+    Qt5::Widgets
+    Qt5::Xml
+    KF5::CoreAddons
+    KF5::I18n
+    KF5::IconThemes
+    KF5::KIOCore
+    KF5::TextEditor
+    KF5::WidgetsAddons
+    KF5::XmlGui
+    KF5::Crash
+)
+if(BUILD_PHP_IMPORT)
     target_link_libraries(codeimport
-        Qt5::Widgets
-        Qt5::Xml
-        KF5::CoreAddons
-        KF5::I18n
-        KF5::IconThemes
-        KF5::KIOCore
-        KF5::TextEditor
-        KF5::WidgetsAddons
-        KF5::XmlGui
-        KF5::Crash
+        KDev::Interfaces
+        KDev::Language
+        KDev::Tests
+        kdevphpparser
     )
-    if(BUILD_PHP_IMPORT)
-        target_link_libraries(codeimport
-            KDev::Interfaces
-            KDev::Language
-            KDev::Tests
-            kdevphpparser
-        )
-    endif()
 endif()
 
 target_include_directories(codeimport
