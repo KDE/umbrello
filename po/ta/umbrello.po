@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-28 00:52+0000\n"
+"POT-Creation-Date: 2022-12-30 00:56+0000\n"
 "PO-Revision-Date: 2021-01-18 19:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -428,7 +428,7 @@ msgid "Remove prefix '[a-zA-Z]_' from accessor method names"
 msgstr ""
 
 #. i18n: ectx: label, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
-#: codegenerators/cpp/cppcodegenerationform.cpp:74 umbrello.kcfg:543
+#: codegenerators/cpp/cppcodegenerationform.cpp:74 umbrello.kcfg:548
 #, kde-format
 msgid "Accessor methods start with capital letters"
 msgstr ""
@@ -454,7 +454,7 @@ msgstr "பொது"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: label, entry (classMemberPrefix), group (CPP Code Generation)
-#: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:473
+#: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:478
 #, kde-format
 msgid "Class member prefix"
 msgstr ""
@@ -943,7 +943,7 @@ msgstr "கோடு உருவாக்கு விருப்பங்க�
 msgid "Language Options"
 msgstr "மொழித் தேர்வுகள்"
 
-#: codegenwizard/codegenoptionspage.cpp:257
+#: codegenwizard/codegenoptionspage.cpp:258
 #, fuzzy, kde-format
 msgid ""
 "The output folder exists, but it is not writable.\n"
@@ -952,45 +952,45 @@ msgstr ""
 "வெளியீட்டு அடைவு இருக்குகிறது, ஆனால் இதனை எழுத முடியாது.\n"
 "தயவுச் செய்து சரியான அனுமதிகள் அல்லது பிற அடைவினைத் தேர்ந்தெடுக்கவும்."
 
-#: codegenwizard/codegenoptionspage.cpp:258
+#: codegenwizard/codegenoptionspage.cpp:259
 #, fuzzy, kde-format
 msgid "Error Writing to Output Folder"
 msgstr "வெளியீடு அடைவில் பிழையை எழுது"
 
-#: codegenwizard/codegenoptionspage.cpp:263
+#: codegenwizard/codegenoptionspage.cpp:264
 #, fuzzy, kde-format
 msgid "%1 does not seem to be a folder. Please choose a valid folder."
 msgstr "%1 அடைவாக இல்லை. செல்லுபடியாகும் அடைவை தேர்ந்தெடுக்கவும்."
 
-#: codegenwizard/codegenoptionspage.cpp:264
+#: codegenwizard/codegenoptionspage.cpp:265
 #, fuzzy, kde-format
 msgid "Please Choose Valid Folder"
 msgstr "தயவுச் செய்துச் செல்லுப்படியாகும் அடைவினை தேர்ந்தெடுக்கவும்"
 
-#: codegenwizard/codegenoptionspage.cpp:270
+#: codegenwizard/codegenoptionspage.cpp:271
 #, fuzzy, kde-format
 msgid "The folder %1 does not exist. Do you want to create it now?"
 msgstr ""
 "கோப்பு %1 ஏற்கனவே உள்ளது.\n"
 " அதனை மேல் எழுத வேண்டுமா?"
 
-#: codegenwizard/codegenoptionspage.cpp:271
-#: codegenwizard/codegenoptionspage.cpp:283
+#: codegenwizard/codegenoptionspage.cpp:272
+#: codegenwizard/codegenoptionspage.cpp:284
 #, fuzzy, kde-format
 msgid "Output Folder Does Not Exist"
 msgstr "வெளியீடு அடைவு இல்லை"
 
-#: codegenwizard/codegenoptionspage.cpp:271
+#: codegenwizard/codegenoptionspage.cpp:272
 #, fuzzy, kde-format
 msgid "Create Folder"
 msgstr "அடைவினை உருவாக்க முடியவில்லை"
 
-#: codegenwizard/codegenoptionspage.cpp:271
+#: codegenwizard/codegenoptionspage.cpp:272
 #, fuzzy, kde-format
 msgid "Do Not Create"
 msgstr "கோப்பினை உருவாக்கக்கூடாது."
 
-#: codegenwizard/codegenoptionspage.cpp:275
+#: codegenwizard/codegenoptionspage.cpp:276
 #, fuzzy, kde-format
 msgid ""
 "The folder could not be created.\n"
@@ -1000,12 +1000,12 @@ msgstr ""
 "இந்த அடைவுத் தோன்றவில்லை.\n"
 "தயவுச் செய்து பெற்றோர் அடைவு அல்லது செல்லுபடியாகும் அடைவினை எழுதுவும்."
 
-#: codegenwizard/codegenoptionspage.cpp:276
+#: codegenwizard/codegenoptionspage.cpp:277
 #, fuzzy, kde-format
 msgid "Error Creating Folder"
 msgstr "பிழை உருவாக்கும் அடைவு"
 
-#: codegenwizard/codegenoptionspage.cpp:282
+#: codegenwizard/codegenoptionspage.cpp:283
 #, fuzzy, kde-format
 msgid "Please select a valid folder."
 msgstr "தயவுச் செய்து முறையான அடைவினை தேர்ந்தெடுக்கவும்"
@@ -1061,7 +1061,7 @@ msgstr "&தேடு"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxOverwritePolicy)
 #. i18n: ectx: label, entry (overwritePolicy), group (Code Generation)
-#: codegenwizard/codegenoptionspage.ui:136 umbrello.kcfg:455
+#: codegenwizard/codegenoptionspage.ui:136 umbrello.kcfg:460
 #, kde-format
 msgid "Overwrite Policy"
 msgstr "மேலெழுது"
@@ -1129,19 +1129,26 @@ msgid "Comment Verbosity"
 msgstr "அதிகமாக குறிப்பெழுது"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ui_forceDoc)
-#: codegenwizard/codegenoptionspage.ui:222
+#: codegenwizard/codegenoptionspage.ui:237
 #, kde-format
 msgid "Write comments &for class and method documentation even if empty"
 msgstr "காலியாகயிருக்கையில் வகுப்புக்காகக் கட்டளையும் மற்றும் ஆவணமாக்குதல் முறையை எழுது"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_forceDoc)
-#: codegenwizard/codegenoptionspage.ui:225
+#: codegenwizard/codegenoptionspage.ui:240
 #, kde-format
 msgid "&Write documentation comments even if empty"
 msgstr "&எழுதி ஆவணமாக்குதல் கருத்துரைக் காலியாக உள்ளது"
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, ui_forceSections)
-#: codegenwizard/codegenoptionspage.ui:232
+#. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
+#: codegenwizard/codegenoptionspage.ui:262
+#, fuzzy, kde-format
+#| msgid "&Write documentation comments even if empty"
+msgid "Write section comments:"
+msgstr "&எழுதி ஆவணமாக்குதல் கருத்துரைக் காலியாக உள்ளது"
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
+#: codegenwizard/codegenoptionspage.ui:269
 #, kde-format
 msgid ""
 "Writes comments to indicate the different sections (public, private etc) in "
@@ -1150,58 +1157,68 @@ msgstr ""
 "குறிப்புரைகளை எழுதி வித்தியாசமான பிரிவினைகளைச் சுட்டிக்காட்டவும்(பொது, தனியர்) "
 "வகுப்பில், பிரிவுக் காலியாக இருக்கையில் "
 
-#. i18n: ectx: property (text), widget (QCheckBox, ui_forceSections)
-#: codegenwizard/codegenoptionspage.ui:236
+#. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
+#: codegenwizard/codegenoptionspage.ui:276
+#, fuzzy, kde-format
+msgid "None"
+msgstr "&புதிய"
+
+#. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
+#: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
-msgid ""
-"Write comments &for sections even if section \n"
-"is empty"
-msgstr "&பிரிவுக் காலியாக இருக்கையில் கட்டளையைப் பிரிவில் எழுதுக"
+msgid "When section is non empty"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
+#: codegenwizard/codegenoptionspage.ui:286
+#, kde-format
+msgid "Always"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
-#: codegenwizard/codegenoptionspage.ui:246
+#: codegenwizard/codegenoptionspage.ui:314
 #, kde-format
 msgid "Lines"
 msgstr "கோடுகள்"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelType)
-#: codegenwizard/codegenoptionspage.ui:254
+#: codegenwizard/codegenoptionspage.ui:322
 #, kde-format
 msgid "Indentation type:"
 msgstr "வரிசைபடுத்தும் வகை:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectIndentationTypeBox)
-#: codegenwizard/codegenoptionspage.ui:265
+#: codegenwizard/codegenoptionspage.ui:333
 #, kde-format
 msgid "No Indentation"
 msgstr "உள்ளமைவு இல்லை"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectIndentationTypeBox)
-#: codegenwizard/codegenoptionspage.ui:270
+#: codegenwizard/codegenoptionspage.ui:338
 #, kde-format
 msgid "Tab"
 msgstr "தத்தல்"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectIndentationTypeBox)
-#: codegenwizard/codegenoptionspage.ui:275
+#: codegenwizard/codegenoptionspage.ui:343
 #, kde-format
 msgid "Space"
 msgstr "இடைவெளி"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelAmount)
-#: codegenwizard/codegenoptionspage.ui:293
+#: codegenwizard/codegenoptionspage.ui:361
 #, kde-format
 msgid "Indentation amount:"
 msgstr "வரிசைப்படுத்தும் தொகை:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelStyle)
-#: codegenwizard/codegenoptionspage.ui:310
+#: codegenwizard/codegenoptionspage.ui:378
 #, kde-format
 msgid "Line ending style:"
 msgstr "வரியின் முடிவுப்பாணி"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectEndLineCharsBox)
-#: codegenwizard/codegenoptionspage.ui:321
+#: codegenwizard/codegenoptionspage.ui:389
 #, kde-format
 msgid "*NIX (\"\\n\")"
 msgstr ""
@@ -1209,7 +1226,7 @@ msgstr ""
 "\")"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectEndLineCharsBox)
-#: codegenwizard/codegenoptionspage.ui:326
+#: codegenwizard/codegenoptionspage.ui:394
 #, kde-format
 msgid "Windows (\"\\r\\n\")"
 msgstr ""
@@ -1217,7 +1234,7 @@ msgstr ""
 "\")"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectEndLineCharsBox)
-#: codegenwizard/codegenoptionspage.ui:331
+#: codegenwizard/codegenoptionspage.ui:399
 #, kde-format
 msgid "Mac (\"\\r\")"
 msgstr "மெக் (\"\\r\")"
@@ -7053,467 +7070,465 @@ msgstr "ஆவணத்தை குறிப்பெடு"
 msgid "Enables/Disables Verbose Documentation"
 msgstr "ஆவணத்தை குறிப்பெடு"
 
-#. i18n: ectx: label, entry (forceSections), group (Code Generation)
+#. i18n: ectx: label, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:399
-#, fuzzy, kde-format
-#| msgid "Note Documentation"
-msgid "Force Section Documentation"
-msgstr "ஆவணத்தை குறிப்பெடு"
+#, kde-format
+msgid "Section Comment Policy"
+msgstr ""
 
-#. i18n: ectx: whatsthis, entry (forceSections), group (Code Generation)
+#. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:400
-#, fuzzy, kde-format
-#| msgid "Note Documentation"
-msgid "Enables/Disables verbose section documentation"
-msgstr "ஆவணத்தை குறிப்பெடு"
+#, kde-format
+msgid "Whether section comments shall be written"
+msgstr ""
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
-#: umbrello.kcfg:404
+#: umbrello.kcfg:409
 #, fuzzy, kde-format
 #| msgid "Passing Direction"
 msgid "Headings Directory"
 msgstr "திசையை செலுத்துதல்"
 
 #. i18n: ectx: whatsthis, entry (headingsDirectory), group (Code Generation)
-#: umbrello.kcfg:405
+#: umbrello.kcfg:410
 #, kde-format
 msgid "The Path in which the headings are stored"
 msgstr ""
 
 #. i18n: ectx: label, entry (includeHeadings), group (Code Generation)
-#: umbrello.kcfg:409
+#: umbrello.kcfg:414
 #, fuzzy, kde-format
 #| msgid "&Include heading files from folder:"
 msgid "Include headings"
 msgstr "கோப்புரையிலிருந்து தலைப்பு கோப்புகளை &உள்ளிடு:"
 
 #. i18n: ectx: whatsthis, entry (includeHeadings), group (Code Generation)
-#: umbrello.kcfg:410
+#: umbrello.kcfg:415
 #, fuzzy, kde-format
 #| msgid "new_operation"
 msgid "Enables/Disables inclusion of headings"
 msgstr "புது_ செயல்"
 
 #. i18n: ectx: label, entry (indentationAmount), group (Code Generation)
-#: umbrello.kcfg:414
+#: umbrello.kcfg:419
 #, fuzzy, kde-format
 #| msgid "Indentation amount:"
 msgid "Indentation Amount"
 msgstr "வரிசைப்படுத்தும் தொகை:"
 
 #. i18n: ectx: whatsthis, entry (indentationAmount), group (Code Generation)
-#: umbrello.kcfg:415
+#: umbrello.kcfg:420
 #, fuzzy, kde-format
 #| msgid "No Indentation"
 msgid "The amount of indentation"
 msgstr "உள்ளமைவு இல்லை"
 
 #. i18n: ectx: label, entry (indentationType), group (Code Generation)
-#: umbrello.kcfg:420
+#: umbrello.kcfg:425
 #, fuzzy, kde-format
 #| msgid "Indentation type:"
 msgid "Indentation Type"
 msgstr "வரிசைபடுத்தும் வகை:"
 
 #. i18n: ectx: whatsthis, entry (indentationType), group (Code Generation)
-#: umbrello.kcfg:421
+#: umbrello.kcfg:426
 #, fuzzy, kde-format
 #| msgid "No Indentation"
 msgid "The Type of Indentation"
 msgstr "உள்ளமைவு இல்லை"
 
 #. i18n: ectx: label, entry (lineEndingType), group (Code Generation)
-#: umbrello.kcfg:430
+#: umbrello.kcfg:435
 #, fuzzy, kde-format
 #| msgid "Line ending style:"
 msgid "Line Ending Type"
 msgstr "வரியின் முடிவுப்பாணி"
 
 #. i18n: ectx: whatsthis, entry (lineEndingType), group (Code Generation)
-#: umbrello.kcfg:431
+#: umbrello.kcfg:436
 #, kde-format
 msgid "The type of line ending ( or new line type )"
 msgstr ""
 
 #. i18n: ectx: label, entry (modnamePolicy), group (Code Generation)
 #. i18n: ectx: whatsthis, entry (modnamePolicy), group (Code Generation)
-#: umbrello.kcfg:440 umbrello.kcfg:441
+#: umbrello.kcfg:445 umbrello.kcfg:446
 #, kde-format
 msgid "Modifier Name Policy"
 msgstr ""
 
 #. i18n: ectx: label, entry (outputDirectory), group (Code Generation)
-#: umbrello.kcfg:450
+#: umbrello.kcfg:455
 #, kde-format
 msgid "Output Directory"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (outputDirectory), group (Code Generation)
-#: umbrello.kcfg:451
+#: umbrello.kcfg:456
 #, kde-format
 msgid "The directory to which the code has to be outputted"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (overwritePolicy), group (Code Generation)
-#: umbrello.kcfg:456
+#: umbrello.kcfg:461
 #, kde-format
 msgid "The policy to be followed when there are name conflicts"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoGenAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:468
+#: umbrello.kcfg:473
 #, fuzzy, kde-format
 #| msgid "Auto-Generate Methods"
 msgid "Auto Generate Accessors"
 msgstr "தன் உருவாக்க வழிகள்"
 
 #. i18n: ectx: whatsthis, entry (autoGenAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:469
+#: umbrello.kcfg:474
 #, fuzzy, kde-format
 #| msgid "Generate empty constructors"
 msgid "Enables/Disables auto generation of accessors"
 msgstr "காலியான ஆக்கியை உருவாக்கு"
 
 #. i18n: ectx: whatsthis, entry (classMemberPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:474
+#: umbrello.kcfg:479
 #, kde-format
 msgid "The prefix for class members"
 msgstr ""
 
 #. i18n: ectx: label, entry (inlineAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:478
+#: umbrello.kcfg:483
 #, fuzzy, kde-format
 #| msgid "Auto-Generate Methods"
 msgid "Inline Accessors"
 msgstr "தன் உருவாக்க வழிகள்"
 
 #. i18n: ectx: whatsthis, entry (inlineAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:479
+#: umbrello.kcfg:484
 #, fuzzy, kde-format
 #| msgid "new_operation"
 msgid "Enables/Disables Inline accessors"
 msgstr "புது_ செயல்"
 
 #. i18n: ectx: label, entry (inlineOps), group (CPP Code Generation)
-#: umbrello.kcfg:483
+#: umbrello.kcfg:488
 #, fuzzy, kde-format
 #| msgid "new_operation"
 msgid "Inline operations"
 msgstr "புது_ செயல்"
 
 #. i18n: ectx: whatsthis, entry (inlineOps), group (CPP Code Generation)
-#: umbrello.kcfg:484
+#: umbrello.kcfg:489
 #, fuzzy, kde-format
 #| msgid "new_operation"
 msgid "Enables/Disables Inline Operations"
 msgstr "புது_ செயல்"
 
 #. i18n: ectx: label, entry (packageIsNamespace), group (CPP Code Generation)
-#: umbrello.kcfg:488
+#: umbrello.kcfg:493
 #, fuzzy, kde-format
 #| msgid "Package is a namespace"
 msgid "Package is namespace"
 msgstr "தொகுப்பு ஒரு பெயர் இடைவெளி"
 
 #. i18n: ectx: whatsthis, entry (packageIsNamespace), group (CPP Code Generation)
-#: umbrello.kcfg:489
+#: umbrello.kcfg:494
 #, kde-format
 msgid "Enables/Disables treating a package as a namespace"
 msgstr ""
 
 #. i18n: ectx: label, entry (publicAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:493
+#: umbrello.kcfg:498
 #, kde-format
 msgid "Public Accessors"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (publicAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:494
+#: umbrello.kcfg:499
 #, fuzzy, kde-format
 #| msgid "Virtual destructors"
 msgid "Enables/Disables public accessors"
 msgstr "மாய அழிவுறு"
 
 #. i18n: ectx: label, entry (stringClassName), group (CPP Code Generation)
-#: umbrello.kcfg:498
+#: umbrello.kcfg:503
 #, fuzzy, kde-format
 #| msgid "Class name"
 msgid "String Class Name"
 msgstr "வகுப்புப் பெயர்"
 
 #. i18n: ectx: whatsthis, entry (stringClassName), group (CPP Code Generation)
-#: umbrello.kcfg:499
+#: umbrello.kcfg:504
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "The name of the string class"
 msgstr "மாநிலத்தின் புதிய பெயரை பதிவு செய்வும்"
 
 #. i18n: ectx: label, entry (stringClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:503
+#: umbrello.kcfg:508
 #, fuzzy, kde-format
 #| msgid "Class name"
 msgid "String Class Name Include"
 msgstr "வகுப்புப் பெயர்"
 
 #. i18n: ectx: whatsthis, entry (stringClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:504
+#: umbrello.kcfg:509
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "The name of the string class to be included"
 msgstr "மாநிலத்தின் புதிய பெயரை பதிவு செய்வும்"
 
 #. i18n: ectx: label, entry (stringIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:508
+#: umbrello.kcfg:513
 #, kde-format
 msgid "String Include is Global"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (stringIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:509
+#: umbrello.kcfg:514
 #, fuzzy, kde-format
 #| msgid "new_operation"
 msgid "Enables/Disables global inclusion of string"
 msgstr "புது_ செயல்"
 
 #. i18n: ectx: label, entry (vectorClassName), group (CPP Code Generation)
-#: umbrello.kcfg:513
+#: umbrello.kcfg:518
 #, fuzzy, kde-format
 #| msgid "Class name"
 msgid "Vector Class Name"
 msgstr "வகுப்புப் பெயர்"
 
 #. i18n: ectx: whatsthis, entry (vectorClassName), group (CPP Code Generation)
-#: umbrello.kcfg:514
+#: umbrello.kcfg:519
 #, fuzzy, kde-format
 msgid "The name of the vector class"
 msgstr "செயற்பாட்டிற்கான்  புதிய பெயரை உள்ளிடுக."
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:518
+#: umbrello.kcfg:523
 #, fuzzy, kde-format
 #| msgid "Class name"
 msgid "Vector Class Name Include "
 msgstr "வகுப்புப் பெயர்"
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:519
+#: umbrello.kcfg:524
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "The name of the vector class to be included"
 msgstr "மாநிலத்தின் புதிய பெயரை பதிவு செய்வும்"
 
 #. i18n: ectx: label, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:523
+#: umbrello.kcfg:528
 #, kde-format
 msgid "Vector include is global"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:524
+#: umbrello.kcfg:529
 #, fuzzy, kde-format
 #| msgid "new_operation"
 msgid "Enables/Disables global inclusion of vector class"
 msgstr "புது_ செயல்"
 
 #. i18n: ectx: label, entry (virtualDestructors), group (CPP Code Generation)
-#: umbrello.kcfg:528
+#: umbrello.kcfg:533
 #, fuzzy, kde-format
 #| msgid "Virtual destructors"
 msgid "Virtual Destructors"
 msgstr "மாய அழிவுறு"
 
 #. i18n: ectx: whatsthis, entry (virtualDestructors), group (CPP Code Generation)
-#: umbrello.kcfg:529
+#: umbrello.kcfg:534
 #, fuzzy, kde-format
 #| msgid "Virtual destructors"
 msgid "Enables/Disables virtual destructors"
 msgstr "மாய அழிவுறு"
 
 #. i18n: ectx: label, entry (getterWithGetPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:533
+#: umbrello.kcfg:538
 #, kde-format
 msgid "Getters with 'get' prefix"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (getterWithGetPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:534
+#: umbrello.kcfg:539
 #, kde-format
 msgid "If enabled, create getters with 'get' prefix"
 msgstr ""
 
 #. i18n: ectx: label, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
-#: umbrello.kcfg:538
+#: umbrello.kcfg:543
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor methods"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
-#: umbrello.kcfg:539
+#: umbrello.kcfg:544
 #, kde-format
 msgid "If enabled, remove prefix '[a-zA-Z]_' from accessor methods"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
-#: umbrello.kcfg:544
+#: umbrello.kcfg:549
 #, kde-format
 msgid "If enabled, accessor methods start with capital letters"
 msgstr ""
 
 #. i18n: ectx: label, entry (docToolTag), group (CPP Code Generation)
-#: umbrello.kcfg:548
+#: umbrello.kcfg:553
 #, fuzzy, kde-format
 #| msgid "Documentation"
 msgid "Documentation tags"
 msgstr "ஆவணமாக்கம் "
 
 #. i18n: ectx: whatsthis, entry (docToolTag), group (CPP Code Generation)
-#: umbrello.kcfg:549
+#: umbrello.kcfg:554
 #, kde-format
 msgid "The tag used for generating doxygen documentation (\\\\, @)"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:555
+#: umbrello.kcfg:560
 #, fuzzy, kde-format
 #| msgid "Auto-Generate Methods"
 msgid "Auto Generate Attribute Accessors ( D ) "
 msgstr "தன் உருவாக்க வழிகள்"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:556
+#: umbrello.kcfg:561
 #, fuzzy, kde-format
 #| msgid "Generate empty constructors"
 msgid "Enables/Disables auto generation of attribute accessors ( D )"
 msgstr "காலியான ஆக்கியை உருவாக்கு"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:560
+#: umbrello.kcfg:565
 #, fuzzy, kde-format
 #| msgid "Auto-Generate Methods"
 msgid "Auto Generate Assoc Accessors ( D )"
 msgstr "தன் உருவாக்க வழிகள்"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:561
+#: umbrello.kcfg:566
 #, fuzzy, kde-format
 #| msgid "Generate empty constructors"
 msgid "Enables/Disables auto generation of association accessors ( D )"
 msgstr "காலியான ஆக்கியை உருவாக்கு"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
-#: umbrello.kcfg:565
+#: umbrello.kcfg:570
 #, kde-format
 msgid "Build ANT Document (D) "
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
-#: umbrello.kcfg:566
+#: umbrello.kcfg:571
 #, fuzzy, kde-format
 #| msgid "Note Documentation"
 msgid "Enables/Disables building of ANT Document (D) "
 msgstr "ஆவணத்தை குறிப்பெடு"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:572
+#: umbrello.kcfg:577
 #, fuzzy, kde-format
 #| msgid "Auto-Generate Methods"
 msgid "Auto Generate Attribute Accessors (Java)"
 msgstr "தன் உருவாக்க வழிகள்"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:573
+#: umbrello.kcfg:578
 #, fuzzy, kde-format
 #| msgid "Generate empty constructors"
 msgid "Enables/Disables auto generation of attribute accessors (Java)"
 msgstr "காலியான ஆக்கியை உருவாக்கு"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:577
+#: umbrello.kcfg:582
 #, fuzzy, kde-format
 #| msgid "Auto-Generate Methods"
 msgid "Auto Generate Assoc Accessors (Java) "
 msgstr "தன் உருவாக்க வழிகள்"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:578
+#: umbrello.kcfg:583
 #, fuzzy, kde-format
 #| msgid "Generate empty constructors"
 msgid "Enables/Disables auto generation of association accessors (Java) "
 msgstr "காலியான ஆக்கியை உருவாக்கு"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
-#: umbrello.kcfg:582
+#: umbrello.kcfg:587
 #, kde-format
 msgid "Build ANT Document (Java) "
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
-#: umbrello.kcfg:583
+#: umbrello.kcfg:588
 #, fuzzy, kde-format
 #| msgid "Note Documentation"
 msgid "Enables/Disables building of ANT Document (Java) "
 msgstr "ஆவணத்தை குறிப்பெடு"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:589
+#: umbrello.kcfg:594
 #, fuzzy, kde-format
 #| msgid "Auto-Generate Methods"
 msgid "Auto Generate Attribute Accessors (Ruby) "
 msgstr "தன் உருவாக்க வழிகள்"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:590
+#: umbrello.kcfg:595
 #, fuzzy, kde-format
 #| msgid "Generate empty constructors"
 msgid "Enables/Disables auto generation of attribute accessors (Ruby)"
 msgstr "காலியான ஆக்கியை உருவாக்கு"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:594
+#: umbrello.kcfg:599
 #, fuzzy, kde-format
 #| msgid "Auto-Generate Methods"
 msgid "Auto Generate Assoc Accessors (Ruby)"
 msgstr "தன் உருவாக்க வழிகள்"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:595
+#: umbrello.kcfg:600
 #, fuzzy, kde-format
 #| msgid "Generate empty constructors"
 msgid "Enables/Disables auto generation of association accessors (Ruby)"
 msgstr "காலியான ஆக்கியை உருவாக்கு"
 
 #. i18n: ectx: label, entry (autoDotPath), group (Auto Layout)
-#: umbrello.kcfg:601
+#: umbrello.kcfg:606
 #, kde-format
 msgid "Automatic Dot Path"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoDotPath), group (Auto Layout)
-#: umbrello.kcfg:602
+#: umbrello.kcfg:607
 #, kde-format
 msgid "determine automatically the path of dot executable"
 msgstr ""
 
 #. i18n: ectx: label, entry (dotPath), group (Auto Layout)
-#: umbrello.kcfg:606
+#: umbrello.kcfg:611
 #, kde-format
 msgid "Dot Path"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (dotPath), group (Auto Layout)
-#: umbrello.kcfg:607
+#: umbrello.kcfg:612
 #, kde-format
 msgid "set path to dot executable (optional)"
 msgstr ""
 
 #. i18n: ectx: label, entry (showExportLayout), group (Auto Layout)
-#: umbrello.kcfg:611
+#: umbrello.kcfg:616
 #, kde-format
 msgid "Show Export Layout"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (showExportLayout), group (Auto Layout)
-#: umbrello.kcfg:612
+#: umbrello.kcfg:617
 #, kde-format
 msgid "show export layout"
 msgstr ""
@@ -9760,6 +9775,21 @@ msgstr "நிலை"
 msgid "Pre/Post condition"
 msgstr ""
 
+#~ msgid ""
+#~ "Write comments &for sections even if section \n"
+#~ "is empty"
+#~ msgstr "&பிரிவுக் காலியாக இருக்கையில் கட்டளையைப் பிரிவில் எழுதுக"
+
+#, fuzzy
+#~| msgid "Note Documentation"
+#~ msgid "Force Section Documentation"
+#~ msgstr "ஆவணத்தை குறிப்பெடு"
+
+#, fuzzy
+#~| msgid "Note Documentation"
+#~ msgid "Enables/Disables verbose section documentation"
+#~ msgstr "ஆவணத்தை குறிப்பெடு"
+
 #, fuzzy
 #~| msgid "Rename Object"
 #~ msgid "Rename type: %1 to %2"
@@ -9769,10 +9799,6 @@ msgstr ""
 #~| msgid "Template Name Invalid"
 #~ msgid "Class Name Invalid"
 #~ msgstr "மாதிரி உரு பெயர் மதிப்பில்லாதது"
-
-#, fuzzy
-#~ msgid "None"
-#~ msgstr "&புதிய"
 
 #~ msgid "Stereot&ype"
 #~ msgstr "ஸ்டிரியோவகை"
