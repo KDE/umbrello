@@ -22,9 +22,6 @@ ComboBoxWidgetBase::ComboBoxWidgetBase(const QString &title, const QString &post
     m_editField = new KComboBox(this);
     m_editField->setEditable(true);
     m_editField->setDuplicatesEnabled(false);  // only allow one of each type in box
-#if QT_VERSION < 0x050000
-    m_editField->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
     layout->addWidget(m_editField, 2);
     m_label->setBuddy(m_editField);
 

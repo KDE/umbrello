@@ -24,20 +24,12 @@
 
 // kde includes
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <kstandarddirs.h>
-#include <ktemporaryfile.h>
-#include <KUrl>
-#endif
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QStandardPaths>
 #include <QTemporaryFile>
-#include <QUrl>
-#endif
-
 #include <QTextStream>
+#include <QUrl>
 
 DEBUG_REGISTER(Docbook2XhtmlGeneratorJob)
 
@@ -49,13 +41,8 @@ extern int xmlLoadExtDtdDefaultValue;
  * @param parent     Parent object for QThread constructor
  */
 
-#if QT_VERSION >= 0x050000
 Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(QUrl& docBookUrl, QObject* parent)
     :QThread(parent), m_docbookUrl(docBookUrl)
-#else
-Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* parent)
-    :QThread(parent), m_docbookUrl(docBookUrl)
-#endif
 {
 }
 
@@ -84,11 +71,7 @@ void Docbook2XhtmlGeneratorJob::run()
   logDebug0("Docbook2XhtmlGeneratorJob::run: Applying stylesheet");
   res = xsltApplyStylesheet(cur, doc, params);
 
-#if QT_VERSION >= 0x050000
   QTemporaryFile tmpXhtml;
-#else
-  KTemporaryFile tmpXhtml;
-#endif
   tmpXhtml.setAutoRemove(false);
   tmpXhtml.open();
 

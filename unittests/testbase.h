@@ -64,38 +64,8 @@ protected:
     QString temporaryPath();
 };
 
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-/**
- * Automatically block signals of QObject base class
- */
-class SignalBlocker
-{
-public:
-    explicit SignalBlocker(QObject *o)
-      : _o(o)
-    {
-        _state = _o->blockSignals(true);
-    }
-
-    SignalBlocker(QObject &o)
-      : _o(&o)
-    {
-        _state = _o->blockSignals(true);
-    }
-
-    ~SignalBlocker()
-    {
-        _o->blockSignals(_state);
-    }
-
-protected:
-    QObject *_o;
-    bool _state;
-};
-#else
 #include <QSignalBlocker>
 typedef QSignalBlocker SignalBlocker;
-#endif
 
 /**
  * Set loading state to avoid signaling to tree view etc.

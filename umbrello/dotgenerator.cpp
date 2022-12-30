@@ -19,9 +19,6 @@
 // kde includes
 #include <KConfigGroup>
 #include <KDesktopFile>
-#if QT_VERSION < 0x050000
-#include <KStandardDirs>
-#endif
 
 // qt includes
 #include <QFile>
@@ -29,9 +26,7 @@
 #include <QProcess>
 #include <QRectF>
 #include <QRegExp>
-#if QT_VERSION >= 0x050000
 #include <QStandardPaths>
-#endif
 #include <QString>
 #include <QTemporaryFile>
 #include <QTextStream>
@@ -156,11 +151,7 @@ DotGenerator::DotGenerator()
  */
 QString DotGenerator::currentDotPath()
 {
-#if QT_VERSION >= 0x050000
     QString executable = QStandardPaths::findExecutable(QStringLiteral("dot"));
-#else
-    QString executable = KStandardDirs::findExe(QStringLiteral("dot"));
-#endif
     if (!executable.isEmpty()) {
         QFileInfo fi(executable);
         return fi.absolutePath();
@@ -247,13 +238,7 @@ void DotGenerator::setUseFullNodeLabels(bool state)
 bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString, QString> &configFiles)
 {
     QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
-#if QT_VERSION >= 0x050000
     QStringList fileNames = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello5/layouts/%1*.desktop").arg(diagramType));
-#else
-    KStandardDirs dirs;
-
-    QStringList fileNames = dirs.findAllResources("data", QString::fromLatin1("umbrello/layouts/%1*.desktop").arg(diagramType));
-#endif
     foreach(const QString &fileName, fileNames) {
         QFileInfo fi(fileName);
         QString baseName;
@@ -287,11 +272,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
 
     QString configFileName;
     foreach(const QString &fileName, fileNames) {
-#if QT_VERSION >= 0x050000
         configFileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello5/layouts/%1").arg(fileName));
-#else
-        configFileName = KStandardDirs::locate("data", QString::fromLatin1("umbrello/layouts/%1").arg(fileName));
-#endif
         if (!configFileName.isEmpty())
             break;
     }

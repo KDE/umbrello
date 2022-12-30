@@ -26,17 +26,10 @@
 #include "umldoc.h"
 #include "umlpackagelist.h"
 
-// kde includes
-#if QT_VERSION < 0x050000
-#include <KStandardDirs>
-#endif
-
 // qt includes
 #include <QProcess>
 #include <QRegExp>
-#if QT_VERSION >= 0x050000
 #include <QStandardPaths>
-#endif
 #include <QStringList>
 
 #include <stdio.h>

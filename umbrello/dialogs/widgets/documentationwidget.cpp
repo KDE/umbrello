@@ -11,17 +11,12 @@
 #include "umlobject.h"
 #include "umlwidget.h"
 
-#if QT_VERSION < 0x050000
-#include <KTabWidget>
-#endif
 #include <KTextEdit>
 #include <KLocalizedString>
 
 #include <QGroupBox>
 #include <QHBoxLayout>
-#if QT_VERSION >= 0x050000
 #include <QTabWidget>
-#endif
 
 DocumentationWidget::DocumentationWidget(UMLObject *o, QWidget *parent) :
     QWidget(parent),
@@ -100,11 +95,7 @@ void DocumentationWidget::init(const QString &text)
         const UMLOperation *o = m_object->asUMLOperation();
         m_codeEditField = new CodeTextEdit();
         m_codeEditField->setPlainText(o->getSourceCode());
-#if QT_VERSION >= 0x050000
         QTabWidget* tabWidget = new QTabWidget();
-#else
-        KTabWidget* tabWidget = new KTabWidget();
-#endif
         tabWidget->addTab(m_editField, i18n("Comment"));
         tabWidget->addTab(m_codeEditField, i18n("Source Code"));
         layout->addWidget(tabWidget);

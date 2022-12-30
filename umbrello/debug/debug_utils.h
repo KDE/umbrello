@@ -16,14 +16,8 @@
 
 #include <QtGlobal>
 
-#if QT_VERSION < 0x050000
-#include <kdebug.h>
-#endif
-
-#if QT_VERSION >= 0x050000
 #include <QLoggingCategory>
 Q_DECLARE_LOGGING_CATEGORY(UMBRELLO)
-#endif
 #include <QMetaEnum>
 #include <QTreeWidget>
 
@@ -109,15 +103,9 @@ private:
 };
 
 // convenience macros for console output to the Umbrello area
-#if QT_VERSION >= 0x050000
 #define uDebug()   qCDebug(UMBRELLO)
 #define uError()   qCCritical(UMBRELLO)
 #define uWarning() qCWarning(UMBRELLO)
-#else
-#define uDebug()   kDebug(8060)
-#define uError()   kError(8060)
-#define uWarning() kWarning(8060)
-#endif
 
 #ifndef DBG_SRC
 #define DBG_SRC  QString::fromLatin1(metaObject()->className())

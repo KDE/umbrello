@@ -24,7 +24,6 @@ QString UMLAppPrivate::findWelcomeFile()
     dirList.append(QCoreApplication::applicationDirPath() + QStringLiteral("/../doc/apphelp"));
 
     // determine path from installation
-#if QT_VERSION > 0x050000
     QString name = QLocale().name();
     QStringList lang = name.split(QLatin1Char('_'));
     QStringList langList;
@@ -46,16 +45,6 @@ QString UMLAppPrivate::findWelcomeFile()
         }
         dirList.append(QString(QStringLiteral("%1/doc/HTML/en/umbrello/apphelp")).arg(location));
     }
-#else
-    KLocale *local = KGlobal::locale();
-    QString lang = local->language();
-    // from custom install
-    dirList.append(QCoreApplication::applicationDirPath() + QString(QStringLiteral("/../share/doc/HTML/%1/umbrello/apphelp")).arg(lang));
-    dirList.append(QCoreApplication::applicationDirPath() + QStringLiteral("/../share/doc/HTML/en/umbrello/apphelp"));
-
-    // /usr/share/doc/kde
-    dirList.append(KStandardDirs::installPath("html") + lang + QStringLiteral("/umbrello/apphelp"));
-#endif
     foreach(const QString &dir, dirList) {
         QString filePath = dir + QStringLiteral("/index.cache.bz2");
         QFileInfo fi(filePath);
@@ -118,7 +107,6 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
 #endif
 #else
     // replace help:/ urls in html file to be able to find css files and images from kde help system
-#if QT_VERSION >= 0x050000
     QString path;
     QStringList locations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
     foreach(const QString &l, locations) {
@@ -129,9 +117,6 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
             break;
         }
     }
-#else
-    QString path = KStandardDirs::installPath("html") +  QStringLiteral("en/");
-#endif
     QUrl url(QUrl::fromLocalFile(path));
     QByteArray a = url.toEncoded();
     html.replace(QStringLiteral("help:/"), QString::fromLocal8Bit(a));

@@ -6,10 +6,6 @@
 #ifndef LEXERCACHE_H
 #define LEXERCACHE_H
 #include <hashedstring.h>
-#if QT_VERSION >= 0x050000
-#else
-#include <kdebug.h>
-#endif
 #include "macro.h"
 #include <qdatetime.h>
 #include <qfileinfo.h>
@@ -19,7 +15,7 @@
 
 class LexerCache;
 
-class CachedLexedFile : public KShared, public CacheNode
+class CachedLexedFile : public QSharedData, public CacheNode
 {
 public:
     ///@todo add and manage the set of included files
@@ -107,7 +103,7 @@ private:
     */
 };
 
-typedef KSharedPtr<CachedLexedFile>  CachedLexedFilePointer;
+typedef QExplicitlySharedDataPointer<CachedLexedFile>  CachedLexedFilePointer;
 
 struct CachedLexedFilePointerCompare {
     bool operator() (const CachedLexedFilePointer& lhs, const CachedLexedFilePointer& rhs) const

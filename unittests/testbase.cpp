@@ -18,13 +18,7 @@
 #error umbrello unittests require QT_GUI_LIB to be present
 #endif
 
-#if QT_VERSION < 0x050000
-#include <KTempDir>
-#endif
-
-#if QT_VERSION >= 0x050000
 #include <QTemporaryDir>
-#endif
 
 TestBase::TestBase(QObject *parent)
   : QObject(parent)
@@ -56,13 +50,8 @@ void TestCodeGeneratorBase::initTestCase()
 {
     TestBase::initTestCase();
 
-#if QT_VERSION >= 0x050000
     static QTemporaryDir tmpDir;
     m_tempPath = tmpDir.path() + QStringLiteral("/");
-#else
-    static KTempDir tmpDir;
-    m_tempPath = tmpDir.name();
-#endif
     UMLApp::app()->commonPolicy()->setOutputDirectory(m_tempPath);
 }
 

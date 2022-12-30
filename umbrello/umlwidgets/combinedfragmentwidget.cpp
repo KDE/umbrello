@@ -287,7 +287,6 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
                              << QStringLiteral("Assertion")
                              << QStringLiteral("Alternative")
                              << QStringLiteral("Parallel") ;
-#if QT_VERSION >= 0x050000
     QPointer<QInputDialog> inputDlg = new QInputDialog();
     inputDlg->setComboBoxItems(list);
     inputDlg->setOptions(QInputDialog::UseListViewForComboBoxItems);
@@ -297,10 +296,6 @@ void CombinedFragmentWidget::askNameForWidgetType(UMLWidget* &targetWidget, cons
     QStringList result;
     result.append(inputDlg->textValue());
     delete inputDlg;
-#else
-    const QStringList select = list;
-    QStringList result = KInputDialog::getItemList (dialogTitle, dialogPrompt, list, select, false, &pressedOK, UMLApp::app());
-#endif
     if (pressedOK) {
         QString type = result.join(QString());
         targetWidget->asCombinedFragmentWidget()->setCombinedFragmentType(type);

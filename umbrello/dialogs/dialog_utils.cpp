@@ -192,11 +192,7 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
 bool askName(const QString& title, const QString& prompt, QString& name)
 {
     bool ok;
-#if QT_VERSION >= 0x050000
     name = QInputDialog::getText((QWidget*)UMLApp::app(), title, prompt, QLineEdit::Normal, name, &ok);
-#else
-    name = KInputDialog::getText(title, prompt, name, &ok, (QWidget*)UMLApp::app());
-#endif
     name = Model_Utils::normalize(name);
     return ok;
 }

@@ -7,12 +7,7 @@
 #define DOCBOOK2XHTMLGENERATORJOB_H
 
 #include <QThread>
-
-#if QT_VERSION >= 0x050000
 #include <QUrl>
-#else
-#include <KUrl>
-#endif
 
 /**
  * This class is used to generate XHTML from Docbook.
@@ -27,20 +22,12 @@ class Docbook2XhtmlGeneratorJob : public QThread
 {
     Q_OBJECT
   public:
-#if QT_VERSION >= 0x050000
     Docbook2XhtmlGeneratorJob(QUrl& docBookUrl, QObject* parent);
-#else
-    Docbook2XhtmlGeneratorJob(KUrl& docBookUrl, QObject* parent);
-#endif
   protected:
      void run();
 
   private:
-#if QT_VERSION >= 0x050000
      QUrl m_docbookUrl;
-#else
-     KUrl m_docbookUrl;
-#endif
 
   signals:
      void xhtmlGenerated(const QString&);

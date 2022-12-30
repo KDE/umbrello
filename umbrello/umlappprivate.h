@@ -18,16 +18,10 @@
 
 // kde includes
 #include <KActionCollection>
-#if QT_VERSION < 0x050000
-#include <KStandardDirs>
-#endif
 #include <KToggleAction>
 #include <ktexteditor/configinterface.h>
 #include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>
-#if QT_VERSION < 0x050000
-#include <ktexteditor/editorchooser.h>
-#endif
 #include <ktexteditor/view.h>
 
 // qt includes
@@ -89,14 +83,10 @@ public:
         view(0),
         document(0)
     {
-#if QT_VERSION >= 0x050000
         /* TODO: On the call to KTextEditor::Editor::instance() Valgrind reports
            "Conditional jump or move depends on uninitialised value(s)".
          */
         editor = KTextEditor::Editor::instance();
-#else
-        editor = KTextEditor::EditorChooser::editor();
-#endif
         logWindow = new QListWidget;
         QFont mono;
         mono.setFamily(QStringLiteral("Monospace"));

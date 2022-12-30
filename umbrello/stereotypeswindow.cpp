@@ -39,11 +39,7 @@ StereotypesWindow::StereotypesWindow(const QString &title, QWidget *parent)
     m_stereotypesTree->setSortingEnabled(true);
     m_stereotypesTree->verticalHeader()->setDefaultSectionSize(20);
     m_stereotypesTree->verticalHeader()->setVisible(false);
-#if QT_VERSION >= 0x050000
     m_stereotypesTree->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-#else
-    m_stereotypesTree->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-#endif
     setWidget(m_stereotypesTree);
 
     connect(m_stereotypesTree, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotStereotypesDoubleClicked(QModelIndex)));

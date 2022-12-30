@@ -25,9 +25,6 @@
 #include "icon_utils.h"
 
 #include <kcombobox.h>
-#if QT_VERSION < 0x050000
-#include <kdialogbuttonbox.h>
-#endif
 #include <klineedit.h>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -317,19 +314,11 @@ void UMLForeignKeyConstraintDialog::setupColumnPage()
     m_ColumnWidgets.referencedColumnCB = new KComboBox();
     columnsLayout->addWidget(m_ColumnWidgets.referencedColumnCB, 1, 1);
 
-#if QT_VERSION >= 0x050000
     QDialogButtonBox* buttonBox = new QDialogButtonBox();
     m_ColumnWidgets.addPB = buttonBox->addButton(i18n("&Add"), QDialogButtonBox::ActionRole);
     connect(m_ColumnWidgets.addPB, SIGNAL(clicked()), this, SLOT(slotAddPair()));
     m_ColumnWidgets.removePB = buttonBox->addButton(i18n("&Delete"), QDialogButtonBox::ActionRole);
     connect(m_ColumnWidgets.removePB, SIGNAL(clicked()), this, SLOT(slotDeletePair()));
-#else
-    KDialogButtonBox* buttonBox = new KDialogButtonBox(page);
-    m_ColumnWidgets.addPB = buttonBox->addButton(i18n("&Add"), KDialogButtonBox::ActionRole, this,
-                            SLOT(slotAddPair()));
-    m_ColumnWidgets.removePB = buttonBox->addButton(i18n("&Delete"), KDialogButtonBox::ActionRole, this,
-                               SLOT(slotDeletePair()));
-#endif
 
     columnsLayout->addWidget(buttonBox, 2, 1);
 

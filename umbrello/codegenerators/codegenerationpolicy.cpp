@@ -17,16 +17,11 @@
 
 // kde includes
 #include <kconfig.h>
-#if QT_VERSION < 0x050000
-#include <kstandarddirs.h>
-#endif
 
 // qt includes
 #include <QDateTime>
 #include <QRegExp>
-#if QT_VERSION >= 0x050000
 #include <QStandardPaths>
-#endif
 #include <QStringList>
 #include <QTextStream>
 
@@ -480,14 +475,9 @@ void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 
     path = UmbrelloSettings::headingsDirectory();
     if (path.isEmpty()) {
-#if QT_VERSION >= 0x050000
         path =  QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
                                           QStringLiteral("umbrello5/headings"),
                                           QStandardPaths::LocateDirectory).first();
-#else
-        KStandardDirs stddirs;
-        path =  stddirs.findDirs("data", QStringLiteral("umbrello/headings")).first();
-#endif
     }
     setHeadingFileDir (path);
 

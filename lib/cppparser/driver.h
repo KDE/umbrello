@@ -33,7 +33,7 @@ enum {
 typedef QPair<QString, int> Dependence;
 
 class ParsedFile;
-typedef KSharedPtr<ParsedFile> ParsedFilePointer;
+typedef QExplicitlySharedDataPointer<ParsedFile> ParsedFilePointer;
 
 class ParsedFile: public AbstractParseResult
 {

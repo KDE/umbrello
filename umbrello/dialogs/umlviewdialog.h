@@ -18,11 +18,7 @@ class DiagramPropertiesPage;
 class UMLScene;
 class UMLView;
 class UMLWidgetStylePage;
-#if QT_VERSION >= 0x050000
 class QFontDialog;
-#else
-class KFontChooser;
-#endif
 
 /**
  * @author Paul Hensgen

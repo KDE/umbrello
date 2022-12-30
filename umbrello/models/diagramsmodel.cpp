@@ -135,12 +135,6 @@ void DiagramsModel::emitDataChanged(int index)
 
 void DiagramsModel::emitDataChanged(UMLView *view)
 {
-#if QT_VERSION < 0x050000
-    emit layoutAboutToBeChanged();
-#endif
     int index = m_views.indexOf(view);
     emitDataChanged(index);
-#if QT_VERSION < 0x050000
-    emit layoutChanged();
-#endif
 }

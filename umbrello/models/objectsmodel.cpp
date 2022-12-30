@@ -177,12 +177,6 @@ void ObjectsModel::emitDataChanged(int index)
 
 void ObjectsModel::emitDataChanged(UMLObject *o)
 {
-#if QT_VERSION < 0x050000
-    emit layoutAboutToBeChanged();
-#endif
     int index  = m_allObjects.indexOf(o);
     emitDataChanged(index);
-#if QT_VERSION < 0x050000
-    emit layoutChanged();
-#endif
 }

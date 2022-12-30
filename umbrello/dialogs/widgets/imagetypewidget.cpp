@@ -8,9 +8,6 @@
 
 // kde includes
 #include <KComboBox>
-#if QT_VERSION < 0x050000
-#include <kfilefiltercombo.h>
-#endif
 #include <KLocalizedString>
 
 // qt includes
@@ -32,14 +29,9 @@ ImageTypeWidget::ImageTypeWidget(const QStringList &imageTypes, const QString &_
     m_label->setToolTip(i18n("The format that the images will be exported to"));
     layout->addWidget(m_label);
 
-#if QT_VERSION >= 0x050000
     m_comboBox = new KComboBox(this);
     m_comboBox->addItems(imageTypes);
     m_comboBox->setCurrentText(_default);
-#else
-    m_comboBox = new KFileFilterCombo(this);
-    m_comboBox->setMimeFilter(imageTypes, _default);
-#endif
     layout->addWidget(m_comboBox, 2);
     m_comboBox->setEditable(false);
     m_label->setBuddy(m_comboBox);
@@ -53,11 +45,7 @@ ImageTypeWidget::ImageTypeWidget(const QStringList &imageTypes, const QString &_
  */
 QString ImageTypeWidget::currentType()
 {
-#if QT_VERSION >= 0x050000
     return m_comboBox->currentText();
-#else
-    return m_comboBox->currentFilter();
-#endif
 }
 /**
  * Slot to export index changed signal from the combo box.

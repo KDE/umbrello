@@ -15,15 +15,9 @@
 #include "umldoc.h"
 #include "umlviewimageexportermodel.h"
 
-#if QT_VERSION >= 0x050000
 #include <kjobwidgets.h>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
-#if QT_VERSION < 0x050000
-#include <kio/netaccess.h>
-#include <kstandarddirs.h>
-#endif
 #include <kio/job.h>
 
 #include <QApplication>
@@ -62,18 +56,10 @@ DocbookGenerator::~DocbookGenerator()
  */
 bool DocbookGenerator::generateDocbookForProject()
 {
-#if QT_VERSION >= 0x050000
     QUrl url = umlDoc->url();
-#else
-    KUrl url = umlDoc->url();
-#endif
   QString fileName = url.fileName();
   fileName.remove(QRegExp(QStringLiteral(".xmi$")));
-#if QT_VERSION >= 0x050000
   url.setPath(url.path() + QLatin1Char('/') + fileName);
-#else
-  url.setFileName(fileName);
-#endif
   logDebug1("DocbookGenerator::generateDocbookForProject: Exporting to directory %1", url.path());
   generateDocbookForProjectInto(url);
   return true;
@@ -86,11 +72,7 @@ bool DocbookGenerator::generateDocbookForProject()
  * @todo better handling of error conditions
  * @return true if saving is successful and false otherwise.
  */
-#if QT_VERSION >= 0x050000
 void DocbookGenerator::generateDocbookForProjectInto(const QUrl& destDir)
-#else
-void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
-#endif
 {
     m_destDir = destDir;
     umlDoc->writeToStatusBar(i18n("Exporting all views..."));
@@ -115,28 +97,14 @@ void DocbookGenerator::generateDocbookForProjectInto(const KUrl& destDir)
 void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
 {
     logDebug1("DocbookGenerator: Generation finished (%1)", tmpFileName);
-#if QT_VERSION >= 0x050000
     QUrl url = umlDoc->url();
-#else
-    KUrl url = umlDoc->url();
-#endif
     QString fileName = url.fileName();
     fileName.replace(QRegExp(QStringLiteral(".xmi$")), QStringLiteral(".docbook"));
-#if QT_VERSION >= 0x050000
     url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
-#else
-    url.setPath(m_destDir.path());
-    url.addPath(fileName);
-#endif
-#if QT_VERSION >= 0x050000
     KIO::Job* job = KIO::file_copy(QUrl::fromLocalFile(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
     KJobWidgets::setWindow(job, (QWidget*)UMLApp::app());
     job->exec();
     if (!job->error()) {
-#else
-    KIO::Job* job = KIO::file_copy(KUrl::fromPath(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
-    if (KIO::NetAccess::synchronousRun(job, (QWidget*)UMLApp::app())) {
-#endif
         umlDoc->writeToStatusBar(i18n("Docbook Generation Complete..."));
         m_pStatus = true;
     } else {
@@ -172,11 +140,7 @@ QString DocbookGenerator::customXslFile()
     } else {
         xslBaseName = QStringLiteral("xmi1docbook.xsl");
     }
-#if QT_VERSION >= 0x050000
     QString xsltFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello5/") + xslBaseName));
-#else
-    QString xsltFile(KGlobal::dirs()->findResource("data", QStringLiteral("umbrello/") + xslBaseName));
-#endif
     if (xsltFile.isEmpty())
         xsltFile = QStringLiteral(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
 

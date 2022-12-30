@@ -23,18 +23,12 @@
 #include <libxslt/xsltutils.h>
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kstandarddirs.h>
-#include <ktemporaryfile.h>
-#endif
 #include <KLocalizedString>
 
 // qt includes
 #include <QTextStream>
-#if QT_VERSION >= 0x050000
 #include <QStandardPaths>
 #include <QTemporaryFile>
-#endif
 
 extern int xmlLoadExtDtdDefaultValue;
 
@@ -127,11 +121,7 @@ void DocbookGeneratorJob::run()
     UMLApp* app = UMLApp::app();
     UMLDoc* umlDoc = app->document();
 
-#if QT_VERSION >= 0x050000
     QTemporaryFile file; // we need this tmp file if we are writing to a remote file
-#else
-    KTemporaryFile file; // we need this tmp file if we are writing to a remote file
-#endif
     file.setAutoRemove(false);
 
     // lets open the file for writing
@@ -194,11 +184,7 @@ void DocbookGeneratorJob::run()
         return;
     }
 
-#if QT_VERSION >= 0x050000
     QTemporaryFile tmpDocBook;
-#else
-    KTemporaryFile tmpDocBook;
-#endif
     tmpDocBook.setAutoRemove(false);
     tmpDocBook.open();
 

@@ -41,8 +41,4 @@
 #include "cmds/widget/cmdsetname.h"
 #include "cmds/widget/cmdsettxt.h"
 
-#if QT_VERSION < 0x050000
-#include <kundostack.h>
-#endif
-
 #endif

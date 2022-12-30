@@ -35,11 +35,7 @@ ObjectsWindow::ObjectsWindow(const QString &title, QWidget *parent)
     m_objectsTree->setSortingEnabled(true);
     m_objectsTree->verticalHeader()->setDefaultSectionSize(20);
     m_objectsTree->verticalHeader()->setVisible(false);
-#if QT_VERSION >= 0x050000
     m_objectsTree->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-#else
-    m_objectsTree->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
-#endif
     setWidget(m_objectsTree);
 
     connect(m_objectsTree, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotObjectsDoubleClicked(QModelIndex)));

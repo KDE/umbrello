@@ -88,9 +88,6 @@ void AssociationGeneralPage::constructWidget()
 
     m_pAssocNameLE = new QLineEdit(m_pAssociationWidget->name());
     m_pAssocNameComB = new KComboBox(true, nameAndTypeGB);
-#if QT_VERSION < 0x050000
-    m_pAssocNameComB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
     m_pAssocNameComB->setDuplicatesEnabled(false);  // only allow one of each type in box
 
     QWidget *nameInputWidget = m_pAssocNameLE;
@@ -174,9 +171,6 @@ void AssociationGeneralPage::constructWidget()
     m_pTypeCB->setCompletedItems(m_AssocTypeStrings);
 
     m_pTypeCB->setDuplicatesEnabled(false); // only allow one of each type in box
-#if QT_VERSION < 0x050000
-    m_pTypeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
     m_pNameAndTypeLayout->addWidget(m_pTypeCB, 1, 1);
 
     // documentation

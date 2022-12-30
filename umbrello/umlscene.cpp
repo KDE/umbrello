@@ -75,10 +75,6 @@
 #include "widgetlist_utils.h"
 
 //kde include files
-#if QT_VERSION < 0x050000
-#include <kfiledialog.h>
-#include <kio/netaccess.h>
-#endif
 #include <KMessageBox>
 #include <kcursor.h>
 #include <KLocalizedString>

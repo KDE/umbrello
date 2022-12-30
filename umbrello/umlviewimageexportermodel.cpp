@@ -17,16 +17,9 @@
 #include "umlview.h"
 
 // kde include files
-#if QT_VERSION >= 0x050000
 #include <KIO/Job>
 #include <KJobWidgets>
 #include <KIO/MkdirJob>
-#else
-#include <kio/netaccess.h>
-#endif
-#if QT_VERSION < 0x050000
-#include <ktemporaryfile.h>
-#endif
 #include <KLocalizedString>
 
 // include files for Qt
@@ -41,9 +34,7 @@
 #include <QRect>
 #include <QRegExp>
 #include <QSvgGenerator>
-#if QT_VERSION >= 0x050000
 #include <QTemporaryFile>
-#endif
 
 // system includes
 #include <cmath>
@@ -214,13 +205,8 @@ QStringList UMLViewImageExporterModel::exportViews(const UMLViewList &views, con
     QStringList errors;
 
     foreach (UMLView *view, views) {
-#if QT_VERSION >= 0x050000
         QUrl url = QUrl::fromLocalFile(directory.path() + QLatin1Char('/') +
                  getDiagramFileName(view->umlScene(), imageType, useFolders));
-#else
-        KUrl url = directory;
-        url.addPath(getDiagramFileName(view->umlScene(), imageType, useFolders));
-#endif
 
         QString returnString = exportView(view->umlScene(), imageType, url);
         if (!returnString.isNull()) {
@@ -247,11 +233,7 @@ QStringList UMLViewImageExporterModel::exportViews(const UMLViewList &views, con
  * @return  The error message if some problem occurred when exporting, or
  *          QString() if all went fine.
  */
-#if QT_VERSION >= 0x050000
 QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &imageType, const QUrl &url) const
-#else
-QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &imageType, const KUrl &url) const
-#endif
 {
     if (!scene) {
         return i18n("Empty scene");
@@ -259,22 +241,14 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
 
     // create the needed directories
     if (!prepareDirectory(url)) {
-#if QT_VERSION >= 0x050000
         return i18n("Cannot create directory: %1", url.path());
-#else
-        return i18n("Cannot create directory: %1", url.directory());
-#endif
     }
 
     // The fileName will be used when exporting the image. If the url isn't local,
     // the fileName is the name of a temporary local file to export the image to, and then
     // upload it to its destiny
     QString fileName;
-#if QT_VERSION >= 0x050000
     QTemporaryFile tmpFile;
-#else
-    KTemporaryFile tmpFile;
-#endif
     if (url.isLocalFile()) {
         fileName = url.toLocalFile();
     } else {
@@ -289,14 +263,10 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
 
     // if the file wasn't local, upload the temp file to the target
     if (!url.isLocalFile()) {
-#if QT_VERSION >= 0x050000
         KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tmpFile.fileName()), url);
         KJobWidgets::setWindow(job, UMLApp::app());
         job->exec();
         if (job->error()) {
-#else
-        if (!KIO::NetAccess::upload(tmpFile.fileName(), url, UMLApp::app())) {
-#endif
             return i18n("There was a problem saving file: %1", url.path());
         }
     }
@@ -332,14 +302,9 @@ QString UMLViewImageExporterModel::getDiagramFileName(UMLScene* scene, const QSt
  * @return True if the operation was successful,
  *         false if the directory didn't exist and couldn't be created.
  */
-#if QT_VERSION >= 0x050000
 bool UMLViewImageExporterModel::prepareDirectory(const QUrl &url) const
-#else
-bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
-#endif
 {
     // the KUrl is copied to get protocol, user and so on and then the path is cleaned
-#if QT_VERSION >= 0x050000
     QUrl directory = url;
     directory.setPath(QString());
 
@@ -358,23 +323,6 @@ bool UMLViewImageExporterModel::prepareDirectory(const KUrl &url) const
             }
         }
     }
-#else
-    KUrl directory = url;
-    directory.setPath(QString());
-
-    // creates the directory and any needed parent directories
-    QStringList dirs = url.directory().split(QDir::separator(), QString::SkipEmptyParts);
-    for (QStringList::ConstIterator it = dirs.constBegin() ; it != dirs.constEnd(); ++it) {
-        directory.addPath(*it);
-
-        if (!KIO::NetAccess::exists(directory, KIO::NetAccess::SourceSide, UMLApp::app())) {
-
-            if (!KIO::NetAccess::mkdir(directory, UMLApp::app())) {
-                return false;
-            }
-        }
-    }
-#endif
 
     return true;
 }
@@ -468,11 +416,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
 
     QPrinter printer(QPrinter::ScreenResolution);
     printer.setOutputFileName(fileName);
-#if QT_VERSION >= 0x050000
     printer.setOutputFormat(QPrinter::PdfFormat);
-#else
-    printer.setOutputFormat(QPrinter::PostScriptFormat);
-#endif
     printer.setColorMode(QPrinter::Color);
     printer.setPaperSize(paperSize, QPrinter::Millimeter);
     printer.setPageMargins(paperSize.width() * border, paperSize.height() * border, 0, 0, QPrinter::Millimeter);

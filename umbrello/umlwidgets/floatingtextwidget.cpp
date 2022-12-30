@@ -27,15 +27,10 @@
 #include "umlview.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kfontdialog.h>
-#endif
 #include <KLocalizedString>
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QFontDialog>
-#endif
 #include <QPointer>
 #include <QRegExp>
 #include <QPainter>
@@ -744,14 +739,9 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Change_Font:
         {
-#if QT_VERSION >= 0x050000
             bool ok = false;
             QFont fnt = QFontDialog::getFont(&ok, font(), m_scene->activeView());
             if (ok) {
-#else
-            QFont fnt = font();
-            if(KFontDialog::getFont(fnt, KFontChooser::NoDisplayFlags, m_scene->activeView())) {
-#endif
                 if(m_textRole == Uml::TextRole::Floating || m_textRole == Uml::TextRole::Seq_Message) {
                     setFont(fnt);
                 } else if (m_linkWidget) {

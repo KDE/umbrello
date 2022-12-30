@@ -16,19 +16,13 @@
 // kde include files
 #include <KComboBox>
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <kfilefiltercombo.h>
-#include <kurl.h>
-#endif
 #include <kurlrequester.h>
 #include <KMessageBox>
 
-// Qt include files 
+// Qt include files
 #include <QString>
 #include <QStringList>
-#if QT_VERSION >= 0x050000
 #include <QUrl>
-#endif
 
 /**
  * Constructor for UMLViewImageExporterAll
@@ -87,12 +81,8 @@ void UMLViewImageExporterAll::exportViews(const UMLViewList &views)
     // default url can't be set when creating the action because the
     // document wasn't loaded
     if (m_dialog->m_kURL->url().isEmpty()) {
-#if QT_VERSION >= 0x050000
         QUrl directory(umlDoc->url());
         m_dialog->m_kURL->setUrl(directory.adjusted(QUrl::RemoveFilename));
-#else
-        m_dialog->m_kURL->setUrl(umlDoc->url().directory());
-#endif
     }
 
     if (m_dialog->exec() == QDialog::Rejected) {
@@ -104,13 +94,8 @@ void UMLViewImageExporterAll::exportViews(const UMLViewList &views)
     // export all views
     umlDoc->writeToStatusBar(i18n("Exporting all views..."));
     QStringList errors = UMLViewImageExporterModel(resolution).exportViews(views,
-#if QT_VERSION >= 0x050000
                                 UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentType()),
                                 QUrl(m_dialog->m_kURL->url()),
-#else
-                                UMLViewImageExporterModel::mimeTypeToImageType(m_dialog->m_imageType->currentType()),
-                                KUrl(m_dialog->m_kURL->url()),
-#endif
                                 m_dialog->m_useFolders->isChecked());
     if (!errors.empty()) {
         KMessageBox::errorList(app, i18n("Some errors happened when exporting the images:"), errors);

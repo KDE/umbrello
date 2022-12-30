@@ -14,20 +14,10 @@
 #include "umbrellosettings.h"
 
 // kde includes
-#if QT_VERSION > 0x050000
-# include <KAboutData>
-# include <QApplication>
-# include <QCommandLineParser>
-# include <KConfig>
-#else
-# include <kaboutdata.h>
-# include <kapplication.h>
-# include <kcmdlineargs.h>
-# include <kconfig.h>
-
-  // KF5 uses i18n
-# define i18n ki18n
-#endif
+#include <KAboutData>
+#include <QApplication>
+#include <QCommandLineParser>
+#include <KConfig>
 
 #include <KLocalizedString>
 #include <kcrash.h>
@@ -47,15 +37,6 @@ void getFiles(QStringList& files, const QString& path, QStringList& filters);
  * @param args The command line arguments given.
  * @return True if the GUI should be shown, false otherwise.
  */
-#if QT_VERSION < 0x050000
-bool showGUI(KCmdLineArgs *args)
-{
-    if (args->getOptionList("export").size() > 0 || args->isSet("export-formats")) {
-        return false;
-    }
-    return true;
-}
-#else
 bool showGUI(const QCommandLineParser *args)
 {
     if (args->values("export").size() > 0 || args->isSet("export-formats")) {
@@ -63,7 +44,6 @@ bool showGUI(const QCommandLineParser *args)
     }
     return true;
 }
-#endif
 
 /**
  * Creates a QUrl from a string.
@@ -129,71 +109,41 @@ void exportAllViews(const QString &extension, QUrl directory, bool useFolders)
 
 int main(int argc, char *argv[])
 {
-#if QT_VERSION > 0x050000
-# define EmptyString QString()
-# define LocalName(s) QStringLiteral(s)
     QApplication app(argc, argv);
     KCrash::initialize();
     KLocalizedString::setApplicationDomain("umbrello");
     Q_INIT_RESOURCE(ui);
-#else
-# define EmptyString KLocalizedString()
-# define LocalName(s) i18n(s)
-#endif
     KAboutData aboutData("umbrello",                                   // componentName
-#if QT_VERSION < 0x050000
-                         0,
-#endif
                          i18n("Umbrello UML Modeller"),                // displayName
                          umbrelloVersion(),                            // version
                          i18n("Umbrello – Visual development environment for software, "
                               "based on the industry standard Unified Modelling Language (UML).<br/>"
                               "See also <a href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."),
-#if QT_VERSION < 0x050000
-                         KAboutData::License_GPL,
-#else
                          KAboutLicense::GPL,                           // licenseType
-#endif
                          i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2022 Umbrello UML Modeller Authors"),
-                         EmptyString,                                  // otherText
+                         QString(),                                  // otherText
                          "http://umbrello.kde.org/");                  // homePageAddress
 
-    aboutData.addAuthor(LocalName("Paul Hensgen"), i18n("Author of initial version."), "phensgen@users.sourceforge.net");
-    aboutData.addAuthor(i18n("Umbrello UML Modeller Authors"), EmptyString, "umbrello-devel@kde.org");
+    aboutData.addAuthor(QStringLiteral("Paul Hensgen"), i18n("Author of initial version."), "phensgen@users.sourceforge.net");
+    aboutData.addAuthor(i18n("Umbrello UML Modeller Authors"), QString(), "umbrello-devel@kde.org");
 
     // authors with more than 200 commits: git shortlog -seu | sort -g
-    aboutData.addCredit(LocalName("Oliver Kellogg"),
+    aboutData.addCredit(QStringLiteral("Oliver Kellogg"),
                         i18n("Bug fixing, porting work, code cleanup, new features."),
                         "okellogg@users.sourceforge.net");
-    aboutData.addCredit(LocalName("Ralf Habacker"),
+    aboutData.addCredit(QStringLiteral("Ralf Habacker"),
                         i18n("Bug fixing, porting work, code cleanup, new features."),
                         "ralf.habacker@freenet.de");
-    aboutData.addCredit(LocalName("Andi Fischer"),
+    aboutData.addCredit(QStringLiteral("Andi Fischer"),
                         i18n("Porting work, code cleanup, new features."),
                         "andi.fischer@hispeed.ch");
-    aboutData.addCredit(LocalName("Jonathan Riddell"),
+    aboutData.addCredit(QStringLiteral("Jonathan Riddell"),
                         i18n("Current maintainer."),
                         "jr@jriddell.org");
-    aboutData.addCredit(LocalName("Brian Thomas"),
+    aboutData.addCredit(QStringLiteral("Brian Thomas"),
                         i18n("A lot of work for C++ and Java code generation. Codeeditor."),
                         "thomas@mail630.gsfc.nasa.gov");
 
-#if QT_VERSION < 0x050000
-    KCmdLineArgs::init(argc, argv, &aboutData);
-    KCmdLineOptions options;
-    options.add("+[File]", i18n("File to open"));
-    options.add("export <extension>", i18n("export diagrams to extension and exit"));
-    options.add("export-formats", i18n("list available export extensions"));
-    options.add("directory <url>", i18n("the local directory to save the exported diagrams in"), I18N_NOOP("the directory of the file"));
-    options.add("import-files", i18n("import files"));
-    options.add("languages", i18n("list supported languages"));
-    options.add("use-folders", i18n("keep the tree structure used to store the views in the document in the target directory"));
-    options.add("import-directory <dir>", i18n("import files from directory <dir>"));
-    options.add("set-language <proglang>", i18n("set active language"));
-    KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
-    KApplication app;
-    KCmdLineArgs *parsedArgs = KCmdLineArgs::parsedArgs();
-#else
     KAboutData::setApplicationData(aboutData);
     QCommandLineParser parser;
     //PORTING SCRIPT: adapt aboutdata variable if necessary
@@ -219,7 +169,6 @@ int main(int argc, char *argv[])
 
     parser.process(app);
     aboutData.processCommandLine(&parser);
-#endif
 
     Q_INIT_RESOURCE(icons);
     app.setLayoutDirection(UmbrelloSettings::rightToLeftUI() ? Qt::RightToLeft : Qt::LeftToRight);
@@ -227,9 +176,7 @@ int main(int argc, char *argv[])
     if (app.isSessionRestored()) {
         kRestoreMainWindows< UMLApp >();
     } else {
-#if QT_VERSION > 0x050000
         const QCommandLineParser *parsedArgs = &parser;
-#endif
         if (parsedArgs->isSet("export-formats")) {
             foreach(const QString& type, UMLViewImageExporterModel::supportedImageTypes())
                 fprintf(stdout, "%s\n", qPrintable(type));
@@ -253,11 +200,7 @@ int main(int argc, char *argv[])
         Uml::ProgrammingLanguage::Enum lang = Uml::ProgrammingLanguage::Reserved;
         if (parsedArgs->isSet("set-language")) {
             QString value;
-#if QT_VERSION < 0x050000
-            value = parsedArgs->getOption("set-language");
-#else
             value = parsedArgs->value("set-language");
-#endif
             // special cases: C++, C#
             if (value == QStringLiteral("C++")) {
                 lang = Uml::ProgrammingLanguage::Cpp;
@@ -276,12 +219,7 @@ int main(int argc, char *argv[])
         }
 
         QStringList args;
-#if QT_VERSION < 0x050000
-        for (int i = 0; i < parsedArgs->count(); i++)
-            args.append(parsedArgs->url(i).toLocalFile());
-#else
         args = parsedArgs->positionalArguments();
-#endif
         if (parsedArgs->isSet("import-files") && args.count() > 0) {
             uml->newDocument();
             if (lang != Uml::ProgrammingLanguage::Reserved)
@@ -294,11 +232,7 @@ int main(int argc, char *argv[])
                 uml->setActiveLanguage(lang);
             QStringList filter = Uml::ProgrammingLanguage::toExtensions(uml->activeLanguage());
             QString dir;
-#if QT_VERSION < 0x050000
-            dir = parsedArgs->getOption("import-directory");
-#else
             dir = parsedArgs->value("import-directory");
-#endif
             QStringList listFile;
             getFiles(listFile, dir, filter);
             uml->importFiles(listFile, dir);
@@ -311,24 +245,11 @@ int main(int argc, char *argv[])
         if (parsedArgs->isSet("export")) {
             QString extension;
             QUrl directory;
-#if QT_VERSION < 0x050000
-            QStringList exportOpt = parsedArgs->getOptionList("export");
-            if (exportOpt.size() > 0) {
-                extension = exportOpt.last();
-            }
-            if (parsedArgs->isSet("directory")) {
-                QStringList directoryOpt = parsedArgs->getOptionList("directory");
-                if (directoryOpt.size() > 0) {
-                    directory = KCmdLineArgs::makeURL(directoryOpt.last().toLocal8Bit());
-                }
-            }
-#else
             extension = parsedArgs->value("export");
             if (parsedArgs->isSet("directory")) {
                 QString dirValue = parsedArgs->value("directory");
                 directory = QUrl::fromUserInput(dirValue, QDir::currentPath());
             }
-#endif
             bool useFolders = parsedArgs->isSet("use-folders");
             exportAllViews(extension, directory, useFolders);
         }

@@ -12,11 +12,7 @@
 #include "singlepagedialogbase.h"
 
 // KDE forward declarations
-#if QT_VERSION >= 0x050000
 class KComboBox;
-#else
-class KFileFilterCombo;
-#endif
 
 /**
  * Dialog for collecting the "Export all views" params.

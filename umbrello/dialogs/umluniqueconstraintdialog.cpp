@@ -20,9 +20,6 @@
 #include "umldoc.h"
 
 #include <kcombobox.h>
-#if QT_VERSION < 0x050000
-#include <kdialogbuttonbox.h>
-#endif
 #include <QLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -107,19 +104,11 @@ void UMLUniqueConstraintDialog::setupDialog()
     comboButtonHBoxLayout->addWidget(m_pAttributeCB);
 
     //the action buttons
-#if QT_VERSION >= 0x050000
     QDialogButtonBox* buttonBox = new QDialogButtonBox(m_pAttributeListGB);
     m_pAddPB = buttonBox->addButton(i18n("&Add"), QDialogButtonBox::ActionRole);
     connect(m_pAddPB, SIGNAL(clicked()), this, SLOT(slotAddAttribute()));
     m_pRemovePB = buttonBox->addButton(i18n("&Delete"), QDialogButtonBox::ActionRole);
     connect(m_pRemovePB, SIGNAL(clicked()), this, SLOT(slotDeleteAttribute()));
-#else
-    KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pAttributeListGB);
-    m_pAddPB = buttonBox->addButton(i18n("&Add"), KDialogButtonBox::ActionRole, this,
-                          SLOT(slotAddAttribute()));
-    m_pRemovePB = buttonBox->addButton(i18n("&Delete"), KDialogButtonBox::ActionRole, this,
-                          SLOT(slotDeleteAttribute()));
-#endif
 
     comboButtonHBoxLayout->addWidget(buttonBox);
 

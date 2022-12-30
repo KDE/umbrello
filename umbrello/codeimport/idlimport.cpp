@@ -22,17 +22,10 @@
 #include "umldoc.h"
 #include "umlpackagelist.h"
 
-// kde includes
-#if QT_VERSION < 0x050000
-#include <KStandardDirs>
-#endif
-
 // qt includes
 #include <QProcess>
 #include <QRegExp>
-#if QT_VERSION >= 0x050000
 #include <QStandardPaths>
-#endif
 #include <QStringList>
 
 #include <stdio.h>
@@ -56,29 +49,17 @@ IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QStringLiteral("/
     }
 
     QStringList arguments;
-#if QT_VERSION >= 0x050000
     QString executable = QStandardPaths::findExecutable(QStringLiteral("cpp"));
-#else
-    QString executable = KStandardDirs::findExe(QStringLiteral("cpp"));
-#endif
     if (!executable.isEmpty()) {
         arguments << QStringLiteral("-C");   // -C means "preserve comments"
     }
 #ifdef Q_OS_WIN
     else {
-#if QT_VERSION >= 0x050000
         executable = QStandardPaths::findExecutable(QStringLiteral("cl"));
-#else
-        executable = KStandardDirs::findExe(QStringLiteral("cl"));
-#endif
         if (executable.isEmpty()) {
             QString path = QLatin1String(qgetenv("VS100COMNTOOLS").constData());
             if (!path.isEmpty())
-#if QT_VERSION >= 0x050000
                 executable = QStandardPaths::findExecutable(QStringLiteral("cl"), QStringList() << path + QStringLiteral("/../../VC/bin"));
-#else
-                executable = KStandardDirs::findExe(QStringLiteral("cl"), path + QStringLiteral("/../../VC/bin"));
-#endif
         }
         if (!executable.isEmpty()) {
             arguments << QStringLiteral("-E");   // -E means "preprocess to stdout"

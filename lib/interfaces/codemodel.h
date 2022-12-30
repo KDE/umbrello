@@ -30,7 +30,7 @@ enum ParsedFileType {
     CppParsedFile
 };
 
-class AbstractParseResult : public KShared
+class AbstractParseResult : public QSharedData
 {
 public:
     virtual ~AbstractParseResult() {}
@@ -41,7 +41,7 @@ public:
     virtual ParsedFileType type() const = 0;
 };
 
-typedef KSharedPtr<AbstractParseResult> ParseResultPointer;
+typedef QExplicitlySharedDataPointer<AbstractParseResult> ParseResultPointer;
 
 using namespace std;
 
@@ -61,90 +61,90 @@ class TypeAliasModel;
 /**
 @class ItemDom
 Safe pointer to the @ref CodeModelItem.
-This is a type definition: @code typedef KSharedPtr<CodeModelItem> ItemDom; @endcode
-@sa KSharedPtr
+This is a type definition: @code typedef QExplicitlySharedDataPointer<CodeModelItem> ItemDom; @endcode
+@sa QExplicitlySharedDataPointer
 */
-typedef KSharedPtr<CodeModelItem> ItemDom;
+typedef QExplicitlySharedDataPointer<CodeModelItem> ItemDom;
 
 /**
 @class FileDom
 Safe pointer to the @ref FileModel.
-This is a type definition: @code typedef KSharedPtr<FileModel> FileDom; @endcode
-@sa KSharedPtr
+This is a type definition: @code typedef QExplicitlySharedDataPointer<FileModel> FileDom; @endcode
+@sa QExplicitlySharedDataPointer
 */
-typedef KSharedPtr<FileModel> FileDom;
+typedef QExplicitlySharedDataPointer<FileModel> FileDom;
 
 /**
 @class NamespaceDom
 Safe pointer to the @ref NamespaceModel.
-This is a type definition: @code typedef KSharedPtr<NamespaceModel> NamespaceDom; @endcode
-@sa KSharedPtr
+This is a type definition: @code typedef QExplicitlySharedDataPointer<NamespaceModel> NamespaceDom; @endcode
+@sa QExplicitlySharedDataPointer
 */
-typedef KSharedPtr<NamespaceModel> NamespaceDom;
+typedef QExplicitlySharedDataPointer<NamespaceModel> NamespaceDom;
 
 /**
 @class ClassDom
 Safe pointer to the @ref ClassModel.
-This is a type definition: @code typedef KSharedPtr<ClassModel> ClassDom; @endcode
-@sa KSharedPtr
+This is a type definition: @code typedef QExplicitlySharedDataPointer<ClassModel> ClassDom; @endcode
+@sa QExplicitlySharedDataPointer
 */
-typedef KSharedPtr<ClassModel> ClassDom;
+typedef QExplicitlySharedDataPointer<ClassModel> ClassDom;
 
 /**
 @class FunctionDom
 Safe pointer to the @ref FunctionModel.
-This is a type definition: @code typedef KSharedPtr<FunctionModel> FunctionDom; @endcode
-@sa KSharedPtr
+This is a type definition: @code typedef QExplicitlySharedDataPointer<FunctionModel> FunctionDom; @endcode
+@sa QExplicitlySharedDataPointer
 */
-typedef KSharedPtr<FunctionModel> FunctionDom;
+typedef QExplicitlySharedDataPointer<FunctionModel> FunctionDom;
 
 /**
 @class FunctionDefinitionDom
 Safe pointer to the @ref FunctionDefinitionModel.
-This is a type definition: @code typedef KSharedPtr<FunctionDefinitionModel> FunctionDefinitionDom; @endcode
-@sa KSharedPtr
+This is a type definition: @code typedef QExplicitlySharedDataPointer<FunctionDefinitionModel> FunctionDefinitionDom; @endcode
+@sa QExplicitlySharedDataPointer
 */
-typedef KSharedPtr<FunctionDefinitionModel> FunctionDefinitionDom;
+typedef QExplicitlySharedDataPointer<FunctionDefinitionModel> FunctionDefinitionDom;
 
 /**
 @class VariableDom
 Safe pointer to the @ref VariableModel.
-This is a type definition: @code typedef KSharedPtr<VariableModel> VariableDom; @endcode
-@sa KSharedPtr
+This is a type definition: @code typedef QExplicitlySharedDataPointer<VariableModel> VariableDom; @endcode
+@sa QExplicitlySharedDataPointer
 */
-typedef KSharedPtr<VariableModel> VariableDom;
+typedef QExplicitlySharedDataPointer<VariableModel> VariableDom;
 
 /**
 @class ArgumentDom
 Safe pointer to the @ref ArgumentModel.
-This is a type definition: @code typedef KSharedPtr<ArgumentModel> ArgumentDom; @endcode
-@sa KSharedPtr
+This is a type definition: @code typedef QExplicitlySharedDataPointer<ArgumentModel> ArgumentDom; @endcode
+@sa QExplicitlySharedDataPointer
 */
-typedef KSharedPtr<ArgumentModel> ArgumentDom;
+typedef QExplicitlySharedDataPointer<ArgumentModel> ArgumentDom;
 
 /**
 @class EnumDom
 Safe pointer to the @ref EnumModel.
-This is a type definition: @code typedef KSharedPtr<EnumModel> EnumDom; @endcode
-@sa KSharedPtr
+This is a type definition: @code typedef QExplicitlySharedDataPointer<EnumModel> EnumDom; @endcode
+@sa QExplicitlySharedDataPointer
 */
-typedef KSharedPtr<EnumModel> EnumDom;
+typedef QExplicitlySharedDataPointer<EnumModel> EnumDom;
 
 /**
 @class TypeAliasDom
 Safe pointer to the @ref TypeAliasModel.
-This is a type definition: @code typedef KSharedPtr<TypeAliasModel> TypeAliasDom; @endcode
-@sa KSharedPtr
+This is a type definition: @code typedef QExplicitlySharedDataPointer<TypeAliasModel> TypeAliasDom; @endcode
+@sa QExplicitlySharedDataPointer
 */
-typedef KSharedPtr<TypeAliasModel> TypeAliasDom;
+typedef QExplicitlySharedDataPointer<TypeAliasModel> TypeAliasDom;
 
 /**
 @class EnumeratorDom
 Safe pointer to the @ref EnumeratorModel.
-This is a type definition: @code typedef KSharedPtr<EnumeratorModel> EnumeratorDom; @endcode
-@sa KSharedPtr
+This is a type definition: @code typedef QExplicitlySharedDataPointer<EnumeratorModel> EnumeratorDom; @endcode
+@sa QExplicitlySharedDataPointer
 */
-typedef KSharedPtr<EnumeratorModel> EnumeratorDom;
+typedef QExplicitlySharedDataPointer<EnumeratorModel> EnumeratorDom;
 
 /**
 @class ItemList
@@ -260,7 +260,7 @@ QStringList sortedNameList(const ItemList& lst)
 }
 
 /**
-Casts safe code model pointers (@p KSharedPtr<T> objects like
+Casts safe code model pointers (@p QExplicitlySharedDataPointer<T> objects like
 FileDom, NamespaceDom, etc.) to the @p Result type.
 
 Example:
@@ -271,7 +271,7 @@ ClassDom cl = model_cast<ClassDom>(ns);
 @param x Object to cast.
 */
 template <class Result, class T>
-Result model_cast(KSharedPtr<T> x)
+Result model_cast(QExplicitlySharedDataPointer<T> x)
 {
     Result r(static_cast<T*>(x));
     return r;
@@ -447,7 +447,7 @@ variables, arguments, enums and enumerators, type aliases.
 Instances of this class should be created using @ref CodeModel::create method but usually
 it is better to create instances of derived classes like ClassModel, NamespaceModel, FileModel, etc.
 */
-class CodeModelItem: public KShared
+class CodeModelItem: public QSharedData
 {
 public:
     /**A definition of safe pointer to the code model item.*/

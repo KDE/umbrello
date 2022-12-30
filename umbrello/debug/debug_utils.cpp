@@ -12,9 +12,7 @@
 
 #include <QFileInfo>
 
-#if QT_VERSION >= 0x050000
 Q_LOGGING_CATEGORY(UMBRELLO, "umbrello")
-#endif
 
 Tracer* Tracer::s_instance = nullptr;
 Tracer::MapType* Tracer::s_classes;

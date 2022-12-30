@@ -18,9 +18,6 @@
 // kde includes
 #include <KLocalizedString>
 #include <KMessageBox>
-#if QT_VERSION < 0x050000
-#include <kvbox.h>
-#endif
 
 // qt includes
 #include <QFrame>

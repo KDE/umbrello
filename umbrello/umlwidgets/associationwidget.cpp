@@ -34,17 +34,11 @@
 #include "instanceattribute.h"
 
 // kde includes
-#if QT_VERSION < 0x050000
-#include <kcolordialog.h>
-#include <kfontdialog.h>
-#endif
 #include <KLocalizedString>
 
 // qt includes
-#if QT_VERSION >= 0x050000
 #include <QColorDialog>
 #include <QFontDialog>
-#endif
 #include <QPainterPath>
 #include <QPointer>
 #include <QApplication>
@@ -2717,27 +2711,17 @@ void AssociationWidget::slotMenuSelection(QAction* action)
 
     case ListPopupMenu::mt_Change_Font:
         {
-#if QT_VERSION >= 0x050000
             bool ok = false;
             QFont fnt = QFontDialog::getFont(&ok, font(), m_scene->activeView());
             if (ok)
-#else
-            QFont fnt = font();
-            if (KFontDialog::getFont(fnt, KFontChooser::NoDisplayFlags, m_scene->activeView()))
-#endif
                 lwSetFont(fnt);
         }
         break;
 
     case ListPopupMenu::mt_Line_Color:
         {
-#if QT_VERSION >= 0x050000
             QColor newColor = QColorDialog::getColor(lineColor());
             if (newColor.isValid() && newColor != lineColor())
-#else
-            QColor newColor;
-            if (KColorDialog::getColor(newColor))
-#endif
             {
                 m_scene->selectionSetLineColor(newColor);
                 umlDoc()->setModified(true);

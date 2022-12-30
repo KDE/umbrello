@@ -117,7 +117,7 @@ public:
 private:
     friend class HashedStringSetGroup;
     void makeDataPrivate();
-    KSharedPtr<HashedStringSetData> m_data; //this implies some additional cost because KShared's destructor is virtual. Maybe change that by copying KShared without the virtual destructor.
+    QExplicitlySharedDataPointer<HashedStringSetData> m_data; //this implies some additional cost because QSharedData's destructor is virtual. Maybe change that by copying QSharedData without the virtual destructor.
     friend HashedStringSet operator + (const HashedStringSet& lhs, const HashedStringSet& rhs);
 };
 

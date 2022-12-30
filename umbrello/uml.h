@@ -11,16 +11,11 @@
 
 // kde includes
 #include <kxmlguiwindow.h>
-#if QT_VERSION < 0x050000
-#include <kurl.h>
-#endif
 #include <ksharedconfig.h>
 
 // qt includes
 #include <QPointer>
-#if QT_VERSION >= 0x050000
 #include <QUrl>
-#endif
 
 // forward declaration of the UML classes
 class BirdView;
@@ -49,9 +44,6 @@ class KRecentFilesAction;
 class KToggleAction;
 class KTabWidget;
 class QMenu;
-#if QT_VERSION < 0x050000
-class KUndoStack;
-#endif
 class KAction;
 
 // Qt forward declarations
@@ -65,9 +57,7 @@ class QMimeData;
 class QPrinter;
 class QUndoCommand;
 class QUndoView;
-#if QT_VERSION >= 0x050000
 class QUndoStack;
-#endif
 class QPushButton;
 class QLabel;
 class QListWidget;
@@ -102,11 +92,7 @@ public:
 
     static UMLApp* app();
 
-#if QT_VERSION >= 0x050000
     void openDocumentFile(const QUrl& url=QUrl());
-#else
-    void openDocumentFile(const KUrl& url=KUrl());
-#endif
 
     void newDocument();
 
@@ -166,11 +152,7 @@ public:
 
     bool editCutCopy(bool bFromView);
 
-#if QT_VERSION >= 0x050000
     QTabWidget *tabWidget();
-#else
-    KTabWidget *tabWidget();
-#endif
 
     QString statusBarMsg() const;
 
@@ -231,11 +213,7 @@ public slots:
     void slotFileNew();
     void slotFileOpen();
 
-#if QT_VERSION >= 0x050000
     void slotFileOpenRecent(const QUrl& url);
-#else
-    void slotFileOpenRecent(const KUrl& url);
-#endif
     void slotFileSave();
     bool slotFileSaveAs();
     void slotFileClose();
@@ -298,11 +276,7 @@ public slots:
     void slotSelectAll();
     void slotDeleteSelected();
     void slotDeleteDiagram();
-#if QT_VERSION >= 0x050000
     void slotCloseDiagram(int index);
-#else
-    void slotCloseDiagram(QWidget* tab);
-#endif
     void slotGenerateAllCode();
 
     void slotSetZoom(QAction* action);
@@ -319,11 +293,7 @@ public slots:
     void slotEditUndo();
     void slotEditRedo();
 
-#if QT_VERSION >= 0x050000
     void slotTabChanged(int index);
-#else
-    void slotTabChanged(QWidget* tab);
-#endif
     void slotChangeTabLeft();
     void slotChangeTabRight();
     void slotMoveTabLeft();
@@ -354,9 +324,7 @@ private slots:
     void setLang_vala();
     void setLang_xmlschema();
     void setLang_none();
-#if QT_VERSION >= 0x050000
     void slotDiagramPopupMenu(const QPoint& point);
-#endif
 
 private:
     static UMLApp* s_instance;  ///< The last created instance of this class.
@@ -452,13 +420,8 @@ private:
     QAction* zoom100Action;
 
     QAction* m_langAct[Uml::ProgrammingLanguage::Reserved + 1];
-#if QT_VERSION >= 0x050000
     QAction* deleteSelectedWidget;
     QAction* deleteDiagram;
-#else
-    KAction* deleteSelectedWidget;
-    KAction* deleteDiagram;
-#endif
     QToolButton* m_newSessionButton;
     WorkToolBar* m_toolsbar;
     QTimer* m_clipTimer;
@@ -476,11 +439,7 @@ private:
      * Shows, and is parent of, all the UMLViews (diagrams)
      * if tabbed diagrams are enabled.
      */
-#if QT_VERSION >= 0x050000
     QTabWidget* m_tabWidget;
-#else
-    KTabWidget* m_tabWidget;
-#endif
 
     /**
      * Layout supports the dynamic management of the diagram representation (tabbed/stacked)
@@ -511,11 +470,7 @@ private:
      */
     XhtmlGenerator* m_xhtmlGenerator;
 
-#if QT_VERSION >= 0x050000
     QUndoStack* m_pUndoStack;  ///< UndoStack used to store actions, to provide Undo/Redo feature.
-#else
-    KUndoStack* m_pUndoStack;  ///< UndoStack used to store actions, to provide Undo/Redo feature.
-#endif
     bool m_undoEnabled; ///< Undo enabled flag
 
     bool m_hasBegunMacro;  ///< Macro creation flag.

@@ -8,14 +8,8 @@
 
 #include "umlviewimageexportermodel.h"
 
-#if QT_VERSION < 0x050000
-#include <kurl.h>
-#endif
-
 #include <QString>
-#if QT_VERSION >= 0x050000
 #include <QUrl>
-#endif
 
 class UMLScene;
 class UMLFileDialog;
@@ -33,21 +27,13 @@ public:
     virtual ~UMLViewImageExporter();
 
     void exportView();
-#if QT_VERSION >= 0x050000
     QUrl    getImageURL() const { return m_imageURL; }
-#else
-    KUrl    getImageURL() const { return m_imageURL; }
-#endif
     QString getImageMimeType() const { return m_imageMimeType; }
 
 private:
 
     UMLScene* m_scene;          ///< The scene to export.
-#if QT_VERSION >= 0x050000
     QUrl      m_imageURL;       ///< The URL used to save the image.
-#else
-    KUrl      m_imageURL;       ///< The URL used to save the image.
-#endif
     QString   m_imageMimeType;  ///< The mime type used to save the image.
 
     bool getParametersFromUser();

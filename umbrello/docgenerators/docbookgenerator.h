@@ -10,14 +10,8 @@
 
 #include <QtGlobal>
 
-#if QT_VERSION < 0x050000
-#include <kurl.h>
-#endif
-
 #include <QObject>
-#if QT_VERSION >= 0x050000
 #include <QUrl>
-#endif
 
 class UMLDoc;
 class DocbookGeneratorJob;
@@ -41,11 +35,7 @@ class DocbookGenerator : public QObject
     virtual ~DocbookGenerator();
 
     bool generateDocbookForProject();
-#if QT_VERSION >= 0x050000
     void generateDocbookForProjectInto(const QUrl& destDir);
-#else
-    void generateDocbookForProjectInto(const KUrl& destDir);
-#endif
     static QString customXslFile();
 
 signals:
@@ -63,11 +53,7 @@ signals:
 
     bool m_pStatus;
     bool m_pThreadFinished;
-#if QT_VERSION >= 0x050000
     QUrl m_destDir;
-#else
-    KUrl m_destDir;
-#endif
     UMLDoc* umlDoc;
 };
 

@@ -5,27 +5,12 @@
 */
 
 #include <qglobal.h>
-#if QT_VERSION >= 0x050000
 #include <QApplication>
-#else
-#include <KAboutData>
-#include <KApplication>
-#include <KCmdLineArgs>
-#endif
 
 int main(int argc, char **argv)
 {
-#if QT_VERSION >= 0x050000
     QApplication app(argc, argv);
     // enable crash handler
-#else
-    KAboutData aboutData("testcrashhandler", 0, KLocalizedString(),
-                         "0.0.0", KLocalizedString(), KAboutData::License_GPL,
-                         KLocalizedString(), KLocalizedString(),
-                         "");
-    KCmdLineArgs::init(argc, argv, &aboutData);
-    KApplication app;
-#endif
     int *a = 0;
     *a = 1;
 }
