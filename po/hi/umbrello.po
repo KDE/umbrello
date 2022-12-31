@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-30 00:56+0000\n"
+"POT-Creation-Date: 2022-12-31 00:54+0000\n"
 "PO-Revision-Date: 2021-09-17 20:07+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -8554,76 +8554,76 @@ msgstr "केस नाम इस्तेमाल करें: (&n)"
 msgid "Instance name:"
 msgstr "इंटरफेस नामः"
 
-#: umlscene.cpp:708
+#: umlscene.cpp:722
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "आरेखः %2 पृष्ठ %1"
 
-#: umlscene.cpp:1509
+#: umlscene.cpp:1523
 #, fuzzy, kde-format
 #| msgid "&Use fill color"
 msgid "Use fill color"
 msgstr "भराव रंग इस्तेमाल करें... (&U)"
 
-#: umlscene.cpp:1511
+#: umlscene.cpp:1525
 #, fuzzy, kde-format
 #| msgid "Fill Color"
 msgid "No fill color"
 msgstr "भराव रंग"
 
-#: umlscene.cpp:1526
+#: umlscene.cpp:1540
 #, fuzzy, kde-format
 #| msgid "Change Font"
 msgid "Change font"
 msgstr "फ़ॉन्ट बदलें"
 
-#: umlscene.cpp:1540
+#: umlscene.cpp:1554
 #, fuzzy, kde-format
 #| msgid "Change Line Color"
 msgid "Change line color"
 msgstr "पंक्ति रंग बदलें"
 
-#: umlscene.cpp:1558
+#: umlscene.cpp:1572
 #, fuzzy, kde-format
 #| msgid "Line width:"
 msgid "Change line width"
 msgstr "लकीर की चौड़ाई."
 
-#: umlscene.cpp:1578
+#: umlscene.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Change Fill Color"
 msgid "Change fill color"
 msgstr "भराव रंग बदलें"
 
-#: umlscene.cpp:1593
+#: umlscene.cpp:1607
 #, fuzzy, kde-format
 #| msgid "Role Properties"
 msgid "Change visual property"
 msgstr "भूमिका गुण"
 
-#: umlscene.cpp:1644
+#: umlscene.cpp:1658
 #, fuzzy, kde-format
 #| msgid "Delete"
 msgid "Delete widgets"
 msgstr "मिटाएँ"
 
-#: umlscene.cpp:1690
+#: umlscene.cpp:1704
 #, fuzzy, kde-format
 #| msgid "Create widget :"
 msgid "Resize widgets"
 msgstr "विजेट बनाएँ :"
 
-#: umlscene.cpp:3343
+#: umlscene.cpp:3357
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "आरेख नाम भरें"
 
-#: umlscene.cpp:3344
+#: umlscene.cpp:3358
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "आरेख का नया नाम भरें:"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3374
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

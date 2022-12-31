@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-30 00:56+0000\n"
+"POT-Creation-Date: 2022-12-31 00:54+0000\n"
 "PO-Revision-Date: 2015-02-25 21:00+0100\n"
 "Last-Translator: Samir Ribić <megaribi@epn.ba>\n"
 "Language-Team:  <bs@li.org>\n"
@@ -8479,67 +8479,67 @@ msgstr "&Ime slučaja upotrebe:"
 msgid "Instance name:"
 msgstr "Ime primjerka:"
 
-#: umlscene.cpp:708
+#: umlscene.cpp:722
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Dijagram: %2 strana %1"
 
-#: umlscene.cpp:1509
+#: umlscene.cpp:1523
 #, kde-format
 msgid "Use fill color"
 msgstr "Koristi boju za popunjavanje"
 
-#: umlscene.cpp:1511
+#: umlscene.cpp:1525
 #, kde-format
 msgid "No fill color"
 msgstr "Nema boje za popunjavanje"
 
-#: umlscene.cpp:1526
+#: umlscene.cpp:1540
 #, kde-format
 msgid "Change font"
 msgstr "Promijeni font"
 
-#: umlscene.cpp:1540
+#: umlscene.cpp:1554
 #, kde-format
 msgid "Change line color"
 msgstr "Promijeni boju linije"
 
-#: umlscene.cpp:1558
+#: umlscene.cpp:1572
 #, kde-format
 msgid "Change line width"
 msgstr "Promjeni širinu linije"
 
-#: umlscene.cpp:1578
+#: umlscene.cpp:1592
 #, kde-format
 msgid "Change fill color"
 msgstr "Promijeni boju za popunjavanje"
 
-#: umlscene.cpp:1593
+#: umlscene.cpp:1607
 #, kde-format
 msgid "Change visual property"
 msgstr "Promijeni vizualna podešavanja"
 
-#: umlscene.cpp:1644
+#: umlscene.cpp:1658
 #, kde-format
 msgid "Delete widgets"
 msgstr "Obriši grafičke animacije"
 
-#: umlscene.cpp:1690
+#: umlscene.cpp:1704
 #, kde-format
 msgid "Resize widgets"
 msgstr "Promijeni veličinu grafičkim animacijama"
 
-#: umlscene.cpp:3343
+#: umlscene.cpp:3357
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Unesite ime dijagrama"
 
-#: umlscene.cpp:3344
+#: umlscene.cpp:3358
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Unesite novo ime za dijagram:"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3374
 #, fuzzy, kde-format
 #| msgid "No code importer for file: %1"
 msgid "Failed to import from file."

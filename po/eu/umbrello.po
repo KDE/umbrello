@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-30 00:56+0000\n"
+"POT-Creation-Date: 2022-12-31 00:54+0000\n"
 "PO-Revision-Date: 2020-08-17 20:55+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -8430,75 +8430,75 @@ msgstr "Erabilpen-kasuaren ize&na:"
 msgid "Instance name:"
 msgstr "Instantziaren izena:"
 
-#: umlscene.cpp:708
+#: umlscene.cpp:722
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Diagrama: %2 Orria: %1"
 
-#: umlscene.cpp:1509
+#: umlscene.cpp:1523
 #, fuzzy, kde-format
 #| msgid "&Use fill color"
 msgid "Use fill color"
 msgstr "&Erabili betegarriaren kolorea"
 
-#: umlscene.cpp:1511
+#: umlscene.cpp:1525
 #, fuzzy, kde-format
 #| msgid "Fill Color..."
 msgid "No fill color"
 msgstr "Betegarriaren kolorea..."
 
-#: umlscene.cpp:1526
+#: umlscene.cpp:1540
 #, fuzzy, kde-format
 #| msgid "Change Font..."
 msgid "Change font"
 msgstr "Aldatu letra-tipoa..."
 
-#: umlscene.cpp:1540
+#: umlscene.cpp:1554
 #, fuzzy, kde-format
 #| msgid "Change into Class"
 msgid "Change line color"
 msgstr "Aldatu klasera"
 
-#: umlscene.cpp:1558
+#: umlscene.cpp:1572
 #, fuzzy, kde-format
 #| msgid "Line width:"
 msgid "Change line width"
 msgstr "Lerroaren zabalera:"
 
-#: umlscene.cpp:1578
+#: umlscene.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Use Fill Color"
 msgid "Change fill color"
 msgstr "Erabili kolore betegarria"
 
-#: umlscene.cpp:1593
+#: umlscene.cpp:1607
 #, fuzzy, kde-format
 #| msgid "Role Properties"
 msgid "Change visual property"
 msgstr "Eginkizunaren propietateak"
 
-#: umlscene.cpp:1644
+#: umlscene.cpp:1658
 #, fuzzy, kde-format
 msgid "Delete widgets"
 msgstr "Hautatu"
 
-#: umlscene.cpp:1690
+#: umlscene.cpp:1704
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Resize widgets"
 msgstr "Sortu karpeta"
 
-#: umlscene.cpp:3343
+#: umlscene.cpp:3357
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Sartu diagramaren izena"
 
-#: umlscene.cpp:3344
+#: umlscene.cpp:3358
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Sartu diagrama berriaren izena:"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3374
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

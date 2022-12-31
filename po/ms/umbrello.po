@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-30 00:56+0000\n"
+"POT-Creation-Date: 2022-12-31 00:54+0000\n"
 "PO-Revision-Date: 2007-02-25 15:47+0730\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: KDE <kde-i18n-doc@kde.org>\n"
@@ -8172,69 +8172,69 @@ msgstr "Name=KDevelop: KDE/C++"
 msgid "Instance name:"
 msgstr "Name=KDevAdaProject"
 
-#: umlscene.cpp:708
+#: umlscene.cpp:722
 #, fuzzy, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Tajuk Laman"
 
-#: umlscene.cpp:1509
+#: umlscene.cpp:1523
 #, fuzzy, kde-format
 msgid "Use fill color"
 msgstr "Guna Hint Saiz"
 
-#: umlscene.cpp:1511
+#: umlscene.cpp:1525
 #, fuzzy, kde-format
 msgid "No fill color"
 msgstr "Nombor baris:"
 
-#: umlscene.cpp:1526
+#: umlscene.cpp:1540
 #, fuzzy, kde-format
 msgid "Change font"
 msgstr "Tukar Susunan Tab"
 
-#: umlscene.cpp:1540
+#: umlscene.cpp:1554
 #, fuzzy, kde-format
 msgid "Change line color"
 msgstr "Tukar Susunan Tab"
 
-#: umlscene.cpp:1558
+#: umlscene.cpp:1572
 #, fuzzy, kde-format
 msgid "Change line width"
 msgstr "Nombor baris:"
 
-#: umlscene.cpp:1578
+#: umlscene.cpp:1592
 #, fuzzy, kde-format
 msgid "Change fill color"
 msgstr "Guna Hint Saiz"
 
-#: umlscene.cpp:1593
+#: umlscene.cpp:1607
 #, fuzzy, kde-format
 msgid "Change visual property"
 msgstr ""
 "*.pro|Fail Projek\n"
 "*|Semua Fail"
 
-#: umlscene.cpp:1644
+#: umlscene.cpp:1658
 #, fuzzy, kde-format
 msgid "Delete widgets"
 msgstr "&Pilih"
 
-#: umlscene.cpp:1690
+#: umlscene.cpp:1704
 #, kde-format
 msgid "Resize widgets"
 msgstr ""
 
-#: umlscene.cpp:3343
+#: umlscene.cpp:3357
 #, fuzzy, kde-format
 msgid "Enter Diagram Name"
 msgstr "Name=KDevelop: KDE/C++"
 
-#: umlscene.cpp:3344
+#: umlscene.cpp:3358
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr ""
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3374
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

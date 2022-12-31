@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-30 00:56+0000\n"
-"PO-Revision-Date: 2022-12-05 12:41+0200\n"
+"POT-Creation-Date: 2022-12-31 00:54+0000\n"
+"PO-Revision-Date: 2022-12-30 09:00+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -1126,10 +1126,9 @@ msgstr "&Записувати коментарі документації, на�
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
+#, kde-format
 msgid "Write section comments:"
-msgstr "&Записувати коментарі документації, навіть якщо елементи порожні"
+msgstr "Запис коментарів розділу:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1151,13 +1150,13 @@ msgstr "Немає"
 #: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
 msgid "When section is non empty"
-msgstr ""
+msgstr "Якщо розділ є непорожнім"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Завжди"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -6724,13 +6723,13 @@ msgstr "Вмикає/Вимикає докладне документуванн�
 #: umbrello.kcfg:399
 #, kde-format
 msgid "Section Comment Policy"
-msgstr ""
+msgstr "Правила щодо коментарів розділу"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:400
 #, kde-format
 msgid "Whether section comments shall be written"
-msgstr ""
+msgstr "Визначає, чи слід записувати коментарі до розділу"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:409
@@ -8228,67 +8227,67 @@ msgstr "&Назва випадку використання:"
 msgid "Instance name:"
 msgstr "Назва екземпляра:"
 
-#: umlscene.cpp:708
+#: umlscene.cpp:722
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Діаграма: %2 Сторінка %1"
 
-#: umlscene.cpp:1509
+#: umlscene.cpp:1523
 #, kde-format
 msgid "Use fill color"
 msgstr "Використовувати колір заповнення"
 
-#: umlscene.cpp:1511
+#: umlscene.cpp:1525
 #, kde-format
 msgid "No fill color"
 msgstr "Немає кольору заповнення"
 
-#: umlscene.cpp:1526
+#: umlscene.cpp:1540
 #, kde-format
 msgid "Change font"
 msgstr "Змінити шрифт"
 
-#: umlscene.cpp:1540
+#: umlscene.cpp:1554
 #, kde-format
 msgid "Change line color"
 msgstr "Змінити колір ліній"
 
-#: umlscene.cpp:1558
+#: umlscene.cpp:1572
 #, kde-format
 msgid "Change line width"
 msgstr "Змінити товщину лінії"
 
-#: umlscene.cpp:1578
+#: umlscene.cpp:1592
 #, kde-format
 msgid "Change fill color"
 msgstr "Змінити колір заповнення"
 
-#: umlscene.cpp:1593
+#: umlscene.cpp:1607
 #, kde-format
 msgid "Change visual property"
 msgstr "Змінити візуальну властивість"
 
-#: umlscene.cpp:1644
+#: umlscene.cpp:1658
 #, kde-format
 msgid "Delete widgets"
 msgstr "Вилучити віджети"
 
-#: umlscene.cpp:1690
+#: umlscene.cpp:1704
 #, kde-format
 msgid "Resize widgets"
 msgstr "Змінити розміри віджетів"
 
-#: umlscene.cpp:3343
+#: umlscene.cpp:3357
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Введіть назву діаграми"
 
-#: umlscene.cpp:3344
+#: umlscene.cpp:3358
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Введіть нову назву діаграми:"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3374
 #, kde-format
 msgid "Failed to import from file."
 msgstr "Не вдалося імпортувати дані з файла."

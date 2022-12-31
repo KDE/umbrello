@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-30 00:56+0000\n"
+"POT-Creation-Date: 2022-12-31 00:54+0000\n"
 "PO-Revision-Date: 2022-04-27 20:14+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -8236,67 +8236,67 @@ msgstr "Användningsfalls&namn:"
 msgid "Instance name:"
 msgstr "Instansnamn:"
 
-#: umlscene.cpp:708
+#: umlscene.cpp:722
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Diagram: %2 Sida %1"
 
-#: umlscene.cpp:1509
+#: umlscene.cpp:1523
 #, kde-format
 msgid "Use fill color"
 msgstr "Använd fyllnadsfärg"
 
-#: umlscene.cpp:1511
+#: umlscene.cpp:1525
 #, kde-format
 msgid "No fill color"
 msgstr "Ingen fyllnadsfärg"
 
-#: umlscene.cpp:1526
+#: umlscene.cpp:1540
 #, kde-format
 msgid "Change font"
 msgstr "Ändra teckensnitt"
 
-#: umlscene.cpp:1540
+#: umlscene.cpp:1554
 #, kde-format
 msgid "Change line color"
 msgstr "Ändra linjefärg"
 
-#: umlscene.cpp:1558
+#: umlscene.cpp:1572
 #, kde-format
 msgid "Change line width"
 msgstr "Ändra linjebredd"
 
-#: umlscene.cpp:1578
+#: umlscene.cpp:1592
 #, kde-format
 msgid "Change fill color"
 msgstr "Ändra fyllnadsfärg"
 
-#: umlscene.cpp:1593
+#: umlscene.cpp:1607
 #, kde-format
 msgid "Change visual property"
 msgstr "Ändra visuell egenskap"
 
-#: umlscene.cpp:1644
+#: umlscene.cpp:1658
 #, kde-format
 msgid "Delete widgets"
 msgstr "Ta bort grafiska komponenter"
 
-#: umlscene.cpp:1690
+#: umlscene.cpp:1704
 #, kde-format
 msgid "Resize widgets"
 msgstr "Ändra storlek på grafiska komponenter"
 
-#: umlscene.cpp:3343
+#: umlscene.cpp:3357
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Skriv in diagramnamn"
 
-#: umlscene.cpp:3344
+#: umlscene.cpp:3358
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Skriv in diagrammets nya namn:"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3374
 #, kde-format
 msgid "Failed to import from file."
 msgstr "Misslyckades importera från fil."

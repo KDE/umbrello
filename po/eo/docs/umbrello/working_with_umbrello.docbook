@@ -7,7 +7,7 @@
 -->
 
 <para
->Äi tiu Äapitro enkondukos vin al la uzant-interfaco de &umbrello; kaj priskribos Äion sciendan por komenci modeli. Äiuj agoj en  &umbrello; estas alireblaj tra la menuo kaj la ilpaneloj, sed &umbrello; ankaÅ­ ofte uzas &RMB; kuntekstmenuojn. Vi povas &RMB; musklaki al preskaÅ­ iu ajn elemento en la ilaro aÅ­ arboperspektivo de &umbrello; por ekricevi menuon kun la plej utilaj funkcioj aplikeblaj al la individua elemento kiun vi estas prilaboranta. Iuj uzantoj je la komenco trovas Äi tiun iomete konfuza Äar ili pli kutimas labori per la menuoj aÅ­ la ilpaneloj, sed foje ke vi alkutimiÄas al <mousebutton
+>Ĉi tiu ĉapitro enkondukos vin al la uzant-interfaco de &umbrello; kaj priskribos ĉion sciendan por komenci modeli. Ĉiuj agoj en  &umbrello; estas alireblaj tra la menuo kaj la ilpaneloj, sed &umbrello; ankaŭ ofte uzas &RMB; kuntekstmenuojn. Vi povas &RMB; musklaki al preskaŭ iu ajn elemento en la ilaro aŭ arboperspektivo de &umbrello; por ekricevi menuon kun la plej utilaj funkcioj aplikeblaj al la individua elemento kiun vi estas prilaboranta. Iuj uzantoj je la komenco trovas ĉi tiun iomete konfuza ĉar ili pli kutimas labori per la menuoj aŭ la ilpaneloj, sed foje ke vi alkutimiĝas al <mousebutton
 >dekstra</mousebutton
 > musklakado tio ege rapidigos vian laboron. </para>
 
@@ -15,9 +15,9 @@
 <title
 >Uzant-Interfaco</title>
 <para
->La &umbrello;-a Äefa fenestro estas dividita en tri spacoj kiuj helpos vin teni la superrigardon de via tuta sistemo kaj helpos aliri la diversajn diagramojn rapide dum la prilaborado de la modelo. </para>
+>La &umbrello;-a ĉefa fenestro estas dividita en tri spacoj kiuj helpos vin teni la superrigardon de via tuta sistemo kaj helpos aliri la diversajn diagramojn rapide dum la prilaborado de la modelo. </para>
 <para
->Äi tiuj spacoj estas nomataj:</para>
+>Ĉi tiuj spacoj estas nomataj:</para>
 <itemizedlist>
 <listitem
 ><para
@@ -29,7 +29,7 @@
 ></listitem>
 <listitem
 ><para
->Dokumentadfenestro</para
+>Dokumentada kaj Komandohistoria Fenestro</para
 ></listitem>
 </itemizedlist>
 
@@ -55,30 +55,30 @@
 <title
 >Arboperspektivo</title>
 <para
->La Arboperspektivo estas kutime lokigata maldekstre Äe la supro de la fenestro kaj montras Äiujn diagramojn, klasojn, aktorojn kaj uzkazojn kiuj konsistigas vian modelon. La Arboperspektivo permesas al vi rapidan superrigardon de la elementoj kunmetantaj vian modelon. La Arboperspektivo ankaÅ­ ebligas la rapidan Åaltadon inter la diversaj diagramoj en via modelo kaj permesas enigi elementojn de la modelo en la aktualan diagramon. </para>
+>La Arboperspektivo estas kutime lokigata maldekstre ĉe la supro de la fenestro kaj montras ĉiujn diagramojn, klasojn, aktorojn kaj uzkazojn kiuj konsistigas vian modelon. La Arboperspektivo permesas al vi rapidan superrigardon de la elementoj kunmetantaj vian modelon. La Arboperspektivo ankaŭ ebligas la rapidan ŝaltadon inter la diversaj diagramoj en via modelo kaj permesas enigi elementojn de la modelo en la aktualan diagramon. </para>
 <para
->Se vi estas prilaboranta modelon kun pli ol nur kelkaj klasoj kaj skemoj, la Arboperspektivo povus helpi vin plue orientiÄi per la organizado de la modelelementoj en dosierujoj. Vi povas krei dosierujojn elektanta la koncernan opcion de la kuntekstmenuo (&RMB; musklaku al unu el la dosierujoj en la arboperspektivo) kaj vi povas organizi viajn elementojn movanta ilin al konvena dosierujo (mustrene/falige). </para>
+>Se vi estas prilaboranta modelon kun pli ol nur kelkaj klasoj kaj skemoj, la Arboperspektivo povus helpi vin plue orientiĝi per la organizado de la modelelementoj en dosierujoj. Vi povas krei dosierujojn elektanta la koncernan opcion de la kuntekstmenuo (&RMB; musklaku al unu el la dosierujoj en la arboperspektivo) kaj vi povas organizi viajn elementojn movanta ilin al konvena dosierujo (mustrene/falige). </para>
 </sect2>
 
 <sect2 id="documentation-window">
 <title
->Dokumentadfenestro</title>
+>Dokumentada kaj Komandohistoria Fenestro</title>
 <para
->La Dokumentadfenestro estas la malgranda fenestro kiu troviÄas maldekstre Äe la malsupro de &umbrello;, kaj Äi donas al vi rapidan antaÅ­prezenton de la dokumentaro por la aktuale elektita elemento. La Dokumentadfenestro estas iom malgranda Äar Äi estas konceptita por permesi nur rapidan rigardeton en la elementodokumentaron, samtempe ne forprenanta tro da ekranspaco. Por vidi la dokumentaron pli detale vi povas Äiukaze malfermi la elementotrajtojn. </para>
+>La Dokumentada kaj Komandohistoria Fenestro estas la malgranda fenestro kiu troviĝas maldekstre ĉe la malsupro de &umbrello;, kaj ĝi donas al vi rapidan antaŭprezenton de la dokumentaro por la aktuale elektita elemento samkiel la komandohistorion de via laborsesio. La Dokumentadfenestro estas iom malgranda ĉar ĝi estas konceptita por permesi nur rapidan rigardeton en la elementodokumentaron, samtempe ne forprenanta tro da ekranspaco. Por vidi la dokumentaron pli detale vi povas ĉiukaze malfermi la elementotrajtojn. </para>
 </sect2>
 <sect2 id="work-area">
 <title
 >Laborspaco</title>
 <para
->La Laborspaco estas la Äefa fenestro en &umbrello; kaj estas kie la vera ellaborado okazas. Vi uzas la Laborospacon por redakti kaj alrigardi la diagramojn en via modelo. La Laborspaco montras la aktuale aktivan diagramon. Aktuale nur unu diagramo povas esti montrata samtempe en la Laborospaco. </para>
+>La Laborspaco estas la ĉefa fenestro en &umbrello; kaj estas kie la vera ellaborado okazas. Vi uzas la Laborospacon por redakti kaj alrigardi la diagramojn en via modelo. La Laborspaco montras la aktuale aktivan diagramon. Aktuale nur unu diagramo povas esti montrata samtempe en la Laborospaco. </para>
 </sect2>
 </sect1
 > <!--user-interface-->
 <sect1 id="load-save">
 <title
->Krei, ÅarÄi kaj Savi Modelojn</title>
+>Krei, Ŝarĝi kaj Savi Modelojn</title>
 <para
->La unua kion vi devas fari por utiligi &umbrello; estas krei modelon prilaborotan. Kiam vi startas &umbrello;-n Äi Äiam ÅarÄas la lastan uzitan modelon aÅ­ kreas novan, malplenan modelon (depende de viaj preferoj fiksitaj en la konfigurdialogo). Äi tiu permesos vin komenci tuj labori. </para>
+>La unua kion vi devas fari por utiligi &umbrello; estas krei modelon prilaborotan. Kiam vi startas &umbrello;-n ĝi ĉiam ŝarĝas la lastan uzitan modelon aŭ kreas novan, malplenan modelon (depende de viaj preferoj fiksitaj en la konfigurdialogo). Ĉi tiu permesos vin komenci tuj labori. </para>
 <sect2 id="new-model">
 <title
 >Nova Modelo</title>
@@ -87,19 +87,19 @@
 >Nova</guimenuitem
 > de la menuo <guimenu
 >Dosiero</guimenu
-> aÅ­ alklakante la ikonon <guiicon
+> aŭ alklakante la ikonon <guiicon
 >Nova</guiicon
-> de l' ilpanelo. Se vi aktuale prilaboras modelon kiu estas modifita &umbrello; demandos vin Äu Äi savu viajn ÅanÄojn antaÅ­ la ÅarÄo de la nova modelo. </para>
+> de l' ilpanelo. Se vi aktuale prilaboras modelon kiu estas modifita &umbrello; demandos vin ĉu ĝi savu viajn ŝanĝojn antaŭ la ŝarĝo de la nova modelo. </para>
 </sect2>
 <sect2 id="save-model">
 <title
 >Savi Modelon</title>
 <para
->Vi povas savi vian modelon Äiame per la elekto <guimenuitem
+>Vi povas savi vian modelon ĉiame per la elekto <guimenuitem
 >Savi</guimenuitem
 > de la menuo <guimenu
 >Dosiero</guimenu
-> aÅ­ alklakante la butonon <guiicon
+> aŭ alklakante la butonon <guiicon
 >Savi</guiicon
 > de l' ilpanelo. Se vi devas savi vian modelon sub alia nomo vi povas uzi la elekton <guimenuitem
 >Savi Kiel</guimenuitem
@@ -107,27 +107,27 @@
 >Dosiero</guimenu
 >. </para>
 <para
->Je via konveno &umbrello; ankaÅ­ ofertas la elekton aÅ­tomate savi vian laboron Äiam post certa tempoperiodo. En la menuo <guimenu
->FiksaÄµoj</guimenu
-> de &umbrello; vi povas enÅalti tiun savadon kaj konfiguri ties tempintervalon. </para>
+>Je via konveno &umbrello; ankaŭ ofertas la elekton aŭtomate savi vian laboron ĉiam post certa tempoperiodo. En la menuo <guimenu
+>Fiksaĵoj</guimenu
+> de &umbrello; vi povas enŝalti tiun savadon kaj konfiguri ties tempintervalon. </para>
 </sect2>
 <sect2 id="load-model">
 <title
->ÅarÄi Modelon</title>
+>Ŝarĝi Modelon</title>
 <para
->Por ÅarÄi jam ekzistantan modelon vi povas elekti aÅ­ la opcion <guimenuitem
+>Por ŝarĝi jam ekzistantan modelon vi povas elekti aŭ la opcion <guimenuitem
 >Malfermi</guimenuitem
 > de la menuo <guimenu
 >Dosiero</guimenu
-> aÅ­ la ikonon <guiicon
+> aŭ la ikonon <guiicon
 >Open</guiicon
-> de la aplika ilpanelo. La modeloj uzitaj dum la lasta tempo estas ankaÅ­ elekteblaj en la submenuo <guimenuitem
+> de la aplika ilpanelo. La modeloj uzitaj dum la lasta tempo estas ankaŭ elekteblaj en la submenuo <guimenuitem
 >Malfermi Lastan</guimenuitem
 > en la menuo <guimenu
 >Dosiero</guimenu
 > por rapidigi la aliron al viaj plej ofte uzataj modeloj. </para>
 <para
->&umbrello; povas pritrakti nur unu modelon je unu tempo, sekve se vi demandas la programon ÅarÄi modelon kaj via aktuala modelo estas modifita ekde la lasta savado, &umbrello; demandos vin Äu viaj ÅanÄoj estu savataj por eviti iun perdon de laboro. Vi povas starti du aÅ­ pli instancojn de &umbrello; je iu tempo. Vi povas ankaÅ­ kopii kaj almeti inter instancoj. </para>
+>&umbrello; povas pritrakti nur unu modelon je unu tempo, sekve se vi demandas la programon ŝarĝi modelon kaj via aktuala modelo estas modifita ekde la lasta savado, &umbrello; demandos vin ĉu viaj ŝanĝoj estu savataj por eviti iun perdon de laboro. Vi povas starti du aŭ pli instancojn de &umbrello; je iu tempo. Vi povas ankaŭ kopii kaj almeti inter instancoj. </para>
 </sect2>
 </sect1
 >  <!--load-save-->
@@ -147,21 +147,21 @@
 </itemizedlist>
 </para>
 <para
->Uzanta la kuntekstmenuon de la diversaj elementoj en la Arboperspektivo vi povas almeti, forigi, kaj modifi preskaÅ­ Äiujn elementojn en via modelo. <mousebutton
+>Uzanta la kuntekstmenuon de la diversaj elementoj en la Arboperspektivo vi povas almeti, forigi, kaj modifi preskaŭ ĉiujn elementojn en via modelo. <mousebutton
 >Dekstra</mousebutton
-> musklako al la dosierujoj en la Arboperspektivo donas opciojn por krei la diversajn specojn de diagramoj kaj ankaÅ­, depende Äu la dosierujo estas <emphasis
+> musklako al la dosierujoj en la Arboperspektivo donas opciojn por krei la diversajn specojn de diagramoj kaj ankaŭ, depende ĉu la dosierujo estas <emphasis
 >Uzkaza Perspektivo</emphasis
-> aÅ­ <emphasis
+> aŭ <emphasis
 >Logika Perspektivo</emphasis
 >, Aktorojn, Uzkazojn, Klasojn, ktp. </para>
 <para
->Foje ke vi aldonis elementojn al via modelo, vi povas ankaÅ­ redakti elementon alirante ties trajtodialogon, kiu troviÄas sub la elekto <emphasis
+>Foje ke vi aldonis elementojn al via modelo, vi povas ankaŭ redakti elementon alirante ties trajtodialogon, kiu troviĝas sub la elekto <emphasis
 >Trajtoj</emphasis
 > de la kuntekstmenuo montrata per <mousebutton
 >dekstra</mousebutton
 > musklako sur la elementojn en la Arboperspektivo. </para>
 <para
->Vi povas ankaÅ­ redakti vian modelon kreanta aÅ­ modifanta elementojn sur diagramoj. Pli da detaloj pri tio Äi troveblas en la sekvontaj sekcioj. </para>
+>Vi povas ankaŭ redakti vian modelon kreanta aŭ modifanta elementojn sur diagramoj. Pli da detaloj pri tio ĉi troveblas en la sekvontaj sekcioj. </para>
 </sect1>
 <sect1 id="add-remove-diagrams">
 <title
@@ -169,7 +169,7 @@
 <para
 >Via &UML;-modelo konsistas el aro da &UML;-elementoj kaj asocioj inter ili. Tamen vi ne povas vidi la modelon rekte, sed oni uzas <emphasis
 >Diagramojn</emphasis
-> por rigardi Äin. </para>
+> por rigardi ĝin. </para>
 <sect2 id="create-diagram">
 <title
 >Krei Diagramojn</title>
@@ -178,9 +178,9 @@
 >Nova</guimenuitem
 > en la menuo <guimenu
 >Diagramo</guimenu
-> kaj donu nomon al Äi. La diagramo estos kreata kaj aktivigata, kaj vi tuj vidos Äin en la arboperspektivo. </para>
+> kaj donu nomon al ĝi. La diagramo estos kreata kaj aktivigata, kaj vi tuj vidos ĝin en la arboperspektivo. </para>
 <para
->Memoru ke &umbrello; faras vastan uzon de kuntekstmenuoj: vi povas ankaÅ­ &RMB;-e musklaki al dosierujo en la Arboperspektivo kaj elekti la deziratan diagramtipon de la submenuo <guisubmenu
+>Memoru ke &umbrello; faras vastan uzon de kuntekstmenuoj: vi povas ankaŭ &RMB;-e musklaki al dosierujo en la Arboperspektivo kaj elekti la deziratan diagramtipon de la submenuo <guisubmenu
 >Nova</guisubmenu
 > en la kuntekstmenuo. Rimarku ke vi povas krei Uzkazdiagramojn nur en Uzkazperspektivaj dosierujoj, kaj la aliaj diagramspecoj povas esti kreataj nur en la Logikperspektivaj dosierujoj. </para>
 </sect2>
@@ -188,41 +188,41 @@
 <title
 >Forigi Diagramojn</title>
 <para
->Se vi devas forigi diagramon de via modelo, vi povas fari tion aktivigante Äin kaj elektante <guimenuitem
+>Se vi devas forigi diagramon de via modelo, vi povas fari tion aktivigante ĝin kaj elektante <guimenuitem
 >Forigi</guimenuitem
 > de la menuo <guimenu
 >Diagramo</guimenu
->. Vi povas ankaÅ­ atingi Äi tion elektante <guimenuitem
+>. Vi povas ankaŭ atingi ĉi tion elektante <guimenuitem
 >Forigi</guimenuitem
 > de la diagrama kuntekstmenuo en la Arboperspektivo. </para>
 <para
->Pro tio ke la forigo diagramo estas afero grava kio povus kaÅ­zi perdon de laboro se farita per akcidento, &umbrello; demandos vin konfirmi la forigan operacion antaÅ­ ol efektive forigadi la diagramon. Unufoje ke diagramo estas forigita kaj la dosiero estas savita oni neniel povas malfari tiun procedon. </para>
+>Pro tio ke la forigo diagramo estas afero grava kio povus kaŭzi perdon de laboro se farita per akcidento, &umbrello; demandos vin konfirmi la forigan operacion antaŭ ol efektive forigadi la diagramon. Unufoje ke diagramo estas forigita kaj la dosiero estas savita oni neniel povas malfari tiun procedon. </para>
 </sect2>
 <sect2 id="rename-diagram">
 <title
 >Renomi Diagramojn</title>
 <para
->Se vi volas ÅanÄi la nomon de ekzistanta diagramo vi povas facile fari tion elektanta Renomi elekton de la &RMB; menuo en la Arboperspektivo. </para>
+>Se vi volas ŝanĝi la nomon de ekzistanta diagramo vi povas facile fari tion elektanta Renomi elekton de la &RMB; menuo en la Arboperspektivo. </para>
 <para
->Alia metodo por renomi diagramon estas fari Äi tion per ties trajtodialogo, kiun vi ekhavas elektanta Trajtoj de la kuntekstmenuo aÅ­ per duobla musklako al Äia ikono en la Arboperspektivo. </para>
+>Alia metodo por renomi diagramon estas fari ĉi tion per ties trajtodialogo, kiun vi ekhavas elektanta Trajtoj de la kuntekstmenuo aŭ per duobla musklako al ĝia ikono en la Arboperspektivo. </para>
 </sect2>
 </sect1>
 <sect1 id="edit-diagram">
 <title
 >Editing Diagrams</title>
 <para
->Kiam vi prilaboras diagramon, &umbrello; provos gvidi vin aplikante iujn simplajn regulojn pri kiaj elementoj validas en la diversaj tipoj de diagramoj, kaj ankaÅ­ kiaj rilatoj rajtas ekzisti inter ili. Se vi etas &UML; eksperto vi probable eÄ ne rimarkos Äin, sed tio helpos &UML; novulojn krei normkonformajn diagramojn. </para>
+>Kiam vi prilaboras diagramon, &umbrello; provos gvidi vin aplikante iujn simplajn regulojn pri kiaj elementoj validas en la diversaj tipoj de diagramoj, kaj ankaŭ kiaj rilatoj rajtas ekzisti inter ili. Se vi etas &UML; eksperto vi probable eĉ ne rimarkos ĝin, sed tio helpos &UML; novulojn krei normkonformajn diagramojn. </para>
 <para
->Unufoje ke vi kreis viajn diagramojn venas la tempo por komenci redakti ilin. Tie Äi vi devus rimarki la (por komencantoj subtila) diferenco inter redaktado de skemo kaj redaktado de la <emphasis
+>Unufoje ke vi kreis viajn diagramojn venas la tempo por komenci redakti ilin. Tie ĉi vi devus rimarki la (por komencantoj subtila) diferenco inter redaktado de skemo kaj redaktado de la <emphasis
 >modelo</emphasis
 >. Kiel vi jam scias, diagramoj estas <emphasis
 >Perspektivoj</emphasis
-> de onies modelo. Ekzemple se vi kreas klason redaktante klasdiagramon, vi vere redaktas ambaÅ­ ka diagramon kaj la modelon. Se vi ÅanÄas la koloron aÅ­ aliajn bildotrajtojn de Klaso en via klasdiagramo, vi estas nur redaktanta la diagramn, sed nenio ÅanÄiÄas en via modelo. </para>
+> de onies modelo. Ekzemple se vi kreas klason redaktante klasdiagramon, vi vere redaktas ambaŭ ka diagramon kaj la modelon. Se vi ŝanĝas la koloron aŭ aliajn bildotrajtojn de Klaso en via klasdiagramo, vi estas nur redaktanta la diagramn, sed nenio ŝanĝiĝas en via modelo. </para>
 <sect2 id="insert-elements">
 <title
 >Enmeti Elementojn</title>
 <para
->Redaktanta novan diagramon, unu el la unuaj aferoj kiujn vi faros estas enigi elementojn en Äin (Klasojn, Aktorojn, Uzkazojn, ktp.) Estas resume du metodoj por fari Äi tion:</para>
+>Redaktanta novan diagramon, unu el la unuaj aferoj kiujn vi faros estas enigi elementojn en ĝin (Klasojn, Aktorojn, Uzkazojn, ktp.) Estas resume du metodoj por fari ĉi tion:</para>
 <itemizedlist>
 <listitem
 ><para
@@ -234,21 +234,22 @@
 ></listitem>
 </itemizedlist>
 <para
->Por enmeti elementojn kiuj jam ekzistas en via modelo, simple mustrenu ilin de la Arboperspektivo kaj failgu ilin kie vi volas en via diagramo. Vi povas Äiam movi elementojn ÄirkaÅ­e en via diagramo uzante la Selektilon.</para>
+>Por enmeti elementojn kiuj jam ekzistas en via modelo, simple mustrenu ilin de la Arboperspektivo kaj failgu ilin kie vi volas en via diagramo. Vi povas ĉiam movi elementojn ĉirkaŭe en via diagramo uzante la Selektilon.</para>
 <para
->La dua maniero por aldoni elementojn al via diagramo estas pere de la redaktiloj de la Labora Ilpanelo (rimarku ke tio ankaÅ­ aldonos la elementojn al via modelo). </para>
+>La dua maniero por aldoni elementojn al via diagramo estas pere de la redaktiloj de la Labora Ilpanelo (rimarku ke tio ankaŭ aldonos la elementojn al via modelo). </para>
 <para
->La Labora Ilpanelo estis difolte lokita sur la ekstrema dekstro de la aplikfenestro; &umbrello; 1.2 movis Äi tiun al la supro de la fenestro. Vi povas doki Äin al alia rando aÅ­ aranÄi ke Äi flosu ÄirkaÅ­e se vi preferas. La iloj disponeblaj sur Äi tiu ilpanelo (la butonoj kiuj vi vidas sur Äi) ÅanÄiÄas laÅ­ la diagramspeco kiun vi aktuale prilaboras. La butono por la aktuale elektita ilo estas aktivigita en la ilpanelo. Vi povas la elekti ilon premante la &Esc; klavon. </para>
+>La Labora Ilpanelo estis defaŭlte lokita ĉe la supro de la fenestro.
+Vi povas doki ĝin al alia rando aŭ aranĝi ke ĝi flosu ĉirkaŭe se vi preferas. La iloj disponeblaj sur ĉi tiu ilpanelo (t.e. la butonoj videblaj) ŝanĝiĝas laŭ la diagramspeco kiun vi aktuale prilaboras. La butono por la aktuale elektita ilo estas aktivigita en la ilpanelo. Vi povas la elekti ilon premante la &Esc; klavon. </para>
 <para
->Kiam vi elektis redaktilon de la Labora Ilpanelo (ekzemple, la ilon por enig klasojn) la musosago ÅanÄiÄas al kruco, kaj vi povas enigi la elementojn en vian modelon per unuopaj musklakoj en via diagramo. Rimarku ke elementoj en &UML; devas havi <emphasis
+>Kiam vi elektis redaktilon de la Labora Ilpanelo (ekzemple, la ilon por enigi klasojn) la musosago ŝanĝiĝas al kruco, kaj vi povas enigi la elementojn en vian modelon per unuopaj musklakoj en via diagramo. Rimarku ke elementoj en &UML; devas havi <emphasis
 >Unikan Nomon</emphasis
 >. Se vi do havas klason en unu diagramo kies nomo estas <quote
 >KlasoA</quote
-> kaj poste vi uz la Enigi Klason ilon por enigi klason en alian diagramon vi ne povas nomi Äi tiun novan klason <quote
+> kaj poste vi uz la Enigi Klason ilon por enigi klason en alian diagramon vi ne povas nomi ĉi tiun novan klason <quote
 >KlasoA</quote
-> same. Se Äi tiuj du devus esti du malsamaj elementoj, vi devas doni al ili unikan nomon. Se vi celas almeti la <emphasis
+> same. Se ĉi tiuj du devus esti du malsamaj elementoj, vi devas doni al ili unikan nomon. Se vi celas almeti la <emphasis
 >saman</emphasis
-> elementon al via diagramo, tiam la Enigi Klason ilo ne estas la Äusta por tio. Vi devus mustreni la klason de la Arboperspektivo anstataÅ­e. </para>
+> elementon al via diagramo, tiam la Enigi Klason ilo ne estas la ĝusta por tio. Vi devus mustreni la klason de la Arboperspektivo anstataŭe. </para>
 </sect2>
 <sect2 id="delete-elements">
 <title
@@ -256,96 +257,96 @@
 <para
 >Vi povas forigi iun ajn elementon elektante la opcion <guimenuitem
 >Forigi</guimenuitem
-> de Äia kuntekstmenuo. </para>
+> de ĝia kuntekstmenuo. </para>
 <para
 >Denove, ekzistas <emphasis
 >granda</emphasis
-> diferenco inter forigado de objekto sur la diagramo kaj forigado de objekto de via modelo: Se vi forigas objekton de ene de diagramo, vi estas sole foriganta Äin de tiu specifa diagramo: la elemento ankoraÅ­ estos parto de via modelo kaj se estas aliaj diagramoj kiuj uzas la saman elementon ili ne suferos iun ÅanÄon. Se, aliflanke, vi forigas la elementon de la Arboperspektivo, vi estas efektive foriganta la elementon de via <emphasis
+> diferenco inter forigado de objekto sur la diagramo kaj forigado de objekto de via modelo: Se vi forigas objekton de ene de diagramo, vi estas sole foriganta ĝin de tiu specifa diagramo: la elemento ankoraŭ estos parto de via modelo kaj se estas aliaj diagramoj kiuj uzas la saman elementon ili ne suferos iun ŝanĝon. Se, aliflanke, vi forigas la elementon de la Arboperspektivo, vi estas efektive foriganta la elementon de via <emphasis
 >modelo</emphasis
->. Äar la elemento ne plu ekzistas en via modelo, Äi estos aÅ­tomate forigata de Äiuj diagramoj en kiuj Äi aperas. </para>
+>. Ĉar la elemento ne plu ekzistas en via modelo, ĝi estos aŭtomate forigata de ĉiuj diagramoj en kiuj ĝi aperas. </para>
 </sect2>
 <sect2 id="edit-elements">
 <title
 >Redakti Elementojn</title>
 <para
->Vi povas redakti la plimulton de la &UML; elementoj en via modelo kaj diagramoj malfermante ties dialogon Trajtoj kaj enÅaltante la koncernajn opciojn. Por redakti la trajtojn de objekto, elektu <guimenuitem
+>Vi povas redakti la plimulton de la &UML; elementoj en via modelo kaj diagramoj malfermante ties dialogon Trajtoj kaj enŝaltante la koncernajn opciojn. Por redakti la trajtojn de objekto, elektu <guimenuitem
 >Trajtoj</guimenuitem
-> de Äia kuntekstmenuo (&RMB; alklako). Äiu elemento havas dialogon kiu konsistas el kelkaj paÄoj kie vi povas konfiguri la elekteblecojn kiuj korespondas al tiu elemento. Por kelkaj elementoj, kiel ekz. aktoroj, vi povas fiksi nur malmultajn elektojn, kiel la objektnomon kaj dokumentaron, dum por aliaj elementoj, kiel ekz. klasoj, vi povas: redakti ties atributojn kaj operaciojn, elekti la partojn kiuj estu montrataj en la diagramo (tuta operacisignaturo aÅ­ nur operacinomoj, ktp) kaj eÄ la kolorojn kiujn vi volas uzi por la linioj kaj fono de la klasreprezentado sur la diagramo. </para>
+> de ĝia kuntekstmenuo (&RMB; alklako). Ĉiu elemento havas dialogon kiu konsistas el kelkaj paĝoj kie vi povas konfiguri la elekteblecojn kiuj korespondas al tiu elemento. Por kelkaj elementoj, kiel ekz. aktoroj, vi povas fiksi nur malmultajn elektojn, kiel la objektnomon kaj dokumentaron, dum por aliaj elementoj, kiel ekz. klasoj, vi povas: redakti ties atributojn kaj operaciojn, elekti la partojn kiuj estu montrataj en la diagramo (tuta operacisignaturo aŭ nur operacinomoj, ktp) kaj eĉ la kolorojn kiujn vi volas uzi por la linioj kaj fono de la klasreprezentado sur la diagramo. </para>
 
 <para
->Por la plejaj &UML; elementoj vi povas ankaÅ­ malfermi la trajtodialogon per duobla musklako al Äi se vi estas uzanta la selektan ilon (sago). La escepto al Äi tiu estas Asocioj, en kiu kazo duobla musklako kreas ankropunkton. Por asocioj vi devas uzi la &RMB; kuntekstmenuon por ekhavi la trajtodialogon. </para>
+>Por &UML; elementoj vi povas ankaŭ malfermi la trajtodialogon per duobla musklako al ĝi se vi estas uzanta la selektan ilon (sago).</para>
 
 <para
->Rimarku ke vi ankaÅ­ povas selekti la trajtodialogon ekde la kuntekstmenuo de la elementoj en la Arboperspektivo. Äi tiu permesas al vi ankaÅ­ redakti la trajtojn por la diagramoj, kiel ekz. elekto Äu la krado devus esti montrita, aÅ­ Äu ne. </para>
+>Rimarku ke vi ankaŭ povas selekti la trajtodialogon ekde la kuntekstmenuo de la elementoj en la Arboperspektivo. Ĉi tiu permesas al vi ankaŭ redakti la trajtojn por la diagramoj, kiel ekz. elekto ĉu la krado devus esti montrita, aŭ ĉu ne. </para>
 </sect2>
 <sect2 id="edit-classes">
 <title
 >Redakti Klasojn</title>
 <para
->Kvankam la redaktado de la trajtoj de Äiuj objektoj jam estis montrita en la antaÅ­a sekcio, klasoj meritas specialan sekcion Äar ili estas iom pli komplikaj kaj havas pli da elektebloj ol la plimulto de la aliaj &UML; elementoj. </para>
+>Kvankam la redaktado de la trajtoj de ĉiuj objektoj jam estis montrita en la antaŭa sekcio, klasoj meritas specialan sekcion ĉar ili estas iom pli komplikaj kaj havas pli da elektebloj ol la plimulto de la aliaj &UML; elementoj. </para>
 <para
->En la trajtodialogo por klaso vi povas fiksi vastan gamon, de la koloro kiun Äi uzas al la operacioj kaj atributoj kiujn Äi havas. </para>
+>En la trajtodialogo por klaso vi povas fiksi vastan gamon, de la koloro kiun ĝi uzas al la operacioj kaj atributoj kiujn ĝi havas. </para>
 <sect3 id="class-general-settings">
 <title
->Äeneralaj FiksaÄµoj por Klaso</title>
+>Ĝeneralaj Fiksaĵoj por Klaso</title>
 <para
->La paÄo de Äeneralaj FiksaÄµoj  de la trajtdialogo estas memklariga. Tie Äi vi povas ÅanÄi la klasnomon, videblecon, dokumentaron, ktp. Äi tiu paÄo estas Äiame je dispono. </para>
+>La paĝo de Ĝeneralaj Fiksaĵoj  de la trajtdialogo estas memklariga. Tie ĉi vi povas ŝanĝi la klasnomon, videblecon, dokumentaron, ktp. Ĉi tiu paĝo estas ĉiame je dispono. </para>
 </sect3>
 <sect3 id="class-attributes-settings">
 <title
->Atributaj FiksaÄµoj por Klaso</title>
+>Atributaj Fiksaĵoj por Klaso</title>
 <para
->En la paÄo de Atributaj FiksaÄµoj vi povas almeti, redakti, aÅ­ forigi atributojn (variablojn) de la klaso. Vi povas movi atributojn tien kaj reen en la listo per premo la sagbutono sur la flanko. Äi tiu paÄo estas Äiame je dispono. </para>
+>En la paĝo de Atributaj Fiksaĵoj vi povas almeti, redakti, aŭ forigi atributojn (variablojn) de la klaso. Vi povas movi atributojn tien kaj reen en la listo per premo la sagbutono sur la flanko. Ĉi tiu paĝo estas ĉiame je dispono. </para>
 </sect3>
 <sect3 id="class-operations-settings">
 <title
->Operaciaj FiksaÄµoj por Klaso</title>
+>Operaciaj Fiksaĵoj por Klaso</title>
 <para
->Simile al la paÄo de Atributaj FiksaÄµoj, en la paÄo de Operaciaj FiksaÄµoj vi povas almeti, redakti, aÅ­ forigi operaciojn por via klaso. Kiam vi aldon aÅ­ redakt operacio, vi eniras la bazajn donitaÄµojn en la <emphasis
+>Simile al la paĝo de Atributaj Fiksaĵoj, en la paĝo de Operaciaj Fiksaĵoj vi povas almeti, redakti, aŭ forigi operaciojn por via klaso. Kiam vi aldon aŭ redakt operacio, vi eniras la bazajn donitaĵojn en la <emphasis
 >Operaciaj Trajtoj</emphasis
 > dialogo. Se vi volas almeti parametrojn al via operacio, vi devas musklaki la <guibutton
 >Nova Parametro</guibutton
 > butonon, kiu montros la <emphasis
 >Parametraj Trajtoj</emphasis
-> dialogon. Äi tiu paÄo estas Äiame havebla. </para>
+> dialogon. Ĉi tiu paĝo estas ĉiame havebla. </para>
 </sect3>
 <sect3 id="class-template-settings">
 <title
->Åablonaj FiksaÄµoj por Klaso</title>
+>Ŝablonaj Fiksaĵoj por Klaso</title>
 <para
->Äi tiu paÄo permesas al vi almeti klasoÅablonojn kiuj estas nespecifitaj klasoj aÅ­ datumtipoj. En Java 1.5 Äi tiuj estas nomataj Generics (generaj programpecoj). </para>
+>Ĉi tiu paĝo permesas al vi almeti klasoŝablonojn kiuj estas nespecifitaj klasoj aŭ datumtipoj. En Java 1.5 ĉi tiuj estas nomataj Generics (generaj programpecoj). </para>
 </sect3>
 <sect3 id="class-associations-page">
 <title
->PaÄo por Klasaj Asocioj</title>
+>Paĝo por Klasaj Asocioj</title>
 <para
->La paÄo <guilabel
+>La paĝo <guilabel
 >Klasaj Asocioj</guilabel
-> montras Äiujn asociojn de Äi tiu klaso en la aktuala diagramo. Duobla musklako al nomo de asocio montras ties trajtojn, kaj depende de la speco de asocio vi povas modifi Äi tie certajn parametrojn kiel la multecon kaj rolnomon. Se la asocio ne permesas la modifon de tiaj elektoj, la dialogo de Asociaj Trajtoj estas read-only (nemodifebla) kaj vi povas sole modifi la dokumentaron rilatatan al Äi tiu asocio. </para>
+> montras ĉiujn asociojn de ĉi tiu klaso en la aktuala diagramo. Duobla musklako al nomo de asocio montras ties trajtojn, kaj depende de la speco de asocio vi povas modifi ĉi tie certajn parametrojn kiel la multecon kaj rolnomon. Se la asocio ne permesas la modifon de tiaj elektoj, la dialogo de Asociaj Trajtoj estas read-only (nemodifebla) kaj vi povas sole modifi la dokumentaron rilatatan al ĉi tiu asocio. </para>
 <para
->Äi tiu paÄo estas sole disponebla se vi malfermas la Klastrajtojn el ene de diagramo. Se vi elektas la klastrajtojn de la kuntekstmenuo en la Arboperspektivo Äi tiu paÄo ne haveblas. </para>
+>Ĉi tiu paĝo estas sole disponebla se vi malfermas la Klastrajtojn el ene de diagramo. Se vi elektas la klastrajtojn de la kuntekstmenuo en la Arboperspektivo ĉi tiu paĝo ne haveblas. </para>
 </sect3>
 <sect3 id="class-display-page">
 <title
->PaÄo por Klasvidigo</title>
+>Paĝo por Klasvidigo</title>
 <para
->En la paÄo<guilabel
+>En la paĝo<guilabel
 >Vidigaj Opcioj</guilabel
->, vi povas fiksi kio estu montrata en la diagramo. Klaso povas esti montrata kiel nur unu rektangulo kun la klasnomo en Äi (utila se vi havas multajn klasojn en via skemo, aÅ­ se vi momente ne interesiÄas pri la detaloj de Äiu klaso), aÅ­ kiel kompleta, montranta pakojn, stereotipojn, kaj atributojn kaj operaciojn kun plena signaturo kaj videbleco. </para>
+>, vi povas fiksi kio estu montrata en la diagramo. Klaso povas esti montrata kiel nur unu rektangulo kun la klasnomo en ĝi (utila se vi havas multajn klasojn en via skemo, aŭ se vi momente ne interesiĝas pri la detaloj de ĉiu klaso), aŭ kiel kompleta, montranta pakojn, stereotipojn, kaj atributojn kaj operaciojn kun plena signaturo kaj videbleco. </para>
 <para
->Depende de kiom da informoj vi volas vidi, vi povas elekt la korespondajn opciojn en Äi tiu paÄo. La ÅanÄoj kiujn vi faras Äi tie estas sole <emphasis
+>Depende de kiom da informoj vi volas vidi, vi povas elekti la korespondajn opciojn en ĉi tiu paĝo. La ŝanĝoj kiujn vi faras ĉi tie estas sole <emphasis
 >vidigaj opcioj</emphasis
 > por la diagramo. Tio signifas ke <quote
->kaÅi</quote
-> operaciojn de klaso nur igas ke ili ne estu montrataj en la diagramo, sed la operacioj ankoraÅ­ estas tie kiel parto de via modelo. Äi tiu elekto estas sole havebla se vi elektas la klastrajtojn el ene de diagramo. Se vi malfermas la klastrajtojn ekde la Arboperspektivo Äi tiu paÄo mankas Äar bildrilataj opcioj ne aplikeblas tiukaze. </para>
+>kaŝi</quote
+> operaciojn de klaso nur igas ke ili ne estu montrataj en la diagramo, sed la operacioj ankoraŭ estas tie kiel parto de via modelo. Ĉi tiu elekto estas sole havebla se vi elektas la klastrajtojn el ene de diagramo. Se vi malfermas la klastrajtojn ekde la Arboperspektivo ĉi tiu paĝo mankas ĉar bildrilataj opcioj ne aplikeblas tiukaze. </para>
 </sect3>
 <sect3 id="class-color-page">
 <title
->KlasKolorPaÄo</title>
+>Klas-Stila Paĝo</title>
 <para
->En la paÄo<guilabel
->FenestraÄµa Koloro</guilabel
-> vi povas regi la kolorojn de vi deziratajn por la linio kaj la plenigo de la fenestraÄµo. Äi tiu elekto evidente havas sencon sole por klasoj montrataj en diagramoj, kaj estas mankanta se vi malfermas la klastrajtan dialogon ekde la Arboperspektivo. </para>
+>En la paĝo<guilabel
+>Fenestraĵa Stilo</guilabel
+> vi povas regi la kolorojn de vi deziratajn por la linio kaj la plenigo de la fenestraĵo. Ĉi tiu elekto evidente havas sencon sole por klasoj montrataj en diagramoj, kaj estas mankanta se vi malfermas la klastrajtan dialogon ekde la Arboperspektivo. </para>
 </sect3>
 </sect2>
 
@@ -353,38 +354,38 @@
 <title
 >Asocioj</title>
 <para
->Asocioj rilatigas du &UML; objektojn unu al la alia. Normale asocioj estas difinitaj inter du klasoj, sed iaj asocioj ankaÅ­ povas ekzisti inter uzkazoj kaj aktoroj. </para>
+>Asocioj rilatigas du &UML; objektojn unu al la alia. Normale asocioj estas difinitaj inter du klasoj, sed iaj asocioj ankaŭ povas ekzisti inter uzkazoj kaj aktoroj. </para>
 <para
->Por krei asocion elektu la korespondan ilon de la Labora Ilpanelo (komuna Asocio, Äeneraligo, Agrego, ktp.) kaj ununure musklaku al la unua elemento partoprenanta la asocion kaj poste ununure musklaku al la dua ero partoprenanta. Rimarku ke tiuj estas du musklakoj, unu sur Äiu objekto partoprenanta la asocion, <emphasis
+>Por krei asocion elektu la korespondan ilon de la Labora Ilpanelo (komuna Asocio, Ĝeneraligo, Agrego, ktp.) kaj ununure musklaku al la unua elemento partoprenanta la asocion kaj poste ununure musklaku al la dua ero partoprenanta. Rimarku ke tiuj estas du musklakoj, unu sur ĉiu objekto partoprenanta la asocion, <emphasis
 >ne</emphasis
 > estas mustreno de unu objekto al alia. </para>
 <para
->Se vi provas uzi asocio laÅ­ maniero kontraÅ­ la &UML; specifo &umbrello; rifuzos krei la asocion kaj vi ricevos erarmesaÄon. Äi tiu estus la kazo se, ekzemple, Äeneraligo ekzistas de klaso A al klaso B kaj poste vi provas estigi alian Äeneraligon de Klaso B al klaso A. </para>
+>Se vi provas uzi asocio laŭ maniero kontraŭ la &UML; specifo &umbrello; rifuzos krei la asocion kaj vi ricevos erarmesaĝon. Ĉi tiu estus la kazo se, ekzemple, Ĝeneraligo ekzistas de klaso A al klaso B kaj poste vi provas estigi alian Ĝeneraligon de Klaso B al klaso A. </para>
 <para
 ><mousebutton
 >Dekstra</mousebutton
-> musklako sur asocio montros kuntekstmenuon kun la agoj aplikeblaj al Äi. Se vi bezonas forigi asocion simple elektu <guimenuitem
+> musklako sur asocio montros kuntekstmenuon kun la agoj aplikeblaj al ĝi. Se vi bezonas forigi asocion simple elektu <guimenuitem
 >Forigi</guimenuitem
-> de Äi tiu kuntekstmenu. Vi povas ankaÅ­ elekti la opcion <guimenuitem
+> de ĉi tiu kuntekstmenu. Vi povas ankaŭ elekti la opcion <guimenuitem
 >Trajtoj</guimenuitem
 > kaj, depende de la asocia tipo, redakti ecojn kiel roloj kaj multeco. </para>
 <sect3 id="anchor-points">
 <title
 >Ankropunktoj</title>
 <para
->Asocioj estas pentrataj, aÅ­tomate, kiel rekta linio konektanta la du objektojn en la diagramo. </para>
+>Asocioj estas pentrataj, aŭtomate, kiel rekta linio konektanta la du objektojn en la diagramo. </para>
 <para
 >Vi povas almeti ankropunktojn por fleksi asocion per <mousebutton
 >duobla</mousebutton
-> musklako ie laÅ­ la asociolinio. Äi tiu enigos ankropunkton (montrata kiel blua punkto kiam la asociolinio estas selektita) kiun vi povas movi de loko al loko por doni formon al la asocio. </para>
+> musklako ie laŭ la asociolinio. Ĉi tiu enigos ankropunkton (montrata kiel blua punkto kiam la asociolinio estas selektita) kiun vi povas movi de loko al loko por doni formon al la asocio. </para>
 <para
 >Se vi bezonas forigi ankropunkton, <mousebutton
 >duoble</mousebutton
-> musklak al Äi denove por forigi Äin. </para>
+> musklak al ĝi denove por forigi ĝin. </para>
 <para
->Rimarku ke la nura metodo por redakt la trajtojn de asocio estas per la kuntekstmenuo. Se vi provas <mousebutton
+>Rimarku ke la nura metodo por redakti la trajtojn de asocio estas per la kuntekstmenuo. Se vi provas <mousebutton
 >duoble</mousebutton
-> musklaki al Äi kiel por alia &UML; objektoj, Äi tiu sole enigos ankropunkton. </para>
+> musklaki al ĝi kiel por aliaj &UML; objektoj, ĉi tiu sole enigos ankropunkton. </para>
 </sect3>
 </sect2>
 
@@ -392,16 +393,16 @@
 <title
 >Notoj, Teksto kaj Skatoloj</title>
 <para
->Notoj, Linioj De Teksto kaj Skatoloj estas elementoj kiuj povas Äeesti en iu ajn speco de diagramo kaj ne havas veran semantikan valoron, sed estas tre helpemaj por aldoni ekstrajn rimarkojn aÅ­ klarigojn kiuj povas igi vian skemon pli facile komprenebla. </para>
+>Notoj, Linioj De Teksto kaj Skatoloj estas elementoj kiuj povas ĉeesti en iu ajn speco de diagramo kaj ne havas veran semantikan valoron, sed estas tre helpemaj por aldoni ekstrajn rimarkojn aŭ klarigojn kiuj povas igi vian skemon pli facile komprenebla. </para>
 <para
->Por almeti Noton aÅ­ Linion De Teksto, elektu la korespondan ilon de la Labora Ilpanelo kaj ununure musklaku al la diagramo kie vi volas meti vian rimarkon. Vi povas redakti la tekston malfermante la elementon per Äia kuntekstmenuo aÅ­ en la kazo de notoj ankaÅ­ per <mousebutton
+>Por almeti Noton aŭ Linion De Teksto, elektu la korespondan ilon de la Labora Ilpanelo kaj ununure musklaku al la diagramo kie vi volas meti vian rimarkon. Vi povas redakti la tekston malfermante la elementon per ĝia kuntekstmenuo aŭ en la kazo de notoj ankaŭ per <mousebutton
 >duobla</mousebutton
 > musklako al ili. </para>
 <sect3 id="anchors">
 <title
 >Ankroj</title>
 <para
->Ankroj estas uzataj por ligi tekstan noton kaj alian &UML; elementon kune. Ekzemple, vi normale uzas tekstnoton por klarigi aÅ­ fari iun komenton pri klaso aÅ­ certa asocio, en kiu kazo vi povas uzi la ankron por komprenigi ke la noto <quote
+>Ankroj estas uzataj por ligi tekstan noton kaj alian &UML; elementon kune. Ekzemple, vi normale uzas tekstnoton por klarigi aŭ fari iun komenton pri klaso aŭ certa asocio, en kiu kazo vi povas uzi la ankron por komprenigi ke la noto <quote
 >apartenas</quote
 > al tiu aparta elemento. </para>
 <para

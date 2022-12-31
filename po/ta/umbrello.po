@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-30 00:56+0000\n"
+"POT-Creation-Date: 2022-12-31 00:54+0000\n"
 "PO-Revision-Date: 2021-01-18 19:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -8656,73 +8656,73 @@ msgstr "கேஸ் பெயரைப் பயன்படுத்து"
 msgid "Instance name:"
 msgstr "பெயர்"
 
-#: umlscene.cpp:708
+#: umlscene.cpp:722
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "வரைப்படம்:%2 பக்கம் %1"
 
-#: umlscene.cpp:1509
+#: umlscene.cpp:1523
 #, fuzzy, kde-format
 #| msgid "&Use fill color"
 msgid "Use fill color"
 msgstr "வண்ணம் நிரப்பை உபயோகி"
 
-#: umlscene.cpp:1511
+#: umlscene.cpp:1525
 #, fuzzy, kde-format
 #| msgid "Fill Color..."
 msgid "No fill color"
 msgstr "வண்ணம் நிரப்பு..."
 
-#: umlscene.cpp:1526
+#: umlscene.cpp:1540
 #, fuzzy, kde-format
 #| msgid "Change Font..."
 msgid "Change font"
 msgstr "எழுத்துருவை மாற்றுக"
 
-#: umlscene.cpp:1540
+#: umlscene.cpp:1554
 #, fuzzy, kde-format
 msgid "Change line color"
 msgstr "எழுத்துமுறை மாற்றம்"
 
-#: umlscene.cpp:1558
+#: umlscene.cpp:1572
 #, fuzzy, kde-format
 #| msgid "Line width:"
 msgid "Change line width"
 msgstr "கோட்டின் அகலம்:"
 
-#: umlscene.cpp:1578
+#: umlscene.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Use Fill Color"
 msgid "Change fill color"
 msgstr "வண்ணம் நிரப்பை உபயோகி"
 
-#: umlscene.cpp:1593
+#: umlscene.cpp:1607
 #, fuzzy, kde-format
 #| msgid "Role Properties"
 msgid "Change visual property"
 msgstr "செயல் குணங்கள்"
 
-#: umlscene.cpp:1644
+#: umlscene.cpp:1658
 #, fuzzy, kde-format
 msgid "Delete widgets"
 msgstr "தேர்வு"
 
-#: umlscene.cpp:1690
+#: umlscene.cpp:1704
 #, fuzzy, kde-format
 msgid "Resize widgets"
 msgstr "அடைவினை உருவாக்க முடியவில்லை"
 
-#: umlscene.cpp:3343
+#: umlscene.cpp:3357
 #, fuzzy, kde-format
 msgid "Enter Diagram Name"
 msgstr "மாநிலத்தின் பெயர்"
 
-#: umlscene.cpp:3344
+#: umlscene.cpp:3358
 #, fuzzy, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "செயற்பாட்டிற்கான்  புதிய பெயரை உள்ளிடுக."
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3374
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

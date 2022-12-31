@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-30 00:56+0000\n"
+"POT-Creation-Date: 2022-12-31 00:54+0000\n"
 "PO-Revision-Date: 2022-01-29 15:15+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -8135,67 +8135,67 @@ msgstr "استخدام حالة خطاطة"
 msgid "Instance name:"
 msgstr "أدخل اسم:"
 
-#: umlscene.cpp:708
+#: umlscene.cpp:722
 #, fuzzy, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "التخطيط صفحة 1"
 
-#: umlscene.cpp:1509
+#: umlscene.cpp:1523
 #, fuzzy, kde-format
 msgid "Use fill color"
 msgstr "إستعمل ملأ اللون"
 
-#: umlscene.cpp:1511
+#: umlscene.cpp:1525
 #, fuzzy, kde-format
 msgid "No fill color"
 msgstr "ملأ اللون."
 
-#: umlscene.cpp:1526
+#: umlscene.cpp:1540
 #, fuzzy, kde-format
 msgid "Change font"
 msgstr "غيّر الخط."
 
-#: umlscene.cpp:1540
+#: umlscene.cpp:1554
 #, fuzzy, kde-format
 msgid "Change line color"
 msgstr "غيّر الفئة"
 
-#: umlscene.cpp:1558
+#: umlscene.cpp:1572
 #, fuzzy, kde-format
 msgid "Change line width"
 msgstr "خط العرض "
 
-#: umlscene.cpp:1578
+#: umlscene.cpp:1592
 #, fuzzy, kde-format
 msgid "Change fill color"
 msgstr "إستعمل ملأ اللون"
 
-#: umlscene.cpp:1593
+#: umlscene.cpp:1607
 #, fuzzy, kde-format
 msgid "Change visual property"
 msgstr "الدّور خصائص"
 
-#: umlscene.cpp:1644
+#: umlscene.cpp:1658
 #, fuzzy, kde-format
 msgid "Delete widgets"
 msgstr "احذف"
 
-#: umlscene.cpp:1690
+#: umlscene.cpp:1704
 #, kde-format
 msgid "Resize widgets"
 msgstr ""
 
-#: umlscene.cpp:3343
+#: umlscene.cpp:3357
 #, fuzzy, kde-format
 msgid "Enter Diagram Name"
 msgstr "إدخال التخطيط الاسم"
 
-#: umlscene.cpp:3344
+#: umlscene.cpp:3358
 #, fuzzy, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "إدخال جديد الاسم من خطاطة:"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3374
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

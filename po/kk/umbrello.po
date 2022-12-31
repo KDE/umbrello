@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-30 00:56+0000\n"
+"POT-Creation-Date: 2022-12-31 00:54+0000\n"
 "PO-Revision-Date: 2013-11-08 01:50+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -8487,76 +8487,76 @@ msgstr "Қолдану оқиғасының &атауы:"
 msgid "Instance name:"
 msgstr "Данасының атауы:"
 
-#: umlscene.cpp:708
+#: umlscene.cpp:722
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Диаграмма: %2 %1-бет"
 
-#: umlscene.cpp:1509
+#: umlscene.cpp:1523
 #, fuzzy, kde-format
 #| msgid "&Use fill color"
 msgid "Use fill color"
 msgstr "&Толтыру түсі болсын"
 
-#: umlscene.cpp:1511
+#: umlscene.cpp:1525
 #, fuzzy, kde-format
 #| msgid "Fill Color"
 msgid "No fill color"
 msgstr "Толтыру түсі"
 
-#: umlscene.cpp:1526
+#: umlscene.cpp:1540
 #, fuzzy, kde-format
 #| msgid "Change font : %1"
 msgid "Change font"
 msgstr "Қаріпті ауыстыру : %1"
 
-#: umlscene.cpp:1540
+#: umlscene.cpp:1554
 #, fuzzy, kde-format
 #| msgid "Change Line Color"
 msgid "Change line color"
 msgstr "Сызықтың түсін өзгерту"
 
-#: umlscene.cpp:1558
+#: umlscene.cpp:1572
 #, fuzzy, kde-format
 #| msgid "Custom line width:"
 msgid "Change line width"
 msgstr "Сызықтың өзгеше қалыңдығы:"
 
-#: umlscene.cpp:1578
+#: umlscene.cpp:1592
 #, fuzzy, kde-format
 #| msgid "Change Fill Color"
 msgid "Change fill color"
 msgstr "Толтыру түсін өзгерту"
 
-#: umlscene.cpp:1593
+#: umlscene.cpp:1607
 #, fuzzy, kde-format
 #| msgid "Change Properties"
 msgid "Change visual property"
 msgstr "Қасиеттерін өзгерту"
 
-#: umlscene.cpp:1644
+#: umlscene.cpp:1658
 #, fuzzy, kde-format
 #| msgid "Delete Point"
 msgid "Delete widgets"
 msgstr "Нүктені өшіру"
 
-#: umlscene.cpp:1690
+#: umlscene.cpp:1704
 #, fuzzy, kde-format
 #| msgid "Resize widget : %1"
 msgid "Resize widgets"
 msgstr "Виджеттің өлшемін өзгерту : %1"
 
-#: umlscene.cpp:3343
+#: umlscene.cpp:3357
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Диаграмманың атауын келтіріңіз"
 
-#: umlscene.cpp:3344
+#: umlscene.cpp:3358
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Диаграмманың жаңа атауы:"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3374
 #, fuzzy, kde-format
 #| msgid "No code importer for file: %1"
 msgid "Failed to import from file."

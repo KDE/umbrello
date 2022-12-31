@@ -15,9 +15,8 @@
 >plenigi la truojn</quote
 > provizante la funkciadon de la operacioj de viaj klasoj. </para>
 <para
->&umbrello; 1.2 enhavas kodgeneran subtenon por ActionScript, Ada, C++, CORBA IDL, &Java;, JavaScript, <acronym
->PHP</acronym
->, Perl, Python, SQL kaj XMLSchema. </para>
+>&umbrello; 2 enhavas kodgeneran subtenon por ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript,
+MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala, kaj XMLSchema. </para>
 <sect2 id="generate-code">
 <title
 >Generi Kodon</title>
@@ -132,7 +131,8 @@
 <title
 >Kodimporto</title>
 <para
->&umbrello; povas importi fontkodon de viaj nunaj projektoj por helpi vin konstrui modelo de viaj sistemoj. &umbrello; 1.2 subtenas sole C++ fontkodon, sed aliaj programlingvoj devus esti disponeblaj en estontaj versioj. </para>
+>&umbrello; povas importi fontkodon de viaj ekzistaj projektoj por helpi vin konstrui modelon de viaj sistemoj. &umbrello; 2 subtenas ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP, kaj Vala fontkodojn.
+</para>
 <para
 >Por importi klasojn en vian Modelon, elektu la eniron <guimenuitem
 >Importi Klasojn...</guimenuitem

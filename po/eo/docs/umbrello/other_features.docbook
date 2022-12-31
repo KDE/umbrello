@@ -16,7 +16,7 @@
 >&Ctrl;<keycap
 >C</keycap
 ></keycombo
->, aŭ uzu la menuon), tiam malfermu &kword; dokumenton (aŭ iun programon kiu permesas almeti bildojn) kaj elektu <guimenuitem
+>, aŭ uzu la menuon), tiam malfermu <application>Calligra Words</application> dokumenton (aŭ iun programon kiu permesas almeti bildojn) kaj elektu <guimenuitem
 >Almeti</guimenuitem
 >. Ĉi tiu estas utilega eblo por eksporti partojn de viaj diagramoj kiel simplaj bildoj. </para>
 </sect2>
@@ -25,10 +25,15 @@
 >Eksporti al Bildo</title>
 <para
 >Vi povas ankaŭ eksporti kompletan diagramon kiel bildo. La sola kion vi devas fari estas elekti la diagramon kiun vi volas eksporti, kaj poste elekti <guimenuitem
->Eksport kiel Bildo...</guimenuitem
+>Eksporti kiel Bildo...</guimenuitem
 > de la menuo <guimenu
 >Diagramo</guimenu
 >. </para>
+<para>
+Vi povas eksporti plurajn diagramojn samtempe uzante la elekton <guimenuitem>Exporti Diagramojn kiel Bildoj...</guimenuitem>
+ekde la <guimenu>Dosiero</guimenu> menuo. Per tio, vi povas ankaŭ meti la bildrezolucion,
+tiel ke la bildoj iĝos malpli malklaraj.
+</para>
 </sect2>
 <sect2 id="printing">
 <title
