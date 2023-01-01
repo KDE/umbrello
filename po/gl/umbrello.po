@@ -4159,10 +4159,7 @@ msgid "Umbrello UML Modeller autonomous code generator"
 msgstr "Xerador de código autónomo do modelador de UML Umbrello"
 
 #: docgenerators/main.cpp:48
-#, fuzzy, kde-format
-#| msgid ""
-#| "(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML "
-#| "Modeller Authors"
+#, kde-format
 msgid ""
 "(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller "
 "Authors"
