@@ -13,14 +13,14 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-31 00:54+0000\n"
-"PO-Revision-Date: 2022-12-06 13:27+0100\n"
+"PO-Revision-Date: 2022-12-31 11:05+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.11.90\n"
+"X-Generator: Lokalize 22.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -1131,10 +1131,9 @@ msgstr "&Escribir comentarios de documentación incluso si están vacíos"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
+#, kde-format
 msgid "Write section comments:"
-msgstr "&Escribir comentarios de documentación incluso si están vacíos"
+msgstr "Escribir comentarios de la sección:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1156,13 +1155,13 @@ msgstr "NInguno"
 #: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
 msgid "When section is non empty"
-msgstr ""
+msgstr "Cuando la sección no está vacía"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Siempre"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -6742,13 +6741,13 @@ msgstr "Activa/desactiva la documentación detallada"
 #: umbrello.kcfg:399
 #, kde-format
 msgid "Section Comment Policy"
-msgstr ""
+msgstr "Política de comentarios de la sección"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:400
 #, kde-format
 msgid "Whether section comments shall be written"
-msgstr ""
+msgstr "Cuándo se deben escribir los comentarios de la sección"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:409

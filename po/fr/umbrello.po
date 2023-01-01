@@ -17,20 +17,21 @@
 # Johnny Jazeix <jazeix@gmail.com>, 2020.
 # Xavier Besnard <xavier.besnard@neuf.fr>, 2020, 2021, 2022.
 #
+# Xavier BESNARD <xavier.besnard]neuf.fr>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-31 00:54+0000\n"
-"PO-Revision-Date: 2022-12-05 19:13+0100\n"
-"Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
-"Language-Team: French <kde-francophone@kde.org>\n"
+"PO-Revision-Date: 2022-12-31 15:08+0100\n"
+"Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
+"Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.11.90\n"
+"X-Generator: Lokalize 22.12.0\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -1153,12 +1154,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
+#, kde-format
 msgid "Write section comments:"
-msgstr ""
-"Écrire des commentaires pour la documentation même si les sections sont "
-"&vides"
+msgstr "Écrire des commentaires de section :"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1180,13 +1178,13 @@ msgstr "Aucun"
 #: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
 msgid "When section is non empty"
-msgstr ""
+msgstr "Lorsque la section est non vide"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Toujours"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -6781,13 +6779,14 @@ msgstr "Active / Désactive la documentation verbeuse"
 #: umbrello.kcfg:399
 #, kde-format
 msgid "Section Comment Policy"
-msgstr ""
+msgstr "Section sur la politique de commentaires"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:400
 #, kde-format
 msgid "Whether section comments shall be written"
 msgstr ""
+"Détermine si les commentaires de section doivent être enregistrés ou non"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:409

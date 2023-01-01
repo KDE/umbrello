@@ -21,14 +21,14 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-31 00:54+0000\n"
-"PO-Revision-Date: 2022-12-05 11:51+0100\n"
+"PO-Revision-Date: 2022-12-30 10:01+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 22.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -1137,10 +1137,9 @@ msgstr "Documentatie-toelichting schrij&ven zelfs als deze leeg zijn"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
+#, kde-format
 msgid "Write section comments:"
-msgstr "Documentatie-toelichting schrij&ven zelfs als deze leeg zijn"
+msgstr "Toelichting schrijven bij sectie:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1162,13 +1161,13 @@ msgstr "Geen"
 #: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
 msgid "When section is non empty"
-msgstr ""
+msgstr "Wanneer sectie niet leeg is"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Altijd"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -6748,13 +6747,13 @@ msgstr "In/uitschakelen van uitgebreide documentatie"
 #: umbrello.kcfg:399
 #, kde-format
 msgid "Section Comment Policy"
-msgstr ""
+msgstr "Beleid voor toelichting bij sectie"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:400
 #, kde-format
 msgid "Whether section comments shall be written"
-msgstr ""
+msgstr "Of toelichting bij sectie geschreven moet worden"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:409

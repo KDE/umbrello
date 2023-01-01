@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-31 00:54+0000\n"
-"PO-Revision-Date: 2007-12-06 23:25+0100\n"
+"PO-Revision-Date: 2022-12-31 03:25+0100\n"
 "Last-Translator: Oliver M. Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -74,10 +74,9 @@ msgid "Entity Relationship Diagram"
 msgstr "Ento-Rilata Diagramo"
 
 #: basictypes.cpp:213
-#, fuzzy, kde-format
-#| msgid "Delete Diagram"
+#, kde-format
 msgid "Object Diagram"
-msgstr "Forigi Diagramon"
+msgstr "Objektdiagramo"
 
 #: basictypes.cpp:215
 #, kde-format
@@ -110,16 +109,14 @@ msgid "Self Association"
 msgstr "Memasocio"
 
 #: basictypes.cpp:341
-#, fuzzy, kde-format
-#| msgid "Collaboration Message"
+#, kde-format
 msgid "Collaboration Asynchronous Message"
-msgstr "Kunlabormesaĝo"
+msgstr "Kunlabora Nesinkrona Mesaĝo"
 
 #: basictypes.cpp:343
-#, fuzzy, kde-format
-#| msgid "Collaboration Self Message"
+#, kde-format
 msgid "Collaboration Synchronous Message"
-msgstr "Kunlabora Mem-Mesaĝo"
+msgstr "Kunlabora Sinkrona Mesaĝo"
 
 #: basictypes.cpp:345
 #, kde-format
@@ -198,10 +195,9 @@ msgid "Unknown"
 msgstr "Nekonata"
 
 #: basictypes.cpp:375
-#, fuzzy, kde-format
-#| msgid "Association"
+#, kde-format
 msgid "? AssociationType ?"
-msgstr "Asocio"
+msgstr "? Asociotipo ?"
 
 #: clipboard/umlclipboard.cpp:751
 #, kde-format
@@ -209,6 +205,8 @@ msgid ""
 "At least one of the items in the clipboard could not be pasted because an "
 "item of the same name already exists.  Any other items have been pasted."
 msgstr ""
+"Alemnaŭ unu el la elementoj en la tondujo ne povis esti regluata ĉar samnoma "
+"elemento jam ekzistas.  Ajn ceteraj elementoj estis regluataj."
 
 #: clipboard/umlclipboard.cpp:755 uml.cpp:1789
 #, kde-format
@@ -216,139 +214,119 @@ msgid "Paste Error"
 msgstr "Eraro dum Regluado"
 
 #: cmds/cmdcreatediagram.cpp:26
-#, fuzzy, kde-format
-#| msgid "Create state diagram"
+#, kde-format
 msgid "Create diagram %1: %2"
-msgstr "Kei statodiagramon"
+msgstr "Krei diagramon %1: %2"
 
 #: cmds/cmdhandlerename.cpp:22
-#, fuzzy, kde-format
-#| msgid "Change text"
+#, kde-format
 msgid "Change text : %1 to %2"
-msgstr "Ŝanĝi tekston"
+msgstr "Ŝanĝi tekston : %1 al %2"
 
 #: cmds/cmdremovediagram.cpp:33
-#, fuzzy, kde-format
-#| msgid "Create state diagram"
+#, kde-format
 msgid "Remove diagram %1"
-msgstr "Kei statodiagramon"
+msgstr "Forigi diagramon %1"
 
 #: cmds/cmdsetstereotype.cpp:21
 #, kde-format
 msgid "Set stereotype : %1 to %2"
-msgstr ""
+msgstr "Meti stereotipon : %1 al %2"
 
 #: cmds/cmdsetvisibility.cpp:22
-#, fuzzy, kde-format
-#| msgid "Change visibility : "
+#, kde-format
 msgid "Change visibility : %1"
-msgstr "Ŝanĝi videblecon : "
+msgstr "Ŝanĝi videblecon : %1"
 
 #: cmds/generic/cmdcreateumlobject.cpp:28 object_factory.cpp:179
-#, fuzzy, kde-format
-#| msgid "Create uml object :"
+#, kde-format
 msgid "Create UML object : %1"
-msgstr "Krei UML-objekton :"
+msgstr "Krei UML-objekton : %1"
 
 #: cmds/generic/cmdremoveumlobject.cpp:25
-#, fuzzy, kde-format
-#| msgid "Create uml object :"
+#, kde-format
 msgid "Remove UML object : %1"
-msgstr "Krei UML-objekton :"
+msgstr "Forigi UML-objekton : %1"
 
 #: cmds/generic/cmdrenameumlobject.cpp:20
-#, fuzzy, kde-format
-#| msgid "Rename object"
+#, kde-format
 msgid "Rename object : %1 to %2"
-msgstr "Alinomi objekton"
+msgstr "Alinomi objekton : %1 al %2"
 
 #: cmds/widget/cmdchangefillcolor.cpp:21
-#, fuzzy, kde-format
-#| msgid "Change Fill Color"
+#, kde-format
 msgid "Change fill color : %1"
-msgstr "Ŝanĝi Plenigan Koloron"
+msgstr "Ŝanĝi plenigan koloron : %1"
 
 #: cmds/widget/cmdchangefont.cpp:19
-#, fuzzy, kde-format
-#| msgid "Change Font"
+#, kde-format
 msgid "Change font : %1"
-msgstr "Ŝanĝi Tiparon"
+msgstr "Ŝanĝi tiparon : %1"
 
 #: cmds/widget/cmdchangelinecolor.cpp:21
-#, fuzzy, kde-format
-#| msgid "Change Line Color"
+#, kde-format
 msgid "Change line color : %1"
-msgstr "Ŝanĝi Linikoloron"
+msgstr "Ŝanĝi liniokoloron : %1"
 
 #: cmds/widget/cmdchangelinewidth.cpp:22
-#, fuzzy, kde-format
-#| msgid "Change Line Color"
+#, kde-format
 msgid "Change line width : %1"
-msgstr "Ŝanĝi Linikoloron"
+msgstr "Ŝanĝi liniodikecon : %1"
 
 #: cmds/widget/cmdchangemultiplicity.cpp:21
-#, fuzzy, kde-format
-#| msgid "Change Multiplicity"
+#, kde-format
 msgid "Change multiplicity : %1 to %2"
-msgstr "Ŝanĝi Multecon"
+msgstr "Ŝanĝi multecon : %1 al %2"
 
 #: cmds/widget/cmdchangetextcolor.cpp:21
-#, fuzzy, kde-format
-#| msgid "Change Line Color"
+#, kde-format
 msgid "Change text color : %1"
-msgstr "Ŝanĝi Linikoloron"
+msgstr "Ŝanĝi tekstkoloron : %1"
 
 #: cmds/widget/cmdchangeusefillcolor.cpp:21
-#, fuzzy, kde-format
-#| msgid "Change Fill Color"
+#, kde-format
 msgid "Use fill color : %1"
-msgstr "Ŝanĝi Plenigan Koloron"
+msgstr "Uzi plenigan koloron : %1"
 
 #: cmds/widget/cmdchangeusefillcolor.cpp:23
-#, fuzzy, kde-format
-#| msgid "Change Fill Color"
+#, kde-format
 msgid "No fill color : %1"
-msgstr "Ŝanĝi Plenigan Koloron"
+msgstr "Neniu pleniga koloro : %1"
 
 #: cmds/widget/cmdchangevisualproperty.cpp:28
-#, fuzzy, kde-format
-#| msgid "Change visibility : "
+#, kde-format
 msgid "Change visual property : %1"
-msgstr "Ŝanĝi videblecon : "
+msgstr "Ŝanĝi videblotrajton : %1"
 
 #: cmds/widget/cmdcreatewidget.cpp:29 cmds/widget/cmdcreatewidget.cpp:52
-#, fuzzy, kde-format
-#| msgid "Create widget :"
+#, kde-format
 msgid "Create widget : %1"
-msgstr "Krei fenestraĵon :"
+msgstr "Krei fenestraĵon : %1"
 
 #: cmds/widget/cmdmovewidget.cpp:21
-#, fuzzy, kde-format
-#| msgid "Move widget :"
+#, kde-format
 msgid "Move widget : %1"
-msgstr "Movi "
+msgstr "Movi fenestraĵon : %1"
 
 #: cmds/widget/cmdremovewidget.cpp:26 cmds/widget/cmdremovewidget.cpp:77
-#, fuzzy, kde-format
-#| msgid "Move widget :"
+#, kde-format
 msgid "Remove widget : %1"
-msgstr "Movi "
+msgstr "Forigi fenestraĵon : %1"
 
 #: cmds/widget/cmdresizewidget.cpp:21
-#, fuzzy, kde-format
-#| msgid "Create widget :"
+#, kde-format
 msgid "Resize widget : %1"
-msgstr "Krei fenestraĵon :"
+msgstr "Aligrandigi fenestraĵon : %1"
 
 #: cmds/widget/cmdsetname.cpp:21
 #, kde-format
 msgid "Set name : %1 to %2"
-msgstr ""
+msgstr "Meti nomon : %1 al %2"
 
 #: cmds/widget/cmdsettxt.cpp:25
 #, kde-format
 msgid "Set text : %1 to %2"
-msgstr ""
+msgstr "Meti tekston : %1 al %2"
 
 #: codegenerators/codegenerator.cpp:536
 #, kde-format
@@ -414,33 +392,33 @@ msgstr "Operacioj estas entekstigitaj"
 #: codegenerators/cpp/cppcodegenerationform.cpp:58
 #, kde-format
 msgid "Accessors are inline"
-msgstr ""
+msgstr "Alirfunkcioj estas entekstigataj"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:62
 #, kde-format
 msgid "Accessors are public"
-msgstr ""
+msgstr "Alirfunkcioj estas publikaj"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:66
 #, kde-format
 msgid "Create getters with 'get' prefix"
-msgstr ""
+msgstr "Krei legofunkciojn kun prefikso 'get'"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:70
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor method names"
-msgstr ""
+msgstr "Forigi prefikson '[a-zA-Z]_' de alirmetodaj nomoj"
 
 #. i18n: ectx: label, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
 #: codegenerators/cpp/cppcodegenerationform.cpp:74 umbrello.kcfg:548
 #, kde-format
 msgid "Accessor methods start with capital letters"
-msgstr ""
+msgstr "Alirmetodoj komenciĝas per majuskla litero"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:78
 #, kde-format
 msgid "Use '\\' as documentation tag instead of '@'"
-msgstr ""
+msgstr "Uzi '\\' kiel documentada enkondukilo anstataŭ '@'"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelTitle)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:31
@@ -461,7 +439,7 @@ msgstr "Ĝenerale"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:478
 #, kde-format
 msgid "Class member prefix"
-msgstr ""
+msgstr "Klasmembra prefikso"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabMethodBodyGeneration)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:85
@@ -618,23 +596,21 @@ msgstr "string"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelStringClass)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:295
-#, fuzzy, kde-format
-#| msgid "<p align=\"center\">D Code Generation</p>"
+#, kde-format
 msgid "<p align=\"center\">String</p>"
-msgstr "<p align=\"center\">Kodgenerado por D</p>"
+msgstr "<p align=\"center\">String</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelListClass)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:311
-#, fuzzy, kde-format
-#| msgid "<p align=\"center\">D Code Generation</p>"
+#, kde-format
 msgid "<p align=\"center\">List</p>"
-msgstr "<p align=\"center\">Kodgenerado por D</p>"
+msgstr "<p align=\"center\">Listo</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelGlobal)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:350
 #, kde-format
 msgid "<i>global?</i>"
-msgstr "<i>global?</i>"
+msgstr "<i>globala?</i>"
 
 #. i18n: ectx: property (historyItems), widget (KHistoryComboBox, ui_listIncludeFileHistoryCombo)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:367
@@ -704,16 +680,15 @@ msgstr "Klasnomo"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelIncludeFile)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:514
-#, fuzzy, kde-format
-#| msgid "<p align=\"center\">Ruby Code Generation</p>"
+#, kde-format
 msgid "<i><p align=\"center\">Include file</p></i>"
-msgstr "<p align=\"center\">Kodgenerado por Ruby</p>"
+msgstr "<i><p align=\"center\">Inkludita dosiero</p></i>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelHelpMethodBodyGen)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:526
 #, kde-format
 msgid "Use following for classes in generated code:"
-msgstr "Uzi la sekvantajn klasojn in generita kodo:"
+msgstr "Uzi la sekvan por klasoj en generita kodo:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxDocumentation)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
@@ -747,7 +722,7 @@ msgstr "Stilo:"
 #: codegenerators/java/javacodegenerationformbase.ui:290
 #, kde-format
 msgid "Slash-Slash (//)"
-msgstr ""
+msgstr "Oblikvo-oblikvo (//)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_selectCommentStyle)
 #. i18n: ectx: property (text), item, widget (KComboBox, m_SelectCommentStyle)
@@ -756,7 +731,7 @@ msgstr ""
 #: codegenerators/java/javacodegenerationformbase.ui:295
 #, kde-format
 msgid "Slash-Star (/**  */)"
-msgstr ""
+msgstr "Oblikvo-stelo"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: codegenerators/d/dcodegenerationformbase.ui:42
@@ -808,10 +783,9 @@ msgstr "Alirmetodoj por atributoj"
 #: codegenerators/d/dcodegenerationformbase.ui:154
 #: codegenerators/java/javacodegenerationformbase.ui:154
 #: codegenerators/ruby/rubycodegenerationformbase.ui:133
-#, fuzzy, kde-format
-#| msgid "Default Attribute Accessor Scope"
+#, kde-format
 msgid "Default attribute accessor scope:"
-msgstr "Apriora Videblo por Atributaj Aliriloj:"
+msgstr "Defaŭlta videblo por atributaj aliriloj:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_accessorScopeCB)
 #. i18n: ectx: property (text), item, widget (KComboBox, m_assocFieldScopeCB)
@@ -875,10 +849,9 @@ msgstr "De Parenca Objekto"
 #: codegenerators/d/dcodegenerationformbase.ui:207
 #: codegenerators/java/javacodegenerationformbase.ui:207
 #: codegenerators/ruby/rubycodegenerationformbase.ui:174
-#, fuzzy, kde-format
-#| msgid "Default Association Field Scope"
+#, kde-format
 msgid "Default association field scope:"
-msgstr "Apriora Videblo por Asociaj Kampoj"
+msgstr "Defaŭlta amplekso por asociaj kampoj:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_assocFieldScopeCB)
 #: codegenerators/d/dcodegenerationformbase.ui:236
@@ -920,10 +893,9 @@ msgstr "Komenco-Fino (=begin  =end)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxAutoGeneratedMethods)
 #: codegenerators/ruby/rubycodegenerationformbase.ui:91
-#, fuzzy, kde-format
-#| msgid "Auto-Generate Methods"
+#, kde-format
 msgid "Auto-Generated Methods"
-msgstr "Aŭto-Generi Metodojn"
+msgstr "Aŭto-Generataj Metodoj"
 
 #: codegenwizard/codegenerationwizard.cpp:36
 #, kde-format
@@ -939,10 +911,9 @@ msgid "Code Generation Options"
 msgstr "Kodgeneraj Opcioj"
 
 #: codegenwizard/codegenoptionspage.cpp:39
-#, fuzzy, kde-format
-#| msgid "Code Generation Options"
+#, kde-format
 msgid "Adjust code generation options."
-msgstr "Kodgeneraj Opcioj"
+msgstr "Alĝustigi kodgenerajn opciojn."
 
 #: codegenwizard/codegenoptionspage.cpp:196
 #, kde-format
@@ -955,21 +926,23 @@ msgid ""
 "The output folder exists, but it is not writable.\n"
 "Please set the appropriate permissions or choose another folder."
 msgstr ""
+"La eliga dosierujo ekzistas sed ne estas skribebla.\n"
+"Bonvolu meti la adekvatan permeson aŭ elekti alian dosierujon."
 
 #: codegenwizard/codegenoptionspage.cpp:259
 #, kde-format
 msgid "Error Writing to Output Folder"
-msgstr ""
+msgstr "Eraro dum Skribado al Eliga Dosierujo"
 
 #: codegenwizard/codegenoptionspage.cpp:264
 #, kde-format
 msgid "%1 does not seem to be a folder. Please choose a valid folder."
-msgstr ""
+msgstr "%1 ne ŝajnas esti dosierujo. Bonvolu elekti validan dosierujon."
 
 #: codegenwizard/codegenoptionspage.cpp:265
 #, kde-format
 msgid "Please Choose Valid Folder"
-msgstr ""
+msgstr "Bonvolu Elekti Validan Dosierujon"
 
 #: codegenwizard/codegenoptionspage.cpp:271
 #, kde-format
@@ -980,7 +953,7 @@ msgstr "La dosierujo %1 ne ekzistas. Ĉu vi volas krei ĝin nun?"
 #: codegenwizard/codegenoptionspage.cpp:284
 #, kde-format
 msgid "Output Folder Does Not Exist"
-msgstr ""
+msgstr "Eliga Dosierujo Ne Ekzistas"
 
 #: codegenwizard/codegenoptionspage.cpp:272
 #, kde-format
@@ -999,6 +972,9 @@ msgid ""
 "Please make sure you have write access to its parent folder or select "
 "another, valid, folder."
 msgstr ""
+"La dosierujo ne povis esti kreata.\n"
+"Bonvolu certigi ke vi hava skribopermeson al ĝia parenca dosierujo aŭ elekti "
+"alian, validan, dosierujon."
 
 #: codegenwizard/codegenoptionspage.cpp:277
 #, kde-format
@@ -1008,7 +984,7 @@ msgstr "Eraro dum Dosierujokreado"
 #: codegenwizard/codegenoptionspage.cpp:283
 #, kde-format
 msgid "Please select a valid folder."
-msgstr ""
+msgstr "Bonvolu elekti validan dosierujon."
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLanguage)
 #: codegenwizard/codegenoptionspage.ui:53
@@ -1042,10 +1018,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_includeHeadings)
 #: codegenwizard/codegenoptionspage.ui:105
-#, fuzzy, kde-format
-#| msgid "Include headings"
+#, kde-format
 msgid "&Include heading files from folder:"
-msgstr "Enmeti ĉapkomentojn"
+msgstr "&Inkludi kapdosierojn de dosierujo:"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, ui_headingsDir)
 #: codegenwizard/codegenoptionspage.ui:117
@@ -1143,10 +1118,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "Force Section Documentation"
+#, kde-format
 msgid "Write section comments:"
-msgstr "Devigi Sekcian Dokumentadon"
+msgstr "Produkti sekciajn komentojn:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1235,10 +1209,9 @@ msgid "Mac (\"\\r\")"
 msgstr "Mac (\"\\r\")"
 
 #: codegenwizard/codegenselectpage.cpp:29
-#, fuzzy, kde-format
-#| msgid "Vector Clas Name"
+#, kde-format
 msgid "Select Classes"
-msgstr "Nomo de \"vector\"-Klaso"
+msgstr "Selekti Klasojn"
 
 #: codegenwizard/codegenselectpage.cpp:30
 #, kde-format
@@ -1249,10 +1222,9 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenSelectPage)
 #: codegenwizard/codegenselectpage.ui:20
-#, fuzzy, kde-format
-#| msgid "Code Generation Settings"
+#, kde-format
 msgid "Code Generation Selection"
-msgstr "Agordo de Kodgenerado"
+msgstr "Selekto de Kodgenerado"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelListAvailable)
 #: codegenwizard/codegenselectpage.ui:33
@@ -1262,10 +1234,9 @@ msgstr "Klasoj Disponeblaj"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ui_addButton)
 #: codegenwizard/codegenselectpage.ui:73
-#, fuzzy, kde-format
-#| msgid "Remove class from Code Generation"
+#, kde-format
 msgid "Add class for code generation"
-msgstr "Forigi klason de la Kodgenerado"
+msgstr "Almeti klason de la Kodgenerado"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_addButton)
 #: codegenwizard/codegenselectpage.ui:76
@@ -1292,18 +1263,18 @@ msgid "Classes Selected"
 msgstr "Klasoj Elekktitaj"
 
 #: codegenwizard/codegenstatuspage.cpp:44
-#, fuzzy, kde-format
-#| msgid "Code Generation Options"
+#, kde-format
 msgid "Status of Code Generation Progress"
-msgstr "Kodgeneraj Opcioj"
+msgstr "Stato de Progreso de la Kodgenero"
 
 #: codegenwizard/codegenstatuspage.cpp:45
-#, fuzzy, kde-format
-#| msgid "Press the Generation button to start the code generation"
+#, kde-format
 msgid ""
 "Press the button Generate to start the code generation.\n"
 "Check the success state for every class."
-msgstr "Premu la butonon Generi por komencigi la kodgeneradon"
+msgstr ""
+"Premu la butonon Generi por komencigi la kodgeneradon.\n"
+"Kontrolu la sukcesostaton por ĉiu klaso."
 
 #: codegenwizard/codegenstatuspage.cpp:86
 #: codeimpwizard/codeimpstatuspage.cpp:102
@@ -1324,20 +1295,19 @@ msgstr "Ne Generita"
 #: codegenwizard/codegenstatuspage.cpp:184
 #, kde-format
 msgid "Skipped"
-msgstr ""
+msgstr "Ellasita"
 
 #: codegenwizard/codegenstatuspage.cpp:209
 #: codegenwizard/codegenstatuspage.cpp:243
 #: codeimpwizard/codeimpstatuspage.cpp:344
-#, fuzzy, kde-format
-#| msgid "Cannot Open File"
+#, kde-format
 msgid "Cannot open file!"
-msgstr "Malfermado Ne Eblas"
+msgstr "Malfermado ne eblas!"
 
 #: codegenwizard/codegenstatuspage.cpp:229
 #, kde-format
 msgid "Umbrello Code Generation - Logger Export"
-msgstr ""
+msgstr "Kodgenero de Umbrello - Protokol-Eksporto"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_statusTab)
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
@@ -1360,7 +1330,7 @@ msgstr "Klaso"
 #: codegenwizard/codegenstatuspage.ui:59 codeimpwizard/codeimpstatuspage.ui:117
 #, kde-format
 msgid "Logger"
-msgstr ""
+msgstr "Protokolilo"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonClear)
 #: codegenwizard/codegenstatuspage.ui:78 codeimpwizard/codeimpstatuspage.ui:143
@@ -1376,15 +1346,14 @@ msgstr "Eksporti..."
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonGenerate)
 #: codegenwizard/codegenstatuspage.ui:114
-#, fuzzy, kde-format
-#| msgid "&Generate"
+#, kde-format
 msgid "Generate"
-msgstr "&Generi"
+msgstr "Generi"
 
 #: codeimport/classimport.cpp:101
 #, kde-format
 msgid "Importing file: %1 Progress: %2/%3"
-msgstr ""
+msgstr "Importi dsoieron: %1 Progreso: %2/%3"
 
 #: codeimport/classimport.cpp:109
 #, kde-format
@@ -1396,30 +1365,27 @@ msgstr "Preta."
 #, kde-format
 msgctxt "failed to status bar"
 msgid "Failed."
-msgstr ""
+msgstr "Malsukcesa."
 
 #: codeimpwizard/codeimportingwizard.cpp:36
-#, fuzzy, kde-format
-#| msgid "Code Generation Wizard"
+#, kde-format
 msgid "Code Importing Wizard"
-msgstr "Kodgenera Sorĉisto"
+msgstr "Kodimporta Sorĉisto"
 
 #: codeimpwizard/codeimpselectpage.cpp:36
 #, kde-format
 msgid "Code Importing Path"
-msgstr ""
+msgstr "Dosierujo de Kodimporto"
 
 #: codeimpwizard/codeimpselectpage.cpp:37
-#, fuzzy, kde-format
-#| msgid "Select the object node type"
+#, kde-format
 msgid "Select the code importing path."
-msgstr "Elektu la tipon de la objektnodo"
+msgstr "Elektu la dosierujon por la kodimporto."
 
 #: codeimpwizard/codeimpselectpage.cpp:109
-#, fuzzy, kde-format
-#| msgid "File to open"
+#, kde-format
 msgid "File System Model"
-msgstr "Dosiero malfermenda"
+msgstr "Modelo de Dosiersistemo"
 
 #: codeimpwizard/codeimpselectpage.cpp:136
 #, kde-format
@@ -1427,10 +1393,9 @@ msgid "Select the desired language to filter files."
 msgstr ""
 
 #: codeimpwizard/codeimpselectpage.cpp:137
-#, fuzzy, kde-format
-#| msgid "No source file in this directory."
+#, kde-format
 msgid "Select also all the files in the subdirectories."
-msgstr "Neniu fontdosiero en ĉi dosierujo."
+msgstr "Selekti ankaŭ la dosierojn en la subdosierujoj."
 
 #: codeimpwizard/codeimpselectpage.cpp:138
 #, kde-format
@@ -1449,15 +1414,13 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ui_languageLabel)
 #: codeimpwizard/codeimpselectpage.ui:37
-#, fuzzy, kde-format
-#| msgid "The language of the project"
+#, kde-format
 msgid "The language of the project."
-msgstr "La programlingvo de la projekto"
+msgstr "La programlingvo de la projekto."
 
 #. i18n: ectx: property (text), widget (QLabel, ui_languageLabel)
 #: codeimpwizard/codeimpselectpage.ui:40
-#, fuzzy, kde-format
-#| msgid "Language:"
+#, kde-format
 msgid "Programming Language:"
 msgstr "Programlingvo:"
 
@@ -1498,73 +1461,65 @@ msgid "0"
 msgstr "0"
 
 #: codeimpwizard/codeimpstatuspage.cpp:53
-#, fuzzy, kde-format
-#| msgid "Code Generation Options"
+#, kde-format
 msgid "Status of Code Importing Progress"
-msgstr "Kodgeneraj Opcioj"
+msgstr "Progresostato de kodimporto"
 
 #: codeimpwizard/codeimpstatuspage.cpp:54
-#, fuzzy, kde-format
-#| msgid "Press the Generation button to start the code generation"
+#, kde-format
 msgid ""
 "Press the button 'Start import' to start the code import.\n"
 "Check the success state for every class."
-msgstr "Premu la butonon Generi por komencigi la kodgeneradon"
+msgstr ""
+"Premu la butonon 'Starti importon' por komencigi la kodimporton.\n"
+"Kontrolu la sukcesostaton por ĉiu klaso."
 
 #: codeimpwizard/codeimpstatuspage.cpp:132
 #, kde-format
 msgid "<b>Code import of 1 file:</b><br>"
 msgid_plural "<b>Code import of %1 files:</b><br>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<b>Kodimporto de 1 dosiero:</b><br>"
+msgstr[1] "<b>Kodimporto de %1 dosieroj:</b><br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:156
-#, fuzzy, kde-format
-#| msgid "Exporting view..."
+#, kde-format
 msgid "importing file ... DONE<br>"
-msgstr "Eksportanta diagramon..."
+msgstr "dosierimporto ... PRETA<br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:157
-#, fuzzy, kde-format
-#| msgid "Import Project..."
+#, kde-format
 msgid "Import Done"
-msgstr "Importi Projekton..."
+msgstr "Importo Preta"
 
 #: codeimpwizard/codeimpstatuspage.cpp:160
-#, fuzzy, kde-format
-#| msgid "Exporting view..."
+#, kde-format
 msgid "importing file ... FAILED<br>"
-msgstr "Eksportanta diagramon..."
+msgstr "Dosierimporto ... FIASKIS<br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:161
-#, fuzzy, kde-format
-#| msgid "Import Project..."
+#, kde-format
 msgid "Import Failed"
-msgstr "Importi Projekton..."
+msgstr "Importo Fiaskis"
 
 #: codeimpwizard/codeimpstatuspage.cpp:172
-#, fuzzy, kde-format
-#| msgid "Exporting view..."
+#, kde-format
 msgid "importing file ..."
-msgstr "Eksportanta diagramon..."
+msgstr "importanta dosieron ..."
 
 #: codeimpwizard/codeimpstatuspage.cpp:235
-#, fuzzy, kde-format
-#| msgid "Exporting view..."
+#, kde-format
 msgid "importing file ... stopped<br>"
-msgstr "Eksportanta diagramon..."
+msgstr "dosierimporto ... haltis<br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:236
-#, fuzzy, kde-format
-#| msgid "Import Project..."
+#, kde-format
 msgid "Import stopped"
-msgstr "Importi Projekton..."
+msgstr "Dosierimporto haltis"
 
 #: codeimpwizard/codeimpstatuspage.cpp:303
-#, fuzzy, kde-format
-#| msgid "Not Generated"
+#, kde-format
 msgid "Not Imported"
-msgstr "Ne Generita"
+msgstr "Ne Importita"
 
 #: codeimpwizard/codeimpstatuspage.cpp:330
 #, kde-format
@@ -1573,34 +1528,32 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabStatus)
 #: codeimpwizard/codeimpstatuspage.ui:33
-#, fuzzy, kde-format
-#| msgid "Startup"
+#, kde-format
 msgid "Import Status"
-msgstr "Starto"
+msgstr "Importostato"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonStart)
 #: codeimpwizard/codeimpstatuspage.ui:80
-#, fuzzy, kde-format
-#| msgid "Startup"
+#, kde-format
 msgid "Start import"
-msgstr "Starto"
+msgstr "Starti importon"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonStop)
 #: codeimpwizard/codeimpstatuspage.ui:99
 #, kde-format
 msgid "Stop"
-msgstr ""
+msgstr "Halti"
 
 #: codeimpwizard/codeimpthread.cpp:47
 #, kde-format
 msgid "Importing file: %1"
-msgstr ""
+msgstr "Importanta dosieron: %1"
 
 #: codeimpwizard/codeimpthread.cpp:51
 #, kde-format
 msgctxt "show failed on status bar"
 msgid "Failed."
-msgstr ""
+msgstr "Malsukcesis."
 
 #: codeimpwizard/codeimpthread.cpp:57
 #, kde-format
@@ -1611,11 +1564,10 @@ msgstr "Preta."
 #: codeimpwizard/codeimpthread.cpp:66
 #, kde-format
 msgid "No code importer for file: %1"
-msgstr ""
+msgstr "Neniu importilo por dosiero: %1"
 
 #: debug/debug_utils.cpp:142
-#, fuzzy, kde-format
-#| msgid "Class name"
+#, kde-format
 msgid "Class Name"
 msgstr "Klasnomo"
 
@@ -1640,10 +1592,9 @@ msgid "End activity"
 msgstr "Fina aktiveco"
 
 #: dialogs/activitydialog.cpp:139
-#, fuzzy, kde-format
-#| msgid "Final Activity"
+#, kde-format
 msgid "Final activity"
-msgstr "Fina Aktiveco"
+msgstr "Fina aktiveco"
 
 #. i18n("Attribute...")); break;
 #: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:155
@@ -1653,16 +1604,14 @@ msgid "Branch/Merge"
 msgstr "Branĉi/Kunfandiĝi"
 
 #: dialogs/activitydialog.cpp:139
-#, fuzzy, kde-format
-#| msgid "No Action"
+#, kde-format
 msgid "Invoke action"
-msgstr "Neniu ago"
+msgstr "Alvoki agon"
 
 #: dialogs/activitydialog.cpp:139
-#, fuzzy, kde-format
-#| msgid "&Parameter activity node"
+#, kde-format
 msgid "Parameter activity"
-msgstr "&Parametro-aktivecnodo"
+msgstr "Parametro-aktiveco"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/activitydialog.cpp:146 dialogs/objectnodedialog.cpp:131
@@ -1672,7 +1621,7 @@ msgstr "&Parametro-aktivecnodo"
 #: dialogs/umltemplatedialog.cpp:56
 #, kde-format
 msgid "General Properties"
-msgstr "Ĝeneralaj Ecoj"
+msgstr "Ĝeneralaj Trajtoj"
 
 #: dialogs/activitydialog.cpp:146
 #, kde-format
@@ -1721,11 +1670,10 @@ msgid "Association Properties"
 msgstr "Ecoj de Asocio"
 
 #: dialogs/classpropertiesdialog.cpp:245
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgctxt "general settings page name"
 msgid "General"
-msgstr "Ĝenerale"
+msgstr "Ĝenerala"
 
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
 #: dialogs/multipagedialogbase.cpp:334 dialogs/multipagedialogbase.cpp:348
@@ -1736,8 +1684,7 @@ msgid "General Settings"
 msgstr "Ĝenerala Agordo"
 
 #: dialogs/classpropertiesdialog.cpp:257 dialogs/classpropertiesdialog.cpp:267
-#, fuzzy, kde-format
-#| msgid "Display"
+#, kde-format
 msgctxt "display option page name"
 msgid "Display"
 msgstr "Prezentado"
@@ -1755,10 +1702,9 @@ msgid "Attributes"
 msgstr "Atributoj"
 
 #: dialogs/classpropertiesdialog.cpp:277
-#, fuzzy, kde-format
-#| msgid "Entity Attributes Settings"
+#, kde-format
 msgid "Attribute Settings"
-msgstr "Ento-Atributa agordo"
+msgstr "Atribut-agordoj"
 
 #: dialogs/classpropertiesdialog.cpp:287
 #: dialogs/pages/classifierlistpage.cpp:122 menus/widgetbasepopupmenu.cpp:84
@@ -1816,8 +1762,7 @@ msgid "Entity Constraints Settings"
 msgstr "Agordo de Ento-Limigoj"
 
 #: dialogs/classpropertiesdialog.cpp:337
-#, fuzzy, kde-format
-#| msgid "Contents"
+#, kde-format
 msgctxt "contents settings page name"
 msgid "Contents"
 msgstr "Enhavo"
@@ -1839,11 +1784,10 @@ msgid "Class Associations"
 msgstr "Klasasocio"
 
 #: dialogs/classpropertiesdialog.cpp:357
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgctxt "instance general settings page name"
 msgid "General"
-msgstr "Ĝenerale"
+msgstr "Ĝenerala"
 
 #: dialogs/classwizard.cpp:39 model_utils.cpp:566
 #, kde-format
@@ -1851,10 +1795,9 @@ msgid "new_class"
 msgstr "nova_klaso"
 
 #: dialogs/classwizard.cpp:54
-#, fuzzy, kde-format
-#| msgid "&New Class Wizard..."
+#, kde-format
 msgid "Class Wizard"
-msgstr "&Nova Klas-Sorĉisto..."
+msgstr "Klas-Sorĉisto"
 
 #: dialogs/classwizard.cpp:77
 #, kde-format
@@ -1946,10 +1889,9 @@ msgid "Cut"
 msgstr "Tranĉi"
 
 #: dialogs/codeviewerdialog.cpp:97
-#, fuzzy, kde-format
-#| msgid "Code Viewer - "
+#, kde-format
 msgid "Code Viewer - %1"
-msgstr "Kodrigardilo - "
+msgstr "Kodrigardilo - %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_showHiddenCodeCB)
 #: dialogs/codeviewerdialogbase.ui:20
@@ -2038,10 +1980,9 @@ msgid "You are about to delete an association. Do you really want to continue?"
 msgstr ""
 
 #: dialogs/dialog_utils.cpp:215
-#, fuzzy, kde-format
-#| msgid "Self Association"
+#, kde-format
 msgid "Delete Association"
-msgstr "Memasocio"
+msgstr "Forigi Asocion"
 
 #: dialogs/dialog_utils.cpp:229
 #, kde-format
@@ -2049,13 +1990,13 @@ msgid ""
 "You are about to delete the entire diagram.\n"
 "Are you sure?"
 msgstr ""
-"You are about to delete the entire diagram.\n"
+"Vi estas foriganta la tutan diagramon.\n"
 "Ĉu vi certas?"
 
 #: dialogs/dialog_utils.cpp:230
 #, kde-format
 msgid "Are you sure you want to delete diagram %1?"
-msgstr "Chu vi certas ke vi volas forigi la diagramon %1?"
+msgstr "Ĉu vi certas ke vi volas forigi la diagramon %1?"
 
 #: dialogs/dialog_utils.cpp:235
 #, kde-format
@@ -2074,10 +2015,9 @@ msgid "&Delete"
 msgstr "&Forigi"
 
 #: dialogs/dontaskagain.cpp:61
-#, fuzzy, kde-format
-#| msgid "Associations"
+#, kde-format
 msgid "Notifications"
-msgstr "Asocioj"
+msgstr "Rimarkigoj"
 
 #: dialogs/exportallviewsdialog.cpp:59 dialogs/widgets/imagetypewidget.cpp:32
 #, kde-format
@@ -2086,10 +2026,9 @@ msgstr "La formato al kiu la bildoj estos eksportataj"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ExportAllViewsDialogBase)
 #: dialogs/exportallviewsdialogbase.ui:14
-#, fuzzy, kde-format
-#| msgid "Export all views"
+#, kde-format
 msgid "Export All Views"
-msgstr "Eksporti ĉiujn diagramojn"
+msgstr "Eksporti Ĉiujn Diagramojn"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, kURLRequesterLabel)
 #. i18n: ectx: property (toolTip), widget (KUrlRequester, m_kURL)
@@ -2143,10 +2082,9 @@ msgstr "Filtrilo"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_treeView)
 #: dialogs/finddialog.ui:33
-#, fuzzy, kde-format
-#| msgid "&Tree View"
+#, kde-format
 msgid "Tree View"
-msgstr "Arboperspek&tivo"
+msgstr "Arboperspektivo"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_CurrentDiagram)
 #: dialogs/finddialog.ui:43 dialogs/pages/diagramprintpage.cpp:51
@@ -2208,10 +2146,9 @@ msgid "Search Term:"
 msgstr ""
 
 #: dialogs/multipagedialogbase.cpp:72
-#, fuzzy, kde-format
-#| msgid "&Default"
+#, kde-format
 msgid "Default"
-msgstr "&Apriora"
+msgstr "Defaŭlto"
 
 #: dialogs/multipagedialogbase.cpp:334 dialogs/multipagedialogbase.cpp:348
 #: dialogs/multipagedialogbase.cpp:358
@@ -2234,30 +2171,26 @@ msgid "Font Settings"
 msgstr "Agordo de Tiparo"
 
 #: dialogs/multipagedialogbase.cpp:448
-#, fuzzy, kde-format
-#| msgid "Style:"
+#, kde-format
 msgctxt "widget style page"
 msgid "Style"
-msgstr "Stilo:"
+msgstr "Stilo"
 
 #: dialogs/multipagedialogbase.cpp:448
-#, fuzzy, kde-format
-#| msgid "Widget Color"
+#, kde-format
 msgid "Widget Style"
-msgstr "Fenestraĵkoloro"
+msgstr "Fenestraĵostilo"
 
 #: dialogs/multipagedialogbase.cpp:459
-#, fuzzy, kde-format
-#| msgid "Style:"
+#, kde-format
 msgctxt "style page name"
 msgid "Style"
-msgstr "Stilo:"
+msgstr "Stilo"
 
 #: dialogs/multipagedialogbase.cpp:459
-#, fuzzy, kde-format
-#| msgid "Widget Color"
+#, kde-format
 msgid "Line Style"
-msgstr "Fenestraĵkoloro"
+msgstr "Liniostilo"
 
 #: dialogs/multipagedialogbase.cpp:479
 #, kde-format
@@ -2271,10 +2204,9 @@ msgid "Role Settings"
 msgstr "Rol-agordo"
 
 #: dialogs/notedialog.cpp:20
-#, fuzzy, kde-format
-#| msgid "Role Properties"
+#, kde-format
 msgid "Note Properties"
-msgstr "Roltrajtoj"
+msgstr "Nototrajtoj"
 
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
@@ -2495,10 +2427,9 @@ msgstr "Nur aldoni"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/pages/autolayoutoptionpage.ui:17
-#, fuzzy, kde-format
-#| msgid "Not Generated"
+#, kde-format
 msgid "Layout Generator"
-msgstr "Ne Generita"
+msgstr "Aranĝogenerilo"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:24
@@ -2511,6 +2442,11 @@ msgid ""
 "these layout generators. For cases where this dependency is not available or "
 "do not fit, a different installation path could be provided.</p>"
 msgstr ""
+"<p>La anĝa funkcio dependas de aranĝiloj provizitaj de la pakaĵo GraphViz, "
+"kiu kutime estas instalata samkiel Umbrello far pakaĵmastrumilo.</p>\n"
+"<p>Umbrello havas enkonstruitan subtenon por detekti la instalejon de tiuj "
+"aranĝiloj. Kaze ke tiu dependeco ne haveblas aŭ ne taŭgas, diversa instalejo "
+"povus esti donata.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:27
@@ -2546,10 +2482,9 @@ msgid "Show export layout in diagram context menu"
 msgstr ""
 
 #: dialogs/pages/classgeneralpage.cpp:126
-#, fuzzy, kde-format
-#| msgid "Referenced Entity"
+#, kde-format
 msgid "Reference:"
-msgstr "Referencita Ento"
+msgstr "Referenco:"
 
 #: dialogs/pages/classgeneralpage.cpp:143
 #, kde-format
@@ -2635,16 +2570,14 @@ msgid "N&ew Constraint..."
 msgstr "N&ova Limigo..."
 
 #: dialogs/pages/classifierlistpage.cpp:142
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Instance Attribute"
-msgstr "Ento-Atributoj"
+msgstr "Instanc-Atributo"
 
 #: dialogs/pages/classifierlistpage.cpp:143
-#, fuzzy, kde-format
-#| msgid "N&ew Entity Attribute..."
+#, kde-format
 msgid "N&ew Instance Attribute..."
-msgstr "N&ova Ento-Atributo..."
+msgstr "N&ova Instanc-Atributo..."
 
 #: dialogs/pages/classifierlistpage.cpp:217
 #: dialogs/pages/classifierlistpage.cpp:225 dialogs/umloperationdialog.cpp:170
@@ -2667,10 +2600,9 @@ msgstr "Fontkodo"
 
 #: dialogs/pages/classoptionspage.cpp:152
 #: dialogs/pages/classoptionspage.cpp:246 uml.cpp:595
-#, fuzzy, kde-format
-#| msgid "Documentation"
+#, kde-format
 msgid "&Documentation"
-msgstr "Dokumentaro"
+msgstr "&Dokumentaro"
 
 #: dialogs/pages/classoptionspage.cpp:157
 #: dialogs/pages/classoptionspage.cpp:251
@@ -2707,19 +2639,18 @@ msgstr "At&ributoj"
 #: dialogs/pages/classoptionspage.cpp:264
 #, kde-format
 msgid "Attr&ibute signature"
-msgstr "Atr&ibuta Signaturo"
+msgstr "Atr&ibuta signaturo"
 
 #: dialogs/pages/classoptionspage.cpp:198
 #: dialogs/pages/classoptionspage.cpp:284
-#, fuzzy, kde-format
-#| msgid "Public Only"
+#, kde-format
 msgid "&Public Only"
-msgstr "Nur Publika"
+msgstr "Nur &Publikaj"
 
 #: dialogs/pages/classoptionspage.cpp:204
 #, kde-format
 msgid "Draw as circle"
-msgstr "Pentri kiel cirklon"
+msgstr "Pentri kiel cirklo"
 
 #: dialogs/pages/classoptionspage.cpp:280
 #, kde-format
@@ -2742,35 +2673,30 @@ msgid "Default operation scope:"
 msgstr "Apriora videblo por operacioj:"
 
 #: dialogs/pages/classoptionspage.cpp:339
-#, fuzzy, kde-format
-#| msgid "Attribute Signature"
+#, kde-format
 msgid "Attribute Signatures"
-msgstr "Atributa Signaturo"
+msgstr "Atributaj Signaturoj"
 
 #: dialogs/pages/classoptionspage.cpp:444
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "No Stereotype"
-msgstr "Stereotipo"
+msgstr "Neniu Stereotipo"
 
 #: dialogs/pages/classoptionspage.cpp:445
-#, fuzzy, kde-format
-#| msgid "Stereotype name:"
+#, kde-format
 msgid "Stereotype Name"
-msgstr "Stereotipnomo:"
+msgstr "Stereotipnomo"
 
 #: dialogs/pages/classoptionspage.cpp:446
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "Stereotype with Tags"
-msgstr "Stereotipo"
+msgstr "Stereotipo kun Aldonoj"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: dialogs/pages/codeimportoptionspage.ui:31
-#, fuzzy, kde-format
-#| msgid "Include headings"
+#, kde-format
 msgid "Include search paths"
-msgstr "Enmeti ĉapkomentojn"
+msgstr "Inkludaj dosierujoj"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/pages/codeimportoptionspage.ui:43
@@ -2782,10 +2708,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/pages/codeimportoptionspage.ui:56
-#, fuzzy, kde-format
-#| msgid "Not Generated"
+#, kde-format
 msgid "C++ Import"
-msgstr "Ne Generita"
+msgstr "C++ Importo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, createArtifactCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:66
@@ -2795,10 +2720,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, resolveDependenciesCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:73
-#, fuzzy, kde-format
-#| msgid "Resolving object references..."
+#, kde-format
 msgid "Resolve dependencies (reduces import speed)"
-msgstr "Solvanta objektreferencojn..."
+msgstr "Solvi interdependojn (malpliigas rapidecon)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, supportCPP11CheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:80
@@ -2911,17 +2835,15 @@ msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelWidth)
 #: dialogs/pages/diagrampropertiespage.ui:105
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width:"
-msgstr "Larĝeco"
+msgstr "Larĝeco:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelHeight)
 #: dialogs/pages/diagrampropertiespage.ui:144
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Height:"
-msgstr "Alteco"
+msgstr "Alteco:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_checkBoxShowGrid)
 #: dialogs/pages/diagrampropertiespage.ui:189
@@ -3104,11 +3026,10 @@ msgid "Custom operation:"
 msgstr "Propra operacio:"
 
 #: dialogs/pages/uioptionspage.cpp:54
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgctxt "General options"
 msgid "General"
-msgstr "Ĝenerale"
+msgstr "Ĝeneralaj opcioj"
 
 #. i18n: ectx: label, entry (rightToLeftUI), group (UI Options)
 #: dialogs/pages/uioptionspage.cpp:60 umbrello.kcfg:192
@@ -3117,11 +3038,10 @@ msgid "Right to left user interface"
 msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Associations"
+#, kde-format
 msgctxt "Association options"
 msgid "Associations"
-msgstr "Asocioj"
+msgstr "Asociaj opcioj"
 
 #: dialogs/pages/uioptionspage.cpp:69
 #, kde-format
@@ -3129,10 +3049,9 @@ msgid "Use angular association lines"
 msgstr "Uzi rektangulajn asocioliniojn"
 
 #: dialogs/pages/uioptionspage.cpp:73
-#, fuzzy, kde-format
-#| msgid "Use angular association lines"
+#, kde-format
 msgid "Create new association lines as:"
-msgstr "Uzi rektangulajn asocioliniojn"
+msgstr "Krei novajn asocioliniojn kiel:"
 
 #: dialogs/pages/uioptionspage.cpp:76
 #, kde-format
@@ -3141,42 +3060,36 @@ msgid "Color"
 msgstr "Koloro"
 
 #: dialogs/pages/uioptionspage.cpp:84
-#, fuzzy, kde-format
-#| msgid "Line color:"
+#, kde-format
 msgid "Custom text color"
-msgstr "Linia koloro:"
+msgstr "Propra tekstokoloro"
 
 #: dialogs/pages/uioptionspage.cpp:91
-#, fuzzy, kde-format
-#| msgid "Line color:"
+#, kde-format
 msgid "Custom line color"
-msgstr "Linia koloro:"
+msgstr "Propra liniokoloro"
 
 #. i18n("D&efault Color"), m_colorGB);
 #. colorLayout->addWidget(m_lineDefaultB, 0, 2);
 #: dialogs/pages/uioptionspage.cpp:101
-#, fuzzy, kde-format
-#| msgid "&Use fill color"
+#, kde-format
 msgid "Custom fill color"
-msgstr "&Uzi plenigan koloron"
+msgstr "Propra plenigkoloro"
 
 #: dialogs/pages/uioptionspage.cpp:107
-#, fuzzy, kde-format
-#| msgid "Custom operation:"
+#, kde-format
 msgid "Custom grid color"
-msgstr "Propra operacio:"
+msgstr "Propra kradkoloro"
 
 #: dialogs/pages/uioptionspage.cpp:113
-#, fuzzy, kde-format
-#| msgid "Font Color"
+#, kde-format
 msgid "Custom background color"
-msgstr "Tiparkoloro"
+msgstr "Propra fonkoloro"
 
 #: dialogs/pages/uioptionspage.cpp:119
-#, fuzzy, kde-format
-#| msgid "Line width:"
+#, kde-format
 msgid "Custom line width"
-msgstr "Larĝeco de linio:"
+msgstr "Propra liniolarĝeco"
 
 #: dialogs/pages/uioptionspage.cpp:129
 #, kde-format
@@ -3238,11 +3151,10 @@ msgid "&Text:"
 msgstr "&Teksto:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:116
-#, fuzzy, kde-format
-#| msgid "&Default"
+#, kde-format
 msgctxt "default text color button"
 msgid "Defaul&t"
-msgstr "&Apriora"
+msgstr "Defaŭl&ta"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:119
 #, kde-format
@@ -3262,11 +3174,10 @@ msgid "&Fill:"
 msgstr "&Plenigi:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:136
-#, fuzzy, kde-format
-#| msgid "&Default"
+#, kde-format
 msgctxt "default fill color button"
 msgid "D&efault"
-msgstr "&Apriora"
+msgstr "D&efaŭlta"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:139
 #, kde-format
@@ -3280,11 +3191,10 @@ msgid "&Background:"
 msgstr "&Fono"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:156
-#, fuzzy, kde-format
-#| msgid "&Default"
+#, kde-format
 msgctxt "default background color button"
 msgid "De&fault"
-msgstr "&Apriora"
+msgstr "De&faŭlta"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:159
 #, kde-format
@@ -3293,11 +3203,10 @@ msgid "&Grid dot:"
 msgstr ""
 
 #: dialogs/pages/umlwidgetstylepage.cpp:166
-#, fuzzy, kde-format
-#| msgid "&Default"
+#, kde-format
 msgctxt "default grid dot color button"
 msgid "Def&ault"
-msgstr "&Apriora"
+msgstr "Def&aŭlta"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:174
 #, kde-format
@@ -3306,24 +3215,21 @@ msgid "Width"
 msgstr "Larĝeco"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:179
-#, fuzzy, kde-format
-#| msgid "Line width:  "
+#, kde-format
 msgctxt "line width"
 msgid "Line &width:"
-msgstr "Amplekso de linioj:"
+msgstr "&Linia amplekso:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:189
-#, fuzzy, kde-format
-#| msgid "&Default"
+#, kde-format
 msgctxt "default line width button"
 msgid "Defa&ult"
-msgstr "&Apriora"
+msgstr "Defa&ŭlta"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:203
-#, fuzzy, kde-format
-#| msgid "the directory of the file"
+#, kde-format
 msgid "Layout of the line:"
-msgstr "la dosierujo de la dosiero"
+msgstr "Aranĝo de la linio:"
 
 #: dialogs/parameterpropertiesdialog.cpp:49
 #, kde-format
@@ -3359,16 +3265,14 @@ msgid "Parameter Name Invalid"
 msgstr "Parametronomo Nevalida"
 
 #: dialogs/selectdiagramdialog.cpp:18
-#, fuzzy, kde-format
-#| msgid "&Select diagrams"
+#, kde-format
 msgid "Select diagram"
-msgstr "&Selekti diagramojn"
+msgstr "Selekti diagramon"
 
 #: dialogs/selectdiagramdialog.cpp:19
-#, fuzzy, kde-format
-#| msgid "&Diagram"
+#, kde-format
 msgid "Diagram"
-msgstr "&Diagramo"
+msgstr "Diagramo"
 
 #: dialogs/settingsdialog.cpp:40
 #, kde-format
@@ -3386,15 +3290,13 @@ msgid "User Interface Settings"
 msgstr ""
 
 #: dialogs/settingsdialog.cpp:112 dialogs/umlviewdialog.cpp:88
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgctxt "general settings page"
 msgid "General"
-msgstr "Ĝenerale"
+msgstr "Ĝenerala"
 
 #: dialogs/settingsdialog.cpp:121
-#, fuzzy, kde-format
-#| msgid "Class"
+#, kde-format
 msgctxt "class settings page"
 msgid "Class"
 msgstr "Klaso"
@@ -3405,16 +3307,14 @@ msgid "Class Settings"
 msgstr "Agordo de Klaso"
 
 #: dialogs/settingsdialog.cpp:128 umllistview.cpp:1469
-#, fuzzy, kde-format
-#| msgid "Not Generated"
+#, kde-format
 msgid "Code Importer"
-msgstr "Ne Generita"
+msgstr "Kodimportilo"
 
 #: dialogs/settingsdialog.cpp:128
-#, fuzzy, kde-format
-#| msgid "Code Viewer Settings"
+#, kde-format
 msgid "Code Import Settings"
-msgstr "Agordo de Kodmontrilo"
+msgstr "Agordo de Kodimportilo"
 
 #: dialogs/settingsdialog.cpp:137 umllistview.cpp:1470
 #, kde-format
@@ -3437,16 +3337,14 @@ msgid "Code Viewer Settings"
 msgstr "Agordo de Kodmontrilo"
 
 #: dialogs/settingsdialog.cpp:152 umllistview.cpp:1467
-#, fuzzy, kde-format
-#| msgid "Auto Save"
+#, kde-format
 msgid "Auto Layout"
-msgstr "Aŭtokonservado"
+msgstr "Aŭtomata Aranĝado"
 
 #: dialogs/settingsdialog.cpp:152
-#, fuzzy, kde-format
-#| msgid "Entity Attributes Settings"
+#, kde-format
 msgid "Auto Layout Settings"
-msgstr "Ento-Atributa agordo"
+msgstr "Aŭtomat-Aranĝa Agordo"
 
 #: dialogs/singlepagedialogbase.cpp:35 dialogs/singlepagedialogbase.cpp:49
 #, kde-format
@@ -3454,64 +3352,55 @@ msgid "Search"
 msgstr "Serĉo"
 
 #: dialogs/statedialog.cpp:120
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgctxt "general page"
 msgid "General"
-msgstr "Ĝenerale"
+msgstr "Ĝenerala"
 
 #: dialogs/statedialog.cpp:133
-#, fuzzy, kde-format
-#| msgid "Initial state"
+#, kde-format
 msgctxt "initial state in statechart"
 msgid "Initial state"
 msgstr "Komenca stato"
 
 #: dialogs/statedialog.cpp:136
-#, fuzzy, kde-format
-#| msgid "State"
+#, kde-format
 msgctxt "state in statechart"
 msgid "State"
 msgstr "Stato"
 
 #: dialogs/statedialog.cpp:139
-#, fuzzy, kde-format
-#| msgid "End state"
+#, kde-format
 msgctxt "end state in statechart"
 msgid "End state"
 msgstr "Fina stato"
 
 #: dialogs/statedialog.cpp:142
-#, fuzzy, kde-format
-#| msgid "Fork"
+#, kde-format
 msgctxt "fork state in statechart"
 msgid "Fork"
-msgstr "Disiĝi"
+msgstr "Disiĝo"
 
 #: dialogs/statedialog.cpp:145
-#, fuzzy, kde-format
-#| msgid "Join"
+#, kde-format
 msgctxt "join state in statechart"
 msgid "Join"
-msgstr "Kuniĝi"
-
-#: dialogs/statedialog.cpp:148
-#, fuzzy, kde-format
-#| msgid "Junction"
-msgctxt "junction state in statechart"
-msgid "Junction"
 msgstr "Kuniĝo"
 
+#: dialogs/statedialog.cpp:148
+#, kde-format
+msgctxt "junction state in statechart"
+msgid "Junction"
+msgstr "Krucvojo"
+
 #: dialogs/statedialog.cpp:151
-#, fuzzy, kde-format
-#| msgid "Deep History"
+#, kde-format
 msgctxt "deep history state in statechart"
 msgid "DeepHistory"
 msgstr "Profunda Historio"
 
 #: dialogs/statedialog.cpp:154
-#, fuzzy, kde-format
-#| msgid "Shallow History"
+#, kde-format
 msgctxt "shallow history state in statechart"
 msgid "ShallowHistory"
 msgstr "Malprofunda Historio"
@@ -3523,11 +3412,10 @@ msgid "Choice"
 msgstr "Elekto"
 
 #: dialogs/statedialog.cpp:160
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgctxt "combined state in statechart"
 msgid "Combined"
-msgstr "Kombinita Fragmento"
+msgstr "Kombinita"
 
 #: dialogs/statedialog.cpp:168
 #, kde-format
@@ -3540,22 +3428,19 @@ msgid "State name:"
 msgstr "Statnomo:"
 
 #: dialogs/statedialog.cpp:183
-#, fuzzy, kde-format
-#| msgid "Loading diagrams..."
+#, kde-format
 msgid "Linked diagram:"
-msgstr "Ŝarĝanta diagramojn..."
+msgstr "Ligita diagramo:"
 
 #: dialogs/stereoattributedialog.cpp:39
-#, fuzzy, kde-format
-#| msgid "Role Properties"
+#, kde-format
 msgid "Stereotype Properties"
-msgstr "Roltrajtoj"
+msgstr "Stereotiptrajtoj"
 
 #: dialogs/stereoattributedialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Stereotype Attributes for "
-msgstr "Ento-Atributoj"
+msgstr "Stereotiptrajtoj por"
 
 #: dialogs/stereoattributedialog.cpp:75 dialogs/umlattributedialog.cpp:76
 #, kde-format
@@ -3564,19 +3449,16 @@ msgid "&Name:"
 msgstr "&Nomo:"
 
 #: dialogs/stereoattributedialog.cpp:78
-#, fuzzy, kde-format
-#| msgid "&Type:"
+#, kde-format
 msgctxt "attribute type"
 msgid "&Type:"
 msgstr "&Tipo:"
 
 #: dialogs/stereoattributedialog.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "default line color button"
-#| msgid "&Default"
+#, kde-format
 msgctxt "default value"
 msgid "&Default:"
-msgstr "&Apriora"
+msgstr "&Defaŭlto:"
 
 #: dialogs/umlattributedialog.cpp:43
 #, kde-format
@@ -3589,8 +3471,7 @@ msgid "&Initial value:"
 msgstr "&Komenca valoro:"
 
 #: dialogs/umlattributedialog.cpp:89 dialogs/umloperationdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Classifier &scope (\"static\")"
+#, kde-format
 msgid "Classifier &scope (\"static\")"
 msgstr "Kla&sifikila amplekso (\"static\")"
 
@@ -3650,10 +3531,9 @@ msgid "Length/Values:"
 msgstr ""
 
 #: dialogs/umlentityattributedialog.cpp:85
-#, fuzzy, kde-format
-#| msgid "Autosave"
+#, kde-format
 msgid "&Auto increment"
-msgstr "Aŭtokonservado"
+msgstr "&Aŭtomata pliigo"
 
 #: dialogs/umlentityattributedialog.cpp:89
 #, kde-format
@@ -3671,10 +3551,9 @@ msgid "Indexing"
 msgstr "Indeksanta"
 
 #: dialogs/umlentityattributedialog.cpp:117
-#, fuzzy, kde-format
-#| msgid "Not Generated"
+#, kde-format
 msgid "&Not Indexed"
-msgstr "Ne Generita"
+msgstr "&Ne Indeksata"
 
 #. i18n("&Primary"), m_pScopeGB);
 #. scopeLayout->addWidget(m_pPublicRB);
@@ -3683,10 +3562,9 @@ msgstr "Ne Generita"
 #. scopeLayout->addWidget(m_pProtectedRB);
 #.
 #: dialogs/umlentityattributedialog.cpp:128
-#, fuzzy, kde-format
-#| msgid "Indexing"
+#, kde-format
 msgid "&Indexed"
-msgstr "Indeksanta"
+msgstr "&Indeksata"
 
 #: dialogs/umlentityattributedialog.cpp:166
 #, kde-format
@@ -3711,15 +3589,12 @@ msgid "Entity Attribute Name Not Unique"
 msgstr "Ento-Atributa Nomo Neunika"
 
 #: dialogs/umlenumliteraldialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "General Properties"
+#, kde-format
 msgid "EnumLiteral Properties"
-msgstr "Ĝeneralaj Ecoj"
+msgstr "Enum-Valoraj Trajtoj"
 
 #: dialogs/umlenumliteraldialog.cpp:57
-#, fuzzy, kde-format
-#| msgctxt "property name"
-#| msgid "&Name:"
+#, kde-format
 msgctxt "literal name"
 msgid "&Name:"
 msgstr "&Nomo:"
@@ -3730,10 +3605,9 @@ msgid "&Value:"
 msgstr ""
 
 #: dialogs/umlfiledialog.cpp:134
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "All Supported Files"
-msgstr "Chiuj Dosieroj"
+msgstr "Ĉiuj Subtenataj Dosieroj"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:57
 #, kde-format
@@ -3741,18 +3615,16 @@ msgid "Foreign Key Setup"
 msgstr "Agordo de Ekstera Ŝlosilo"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:207
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgctxt "general page title"
 msgid "General"
-msgstr "Ĝenerale"
+msgstr "Ĝenerala"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:210
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgctxt "general group title"
 msgid "General"
-msgstr "Ĝenerale"
+msgstr "Ĝenerala"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:218
 #, kde-format
@@ -3811,29 +3683,26 @@ msgid "Columns"
 msgstr "Kolumnoj"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:301
-#, fuzzy, kde-format
-#| msgid "Local"
+#, kde-format
 msgctxt "column header local"
 msgid "Local"
 msgstr "Loka"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:301
-#, fuzzy, kde-format
-#| msgid "Referenced Entity"
+#, kde-format
 msgctxt "column header referenced"
 msgid "Referenced"
-msgstr "Referencita Ento"
+msgstr "Referencita"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:308
 #, kde-format
 msgid "Local Column"
-msgstr ""
+msgstr "Loka Kolumno"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:314
-#, fuzzy, kde-format
-#| msgid "Referenced Entity"
+#, kde-format
 msgid "Referenced Column"
-msgstr "Referencita Ento"
+msgstr "Referencita Kolumno"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:322
 #: dialogs/umlforeignkeyconstraintdialog.cpp:328
@@ -3852,16 +3721,14 @@ msgid ""
 msgstr ""
 
 #: dialogs/umlinstanceattributedialog.cpp:21
-#, fuzzy, kde-format
-#| msgid "Attribute Properties"
+#, kde-format
 msgid "Object Attribute Properties"
-msgstr "Ecoj de atributo"
+msgstr "Objekt-Atributaj Trajtoj"
 
 #: dialogs/umlinstanceattributedialog.cpp:40
-#, fuzzy, kde-format
-#| msgid "You have entered an invalid parameter name."
+#, kde-format
 msgid "You have entered an invalid attribute value."
-msgstr "Vi enigis nevalidan parametronomon."
+msgstr "Vi enigis nevalidan atributnomon."
 
 #: dialogs/umlinstanceattributedialog.cpp:41
 #, kde-format
@@ -3870,16 +3737,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/umlinstanceattributedialog.ui:27
-#, fuzzy, kde-format
-#| msgid "Attributes:"
+#, kde-format
 msgid "Attribute Name:"
-msgstr "Atributoj:"
+msgstr "Atributnomo:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/umlinstanceattributedialog.ui:37
 #, kde-format
 msgid "Value:"
-msgstr ""
+msgstr "Valoro:"
 
 #: dialogs/umloperationdialog.cpp:61
 #, kde-format
@@ -3893,32 +3759,29 @@ msgid "&Name:"
 msgstr "&Nomo:"
 
 #: dialogs/umloperationdialog.cpp:111
-#, fuzzy, kde-format
-#| msgid "&Abstract operation"
+#, kde-format
 msgid "&Abstract operation"
 msgstr "&Abstrakta operacio"
 
 #: dialogs/umloperationdialog.cpp:118
-#, fuzzy, kde-format
-#| msgid "&Query (\"const\")"
+#, kde-format
 msgid "&Query (\"const\")"
 msgstr "Al&demando (\"const\")"
 
 #: dialogs/umloperationdialog.cpp:121
 #, kde-format
 msgid "&virtual"
-msgstr ""
+msgstr "&virtuala"
 
 #: dialogs/umloperationdialog.cpp:125
 #, kde-format
 msgid "&inline"
-msgstr ""
+msgstr "&enlinia"
 
 #: dialogs/umloperationdialog.cpp:130
-#, fuzzy, kde-format
-#| msgid "&Overwrite"
+#, kde-format
 msgid "&Override"
-msgstr "&Superskribi"
+msgstr "&Superskriba"
 
 #: dialogs/umloperationdialog.cpp:141
 #, kde-format
@@ -4040,16 +3903,14 @@ msgid "Style"
 msgstr "Stilo"
 
 #: dialogs/umlviewdialog.cpp:116
-#, fuzzy, kde-format
-#| msgid "Diagram name"
+#, kde-format
 msgid "Diagram Style"
-msgstr "Diagramnomo"
+msgstr "Diagramstilo"
 
 #: dialogs/widgets/defaultvaluewidget.cpp:36
-#, fuzzy, kde-format
-#| msgid "Default Language :"
+#, kde-format
 msgid "&Default value:"
-msgstr "Apriora Programlingvo :"
+msgstr "&Defaŭlta valoro:"
 
 #: dialogs/widgets/imagetypewidget.cpp:31
 #, kde-format
@@ -4057,10 +3918,9 @@ msgid "&Image type:"
 msgstr "&Bildotipo:"
 
 #: dialogs/widgets/resolutionwidget.cpp:24
-#, fuzzy, kde-format
-#| msgid "Realization"
+#, kde-format
 msgid "&Resolution:"
-msgstr "Realigo"
+msgstr "&Detaligeblo:"
 
 #: dialogs/widgets/resolutionwidget.cpp:24
 #, kde-format
@@ -4068,8 +3928,7 @@ msgid "DPI"
 msgstr ""
 
 #: dialogs/widgets/selectdiagramwidget.cpp:51
-#, fuzzy, kde-format
-#| msgid "New"
+#, kde-format
 msgid "New"
 msgstr "Nova"
 
@@ -4110,16 +3969,14 @@ msgid "&Type:"
 msgstr "&Tipo:"
 
 #: dialogs/widgets/umlpackagewidget.cpp:29
-#, fuzzy, kde-format
-#| msgid "Package name:"
+#, kde-format
 msgid "Package path:"
-msgstr "Pakonomo:"
+msgstr "Pakovojo:"
 
 #: dialogs/widgets/umlstereotypewidget.cpp:24 umlmodel/umlobject.cpp:1269
-#, fuzzy, kde-format
-#| msgid "Stereotype name:"
+#, kde-format
 msgid "Stereotype &name:"
-msgstr "Stereotipnomo:"
+msgstr "Stereotip&nomo:"
 
 #: dialogs/widgets/visibilityenumwidget.cpp:26
 #, kde-format
@@ -4151,15 +4008,13 @@ msgid "Visibility"
 msgstr "Videblo"
 
 #: dialogs/widgets/visibilityenumwidget.cpp:41
-#, fuzzy, kde-format
-#| msgid "Public"
+#, kde-format
 msgctxt "scope for A is public"
 msgid "Public"
 msgstr "Publika"
 
 #: dialogs/widgets/visibilityenumwidget.cpp:42
-#, fuzzy, kde-format
-#| msgid "Protected"
+#, kde-format
 msgctxt "scope for A is protected"
 msgid "Protected"
 msgstr "Protektita"
@@ -4171,8 +4026,7 @@ msgid "Private"
 msgstr "Privata"
 
 #: dialogs/widgets/visibilityenumwidget.cpp:44
-#, fuzzy, kde-format
-#| msgid "Implementation"
+#, kde-format
 msgctxt "scope for A is implementation"
 msgid "Implementation"
 msgstr "Implementnivela"
@@ -4183,15 +4037,13 @@ msgid "Role A Visibility"
 msgstr "Videblo de Rolo A"
 
 #: dialogs/widgets/visibilityenumwidget.cpp:47
-#, fuzzy, kde-format
-#| msgid "Public"
+#, kde-format
 msgctxt "scope for B is public"
 msgid "Public"
 msgstr "Publika"
 
 #: dialogs/widgets/visibilityenumwidget.cpp:48
-#, fuzzy, kde-format
-#| msgid "Protected"
+#, kde-format
 msgctxt "scope for B is protected"
 msgid "Protected"
 msgstr "Protektita"
@@ -4203,8 +4055,7 @@ msgid "Private"
 msgstr "Privata"
 
 #: dialogs/widgets/visibilityenumwidget.cpp:50
-#, fuzzy, kde-format
-#| msgid "Implementation"
+#, kde-format
 msgctxt "scope for B is implementation"
 msgid "Implementation"
 msgstr "Implementnivela"
@@ -4255,10 +4106,7 @@ msgid "Umbrello UML Modeller autonomous code generator"
 msgstr "Aŭtonoma kodgenerilo de Umbrello UML Modeller"
 
 #: docgenerators/main.cpp:48
-#, fuzzy, kde-format
-#| msgid ""
-#| "(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML "
-#| "Modeller Authors"
+#, kde-format
 msgid ""
 "(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller "
 "Authors"
@@ -4319,10 +4167,9 @@ msgid ""
 msgstr ""
 
 #: docwindow.cpp:81
-#, fuzzy, kde-format
-#| msgid "Indentation type:"
+#, kde-format
 msgid "Documentation type"
-msgstr "Indenta tipo:"
+msgstr "Dokumentada tipo"
 
 #: docwindow.cpp:88
 #, kde-format
@@ -4330,10 +4177,9 @@ msgid "Activate documentation edit after focus change."
 msgstr ""
 
 #: layoutgenerator.cpp:266
-#, fuzzy, kde-format
-#| msgid "Auto Save"
+#, kde-format
 msgid "Apply layout"
-msgstr "Aŭtokonservado"
+msgstr "Apliki aranĝon"
 
 #: main.cpp:147
 #, kde-format
@@ -4349,12 +4195,13 @@ msgid ""
 msgstr ""
 
 #: main.cpp:157
-#, fuzzy, kde-format
-#| msgid "(c) 2001 Paul Hensgen, (c) 2002-2006 Umbrello UML Modeller Authors"
+#, kde-format
 msgid ""
 "Copyright © 2001 Paul Hensgen,\n"
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
-msgstr "(k) 2001 Paul Hensgen, (k) 2002-2006 Aŭtoroj de Umbrello UML Modeller"
+msgstr ""
+"Kopirajto © 2001 Paul Hensgen,\n"
+"Kopirajto © 2002-2022 Aŭtoroj de Umbrello UML Modeller"
 
 #: main.cpp:161
 #, kde-format
@@ -4372,10 +4219,9 @@ msgid "Porting work, code cleanup, new features."
 msgstr ""
 
 #: main.cpp:175
-#, fuzzy, kde-format
-#| msgid "&Current diagram"
+#, kde-format
 msgid "Current maintainer."
-msgstr "&Aktuala diagramo"
+msgstr "Aktuala prizorganto"
 
 #: main.cpp:178
 #, kde-format
@@ -4408,16 +4254,14 @@ msgid "the directory of the file"
 msgstr "la dosierujo de la dosiero"
 
 #: main.cpp:188 main.cpp:209
-#, fuzzy, kde-format
-#| msgid "Exporting view..."
+#, kde-format
 msgid "import files"
-msgstr "Eksportanta diagramon..."
+msgstr "importi dosierojn"
 
 #: main.cpp:189 main.cpp:211
-#, fuzzy, kde-format
-#| msgid "All Files"
+#, kde-format
 msgid "list supported languages"
-msgstr "Chiuj Dosieroj"
+msgstr "listigi subtenatajn programlingvojn"
 
 #: main.cpp:190 main.cpp:213
 #, kde-format
@@ -4429,22 +4273,19 @@ msgstr ""
 "dokumento de la celdosierujo"
 
 #: main.cpp:191 main.cpp:215
-#, fuzzy, kde-format
-#| msgid "Import Project..."
+#, kde-format
 msgid "import files from directory <dir>"
-msgstr "Importi Projekton..."
+msgstr "importi dosierojn de dosierujo <dir>"
 
 #: main.cpp:192
-#, fuzzy, kde-format
-#| msgid "Active &Language"
+#, kde-format
 msgid "set active language"
-msgstr "Aktiva Program&lingvo"
+msgstr "Meti aktivan programlingvon"
 
 #: main.cpp:217
-#, fuzzy, kde-format
-#| msgid "Active &Language"
+#, kde-format
 msgid "set language"
-msgstr "Aktiva Program&lingvo"
+msgstr "meti programlingvon"
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
@@ -4452,16 +4293,14 @@ msgid "Delete Anchor"
 msgstr "Forigi Ankron"
 
 #: menus/associationwidgetpopupmenu.cpp:48
-#, fuzzy, kde-format
-#| msgid "Add only"
+#, kde-format
 msgid "Add Point"
-msgstr "Nur aldoni"
+msgstr "Aldoni Punkton"
 
 #: menus/associationwidgetpopupmenu.cpp:50
-#, fuzzy, kde-format
-#| msgid "Delete"
+#, kde-format
 msgid "Delete Point"
-msgstr "Forigi"
+msgstr "Forigi Punkton"
 
 #: menus/associationwidgetpopupmenu.cpp:52
 #, kde-format
@@ -4489,11 +4328,10 @@ msgid "Select Operation..."
 msgstr "Selekti Operacion..."
 
 #: menus/associationwidgetpopupmenu.cpp:94
-#, fuzzy, kde-format
-#| msgid "Auto Save"
+#, kde-format
 msgctxt "Layout menu"
 msgid "Layout"
-msgstr "Aŭtokonservado"
+msgstr "Aranĝa menuo"
 
 #: menus/associationwidgetpopupmenu.cpp:95
 #, kde-format
@@ -4522,15 +4360,13 @@ msgstr "Nova Ŝablono..."
 
 #: menus/listpopupmenu.cpp:145
 #, fuzzy, kde-format
-#| msgid "Accept signal"
 msgid "Accept Signal"
-msgstr "Akcepti signalon"
+msgstr "Akcepti Signalon"
 
 #: menus/listpopupmenu.cpp:146
 #, fuzzy, kde-format
-#| msgid "Accept time event"
 msgid "Accept Time Event"
-msgstr "Akcepti tempan eventon"
+msgstr "Akcepti Tempan Eventon"
 
 #: menus/listpopupmenu.cpp:147 menus/listpopupmenu.cpp:220
 #, kde-format
@@ -4562,8 +4398,7 @@ msgid "Change Font..."
 msgstr "Ŝanĝi Tiparon..."
 
 #: menus/listpopupmenu.cpp:160
-#, fuzzy, kde-format
-#| msgid "Choice"
+#, kde-format
 msgid "Choice"
 msgstr "Elekto"
 
@@ -4585,11 +4420,10 @@ msgid "Collapse All"
 msgstr "Kolapsi Ĉion"
 
 #: menus/listpopupmenu.cpp:164
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgctxt "add new combined state"
 msgid "Combined state..."
-msgstr "Kombinita Fragmento"
+msgstr "Kombinita stato..."
 
 #: menus/listpopupmenu.cpp:165 umlwidgets/widgetbase.cpp:1272
 #: worktoolbar.cpp:360
@@ -5074,7 +4908,7 @@ msgstr ""
 #: menus/widgetbasepopupmenu.cpp:86
 #, kde-format
 msgid "Public Only"
-msgstr "Nur Publika"
+msgstr "Nur Publikaj"
 
 #: menus/widgetbasepopupmenu.cpp:90
 #, kde-format

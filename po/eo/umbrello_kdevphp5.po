@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: kdevphp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-05-27 00:18+0000\n"
-"PO-Revision-Date: 2009-11-15 12:06+0100\n"
-"Last-Translator: Axel Rousseau <axel@esperanto-jeunes.org>\n"
+"PO-Revision-Date: 2022-11-01 16:00+0100\n"
+"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -32,21 +32,20 @@ msgid "Override"
 msgstr "Anstataŭigo"
 
 #: completion/implementationitem.cpp:63
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Implement"
-msgstr "Komento"
+msgstr "Implementi"
 
 #: completion/implementationitem.cpp:75
 #, kde-format
 msgid "From %1"
-msgstr ""
+msgstr "De %1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PhpDoc)
 #: docs/phpdocsconfig.ui:20
 #, kde-format
 msgid "PHP Manual Integration"
-msgstr ""
+msgstr "PHP Permana Integriĝo"
 
 #. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
 #: docs/phpdocsconfig.ui:36
@@ -77,18 +76,18 @@ msgstr "Loko:"
 #: docs/phpdocsmodel.cpp:96
 #, kde-format
 msgid "<lost declaration>"
-msgstr ""
+msgstr "<perdita deklaro>"
 
 #: docs/phpdocsplugin.cpp:207
 #, kde-format
 msgid "PHP Documentation"
-msgstr ""
+msgstr "PHP Dokumentaro"
 
 #. i18n: ectx: label, entry (phpDocLocation), group (PHP Documentation)
 #: docs/phpdocssettings.kcfg:10
 #, kde-format
 msgid "Specifies the location of the PHP documentation to use."
-msgstr ""
+msgstr "Specifas la lokon de la PHP dokumentaro uzendan."
 
 #. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
 #: docs/phpdocssettings.kcfg:13
@@ -111,22 +110,22 @@ msgstr ""
 #: docs/phpdocumentationwidget.cpp:56
 #, kde-format
 msgid "...loading documentation..."
-msgstr ""
+msgstr "...ŝarĝanta dokumentaron..."
 
 #: duchain/builders/contextbuilder.cpp:397
 #, kde-format
 msgid "Circular inheritance of %1 and %2"
-msgstr ""
+msgstr "Cirkla heredo de %1 al %2"
 
 #: duchain/builders/declarationbuilder.cpp:321
 #, kde-format
 msgid "Access type for interface method %1 must be omitted."
-msgstr ""
+msgstr "Alirtipo por interfacmetodo %1 devas esti ellasata."
 
 #: duchain/builders/declarationbuilder.cpp:325
 #, kde-format
 msgid "Interface function %1 cannot contain body."
-msgstr ""
+msgstr "Interfacfunkcio %1 ne povas enhavi korpon."
 
 #: duchain/builders/declarationbuilder.cpp:337
 #, kde-format
@@ -138,7 +137,7 @@ msgstr ""
 #: duchain/builders/declarationbuilder.cpp:343
 #, kde-format
 msgid "Abstract function %1 cannot contain body."
-msgstr ""
+msgstr "Abstakta funkcio %1 ne povas enhavi korpon."
 
 #: duchain/builders/declarationbuilder.cpp:346
 #, kde-format
