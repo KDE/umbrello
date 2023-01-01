@@ -520,7 +520,7 @@
          <default>std::vector</default>
        </entry>
        <entry name="vectorClassNameInclude" type="String">
-         <label>Vector Class Name Include </label>
+         <label>Vector Class Name Include</label>
          <whatsthis>The name of the vector class to be included</whatsthis>
          <default>&lt;vector&gt;</default>
        </entry>
@@ -557,7 +557,7 @@
     </group>
     <group name="D Code Generation">
        <entry name="autoGenerateAttributeAccessorsD" key="autoGenerateAttributeAccessors" type="Bool">
-          <label>Auto Generate Attribute Accessors ( D ) </label>
+          <label>Auto Generate Attribute Accessors ( D )</label>
           <whatsthis>Enables/Disables auto generation of attribute accessors ( D )</whatsthis>
           <default>true</default>
        </entry>
@@ -567,8 +567,8 @@
           <default>true</default>
        </entry>
        <entry name="buildANTDocumentD" key="buildANTDocument" type="Bool">
-          <label>Build ANT Document (D) </label>
-          <whatsthis>Enables/Disables building of ANT Document (D) </whatsthis>
+          <label>Build ANT Document (D)</label>
+          <whatsthis>Enables/Disables building of ANT Document (D)</whatsthis>
           <default>false</default> 
        </entry>
     </group>
@@ -579,19 +579,19 @@
           <default>true</default>
        </entry>
        <entry name="autoGenerateAssocAccessorsJava" key="autoGenerateAssocAccessors" type="Bool">
-          <label>Auto Generate Assoc Accessors (Java) </label>
-          <whatsthis>Enables/Disables auto generation of association accessors (Java) </whatsthis>
+          <label>Auto Generate Assoc Accessors (Java)</label>
+          <whatsthis>Enables/Disables auto generation of association accessors (Java)</whatsthis>
           <default>true</default>
        </entry>
        <entry name="buildANTDocumentJava" key="buildANTDocument" type="Bool">
-          <label>Build ANT Document (Java) </label>
-          <whatsthis>Enables/Disables building of ANT Document (Java) </whatsthis>
+          <label>Build ANT Document (Java)</label>
+          <whatsthis>Enables/Disables building of ANT Document (Java)</whatsthis>
           <default>false</default> 
        </entry>
     </group>
     <group name="Ruby Code Generation">
        <entry name="autoGenerateAttributeAccessorsRuby" key="autoGenerateAttributeAccessors" type="Bool">
-          <label>Auto Generate Attribute Accessors (Ruby) </label>
+          <label>Auto Generate Attribute Accessors (Ruby)</label>
           <whatsthis>Enables/Disables auto generation of attribute accessors (Ruby)</whatsthis>
           <default>true</default>
        </entry>
