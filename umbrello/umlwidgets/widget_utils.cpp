@@ -926,7 +926,7 @@ namespace Widget_Utils
         case WidgetBase::wt_Datatype:         return i18n("Enter the name of the new datatype:");
         case WidgetBase::wt_Entity:           return i18n("Enter the name of the new entity:");
         case WidgetBase::wt_Enum:             return i18n("Enter the name of the new enum:");
-        case WidgetBase::wt_FloatingDashLine: return i18n("Enter the name of the new floating dash Line:");
+        case WidgetBase::wt_FloatingDashLine: return i18n("Enter the name of the new floating dash line:");
         case WidgetBase::wt_ForkJoin:         return i18n("Enter the name of the new fork/join:");
         case WidgetBase::wt_Instance:         return i18n("Enter the name of the new instance:");
         case WidgetBase::wt_Interface:        return i18n("Enter the name of the new interface:");
@@ -1017,7 +1017,7 @@ namespace Widget_Utils
         case WidgetBase::wt_Datatype:         return i18n("Enter the new name of the datatype:");
         case WidgetBase::wt_Entity:           return i18n("Enter the new name of the entity:");
         case WidgetBase::wt_Enum:             return i18n("Enter the new name of the enum:");
-        case WidgetBase::wt_FloatingDashLine: return i18n("Enter the new name of the floating dash Line:");
+        case WidgetBase::wt_FloatingDashLine: return i18n("Enter the new name of the floating dash line:");
         case WidgetBase::wt_ForkJoin:         return i18n("Enter the new name of the fork/join widget:");
         case WidgetBase::wt_Instance:         return i18n("Enter the new name of the instance:");
         case WidgetBase::wt_Interface:        return i18n("Enter the new name of the interface:");

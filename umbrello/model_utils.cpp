@@ -584,7 +584,7 @@ QString uniqObjectName(UMLObject::ObjectType type, UMLPackage *parentPkg, QStrin
         case UMLObject::ot_Stereotype:          currentName = i18n("new_stereotype");             break;
         case UMLObject::ot_Template:            currentName = i18n("new_template");               break;
         case UMLObject::ot_UniqueConstraint:    currentName = i18n("new_unique_constraint");      break;
-        case UMLObject::ot_UseCase:             currentName = i18n("new_use case");               break;
+        case UMLObject::ot_UseCase:             currentName = i18n("new_use_case");               break;
         default:
             currentName = i18n("new_object");
             logWarn1("Model_Utils::uniqObjectName unknown object type %1", UMLObject::toString(type));

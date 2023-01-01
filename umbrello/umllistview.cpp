@@ -584,7 +584,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
                 KMessageBox::error(
                     0,
                     i18n("File %1 already exists!\nThe existing file will be overwritten.", fileName),
-                    i18n("File Exist"));
+                    i18n("File Exists"));
             }
             // Test if file is writable.
             if (file.open(QIODevice::WriteOnly)) {
