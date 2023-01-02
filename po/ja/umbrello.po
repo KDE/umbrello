@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-31 00:54+0000\n"
+"POT-Creation-Date: 2023-01-02 01:08+0000\n"
 "PO-Revision-Date: 2008-11-05 23:34+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -5457,7 +5457,7 @@ msgstr "新規一意制約"
 #: model_utils.cpp:587
 #, fuzzy, kde-format
 #| msgid "new_usecase"
-msgid "new_use case"
+msgid "new_use_case"
 msgstr "新規ユースケース"
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
@@ -7298,7 +7298,7 @@ msgstr "オブジェクトフロー名を入力"
 #: umbrello.kcfg:523
 #, fuzzy, kde-format
 #| msgid "Vector Class Name"
-msgid "Vector Class Name Include "
+msgid "Vector Class Name Include"
 msgstr "ベクトルクラス名"
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
@@ -7379,8 +7379,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:560
-#, kde-format
-msgid "Auto Generate Attribute Accessors ( D ) "
+#, fuzzy, kde-format
+#| msgid "Auto Generate Attribute Accessors ( D ) "
+msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "属性アクセサを自動生成 (D)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
@@ -7405,15 +7406,16 @@ msgstr "関連アクセサを自動生成 (D)"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:570
-#, kde-format
-msgid "Build ANT Document (D) "
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Force Section Documentation"
+msgid "Build ANT Document (D)"
+msgstr "セクションのドキュメンテーションを強制"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:571
 #, fuzzy, kde-format
 #| msgid "Force Section Documentation"
-msgid "Enables/Disables building of ANT Document (D) "
+msgid "Enables/Disables building of ANT Document (D)"
 msgstr "セクションのドキュメンテーションを強制"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
@@ -7431,34 +7433,37 @@ msgstr "属性アクセサを自動生成 (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:582
-#, kde-format
-msgid "Auto Generate Assoc Accessors (Java) "
+#, fuzzy, kde-format
+#| msgid "Auto Generate Assoc Accessors (Java) "
+msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "関連アクセサを自動生成 (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:583
 #, fuzzy, kde-format
 #| msgid "Auto Generate Assoc Accessors (Java) "
-msgid "Enables/Disables auto generation of association accessors (Java) "
+msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr "関連アクセサを自動生成 (Java)"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:587
-#, kde-format
-msgid "Build ANT Document (Java) "
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Auto Generate Assoc Accessors (Java) "
+msgid "Build ANT Document (Java)"
+msgstr "関連アクセサを自動生成 (Java)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:588
 #, fuzzy, kde-format
 #| msgid "Auto Generate Assoc Accessors (Java) "
-msgid "Enables/Disables building of ANT Document (Java) "
+msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "関連アクセサを自動生成 (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:594
-#, kde-format
-msgid "Auto Generate Attribute Accessors (Ruby) "
+#, fuzzy, kde-format
+#| msgid "Auto Generate Attribute Accessors (Ruby) "
+msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr "属性アクセサを自動生成 (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
@@ -8431,7 +8436,7 @@ msgstr ""
 #: umllistview.cpp:587
 #, fuzzy, kde-format
 #| msgid "File Already Exists"
-msgid "File Exist"
+msgid "File Exists"
 msgstr "ファイルは既に存在します"
 
 #: umllistview.cpp:627
@@ -9345,7 +9350,7 @@ msgstr "新規状態の名前を入力:"
 #: umlwidgets/widget_utils.cpp:929
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
-msgid "Enter the name of the new floating dash Line:"
+msgid "Enter the name of the new floating dash line:"
 msgstr "新規状態の名前を入力:"
 
 #: umlwidgets/widget_utils.cpp:930
@@ -9539,7 +9544,7 @@ msgstr "図の新しい名前を入力:"
 #: umlwidgets/widget_utils.cpp:1020
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the model:"
-msgid "Enter the new name of the floating dash Line:"
+msgid "Enter the new name of the floating dash line:"
 msgstr "モデルの新しい名前を入力:"
 
 #: umlwidgets/widget_utils.cpp:1021

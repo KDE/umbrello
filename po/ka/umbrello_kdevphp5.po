@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-05-27 00:18+0000\n"
-"PO-Revision-Date: 2022-12-28 09:51+0100\n"
+"PO-Revision-Date: 2023-01-01 07:46+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -222,6 +222,7 @@ msgstr ""
 #, kde-format
 msgid "Following parameters must have a default value assigned."
 msgstr ""
+"პარამეტრები, რომლებისთვისაც ნაგულისხმები მნიშვნელობის მინიჭება აუცილებელია."
 
 #: duchain/builders/declarationbuilder.cpp:870
 #, kde-format

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-31 00:54+0000\n"
+"POT-Creation-Date: 2023-01-02 01:08+0000\n"
 "PO-Revision-Date: 2014-07-19 17:56+0430\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <kde-i18n-fa@kde.org>\n"
@@ -5423,7 +5423,7 @@ msgstr ""
 #: model_utils.cpp:587
 #, fuzzy, kde-format
 #| msgid "Subsystem"
-msgid "new_use case"
+msgid "new_use_case"
 msgstr "زیرسیستم"
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
@@ -7226,7 +7226,7 @@ msgstr "وارد کردن نام روند شیء"
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:523
 #, fuzzy, kde-format
-msgid "Vector Class Name Include "
+msgid "Vector Class Name Include"
 msgstr "نام رده"
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
@@ -7307,7 +7307,7 @@ msgstr ""
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:560
 #, fuzzy, kde-format
-msgid "Auto Generate Attribute Accessors ( D ) "
+msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "روشهای تولید خودکار"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
@@ -7330,14 +7330,14 @@ msgstr "تولید سازنده‌های خالی"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:570
-#, kde-format
-msgid "Build ANT Document (D) "
-msgstr ""
+#, fuzzy, kde-format
+msgid "Build ANT Document (D)"
+msgstr "مستندات یاددداشت"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:571
 #, fuzzy, kde-format
-msgid "Enables/Disables building of ANT Document (D) "
+msgid "Enables/Disables building of ANT Document (D)"
 msgstr "مستندات یاددداشت"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
@@ -7355,31 +7355,31 @@ msgstr "تولید سازنده‌های خالی"
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:582
 #, fuzzy, kde-format
-msgid "Auto Generate Assoc Accessors (Java) "
+msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "روشهای تولید خودکار"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:583
 #, fuzzy, kde-format
-msgid "Enables/Disables auto generation of association accessors (Java) "
+msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr "تولید سازنده‌های خالی"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:587
-#, kde-format
-msgid "Build ANT Document (Java) "
-msgstr ""
+#, fuzzy, kde-format
+msgid "Build ANT Document (Java)"
+msgstr "مستندات یاددداشت"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:588
 #, fuzzy, kde-format
-msgid "Enables/Disables building of ANT Document (Java) "
+msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "مستندات یاددداشت"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:594
 #, fuzzy, kde-format
-msgid "Auto Generate Attribute Accessors (Ruby) "
+msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr "روشهای تولید خودکار"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
@@ -8338,7 +8338,7 @@ msgstr ""
 #: umllistview.cpp:587
 #, fuzzy, kde-format
 #| msgid "File Already Exists"
-msgid "File Exist"
+msgid "File Exists"
 msgstr "پرونده از قبل وجود دارد"
 
 #: umllistview.cpp:627
@@ -9239,7 +9239,7 @@ msgstr "وارد کردن نام وضعیت جدید:"
 #: umlwidgets/widget_utils.cpp:929
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
-msgid "Enter the name of the new floating dash Line:"
+msgid "Enter the name of the new floating dash line:"
 msgstr "وارد کردن نام وضعیت جدید:"
 
 #: umlwidgets/widget_utils.cpp:930
@@ -9434,7 +9434,7 @@ msgstr "وارد کردن نام جدید نمودار:"
 #: umlwidgets/widget_utils.cpp:1020
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the model:"
-msgid "Enter the new name of the floating dash Line:"
+msgid "Enter the new name of the floating dash line:"
 msgstr "نام جدید مدل را وارد کنید:"
 
 #: umlwidgets/widget_utils.cpp:1021

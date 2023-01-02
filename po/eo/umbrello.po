@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-31 00:54+0000\n"
+"POT-Creation-Date: 2023-01-02 01:08+0000\n"
 "PO-Revision-Date: 2022-12-31 03:25+0100\n"
 "Last-Translator: Oliver M. Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -2442,8 +2442,9 @@ msgid ""
 "these layout generators. For cases where this dependency is not available or "
 "do not fit, a different installation path could be provided.</p>"
 msgstr ""
-"<p>La anĝa funkcio dependas de aranĝiloj provizitaj de la pakaĵo GraphViz, "
-"kiu kutime estas instalata samkiel Umbrello far pakaĵmastrumilo.</p>\n"
+"<p>La aŭto-aranĝa funkcio dependas de aranĝiloj provizitaj de la pakaĵo "
+"GraphViz, kiu kutime estas instalata samkiel Umbrello far pakaĵmastrumilo.</"
+"p>\n"
 "<p>Umbrello havas enkonstruitan subtenon por detekti la instalejon de tiuj "
 "aranĝiloj. Kaze ke tiu dependeco ne haveblas aŭ ne taŭgas, diversa instalejo "
 "povus esti donata.</p>"
@@ -4359,12 +4360,12 @@ msgid "New Template..."
 msgstr "Nova Ŝablono..."
 
 #: menus/listpopupmenu.cpp:145
-#, fuzzy, kde-format
+#, kde-format
 msgid "Accept Signal"
 msgstr "Akcepti Signalon"
 
 #: menus/listpopupmenu.cpp:146
-#, fuzzy, kde-format
+#, kde-format
 msgid "Accept Time Event"
 msgstr "Akcepti Tempan Eventon"
 
@@ -4450,10 +4451,9 @@ msgid "Deep History"
 msgstr "Profunda Historio"
 
 #: menus/listpopupmenu.cpp:176
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "Edit combined state"
-msgstr "Kombinita Fragmento"
+msgstr "Redakti kombinan staton"
 
 #: menus/listpopupmenu.cpp:177 worktoolbar.cpp:383
 #, kde-format
@@ -4533,34 +4533,29 @@ msgid "Fork"
 msgstr "Disiĝi"
 
 #: menus/listpopupmenu.cpp:197
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Go to state diagram"
-msgstr "statodiagramo"
+msgstr "Iri al statodiagramo"
 
 #: menus/listpopupmenu.cpp:198
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "Hide destruction box"
-msgstr "Montri malkonstruon"
+msgstr "Kaŝi malkonstruan skatolon"
 
 #: menus/listpopupmenu.cpp:199
-#, fuzzy, kde-format
-#| msgid "Import Classes..."
+#, kde-format
 msgid "Import File(s)..."
-msgstr "Importi Klasojn..."
+msgstr "Importi Dosiero(j)n..."
 
 #: menus/listpopupmenu.cpp:200 uml.cpp:437
-#, fuzzy, kde-format
-#| msgid "Import Project..."
+#, kde-format
 msgid "Import from Directory..."
-msgstr "Importi Projekton..."
+msgstr "Importi de Dosierujo..."
 
 #: menus/listpopupmenu.cpp:201
-#, fuzzy, kde-format
-#| msgid "Closing file..."
+#, kde-format
 msgid "from file..."
-msgstr "Fermanta dosieron..."
+msgstr "de dosiero..."
 
 #: menus/listpopupmenu.cpp:202 worktoolbar.cpp:387
 #, kde-format
@@ -4573,11 +4568,10 @@ msgid "Initial State"
 msgstr "Komenca Stato"
 
 #: menus/listpopupmenu.cpp:204
-#, fuzzy, kde-format
-#| msgid "Instance name:"
+#, kde-format
 msgctxt "new instance menu item"
 msgid "Instance..."
-msgstr "Instancnomo:"
+msgstr "Instanco..."
 
 #: menus/listpopupmenu.cpp:205 menus/listpopupmenu.cpp:221
 #: menus/listpopupmenu.cpp:224
@@ -4586,16 +4580,14 @@ msgid "New Attribute..."
 msgstr "Nova Atributo..."
 
 #: menus/listpopupmenu.cpp:208
-#, fuzzy, kde-format
-#| msgid "Add Derived Interface"
+#, kde-format
 msgid "Provided interface"
-msgstr "Aldoni Derivitan Interfacon"
+msgstr "Provizita interfaco"
 
 #: menus/listpopupmenu.cpp:209
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "Required interface"
-msgstr "Uzant-interfaco"
+msgstr "Postulata interfaco"
 
 #: menus/listpopupmenu.cpp:210
 #, kde-format
@@ -4618,16 +4610,14 @@ msgid "Asynchronous Message"
 msgstr "Nesinkrona Mesaĝo"
 
 #: menus/listpopupmenu.cpp:215
-#, fuzzy, kde-format
-#| msgid "Collaboration Self Message"
+#, kde-format
 msgid "Creation Message"
-msgstr "Kunlabora Mem-Mesaĝo"
+msgstr "Kreada Mesaĝo"
 
 #: menus/listpopupmenu.cpp:216
-#, fuzzy, kde-format
-#| msgid "Lost Message"
+#, kde-format
 msgid "Destroy Message"
-msgstr "Perdita Mesaĝo"
+msgstr "Malkonstrua Mesaĝo"
 
 #: menus/listpopupmenu.cpp:217 worktoolbar.cpp:332
 #, kde-format
@@ -4667,10 +4657,9 @@ msgstr "Nodo"
 
 #. i18n("Node...")); break;
 #: menus/listpopupmenu.cpp:230
-#, fuzzy, kde-format
-#| msgid "Node..."
+#, kde-format
 msgid "Note..."
-msgstr "Nodo..."
+msgstr "Noto..."
 
 #: menus/listpopupmenu.cpp:231
 #, kde-format
@@ -4683,10 +4672,9 @@ msgid "Object Node"
 msgstr "Objektnodo"
 
 #: menus/listpopupmenu.cpp:233
-#, fuzzy, kde-format
-#| msgid "Open File"
+#, kde-format
 msgid "Open file"
-msgstr "Malfermanta Dosieron"
+msgstr "Malfermi dosieron"
 
 #. i18n("Operation...")); break;
 #: menus/listpopupmenu.cpp:236
@@ -4708,10 +4696,9 @@ msgstr "Pordo"
 
 #. i18n("Port...")); break;
 #: menus/listpopupmenu.cpp:241
-#, fuzzy, kde-format
-#| msgid "Pre/Post condition"
+#, kde-format
 msgid "Pre Post Condition"
-msgstr "Antaŭa/Posta kondiĉo"
+msgstr "Antaŭa/Posta Kondiĉo"
 
 #: menus/listpopupmenu.cpp:244
 #, kde-format
@@ -4725,16 +4712,14 @@ msgid "Region"
 msgstr "Regiono"
 
 #: menus/listpopupmenu.cpp:246
-#, fuzzy, kde-format
-#| msgid "<< Remove"
+#, kde-format
 msgid "Remove"
-msgstr "<< Forigi"
+msgstr "Forigi"
 
 #: menus/listpopupmenu.cpp:247
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Remove state diagram"
-msgstr "statodiagramo"
+msgstr "Forigi statodiagramon"
 
 #: menus/listpopupmenu.cpp:248 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
@@ -4747,16 +4732,14 @@ msgid "Rename Object..."
 msgstr "Renomi Objekton..."
 
 #: menus/listpopupmenu.cpp:250
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "Return to combined state"
-msgstr "Kombinita Fragmento"
+msgstr "Reiri al kombinita stato"
 
 #: menus/listpopupmenu.cpp:251
-#, fuzzy, kde-format
-#| msgid "Rename Class..."
+#, kde-format
 msgid "Return to class"
-msgstr "Renomi Klason..."
+msgstr "Reiri al klaso"
 
 #: menus/listpopupmenu.cpp:252
 #, kde-format
@@ -4769,16 +4752,14 @@ msgid "Resize"
 msgstr ""
 
 #: menus/listpopupmenu.cpp:254
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Select state diagram"
-msgstr "statodiagramo"
+msgstr "Elekti statodiagramon"
 
 #: menus/listpopupmenu.cpp:255
-#, fuzzy, kde-format
-#| msgid "Send signal"
+#, kde-format
 msgid "Send Signal"
-msgstr "Sendi signalon"
+msgstr "Sendi Signalon"
 
 #: menus/listpopupmenu.cpp:256 worktoolbar.cpp:370
 #, kde-format
@@ -4786,23 +4767,20 @@ msgid "Shallow History"
 msgstr "Malprofunda Historio"
 
 #: menus/listpopupmenu.cpp:258
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "Show destruction box"
-msgstr "Montri malkonstruon"
+msgstr "Montri malkonstruan skatolon"
 
 #: menus/listpopupmenu.cpp:259
-#, fuzzy, kde-format
-#| msgid "State..."
+#, kde-format
 msgctxt "add new state"
 msgid "State..."
 msgstr "Stato..."
 
 #: menus/listpopupmenu.cpp:261
-#, fuzzy, kde-format
-#| msgid "Join"
+#, kde-format
 msgid "Join"
-msgstr "Kuniĝi"
+msgstr "Kuniĝo"
 
 #: menus/listpopupmenu.cpp:264 worktoolbar.cpp:373
 #, kde-format
@@ -4833,15 +4811,13 @@ msgid "New"
 msgstr "Nova"
 
 #: menus/listpopupmenu.cpp:502
-#, fuzzy, kde-format
-#| msgid "New"
+#, kde-format
 msgctxt "new sub menu"
 msgid "New"
 msgstr "Nova"
 
 #: menus/listpopupmenu.cpp:513
-#, fuzzy, kde-format
-#| msgid "Category Type"
+#, kde-format
 msgctxt "category type sub menu"
 msgid "Category Type"
 msgstr "Kategoria Tipo"
@@ -4868,10 +4844,9 @@ msgid "Change into Class"
 msgstr "Ŝanĝi al Klaso"
 
 #: menus/umllistviewpopupmenu.cpp:160 menus/widgetbasepopupmenu.cpp:201
-#, fuzzy, kde-format
-#| msgid "Change into Interface"
+#, kde-format
 msgid "Change into Package"
-msgstr "Ŝanĝi al Interfaco"
+msgstr "Ŝanĝi al Pako"
 
 #: menus/umlscenepopupmenu.cpp:53
 #, kde-format
@@ -4884,8 +4859,7 @@ msgid "Snap to Grid"
 msgstr "Vicigi al Krado"
 
 #: menus/umlscenepopupmenu.cpp:59
-#, fuzzy, kde-format
-#| msgid "Snap component size"
+#, kde-format
 msgid "Snap Component Size to Grid"
 msgstr "Kradigi grandecon de komponantoj"
 
@@ -4895,15 +4869,14 @@ msgid "Show Grid"
 msgstr "Montri Kradon"
 
 #: menus/umlscenepopupmenu.cpp:63
-#, fuzzy, kde-format
-#| msgid "Show operation signature"
+#, kde-format
 msgid "Show Documentation Indicator"
-msgstr "Montri operacisignaturon"
+msgstr "Montri Dokumentadan Indikilon"
 
 #: menus/umlscenepopupmenu.cpp:105
 #, kde-format
 msgid "apply '%1'"
-msgstr ""
+msgstr "apliki '%1'"
 
 #: menus/widgetbasepopupmenu.cpp:86
 #, kde-format
@@ -4921,16 +4894,14 @@ msgid "Attribute Signature"
 msgstr "Atributa Signaturo"
 
 #: menus/widgetbasepopupmenu.cpp:119 menus/widgetbasepopupmenu.cpp:127
-#, fuzzy, kde-format
-#| msgid "Show Attribute Signature"
+#, kde-format
 msgid "Show Signatures"
-msgstr "Montri Atributsignaturon"
+msgstr "Montri Signaturojn"
 
 #: menus/widgetbasepopupmenu.cpp:120 menus/widgetbasepopupmenu.cpp:128
-#, fuzzy, kde-format
-#| msgid "Attribute Signature"
+#, kde-format
 msgid "Hide Signatures"
-msgstr "Atributa Signaturo"
+msgstr "Kaŝi signaturojn"
 
 #: menus/widgetbasepopupmenu.cpp:134
 #, kde-format
@@ -4943,16 +4914,14 @@ msgid "Show Non-public members"
 msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:138
-#, fuzzy, kde-format
-#| msgid "Package"
+#, kde-format
 msgid "Packages"
-msgstr "Pako"
+msgstr "Pakoj"
 
 #: menus/widgetbasepopupmenu.cpp:144
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "Stereotypes"
-msgstr "Stereotipo"
+msgstr "Stereotipoj"
 
 #: menus/widgetbasepopupmenu.cpp:203
 #, kde-format
@@ -4980,10 +4949,9 @@ msgid "Rename Class..."
 msgstr "Renomi Klason..."
 
 #: menus/widgetbasepopupmenu.cpp:277 menus/widgetbasepopupmenu.cpp:444
-#, fuzzy, kde-format
-#| msgid "Name is Not Unique"
+#, kde-format
 msgid "Name as Tooltip"
-msgstr "Nomo ne estas unika"
+msgstr "Nomo kiel Konsileto"
 
 #: menus/widgetbasepopupmenu.cpp:296
 #, kde-format
@@ -5008,10 +4976,9 @@ msgid "Change Text..."
 msgstr "Ŝanĝi Tektston..."
 
 #: menus/widgetbasepopupmenu.cpp:334 menus/widgetbasepopupmenu.cpp:585
-#, fuzzy, kde-format
-#| msgid "Autosave"
+#, kde-format
 msgid "Auto resize"
-msgstr "Aŭtokonservado"
+msgstr "Aŭtomata grandigoŝanĝo"
 
 #: menus/widgetbasepopupmenu.cpp:367
 #, kde-format
@@ -5056,8 +5023,7 @@ msgid "Change Name"
 msgstr "Ŝanĝi Nomon"
 
 #: menus/widgetbasepopupmenu.cpp:533 menus/widgetbasepopupmenu.cpp:614
-#, fuzzy, kde-format
-#| msgid "Color"
+#, kde-format
 msgctxt "color menu"
 msgid "Color"
 msgstr "Koloro"
@@ -5070,17 +5036,15 @@ msgid "Use Fill Color"
 msgstr "Uzi Plenigan Koloron"
 
 #: menus/widgetbasepopupmenu.cpp:537
-#, fuzzy, kde-format
-#| msgid "Fill Color"
+#, kde-format
 msgid "No Fill Color"
-msgstr "Pleniga Koloro"
+msgstr "Neniu Pleniga Koloro"
 
 #: menus/widgetbasepopupmenu.cpp:593
-#, fuzzy, kde-format
-#| msgid "&Align"
+#, kde-format
 msgctxt "align menu"
 msgid "Align"
-msgstr "&Vicigi"
+msgstr "Vicigi"
 
 #: menus/widgetbasepopupmenu.cpp:594 uml.cpp:659
 #, kde-format
@@ -5168,16 +5132,14 @@ msgid "new_entity"
 msgstr "nova_ento"
 
 #: model_utils.cpp:570
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "new_entity_attribute"
-msgstr "nova_atributo"
+msgstr "nova_entoatributo"
 
 #: model_utils.cpp:571
-#, fuzzy, kde-format
-#| msgid "new_fkey_constraint"
+#, kde-format
 msgid "new_entity_constraint"
-msgstr "nova_fkey_limigo"
+msgstr "nova_entolimigo"
 
 #: model_utils.cpp:572
 #, kde-format
@@ -5185,10 +5147,9 @@ msgid "new_enum"
 msgstr "nova_enum"
 
 #: model_utils.cpp:573
-#, fuzzy, kde-format
-#| msgid "new_literal"
+#, kde-format
 msgid "new_enum_literal"
-msgstr "nova_literalo"
+msgstr "nova_enum_literalo"
 
 #: model_utils.cpp:574
 #, kde-format
@@ -5196,22 +5157,19 @@ msgid "new_folder"
 msgstr "nova_teko"
 
 #: model_utils.cpp:575
-#, fuzzy, kde-format
-#| msgid "new_fkey_constraint"
+#, kde-format
 msgid "new_foreign_key_constraint"
-msgstr "nova_fkey_limigo"
+msgstr "nova_fremdŝlosila_limigo"
 
 #: model_utils.cpp:576
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "new_instance"
-msgstr "nova_interfaco"
+msgstr "nova_istanco"
 
 #: model_utils.cpp:577
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "new_instance_attribute"
-msgstr "Ento-Atributoj"
+msgstr "nova_entoatributo"
 
 #: model_utils.cpp:578
 #, kde-format
@@ -5234,22 +5192,19 @@ msgid "new_package"
 msgstr "nova_pako"
 
 #: model_utils.cpp:582
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new_port"
-msgstr "nova_aktoro"
+msgstr "nova_konektejo"
 
 #: model_utils.cpp:583
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "new_role"
-msgstr "nova_teko"
+msgstr "nova_rolo"
 
 #: model_utils.cpp:584
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "new_stereotype"
-msgstr "Stereotipo"
+msgstr "nova_stereotipo"
 
 #: model_utils.cpp:585 umlmodel/umlcanvasobject.cpp:192
 #, kde-format
@@ -5263,8 +5218,8 @@ msgstr ""
 
 #: model_utils.cpp:587
 #, fuzzy, kde-format
-#| msgid "new_usecase"
-msgid "new_use case"
+#| msgid "new_use case"
+msgid "new_use_case"
 msgstr "nova_uzkazo"
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
@@ -5273,700 +5228,584 @@ msgid "new_object"
 msgstr "nova_objekto"
 
 #: model_utils.cpp:609 umlwidgets/widget_utils.cpp:872
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "New actor"
-msgstr "nova_aktoro"
+msgstr "Nova aktoro"
 
 #: model_utils.cpp:610 umlwidgets/widget_utils.cpp:873
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "New artifact"
-msgstr "nova_artefaraĵo"
+msgstr "Nova artefaraĵo"
 
 #: model_utils.cpp:611 umlwidgets/widget_utils.cpp:874
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "New association"
-msgstr "nova_asocio"
+msgstr "Nova asocio"
 
 #: model_utils.cpp:612
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "New attribute"
-msgstr "nova_atributo"
+msgstr "Nova atributo"
 
 #: model_utils.cpp:613 umlwidgets/widget_utils.cpp:876
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "New category"
-msgstr "nova_kategorio"
+msgstr "Nova kategorio"
 
 #: model_utils.cpp:614
-#, fuzzy, kde-format
-#| msgid "new_check_constraint"
+#, kde-format
 msgid "New check constraint"
-msgstr "nova_kontrol_limigo"
+msgstr "Nova kontrol-limigo"
 
 #: model_utils.cpp:615 umlwidgets/widget_utils.cpp:877
-#, fuzzy, kde-format
-#| msgid "New Class"
+#, kde-format
 msgid "New class"
-msgstr "Nova Klaso"
+msgstr "Nova klaso"
 
 #: model_utils.cpp:616 umlwidgets/widget_utils.cpp:879
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "New component"
-msgstr "nova_komponanto"
+msgstr "Nova komponanto"
 
 #: model_utils.cpp:617 umlwidgets/widget_utils.cpp:880
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "New datatype"
-msgstr "nova_datumtipo"
+msgstr "Nova datumtipo"
 
 #: model_utils.cpp:618 umlwidgets/widget_utils.cpp:881
-#, fuzzy, kde-format
-#| msgid "new_entity"
+#, kde-format
 msgid "New entity"
-msgstr "nova_ento"
+msgstr "Nova ento"
 
 #: model_utils.cpp:619
-#, fuzzy, kde-format
-#| msgid "New Entity Attribute..."
+#, kde-format
 msgid "New entity attribute"
-msgstr "Nova Ento-Atributo..."
+msgstr "Nova ento-atributo"
 
 #: model_utils.cpp:620
-#, fuzzy, kde-format
-#| msgid "Entity Constraints"
+#, kde-format
 msgid "New entity constraint"
-msgstr "Ento-Limigoj"
+msgstr "Nova ento-limigo"
 
 #: model_utils.cpp:621 umlwidgets/widget_utils.cpp:882
-#, fuzzy, kde-format
-#| msgid "new_enum"
+#, kde-format
 msgid "New enum"
-msgstr "nova_enum"
+msgstr "Nova enum"
 
 #: model_utils.cpp:622
-#, fuzzy, kde-format
-#| msgid "N&ew Enum Literal..."
+#, kde-format
 msgid "New enum literal"
-msgstr "N&ova Enum-Literalo..."
+msgstr "Nova enum-valoro"
 
 #: model_utils.cpp:623
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "New folder"
-msgstr "nova_teko"
+msgstr "Nova teko"
 
 #: model_utils.cpp:624
-#, fuzzy, kde-format
-#| msgid "Foreign Key Constraint..."
+#, kde-format
 msgid "New foreign key constraint"
-msgstr "Limigo por Ekstera Ŝlosilo..."
+msgstr "Nova fremdŝlosila limigo"
 
 #: model_utils.cpp:625 umlwidgets/widget_utils.cpp:885
-#, fuzzy, kde-format
-#| msgid "Instance name:"
+#, kde-format
 msgid "New instance"
-msgstr "Instancnomo:"
+msgstr "Nova instanco"
 
 #: model_utils.cpp:626
-#, fuzzy, kde-format
-#| msgid "N&ew Entity Attribute..."
+#, kde-format
 msgid "New instance attribute"
-msgstr "N&ova Ento-Atributo..."
+msgstr "Nova ento-atributo..."
 
 #: model_utils.cpp:627 umlwidgets/widget_utils.cpp:886
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "New interface"
-msgstr "nova_interfaco"
+msgstr "Nova interfaco"
 
 #: model_utils.cpp:628 umlwidgets/widget_utils.cpp:888
-#, fuzzy, kde-format
-#| msgid "new_node"
+#, kde-format
 msgid "New node"
-msgstr "nova_nodo"
+msgstr "Nova nodo"
 
 #: model_utils.cpp:629
-#, fuzzy, kde-format
-#| msgid "new_operation"
+#, kde-format
 msgid "New operation"
-msgstr "nova_operacio"
+msgstr "Nova operacio"
 
 #: model_utils.cpp:630 umlwidgets/widget_utils.cpp:892
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "New package"
-msgstr "nova_pako"
+msgstr "Nova pako"
 
 #: model_utils.cpp:631 umlwidgets/widget_utils.cpp:894
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "New port"
-msgstr "nova_aktoro"
+msgstr "Nova konektilo"
 
 #: model_utils.cpp:632
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New role"
-msgstr "Stereotipo"
+msgstr "Nova rolo"
 
 #: model_utils.cpp:633
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New stereotype"
-msgstr "Stereotipo"
+msgstr "Nova stereotipo"
 
 #: model_utils.cpp:634
-#, fuzzy, kde-format
-#| msgid "new_template"
+#, kde-format
 msgid "New template"
-msgstr "nova_ŝablono"
+msgstr "Nova ŝablono"
 
 #: model_utils.cpp:635
-#, fuzzy, kde-format
-#| msgid "Unique Constraint..."
+#, kde-format
 msgid "New unique constraint"
-msgstr "Unika Limigo..."
+msgstr "Nova unika limigo"
 
 #: model_utils.cpp:636 umlwidgets/widget_utils.cpp:901
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "New use case"
-msgstr "nova_uzkazo"
+msgstr "Nova uzkazo"
 
 #: model_utils.cpp:639
-#, fuzzy, kde-format
-#| msgid "UML Object Color"
+#, kde-format
 msgid "New UML object"
-msgstr "UML-Objektkoloro"
+msgstr "Nova UML-objekto"
 
 #: model_utils.cpp:651 umlwidgets/widget_utils.cpp:918
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new actor:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova aktoro:"
 
 #: model_utils.cpp:652 umlwidgets/widget_utils.cpp:919
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new artifact:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova artefaraĵo:"
 
 #: model_utils.cpp:653 umlwidgets/widget_utils.cpp:920
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new association:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova asocio:"
 
 #: model_utils.cpp:654
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new attribute:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova atributo"
 
 #: model_utils.cpp:655 umlwidgets/widget_utils.cpp:922
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new category:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova kategorio:"
 
 #: model_utils.cpp:656
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new check constraint:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova kontrol-limigo:"
 
 #: model_utils.cpp:657 umlwidgets/widget_utils.cpp:923
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new class:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova klaso:"
 
 #: model_utils.cpp:658 umlwidgets/widget_utils.cpp:925
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new component:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova komponanto:"
 
 #: model_utils.cpp:659 umlwidgets/widget_utils.cpp:926
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new datatype:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova datumtipo:"
 
 #: model_utils.cpp:660 umlwidgets/widget_utils.cpp:927
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new entity:"
-msgstr "Enigu la nomon de la nova aktiveco:"
+msgstr "Enigi nomon de la nova ento:"
 
 #: model_utils.cpp:661
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new entity attribute:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova ento-atributo:"
 
 #: model_utils.cpp:662
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new entity constraint:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova ento-limigo:"
 
 #: model_utils.cpp:663 umlwidgets/widget_utils.cpp:928
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new enum:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova nombrigtipo:"
 
 #: model_utils.cpp:664
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new enum literal:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de nova nombrigvaloro:"
 
 #: model_utils.cpp:665
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new folder:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de nova teko:"
 
 #: model_utils.cpp:666
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new foreign key constraint:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova fremdŝlosila limigo:"
 
 #: model_utils.cpp:667 umlwidgets/widget_utils.cpp:931
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new instance:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova instanco:"
 
 #: model_utils.cpp:668
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new instance attribute:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova instanc-atributo:"
 
 #: model_utils.cpp:669 umlwidgets/widget_utils.cpp:932
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new interface:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova interfaco:"
 
 #: model_utils.cpp:670 umlwidgets/widget_utils.cpp:934
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new node:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova nodo:"
 
 #: model_utils.cpp:671
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new operation:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova operacio:"
 
 #: model_utils.cpp:672 umlwidgets/widget_utils.cpp:938
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new package:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova pako:"
 
 #: model_utils.cpp:673 umlwidgets/widget_utils.cpp:940
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new port:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de lanova konektilo:"
 
 #: model_utils.cpp:674
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new role:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova rolo:"
 
 #: model_utils.cpp:675
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new stereotype:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova stereotipo:"
 
 #: model_utils.cpp:676
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new template:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova ŝablono:"
 
 #: model_utils.cpp:677
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new unique constraint:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova unika limigo:"
 
 #: model_utils.cpp:678 umlwidgets/widget_utils.cpp:947
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new use case:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova uzkazo:"
 
 #: model_utils.cpp:681
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object flow"
+#, kde-format
 msgid "Enter the name of the new UML object"
-msgstr "Enigu la nomon de la objektfluo"
+msgstr "Enigi nomon de la nova UML-objekto"
 
 #: model_utils.cpp:693 umlwidgets/widget_utils.cpp:963
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename actor"
-msgstr "Renomi Objekton"
+msgstr "Renomi aktoron"
 
 #: model_utils.cpp:694 umlwidgets/widget_utils.cpp:964
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "Rename artifact"
-msgstr "nova_artefaraĵo"
+msgstr "Renomi artefaraĵon"
 
 #: model_utils.cpp:695 umlwidgets/widget_utils.cpp:965
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "Rename association"
-msgstr "nova_asocio"
+msgstr "Renomi asocion"
 
 #: model_utils.cpp:696
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "Rename attribute"
-msgstr "nova_atributo"
+msgstr "Renomi atributon"
 
 #: model_utils.cpp:697 umlwidgets/widget_utils.cpp:967
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "Rename category"
-msgstr "nova_kategorio"
+msgstr "Renomi kategorion"
 
 #: model_utils.cpp:698
-#, fuzzy, kde-format
-#| msgid "new_check_constraint"
+#, kde-format
 msgid "Rename check constraint"
-msgstr "nova_kontrol_limigo"
+msgstr "Renomi kontrol-limigon"
 
 #: model_utils.cpp:699 umlwidgets/widget_utils.cpp:968
-#, fuzzy, kde-format
-#| msgid "Rename Class..."
+#, kde-format
 msgid "Rename class"
-msgstr "Renomi Klason..."
+msgstr "Renomi klason"
 
 #: model_utils.cpp:700 umlwidgets/widget_utils.cpp:970
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "Rename component"
-msgstr "nova_komponanto"
+msgstr "Renomi komponanton"
 
 #: model_utils.cpp:701 umlwidgets/widget_utils.cpp:971
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "Rename datatype"
-msgstr "nova_datumtipo"
+msgstr "Renomi datumtipon"
 
 #: model_utils.cpp:702 umlwidgets/widget_utils.cpp:972
-#, fuzzy, kde-format
-#| msgid "Rename Activity"
+#, kde-format
 msgid "Rename entity"
-msgstr "Alinomi Aktivecon"
+msgstr "Renomi enton"
 
 #: model_utils.cpp:703
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Rename entity attribute"
-msgstr "Ento-Atributoj"
+msgstr "Renomi ento-atributon"
 
 #: model_utils.cpp:704
-#, fuzzy, kde-format
-#| msgid "Entity Constraints"
+#, kde-format
 msgid "Rename entity constraint"
-msgstr "Ento-Limigoj"
+msgstr "Renomi ento-limigon"
 
 #: model_utils.cpp:705 umlwidgets/widget_utils.cpp:973
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename enum"
-msgstr "Renomi"
+msgstr "Renomi nombrigtipon"
 
 #: model_utils.cpp:706
-#, fuzzy, kde-format
-#| msgid "Enum Literals"
+#, kde-format
 msgid "Rename enum literal"
-msgstr "Enum-Literaloj"
+msgstr "Renomi nombrigvaloron"
 
 #: model_utils.cpp:707
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "Rename folder"
-msgstr "nova_teko"
+msgstr "Renomi tekon"
 
 #: model_utils.cpp:708
-#, fuzzy, kde-format
-#| msgid "Foreign Key Constraint..."
+#, kde-format
 msgid "Rename foreign key constraint"
-msgstr "Limigo por Ekstera Ŝlosilo..."
+msgstr "Renomi fremdŝlosilan limigon"
 
 #: model_utils.cpp:709 umlwidgets/widget_utils.cpp:976
-#, fuzzy, kde-format
-#| msgid "Rename canceled"
+#, kde-format
 msgid "Rename instance"
-msgstr "Renomado nuligita"
+msgstr "Renomi instancon"
 
 #: model_utils.cpp:710
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Rename instance attribute"
-msgstr "Ento-Atributoj"
+msgstr "Renomi instanc-atributon"
 
 #: model_utils.cpp:711 umlwidgets/widget_utils.cpp:977
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "Rename interface"
-msgstr "Uzant-interfaco"
+msgstr "Renomi interfacon"
 
 #: model_utils.cpp:712 umlwidgets/widget_utils.cpp:979
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename node"
-msgstr "Renomi"
+msgstr "Renomi nodon"
 
 #: model_utils.cpp:713
-#, fuzzy, kde-format
-#| msgid "new_operation"
+#, kde-format
 msgid "Rename operation"
-msgstr "nova_operacio"
+msgstr "Renomi operacion"
 
 #: model_utils.cpp:714 umlwidgets/widget_utils.cpp:983
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "Rename package"
-msgstr "nova_pako"
+msgstr "Renomi pakon"
 
 #: model_utils.cpp:715 umlwidgets/widget_utils.cpp:985
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "Rename port"
-msgstr "nova_aktoro"
+msgstr "Renomi aktoron"
 
 #: model_utils.cpp:716
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename role"
-msgstr "Renomi"
+msgstr "Renomi rolon"
 
 #: model_utils.cpp:717
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "Rename stereotype"
-msgstr "Stereotipo"
+msgstr "Renomi stereotipon"
 
 #: model_utils.cpp:718
-#, fuzzy, kde-format
-#| msgid "new_template"
+#, kde-format
 msgid "Rename template"
-msgstr "nova_ŝablono"
+msgstr "Renomi ŝablonon"
 
 #: model_utils.cpp:719
-#, fuzzy, kde-format
-#| msgid "Unique Constraint..."
+#, kde-format
 msgid "Rename unique constraint"
-msgstr "Unika Limigo..."
+msgstr "Renomi unikan limigon"
 
 #: model_utils.cpp:720 umlwidgets/widget_utils.cpp:992
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "Rename use case"
-msgstr "nova_uzkazo"
+msgstr "Renomi uzkazon"
 
 #: model_utils.cpp:723
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename UML object"
-msgstr "Renomi Objekton"
+msgstr "Renomi UML-objekton"
 
 #: model_utils.cpp:735 umlwidgets/widget_utils.cpp:1009
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the actor:"
-msgstr "Enigu la novan nomon de la aktiveco:"
+msgstr "Enigu la novan nomon de la aktoro:"
 
 #: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1010
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the artifact:"
-msgstr "Enigu la novan nomon de la aktiveco:"
+msgstr "Enigu la novan nomon de la artefaraĵo:"
 
 #: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1011
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the association:"
-msgstr "Enigu la novan nomon de la aktiveco:"
+msgstr "Enigu la novan nomon de la asocio:"
 
 #: model_utils.cpp:738
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the attribute:"
-msgstr "Enigu la novan nomon de la aktiveco:"
+msgstr "Enigu la novan nomon de la atributo:"
 
 #: model_utils.cpp:739 umlwidgets/widget_utils.cpp:1013
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the category:"
-msgstr "Enigu la novan nomon de la diagramo:"
+msgstr "Enigu la novan nomon de la kategorio:"
 
 #: model_utils.cpp:740
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the check constraint:"
-msgstr "Enigu la novan nomon de la aktiveco:"
+msgstr "Enigu la novan nomon de la kontrol-limigo:"
 
 #: model_utils.cpp:741 umlwidgets/widget_utils.cpp:1014
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the class:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la klaso:"
 
 #: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1016
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the component:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la komponanto:"
 
 #: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1017
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the datatype:"
-msgstr "Enigu la novan nomon de la aktiveco:"
+msgstr "Enigu la novan nomon de la datumtipo:"
 
 #: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1018
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity:"
-msgstr "Enigu la novan nomon de la aktiveco:"
+msgstr "Enigu la novan nomon de la ento:"
 
 #: model_utils.cpp:745
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity attribute:"
-msgstr "Enigu la novan nomon de la aktiveco:"
+msgstr "Enigu la novan nomon de la ento-atributo:"
 
 #: model_utils.cpp:746
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity constraint:"
-msgstr "Enigu la novan nomon de la aktiveco:"
+msgstr "Enigu la novan nomon de la ento-limigo:"
 
 #: model_utils.cpp:747 umlwidgets/widget_utils.cpp:1019
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the enum:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la nombrigtipo:"
 
 #: model_utils.cpp:748
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the enum literal:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la nombrigvaloro:"
 
 #: model_utils.cpp:749
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the folder:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la teko:"
 
 #: model_utils.cpp:750
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the foreign key constraint:"
-msgstr "Enigu la novan nomon de la diagramo:"
+msgstr "Enigu la novan nomon de la fremdŝlosila limigo:"
 
 #: model_utils.cpp:751 umlwidgets/widget_utils.cpp:1022
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the instance:"
-msgstr "Enigu la novan nomon de la diagramo:"
+msgstr "Enigu la novan nomon de la instanco:"
 
 #: model_utils.cpp:752
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the instance attribute:"
-msgstr "Enigu la novan nomon de la aktiveco:"
+msgstr "Enigu la novan nomon de la instanc-atributo:"
 
 #: model_utils.cpp:753 umlwidgets/widget_utils.cpp:1023
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the interface:"
-msgstr "Enigu la novan nomon de la diagramo:"
+msgstr "Enigu la novan nomon de la interfaco:"
 
 #: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1025
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the node:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la nodo:"
 
 #: model_utils.cpp:755
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the operation:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la operacio:"
 
 #: model_utils.cpp:756 umlwidgets/widget_utils.cpp:1029
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the package:"
-msgstr "Enigu la novan nomon de la diagramo:"
+msgstr "Enigu la novan nomon de la pako:"
 
 #: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1031
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the port:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la konektilo:"
 
 #: model_utils.cpp:758
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the role:"
 msgstr "Enigu la novan nomon de la modelo:"
 
 #: model_utils.cpp:759
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the stereotype:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la stereotipo:"
 
 #: model_utils.cpp:760
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the template:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la ŝablono:"
 
 #: model_utils.cpp:761
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the new name of the unique constraint:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigu nomon de la unika limigo:"
 
 #: model_utils.cpp:762 umlwidgets/widget_utils.cpp:1038
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the use case:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la uzkazo:"
 
 #: model_utils.cpp:765
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the UML object"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la UML-objekto:"
 
 #: model_utils.cpp:1201
 #, kde-format
@@ -5974,8 +5813,7 @@ msgid "OK"
 msgstr "Bona"
 
 #: model_utils.cpp:1201
-#, fuzzy, kde-format
-#| msgid "Empty"
+#, kde-format
 msgctxt "parse status"
 msgid "Empty"
 msgstr "Malplena"
@@ -6012,16 +5850,14 @@ msgid "Name"
 msgstr "Nomo"
 
 #: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:80
-#, fuzzy, kde-format
-#| msgid "Type:"
+#, kde-format
 msgid "Type"
-msgstr "Tipo:"
+msgstr "Tipo"
 
 #: models/diagramsmodel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Associations"
+#, kde-format
 msgid "Widgets/Associations"
-msgstr "Asocioj"
+msgstr "Fenestraĵoj/Asocioj"
 
 #: models/objectsmodel.cpp:84
 #, kde-format
@@ -6029,10 +5865,9 @@ msgid "ID"
 msgstr ""
 
 #: models/objectsmodel.cpp:86
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Saved"
-msgstr "Konservi kiel"
+msgstr "Konservita"
 
 #: models/objectsmodel.cpp:88
 #, kde-format
@@ -6040,16 +5875,14 @@ msgid "Parent"
 msgstr ""
 
 #: models/objectsmodel.cpp:90
-#, fuzzy, kde-format
-#| msgid "Add only"
+#, kde-format
 msgid "Pointer"
-msgstr "Nur aldoni"
+msgstr "Montrilo"
 
 #: models/stereotypesmodel.cpp:53
-#, fuzzy, kde-format
-#| msgid "Message"
+#, kde-format
 msgid "Usage"
-msgstr "Mesaĝo"
+msgstr "Uzado"
 
 #: object_factory.cpp:255 umldoc.cpp:1779 umldoc.cpp:1814
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
@@ -6135,16 +5968,14 @@ msgid "Derived Classifiers"
 msgstr "Derivitaj Klasifikiloj"
 
 #: refactoring/refactoringassistant.cpp:842
-#, fuzzy, kde-format
-#| msgid "An operation with that signature already exists in %1.\n"
+#, kde-format
 msgid "An attribute with that name already exists in %1.\n"
-msgstr "Operacio kun tiu signaturo jam ekzistas en %1.\n"
+msgstr "Atributo kun tiu nomo jam ekzistas en %1.\n"
 
 #: refactoring/refactoringassistant.cpp:844
-#, fuzzy, kde-format
-#| msgid "&Use a different name"
+#, kde-format
 msgid "Choose a different name."
-msgstr "&Uzu alian nomon"
+msgstr "Uzu alian nomon."
 
 #: toolbarstateassociation.cpp:182 toolbarstateassociation.cpp:280
 #, kde-format
@@ -6289,10 +6120,9 @@ msgstr "Nova Kodgenerilo"
 
 #. i18n: ectx: whatsthis, entry (newcodegen), group (General Options)
 #: umbrello.kcfg:33
-#, fuzzy, kde-format
-#| msgid "Auto Generate Empty Constructors"
+#, kde-format
 msgid "Enables/Disables Support for the New Code Generator"
-msgstr "Aŭtogeneri Malplenajn Konstruilojn"
+msgstr "Enŝaltas/Elŝaltas Subtenon por la Nova Kodgenerilo"
 
 #. i18n: ectx: label, entry (angularlines), group (General Options)
 #: umbrello.kcfg:37
@@ -6308,10 +6138,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (layoutType), group (General Options)
 #: umbrello.kcfg:42
-#, fuzzy, kde-format
-#| msgid "Auto Save"
+#, kde-format
 msgid "Layout Type"
-msgstr "Aŭtokonservado"
+msgstr "Aranĝotipo"
 
 #. i18n: ectx: whatsthis, entry (layoutType), group (General Options)
 #: umbrello.kcfg:43
@@ -6327,10 +6156,9 @@ msgstr "Presado de Piedoj"
 
 #. i18n: ectx: whatsthis, entry (footerPrinting), group (General Options)
 #: umbrello.kcfg:56
-#, fuzzy, kde-format
-#| msgid "Inline operations"
+#, kde-format
 msgid "Enables/Disables Support for footer printing"
-msgstr "Entekstigi operaciojn"
+msgstr "Enŝaltas/Elŝaltas Subtenon por piednota printado"
 
 #. i18n: ectx: label, entry (autosave), group (General Options)
 #: umbrello.kcfg:60
@@ -6340,10 +6168,9 @@ msgstr "Aŭtokonservado"
 
 #. i18n: ectx: whatsthis, entry (autosave), group (General Options)
 #: umbrello.kcfg:61
-#, fuzzy, kde-format
-#| msgid "Auto Generate Empty Constructors"
+#, kde-format
 msgid "Enables/Disables Auto Saving at Regular Intervals"
-msgstr "Aŭtogeneri Malplenajn Konstruilojn"
+msgstr "Enŝaltas/Elŝaltas Aŭtomatan Konservadon je Regula Intervalo"
 
 #. i18n: ectx: label, entry (time), group (General Options)
 #: umbrello.kcfg:65
@@ -6359,10 +6186,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autosavesuffix), group (General Options)
 #: umbrello.kcfg:79
-#, fuzzy, kde-format
-#| msgid "Auto Save"
+#, kde-format
 msgid "Auto Save Suffix"
-msgstr "Aŭtokonservado"
+msgstr "Aŭtokonservada Sufikso"
 
 #. i18n: ectx: whatsthis, entry (autosavesuffix), group (General Options)
 #: umbrello.kcfg:80
@@ -6378,10 +6204,9 @@ msgstr "Ŝargi Lastan"
 
 #. i18n: ectx: whatsthis, entry (loadlast), group (General Options)
 #: umbrello.kcfg:85
-#, fuzzy, kde-format
-#| msgid "Inline operations"
+#, kde-format
 msgid "Enables/Disables Loading of the last open file"
-msgstr "Entekstigi operaciojn"
+msgstr "Enŝaltas/Elŝaltas Ŝarĝadon de la lasta malfermita dosiero"
 
 #. i18n: ectx: label, entry (diagram), group (General Options)
 #: umbrello.kcfg:89
@@ -6391,10 +6216,9 @@ msgstr "Diagramo ŝargenda dum lanĉo"
 
 #. i18n: ectx: whatsthis, entry (diagram), group (General Options)
 #: umbrello.kcfg:90
-#, fuzzy, kde-format
-#| msgid "Diagram To Load at Startup"
+#, kde-format
 msgid "The Diagram to load at startup"
-msgstr "Diagramo ŝargenda dum lanĉo"
+msgstr "La Diagramo ŝargenda dum lanĉo"
 
 #. i18n: ectx: label, entry (defaultLanguage), group (General Options)
 #: umbrello.kcfg:107
@@ -6416,17 +6240,15 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (uml2), group (General Options)
 #: umbrello.kcfg:141
-#, fuzzy, kde-format
-#| msgid "Force Section Documentation"
+#, kde-format
 msgid "Enables/Disables UML2 notation"
-msgstr "Devigi Sekcian Dokumentadon"
+msgstr "Enŝaltas/Elŝaltas UML2 notacion"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:148
-#, fuzzy, kde-format
-#| msgid "Virtual destructors"
+#, kde-format
 msgid "Enables/Disables usage of fill color"
-msgstr "Virtualaj malkonstruiloj"
+msgstr "Enŝaltas/Elŝaltas uzadon de pleniga koloro"
 
 #. i18n: ectx: label, entry (fillColor), group (UI Options)
 #: umbrello.kcfg:152
@@ -6436,8 +6258,7 @@ msgstr "Pleniga Koloro"
 
 #. i18n: ectx: whatsthis, entry (fillColor), group (UI Options)
 #: umbrello.kcfg:153
-#, fuzzy, kde-format
-#| msgid "Change Fill Color"
+#, kde-format
 msgid "The Fill Color to be used"
 msgstr "Ŝanĝi Plenigan Koloron"
 
@@ -6449,10 +6270,9 @@ msgstr "Linia Koloro"
 
 #. i18n: ectx: whatsthis, entry (lineColor), group (UI Options)
 #: umbrello.kcfg:158
-#, fuzzy, kde-format
-#| msgid "the directory of the file"
+#, kde-format
 msgid "The Color of the Lines"
-msgstr "la dosierujo de la dosiero"
+msgstr "La Koloro de la Linioj"
 
 #. i18n: ectx: label, entry (lineWidth), group (UI Options)
 #: umbrello.kcfg:162
@@ -6462,24 +6282,21 @@ msgstr "Larĝeco de linio"
 
 #. i18n: ectx: whatsthis, entry (lineWidth), group (UI Options)
 #: umbrello.kcfg:163
-#, fuzzy, kde-format
-#| msgid "the directory of the file"
+#, kde-format
 msgid "The Width of the Line"
-msgstr "la dosierujo de la dosiero"
+msgstr "La Larĝeco de la Linio"
 
 #. i18n: ectx: label, entry (textColor), group (UI Options)
 #: umbrello.kcfg:167
-#, fuzzy, kde-format
-#| msgid "Widget Color"
+#, kde-format
 msgid "Text Color"
-msgstr "Fenestraĵkoloro"
+msgstr "Tekstkoloro"
 
 #. i18n: ectx: whatsthis, entry (textColor), group (UI Options)
 #: umbrello.kcfg:168
-#, fuzzy, kde-format
-#| msgid "the directory of the file"
+#, kde-format
 msgid "The Color of the Text"
-msgstr "la dosierujo de la dosiero"
+msgstr "La Koloro da le Teksto"
 
 #. i18n: ectx: label, entry (showDocWindow), group (UI Options)
 #: umbrello.kcfg:172
@@ -6489,45 +6306,39 @@ msgstr "Montri Dokumentarfenestron"
 
 #. i18n: ectx: whatsthis, entry (showDocWindow), group (UI Options)
 #: umbrello.kcfg:173
-#, fuzzy, kde-format
-#| msgid "Inline operations"
+#, kde-format
 msgid "Enables/Disables showing of the doc window"
-msgstr "Entekstigi operaciojn"
+msgstr "Enŝaltas/Elŝaltas montradon de la dokumentada fenestro"
 
 #. i18n: ectx: whatsthis, entry (uiFont), group (UI Options)
 #: umbrello.kcfg:178
-#, fuzzy, kde-format
-#| msgid "Change Fill Color"
+#, kde-format
 msgid "The Font to be used"
-msgstr "Ŝanĝi Plenigan Koloron"
+msgstr "La Tiparo uzenda"
 
 #. i18n: ectx: label, entry (backgroundColor), group (UI Options)
 #: umbrello.kcfg:182
-#, fuzzy, kde-format
-#| msgid "Font Color"
+#, kde-format
 msgid "Background Color"
 msgstr "Tiparkoloro"
 
 #. i18n: ectx: whatsthis, entry (backgroundColor), group (UI Options)
 #: umbrello.kcfg:183
-#, fuzzy, kde-format
-#| msgid "the directory of the file"
+#, kde-format
 msgid "The Color of the diagram background"
-msgstr "la dosierujo de la dosiero"
+msgstr "La Koloro de la diagramfono"
 
 #. i18n: ectx: label, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:187
-#, fuzzy, kde-format
-#| msgid "Widget Color"
+#, kde-format
 msgid "Grid Dot Color"
-msgstr "Fenestraĵkoloro"
+msgstr "Kradpunkta Koloro"
 
 #. i18n: ectx: whatsthis, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:188
-#, fuzzy, kde-format
-#| msgid "the directory of the file"
+#, kde-format
 msgid "The Color of the grid dots"
-msgstr "la dosierujo de la dosiero"
+msgstr "La Koloro de la kradpunktoj"
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
 #: umbrello.kcfg:193
@@ -6555,10 +6366,9 @@ msgstr "Montri Atributojn"
 
 #. i18n: ectx: whatsthis, entry (showAtts), group (Class Options)
 #: umbrello.kcfg:205
-#, fuzzy, kde-format
-#| msgid "Show attributes"
+#, kde-format
 msgid "Show attributes of the class"
-msgstr "Montri atributojn"
+msgstr "Montri atributojn de la klaso"
 
 #. i18n: ectx: label, entry (showOps), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showOps), group (Class Options)
@@ -6575,8 +6385,7 @@ msgstr "Montri pakon"
 
 #. i18n: ectx: whatsthis, entry (showPackage), group (Class Options)
 #: umbrello.kcfg:215
-#, fuzzy, kde-format
-#| msgid "Inline operations"
+#, kde-format
 msgid "Enables/Disables showing of packages"
 msgstr "Entekstigi operaciojn"
 
@@ -6596,17 +6405,15 @@ msgstr "Montri Atributajn Asociojn"
 
 #. i18n: ectx: label, entry (showPublicOnly), group (Class Options)
 #: umbrello.kcfg:234
-#, fuzzy, kde-format
-#| msgid "Public Only"
+#, kde-format
 msgid "Show Public Only"
-msgstr "Nur Publika"
+msgstr "Montri Nur Publikajn"
 
 #. i18n: ectx: whatsthis, entry (showPublicOnly), group (Class Options)
 #: umbrello.kcfg:235
-#, fuzzy, kde-format
-#| msgid "Virtual destructors"
+#, kde-format
 msgid "Enables/Disables showing of public attributes/methods"
-msgstr "Virtualaj malkonstruiloj"
+msgstr "Enŝaltas/Elŝaltas montradon de publikaj atributoj/metodoj"
 
 #. i18n: ectx: label, entry (showAttSig), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showAttSig), group (Class Options)
@@ -6649,10 +6456,9 @@ msgstr "Alteco"
 
 #. i18n: ectx: whatsthis, entry (height), group (Code Viewer Options)
 #: umbrello.kcfg:276
-#, fuzzy, kde-format
-#| msgid "Code Viewer"
+#, kde-format
 msgid "Height of the code viewer"
-msgstr "Kodmontrilo"
+msgstr "Alteco de la kodmontrilo"
 
 #. i18n: ectx: label, entry (width), group (Code Viewer Options)
 #: umbrello.kcfg:281
@@ -6662,10 +6468,9 @@ msgstr "Larĝeco"
 
 #. i18n: ectx: whatsthis, entry (width), group (Code Viewer Options)
 #: umbrello.kcfg:282
-#, fuzzy, kde-format
-#| msgid "Code Viewer"
+#, kde-format
 msgid "Width of the Code Viewer"
-msgstr "Kodmontrilo"
+msgstr "Larĝeco de la kodmontrilo"
 
 #. i18n: ectx: label, entry (showHiddenBlocks), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (showHiddenBlocks), group (Code Viewer Options)
@@ -6682,17 +6487,15 @@ msgstr "Emfazi Blokojn"
 
 #. i18n: ectx: whatsthis, entry (blocksAreHighlighted), group (Code Viewer Options)
 #: umbrello.kcfg:293
-#, fuzzy, kde-format
-#| msgid "Inline operations"
+#, kde-format
 msgid "Enables/Disables Highlighting of blocks"
-msgstr "Entekstigi operaciojn"
+msgstr "Enŝaltas/Elŝaltas emfazadon de blokoj"
 
 #. i18n: ectx: whatsthis, entry (codeViewerFont), group (Code Viewer Options)
 #: umbrello.kcfg:298
-#, fuzzy, kde-format
-#| msgid "Code Viewer"
+#, kde-format
 msgid "Font to be used in the Code Viewer"
-msgstr "Kodmontrilo"
+msgstr "Tiparo uzenda en la Kodmontrilo"
 
 #. i18n: ectx: label, entry (paperColor), group (Code Viewer Options)
 #: umbrello.kcfg:302
@@ -6702,10 +6505,9 @@ msgstr "Paperkoloro"
 
 #. i18n: ectx: whatsthis, entry (paperColor), group (Code Viewer Options)
 #: umbrello.kcfg:303
-#, fuzzy, kde-format
-#| msgid "Closes the document"
+#, kde-format
 msgid "Color of the Paper"
-msgstr "Fermas la dokumenton"
+msgstr "Koloro de la Papero"
 
 #. i18n: ectx: label, entry (fontColor), group (Code Viewer Options)
 #: umbrello.kcfg:307
@@ -6715,10 +6517,9 @@ msgstr "Tiparkoloro"
 
 #. i18n: ectx: whatsthis, entry (fontColor), group (Code Viewer Options)
 #: umbrello.kcfg:308
-#, fuzzy, kde-format
-#| msgid "Closes the document"
+#, kde-format
 msgid "Color of the Font"
-msgstr "Fermas la dokumenton"
+msgstr "Koloro de la Tiparo"
 
 #. i18n: ectx: label, entry (selectedColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (selectedColor), group (Code Viewer Options)
@@ -6736,17 +6537,16 @@ msgstr "Koloro por Redakta Bloko"
 
 #. i18n: ectx: whatsthis, entry (editBlockColor), group (Code Viewer Options)
 #: umbrello.kcfg:318
-#, fuzzy, kde-format
-#| msgid "Closes the document"
+#, kde-format
 msgid "Color of the Edit Block"
-msgstr "Fermas la dokumenton"
+msgstr "Koloro de la Redaktobloko"
 
 #. i18n: ectx: label, entry (nonEditBlockColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (nonEditBlockColor), group (Code Viewer Options)
 #: umbrello.kcfg:322 umbrello.kcfg:323
 #, kde-format
 msgid "Non Edit Block Color"
-msgstr "Koloro por Neredakta Bloko"
+msgstr "Koloro de Neredakta Bloko"
 
 #. i18n: ectx: label, entry (umlObjectColor), group (Code Viewer Options)
 #: umbrello.kcfg:327
@@ -6756,10 +6556,9 @@ msgstr "UML-Objektkoloro"
 
 #. i18n: ectx: whatsthis, entry (umlObjectColor), group (Code Viewer Options)
 #: umbrello.kcfg:328
-#, fuzzy, kde-format
-#| msgid "Closes the document"
+#, kde-format
 msgid "Color of the UML Object"
-msgstr "Fermas la dokumenton"
+msgstr "Koloro de la UML-objekto"
 
 #. i18n: ectx: label, entry (hiddenColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (hiddenColor), group (Code Viewer Options)
@@ -6782,10 +6581,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (resolveDependencies), group (Code Importer)
 #: umbrello.kcfg:344
-#, fuzzy, kde-format
-#| msgid "Resolving object references..."
+#, kde-format
 msgid "Resolve dependencies"
-msgstr "Solvanta objektreferencojn..."
+msgstr "Solvanta dependecojn"
 
 #. i18n: ectx: whatsthis, entry (resolveDependencies), group (Code Importer)
 #: umbrello.kcfg:345
@@ -6813,10 +6611,9 @@ msgstr "Aŭtogeneri Malplenajn Konstruilojn"
 
 #. i18n: ectx: whatsthis, entry (autoGenEmptyConstructors), group (Code Generation)
 #: umbrello.kcfg:357
-#, fuzzy, kde-format
-#| msgid "Auto Generate Empty Constructors"
+#, kde-format
 msgid "Enables/Disables Auto Generation of Empty Constructors"
-msgstr "Aŭtogeneri Malplenajn Konstruilojn"
+msgstr "Enŝaltas/Elŝaltas Aŭtogeneradon de Malplenaj Konstruiloj"
 
 #. i18n: ectx: label, entry (commentStyle), group (Code Generation)
 #: umbrello.kcfg:361
@@ -6838,10 +6635,9 @@ msgstr "Apriora Videblo por Asociaj Kampoj"
 
 #. i18n: ectx: whatsthis, entry (defaultAssocFieldScope), group (Code Generation)
 #: umbrello.kcfg:371
-#, fuzzy, kde-format
-#| msgid "Default association field scope:"
+#, kde-format
 msgid "Sets the default Association field scope"
-msgstr "Aŭtomata videblo por asociaj kampoj:"
+msgstr "Metas la defaŭltan videblon por asociaj kampoj"
 
 #. i18n: ectx: label, entry (defaultAttributeAccessorScope), group (Code Generation)
 #: umbrello.kcfg:382
@@ -6851,10 +6647,9 @@ msgstr "Apriora Videblo por Atributaj Aliriloj:"
 
 #. i18n: ectx: whatsthis, entry (defaultAttributeAccessorScope), group (Code Generation)
 #: umbrello.kcfg:383
-#, fuzzy, kde-format
-#| msgid "Default attribute accessor scope:"
+#, kde-format
 msgid "Sets the default attribute accessor scope"
-msgstr "Aŭtomata videblo por atributaj aliriloj:"
+msgstr "Metas la defaŭltan videblon por atributaj aliriloj"
 
 #. i18n: ectx: label, entry (forceDoc), group (Code Generation)
 #: umbrello.kcfg:394
@@ -6864,10 +6659,9 @@ msgstr "Devigi Dokumentadon"
 
 #. i18n: ectx: whatsthis, entry (forceDoc), group (Code Generation)
 #: umbrello.kcfg:395
-#, fuzzy, kde-format
-#| msgid "Force Section Documentation"
+#, kde-format
 msgid "Enables/Disables Verbose Documentation"
-msgstr "Devigi Sekcian Dokumentadon"
+msgstr "Enŝaltas/Elŝaltas Vorteman Dokumentadon"
 
 #. i18n: ectx: label, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:399
@@ -6897,14 +6691,13 @@ msgstr ""
 #: umbrello.kcfg:414
 #, kde-format
 msgid "Include headings"
-msgstr "Enmeti ĉapkomentojn"
+msgstr "Enmeti titolkomentojn"
 
 #. i18n: ectx: whatsthis, entry (includeHeadings), group (Code Generation)
 #: umbrello.kcfg:415
-#, fuzzy, kde-format
-#| msgid "Inline operations"
+#, kde-format
 msgid "Enables/Disables inclusion of headings"
-msgstr "Entekstigi operaciojn"
+msgstr "Enŝaltas/Elŝaltas inkludon de titolkomentoj"
 
 #. i18n: ectx: label, entry (indentationAmount), group (Code Generation)
 #: umbrello.kcfg:419
@@ -6914,10 +6707,9 @@ msgstr "Indenta Kvanto"
 
 #. i18n: ectx: whatsthis, entry (indentationAmount), group (Code Generation)
 #: umbrello.kcfg:420
-#, fuzzy, kde-format
-#| msgid "No Indentation"
+#, kde-format
 msgid "The amount of indentation"
-msgstr "Neniu indento"
+msgstr "Ka kvanto de indento"
 
 #. i18n: ectx: label, entry (indentationType), group (Code Generation)
 #: umbrello.kcfg:425
@@ -6927,10 +6719,9 @@ msgstr "Indenta Tipo"
 
 #. i18n: ectx: whatsthis, entry (indentationType), group (Code Generation)
 #: umbrello.kcfg:426
-#, fuzzy, kde-format
-#| msgid "No Indentation"
+#, kde-format
 msgid "The Type of Indentation"
-msgstr "Neniu indento"
+msgstr "La tipo de indento"
 
 #. i18n: ectx: label, entry (lineEndingType), group (Code Generation)
 #: umbrello.kcfg:435
@@ -6977,10 +6768,9 @@ msgstr "Aŭto-Generi Alirilojn"
 
 #. i18n: ectx: whatsthis, entry (autoGenAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:474
-#, fuzzy, kde-format
-#| msgid "Auto Generate Empty Constructors"
+#, kde-format
 msgid "Enables/Disables auto generation of accessors"
-msgstr "Aŭtogeneri Malplenajn Konstruilojn"
+msgstr "Enŝaltas/Elŝaltas aŭtogeneradon de aliriloj"
 
 #. i18n: ectx: whatsthis, entry (classMemberPrefix), group (CPP Code Generation)
 #: umbrello.kcfg:479
@@ -6990,17 +6780,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (inlineAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:483
-#, fuzzy, kde-format
-#| msgid "Auto Generate Accessors"
+#, kde-format
 msgid "Inline Accessors"
-msgstr "Aŭto-Generi Alirilojn"
+msgstr "Entekstigataj Aliriloj"
 
 #. i18n: ectx: whatsthis, entry (inlineAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:484
-#, fuzzy, kde-format
-#| msgid "Inline operations"
+#, kde-format
 msgid "Enables/Disables Inline accessors"
-msgstr "Entekstigi operaciojn"
+msgstr "Enŝaltas/Elŝaltas entekstigatajn alirilojn"
 
 #. i18n: ectx: label, entry (inlineOps), group (CPP Code Generation)
 #: umbrello.kcfg:488
@@ -7010,10 +6798,9 @@ msgstr "Entekstigi operaciojn"
 
 #. i18n: ectx: whatsthis, entry (inlineOps), group (CPP Code Generation)
 #: umbrello.kcfg:489
-#, fuzzy, kde-format
-#| msgid "Inline operations"
+#, kde-format
 msgid "Enables/Disables Inline Operations"
-msgstr "Entekstigi operaciojn"
+msgstr "Enŝaltas/Elŝaltas entekstigatajn operaciojn"
 
 #. i18n: ectx: label, entry (packageIsNamespace), group (CPP Code Generation)
 #: umbrello.kcfg:493
@@ -7035,10 +6822,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (publicAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:499
-#, fuzzy, kde-format
-#| msgid "Virtual destructors"
+#, kde-format
 msgid "Enables/Disables public accessors"
-msgstr "Virtualaj malkonstruiloj"
+msgstr "Enŝaltas/Elŝaltas publikajn alirilojn"
 
 #. i18n: ectx: label, entry (stringClassName), group (CPP Code Generation)
 #: umbrello.kcfg:503
@@ -7048,24 +6834,21 @@ msgstr "Nomo de \"string\"-Klaso"
 
 #. i18n: ectx: whatsthis, entry (stringClassName), group (CPP Code Generation)
 #: umbrello.kcfg:504
-#, fuzzy, kde-format
-#| msgid "The language of the project"
+#, kde-format
 msgid "The name of the string class"
-msgstr "La programlingvo de la projekto"
+msgstr "La nomo de la string-klaso"
 
 #. i18n: ectx: label, entry (stringClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:508
-#, fuzzy, kde-format
-#| msgid "String Class Name"
+#, kde-format
 msgid "String Class Name Include"
-msgstr "Nomo de \"string\"-Klaso"
+msgstr "Nomo de \"string\"-Klasa inkludo"
 
 #. i18n: ectx: whatsthis, entry (stringClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:509
-#, fuzzy, kde-format
-#| msgid "Enter the name of the data store node"
+#, kde-format
 msgid "The name of the string class to be included"
-msgstr "Enigu la nomon de la datumstora nodo"
+msgstr "La nomo de la \"string\"-klaso inkludenda"
 
 #. i18n: ectx: label, entry (stringIncludeIsGlobal), group (CPP Code Generation)
 #: umbrello.kcfg:513
@@ -7075,38 +6858,34 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (stringIncludeIsGlobal), group (CPP Code Generation)
 #: umbrello.kcfg:514
-#, fuzzy, kde-format
-#| msgid "Inline operations"
+#, kde-format
 msgid "Enables/Disables global inclusion of string"
-msgstr "Entekstigi operaciojn"
+msgstr "Enŝaltas/Elŝaltas globalan inkludon de \"string\""
 
 #. i18n: ectx: label, entry (vectorClassName), group (CPP Code Generation)
 #: umbrello.kcfg:518
-#, fuzzy, kde-format
-#| msgid "Vector Clas Name"
+#, kde-format
 msgid "Vector Class Name"
 msgstr "Nomo de \"vector\"-Klaso"
 
 #. i18n: ectx: whatsthis, entry (vectorClassName), group (CPP Code Generation)
 #: umbrello.kcfg:519
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object flow"
+#, kde-format
 msgid "The name of the vector class"
-msgstr "Enigu la nomon de la objektfluo"
+msgstr "La nomo de la \"vector\" klaso"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:523
 #, fuzzy, kde-format
-#| msgid "Vector Clas Name"
-msgid "Vector Class Name Include "
-msgstr "Nomo de \"vector\"-Klaso"
+#| msgid "Vector Class Name Include "
+msgid "Vector Class Name Include"
+msgstr "Nomo de \"vector\"-klasa inkludo"
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:524
-#, fuzzy, kde-format
-#| msgid "Enter the name of the data store node"
+#, kde-format
 msgid "The name of the vector class to be included"
-msgstr "Enigu la nomon de la datumstora nodo"
+msgstr "La nomo de la \"vector\"-klaso inkludenda"
 
 #. i18n: ectx: label, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
 #: umbrello.kcfg:528
@@ -7116,10 +6895,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
 #: umbrello.kcfg:529
-#, fuzzy, kde-format
-#| msgid "Inline operations"
+#, kde-format
 msgid "Enables/Disables global inclusion of vector class"
-msgstr "Entekstigi operaciojn"
+msgstr "Enŝaltas/Elŝaltas globalan inkludon de \"vector\"-klaso"
 
 #. i18n: ectx: label, entry (virtualDestructors), group (CPP Code Generation)
 #: umbrello.kcfg:533
@@ -7129,10 +6907,9 @@ msgstr "Virtualaj Malkonstruiloj"
 
 #. i18n: ectx: whatsthis, entry (virtualDestructors), group (CPP Code Generation)
 #: umbrello.kcfg:534
-#, fuzzy, kde-format
-#| msgid "Virtual destructors"
+#, kde-format
 msgid "Enables/Disables virtual destructors"
-msgstr "Virtualaj malkonstruiloj"
+msgstr "Enŝaltas/Elŝaltas virtualaj malkonstruilojn"
 
 #. i18n: ectx: label, entry (getterWithGetPrefix), group (CPP Code Generation)
 #: umbrello.kcfg:538
@@ -7166,10 +6943,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (docToolTag), group (CPP Code Generation)
 #: umbrello.kcfg:553
-#, fuzzy, kde-format
-#| msgid "Documentation"
+#, kde-format
 msgid "Documentation tags"
-msgstr "Dokumentaro"
+msgstr "Dokumentadaj indikiloj"
 
 #. i18n: ectx: whatsthis, entry (docToolTag), group (CPP Code Generation)
 #: umbrello.kcfg:554
@@ -7180,112 +6956,106 @@ msgstr ""
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:560
 #, fuzzy, kde-format
-#| msgid "Auto Generate Accessors"
-msgid "Auto Generate Attribute Accessors ( D ) "
-msgstr "Aŭto-Generi Alirilojn"
+#| msgid "Auto Generate Attribute Accessors ( D ) "
+msgid "Auto Generate Attribute Accessors ( D )"
+msgstr "Aŭtomate Generi Atributajn Alirilojn ( D )"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:561
-#, fuzzy, kde-format
-#| msgid "Auto Generate Empty Constructors"
+#, kde-format
 msgid "Enables/Disables auto generation of attribute accessors ( D )"
-msgstr "Aŭtogeneri Malplenajn Konstruilojn"
+msgstr "Enŝaltas/Elŝaltas aŭtomatan generadon de atributaj aliriloj ( D )"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:565
-#, fuzzy, kde-format
-#| msgid "Auto Generate Accessors"
+#, kde-format
 msgid "Auto Generate Assoc Accessors ( D )"
-msgstr "Aŭto-Generi Alirilojn"
+msgstr "Aŭtomate Generi Asociajn Alirilojn ( D )"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:566
-#, fuzzy, kde-format
-#| msgid "Auto Generate Empty Constructors"
+#, kde-format
 msgid "Enables/Disables auto generation of association accessors ( D )"
-msgstr "Aŭtogeneri Malplenajn Konstruilojn"
+msgstr "Enŝaltas/Elŝaltas aŭtogeneradon de asociaj aliriloj"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:570
-#, kde-format
-msgid "Build ANT Document (D) "
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Build ANT Document (Java) "
+msgid "Build ANT Document (D)"
+msgstr "Konstrui ANT Dokumenton (Java)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:571
 #, fuzzy, kde-format
-#| msgid "Force Section Documentation"
-msgid "Enables/Disables building of ANT Document (D) "
-msgstr "Devigi Sekcian Dokumentadon"
+#| msgid "Enables/Disables building of ANT Document (D) "
+msgid "Enables/Disables building of ANT Document (D)"
+msgstr "Enŝaltas/Elŝaltas konstruadon de ANT Dokumento ( D )"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:577
-#, fuzzy, kde-format
-#| msgid "Auto Generate Accessors"
+#, kde-format
 msgid "Auto Generate Attribute Accessors (Java)"
-msgstr "Aŭto-Generi Alirilojn"
+msgstr "Aŭto-Generi Atributajn Alirilojn (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:578
-#, fuzzy, kde-format
-#| msgid "Auto Generate Empty Constructors"
+#, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Java)"
-msgstr "Aŭtogeneri Malplenajn Konstruilojn"
+msgstr "Enŝaltas/Elŝaltas aŭtogeneradon de atributaj aliriloj (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:582
 #, fuzzy, kde-format
-#| msgid "Auto Generate Accessors"
-msgid "Auto Generate Assoc Accessors (Java) "
-msgstr "Aŭto-Generi Alirilojn"
+#| msgid "Auto Generate Assoc Accessors (Java) "
+msgid "Auto Generate Assoc Accessors (Java)"
+msgstr "Aŭto-Generi Asociajn Alirilojn (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:583
 #, fuzzy, kde-format
-#| msgid "Auto Generate Empty Constructors"
-msgid "Enables/Disables auto generation of association accessors (Java) "
-msgstr "Aŭtogeneri Malplenajn Konstruilojn"
+#| msgid "Enables/Disables auto generation of association accessors (Java) "
+msgid "Enables/Disables auto generation of association accessors (Java)"
+msgstr "Enŝaltas/Elŝaltas aŭtomatan generadon de asociaj aliriloj (Java)"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:587
-#, kde-format
-msgid "Build ANT Document (Java) "
-msgstr ""
+#, fuzzy, kde-format
+#| msgid "Build ANT Document (Java) "
+msgid "Build ANT Document (Java)"
+msgstr "Konstrui ANT Dokumenton (Java)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:588
 #, fuzzy, kde-format
-#| msgid "Force Section Documentation"
-msgid "Enables/Disables building of ANT Document (Java) "
+#| msgid "Enables/Disables building of ANT Document (Java) "
+msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "Devigi Sekcian Dokumentadon"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:594
 #, fuzzy, kde-format
-#| msgid "Auto Generate Accessors"
-msgid "Auto Generate Attribute Accessors (Ruby) "
-msgstr "Aŭto-Generi Alirilojn"
+#| msgid "Auto Generate Attribute Accessors (Ruby) "
+msgid "Auto Generate Attribute Accessors (Ruby)"
+msgstr "Aŭto-Generi Atributajn Alirilojn (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:595
-#, fuzzy, kde-format
-#| msgid "Auto Generate Empty Constructors"
+#, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Ruby)"
-msgstr "Aŭtogeneri Malplenajn Konstruilojn"
+msgstr "Enŝaltas/Elŝaltas aŭtogeneradon de atributaj aliriloj (Ruby)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:599
-#, fuzzy, kde-format
-#| msgid "Auto Generate Accessors"
+#, kde-format
 msgid "Auto Generate Assoc Accessors (Ruby)"
-msgstr "Aŭto-Generi Alirilojn"
+msgstr "Aŭto-Generi Asociajn Alirilojn (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:600
-#, fuzzy, kde-format
-#| msgid "Auto Generate Empty Constructors"
+#, kde-format
 msgid "Enables/Disables auto generation of association accessors (Ruby)"
-msgstr "Aŭtogeneri Malplenajn Konstruilojn"
+msgstr "Enŝaltas/Elŝaltas aŭtomatan generadon de asociaj aliriloj (Ruby)"
 
 #. i18n: ectx: label, entry (autoDotPath), group (Auto Layout)
 #: umbrello.kcfg:606
@@ -7325,10 +7095,9 @@ msgstr ""
 
 #. i18n: ectx: Menu (file_export)
 #: umbrelloui.rc.cmake:5
-#, fuzzy, kde-format
-#| msgid "&Export model to XHTML"
+#, kde-format
 msgid "&Export model"
-msgstr "&Eksporti modelon al XHTML"
+msgstr "&Eksporti modelon"
 
 #. i18n: ectx: Menu (edit)
 #: umbrelloui.rc.cmake:11
@@ -7374,8 +7143,7 @@ msgstr "&Kodo"
 
 #. i18n: ectx: Menu (active_lang_menu)
 #: umbrelloui.rc.cmake:58
-#, fuzzy, kde-format
-#| msgid "Active &Language"
+#, kde-format
 msgid "Active &Language"
 msgstr "Aktiva Program&lingvo"
 
@@ -7406,10 +7174,9 @@ msgid "&Add Default Datatypes for Active Language"
 msgstr "&Almeti normajn datumtipojn por la Aktiva Programlingvo"
 
 #: uml.cpp:432
-#, fuzzy, kde-format
-#| msgid "&Code Generation Wizard..."
+#, kde-format
 msgid "Code &Importing Wizard..."
-msgstr "&Kodgenera Sorĉisto..."
+msgstr "Kod&importa Sorĉisto..."
 
 #: uml.cpp:442
 #, kde-format
@@ -7457,10 +7224,9 @@ msgid "Prints out the document"
 msgstr "Elprintas la dokumenton"
 
 #: uml.cpp:501
-#, fuzzy, kde-format
-#| msgid "Prints out the document"
+#, kde-format
 msgid "Print Preview of the document"
-msgstr "Elprintas la dokumenton"
+msgstr "Elprintas Antaŭrigardon de la dokumento"
 
 #: uml.cpp:502
 #, kde-format
@@ -7493,10 +7259,9 @@ msgid "Pastes the contents of the clipboard"
 msgstr "Regluas la enhavon de la tondujo"
 
 #: uml.cpp:508
-#, fuzzy, kde-format
-#| msgid "No Action"
+#, kde-format
 msgid "Undo last action"
-msgstr "Neniu ago"
+msgstr "Malfari lastan agon"
 
 #: uml.cpp:509
 #, kde-format
@@ -7509,8 +7274,7 @@ msgid "Set the default program preferences"
 msgstr "Agordas la aŭtomatajn programpreferojn"
 
 #: uml.cpp:515
-#, fuzzy, kde-format
-#| msgid "Delete &Selected"
+#, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "Forigi &Selektaĵon"
@@ -7521,10 +7285,9 @@ msgid "&Class Diagram..."
 msgstr "&Klasdiagramo..."
 
 #: uml.cpp:533
-#, fuzzy, kde-format
-#| msgid "S&tate Diagram..."
+#, kde-format
 msgid "&Object Diagram..."
-msgstr "S&tatodiagramo..."
+msgstr "&Objektdiagramo..."
 
 #: uml.cpp:540
 #, kde-format
@@ -7532,10 +7295,9 @@ msgid "&Sequence Diagram..."
 msgstr "&Sekvencdiagramo..."
 
 #: uml.cpp:546
-#, fuzzy, kde-format
-#| msgid "C&ollaboration Diagram..."
+#, kde-format
 msgid "C&ommunication Diagram..."
-msgstr "Kunlab&ordiagramo..."
+msgstr "Kunlabordiagramo..."
 
 #: uml.cpp:552
 #, kde-format
@@ -7583,8 +7345,7 @@ msgid "&Logging"
 msgstr ""
 
 #: uml.cpp:603
-#, fuzzy, kde-format
-#| msgid "Co&mmand history"
+#, kde-format
 msgid "&Command history"
 msgstr "Ko&mandohistorio"
 
@@ -7595,7 +7356,7 @@ msgstr "Ko&mandohistorio"
 #: uml.cpp:607 uml.cpp:1094
 #, kde-format
 msgid "&Bird's eye view"
-msgstr ""
+msgstr "&Bird-okula perspektivo"
 
 #: uml.cpp:612
 #, kde-format
@@ -7613,10 +7374,9 @@ msgid "S&how Grid"
 msgstr "&Montri Kradon"
 
 #: uml.cpp:625
-#, fuzzy, kde-format
-#| msgid "Delete Diagram"
+#, kde-format
 msgid "&Delete Diagram"
-msgstr "Forigi Diagramon"
+msgstr "Forigi &Diagramon"
 
 #: uml.cpp:630
 #, kde-format
@@ -7624,10 +7384,9 @@ msgid "&Export as Picture..."
 msgstr "&Eksporti kiel Bildo..."
 
 #: uml.cpp:635
-#, fuzzy, kde-format
-#| msgid "Export &All Diagrams as Pictures..."
+#, kde-format
 msgid "Export &Diagrams as Pictures..."
-msgstr "Eksporti Ĉiujn &Diagramojn kiel Bildoj..."
+msgstr "Eksporti &Diagramojn kiel Bildoj..."
 
 #: uml.cpp:655
 #, kde-format
@@ -7661,8 +7420,7 @@ msgid " &%1%"
 msgstr ""
 
 #: uml.cpp:911
-#, fuzzy, kde-format
-#| msgid "Ready"
+#, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Preta"
@@ -7673,10 +7431,9 @@ msgid "100%"
 msgstr "100%"
 
 #: uml.cpp:924
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Fit"
-msgstr "Filtrilo"
+msgstr "Adapti"
 
 #: uml.cpp:983
 #, kde-format
@@ -7803,10 +7560,9 @@ msgid "'%1': %2 found"
 msgstr ""
 
 #: uml.cpp:1602
-#, fuzzy, kde-format
-#| msgid "Exporting view..."
+#, kde-format
 msgid "Print Preview..."
-msgstr "Eksportanta diagramon..."
+msgstr "Printa Antaŭrigardo..."
 
 #: uml.cpp:1629
 #, kde-format
@@ -7869,16 +7625,14 @@ msgid "Cannot view code from simple code writer."
 msgstr "Ne eblas inspekti kodon uzante simplan generilon"
 
 #: uml.cpp:2904 uml.cpp:2906
-#, fuzzy, kde-format
-#| msgid "Select Code to Import"
+#, kde-format
 msgid "Select file(s) to import:"
-msgstr "Selekti Kodon por Importado"
+msgstr "Elekti dosiero(j)n por importado:"
 
 #: uml.cpp:2937 uml.cpp:2939
-#, fuzzy, kde-format
-#| msgid "Select Code to Import"
+#, kde-format
 msgid "Select directory to import:"
-msgstr "Selekti Kodon por Importado"
+msgstr "Elekti dosierujon por importado:"
 
 #: uml.cpp:3511
 #, kde-format
@@ -7886,16 +7640,14 @@ msgid "XHTML Generation failed ."
 msgstr ""
 
 #: umlappprivate.h:140
-#, fuzzy, kde-format
-#| msgid "UML Object Color"
+#, kde-format
 msgid "&UML Objects"
-msgstr "UML-Objektkoloro"
+msgstr "&UML-Objektoj"
 
 #: umlappprivate.h:150
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "&Stereotypes"
-msgstr "Stereotipo"
+msgstr "&Stereotipoj"
 
 #: umlappprivate.h:166
 #, kde-format
@@ -7953,10 +7705,9 @@ msgid "Warning"
 msgstr "Averto"
 
 #: umldoc.cpp:566
-#, fuzzy, kde-format
-#| msgid "The file %1 does not exist."
+#, kde-format
 msgid "The file <%1> does not exist."
-msgstr "La dosiero %1 ne ekzistas."
+msgstr "La dosiero <%1> ne ekzistas."
 
 #: umldoc.cpp:566 umldoc.cpp:579 umldoc.cpp:581 umldoc.cpp:609 umldoc.cpp:611
 #: umldoc.cpp:661 umldoc.cpp:664 umldoc.cpp:679 umldoc.cpp:682 umldoc.cpp:706
@@ -7998,10 +7749,9 @@ msgid "Reason: %1"
 msgstr ""
 
 #: umldoc.cpp:875 umldoc.cpp:894 umldoc.cpp:916 umldoc.cpp:974 umldoc.cpp:1019
-#, fuzzy, kde-format
-#| msgid "There was a problem saving file: %1"
+#, kde-format
 msgid "There was a problem saving: %1"
-msgstr "Problemo dum la savado de la dosiero: %1"
+msgstr "Problemo dum la savado de: %1"
 
 #: umldoc.cpp:875 umldoc.cpp:877 umldoc.cpp:894 umldoc.cpp:896 umldoc.cpp:916
 #: umldoc.cpp:918 umldoc.cpp:974 umldoc.cpp:976 umldoc.cpp:1019 umldoc.cpp:1022
@@ -8017,8 +7767,7 @@ msgid "There was a problem saving file: %1"
 msgstr "Problemo dum la savado de la dosiero: %1"
 
 #: umldoc.cpp:1031
-#, fuzzy, kde-format
-#| msgid "There was a problem uploading file: %1"
+#, kde-format
 msgid "There was a problem uploading: %1"
 msgstr "Okazis problemo alŝutante la dosieron: %1"
 
@@ -8043,16 +7792,14 @@ msgid "sequence diagram"
 msgstr "sekvencdiagramo"
 
 #: umldoc.cpp:1594
-#, fuzzy, kde-format
-#| msgid "collaboration diagram"
+#, kde-format
 msgid "communication diagram"
-msgstr "kunlabordiagramo"
+msgstr "komunikadodiagramo"
 
 #: umldoc.cpp:1597
-#, fuzzy, kde-format
-#| msgid "&Select diagrams"
+#, kde-format
 msgid "object diagram"
-msgstr "&Selekti diagramojn"
+msgstr "objektdiagramo"
 
 #: umldoc.cpp:1600
 #, kde-format
@@ -8178,10 +7925,9 @@ msgid "Folder %1 must be relative to the main model directory, %2."
 msgstr ""
 
 #: umllistview.cpp:578
-#, fuzzy, kde-format
-#| msgid "Paste Error"
+#, kde-format
 msgid "Path Error"
-msgstr "Eraro dum Regluado"
+msgstr "Dosierujvoja Eraro"
 
 #: umllistview.cpp:586
 #, kde-format
@@ -8192,8 +7938,8 @@ msgstr ""
 
 #: umllistview.cpp:587
 #, fuzzy, kde-format
-#| msgid "File Already Exists"
-msgid "File Exist"
+#| msgid "File Exist"
+msgid "File Exists"
 msgstr "Dosiero Jam Ekzistas"
 
 #: umllistview.cpp:627
@@ -8212,10 +7958,9 @@ msgid "Views"
 msgstr "Perspektivoj"
 
 #: umllistview.cpp:1463
-#, fuzzy, kde-format
-#| msgid "&Settings"
+#, kde-format
 msgid "Settings"
-msgstr "&Agordo"
+msgstr "Agordo"
 
 #: umllistview.cpp:2479
 #, kde-format
@@ -8223,33 +7968,29 @@ msgid "Loading listview..."
 msgstr "Ŝarĝanta Listoperspektivon..."
 
 #: umllistview.cpp:2848
-#, fuzzy, kde-format
-#| msgid "The folder must be emptied before it can be deleted."
+#, kde-format
 msgid "The class must be emptied before it can be deleted."
-msgstr "La teko devas esti maplena antaŭ ĝia forigo."
+msgstr "La klaso devas esti malplenigata antaŭ ĝia forigo."
 
 #: umllistview.cpp:2849
-#, fuzzy, kde-format
-#| msgid "Folder Not Empty"
+#, kde-format
 msgid "Class Not Empty"
-msgstr "Teko Ne Malplena"
+msgstr "Klaso Ne Malplena"
 
 #: umllistview.cpp:2853
-#, fuzzy, kde-format
-#| msgid "The folder must be emptied before it can be deleted."
+#, kde-format
 msgid "The package must be emptied before it can be deleted."
-msgstr "La teko devas esti maplena antaŭ ĝia forigo."
+msgstr "La pako devas esti malplenigata antaŭ ĝia forigo."
 
 #: umllistview.cpp:2854
-#, fuzzy, kde-format
-#| msgid "Folder Not Empty"
+#, kde-format
 msgid "Package Not Empty"
-msgstr "Teko Ne Malplena"
+msgstr "Pako Ne Malplena"
 
 #: umllistview.cpp:2858
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
-msgstr "La teko devas esti maplena antaŭ ĝia forigo."
+msgstr "La teko devas esti malplena antaŭ ĝia forigo."
 
 #: umllistview.cpp:2859
 #, kde-format
@@ -8286,10 +8027,7 @@ msgid "Name Not Valid"
 msgstr "Nomo Ne Valida"
 
 #: umlmodel/classifier.cpp:281
-#, fuzzy, kde-format
-#| msgid ""
-#| "An operation with the same name and signature already exists. You can not "
-#| "add it again."
+#, kde-format
 msgid ""
 "An operation with the same name and signature already exists. You cannot add "
 "it again."
@@ -8352,10 +8090,9 @@ msgid "Artifact &name:"
 msgstr "Artefaraĵonomo:"
 
 #: umlmodel/umlobject.cpp:1236
-#, fuzzy, kde-format
-#| msgid "Association Name"
+#, kde-format
 msgid "Association &name:"
-msgstr "Nomo de Asocio"
+msgstr "Asocio&nomo:"
 
 #: umlmodel/umlobject.cpp:1239
 #, kde-format
@@ -8380,13 +8117,12 @@ msgstr "Ento&nomo:"
 #: umlmodel/umlobject.cpp:1251
 #, kde-format
 msgid "Enum &name:"
-msgstr "Enumeracio&nomo:"
+msgstr "Nombrigtip&nomo:"
 
 #: umlmodel/umlobject.cpp:1254
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "Folder &name:"
-msgstr "Nod&nomo:"
+msgstr "Teko&nomo:"
 
 #: umlmodel/umlobject.cpp:1257
 #, kde-format
@@ -8404,10 +8140,9 @@ msgid "Package &name:"
 msgstr "Pako&nomo:"
 
 #: umlmodel/umlobject.cpp:1266
-#, fuzzy, kde-format
-#| msgid "Actor &name:"
+#, kde-format
 msgid "Port &name:"
-msgstr "Aganto&nomo:"
+msgstr "Konektilo&nomo:"
 
 #: umlmodel/umlobject.cpp:1272
 #, kde-format
@@ -8425,58 +8160,49 @@ msgid "Diagram: %2 Page %1"
 msgstr "Diagramo: %2 Paĝo %1"
 
 #: umlscene.cpp:1523
-#, fuzzy, kde-format
-#| msgid "&Use fill color"
+#, kde-format
 msgid "Use fill color"
-msgstr "&Uzi plenigan koloron"
+msgstr "Uzi plenigan koloron"
 
 #: umlscene.cpp:1525
-#, fuzzy, kde-format
-#| msgid "Fill Color"
+#, kde-format
 msgid "No fill color"
-msgstr "Pleniga Koloro"
+msgstr "Neniu pleniga Koloro"
 
 #: umlscene.cpp:1540
-#, fuzzy, kde-format
-#| msgid "Change Font"
+#, kde-format
 msgid "Change font"
-msgstr "Ŝanĝi Tiparon"
+msgstr "Ŝanĝi tiparon"
 
 #: umlscene.cpp:1554
-#, fuzzy, kde-format
-#| msgid "Change Line Color"
+#, kde-format
 msgid "Change line color"
-msgstr "Ŝanĝi Linikoloron"
+msgstr "Ŝanĝi linikoloron"
 
 #: umlscene.cpp:1572
-#, fuzzy, kde-format
-#| msgid "Line width:"
+#, kde-format
 msgid "Change line width"
-msgstr "Larĝeco de linio:"
+msgstr "Ŝanĝi larĝecon de linio"
 
 #: umlscene.cpp:1592
-#, fuzzy, kde-format
-#| msgid "Change Fill Color"
+#, kde-format
 msgid "Change fill color"
-msgstr "Ŝanĝi Plenigan Koloron"
+msgstr "Ŝanĝi plenigan koloron"
 
 #: umlscene.cpp:1607
-#, fuzzy, kde-format
-#| msgid "Role Properties"
+#, kde-format
 msgid "Change visual property"
-msgstr "Roltrajtoj"
+msgstr "Ŝanĝi videblajn trajtojn"
 
 #: umlscene.cpp:1658
-#, fuzzy, kde-format
-#| msgid "Delete"
+#, kde-format
 msgid "Delete widgets"
-msgstr "Forigi"
+msgstr "Forigi fenestraĵojn"
 
 #: umlscene.cpp:1704
-#, fuzzy, kde-format
-#| msgid "Create widget :"
+#, kde-format
 msgid "Resize widgets"
-msgstr "Krei fenestraĵon :"
+msgstr "Aligrandigi fenestraĵojn"
 
 #: umlscene.cpp:3357
 #, kde-format
@@ -8518,14 +8244,12 @@ msgid "File Already Exists"
 msgstr "Dosiero Jam Ekzistas"
 
 #: umlviewimageexportermodel.cpp:257
-#, fuzzy, kde-format
-#| msgid "Empty"
+#, kde-format
 msgid "Empty scene"
-msgstr "Malplena"
+msgstr "Malplena sceno"
 
 #: umlviewimageexportermodel.cpp:263 umlviewimageexportermodel.cpp:265
-#, fuzzy, kde-format
-#| msgid "Can not create directory: %1"
+#, kde-format
 msgid "Cannot create directory: %1"
 msgstr "Ne eblas krei dosierujon: %1"
 
@@ -8628,10 +8352,9 @@ msgid "Enter alternative Name"
 msgstr "Enigu alternativan nomon"
 
 #: umlwidgets/floatingdashlinewidget.cpp:103
-#, fuzzy, kde-format
-#| msgid "Enter the alternative :"
+#, kde-format
 msgid "Enter the alternative:"
-msgstr "Enigu la alternativon :"
+msgstr "Enigu la alternativon:"
 
 #: umlwidgets/floatingtextwidget.cpp:206
 #, kde-format
@@ -8666,16 +8389,14 @@ msgid "Precondition"
 msgstr "Antaŭkondiĉo"
 
 #: umlwidgets/notewidget.cpp:225
-#, fuzzy, kde-format
-#| msgid "Postcondition :"
+#, kde-format
 msgid "Postcondition"
-msgstr "Postkondiĉo:"
+msgstr "Postkondiĉo"
 
 #: umlwidgets/notewidget.cpp:226
-#, fuzzy, kde-format
-#| msgid "State Transition"
+#, kde-format
 msgid "Transformation"
-msgstr "Statotransiro"
+msgstr "Transformo"
 
 #: umlwidgets/notewidget.cpp:231 umlwidgets/notewidget.cpp:234
 #, kde-format
@@ -8783,10 +8504,9 @@ msgstr ""
 "Y-akse.Dekstra musbutono nuligas la movon."
 
 #: umlwidgets/umlwidget.cpp:551
-#, fuzzy, kde-format
-#| msgid "Move widget :"
+#, kde-format
 msgid "Move widgets"
-msgstr "Movi "
+msgstr "Movi fenestraĵojn"
 
 #: umlwidgets/umlwidget.cpp:794
 #, kde-format
@@ -8809,70 +8529,59 @@ msgid "Hold shift and control to move in Y axis."
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:825
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new actor"
-msgstr "nova_aktoro"
+msgstr "nova aktoro"
 
 #: umlwidgets/widget_utils.cpp:826
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "new artifact"
-msgstr "nova_artefaraĵo"
+msgstr "nova artefaraĵo"
 
 #: umlwidgets/widget_utils.cpp:827
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "new association"
-msgstr "nova_asocio"
+msgstr "nova asocio"
 
 #: umlwidgets/widget_utils.cpp:828
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new box"
-msgstr "nova_aktoro"
+msgstr "nova skatolo"
 
 #: umlwidgets/widget_utils.cpp:829
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "new category"
-msgstr "nova_kategorio"
+msgstr "nova kategorio"
 
 #: umlwidgets/widget_utils.cpp:830
-#, fuzzy, kde-format
-#| msgid "new_class"
+#, kde-format
 msgid "new class"
-msgstr "nova_klaso"
+msgstr "nova klaso"
 
 #: umlwidgets/widget_utils.cpp:831
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "new combined fragment"
-msgstr "nova Kombinita Fragmento"
+msgstr "nova kombinita fragmento"
 
 #: umlwidgets/widget_utils.cpp:832
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "new component"
-msgstr "nova_komponanto"
+msgstr "nova komponanto"
 
 #: umlwidgets/widget_utils.cpp:833
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "new datatype"
-msgstr "nova_datumtipo"
+msgstr "nova datumtipo"
 
 #: umlwidgets/widget_utils.cpp:834
-#, fuzzy, kde-format
-#| msgid "new_entity"
+#, kde-format
 msgid "new entity"
-msgstr "nova_ento"
+msgstr "nova ento"
 
 #: umlwidgets/widget_utils.cpp:835
-#, fuzzy, kde-format
-#| msgid "new_enum"
+#, kde-format
 msgid "new enum"
-msgstr "nova_enum"
+msgstr "nova nombrigtipo"
 
 #: umlwidgets/widget_utils.cpp:836
 #, kde-format
@@ -8880,70 +8589,59 @@ msgid "new floating dash line"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:837
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "new fork/join"
-msgstr "Disiĝi/Kuniĝi"
+msgstr "nova disiĝo/kuniĝo"
 
 #: umlwidgets/widget_utils.cpp:838
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "new instance"
-msgstr "nova stato"
+msgstr "nova instanco"
 
 #: umlwidgets/widget_utils.cpp:839
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "new interface"
-msgstr "nova_interfaco"
+msgstr "nova interfaco"
 
 #: umlwidgets/widget_utils.cpp:840
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "new message"
-msgstr "nova stato"
+msgstr "nova mesaĝo"
 
 #: umlwidgets/widget_utils.cpp:841
-#, fuzzy, kde-format
-#| msgid "new_node"
+#, kde-format
 msgid "new node"
-msgstr "nova_nodo"
+msgstr "nova nodo"
 
 #: umlwidgets/widget_utils.cpp:842
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new note"
-msgstr "nova_aktoro"
+msgstr "nova noto"
 
 #: umlwidgets/widget_utils.cpp:843
-#, fuzzy, kde-format
-#| msgid "new_object"
+#, kde-format
 msgid "new object"
-msgstr "nova_objekto"
+msgstr "nova objekto"
 
 #: umlwidgets/widget_utils.cpp:844
-#, fuzzy, kde-format
-#| msgid "Enter object name:"
+#, kde-format
 msgid "new object node"
-msgstr "Enigu objektnomon:"
+msgstr "nova objektnodo"
 
 #: umlwidgets/widget_utils.cpp:845
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "new package"
-msgstr "nova_pako"
+msgstr "nova pako"
 
 #: umlwidgets/widget_utils.cpp:846
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "new pin"
-msgstr "nova Signalo"
+msgstr "nova pinglo"
 
 #: umlwidgets/widget_utils.cpp:847
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new port"
-msgstr "nova_aktoro"
+msgstr "nova konektilo"
 
 #: umlwidgets/widget_utils.cpp:848
 #, kde-format
@@ -8951,46 +8649,39 @@ msgid "new precondition"
 msgstr "nova_antaŭkondiĉo"
 
 #: umlwidgets/widget_utils.cpp:849
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "new region"
-msgstr "nova Signalo"
+msgstr "nova regiono"
 
 #: umlwidgets/widget_utils.cpp:850
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "new signal"
-msgstr "nova Signalo"
+msgstr "nova signalo"
 
 #: umlwidgets/widget_utils.cpp:852
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "new text"
-msgstr "nova stato"
+msgstr "nova teksto"
 
 #: umlwidgets/widget_utils.cpp:853
-#, fuzzy, kde-format
-#| msgid "Move widget :"
+#, kde-format
 msgid "new UML widget"
-msgstr "Movi "
+msgstr "nova UML fenestraĵo"
 
 #: umlwidgets/widget_utils.cpp:854
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "new use case"
-msgstr "nova_uzkazo"
+msgstr "nova uzkazo"
 
 #: umlwidgets/widget_utils.cpp:858
-#, fuzzy, kde-format
-#| msgid "Move widget :"
+#, kde-format
 msgid "new widget"
-msgstr "Movi "
+msgstr "Movi fenestraĵon"
 
 #: umlwidgets/widget_utils.cpp:871
-#, fuzzy, kde-format
-#| msgid "new activity"
+#, kde-format
 msgid "New activity"
-msgstr "nova aktiveco"
+msgstr "Nova aktiveco"
 
 #: umlwidgets/widget_utils.cpp:875
 #, kde-format
@@ -8998,10 +8689,9 @@ msgid "New box"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:878
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "New combined fragment"
-msgstr "nova Kombinita Fragmento"
+msgstr "Nova kombinita fragmento"
 
 #: umlwidgets/widget_utils.cpp:883
 #, kde-format
@@ -9009,272 +8699,230 @@ msgid "New floating dash line"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:884
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "New fork/join"
-msgstr "Disiĝi/Kuniĝi"
+msgstr "Nova disiĝo/kuniĝo"
 
 #: umlwidgets/widget_utils.cpp:887
-#, fuzzy, kde-format
-#| msgid "Message"
+#, kde-format
 msgid "New message"
-msgstr "Mesaĝo"
+msgstr "Nova mesaĝo"
 
 #: umlwidgets/widget_utils.cpp:889
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New note"
-msgstr "Stereotipo"
+msgstr "Nova noto"
 
 #: umlwidgets/widget_utils.cpp:890
-#, fuzzy, kde-format
-#| msgid "new_object"
+#, kde-format
 msgid "New object"
-msgstr "nova_objekto"
+msgstr "Nova objekto"
 
 #: umlwidgets/widget_utils.cpp:891
-#, fuzzy, kde-format
-#| msgid "Object Node"
+#, kde-format
 msgid "New object node"
-msgstr "Objektnodo"
+msgstr "Nova objektnodo"
 
 #: umlwidgets/widget_utils.cpp:893
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "New pin"
-msgstr "nova Signalo"
+msgstr "Nova pinglo"
 
 #: umlwidgets/widget_utils.cpp:895
-#, fuzzy, kde-format
-#| msgid "new precondition"
+#, kde-format
 msgid "New precondition"
-msgstr "nova_antaŭkondiĉo"
+msgstr "Nova antaŭkondiĉo"
 
 #: umlwidgets/widget_utils.cpp:896
-#, fuzzy, kde-format
-#| msgid "Region"
+#, kde-format
 msgid "New region"
-msgstr "Regiono"
+msgstr "Nova regiono"
 
 #: umlwidgets/widget_utils.cpp:897
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "New signal"
-msgstr "nova Signalo"
+msgstr "Nova signalo"
 
 #: umlwidgets/widget_utils.cpp:898
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "New state"
-msgstr "nova stato"
+msgstr "Nova stato"
 
 #: umlwidgets/widget_utils.cpp:899
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New text"
-msgstr "Stereotipo"
+msgstr "Nova teksto"
 
 #: umlwidgets/widget_utils.cpp:900
-#, fuzzy, kde-format
-#| msgid "Move widget :"
+#, kde-format
 msgid "New UML widget"
-msgstr "Movi "
+msgstr "Nova UML fenestraĵo"
 
 #: umlwidgets/widget_utils.cpp:905
-#, fuzzy, kde-format
-#| msgid "Move widget :"
+#, kde-format
 msgid "New widget"
-msgstr "Movi "
+msgstr "Nova fenestraĵo"
 
 #: umlwidgets/widget_utils.cpp:921
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new box:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova skatolo:"
 
 #: umlwidgets/widget_utils.cpp:924
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new combined fragment:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova kombinita fragmento:"
 
 #: umlwidgets/widget_utils.cpp:929
 #, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
-msgid "Enter the name of the new floating dash Line:"
-msgstr "Enigi nomon de nova stato"
+#| msgid "Enter the name of the new floating dash Line:"
+msgid "Enter the name of the new floating dash line:"
+msgstr "Enigi nomon de la nova flosanta streketolinio"
 
 #: umlwidgets/widget_utils.cpp:930
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new fork/join:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de la nova disiĝo/kuniĝo:"
 
 #: umlwidgets/widget_utils.cpp:933
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new message:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de nova mesaĝo:"
 
 #: umlwidgets/widget_utils.cpp:935
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new note:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de nova noto:"
 
 #: umlwidgets/widget_utils.cpp:936
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new object:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigi nomon de nova objekto:"
 
 #: umlwidgets/widget_utils.cpp:937
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object node :"
+#, kde-format
 msgid "Enter the name of the new object node:"
-msgstr "Enigu la nomon de la objektnodo:"
+msgstr "Enigu la nomon de la nova objektnodo:"
 
 #: umlwidgets/widget_utils.cpp:939
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new pin:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigu la nomon de nova pinglo:"
 
 #: umlwidgets/widget_utils.cpp:941
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new precondition:"
-msgstr "Enigu la nomon de la nova aktiveco:"
+msgstr "Enigu la nomon de la nova antaŭkondiĉo:"
 
 #: umlwidgets/widget_utils.cpp:942
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new region:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigu la nomon de nova regiono:"
 
 #: umlwidgets/widget_utils.cpp:943
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new signal:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigu la nomon de nova signalo:"
 
 #: umlwidgets/widget_utils.cpp:945
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new text:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigu la nomon de nova teksto:"
 
 #: umlwidgets/widget_utils.cpp:946
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new uml widget:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigu la nomon de nova uml fenestraĵo:"
 
 #: umlwidgets/widget_utils.cpp:950
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new widget:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigu la nomon de nova fenestraĵo:"
 
 #: umlwidgets/widget_utils.cpp:962
-#, fuzzy, kde-format
-#| msgid "Rename Activity"
+#, kde-format
 msgid "Rename activity"
-msgstr "Alinomi Aktivecon"
+msgstr "Alinomi aktivecon"
 
 #: umlwidgets/widget_utils.cpp:966
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename box"
-msgstr "Renomi"
+msgstr "Alinomi skatolon"
 
 #: umlwidgets/widget_utils.cpp:969
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "Rename combined fragment"
-msgstr "nova Kombinita Fragmento"
+msgstr "Alinomi kombinitan fragmenton"
 
 #: umlwidgets/widget_utils.cpp:974
 #, kde-format
 msgid "Rename floating dash line"
-msgstr ""
+msgstr "Alinomi flosantan streketolinion"
 
 #: umlwidgets/widget_utils.cpp:975
 #, kde-format
 msgid "Rename fork/join"
-msgstr ""
+msgstr "Alinomi disiĝon/kuniĝon"
 
 #: umlwidgets/widget_utils.cpp:978
-#, fuzzy, kde-format
-#| msgid "Sequence Message"
+#, kde-format
 msgid "Rename message"
-msgstr "Sekvencmesaĝo"
+msgstr "Alinomi mesaĝon"
 
 #: umlwidgets/widget_utils.cpp:980
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename note"
-msgstr "Renomi"
+msgstr "Alinomi noton"
 
 #: umlwidgets/widget_utils.cpp:981
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename object"
-msgstr "Renomi Objekton"
+msgstr "Alinomi objekton"
 
 #: umlwidgets/widget_utils.cpp:982
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename object node"
-msgstr "Renomi Objekton"
+msgstr "Alinomi objektnodon"
 
 #: umlwidgets/widget_utils.cpp:984
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename pin"
-msgstr "Renomi"
+msgstr "Alinomi pinglon"
 
 #: umlwidgets/widget_utils.cpp:986
-#, fuzzy, kde-format
-#| msgid "new precondition"
+#, kde-format
 msgid "Rename precondition"
-msgstr "nova_antaŭkondiĉo"
+msgstr "Alinomi antaŭkondiĉon"
 
 #: umlwidgets/widget_utils.cpp:987
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename region"
-msgstr "Renomi"
+msgstr "Alinomi regionon"
 
 #: umlwidgets/widget_utils.cpp:988
-#, fuzzy, kde-format
-#| msgid "Send signal"
+#, kde-format
 msgid "Rename signal"
-msgstr "Sendi signalon"
+msgstr "Alinomi signalon"
 
 #: umlwidgets/widget_utils.cpp:989
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "Rename state"
-msgstr "nova stato"
+msgstr "Alinomi staton"
 
 #: umlwidgets/widget_utils.cpp:990
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename text"
-msgstr "Renomi Objekton"
+msgstr "Alinomi tekston"
 
 #: umlwidgets/widget_utils.cpp:991
-#, fuzzy, kde-format
-#| msgid "Create widget :"
+#, kde-format
 msgid "Rename UML widget"
-msgstr "Krei fenestraĵon :"
+msgstr "Alinomi UML fenestraĵon"
 
 #: umlwidgets/widget_utils.cpp:996
-#, fuzzy, kde-format
-#| msgid "Create widget :"
+#, kde-format
 msgid "Rename widget"
-msgstr "Krei fenestraĵon :"
+msgstr "Alinomi fenestraĵon"
 
 #: umlwidgets/widget_utils.cpp:1008
 #, kde-format
@@ -9282,100 +8930,85 @@ msgid "Enter the new name of the activity:"
 msgstr "Enigu la novan nomon de la aktiveco:"
 
 #: umlwidgets/widget_utils.cpp:1012
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the box:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la skatolo:"
 
 #: umlwidgets/widget_utils.cpp:1015
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the combined fragment:"
-msgstr "Enigu la novan nomon de la diagramo:"
+msgstr "Enigu la novan nomon de la kombinita fragmento:"
 
 #: umlwidgets/widget_utils.cpp:1020
 #, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
-msgid "Enter the new name of the floating dash Line:"
-msgstr "Enigu la novan nomon de la modelo:"
+#| msgid "Enter the new name of the floating dash Line:"
+msgid "Enter the new name of the floating dash line:"
+msgstr "Enigu la novan nomon de la flosanta streketolinio:"
 
 #: umlwidgets/widget_utils.cpp:1021
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the fork/join widget:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la disiĝa/kuniĝa fenestraĵo:"
 
 #: umlwidgets/widget_utils.cpp:1024
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the message:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la mesaĝo:"
 
 #: umlwidgets/widget_utils.cpp:1026
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the note:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la noto:"
 
 #: umlwidgets/widget_utils.cpp:1027
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the object:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la objekto:"
 
 #: umlwidgets/widget_utils.cpp:1028
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object node :"
+#, kde-format
 msgid "Enter the new name of the object node:"
-msgstr "Enigu la nomon de la objektnodo:"
+msgstr "Enigu la nocan nomon de la objektnodo:"
 
 #: umlwidgets/widget_utils.cpp:1030
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the pin:"
-msgstr "Enigu la novan nomon de la diagramo:"
+msgstr "Enigu la novan nomon de la pinglo:"
 
 #: umlwidgets/widget_utils.cpp:1032
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the precondition:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la antaŭkondiĉo:"
 
 #: umlwidgets/widget_utils.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the region:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la regiono:"
 
 #: umlwidgets/widget_utils.cpp:1034
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the signal:"
-msgstr "Enigu la novan nomon de la diagramo:"
+msgstr "Enigu la novan nomon de la signalo:"
 
 #: umlwidgets/widget_utils.cpp:1035
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the new name of the state:"
-msgstr "Enigi nomon de nova stato"
+msgstr "Enigu la novan nomon de la stato:"
 
 #: umlwidgets/widget_utils.cpp:1036
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the text:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la teksto:"
 
 #: umlwidgets/widget_utils.cpp:1037
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the uml widget:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la uml fenestraĵo:"
 
 #: umlwidgets/widget_utils.cpp:1041
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the widget:"
-msgstr "Enigu la novan nomon de la modelo:"
+msgstr "Enigu la novan nomon de la fenestraĵo:"
 
 #: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:341
 #, kde-format
@@ -9383,10 +9016,9 @@ msgid "Box"
 msgstr "Skatolo"
 
 #: umlwidgets/widgetbase.cpp:1269
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "CombinedFragment"
-msgstr "Kombinita Fragmento"
+msgstr "KombinitaFragmento"
 
 #: umlwidgets/widgetbase.cpp:1278 worktoolbar.cpp:366
 #, kde-format
@@ -9404,10 +9036,9 @@ msgid "FloatingDashLine"
 msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1290
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "ForkJoin"
-msgstr "Disiĝi/Kuniĝi"
+msgstr "DisiĝoKuniĝo"
 
 #: umlwidgets/widgetbase.cpp:1296
 #, kde-format
@@ -9425,16 +9056,14 @@ msgid "Object"
 msgstr "Objekto"
 
 #: umlwidgets/widgetbase.cpp:1308
-#, fuzzy, kde-format
-#| msgid "Object Node"
+#, kde-format
 msgid "ObjectNode"
-msgstr "Objektnodo"
+msgstr "ObjektNodo"
 
 #: umlwidgets/widgetbase.cpp:1326
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "Signal"
-msgstr "nova Signalo"
+msgstr "Signalo"
 
 #: umlwidgets/widgetbase.cpp:1329
 #, kde-format
@@ -9447,16 +9076,14 @@ msgid "Text"
 msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1335
-#, fuzzy, kde-format
-#| msgid "Use Case"
+#, kde-format
 msgid "UseCase"
-msgstr "Uzkazo"
+msgstr "UzKazo"
 
 #: umlwidgets/widgetbase.cpp:1338 worktoolbar.cpp:396
-#, fuzzy, kde-format
-#| msgid "Instance name:"
+#, kde-format
 msgid "Instance"
-msgstr "Instancnomo:"
+msgstr "Instanco"
 
 #: worktoolbar.cpp:326
 #, kde-format
@@ -9465,15 +9092,14 @@ msgid "Select"
 msgstr "Selekti"
 
 #: worktoolbar.cpp:328
-#, fuzzy, kde-format
-#| msgid "Aggregation"
+#, kde-format
 msgid "Creation"
-msgstr "Agrego"
+msgstr "Kreo"
 
 #: worktoolbar.cpp:329
 #, kde-format
 msgid "Destroy"
-msgstr ""
+msgstr "Malkreo"
 
 #: worktoolbar.cpp:334
 #, kde-format
@@ -9517,14 +9143,12 @@ msgid "Fork/Join"
 msgstr "Disiĝi/Kuniĝi"
 
 #: worktoolbar.cpp:364
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interface Provider"
-msgstr "Interfaco"
+msgstr "Interfacprovizanto"
 
 #: worktoolbar.cpp:365
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interface required"
 msgstr "Interfaco"
 
@@ -9542,10 +9166,9 @@ msgstr "Elekto"
 
 #. i18n("Choice"),                  Icon_Utils::it_Choice_Round,            SLOT(slotChoice()) },          //NotYetImplemented
 #: worktoolbar.cpp:378
-#, fuzzy, kde-format
-#| msgid "Angular Lines"
+#, kde-format
 msgid "And Line"
-msgstr "Rektangulaj Linioj"
+msgstr "\"And\" Linio"
 
 #: worktoolbar.cpp:382
 #, kde-format
@@ -9557,613 +9180,3 @@ msgstr "Stato"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "Antaŭa/Posta kondiĉo"
-
-#, fuzzy
-#~| msgid "Force Section Documentation"
-#~ msgid "Enables/Disables verbose section documentation"
-#~ msgstr "Devigi Sekcian Dokumentadon"
-
-#~ msgid "Paul Hensgen"
-#~ msgstr "Paul Hensgen"
-
-#~ msgid "Ralf Habacker"
-#~ msgstr "Ralf Habacker"
-
-#~ msgid "Andi Fischer"
-#~ msgstr "Andi Fischer"
-
-#, fuzzy
-#~| msgid "Rename object"
-#~ msgid "Rename type: %1 to %2"
-#~ msgstr "Alinomi objekton"
-
-#, fuzzy
-#~| msgid "Class name"
-#~ msgid "Class Name Invalid"
-#~ msgstr "Klasnomo"
-
-#~ msgid "Stereot&ype"
-#~ msgstr "Stereot&ipo"
-
-#, fuzzy
-#~| msgid "Can not save an empty diagram"
-#~ msgid "Cannot save an empty diagram"
-#~ msgstr "Ne eblas savi malplenan diagramon"
-
-#, fuzzy
-#~| msgid "Comment Style"
-#~ msgid "Role Style"
-#~ msgstr "Komentostilo"
-
-#~ msgid "New Activity"
-#~ msgstr "Nova Aktiveco"
-
-#, fuzzy
-#~| msgid "Subsystem"
-#~ msgid "new_subsystem"
-#~ msgstr "Subsistemo"
-
-#~ msgctxt "UMLObject name"
-#~ msgid "Name"
-#~ msgstr "Nomo"
-
-#, fuzzy
-#~| msgid "Enter the name of the new state:"
-#~ msgid "Enter name for new stereotype"
-#~ msgstr "Enigi nomon de nova stato"
-
-#~ msgid "Enter Pin Name"
-#~ msgstr "Enigi Pinglan Nomon"
-
-#~ msgid "Enter the pin name :"
-#~ msgstr "Enigu la nomon de la pinglo:"
-
-#, fuzzy
-#~| msgid "Enter Pin Name"
-#~ msgid "Enter Port Name"
-#~ msgstr "Enigi Pinglan Nomon"
-
-#, fuzzy
-#~| msgid "Enter the pin name :"
-#~ msgid "Enter the port name :"
-#~ msgstr "Enigu la nomon de la pinglo:"
-
-#~ msgid "Enter Precondition Name"
-#~ msgstr "Enigi Antaŭkondiĉan Nomon"
-
-#~ msgid "Enter the precondition :"
-#~ msgstr "Enigu la antaŭkondiĉon :"
-
-#~ msgid "Enter the precondition"
-#~ msgstr "Enigu la antaŭkondiĉon"
-
-#, fuzzy
-#~| msgid "Enter the precondition"
-#~ msgid "Enter the Pin"
-#~ msgstr "Enigu la antaŭkondiĉon"
-
-#, fuzzy
-#~| msgid "Enter the precondition"
-#~ msgid "Enter the port"
-#~ msgstr "Enigu la antaŭkondiĉon"
-
-#, fuzzy
-#~| msgid "Enter State Name"
-#~ msgid "Enter Subsystem Name"
-#~ msgstr "Enigi Nomon de Stato"
-
-#, fuzzy
-#~| msgid "Enter the name of the new state:"
-#~ msgid "Enter the name of the new subsystem"
-#~ msgstr "Enigi nomon de nova stato"
-
-#~ msgid "Actor..."
-#~ msgstr "Aktoro..."
-
-#~ msgid "Use Case..."
-#~ msgstr "Uzkazo..."
-
-#~ msgid "Component..."
-#~ msgstr "Komponanto..."
-
-#~ msgid "Artifact..."
-#~ msgstr "Artefaraĵo..."
-
-#~ msgid "Node..."
-#~ msgstr "Nodo..."
-
-#~ msgid "Entity..."
-#~ msgstr "Ento..."
-
-#~ msgid "Category..."
-#~ msgstr "Kategorio..."
-
-#~ msgid ""
-#~ "Hold shift or ctrl to move in X axis. Hold shift and control to move in Y "
-#~ "axis. Right button click to cancel resize."
-#~ msgstr ""
-#~ "Tenu aŭ Shift aŭ Ctrl por moviĝi X-akse. Tenu kaj Shift kaj Ctrl por "
-#~ "moviĝi Y-akse.Dekstra musbutono nuligas la movon."
-
-#~ msgctxt "new class menu item"
-#~ msgid "Class"
-#~ msgstr "Klaso"
-
-#~ msgid "Interface..."
-#~ msgstr "Interfaco..."
-
-#~ msgid "Attribute..."
-#~ msgstr "Atributo..."
-
-#~ msgid "Operation..."
-#~ msgstr "Operacio..."
-
-#~ msgid "Template..."
-#~ msgstr "Ŝablono..."
-
-#~ msgid "Subsystem..."
-#~ msgstr "Subsistemo..."
-
-#, fuzzy
-#~| msgid "&Export"
-#~ msgid "Port..."
-#~ msgstr "&Eksporti"
-
-#, fuzzy
-#~| msgid "New"
-#~ msgctxt "new classifier menu"
-#~ msgid "New"
-#~ msgstr "Nova"
-
-#, fuzzy
-#~| msgid "&Stereotype name:"
-#~ msgid "&Stereotype name:"
-#~ msgstr "&Stereotipnomo:"
-
-#~ msgid "Delete Diagram"
-#~ msgstr "Forigi Diagramon"
-
-#, fuzzy
-#~| msgid "Private"
-#~ msgid "Pri&vate"
-#~ msgstr "Privata"
-
-#~ msgid "I&mplementation"
-#~ msgstr "I&mplementnivela"
-
-#~ msgid "Note Documentation"
-#~ msgstr "Notdokumentado"
-
-#, fuzzy
-#~| msgid "Fork"
-#~ msgid "Form"
-#~ msgstr "Disiĝi"
-
-#, fuzzy
-#~| msgid "(c) 2001 Paul Hensgen, (c) 2002-2006 Umbrello UML Modeller Authors"
-#~ msgid "(c) 2001 Paul Hensgen, (c) 2002-2016 Umbrello UML Modeller Authors"
-#~ msgstr ""
-#~ "(k) 2001 Paul Hensgen, (k) 2002-2006 Aŭtoroj de Umbrello UML Modeller"
-
-#, fuzzy
-#~| msgid "File to open"
-#~ msgid "File to open with path."
-#~ msgstr "Dosiero malfermenda"
-
-#, fuzzy
-#~| msgid "export diagrams to extension and exit"
-#~ msgid "Export diagrams to extension and exit."
-#~ msgstr "eksporti diagramojn al sufikso kaj eliri"
-
-#, fuzzy
-#~| msgid "the local directory to save the exported diagrams in"
-#~ msgid "The local directory to save the exported diagrams in."
-#~ msgstr "la loka dosierujo por la savado de la eksportitaj bildoj"
-
-#, fuzzy
-#~| msgid "Exporting view..."
-#~ msgid "Import files."
-#~ msgstr "Eksportanta diagramon..."
-
-#, fuzzy
-#~| msgid ""
-#~| "keep the tree structure used to store the views in the document in the "
-#~| "target directory"
-#~ msgid ""
-#~ "Keep the tree structure used to store the views in the document in the "
-#~ "target directory."
-#~ msgstr ""
-#~ "reteni la arbostrukturon uzata por la storado de la diagramoj en la "
-#~ "dokumento de la celdosierujo"
-
-#, fuzzy
-#~| msgid "&Initial value:"
-#~ msgid "Initial Value:"
-#~ msgstr "&Komenca valoro:"
-
-#, fuzzy
-#~| msgid "&Type of diagram"
-#~ msgid "Type Modifier:"
-#~ msgstr "&Tipo de diagramo"
-
-#, fuzzy
-#~| msgid "Classifier &scope (\"static\")"
-#~ msgid "Classifier Scope (\"static\")"
-#~ msgstr "Kla&sifikila amplekso (\"static\")"
-
-#, fuzzy
-#~| msgid "Base Classifiers"
-#~ msgid "Qualifiers"
-#~ msgstr "Bazklasifikiloj"
-
-#, fuzzy
-#~| msgid "New Parameter..."
-#~ msgid "New Parameter"
-#~ msgstr "Nova Parametro..."
-
-#, fuzzy
-#~| msgctxt "component is executable"
-#~| msgid "&Executable"
-#~ msgid "&Mutable"
-#~ msgstr "&Lanĉebla"
-
-#, fuzzy
-#~| msgid "Constraints"
-#~ msgid "Const"
-#~ msgstr "Limigoj"
-
-#, fuzzy
-#~| msgid "Protected"
-#~ msgid "Prote&cted"
-#~ msgstr "Protektita"
-
-#, fuzzy
-#~| msgid "Export as Picture..."
-#~ msgid "Import stack trace..."
-#~ msgstr "Eksporti kiel Bildon..."
-
-#, fuzzy
-#~| msgid "Object Node name:"
-#~ msgid "Object name:"
-#~ msgstr "Objektnodnomo:"
-
-#~ msgid "Class name:"
-#~ msgstr "Klasnomo:"
-
-#, fuzzy
-#~| msgid "Class &name:"
-#~ msgid "Class &name"
-#~ msgstr "Klas&nomo:"
-
-#, fuzzy
-#~| msgid "Object"
-#~ msgctxt "UML object"
-#~ msgid "Object"
-#~ msgstr "Objekto"
-
-#, fuzzy
-#~| msgid "&Diagrams"
-#~ msgid "Diagrams"
-#~ msgstr "&Diagramoj"
-
-#~ msgid "Implements"
-#~ msgstr "Implementas"
-
-#, fuzzy
-#~| msgid "Import Project..."
-#~ msgid "Import &Project..."
-#~ msgstr "Importi Projekton..."
-
-#~ msgctxt "enum name"
-#~ msgid "Name"
-#~ msgstr "Nomo"
-
-#~ msgid "&Export"
-#~ msgstr "&Eksporti"
-
-#, fuzzy
-#~| msgid "Filter"
-#~ msgid "Filter:"
-#~ msgstr "Filtrilo"
-
-#, fuzzy
-#~| msgid "Change Font"
-#~ msgid "Changing note"
-#~ msgstr "Ŝanĝi Tiparon"
-
-#, fuzzy
-#~| msgid "Enter name:"
-#~ msgid "Enter note:"
-#~ msgstr "Enigi nomon:"
-
-#~ msgid "Component name:"
-#~ msgstr "Komponantnomo:"
-
-#~ msgid "Node name:"
-#~ msgstr "Nodnomo:"
-
-#, fuzzy
-#~| msgid "Font"
-#~ msgctxt "font page name"
-#~ msgid "Font"
-#~ msgstr "Tiparo"
-
-#, fuzzy
-#~| msgid "Style:"
-#~ msgctxt "widget style page name"
-#~ msgid "Style"
-#~ msgstr "Stilo:"
-
-#, fuzzy
-#~| msgid "&Public"
-#~ msgctxt "access control public"
-#~ msgid "&Public"
-#~ msgstr "&Publika"
-
-#, fuzzy
-#~| msgid "P&rivate"
-#~ msgctxt "access control private"
-#~ msgid "P&rivate"
-#~ msgstr "P&rivata"
-
-#, fuzzy
-#~| msgid "Prot&ected"
-#~ msgctxt "access control protected"
-#~ msgid "Prot&ected"
-#~ msgstr "Prot&ektita"
-
-#, fuzzy
-#~| msgid "Prot&ected"
-#~ msgctxt "protected visibility"
-#~ msgid "Prot&ected"
-#~ msgstr "Prot&ektita"
-
-#, fuzzy
-#~| msgid "Namespace"
-#~ msgctxt "namespace scope"
-#~ msgid "Namespace"
-#~ msgstr "Nomspaco"
-
-#, fuzzy
-#~| msgid "Class"
-#~ msgctxt "class scope"
-#~ msgid "Class"
-#~ msgstr "Klaso"
-
-#~ msgid "Line width:  "
-#~ msgstr "Amplekso de linioj:"
-
-#~ msgid "Internal Error"
-#~ msgstr "Interna Eraro"
-
-#~ msgid "Syntax Error before '%1'"
-#~ msgstr "Sintakseraro antaŭ '%1'"
-
-#~ msgid "Parse Error before '%1'"
-#~ msgstr "Parseraro antaŭ '%1'"
-
-#~ msgid "} expected"
-#~ msgstr "} atendata"
-
-#~ msgid "namespace expected"
-#~ msgstr "nomspaco atendata"
-
-#~ msgid "{ expected"
-#~ msgstr "{ atendata"
-
-#~ msgid "Namespace name expected"
-#~ msgstr "Nomspacnomo atendata"
-
-#~ msgid "Class name expected"
-#~ msgstr "Klasnomo atendata"
-
-#~ msgid "condition expected"
-#~ msgstr "kondiĉo atendata"
-
-#~ msgid "statement expected"
-#~ msgstr "programfrazo atendata"
-
-#~ msgid "for initialization expected"
-#~ msgstr "\"for\"-pravalorizo atendata"
-
-#~ msgid "catch expected"
-#~ msgstr "\"catch\" atendata"
-
-#, fuzzy
-#~| msgid "Align Horizontal Distribute"
-#~ msgid "Align Hortizontal Distribute"
-#~ msgstr "Vicigi Horizontal-Distribue"
-
-#~ msgid "Delete Selected Items"
-#~ msgstr "Forigi Selektitajn Elementojn"
-
-#~ msgid ""
-#~ "The name you entered was invalid.\n"
-#~ "Creation process has been canceled."
-#~ msgstr ""
-#~ "La nomo kiun vi enigis estis nevalida.\n"
-#~ "Kreadprocedo nuligita."
-
-#~ msgid ""
-#~ "The name you entered was not unique.\n"
-#~ "Creation process has been canceled."
-#~ msgstr ""
-#~ "La nomo kiun vi enigis ne estis unika.\n"
-#~ "Kreadprocedo nuligita."
-
-#~ msgid "Creation canceled"
-#~ msgstr "Kreado Nuligita"
-
-#, fuzzy
-#~| msgid "Views"
-#~ msgid "&View"
-#~ msgstr "Perspektivoj"
-
-#~ msgid "Show &visibility"
-#~ msgstr "Montri &videblon"
-
-#~ msgid "Show attributes"
-#~ msgstr "Montri atributojn"
-
-#~ msgid "Show operations"
-#~ msgstr "Montri operaciojn"
-
-#~ msgid "Show stereot&ype"
-#~ msgstr "Montri stereot&ipon"
-
-#~ msgid "Show attribute signature"
-#~ msgstr "Montri atributsignaturon"
-
-#~ msgid "Show package"
-#~ msgstr "Montri pakon"
-
-#, fuzzy
-#~| msgid "Create class diagram"
-#~ msgid "Create class diagram : %1"
-#~ msgstr "Krei klasdiagramon"
-
-#, fuzzy
-#~| msgid "Create entity relationship diagram"
-#~ msgid "Create entity relationship diagram : %1"
-#~ msgstr "Krei ento-rilatan diagramon"
-
-#, fuzzy
-#~| msgid "Create use case diagram"
-#~ msgid "Create use case diagram : %1"
-#~ msgstr "Krei uzkazdiagramon"
-
-#, fuzzy
-#~| msgid "Create activity diagram"
-#~ msgid "Create activity diagram : %1"
-#~ msgstr "Krei aktivecdiagramon"
-
-#, fuzzy
-#~| msgid "Create collaboration diagram"
-#~ msgid "Create collaboration diagram : %1"
-#~ msgstr "Krei kunlabordiagramo"
-
-#, fuzzy
-#~| msgid "Create sequence diagram"
-#~ msgid "Create sequence diagram : %1"
-#~ msgstr "Krei sekvencdiagramon"
-
-#, fuzzy
-#~| msgid "Create deployment diagram"
-#~ msgid "Create deployment diagram : %1"
-#~ msgstr "Krei sterndiagramo"
-
-#, fuzzy
-#~| msgid "Create component diagram"
-#~ msgid "Create component diagram : %1"
-#~ msgstr "Krei komponantdiagramon"
-
-#, fuzzy
-#~| msgid "Color"
-#~ msgctxt "widget color page name"
-#~ msgid "Color"
-#~ msgstr "Koloro"
-
-#~ msgid "Widget Colors"
-#~ msgstr "Fenestraĵkoloroj"
-
-#, fuzzy
-#~| msgid "Color"
-#~ msgctxt "color page title"
-#~ msgid "Color"
-#~ msgstr "Koloro"
-
-#, fuzzy
-#~| msgid "Color"
-#~ msgctxt "color page"
-#~ msgid "Color"
-#~ msgstr "Koloro"
-
-#~ msgid "Association font"
-#~ msgstr "Asocio-tiparo"
-
-#, fuzzy
-#~| msgid "Color"
-#~ msgctxt "diagram colors page"
-#~ msgid "Color"
-#~ msgstr "Koloro"
-
-#~ msgid "Diagram Colors"
-#~ msgstr "Diagramkoloroj"
-
-#, fuzzy
-#~| msgid "Color"
-#~ msgctxt "widget color page"
-#~ msgid "Color"
-#~ msgstr "Koloro"
-
-#~ msgid "You have to choose a directory."
-#~ msgstr "Necesas elekti dosierujon."
-
-#~ msgid "This directory does not exist."
-#~ msgstr "La dosierujo ne ekzistas."
-
-#~ msgid "No source file in this directory."
-#~ msgstr "Neniu fontdosiero en ĉi dosierujo."
-
-#~ msgid "The base directory that contains the project"
-#~ msgstr "La baza dosierujo kiu enhavas la projekton"
-
-#~ msgid "&Directory of the project:"
-#~ msgstr "&Dosierujo de la projekto:"
-
-#~ msgid "The language of the project"
-#~ msgstr "La programlingvo de la projekto"
-
-#~ msgid "Language:"
-#~ msgstr "Programlingvo:"
-
-#, fuzzy
-#~| msgid "&Import Classes..."
-#~ msgid "OLD &Import Classes..."
-#~ msgstr "&Importi Klasojn..."
-
-#, fuzzy
-#~| msgid "Import &Project..."
-#~ msgid "OLD Import &Project..."
-#~ msgstr "Importi &Projekton..."
-
-#~ msgid "*.idl|IDL Files (*.idl)"
-#~ msgstr "*.idl|dosieroj IDL (*.idl)"
-
-#, fuzzy
-#~| msgid "*.py|Python Files (*.py)"
-#~ msgid "*.py|Python Files (*.py *.pyw)"
-#~ msgstr "*.py|dosieroj Python (*.py)"
-
-#~ msgid "*.java|Java Files (*.java)"
-#~ msgstr "*.java|dosieroj Java (*.java"
-
-#~ msgid "*.pas|Pascal Files (*.pas)"
-#~ msgstr "*.pas|dosieroj Pascal (*.pas)"
-
-#~ msgid "*.ads *.ada|Ada Files (*.ads *.ada)"
-#~ msgstr "*.ads *.ada|dosieroj Ada (*.ads *.ada)"
-
-#~ msgid "Fill color:"
-#~ msgstr "Pleniga koloro:"
-
-#~ msgid "&Zoom Slider"
-#~ msgstr "Zomŝovilo"
-
-#~ msgid "&Hide Grid"
-#~ msgstr "&Kaŝi Kradon"
-
-#~ msgid "Generation Status"
-#~ msgstr "Statuso de Generado"
-
-#, fuzzy
-#~| msgid "Finish"
-#~ msgctxt "finish code generation"
-#~ msgid "Finish"
-#~ msgstr "Fini"
-
-#~ msgid "General Options"
-#~ msgstr "Ĝeneralaj Opcioj"
-
-#~ msgid "Close"
-#~ msgstr "Fermi"

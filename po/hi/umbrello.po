@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-31 00:54+0000\n"
+"POT-Creation-Date: 2023-01-02 01:08+0000\n"
 "PO-Revision-Date: 2021-09-17 20:07+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -5382,7 +5382,7 @@ msgstr "नया_बेजोड़_कॉन्स्ट्रैंट"
 #: model_utils.cpp:587
 #, fuzzy, kde-format
 #| msgid "new_usecase"
-msgid "new_use case"
+msgid "new_use_case"
 msgstr "नया_यूज़केस"
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
@@ -7210,8 +7210,9 @@ msgstr "ऑब्जेक्ट फ्लो का नाम भरें"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:523
-#, kde-format
-msgid "Vector Class Name Include "
+#, fuzzy, kde-format
+#| msgid "Vector Class Name Include "
+msgid "Vector Class Name Include"
 msgstr "वेक्टर क्लास नाम शामिल करें"
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
@@ -7292,8 +7293,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:560
-#, kde-format
-msgid "Auto Generate Attribute Accessors ( D ) "
+#, fuzzy, kde-format
+#| msgid "Auto Generate Attribute Accessors ( D ) "
+msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "एट्रिब्यूट एक्सेसर्स स्वचालित जनरेट करें (डी)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
@@ -7318,15 +7320,16 @@ msgstr "एसॉक एक्सेसर्स स्वचालित जन
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:570
-#, kde-format
-msgid "Build ANT Document (D) "
+#, fuzzy, kde-format
+#| msgid "Build ANT Document (D) "
+msgid "Build ANT Document (D)"
 msgstr "बिल्ड एएनटी दस्तावेज़ (डी)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:571
 #, fuzzy, kde-format
 #| msgid "Build ANT Document (D) "
-msgid "Enables/Disables building of ANT Document (D) "
+msgid "Enables/Disables building of ANT Document (D)"
 msgstr "बिल्ड एएनटी दस्तावेज़ (डी)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
@@ -7344,34 +7347,37 @@ msgstr "एट्रिब्यूट एक्सेसर्स स्वच�
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:582
-#, kde-format
-msgid "Auto Generate Assoc Accessors (Java) "
+#, fuzzy, kde-format
+#| msgid "Auto Generate Assoc Accessors (Java) "
+msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "एसॉक एक्सेसर्स स्वचालित जनरेट करें (जावा)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:583
 #, fuzzy, kde-format
 #| msgid "Auto Generate Assoc Accessors (Java) "
-msgid "Enables/Disables auto generation of association accessors (Java) "
+msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr "एसॉक एक्सेसर्स स्वचालित जनरेट करें (जावा)"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:587
-#, kde-format
-msgid "Build ANT Document (Java) "
+#, fuzzy, kde-format
+#| msgid "Build ANT Document (Java) "
+msgid "Build ANT Document (Java)"
 msgstr "बिल्ड एएनटी दस्तावेज़ (जाावा)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:588
 #, fuzzy, kde-format
 #| msgid "Build ANT Document (Java) "
-msgid "Enables/Disables building of ANT Document (Java) "
+msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "बिल्ड एएनटी दस्तावेज़ (जाावा)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:594
-#, kde-format
-msgid "Auto Generate Attribute Accessors (Ruby) "
+#, fuzzy, kde-format
+#| msgid "Auto Generate Attribute Accessors (Ruby) "
+msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr "एट्रिब्यूट एक्सेसर्स स्वचालित जनरेट करें (रूबी)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
@@ -8328,7 +8334,7 @@ msgstr ""
 #: umllistview.cpp:587
 #, fuzzy, kde-format
 #| msgid "File Already Exists"
-msgid "File Exist"
+msgid "File Exists"
 msgstr "फ़ाइल पहले से ही अस्तित्व में है. "
 
 #: umllistview.cpp:627
@@ -9235,7 +9241,7 @@ msgstr "नई अवस्था का नाम भरें:"
 #: umlwidgets/widget_utils.cpp:929
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
-msgid "Enter the name of the new floating dash Line:"
+msgid "Enter the name of the new floating dash line:"
 msgstr "नई अवस्था का नाम भरें:"
 
 #: umlwidgets/widget_utils.cpp:930
@@ -9430,7 +9436,7 @@ msgstr "आरेख का नया नाम भरें:"
 #: umlwidgets/widget_utils.cpp:1020
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the model:"
-msgid "Enter the new name of the floating dash Line:"
+msgid "Enter the new name of the floating dash line:"
 msgstr "मॉडल का नया नाम भरें:"
 
 #: umlwidgets/widget_utils.cpp:1021

@@ -360,6 +360,3 @@ msgstr ""
 #, kde-format
 msgid "PHPUnit"
 msgstr ""
-
-#~ msgid "Author"
-#~ msgstr "Aŭtoro"

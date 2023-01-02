@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-31 00:54+0000\n"
+"POT-Creation-Date: 2023-01-02 01:08+0000\n"
 "PO-Revision-Date: 2022-12-15 11:14-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -5281,8 +5281,9 @@ msgid "new_unique_constraint"
 msgstr "nova_restrição_de_único"
 
 #: model_utils.cpp:587
-#, kde-format
-msgid "new_use case"
+#, fuzzy, kde-format
+#| msgid "new_use case"
+msgid "new_use_case"
 msgstr "novo_caso_de_uso"
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
@@ -6941,8 +6942,9 @@ msgstr "O nome da classe 'vetor'"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:523
-#, kde-format
-msgid "Vector Class Name Include "
+#, fuzzy, kde-format
+#| msgid "Vector Class Name Include "
+msgid "Vector Class Name Include"
 msgstr "Inclusão do nome da classe vetor "
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
@@ -7019,8 +7021,9 @@ msgstr "A etiqueta usada para gerar a documentação doxygen (\\\\, @)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:560
-#, kde-format
-msgid "Auto Generate Attribute Accessors ( D ) "
+#, fuzzy, kde-format
+#| msgid "Auto Generate Attribute Accessors ( D ) "
+msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "Gerar automaticamente assessores dos atributos ( D ) "
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
@@ -7044,14 +7047,16 @@ msgstr ""
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:570
-#, kde-format
-msgid "Build ANT Document (D) "
+#, fuzzy, kde-format
+#| msgid "Build ANT Document (D) "
+msgid "Build ANT Document (D)"
 msgstr "Gerar documento do ANT (D) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:571
-#, kde-format
-msgid "Enables/Disables building of ANT Document (D) "
+#, fuzzy, kde-format
+#| msgid "Enables/Disables building of ANT Document (D) "
+msgid "Enables/Disables building of ANT Document (D)"
 msgstr "Ativa/desativa a criação do documento do ANT (D) "
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
@@ -7069,33 +7074,38 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:582
-#, kde-format
-msgid "Auto Generate Assoc Accessors (Java) "
+#, fuzzy, kde-format
+#| msgid "Auto Generate Assoc Accessors (Java) "
+msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "Gerar automaticamente os assessores das associações (Java) "
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:583
-#, kde-format
-msgid "Enables/Disables auto generation of association accessors (Java) "
+#, fuzzy, kde-format
+#| msgid "Enables/Disables auto generation of association accessors (Java) "
+msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr ""
 "Ativa/desativa a geração automática dos assessores das associações (Java) "
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:587
-#, kde-format
-msgid "Build ANT Document (Java) "
+#, fuzzy, kde-format
+#| msgid "Build ANT Document (Java) "
+msgid "Build ANT Document (Java)"
 msgstr "Criar documento do ANT (Java) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:588
-#, kde-format
-msgid "Enables/Disables building of ANT Document (Java) "
+#, fuzzy, kde-format
+#| msgid "Enables/Disables building of ANT Document (Java) "
+msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "Ativa/desativa a criação do documento do ANT (Java) "
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:594
-#, kde-format
-msgid "Auto Generate Attribute Accessors (Ruby) "
+#, fuzzy, kde-format
+#| msgid "Auto Generate Attribute Accessors (Ruby) "
+msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr "Gerar automaticamente os assessores dos atributos (Ruby) "
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
@@ -8015,8 +8025,9 @@ msgstr ""
 "O arquivo existente será sobrescrito."
 
 #: umllistview.cpp:587
-#, kde-format
-msgid "File Exist"
+#, fuzzy, kde-format
+#| msgid "File Exist"
+msgid "File Exists"
 msgstr "O arquivo já existe"
 
 #: umllistview.cpp:627
@@ -8856,8 +8867,9 @@ msgid "Enter the name of the new combined fragment:"
 msgstr "Insira o nome do novo fragmento combinado:"
 
 #: umlwidgets/widget_utils.cpp:929
-#, kde-format
-msgid "Enter the name of the new floating dash Line:"
+#, fuzzy, kde-format
+#| msgid "Enter the name of the new floating dash Line:"
+msgid "Enter the name of the new floating dash line:"
 msgstr "Insira o nome da nova linha tracejada flutuante:"
 
 #: umlwidgets/widget_utils.cpp:930
@@ -9021,8 +9033,9 @@ msgid "Enter the new name of the combined fragment:"
 msgstr "Insira o novo nome do fragmento combinado:"
 
 #: umlwidgets/widget_utils.cpp:1020
-#, kde-format
-msgid "Enter the new name of the floating dash Line:"
+#, fuzzy, kde-format
+#| msgid "Enter the new name of the floating dash Line:"
+msgid "Enter the new name of the floating dash line:"
 msgstr "Insira o novo nome da linha tracejada flutuante:"
 
 #: umlwidgets/widget_utils.cpp:1021

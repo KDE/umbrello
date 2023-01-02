@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-31 00:54+0000\n"
+"POT-Creation-Date: 2023-01-02 01:08+0000\n"
 "PO-Revision-Date: 2018-03-03 17:38+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -5347,7 +5347,7 @@ msgstr "new_unique_constraint"
 #: model_utils.cpp:587
 #, fuzzy, kde-format
 #| msgid "new_usecase"
-msgid "new_use case"
+msgid "new_use_case"
 msgstr "new_usecase"
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
@@ -7122,8 +7122,9 @@ msgstr "Navnet på vektorklassen"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:523
-#, kde-format
-msgid "Vector Class Name Include "
+#, fuzzy, kde-format
+#| msgid "Vector Class Name Include "
+msgid "Vector Class Name Include"
 msgstr "Inkludering af navn på vektorklassenavn "
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
@@ -7200,8 +7201,9 @@ msgstr "Mærket der bruges til at generere doxygen-dokumentation (\\\\, @)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:560
-#, kde-format
-msgid "Auto Generate Attribute Accessors ( D ) "
+#, fuzzy, kde-format
+#| msgid "Auto Generate Attribute Accessors ( D ) "
+msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "Autogenerér attributaccessors ( D ) "
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
@@ -7224,14 +7226,16 @@ msgstr "Aktiverer/deaktiverer autogenerering af associations-accessors ( D )"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:570
-#, kde-format
-msgid "Build ANT Document (D) "
+#, fuzzy, kde-format
+#| msgid "Build ANT Document (D) "
+msgid "Build ANT Document (D)"
 msgstr "Byg ANT-dokument (D) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:571
-#, kde-format
-msgid "Enables/Disables building of ANT Document (D) "
+#, fuzzy, kde-format
+#| msgid "Enables/Disables building of ANT Document (D) "
+msgid "Enables/Disables building of ANT Document (D)"
 msgstr "Aktiverer/deaktiverer bygning af ANT-dokument (D)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
@@ -7248,32 +7252,37 @@ msgstr "Aktiverer/deaktiverer autogenerering af attribut-accessors (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:582
-#, kde-format
-msgid "Auto Generate Assoc Accessors (Java) "
+#, fuzzy, kde-format
+#| msgid "Auto Generate Assoc Accessors (Java) "
+msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "Autogenerér assoc-accessors (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:583
-#, kde-format
-msgid "Enables/Disables auto generation of association accessors (Java) "
+#, fuzzy, kde-format
+#| msgid "Enables/Disables auto generation of association accessors (Java) "
+msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr "Aktiverer/deaktiverer autogenerering af associations-accessors (Java)"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:587
-#, kde-format
-msgid "Build ANT Document (Java) "
+#, fuzzy, kde-format
+#| msgid "Build ANT Document (Java) "
+msgid "Build ANT Document (Java)"
 msgstr "Byg ANT-dokument (Java) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:588
-#, kde-format
-msgid "Enables/Disables building of ANT Document (Java) "
+#, fuzzy, kde-format
+#| msgid "Enables/Disables building of ANT Document (Java) "
+msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "Aktiverer/deaktiverer bygning af ANT-dokument (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:594
-#, kde-format
-msgid "Auto Generate Attribute Accessors (Ruby) "
+#, fuzzy, kde-format
+#| msgid "Auto Generate Attribute Accessors (Ruby) "
+msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr "Autogenerér attribut-accessors (Ruby) "
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
@@ -8198,8 +8207,9 @@ msgstr ""
 "Den eksisterende fil vil blive overskrevet."
 
 #: umllistview.cpp:587
-#, kde-format
-msgid "File Exist"
+#, fuzzy, kde-format
+#| msgid "File Exist"
+msgid "File Exists"
 msgstr "Filen findes allerede"
 
 #: umllistview.cpp:627
@@ -9092,7 +9102,7 @@ msgstr "Indtast navnet på den nye tilstand:"
 #: umlwidgets/widget_utils.cpp:929
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
-msgid "Enter the name of the new floating dash Line:"
+msgid "Enter the name of the new floating dash line:"
 msgstr "Indtast navnet på den nye tilstand:"
 
 #: umlwidgets/widget_utils.cpp:930
@@ -9288,7 +9298,7 @@ msgstr "Indtast diagrammets nye navn:"
 #: umlwidgets/widget_utils.cpp:1020
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the model:"
-msgid "Enter the new name of the floating dash Line:"
+msgid "Enter the new name of the floating dash line:"
 msgstr "Indtast modellens nye navn:"
 
 #: umlwidgets/widget_utils.cpp:1021
