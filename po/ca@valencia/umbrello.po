@@ -1222,8 +1222,8 @@ msgid ""
 "Place all the classes you want to generate code\n"
 "for in the right hand side list."
 msgstr ""
-"Situeu a la llista de la dreta totes les classes que\n"
-"voleu de les quals voleu generar el codi."
+"Situeu en la llista de la dreta totes les classes que\n"
+"vulgueu de les quals voleu generar el codi."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenSelectPage)
 #: codegenwizard/codegenselectpage.ui:20
