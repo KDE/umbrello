@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-02 01:08+0000\n"
-"PO-Revision-Date: 2022-12-31 03:25+0100\n"
+"PO-Revision-Date: 2023-01-02 15:04+0100\n"
 "Last-Translator: Oliver M. Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -1014,7 +1014,7 @@ msgstr "Dosieroj generitaj far la Kodgenerilo estos skribataj al tiu ĉi teko"
 #: codegenwizard/codegenoptionspage.ui:96
 #, kde-format
 msgid "Bro&wse..."
-msgstr ""
+msgstr "Foli&umi..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_includeHeadings)
 #: codegenwizard/codegenoptionspage.ui:105
@@ -1027,7 +1027,7 @@ msgstr "&Inkludi kapdosierojn de dosierujo:"
 #, kde-format
 msgid ""
 "Files in this folder will be used as heading files in the generated code"
-msgstr ""
+msgstr "Dosieroj en ĉi teko estos uzataj por kaptekstoj en la generata kodo"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_browseHeadings)
 #: codegenwizard/codegenoptionspage.ui:124
@@ -1040,7 +1040,7 @@ msgstr "&Rigardi..."
 #: codegenwizard/codegenoptionspage.ui:136 umbrello.kcfg:460
 #, kde-format
 msgid "Overwrite Policy"
-msgstr ""
+msgstr "Superskriba Politiko"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelOverwritePolicy)
 #: codegenwizard/codegenoptionspage.ui:143
@@ -1108,13 +1108,13 @@ msgstr "Koncizeco de Komentoj"
 #: codegenwizard/codegenoptionspage.ui:237
 #, kde-format
 msgid "Write comments &for class and method documentation even if empty"
-msgstr ""
+msgstr "Skribi komentojn por klasa kaj metoda dokumentado eĉ se malplenaj"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_forceDoc)
 #: codegenwizard/codegenoptionspage.ui:240
 #, kde-format
 msgid "&Write documentation comments even if empty"
-msgstr ""
+msgstr "&Skribi dokumentadkomentojn eĉ se malplenaj"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
@@ -1134,19 +1134,19 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:276
 #, kde-format
 msgid "None"
-msgstr ""
+msgstr "Neniujn"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
 msgid "When section is non empty"
-msgstr ""
+msgstr "Kiam sekcio ne estas malplena"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Ĉiam"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -1194,7 +1194,7 @@ msgstr "Liniofina stilo:"
 #: codegenwizard/codegenoptionspage.ui:389
 #, kde-format
 msgid "*NIX (\"\\n\")"
-msgstr ""
+msgstr "*NIX (\"\\n\")"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectEndLineCharsBox)
 #: codegenwizard/codegenoptionspage.ui:394
@@ -1219,6 +1219,8 @@ msgid ""
 "Place all the classes you want to generate code\n"
 "for in the right hand side list."
 msgstr ""
+"Metu ĉiujn klasojn por kiuj vi volas generi kodon\n"
+"en la dekstraflanka listo."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenSelectPage)
 #: codegenwizard/codegenselectpage.ui:20
@@ -1390,7 +1392,7 @@ msgstr "Modelo de Dosiersistemo"
 #: codeimpwizard/codeimpselectpage.cpp:136
 #, kde-format
 msgid "Select the desired language to filter files."
-msgstr ""
+msgstr "Elekti la deziratan lingvon por filtri dosierojn."
 
 #: codeimpwizard/codeimpselectpage.cpp:137
 #, kde-format
@@ -1400,17 +1402,17 @@ msgstr "Selekti ankaŭ la dosierojn en la subdosierujoj."
 #: codeimpwizard/codeimpselectpage.cpp:138
 #, kde-format
 msgid "Select all the files below the current directory."
-msgstr ""
+msgstr "Selekti ĉiujn dosierojn sub la aktuala dosierujo."
 
 #: codeimpwizard/codeimpselectpage.cpp:139
 #, kde-format
 msgid "Clear all selections."
-msgstr ""
+msgstr "Forviŝi ĉiujn elektojn."
 
 #: codeimpwizard/codeimpselectpage.cpp:140
 #, kde-format
 msgid "Add file extensions like e.g. '*.h *.hpp'."
-msgstr ""
+msgstr "Aldoni dosierajn finaĵojn kiel ekz. '*.h *.hpp'."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ui_languageLabel)
 #: codeimpwizard/codeimpselectpage.ui:37
@@ -1428,19 +1430,19 @@ msgstr "Programlingvo:"
 #: codeimpwizard/codeimpselectpage.ui:66
 #, kde-format
 msgid "Include Subdirectories."
-msgstr ""
+msgstr "Aldoni Subdosierujojn."
 
 #. i18n: ectx: property (text), widget (QLabel, ui_fileExtLabel)
 #: codeimpwizard/codeimpselectpage.ui:77
 #, kde-format
 msgid "List of file extensions:"
-msgstr ""
+msgstr "Listo de dosierfinaĵoj:"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_deselectAllButton)
 #: codeimpwizard/codeimpselectpage.ui:117
 #, kde-format
 msgid "Deselect all"
-msgstr ""
+msgstr "Malelekti ĉion"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_selectAllButton)
 #: codeimpwizard/codeimpselectpage.ui:124
@@ -1452,7 +1454,7 @@ msgstr "Elekti ĉion"
 #: codeimpwizard/codeimpselectpage.ui:136
 #, kde-format
 msgid "Number of files:"
-msgstr ""
+msgstr "Nombro de dosieroj:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_filesNumLabel)
 #: codeimpwizard/codeimpselectpage.ui:143
@@ -1524,7 +1526,7 @@ msgstr "Ne Importita"
 #: codeimpwizard/codeimpstatuspage.cpp:330
 #, kde-format
 msgid "Umbrello Code Import - Logger Export"
-msgstr ""
+msgstr "Umbrello KodImporto - ProtokolEksporto"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabStatus)
 #: codeimpwizard/codeimpstatuspage.ui:33
@@ -1657,7 +1659,7 @@ msgstr "&Normala aktiveco"
 #: dialogs/activitydialog.cpp:181
 #, kde-format
 msgid "&Invoke action "
-msgstr ""
+msgstr "&Alvoki agon"
 
 #: dialogs/activitydialog.cpp:184
 #, kde-format
@@ -1807,7 +1809,7 @@ msgstr "Nova Klaso"
 #: dialogs/classwizard.cpp:78
 #, kde-format
 msgid "Add general info about the new class."
-msgstr ""
+msgstr "Aldoni ĝeneralan informon pri la nova klaso."
 
 #: dialogs/classwizard.cpp:95
 #, kde-format

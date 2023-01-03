@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-02 01:08+0000\n"
-"PO-Revision-Date: 2022-12-24 11:42\n"
+"PO-Revision-Date: 2023-01-02 07:12\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -1110,10 +1110,9 @@ msgstr "即使文档为空也要写入注释(&W)"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
+#, kde-format
 msgid "Write section comments:"
-msgstr "即使文档为空也要写入注释(&W)"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -9191,32 +9190,3 @@ msgstr "状态"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "前置/后置条件"
-
-#~ msgid ""
-#~ "Write comments &for sections even if section \n"
-#~ "is empty"
-#~ msgstr "即使区段为空也要写入注释(&F)"
-
-#~ msgid "Force Section Documentation"
-#~ msgstr "强制区段文档"
-
-#~ msgid "Enables/Disables verbose section documentation"
-#~ msgstr "启用/禁用显式化区段文档"
-
-#~ msgid "Paul Hensgen"
-#~ msgstr "Paul Hensgen"
-
-#~ msgid "Oliver Kellogg"
-#~ msgstr "Oliver Kellogg"
-
-#~ msgid "Ralf Habacker"
-#~ msgstr "Ralf Habacker"
-
-#~ msgid "Andi Fischer"
-#~ msgstr "Andi Fischer"
-
-#~ msgid "Jonathan Riddell"
-#~ msgstr "Jonathan Riddell"
-
-#~ msgid "Brian Thomas"
-#~ msgstr "Brian Thomas"

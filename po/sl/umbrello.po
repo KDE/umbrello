@@ -5,24 +5,24 @@
 # Gregor Rakar <gregor.rakar@kiss.si>, 2003, 2004, 2005.
 # Jure Repinc <jlp@holodeck1.com>, 2006.
 # Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014, 2015, 2016, 2017, 2018.
-# Matjaž Jeran <matjaz.jeran@amis.net>, 2019, 2020, 2021, 2022.
+# Matjaž Jeran <matjaz.jeran@amis.net>, 2019, 2020, 2021, 2022, 2023.
 # Martin Srebotnjak <miles@filmsi.net>, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-02 01:08+0000\n"
-"PO-Revision-Date: 2022-12-06 08:39+0100\n"
+"PO-Revision-Date: 2023-01-02 20:49+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1129,10 +1129,9 @@ msgstr "Zapiši opombe dokumentacije, tudi če je prazna"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
+#, kde-format
 msgid "Write section comments:"
-msgstr "Zapiši opombe dokumentacije, tudi če je prazna"
+msgstr "Zapiši komentarje razdelkov:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1148,19 +1147,19 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:276
 #, kde-format
 msgid "None"
-msgstr ""
+msgstr "Noben"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
 msgid "When section is non empty"
-msgstr ""
+msgstr "Kadar razdelek ni prazen"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Vedno"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -5274,8 +5273,7 @@ msgid "new_unique_constraint"
 msgstr "nova_edinstvena_omejitev"
 
 #: model_utils.cpp:587
-#, fuzzy, kde-format
-#| msgid "new_use case"
+#, kde-format
 msgid "new_use_case"
 msgstr "novi_primer_rabe"
 
@@ -6723,13 +6721,13 @@ msgstr "Preklopi podrobni izpis dokumentacije"
 #: umbrello.kcfg:399
 #, kde-format
 msgid "Section Comment Policy"
-msgstr ""
+msgstr "Politika komentarjev razdelkov"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:400
 #, kde-format
 msgid "Whether section comments shall be written"
-msgstr ""
+msgstr "Ali naj bodo zapisani komentarji razdelkov"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:409
@@ -6932,10 +6930,9 @@ msgstr "Ime razreda za vektorje"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:523
-#, fuzzy, kde-format
-#| msgid "Vector Class Name Include "
+#, kde-format
 msgid "Vector Class Name Include"
-msgstr "Vključi ime razreda za vektorje "
+msgstr "Vključi ime razreda vektorja"
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:524
@@ -7011,10 +7008,9 @@ msgstr "Oznaka uporabljena za ustvarjanje dokumentacije doxygen (\\\\, @)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:560
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors ( D ) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
-msgstr "Samodejno ustvari dostopnike atributov ( D ) "
+msgstr "Samodejno ustvari dostopnike atributov ( D )"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:561
@@ -7036,17 +7032,15 @@ msgstr "Preklopi samodejno ustvarjanje dostopnikov povezav ( D )"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:570
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (D) "
+#, kde-format
 msgid "Build ANT Document (D)"
-msgstr "Izgradi dokument ANT (D) "
+msgstr "Izgradi dokument ANT (D)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:571
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (D) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (D)"
-msgstr "Preklopi izgradnjo dokumenta ANT (D) "
+msgstr "Omogoči/Onemogoči izgradnjo dokumenta ANT (D)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:577
@@ -7062,38 +7056,33 @@ msgstr "Preklopi samodejno ustvarjanje dostopnikov atributov (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:582
-#, fuzzy, kde-format
-#| msgid "Auto Generate Assoc Accessors (Java) "
+#, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
-msgstr "Samodejno ustvari dostopnike povezav (Java) "
+msgstr "Samodejno ustvari dostopnike povezav (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:583
-#, fuzzy, kde-format
-#| msgid "Enables/Disables auto generation of association accessors (Java) "
+#, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
-msgstr "Preklopi samodejno ustvarjanje dostopnikov povezav (Java) "
+msgstr "Omogoči/Onemogoči samodejno ustvarjanje dostopnikov povezav (Java)"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:587
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (Java) "
+#, kde-format
 msgid "Build ANT Document (Java)"
-msgstr "Izgradi dokument ANT (Java) "
+msgstr "Izgradi dokument ANT (Java)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:588
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (Java) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (Java)"
-msgstr "Preklopi izgradnjo dokumenta ANT (Java) "
+msgstr "Omogoči/Onemogoči izgradnjo dokumenta ANT (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:594
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors (Ruby) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
-msgstr "Samodejno ustvari dostopnike atributov (Ruby) "
+msgstr "Samodejno ustvari dostopnike atributov (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:595
@@ -8009,8 +7998,7 @@ msgstr ""
 "Obstoječa datoteka bo prepisana."
 
 #: umllistview.cpp:587
-#, fuzzy, kde-format
-#| msgid "File Exist"
+#, kde-format
 msgid "File Exists"
 msgstr "Datoteka obstaja"
 
@@ -8849,10 +8837,9 @@ msgid "Enter the name of the new combined fragment:"
 msgstr "Vnesite ime novega združenega dela:"
 
 #: umlwidgets/widget_utils.cpp:929
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new floating dash Line:"
+#, kde-format
 msgid "Enter the name of the new floating dash line:"
-msgstr "Vnesite ime nova lebdeče črtkane črte:"
+msgstr "Vnesite ime nove lebdeče črtkane črte:"
 
 #: umlwidgets/widget_utils.cpp:930
 #, kde-format
@@ -9015,8 +9002,7 @@ msgid "Enter the new name of the combined fragment:"
 msgstr "Vnesite novo ime združenih delcev:"
 
 #: umlwidgets/widget_utils.cpp:1020
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the floating dash Line:"
+#, kde-format
 msgid "Enter the new name of the floating dash line:"
 msgstr "Vnesite novo ime lebdeče črtkane črte:"
 

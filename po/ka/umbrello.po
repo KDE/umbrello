@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-02 01:08+0000\n"
-"PO-Revision-Date: 2023-01-01 07:45+0100\n"
+"PO-Revision-Date: 2023-01-02 09:40+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -86,7 +86,7 @@ msgstr "დიაგრამის გარეშე"
 #: basictypes.cpp:331 worktoolbar.cpp:347
 #, kde-format
 msgid "Generalization"
-msgstr ""
+msgstr "გენერალიზაცია"
 
 #: basictypes.cpp:333 worktoolbar.cpp:344
 #, kde-format
@@ -239,17 +239,17 @@ msgstr ""
 #: cmds/generic/cmdcreateumlobject.cpp:28 object_factory.cpp:179
 #, kde-format
 msgid "Create UML object : %1"
-msgstr ""
+msgstr "UML ობიექტის შექმნა : %1"
 
 #: cmds/generic/cmdremoveumlobject.cpp:25
 #, kde-format
 msgid "Remove UML object : %1"
-msgstr ""
+msgstr "UML ობიექტის წაშლა : %1"
 
 #: cmds/generic/cmdrenameumlobject.cpp:20
 #, kde-format
 msgid "Rename object : %1 to %2"
-msgstr ""
+msgstr "ობიექტის სახელის გადარქმევა :  %1-დან %2"
 
 #: cmds/widget/cmdchangefillcolor.cpp:21
 #, kde-format
@@ -356,7 +356,7 @@ msgstr ""
 #: codegenerators/simplecodegenerator.cpp:140
 #, kde-format
 msgid "Cannot Create Folder"
-msgstr ""
+msgstr "შეცდომა საქაღალდის შექმნისას"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:38
 #, kde-format
@@ -835,7 +835,7 @@ msgstr "დაცული"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:162
 #, kde-format
 msgid "From Parent Object"
-msgstr ""
+msgstr "მშობელი ობიექტიდან"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelAssocFieldScope)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_3_2)
@@ -853,7 +853,7 @@ msgstr ""
 #: codegenerators/ruby/rubycodegenerationformbase.ui:203
 #, kde-format
 msgid "From Parent Role"
-msgstr ""
+msgstr "მშობელი როლიდან"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelTitle)
 #: codegenerators/d/dcodegenerationformbase.ui:318
@@ -1173,7 +1173,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:378
 #, kde-format
 msgid "Line ending style:"
-msgstr ""
+msgstr "ხაზის დასრულების სტილი:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectEndLineCharsBox)
 #: codegenwizard/codegenoptionspage.ui:389
@@ -5180,10 +5180,9 @@ msgid "new_unique_constraint"
 msgstr ""
 
 #: model_utils.cpp:587
-#, fuzzy, kde-format
-#| msgid "new_class"
+#, kde-format
 msgid "new_use_case"
-msgstr "new_class"
+msgstr "new_use_case"
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
 #, kde-format
@@ -7881,10 +7880,9 @@ msgid ""
 msgstr ""
 
 #: umllistview.cpp:587
-#, fuzzy, kde-format
-#| msgid "File Already Exists"
+#, kde-format
 msgid "File Exists"
-msgstr "ფაილი უკვე არსებობს"
+msgstr "ფაილი არსებობს"
 
 #: umllistview.cpp:627
 #, kde-format

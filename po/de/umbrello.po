@@ -1152,7 +1152,8 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:276
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "None"
 msgid "None"
 msgstr "Kein"
 
