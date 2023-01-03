@@ -14,3 +14,5 @@ In short, here is how to build current git master on Linux :
 When building/running on KF5, make sure that the "kio" package is installed.
 For details see https://bugs.kde.org/show_bug.cgi?id=361479#c3
 
+Building on Qt4 can be done using the qt4.8.6-kdelibs4.14.9 branch from git.
+However, at least Qt 4.8 is required, and at least Cmake 3.16 is required.
