@@ -1,7 +1,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020.
-# Vit Pelcak <vpelcak@suse.cz>, 2021, 2022.
+# Vit Pelcak <vit@pelcak.org>, 2021, 2022.
 #
 msgid ""
 msgstr ""
@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-02 01:08+0000\n"
 "PO-Revision-Date: 2022-01-11 17:38+0100\n"
-"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -1120,10 +1120,9 @@ msgstr "Zapsat komentáře, i když jsou prázdné"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
+#, kde-format
 msgid "Write section comments:"
-msgstr "Zapsat komentáře, i když jsou prázdné"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1135,11 +1134,12 @@ msgstr ""
 "Zapsat komentáře k označení rozdílné sekce (veřejné, soukromé) v třídách, i "
 "když jsou sekce prázdné"
 
+# žádné parametry funkce v inspektoru funkcí
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:276
 #, kde-format
 msgid "None"
-msgstr ""
+msgstr "Nic"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:281
@@ -1151,7 +1151,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Vždy"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -4290,10 +4290,9 @@ msgid "set active language"
 msgstr "nastavit aktivní jazyk"
 
 #: main.cpp:217
-#, fuzzy, kde-format
-#| msgid "set active language"
+#, kde-format
 msgid "set language"
-msgstr "nastavit aktivní jazyk"
+msgstr ""
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
@@ -5224,10 +5223,9 @@ msgid "new_unique_constraint"
 msgstr ""
 
 #: model_utils.cpp:587
-#, fuzzy, kde-format
-#| msgid "new_class"
+#, kde-format
 msgid "new_use_case"
-msgstr "nová_třída"
+msgstr ""
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
 #, kde-format
@@ -6959,10 +6957,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:560
-#, fuzzy, kde-format
-#| msgid "Default Attribute Accessor Scope"
+#, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
-msgstr "Výchozí rozsah atributu přidružení"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:561
@@ -7032,10 +7029,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:594
-#, fuzzy, kde-format
-#| msgid "Default Attribute Accessor Scope"
+#, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
-msgstr "Výchozí rozsah atributu přidružení"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:595
@@ -7950,8 +7946,7 @@ msgid ""
 msgstr ""
 
 #: umllistview.cpp:587
-#, fuzzy, kde-format
-#| msgid "File Exist"
+#, kde-format
 msgid "File Exists"
 msgstr "Soubor existuje"
 
@@ -8786,10 +8781,9 @@ msgid "Enter the name of the new combined fragment:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:929
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new floating dash line:"
-msgstr "Zadejte název nového stavu:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:930
 #, kde-format
@@ -8952,10 +8946,9 @@ msgid "Enter the new name of the combined fragment:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1020
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the floating dash line:"
-msgstr "Zadejte nový název modelu:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1021
 #, kde-format
@@ -9192,28 +9185,3 @@ msgstr "Stav"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr ""
-
-#~ msgid ""
-#~ "Write comments &for sections even if section \n"
-#~ "is empty"
-#~ msgstr ""
-#~ "Zapsat &komentáře k sekcím,\n"
-#~ "i když je sekce prázdná"
-
-#~ msgid "Paul Hensgen"
-#~ msgstr "Paul Hensgen"
-
-#~ msgid "Oliver Kellogg"
-#~ msgstr "Oliver Kellogg"
-
-#~ msgid "Ralf Habacker"
-#~ msgstr "Ralf Habacker"
-
-#~ msgid "Andi Fischer"
-#~ msgstr "Andi Fischer"
-
-#~ msgid "Jonathan Riddell"
-#~ msgstr "Jonathan Riddell"
-
-#~ msgid "Brian Thomas"
-#~ msgstr "Brian Thomas"

@@ -15,13 +15,13 @@
 # Kristof Bal <kristof.bal@gmail.com>, 2009.
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2009.
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2010, 2011, 2012.
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Freek de Kruijf <freekdekruijf@kde.nl>, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-02 01:08+0000\n"
-"PO-Revision-Date: 2022-12-30 10:01+0100\n"
+"PO-Revision-Date: 2023-01-02 12:19+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -34,7 +34,7 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Rinse de Vries,Antoon Tolboom,Freek de Kruijf - t/m 2022"
+msgstr "Rinse de Vries,Antoon Tolboom,Freek de Kruijf - t/m 2023"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -5292,10 +5292,9 @@ msgid "new_unique_constraint"
 msgstr "nieuwe_unique_constraint"
 
 #: model_utils.cpp:587
-#, fuzzy, kde-format
-#| msgid "new_use case"
+#, kde-format
 msgid "new_use_case"
-msgstr "new_use case"
+msgstr "new_use_case"
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
 #, kde-format
@@ -6957,10 +6956,9 @@ msgstr "De naam van de vectorklasse"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:523
-#, fuzzy, kde-format
-#| msgid "Vector Class Name Include "
+#, kde-format
 msgid "Vector Class Name Include"
-msgstr "Vectorklassenaam invoegen "
+msgstr "Vectorklassenaam invoegen"
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:524
@@ -7037,10 +7035,9 @@ msgstr "De gebruikte tag voor het genereren van doxygen-documentatie (\\\\, @)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:560
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors ( D ) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
-msgstr "Attribute accessor automatisch aanmaken ( D ) "
+msgstr "Attribute accessor automatisch aanmaken ( D )"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:561
@@ -7062,17 +7059,15 @@ msgstr "In/uitschakelen van 'association accessors' automatisch aanmaken ( D )"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:570
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (D) "
+#, kde-format
 msgid "Build ANT Document (D)"
-msgstr "ANT-document opbouwen ( D) "
+msgstr "ANT-document opbouwen (D)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:571
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (D) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (D)"
-msgstr "In/uitschakelen van ANT-document opbouwen ( D) "
+msgstr "In/uitschakelen van ANT-document opbouwen (D)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:577
@@ -7088,39 +7083,34 @@ msgstr "Inschakelen van 'attribute accessor' automatisch aanmaken (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:582
-#, fuzzy, kde-format
-#| msgid "Auto Generate Assoc Accessors (Java) "
+#, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
-msgstr "Association accessors automatisch aanmaken (Java) "
+msgstr "Association accessors automatisch aanmaken (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:583
-#, fuzzy, kde-format
-#| msgid "Enables/Disables auto generation of association accessors (Java) "
+#, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr ""
-"In/uitschakelen van 'association accessors' automatisch aanmaken (Java) "
+"In/uitschakelen van 'association accessors' automatisch aanmaken (Java)"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:587
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (Java) "
+#, kde-format
 msgid "Build ANT Document (Java)"
-msgstr "ANT-document opbouwen (Java) "
+msgstr "ANT-document opbouwen (Java)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:588
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (Java) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (Java)"
-msgstr "In/uitschakelen van ANT-document opbouwen (Java) "
+msgstr "In/uitschakelen van ANT-document opbouwen (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:594
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors (Ruby) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
-msgstr "Attribute accessors automatisch aanmaken (Ruby) "
+msgstr "Attribute accessors automatisch aanmaken (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:595
@@ -8040,8 +8030,7 @@ msgstr ""
 "Het bestaande bestand zal worden overschreven."
 
 #: umllistview.cpp:587
-#, fuzzy, kde-format
-#| msgid "File Exist"
+#, kde-format
 msgid "File Exists"
 msgstr "Bestand bestaat"
 
@@ -8884,8 +8873,7 @@ msgid "Enter the name of the new combined fragment:"
 msgstr "De naam van het nieuwe gecombineerde fragment invoeren:"
 
 #: umlwidgets/widget_utils.cpp:929
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new floating dash Line:"
+#, kde-format
 msgid "Enter the name of the new floating dash line:"
 msgstr "De naam van de nieuwe zwevende streepjeslijn invoeren:"
 
@@ -9050,8 +9038,7 @@ msgid "Enter the new name of the combined fragment:"
 msgstr "De nieuwe naam van het gecombineerde fragment invoeren:"
 
 #: umlwidgets/widget_utils.cpp:1020
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the floating dash Line:"
+#, kde-format
 msgid "Enter the new name of the floating dash line:"
 msgstr "De nieuwe naam van de zwevende streepjeslijn invoeren:"
 

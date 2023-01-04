@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-12 00:50+0000\n"
+"POT-Creation-Date: 2023-01-02 01:08+0000\n"
 "PO-Revision-Date: 2020-05-11 20:43+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -208,7 +208,7 @@ msgid ""
 "item of the same name already exists.  Any other items have been pasted."
 msgstr ""
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1796
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1789
 #, kde-format
 msgid "Paste Error"
 msgstr "Feil ved innliming"
@@ -406,7 +406,7 @@ msgid "Remove prefix '[a-zA-Z]_' from accessor method names"
 msgstr ""
 
 #. i18n: ectx: label, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
-#: codegenerators/cpp/cppcodegenerationform.cpp:74 umbrello.kcfg:543
+#: codegenerators/cpp/cppcodegenerationform.cpp:74 umbrello.kcfg:548
 #, kde-format
 msgid "Accessor methods start with capital letters"
 msgstr ""
@@ -432,7 +432,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: label, entry (classMemberPrefix), group (CPP Code Generation)
-#: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:473
+#: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:478
 #, kde-format
 msgid "Class member prefix"
 msgstr ""
@@ -900,18 +900,18 @@ msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenOptionsPage)
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeImpSelectPage)
-#: codegenwizard/codegenoptionspage.cpp:39
+#: codegenwizard/codegenoptionspage.cpp:38
 #: codegenwizard/codegenoptionspage.ui:20 codeimpwizard/codeimpselectpage.ui:20
 #, kde-format
 msgid "Code Generation Options"
 msgstr ""
 
-#: codegenwizard/codegenoptionspage.cpp:40
+#: codegenwizard/codegenoptionspage.cpp:39
 #, kde-format
 msgid "Adjust code generation options."
 msgstr ""
 
-#: codegenwizard/codegenoptionspage.cpp:197
+#: codegenwizard/codegenoptionspage.cpp:196
 #, kde-format
 msgid "Language Options"
 msgstr ""
@@ -1028,7 +1028,7 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxOverwritePolicy)
 #. i18n: ectx: label, entry (overwritePolicy), group (Code Generation)
-#: codegenwizard/codegenoptionspage.ui:136 umbrello.kcfg:455
+#: codegenwizard/codegenoptionspage.ui:136 umbrello.kcfg:460
 #, kde-format
 msgid "Overwrite Policy"
 msgstr ""
@@ -1092,89 +1092,105 @@ msgid "Comment Verbosity"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ui_forceDoc)
-#: codegenwizard/codegenoptionspage.ui:222
+#: codegenwizard/codegenoptionspage.ui:237
 #, kde-format
 msgid "Write comments &for class and method documentation even if empty"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_forceDoc)
-#: codegenwizard/codegenoptionspage.ui:225
+#: codegenwizard/codegenoptionspage.ui:240
 #, kde-format
 msgid "&Write documentation comments even if empty"
 msgstr ""
 
-#. i18n: ectx: property (whatsThis), widget (QCheckBox, ui_forceSections)
-#: codegenwizard/codegenoptionspage.ui:232
+#. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
+#: codegenwizard/codegenoptionspage.ui:262
+#, kde-format
+msgid "Write section comments:"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
+#: codegenwizard/codegenoptionspage.ui:269
 #, kde-format
 msgid ""
 "Writes comments to indicate the different sections (public, private etc) in "
 "a class, even if the sections are empty"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, ui_forceSections)
-#: codegenwizard/codegenoptionspage.ui:236
+#. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
+#: codegenwizard/codegenoptionspage.ui:276
 #, kde-format
-msgid ""
-"Write comments &for sections even if section \n"
-"is empty"
+msgid "None"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
+#: codegenwizard/codegenoptionspage.ui:281
+#, kde-format
+msgid "When section is non empty"
+msgstr ""
+
+#. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
+#: codegenwizard/codegenoptionspage.ui:286
+#, kde-format
+msgid "Always"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
-#: codegenwizard/codegenoptionspage.ui:246
+#: codegenwizard/codegenoptionspage.ui:314
 #, kde-format
 msgid "Lines"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelType)
-#: codegenwizard/codegenoptionspage.ui:254
+#: codegenwizard/codegenoptionspage.ui:322
 #, kde-format
 msgid "Indentation type:"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectIndentationTypeBox)
-#: codegenwizard/codegenoptionspage.ui:265
+#: codegenwizard/codegenoptionspage.ui:333
 #, kde-format
 msgid "No Indentation"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectIndentationTypeBox)
-#: codegenwizard/codegenoptionspage.ui:270
+#: codegenwizard/codegenoptionspage.ui:338
 #, kde-format
 msgid "Tab"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectIndentationTypeBox)
-#: codegenwizard/codegenoptionspage.ui:275
+#: codegenwizard/codegenoptionspage.ui:343
 #, kde-format
 msgid "Space"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelAmount)
-#: codegenwizard/codegenoptionspage.ui:293
+#: codegenwizard/codegenoptionspage.ui:361
 #, kde-format
 msgid "Indentation amount:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelStyle)
-#: codegenwizard/codegenoptionspage.ui:310
+#: codegenwizard/codegenoptionspage.ui:378
 #, kde-format
 msgid "Line ending style:"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectEndLineCharsBox)
-#: codegenwizard/codegenoptionspage.ui:321
+#: codegenwizard/codegenoptionspage.ui:389
 #, kde-format
 msgid "*NIX (\"\\n\")"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectEndLineCharsBox)
-#: codegenwizard/codegenoptionspage.ui:326
+#: codegenwizard/codegenoptionspage.ui:394
 #, kde-format
 msgid "Windows (\"\\r\\n\")"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectEndLineCharsBox)
-#: codegenwizard/codegenoptionspage.ui:331
+#: codegenwizard/codegenoptionspage.ui:399
 #, kde-format
 msgid "Mac (\"\\r\")"
 msgstr ""
@@ -1233,47 +1249,47 @@ msgstr ""
 msgid "Classes Selected"
 msgstr ""
 
-#: codegenwizard/codegenstatuspage.cpp:45
+#: codegenwizard/codegenstatuspage.cpp:44
 #, kde-format
 msgid "Status of Code Generation Progress"
 msgstr ""
 
-#: codegenwizard/codegenstatuspage.cpp:46
+#: codegenwizard/codegenstatuspage.cpp:45
 #, kde-format
 msgid ""
 "Press the button Generate to start the code generation.\n"
 "Check the success state for every class."
 msgstr ""
 
-#: codegenwizard/codegenstatuspage.cpp:87
+#: codegenwizard/codegenstatuspage.cpp:86
 #: codeimpwizard/codeimpstatuspage.cpp:102
 #, kde-format
 msgid "Not Yet Generated"
 msgstr ""
 
-#: codegenwizard/codegenstatuspage.cpp:176
+#: codegenwizard/codegenstatuspage.cpp:175
 #, kde-format
 msgid "Code Generated"
 msgstr ""
 
-#: codegenwizard/codegenstatuspage.cpp:180
+#: codegenwizard/codegenstatuspage.cpp:179
 #, kde-format
 msgid "Not Generated"
 msgstr ""
 
-#: codegenwizard/codegenstatuspage.cpp:185
+#: codegenwizard/codegenstatuspage.cpp:184
 #, kde-format
 msgid "Skipped"
 msgstr ""
 
-#: codegenwizard/codegenstatuspage.cpp:210
-#: codegenwizard/codegenstatuspage.cpp:244
+#: codegenwizard/codegenstatuspage.cpp:209
+#: codegenwizard/codegenstatuspage.cpp:243
 #: codeimpwizard/codeimpstatuspage.cpp:344
 #, kde-format
 msgid "Cannot open file!"
 msgstr ""
 
-#: codegenwizard/codegenstatuspage.cpp:230
+#: codegenwizard/codegenstatuspage.cpp:229
 #, kde-format
 msgid "Umbrello Code Generation - Logger Export"
 msgstr ""
@@ -1543,7 +1559,7 @@ msgstr ""
 #: dialogs/pages/associationgeneralpage.cpp:78
 #: dialogs/parameterpropertiesdialog.cpp:61 dialogs/statedialog.cpp:44
 #: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:38
-#: menus/listpopupmenu.cpp:243 refactoring/refactoringassistant.cpp:463
+#: menus/listpopupmenu.cpp:243 refactoring/refactoringassistant.cpp:459
 #, kde-format
 msgid "Properties"
 msgstr ""
@@ -1643,8 +1659,8 @@ msgid "General"
 msgstr "Generelt"
 
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
-#: dialogs/multipagedialogbase.cpp:361 dialogs/multipagedialogbase.cpp:375
-#: dialogs/multipagedialogbase.cpp:385 dialogs/settingsdialog.cpp:116
+#: dialogs/multipagedialogbase.cpp:334 dialogs/multipagedialogbase.cpp:348
+#: dialogs/multipagedialogbase.cpp:358 dialogs/settingsdialog.cpp:112
 #: dialogs/umlforeignkeyconstraintdialog.cpp:207 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgid "General Settings"
@@ -1663,7 +1679,7 @@ msgstr "Innstillingar for vising"
 
 #: dialogs/classpropertiesdialog.cpp:277
 #: dialogs/pages/classifierlistpage.cpp:118 menus/widgetbasepopupmenu.cpp:81
-#: menus/widgetbasepopupmenu.cpp:115 refactoring/refactoringassistant.cpp:669
+#: menus/widgetbasepopupmenu.cpp:115 refactoring/refactoringassistant.cpp:665
 #, kde-format
 msgid "Attributes"
 msgstr ""
@@ -1675,7 +1691,7 @@ msgstr ""
 
 #: dialogs/classpropertiesdialog.cpp:287
 #: dialogs/pages/classifierlistpage.cpp:122 menus/widgetbasepopupmenu.cpp:84
-#: menus/widgetbasepopupmenu.cpp:124 refactoring/refactoringassistant.cpp:685
+#: menus/widgetbasepopupmenu.cpp:124 refactoring/refactoringassistant.cpp:681
 #, kde-format
 msgid "Operations"
 msgstr ""
@@ -1796,7 +1812,7 @@ msgstr ""
 msgid "Add operations to the new class."
 msgstr ""
 
-#: dialogs/codeeditor.cpp:766 dialogs/codeeditor.cpp:768
+#: dialogs/codeeditor.cpp:765 dialogs/codeeditor.cpp:767
 #: menus/widgetbasepopupmenu.cpp:118 menus/widgetbasepopupmenu.cpp:126
 #: menus/widgetbasepopupmenu.cpp:133 menus/widgetbasepopupmenu.cpp:140
 #: menus/widgetbasepopupmenu.cpp:146
@@ -1804,7 +1820,7 @@ msgstr ""
 msgid "Hide"
 msgstr "Gøym"
 
-#: dialogs/codeeditor.cpp:776 dialogs/codeeditor.cpp:778
+#: dialogs/codeeditor.cpp:775 dialogs/codeeditor.cpp:777
 #: dialogs/pages/classoptionspage.cpp:144
 #: dialogs/pages/classoptionspage.cpp:217
 #: dialogs/pages/classoptionspage.cpp:239
@@ -1817,45 +1833,45 @@ msgstr "Gøym"
 msgid "Show"
 msgstr "Vis"
 
-#: dialogs/codeeditor.cpp:789 dialogs/codeeditor.cpp:791
+#: dialogs/codeeditor.cpp:788 dialogs/codeeditor.cpp:790
 #, kde-format
 msgid "Hide Comment"
 msgstr "Gøym merknad"
 
-#: dialogs/codeeditor.cpp:799 dialogs/codeeditor.cpp:801
+#: dialogs/codeeditor.cpp:798 dialogs/codeeditor.cpp:800
 #, kde-format
 msgid "Show Comment"
 msgstr "Vis merknad"
 
-#: dialogs/codeeditor.cpp:811 dialogs/codeeditor.cpp:813
+#: dialogs/codeeditor.cpp:810 dialogs/codeeditor.cpp:812
 #, kde-format
 msgid "Insert Code Block Before"
 msgstr ""
 
-#: dialogs/codeeditor.cpp:820 dialogs/codeeditor.cpp:822
+#: dialogs/codeeditor.cpp:819 dialogs/codeeditor.cpp:821
 #, kde-format
 msgid "Insert Code Block After"
 msgstr ""
 
-#: dialogs/codeeditor.cpp:831 dialogs/codeeditor.cpp:833
+#: dialogs/codeeditor.cpp:830 dialogs/codeeditor.cpp:832
 #: menus/listpopupmenu.cpp:169
 #, kde-format
 msgid "Copy"
 msgstr "Kopier"
 
-#: dialogs/codeeditor.cpp:840 dialogs/codeeditor.cpp:842
+#: dialogs/codeeditor.cpp:839 dialogs/codeeditor.cpp:841
 #: menus/listpopupmenu.cpp:237
 #, kde-format
 msgid "Paste"
 msgstr "Lim inn"
 
-#: dialogs/codeeditor.cpp:849 dialogs/codeeditor.cpp:851
+#: dialogs/codeeditor.cpp:848 dialogs/codeeditor.cpp:850
 #: menus/listpopupmenu.cpp:170
 #, kde-format
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: dialogs/codeviewerdialog.cpp:95
+#: dialogs/codeviewerdialog.cpp:97
 #, kde-format
 msgid "Code Viewer - %1"
 msgstr ""
@@ -1926,49 +1942,49 @@ msgstr ""
 msgid "<p align=\"right\">Editable text:</p>"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:30
+#: dialogs/dialog_utils.cpp:31
 #, kde-format
 msgid "Enable all messages"
 msgstr "Vis alle meldingar"
 
-#: dialogs/dialog_utils.cpp:31
+#: dialogs/dialog_utils.cpp:32
 #, kde-format
 msgid "Enable 'delete association' related messages"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:32
+#: dialogs/dialog_utils.cpp:33
 #, kde-format
 msgid "Enable 'delete diagram' related messages"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:213
+#: dialogs/dialog_utils.cpp:214
 #, kde-format
 msgid "You are about to delete an association. Do you really want to continue?"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:214
+#: dialogs/dialog_utils.cpp:215
 #, kde-format
 msgid "Delete Association"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:228
+#: dialogs/dialog_utils.cpp:229
 #, kde-format
 msgid ""
 "You are about to delete the entire diagram.\n"
 "Are you sure?"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:229
+#: dialogs/dialog_utils.cpp:230
 #, kde-format
 msgid "Are you sure you want to delete diagram %1?"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:234
+#: dialogs/dialog_utils.cpp:235
 #, kde-format
 msgid "Delete Diagram?"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:235 dialogs/pages/classifierlistpage.cpp:215
+#: dialogs/dialog_utils.cpp:236 dialogs/pages/classifierlistpage.cpp:215
 #: dialogs/pages/classifierlistpage.cpp:223
 #: dialogs/umlforeignkeyconstraintdialog.cpp:324
 #: dialogs/umlforeignkeyconstraintdialog.cpp:330
@@ -2110,13 +2126,13 @@ msgstr ""
 msgid "Search Term:"
 msgstr ""
 
-#: dialogs/multipagedialogbase.cpp:69
+#: dialogs/multipagedialogbase.cpp:72
 #, kde-format
 msgid "Default"
 msgstr "Standard"
 
-#: dialogs/multipagedialogbase.cpp:361 dialogs/multipagedialogbase.cpp:375
-#: dialogs/multipagedialogbase.cpp:385
+#: dialogs/multipagedialogbase.cpp:334 dialogs/multipagedialogbase.cpp:348
+#: dialogs/multipagedialogbase.cpp:358
 #, kde-format
 msgctxt "general settings"
 msgid "General"
@@ -2124,46 +2140,46 @@ msgstr "Generelt"
 
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
-#: dialogs/multipagedialogbase.cpp:400 umbrello.kcfg:177 umbrello.kcfg:297
+#: dialogs/multipagedialogbase.cpp:373 umbrello.kcfg:177 umbrello.kcfg:297
 #: umllistview.cpp:1472
 #, kde-format
 msgid "Font"
 msgstr ""
 
-#: dialogs/multipagedialogbase.cpp:400
+#: dialogs/multipagedialogbase.cpp:373
 #, kde-format
 msgid "Font Settings"
 msgstr ""
 
-#: dialogs/multipagedialogbase.cpp:475
+#: dialogs/multipagedialogbase.cpp:448
 #, kde-format
 msgctxt "widget style page"
 msgid "Style"
 msgstr ""
 
-#: dialogs/multipagedialogbase.cpp:475
+#: dialogs/multipagedialogbase.cpp:448
 #, kde-format
 msgid "Widget Style"
 msgstr ""
 
-#: dialogs/multipagedialogbase.cpp:486
+#: dialogs/multipagedialogbase.cpp:459
 #, kde-format
 msgctxt "style page name"
 msgid "Style"
 msgstr ""
 
-#: dialogs/multipagedialogbase.cpp:486
+#: dialogs/multipagedialogbase.cpp:459
 #, kde-format
 msgid "Line Style"
 msgstr ""
 
-#: dialogs/multipagedialogbase.cpp:506
+#: dialogs/multipagedialogbase.cpp:479
 #, kde-format
 msgctxt "role page name"
 msgid "Roles"
 msgstr ""
 
-#: dialogs/multipagedialogbase.cpp:506
+#: dialogs/multipagedialogbase.cpp:479
 #, kde-format
 msgid "Role Settings"
 msgstr ""
@@ -2290,7 +2306,7 @@ msgid "New Activity..."
 msgstr "Ny aktivitet …"
 
 #: dialogs/pages/activitypage.cpp:107 dialogs/pages/activitypage.cpp:115
-#: menus/listpopupmenu.cpp:173 refactoring/refactoringassistant.cpp:464
+#: menus/listpopupmenu.cpp:173 refactoring/refactoringassistant.cpp:460
 #, kde-format
 msgid "Delete"
 msgstr "Slett"
@@ -2541,7 +2557,7 @@ msgstr ""
 
 #: dialogs/pages/classifierlistpage.cpp:217
 #: dialogs/pages/classifierlistpage.cpp:225 dialogs/umloperationdialog.cpp:170
-#: dialogs/umloperationdialog.cpp:178 uml.cpp:639
+#: dialogs/umloperationdialog.cpp:178 uml.cpp:640
 #, kde-format
 msgid "&Properties"
 msgstr "&Eigenskapar"
@@ -2559,7 +2575,7 @@ msgid "Source Code"
 msgstr "Kjeldekode"
 
 #: dialogs/pages/classoptionspage.cpp:152
-#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:594
+#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:595
 #, kde-format
 msgid "&Documentation"
 msgstr ""
@@ -2690,26 +2706,26 @@ msgstr ""
 msgid "Enable C++11 standard (experimental)"
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:81
-#: dialogs/pages/constraintlistpage.cpp:83 menus/listpopupmenu.cpp:269
+#: dialogs/pages/constraintlistpage.cpp:74
+#: dialogs/pages/constraintlistpage.cpp:76 menus/listpopupmenu.cpp:269
 #, kde-format
 msgid "Unique Constraint..."
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:89
-#: dialogs/pages/constraintlistpage.cpp:91 menus/listpopupmenu.cpp:242
+#: dialogs/pages/constraintlistpage.cpp:82
+#: dialogs/pages/constraintlistpage.cpp:84 menus/listpopupmenu.cpp:242
 #, kde-format
 msgid "Primary Key Constraint..."
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:97
-#: dialogs/pages/constraintlistpage.cpp:99 menus/listpopupmenu.cpp:195
+#: dialogs/pages/constraintlistpage.cpp:90
+#: dialogs/pages/constraintlistpage.cpp:92 menus/listpopupmenu.cpp:195
 #, kde-format
 msgid "Foreign Key Constraint..."
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:105
-#: dialogs/pages/constraintlistpage.cpp:107 menus/listpopupmenu.cpp:159
+#: dialogs/pages/constraintlistpage.cpp:98
+#: dialogs/pages/constraintlistpage.cpp:100 menus/listpopupmenu.cpp:159
 #, kde-format
 msgid "Check Constraint..."
 msgstr ""
@@ -2856,59 +2872,59 @@ msgstr "Y"
 msgid "Autoincrement Sequence "
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:51
-#: dialogs/pages/umlwidgetstylepage.cpp:207
+#: dialogs/pages/generaloptionpage.cpp:41
+#: dialogs/pages/umlwidgetstylepage.cpp:198
 #, kde-format
 msgctxt "miscellaneous group box"
 msgid "Miscellaneous"
 msgstr "Ymse"
 
-#: dialogs/pages/generaloptionpage.cpp:58
+#: dialogs/pages/generaloptionpage.cpp:48
 #, kde-format
 msgid "Enable undo"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:62
+#: dialogs/pages/generaloptionpage.cpp:52
 #, kde-format
 msgid "Use tabbed diagrams"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:66
+#: dialogs/pages/generaloptionpage.cpp:56
 #, kde-format
 msgid "Use new C++/Java/Ruby generators"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:70
+#: dialogs/pages/generaloptionpage.cpp:60
 #, kde-format
 msgid "Turn on footer and page numbers when printing"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:74
+#: dialogs/pages/generaloptionpage.cpp:64
 #, kde-format
 msgid "Enable UML2 support"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:79
+#: dialogs/pages/generaloptionpage.cpp:69
 #, kde-format
 msgid "Autosave"
 msgstr "Autolagring"
 
-#: dialogs/pages/generaloptionpage.cpp:86
+#: dialogs/pages/generaloptionpage.cpp:76
 #, kde-format
 msgid "E&nable autosave"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:90
+#: dialogs/pages/generaloptionpage.cpp:80
 #, kde-format
 msgid "Select auto-save time interval (mins):"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:106
+#: dialogs/pages/generaloptionpage.cpp:92
 #, kde-format
 msgid "Set autosave suffix:"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:108
+#: dialogs/pages/generaloptionpage.cpp:94
 #, kde-format
 msgid ""
 "<qt><p>The autosave file will be saved to ~/autosave.xmi if the autosaving "
@@ -2919,22 +2935,22 @@ msgid ""
 "autosave will overwrite your file automatically.</p></qt>"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:119
+#: dialogs/pages/generaloptionpage.cpp:105
 #, kde-format
 msgid "Startup"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:126
+#: dialogs/pages/generaloptionpage.cpp:112
 #, kde-format
 msgid "&Load last project"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:130
+#: dialogs/pages/generaloptionpage.cpp:116
 #, kde-format
 msgid "Start new project with:"
 msgstr ""
 
-#: dialogs/pages/generaloptionpage.cpp:150
+#: dialogs/pages/generaloptionpage.cpp:136
 #, kde-format
 msgid "Default Language :"
 msgstr "Standardspråk:"
@@ -3047,7 +3063,7 @@ msgstr ""
 msgid "Custom line width"
 msgstr ""
 
-#: dialogs/pages/uioptionspage.cpp:133
+#: dialogs/pages/uioptionspage.cpp:129
 #, kde-format
 msgid "&Use fill color"
 msgstr ""
@@ -3094,95 +3110,95 @@ msgstr ""
 msgid "Add only"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:109
+#: dialogs/pages/umlwidgetstylepage.cpp:104
 #, kde-format
 msgctxt "title of color group"
 msgid "Color"
 msgstr "Farge"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:114
+#: dialogs/pages/umlwidgetstylepage.cpp:109
 #, kde-format
 msgctxt "text color"
 msgid "&Text:"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:121
+#: dialogs/pages/umlwidgetstylepage.cpp:116
 #, kde-format
 msgctxt "default text color button"
 msgid "Defaul&t"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:124
+#: dialogs/pages/umlwidgetstylepage.cpp:119
 #, kde-format
 msgctxt "line color"
 msgid "&Line:"
 msgstr "&Linje:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:131
+#: dialogs/pages/umlwidgetstylepage.cpp:126
 #, kde-format
 msgctxt "default line color button"
 msgid "&Default"
 msgstr "&Standard"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:134
+#: dialogs/pages/umlwidgetstylepage.cpp:129
 #, kde-format
 msgid "&Fill:"
 msgstr "&Fyll:"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:141
+#: dialogs/pages/umlwidgetstylepage.cpp:136
 #, kde-format
 msgctxt "default fill color button"
 msgid "D&efault"
 msgstr "S&tandard"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:144
+#: dialogs/pages/umlwidgetstylepage.cpp:139
 #, kde-format
 msgid "&Use fill"
 msgstr "&Bruk fyll"
 
-#: dialogs/pages/umlwidgetstylepage.cpp:154
+#: dialogs/pages/umlwidgetstylepage.cpp:149
 #, kde-format
 msgctxt "background color"
 msgid "&Background:"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:161
+#: dialogs/pages/umlwidgetstylepage.cpp:156
 #, kde-format
 msgctxt "default background color button"
 msgid "De&fault"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:164
+#: dialogs/pages/umlwidgetstylepage.cpp:159
 #, kde-format
 msgctxt "grid dot color"
 msgid "&Grid dot:"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:171
+#: dialogs/pages/umlwidgetstylepage.cpp:166
 #, kde-format
 msgctxt "default grid dot color button"
 msgid "Def&ault"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:179
+#: dialogs/pages/umlwidgetstylepage.cpp:174
 #, kde-format
 msgctxt "title of width group"
 msgid "Width"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:184
+#: dialogs/pages/umlwidgetstylepage.cpp:179
 #, kde-format
 msgctxt "line width"
 msgid "Line &width:"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:198
+#: dialogs/pages/umlwidgetstylepage.cpp:189
 #, kde-format
 msgctxt "default line width button"
 msgid "Defa&ult"
 msgstr ""
 
-#: dialogs/pages/umlwidgetstylepage.cpp:212
+#: dialogs/pages/umlwidgetstylepage.cpp:203
 #, kde-format
 msgid "Layout of the line:"
 msgstr ""
@@ -3230,79 +3246,79 @@ msgstr ""
 msgid "Diagram"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:44
+#: dialogs/settingsdialog.cpp:40
 #, kde-format
 msgid "Umbrello Setup"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:109 umllistview.cpp:1474
+#: dialogs/settingsdialog.cpp:105 umllistview.cpp:1474
 #, kde-format
 msgid "User Interface"
 msgstr "Brukargrensesnitt"
 
-#: dialogs/settingsdialog.cpp:109
+#: dialogs/settingsdialog.cpp:105
 #, kde-format
 msgid "User Interface Settings"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:116 dialogs/umlviewdialog.cpp:88
+#: dialogs/settingsdialog.cpp:112 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgctxt "general settings page"
 msgid "General"
 msgstr "Generelt"
 
-#: dialogs/settingsdialog.cpp:125
+#: dialogs/settingsdialog.cpp:121
 #, kde-format
 msgctxt "class settings page"
 msgid "Class"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:125
+#: dialogs/settingsdialog.cpp:121
 #, kde-format
 msgid "Class Settings"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1469
+#: dialogs/settingsdialog.cpp:128 umllistview.cpp:1469
 #, kde-format
 msgid "Code Importer"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:132
+#: dialogs/settingsdialog.cpp:128
 #, kde-format
 msgid "Code Import Settings"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:141 umllistview.cpp:1470
+#: dialogs/settingsdialog.cpp:137 umllistview.cpp:1470
 #, kde-format
 msgid "Code Generation"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:141
+#: dialogs/settingsdialog.cpp:137
 #, kde-format
 msgid "Code Generation Settings"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:149 umllistview.cpp:1471
+#: dialogs/settingsdialog.cpp:145 umllistview.cpp:1471
 #, kde-format
 msgid "Code Viewer"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:149
+#: dialogs/settingsdialog.cpp:145
 #, kde-format
 msgid "Code Viewer Settings"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:156 umllistview.cpp:1467
+#: dialogs/settingsdialog.cpp:152 umllistview.cpp:1467
 #, kde-format
 msgid "Auto Layout"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:156
+#: dialogs/settingsdialog.cpp:152
 #, kde-format
 msgid "Auto Layout Settings"
 msgstr ""
 
-#: dialogs/singlepagedialogbase.cpp:38 dialogs/singlepagedialogbase.cpp:57
+#: dialogs/singlepagedialogbase.cpp:35 dialogs/singlepagedialogbase.cpp:49
 #, kde-format
 msgid "Search"
 msgstr "Søk"
@@ -3437,7 +3453,7 @@ msgid "You have entered an invalid attribute name."
 msgstr ""
 
 #: dialogs/umlattributedialog.cpp:124 dialogs/umlenumliteraldialog.cpp:85
-#: refactoring/refactoringassistant.cpp:849
+#: refactoring/refactoringassistant.cpp:845
 #, kde-format
 msgid "Attribute Name Invalid"
 msgstr ""
@@ -3773,17 +3789,17 @@ msgid "You have entered an invalid operation name."
 msgstr ""
 
 #: dialogs/umloperationdialog.cpp:426 dialogs/umloperationdialog.cpp:438
-#: refactoring/refactoringassistant.cpp:828
+#: refactoring/refactoringassistant.cpp:824
 #, kde-format
 msgid "Operation Name Invalid"
 msgstr ""
 
-#: dialogs/umloperationdialog.cpp:435 refactoring/refactoringassistant.cpp:825
+#: dialogs/umloperationdialog.cpp:435 refactoring/refactoringassistant.cpp:821
 #, kde-format
 msgid "An operation with that signature already exists in %1.\n"
 msgstr ""
 
-#: dialogs/umloperationdialog.cpp:437 refactoring/refactoringassistant.cpp:827
+#: dialogs/umloperationdialog.cpp:437 refactoring/refactoringassistant.cpp:823
 #, kde-format
 msgid "Choose a different name or parameter list."
 msgstr ""
@@ -4075,7 +4091,7 @@ msgstr ""
 msgid "Gael de Chalendar (aka Kleag)"
 msgstr "Gael «Kleag» de Chalendar"
 
-#: docgenerators/main.cpp:51 main.cpp:134 main.cpp:183
+#: docgenerators/main.cpp:51 main.cpp:162
 #, kde-format
 msgid "Umbrello UML Modeller Authors"
 msgstr "Umbrello UML Modeller-utviklarane"
@@ -4137,12 +4153,12 @@ msgstr ""
 msgid "Apply layout"
 msgstr ""
 
-#: main.cpp:124 main.cpp:173
+#: main.cpp:147
 #, kde-format
 msgid "Umbrello UML Modeller"
 msgstr "Umbrello UML Modeller"
 
-#: main.cpp:126 main.cpp:175
+#: main.cpp:149
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
@@ -4150,121 +4166,91 @@ msgid ""
 "href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 msgstr ""
 
-#: main.cpp:130 main.cpp:179
+#: main.cpp:157
 #, kde-format
 msgid ""
 "Copyright © 2001 Paul Hensgen,\n"
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
 msgstr ""
 
-#: main.cpp:133
-#, kde-format
-msgid "Paul Hensgen"
-msgstr "Paul Hensgen"
-
-#: main.cpp:133 main.cpp:182
+#: main.cpp:161
 #, kde-format
 msgid "Author of initial version."
 msgstr ""
 
-#: main.cpp:137
-#, kde-format
-msgid "Oliver Kellogg"
-msgstr ""
-
-#: main.cpp:138 main.cpp:141 main.cpp:186 main.cpp:189
+#: main.cpp:166 main.cpp:169
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr ""
 
-#: main.cpp:140
-#, kde-format
-msgid "Ralf Habacker"
-msgstr "Ralf Habacker"
-
-#: main.cpp:143
-#, kde-format
-msgid "Andi Fischer"
-msgstr ""
-
-#: main.cpp:144 main.cpp:192
+#: main.cpp:172
 #, kde-format
 msgid "Porting work, code cleanup, new features."
 msgstr ""
 
-#: main.cpp:146
-#, kde-format
-msgid "Jonathan Riddell"
-msgstr ""
-
-#: main.cpp:147 main.cpp:195
+#: main.cpp:175
 #, kde-format
 msgid "Current maintainer."
 msgstr ""
 
-#: main.cpp:149
-#, kde-format
-msgid "Brian Thomas"
-msgstr ""
-
-#: main.cpp:150 main.cpp:198
+#: main.cpp:178
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 
-#: main.cpp:155 main.cpp:206
+#: main.cpp:184 main.cpp:202
 #, kde-format
 msgid "File to open"
 msgstr "Fil som skal opnast"
 
-#: main.cpp:156 main.cpp:207
+#: main.cpp:185 main.cpp:203
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr ""
 
-#: main.cpp:157 main.cpp:209
+#: main.cpp:186 main.cpp:205
 #, kde-format
 msgid "list available export extensions"
 msgstr ""
 
-#: main.cpp:158 main.cpp:211
+#: main.cpp:187 main.cpp:207
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr ""
 
-#: main.cpp:158
+#: main.cpp:187
 #, kde-format
 msgid "the directory of the file"
 msgstr ""
 
-#: main.cpp:159 main.cpp:213
+#: main.cpp:188 main.cpp:209
 #, kde-format
 msgid "import files"
 msgstr ""
 
-#: main.cpp:160 main.cpp:215
+#: main.cpp:189 main.cpp:211
 #, kde-format
 msgid "list supported languages"
 msgstr ""
 
-#: main.cpp:161 main.cpp:217
+#: main.cpp:190 main.cpp:213
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
 "target directory"
 msgstr ""
 
-#: main.cpp:162 main.cpp:219
+#: main.cpp:191 main.cpp:215
 #, kde-format
 msgid "import files from directory <dir>"
 msgstr ""
 
-#: main.cpp:163
+#: main.cpp:192
 #, kde-format
 msgid "set active language"
 msgstr ""
 
-#: main.cpp:221
+#: main.cpp:217
 #, kde-format
 msgid "set language"
 msgstr ""
@@ -4528,7 +4514,7 @@ msgstr ""
 msgid "Import File(s)..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:200 uml.cpp:436
+#: menus/listpopupmenu.cpp:200 uml.cpp:437
 #, kde-format
 msgid "Import from Directory..."
 msgstr ""
@@ -5027,42 +5013,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:658
+#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:659
 #, kde-format
 msgid "Align Right"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:663
+#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:664
 #, kde-format
 msgid "Align Left"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:668
+#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:669
 #, kde-format
 msgid "Align Top"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:673
+#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:674
 #, kde-format
 msgid "Align Bottom"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:678
+#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:679
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:683
+#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:684
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:688
+#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:689
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:693
+#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:694
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr ""
@@ -5199,7 +5185,7 @@ msgstr ""
 
 #: model_utils.cpp:587
 #, kde-format
-msgid "new_use case"
+msgid "new_use_case"
 msgstr ""
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
@@ -5899,58 +5885,58 @@ msgstr ""
 msgid "Not a Unique Name"
 msgstr ""
 
-#: refactoring/refactoringassistant.cpp:447
+#: refactoring/refactoringassistant.cpp:443
 #, kde-format
 msgid "Add Base Class"
 msgstr ""
 
-#: refactoring/refactoringassistant.cpp:448
+#: refactoring/refactoringassistant.cpp:444
 #, kde-format
 msgid "Add Derived Class"
 msgstr ""
 
 #. i18n("Add Interface Implementation"), SLOT(addInterfaceImplementation()), Icon_Utils::it_Implementation));
-#: refactoring/refactoringassistant.cpp:450
-#: refactoring/refactoringassistant.cpp:456
-#: refactoring/refactoringassistant.cpp:468
+#: refactoring/refactoringassistant.cpp:446
+#: refactoring/refactoringassistant.cpp:452
+#: refactoring/refactoringassistant.cpp:464
 #, kde-format
 msgid "Add Operation"
 msgstr ""
 
-#: refactoring/refactoringassistant.cpp:451
-#: refactoring/refactoringassistant.cpp:471
+#: refactoring/refactoringassistant.cpp:447
+#: refactoring/refactoringassistant.cpp:467
 #, kde-format
 msgid "Add Attribute"
 msgstr ""
 
-#: refactoring/refactoringassistant.cpp:454
+#: refactoring/refactoringassistant.cpp:450
 #, kde-format
 msgid "Add Base Interface"
 msgstr ""
 
-#: refactoring/refactoringassistant.cpp:455
+#: refactoring/refactoringassistant.cpp:451
 #, kde-format
 msgid "Add Derived Interface"
 msgstr ""
 
-#: refactoring/refactoringassistant.cpp:514
-#: refactoring/refactoringassistant.cpp:695
+#: refactoring/refactoringassistant.cpp:510
+#: refactoring/refactoringassistant.cpp:691
 #, kde-format
 msgid "Base Classifiers"
 msgstr ""
 
-#: refactoring/refactoringassistant.cpp:559
-#: refactoring/refactoringassistant.cpp:714
+#: refactoring/refactoringassistant.cpp:555
+#: refactoring/refactoringassistant.cpp:710
 #, kde-format
 msgid "Derived Classifiers"
 msgstr ""
 
-#: refactoring/refactoringassistant.cpp:846
+#: refactoring/refactoringassistant.cpp:842
 #, kde-format
 msgid "An attribute with that name already exists in %1.\n"
 msgstr ""
 
-#: refactoring/refactoringassistant.cpp:848
+#: refactoring/refactoringassistant.cpp:844
 #, kde-format
 msgid "Choose a different name."
 msgstr ""
@@ -6641,423 +6627,423 @@ msgstr ""
 msgid "Enables/Disables Verbose Documentation"
 msgstr ""
 
-#. i18n: ectx: label, entry (forceSections), group (Code Generation)
+#. i18n: ectx: label, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:399
 #, kde-format
-msgid "Force Section Documentation"
+msgid "Section Comment Policy"
 msgstr ""
 
-#. i18n: ectx: whatsthis, entry (forceSections), group (Code Generation)
+#. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:400
 #, kde-format
-msgid "Enables/Disables verbose section documentation"
+msgid "Whether section comments shall be written"
 msgstr ""
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
-#: umbrello.kcfg:404
+#: umbrello.kcfg:409
 #, kde-format
 msgid "Headings Directory"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (headingsDirectory), group (Code Generation)
-#: umbrello.kcfg:405
+#: umbrello.kcfg:410
 #, kde-format
 msgid "The Path in which the headings are stored"
 msgstr ""
 
 #. i18n: ectx: label, entry (includeHeadings), group (Code Generation)
-#: umbrello.kcfg:409
+#: umbrello.kcfg:414
 #, kde-format
 msgid "Include headings"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (includeHeadings), group (Code Generation)
-#: umbrello.kcfg:410
+#: umbrello.kcfg:415
 #, kde-format
 msgid "Enables/Disables inclusion of headings"
 msgstr ""
 
 #. i18n: ectx: label, entry (indentationAmount), group (Code Generation)
-#: umbrello.kcfg:414
+#: umbrello.kcfg:419
 #, kde-format
 msgid "Indentation Amount"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (indentationAmount), group (Code Generation)
-#: umbrello.kcfg:415
+#: umbrello.kcfg:420
 #, kde-format
 msgid "The amount of indentation"
 msgstr ""
 
 #. i18n: ectx: label, entry (indentationType), group (Code Generation)
-#: umbrello.kcfg:420
+#: umbrello.kcfg:425
 #, kde-format
 msgid "Indentation Type"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (indentationType), group (Code Generation)
-#: umbrello.kcfg:421
+#: umbrello.kcfg:426
 #, kde-format
 msgid "The Type of Indentation"
 msgstr ""
 
 #. i18n: ectx: label, entry (lineEndingType), group (Code Generation)
-#: umbrello.kcfg:430
+#: umbrello.kcfg:435
 #, kde-format
 msgid "Line Ending Type"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (lineEndingType), group (Code Generation)
-#: umbrello.kcfg:431
+#: umbrello.kcfg:436
 #, kde-format
 msgid "The type of line ending ( or new line type )"
 msgstr ""
 
 #. i18n: ectx: label, entry (modnamePolicy), group (Code Generation)
 #. i18n: ectx: whatsthis, entry (modnamePolicy), group (Code Generation)
-#: umbrello.kcfg:440 umbrello.kcfg:441
+#: umbrello.kcfg:445 umbrello.kcfg:446
 #, kde-format
 msgid "Modifier Name Policy"
 msgstr ""
 
 #. i18n: ectx: label, entry (outputDirectory), group (Code Generation)
-#: umbrello.kcfg:450
+#: umbrello.kcfg:455
 #, kde-format
 msgid "Output Directory"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (outputDirectory), group (Code Generation)
-#: umbrello.kcfg:451
+#: umbrello.kcfg:456
 #, kde-format
 msgid "The directory to which the code has to be outputted"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (overwritePolicy), group (Code Generation)
-#: umbrello.kcfg:456
+#: umbrello.kcfg:461
 #, kde-format
 msgid "The policy to be followed when there are name conflicts"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoGenAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:468
+#: umbrello.kcfg:473
 #, kde-format
 msgid "Auto Generate Accessors"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:469
+#: umbrello.kcfg:474
 #, kde-format
 msgid "Enables/Disables auto generation of accessors"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (classMemberPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:474
+#: umbrello.kcfg:479
 #, kde-format
 msgid "The prefix for class members"
 msgstr ""
 
 #. i18n: ectx: label, entry (inlineAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:478
+#: umbrello.kcfg:483
 #, kde-format
 msgid "Inline Accessors"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (inlineAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:479
+#: umbrello.kcfg:484
 #, kde-format
 msgid "Enables/Disables Inline accessors"
 msgstr ""
 
 #. i18n: ectx: label, entry (inlineOps), group (CPP Code Generation)
-#: umbrello.kcfg:483
+#: umbrello.kcfg:488
 #, kde-format
 msgid "Inline operations"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (inlineOps), group (CPP Code Generation)
-#: umbrello.kcfg:484
+#: umbrello.kcfg:489
 #, kde-format
 msgid "Enables/Disables Inline Operations"
 msgstr ""
 
 #. i18n: ectx: label, entry (packageIsNamespace), group (CPP Code Generation)
-#: umbrello.kcfg:488
+#: umbrello.kcfg:493
 #, kde-format
 msgid "Package is namespace"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (packageIsNamespace), group (CPP Code Generation)
-#: umbrello.kcfg:489
+#: umbrello.kcfg:494
 #, kde-format
 msgid "Enables/Disables treating a package as a namespace"
 msgstr ""
 
 #. i18n: ectx: label, entry (publicAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:493
+#: umbrello.kcfg:498
 #, kde-format
 msgid "Public Accessors"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (publicAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:494
+#: umbrello.kcfg:499
 #, kde-format
 msgid "Enables/Disables public accessors"
 msgstr ""
 
 #. i18n: ectx: label, entry (stringClassName), group (CPP Code Generation)
-#: umbrello.kcfg:498
+#: umbrello.kcfg:503
 #, kde-format
 msgid "String Class Name"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (stringClassName), group (CPP Code Generation)
-#: umbrello.kcfg:499
+#: umbrello.kcfg:504
 #, kde-format
 msgid "The name of the string class"
 msgstr ""
 
 #. i18n: ectx: label, entry (stringClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:503
+#: umbrello.kcfg:508
 #, kde-format
 msgid "String Class Name Include"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (stringClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:504
+#: umbrello.kcfg:509
 #, kde-format
 msgid "The name of the string class to be included"
 msgstr ""
 
 #. i18n: ectx: label, entry (stringIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:508
+#: umbrello.kcfg:513
 #, kde-format
 msgid "String Include is Global"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (stringIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:509
+#: umbrello.kcfg:514
 #, kde-format
 msgid "Enables/Disables global inclusion of string"
 msgstr ""
 
 #. i18n: ectx: label, entry (vectorClassName), group (CPP Code Generation)
-#: umbrello.kcfg:513
+#: umbrello.kcfg:518
 #, kde-format
 msgid "Vector Class Name"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (vectorClassName), group (CPP Code Generation)
-#: umbrello.kcfg:514
+#: umbrello.kcfg:519
 #, kde-format
 msgid "The name of the vector class"
 msgstr ""
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:518
+#: umbrello.kcfg:523
 #, kde-format
-msgid "Vector Class Name Include "
+msgid "Vector Class Name Include"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:519
+#: umbrello.kcfg:524
 #, kde-format
 msgid "The name of the vector class to be included"
 msgstr ""
 
 #. i18n: ectx: label, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:523
+#: umbrello.kcfg:528
 #, kde-format
 msgid "Vector include is global"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:524
+#: umbrello.kcfg:529
 #, kde-format
 msgid "Enables/Disables global inclusion of vector class"
 msgstr ""
 
 #. i18n: ectx: label, entry (virtualDestructors), group (CPP Code Generation)
-#: umbrello.kcfg:528
+#: umbrello.kcfg:533
 #, kde-format
 msgid "Virtual Destructors"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (virtualDestructors), group (CPP Code Generation)
-#: umbrello.kcfg:529
+#: umbrello.kcfg:534
 #, kde-format
 msgid "Enables/Disables virtual destructors"
 msgstr ""
 
 #. i18n: ectx: label, entry (getterWithGetPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:533
+#: umbrello.kcfg:538
 #, kde-format
 msgid "Getters with 'get' prefix"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (getterWithGetPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:534
+#: umbrello.kcfg:539
 #, kde-format
 msgid "If enabled, create getters with 'get' prefix"
 msgstr ""
 
 #. i18n: ectx: label, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
-#: umbrello.kcfg:538
+#: umbrello.kcfg:543
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor methods"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
-#: umbrello.kcfg:539
+#: umbrello.kcfg:544
 #, kde-format
 msgid "If enabled, remove prefix '[a-zA-Z]_' from accessor methods"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
-#: umbrello.kcfg:544
+#: umbrello.kcfg:549
 #, kde-format
 msgid "If enabled, accessor methods start with capital letters"
 msgstr ""
 
 #. i18n: ectx: label, entry (docToolTag), group (CPP Code Generation)
-#: umbrello.kcfg:548
+#: umbrello.kcfg:553
 #, kde-format
 msgid "Documentation tags"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (docToolTag), group (CPP Code Generation)
-#: umbrello.kcfg:549
+#: umbrello.kcfg:554
 #, kde-format
 msgid "The tag used for generating doxygen documentation (\\\\, @)"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:555
+#: umbrello.kcfg:560
 #, kde-format
-msgid "Auto Generate Attribute Accessors ( D ) "
+msgid "Auto Generate Attribute Accessors ( D )"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:556
+#: umbrello.kcfg:561
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors ( D )"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:560
+#: umbrello.kcfg:565
 #, kde-format
 msgid "Auto Generate Assoc Accessors ( D )"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:561
+#: umbrello.kcfg:566
 #, kde-format
 msgid "Enables/Disables auto generation of association accessors ( D )"
 msgstr ""
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
-#: umbrello.kcfg:565
+#: umbrello.kcfg:570
 #, kde-format
-msgid "Build ANT Document (D) "
+msgid "Build ANT Document (D)"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
-#: umbrello.kcfg:566
+#: umbrello.kcfg:571
 #, kde-format
-msgid "Enables/Disables building of ANT Document (D) "
+msgid "Enables/Disables building of ANT Document (D)"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:572
+#: umbrello.kcfg:577
 #, kde-format
 msgid "Auto Generate Attribute Accessors (Java)"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:573
+#: umbrello.kcfg:578
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Java)"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:577
+#: umbrello.kcfg:582
 #, kde-format
-msgid "Auto Generate Assoc Accessors (Java) "
+msgid "Auto Generate Assoc Accessors (Java)"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:578
+#: umbrello.kcfg:583
 #, kde-format
-msgid "Enables/Disables auto generation of association accessors (Java) "
+msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr ""
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
-#: umbrello.kcfg:582
+#: umbrello.kcfg:587
 #, kde-format
-msgid "Build ANT Document (Java) "
+msgid "Build ANT Document (Java)"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
-#: umbrello.kcfg:583
+#: umbrello.kcfg:588
 #, kde-format
-msgid "Enables/Disables building of ANT Document (Java) "
+msgid "Enables/Disables building of ANT Document (Java)"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:589
+#: umbrello.kcfg:594
 #, kde-format
-msgid "Auto Generate Attribute Accessors (Ruby) "
+msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:590
+#: umbrello.kcfg:595
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Ruby)"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:594
+#: umbrello.kcfg:599
 #, kde-format
 msgid "Auto Generate Assoc Accessors (Ruby)"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:595
+#: umbrello.kcfg:600
 #, kde-format
 msgid "Enables/Disables auto generation of association accessors (Ruby)"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoDotPath), group (Auto Layout)
-#: umbrello.kcfg:601
+#: umbrello.kcfg:606
 #, kde-format
 msgid "Automatic Dot Path"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoDotPath), group (Auto Layout)
-#: umbrello.kcfg:602
+#: umbrello.kcfg:607
 #, kde-format
 msgid "determine automatically the path of dot executable"
 msgstr ""
 
 #. i18n: ectx: label, entry (dotPath), group (Auto Layout)
-#: umbrello.kcfg:606
+#: umbrello.kcfg:611
 #, kde-format
 msgid "Dot Path"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (dotPath), group (Auto Layout)
-#: umbrello.kcfg:607
+#: umbrello.kcfg:612
 #, kde-format
 msgid "set path to dot executable (optional)"
 msgstr ""
 
 #. i18n: ectx: label, entry (showExportLayout), group (Auto Layout)
-#: umbrello.kcfg:611
+#: umbrello.kcfg:616
 #, kde-format
 msgid "Show Export Layout"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (showExportLayout), group (Auto Layout)
-#: umbrello.kcfg:612
+#: umbrello.kcfg:617
 #, kde-format
 msgid "show export layout"
 msgstr ""
@@ -7122,198 +7108,198 @@ msgstr ""
 msgid "&Settings"
 msgstr "&Innstillingar"
 
-#: uml.cpp:412
+#: uml.cpp:413
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr ""
 
-#: uml.cpp:416
+#: uml.cpp:417
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr ""
 
-#: uml.cpp:420
+#: uml.cpp:421
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr ""
 
-#: uml.cpp:424
+#: uml.cpp:425
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr ""
 
-#: uml.cpp:431
+#: uml.cpp:432
 #, kde-format
 msgid "Code &Importing Wizard..."
 msgstr ""
 
-#: uml.cpp:441
+#: uml.cpp:442
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr ""
 
-#: uml.cpp:446
+#: uml.cpp:447
 #, kde-format
 msgid "&Generate All Code"
 msgstr ""
 
-#: uml.cpp:493
+#: uml.cpp:494
 #, kde-format
 msgid "Creates a new document"
 msgstr ""
 
-#: uml.cpp:494
+#: uml.cpp:495
 #, kde-format
 msgid "Opens an existing document"
 msgstr ""
 
-#: uml.cpp:495
+#: uml.cpp:496
 #, kde-format
 msgid "Opens a recently used file"
 msgstr ""
 
-#: uml.cpp:496
+#: uml.cpp:497
 #, kde-format
 msgid "Saves the document"
 msgstr "Lagrar dokumentet"
 
-#: uml.cpp:497
+#: uml.cpp:498
 #, kde-format
 msgid "Saves the document as..."
 msgstr "Lagrar dokumentet som …"
 
-#: uml.cpp:498
+#: uml.cpp:499
 #, kde-format
 msgid "Closes the document"
 msgstr "Lukkar dokumentet"
 
-#: uml.cpp:499
+#: uml.cpp:500
 #, kde-format
 msgid "Prints out the document"
 msgstr "Skriv ut dokumentet"
 
-#: uml.cpp:500
+#: uml.cpp:501
 #, kde-format
 msgid "Print Preview of the document"
 msgstr ""
 
-#: uml.cpp:501
+#: uml.cpp:502
 #, kde-format
 msgid "Quits the application"
 msgstr "Avsluttar programmet"
 
-#: uml.cpp:502
+#: uml.cpp:503
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr ""
 
-#: uml.cpp:503
+#: uml.cpp:504
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr ""
 
-#: uml.cpp:504
+#: uml.cpp:505
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr ""
 
-#: uml.cpp:505
+#: uml.cpp:506
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr ""
 
-#: uml.cpp:506
+#: uml.cpp:507
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr ""
 
-#: uml.cpp:507
+#: uml.cpp:508
 #, kde-format
 msgid "Undo last action"
 msgstr ""
 
-#: uml.cpp:508
+#: uml.cpp:509
 #, kde-format
 msgid "Redo last undone action"
 msgstr ""
 
-#: uml.cpp:510
+#: uml.cpp:511
 #, kde-format
 msgid "Set the default program preferences"
 msgstr ""
 
-#: uml.cpp:514
+#: uml.cpp:515
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr ""
 
-#: uml.cpp:525
+#: uml.cpp:526
 #, kde-format
 msgid "&Class Diagram..."
 msgstr ""
 
-#: uml.cpp:532
+#: uml.cpp:533
 #, kde-format
 msgid "&Object Diagram..."
 msgstr ""
 
-#: uml.cpp:539
+#: uml.cpp:540
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr ""
 
-#: uml.cpp:545
+#: uml.cpp:546
 #, kde-format
 msgid "C&ommunication Diagram..."
 msgstr ""
 
-#: uml.cpp:551
+#: uml.cpp:552
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr ""
 
-#: uml.cpp:557
+#: uml.cpp:558
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr ""
 
-#: uml.cpp:563
+#: uml.cpp:564
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr ""
 
-#: uml.cpp:569
+#: uml.cpp:570
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr ""
 
-#: uml.cpp:575
+#: uml.cpp:576
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr ""
 
-#: uml.cpp:581
+#: uml.cpp:582
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr ""
 
-#: uml.cpp:586 uml.cpp:1036
+#: uml.cpp:587 uml.cpp:1037
 #, kde-format
 msgid "&Tree View"
 msgstr ""
 
-#: uml.cpp:590
+#: uml.cpp:591
 #, kde-format
 msgid "&Debugging"
 msgstr ""
 
-#: uml.cpp:598
+#: uml.cpp:599
 #, kde-format
 msgid "&Logging"
 msgstr ""
 
-#: uml.cpp:602
+#: uml.cpp:603
 #, kde-format
 msgid "&Command history"
 msgstr ""
@@ -7322,135 +7308,135 @@ msgstr ""
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:606 uml.cpp:1093
+#: uml.cpp:607 uml.cpp:1094
 #, kde-format
 msgid "&Bird's eye view"
 msgstr ""
 
-#: uml.cpp:611
+#: uml.cpp:612
 #, kde-format
 msgid "&Clear Diagram"
 msgstr ""
 
-#: uml.cpp:615
+#: uml.cpp:616
 #, kde-format
 msgid "&Snap to Grid"
 msgstr ""
 
-#: uml.cpp:619
+#: uml.cpp:620
 #, kde-format
 msgid "S&how Grid"
 msgstr ""
 
-#: uml.cpp:624
+#: uml.cpp:625
 #, kde-format
 msgid "&Delete Diagram"
 msgstr ""
 
-#: uml.cpp:629
+#: uml.cpp:630
 #, kde-format
 msgid "&Export as Picture..."
 msgstr ""
 
-#: uml.cpp:634
+#: uml.cpp:635
 #, kde-format
 msgid "Export &Diagrams as Pictures..."
 msgstr ""
 
-#: uml.cpp:654
+#: uml.cpp:655
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr ""
 
-#: uml.cpp:697
+#: uml.cpp:698
 #, kde-format
 msgid "&Move Tab Left"
 msgstr ""
 
-#: uml.cpp:698
+#: uml.cpp:699
 #, kde-format
 msgid "&Move Tab Right"
 msgstr ""
 
-#: uml.cpp:721
+#: uml.cpp:722
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr ""
 
-#: uml.cpp:722
+#: uml.cpp:723
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr ""
 
-#: uml.cpp:860
+#: uml.cpp:861
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:910
+#: uml.cpp:911
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr ""
 
-#: uml.cpp:918 uml.cpp:931
+#: uml.cpp:919 uml.cpp:932
 #, kde-format
 msgid "100%"
 msgstr "100 %"
 
-#: uml.cpp:923
+#: uml.cpp:924
 #, kde-format
 msgid "Fit"
 msgstr ""
 
-#: uml.cpp:982
+#: uml.cpp:983
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr ""
 
-#: uml.cpp:1047
+#: uml.cpp:1048
 #, kde-format
 msgid "Doc&umentation"
 msgstr ""
 
-#: uml.cpp:1058
+#: uml.cpp:1059
 #, kde-format
 msgid "Co&mmand history"
 msgstr ""
 
-#: uml.cpp:1074
+#: uml.cpp:1075
 #, kde-format
 msgid "&Debug"
 msgstr ""
 
-#: uml.cpp:1081
+#: uml.cpp:1082
 #, kde-format
 msgid "&Log"
 msgstr "&Logg"
 
-#: uml.cpp:1123 uml.cpp:1360 uml.cpp:1410
+#: uml.cpp:1124 uml.cpp:1361 uml.cpp:1411
 #, kde-format
 msgid "Opening file..."
 msgstr ""
 
-#: uml.cpp:1174 uml.cpp:1259 uml.cpp:1445 umldoc.cpp:379 umldoc.cpp:381
+#: uml.cpp:1175 uml.cpp:1260 uml.cpp:1446 umldoc.cpp:379 umldoc.cpp:381
 #: umldoc.cpp:405 umldoc.cpp:3465
 #, kde-format
 msgid "Untitled"
 msgstr "Namnlaus"
 
-#: uml.cpp:1342
+#: uml.cpp:1343
 #, kde-format
 msgid "Creating new document..."
 msgstr ""
 
-#: uml.cpp:1368 uml.cpp:1384
+#: uml.cpp:1369 uml.cpp:1385
 #, kde-format
 msgid "Open File"
 msgstr ""
 
-#: uml.cpp:1372
+#: uml.cpp:1373
 #, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7463,29 +7449,29 @@ msgid ""
 "*.zargo|Compressed argo Files(*.zargo)\n"
 msgstr ""
 
-#: uml.cpp:1444
+#: uml.cpp:1445
 #, kde-format
 msgid "Saving file..."
 msgstr ""
 
-#: uml.cpp:1461
+#: uml.cpp:1462
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr ""
 
-#: uml.cpp:1471 uml.cpp:1477 umlviewimageexporter.cpp:195
+#: uml.cpp:1472 uml.cpp:1478 umlviewimageexporter.cpp:195
 #, kde-format
 msgid "Save As"
 msgstr ""
 
-#: uml.cpp:1472
+#: uml.cpp:1473
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
 "*.xmi.tar.bz2 | Bzip2 Compressed XMI File (*.xmi.tar.bz2);;* | All Files (*)"
 msgstr ""
 
-#: uml.cpp:1477
+#: uml.cpp:1478
 #, kde-format
 msgid ""
 "*.xmi|XMI File\n"
@@ -7494,112 +7480,112 @@ msgid ""
 "*|All Files"
 msgstr ""
 
-#: uml.cpp:1501
+#: uml.cpp:1502
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
 "Do you wish to overwrite it?"
 msgstr ""
 
-#: uml.cpp:1502
+#: uml.cpp:1503
 #, kde-format
 msgid "Warning"
 msgstr ""
 
-#: uml.cpp:1502
+#: uml.cpp:1503
 #, kde-format
 msgid "Overwrite"
 msgstr ""
 
-#: uml.cpp:1528
+#: uml.cpp:1529
 #, kde-format
 msgid "Closing file..."
 msgstr ""
 
-#: uml.cpp:1539
+#: uml.cpp:1540
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: uml.cpp:1545
+#: uml.cpp:1546
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: uml.cpp:1609
+#: uml.cpp:1602
 #, kde-format
 msgid "Print Preview..."
 msgstr ""
 
-#: uml.cpp:1636
+#: uml.cpp:1629
 #, kde-format
 msgid "Printing..."
 msgstr ""
 
-#: uml.cpp:1643 uml.cpp:1647
+#: uml.cpp:1636 uml.cpp:1640
 #, kde-format
 msgid "Print %1"
 msgstr ""
 
-#: uml.cpp:1667
+#: uml.cpp:1660
 #, kde-format
 msgid "Exiting..."
 msgstr ""
 
-#: uml.cpp:1754
+#: uml.cpp:1747
 #, kde-format
 msgid "Cutting selection..."
 msgstr ""
 
-#: uml.cpp:1777
+#: uml.cpp:1770
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr ""
 
-#: uml.cpp:1789
+#: uml.cpp:1782
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr ""
 
-#: uml.cpp:1794
+#: uml.cpp:1787
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
 "clipboard may be of the wrong type to be pasted here."
 msgstr ""
 
-#: uml.cpp:1820 umlviewimageexporter.cpp:87 umlviewimageexporterall.cpp:118
+#: uml.cpp:1813 umlviewimageexporter.cpp:87 umlviewimageexporterall.cpp:118
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr ""
 
-#: uml.cpp:2429
+#: uml.cpp:2422
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr ""
 
-#: uml.cpp:2429 uml.cpp:2432
+#: uml.cpp:2422 uml.cpp:2425
 #, kde-format
 msgid "Cannot View Code"
 msgstr ""
 
-#: uml.cpp:2432
+#: uml.cpp:2425
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr ""
 
-#: uml.cpp:2911 uml.cpp:2913
+#: uml.cpp:2904 uml.cpp:2906
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr ""
 
-#: uml.cpp:2944 uml.cpp:2946
+#: uml.cpp:2937 uml.cpp:2939
 #, kde-format
 msgid "Select directory to import:"
 msgstr ""
 
-#: uml.cpp:3518
+#: uml.cpp:3511
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""
@@ -7899,7 +7885,7 @@ msgstr ""
 
 #: umllistview.cpp:587
 #, kde-format
-msgid "File Exist"
+msgid "File Exists"
 msgstr ""
 
 #: umllistview.cpp:627
@@ -8111,67 +8097,67 @@ msgstr ""
 msgid "Instance name:"
 msgstr ""
 
-#: umlscene.cpp:708
+#: umlscene.cpp:722
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr ""
 
-#: umlscene.cpp:1509
+#: umlscene.cpp:1523
 #, kde-format
 msgid "Use fill color"
 msgstr ""
 
-#: umlscene.cpp:1511
+#: umlscene.cpp:1525
 #, kde-format
 msgid "No fill color"
 msgstr ""
 
-#: umlscene.cpp:1526
+#: umlscene.cpp:1540
 #, kde-format
 msgid "Change font"
 msgstr ""
 
-#: umlscene.cpp:1540
+#: umlscene.cpp:1554
 #, kde-format
 msgid "Change line color"
 msgstr ""
 
-#: umlscene.cpp:1558
+#: umlscene.cpp:1572
 #, kde-format
 msgid "Change line width"
 msgstr ""
 
-#: umlscene.cpp:1578
+#: umlscene.cpp:1592
 #, kde-format
 msgid "Change fill color"
 msgstr ""
 
-#: umlscene.cpp:1593
+#: umlscene.cpp:1607
 #, kde-format
 msgid "Change visual property"
 msgstr ""
 
-#: umlscene.cpp:1644
+#: umlscene.cpp:1658
 #, kde-format
 msgid "Delete widgets"
 msgstr ""
 
-#: umlscene.cpp:1690
+#: umlscene.cpp:1704
 #, kde-format
 msgid "Resize widgets"
 msgstr ""
 
-#: umlscene.cpp:3343
+#: umlscene.cpp:3357
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr ""
 
-#: umlscene.cpp:3344
+#: umlscene.cpp:3358
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr ""
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3374
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""
@@ -8728,7 +8714,7 @@ msgstr ""
 
 #: umlwidgets/widget_utils.cpp:929
 #, kde-format
-msgid "Enter the name of the new floating dash Line:"
+msgid "Enter the name of the new floating dash line:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:930
@@ -8893,7 +8879,7 @@ msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1020
 #, kde-format
-msgid "Enter the new name of the floating dash Line:"
+msgid "Enter the new name of the floating dash line:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1021
