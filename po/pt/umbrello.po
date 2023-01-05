@@ -1185,7 +1185,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Sempre"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -8051,10 +8051,9 @@ msgstr ""
 "O ficheiro existente será substituído."
 
 #: umllistview.cpp:587
-#, fuzzy, kde-format
-#| msgid "File Exist"
+#, kde-format
 msgid "File Exists"
-msgstr "O Ficheiro Já Existe"
+msgstr "O Ficheiro Existe"
 
 #: umllistview.cpp:627
 #, kde-format
