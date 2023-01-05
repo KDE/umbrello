@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-05-27 00:18+0000\n"
-"PO-Revision-Date: 2023-01-01 13:11+0100\n"
+"PO-Revision-Date: 2023-01-03 09:45+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -105,12 +105,12 @@ msgstr ""
 #: duchain/builders/declarationbuilder.cpp:570
 #, kde-format
 msgid "Cannot redeclare private property %1 from this context."
-msgstr ""
+msgstr "ამ კონტექსტიდან დახურული თვისების (%1) თავიდან აღწერა შეუძლებელია."
 
 #: duchain/builders/declarationbuilder.cpp:576
 #, kde-format
 msgid "Cannot redeclare protected property %1 from this context."
-msgstr ""
+msgstr "ამ კონტექსტიდან დაცული თვისების (%1) თავიდან აღწერა შეუძლებელია."
 
 #: duchain/builders/declarationbuilder.cpp:609
 #, kde-format
@@ -122,6 +122,8 @@ msgstr "ტიპაჟები არ შეიძლება, კონს�
 msgid ""
 "Only booleans, ints, floats and strings are allowed for class constants."
 msgstr ""
+"კლასის კონსტანტებში მხოლოდ ლოგიკური მნიშვნელობები, მთელი და წილადი რიცხვები "
+"და სტრიქონებია ნებადართული."
 
 #: duchain/builders/declarationbuilder.cpp:702
 #, kde-format

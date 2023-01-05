@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-02 00:52+0000\n"
-"PO-Revision-Date: 2023-01-01 13:11+0100\n"
+"PO-Revision-Date: 2023-01-03 09:45+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -36,7 +36,7 @@ msgstr "კლასის დიაგრამა"
 #: basictypes.cpp:197
 #, kde-format
 msgid "Use Case Diagram"
-msgstr ""
+msgstr "გამოყენების ვარიანტების დიაგრამა"
 
 #: basictypes.cpp:199
 #, kde-format
@@ -86,7 +86,7 @@ msgstr "დიაგრამის გარეშე"
 #: basictypes.cpp:331 worktoolbar.cpp:347
 #, kde-format
 msgid "Generalization"
-msgstr ""
+msgstr "გენერალიზაცია"
 
 #: basictypes.cpp:333 worktoolbar.cpp:344
 #, kde-format
@@ -111,32 +111,32 @@ msgstr "თვით-ასოცირება"
 #: basictypes.cpp:341
 #, kde-format
 msgid "Collaboration Asynchronous Message"
-msgstr ""
+msgstr "კოოპერაციის ასინქრონული შეტყობინება"
 
 #: basictypes.cpp:343
 #, kde-format
 msgid "Collaboration Synchronous Message"
-msgstr ""
+msgstr "კოოპერაციის სინქრონული შეტყობინება"
 
 #: basictypes.cpp:345
 #, kde-format
 msgid "Sequence Message"
-msgstr ""
+msgstr "მიმდევრობის შეტყობინება"
 
 #: basictypes.cpp:347
 #, kde-format
 msgid "Collaboration Self Message"
-msgstr ""
+msgstr "კოოპერაციის თვით-შეტყობინება"
 
 #: basictypes.cpp:349
 #, kde-format
 msgid "Sequence Self Message"
-msgstr ""
+msgstr "მიმდევრობის თვით-შეტყობინება"
 
 #: basictypes.cpp:351 worktoolbar.cpp:337
 #, kde-format
 msgid "Containment"
-msgstr ""
+msgstr "დამტეობა"
 
 #: basictypes.cpp:353 worktoolbar.cpp:348
 #, kde-format
@@ -151,17 +151,17 @@ msgstr "რეალიზაცია"
 #: basictypes.cpp:357
 #, kde-format
 msgid "Uni Association"
-msgstr ""
+msgstr "ერთმიმართულებიანი ასოციაცია"
 
 #: basictypes.cpp:359 worktoolbar.cpp:338
 #, kde-format
 msgid "Anchor"
-msgstr ""
+msgstr "ბმული"
 
 #: basictypes.cpp:361 menus/listpopupmenu.cpp:262 worktoolbar.cpp:379
 #, kde-format
 msgid "State Transition"
-msgstr ""
+msgstr "გარდამავალი მდგომარეობა"
 
 #: basictypes.cpp:363 dialogs/activitydialog.cpp:139
 #: umlwidgets/widgetbase.cpp:1251 worktoolbar.cpp:381
@@ -239,17 +239,17 @@ msgstr ""
 #: cmds/generic/cmdcreateumlobject.cpp:28 object_factory.cpp:179
 #, kde-format
 msgid "Create UML object : %1"
-msgstr ""
+msgstr "UML ობიექტის შექმნა : %1"
 
 #: cmds/generic/cmdremoveumlobject.cpp:25
 #, kde-format
 msgid "Remove UML object : %1"
-msgstr ""
+msgstr "UML ობიექტის წაშლა : %1"
 
 #: cmds/generic/cmdrenameumlobject.cpp:20
 #, kde-format
 msgid "Rename object : %1 to %2"
-msgstr ""
+msgstr "ობიექტის სახელის გადარქმევა :  %1-დან %2"
 
 #: cmds/widget/cmdchangefillcolor.cpp:21
 #, kde-format
@@ -356,7 +356,7 @@ msgstr ""
 #: codegenerators/simplecodegenerator.cpp:140
 #, kde-format
 msgid "Cannot Create Folder"
-msgstr ""
+msgstr "შეცდომა საქაღალდის შექმნისას"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:38
 #, kde-format
@@ -835,7 +835,7 @@ msgstr "დაცული"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:162
 #, kde-format
 msgid "From Parent Object"
-msgstr ""
+msgstr "მშობელი ობიექტიდან"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelAssocFieldScope)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_3_2)
@@ -853,7 +853,7 @@ msgstr ""
 #: codegenerators/ruby/rubycodegenerationformbase.ui:203
 #, kde-format
 msgid "From Parent Role"
-msgstr ""
+msgstr "მშობელი როლიდან"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelTitle)
 #: codegenerators/d/dcodegenerationformbase.ui:318
@@ -1157,7 +1157,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:310
 #, kde-format
 msgid "Line ending style:"
-msgstr ""
+msgstr "ხაზის დასრულების სტილი:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectEndLineCharsBox)
 #: codegenwizard/codegenoptionspage.ui:321
@@ -1735,7 +1735,7 @@ msgstr "შიგთავსი"
 #: dialogs/classpropertiesdialog.cpp:337
 #, kde-format
 msgid "Contents Settings"
-msgstr ""
+msgstr "შემცველობის პარამეტრები"
 
 #: dialogs/classpropertiesdialog.cpp:347
 #: dialogs/pages/classassociationspage.cpp:42
@@ -1777,7 +1777,7 @@ msgstr ""
 #: dialogs/classwizard.cpp:95
 #, kde-format
 msgid "Class Attributes"
-msgstr ""
+msgstr "კლასის ატრიბუტები"
 
 #: dialogs/classwizard.cpp:96
 #, kde-format
@@ -1787,7 +1787,7 @@ msgstr ""
 #: dialogs/classwizard.cpp:113
 #, kde-format
 msgid "Class Operations"
-msgstr ""
+msgstr "კლასის ოპერაციები"
 
 #: dialogs/classwizard.cpp:114
 #, kde-format
@@ -1862,7 +1862,7 @@ msgstr ""
 #: dialogs/codeviewerdialogbase.ui:20
 #, kde-format
 msgid "Show hidden blocks"
-msgstr ""
+msgstr "დამალული ბლოკების ჩვენება"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_componentLabel)
 #: dialogs/codeviewerdialogbase.ui:33
@@ -1874,7 +1874,7 @@ msgstr ""
 #: dialogs/codeviewerdialogbase.ui:46
 #, kde-format
 msgid "Show block type"
-msgstr ""
+msgstr "ბლოკის ტიპის ჩვენება"
 
 #. i18n: ectx: property (title), widget (QGroupBox, colorGroupBox)
 #: dialogs/codevieweroptionsbase.ui:32
@@ -1947,7 +1947,7 @@ msgstr ""
 #: dialogs/dialog_utils.cpp:214
 #, kde-format
 msgid "Delete Association"
-msgstr ""
+msgstr "ასოცირების წაშლა"
 
 #: dialogs/dialog_utils.cpp:228
 #, kde-format
@@ -2053,13 +2053,13 @@ msgstr "ხისმაგვარი ხედი"
 #: dialogs/finddialog.ui:43 dialogs/pages/diagramprintpage.cpp:51
 #, kde-format
 msgid "&Current diagram"
-msgstr ""
+msgstr "&მიმდინარე დიაგრამა"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_Diagrams)
 #: dialogs/finddialog.ui:53 dialogs/pages/diagramprintpage.cpp:55
 #, kde-format
 msgid "&All diagrams"
-msgstr ""
+msgstr "&ყველა დიაგრამა"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:156
@@ -2106,7 +2106,7 @@ msgstr "ატრიბუტი"
 #: dialogs/finddialog.ui:131
 #, kde-format
 msgid "Search Term:"
-msgstr ""
+msgstr "ძებნის პირობა:"
 
 #: dialogs/multipagedialogbase.cpp:69
 #, kde-format
@@ -2142,7 +2142,7 @@ msgstr "სტილი"
 #: dialogs/multipagedialogbase.cpp:475
 #, kde-format
 msgid "Widget Style"
-msgstr ""
+msgstr "ვიჯეტის სტილი"
 
 #: dialogs/multipagedialogbase.cpp:486
 #, kde-format
@@ -2164,17 +2164,17 @@ msgstr "როლები"
 #: dialogs/multipagedialogbase.cpp:506
 #, kde-format
 msgid "Role Settings"
-msgstr ""
+msgstr "როლის მორგება"
 
 #: dialogs/notedialog.cpp:20
 #, kde-format
 msgid "Note Properties"
-msgstr ""
+msgstr "შენიშვნის თვისებები"
 
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
 msgid "Central Buffer"
-msgstr ""
+msgstr "ცენტრალური ბუფერი"
 
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
@@ -2184,7 +2184,7 @@ msgstr "მონაცემების საცავი"
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
 msgid "ObjectFlow"
-msgstr ""
+msgstr "დინების ობიექტი"
 
 #: dialogs/objectnodedialog.cpp:134
 #, kde-format
@@ -2195,33 +2195,33 @@ msgstr "თვისებები"
 #: dialogs/objectnodedialog.cpp:149
 #, kde-format
 msgid "Object Node type:"
-msgstr ""
+msgstr "ობიექტის კვანძის ტიპი:"
 
 #: dialogs/objectnodedialog.cpp:154
 #, kde-format
 msgid "Object Node name:"
-msgstr ""
+msgstr "ობიექტის კვანძის სახელი:"
 
 #: dialogs/objectnodedialog.cpp:158
 #, kde-format
 msgctxt "enter state label"
 msgid "State :"
-msgstr ""
+msgstr "მდგომარეობა :"
 
 #: dialogs/objectnodedialog.cpp:163
 #, kde-format
 msgid "&Central Buffer"
-msgstr ""
+msgstr "&ცენტრალური ბუფერი"
 
 #: dialogs/objectnodedialog.cpp:166
 #, kde-format
 msgid "&Data Store "
-msgstr ""
+msgstr "&მონაცემების საცავი "
 
 #: dialogs/objectnodedialog.cpp:169
 #, kde-format
 msgid "&Object Flow"
-msgstr ""
+msgstr "&დინების ობიექტი"
 
 #: dialogs/overwritedialog.cpp:27
 #, kde-format
@@ -2241,7 +2241,7 @@ msgstr ""
 #: dialogs/overwritedialog.cpp:30
 #, kde-format
 msgid "&Do Not Generate File"
-msgstr ""
+msgstr "&ფაილი არ დაგენერირდება"
 
 #: dialogs/overwritedialog.cpp:37
 #, kde-format
@@ -2285,7 +2285,7 @@ msgstr ""
 #: dialogs/pages/activitypage.cpp:105 dialogs/pages/activitypage.cpp:113
 #, kde-format
 msgid "New Activity..."
-msgstr ""
+msgstr "ახალი აქტივობა..."
 
 #: dialogs/pages/activitypage.cpp:107 dialogs/pages/activitypage.cpp:115
 #: menus/listpopupmenu.cpp:173 refactoring/refactoringassistant.cpp:464
@@ -2342,7 +2342,7 @@ msgstr ""
 #: dialogs/pages/umlrolepropertiesbase.ui:36
 #, kde-format
 msgid "Rolename:"
-msgstr ""
+msgstr "როლის სახელი:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelMultiplicity)
 #: dialogs/pages/associationrolepage.cpp:114
