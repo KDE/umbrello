@@ -1,0 +1,359 @@
+
+<!--   umbrello specific diagram elements -->
+
+<!--     TODO: analyse element hierarchy   -->
+
+<!ENTITY % WidgetBaseAtts '
+          autoresize CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          font CDATA #IMPLIED
+          linecolor CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+'>
+<!ENTITY % UMLWidgetAtts '
+          %WidgetBaseAtts;
+          height CDATA #IMPLIED
+          instancename CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          localid CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          width CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          x CDATA #IMPLIED
+          y CDATA #IMPLIED
+'>
+<!ENTITY % LinkWidgetAtts '
+          seqnum CDATA #IMPLIED
+'>
+<!ELEMENT diagrams ANY >
+<!ATTLIST diagrams
+          resolution CDATA #IMPLIED
+>
+<!ELEMENT diagram ANY >
+<!ATTLIST diagram
+          backgroundcolor CDATA #IMPLIED
+          canvasheight CDATA #IMPLIED
+          canvaswidth CDATA #IMPLIED
+          documentation CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          font CDATA #IMPLIED
+          griddotcolor CDATA #IMPLIED
+          isopen CDATA #IMPLIED
+          linecolor CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          localid CDATA #IMPLIED
+          name CDATA #IMPLIED
+          showattribassocs CDATA #IMPLIED
+          showatts CDATA #IMPLIED
+          showattsig CDATA #IMPLIED
+          showgrid CDATA #IMPLIED
+          showops CDATA #IMPLIED
+          showopsig CDATA #IMPLIED
+          showpackage CDATA #IMPLIED
+          showpubliconly CDATA #IMPLIED
+          showscope CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          snapcsgrid CDATA #IMPLIED
+          snapgrid CDATA #IMPLIED
+          snapx CDATA #IMPLIED
+          snapy CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          type CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          zoom CDATA #IMPLIED
+          showdocumentation CDATA #IMPLIED
+          autoincrementsequence CDATA #IMPLIED
+>
+<!ELEMENT associations ANY >
+<!ATTLIST associations
+>
+<!ELEMENT messages ANY >
+<!ATTLIST messages
+>
+<!ELEMENT widgets ANY >
+<!ATTLIST widgets
+>
+
+<!-- widgets -->
+
+<!ELEMENT activitywidget ANY >
+<!ATTLIST activitywidget
+          %UMLWidgetAtts;
+          activityname CDATA #IMPLIED
+          activitytype CDATA #IMPLIED
+          documentation CDATA #IMPLIED
+          drawvertical CDATA #IMPLIED
+          postcondition CDATA #IMPLIED
+          precondition CDATA #IMPLIED
+          type CDATA #IMPLIED
+>
+<!ELEMENT actorwidget ANY >
+<!ATTLIST actorwidget
+          %UMLWidgetAtts;
+>
+<!ELEMENT artifactwidget ANY >
+<!ATTLIST artifactwidget
+          %UMLWidgetAtts;
+          drawas CDATA #IMPLIED
+>
+<!ELEMENT assocwidget ANY >
+<!ATTLIST assocwidget
+          %WidgetBaseAtts;
+          %LinkWidgetAtts;
+          aclsegindex CDATA #IMPLIED
+          assocclass CDATA #IMPLIED
+          changeabilityA CDATA #IMPLIED
+          changeabilityB CDATA #IMPLIED
+          documentation CDATA #IMPLIED
+          indexa CDATA #IMPLIED
+          indexb CDATA #IMPLIED
+          roleAdoc CDATA #IMPLIED
+          roleBdoc CDATA #IMPLIED
+          totalcounta CDATA #IMPLIED
+          totalcountb CDATA #IMPLIED
+          type CDATA #IMPLIED
+          visibilityA CDATA #IMPLIED
+          visibilityB CDATA #IMPLIED
+          widgetaid CDATA #IMPLIED
+          widgetbid CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+>
+<!ELEMENT boxwidget ANY >
+<!ATTLIST boxwidget
+          %UMLWidgetAtts;
+>
+<!ELEMENT categorywidget ANY >
+<!ATTLIST categorywidget
+          %UMLWidgetAtts;
+>
+<!ENTITY % ClassifierWidgetAtts '
+          showattributes CDATA #IMPLIED
+          showattsigs CDATA #IMPLIED
+          showoperations CDATA #IMPLIED
+          showopsigs CDATA #IMPLIED
+          showpackage CDATA #IMPLIED
+          showpubliconly CDATA #IMPLIED
+          showscope CDATA #IMPLIED
+          drawascircle CDATA #IMPLIED
+'>
+<!ELEMENT classwidget ANY >
+<!ATTLIST classwidget
+          %UMLWidgetAtts;
+          %ClassifierWidgetAtts;
+>
+<!ELEMENT combinedFragmentwidget ANY >
+<!ATTLIST combinedFragmentwidget
+          %UMLWidgetAtts;
+          combinedFragmentname CDATA #IMPLIED
+          CombinedFragmenttype CDATA #IMPLIED
+          documentation CDATA #IMPLIED
+>
+<!ELEMENT componentwidget ANY >
+<!ATTLIST componentwidget
+          %UMLWidgetAtts;
+>
+<!ELEMENT datatypewidget ANY >
+<!ATTLIST datatypewidget
+          %UMLWidgetAtts;
+>
+<!ELEMENT enumwidget ANY >
+<!ATTLIST enumwidget
+          %UMLWidgetAtts;
+          showpackage CDATA #IMPLIED
+>
+<!ELEMENT entitywidget ANY >
+<!ATTLIST entitywidget
+          %UMLWidgetAtts;
+          showattsig CDATA #IMPLIED
+>
+<!ELEMENT floatingdashlinewidget ANY >
+<!ATTLIST floatingdashlinewidget
+          %UMLWidgetAtts;
+          minY CDATA #IMPLIED
+          maxY CDATA #IMPLIED
+          text CDATA #IMPLIED
+>
+<!ELEMENT floatingtext ANY >
+<!ATTLIST floatingtext
+          %UMLWidgetAtts;
+          %LinkWidgetAtts;
+          documentation CDATA #IMPLIED
+          posttext CDATA #IMPLIED
+          pretext CDATA #IMPLIED
+          role CDATA #IMPLIED
+          text CDATA #IMPLIED
+>
+<!-- TODO: unusual name -->
+<!ELEMENT forkjoin ANY >
+<!ATTLIST forkjoin
+          %UMLWidgetAtts;
+          drawvertical CDATA #IMPLIED
+>
+<!ELEMENT instancewidget ANY >
+<!ATTLIST instancewidget
+          %UMLWidgetAtts;
+>
+<!ELEMENT interfacewidget ANY >
+<!ATTLIST interfacewidget
+          %UMLWidgetAtts;
+          %ClassifierWidgetAtts;
+>
+<!ELEMENT preconditionwidget ANY >
+<!ATTLIST preconditionwidget
+          %UMLWidgetAtts;
+          documentation CDATA #IMPLIED
+          preconditionname CDATA #IMPLIED
+          widgetaid CDATA #IMPLIED
+>
+<!ELEMENT messagewidget ANY >
+<!ATTLIST messagewidget
+          %UMLWidgetAtts;
+          operation CDATA #IMPLIED
+          seqnum CDATA #IMPLIED
+          sequencemessagetype CDATA #IMPLIED
+          textid CDATA #IMPLIED
+          widgetaid CDATA #IMPLIED
+          widgetbid CDATA #IMPLIED
+          xclicked CDATA #IMPLIED
+          yclicked CDATA #IMPLIED
+>
+<!ELEMENT nodewidget ANY >
+<!ATTLIST nodewidget
+          %UMLWidgetAtts;
+>
+<!ELEMENT notewidget ANY >
+<!ATTLIST notewidget
+          %UMLWidgetAtts;
+          noteType CDATA #IMPLIED
+          text CDATA #IMPLIED
+>
+<!ELEMENT objectnodewidget ANY >
+<!ATTLIST objectnodewidget
+          %UMLWidgetAtts;
+          documentation CDATA #IMPLIED
+          objectnodename CDATA #IMPLIED
+          objectnodestate CDATA #IMPLIED
+          objectnodetype CDATA #IMPLIED
+>
+<!ELEMENT objectwidget ANY >
+<!ATTLIST objectwidget
+          %UMLWidgetAtts;
+          decon CDATA #IMPLIED
+          drawasactor CDATA #IMPLIED
+          multipleinstance CDATA #IMPLIED
+>
+<!ELEMENT packagewidget ANY >
+<!ATTLIST packagewidget
+          %UMLWidgetAtts;
+          xclicked CDATA #IMPLIED
+          yclicked CDATA #IMPLIED
+>
+<!ELEMENT pinwidget ANY >
+<!ATTLIST pinwidget
+          %UMLWidgetAtts;
+          widgetaid CDATA #IMPLIED
+>
+<!ELEMENT signalwidget ANY >
+<!ATTLIST signalwidget
+          %UMLWidgetAtts;
+          documentation CDATA #IMPLIED
+          signaltype CDATA #IMPLIED
+          signalname CDATA #IMPLIED
+          textid CDATA #IMPLIED
+>
+<!ELEMENT statewidget ANY >
+<!ATTLIST statewidget
+          %UMLWidgetAtts;
+          diagramlinkid CDATA #IMPLIED
+          documentation CDATA #IMPLIED
+          drawvertical CDATA #IMPLIED
+          statename CDATA #IMPLIED
+          statetype CDATA #IMPLIED
+>
+<!ELEMENT Activities ANY >
+<!ATTLIST Activities
+>
+<!ELEMENT Activity ANY >
+<!ATTLIST Activity
+          name CDATA #IMPLIED
+>
+<!ELEMENT regionwidget ANY >
+<!ATTLIST regionwidget
+          %UMLWidgetAtts;
+          documentation CDATA #IMPLIED
+          regionname CDATA #IMPLIED
+>
+<!ELEMENT usecasewidget ANY >
+<!ATTLIST usecasewidget
+          %UMLWidgetAtts;
+>
+
+<!-- sub elements -->
+
+<!ELEMENT linepath ANY >
+<!ATTLIST linepath
+          layout CDATA #IMPLIED
+>
+<!ELEMENT endpoint ANY >
+<!ATTLIST endpoint
+          changeabilityA CDATA #IMPLIED
+          changeabilityB CDATA #IMPLIED
+          endx CDATA #IMPLIED
+          endy CDATA #IMPLIED
+          visibilityA CDATA #IMPLIED
+          visibilityB CDATA #IMPLIED
+>
+<!ELEMENT point ANY >
+<!ATTLIST point
+          x CDATA #IMPLIED
+          y CDATA #IMPLIED
+>
+<!ELEMENT startpoint ANY >
+<!ATTLIST startpoint
+          startx CDATA #IMPLIED
+          starty CDATA #IMPLIED
+>
+
+<!-- currently unused -->
+
+<!ELEMENT brush ANY >
+<!ATTLIST brush
+          color CDATA #IMPLIED
+          style CDATA #IMPLIED
+>
+<!ELEMENT pixmap ANY >
+<!ELEMENT xpm ANY >
+<!ENTITY % LinearGradientAtts '
+          start CDATA #IMPLIED
+          finalstop CDATA #IMPLIED
+'>
+<!ENTITY % RadialGradientAtts '
+          center CDATA #IMPLIED
+          focalpoint CDATA #IMPLIED
+          radius CDATA #IMPLIED
+'>
+<!-- uses also center CDATA #IMPLIED -->
+<!ENTITY % ConicalGradientAtts '
+          angle CDATA #IMPLIED
+'>
+
+<!ELEMENT gradient ANY >
+<!ATTLIST gradient
+          type CDATA #IMPLIED
+          spread CDATA #IMPLIED
+          coordinatemode CDATA #IMPLIED
+          %LinearGradientAtts;
+          %RadialGradientAtts;
+          %ConicalGradientAtts;
+>
+<!ELEMENT stops ANY >
+<!ELEMENT stop ANY >
+<!ATTLIST stop
+          position CDATA #IMPLIED
+          color CDATA #IMPLIED
+>

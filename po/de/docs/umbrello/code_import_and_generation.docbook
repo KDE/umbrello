@@ -1,169 +1,171 @@
 <chapter id="code-import-generation">
-<title
->Quelltextimport und Quelltexterzeugung</title>
-<para
->&umbrello; ist ein &UML; Modellierungswerkzeug und sein Schwerpunkt liegt deshalb auf der <emphasis
->Analyse und des Designs</emphasis
-> ihres Systems. Um den Übergang zwischen Design und <emphasis
->Implementierung</emphasis
-> zu erleichtern, kann &umbrello; Quelltext in verschiedenen Programmiersprachen erzeugen. Möchte man hingegen die &UML; in einem bereits existierendem C++ Projekt einsetzen, unterstützt &umbrello; einem bei der Erstellung eines Modells des vorhandenen Systems, indem es den Quelltext einliest und die gefundenen Klassen erstellt. </para>
+<title>Code Import and Code Generation</title>
+<para>
+&umbrello; is a &UML; modelling tool, and as such its main purpose is to help you in the 
+<emphasis>analysis and design</emphasis> of your systems. However, to make the transition
+between your design and your <emphasis>implementation</emphasis>, &umbrello; allows you to
+generate source code in different programming languages to get you started. Also, if you 
+want to start using &UML; in an already started C++ project, &umbrello; can help you create a model
+of your system from the source code by analysing your source code and importing the classes
+found in it.
+</para>
 <sect1 id="code-generation">
-<title
->Quelltexterzeugung</title>
-<para
->&umbrello; kann Quelltext in verschiedenen Programmiersprachen auf Basis ihres &UML; Modells erzeugen und hilft dabei einen Anfang für die Implementierung zu schaffen. Der erzeugte Quelltext besteht aus den Klassendeklarationen, den Methoden und den Attributen. Man muss diese Hüllen <quote
->lediglich ausfüllen</quote
->, um die Klassenoperationen mit Funktionalität zu füllen. </para>
-<para
->&umbrello; 2 bietet Quelltexterzeugung für ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL und Pascal. </para>
+<title>Code Generation</title>
+<para>
+&umbrello; can generate source code for various programming languages based on your &UML; Model
+to help you get started with the implementation of your project. The code generated consists
+of the class declarations, with their methods and attributes so you can <quote>fill in the
+blanks</quote> by providing the functionality of your classes' operations.
+</para>
+<para>
+&umbrello; 2 comes with code generation support for ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript,
+MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala, and XMLSchema.
+</para>
 <sect2 id="generate-code">
-<title
->Quelltext erzeugen</title>
-<para
->Um Quelltext mit &umbrello; zu erzeugen, muss man zuerst ein Modell laden, das mindestens eine Klasse enthält. Wenn man Quelltext erzeugen will, muss man den <guimenuitem
->Assistent für Quelltext-Erstellung ...</guimenuitem
-> aus dem Menü <guimenu
->Quelltext</guimenu
-> auswählen. Dadurch wird der Assistent gestartet, der dann durch den Prozess zur Quelltexterzeugung führt. </para>
-<para
->Im ersten Schritt muss man die Klassen auswählen, für die Quelltext erzeugt werden soll. Am Anfang sind alle Klassen des Modells ausgewählt und man kann nun einzelne entfernen. Dazu muss man sie aus der rechten Liste in die linke Liste verschieben. </para>
-<para
->Im folgenden Schritt des Assistenten kann man die Parameter des Quelltextgenerators verändern. Folgende Parameter sind verfügbar: </para>
+<title>Generating Code</title>
+<para>
+In order to generate code with &umbrello;, you first need to create or load a Model
+containing at least one class. When you are ready to start writing some code, select the
+<guimenuitem>Code Generation Wizard</guimenuitem> entry from the <guimenuitem>Code</guimenuitem> menu to 
+start a wizard which will guide you trough the code generation process.
+</para>
+<para>
+The first step is to select the classes for which you want to generate source code.
+By default all the classes of your model are selected, and you can remove the ones
+for which you do not want to generate code by moving them to the left-hand side list.
+</para>
+<para>
+The next step of the wizard allows you to modify the parameters the Code Generator uses
+while writing your code. The following options are available:
+</para>
 <para>
 <screenshot>
-<screeninfo
->Parameter Quelltexterzeugung</screeninfo>
+<screeninfo>Code Generation Options</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="generation-options.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->Parameter für die Quelltexterzeugung in &umbrello;</phrase>
+	    <phrase>Options for the Code Generation in &umbrello;</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->Parameter für die Quelltexterzeugung in &umbrello; </para>
+	    <para>Options for the Code Generation in &umbrello;
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
 <sect3 id="generation-options">
-<title
->Generierungsoptionen</title>
+<title>Generation Options</title>
 <!-- LW; to rearrange -->
 
 <sect4>
-<title
->Umfang Quelltextkommentare</title>
-<para
->Der Parameter <guilabel
->Erzeugt Dokumentations-Kommentare, selbst wenn diese leer sind.</guilabel
-> weist den Quelltextgenerator an, Kommentare der Form /** bla */ einzufügen, selbst wenn diese leer sind. Hat man die Klassen, Methoden und Attribute im Modell dokumentiert, fügt die Quelltexterzeugung diese Kommentare im <application
->Doxygen</application
-> Format mit ein, egal was an dieser Stelle ausgewählt wurde. Ist dieser Parameter aktiviert, werden im Unterschied allerdings für alle Klassen, Methoden und Attribute Platzhalter eingefügt, selbst wenn diese nicht im Modell dokumentiert wurden. Man sollte diese dann direkt im Quelltext in den bereits vorhandenen Platzhaltern dokumentieren. </para>
-<para
-><guilabel
->Erzeugt Kommentare für Abschnitte, selbst wenn diese leer sind.</guilabel
->: &umbrello; schreibt Kommentare in den Quelltext um die verschiedenen Bereiche einer Klasse zu trennen. So würde zum Beispiel <quote
->public methods</quote
-> oder <quote
->Attributes</quote
-> vor den entsprechenden Abschnitten eingefügt werden. Wurde dieser Parameter aktiviert, wird für jeden Abschnitt ein entsprechendes Kommentar eingefügt, selbst dann, wenn der Abschnitt leer ist. So würde zum Beispiel das Kommentar <quote
->protected methods </quote
-> eingefügt werden, selbst wenn keine geschützten Methoden in der Klasse existieren. </para>
+<title>Comment Verbosity</title>
+<para>
+The option <guilabel>Write documentation comments even if empty</guilabel> instructs the
+ Code Generator to write comments of the /** blah */ style even if the comment blocks are empty.
+If you added documentation to your classes, methods or attributes in your Model, the
+Code Generator will write these comments as <application>Doxygen</application> documentation regardless of what you set here, but
+if you select this option &umbrello; will write comment blocks for all classes, methods and attributes
+even if there is no documentation in the Model, in which case you should document your classes
+later directly in the source code.
+</para>
+<para>
+<guilabel>Write comments for sections even if section is empty</guilabel> causes &umbrello; to write comments
+in the source code to delimit the different sections of a class. For example <quote>public methods</quote>
+ or <quote>Attributes</quote> before the corresponding sections. If you select this option &umbrello; 
+ will write comments for all sections of the class even if the section is empty. For example,
+ it would write a comment saying <quote>protected methods</quote> even if there are no protected 
+ methods in your class.
+</para>
 </sect4>
 <sect4>
-<title
->Ordner</title>
-<para
-><guilabel
->Verzeichnis für alle zu erzeugenden Dateien</guilabel
->: Hier wählt man das Verzeichnis aus, in dem der erzeugte Quelltext abgelegt werden soll. </para>
-<para
->Der Parameter <guilabel
->Einbeziehung der Header-Dateien aus Verzeichnis</guilabel
-> erlaubt es einen Kopf an den Anfang jeder erzeugten Datei einzufügen. Diese Dateiköpfe können zum Beispiel Urheberhinweise oder Lizenzinformationen enthalten, sowie Variablen, die während der Quelltexterzeugung entsprechend ersetzt werden. Man sollte einen Blick auf die Vorlagedateien für Dateiköpfe werfen, die mit &umbrello; ausgeliefert werden. Dort kann man sehen, wie man zum Beispiel mit den Variablen das aktuelle Datum oder einen Namen einfügen kann. </para>
+<title>Folders</title>
+<para>
+<guilabel>Write all generated files to folder</guilabel>. Here you should select the folder 
+where you want &umbrello; to put the generated sources.
+</para>
+<para>
+The <guilabel>Include heading files from folder</guilabel> option allows you to insert a 
+heading at the beginning of each generated file. Heading files can contain copyright or licensing
+ information and contain variables that are evaluated at generation time. You can take a look
+ at the template heading files shipped with &umbrello; to see how to use these variables for replacing
+ your name or the current date at generation time.
+</para>
 </sect4>
 <sect4>
-<title
->Vorgaben für Überschreibung</title>
+<title>Overwrite Policy</title>
 <!-- FIXME update for Umbrello 1.2's new C++ and Java code generators -->
-<para
->Dieser Parameter legt das Verhalten von &umbrello; fest, wenn es eine Datei während der Quelltexterzeugung anlegen will, die im Zielverzeichnis bereits existiert. &umbrello; kann vorhandene Dateien <emphasis
->nicht modifizieren</emphasis
->. Man kann wählen zwischen dem Überschreiben der existierenden Datei, dem Nachfragen, was passieren soll, und der Auswahl eines anderen Dateinamens durch &umbrello;. Soll &umbrello; einen anderen Dateinamen finden, dann hängt &umbrello; ein Suffix an die entsprechende Datei an. </para>
+<para>
+This option tells &umbrello; what to do if the file it wants to create already exists in
+the destination folder. &umbrello; <emphasis>cannot modify existing source files</emphasis>,
+so you have to choose between overwriting the existing file, skipping the generation of
+that particular file or letting &umbrello; choose a different file name. If you choose the option
+to use a different name, &umbrello; will add a suffix to the file name.
+</para>
 </sect4>
 <sect4>
-<title
->Sprache</title>
-<para
->&umbrello; wählt als Sprache für die Quelltexterzeugung die momentan als aktive Sprache gewählte aus. Man kann allerdings im Quelltextassistenten eine andere Sprache auswählen. </para>
+<title>Language</title>
+<para>
+&umbrello; will by default generate code in the language you have selected as Active Language, but
+with the Code Generation Wizard you have the option to change this to another language.
+</para>
 </sect4>
-</sect3
-><!--generation-options-->
+</sect3><!--generation-options-->
 <sect3 id="generation-wizard-generation">
-<title
->Quelltexterzeugung</title>
-<para
->Der dritte und letzte Schritt des Assistenten zeigt den Status der eigentlichen Quelltexterzeugung. Man muss lediglich auf die Schaltfläche Erzeugen klicken, damit die entsprechenden Dateien mit den Klassen angelegt werden. </para>
-<para
->Es ist zu beachten, dass die gesetzten Parameter nur für die aktuelle Quelltexterzeugung gültig sind. Beim nächsten Aufruf des Assistenten muss man alle Parameter, wie Header-Datei Verzeichnis und Vorgaben für Überschreibung, neu einstellen. Man kann allerdings die Voreinstellungen dauerhaft über den <guilabel
->Quelltexterzeugung</guilabel
-> Abschnitt in den &umbrello; Einstellungen verändern. Diese Einstellungen erreicht man über <menuchoice
-><guimenu
->Einstellungen</guimenu
-> <guimenuitem
->&umbrello; einrichten ...</guimenuitem
-></menuchoice
->. </para>
-<para
->Hat man die Standardeinstellungen für die Quelltexterzeugung bereits richtig eingestellt, kann man die Quelltexterzeugung ohne den entsprechenden Assistenten direkt starten. Dazu wählt man <guimenuitem
->Erzeuge alle Quelltexte</guimenuitem
-> aus dem Menü <guimenu
->Quelltext</guimenu
->. Dies erzeugt den Quelltext aller Klassen des Modells mit den aktuellen Einstellungen wie Ausgabeverzeichnis und Vorgaben für Überschreiben. Man sollte deshalb vorsichtig damit umgehen. </para>
+<title>Generation Wizard Generation</title>
+<para>
+The third and last step of the wizard shows the status of the Code Generation process.
+You need only to click on the Generate button to get your classes written for you.
+</para>
+<para>
+Note that the Options you select during the Code Generation Wizard are only valid for the current
+generation. The next time you run the wizard you will need to re-select all the options
+(your headings folder, overwrite policy, and so on). You can set the defaults used by &umbrello; 
+in the <guilabel>Code Generation</guilabel> section of the &umbrello; settings, available
+at <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure &umbrello;...</guimenuitem></menuchoice>
+</para>
+<para>
+If you have set your Code Generation options to the right settings and want to generate
+some code right away without going through the wizard, you can select the entire 
+<guimenuitem>Generate All Code</guimenuitem> from the <guimenu>Code</guimenu> menu. 
+This will generate code for all the classes in your Model using the current settings 
+(including Output Folder and Overwrite Policy, so use with care).
+</para>
 </sect3>
-</sect2
-><!--generate-code-->
-</sect1
-> <!--code-generation-->
+</sect2><!--generate-code-->
+</sect1> <!--code-generation-->
 <sect1 id="code-import">
-<title
->Quelltext einlesen</title>
-<para
->&umbrello; kann bereits vorhandenen Quelltext eines bestehenden Projektes einlesen, um Sie beim Aufbau des Systemmodells zu unterstützen. &umbrello; 2 unterstützt Quelltext von ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, und Pascal. </para>
-<para
->Um Klassen in das aktuelle Modell zu importieren, muss man <guimenuitem
->Assistent für Quelltext-Import ...</guimenuitem
-> aus dem Menü<guimenu
->Quelltext</guimenu
-> auswählen. Im erscheinenden Dateidialog sind die Dateien auszuwählen, die die Deklarationen der Klassen enthalten und dann muss <guibutton
->Weiter</guibutton
->, <guibutton
->Import starten</guibutton
-> und dann <guibutton
->Fertigstellen</guibutton
-> gedrückt werden. Die Klassen werden importiert und man findet sie danach in der Baumansicht des Modells. Es ist zu beachten, dass &umbrello; beim Einlesen von Quelltext keine Diagramme anlegt, sondern lediglich die Klassen. Man kann diese nun in beliebigen Diagrammen verwenden. </para>
+<title>Code Import</title>
+<para>
+&umbrello; can import source code from your existing projects to help you build Model of 
+your systems. &umbrello; 2 supports ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP, and Vala source code.
+</para>
+<para>
+To import classes into your Model, select the entry <guimenuitem>Code Importing Wizard...</guimenuitem> from
+the <guimenu>Code</guimenu> menu. In the file dialog select the files containing
+class declarations and press <guibutton>Next ></guibutton> then <guibutton>Start import</guibutton> and <guibutton>Finish</guibutton>.
+The classes will be imported and you will find them as part of
+your Model in the Tree View. Note that &umbrello; will not create any kind of Diagram for showing
+your classes, they will only be imported into your Model so that you can use them later in any 
+diagram you want.
+</para>
 <para>
 <screenshot>
-<screeninfo
->Quelltext einlesen</screeninfo>
+<screeninfo>Code Import</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="code-import.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->Dialog für das Einlesen von Quelltext in &umbrello;</phrase>
+	    <phrase>Menu for importing source code in &umbrello;</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->Dialog für das Einlesen von Quelltext in &umbrello; </para>
+	    <para>Menu for importing source code in &umbrello;
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
 </sect1>
-</chapter
-> <!--code-import-generation-->
+</chapter> <!--code-import-generation-->

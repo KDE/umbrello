@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-02 01:08+0000\n"
-"PO-Revision-Date: 2023-01-04 06:44+0100\n"
+"PO-Revision-Date: 2023-01-05 05:47+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -594,13 +594,13 @@ msgstr "სტრიქონი"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:295
 #, kde-format
 msgid "<p align=\"center\">String</p>"
-msgstr ""
+msgstr "<p align=\"center\">სტრიქონი</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelListClass)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:311
 #, kde-format
 msgid "<p align=\"center\">List</p>"
-msgstr ""
+msgstr "<p align=\"center\">სია</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelGlobal)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:350
@@ -718,7 +718,7 @@ msgstr "სტილი:"
 #: codegenerators/java/javacodegenerationformbase.ui:290
 #, kde-format
 msgid "Slash-Slash (//)"
-msgstr ""
+msgstr "სლეშ-სლეში (//)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_selectCommentStyle)
 #. i18n: ectx: property (text), item, widget (KComboBox, m_SelectCommentStyle)
@@ -727,7 +727,7 @@ msgstr ""
 #: codegenerators/java/javacodegenerationformbase.ui:295
 #, kde-format
 msgid "Slash-Star (/**  */)"
-msgstr ""
+msgstr "სლეში-ვარსკვლავი (/**  */)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: codegenerators/d/dcodegenerationformbase.ui:42
@@ -741,7 +741,7 @@ msgstr "პროექტის გენერაცია"
 #: codegenerators/java/javacodegenerationformbase.ui:60
 #, kde-format
 msgid "Create ANT build document"
-msgstr ""
+msgstr "ANT-ის აგების დოკუმენტის შექმნა"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2)
 #: codegenerators/d/dcodegenerationformbase.ui:76
@@ -861,19 +861,19 @@ msgstr "მშობელი როლიდან"
 #: codegenerators/d/dcodegenerationformbase.ui:318
 #, kde-format
 msgid "<p align=\"center\">D Code Generation</p>"
-msgstr ""
+msgstr "<p align=\"center\">D-ის კოდის გენერაცია</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelTitle)
 #: codegenerators/java/javacodegenerationformbase.ui:318
 #, kde-format
 msgid "<p align=\"center\">Java Code Generation</p>"
-msgstr ""
+msgstr "<p align=\"center\">Java-ის კოდის გენერაცია</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelTitle)
 #: codegenerators/ruby/rubycodegenerationformbase.ui:30
 #, kde-format
 msgid "<p align=\"center\">Ruby Code Generation</p>"
-msgstr ""
+msgstr "<p align=\"center\">Ruby-ის კოდის გენერაცია</p>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_SelectCommentStyle)
 #: codegenerators/ruby/rubycodegenerationformbase.ui:69
@@ -1077,7 +1077,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:193
 #, kde-format
 msgid "&Use a different name"
-msgstr ""
+msgstr "&სხვა სახელის გამოყენება"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabFormatting)
 #: codegenwizard/codegenoptionspage.ui:208

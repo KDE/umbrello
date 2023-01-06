@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!ENTITY % UmbrelloDiagrams SYSTEM "umbrello-diagrams.dtd" >
+%UmbrelloDiagrams;
+
+<!ENTITY % UmbrelloMisc SYSTEM "umbrello-misc.dtd" >
+%UmbrelloMisc;
+
+<!ELEMENT XMI.extensions (docsettings*, diagrams*, listview*, codegeneration*)>
+
+<!-- umbrello specific read only -->
+<!ENTITY % UML.EnumerationLiteral.umbrello '
+    UML:EnumerationLiteral
+'>
+
+<!-- UML 1.4 and 2.x do not specify enumeration literal values -->
+<!ENTITY % UML.EnumerationLiteralAtts.umbrello '
+    value CDATA #IMPLIED
+'>
+
+<!ENTITY % UML14 SYSTEM "01-02-16.dtd" >
+%UML14;
+
+<!-- ========= umbrello specific ========= -->
+<!ATTLIST UML:Operation
+   isOverride (true|false) #IMPLIED
+   isVirtual (true|false) #IMPLIED
+   isInline (true|false) #IMPLIED>
+
+<!ENTITY % UML.EntityAtts '
+   isAbstract (true|false) #IMPLIED
+   isLeaf (true|false) #IMPLIED
+   isRoot (true|false) #IMPLIED
+   isSpecification CDATA #IMPLIED
+   name CDATA #IMPLIED
+   namespace CDATA #IMPLIED
+   visibility %UML.VisibilityKind; #IMPLIED
+   xmi.id CDATA #IMPLIED'>
+
+
+<!ELEMENT UML:Entity (UML:EntityAttribute |
+    UML:UniqueConstraint |
+    UML:ForeignKeyConstraint)*>
+<!ATTLIST UML:Entity %UML.EntityAtts;>
+
+<!ELEMENT UML:EntityAttribute ANY>
+<!ATTLIST UML:EntityAttribute
+   %UML.EntityAtts;
+   allow_null CDATA #IMPLIED
+   auto_increment CDATA #IMPLIED
+   attributes CDATA #IMPLIED
+   dbindex_type CDATA #IMPLIED
+   initialValue CDATA #IMPLIED
+   type CDATA #IMPLIED
+   values CDATA #IMPLIED>
+
+<!ELEMENT AttributeMap ANY>
+<!ATTLIST AttributeMap
+    key CDATA #IMPLIED
+    value CDATA #IMPLIED>
+
+<!ELEMENT UML:UniqueConstraint (UML:EntityAttribute)>
+<!ELEMENT UML:ForeignKeyConstraint (AttributeMap)*>
+<!ATTLIST UML:ForeignKeyConstraint
+   %UML.EntityAtts;
+   comment CDATA #IMPLIED
+   deleteAction CDATA #IMPLIED
+   not CDATA #IMPLIED
+   referencedEntity CDATA #IMPLIED
+   updateAction CDATA #IMPLIED>
+
+<!ATTLIST UML:UniqueConstraint
+   %UML.EntityAtts;
+   isPrimary CDATA #IMPLIED>

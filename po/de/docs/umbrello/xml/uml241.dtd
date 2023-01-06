@@ -1,0 +1,383 @@
+<!--
+   dtd for uml 2.4.1
+
+   http://schema.omg.org/spec/UML/2.4.1/
+
+   collected by Ralf Habacker <ralf.habacker@freenet.de>
+-->
+
+<!ELEMENT xmi:XMI ((uml:Package | uml:Profile | uml:Model), mofext:Tag*)>
+<!ATTLIST xmi:XMI
+          xmlns:xmi CDATA #IMPLIED
+          xmlns:xsi CDATA #IMPLIED
+          xmlns:uml CDATA #IMPLIED
+          xmlns:mofext CDATA #IMPLIED
+>
+
+<!ENTITY % id 'xmi:id CDATA #IMPLIED'>
+<!ENTITY % idtype '%id;
+                   xmi:type (mofext:Tag |
+                             uml:Association|
+                             uml:Class|
+                             uml:Comment|
+                             uml:Constraint |
+                             uml:Enumeration|
+                             uml:EnumerationLiteral |
+                             uml:Extension|
+                             uml:ExtensionEnd |
+                             uml:Generalization|
+                             uml:InstanceValue |
+                             uml:LiteralBoolean |
+                             uml:LiteralInteger |
+                             uml:LiteralUnlimitedNatural |
+                             uml:OpaqueExpression |
+                             uml:Operation|
+                             uml:Profile |
+                             uml:Property|
+                             uml:Package|
+                             uml:PackageImport|
+                             uml:PackageMerge|
+                             uml:Parameter |
+                             uml:PrimitiveType|
+                             uml:Stereotype) #IMPLIED'
+>
+
+<!ELEMENT uml:Package (packagedElement|
+                       packageImport |
+                       packageMerge)+
+>
+<!ATTLIST uml:Package
+          %idtype;
+          name CDATA #IMPLIED
+          URI CDATA #IMPLIED
+>
+
+<!ELEMENT uml:Profile (packagedElement|
+                       packageImport)+
+>
+<!ATTLIST uml:Profile
+          %idtype;
+          name CDATA #IMPLIED
+          metamodelReference CDATA #IMPLIED
+          URI CDATA #IMPLIED
+>
+
+<!ELEMENT uml:Model (xmi:Documentation |
+                     xmi:Extension |
+                     profileApplication |
+                     packagedElement |
+                     uml:Diagram)+
+>
+<!ATTLIST uml:Model
+          %id;
+          name CDATA #IMPLIED
+>
+
+<!ELEMENT xmi:Documentation ANY>
+<!ATTLIST xmi:Documentation
+          exporter CDATA #IMPLIED
+          exporterVersion CDATA #IMPLIED
+>
+
+<!ELEMENT xmi:Extension ANY>
+<!ATTLIST xmi:Extension
+          extender CDATA #IMPLIED
+>
+
+<!ELEMENT uml:Diagram (xmi:Extension | uml:Diagram.element)+>
+<!-- diagramType, toolName comes from Visual Paradigm -->
+<!ATTLIST uml:Diagram
+          %id;
+          diagramType CDATA #IMPLIED
+          documentation CDATA #IMPLIED
+          name CDATA #IMPLIED
+          toolName CDATA #IMPLIED
+>
+
+<!ELEMENT uml:Diagram.element (uml:DiagramElement)+>
+
+<!ELEMENT uml:DiagramElement ANY >
+<!ATTLIST uml:DiagramElement
+          geometry CDATA #IMPLIED
+          preferredShapeType CDATA #IMPLIED
+          subject CDATA #IMPLIED
+          id CDATA #IMPLIED
+>
+
+<!ELEMENT uml:Diagram.element (xmi:Extension |
+                               elementFill |
+                               elementFont |
+                               elementLine)+
+>
+<!ATTLIST uml:Diagram.element
+          %id;
+          geometry CDATA #IMPLIED
+          preferredShapeType CDATA #IMPLIED
+          subject CDATA #IMPLIED
+>
+
+<!ELEMENT elementFill EMPTY>
+<!ATTLIST elementFill
+          color1 CDATA #IMPLIED
+          color2 CDATA #IMPLIED
+          style CDATA #IMPLIED
+          transparency CDATA #IMPLIED
+          type CDATA #IMPLIED
+>
+
+<!ELEMENT elementFont EMPTY>
+<!ATTLIST elementFont
+          bold CDATA #IMPLIED
+          color CDATA #IMPLIED
+          italic CDATA #IMPLIED
+          name CDATA #IMPLIED
+          size CDATA #IMPLIED
+          style CDATA #IMPLIED
+>
+
+<!ELEMENT elementLine EMPTY>
+<!ATTLIST elementLine
+          color CDATA #IMPLIED
+          style CDATA #IMPLIED
+          transparency CDATA #IMPLIED
+          weight CDATA #IMPLIED
+>
+
+<!ELEMENT mofext:Tag EMPTY >
+<!ATTLIST mofext:Tag
+          %idtype;
+          name CDATA #IMPLIED
+>
+
+<!ELEMENT packagedElement (generalization |
+                           ownedAttribute |
+                           ownedComment |
+                           ownedEnd |
+                           ownedLiteral |
+                           ownedOperation |
+                           ownedRule |
+                           packagedElement |
+                           packageImport |
+                           packageMerge)*
+>
+
+<!ATTLIST packagedElement
+          %idtype;
+          isAbstract CDATA #IMPLIED
+          isDerived CDATA #IMPLIED
+          name CDATA #IMPLIED
+          memberEnd CDATA #IMPLIED
+>
+
+<!ELEMENT packageImport (importedPackage*)>
+<!ATTLIST packageImport
+          %idtype;
+          importedPackage CDATA #IMPLIED
+          precondition CDATA #IMPLIED
+          name CDATA #IMPLIED
+          isOrdered CDATA #IMPLIED
+>
+
+<!ELEMENT importedPackage ANY>
+<!ATTLIST importedPackage
+          href CDATA #IMPLIED
+          xmi:type CDATA #IMPLIED
+>
+
+<!ELEMENT ownedEnd (ownedComment|
+                    lowerValue|
+                    upperValue|
+                    redefinedProperty |
+                    subsettedProperty)*
+>
+<!ATTLIST ownedEnd
+          %idtype;
+          aggregation CDATA #IMPLIED
+          association CDATA #IMPLIED
+          isOrdered CDATA #IMPLIED
+          name CDATA #IMPLIED
+          redefinedProperty CDATA #IMPLIED
+          subsettedProperty CDATA #IMPLIED
+          type CDATA #IMPLIED
+          visibility CDATA #IMPLIED
+>
+
+<!ELEMENT lowerValue EMPTY >
+<!ATTLIST lowerValue
+          %idtype;
+          instance CDATA #IMPLIED
+          isUnique CDATA #IMPLIED
+          type CDATA #IMPLIED
+          value CDATA #IMPLIED
+>
+
+<!ELEMENT upperValue EMPTY >
+<!ATTLIST upperValue
+          %idtype;
+          value CDATA #IMPLIED
+          isDerived CDATA #IMPLIED
+>
+
+<!ELEMENT generalization (general)? >
+<!ATTLIST generalization
+          %idtype;
+          general CDATA #IMPLIED
+          redefinedProperty CDATA #IMPLIED
+>
+
+<!ELEMENT general EMPTY >
+<!ATTLIST general
+          xmi:type CDATA #IMPLIED
+          href CDATA #IMPLIED
+          type CDATA #IMPLIED
+>
+
+<!ELEMENT ownedComment (body) >
+<!ATTLIST ownedComment
+          %idtype;
+          annotatedElement CDATA #IMPLIED
+>
+
+<!ELEMENT body (#PCDATA) >
+<!ATTLIST body
+>
+
+<!ELEMENT ownedRule (ownedComment | specification)+ >
+<!ATTLIST ownedRule
+          %idtype;
+          constrainedElement CDATA #IMPLIED
+          name CDATA #IMPLIED
+>
+
+<!ELEMENT specification (ownedComment | body | language)* >
+<!ATTLIST specification
+          %idtype;
+          language CDATA #IMPLIED
+          name CDATA #IMPLIED
+>
+
+<!ELEMENT language (#PCDATA) >
+<!ATTLIST language
+>
+
+<!ELEMENT ownedAttribute (ownedComment|
+                          defaultValue|
+                          lowerValue|
+                          upperValue|
+                          redefinedProperty |
+                          subsettedProperty |
+                          type)*
+>
+<!ATTLIST ownedAttribute
+          %idtype;
+          aggregation CDATA #IMPLIED
+          association CDATA #IMPLIED
+          isOrdered CDATA #IMPLIED
+          isDerived CDATA #IMPLIED
+          isReadOnly CDATA #IMPLIED
+          isDerivedUnion CDATA #IMPLIED
+          isUnique CDATA #IMPLIED
+          name CDATA #IMPLIED
+          redefinedProperty CDATA #IMPLIED
+          subsettedProperty CDATA #IMPLIED
+          type CDATA #IMPLIED
+          visibility CDATA #IMPLIED
+>
+
+<!ELEMENT defaultValue EMPTY >
+<!ATTLIST defaultValue
+          %idtype;
+          value CDATA #IMPLIED
+          redefinedProperty CDATA #IMPLIED
+          instance CDATA #IMPLIED
+          type CDATA #IMPLIED
+          isUnique CDATA #IMPLIED
+          name CDATA #IMPLIED
+>
+
+<!ELEMENT type EMPTY >
+<!ATTLIST type
+          href CDATA #IMPLIED
+          isOrdered CDATA #IMPLIED
+          isAbstract CDATA #IMPLIED
+          xmi:type CDATA #IMPLIED
+>
+
+<!ELEMENT ownedOperation (ownedComment|
+                          ownedParameter |
+                          ownedRule)+
+>
+<!ATTLIST ownedOperation
+          %idtype;
+          bodyCondition CDATA #IMPLIED
+          isAbstract CDATA #IMPLIED
+          isDerived CDATA #IMPLIED
+          isDerivedUnion CDATA #IMPLIED
+          isQuery CDATA #IMPLIED
+          isReadOnly CDATA #IMPLIED
+          name CDATA #IMPLIED
+          precondition CDATA #IMPLIED
+          redefinedOperation CDATA #IMPLIED
+          visibility CDATA #IMPLIED
+>
+
+<!ELEMENT ownedParameter (type|
+                          upperValue |
+                          lowerValue )* >
+<!ATTLIST ownedParameter
+          %idtype;
+          direction CDATA #IMPLIED
+          isDerived CDATA #IMPLIED
+          isReadOnly CDATA #IMPLIED
+          isDerivedUnion CDATA #IMPLIED
+          isAbstract CDATA #IMPLIED
+          isOrdered CDATA #IMPLIED
+          instance CDATA #IMPLIED
+          isUnique CDATA #IMPLIED
+          language CDATA #IMPLIED
+          name CDATA #IMPLIED
+          redefinedOperation CDATA #IMPLIED
+          redefinedProperty CDATA #IMPLIED
+          type CDATA #IMPLIED
+          value CDATA #IMPLIED
+          visibility CDATA #IMPLIED
+>
+
+<!ELEMENT ownedLiteral (ownedComment)* >
+<!ATTLIST ownedLiteral
+          %idtype;
+          classifier CDATA #IMPLIED
+          importedPackage CDATA #IMPLIED
+          isOrdered CDATA #IMPLIED
+          name CDATA #IMPLIED
+          precondition CDATA #IMPLIED
+
+>
+
+<!ELEMENT Tag EMPTY >
+<!ATTLIST Tag
+          %idtype;
+          name CDATA #IMPLIED
+          value CDATA #IMPLIED
+          element CDATA #IMPLIED
+>
+
+<!ELEMENT subsettedProperty EMPTY >
+<!ATTLIST subsettedProperty
+          href CDATA #IMPLIED
+>
+<!ELEMENT redefinedProperty EMPTY >
+<!ATTLIST redefinedProperty
+          href CDATA #IMPLIED
+          name CDATA #IMPLIED
+>
+
+<!ELEMENT packageMerge (mergedPackage*) >
+<!ATTLIST packageMerge
+          %idtype;
+          mergedPackage CDATA #IMPLIED
+>
+<!ELEMENT mergedPackage EMPTY >
+<!ATTLIST mergedPackage
+          href CDATA #IMPLIED
+>

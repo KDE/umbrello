@@ -1,388 +1,281 @@
 <chapter id="uml-basics">
-<title
->&UML;-Grundlagen</title>
+<title>&UML; Basics</title>
 <sect1 id="about-uml">
-<title
->Über &UML;</title>
-<para
->Dieses Kapitel gibt einen kurzen Überblick über die &UML;-Grundlagen. Man sollte sich aber bewusst sein, dass es keine vollständige &UML;-Anleitung ist. Wenn man mehr über die Unified Modelling Language, oder allgemein über Software Analyse und Design, lernen will, dann sollte man eines der vielen zu diesem Thema publizierten Bücher lesen. Man kann natürlich die vielen Einführungen im Internet zum Thema als Ausgangspunkt wählen. </para>
+<title>About &UML;</title>
+<para>
+This chapter will give you a quick overview of the basics of &UML;. Keep in mind
+that this is not a comprehensive tutorial on &UML; but rather a brief introduction to &UML; which can be read as a &UML; tutorial. 
+If you would like to learn more about the
+Unified Modelling Language, or in general about software analysis and design, refer to one of the
+many books available on the topic. There are also a lot of tutorials on the Internet which you
+can take as a starting point.
+</para>
 
-<para
->Die Unified Modelling Language (&UML;) ist eine Diagrammnotation zum spezifizieren, visualisieren und dokumentieren von Modellen objektorientierter Softwaresysteme. &UML; ist kein Vorgehensmodell, d.h. es sagt nichts über die einzelnen Schritte aus, die nötig sind, um ein System zu gestalten. Aber &UML; hilft ihnen ihr Design zu visualisieren und mit anderen zu kommunizieren. Der &UML;-Standard wird von der Object Management Group (<acronym
->OMG</acronym
->) gepflegt und ist der Industriestandard zur Beschreibung von Softwaremodellen. </para>
-<para
->&UML; wurde für das objektorientierte Softwaredesign entwickelt und ist daher nur von begrenztem Nutzen bei anderen Programmierparadigmen. </para>
-<para
->&UML; setzt sich zusammen aus vielen Modellelementen, die für sich einen bestimmten Sachverhalt des Softwaresystems repräsentieren. Diese Elemente werden zu Diagrammen kombiniert, die einen Ausschnitt oder einen bestimmten Blickpunkt auf das System darstellen. Folgende Diagrammtypen werden von &umbrello; unterstützt: </para>
+<para>
+The Unified Modelling Language (&UML;) is a diagramming language or notation to specify, visualize and document
+models of Object Oriented software systems. &UML; is not a development method, that means it does not tell you
+what to do first and what to do next or how to design your system, but it helps you to visualize
+your design and communicate with others. &UML; is controlled by the Object Management Group (<acronym>OMG</acronym>) and is the
+industry standard for graphically describing software.
+</para>
+<para>
+&UML; is designed for Object Oriented software design and has limited use for other programming paradigms.
+</para>
+<para>
+&UML; is composed of many model elements that represent the different parts of a software system.
+The &UML; elements are used to create diagrams, which represent a certain part, or a point of view of
+the system.
+The following types of diagrams are supported by &umbrello;:
+</para>
 
 <itemizedlist>
 
-<listitem
-><para
-><emphasis
-><link linkend="use-case-diagram"
->Anwendungsfalldiagramm</link
-> </emphasis
->, stellt Akteure (Menschen oder andere Benutzer des Systems), Anwendungsfälle (Szenario, wie die Akteure das System nutzen) und die Beziehungen dazwischen dar</para
-> </listitem>
+<listitem><para><emphasis><link linkend="use-case-diagram">Use Case
+Diagrams</link></emphasis> show actors (people or other users of the
+system), use cases (the scenarios when they use the system), and their
+relationships</para> </listitem>
 
-<listitem
-><para
-><emphasis
-><link linkend="class-diagram"
->Klassendiagramm</link
-></emphasis
->, stellt Klassen und ihre Beziehungen untereinander dar</para
-> </listitem>
+<listitem><para><emphasis><link linkend="class-diagram">Class
+Diagrams</link></emphasis> show classes and the relationships between
+them</para> </listitem>
 
-<listitem
-><para
-><emphasis
-><link linkend="sequence-diagram"
->Sequenzdiagramm</link
-></emphasis
->, stellt Objekte und ihre Beziehungen dar, wobei der Schwerpunkt auf dem chronologischen Nachrichtenaustausch zwischen den Objekten liegt</para
-> </listitem>
+<listitem><para><emphasis><link linkend="sequence-diagram">Sequence
+Diagrams</link></emphasis> show objects and a sequence of method calls
+they make to other objects.</para> </listitem>
 
-<listitem
-><para
-><emphasis
-><link linkend="collaboration-diagram"
->Kollaborationsdiagramm </link
-></emphasis
->, stellt Objekte und ihre Beziehungen dar, wobei der Schwerpunkt auf Objekten liegt, die am Nachrichtenaustausch beteiligt sind</para>
+<listitem><para><emphasis><link
+linkend="collaboration-diagram">Collaboration
+Diagrams</link></emphasis> show objects and their relationship,
+ putting emphasis on the objects that participate in the message exchange</para>
 </listitem>
 
-<listitem
-><para
-><emphasis
-><link linkend="state-diagram"
->Zustandsdiagramm</link
-> </emphasis
->, stellt Zustände, Zustandsänderungen und Ereignisse in einem Objekt oder Teilsystem dar</para
-> </listitem>
+<listitem><para><emphasis><link linkend="state-diagram">State
+Diagrams</link></emphasis> show states, state changes and events in an
+object or a part of the system</para> </listitem>
 
-<listitem
-><para
-><emphasis
-><link linkend="activity-diagram"
->Aktivitätsdiagram</link
-> </emphasis
->, stellt die Aktivitäten, Zustände und Zustandsänderungen von Objekten und die Ereignisse in Teilsystemen dar</para
-></listitem>
+<listitem><para><emphasis><link linkend="activity-diagram">Activity
+Diagrams</link></emphasis> show activities and the changes from one
+activity to another with the events occurring in some part of the
+system</para></listitem>
 
-<listitem
-><para
-><emphasis
-><link linkend="component-diagram"
->Komponentendiagramm</link
-> </emphasis
->, stellt die höheren Programmierkomponenten (wie KParts und Java Beans) dar.</para
-></listitem>
+<listitem><para><emphasis><link linkend="component-diagram">Component
+Diagrams</link></emphasis> show the high level programming components
+(such as KParts or Java Beans).</para></listitem>
 
-<listitem
-><para
-><emphasis
-><link linkend="deployment-diagram"
->Verteilungsdiagramm</link
-></emphasis
-> , stellt die Instanzen der Komponenten und ihre Beziehungen dar.</para
-></listitem
-> 
+<listitem><para><emphasis><link
+linkend="deployment-diagram">Deployment Diagrams</link></emphasis> show
+the instances of the components and their
+relationships.</para></listitem> 
 
-<listitem
-><para
-><emphasis
-><link linkend="class-diagram"
->Entitäten-Beziehungs-Diagramm</link
-></emphasis
->, stellt Daten und ihre Beziehungen beziehungsweise Einschränkungen untereinander dar.</para
-></listitem
-> 
+<listitem><para><emphasis><link
+linkend="entity-relationship-diagram">Entity Relationship Diagrams</link></emphasis> show
+data and the relationships and constraints between the data.</para></listitem> 
 
 </itemizedlist>
 
-</sect1
->   <!-- about-uml -->
+</sect1>   <!-- about-uml -->
 
-<sect1 id="uml-elements"
->  
-<title
->&UML;-Elemente</title>
+<sect1 id="uml-elements">  
+<title>&UML; Elements</title>
 <sect2 id="use-case-diagram">
-<title
->Anwendungsfalldiagramm</title>
-<para
->Anwendungsfalldiagramme beschreiben die Beziehungen und Abhängigkeiten zwischen einer Gruppe von <emphasis
->Anwendungsfällen</emphasis
-> und den teilnehmenden Akteuren in einem Prozess.</para>
-<para
->Dabei ist zu beachten, dass ein Anwendungsfalldiagramm nicht das Systemdesign widerspiegelt und damit keine Aussage über die Systeminterna trifft. Anwendungsfalldiagramme werden zur Vereinfachung der Kommunikation zwischen Entwickler und zukünftigen Benutzer bzw. Kunde erstellt. Sie sind vor allem bei der Festlegung der benötigten Kriterien des zukünftigen Systems hilfreich. Somit treffen Anwendungsfalldiagramme eine Aussage, <emphasis
->was</emphasis
-> zu tun ist, aber nicht <emphasis
->wie</emphasis
-> wie das erreicht wird.</para>
+<title>Use Case Diagram</title>
+<para>Use Case Diagrams describe the relationships and dependencies between a group of <emphasis>Use Cases</emphasis>
+and the Actors participating in the process.</para>
+<para>It is important to notice that Use Case Diagrams are not suited to represent the design,
+and cannot describe the internals of a system. Use Case Diagrams are meant to facilitate the communication
+with the future users of the system, and with the customer, and are specially helpful to determine the required
+features the system is to have. Use Case Diagrams tell, <emphasis>what</emphasis> the system
+should do but do not &mdash; and cannot &mdash; specify <emphasis>how</emphasis> this is to be achieved.</para>
 <para>
 <screenshot>
-<screeninfo
->Ein beispielhaftes Anwendungsfalldiagramm.</screeninfo>
+<screeninfo>An example Use Case diagram.</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="use-case-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->&umbrello; bei der Darstellung eines Anwendungfalldiagramms</phrase>
+	    <phrase>&umbrello; showing a Use Case Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->&umbrello; bei der Darstellung eines Anwendungfalldiagramms </para>
+	    <para>&umbrello; showing a Use Case Diagram
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
 <sect3 id="use-case">
-<title
->Anwendungsfall</title>
-<para
->Ein <emphasis
->Anwendungsfall</emphasis
-> beschreibt, aus der Sicht des Akteurs eine Reihe von Aktivitäten im System, die ein konkret fassbares Ergebnis liefern.</para>
-<para
->Anwendungsfälle dienen als Beschreibung von typischen Interaktionen zwischen Benutzer und dem System. Sie stellen die externe Schnittstelle dar und spezifizieren damit die Anforderungen, was das System zu tun hat (nur das was, aber nicht das wie!). </para>
-<para
->Bei der Arbeit mit Anwendungsfällen, sollte man folgende einfache Regeln beachten: <itemizedlist>
- <listitem
-><para
->jeder Anwendungsfall ist mindestens mit einem Akteur verbunden</para
-></listitem>
- <listitem
-><para
->jeder Anwendungsfall hat einen Auslöser (also einen Akteur)</para
-></listitem>
- <listitem
-><para
->jeder Anwendungsfall führt zu einem relevanten Ergebnis (<quote
->messbar und wirtschaftlich relevant</quote
->)</para>
+<title>Use Case</title>
+<para>A <emphasis>Use Case</emphasis> describes &mdash; from the point of view of the actors &mdash; a group of activities
+in a system that produces a concrete, tangible result.</para>
+<para>
+Use Cases are descriptions of the typical interactions between the users of a system and the system itself.
+They represent the external interface of the system and specify a form of requirements of what the
+system has to do (remember, only what, not how).
+</para>
+<para>When working with Use Cases, it is important to remember some simple rules:
+ <itemizedlist>
+ <listitem><para>Each Use Case is related to at least one actor</para></listitem>
+ <listitem><para>Each Use Case has an initiator (&ie; an actor)</para></listitem>
+ <listitem><para>Each Use Case leads to a relevant result (a result with <quote>business value</quote>)</para>
  </listitem>
  </itemizedlist>
 </para>
-<para
->Anwendungsfälle können untereinander in Verbindung stehen. Die 3 gebräuchlichsten Beziehungen zwischen Anwendungsfällen sind:</para>
+<para>
+Use Cases can also have relationships with other Use Cases. The three most typical types of relationships
+between Use Cases are:</para>
 <itemizedlist>
-<listitem
-><para
-><emphasis
->&lt;&lt;include&gt;&gt;</emphasis
->, wodurch ausgesagt wird, dass ein Anwendungsfall <emphasis
->in</emphasis
-> einem anderen Anwendungsfall stattfindet.</para
-></listitem>
-<listitem
-><para
-><emphasis
->&lt;&lt;extends&gt;&gt;</emphasis
->, wodurch ausgesagt wird, dass in einer bestimmten Situation (oder einem bestimmten Erweiterungspunkt) der Anwendungsfall durch einen anderen erweitert wird.</para
-></listitem>
-<listitem
-><para
-><emphasis
->Verallgemeinerung</emphasis
->, wodurch ausgesagt wird, dass ein Anwendungsfall die Eigenschaften eines <quote
->Super</quote
->anwendungsfalls (übergeordneten) erbt und diese überschreiben oder erweitern kann, ganz ähnlich wie bei der Vererbung zwischen Klassen. </para>
+<listitem><para><emphasis>&lt;&lt;include&gt;&gt;</emphasis> which specifies that a Use Case takes place <emphasis>inside</emphasis>
+another Use Case</para></listitem>
+<listitem><para><emphasis>&lt;&lt;extends&gt;&gt;</emphasis> which specifies that in certain situations, or at some point (called an
+extension point) a Use Case will be extended by another.</para></listitem>
+<listitem><para><emphasis>Generalization</emphasis> specifies that a Use Case inherits the characteristics
+of the <quote>Super</quote>-Use Case, and can override some of them or add new ones in a similar way as the
+inheritance between classes.
+</para>
 </listitem>
 </itemizedlist>
 </sect3>
 <sect3 id="actor">
-<title
->Akteur</title>
-<para
->Ein Akteur ist ein externes Objekt (außerhalb des Systems), welches mit dem System durch die Teilnahme und Auslösung von Anwendungsfällen in Kontakt tritt. Akteure können echte Menschen (&eg; der Benutzer des Systems), Computersysteme oder externe Ereignisse sein. </para>
-<para
->Akteure stellen somit nicht die <emphasis
->physische</emphasis
-> Person oder System dar, sondern vielmehr die <emphasis
->Rollen</emphasis
-> dieser Objekte. Steht eine physische Person auf verschiedenen Wegen (&eg; durch verschiedene Rollen) mit dem System in Kontakt, dann wird sie durch verschiedene Akteure dargestellt. So würde eine Person, die im Kundensupport genauso wie in der Auftragsannahme tätig ist, einmal als Akteur <quote
->Supportmitarbeiter</quote
-> und einmal als Akteur <quote
->Vertriebsmitarbeiter</quote
-> dargestellt werden. </para>
+<title>Actor</title>
+<para>
+An actor is an external entity (outside of the system) that interacts with the system by participating
+(and often initiating) a Use Case. Actors can be in real life people (for example users of the system),
+other computer systems or external events.
+</para>
+<para>
+Actors do not represent the <emphasis>physical</emphasis> people or systems, but their <emphasis>role</emphasis>.
+This means that when a person interacts with the system in different ways (assuming different roles) he will be
+represented by several actors. For example a person that gives customer support by the telephone and takes
+orders from the customer into the system would be represented by an actor <quote>Support Staff</quote> and
+an actor <quote>Sales Representative</quote>
+</para>
 </sect3>
 <sect3 id="use-case-description">
-<title
->Anwendungsfallbeschreibung</title>
-<para
->Eine Anwendungsfallbeschreibung legt in Textform den Anwendungsfall dar. Normalerweise werden dazu Notizen oder sonst wie mit dem Anwendungsfall verlinkte Dokumente dargestellt und beschreiben die Prozesse oder Aktivitäten, die im Anwendungsfall stattfinden. </para>
+<title>Use Case Description</title>
+<para>  <!-- FIXME this are not defined by UML. -->
+Use Case Descriptions are textual narratives of the Use Case. They usually take the form of a note or
+a document that is somehow linked to the Use Case, and explains the processes or activities that take
+place in the Use Case.
+</para>
 </sect3>
-</sect2
-> <!-- use-case-diagram -->
+</sect2> <!-- use-case-diagram -->
 
 <sect2 id="class-diagram">
-<title
->Klassendiagramm</title>
-<para
->Klassendiagramme zeigen die verschiedenen Klassen, aus denen das System besteht, und wie diese untereinander in Abhängigkeit stehen. Die Klassendiagramme werden als <quote
->statisch</quote
-> bezeichnet, da sie lediglich die Klassen mit ihren Methoden und Attributen sowie die statischen Verbindungen zwischen ihnen darstellen. Dabei wird gezeigt, welche Klassen von anderen Klassen <quote
->etwas wissen</quote
-> und welche Klassen <quote
->ein Teil</quote
-> von anderen Klassen sind. Es wird aber nicht der Nachrichtenaustausch (Methodenaufrufe) zwischen den Klassen dargestellt. </para>
+<title>Class Diagram</title>
+<para>
+Class Diagrams show the different classes that make up a system and how they relate to each other. Class Diagrams
+are said to be <quote>static</quote> diagrams because they show the classes, along with their methods and
+attributes as well as the static relationships between them: which classes <quote>know</quote> about which classes
+or which classes <quote>are part</quote> of another class, but do not show the method calls
+between them.
+</para>
 <para>
 <screenshot>
-<screeninfo
->ein beispielhaftes Klassendiagramm</screeninfo>
+<screeninfo>An example of a Class Diagram</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="class-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->&umbrello; bei der Darstellung eines Klassendiagramms</phrase>
+	    <phrase>&umbrello; showing a Class Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->&umbrello; bei der Darstellung eines Klassendiagramms </para>
+	    <para>&umbrello; showing a Class Diagram
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
 <sect3 id="class">
-<title
->Klasse</title>
-<para
->Eine Klasse definiert die Attribute und Methoden einer Menge von Objekten. Alle Objekte dieser Klasse (die Instanzen) haben das gleiche Verhalten und die gleichen Attribute (aber mit unterschiedlichen Werten). Der Begriff <quote
->Typ</quote
-> wird manchmal synonym für Klasse verwendet, aber es muss beachtet werden, dass Typ allgemeiner ist und daher die beiden Begriffe nicht identisch in ihrer Bedeutung sind. </para>
-<para
->In der &UML; werden Klassen als Rechtecke mit dem Klassennamen dargestellt. Sie können die Attribute und Operationen der Klasse in 2 extra <quote
->abgetrennten Bereichen</quote
-> innerhalb des Rechteck enthalten. </para>
+<title>Class</title>
+<para>
+A Class defines the attributes and the methods of a set of objects. All objects of this class (instances
+of this class) share the same behavior, and have the same set of attributes (each object has its own set).
+The term <quote>Type</quote> is sometimes used instead of Class, but it is important to mention that these
+two are not the same, and Type is a more general term.
+</para>
+<para>
+In &UML;, Classes are represented by rectangles, with the name of the class, and can also show
+the attributes and operations of the class in two other <quote>compartments</quote> inside the rectangle.
+</para>
 <para>
 <screenshot>
-<screeninfo
->eine Klasse in der &UML;</screeninfo>
+<screeninfo>A Class in &UML;</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="class.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->visuelle Darstellung einer Klasse in der &UML;</phrase>
+	    <phrase>Visual representation of a Class in &UML;</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->visuelle Darstellung einer Klasse in der &UML; </para>
+	    <para>Visual representation of a Class in &UML;
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
 <sect4 id="attribute">
-<title
->Attribut</title>
-<para
->In der &UML; werden Attribute mindestens mit ihrem Namen dargestellt, es können aber noch der Typ, der Anfangswert und weitere Eigenschaften mit angezeigt werden. So kann man &eg; die Sichtbarkeit von Attributen mit darstellen: </para>
+<title>Attributes</title>
+<para>
+In &UML;, Attributes are shown with at least their name, and can also show their type, initial value and
+other properties.
+Attributes can also be displayed with their visibility:
+</para>
 <itemizedlist>
-<listitem
-><para
-><literal
->+</literal
->, steht für <emphasis
->public</emphasis
-> (öffentliche) Attribute</para
-></listitem>
-<listitem
-><para
-><literal
->#</literal
->, steht für <emphasis
->protected</emphasis
-> (geschützte) Attribute</para
-></listitem>
-<listitem
-><para
-><literal
->-</literal
->, steht für <emphasis
->private</emphasis
-> Attribute</para
-></listitem>
+<listitem><para><literal>+</literal>  Stands for <emphasis>public</emphasis> attributes</para></listitem>
+<listitem><para><literal>#</literal>  Stands for <emphasis>protected</emphasis> attributes</para></listitem>
+<listitem><para><literal>-</literal>  Stands for <emphasis>private</emphasis> attributes</para></listitem>
 </itemizedlist>
 </sect4>
 <sect4 id="operation">
-<title
->Operation</title>
-<para
->Operationen (Methoden) müssen ebenfalls mindestens mit ihrem Namen dargestellt werden und können weiterhin die Parameter und die Rückgabewerte in der Darstellung enthalten. Wie bei Attributen, ist die Sichtbarkeit ebenfalls darstellbar: <itemizedlist>
-<listitem
-><para
-><literal
->+</literal
->, steht für <emphasis
->public</emphasis
-> (öffentliche) Operationen</para
-></listitem>
-<listitem
-><para
-><literal
->#</literal
->, steht für <emphasis
->protected</emphasis
-> (geschützte) Operationen</para
-></listitem>
-<listitem
-><para
-><literal
->-</literal
->, steht für <emphasis
->private</emphasis
-> Operationen</para
-></listitem>
+<title>Operations</title>
+<para>
+Operations (methods) are also displayed with at least their name, and can also show their parameters and return
+types.
+Operations can, just as Attributes, display their visibility:
+<itemizedlist>
+<listitem><para><literal>+</literal>  Stands for <emphasis>public</emphasis> operations</para></listitem>
+<listitem><para><literal>#</literal>  Stands for <emphasis>protected</emphasis> operations</para></listitem>
+<listitem><para><literal>-</literal>  Stands for <emphasis>private</emphasis> operations</para></listitem>
 </itemizedlist>
 </para>
 </sect4>
 
 <sect4 id="templates">
-<title
->Klassen-Templates</title>
-<para
->Klassen können als Klassen-Templates genutzt werden um zu zeigen, dass es sich um eine unspezifizierte Klasse oder Typ handelt. Der Klassentyp wird während der Instanzbildung (also Objekt wird angelegt) bestimmt. Template-Klassen gibt es in modernen Sprachen wie C++ und ab Java 1.5, wo sie Generics genannt werden. </para>
+<title>Templates</title>
+<para>
+Classes can have templates, a value which is used for an unspecified class or type.  The template type is specified
+when a class is initiated (&ie; an object is created).  Templates exist in modern C++ and will be introduced in Java 1.5 where 
+they will be called Generics.
+</para>
 </sect4>
 </sect3>
 
 <sect3 id="class-associations">
-<title
->Klassenassoziation</title>
-<para
->Klassen können sich auf unterschiedlichen Wegen aufeinander beziehen (assoziieren):</para>
+<title>Class Associations</title>
+<para>Classes can relate (be associated with) to each other in different ways:</para>
 <sect4 id="generalization">
-<title
->Verallgemeinerung</title>
-<para
->Die Vererbung ist ein Basiskonzept der objektorientierten Programmierung. Ein Klasse <quote
->erhält</quote
-> dabei alle Attribute und Operationen der Klasse, von der sie abgeleitet wird. Die Klasse kann diese Operationen/Attribute überschreiben und ändern, sowie neue hinzufügen.</para>
-<para
->In der &UML; wird durch die Assoziation <emphasis
->Verallgemeinerung</emphasis
-> zwischen 2 Klassen eine Hierarchie aufgebaut, die das Konzept von abgeleiteter Klasse und Basisklasse verkörpert. Die Verallgemeinerung zwischen 2 Klassen wird in der &UML; durch eine Linie zwischen den 2 Klassen dargestellt, wobei sich ein Pfeil auf der Seite der Basisklasse befindet. <screenshot>
-<screeninfo
->Verallgemeinerung</screeninfo>
+<title>Generalization</title>
+<para>Inheritance is one of the fundamental concepts of Object Oriented programming, in which a class
+<quote>gains</quote> all of the attributes and operations of the class it inherits from, and can
+override/modify some of them, as well as add more attributes and operations of its own.</para>
+<para>
+In &UML;, a <emphasis>Generalization</emphasis> association between two classes puts them in a hierarchy
+representing the concept of inheritance of a derived class from a base class. In &UML;, Generalizations are
+represented by a line connecting the two classes, with an arrow on the side of the base class.
+<screenshot>
+<screeninfo>Generalization</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="generalization.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->visuelle Darstellung der Verallgemeinerung in &UML;</phrase>
+	    <phrase>Visual representation of a generalization in &UML;</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->visuelle Darstellung der Verallgemeinerung in &UML; </para>
+	    <para>Visual representation of a generalization in &UML;
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
@@ -390,35 +283,35 @@
 </sect4>
 
 <sect4 id="uml-associations">
-<title
->Assoziation</title>
-<para
->Eine Assoziation stellt den Zusammenhang zwischen Klassen dar und beschreibt damit die allgemeine Bedeutung und Struktur verschiedenster Typen von <quote
->Verbindungen</quote
-> zwischen Objekten.</para>
-<para
->Assoziationen sind der Mechanismus, der es den Objekten erlaubt untereinander zu kommunizieren. Sie beschreiben die Verbindungen zwischen verschiedenen Klassen (die Verbindung zwischen den eigentlichen Objekten werden als Objektverbindungen oder als <emphasis
->Link</emphasis
-> bezeichnet). </para>
-<para
->Assoziationen können Rollen haben, die den Zweck der Verbindung beschreiben und entweder uni- oder bidirektional sind (ob die Verbindung zwischen den Objekten ein- oder zweiseitig ist). Beide Enden einer Assoziation verfügen über einen Multiplizitätswert, der angibt, wieviele Objekte auf der einen Seite mit wieviel Objekten auf der anderen Seite verbunden sein können. </para>
-<para
->In der &UML; wird die Assoziation durch eine Linie zwischen den in der Beziehung teilnehmenden Klassen dargestellt. Dabei kann die Rolle und die Multiplizität ebenfalls angezeigt werden. Multiplizität wird als Bereich [min..max] von nicht negativen Werten dargestellt, wobei der Stern (<literal
->*</literal
->) auf der Maximumseite einen unendlichen Wert repräsentiert. <screenshot>
-<screeninfo
->&UML;-Assoziation</screeninfo>
+<title>Associations</title>
+<para>An association represents a relationship between classes, and gives the common semantics and structure
+for many types of <quote>connections</quote> between objects.</para>
+<para>Associations are the mechanism that allows objects to communicate to each other. It describes the connection
+between different classes (the connection between the actual objects is called object connection, or
+<emphasis>link</emphasis>.
+</para>
+<para>
+Associations can have a role that specifies the purpose of the association and can be uni- or bidirectional
+(indicates if the two objects participating in the relationship can send messages to the other, of if only
+one of them knows about the other). Each end of the association also has a multiplicity value, which dictates
+how many objects on this side of the association can relate to one object on the other side.
+</para>
+<para>
+In &UML;, associations are represented as lines connecting the classes participating in the relationship,
+and can also show the role and the multiplicity of each of the participants. Multiplicity is displayed as a
+range [min..max] of non-negative values, with a star (<literal>*</literal>) on the maximum side representing infinite.
+<screenshot>
+<screeninfo>&UML; Association</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="association.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->visuelle Darstellung einer &UML;-Assoziation</phrase>
+	    <phrase>Visual representation of an Association in &UML;</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->visuelle Darstellung einer &UML;-Assoziation </para>
+	    <para>Visual representation of an Association in &UML;
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
@@ -426,470 +319,388 @@
 </sect4>
 
 <sect4 id="aggregation">
-<title
->Aggregation</title>
-<para
->Aggregationen sind eine Spezialart von Assoziationen. Dabei haben die verbundenen Klassen nicht den gleichen Status, sondern es wird eine <quote
->Teil eines Ganzes</quote
-> Beziehung dargestellt. Ein Aggregation beschreibt, wie die Klasse, die die Rolle des Ganzen vertritt, sich aus anderen Klassen, die die Rollen des Teil innehaben, zusammensetzt. Bei Aggregationen hat die Klasse mit der Rolle des Ganzen immer eine Multiplizität von 1. </para>
-<para
->In der &UML; werden Aggregationen durch Assoziationen dargestellt, wobei auf der Seite des Ganzen ein Rhombus ist. <screenshot>
-<screeninfo
->Aggregation</screeninfo>
+<title>Aggregation</title>
+<para>Aggregations are a special type of associations in which the two participating classes don't have
+an equal status, but make a <quote>whole-part</quote> relationship. An Aggregation describes how the class
+that takes the role of the whole, is composed (has) of other classes, which take the role of the parts.
+For Aggregations, the class acting as the whole always has a multiplicity of one.
+</para>
+<para>
+In &UML;, Aggregations are represented by an association that shows a rhomb on the side of the whole.
+<screenshot>
+<screeninfo>Aggregation</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="aggregation.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->visuelle Darstellung einer Aggregationsbeziehung in der &UML;</phrase>
+	    <phrase>Visual representation of an Aggregation relationship in &UML;</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->visuelle Darstellung einer Aggregationsbeziehung in der &UML; </para>
+	    <para>Visual representation of an Aggregation relationship in &UML;
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
 </sect4>
 <sect4 id="composition">
-<title
->Komposition</title>
-<para
->Kompositionen sind Assoziationen, die eine <emphasis
->sehr starke</emphasis
-> Aggregation darstellen. Das bedeutet, dass Kompositionen ebenfalls eine Teil eines Ganzen Beziehung darstellen, wobei die Beziehung aber so stark ist, dass die Teile nicht allein existieren können. Sie bestehen nur innerhalb des Ganzen und werden zerstört, wenn das Ganze zerstört wird.</para>
-<para
->In der &UML; werden Kompositionen durch ein ausgefülltes Rhombus auf der Seite des Ganzen dargestellt. </para>
-<para
-><screenshot>
-<screeninfo
->Komposition</screeninfo>
+<title>Composition</title>
+<para>Compositions are associations that represent <emphasis>very strong</emphasis> aggregations. This means,
+Compositions form whole-part relationships as well, but the relationship is so strong that the parts cannot
+exist on its own. They exist only inside the whole, and if the whole is destroyed the parts die too.</para>
+<para>In &UML;, Compositions are represented by a solid rhomb on the side of the whole.
+</para>
+<para><screenshot>
+<screeninfo>Composition</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="composition.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->visuelle Darstellung einer Kompositionsbeziehung in der &UML;</phrase>
+	    <phrase>Visual representation of a Composition relationship in &UML;</phrase>
 	  </textobject>
 	</mediaobject>
-</screenshot
-></para>
+</screenshot></para>
 </sect4>
-</sect3
-> <!--class-associations-->
+</sect3> <!--class-associations-->
 
 <sect3 id="other-class-diagram-items">
-<title
->Andere Klassendiagramm-Elemente</title>
-<para
->Neben Klassen können weitere Elemente in einem Klassendiagramm dargestellt werden.</para>
+<title>Other Class Diagram Items</title>
+<para>Class diagrams can contain several other items besides classes.</para>
 <sect4 id="interfaces">
-<title
->Schnittstelle</title>
-<para
->Schnittstellen (Interfaces) sind abstrakte Klassen. Das bedeutet, von der Klasse können keine Instanzen direkt gebildet werden. Schnittstellen können Operationen aber keine Attribute beinhalten. Klassen können durch eine Realisierungsassoziation von Schnittstellen abgeleitet werden und von der Klasse können dann Instanzen gebildet werden.</para>
+<title>Interfaces</title>
+<para>Interfaces are abstract classes which means instances cannot be directly created of them.  They can contain operations but no attributes.  Classes can inherit from interfaces (through a realisation association) and instances can then be made of these diagrams.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="datatype">
-<title
->Datentypen</title>
-<para
->Datentypen sind Primitive, die normalerweise in den Programmiersprachen verfügbar sind wie Integer und Boolean. Sie können keine Beziehung zu Klassen haben, aber Klassen zu ihnen.</para>
+<title>Datatypes</title>
+<para>Datatypes are primitives which are typically built into a programming language.  Common examples include integers and booleans.  
+They cannot have relationships to classes but classes can have relationships to them.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="enum">
-<title
->Aufzählungen</title>
-<para
->Aufzählungen sind eine einfache Liste von Werten. Ein typisches Beispiel für eine Aufzählung sind die Wochentage. Die einzelnen Einträge in der Aufzählung werden als Aufzählungswert bezeichnet. Wie Datentypen können sie keine Beziehung zu Klassen haben, aber Klassen können Beziehungen zu ihnen haben.</para>
+<title>Enums</title>
+<para>Enums are a simple list of values.  A typical example is an enum for days of the week.  The options of an enum are called Enum Literals.
+Like datatypes they cannot have relationships to classes but classes can have relationships to them.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="package">
-<title
->Pakete</title>
-<para
->Pakete stehen für Namensräume (Namespace) in Programmiersprachen. In einem Diagramm stehen sie stellvertretend für Teilsysteme, die aus mehr als einer Klasse, manchmal hunderte, bestehen können.</para>
+<title>Packages</title>
+<para>Packages represent a namespace in a programming language.  In a diagram 
+they are used to represent parts of a system which contain more than one class, maybe hundereds of classes.</para>
 <!-- FIXME screenshot -->
 </sect4>
 </sect3>
 
-</sect2
-> <!-- class diagram -->
+</sect2> <!-- class diagram -->
 
 <sect2 id="sequence-diagram">
-<title
->Sequenzdiagramm</title>
+<title>Sequence Diagrams</title>
 
-<para
->Sequenzdiagramme zeigen den Nachrichtenaustausch (also Methodenaufruf) zwischen Objekten in einem spezifischen Zeitrahmen. Dabei wird besondere Betonung auf die Reihenfolge und die Zeiten gelegt, in denen die Nachrichten an die Objekte gesendet werden.</para>
+<para> Sequence Diagrams show the message exchange (&ie; method call)
+between several Objects in a specific time-delimited
+situation. Objects are instances of classes.
+Sequence Diagrams put special emphasis in the order and the
+times in which the messages to the objects are sent.</para>
 
-<para
->Im Sequenzdiagramm wird das Objekt durch eine vertikal verlaufende gestrichelte Linie gekennzeichnet. Der Objektname befindet sich am oberen Ende. Die Zeitachse verläuft ebenfalls vertikal, wobei sie sich nach unten hin erhöht. Nachrichten zwischen den Objekten werden als Pfeile mit den Operationen- und Parameternamen gekennzeichnet. </para>
+<para> 
+In Sequence Diagrams objects are represented through vertical dashed lines, with the name of the Object
+on the top. The time axis is also vertical, increasing downwards, so that messages are sent from one Object
+to another in the form of arrows with the operation and parameters name. 
+</para>
 
 <!-- FIXME update screenshot to show synchronous messages -->
 <screenshot>
-<screeninfo
->Sequenzdiagramm</screeninfo>
+<screeninfo>Sequence Diagram</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="sequence-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->&umbrello; bei der Darstellung eines Sequenzdiagramms</phrase>
+	    <phrase>&umbrello; showing a Sequence Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->&umbrello; bei der Darstellung eines Sequenzdiagramms </para>
+	    <para>&umbrello; showing a Sequence Diagram
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 
-<para
->Nachrichten können synchron oder asynchron sein. Bei synchronen Nachrichten erfolgt ein normaler Nachrichtenaufruf und die Kontrolle wird an das gerufene Objekt übergeben. Asynchrone Aufrufe geben sofort die Kontrolle an das rufende Objekt zurück. Synchrone Nachrichten haben eine vertikale Box auf der Seite des gerufenen Objektes um den Programmverlauf darzustellen.</para>
-</sect2
-> <!-- sequence diagrams -->
+<para>Messages can be either synchronous, the normal type of message call where control is passed to the called object until that
+method has finished running, or asynchronous where control is passed back directly to the calling object.  Synchronous messages have
+a vertical box on the side of the called object to show the flow of program control.</para>
+</sect2> <!-- sequence diagrams -->
 
 <sect2 id="collaboration-diagram">
-<title
->Kollaborationsdiagramm</title>
+<title>Collaboration Diagrams</title>
 
-<para
->Kollaborationsdiagramme zeigen die Interaktionen zwischen Objekten, die an einer spezifischen Situation teilnehmen. Dies entspricht im Wesentlichen den Informationen aus dem Sequenzdiagramm, wobei bei diesen der Schwerpunkt auf dem zeitlichen Auftreten liegt. Bei Kollaborationsdiagramm wird hingegen vordergründig die Verbindung zwischen Objekten und ihrer Topologie gelegt.</para>
+<para>Collaboration Diagrams show the interactions occurring between the objects participating in a specific
+situation. This is more or less the same information shown by Sequence Diagrams but there the emphasis is
+put on how the interactions occur in time while the Collaboration Diagrams 
+put the relationships between the objects and their topology in the foreground.</para>
 
-<para
->Die Nachrichten zwischen den Objekten werden in Kollaborationsdiagrammen durch Pfeile dargestellt, an denen Name, Parameter und die Nachrichtensequenz steht. Die Kollaborationsdiagramme sind hervorragend dafür geeignet eine spezielle Programmabfolge oder Situation zu zeigen. Man kann damit sehr leicht und schnell einen Teil der Programmlogik demonstrieren und erklären. </para>
+<para>In Collaboration Diagrams messages sent from one object to another are represented by arrows, showing
+the message name, parameters, and the sequence of the message. Collaboration Diagrams are specially well suited
+to showing a specific program flow or situation and are one of the best diagram types to quickly demonstrate
+or explain one process in the program logic.
+</para>
 
 <screenshot>
-<screeninfo
->Kollaboration</screeninfo>
+<screeninfo>Collaboration</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="collaboration-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->&umbrello; bei der Darstellung eines Kollaborationdiagramms</phrase>
+	    <phrase>&umbrello; showing a Collaboration Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->&umbrello; bei der Darstellung eines Kollaborationdiagramms </para>
+	    <para>&umbrello; showing a Collaboration Diagram
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 
-</sect2
-> <!-- collaboration diagrams -->
+</sect2> <!-- collaboration diagrams -->
 
 <sect2 id="state-diagram">
-<title
->Zustandsdiagramm</title>
-<para
->Zustandsdiagramme zeigen Objekte in ihren verschiedenen Zuständen während ihres Lebens und sie zeigen die Einflüsse, die die Objekte in einen anderen Zustand bringen. </para
->                              
-<para
->Zustandsdiagramme betrachten Objekte als <emphasis
->Zustandsmaschinen </emphasis
-> oder endliche Automaten, die in einer endlichen Anzahl von Zuständen sein können und die ihren Zustand durch eine endliche Anzahl von Einflüssen verändern. So kann sich zum Beispiel das Objekt <emphasis
->NetServer</emphasis
-> während seines Lebens in folgenden Zuständen befinden: </para>
+<title>State Diagram</title>
+<para>State Diagrams show the different states of an Object during its life and the stimuli that
+cause the Object to change its state.
+</para>                              
+<para>State Diagrams view Objects as <emphasis>state machines</emphasis> or finite automates that can
+be in one of a set of finite states and that can change its state via one of a finite set of stimuli. For example
+an Object of type <emphasis>NetServer</emphasis> can be in one of following states during its life:
+</para>
 <itemizedlist>
-<listitem
-><para
->bereit</para
-></listitem>
-<listitem
-><para
->wartend</para
-></listitem>
-<listitem
-><para
->arbeitend</para
-></listitem>
-<listitem
-><para
->angehalten</para
-></listitem>
+<listitem><para>Ready</para></listitem>
+<listitem><para>Listening</para></listitem>
+<listitem><para>Working</para></listitem>
+<listitem><para>Stopped</para></listitem>
 </itemizedlist>
-<para
->und die Ereignisse, die eine Zustandsänderung des Objektes auslösen, könnten sein:</para>
+<para>and the events that can cause the Object to change states are</para>
 <itemizedlist>
-<listitem
-><para
->Objekt ist angelegt</para
-></listitem>
-<listitem
-><para
->Objekt erhält Nachricht zu warten</para
-></listitem>
-<listitem
-><para
->ein Client fordert eine Verbindung über ein Netzwerk an</para
-></listitem>
-<listitem
-><para
->ein Client beendet eine Anforderung</para
-></listitem>
-<listitem
-><para
->eine Anforderung wird bearbeitet und beendet</para
-></listitem>
-<listitem
-><para
->Objekt empfängt Nachricht anhalten</para
-></listitem>
-<listitem
-><para
->usw.</para
-></listitem>
+<listitem><para>Object is created</para></listitem>
+<listitem><para>Object receives message listen</para></listitem>
+<listitem><para>A Client requests a connection over the network</para></listitem>
+<listitem><para>A Client terminates a request</para></listitem>
+<listitem><para>The request is executed and terminated</para></listitem>
+<listitem><para>Object receives message stop</para></listitem>
+<listitem><para>etc</para></listitem>
 </itemizedlist>
 <para>
 <screenshot>
-<screeninfo
->Zustandsdiagramm</screeninfo>
+<screeninfo>State Diagram</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="state-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->&umbrello; bei der Darstellung eines Zustandsdiagramms</phrase>
+	    <phrase>&umbrello; showing a State Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->&umbrello; bei der Darstellung eines Zustandsdiagramms </para>
+	    <para>&umbrello; showing a State Diagram
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
 <sect3 id="state">
-<title
->Zustand</title>
-<para
->Zustände sind die Bausteine des Zustandsdiagramms. Ein Zustand gehört zu genau einer Klasse und steht für eine bestimmte Konstellation der Attributwerte dieser Klasse. Somit beschreibt ein Zustand in der &UML; den internen Zustand eines Objektes einer bestimmten Klasse. </para
->                       
-<para
->Wichtig ist dabei, dass nicht jede Attributveränderung im Objekt zu einem neuen Zustand führen soll, sondern lediglich Attributwerte mit spürbaren Auswirkungen als Zustand des Objektes zu vermerken sind.</para>
-<para
->Zwei besondere Zustände sind Start und Ende. So kann es kein Ereignis geben, dass ein Objekt in seinen Startzustand zurückversetzt und kein Ereignis kann ein Objekt in einen anderen Zustand versetzen, wenn dieses bereits seinen Endzustand erreicht hat. </para>
+<title>State</title>
+<para>States are the building block of State Diagrams. A State belongs to exactly one class and represents
+a summary of the values the attributes of a class can take. A &UML; State describes the internal state of an 
+object of one particular class
+</para>                       
+<para>Note that not every change in one of the attributes of an object should be represented by a State
+but only those changes that can significantly affect the workings of the object</para>
+<para> 
+There are two special types of States: Start and End. They are special in that there is no event that 
+can cause an Object to return to its Start state, in the same way as there is no event that can possible take
+an Object out of its End state once it has reached it.
+</para>
 </sect3>
 
-</sect2
-> <!-- state diagrams -->
+</sect2> <!-- state diagrams -->
 
 <sect2 id="activity-diagram">
-<title
->Aktivitätsdiagramm</title>
-<para
->Aktivitätsdiagramme beschreiben die Abfolge von Aktivitäten in einem System. Sie sind dabei eine spezielle Form der Zustandsdiagramme, indem sie fast ausschließlich Aktivitäten beinhalten. </para>
+<title>Activity Diagram</title>
+<para>Activity Diagrams describe the sequence of activities in a system with the
+help of Activities. Activity Diagrams are a special form of State Diagrams, that only (or mostly) contains
+Activities.
+</para>
 <para>
 <screenshot>
-<screeninfo
->ein beispielhaftes Aktivitätsdiagramm</screeninfo>
+<screeninfo>An example Activity Diagram.</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="activity-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->&umbrello; bei der Darstellung eines Aktivitätsdiagramms</phrase>
+	    <phrase>&umbrello; showing an Activity Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->&umbrello; bei der Darstellung eines Aktivitätsdiagramms </para>
+	    <para>&umbrello; showing an Activity Diagram
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
-<para
->Aktivitätsdiagramme sind den prozeduralen Flussdiagrammen sehr ähnlich. Der Unterschied ist, dass Aktivitäten klar an Objekte gekoppelt sind.</para>
+<para>Activity Diagrams are similar to procedural Flux Diagrams, with the difference that all Activities
+are clearly attached to Objects.</para>
 
-<para
->Aktivitätsdiagramme gehören immer eindeutig zu <emphasis
->Klassen</emphasis
->, <emphasis
->Operationen</emphasis
-> oder <emphasis
->Anwendungsfällen</emphasis
->.</para>
+<para>Activity Diagrams are always associated to a
+<emphasis>Class</emphasis>, an <emphasis>Operation</emphasis> or a
+<emphasis>Use Case</emphasis>.</para>
 
-<para
->In Aktivitätsdiagrammen können sowohl sequenzielle wie auch parallele Aktivitäten dargestellt werden. Parallele Bearbeitung wird mittels der Fork/Wait Symbole umgesetzt. Für parallel laufende Aktivitäten ist es dabei unerheblich, in welcher Reihenfolge sie ablaufen. Sie können zum gleichen Zeitpunkt aber auch nacheinander ausgeführt werden.</para>
+<para>Activity Diagrams support sequential as well as parallel Activities. Parallel execution is represented
+via Fork/Wait icons, and for the Activities running
+in parallel, it is not important the order in which they are carried out (they can be executed at the same
+time or one after the other)</para>
 <sect3 id="activity">
-<title
->Aktivität</title>
-<para
->Eine Aktivität ist ein einzelner Schritt in einem Prozess. Somit ist eine Aktivität ein Zustand des Systems mit einer internen Aktivität und mindestens einem Übergang. Es sind allerdings mehrere Übergänge möglich, wenn die Aktivität unterschiedliche Bedingungen enthält. </para
-> 
-<para
->Aktivitäten können eine Hierarchie bilden, indem man eine Aktivität aus anderen zusammensetzen kann. Dabei müssen die eingehenden und ausgehenden Übergänge mit den entsprechenden Übergängen in der Verfeinerung übereinstimmen. </para>
+<title>Activity</title>
+<para>An Activity is a single step in a process. One Activity is one state
+in the system with internal activity and, at least, one outgoing transition. Activities can also have
+more than one outgoing transition if they have different conditions.
+</para> 
+<para>Activities can form hierarchies, this means that an Activity can be composed of several <quote>detail</quote>
+Activities, in which case the incoming and outgoing transitions should match the incoming and outgoing transitions
+of the detail diagram.
+</para>
 
 </sect3>
-</sect2
-> <!-- activity diagram -->
+</sect2> <!-- activity diagram -->
 
 <sect2 id="helper-elements">
-<title
->Hilfselemente</title>
-<para
->In der &UML; sind einige Elemente, die keine semantische Bedeutung für das Modell haben, aber Diagramme verständlicher machen können. Die Elemente sind: </para>
+<title>Helper Elements</title>
+<para>There are a few elements in &UML; that have no real semantic value for the model, but help to clarify
+parts of the diagram. These elements are </para>
 <itemizedlist>
-<listitem
-><para
->Textzeile</para
-></listitem>
-<listitem
-><para
->Textnotiz und entsprechende Verbindung</para
-></listitem>
-<listitem
-><para
->Rahmen</para
-></listitem>
-</itemizedlist
->   
-<para
->Mit der Textzeile kann eine Kurzinformation in das Diagramm eingefügt werden. Der Text ist freistehend und hat keine Bedeutung für das Modell. </para
->           
+<listitem><para>Text lines</para></listitem>
+<listitem><para>Text Notes and anchors</para></listitem>
+<listitem><para>Boxes</para></listitem>
+</itemizedlist>   
+<para>
+Text lines are useful to add short text information to a diagram. It is free-standing text and has no 
+meaning to the Model itself.
+</para>           
 
-<para
->Mittels der Textnotiz können detaillierte Informationen über ein Objekt oder eine Situation eingefügt werden. Der große Vorteil der Textnotiz ist, dass sie mit einem &UML;-Element verbunden werden kann und somit die Notiz zu diesem speziellen Objekt oder der speziellen Situation <quote
->gehört</quote
->. </para>
+<para> 
+Notes are useful to add more detailed information about an
+object or a specific situation. They have the great advantage that
+notes can be anchored to &UML; Elements to show that the note
+<quote>belongs</quote> to a specific object or situation.  
+</para>
 
-<para
->Rahmen sind frei schwebende Rechtecke, die zur visuellen Gruppierung von Objekten in Diagrammen genutzt werden können. Sie machen ein Diagramm besser lesbar, haben aber keine logische Bedeutung für das Modell.</para>
+<para>Boxes are free-standing rectangles which can be used to group items together to make diagrams more readable.  They
+have no logical meaning in the model.</para>
 
 <!-- FIXME, screenshot -->
-</sect2
-> <!-- helper elements -->
+</sect2> <!-- helper elements -->
 
 <sect2 id="component-diagram">
-<title
->Komponentendiagramm</title>
-<para
->Komponentendiagramme stellen die Software Komponenten (entweder Komponententechnologien wie KParts, CORBA Komponenten oder Java Beans oder klar abgrenzbare Systemeinheiten) dar und die Resultate wie Quelltextdateien, Programmbibliotheken oder relationale Datenbanktabellen.</para>
+<title>Component Diagrams</title>
+<para>Component Diagrams show the software components (either component technologies such as KParts, CORBA components or Java Beans or 
+just sections of the system which are clearly distinguishable) and the artifacts they
+are made out of such as source code files, programming libraries or relational database tables.</para>
 
-<para
->Komponenten können Schnittstellen (also abstrakte Klasse mit Operationen) enthalten, mit denen Verbindungen zwischen Komponenten möglich werden.</para>
+<para>Components can have interfaces (&ie; abstract classes with operations) that allow associations between components.</para>
 </sect2>
 
 <sect2 id="deployment-diagram">
-<title
->Verteilungsdiagramm</title>
+<title>Deployment Diagrams</title>
 
-<para
->Verteilungsdiagramme zeigen die Laufzeitobjekte der Komponenten und ihre Beziehungen. Sie beinhalten Knoten als physische Ressourcen, typischerweise ein Computer. Weiterhin zeigen sie Schnittstellen und Objekte (Klasseninstanzen).</para>
+<para>Deployment diagrams show the runtime component instances and their
+associations.  They include Nodes which are physical resources,
+typically a single computer.  They also show interfaces and objects (class instances).</para>
 
 </sect2>
 
 <sect2 id="entity-relationship-diagram">
-<title
->Entitäten-Beziehungs-Diagramm</title>
+<title>Entity Relationship Diagrams</title>
 
-<para
->Entitäten-Beziehungs-Diagramme (ER-Diagramme) stellen das konzeptuelle Design von Datenbankanwendungen dar. Sie beschreiben die verschiedenen Entitäten (Konzepte) im Informationssystem und die vorhandenen Beziehungen sowie Einschränkungen untereinander. Eine Weiterentwicklung der Entitäten-Beziehungs-Diagramme sind 'Extended Entity Relationship Diagrams' oder 'Enhanced Entity Relationship Diagrams' (EER). Damit werden Objektorientierte-Entwurfstechniken für ER-Diagramme eingeführt. </para
-> 
+<para>Entity Relationship Diagrams (ER Diagrams) show the conceptual design of database applications. They depict the
+various entities (concepts) in the information system and the existing relationships and constraints between them.
+An extension of Entity Relationship Diagrams named 'Extended Entity Relationship Diagrams' or 'Enhanced Entity Relationship Diagrams' (EER), are used to incorporate Object Oriented design techniques in ER Diagrams. </para> 
 <para>
 <screenshot>
-<screeninfo
->Ein beispielhaftes Entitäten-Beziehungs-Diagramm</screeninfo>
+<screeninfo>An example Entity Relationship diagram.</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="entity-relationship-diagram.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->&umbrello; bei der Darstellung eines Entitäten-Beziehungs-Diagramms</phrase>
+	    <phrase>Umbrello showing an Entity Relationship Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->&umbrello; bei der Darstellung eines Entitäten-Beziehungs-Diagramms </para>
+	    <para>Umbrello showing an Entity Relationship Diagram
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
 <sect3 id="entity">
-<title
->Entität</title>
-<para
->Eine <emphasis
->Entität</emphasis
-> ist jedes Konzept in der realen Welt mit einer unabhängigen Existenz. Das kann ein physikalisch existierendes Objekt wie ein Rechner oder Roboter sein, oder ein konzeptionell existierendes Objekt wie zum Beispiel ein Kurs an der Universität. Jede Entität hat Attribute, die ihre Eigenschaften beschreiben.</para>
-<para
-><emphasis
->Hinweis</emphasis
->: Es gibt keine Standard-Schreibweise zur Darstellung von ER-Diagrammen. In der Literatur werden verschiedene System verwendet. Die in Umbrello benutzen Konzepte und Schreibweisen orientieren sich an folgendem Buch: <emphasis
->Elmasri R. and Navathe S. (2004). Fundamentals of Database Systems 4th edn. Addison Wesley.</emphasis
-> </para>
-<para
->In einem Entitäten-Beziehungs-Diagramm (ER-Diagramm) werden Entitäten als Rechtecke mit dem Namen der Entität oben im Rechteck dargestellt. Die Attribute der Entität können in einem extra <quote
->abgetrennten Bereich</quote
-> innerhalb des Rechteck angezeigt werden. </para>
+<title>Entity</title>
+<para>An <emphasis>Entity</emphasis> is any concept in the real world with an independent existence. It may be an object with a physical existence ( example, Computer, Robot) or it may be an object with a conceptual existence ( eq: University Course). Each entity has a set of attributes which describe the properties of the Entity.</para>
+<para>
+<emphasis>Note:</emphasis> No standard notations exist for depicting ER Diagrams. Different texts on this subject use different notations. The concepts and notations for EER diagrams used in Umbrello are from the following book :
+<emphasis>Elmasri R. and Navathe S. (2004). Fundamentals of Database Systems 4th edn. Addison Wesley</emphasis>
+</para>
+<para>
+In an ER Diagram, Entities are represented by rectangles, with the name of the entity at the top, and can also show
+the attributes of the entity in another <quote>compartment</quote> inside the rectangle.
+</para>
 <para>
 <screenshot>
-<screeninfo
->Eine Entität in einem ER-Diagramm</screeninfo>
+<screeninfo>An Entity in an ER Diagram;</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="entity.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->Visuelle Darstellung einer Entität in einem ER-Diagramm</phrase>
+	    <phrase>Visual representation of an entity in an ER Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->Visuelle Darstellung einer Entität in einem ER-Diagramm </para>
+	    <para>Visual representation of an entity in an ER Diagram
+	    </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
 <sect4 id="entity-attribute">
-<title
->Entitätsattribute</title>
-<para
->In ER-Diagrammen werden Attribute der Entität mit ihrem Namen in einem abgetrennten Bereich innerhalb der Entität angezeigt werden. </para>
+<title>Entity Attributes</title>
+<para>
+In ER Diagrams , Entity Attributes are shown with their name in a different compartment of the Entity to which they belong.
+</para>
 </sect4>
 <sect4 id="constraint">
-<title
->Einschränkungen</title>
-<para
->Einschränkungen in ER-Diagrammen bestimmen die Beschränkung der Daten im Informationsschema. </para>
-<para
->In Umbrello werden vier Arten von Einschränkungen unterstützt: <itemizedlist>
+<title>Constraints</title>
+<para> Constraints in ER Diagrams specify the restrictions on data in the information schema. 
+</para>
+<para>There are four types of constraints supported in Umbrello :
+ <itemizedlist>
  <listitem>
-    <para
-><emphasis
->Primärschlüssel:</emphasis
-> Die Menge der als <emphasis
->Primärschlüssel</emphasis
-> deklarierten Attribute müssen für eine Entität eindeutig sein. Es darf nur einen Primärschlüssel in einer Entität geben und keiner seiner konstituierende Attribute darf den Wert NULL haben. </para>
+    <para>
+     <emphasis>Primary Key:</emphasis> The set of attributes declared as <emphasis>primary key</emphasis> are unique to the entity. There can be only one primary key in an Entity and none of its constituent attributes can be NULL.
+    </para>
 </listitem>
  <listitem>
-    <para
-><emphasis
->Eindeutiger Schlüssel:</emphasis
-> Die Menge der als <emphasis
->eindeutig</emphasis
-> deklarierten Attribute müssen für eine Entität eindeutig sein. Es darf mehrere eindeutige Einschränkungen in einer Entität geben. Die konstituierende Attribute dürfen den Wert NULL haben. Eindeutige Schlüssel und Primärschlüssel bestimmen eindeutig eine Zeile in einer Tabelle (Entität).</para>
+    <para>
+     <emphasis>Unique Key:</emphasis> The set of attributes declared as <emphasis>unique</emphasis> are unique to the entity. There can be many unique constraints on an Entity. Its constituent attributes can be NULL. 
+     Unique Keys and Primary Keys uniquely identify a row in a table ( entity )</para>
  </listitem>
  <listitem>
-    <para
-><emphasis
->Fremdschlüssel:</emphasis
-> Ein Fremdschlüssel ist eine referentielle Einschränkung zwischen zwei Tabellen. Der Fremdschlüssel bestimmt eine oder mehrere Spalten in einer Tabelle als Referenz auf eine oder mehrere Spalten in einer anderen Tabelle. Die Spalten in der referenzierten Tabelle müssen einen Primärschlüssel oder eindeutigen Schlüssel bilden. </para>
+    <para>
+      <emphasis>Foreign Key:</emphasis>  A Foreign Key is a referential constraint between two tables. The foreign key identifies a column or a set of columns in one (referencing) table that refers to a column or set of columns in another (referenced) table. The columns in the referenced table must form a primary key or unique key.
+     </para>
  </listitem>
  <listitem>
-     <para
-><emphasis
->Prüf-Einschränkung:</emphasis
-> Eine Prüf-Einschränkung ist eine Bedingung, die die Gültigkeit von Daten definiert, wenn ein Eintrag in einer Tabelle einer relationalen Datenbank hinzugefügt oder aktualisiert wrd. Eine Prüf-Einschränkung wird auf jede Zeile einer Tabelle angewendet. Die Einschränkung muss eine Eigenschaft sein. Sie kann sich auf eine oder mehrere Spalten einer Tabelle  beziehen. </para>
-     <para
->Beispiel: Preis 
->= 0 </para>
+     <para>
+      <emphasis>Check Constraint:</emphasis> A check constraint (also known as table check constraint) is a condition that defines valid data when adding or updating an entry in a table of a relational database. A check constraint is applied to each row in the table. The constraint must be a predicate. It can refer to a single or multiple columns of the table.
+     </para>
+     <para>
+      Example:   price >= 0     
+     </para>
  </listitem>
  </itemizedlist>
 </para>
@@ -897,60 +708,48 @@
 </sect3>
 </sect2>
 <sect2 id="extended-entity-relationship-concepts">
-<title
->Konzepte der erweiterten Entitäten-Beziehungs-Diagramme (EER-Diagramme)</title>
+<title>Extended Entity Relationship (EER) Diagram Concepts</title>
 <sect3 id="specialization">
-<title
->Spezialisierung</title>
-<para
->Spezialisierung ist eine Möglichkeit, neue Entitäten unter Verwendung bereits definierter Entitäten zu erstellen. Die neuen Entitäten - auch abgeleitete Entitäten genannt - übernehmen oder erben die Attribute bereits existierender Entitäten, die auch als Basis-Entitäten bezeichnet werden. Dies ermöglicht es, bereits vorhandene Daten mit keiner oder nur geringen Änderungen wiederzuverwenden.</para>
-<para
->In Umbrello können Zerlegungs- und Überschneidungs-Spezialisierungen definiert werden.</para>
+<title>Specialization</title>
+<para> Specialization is a way to form new entities using entities that have already been defined. The new entities, known as derived entities, take over (or inherit) attributes of the pre-existing entities, which are referred to as base entities . It is intended to help reuse existing data with little or no modification.</para>
+<para> In Umbrello, one can specify Disjoint and Overlapping Specialization</para>
  <sect4 id="disjoint-specialization">
-   <title
->Zerlegungs-Spezialisierung</title>
-   <para
->Die Zerlegungs-Spezialisierung legt fest, dass die Unterklassen der Spezialisierung getrennt sein müssen. Das bedeutet, dass eine Entität nur ein Mitglied höchstens einer der abgeleiteten Entitäten der Spezialisierung sein kann.</para>
+   <title>Disjoint Specialization</title>
+   <para>Disjoint Specialization specifies that the subclasses of the specialization must be disjoint. This means that an entity can be a member of at most one of the derived entities of the specialization</para>
    <para>
    <screenshot>
-    <screeninfo
->Entitäten in einer Zerlegungs-Spezialisierung</screeninfo>
+    <screeninfo>Entities taking part in Disjoint Specialization</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="disjoint-specialization.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->Visuelle Darstellung einer Zerlegungs-Spezialisierung in einem EER-Diagramm</phrase>
+	    <phrase>Visual representation of Disjoint Specialization in EER Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->Visuelle Darstellung einer Zerlegungs-Spezialisierung in einem EER-Diagramm </para>
+	    <para>Visual representation of Disjoint Specialization in EER Diagram
+	    </para>
 	  </caption>
 	</mediaobject>
    </screenshot>
     </para>
  </sect4>
  <sect4 id="overlapping-specialization">
-   <title
->Überschneidungs-Spezialisierung</title>
-   <para
->Wenn die abgeleitete Entitäten nicht durch eine Zerlegung eingeschränkt sind, wird die Menge der Entitäten als Überschneidungs-Spezialisierung bezeichnet. Das bedeutet, dass eine Entität ein Mitglied von mehr als einer abgeleiteten Entität der Spezialisierung sein kann.</para>
+   <title>Overlapping Specialization</title>
+   <para>When the derived entities are not constrained to be disjoint, their set of entities are said to be in overlapping specialization. This means that the same real world entity may be a member of more than one derived entity of the specialization</para>
    <para>
    <screenshot>
-    <screeninfo
->Entitäten in einer Überschneidungs-Spezialisierung</screeninfo>
+    <screeninfo>Entities taking part in Overlapping Specialization</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="overlapping-specialization.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->Visuelle Darstellung einer Überschneidungs-Spezialisierung in einem EER-Diagramm</phrase>
+	    <phrase>Visual representation of Overlapping Specialization in EER Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->Visuelle Darstellung einer Überschneidungs-Spezialisierung in einem EER-Diagramm </para>
+	    <para>Visual representation of Overlapping Specialization in EER Diagram
+	    </para>
 	  </caption>
 	</mediaobject>
    </screenshot>
@@ -958,27 +757,22 @@
  </sect4>
  <sect4 id="category">
 
- <title
->Kategorie</title>
- <para
->Eine abgeleitete Entität wird als <emphasis
->Kategorie</emphasis
-> bezeichnet, wenn sie eine Sammlung von Objekten darstellt, die aus einer Teilmenge der Vereinigung von verschiedenen Entitätstypen besteht. Eine Kategorie wird dann gebildet, wenn eine Beziehung zwischen mehreren Ober- und einer Unterklasse benötigt wird, die Oberklassen bestehen dabei unterschiedliche Entitätstypen. Das entspricht etwa der Mehrfachvererbung in der Objektorientierten Programmierung. </para>
+ <title>Category</title>
+ <para>
+  A derived Entity is said to be a <emphasis>Category</emphasis> when it represents a collection of objects that is a subset of Union of the distinct entity types. A Category is modelled when the need arises for a single superclass/subclass relationship with more than one superclass, where the superclasses represent different entity types. ( Much like multiple inheritance in Object Oriented Programming ).
+ </para>
    <para>
    <screenshot>
-    <screeninfo
->Entitäten in einer Kategorien-Beziehung</screeninfo>
+    <screeninfo>Entities taking part in a Category relationship</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="category.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase
->Visuelle Darstellung einer Kategorie in einem EER-Diagramm</phrase>
+	    <phrase>Visual representation of a Category in EER Diagram</phrase>
 	  </textobject>
 	  <caption>
-	    <para
->Visuelle Darstellung einer Kategorie in einem EER-Diagramm</para>
+	    <para>Visual representation of a Category in EER Diagram</para>
 	  </caption>
 	</mediaobject>
    </screenshot>
@@ -988,6 +782,5 @@
 </sect3>
 </sect2>
 
-</sect1
-> 
+</sect1> 
 </chapter>
