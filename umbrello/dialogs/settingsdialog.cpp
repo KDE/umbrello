@@ -23,15 +23,10 @@
 
 // kde includes
 #include <KColorButton>
-#if QT_VERSION < 0x050000
-#include <kfontchooser.h>
-#endif
 
 // qt includes
 #include <QCheckBox>
-#if QT_VERSION >= 0x050000
 #include <QFontDialog>
-#endif
 #include <QGroupBox>
 
 SettingsDialog::SettingsDialog(QWidget * parent, Settings::OptionState *state)

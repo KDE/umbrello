@@ -97,9 +97,6 @@ void UMLEntityAttributeDialog::setupDialog()
     valuesLayout->addWidget(m_pAttributesL, 7, 0);
 
     m_pAttributesCB = new KComboBox(true, m_pValuesGB);
-#if QT_VERSION < 0x050000
-    m_pAttributesCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
     valuesLayout->addWidget(m_pAttributesCB, 7, 1);
     m_pAttributesL->setBuddy(m_pAttributesCB);
 

@@ -443,11 +443,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
         break;
     case CodeGenerationPolicy::Ask:            //ask if we can overwrite
         switch(overwriteDialog->exec()) {
-#if QT_VERSION >= 0x050000
         case OverwriteDialog::Ok:  //overwrite file
-#else
-        case QDialog::Accepted:
-#endif
             if (overwriteDialog->applyToAllRemaining()) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Ok);
                 filename = name + extension;
@@ -456,11 +452,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
                 m_applyToAllRemaining = false;
             }
             break;
-#if QT_VERSION >= 0x050000
         case OverwriteDialog::No: //generate similar name
-#else
-        case KDialog::No:
-#endif
             suffix = 1;
             while (1) {
                 filename = name + QStringLiteral("__") + QString::number(suffix) + extension;
@@ -475,11 +467,7 @@ QString CodeGenerator::overwritableName(const QString& name, const QString &exte
                 m_applyToAllRemaining = false;
             }
             break;
-#if QT_VERSION >= 0x050000
         case OverwriteDialog::Cancel: //don't output anything
-#else
-        case QDialog::Rejected:
-#endif
             if (overwriteDialog->applyToAllRemaining()) {
                 pol->setOverwritePolicy(CodeGenerationPolicy::Cancel);
             }

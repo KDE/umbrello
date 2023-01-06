@@ -26,9 +26,7 @@ class KFontChooser;
 class UIOptionsPage;
 
 class QCheckBox;
-#if QT_VERSION >= 0x050000
 class QFontDialog;
-#endif
 class QGroupBox;
 class QSpinBox;
 class UMLWidgetStylePage;

@@ -52,7 +52,7 @@ void HashedString::initHash()
 }
 
 
-class HashedStringSetData : public KShared
+class HashedStringSetData : public QSharedData
 {
 public:
 #ifdef USE_HASHMAP
@@ -124,7 +124,7 @@ HashedStringSet& HashedStringSet::operator +=(const HashedStringSet& rhs)
         return * this;
 
 #ifndef USE_HASHMAP
-    KSharedPtr<HashedStringSetData> oldData = m_data;
+    QExplicitlySharedDataPointer<HashedStringSetData> oldData = m_data;
     if (!oldData) oldData = new HashedStringSetData();
     m_data = new HashedStringSetData();
     std::set_union(oldData->m_files.begin(), oldData->m_files.end(), rhs.m_data->m_files.begin(), rhs.m_data->m_files.end(), std::insert_iterator<HashedStringSetData::StringSet>(m_data->m_files, m_data->m_files.end()));
@@ -148,7 +148,7 @@ HashedStringSet& HashedStringSet::operator -=(const HashedStringSet& rhs)
     if (!m_data) return *this;
     if (!rhs.m_data) return *this;
 #ifndef USE_HASHMAP
-    KSharedPtr<HashedStringSetData> oldData = m_data;
+    QExplicitlySharedDataPointer<HashedStringSetData> oldData = m_data;
     m_data = new HashedStringSetData();
     std::set_difference(oldData->m_files.begin(), oldData->m_files.end(), rhs.m_data->m_files.begin(), rhs.m_data->m_files.end(), std::insert_iterator<HashedStringSetData::StringSet>(m_data->m_files, m_data->m_files.end()));
 #else
@@ -170,12 +170,7 @@ void HashedStringSet::makeDataPrivate()
         m_data = new HashedStringSetData();
         return ;
     }
-#if QT_VERSION >= 0x050000
     m_data.detach();
-#else
-    if (m_data.count() != 1)
-        m_data = new HashedStringSetData(*m_data);
-#endif
 }
 
 bool HashedStringSet::operator[] (const HashedString& rhs) const

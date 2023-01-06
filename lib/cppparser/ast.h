@@ -9,13 +9,7 @@
 
 #include <QtGlobal>
 
-#if QT_VERSION >= 0x050000
 #include <QExplicitlySharedDataPointer>
-#define KShared QSharedData
-#define KSharedPtr QExplicitlySharedDataPointer
-#else
-#include <KSharedPtr>
-#endif
 
 #include <memory>
 #include <QString>
@@ -1924,10 +1918,10 @@ private:
 };
 
 
-class TranslationUnitAST: public AST, public KShared
+class TranslationUnitAST: public AST, public QSharedData
 {
 public:
-    typedef KSharedPtr<TranslationUnitAST> Node;
+    typedef QExplicitlySharedDataPointer<TranslationUnitAST> Node;
     enum { Type = NodeType_TranslationUnit };
 
     DECLARE_ALLOC(TranslationUnitAST)

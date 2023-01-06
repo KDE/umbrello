@@ -9,11 +9,6 @@
 #include "debug_utils.h"
 #include "driver.h"
 
-#if QT_VERSION >= 0x050000
-#else
-#include <kdebug.h>
-#endif
-
 DEBUG_REGISTER_DISABLED(TreeParser)
 
 TreeParser::TreeParser()

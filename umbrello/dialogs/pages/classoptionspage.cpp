@@ -304,9 +304,6 @@ void ClassOptionsPage::setupClassPageOption()
         insertAttribScope(i18n("Private"));
         insertAttribScope(i18n("Protected"));
         m_attribScopeCB->setCurrentIndex(m_options->classState.defaultAttributeScope);
-#if QT_VERSION < 0x050000
-        m_attribScopeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
         scopeLayout->addWidget(m_attribScopeCB, 0, 1);
 
         m_operationScopeCB = new KComboBox(m_scopeGB);
@@ -314,9 +311,6 @@ void ClassOptionsPage::setupClassPageOption()
         insertOperationScope(i18n("Private"));
         insertOperationScope(i18n("Protected"));
         m_operationScopeCB->setCurrentIndex(m_options->classState.defaultOperationScope);
-#if QT_VERSION < 0x050000
-        m_operationScopeCB->setCompletionMode(KGlobalSettings::CompletionPopup);
-#endif
         scopeLayout->addWidget(m_operationScopeCB, 1, 1);
         topLayout->addWidget(m_scopeGB);
     }

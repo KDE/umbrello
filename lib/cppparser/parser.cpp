@@ -17,11 +17,6 @@
 #include <QString>
 #include <QStringList>
 
-#if QT_VERSION >= 0x050000
-#else
-#include <kdebug.h>
-#endif
-
 #include <KLocalizedString>
 
 using namespace std;

@@ -294,14 +294,9 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
                              << QStringLiteral("Data store")
                              << QStringLiteral("Object Flow");
 
-#if QT_VERSION >= 0x050000
     QString type = QInputDialog::getItem (UMLApp::app(),
                                           i18n("Select Object node type"),  i18n("Select the object node type"),
                                           list, current, false, &pressedOK);
-
-#else
-    QString type = KInputDialog::getItem (i18n("Select Object node type"),  i18n("Select the object node type"), list, current, false, &pressedOK, UMLApp::app());
-#endif
 
     if (pressedOK) {
         targetWidget->asObjectNodeWidget()->setObjectNodeType(type);

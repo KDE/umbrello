@@ -20,16 +20,11 @@
 #include "umllistview.h"
 
 //kde includes
-#if QT_VERSION < 0x050000
-#include <kfiledialog.h>
-#endif
 #include <KLocalizedString>
 #include <KMessageBox>
 
 //qt includes
-#if QT_VERSION >= 0x050000
 #include <QFileDialog>
-#endif
 #include <QListWidget>
 #include <QTimer>
 #include <QScrollBar>
@@ -328,11 +323,7 @@ void CodeImpStatusPage::loggerClear()
 void CodeImpStatusPage::loggerExport()
 {
     const QString caption = i18n("Umbrello Code Import - Logger Export");
-#if QT_VERSION >= 0x050000
     QString fileName = QFileDialog::getSaveFileName(wizard(), caption);
-#else
-    QString fileName = KFileDialog::getSaveFileName(KUrl(), QString(), 0, caption);
-#endif
     if (!fileName.isEmpty()) {
         QFile file(fileName);
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {

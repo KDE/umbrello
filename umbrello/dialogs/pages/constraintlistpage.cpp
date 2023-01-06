@@ -20,10 +20,6 @@
 #include "uml.h"  // only needed for log{Warn,Error}
 #include "uniqueconstraint.h"
 
-#if QT_VERSION < 0x050000
-#include <kaction.h>
-#include <kdialogbuttonbox.h>
-#endif
 #include <KLocalizedString>
 #include <QMenu>
 #include <QApplication>
@@ -45,11 +41,7 @@ ConstraintListPage::ConstraintListPage(QWidget* parent, UMLClassifier* classifie
 {
     setupActions();
 
-#if QT_VERSION >= 0x050000
     buttonMenu = new QMenu(this);
-#else
-    buttonMenu = new QMenu(this);
-#endif
     // add a button menu
     m_pNewClassifierListItemButton->setMenu(buttonMenu);
     buttonMenu->addAction(newPrimaryKeyConstraintAction);
@@ -70,35 +62,19 @@ ConstraintListPage::~ConstraintListPage()
 
 void ConstraintListPage::setupActions()
 {
-#if QT_VERSION >= 0x050000
     newUniqueConstraintAction = new QAction(i18n("Unique Constraint..."), this);
-#else
-    newUniqueConstraintAction = new KAction(i18n("Unique Constraint..."), this);
-#endif
     connect(newUniqueConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewUniqueConstraint()));
 
-#if QT_VERSION >= 0x050000
     newPrimaryKeyConstraintAction = new QAction(i18n("Primary Key Constraint..."), this);
-#else
-    newPrimaryKeyConstraintAction = new KAction(i18n("Primary Key Constraint..."), this);
-#endif
     connect(newPrimaryKeyConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewPrimaryKeyConstraint()));
 
-#if QT_VERSION >= 0x050000
     newForeignKeyConstraintAction = new QAction(i18n("Foreign Key Constraint..."), this);
-#else
-    newForeignKeyConstraintAction = new KAction(i18n("Foreign Key Constraint..."), this);
-#endif
     connect(newForeignKeyConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewForeignKeyConstraint()));
 
-#if QT_VERSION >= 0x050000
     newCheckConstraintAction = new QAction(i18n("Check Constraint..."), this);
-#else
-    newCheckConstraintAction = new KAction(i18n("Check Constraint..."), this);
-#endif
     connect(newCheckConstraintAction, SIGNAL(triggered(bool)),
              this, SLOT(slotNewCheckConstraint()));
 }

@@ -23,13 +23,7 @@
 #include "entityattribute.h"
 #include "object_factory.h"
 
-#if QT_VERSION < 0x050000
-#include <kdialogbuttonbox.h>
-#endif
 #include <KLocalizedString>
-#if QT_VERSION < 0x050000
-#include <ktabwidget.h>
-#endif
 #include <ktextedit.h>
 
 #include <QApplication>
@@ -208,7 +202,6 @@ void ClassifierListPage::setupMoveButtons(QHBoxLayout* parentLayout)
  */
 void ClassifierListPage::setupActionButtons(const QString& itemType, QVBoxLayout* parentLayout)
 {
-#if QT_VERSION >= 0x050000
     QDialogButtonBox* buttonBox = new QDialogButtonBox(m_pItemListGB);
     m_pNewClassifierListItemButton = buttonBox->addButton(itemType, QDialogButtonBox::ActionRole);
     connect(m_pNewClassifierListItemButton, SIGNAL(clicked()), this, SLOT(slotNewListItem()));
@@ -216,14 +209,6 @@ void ClassifierListPage::setupActionButtons(const QString& itemType, QVBoxLayout
     connect(m_pDeleteListItemButton, SIGNAL(clicked()), this, SLOT(slotDelete()));
     m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), QDialogButtonBox::ActionRole);
     connect(m_pPropertiesButton, SIGNAL(clicked()), this, SLOT(slotProperties()));
-#else
-    KDialogButtonBox* buttonBox = new KDialogButtonBox(m_pItemListGB);
-    m_pNewClassifierListItemButton = buttonBox->addButton(itemType, KDialogButtonBox::ActionRole, this,
-                          SLOT(slotNewListItem()));
-    m_pDeleteListItemButton = buttonBox->addButton(i18n("&Delete"),
-                              KDialogButtonBox::ActionRole, this, SLOT(slotDelete()));
-    m_pPropertiesButton = buttonBox->addButton(i18n("&Properties"), KDialogButtonBox::ActionRole, this, SLOT(slotProperties()));
-#endif
     parentLayout->addWidget(buttonBox);
 }
 
@@ -240,11 +225,7 @@ void ClassifierListPage::setupDocumentationGroup(int margin)
     if (m_itemType == UMLObject::ot_Operation) {
         m_docTE = new KTextEdit();
         m_pCodeTE = new CodeTextEdit();
-#if QT_VERSION >= 0x050000
         QTabWidget* tabWidget = new QTabWidget();
-#else
-        KTabWidget* tabWidget = new KTabWidget();
-#endif
         tabWidget->addTab(m_docTE, i18n("Comment"));
         tabWidget->addTab(m_pCodeTE, i18n("Source Code"));
         docLayout->addWidget(tabWidget);
