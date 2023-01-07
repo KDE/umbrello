@@ -1,62 +1,72 @@
 <chapter id="other-features">
-<title>Other Features</title>
-<sect1> 
-<title>Other &umbrello; Features</title>
-<para>This chapter will briefly explain some other features &umbrello; offers you.</para>
+<title
+>Weitere Funktionen</title>
+<sect1
+> 
+<title
+>Weitere Funktionen in &umbrello;</title>
+<para
+>In diesem Kapitel werden weitere Funktionen von &umbrello; genau erläutert.</para>
 <sect2 id="copying-as-png">
-<title>Copying objects as PNG images</title>
-<para>
-Apart from offering you the normal copy, cut and paste functionality that you would expect to copy
-objects between different diagrams, &umbrello; can copy the objects as PNG pictures so that you can
-insert them into any other type of document. You do not need to do anything special to use this feature,
-just select an object from a diagram (Class, Actor, &etc;) and copy it (<keycombo>&Ctrl;<keycap>C</keycap></keycombo>,
- or using the menu), then open a <application>Calligra Words</application> document (or any program into which you can paste images) and select <guimenuitem>Paste</guimenuitem>. This is a great feature
-to export parts of your diagram as simple pictures.
-</para>
+<title
+>Objekte als PNG-Bilder kopieren</title>
+<para
+>Neben dem normalen Funktionen wie Ausschneiden und Einfügen für das Kopieren von Objekten zwischen einzelnen Diagrammen, beherrscht &umbrello; auch das Kopieren von Objekten als PNG-Bilder, sodass man diese in andere Dokumente einfügen kann. Damit dies funktioniert, muss man keine speziellen Handlungen vornehmen. Einfach das Objekt (Klasse, Akteur, &etc;) auswählen und kopieren (<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> oder über das Menü), dann ein Textverarbeitungsprogramm öffnen (oder jedes andere Programm, indem man Bilder einfügen kann) und <guimenuitem
+>Einfügen</guimenuitem
+> auswählen. Mit dieser tollen Funktion kann man sehr leicht einzelne Teile von Diagrammen als einfache Bilder exportieren. </para>
 </sect2>
 <sect2 id="export-as-png">
-<title>Exporting to an Image</title>
-<para>
-You can also export a complete diagram as an image. The only thing you need to do is select
-the diagram you want to export, and then the option <guimenuitem>Export as Picture...</guimenuitem> from
-the <guimenu>Diagram</guimenu> menu.
-</para>
-<para>
-You can export multiple diagrams at once using the <guimenuitem>Export Diagrams as Pictures...</guimenuitem>
-option from the <guimenu>File</guimenu> menu. With this, you can also set the image resolution,
-so that the images won't be as blurry.
-</para>
+<title
+>Export als ein Bild</title>
+<para
+>Man kann natürlich ebenfalls ein komplettes Diagramm als PNG-Bild exportieren. Dazu wählt man das gewünschte Diagramm und ruft dann aus dem Menü <guimenu
+>Diagramm</guimenu
+> den Eintrag <guimenuitem
+>Als Bild exportieren ...</guimenuitem
+> auf. </para>
 </sect2>
 <sect2 id="printing">
-<title>Printing</title>
-<para>
-&umbrello; allows you to print individual diagrams. Press the <guiicon>Print</guiicon> button on the
- application toolbar or selecting the <guimenuitem>Print</guimenuitem> option from the
-<guimenu>File</guimenu> menu will give you a standard &kde; Print dialog from where you can print
-your diagrams.
-</para>
+<title
+>Drucken</title>
+<para
+>&umbrello; ermöglicht es einzelne Diagramme zu drucken. Man kann dies entweder über den <guiicon
+>Druckknopf</guiicon
+> aus der Programmwerkzeugleiste oder über den Menüeintrag <guimenuitem
+>Druck</guimenuitem
+> aus dem Menü <guimenu
+>Datei </guimenu
+> aufrufen. Es erscheint der Standard-&kde;-Druckdialog, womit man den Ausdruck des Diagramms steuern kann. </para>
 </sect2>
 <sect2 id="logical-folders">
-<title>Logical Folders</title>
-<para>
-To better organize your model, especially for larger projects, you can create logical folders in
-the Tree View. Just select the option <menuchoice><guimenu>New</guimenu><guimenuitem>Folder</guimenuitem></menuchoice> from the context menu
-of the default folders in the Tree View to create them. Folders can be nested, and you can
-move objects around by dragging them from one folder and dropping them into another.
-</para>
+<title
+>Logische Ordner</title>
+<para
+>Für eine bessere Organisation des Modells, besonders bei größeren Projekten, kann man logische Ordner in der Baumansicht anlegen. Dazu einfach <menuchoice
+><guimenu
+>Neu</guimenu
+><guimenuitem
+>Ordner</guimenuitem
+></menuchoice
+> aus dem Kontextmenü der Standardordner in der Baumansicht wählen und einen neuen Ordner anlegen. Ordner können verschachtelt werden und man kann Objekte in diese hinein ziehen oder kopieren. </para>
 
 <screenshot>
-<screeninfo>Organizing your Model with Folders</screeninfo>
+<screeninfo
+>das Modell mit Ordnern organisieren</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="folders.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Organizing a Model with Logical Folders in &umbrello;</phrase>
+	    <phrase
+>Ein Modell mit logischen Ordnern in &umbrello; organisieren</phrase>
 	  </textobject>
 	  <caption>
-	    <para>Organizing a Model with Logical Folders in &umbrello;
-	    </para>
+	    <para
+>ein Modell mit logischen Ordnern in &umbrello; organisieren </para>
 	  </caption>
 	</mediaobject>
 </screenshot>

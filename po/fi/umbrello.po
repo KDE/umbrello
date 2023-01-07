@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-02 01:08+0000\n"
+"POT-Creation-Date: 2023-01-07 00:53+0000\n"
 "PO-Revision-Date: 2019-10-16 12:13+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -33,180 +33,180 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "ilpo@iki.fi, lasse.liehu@gmail.com, translator@legisign.org"
 
-#: basictypes.cpp:195
+#: basictypes.cpp:190
 #, kde-format
 msgid "Class Diagram"
 msgstr "Luokkakaavio"
 
-#: basictypes.cpp:197
+#: basictypes.cpp:192
 #, kde-format
 msgid "Use Case Diagram"
 msgstr "Käyttötapauskaavio"
 
-#: basictypes.cpp:199
+#: basictypes.cpp:194
 #, kde-format
 msgid "Sequence Diagram"
 msgstr "Sekvenssikaavio"
 
-#: basictypes.cpp:201
+#: basictypes.cpp:196
 #, kde-format
 msgid "Collaboration Diagram"
 msgstr "Yhteistyökaavio"
 
-#: basictypes.cpp:203
+#: basictypes.cpp:198
 #, kde-format
 msgid "State Diagram"
 msgstr "Tilakaavio"
 
-#: basictypes.cpp:205
+#: basictypes.cpp:200
 #, kde-format
 msgid "Activity Diagram"
 msgstr "Aktiviteettikaavio"
 
-#: basictypes.cpp:207
+#: basictypes.cpp:202
 #, kde-format
 msgid "Component Diagram"
 msgstr "Komponenttikaavio"
 
-#: basictypes.cpp:209
+#: basictypes.cpp:204
 #, kde-format
 msgid "Deployment Diagram"
 msgstr "Sijoittelukaavio"
 
-#: basictypes.cpp:211
+#: basictypes.cpp:206
 #, kde-format
 msgid "Entity Relationship Diagram"
 msgstr "Käsitekaavio"
 
-#: basictypes.cpp:213
+#: basictypes.cpp:208
 #, fuzzy, kde-format
 #| msgid "Delete Diagram"
 msgid "Object Diagram"
 msgstr "Poista kaavio"
 
-#: basictypes.cpp:215
+#: basictypes.cpp:210
 #, kde-format
 msgid "No Diagram"
 msgstr "Ei kaaviota"
 
-#: basictypes.cpp:331 worktoolbar.cpp:347
+#: basictypes.cpp:326 worktoolbar.cpp:340
 #, kde-format
 msgid "Generalization"
 msgstr "Yleistäminen"
 
-#: basictypes.cpp:333 worktoolbar.cpp:344
+#: basictypes.cpp:328 worktoolbar.cpp:337
 #, kde-format
 msgid "Aggregation"
 msgstr "Kooste"
 
-#: basictypes.cpp:335 worktoolbar.cpp:343
+#: basictypes.cpp:330 worktoolbar.cpp:336
 #, kde-format
 msgid "Dependency"
 msgstr "Riippuvuus"
 
-#: basictypes.cpp:337 umlwidgets/widgetbase.cpp:1260 worktoolbar.cpp:336
+#: basictypes.cpp:332 umlwidgets/widgetbase.cpp:1239 worktoolbar.cpp:329
 #, kde-format
 msgid "Association"
 msgstr "Yhteys"
 
-#: basictypes.cpp:339
+#: basictypes.cpp:334
 #, kde-format
 msgid "Self Association"
 msgstr "Itseyhteys"
 
 # Keksitty suomennos, ei ehkä järin hyvä, mutta ei pitäisi olla suurta harmiakaan.
-#: basictypes.cpp:341
+#: basictypes.cpp:336
 #, kde-format
 msgid "Collaboration Asynchronous Message"
 msgstr "Asynkroninen yhteistyöviesti"
 
 # Keksitty suomennos, ei ehkä järin hyvä, mutta ei pitäisi olla suurta harmiakaan.
-#: basictypes.cpp:343
+#: basictypes.cpp:338
 #, kde-format
 msgid "Collaboration Synchronous Message"
 msgstr "Synkroninen yhteistyöviesti"
 
 # Keksitty suomennos, ei ehkä järin hyvä, mutta ei pitäisi olla suurta harmiakaan.
-#: basictypes.cpp:345
+#: basictypes.cpp:340
 #, kde-format
 msgid "Sequence Message"
 msgstr "Sekvenssiviesti"
 
 # Keksitty suomennos, ei ehkä järin hyvä, mutta ei pitäisi olla suurta harmiakaan.
-#: basictypes.cpp:347
+#: basictypes.cpp:342
 #, kde-format
 msgid "Collaboration Self Message"
 msgstr "Itseyhteistyöviesti"
 
 # Keksitty suomennos, ei ehkä järin hyvä, mutta ei pitäisi olla suurta harmiakaan.
-#: basictypes.cpp:349
+#: basictypes.cpp:344
 #, kde-format
 msgid "Sequence Self Message"
 msgstr "Itsesekvenssiviesti"
 
-#: basictypes.cpp:351 worktoolbar.cpp:337
+#: basictypes.cpp:346 worktoolbar.cpp:330
 #, kde-format
 msgid "Containment"
 msgstr "Säiliö"
 
-#: basictypes.cpp:353 worktoolbar.cpp:348
+#: basictypes.cpp:348 worktoolbar.cpp:341
 #, kde-format
 msgid "Composition"
 msgstr "Muodoste"
 
-#: basictypes.cpp:355
+#: basictypes.cpp:350
 #, kde-format
 msgid "Realization"
 msgstr "Todentaminen"
 
-#: basictypes.cpp:357
+#: basictypes.cpp:352
 #, kde-format
 msgid "Uni Association"
 msgstr "Suunnattu yhteys"
 
-#: basictypes.cpp:359 worktoolbar.cpp:338
+#: basictypes.cpp:354 worktoolbar.cpp:331
 #, kde-format
 msgid "Anchor"
 msgstr "Ankkuri"
 
-#: basictypes.cpp:361 menus/listpopupmenu.cpp:262 worktoolbar.cpp:379
+#: basictypes.cpp:356 menus/listpopupmenu.cpp:262 worktoolbar.cpp:372
 #, kde-format
 msgid "State Transition"
 msgstr "Tilasiirtymä"
 
-#: basictypes.cpp:363 dialogs/activitydialog.cpp:139
-#: umlwidgets/widgetbase.cpp:1251 worktoolbar.cpp:381
+#: basictypes.cpp:358 dialogs/activitydialog.cpp:139
+#: umlwidgets/widgetbase.cpp:1230 worktoolbar.cpp:374
 #, kde-format
 msgid "Activity"
 msgstr "Aktiviteetti"
 
-#: basictypes.cpp:365 menus/listpopupmenu.cpp:186 worktoolbar.cpp:390
+#: basictypes.cpp:360 menus/listpopupmenu.cpp:186 worktoolbar.cpp:383
 #, kde-format
 msgid "Exception"
 msgstr "Poikkeus"
 
-#: basictypes.cpp:367 worktoolbar.cpp:394
+#: basictypes.cpp:362 worktoolbar.cpp:387
 #, kde-format
 msgid "Category to Parent"
 msgstr "Luokkaa yläkäsitteeseen"
 
-#: basictypes.cpp:369 worktoolbar.cpp:395
+#: basictypes.cpp:364 worktoolbar.cpp:388
 #, kde-format
 msgid "Child to Category"
 msgstr "Alakäsite luokkaan"
 
-#: basictypes.cpp:371 worktoolbar.cpp:345
+#: basictypes.cpp:366 worktoolbar.cpp:338
 #, kde-format
 msgid "Relationship"
 msgstr "Suhde"
 
-#: basictypes.cpp:373
+#: basictypes.cpp:368
 #, kde-format
 msgid "Unknown"
 msgstr "Tuntematon"
 
 # Assosiaatiotyyppi, joka näytetään kun ohjelmavirheen takia tyyppiä ei tiedetä. Kun ei tiedetä edes sitä, onko tyyppi tuntematon.
-#: basictypes.cpp:375
+#: basictypes.cpp:370
 #, kde-format
 msgid "? AssociationType ?"
 msgstr "? YhteysTyyppi ?"
@@ -220,7 +220,7 @@ msgstr ""
 "Ainakin yksi kohde on jäänyt tuomatta leikepöydältä, koska samanniminen "
 "kohde on jo olemassa. Kaikki muut on lisätty."
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1789
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1628
 #, kde-format
 msgid "Paste Error"
 msgstr "Liittämisvirhe"
@@ -340,7 +340,7 @@ msgstr "Aseta nimi : aiempi ”%1”, uusi ”%2”"
 msgid "Set text : %1 to %2"
 msgstr "Aseta teksti : aiempi ”%1”, uusi ”%2”"
 
-#: codegenerators/codegenerator.cpp:536
+#: codegenerators/codegenerator.cpp:524
 #, kde-format
 msgid ""
 "Cannot open file %1 for writing. Please make sure the folder exists and you "
@@ -349,19 +349,19 @@ msgstr ""
 "Tiedostoa %1 ei voitu avata kirjoittamista varten. Varmista, että kansio on "
 "olemassa ja sinulla on kirjoitusoikeudet siihen."
 
-#: codegenerators/codegenerator.cpp:536
+#: codegenerators/codegenerator.cpp:524
 #, kde-format
 msgid "Cannot Open File"
 msgstr "Tiedosta ei voitu avata"
 
-#: codegenerators/codegenerator.cpp:598
-#: codegenerators/simplecodegenerator.cpp:138
+#: codegenerators/codegenerator.cpp:586
+#: codegenerators/simplecodegenerator.cpp:135
 #, kde-format
 msgid "Cannot create the folder:\n"
 msgstr "Kansiota ei voitu luoda:\n"
 
-#: codegenerators/codegenerator.cpp:599
-#: codegenerators/simplecodegenerator.cpp:139
+#: codegenerators/codegenerator.cpp:587
+#: codegenerators/simplecodegenerator.cpp:136
 #, kde-format
 msgid ""
 "\n"
@@ -370,64 +370,64 @@ msgstr ""
 "\n"
 "Tarkista lukuoikeutesi"
 
-#: codegenerators/codegenerator.cpp:600
-#: codegenerators/simplecodegenerator.cpp:140
+#: codegenerators/codegenerator.cpp:588
+#: codegenerators/simplecodegenerator.cpp:137
 #, kde-format
 msgid "Cannot Create Folder"
 msgstr "Kansiota ei voitu luoda"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:38
+#: codegenerators/cpp/cppcodegenerationform.cpp:33
 #, kde-format
 msgid "Package is a namespace"
 msgstr "Pakkaus on nimiavaruus"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:42
+#: codegenerators/cpp/cppcodegenerationform.cpp:37
 #, kde-format
 msgid "Virtual destructors"
 msgstr "Virtuaalihajottimet"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:46
+#: codegenerators/cpp/cppcodegenerationform.cpp:41
 #, kde-format
 msgid "Generate empty constructors"
 msgstr "Luo tyhjät koodipohjat muodostimiin"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:50
+#: codegenerators/cpp/cppcodegenerationform.cpp:45
 #, kde-format
 msgid "Generate accessor methods"
 msgstr "Luo aksessorimetodit"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:54
+#: codegenerators/cpp/cppcodegenerationform.cpp:49
 #, kde-format
 msgid "Operations are inline"
 msgstr "Toiminnot ovat inline-tyyppiä"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:58
+#: codegenerators/cpp/cppcodegenerationform.cpp:53
 #, kde-format
 msgid "Accessors are inline"
 msgstr "Aksessorit ovat inline-tyyppiä"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:62
+#: codegenerators/cpp/cppcodegenerationform.cpp:57
 #, kde-format
 msgid "Accessors are public"
 msgstr "Aksessorit ovat julkisia"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:66
+#: codegenerators/cpp/cppcodegenerationform.cpp:61
 #, kde-format
 msgid "Create getters with 'get' prefix"
 msgstr ""
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:70
+#: codegenerators/cpp/cppcodegenerationform.cpp:65
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor method names"
 msgstr ""
 
 #. i18n: ectx: label, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
-#: codegenerators/cpp/cppcodegenerationform.cpp:74 umbrello.kcfg:548
+#: codegenerators/cpp/cppcodegenerationform.cpp:69 umbrello.kcfg:548
 #, kde-format
 msgid "Accessor methods start with capital letters"
 msgstr ""
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:78
+#: codegenerators/cpp/cppcodegenerationform.cpp:73
 #, kde-format
 msgid "Use '\\' as documentation tag instead of '@'"
 msgstr "Käytä dokumentaatiotagia ”\\” tagin ”@” sijasta"
@@ -441,7 +441,7 @@ msgstr "<p align=\"center\">C++-koodin luonti</p>"
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
 #: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:131
-#: umllistview.cpp:1473
+#: umllistview.cpp:1446
 #, kde-format
 msgid "General"
 msgstr "Perusasetukset"
@@ -710,10 +710,10 @@ msgstr "Käytä luodussa koodissa seuraavaa luokille:"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:52
 #: dialogs/pages/associationrolepage.cpp:85
 #: dialogs/pages/associationrolepage.cpp:86
-#: dialogs/pages/classifierlistpage.cpp:236
+#: dialogs/pages/classifierlistpage.cpp:221
 #: dialogs/pages/diagrampropertiespage.ui:322
 #: dialogs/pages/umlrolepropertiesbase.ui:140
-#: dialogs/widgets/documentationwidget.cpp:92 menus/widgetbasepopupmenu.cpp:77
+#: dialogs/widgets/documentationwidget.cpp:87 menus/widgetbasepopupmenu.cpp:77
 #, kde-format
 msgid "Documentation"
 msgstr "Dokumentaatio"
@@ -809,7 +809,7 @@ msgstr "Attribuuttiaksessorin oletusnäkyvyys:"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:147
 #: codegenerators/ruby/rubycodegenerationformbase.ui:188
 #: dialogs/pages/classoptionspage.cpp:303
-#: dialogs/pages/classoptionspage.cpp:313
+#: dialogs/pages/classoptionspage.cpp:310
 #: dialogs/pages/umlrolepropertiesbase.ui:73
 #, kde-format
 msgid "Public"
@@ -825,7 +825,7 @@ msgstr "Julkinen"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:152
 #: codegenerators/ruby/rubycodegenerationformbase.ui:193
 #: dialogs/pages/classoptionspage.cpp:304
-#: dialogs/pages/classoptionspage.cpp:314
+#: dialogs/pages/classoptionspage.cpp:311
 #: dialogs/pages/umlrolepropertiesbase.ui:83
 #, kde-format
 msgid "Private"
@@ -841,7 +841,7 @@ msgstr "Yksityinen"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:157
 #: codegenerators/ruby/rubycodegenerationformbase.ui:198
 #: dialogs/pages/classoptionspage.cpp:305
-#: dialogs/pages/classoptionspage.cpp:315
+#: dialogs/pages/classoptionspage.cpp:312
 #: dialogs/pages/umlrolepropertiesbase.ui:90
 #, kde-format
 msgid "Protected"
@@ -916,23 +916,23 @@ msgstr "Opastettu koodinluonti"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenOptionsPage)
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeImpSelectPage)
-#: codegenwizard/codegenoptionspage.cpp:38
+#: codegenwizard/codegenoptionspage.cpp:33
 #: codegenwizard/codegenoptionspage.ui:20 codeimpwizard/codeimpselectpage.ui:20
 #, kde-format
 msgid "Code Generation Options"
 msgstr "Koodinluonnin valinnat"
 
-#: codegenwizard/codegenoptionspage.cpp:39
+#: codegenwizard/codegenoptionspage.cpp:34
 #, kde-format
 msgid "Adjust code generation options."
 msgstr "Säädä koodinluonnin valintoja."
 
-#: codegenwizard/codegenoptionspage.cpp:196
+#: codegenwizard/codegenoptionspage.cpp:191
 #, kde-format
 msgid "Language Options"
 msgstr "Kieliasetukset"
 
-#: codegenwizard/codegenoptionspage.cpp:258
+#: codegenwizard/codegenoptionspage.cpp:253
 #, kde-format
 msgid ""
 "The output folder exists, but it is not writable.\n"
@@ -941,43 +941,43 @@ msgstr ""
 "Kohdekansio on olemassa, mutta ei kirjoitettavana.\n"
 "Aseta sen kirjoitusoikeudet tai valitse toinen kansio."
 
-#: codegenwizard/codegenoptionspage.cpp:259
+#: codegenwizard/codegenoptionspage.cpp:254
 #, kde-format
 msgid "Error Writing to Output Folder"
 msgstr "Virhe kohdekansioon kirjoituksessa"
 
-#: codegenwizard/codegenoptionspage.cpp:264
+#: codegenwizard/codegenoptionspage.cpp:259
 #, kde-format
 msgid "%1 does not seem to be a folder. Please choose a valid folder."
 msgstr "%1 ei näytä kansiolta. Ole hyvä ja valitse kelvollinen kansio."
 
-#: codegenwizard/codegenoptionspage.cpp:265
+#: codegenwizard/codegenoptionspage.cpp:260
 #, kde-format
 msgid "Please Choose Valid Folder"
 msgstr "Ole hyvä ja valitse kelvollinen kansio"
 
-#: codegenwizard/codegenoptionspage.cpp:271
+#: codegenwizard/codegenoptionspage.cpp:266
 #, kde-format
 msgid "The folder %1 does not exist. Do you want to create it now?"
 msgstr "Kansiota %1 ei ole. Haluatko luoda sen nyt?"
 
-#: codegenwizard/codegenoptionspage.cpp:272
-#: codegenwizard/codegenoptionspage.cpp:284
+#: codegenwizard/codegenoptionspage.cpp:267
+#: codegenwizard/codegenoptionspage.cpp:279
 #, kde-format
 msgid "Output Folder Does Not Exist"
 msgstr "Tuloskansiota ei ole"
 
-#: codegenwizard/codegenoptionspage.cpp:272
+#: codegenwizard/codegenoptionspage.cpp:267
 #, kde-format
 msgid "Create Folder"
 msgstr "Luo kansio"
 
-#: codegenwizard/codegenoptionspage.cpp:272
+#: codegenwizard/codegenoptionspage.cpp:267
 #, kde-format
 msgid "Do Not Create"
 msgstr "Älä luo"
 
-#: codegenwizard/codegenoptionspage.cpp:276
+#: codegenwizard/codegenoptionspage.cpp:271
 #, kde-format
 msgid ""
 "The folder could not be created.\n"
@@ -988,12 +988,12 @@ msgstr ""
 "Tarkista kirjoitusoikeudet ylemmän tason kansioon tai valitse toinen "
 "kelvollinen kansio."
 
-#: codegenwizard/codegenoptionspage.cpp:277
+#: codegenwizard/codegenoptionspage.cpp:272
 #, kde-format
 msgid "Error Creating Folder"
 msgstr "Virhe kansion luonnissa"
 
-#: codegenwizard/codegenoptionspage.cpp:283
+#: codegenwizard/codegenoptionspage.cpp:278
 #, kde-format
 msgid "Please select a valid folder."
 msgstr "Ole hyvä ja valitse kelvollinen kansio."
@@ -1279,12 +1279,12 @@ msgstr "<< Poista"
 msgid "Classes Selected"
 msgstr "Valitut luokat"
 
-#: codegenwizard/codegenstatuspage.cpp:44
+#: codegenwizard/codegenstatuspage.cpp:39
 #, kde-format
 msgid "Status of Code Generation Progress"
 msgstr "Koodinluonnin edistyminen"
 
-#: codegenwizard/codegenstatuspage.cpp:45
+#: codegenwizard/codegenstatuspage.cpp:40
 #, kde-format
 msgid ""
 "Press the button Generate to start the code generation.\n"
@@ -1293,35 +1293,35 @@ msgstr ""
 "Paina Luo-painiketta aloittaaksesi koodinluonnin.\n"
 "Tarkista jokaisen luokan onnistuminen."
 
-#: codegenwizard/codegenstatuspage.cpp:86
-#: codeimpwizard/codeimpstatuspage.cpp:102
+#: codegenwizard/codegenstatuspage.cpp:81
+#: codeimpwizard/codeimpstatuspage.cpp:97
 #, kde-format
 msgid "Not Yet Generated"
 msgstr "Ei ole vielä luotu"
 
-#: codegenwizard/codegenstatuspage.cpp:175
+#: codegenwizard/codegenstatuspage.cpp:170
 #, kde-format
 msgid "Code Generated"
 msgstr "Koodinluonti"
 
-#: codegenwizard/codegenstatuspage.cpp:179
+#: codegenwizard/codegenstatuspage.cpp:174
 #, kde-format
 msgid "Not Generated"
 msgstr "Ei ole luotu"
 
-#: codegenwizard/codegenstatuspage.cpp:184
+#: codegenwizard/codegenstatuspage.cpp:179
 #, kde-format
 msgid "Skipped"
 msgstr ""
 
-#: codegenwizard/codegenstatuspage.cpp:209
-#: codegenwizard/codegenstatuspage.cpp:243
-#: codeimpwizard/codeimpstatuspage.cpp:344
+#: codegenwizard/codegenstatuspage.cpp:204
+#: codegenwizard/codegenstatuspage.cpp:234
+#: codeimpwizard/codeimpstatuspage.cpp:335
 #, kde-format
 msgid "Cannot open file!"
 msgstr "Tiedosta ei voi avata"
 
-#: codegenwizard/codegenstatuspage.cpp:229
+#: codegenwizard/codegenstatuspage.cpp:224
 #, kde-format
 msgid "Umbrello Code Generation - Logger Export"
 msgstr "Umbrellon koodin luonti – lokin vienti"
@@ -1337,7 +1337,7 @@ msgstr "Tila"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1468 umlwidgets/widgetbase.cpp:1275
+#: dialogs/finddialog.ui:89 umllistview.cpp:1441 umlwidgets/widgetbase.cpp:1254
 #, kde-format
 msgid "Class"
 msgstr "Luokka"
@@ -1384,7 +1384,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr "Epäonnistui."
 
-#: codeimpwizard/codeimportingwizard.cpp:36
+#: codeimpwizard/codeimportingwizard.cpp:32
 #, kde-format
 msgid "Code Importing Wizard"
 msgstr "Opastettu koodintuonti"
@@ -1482,12 +1482,12 @@ msgstr "Tiedostojen määrä:"
 msgid "0"
 msgstr "0"
 
-#: codeimpwizard/codeimpstatuspage.cpp:53
+#: codeimpwizard/codeimpstatuspage.cpp:48
 #, kde-format
 msgid "Status of Code Importing Progress"
 msgstr "Koodintuonnin edistyminen"
 
-#: codeimpwizard/codeimpstatuspage.cpp:54
+#: codeimpwizard/codeimpstatuspage.cpp:49
 #, kde-format
 msgid ""
 "Press the button 'Start import' to start the code import.\n"
@@ -1496,54 +1496,54 @@ msgstr ""
 "Paina Aloita tuonti -painiketta aloittaaksesi koodintuonnin.\n"
 "Tarkista jokaisen luokan onnistuminen."
 
-#: codeimpwizard/codeimpstatuspage.cpp:132
+#: codeimpwizard/codeimpstatuspage.cpp:127
 #, kde-format
 msgid "<b>Code import of 1 file:</b><br>"
 msgid_plural "<b>Code import of %1 files:</b><br>"
 msgstr[0] "<b>Yhden tiedoston koodintuonti:</b><br>"
 msgstr[1] "<b>%1 tiedoston koodintuonti:</b><br>"
 
-#: codeimpwizard/codeimpstatuspage.cpp:156
+#: codeimpwizard/codeimpstatuspage.cpp:151
 #, kde-format
 msgid "importing file ... DONE<br>"
 msgstr "tuodaan tiedostoa … VALMIS<br>"
 
-#: codeimpwizard/codeimpstatuspage.cpp:157
+#: codeimpwizard/codeimpstatuspage.cpp:152
 #, kde-format
 msgid "Import Done"
 msgstr "Tuonti valmis"
 
-#: codeimpwizard/codeimpstatuspage.cpp:160
+#: codeimpwizard/codeimpstatuspage.cpp:155
 #, kde-format
 msgid "importing file ... FAILED<br>"
 msgstr "tuodaan tiedostoa … EPÄONNISTUI<br>"
 
-#: codeimpwizard/codeimpstatuspage.cpp:161
+#: codeimpwizard/codeimpstatuspage.cpp:156
 #, kde-format
 msgid "Import Failed"
 msgstr "Tuonti epäonnistui"
 
-#: codeimpwizard/codeimpstatuspage.cpp:172
+#: codeimpwizard/codeimpstatuspage.cpp:167
 #, kde-format
 msgid "importing file ..."
 msgstr "tuodaan tiedostoa…"
 
-#: codeimpwizard/codeimpstatuspage.cpp:235
+#: codeimpwizard/codeimpstatuspage.cpp:230
 #, kde-format
 msgid "importing file ... stopped<br>"
 msgstr "tuodaan tiedostoa … pysäytetty<br>"
 
-#: codeimpwizard/codeimpstatuspage.cpp:236
+#: codeimpwizard/codeimpstatuspage.cpp:231
 #, kde-format
 msgid "Import stopped"
 msgstr "Tuonti pysäytetty"
 
-#: codeimpwizard/codeimpstatuspage.cpp:303
+#: codeimpwizard/codeimpstatuspage.cpp:298
 #, kde-format
 msgid "Not Imported"
 msgstr "Ei ole luotu"
 
-#: codeimpwizard/codeimpstatuspage.cpp:330
+#: codeimpwizard/codeimpstatuspage.cpp:325
 #, kde-format
 msgid "Umbrello Code Import - Logger Export"
 msgstr "Umbrellon koodin tuonti – lokin vienti"
@@ -1588,7 +1588,7 @@ msgstr "Valmis."
 msgid "No code importer for file: %1"
 msgstr "Ei koodintuontia tiedostolle: %1"
 
-#: debug/debug_utils.cpp:142
+#: debug/debug_utils.cpp:140
 #, kde-format
 msgid "Class Name"
 msgstr "Luokan nimi"
@@ -1620,7 +1620,7 @@ msgstr "Loppupiste"
 
 #. i18n("Attribute...")); break;
 #: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:155
-#: worktoolbar.cpp:354
+#: worktoolbar.cpp:347
 #, kde-format
 msgid "Branch/Merge"
 msgstr "Haarautuma/liittymä"
@@ -1639,7 +1639,7 @@ msgstr "Parametrisoitu aktiviteetti"
 #: dialogs/activitydialog.cpp:146 dialogs/objectnodedialog.cpp:131
 #: dialogs/statedialog.cpp:120 dialogs/umlattributedialog.cpp:67
 #: dialogs/umlentityattributedialog.cpp:62 dialogs/umlenumliteraldialog.cpp:51
-#: dialogs/umlinstanceattributedialog.ui:17 dialogs/umloperationdialog.cpp:89
+#: dialogs/umlinstanceattributedialog.ui:17 dialogs/umloperationdialog.cpp:86
 #: dialogs/umltemplatedialog.cpp:56
 #, kde-format
 msgid "General Properties"
@@ -1686,7 +1686,7 @@ msgstr "To&imintokutsu "
 msgid "&Parameter activity node"
 msgstr "&Parametrisoitu aktiviteetti"
 
-#: dialogs/associationpropertiesdialog.cpp:42
+#: dialogs/associationpropertiesdialog.cpp:39
 #, kde-format
 msgid "Association Properties"
 msgstr "Yhteyden ominaisuudet"
@@ -1698,9 +1698,9 @@ msgid "General"
 msgstr "Perusasetukset"
 
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
-#: dialogs/multipagedialogbase.cpp:334 dialogs/multipagedialogbase.cpp:348
-#: dialogs/multipagedialogbase.cpp:358 dialogs/settingsdialog.cpp:112
-#: dialogs/umlforeignkeyconstraintdialog.cpp:207 dialogs/umlviewdialog.cpp:88
+#: dialogs/multipagedialogbase.cpp:299 dialogs/multipagedialogbase.cpp:313
+#: dialogs/multipagedialogbase.cpp:323 dialogs/settingsdialog.cpp:107
+#: dialogs/umlforeignkeyconstraintdialog.cpp:204 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgid "General Settings"
 msgstr "Perusasetukset"
@@ -1717,7 +1717,7 @@ msgid "Display Options"
 msgstr "Näyttöasetukset"
 
 #: dialogs/classpropertiesdialog.cpp:277
-#: dialogs/pages/classifierlistpage.cpp:118 menus/widgetbasepopupmenu.cpp:81
+#: dialogs/pages/classifierlistpage.cpp:112 menus/widgetbasepopupmenu.cpp:81
 #: menus/widgetbasepopupmenu.cpp:115 refactoring/refactoringassistant.cpp:665
 #, kde-format
 msgid "Attributes"
@@ -1729,7 +1729,7 @@ msgid "Attribute Settings"
 msgstr "Attribuuttien asetukset"
 
 #: dialogs/classpropertiesdialog.cpp:287
-#: dialogs/pages/classifierlistpage.cpp:122 menus/widgetbasepopupmenu.cpp:84
+#: dialogs/pages/classifierlistpage.cpp:116 menus/widgetbasepopupmenu.cpp:84
 #: menus/widgetbasepopupmenu.cpp:124 refactoring/refactoringassistant.cpp:681
 #, kde-format
 msgid "Operations"
@@ -1741,7 +1741,7 @@ msgid "Operation Settings"
 msgstr "Toimintojen asetukset"
 
 #: dialogs/classpropertiesdialog.cpp:297
-#: dialogs/pages/classifierlistpage.cpp:126
+#: dialogs/pages/classifierlistpage.cpp:120
 #, kde-format
 msgid "Templates"
 msgstr "Mallit"
@@ -1752,7 +1752,7 @@ msgid "Templates Settings"
 msgstr "Mallien asetukset"
 
 #: dialogs/classpropertiesdialog.cpp:307
-#: dialogs/pages/classifierlistpage.cpp:130
+#: dialogs/pages/classifierlistpage.cpp:124
 #, kde-format
 msgid "Enum Literals"
 msgstr "Luettelotyypin vakiot"
@@ -1763,7 +1763,7 @@ msgid "Enum Literals Settings"
 msgstr "Luettelotyypin vakioiden asetukset"
 
 #: dialogs/classpropertiesdialog.cpp:317
-#: dialogs/pages/classifierlistpage.cpp:134
+#: dialogs/pages/classifierlistpage.cpp:128
 #, kde-format
 msgid "Entity Attributes"
 msgstr "Käsitteen attribuutit"
@@ -1851,19 +1851,17 @@ msgstr "Luokan toiminnot"
 msgid "Add operations to the new class."
 msgstr "Lisää toimintoja uuteen luokkaan."
 
-#: dialogs/codeeditor.cpp:765 dialogs/codeeditor.cpp:767
-#: menus/widgetbasepopupmenu.cpp:118 menus/widgetbasepopupmenu.cpp:126
-#: menus/widgetbasepopupmenu.cpp:133 menus/widgetbasepopupmenu.cpp:140
-#: menus/widgetbasepopupmenu.cpp:146
+#: dialogs/codeeditor.cpp:749 menus/widgetbasepopupmenu.cpp:118
+#: menus/widgetbasepopupmenu.cpp:126 menus/widgetbasepopupmenu.cpp:133
+#: menus/widgetbasepopupmenu.cpp:140 menus/widgetbasepopupmenu.cpp:146
 #, kde-format
 msgid "Hide"
 msgstr "Piilota"
 
-#: dialogs/codeeditor.cpp:775 dialogs/codeeditor.cpp:777
-#: dialogs/pages/classoptionspage.cpp:144
+#: dialogs/codeeditor.cpp:755 dialogs/pages/classoptionspage.cpp:144
 #: dialogs/pages/classoptionspage.cpp:217
 #: dialogs/pages/classoptionspage.cpp:239
-#: dialogs/pages/classoptionspage.cpp:332 menus/listpopupmenu.cpp:257
+#: dialogs/pages/classoptionspage.cpp:326 menus/listpopupmenu.cpp:257
 #: menus/widgetbasepopupmenu.cpp:74 menus/widgetbasepopupmenu.cpp:112
 #: menus/widgetbasepopupmenu.cpp:117 menus/widgetbasepopupmenu.cpp:125
 #: menus/widgetbasepopupmenu.cpp:132 menus/widgetbasepopupmenu.cpp:139
@@ -1872,40 +1870,37 @@ msgstr "Piilota"
 msgid "Show"
 msgstr "Näytä"
 
-#: dialogs/codeeditor.cpp:788 dialogs/codeeditor.cpp:790
+#: dialogs/codeeditor.cpp:764
 #, kde-format
 msgid "Hide Comment"
 msgstr "Piilota kommentti"
 
-#: dialogs/codeeditor.cpp:798 dialogs/codeeditor.cpp:800
+#: dialogs/codeeditor.cpp:770
 #, kde-format
 msgid "Show Comment"
 msgstr "Näytä kommentti"
 
-#: dialogs/codeeditor.cpp:810 dialogs/codeeditor.cpp:812
+#: dialogs/codeeditor.cpp:778
 #, kde-format
 msgid "Insert Code Block Before"
 msgstr "Lisää koodilohko ennen"
 
-#: dialogs/codeeditor.cpp:819 dialogs/codeeditor.cpp:821
+#: dialogs/codeeditor.cpp:783
 #, kde-format
 msgid "Insert Code Block After"
 msgstr "Lisää koodilohko jälkeen"
 
-#: dialogs/codeeditor.cpp:830 dialogs/codeeditor.cpp:832
-#: menus/listpopupmenu.cpp:169
+#: dialogs/codeeditor.cpp:790 menus/listpopupmenu.cpp:169
 #, kde-format
 msgid "Copy"
 msgstr "Kopioi"
 
-#: dialogs/codeeditor.cpp:839 dialogs/codeeditor.cpp:841
-#: menus/listpopupmenu.cpp:237
+#: dialogs/codeeditor.cpp:795 menus/listpopupmenu.cpp:237
 #, kde-format
 msgid "Paste"
 msgstr "Liitä"
 
-#: dialogs/codeeditor.cpp:848 dialogs/codeeditor.cpp:850
-#: menus/listpopupmenu.cpp:170
+#: dialogs/codeeditor.cpp:800 menus/listpopupmenu.cpp:170
 #, kde-format
 msgid "Cut"
 msgstr "Leikkaa"
@@ -1997,18 +1992,18 @@ msgstr ""
 msgid "Enable 'delete diagram' related messages"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:214
+#: dialogs/dialog_utils.cpp:210
 #, kde-format
 msgid "You are about to delete an association. Do you really want to continue?"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:215
+#: dialogs/dialog_utils.cpp:211
 #, fuzzy, kde-format
 #| msgid "Self Association"
 msgid "Delete Association"
 msgstr "Itseyhteys"
 
-#: dialogs/dialog_utils.cpp:229
+#: dialogs/dialog_utils.cpp:225
 #, kde-format
 msgid ""
 "You are about to delete the entire diagram.\n"
@@ -2017,23 +2012,19 @@ msgstr ""
 "Olet poistamassa kaaviota.\n"
 "Oletko varma?"
 
-#: dialogs/dialog_utils.cpp:230
+#: dialogs/dialog_utils.cpp:226
 #, kde-format
 msgid "Are you sure you want to delete diagram %1?"
 msgstr "Haluatko varmasti poistaa kaavion %1?"
 
-#: dialogs/dialog_utils.cpp:235
+#: dialogs/dialog_utils.cpp:231
 #, kde-format
 msgid "Delete Diagram?"
 msgstr "Poista kaavio?"
 
-#: dialogs/dialog_utils.cpp:236 dialogs/pages/classifierlistpage.cpp:215
-#: dialogs/pages/classifierlistpage.cpp:223
-#: dialogs/umlforeignkeyconstraintdialog.cpp:324
-#: dialogs/umlforeignkeyconstraintdialog.cpp:330
-#: dialogs/umloperationdialog.cpp:168 dialogs/umloperationdialog.cpp:176
-#: dialogs/umluniqueconstraintdialog.cpp:114
-#: dialogs/umluniqueconstraintdialog.cpp:120
+#: dialogs/dialog_utils.cpp:232 dialogs/pages/classifierlistpage.cpp:208
+#: dialogs/umlforeignkeyconstraintdialog.cpp:320
+#: dialogs/umloperationdialog.cpp:164 dialogs/umluniqueconstraintdialog.cpp:110
 #, kde-format
 msgid "&Delete"
 msgstr "&Poista"
@@ -2044,7 +2035,7 @@ msgstr "&Poista"
 msgid "Notifications"
 msgstr "Yhteydet"
 
-#: dialogs/exportallviewsdialog.cpp:59 dialogs/widgets/imagetypewidget.cpp:32
+#: dialogs/exportallviewsdialog.cpp:59 dialogs/widgets/imagetypewidget.cpp:29
 #, kde-format
 msgid "The format that the images will be exported to"
 msgstr "Vietävän kuvan muoto"
@@ -2131,7 +2122,7 @@ msgstr "K&aikki kaaviot"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:156
-#: umlwidgets/widgetbase.cpp:1266 worktoolbar.cpp:393
+#: umlwidgets/widgetbase.cpp:1245 worktoolbar.cpp:386
 #, kde-format
 msgid "Category"
 msgstr "Luokka"
@@ -2144,15 +2135,15 @@ msgstr "Kaikki"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100
-#: umlwidgets/widgetbase.cpp:1311 worktoolbar.cpp:359
+#: umlwidgets/widgetbase.cpp:1290 worktoolbar.cpp:352
 #, kde-format
 msgid "Package"
 msgstr "Pakkaus"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryInterface)
 #: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:206
-#: menus/listpopupmenu.cpp:207 umlwidgets/widgetbase.cpp:1293
-#: worktoolbar.cpp:363
+#: menus/listpopupmenu.cpp:207 umlwidgets/widgetbase.cpp:1272
+#: worktoolbar.cpp:356
 #, kde-format
 msgid "Interface"
 msgstr "Rajapinta"
@@ -2176,13 +2167,13 @@ msgstr "Attribuutti"
 msgid "Search Term:"
 msgstr "Hakusana:"
 
-#: dialogs/multipagedialogbase.cpp:72
+#: dialogs/multipagedialogbase.cpp:67
 #, kde-format
 msgid "Default"
 msgstr "Oletus"
 
-#: dialogs/multipagedialogbase.cpp:334 dialogs/multipagedialogbase.cpp:348
-#: dialogs/multipagedialogbase.cpp:358
+#: dialogs/multipagedialogbase.cpp:299 dialogs/multipagedialogbase.cpp:313
+#: dialogs/multipagedialogbase.cpp:323
 #, kde-format
 msgctxt "general settings"
 msgid "General"
@@ -2190,47 +2181,47 @@ msgstr "Perusasetukset"
 
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
-#: dialogs/multipagedialogbase.cpp:373 umbrello.kcfg:177 umbrello.kcfg:297
-#: umllistview.cpp:1472
+#: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:177 umbrello.kcfg:297
+#: umllistview.cpp:1445
 #, kde-format
 msgid "Font"
 msgstr "Fontti"
 
-#: dialogs/multipagedialogbase.cpp:373
+#: dialogs/multipagedialogbase.cpp:338
 #, kde-format
 msgid "Font Settings"
 msgstr "Fonttiasetukset"
 
-#: dialogs/multipagedialogbase.cpp:448
+#: dialogs/multipagedialogbase.cpp:413
 #, kde-format
 msgctxt "widget style page"
 msgid "Style"
 msgstr "Tyyli"
 
-#: dialogs/multipagedialogbase.cpp:448
+#: dialogs/multipagedialogbase.cpp:413
 #, kde-format
 msgid "Widget Style"
 msgstr "Elementtien tyyli"
 
-#: dialogs/multipagedialogbase.cpp:459
+#: dialogs/multipagedialogbase.cpp:424
 #, kde-format
 msgctxt "style page name"
 msgid "Style"
 msgstr "Tyyli"
 
-#: dialogs/multipagedialogbase.cpp:459
+#: dialogs/multipagedialogbase.cpp:424
 #, fuzzy, kde-format
 #| msgid "Widget Style"
 msgid "Line Style"
 msgstr "Elementtien tyyli"
 
-#: dialogs/multipagedialogbase.cpp:479
+#: dialogs/multipagedialogbase.cpp:444
 #, kde-format
 msgctxt "role page name"
 msgid "Roles"
 msgstr "Roolit"
 
-#: dialogs/multipagedialogbase.cpp:479
+#: dialogs/multipagedialogbase.cpp:444
 #, kde-format
 msgid "Role Settings"
 msgstr "Roolin asetukset"
@@ -2301,7 +2292,7 @@ msgstr "&Objektivuo"
 msgid "Destination File Already Exists"
 msgstr "Kohdetiedosto on jo olemassa"
 
-#: dialogs/overwritedialog.cpp:28 umlviewimageexporter.cpp:125
+#: dialogs/overwritedialog.cpp:28 umlviewimageexporter.cpp:109
 #, kde-format
 msgid "&Overwrite"
 msgstr "&Korvaa"
@@ -2334,44 +2325,43 @@ msgstr ""
 msgid "&Apply to all remaining files"
 msgstr "Tee k&aikille jäljelläoleville tiedostoille"
 
-#: dialogs/pages/activitypage.cpp:60 dialogs/statedialog.cpp:201
+#: dialogs/pages/activitypage.cpp:55 dialogs/statedialog.cpp:201
 #, kde-format
 msgid "Activities"
 msgstr "Aktiviteetit"
 
-#: dialogs/pages/activitypage.cpp:82 dialogs/pages/classifierlistpage.cpp:182
+#: dialogs/pages/activitypage.cpp:77 dialogs/pages/classifierlistpage.cpp:176
 #, kde-format
 msgid "Move selected item to the top"
 msgstr "Siirrä valittu kohta ylimmäiseksi"
 
-#: dialogs/pages/activitypage.cpp:88 dialogs/pages/classifierlistpage.cpp:188
+#: dialogs/pages/activitypage.cpp:83 dialogs/pages/classifierlistpage.cpp:182
 #, kde-format
 msgid "Move selected item up"
 msgstr "Siirrä valittua kohtaa ylemmäs"
 
-#: dialogs/pages/activitypage.cpp:94 dialogs/pages/classifierlistpage.cpp:194
+#: dialogs/pages/activitypage.cpp:89 dialogs/pages/classifierlistpage.cpp:188
 #, kde-format
 msgid "Move selected item down"
 msgstr "Siirrä valittua kohtaa alemmas"
 
-#: dialogs/pages/activitypage.cpp:100 dialogs/pages/classifierlistpage.cpp:200
+#: dialogs/pages/activitypage.cpp:95 dialogs/pages/classifierlistpage.cpp:194
 #, kde-format
 msgid "Move selected item to the bottom"
 msgstr "Siirrä valittu kohta alimmaiseksi"
 
-#: dialogs/pages/activitypage.cpp:105 dialogs/pages/activitypage.cpp:113
+#: dialogs/pages/activitypage.cpp:99
 #, kde-format
 msgid "New Activity..."
 msgstr "Uusi aktiviteetti…"
 
-#: dialogs/pages/activitypage.cpp:107 dialogs/pages/activitypage.cpp:115
-#: menus/listpopupmenu.cpp:173 refactoring/refactoringassistant.cpp:460
+#: dialogs/pages/activitypage.cpp:101 menus/listpopupmenu.cpp:173
+#: refactoring/refactoringassistant.cpp:460
 #, kde-format
 msgid "Delete"
 msgstr "Poista"
 
-#: dialogs/pages/activitypage.cpp:109 dialogs/pages/activitypage.cpp:117
-#: umlwidgets/floatingtextwidget.cpp:369
+#: dialogs/pages/activitypage.cpp:103 umlwidgets/floatingtextwidget.cpp:364
 #, kde-format
 msgid "Rename"
 msgstr "Muuta nimeä"
@@ -2382,13 +2372,13 @@ msgctxt "name of association widget"
 msgid "Name:"
 msgstr "Nimi:"
 
-#: dialogs/pages/associationgeneralpage.cpp:111
+#: dialogs/pages/associationgeneralpage.cpp:108
 #: menus/widgetbasepopupmenu.cpp:102 menus/widgetbasepopupmenu.cpp:729
 #, kde-format
 msgid "Stereotype"
 msgstr "Stereotyyppi"
 
-#: dialogs/pages/associationgeneralpage.cpp:120
+#: dialogs/pages/associationgeneralpage.cpp:117
 #, kde-format
 msgid "Type:"
 msgstr "Tyyppi:"
@@ -2588,75 +2578,74 @@ msgstr ""
 msgid "Name is Not Unique"
 msgstr "Nimi ei ole yksilöllinen"
 
-#: dialogs/pages/classifierlistpage.cpp:119
+#: dialogs/pages/classifierlistpage.cpp:113
 #, kde-format
 msgid "N&ew Attribute..."
 msgstr "&Uusi attribuutti…"
 
-#: dialogs/pages/classifierlistpage.cpp:123
+#: dialogs/pages/classifierlistpage.cpp:117
 #, kde-format
 msgid "N&ew Operation..."
 msgstr "Uusi &toiminto…"
 
-#: dialogs/pages/classifierlistpage.cpp:127
+#: dialogs/pages/classifierlistpage.cpp:121
 #, kde-format
 msgid "N&ew Template..."
 msgstr "Uusi &malli…"
 
 # ”Uusi luetellun tyypi vakio...” ei mahdu käyttöliittymään ja on myös tarpeetonta toistoa.
-#: dialogs/pages/classifierlistpage.cpp:131
+#: dialogs/pages/classifierlistpage.cpp:125
 #, kde-format
 msgid "N&ew Enum Literal..."
 msgstr "Uusi &vakio…"
 
-#: dialogs/pages/classifierlistpage.cpp:135
+#: dialogs/pages/classifierlistpage.cpp:129
 #, kde-format
 msgid "N&ew Entity Attribute..."
 msgstr "&Uusi attribuutti…"
 
-#: dialogs/pages/classifierlistpage.cpp:138
+#: dialogs/pages/classifierlistpage.cpp:132
 #, kde-format
 msgid "Constraints"
 msgstr "Rajoitteet"
 
-#: dialogs/pages/classifierlistpage.cpp:139
+#: dialogs/pages/classifierlistpage.cpp:133
 #, kde-format
 msgid "N&ew Constraint..."
 msgstr "&Uusi rajoite…"
 
-#: dialogs/pages/classifierlistpage.cpp:142
+#: dialogs/pages/classifierlistpage.cpp:136
 #, fuzzy, kde-format
 #| msgid "Entity Attributes"
 msgid "Instance Attribute"
 msgstr "Käsitteen attribuutit"
 
-#: dialogs/pages/classifierlistpage.cpp:143
+#: dialogs/pages/classifierlistpage.cpp:137
 #, fuzzy, kde-format
 #| msgid "N&ew Entity Attribute..."
 msgid "N&ew Instance Attribute..."
 msgstr "&Uusi attribuutti…"
 
-#: dialogs/pages/classifierlistpage.cpp:217
-#: dialogs/pages/classifierlistpage.cpp:225 dialogs/umloperationdialog.cpp:170
-#: dialogs/umloperationdialog.cpp:178 uml.cpp:640
+#: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
+#: uml.cpp:589
 #, kde-format
 msgid "&Properties"
 msgstr "&Ominaisuudet"
 
-#: dialogs/pages/classifierlistpage.cpp:248
-#: dialogs/widgets/documentationwidget.cpp:108
+#: dialogs/pages/classifierlistpage.cpp:229
+#: dialogs/widgets/documentationwidget.cpp:99
 #, kde-format
 msgid "Comment"
 msgstr "Kommentti"
 
-#: dialogs/pages/classifierlistpage.cpp:249
-#: dialogs/widgets/documentationwidget.cpp:109
+#: dialogs/pages/classifierlistpage.cpp:230
+#: dialogs/widgets/documentationwidget.cpp:100
 #, kde-format
 msgid "Source Code"
 msgstr "Lähdekoodi"
 
 #: dialogs/pages/classoptionspage.cpp:152
-#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:595
+#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:544
 #, kde-format
 msgid "&Documentation"
 msgstr "&Dokumentaatio"
@@ -2729,25 +2718,25 @@ msgstr "Oletusnäkyvyys attribuutille:"
 msgid "Default operation scope:"
 msgstr "Oletusnäkyvyys toiminnolle:"
 
-#: dialogs/pages/classoptionspage.cpp:339
+#: dialogs/pages/classoptionspage.cpp:333
 #, fuzzy, kde-format
 #| msgid "Attribute Signature"
 msgid "Attribute Signatures"
 msgstr "Attribuutin allekirjoitus"
 
-#: dialogs/pages/classoptionspage.cpp:444
+#: dialogs/pages/classoptionspage.cpp:438
 #, fuzzy, kde-format
 #| msgid "Stereotype"
 msgid "No Stereotype"
 msgstr "Stereotyyppi"
 
-#: dialogs/pages/classoptionspage.cpp:445
+#: dialogs/pages/classoptionspage.cpp:439
 #, fuzzy, kde-format
 #| msgid "Stereotype &name:"
 msgid "Stereotype Name"
 msgstr "Stereotyypin &nimi:"
 
-#: dialogs/pages/classoptionspage.cpp:446
+#: dialogs/pages/classoptionspage.cpp:440
 #, fuzzy, kde-format
 #| msgid "Stereotypes"
 msgid "Stereotype with Tags"
@@ -2793,26 +2782,22 @@ msgstr "Selvitä riippuvuudet (hidastaa tuontia)"
 msgid "Enable C++11 standard (experimental)"
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:74
-#: dialogs/pages/constraintlistpage.cpp:76 menus/listpopupmenu.cpp:269
+#: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:269
 #, kde-format
 msgid "Unique Constraint..."
 msgstr "Yksilöllisyysrajoite…"
 
-#: dialogs/pages/constraintlistpage.cpp:82
-#: dialogs/pages/constraintlistpage.cpp:84 menus/listpopupmenu.cpp:242
+#: dialogs/pages/constraintlistpage.cpp:69 menus/listpopupmenu.cpp:242
 #, kde-format
 msgid "Primary Key Constraint..."
 msgstr "Perusavainrajoite…"
 
-#: dialogs/pages/constraintlistpage.cpp:90
-#: dialogs/pages/constraintlistpage.cpp:92 menus/listpopupmenu.cpp:195
+#: dialogs/pages/constraintlistpage.cpp:73 menus/listpopupmenu.cpp:195
 #, kde-format
 msgid "Foreign Key Constraint..."
 msgstr "Viiteavainrajoite…"
 
-#: dialogs/pages/constraintlistpage.cpp:98
-#: dialogs/pages/constraintlistpage.cpp:100 menus/listpopupmenu.cpp:159
+#: dialogs/pages/constraintlistpage.cpp:77 menus/listpopupmenu.cpp:159
 #, kde-format
 msgid "Check Constraint..."
 msgstr "Tarkistusrajoite…"
@@ -2822,7 +2807,7 @@ msgstr "Tarkistusrajoite…"
 msgid "<p align=\"center\">No Options Available.</p>"
 msgstr "<p align=\"center\">Ei valintoja saatavilla.</p>"
 
-#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:130
+#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:120
 #, kde-format
 msgid "&Diagrams"
 msgstr "&Kaaviot"
@@ -2854,7 +2839,7 @@ msgid "The name you have entered is invalid."
 msgstr "Antamasi nimi on virheellinen."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:256
-#: umldoc.cpp:1686 umldoc.cpp:1750 umldoc.cpp:1779 umldoc.cpp:1814
+#: umldoc.cpp:1502 umldoc.cpp:1566 umldoc.cpp:1595 umldoc.cpp:1630
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:178
@@ -2867,7 +2852,7 @@ msgstr "Virheellinen nimi"
 msgid "The name you have entered is not unique."
 msgstr "Antamasi nimi on jo käytössä."
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1818
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1634
 #, kde-format
 msgid "Name Not Unique"
 msgstr "Nimi ei ole ainutkertainen."
@@ -3050,7 +3035,7 @@ msgstr "&Lataa viimeksitallennettu projekti"
 msgid "Start new project with:"
 msgstr "Aloita uusi projekti:"
 
-#: dialogs/pages/generaloptionpage.cpp:136
+#: dialogs/pages/generaloptionpage.cpp:133
 #, kde-format
 msgid "Default Language :"
 msgstr "Oletuskieli:"
@@ -3084,15 +3069,15 @@ msgstr "Automaattinen kasvatus:"
 msgid "Class operation:"
 msgstr "Luokkatoiminto:"
 
-#: dialogs/pages/selectoperationpage.cpp:83
-#: dialogs/selectoperationdialog.cpp:86 menus/listpopupmenu.cpp:225
+#: dialogs/pages/selectoperationpage.cpp:80
+#: dialogs/selectoperationdialog.cpp:83 menus/listpopupmenu.cpp:225
 #: menus/widgetbasepopupmenu.cpp:507
 #, kde-format
 msgid "New Operation..."
 msgstr "Uusi toiminto…"
 
-#: dialogs/pages/selectoperationpage.cpp:87
-#: dialogs/selectoperationdialog.cpp:90
+#: dialogs/pages/selectoperationpage.cpp:84
+#: dialogs/selectoperationdialog.cpp:87
 #, kde-format
 msgid "Custom operation:"
 msgstr "Oma toiminto:"
@@ -3360,74 +3345,74 @@ msgstr "Valit&se kaaviot"
 msgid "Diagram"
 msgstr "&Kaavio"
 
-#: dialogs/settingsdialog.cpp:40
+#: dialogs/settingsdialog.cpp:35
 #, kde-format
 msgid "Umbrello Setup"
 msgstr "Umbrellon asetukset"
 
-#: dialogs/settingsdialog.cpp:105 umllistview.cpp:1474
+#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1447
 #, kde-format
 msgid "User Interface"
 msgstr "Käyttöliittymä"
 
-#: dialogs/settingsdialog.cpp:105
+#: dialogs/settingsdialog.cpp:100
 #, kde-format
 msgid "User Interface Settings"
 msgstr "Käyttöliittymän asetukset"
 
-#: dialogs/settingsdialog.cpp:112 dialogs/umlviewdialog.cpp:88
+#: dialogs/settingsdialog.cpp:107 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgctxt "general settings page"
 msgid "General"
 msgstr "Perusasetukset"
 
-#: dialogs/settingsdialog.cpp:121
+#: dialogs/settingsdialog.cpp:116
 #, kde-format
 msgctxt "class settings page"
 msgid "Class"
 msgstr "Luokka"
 
-#: dialogs/settingsdialog.cpp:121
+#: dialogs/settingsdialog.cpp:116
 #, kde-format
 msgid "Class Settings"
 msgstr "Luokka-asetukset"
 
-#: dialogs/settingsdialog.cpp:128 umllistview.cpp:1469
+#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1442
 #, kde-format
 msgid "Code Importer"
 msgstr "Koodintuonti"
 
-#: dialogs/settingsdialog.cpp:128
+#: dialogs/settingsdialog.cpp:123
 #, kde-format
 msgid "Code Import Settings"
 msgstr "Koodintuonnin asetukset"
 
-#: dialogs/settingsdialog.cpp:137 umllistview.cpp:1470
+#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1443
 #, kde-format
 msgid "Code Generation"
 msgstr "Koodinluonti"
 
-#: dialogs/settingsdialog.cpp:137
+#: dialogs/settingsdialog.cpp:132
 #, kde-format
 msgid "Code Generation Settings"
 msgstr "Koodinluonnin asetukset"
 
-#: dialogs/settingsdialog.cpp:145 umllistview.cpp:1471
+#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1444
 #, kde-format
 msgid "Code Viewer"
 msgstr "Koodin näyttö"
 
-#: dialogs/settingsdialog.cpp:145
+#: dialogs/settingsdialog.cpp:140
 #, kde-format
 msgid "Code Viewer Settings"
 msgstr "Koodin näytön asetukset"
 
-#: dialogs/settingsdialog.cpp:152 umllistview.cpp:1467
+#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1440
 #, kde-format
 msgid "Auto Layout"
 msgstr "Automaattinen asettelu"
 
-#: dialogs/settingsdialog.cpp:152
+#: dialogs/settingsdialog.cpp:147
 #, kde-format
 msgid "Auto Layout Settings"
 msgstr "Automaattisen asettelun asetukset"
@@ -3564,7 +3549,7 @@ msgstr "Attribuutin ominaisuudet"
 msgid "&Initial value:"
 msgstr "&Alkuarvo:"
 
-#: dialogs/umlattributedialog.cpp:89 dialogs/umloperationdialog.cpp:115
+#: dialogs/umlattributedialog.cpp:89 dialogs/umloperationdialog.cpp:112
 #, kde-format
 msgid "Classifier &scope (\"static\")"
 msgstr "Luokittelijan &näkyvyys (”static”)"
@@ -3597,7 +3582,7 @@ msgid "Check Constraint Properties"
 msgstr "Tarkistusrajoitteen ominaisuudet"
 
 #: dialogs/umlcheckconstraintdialog.cpp:52
-#: dialogs/umluniqueconstraintdialog.cpp:82
+#: dialogs/umluniqueconstraintdialog.cpp:79
 #, kde-format
 msgctxt "name label"
 msgid "Name"
@@ -3639,12 +3624,12 @@ msgstr "Salli &null"
 msgid "Attributes:"
 msgstr "Attribuutit"
 
-#: dialogs/umlentityattributedialog.cpp:113
+#: dialogs/umlentityattributedialog.cpp:110
 #, kde-format
 msgid "Indexing"
 msgstr "Indeksointi"
 
-#: dialogs/umlentityattributedialog.cpp:117
+#: dialogs/umlentityattributedialog.cpp:114
 #, kde-format
 msgid "&Not Indexed"
 msgstr "&Ei indeksoitu"
@@ -3655,29 +3640,29 @@ msgstr "&Ei indeksoitu"
 #. m_pProtectedRB = new QRadioButton(i18n("&Unique"), m_pScopeGB);
 #. scopeLayout->addWidget(m_pProtectedRB);
 #.
-#: dialogs/umlentityattributedialog.cpp:128
+#: dialogs/umlentityattributedialog.cpp:125
 #, kde-format
 msgid "&Indexed"
 msgstr "&Indeksoitu"
 
-#: dialogs/umlentityattributedialog.cpp:166
+#: dialogs/umlentityattributedialog.cpp:163
 #, kde-format
 msgid "You have entered an invalid entity attribute name."
 msgstr "Olet antanut virheellisen attribuutin nimen."
 
-#: dialogs/umlentityattributedialog.cpp:167
+#: dialogs/umlentityattributedialog.cpp:164
 #, kde-format
 msgid "Entity Attribute Name Invalid"
 msgstr "Attribuutin arvo virheellinen"
 
-#: dialogs/umlentityattributedialog.cpp:174
+#: dialogs/umlentityattributedialog.cpp:171
 #, kde-format
 msgid ""
 "The entity attribute name you have chosen is already being used in this "
 "operation."
 msgstr "Valitsemasi attribuutin nimi on jo käytössä tässä toiminnossa."
 
-#: dialogs/umlentityattributedialog.cpp:175
+#: dialogs/umlentityattributedialog.cpp:172
 #, kde-format
 msgid "Entity Attribute Name Not Unique"
 msgstr "Attribuutin nimi ei ole yksilöllinen"
@@ -3699,117 +3684,110 @@ msgstr "&Nimi:"
 msgid "&Value:"
 msgstr "&Arvo:"
 
-#: dialogs/umlfiledialog.cpp:134
-#, kde-format
-msgid "All Supported Files"
-msgstr "Kaikki tuetut tiedostot"
-
-#: dialogs/umlforeignkeyconstraintdialog.cpp:57
+#: dialogs/umlforeignkeyconstraintdialog.cpp:54
 #, kde-format
 msgid "Foreign Key Setup"
 msgstr "Viiteavaimen asetukset"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:207
+#: dialogs/umlforeignkeyconstraintdialog.cpp:204
 #, kde-format
 msgctxt "general page title"
 msgid "General"
 msgstr "Perusasetukset"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:210
+#: dialogs/umlforeignkeyconstraintdialog.cpp:207
 #, kde-format
 msgctxt "general group title"
 msgid "General"
 msgstr "Perusasetukset"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:218
+#: dialogs/umlforeignkeyconstraintdialog.cpp:215
 #, kde-format
 msgctxt "label for entering name"
 msgid "Name"
 msgstr "Nimi"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:221
+#: dialogs/umlforeignkeyconstraintdialog.cpp:218
 #, kde-format
 msgid "Referenced Entity"
 msgstr "Viitattu käsite"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:227
+#: dialogs/umlforeignkeyconstraintdialog.cpp:224
 #, kde-format
 msgid "Actions"
 msgstr "Toiminnot"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:234
+#: dialogs/umlforeignkeyconstraintdialog.cpp:231
 #, kde-format
 msgid "On Update"
 msgstr "Päivitettäessä"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:240
+#: dialogs/umlforeignkeyconstraintdialog.cpp:237
 #, kde-format
 msgid "On Delete"
 msgstr "Poistettaessa"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:272
+#: dialogs/umlforeignkeyconstraintdialog.cpp:269
 #, kde-format
 msgid "No Action"
 msgstr "Ei toimintoa"
 
 # Tarkoittaa ainakin käsitteen X ilmentymää _poistettaessa_ sitä, että poisto kielletään, mikäli jokin muu riippuu siitä. En ole varma, miten käyttäytyy päivitettäessä. En löytänyt hyvää suomennosta, joten jätin kääntämättä. Saa kääntää, kunhan on varovainen, että aihepiirin sanaston englanniksi osaavalla suomalaisella ei ole suuria ongelmia ymmärtää sitä.
-#: dialogs/umlforeignkeyconstraintdialog.cpp:272
+#: dialogs/umlforeignkeyconstraintdialog.cpp:269
 #, kde-format
 msgid "Restrict"
 msgstr "Rajoita"
 
 # Tarkoittaa, että kun käsitteen X ilmentymää päivitetään tai se poistetaan, tehdään päivitys tai poisto myös kaikkiin siitä riippuviin ilmentymiin. En löytänyt hyvää suomennosta, joten jätin kääntämättä. Saa kääntää, kunhan on varovainen, että aihepiirin sanaston englanniksi osaavalla suomalaisella ei ole suuria ongelmia ymmärtää sitä.
-#: dialogs/umlforeignkeyconstraintdialog.cpp:272
+#: dialogs/umlforeignkeyconstraintdialog.cpp:269
 #, kde-format
 msgid "Cascade"
 msgstr "Cascade"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:272
+#: dialogs/umlforeignkeyconstraintdialog.cpp:269
 #, kde-format
 msgid "Set Null"
 msgstr "Aseta null-arvoon"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:273
+#: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "Set Default"
 msgstr "Aseta oletusarvoon"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:294
+#: dialogs/umlforeignkeyconstraintdialog.cpp:291
 #, kde-format
 msgid "Columns"
 msgstr "Sarakkeet"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:301
+#: dialogs/umlforeignkeyconstraintdialog.cpp:298
 #, kde-format
 msgctxt "column header local"
 msgid "Local"
 msgstr "Paikallinen"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:301
+#: dialogs/umlforeignkeyconstraintdialog.cpp:298
 #, kde-format
 msgctxt "column header referenced"
 msgid "Referenced"
 msgstr "Viitattu"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:308
+#: dialogs/umlforeignkeyconstraintdialog.cpp:305
 #, kde-format
 msgid "Local Column"
 msgstr "Paikallinen sarake"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:314
+#: dialogs/umlforeignkeyconstraintdialog.cpp:311
 #, kde-format
 msgid "Referenced Column"
 msgstr "Viitattu sarake"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:322
-#: dialogs/umlforeignkeyconstraintdialog.cpp:328
-#: dialogs/umluniqueconstraintdialog.cpp:112
-#: dialogs/umluniqueconstraintdialog.cpp:118
+#: dialogs/umlforeignkeyconstraintdialog.cpp:318
+#: dialogs/umluniqueconstraintdialog.cpp:108
 #, kde-format
 msgid "&Add"
 msgstr "&Lisää"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:404
+#: dialogs/umlforeignkeyconstraintdialog.cpp:393
 #, kde-format
 msgid ""
 "You are attempting to change the Referenced Entity of this ForeignKey "
@@ -3851,55 +3829,55 @@ msgstr "Attribuutit"
 msgid "Value:"
 msgstr "&Arvo:"
 
-#: dialogs/umloperationdialog.cpp:61
+#: dialogs/umloperationdialog.cpp:58
 #, kde-format
 msgid "Operation Properties"
 msgstr "Toimintojen ominaisuudet"
 
-#: dialogs/umloperationdialog.cpp:99
+#: dialogs/umloperationdialog.cpp:96
 #, kde-format
 msgctxt "operation name"
 msgid "&Name:"
 msgstr "&Nimi:"
 
-#: dialogs/umloperationdialog.cpp:111
+#: dialogs/umloperationdialog.cpp:108
 #, kde-format
 msgid "&Abstract operation"
 msgstr "&Abstrakti toiminto"
 
-#: dialogs/umloperationdialog.cpp:118
+#: dialogs/umloperationdialog.cpp:115
 #, kde-format
 msgid "&Query (\"const\")"
 msgstr "&Kysely (”const”)"
 
-#: dialogs/umloperationdialog.cpp:121
+#: dialogs/umloperationdialog.cpp:118
 #, kde-format
 msgid "&virtual"
 msgstr ""
 
-#: dialogs/umloperationdialog.cpp:125
+#: dialogs/umloperationdialog.cpp:122
 #, fuzzy, kde-format
 #| msgid "Spline"
 msgid "&inline"
 msgstr "Splini"
 
-#: dialogs/umloperationdialog.cpp:130
+#: dialogs/umloperationdialog.cpp:127
 #, fuzzy, kde-format
 #| msgid "&Overwrite"
 msgid "&Override"
 msgstr "&Korvaa"
 
-#: dialogs/umloperationdialog.cpp:141
+#: dialogs/umloperationdialog.cpp:138
 #, kde-format
 msgid "Parameters"
 msgstr "Parametrit"
 
-#: dialogs/umloperationdialog.cpp:166 dialogs/umloperationdialog.cpp:174
+#: dialogs/umloperationdialog.cpp:162
 #, kde-format
 msgid "Ne&w Parameter..."
 msgstr "&Uusi parametri…"
 
-#: dialogs/umloperationdialog.cpp:293
+#: dialogs/umloperationdialog.cpp:280
 #, kde-format
 msgid ""
 "The parameter name you have chosen\n"
@@ -3908,34 +3886,34 @@ msgstr ""
 "Antamasi parametrin nimi on jo\n"
 "käytössä tässä toiminnossa."
 
-#: dialogs/umloperationdialog.cpp:294 dialogs/umloperationdialog.cpp:341
+#: dialogs/umloperationdialog.cpp:281 dialogs/umloperationdialog.cpp:328
 #, kde-format
 msgid "Parameter Name Not Unique"
 msgstr "Parametrin nimi ei ole yksilöllinen"
 
-#: dialogs/umloperationdialog.cpp:340
+#: dialogs/umloperationdialog.cpp:327
 #, kde-format
 msgid ""
 "The parameter name you have chosen is already being used in this operation."
 msgstr "Valitsemasi parametri on jo käytössä tässä toiminnossa."
 
-#: dialogs/umloperationdialog.cpp:425
+#: dialogs/umloperationdialog.cpp:412
 #, kde-format
 msgid "You have entered an invalid operation name."
 msgstr "Olet valinnut virheellisen toiminnon."
 
-#: dialogs/umloperationdialog.cpp:426 dialogs/umloperationdialog.cpp:438
+#: dialogs/umloperationdialog.cpp:413 dialogs/umloperationdialog.cpp:425
 #: refactoring/refactoringassistant.cpp:824
 #, kde-format
 msgid "Operation Name Invalid"
 msgstr "Virheellinen toiminnon nimi"
 
-#: dialogs/umloperationdialog.cpp:435 refactoring/refactoringassistant.cpp:821
+#: dialogs/umloperationdialog.cpp:422 refactoring/refactoringassistant.cpp:821
 #, kde-format
 msgid "An operation with that signature already exists in %1.\n"
 msgstr "Toiminnolla on jo allekirjoitus %1:ssa.\n"
 
-#: dialogs/umloperationdialog.cpp:437 refactoring/refactoringassistant.cpp:823
+#: dialogs/umloperationdialog.cpp:424 refactoring/refactoringassistant.cpp:823
 #, kde-format
 msgid "Choose a different name or parameter list."
 msgstr "Valitse toinen nimi tai parametrilista."
@@ -3974,22 +3952,22 @@ msgstr ""
 msgid "Template Name Not Unique"
 msgstr "Mallipohjan nimi ei ole yksilöllinen"
 
-#: dialogs/umluniqueconstraintdialog.cpp:48
+#: dialogs/umluniqueconstraintdialog.cpp:45
 #, kde-format
 msgid "Unique Constraint Properties"
 msgstr "Yksilöllisyysrajoitteen ominaisuudet"
 
-#: dialogs/umluniqueconstraintdialog.cpp:90
+#: dialogs/umluniqueconstraintdialog.cpp:87
 #, kde-format
 msgid "Attribute Details"
 msgstr "Attribuuttien tiedot"
 
-#: dialogs/umluniqueconstraintdialog.cpp:230
+#: dialogs/umluniqueconstraintdialog.cpp:219
 #, kde-format
 msgid "You have entered an invalid constraint name."
 msgstr "Antamasi rajoitteen nimi on virheellinen."
 
-#: dialogs/umluniqueconstraintdialog.cpp:231
+#: dialogs/umluniqueconstraintdialog.cpp:220
 #, kde-format
 msgid "Constraint Name Invalid"
 msgstr "Virheellinen rajoitteen nimi"
@@ -4021,7 +3999,7 @@ msgstr "Kaavion tyyli"
 msgid "&Default value:"
 msgstr "&Oletusarvo"
 
-#: dialogs/widgets/imagetypewidget.cpp:31
+#: dialogs/widgets/imagetypewidget.cpp:28
 #, kde-format
 msgid "&Image type:"
 msgstr "Kuvan tyypp&i:"
@@ -4174,37 +4152,37 @@ msgstr "Toteutus"
 msgid "Role B Visibility"
 msgstr "Roolin B näkyvyys"
 
-#: docgenerators/docbook2xhtmlgeneratorjob.cpp:72
+#: docgenerators/docbook2xhtmlgeneratorjob.cpp:59
 #, kde-format
 msgid "Exporting to XHTML..."
 msgstr "Viedään XHTML:ksi…"
 
-#: docgenerators/docbookgenerator.cpp:96 umlviewimageexporterall.cpp:105
+#: docgenerators/docbookgenerator.cpp:78 umlviewimageexporterall.cpp:95
 #, kde-format
 msgid "Exporting all views..."
 msgstr "Vie kaikki näkymät…"
 
-#: docgenerators/docbookgenerator.cpp:102 umlviewimageexporterall.cpp:116
+#: docgenerators/docbookgenerator.cpp:84 umlviewimageexporterall.cpp:101
 #, kde-format
 msgid "Some errors happened when exporting the images:"
 msgstr "Joitakin virheitä tapahtui kuvien viennissä:"
 
-#: docgenerators/docbookgenerator.cpp:106
+#: docgenerators/docbookgenerator.cpp:88
 #, kde-format
 msgid "Generating Docbook..."
 msgstr "Luodaan Docbook-tiedostoa…"
 
-#: docgenerators/docbookgenerator.cpp:140
+#: docgenerators/docbookgenerator.cpp:108
 #, kde-format
 msgid "Docbook Generation Complete..."
 msgstr "Docbook-luonti valmis…"
 
-#: docgenerators/docbookgenerator.cpp:143
+#: docgenerators/docbookgenerator.cpp:111
 #, kde-format
 msgid "Docbook Generation Failed..."
 msgstr "Docbook-luonti epäonnistui…"
 
-#: docgenerators/docbookgeneratorjob.cpp:205
+#: docgenerators/docbookgeneratorjob.cpp:191
 #, kde-format
 msgid "Exporting to DocBook..."
 msgstr "Viedään DocBookiksi…"
@@ -4228,7 +4206,7 @@ msgstr ""
 msgid "Gael de Chalendar (aka Kleag)"
 msgstr "Gael de Chalendar (eli Kleag)"
 
-#: docgenerators/main.cpp:51 main.cpp:162
+#: docgenerators/main.cpp:51 main.cpp:128
 #, kde-format
 msgid "Umbrello UML Modeller Authors"
 msgstr "Umbrello UML-mallinnuksen tekijät"
@@ -4243,27 +4221,27 @@ msgstr "Muunnettava tiedosto"
 msgid "The XSLT file to use"
 msgstr "Käytettävä XSLT-tiedosto"
 
-#: docgenerators/xhtmlgenerator.cpp:134
+#: docgenerators/xhtmlgenerator.cpp:105
 #, kde-format
 msgid "Generating XHTML..."
 msgstr "Luodaan XHTML:ää…"
 
-#: docgenerators/xhtmlgenerator.cpp:174
+#: docgenerators/xhtmlgenerator.cpp:131
 #, kde-format
 msgid "XHTML Generation Complete..."
 msgstr "XHTML-luonti valmis…"
 
-#: docgenerators/xhtmlgenerator.cpp:180
+#: docgenerators/xhtmlgenerator.cpp:137
 #, kde-format
 msgid "Copying CSS..."
 msgstr "Kopioidaan CSS:ää…"
 
-#: docgenerators/xhtmlgenerator.cpp:208
+#: docgenerators/xhtmlgenerator.cpp:150
 #, kde-format
 msgid "Finished Copying CSS..."
 msgstr "CSS:n kopiointi valmis…"
 
-#: docgenerators/xhtmlgenerator.cpp:211
+#: docgenerators/xhtmlgenerator.cpp:153
 #, kde-format
 msgid "Failed Copying CSS..."
 msgstr "CSS:n kopiointi epäonnistui…"
@@ -4287,19 +4265,19 @@ msgstr "Dokumentaatiotyyppi"
 msgid "Activate documentation edit after focus change."
 msgstr "Aktivoi dokumentaation muokkaus kohdistusmuutoksen jälkeen."
 
-#: layoutgenerator.cpp:266
+#: layoutgenerator.cpp:261
 #, kde-format
 msgid "Apply layout"
 msgstr "Toteuta asettelu"
 
 # pmap: =/gen=Umbrello UML-mallinnuksen/
 # pmap: =/elat=Umbrello UML-mallinnuksesta/
-#: main.cpp:147
+#: main.cpp:117
 #, kde-format
 msgid "Umbrello UML Modeller"
 msgstr "Umbrello UML-mallinnus"
 
-#: main.cpp:149
+#: main.cpp:119
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
@@ -4310,7 +4288,7 @@ msgstr ""
 "visuaalinen ohjelmakehitysympäristö.<br/>Lue lisää: <a href=’http://www.omg."
 "org/spec/’>http://www.omg.org/spec/</a>."
 
-#: main.cpp:157
+#: main.cpp:123
 #, fuzzy, kde-format
 #| msgid ""
 #| "Copyright © 2001 Paul Hensgen,\n"
@@ -4322,67 +4300,62 @@ msgstr ""
 "Copyright © 2001 Paul Hensgen,\n"
 "Copyright © 2002–2016 Umbrello UML-mallinnuksen tekijät"
 
-#: main.cpp:161
+#: main.cpp:127
 #, kde-format
 msgid "Author of initial version."
 msgstr "Alkuperäisen version tekijä."
 
-#: main.cpp:166 main.cpp:169
+#: main.cpp:132 main.cpp:135
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr "Virhekorjauksia, sovitustyötä, koodin siivoamista, uusia ominaisuuksia"
 
-#: main.cpp:172
+#: main.cpp:138
 #, kde-format
 msgid "Porting work, code cleanup, new features."
 msgstr "Sovitustyötä, koodin siivoamista, uusia ominaisuuksia"
 
-#: main.cpp:175
+#: main.cpp:141
 #, kde-format
 msgid "Current maintainer."
 msgstr "Nykyinen ylläpitäjä."
 
-#: main.cpp:178
+#: main.cpp:144
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr "Teki paljon työtä C++- ja Java-koodin luontiin. Koodimuokkain."
 
-#: main.cpp:184 main.cpp:202
+#: main.cpp:152
 #, kde-format
 msgid "File to open"
 msgstr "Avattava tiedosto"
 
-#: main.cpp:185 main.cpp:203
+#: main.cpp:153
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "vie kaaviot tiedostopäätteen mukaiseen muotoon ja lopettaa"
 
-#: main.cpp:186 main.cpp:205
+#: main.cpp:155
 #, kde-format
 msgid "list available export extensions"
 msgstr "listaa käytettävissä olevat vientimuodot (tiedostopäätteet)"
 
-#: main.cpp:187 main.cpp:207
+#: main.cpp:157
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "paikallinen kansio, jonne viedyt kaaviot tallennetaan"
 
-#: main.cpp:187
-#, kde-format
-msgid "the directory of the file"
-msgstr "tiedoston kansio"
-
-#: main.cpp:188 main.cpp:209
+#: main.cpp:159
 #, kde-format
 msgid "import files"
 msgstr "tuo tiedostot"
 
-#: main.cpp:189 main.cpp:211
+#: main.cpp:161
 #, kde-format
 msgid "list supported languages"
 msgstr "luettele tuetut kielet"
 
-#: main.cpp:190 main.cpp:213
+#: main.cpp:163
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4391,19 +4364,13 @@ msgstr ""
 "pidä kohdekansiossa sama puurakenne kuin mihin mallinnuksen näytöt on "
 "tallennettu"
 
-#: main.cpp:191 main.cpp:215
+#: main.cpp:165
 #, fuzzy, kde-format
 #| msgid "Import Project..."
 msgid "import files from directory <dir>"
 msgstr "Tuo projekti…"
 
-#: main.cpp:192
-#, fuzzy, kde-format
-#| msgid "Active &Language"
-msgid "set active language"
-msgstr "Aktiivinen kie&li"
-
-#: main.cpp:217
+#: main.cpp:167
 #, fuzzy, kde-format
 #| msgid "Active &Language"
 msgid "set language"
@@ -4497,20 +4464,20 @@ msgstr "Aikatapahtuman hyväksyntä"
 msgid "Activity..."
 msgstr "Aktiviteetti…"
 
-#: menus/listpopupmenu.cpp:148 worktoolbar.cpp:380
+#: menus/listpopupmenu.cpp:148 worktoolbar.cpp:373
 #, kde-format
 msgid "Activity Transition"
 msgstr "Aktiviteettisiirtymä"
 
-#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1254
-#: worktoolbar.cpp:342
+#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1233
+#: worktoolbar.cpp:335
 #, kde-format
 msgid "Actor"
 msgstr "Toimija"
 
 #. i18n("Actor...")); break;
-#: menus/listpopupmenu.cpp:151 umlwidgets/widgetbase.cpp:1257
-#: worktoolbar.cpp:362
+#: menus/listpopupmenu.cpp:151 umlwidgets/widgetbase.cpp:1236
+#: worktoolbar.cpp:355
 #, kde-format
 msgid "Artifact"
 msgstr "Tuotos"
@@ -4551,8 +4518,8 @@ msgctxt "add new combined state"
 msgid "Combined state..."
 msgstr "Koottu palvelujoukko"
 
-#: menus/listpopupmenu.cpp:165 umlwidgets/widgetbase.cpp:1272
-#: worktoolbar.cpp:360
+#: menus/listpopupmenu.cpp:165 umlwidgets/widgetbase.cpp:1251
+#: worktoolbar.cpp:353
 #, kde-format
 msgid "Component"
 msgstr "Komponentti"
@@ -4570,7 +4537,7 @@ msgstr "Kansio"
 msgid "Datatype..."
 msgstr "Tietotyyppi…"
 
-#: menus/listpopupmenu.cpp:172 worktoolbar.cpp:369
+#: menus/listpopupmenu.cpp:172 worktoolbar.cpp:362
 #, kde-format
 msgid "Deep History"
 msgstr "Syvä historia"
@@ -4582,18 +4549,18 @@ msgstr "Syvä historia"
 msgid "Edit combined state"
 msgstr "Koottu palvelujoukko"
 
-#: menus/listpopupmenu.cpp:177 worktoolbar.cpp:383
+#: menus/listpopupmenu.cpp:177 worktoolbar.cpp:376
 #, kde-format
 msgid "End Activity"
 msgstr "Päätepiste"
 
-#: menus/listpopupmenu.cpp:178 worktoolbar.cpp:353
+#: menus/listpopupmenu.cpp:178 worktoolbar.cpp:346
 #, kde-format
 msgid "End State"
 msgstr "Lopputila"
 
-#: menus/listpopupmenu.cpp:179 umlwidgets/widgetbase.cpp:1281
-#: worktoolbar.cpp:368
+#: menus/listpopupmenu.cpp:179 umlwidgets/widgetbase.cpp:1260
+#: worktoolbar.cpp:361
 #, kde-format
 msgid "Entity"
 msgstr "Käsite"
@@ -4634,7 +4601,7 @@ msgstr "Ulkoista kansio…"
 msgid "Fill Color..."
 msgstr "Täyttöväri…"
 
-#: menus/listpopupmenu.cpp:191 worktoolbar.cpp:384
+#: menus/listpopupmenu.cpp:191 worktoolbar.cpp:377
 #, kde-format
 msgid "Final Activity"
 msgstr "Loppupiste"
@@ -4654,7 +4621,7 @@ msgstr "Käännä pystysuuntaan"
 msgid "Text Line..."
 msgstr "Tekstirivi…"
 
-#: menus/listpopupmenu.cpp:196 menus/listpopupmenu.cpp:260 worktoolbar.cpp:372
+#: menus/listpopupmenu.cpp:196 menus/listpopupmenu.cpp:260 worktoolbar.cpp:365
 #, kde-format
 msgid "Fork"
 msgstr "Haarautuminen"
@@ -4676,7 +4643,7 @@ msgstr "Näytä erillisinä"
 msgid "Import File(s)..."
 msgstr "Tuo tiedostoja…"
 
-#: menus/listpopupmenu.cpp:200 uml.cpp:437
+#: menus/listpopupmenu.cpp:200 uml.cpp:386
 #, fuzzy, kde-format
 #| msgid "Import Project..."
 msgid "Import from Directory..."
@@ -4688,12 +4655,12 @@ msgstr "Tuo projekti…"
 msgid "from file..."
 msgstr "Sulkee tiedostoa…"
 
-#: menus/listpopupmenu.cpp:202 worktoolbar.cpp:387
+#: menus/listpopupmenu.cpp:202 worktoolbar.cpp:380
 #, kde-format
 msgid "Initial Activity"
 msgstr "Alkupiste"
 
-#: menus/listpopupmenu.cpp:203 worktoolbar.cpp:351
+#: menus/listpopupmenu.cpp:203 worktoolbar.cpp:344
 #, kde-format
 msgid "Initial State"
 msgstr "Alkutila"
@@ -4728,7 +4695,7 @@ msgstr "Käyttöliittymä"
 msgid "Internalize Folder"
 msgstr "Sisäistä kansio"
 
-#: menus/listpopupmenu.cpp:211 worktoolbar.cpp:374
+#: menus/listpopupmenu.cpp:211 worktoolbar.cpp:367
 #, kde-format
 msgid "Junction"
 msgstr "Liitos"
@@ -4738,7 +4705,7 @@ msgstr "Liitos"
 msgid "Line Color..."
 msgstr "Viivan väri…"
 
-#: menus/listpopupmenu.cpp:214 worktoolbar.cpp:331 worktoolbar.cpp:389
+#: menus/listpopupmenu.cpp:214 worktoolbar.cpp:324 worktoolbar.cpp:382
 #, kde-format
 msgid "Asynchronous Message"
 msgstr "Asynkroninen viesti"
@@ -4756,17 +4723,17 @@ msgstr "Itseyhteistyöviesti"
 msgid "Destroy Message"
 msgstr "Kadonnut viesti"
 
-#: menus/listpopupmenu.cpp:217 worktoolbar.cpp:332
+#: menus/listpopupmenu.cpp:217 worktoolbar.cpp:325
 #, kde-format
 msgid "Found Message"
 msgstr "Löydetty viesti"
 
-#: menus/listpopupmenu.cpp:218 worktoolbar.cpp:333
+#: menus/listpopupmenu.cpp:218 worktoolbar.cpp:326
 #, kde-format
 msgid "Lost Message"
 msgstr "Kadonnut viesti"
 
-#: menus/listpopupmenu.cpp:219 worktoolbar.cpp:330 worktoolbar.cpp:388
+#: menus/listpopupmenu.cpp:219 worktoolbar.cpp:323 worktoolbar.cpp:381
 #, kde-format
 msgid "Synchronous Message"
 msgstr "Synkroninen viesti"
@@ -4786,8 +4753,8 @@ msgstr "Uusi vakio"
 msgid "New Parameter..."
 msgstr "Uusi parametri…"
 
-#: menus/listpopupmenu.cpp:228 umlwidgets/widgetbase.cpp:1299
-#: worktoolbar.cpp:361
+#: menus/listpopupmenu.cpp:228 umlwidgets/widgetbase.cpp:1278
+#: worktoolbar.cpp:354
 #, kde-format
 msgid "Node"
 msgstr "Paketti"
@@ -4805,7 +4772,7 @@ msgid "Object..."
 msgstr "Objekti…"
 
 # Keksitty suomennos. Kannattaa vaihtaa, jos löytää jostain käytössä olevan suomennoksen.
-#: menus/listpopupmenu.cpp:232 worktoolbar.cpp:391
+#: menus/listpopupmenu.cpp:232 worktoolbar.cpp:384
 #, kde-format
 msgid "Object Node"
 msgstr "Objektisolmu"
@@ -4822,14 +4789,14 @@ msgstr "Avaa tiedoston"
 msgid "Package..."
 msgstr "Pakkaus…"
 
-#: menus/listpopupmenu.cpp:238 umlwidgets/widgetbase.cpp:1314
-#: worktoolbar.cpp:385
+#: menus/listpopupmenu.cpp:238 umlwidgets/widgetbase.cpp:1293
+#: worktoolbar.cpp:378
 #, kde-format
 msgid "Pin"
 msgstr "Pinni"
 
-#: menus/listpopupmenu.cpp:239 umlwidgets/widgetbase.cpp:1317
-#: worktoolbar.cpp:386
+#: menus/listpopupmenu.cpp:239 umlwidgets/widgetbase.cpp:1296
+#: worktoolbar.cpp:379
 #, kde-format
 msgid "Port"
 msgstr "Portti"
@@ -4846,8 +4813,8 @@ msgstr "Esi- tai jälkiehto"
 msgid "Redo"
 msgstr "Tee uudelleen"
 
-#: menus/listpopupmenu.cpp:245 umlwidgets/widgetbase.cpp:1323
-#: worktoolbar.cpp:352
+#: menus/listpopupmenu.cpp:245 umlwidgets/widgetbase.cpp:1302
+#: worktoolbar.cpp:345
 #, kde-format
 msgid "Region"
 msgstr "Alue"
@@ -4909,7 +4876,7 @@ msgstr "tilakaavio"
 msgid "Send Signal"
 msgstr "Signaalin lähetys"
 
-#: menus/listpopupmenu.cpp:256 worktoolbar.cpp:370
+#: menus/listpopupmenu.cpp:256 worktoolbar.cpp:363
 #, kde-format
 msgid "Shallow History"
 msgstr "Matala historia"
@@ -4931,7 +4898,7 @@ msgstr "Tila"
 msgid "Join"
 msgstr "Yhdistyminen"
 
-#: menus/listpopupmenu.cpp:264 worktoolbar.cpp:373
+#: menus/listpopupmenu.cpp:264 worktoolbar.cpp:366
 #, kde-format
 msgid "Subsystem"
 msgstr "Alijärjestelmä"
@@ -4948,7 +4915,7 @@ msgstr "Malli"
 msgid "Undo"
 msgstr "Kumoa"
 
-#: menus/listpopupmenu.cpp:270 worktoolbar.cpp:349
+#: menus/listpopupmenu.cpp:270 worktoolbar.cpp:342
 #, kde-format
 msgid "Use Case"
 msgstr "Toiminto"
@@ -5197,42 +5164,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "Asettelu"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:659
+#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:608
 #, kde-format
 msgid "Align Right"
 msgstr "Asettelu oikealle"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:664
+#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:613
 #, kde-format
 msgid "Align Left"
 msgstr "Asettelu vasemmalle"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:669
+#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:618
 #, kde-format
 msgid "Align Top"
 msgstr "Asettelu ylös"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:674
+#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:623
 #, kde-format
 msgid "Align Bottom"
 msgstr "Asettelu alas"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:679
+#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:628
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr "Asettelu pystysuunnassa keskelle"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:684
+#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:633
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr "Asettelu vaakasuunnassa keskelle"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:689
+#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:638
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr "Asettelu pystysuunnassa levittäen"
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:694
+#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:643
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr "Asettelu vaakatasossa levittäen"
@@ -6164,7 +6131,7 @@ msgstr "Lisää piste"
 msgid "Usage"
 msgstr "Käyttö"
 
-#: object_factory.cpp:255 umldoc.cpp:1779 umldoc.cpp:1814
+#: object_factory.cpp:255 umldoc.cpp:1595 umldoc.cpp:1630
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:177
@@ -6183,7 +6150,7 @@ msgstr "Tämä on koodigeneraattorin varattu sana."
 msgid "Reserved Keyword"
 msgstr "Varattu sana"
 
-#: object_factory.cpp:268 umldoc.cpp:1785 umldoc.cpp:1823
+#: object_factory.cpp:268 umldoc.cpp:1601 umldoc.cpp:1639
 #: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
@@ -6191,8 +6158,8 @@ msgstr "Varattu sana"
 msgid "That name is already being used."
 msgstr "Tämä nimi on jo käytössä."
 
-#: object_factory.cpp:269 umldoc.cpp:1688 umldoc.cpp:1757 umldoc.cpp:1785
-#: umldoc.cpp:1823 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
+#: object_factory.cpp:269 umldoc.cpp:1504 umldoc.cpp:1573 umldoc.cpp:1601
+#: umldoc.cpp:1639 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
@@ -7435,200 +7402,200 @@ msgstr "Aktiivinen kie&li"
 msgid "&Settings"
 msgstr "&Asetukset"
 
-#: uml.cpp:413
+#: uml.cpp:362
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr "Vi&e malli DocBookiksi"
 
-#: uml.cpp:417
+#: uml.cpp:366
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr "Vi&e malli XHTML:ksi"
 
-#: uml.cpp:421
+#: uml.cpp:370
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "Opastettu luoka&nluonti…"
 
-#: uml.cpp:425
+#: uml.cpp:374
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "Lisää oletustietotyypit &aktiiviselle kielelle"
 
-#: uml.cpp:432
+#: uml.cpp:381
 #, kde-format
 msgid "Code &Importing Wizard..."
 msgstr "Opastettu koodin&tuonti…"
 
-#: uml.cpp:442
+#: uml.cpp:391
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "Opastettu koodin&luonti…"
 
-#: uml.cpp:447
+#: uml.cpp:396
 #, kde-format
 msgid "&Generate All Code"
 msgstr "&Luo kaikki koodi"
 
-#: uml.cpp:494
+#: uml.cpp:443
 #, kde-format
 msgid "Creates a new document"
 msgstr "Luo uusi tiedosto"
 
-#: uml.cpp:495
+#: uml.cpp:444
 #, kde-format
 msgid "Opens an existing document"
 msgstr "Avaa olemassa olevan tiedoston"
 
-#: uml.cpp:496
+#: uml.cpp:445
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "Avaa viimeksi käytettyjä tiedostoja"
 
-#: uml.cpp:497
+#: uml.cpp:446
 #, kde-format
 msgid "Saves the document"
 msgstr "Tallentaa tiedoston"
 
-#: uml.cpp:498
+#: uml.cpp:447
 #, kde-format
 msgid "Saves the document as..."
 msgstr "Tallenna tiedosto nimellä…"
 
-#: uml.cpp:499
+#: uml.cpp:448
 #, kde-format
 msgid "Closes the document"
 msgstr "Sulkee tiedoston"
 
-#: uml.cpp:500
+#: uml.cpp:449
 #, kde-format
 msgid "Prints out the document"
 msgstr "Tulostaa tiedoston"
 
-#: uml.cpp:501
+#: uml.cpp:450
 #, kde-format
 msgid "Print Preview of the document"
 msgstr "Mallinnuksen tulostuksen esikatselu"
 
-#: uml.cpp:502
+#: uml.cpp:451
 #, kde-format
 msgid "Quits the application"
 msgstr "Lopettaa ohjelman"
 
-#: uml.cpp:503
+#: uml.cpp:452
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr "Vie mallin docbook-muotoon"
 
-#: uml.cpp:504
+#: uml.cpp:453
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr "Vie mallin XHTML-muotoon"
 
-#: uml.cpp:505
+#: uml.cpp:454
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "Leikkaa valitun alueen ja vie sen leikepöydälle"
 
-#: uml.cpp:506
+#: uml.cpp:455
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "Kopioi valitun alueen leikepöydälle"
 
-#: uml.cpp:507
+#: uml.cpp:456
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr "Lisää leikepöydän sisällön"
 
-#: uml.cpp:508
+#: uml.cpp:457
 #, fuzzy, kde-format
 #| msgid "Invoke action"
 msgid "Undo last action"
 msgstr "Toimintokutsu"
 
-#: uml.cpp:509
+#: uml.cpp:458
 #, kde-format
 msgid "Redo last undone action"
 msgstr ""
 
-#: uml.cpp:511
+#: uml.cpp:460
 #, kde-format
 msgid "Set the default program preferences"
 msgstr "Aseta oletusohjelman asetukset"
 
-#: uml.cpp:515
+#: uml.cpp:464
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "Poista valittu"
 
-#: uml.cpp:526
+#: uml.cpp:475
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "&Luokkakaavio…"
 
-#: uml.cpp:533
+#: uml.cpp:482
 #, fuzzy, kde-format
 #| msgid "S&tate Diagram..."
 msgid "&Object Diagram..."
 msgstr "&Tilakaavio…"
 
-#: uml.cpp:540
+#: uml.cpp:489
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "&Sekvenssikaavio…"
 
-#: uml.cpp:546
+#: uml.cpp:495
 #, kde-format
 msgid "C&ommunication Diagram..."
 msgstr "Kommunikointikaavi&o…"
 
-#: uml.cpp:552
+#: uml.cpp:501
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr "&Käyttötapauskaavio…"
 
-#: uml.cpp:558
+#: uml.cpp:507
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "&Tilakaavio…"
 
-#: uml.cpp:564
+#: uml.cpp:513
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "&Aktiviteettikaavio…"
 
-#: uml.cpp:570
+#: uml.cpp:519
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "Ko&mponenttikaavio…"
 
-#: uml.cpp:576
+#: uml.cpp:525
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr "Si&joittelukaavio…"
 
-#: uml.cpp:582
+#: uml.cpp:531
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "&Käsitekaavio…"
 
-#: uml.cpp:587 uml.cpp:1037
+#: uml.cpp:536 uml.cpp:954
 #, kde-format
 msgid "&Tree View"
 msgstr "Puunä&kymä"
 
-#: uml.cpp:591
+#: uml.cpp:540
 #, kde-format
 msgid "&Debugging"
 msgstr "&Virheenpaikannus"
 
-#: uml.cpp:599
+#: uml.cpp:548
 #, kde-format
 msgid "&Logging"
 msgstr "&Lokitus"
 
-#: uml.cpp:603
+#: uml.cpp:552
 #, kde-format
 msgid "&Command history"
 msgstr "&Komentohistoria"
@@ -7637,135 +7604,135 @@ msgstr "&Komentohistoria"
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:607 uml.cpp:1094
+#: uml.cpp:556 uml.cpp:1011
 #, kde-format
 msgid "&Bird's eye view"
 msgstr "&Yleiskuva"
 
-#: uml.cpp:612
+#: uml.cpp:561
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "Tyhjennä kaavio"
 
-#: uml.cpp:616
+#: uml.cpp:565
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "A&seta ruudukkoon"
 
-#: uml.cpp:620
+#: uml.cpp:569
 #, kde-format
 msgid "S&how Grid"
 msgstr "Näytä &ruudukko"
 
-#: uml.cpp:625
+#: uml.cpp:574
 #, kde-format
 msgid "&Delete Diagram"
 msgstr "&Poista kaavio"
 
-#: uml.cpp:630
+#: uml.cpp:579
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "Vi&e kuvana…"
 
-#: uml.cpp:635
+#: uml.cpp:584
 #, kde-format
 msgid "Export &Diagrams as Pictures..."
 msgstr "Vie k&aaviot kuvana…"
 
-#: uml.cpp:655
+#: uml.cpp:604
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "S&uurennus → 100 %"
 
-#: uml.cpp:698
+#: uml.cpp:647
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "Siirry vase&mpaan välilehteen"
 
-#: uml.cpp:699
+#: uml.cpp:648
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "Siirry &oikeaan välilehteen"
 
-#: uml.cpp:722
+#: uml.cpp:663
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr "Valitse vasen kaavio"
 
-#: uml.cpp:723
+#: uml.cpp:664
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr "Valitse oikea kaavio"
 
-#: uml.cpp:861
+#: uml.cpp:794
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:911
+#: uml.cpp:844
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Valmis"
 
-#: uml.cpp:919 uml.cpp:932
+#: uml.cpp:852 uml.cpp:865
 #, kde-format
 msgid "100%"
 msgstr "100 %"
 
-#: uml.cpp:924
+#: uml.cpp:857
 #, kde-format
 msgid "Fit"
 msgstr "Sovita"
 
-#: uml.cpp:983
+#: uml.cpp:908
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "Kaaviotyökalurivi"
 
-#: uml.cpp:1048
+#: uml.cpp:965
 #, kde-format
 msgid "Doc&umentation"
 msgstr "Dok&umentaatio"
 
-#: uml.cpp:1059
+#: uml.cpp:976
 #, kde-format
 msgid "Co&mmand history"
 msgstr "K&omentohistoria"
 
-#: uml.cpp:1075
+#: uml.cpp:992
 #, kde-format
 msgid "&Debug"
 msgstr "&Virheenpaikannus"
 
-#: uml.cpp:1082
+#: uml.cpp:999
 #, kde-format
 msgid "&Log"
 msgstr "&Loki"
 
-#: uml.cpp:1124 uml.cpp:1361 uml.cpp:1411
+#: uml.cpp:1037 uml.cpp:1254 uml.cpp:1292
 #, kde-format
 msgid "Opening file..."
 msgstr "Avaa tiedostoa…"
 
-#: uml.cpp:1175 uml.cpp:1260 uml.cpp:1446 umldoc.cpp:379 umldoc.cpp:381
-#: umldoc.cpp:405 umldoc.cpp:3465
+#: uml.cpp:1088 uml.cpp:1159 uml.cpp:1323 umldoc.cpp:349 umldoc.cpp:372
+#: umldoc.cpp:3277
 #, kde-format
 msgid "Untitled"
 msgstr "Nimetön"
 
-#: uml.cpp:1343
+#: uml.cpp:1236
 #, kde-format
 msgid "Creating new document..."
 msgstr "Luo uutta tiedostoa…"
 
-#: uml.cpp:1369 uml.cpp:1385
+#: uml.cpp:1261
 #, kde-format
 msgid "Open File"
 msgstr "Avaa tiedoston"
 
-#: uml.cpp:1373
+#: uml.cpp:1262
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *."
@@ -7793,22 +7760,22 @@ msgstr ""
 "*.mdl|Rose-mallin tiedostot (*.mdl)\n"
 "*.zargo|Pakatut argo-tiedostot (*.zargo)\n"
 
-#: uml.cpp:1445
+#: uml.cpp:1322
 #, kde-format
 msgid "Saving file..."
 msgstr "Tallentaa tiedostoa…"
 
-#: uml.cpp:1462
+#: uml.cpp:1339
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Tallentaa tiedoston uudella nimellä…"
 
-#: uml.cpp:1472 uml.cpp:1478 umlviewimageexporter.cpp:195
+#: uml.cpp:1344 umlviewimageexporter.cpp:171
 #, kde-format
 msgid "Save As"
 msgstr "Tallenna nimellä"
 
-#: uml.cpp:1473
+#: uml.cpp:1345
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7818,20 +7785,7 @@ msgstr ""
 "tgz);;*.xmi.tar.bz2 | Bzip2-pakattu XMI-tiedosto (*.xmi.tar.bz2);;* | Kaikki "
 "tiedostot (*)"
 
-#: uml.cpp:1478
-#, kde-format
-msgid ""
-"*.xmi|XMI File\n"
-"*.xmi.tgz|Gzip Compressed XMI File\n"
-"*.xmi.tar.bz2|Bzip2 Compressed XMI File\n"
-"*|All Files"
-msgstr ""
-"*.xmi|XMI tiedosto\n"
-"*.xmi.tgz|Gzip-pakattu XMI-tiedosto\n"
-"*.xmi.tar.bz2|Bzip2-pakattu XMI-tiedosto\n"
-"*|Kaikki tiedostot"
-
-#: uml.cpp:1502
+#: uml.cpp:1363
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7840,67 +7794,67 @@ msgstr ""
 "Tiedosto %1 on jo olemassa.\n"
 "Haluatko korvata sen?"
 
-#: uml.cpp:1503
+#: uml.cpp:1364
 #, kde-format
 msgid "Warning"
 msgstr "Varoitus"
 
-#: uml.cpp:1503
+#: uml.cpp:1364
 #, kde-format
 msgid "Overwrite"
 msgstr "Korvaa"
 
-#: uml.cpp:1529
+#: uml.cpp:1390
 #, kde-format
 msgid "Closing file..."
 msgstr "Sulkee tiedostoa…"
 
-#: uml.cpp:1540
+#: uml.cpp:1401
 #, kde-format
 msgid "No search term entered"
 msgstr "Hakusanaa ei annettu"
 
-#: uml.cpp:1546
+#: uml.cpp:1407
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "”%1”: %2 tulos"
 
-#: uml.cpp:1602
+#: uml.cpp:1463
 #, kde-format
 msgid "Print Preview..."
 msgstr "Tulostuksen esikatselu…"
 
-#: uml.cpp:1629
+#: uml.cpp:1490
 #, kde-format
 msgid "Printing..."
 msgstr "Tulostaa…"
 
-#: uml.cpp:1636 uml.cpp:1640
+#: uml.cpp:1496
 #, kde-format
 msgid "Print %1"
 msgstr "Tulosta %1"
 
-#: uml.cpp:1660
+#: uml.cpp:1515
 #, kde-format
 msgid "Exiting..."
 msgstr "Lopettaa…"
 
-#: uml.cpp:1747
+#: uml.cpp:1586
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Leikkaa valittua aluetta…"
 
-#: uml.cpp:1770
+#: uml.cpp:1609
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Kopioi valittua aluetta leikepöydälle…"
 
-#: uml.cpp:1782
+#: uml.cpp:1621
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Liittää työpöydän sisältöä…"
 
-#: uml.cpp:1787
+#: uml.cpp:1626
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7909,95 +7863,95 @@ msgstr ""
 "Umbrello ei pystynyt liittämään leikepöydän sisältöä. Leikepöydän oliot ovat "
 "epäsopivan tyyppisiä tähän."
 
-#: uml.cpp:1813 umlviewimageexporter.cpp:87 umlviewimageexporterall.cpp:118
+#: uml.cpp:1652 umlviewimageexporter.cpp:79 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Valmis."
 
-#: uml.cpp:2422
+#: uml.cpp:2253
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr ""
 "Koodia ei voi näyttää ennen kuin olet luonut (generoinut) jotain koodia."
 
-#: uml.cpp:2422 uml.cpp:2425
+#: uml.cpp:2253 uml.cpp:2256
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Ei pysty näyttämään koodia"
 
-#: uml.cpp:2425
+#: uml.cpp:2256
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Ei voi näyttää koodia yksinkertaisessa editorissa,"
 
-#: uml.cpp:2904 uml.cpp:2906
+#: uml.cpp:2732
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Valitse tuotavat tiedostot:"
 
-#: uml.cpp:2937 uml.cpp:2939
+#: uml.cpp:2761
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Valitse tuotava kansio:"
 
-#: uml.cpp:3511
+#: uml.cpp:3280
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML:n luonti epäonnistui."
 
-#: umlappprivate.h:140
+#: umlappprivate.h:130
 #, fuzzy, kde-format
 #| msgid "UML Object Color"
 msgid "&UML Objects"
 msgstr "UML-objektin väri"
 
-#: umlappprivate.h:150
+#: umlappprivate.h:140
 #, kde-format
 msgid "&Stereotypes"
 msgstr "&Stereotyypit"
 
-#: umlappprivate.h:166
+#: umlappprivate.h:156
 #, kde-format
 msgid "Welcome"
 msgstr ""
 
-#: umldoc.cpp:109 umldoc.cpp:2408 umldoc.cpp:2436 umldoc.cpp:2519
+#: umldoc.cpp:92 umldoc.cpp:2224 umldoc.cpp:2252 umldoc.cpp:2335
 #, kde-format
 msgid "UML Model"
 msgstr "Umbrello UML-mallinnus"
 
-#: umldoc.cpp:151
+#: umldoc.cpp:130
 #, kde-format
 msgid "Logical View"
 msgstr "Loogiset kaaviot"
 
-#: umldoc.cpp:152
+#: umldoc.cpp:131
 #, kde-format
 msgid "Use Case View"
 msgstr "Käyttötapaukset"
 
-#: umldoc.cpp:153
+#: umldoc.cpp:132
 #, kde-format
 msgid "Component View"
 msgstr "Komponentit"
 
-#: umldoc.cpp:154
+#: umldoc.cpp:133
 #, kde-format
 msgid "Deployment View"
 msgstr "Sijoittelukaaviot"
 
-#: umldoc.cpp:155
+#: umldoc.cpp:134
 #, kde-format
 msgid "Entity Relationship Model"
 msgstr "Käsitemallit"
 
-#: umldoc.cpp:181
+#: umldoc.cpp:160
 #, kde-format
 msgid "Datatypes"
 msgstr "Tietotyypit"
 
-#: umldoc.cpp:400
+#: umldoc.cpp:367
 #, kde-format
 msgid ""
 "The current file has been modified.\n"
@@ -8006,175 +7960,156 @@ msgstr ""
 "Nykyistä tiedostoa on muutettu.\n"
 "Haluatko tallentaa sen?"
 
-#: umldoc.cpp:401
+#: umldoc.cpp:368
 #, kde-format
 msgctxt "warning message"
 msgid "Warning"
 msgstr "Varoitus"
 
-#: umldoc.cpp:566
+#: umldoc.cpp:528
 #, kde-format
 msgid "The file <%1> does not exist."
 msgstr "Tiedostoa <%1> ei löytynyt."
 
-#: umldoc.cpp:566 umldoc.cpp:579 umldoc.cpp:581 umldoc.cpp:609 umldoc.cpp:611
-#: umldoc.cpp:661 umldoc.cpp:664 umldoc.cpp:679 umldoc.cpp:682 umldoc.cpp:706
-#: umldoc.cpp:709 umldoc.cpp:725 umldoc.cpp:728 umldoc.cpp:743 umldoc.cpp:746
-#: umldoc.cpp:793 umlmodel/folder.cpp:455 umlmodel/folder.cpp:459
+#: umldoc.cpp:528 umldoc.cpp:549 umldoc.cpp:588 umldoc.cpp:600 umldoc.cpp:614
+#: umldoc.cpp:627 umldoc.cpp:639 umldoc.cpp:677 umlmodel/folder.cpp:451
+#: umlmodel/folder.cpp:455
 #, kde-format
 msgid "Load Error"
 msgstr "Tiedostonlukuvirhe"
 
-#: umldoc.cpp:579 umldoc.cpp:581
-#, kde-format
-msgid "The file %1 does not exist."
-msgstr "Tiedostoa %1 ei löytynyt."
-
-#: umldoc.cpp:609 umldoc.cpp:611
+#: umldoc.cpp:549
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "Tiedosto %1 näyttää vioittuneelta."
 
-#: umldoc.cpp:660 umldoc.cpp:663 umldoc.cpp:678 umldoc.cpp:681 umldoc.cpp:724
-#: umldoc.cpp:727
+#: umldoc.cpp:587 umldoc.cpp:599 umldoc.cpp:626
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "Pakatussa tiedostossa %1 ei ollut XMI-tiedostoa."
 
-#: umldoc.cpp:705 umldoc.cpp:708
+#: umldoc.cpp:613
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "Paketista avatun tiedoston %1 lukemisessa tapahtui virhe"
 
-#: umldoc.cpp:742 umldoc.cpp:745 umldoc.cpp:787 umldoc.cpp:789
+#: umldoc.cpp:638 umldoc.cpp:674
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "Tiedoston %1 lukemisessa tapahtui virhe"
 
-#: umldoc.cpp:792
+#: umldoc.cpp:676
 #, kde-format
 msgid "Reason: %1"
 msgstr ""
 
-#: umldoc.cpp:875 umldoc.cpp:894 umldoc.cpp:916 umldoc.cpp:974 umldoc.cpp:1019
+#: umldoc.cpp:746 umldoc.cpp:757 umldoc.cpp:775 umldoc.cpp:816 umldoc.cpp:843
 #, kde-format
 msgid "There was a problem saving: %1"
 msgstr "Tiedoston %1 tallentamisessa tapahtui virhe"
 
-#: umldoc.cpp:875 umldoc.cpp:877 umldoc.cpp:894 umldoc.cpp:896 umldoc.cpp:916
-#: umldoc.cpp:918 umldoc.cpp:974 umldoc.cpp:976 umldoc.cpp:1019 umldoc.cpp:1022
-#: umldoc.cpp:1031 umldoc.cpp:1033 umllistview.cpp:596
+#: umldoc.cpp:746 umldoc.cpp:757 umldoc.cpp:775 umldoc.cpp:816 umldoc.cpp:843
+#: umldoc.cpp:850 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
 msgstr "Tallennusvirhe"
 
-#: umldoc.cpp:877 umldoc.cpp:896 umldoc.cpp:918 umldoc.cpp:976 umldoc.cpp:1022
-#: umllistview.cpp:595 umlviewimageexportermodel.cpp:300
-#, kde-format
-msgid "There was a problem saving file: %1"
-msgstr "Tiedoston %1 tallentamisessa tapahtui virhe"
-
-#: umldoc.cpp:1031
+#: umldoc.cpp:850
 #, kde-format
 msgid "There was a problem uploading: %1"
 msgstr "Tiedoston %1 lähettämisessä tapahtui virhe"
 
-#: umldoc.cpp:1033
-#, kde-format
-msgid "There was a problem uploading file: %1"
-msgstr "Tiedoston %1 lähettämisessä tapahtui virhe"
-
-#: umldoc.cpp:1585
+#: umldoc.cpp:1401
 #, kde-format
 msgid "use case diagram"
 msgstr "käyttötapauskaavio"
 
-#: umldoc.cpp:1588
+#: umldoc.cpp:1404
 #, kde-format
 msgid "class diagram"
 msgstr "luokkakaavio"
 
-#: umldoc.cpp:1591
+#: umldoc.cpp:1407
 #, kde-format
 msgid "sequence diagram"
 msgstr "sekvenssikaavio"
 
-#: umldoc.cpp:1594
+#: umldoc.cpp:1410
 #, kde-format
 msgid "communication diagram"
 msgstr "kommunikointikaavio"
 
-#: umldoc.cpp:1597
+#: umldoc.cpp:1413
 #, fuzzy, kde-format
 #| msgid "&Select diagrams"
 msgid "object diagram"
 msgstr "Valit&se kaaviot"
 
-#: umldoc.cpp:1600
+#: umldoc.cpp:1416
 #, kde-format
 msgid "state diagram"
 msgstr "tilakaavio"
 
-#: umldoc.cpp:1603
+#: umldoc.cpp:1419
 #, kde-format
 msgid "activity diagram"
 msgstr "aktiviteettikaavio"
 
-#: umldoc.cpp:1606
+#: umldoc.cpp:1422
 #, kde-format
 msgid "component diagram"
 msgstr "komponenttikaavio"
 
-#: umldoc.cpp:1609
+#: umldoc.cpp:1425
 #, kde-format
 msgid "deployment diagram"
 msgstr "sijoittelukaavio"
 
-#: umldoc.cpp:1612
+#: umldoc.cpp:1428
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "käsitekaavio"
 
-#: umldoc.cpp:1682
+#: umldoc.cpp:1498
 #, kde-format
 msgctxt "diagram name"
 msgid "Name"
 msgstr "Nimi"
 
-#: umldoc.cpp:1682 umldoc.cpp:1744 umldoc.cpp:1773 umldoc.cpp:1808
+#: umldoc.cpp:1498 umldoc.cpp:1560 umldoc.cpp:1589 umldoc.cpp:1624
 #, kde-format
 msgid "Enter name:"
 msgstr "Anna nimi:"
 
-#: umldoc.cpp:1686 umldoc.cpp:1750
+#: umldoc.cpp:1502 umldoc.cpp:1566
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "Tämä on virheellinen nimi kaaviolle."
 
-#: umldoc.cpp:1688 umldoc.cpp:1757
+#: umldoc.cpp:1504 umldoc.cpp:1573
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "Kaavio käyttää jo tätä nimeä."
 
-#: umldoc.cpp:1743
+#: umldoc.cpp:1559
 #, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "Nimi"
 
-#: umldoc.cpp:1772
+#: umldoc.cpp:1588
 #, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "Nimi"
 
-#: umldoc.cpp:1807
+#: umldoc.cpp:1623
 #, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "Nimi"
 
-#: umldoc.cpp:1817
+#: umldoc.cpp:1633
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
@@ -8183,62 +8118,62 @@ msgstr ""
 "Antamasi nimi ei ole yksilöllinen.\n"
 "Tarkoititko tätä?"
 
-#: umldoc.cpp:1818
+#: umldoc.cpp:1634
 #, kde-format
 msgid "Use Name"
 msgstr "Käyttönimi"
 
-#: umldoc.cpp:1818
+#: umldoc.cpp:1634
 #, kde-format
 msgid "Enter New Name"
 msgstr "Anna uusi nimi"
 
-#: umldoc.cpp:2366
+#: umldoc.cpp:2182
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2530
+#: umldoc.cpp:2346
 #, kde-format
 msgid "Setting up the document..."
 msgstr "Alustaa tiedostoa…"
 
-#: umldoc.cpp:2559
+#: umldoc.cpp:2375
 #, kde-format
 msgid "Resolving object references..."
 msgstr "Selvittää objektin referenssit…"
 
-#: umldoc.cpp:2667
+#: umldoc.cpp:2483
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "Lataa UML-elementtejä…"
 
-#: umldoc.cpp:2929
+#: umldoc.cpp:2745
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "Lataa diagrammeja…"
 
-#: umldoc.cpp:3469
+#: umldoc.cpp:3279
 #, kde-format
 msgid "/autosave%1"
 msgstr "/automaattitallennus%1"
 
-#: umllistview.cpp:539 umllistview.cpp:543
+#: umllistview.cpp:530
 #, kde-format
 msgid "Externalize Folder"
 msgstr "Ulkoista kansio"
 
-#: umllistview.cpp:577
+#: umllistview.cpp:550
 #, kde-format
 msgid "Folder %1 must be relative to the main model directory, %2."
 msgstr "Kansion %1 täytyy olla suhteessa mallin pääkansioon %2."
 
-#: umllistview.cpp:578
+#: umllistview.cpp:551
 #, kde-format
 msgid "Path Error"
 msgstr "Virheellinen polku"
 
-#: umllistview.cpp:586
+#: umllistview.cpp:559
 #, kde-format
 msgid ""
 "File %1 already exists!\n"
@@ -8247,67 +8182,72 @@ msgstr ""
 "Tiedosto %1 on jo olemassa!\n"
 "Olemassa oleva tiedosto korvataan."
 
-#: umllistview.cpp:587
+#: umllistview.cpp:560
 #, fuzzy, kde-format
 #| msgid "File Exist"
 msgid "File Exists"
 msgstr "Tiedosto on olemassa"
 
-#: umllistview.cpp:627
+#: umllistview.cpp:568 umlviewimageexportermodel.cpp:270
+#, kde-format
+msgid "There was a problem saving file: %1"
+msgstr "Tiedoston %1 tallentamisessa tapahtui virhe"
+
+#: umllistview.cpp:600
 #, kde-format
 msgid "Enter Model Name"
 msgstr "Anna mallin nimi"
 
-#: umllistview.cpp:628
+#: umllistview.cpp:601
 #, kde-format
 msgid "Enter the new name of the model:"
 msgstr "Anna mallin uusi nimi:"
 
-#: umllistview.cpp:1445
+#: umllistview.cpp:1418
 #, kde-format
 msgid "Views"
 msgstr "Näytöt"
 
-#: umllistview.cpp:1463
+#: umllistview.cpp:1436
 #, kde-format
 msgid "Settings"
 msgstr "Asetukset"
 
-#: umllistview.cpp:2479
+#: umllistview.cpp:2452
 #, kde-format
 msgid "Loading listview..."
 msgstr "Lataa luettelonäkymää…"
 
-#: umllistview.cpp:2848
+#: umllistview.cpp:2821
 #, fuzzy, kde-format
 #| msgid "The folder must be emptied before it can be deleted."
 msgid "The class must be emptied before it can be deleted."
 msgstr "Kansio pitää olla tyhjä ennen poistamista."
 
-#: umllistview.cpp:2849
+#: umllistview.cpp:2822
 #, fuzzy, kde-format
 #| msgid "Folder Not Empty"
 msgid "Class Not Empty"
 msgstr "Kansio ei ole tyhjä"
 
-#: umllistview.cpp:2853
+#: umllistview.cpp:2826
 #, fuzzy, kde-format
 #| msgid "The folder must be emptied before it can be deleted."
 msgid "The package must be emptied before it can be deleted."
 msgstr "Kansio pitää olla tyhjä ennen poistamista."
 
-#: umllistview.cpp:2854
+#: umllistview.cpp:2827
 #, fuzzy, kde-format
 #| msgid "Folder Not Empty"
 msgid "Package Not Empty"
 msgstr "Kansio ei ole tyhjä"
 
-#: umllistview.cpp:2858
+#: umllistview.cpp:2831
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "Kansio pitää olla tyhjä ennen poistamista."
 
-#: umllistview.cpp:2859
+#: umllistview.cpp:2832
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "Kansio ei ole tyhjä"
@@ -8352,12 +8292,12 @@ msgstr ""
 "Samalla nimellä ja allekirjoituksella on jo olemassa toiminto. Et voi lisätä "
 "sitä uudelleen."
 
-#: umlmodel/folder.cpp:455
+#: umlmodel/folder.cpp:451
 #, kde-format
 msgid "The folderfile %1 does not exist."
 msgstr "Kansiota %1 ei ollut."
 
-#: umlmodel/folder.cpp:459
+#: umlmodel/folder.cpp:455
 #, kde-format
 msgid "The folderfile %1 cannot be opened."
 msgstr "Kansiota %1 ei voida avata."
@@ -8474,83 +8414,83 @@ msgstr "Käyttötapauksen &nimi:"
 msgid "Instance name:"
 msgstr "Instanssin nimi:"
 
-#: umlscene.cpp:722
+#: umlscene.cpp:718
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Kaavio: %2 Sivu %1"
 
-#: umlscene.cpp:1523
+#: umlscene.cpp:1519
 #, kde-format
 msgid "Use fill color"
 msgstr "Käytä täyttöväriä"
 
-#: umlscene.cpp:1525
+#: umlscene.cpp:1521
 #, kde-format
 msgid "No fill color"
 msgstr "Ei täyttöväriä"
 
-#: umlscene.cpp:1540
+#: umlscene.cpp:1536
 #, kde-format
 msgid "Change font"
 msgstr "Vaihda fontti"
 
-#: umlscene.cpp:1554
+#: umlscene.cpp:1550
 #, kde-format
 msgid "Change line color"
 msgstr "Vaihda viivan väri"
 
-#: umlscene.cpp:1572
+#: umlscene.cpp:1568
 #, kde-format
 msgid "Change line width"
 msgstr "Vaihda viivan paksuus"
 
-#: umlscene.cpp:1592
+#: umlscene.cpp:1588
 #, kde-format
 msgid "Change fill color"
 msgstr "Vaihda täyttöväri"
 
-#: umlscene.cpp:1607
+#: umlscene.cpp:1603
 #, kde-format
 msgid "Change visual property"
 msgstr "Muuta visuaalista ominaisuutta"
 
-#: umlscene.cpp:1658
+#: umlscene.cpp:1654
 #, kde-format
 msgid "Delete widgets"
 msgstr "Poista elementtejä"
 
-#: umlscene.cpp:1704
+#: umlscene.cpp:1700
 #, kde-format
 msgid "Resize widgets"
 msgstr "Muuta elementtien kokoa"
 
-#: umlscene.cpp:3357
+#: umlscene.cpp:3353
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Anna kaavion nimi"
 
-#: umlscene.cpp:3358
+#: umlscene.cpp:3354
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Anna kaavion uusi nimi:"
 
-#: umlscene.cpp:3374
+#: umlscene.cpp:3370
 #, fuzzy, kde-format
 #| msgid "Failed to import stack trace."
 msgid "Failed to import from file."
 msgstr "Pinolistauksen tuonti epäonnistui."
 
-#: umlviewimageexporter.cpp:80
+#: umlviewimageexporter.cpp:72
 #, kde-format
 msgid "Exporting view..."
 msgstr "Vie näkymää…"
 
-#: umlviewimageexporter.cpp:85
+#: umlviewimageexporter.cpp:77
 #, kde-format
 msgid "An error happened when exporting the image:\n"
 msgstr "Kuvan viennissä tapahtui virhe:\n"
 
-#: umlviewimageexporter.cpp:121 umlviewimageexporter.cpp:123
+#: umlviewimageexporter.cpp:108
 #, kde-format
 msgid ""
 "The selected file %1 exists.\n"
@@ -8559,110 +8499,110 @@ msgstr ""
 "Valittu tiedosto %1 on jo olemassa.\n"
 "Haluatko korvata sen?"
 
-#: umlviewimageexporter.cpp:125
+#: umlviewimageexporter.cpp:109
 #, kde-format
 msgid "File Already Exists"
 msgstr "Tiedosto on jo olemassa"
 
-#: umlviewimageexportermodel.cpp:257
+#: umlviewimageexportermodel.cpp:239
 #, kde-format
 msgid "Empty scene"
 msgstr "Tyhjä skene"
 
-#: umlviewimageexportermodel.cpp:263 umlviewimageexportermodel.cpp:265
+#: umlviewimageexportermodel.cpp:244
 #, kde-format
 msgid "Cannot create directory: %1"
 msgstr "Ei voitu luoda kansiota: %1"
 
-#: umlviewimageexportermodel.cpp:287
+#: umlviewimageexportermodel.cpp:261
 #, kde-format
 msgid "A problem occurred while saving diagram in %1"
 msgstr "Tapahtui virhe tallennettaessa kaaviota kohteeseen %1"
 
-#: umlwidgets/associationwidget.cpp:2665
+#: umlwidgets/associationwidget.cpp:2659
 #, kde-format
 msgid "Multiplicity"
 msgstr "Kerrannaisuus"
 
-#: umlwidgets/associationwidget.cpp:2666 umlwidgets/floatingtextwidget.cpp:355
+#: umlwidgets/associationwidget.cpp:2660 umlwidgets/floatingtextwidget.cpp:350
 #, kde-format
 msgid "Enter multiplicity:"
 msgstr "Anna kerrannaisuus:"
 
-#: umlwidgets/associationwidget.cpp:2684
+#: umlwidgets/associationwidget.cpp:2678
 #, kde-format
 msgid "Association Name"
 msgstr "Yhteyden nimi"
 
-#: umlwidgets/associationwidget.cpp:2685 umlwidgets/floatingtextwidget.cpp:362
+#: umlwidgets/associationwidget.cpp:2679 umlwidgets/floatingtextwidget.cpp:357
 #, kde-format
 msgid "Enter association name:"
 msgstr "Anna yhteyden nimi:"
 
-#: umlwidgets/associationwidget.cpp:2705
+#: umlwidgets/associationwidget.cpp:2699
 #, kde-format
 msgid "Role Name"
 msgstr "Roolin nimi"
 
-#: umlwidgets/associationwidget.cpp:2706 umlwidgets/floatingtextwidget.cpp:353
+#: umlwidgets/associationwidget.cpp:2700 umlwidgets/floatingtextwidget.cpp:348
 #, kde-format
 msgid "Enter role name:"
 msgstr "Anna roolin nimi:"
 
-#: umlwidgets/associationwidget.cpp:3196
+#: umlwidgets/associationwidget.cpp:3180
 #, kde-format
 msgid "Press Ctrl with left mouse click to delete a point"
 msgstr "Poista piste painamalla Ctrl pohjaan ja napsauttamalla sitä"
 
-#: umlwidgets/combinedfragmentwidget.cpp:308
+#: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
 msgid "Enter the name of the diagram referenced"
 msgstr "Anna viitatun kaavion nimi"
 
-#: umlwidgets/combinedfragmentwidget.cpp:308
+#: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
 msgid "Diagram name"
 msgstr "Kaavion nimi"
 
-#: umlwidgets/combinedfragmentwidget.cpp:310
-#: umlwidgets/combinedfragmentwidget.cpp:312
-#: umlwidgets/objectnodewidget.cpp:329
+#: umlwidgets/combinedfragmentwidget.cpp:305
+#: umlwidgets/combinedfragmentwidget.cpp:307
+#: umlwidgets/objectnodewidget.cpp:324
 #, kde-format
 msgid "-"
 msgstr "-"
 
-#: umlwidgets/combinedfragmentwidget.cpp:310
-#: umlwidgets/combinedfragmentwidget.cpp:441
+#: umlwidgets/combinedfragmentwidget.cpp:305
+#: umlwidgets/combinedfragmentwidget.cpp:436
 #, kde-format
 msgid "Enter the guard of the loop"
 msgstr "Anna silmukan vahti"
 
-#: umlwidgets/combinedfragmentwidget.cpp:312
+#: umlwidgets/combinedfragmentwidget.cpp:307
 #, kde-format
 msgid "Enter the first alternative name"
 msgstr "Anna ensimmäisen vaihtoehdon nimi"
 
-#: umlwidgets/combinedfragmentwidget.cpp:431
+#: umlwidgets/combinedfragmentwidget.cpp:426
 #, kde-format
 msgid "Enter first alternative"
 msgstr "Anna ensimmäinen vaihtoehto"
 
-#: umlwidgets/combinedfragmentwidget.cpp:432
+#: umlwidgets/combinedfragmentwidget.cpp:427
 #, kde-format
 msgid "Enter first alternative :"
 msgstr "Anna ensimmäinen vaihtoehto :"
 
-#: umlwidgets/combinedfragmentwidget.cpp:436
+#: umlwidgets/combinedfragmentwidget.cpp:431
 #, kde-format
 msgid "Enter referenced diagram name"
 msgstr "Anna viitatun kaavion nimi"
 
-#: umlwidgets/combinedfragmentwidget.cpp:437
+#: umlwidgets/combinedfragmentwidget.cpp:432
 #, kde-format
 msgid "Enter referenced diagram name :"
 msgstr "Anna viitatun kaavion nimi :"
 
-#: umlwidgets/combinedfragmentwidget.cpp:442
+#: umlwidgets/combinedfragmentwidget.cpp:437
 #, kde-format
 msgid "Enter the guard of the loop:"
 msgstr "Anna silmukan vahti:"
@@ -8677,54 +8617,54 @@ msgstr "Anna vaihtoehdon nimi"
 msgid "Enter the alternative:"
 msgstr "Anna vaihtoehto:"
 
-#: umlwidgets/floatingtextwidget.cpp:206
+#: umlwidgets/floatingtextwidget.cpp:201
 #, kde-format
 msgid "Change Text"
 msgstr "Muuta tekstiä"
 
-#: umlwidgets/floatingtextwidget.cpp:207 umlwidgets/floatingtextwidget.cpp:364
+#: umlwidgets/floatingtextwidget.cpp:202 umlwidgets/floatingtextwidget.cpp:359
 #, kde-format
 msgid "Enter new text:"
 msgstr "Anna uusi teksti:"
 
-#: umlwidgets/floatingtextwidget.cpp:366
+#: umlwidgets/floatingtextwidget.cpp:361
 #, kde-format
 msgid "ERROR"
 msgstr "VIRHE"
 
-#: umlwidgets/floatingtextwidget.cpp:722
+#: umlwidgets/floatingtextwidget.cpp:717
 #, kde-format
 msgctxt "operation name"
 msgid "Name"
 msgstr "Nimi"
 
-#: umlwidgets/floatingtextwidget.cpp:723
+#: umlwidgets/floatingtextwidget.cpp:718
 #, kde-format
 msgid "Enter operation name:"
 msgstr "Anna toiminnon nimi:"
 
-#: umlwidgets/notewidget.cpp:224 umlwidgets/widgetbase.cpp:1320
-#: worktoolbar.cpp:335
+#: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1299
+#: worktoolbar.cpp:328
 #, kde-format
 msgid "Precondition"
 msgstr "Esiehto"
 
-#: umlwidgets/notewidget.cpp:225
+#: umlwidgets/notewidget.cpp:220
 #, kde-format
 msgid "Postcondition"
 msgstr "Jälkiehto"
 
-#: umlwidgets/notewidget.cpp:226
+#: umlwidgets/notewidget.cpp:221
 #, kde-format
 msgid "Transformation"
 msgstr "Muunnos"
 
-#: umlwidgets/notewidget.cpp:231 umlwidgets/notewidget.cpp:234
+#: umlwidgets/notewidget.cpp:225
 #, kde-format
 msgid "Note Type"
 msgstr "Huomautuksen tyyppi"
 
-#: umlwidgets/notewidget.cpp:231 umlwidgets/notewidget.cpp:234
+#: umlwidgets/notewidget.cpp:225
 #, kde-format
 msgid "Select the Note Type"
 msgstr "Valitse huomautuksen tyyppi"
@@ -8739,57 +8679,57 @@ msgstr "Anna objektisolmun nimi"
 msgid "Enter the name of the object node :"
 msgstr "Anna objektisolmun nimi :"
 
-#: umlwidgets/objectnodewidget.cpp:299 umlwidgets/objectnodewidget.cpp:303
+#: umlwidgets/objectnodewidget.cpp:298
 #, kde-format
 msgid "Select Object node type"
 msgstr "Valitse objektisolmun tyyppi"
 
-#: umlwidgets/objectnodewidget.cpp:299 umlwidgets/objectnodewidget.cpp:303
+#: umlwidgets/objectnodewidget.cpp:298
 #, kde-format
 msgid "Select the object node type"
 msgstr "Valitse objektisolmun tyyppi"
 
-#: umlwidgets/objectnodewidget.cpp:309
+#: umlwidgets/objectnodewidget.cpp:304
 #, kde-format
 msgid "Enter the name of the data store node"
 msgstr "Anna datasäilön nimi"
 
-#: umlwidgets/objectnodewidget.cpp:309
+#: umlwidgets/objectnodewidget.cpp:304
 #, kde-format
 msgid "data store name"
 msgstr "datasäilön nimi"
 
-#: umlwidgets/objectnodewidget.cpp:311
+#: umlwidgets/objectnodewidget.cpp:306
 #, kde-format
 msgid "Enter the name of the buffer node"
 msgstr "Anna puskurin nimi"
 
-#: umlwidgets/objectnodewidget.cpp:311
+#: umlwidgets/objectnodewidget.cpp:306
 #, kde-format
 msgid "Enter the name of the buffer"
 msgstr "Anna puskurin nimi"
 
-#: umlwidgets/objectnodewidget.cpp:311
+#: umlwidgets/objectnodewidget.cpp:306
 #, kde-format
 msgid "centralBuffer"
 msgstr "keskuspuskuri"
 
-#: umlwidgets/objectnodewidget.cpp:313
+#: umlwidgets/objectnodewidget.cpp:308
 #, kde-format
 msgid "Enter the name of the object flow"
 msgstr "Anna objektivuon nimi"
 
-#: umlwidgets/objectnodewidget.cpp:313
+#: umlwidgets/objectnodewidget.cpp:308
 #, kde-format
 msgid "object flow"
 msgstr "objektivuo"
 
-#: umlwidgets/objectnodewidget.cpp:330
+#: umlwidgets/objectnodewidget.cpp:325
 #, kde-format
 msgid "Enter Object Flow State"
 msgstr "Anna objektivuon tila"
 
-#: umlwidgets/objectnodewidget.cpp:331
+#: umlwidgets/objectnodewidget.cpp:326
 #, kde-format
 msgid "Enter State (keep '-' if there is no state for the object) "
 msgstr "Anna tila (pidä ”-”, jos objektilla ei ole tilaa)"
@@ -9422,163 +9362,163 @@ msgstr "Anna mallin uusi nimi:"
 msgid "Enter the new name of the widget:"
 msgstr "Anna mallin uusi nimi:"
 
-#: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:341
+#: umlwidgets/widgetbase.cpp:1242 worktoolbar.cpp:334
 #, kde-format
 msgid "Box"
 msgstr "Laatikko"
 
 # ”Koottu palvelujoukko” Helsingin yliopiston tietojenkäsittelytieteen laitoksen asiaa käsittelevän kurssin (”Ohjelmistotekniikan menetelmät” k2008 ja ”Ohjelmistojen mallintaminen” s2008) luentokalvosta.
-#: umlwidgets/widgetbase.cpp:1269
+#: umlwidgets/widgetbase.cpp:1248
 #, kde-format
 msgid "CombinedFragment"
 msgstr "KoottuPalvelujoukko"
 
-#: umlwidgets/widgetbase.cpp:1278 worktoolbar.cpp:366
+#: umlwidgets/widgetbase.cpp:1257 worktoolbar.cpp:359
 #, kde-format
 msgid "Datatype"
 msgstr "Tietotyyppi"
 
-#: umlwidgets/widgetbase.cpp:1284 worktoolbar.cpp:367
+#: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:360
 #, kde-format
 msgid "Enum"
 msgstr "Luettelotyyppi"
 
-#: umlwidgets/widgetbase.cpp:1287
+#: umlwidgets/widgetbase.cpp:1266
 #, kde-format
 msgid "FloatingDashLine"
 msgstr "KelluvaKatkoviiva"
 
-#: umlwidgets/widgetbase.cpp:1290
+#: umlwidgets/widgetbase.cpp:1269
 #, kde-format
 msgid "ForkJoin"
 msgstr "HaarautuminenYhdistyminen"
 
-#: umlwidgets/widgetbase.cpp:1296
+#: umlwidgets/widgetbase.cpp:1275
 #, kde-format
 msgid "Message"
 msgstr "Viesti"
 
-#: umlwidgets/widgetbase.cpp:1302 worktoolbar.cpp:340
+#: umlwidgets/widgetbase.cpp:1281 worktoolbar.cpp:333
 #, kde-format
 msgid "Note"
 msgstr "Huomautus"
 
-#: umlwidgets/widgetbase.cpp:1305 worktoolbar.cpp:327
+#: umlwidgets/widgetbase.cpp:1284 worktoolbar.cpp:320
 #, kde-format
 msgid "Object"
 msgstr "Objekti"
 
 # Keksitty suomennos. Kannattaa vaihtaa, jos löytää jostain käytössä olevan suomennoksen.
-#: umlwidgets/widgetbase.cpp:1308
+#: umlwidgets/widgetbase.cpp:1287
 #, kde-format
 msgid "ObjectNode"
 msgstr "Objektisolmu"
 
-#: umlwidgets/widgetbase.cpp:1326
+#: umlwidgets/widgetbase.cpp:1305
 #, kde-format
 msgid "Signal"
 msgstr "Signaali"
 
-#: umlwidgets/widgetbase.cpp:1329
+#: umlwidgets/widgetbase.cpp:1308
 #, kde-format
 msgid "State"
 msgstr "Tila"
 
-#: umlwidgets/widgetbase.cpp:1332
+#: umlwidgets/widgetbase.cpp:1311
 #, kde-format
 msgid "Text"
 msgstr "Teksti"
 
-#: umlwidgets/widgetbase.cpp:1335
+#: umlwidgets/widgetbase.cpp:1314
 #, kde-format
 msgid "UseCase"
 msgstr "Käyttötapaus"
 
-#: umlwidgets/widgetbase.cpp:1338 worktoolbar.cpp:396
+#: umlwidgets/widgetbase.cpp:1317 worktoolbar.cpp:389
 #, fuzzy, kde-format
 #| msgid "Instance name:"
 msgid "Instance"
 msgstr "Instanssin nimi:"
 
 # Käännetty substantiiviksi, koska näkyy työkalurivillä valintatyökaluna.
-#: worktoolbar.cpp:326
+#: worktoolbar.cpp:319
 #, kde-format
 msgctxt "selection arrow"
 msgid "Select"
 msgstr "Valinta"
 
-#: worktoolbar.cpp:328
+#: worktoolbar.cpp:321
 #, fuzzy, kde-format
 #| msgid "Aggregation"
 msgid "Creation"
 msgstr "Kooste"
 
-#: worktoolbar.cpp:329
+#: worktoolbar.cpp:322
 #, kde-format
 msgid "Destroy"
 msgstr ""
 
 # ”Koottu palvelujoukko” Helsingin yliopiston tietojenkäsittelytieteen laitoksen asiaa käsittelevän kurssin (”Ohjelmistotekniikan menetelmät” k2008 ja ”Ohjelmistojen mallintaminen” s2008) luentokalvosta.
-#: worktoolbar.cpp:334
+#: worktoolbar.cpp:327
 #, kde-format
 msgid "Combined Fragment"
 msgstr "Koottu palvelujoukko"
 
-#: worktoolbar.cpp:339
+#: worktoolbar.cpp:332
 #, kde-format
 msgid "Label"
 msgstr "Selite"
 
-#: worktoolbar.cpp:346
+#: worktoolbar.cpp:339
 #, kde-format
 msgid "Directional Association"
 msgstr "Suunnattu yhteys"
 
-#: worktoolbar.cpp:350
+#: worktoolbar.cpp:343
 #, kde-format
 msgctxt "UML class"
 msgid "Class"
 msgstr "Luokka"
 
-#: worktoolbar.cpp:355
+#: worktoolbar.cpp:348
 #, kde-format
 msgid "Send signal"
 msgstr "Signaalin lähetys"
 
-#: worktoolbar.cpp:356
+#: worktoolbar.cpp:349
 #, kde-format
 msgid "Accept signal"
 msgstr "Signaalin hyväksyntä"
 
-#: worktoolbar.cpp:357
+#: worktoolbar.cpp:350
 #, kde-format
 msgid "Accept time event"
 msgstr "Aikatapahtuman hyväksyntä"
 
-#: worktoolbar.cpp:358
+#: worktoolbar.cpp:351
 #, kde-format
 msgid "Fork/Join"
 msgstr "Haarautuminen/yhdistyminen"
 
-#: worktoolbar.cpp:364
+#: worktoolbar.cpp:357
 #, fuzzy, kde-format
 #| msgid "Interface"
 msgid "Interface Provider"
 msgstr "Rajapinta"
 
-#: worktoolbar.cpp:365
+#: worktoolbar.cpp:358
 #, fuzzy, kde-format
 #| msgid "Interface"
 msgid "Interface required"
 msgstr "Rajapinta"
 
-#: worktoolbar.cpp:371
+#: worktoolbar.cpp:364
 #, kde-format
 msgctxt "join states"
 msgid "Join"
 msgstr "Yhdistyminen"
 
-#: worktoolbar.cpp:375
+#: worktoolbar.cpp:368
 #, kde-format
 msgctxt "state choice"
 msgid "Choice"
@@ -9586,21 +9526,49 @@ msgstr "Valinta"
 
 # Kirjoitushetkellä ominaisuutta ei ollut toteutettu, joten ”And” jätetty epätietoisuudessa toistaiseksi kääntämättä.
 #. i18n("Choice"),                  Icon_Utils::it_Choice_Round,            SLOT(slotChoice()) },          //NotYetImplemented
-#: worktoolbar.cpp:378
+#: worktoolbar.cpp:371
 #, kde-format
 msgid "And Line"
 msgstr "And-viiva"
 
-#: worktoolbar.cpp:382
+#: worktoolbar.cpp:375
 #, kde-format
 msgctxt "state diagram"
 msgid "State"
 msgstr "Tila"
 
-#: worktoolbar.cpp:392
+#: worktoolbar.cpp:385
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "Esi- tai jälkiehto"
+
+#~ msgid "All Supported Files"
+#~ msgstr "Kaikki tuetut tiedostot"
+
+#~ msgid "the directory of the file"
+#~ msgstr "tiedoston kansio"
+
+#, fuzzy
+#~| msgid "Active &Language"
+#~ msgid "set active language"
+#~ msgstr "Aktiivinen kie&li"
+
+#~ msgid ""
+#~ "*.xmi|XMI File\n"
+#~ "*.xmi.tgz|Gzip Compressed XMI File\n"
+#~ "*.xmi.tar.bz2|Bzip2 Compressed XMI File\n"
+#~ "*|All Files"
+#~ msgstr ""
+#~ "*.xmi|XMI tiedosto\n"
+#~ "*.xmi.tgz|Gzip-pakattu XMI-tiedosto\n"
+#~ "*.xmi.tar.bz2|Bzip2-pakattu XMI-tiedosto\n"
+#~ "*|Kaikki tiedostot"
+
+#~ msgid "The file %1 does not exist."
+#~ msgstr "Tiedostoa %1 ei löytynyt."
+
+#~ msgid "There was a problem uploading file: %1"
+#~ msgstr "Tiedoston %1 lähettämisessä tapahtui virhe"
 
 #~ msgid ""
 #~ "Write comments &for sections even if section \n"
