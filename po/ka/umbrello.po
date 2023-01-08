@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-07 00:53+0000\n"
-"PO-Revision-Date: 2023-01-06 05:53+0100\n"
+"PO-Revision-Date: 2023-01-07 06:43+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -7339,7 +7339,7 @@ msgstr ""
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
-msgstr ""
+msgstr " &%1%"
 
 #: uml.cpp:844
 #, kde-format
@@ -7360,17 +7360,17 @@ msgstr "ჩატევა"
 #: uml.cpp:908
 #, kde-format
 msgid "Diagram Toolbar"
-msgstr ""
+msgstr "დიაგრამის პანელი"
 
 #: uml.cpp:965
 #, kde-format
 msgid "Doc&umentation"
-msgstr ""
+msgstr "&დოკუმენტაცია"
 
 #: uml.cpp:976
 #, kde-format
 msgid "Co&mmand history"
-msgstr ""
+msgstr "&ბრძანებების ისტორია"
 
 #: uml.cpp:992
 #, kde-format
@@ -7401,7 +7401,7 @@ msgstr "ახალი დოკუმენტის შექმნა..."
 #: uml.cpp:1261
 #, kde-format
 msgid "Open File"
-msgstr ""
+msgstr "ფაილის გახსნა"
 
 #: uml.cpp:1262
 #, kde-format
@@ -7429,7 +7429,7 @@ msgstr "ფაილის ახალი სახელით შენახ
 #: uml.cpp:1344 umlviewimageexporter.cpp:171
 #, kde-format
 msgid "Save As"
-msgstr ""
+msgstr "შენახვა, როგორც"
 
 #: uml.cpp:1345
 #, kde-format
@@ -7468,7 +7468,7 @@ msgstr ""
 #: uml.cpp:1407
 #, kde-format
 msgid "'%1': %2 found"
-msgstr ""
+msgstr "'%1': %2 ნაპოვნია"
 
 #: uml.cpp:1463
 #, kde-format
@@ -7566,12 +7566,12 @@ msgstr "კეთილი იყოს თქვენი მობრძან
 #: umldoc.cpp:92 umldoc.cpp:2224 umldoc.cpp:2252 umldoc.cpp:2335
 #, kde-format
 msgid "UML Model"
-msgstr ""
+msgstr "UML მოდელი"
 
 #: umldoc.cpp:130
 #, kde-format
 msgid "Logical View"
-msgstr ""
+msgstr "ლოგიკური ხედი"
 
 #: umldoc.cpp:131
 #, kde-format
@@ -7581,12 +7581,12 @@ msgstr ""
 #: umldoc.cpp:132
 #, kde-format
 msgid "Component View"
-msgstr ""
+msgstr "კომპონენტის ხედი"
 
 #: umldoc.cpp:133
 #, kde-format
 msgid "Deployment View"
-msgstr ""
+msgstr "გაშლის ხედი"
 
 #: umldoc.cpp:134
 #, kde-format
@@ -7657,7 +7657,7 @@ msgstr ""
 #: umldoc.cpp:850 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
-msgstr ""
+msgstr "შენახვის შეცდომა"
 
 #: umldoc.cpp:850
 #, kde-format
@@ -7798,7 +7798,7 @@ msgstr ""
 #: umldoc.cpp:3279
 #, kde-format
 msgid "/autosave%1"
-msgstr ""
+msgstr "/autosave%1"
 
 #: umllistview.cpp:530
 #, kde-format
@@ -7813,7 +7813,7 @@ msgstr ""
 #: umllistview.cpp:551
 #, kde-format
 msgid "Path Error"
-msgstr ""
+msgstr "ბილიკის შეცდომა"
 
 #: umllistview.cpp:559
 #, kde-format
@@ -7835,7 +7835,7 @@ msgstr ""
 #: umllistview.cpp:600
 #, kde-format
 msgid "Enter Model Name"
-msgstr ""
+msgstr "შეიყვანეთ მოდელის სახელი"
 
 #: umllistview.cpp:601
 #, kde-format
@@ -7865,7 +7865,7 @@ msgstr ""
 #: umllistview.cpp:2822
 #, kde-format
 msgid "Class Not Empty"
-msgstr ""
+msgstr "კლასი ცარიელი არაა"
 
 #: umllistview.cpp:2826
 #, kde-format
@@ -7875,7 +7875,7 @@ msgstr ""
 #: umllistview.cpp:2827
 #, kde-format
 msgid "Package Not Empty"
-msgstr ""
+msgstr "პაკეტი ცარიელი არაა"
 
 #: umllistview.cpp:2831
 #, kde-format
@@ -7885,13 +7885,13 @@ msgstr ""
 #: umllistview.cpp:2832
 #, kde-format
 msgid "Folder Not Empty"
-msgstr ""
+msgstr "საქაღალდე ცარიელი არაა"
 
 #: umllistviewitem.cpp:592 umllistviewitem.cpp:626 umllistviewitem.cpp:657
 #: umllistviewitem.cpp:684
 #, kde-format
 msgid "Rename canceled"
-msgstr ""
+msgstr "სახელის გადარქმევა გაუქმდა"
 
 #: umllistviewitem.cpp:719
 #, kde-format
@@ -7901,7 +7901,7 @@ msgstr ""
 #: umllistviewitem.cpp:720
 #, kde-format
 msgid "Function Not Implemented"
-msgstr ""
+msgstr "ფუნქცია განხორციელებული არაა"
 
 #: umllistviewitem.cpp:734
 #, kde-format
@@ -7913,7 +7913,7 @@ msgstr ""
 #: umllistviewitem.cpp:735
 #, kde-format
 msgid "Name Not Valid"
-msgstr ""
+msgstr "სახელი არასწორია"
 
 #: umlmodel/classifier.cpp:281
 #, kde-format
@@ -7925,17 +7925,17 @@ msgstr ""
 #: umlmodel/folder.cpp:451
 #, kde-format
 msgid "The folderfile %1 does not exist."
-msgstr ""
+msgstr "საქაღალდის ფაილი %1 არ არსებობს."
 
 #: umlmodel/folder.cpp:455
 #, kde-format
 msgid "The folderfile %1 cannot be opened."
-msgstr ""
+msgstr "საქაღალდის ფაილი %1-ის გახსნა შეუძლებელია."
 
 #: umlmodel/operation.cpp:291
 #, kde-format
 msgid "new_parameter"
-msgstr ""
+msgstr "new_parameter"
 
 #: umlmodel/package.cpp:169
 #, kde-format
@@ -7954,82 +7954,82 @@ msgstr ""
 #: umlmodel/umlcanvasobject.cpp:198
 #, kde-format
 msgid "new_literal"
-msgstr ""
+msgstr "new_literal"
 
 #: umlmodel/umlcanvasobject.cpp:201
 #, kde-format
 msgid "new_field"
-msgstr ""
+msgstr "new_field"
 
 #: umlmodel/umlcanvasobject.cpp:207
 #, kde-format
 msgid "new_fkey_constraint"
-msgstr ""
+msgstr "new_fkey_constraint"
 
 #: umlmodel/umlobject.cpp:1230
 #, kde-format
 msgid "Actor &name:"
-msgstr ""
+msgstr "&მოქმედი პირის სახელი:"
 
 #: umlmodel/umlobject.cpp:1233
 #, kde-format
 msgid "Artifact &name:"
-msgstr ""
+msgstr "არტეფაქტის &სახელი:"
 
 #: umlmodel/umlobject.cpp:1236
 #, kde-format
 msgid "Association &name:"
-msgstr ""
+msgstr "ასოციაციის &სახელი:"
 
 #: umlmodel/umlobject.cpp:1239
 #, kde-format
 msgid "Class &name:"
-msgstr ""
+msgstr "&კლასის სახელი:"
 
 #: umlmodel/umlobject.cpp:1242
 #, kde-format
 msgid "Component &name:"
-msgstr ""
+msgstr "&კომპონენტის სახელი:"
 
 #: umlmodel/umlobject.cpp:1245
 #, kde-format
 msgid "Datatype &name:"
-msgstr ""
+msgstr "&მონ. ტიპის სახელი:"
 
 #: umlmodel/umlobject.cpp:1248
 #, kde-format
 msgid "Entity &name:"
-msgstr ""
+msgstr "&საგნის სახელი:"
 
 #: umlmodel/umlobject.cpp:1251
 #, kde-format
 msgid "Enum &name:"
-msgstr ""
+msgstr "ჩამონათვლის &სახელი:"
 
 #: umlmodel/umlobject.cpp:1254
 #, kde-format
 msgid "Folder &name:"
-msgstr ""
+msgstr "საქაღალდის &სახელი:"
 
 #: umlmodel/umlobject.cpp:1257
 #, kde-format
 msgid "Interface &name:"
-msgstr ""
+msgstr "ინტერფეისის &სახელი:"
 
 #: umlmodel/umlobject.cpp:1260
 #, kde-format
 msgid "Node &name:"
-msgstr ""
+msgstr "კვანძის &სახელი:"
 
 #: umlmodel/umlobject.cpp:1263
 #, kde-format
 msgid "Package &name:"
-msgstr ""
+msgstr "&პაკეტის სახელი;"
 
 #: umlmodel/umlobject.cpp:1266
 #, kde-format
 msgid "Port &name:"
-msgstr ""
+msgstr "პორტის &სახელი:"
 
 #: umlmodel/umlobject.cpp:1272
 #, kde-format
@@ -8039,22 +8039,22 @@ msgstr ""
 #: umlmodel/umlobject.cpp:1275
 #, kde-format
 msgid "Instance name:"
-msgstr ""
+msgstr "ეგზემპლარის სახელი"
 
 #: umlscene.cpp:718
 #, kde-format
 msgid "Diagram: %2 Page %1"
-msgstr ""
+msgstr "დიაგრამა: %2 გვერდი %1"
 
 #: umlscene.cpp:1519
 #, kde-format
 msgid "Use fill color"
-msgstr ""
+msgstr "შევსების ფერი"
 
 #: umlscene.cpp:1521
 #, kde-format
 msgid "No fill color"
-msgstr ""
+msgstr "შემვსები ფერის გარეშე"
 
 #: umlscene.cpp:1536
 #, kde-format
@@ -8064,37 +8064,37 @@ msgstr "ფონტის შეცვლა"
 #: umlscene.cpp:1550
 #, kde-format
 msgid "Change line color"
-msgstr ""
+msgstr "ხაზის ფერის შეცვლა"
 
 #: umlscene.cpp:1568
 #, kde-format
 msgid "Change line width"
-msgstr ""
+msgstr "ხაზის სიგანის შეცვლა"
 
 #: umlscene.cpp:1588
 #, kde-format
 msgid "Change fill color"
-msgstr ""
+msgstr "შევსების ფერის შეცვლა"
 
 #: umlscene.cpp:1603
 #, kde-format
 msgid "Change visual property"
-msgstr ""
+msgstr "ვიზუალური თვისების შეცვლა"
 
 #: umlscene.cpp:1654
 #, kde-format
 msgid "Delete widgets"
-msgstr ""
+msgstr "ვიჯეტების წაშლა"
 
 #: umlscene.cpp:1700
 #, kde-format
 msgid "Resize widgets"
-msgstr ""
+msgstr "ვიჯეტების ზომის შეცვლა"
 
 #: umlscene.cpp:3353
 #, kde-format
 msgid "Enter Diagram Name"
-msgstr ""
+msgstr "შეიყვანეთ დიაგრამის სახელი"
 
 #: umlscene.cpp:3354
 #, kde-format
@@ -8109,7 +8109,7 @@ msgstr ""
 #: umlviewimageexporter.cpp:72
 #, kde-format
 msgid "Exporting view..."
-msgstr ""
+msgstr "ხედის გატანა..."
 
 #: umlviewimageexporter.cpp:77
 #, kde-format
@@ -8131,12 +8131,12 @@ msgstr "ფაილი უკვე არსებობს"
 #: umlviewimageexportermodel.cpp:239
 #, kde-format
 msgid "Empty scene"
-msgstr ""
+msgstr "ცარიელი სცენა"
 
 #: umlviewimageexportermodel.cpp:244
 #, kde-format
 msgid "Cannot create directory: %1"
-msgstr ""
+msgstr "საქაღალდის შექმნის შეცდომა: %1"
 
 #: umlviewimageexportermodel.cpp:261
 #, kde-format
@@ -8156,7 +8156,7 @@ msgstr ""
 #: umlwidgets/associationwidget.cpp:2678
 #, kde-format
 msgid "Association Name"
-msgstr ""
+msgstr "ასოციაციის სახელი"
 
 #: umlwidgets/associationwidget.cpp:2679 umlwidgets/floatingtextwidget.cpp:357
 #, kde-format
@@ -8171,7 +8171,7 @@ msgstr "როლის სახელი"
 #: umlwidgets/associationwidget.cpp:2700 umlwidgets/floatingtextwidget.cpp:348
 #, kde-format
 msgid "Enter role name:"
-msgstr ""
+msgstr "შეიყვანეთ როლის სახელი:"
 
 #: umlwidgets/associationwidget.cpp:3180
 #, kde-format
@@ -8186,35 +8186,35 @@ msgstr ""
 #: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
 msgid "Diagram name"
-msgstr ""
+msgstr "დიაგრამის სახელი"
 
 #: umlwidgets/combinedfragmentwidget.cpp:305
 #: umlwidgets/combinedfragmentwidget.cpp:307
 #: umlwidgets/objectnodewidget.cpp:324
 #, kde-format
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: umlwidgets/combinedfragmentwidget.cpp:305
 #: umlwidgets/combinedfragmentwidget.cpp:436
 #, kde-format
 msgid "Enter the guard of the loop"
-msgstr ""
+msgstr "შეიყვანეთ მარყუჟის მცველი"
 
 #: umlwidgets/combinedfragmentwidget.cpp:307
 #, kde-format
 msgid "Enter the first alternative name"
-msgstr ""
+msgstr "შეიყვანეთ პირველი ალტერნატიული სახელი"
 
 #: umlwidgets/combinedfragmentwidget.cpp:426
 #, kde-format
 msgid "Enter first alternative"
-msgstr ""
+msgstr "შეიყვანეთ პირველი ალტერნატივა"
 
 #: umlwidgets/combinedfragmentwidget.cpp:427
 #, kde-format
 msgid "Enter first alternative :"
-msgstr ""
+msgstr "შეიყვანეთ პირველი ალტერნატივა :"
 
 #: umlwidgets/combinedfragmentwidget.cpp:431
 #, kde-format
@@ -8229,17 +8229,17 @@ msgstr ""
 #: umlwidgets/combinedfragmentwidget.cpp:437
 #, kde-format
 msgid "Enter the guard of the loop:"
-msgstr ""
+msgstr "შეიყვანეთ მარყუჟის მცველი:"
 
 #: umlwidgets/floatingdashlinewidget.cpp:102
 #, kde-format
 msgid "Enter alternative Name"
-msgstr ""
+msgstr "შეიყვანეთ ალტერნატიული სახელი"
 
 #: umlwidgets/floatingdashlinewidget.cpp:103
 #, kde-format
 msgid "Enter the alternative:"
-msgstr ""
+msgstr "შეიყვანეთ ალტერნატივა:"
 
 #: umlwidgets/floatingtextwidget.cpp:201
 #, kde-format
@@ -8249,12 +8249,12 @@ msgstr "ტექსტის შეცვლა"
 #: umlwidgets/floatingtextwidget.cpp:202 umlwidgets/floatingtextwidget.cpp:359
 #, kde-format
 msgid "Enter new text:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ტექსტი:"
 
 #: umlwidgets/floatingtextwidget.cpp:361
 #, kde-format
 msgid "ERROR"
-msgstr ""
+msgstr "შეცდომა"
 
 #: umlwidgets/floatingtextwidget.cpp:717
 #, kde-format
@@ -8271,12 +8271,12 @@ msgstr ""
 #: worktoolbar.cpp:328
 #, kde-format
 msgid "Precondition"
-msgstr ""
+msgstr "წინასწარი პირობა"
 
 #: umlwidgets/notewidget.cpp:220
 #, kde-format
 msgid "Postcondition"
-msgstr ""
+msgstr "შემდეგი პირობა"
 
 #: umlwidgets/notewidget.cpp:221
 #, kde-format
@@ -8286,17 +8286,17 @@ msgstr "გარდაქმნა"
 #: umlwidgets/notewidget.cpp:225
 #, kde-format
 msgid "Note Type"
-msgstr ""
+msgstr "შენიშვნის ტიპი"
 
 #: umlwidgets/notewidget.cpp:225
 #, kde-format
 msgid "Select the Note Type"
-msgstr ""
+msgstr "აირჩიეთ შენიშვნის ტიპი"
 
 #: umlwidgets/objectnodewidget.cpp:220
 #, kde-format
 msgid "Enter Object Node Name"
-msgstr ""
+msgstr "შეიყვანეთ ობიექტის კვანძის სახელი"
 
 #: umlwidgets/objectnodewidget.cpp:221
 #, kde-format
@@ -8306,7 +8306,7 @@ msgstr ""
 #: umlwidgets/objectnodewidget.cpp:298
 #, kde-format
 msgid "Select Object node type"
-msgstr ""
+msgstr "აირჩიეთ ობიეტქის კვანძის ტიპი"
 
 #: umlwidgets/objectnodewidget.cpp:298
 #, kde-format
@@ -8346,7 +8346,7 @@ msgstr ""
 #: umlwidgets/objectnodewidget.cpp:308
 #, kde-format
 msgid "object flow"
-msgstr ""
+msgstr "ნაკადის ობიექტი"
 
 #: umlwidgets/objectnodewidget.cpp:325
 #, kde-format
@@ -8361,23 +8361,23 @@ msgstr ""
 #: umlwidgets/signalwidget.cpp:326
 #, kde-format
 msgid "Enter signal name"
-msgstr ""
+msgstr "შეიყვანეთ სიგნალის სახელი"
 
 #: umlwidgets/signalwidget.cpp:327
 #, kde-format
 msgid "Enter the signal name :"
-msgstr ""
+msgstr "შეიყვანეთ სიგნალის სახელი :"
 
 #: umlwidgets/statewidget.cpp:586
 #, kde-format
 msgid "Enter Activity"
-msgstr ""
+msgstr "შეიყვანეთ აქტივობა"
 
 #: umlwidgets/statusbartoolbutton.cpp:108
 #, kde-format
 msgctxt "@info:tooltip of custom toolbar button"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: umlwidgets/umlwidget.cpp:464
 #, kde-format
@@ -8389,7 +8389,7 @@ msgstr ""
 #: umlwidgets/umlwidget.cpp:551
 #, kde-format
 msgid "Move widgets"
-msgstr ""
+msgstr "ვიჯეტების გადატანა"
 
 #: umlwidgets/umlwidget.cpp:794
 #, kde-format
@@ -8399,7 +8399,7 @@ msgstr "ობიექტის გადარქმევა"
 #: umlwidgets/umlwidget.cpp:795
 #, kde-format
 msgid "Enter object name:"
-msgstr ""
+msgstr "შეიყვანეთ ობიექტის სახელი:"
 
 #: umlwidgets/umlwidget.cpp:1547
 #, kde-format
@@ -8414,177 +8414,177 @@ msgstr ""
 #: umlwidgets/widget_utils.cpp:825
 #, kde-format
 msgid "new actor"
-msgstr ""
+msgstr "ახალი მოქმედი პირი"
 
 #: umlwidgets/widget_utils.cpp:826
 #, kde-format
 msgid "new artifact"
-msgstr ""
+msgstr "ახალი არტეფაქტი"
 
 #: umlwidgets/widget_utils.cpp:827
 #, kde-format
 msgid "new association"
-msgstr ""
+msgstr "ახალი ასოციაცია"
 
 #: umlwidgets/widget_utils.cpp:828
 #, kde-format
 msgid "new box"
-msgstr ""
+msgstr "ახალი ბლოკი"
 
 #: umlwidgets/widget_utils.cpp:829
 #, kde-format
 msgid "new category"
-msgstr ""
+msgstr "ახალი კატეგორია"
 
 #: umlwidgets/widget_utils.cpp:830
 #, kde-format
 msgid "new class"
-msgstr ""
+msgstr "ახალი კლასი"
 
 #: umlwidgets/widget_utils.cpp:831
 #, kde-format
 msgid "new combined fragment"
-msgstr ""
+msgstr "ახალი კომბინირებული ფრაგმენტი"
 
 #: umlwidgets/widget_utils.cpp:832
 #, kde-format
 msgid "new component"
-msgstr ""
+msgstr "ახალი კომპონენტი"
 
 #: umlwidgets/widget_utils.cpp:833
 #, kde-format
 msgid "new datatype"
-msgstr ""
+msgstr "ახალი მონაცემის ტიპი"
 
 #: umlwidgets/widget_utils.cpp:834
 #, kde-format
 msgid "new entity"
-msgstr ""
+msgstr "ახალი საგანი"
 
 #: umlwidgets/widget_utils.cpp:835
 #, kde-format
 msgid "new enum"
-msgstr ""
+msgstr "ახალი სია"
 
 #: umlwidgets/widget_utils.cpp:836
 #, kde-format
 msgid "new floating dash line"
-msgstr ""
+msgstr "ახალი მცურავი პუნქტირული ხაზი"
 
 #: umlwidgets/widget_utils.cpp:837
 #, kde-format
 msgid "new fork/join"
-msgstr ""
+msgstr "ახალი გაცალკევება/შეერთება"
 
 #: umlwidgets/widget_utils.cpp:838
 #, kde-format
 msgid "new instance"
-msgstr ""
+msgstr "ახალი გაშვებული ასლი"
 
 #: umlwidgets/widget_utils.cpp:839
 #, kde-format
 msgid "new interface"
-msgstr ""
+msgstr "ახალი ინტერფეისი"
 
 #: umlwidgets/widget_utils.cpp:840
 #, kde-format
 msgid "new message"
-msgstr ""
+msgstr "ახალი შეტყობინება"
 
 #: umlwidgets/widget_utils.cpp:841
 #, kde-format
 msgid "new node"
-msgstr ""
+msgstr "ახალი კვანძი"
 
 #: umlwidgets/widget_utils.cpp:842
 #, kde-format
 msgid "new note"
-msgstr ""
+msgstr "ახალი შენიშვნა"
 
 #: umlwidgets/widget_utils.cpp:843
 #, kde-format
 msgid "new object"
-msgstr ""
+msgstr "ახალი ობიექტი"
 
 #: umlwidgets/widget_utils.cpp:844
 #, kde-format
 msgid "new object node"
-msgstr ""
+msgstr "ახალი ობიექტის კვანძი"
 
 #: umlwidgets/widget_utils.cpp:845
 #, kde-format
 msgid "new package"
-msgstr ""
+msgstr "ახალი პაკეტი"
 
 #: umlwidgets/widget_utils.cpp:846
 #, kde-format
 msgid "new pin"
-msgstr ""
+msgstr "ახალი პოჭოჭიკი"
 
 #: umlwidgets/widget_utils.cpp:847
 #, kde-format
 msgid "new port"
-msgstr ""
+msgstr "ახალი პორტი"
 
 #: umlwidgets/widget_utils.cpp:848
 #, kde-format
 msgid "new precondition"
-msgstr ""
+msgstr "ახალი წინასწარი პირობა"
 
 #: umlwidgets/widget_utils.cpp:849
 #, kde-format
 msgid "new region"
-msgstr ""
+msgstr "ახალი რეგიონი"
 
 #: umlwidgets/widget_utils.cpp:850
 #, kde-format
 msgid "new signal"
-msgstr ""
+msgstr "ახალი სიგნალი"
 
 #: umlwidgets/widget_utils.cpp:852
 #, kde-format
 msgid "new text"
-msgstr ""
+msgstr "ახალი ტექსტი"
 
 #: umlwidgets/widget_utils.cpp:853
 #, kde-format
 msgid "new UML widget"
-msgstr ""
+msgstr "ახალი UML ვიჯეტი"
 
 #: umlwidgets/widget_utils.cpp:854
 #, kde-format
 msgid "new use case"
-msgstr ""
+msgstr "გამოყენების ახალი ვარიანტი"
 
 #: umlwidgets/widget_utils.cpp:858
 #, kde-format
 msgid "new widget"
-msgstr ""
+msgstr "ახალი ვიჯეტი"
 
 #: umlwidgets/widget_utils.cpp:871
 #, kde-format
 msgid "New activity"
-msgstr ""
+msgstr "ახალი აქტივობა"
 
 #: umlwidgets/widget_utils.cpp:875
 #, kde-format
 msgid "New box"
-msgstr ""
+msgstr "ახალი ბლოკი"
 
 #: umlwidgets/widget_utils.cpp:878
 #, kde-format
 msgid "New combined fragment"
-msgstr ""
+msgstr "ახალი კომბინირებული ფრაგმენტი"
 
 #: umlwidgets/widget_utils.cpp:883
 #, kde-format
 msgid "New floating dash line"
-msgstr ""
+msgstr "ახალი მცურავი პუნქტირული ხაზი"
 
 #: umlwidgets/widget_utils.cpp:884
 #, kde-format
 msgid "New fork/join"
-msgstr ""
+msgstr "ახალი გაცალკევება/შეერთება"
 
 #: umlwidgets/widget_utils.cpp:887
 #, kde-format
@@ -8599,157 +8599,157 @@ msgstr "ახალი შენიშვნა"
 #: umlwidgets/widget_utils.cpp:890
 #, kde-format
 msgid "New object"
-msgstr ""
+msgstr "ახალი ობიექტი"
 
 #: umlwidgets/widget_utils.cpp:891
 #, kde-format
 msgid "New object node"
-msgstr ""
+msgstr "ახალი ობიექტის კვანძი"
 
 #: umlwidgets/widget_utils.cpp:893
 #, kde-format
 msgid "New pin"
-msgstr ""
+msgstr "ახალი პოჭოჭიკი"
 
 #: umlwidgets/widget_utils.cpp:895
 #, kde-format
 msgid "New precondition"
-msgstr ""
+msgstr "ახალი წინასწარი პირობა"
 
 #: umlwidgets/widget_utils.cpp:896
 #, kde-format
 msgid "New region"
-msgstr ""
+msgstr "ახალი რეგიონი"
 
 #: umlwidgets/widget_utils.cpp:897
 #, kde-format
 msgid "New signal"
-msgstr ""
+msgstr "ახალი სიგნალი"
 
 #: umlwidgets/widget_utils.cpp:898
 #, kde-format
 msgid "New state"
-msgstr ""
+msgstr "ახალი მდგომარეობა"
 
 #: umlwidgets/widget_utils.cpp:899
 #, kde-format
 msgid "New text"
-msgstr ""
+msgstr "ახალი ტექსტი"
 
 #: umlwidgets/widget_utils.cpp:900
 #, kde-format
 msgid "New UML widget"
-msgstr ""
+msgstr "ახალი UML ვიჯეტი"
 
 #: umlwidgets/widget_utils.cpp:905
 #, kde-format
 msgid "New widget"
-msgstr ""
+msgstr "ახალი ვიჯეტი"
 
 #: umlwidgets/widget_utils.cpp:921
 #, kde-format
 msgid "Enter the name of the new box:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ბლოკის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:924
 #, kde-format
 msgid "Enter the name of the new combined fragment:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი კომბინირებული ფრაგმენტის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:929
 #, kde-format
 msgid "Enter the name of the new floating dash line:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი მცურავი პუნქტირული ხაზის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:930
 #, kde-format
 msgid "Enter the name of the new fork/join:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი განცალკევებული/შეერთებული ვიჯეტის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:933
 #, kde-format
 msgid "Enter the name of the new message:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი შეტყობინების სახელი:"
 
 #: umlwidgets/widget_utils.cpp:935
 #, kde-format
 msgid "Enter the name of the new note:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი შენიშვნის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:936
 #, kde-format
 msgid "Enter the name of the new object:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ობიექტის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:937
 #, kde-format
 msgid "Enter the name of the new object node:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ობიექტის კვანძის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:939
 #, kde-format
 msgid "Enter the name of the new pin:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი პოჭოჭიკის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:941
 #, kde-format
 msgid "Enter the name of the new precondition:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი წინასწარი პირობის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:942
 #, kde-format
 msgid "Enter the name of the new region:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი რეგიონის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:943
 #, kde-format
 msgid "Enter the name of the new signal:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი სიგნალის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:945
 #, kde-format
 msgid "Enter the name of the new text:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ტექსტის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:946
 #, kde-format
 msgid "Enter the name of the new uml widget:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი UML ობიექტის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:950
 #, kde-format
 msgid "Enter the name of the new widget:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ვიჯეტის სახელი:"
 
 #: umlwidgets/widget_utils.cpp:962
 #, kde-format
 msgid "Rename activity"
-msgstr ""
+msgstr "აქტივობის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:966
 #, kde-format
 msgid "Rename box"
-msgstr ""
+msgstr "ბლოკის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:969
 #, kde-format
 msgid "Rename combined fragment"
-msgstr ""
+msgstr "კომბინირებული ფრაგმენტის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:974
 #, kde-format
 msgid "Rename floating dash line"
-msgstr ""
+msgstr "მცურავი პუნქტირული ხაზის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:975
 #, kde-format
 msgid "Rename fork/join"
-msgstr ""
+msgstr "გაცალკევება/შეერთების სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:978
 #, kde-format
 msgid "Rename message"
-msgstr ""
+msgstr "შეტყობინების სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:980
 #, kde-format
@@ -8759,137 +8759,137 @@ msgstr "სანიშნის გადარქმევა"
 #: umlwidgets/widget_utils.cpp:981
 #, kde-format
 msgid "Rename object"
-msgstr ""
+msgstr "ობიექტის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:982
 #, kde-format
 msgid "Rename object node"
-msgstr ""
+msgstr "ობიექტის კვანძის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:984
 #, kde-format
 msgid "Rename pin"
-msgstr ""
+msgstr "პოჭოჭიკის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:986
 #, kde-format
 msgid "Rename precondition"
-msgstr ""
+msgstr "წინასწარი პირობის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:987
 #, kde-format
 msgid "Rename region"
-msgstr ""
+msgstr "რეგიონის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:988
 #, kde-format
 msgid "Rename signal"
-msgstr ""
+msgstr "სიგნალის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:989
 #, kde-format
 msgid "Rename state"
-msgstr ""
+msgstr "დგომარეობის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:990
 #, kde-format
 msgid "Rename text"
-msgstr ""
+msgstr "ტექსტის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:991
 #, kde-format
 msgid "Rename UML widget"
-msgstr ""
+msgstr "UML ვიჯეტის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:996
 #, kde-format
 msgid "Rename widget"
-msgstr ""
+msgstr "ვიჯეტის სახელის გადარქმევა"
 
 #: umlwidgets/widget_utils.cpp:1008
 #, kde-format
 msgid "Enter the new name of the activity:"
-msgstr ""
+msgstr "შეიყვანეთ აქტივობის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1012
 #, kde-format
 msgid "Enter the new name of the box:"
-msgstr ""
+msgstr "შეიყვანეთ ბლოკის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1015
 #, kde-format
 msgid "Enter the new name of the combined fragment:"
-msgstr ""
+msgstr "შეიყვანეთ კომბინირებული ფრაგმენტის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1020
 #, kde-format
 msgid "Enter the new name of the floating dash line:"
-msgstr ""
+msgstr "შეიყვანეთ მცურავი პუნქტირული ხაზის ახალი სახელი"
 
 #: umlwidgets/widget_utils.cpp:1021
 #, kde-format
 msgid "Enter the new name of the fork/join widget:"
-msgstr ""
+msgstr "შეიყვანეთ განცალკევებული/შეერთებული ვიჯეტის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1024
 #, kde-format
 msgid "Enter the new name of the message:"
-msgstr ""
+msgstr "შეიყვანეთ შეტყობინების ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1026
 #, kde-format
 msgid "Enter the new name of the note:"
-msgstr ""
+msgstr "შეიყვანეთ შენიშვნის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1027
 #, kde-format
 msgid "Enter the new name of the object:"
-msgstr ""
+msgstr "შეიყვანეთ ობიექტის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1028
 #, kde-format
 msgid "Enter the new name of the object node:"
-msgstr ""
+msgstr "შეიყვანეთ ობიექტის კვანძის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1030
 #, kde-format
 msgid "Enter the new name of the pin:"
-msgstr ""
+msgstr "შეიყვანეთ პოჭოჭიკის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1032
 #, kde-format
 msgid "Enter the new name of the precondition:"
-msgstr ""
+msgstr "შეიყვანეთ წინასწარი პირობის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1033
 #, kde-format
 msgid "Enter the new name of the region:"
-msgstr ""
+msgstr "შეიყვანეთ რეგიონის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1034
 #, kde-format
 msgid "Enter the new name of the signal:"
-msgstr ""
+msgstr "შეიყვანეთ სიგნალის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1035
 #, kde-format
 msgid "Enter the new name of the state:"
-msgstr ""
+msgstr "შეიყვანეთ მდგომარეობის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1036
 #, kde-format
 msgid "Enter the new name of the text:"
-msgstr ""
+msgstr "შეიყვანეთ ტექსტის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1037
 #, kde-format
 msgid "Enter the new name of the uml widget:"
-msgstr ""
+msgstr "შეიყვანეთ UML ობიექტის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1041
 #, kde-format
 msgid "Enter the new name of the widget:"
-msgstr ""
+msgstr "შეიყვანეთ ვიჯეტის ახალი სახელი:"
 
 #: umlwidgets/widgetbase.cpp:1242 worktoolbar.cpp:334
 #, kde-format
