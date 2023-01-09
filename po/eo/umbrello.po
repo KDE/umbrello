@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-07 00:53+0000\n"
-"PO-Revision-Date: 2023-01-02 15:04+0100\n"
+"PO-Revision-Date: 2023-01-08 23:04+0100\n"
 "Last-Translator: Oliver M. Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -1129,6 +1129,8 @@ msgid ""
 "Writes comments to indicate the different sections (public, private etc) in "
 "a class, even if the sections are empty"
 msgstr ""
+"Skribas komentojn por indiki la diversajn sekciojn (publika, privata ktp) en "
+"klaso, eĉ se la sekcioj estas malplenaj"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:276
@@ -1819,7 +1821,7 @@ msgstr "Klasatributoj"
 #: dialogs/classwizard.cpp:96
 #, kde-format
 msgid "Add attributes to the new class."
-msgstr ""
+msgstr "Aldoni atributojn al la nova klaso."
 
 #: dialogs/classwizard.cpp:113
 #, kde-format
@@ -1829,7 +1831,7 @@ msgstr "Klasoperacioj"
 #: dialogs/classwizard.cpp:114
 #, kde-format
 msgid "Add operations to the new class."
-msgstr ""
+msgstr "Aldoni operaciojn al la nova klaso."
 
 #: dialogs/codeeditor.cpp:749 menus/widgetbasepopupmenu.cpp:118
 #: menus/widgetbasepopupmenu.cpp:126 menus/widgetbasepopupmenu.cpp:133
@@ -1853,22 +1855,22 @@ msgstr "Montri"
 #: dialogs/codeeditor.cpp:764
 #, kde-format
 msgid "Hide Comment"
-msgstr ""
+msgstr "Kaŝi Komenton"
 
 #: dialogs/codeeditor.cpp:770
 #, kde-format
 msgid "Show Comment"
-msgstr ""
+msgstr "Montri Komenton"
 
 #: dialogs/codeeditor.cpp:778
 #, kde-format
 msgid "Insert Code Block Before"
-msgstr ""
+msgstr "Enmeti Kodblokon Antaŭ"
 
 #: dialogs/codeeditor.cpp:783
 #, kde-format
 msgid "Insert Code Block After"
-msgstr ""
+msgstr "Enmeti Kodblokon Post"
 
 #: dialogs/codeeditor.cpp:790 menus/listpopupmenu.cpp:169
 #, kde-format
@@ -1959,22 +1961,22 @@ msgstr "<p align=\"right\">Redaktebla teksto:</p>"
 #: dialogs/dialog_utils.cpp:31
 #, kde-format
 msgid "Enable all messages"
-msgstr ""
+msgstr "Ebligi ĉiujn mesaĝojn"
 
 #: dialogs/dialog_utils.cpp:32
 #, kde-format
 msgid "Enable 'delete association' related messages"
-msgstr ""
+msgstr "Ebligi mesaĝojn rilatajn al forigado de asocio"
 
 #: dialogs/dialog_utils.cpp:33
 #, kde-format
 msgid "Enable 'delete diagram' related messages"
-msgstr ""
+msgstr "Ebligi mesaĝojn rilatajn al forigado de diagramo"
 
 #: dialogs/dialog_utils.cpp:210
 #, kde-format
 msgid "You are about to delete an association. Do you really want to continue?"
-msgstr ""
+msgstr "Vi estas forigonta asocion. Ĉu vi vere volas daŭrigi?"
 
 #: dialogs/dialog_utils.cpp:211
 #, kde-format
@@ -2044,6 +2046,8 @@ msgid ""
 "Create in the target directory the same tree structure used\n"
 "in the document to store the views"
 msgstr ""
+"Krei en la celdosierujo la saman arbostrukturon kiel uzata\n"
+"en la dokumento por stori la vidojn"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_useFolders)
 #: dialogs/exportallviewsdialogbase.ui:61
@@ -2136,7 +2140,7 @@ msgstr "Atributo"
 #: dialogs/finddialog.ui:131
 #, kde-format
 msgid "Search Term:"
-msgstr ""
+msgstr "Serĉtermino:"
 
 #: dialogs/multipagedialogbase.cpp:67
 #, kde-format
@@ -2281,11 +2285,15 @@ msgid ""
 "Umbrello can overwrite the file, generate a similar\n"
 "file name or not generate this file."
 msgstr ""
+"La dosiero %1 jam ekzistas en %2.\n"
+"\n"
+"Umbrello povas anstataŭigi la dosieron, generi similan\n"
+"dosiernomon, aŭ ne generi tiun dosieron."
 
 #: dialogs/overwritedialog.cpp:40
 #, kde-format
 msgid "&Apply to all remaining files"
-msgstr ""
+msgstr "&Apliki al ĉiuj pluaj dosieroj"
 
 #: dialogs/pages/activitypage.cpp:55 dialogs/statedialog.cpp:201
 #, kde-format
@@ -2445,13 +2453,13 @@ msgstr ""
 #: dialogs/pages/autolayoutoptionpage.ui:27
 #, kde-format
 msgid "Auto detect layout generator"
-msgstr ""
+msgstr "Aŭtomate detekti la aranĝogenerilon"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/pages/autolayoutoptionpage.ui:37
 #, kde-format
 msgid "Generator executable path:"
-msgstr ""
+msgstr "Dosierujvojo de la Generilo:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, Other)
 #: dialogs/pages/autolayoutoptionpage.ui:82
@@ -2472,7 +2480,7 @@ msgstr ""
 #: dialogs/pages/autolayoutoptionpage.ui:91
 #, kde-format
 msgid "Show export layout in diagram context menu"
-msgstr ""
+msgstr "Montri eksportaranĝon en diagrama kuntekstmenuo"
 
 #: dialogs/pages/classgeneralpage.cpp:126
 #, kde-format
@@ -2519,6 +2527,9 @@ msgid ""
 "is already being used.\n"
 "The name has been reset."
 msgstr ""
+"La nomo de vi elektita\n"
+"jam estas en uzo.\n"
+"La nomo estis restarigata."
 
 #: dialogs/pages/classgeneralpage.cpp:341
 #: dialogs/pages/classgeneralpage.cpp:379
@@ -2652,7 +2663,7 @@ msgstr "&Atributaj asocioj"
 #: dialogs/pages/classoptionspage.cpp:289
 #, kde-format
 msgid "Starting Scope"
-msgstr ""
+msgstr "Komenca Videblo"
 
 #: dialogs/pages/classoptionspage.cpp:296
 #, kde-format
@@ -2720,7 +2731,7 @@ msgstr "Solvi interdependojn (malpliigas rapidecon)"
 #: dialogs/pages/codeimportoptionspage.ui:80
 #, kde-format
 msgid "Enable C++11 standard (experimental)"
-msgstr ""
+msgstr "Ebligi C++11 normon (eksperimenta)"
 
 #: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:269
 #, kde-format
@@ -2771,7 +2782,7 @@ msgstr "Elekto"
 #: dialogs/pages/diagramprintpage.cpp:155
 #, kde-format
 msgid "No diagrams selected."
-msgstr ""
+msgstr "Neniuj diagramoj elektataj."
 
 #: dialogs/pages/diagrampropertiespage.cpp:72
 #, kde-format
@@ -2898,7 +2909,7 @@ msgstr "Diversaj"
 #: dialogs/pages/generaloptionpage.cpp:48
 #, kde-format
 msgid "Enable undo"
-msgstr ""
+msgstr "Ebligi malfaron"
 
 #: dialogs/pages/generaloptionpage.cpp:52
 #, kde-format
@@ -2908,7 +2919,7 @@ msgstr "Uzi langetajn diagramojn"
 #: dialogs/pages/generaloptionpage.cpp:56
 #, kde-format
 msgid "Use new C++/Java/Ruby generators"
-msgstr ""
+msgstr "Uzi novajn C++/Java/Ruby generilojn"
 
 #: dialogs/pages/generaloptionpage.cpp:60
 #, kde-format
@@ -2918,7 +2929,7 @@ msgstr ""
 #: dialogs/pages/generaloptionpage.cpp:64
 #, kde-format
 msgid "Enable UML2 support"
-msgstr ""
+msgstr "Ebligi subtenon por UML2"
 
 #: dialogs/pages/generaloptionpage.cpp:69
 #, kde-format
@@ -2928,17 +2939,17 @@ msgstr "Aŭtokonservado"
 #: dialogs/pages/generaloptionpage.cpp:76
 #, kde-format
 msgid "E&nable autosave"
-msgstr ""
+msgstr "Ebligi aŭtomata&n konservadon"
 
 #: dialogs/pages/generaloptionpage.cpp:80
 #, kde-format
 msgid "Select auto-save time interval (mins):"
-msgstr ""
+msgstr "Elekti aŭtokonservan tempintervalon (minutoj):"
 
 #: dialogs/pages/generaloptionpage.cpp:92
 #, kde-format
 msgid "Set autosave suffix:"
-msgstr ""
+msgstr "Meti aŭtokonservan dosiersufikson:"
 
 #: dialogs/pages/generaloptionpage.cpp:94
 #, kde-format
@@ -2959,12 +2970,12 @@ msgstr "Starto"
 #: dialogs/pages/generaloptionpage.cpp:112
 #, kde-format
 msgid "&Load last project"
-msgstr ""
+msgstr "Ŝargi &lastan projekton"
 
 #: dialogs/pages/generaloptionpage.cpp:116
 #, kde-format
 msgid "Start new project with:"
-msgstr ""
+msgstr "Komenci novan projekton kun:"
 
 #: dialogs/pages/generaloptionpage.cpp:133
 #, kde-format
@@ -2992,7 +3003,7 @@ msgstr "Sekvencnombro:"
 #: dialogs/selectoperationdialog.cpp:70
 #, kde-format
 msgid "Auto increment:"
-msgstr ""
+msgstr "Aŭtomata alkremento:"
 
 #: dialogs/pages/selectoperationpage.cpp:72
 #: dialogs/selectoperationdialog.cpp:75
@@ -3023,7 +3034,7 @@ msgstr "Ĝeneralaj opcioj"
 #: dialogs/pages/uioptionspage.cpp:60 umbrello.kcfg:192
 #, kde-format
 msgid "Right to left user interface"
-msgstr ""
+msgstr "Dekstra-al-maldekstra uzantinterfaco"
 
 #: dialogs/pages/uioptionspage.cpp:64
 #, kde-format
@@ -3188,7 +3199,7 @@ msgstr "De&faŭlta"
 #, kde-format
 msgctxt "grid dot color"
 msgid "&Grid dot:"
-msgstr ""
+msgstr "&Kradpunkto:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:166
 #, kde-format
@@ -3265,7 +3276,7 @@ msgstr "Diagramo"
 #: dialogs/settingsdialog.cpp:35
 #, kde-format
 msgid "Umbrello Setup"
-msgstr ""
+msgstr "Agordo de Umbrello"
 
 #: dialogs/settingsdialog.cpp:100 umllistview.cpp:1447
 #, kde-format
@@ -3275,7 +3286,7 @@ msgstr "Uzant-interfaco"
 #: dialogs/settingsdialog.cpp:100
 #, kde-format
 msgid "User Interface Settings"
-msgstr ""
+msgstr "Uzantinterfaca Agordo"
 
 #: dialogs/settingsdialog.cpp:107 dialogs/umlviewdialog.cpp:88
 #, kde-format
@@ -3466,13 +3477,13 @@ msgstr "Kla&sifikila amplekso (\"static\")"
 #: dialogs/umlattributedialog.cpp:123 dialogs/umlenumliteraldialog.cpp:84
 #, kde-format
 msgid "You have entered an invalid attribute name."
-msgstr ""
+msgstr "Vi enigis nevalidan atributnomon."
 
 #: dialogs/umlattributedialog.cpp:124 dialogs/umlenumliteraldialog.cpp:85
 #: refactoring/refactoringassistant.cpp:845
 #, kde-format
 msgid "Attribute Name Invalid"
-msgstr ""
+msgstr "Atributnomo Ne Valida"
 
 #: dialogs/umlattributedialog.cpp:131 dialogs/umlenumliteraldialog.cpp:97
 #, kde-format
@@ -3516,7 +3527,7 @@ msgstr "&Nomo:"
 #: dialogs/umlentityattributedialog.cpp:82
 #, kde-format
 msgid "Length/Values:"
-msgstr ""
+msgstr "Longeco/Valoroj:"
 
 #: dialogs/umlentityattributedialog.cpp:85
 #, kde-format
@@ -3526,7 +3537,7 @@ msgstr "&Aŭtomata pliigo"
 #: dialogs/umlentityattributedialog.cpp:89
 #, kde-format
 msgid "Allow &null"
-msgstr ""
+msgstr "Permesi &nulon"
 
 #: dialogs/umlentityattributedialog.cpp:96
 #, kde-format
@@ -3557,7 +3568,7 @@ msgstr "&Indeksata"
 #: dialogs/umlentityattributedialog.cpp:163
 #, kde-format
 msgid "You have entered an invalid entity attribute name."
-msgstr ""
+msgstr "Vi enigis nevalidan ento-atributan nomon."
 
 #: dialogs/umlentityattributedialog.cpp:164
 #, kde-format
@@ -3590,7 +3601,7 @@ msgstr "&Nomo:"
 #: dialogs/umlenumliteraldialog.cpp:61
 #, kde-format
 msgid "&Value:"
-msgstr ""
+msgstr "&Valoro:"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:54
 #, kde-format
@@ -3714,7 +3725,7 @@ msgstr "Vi enigis nevalidan atributnomon."
 #: dialogs/umlinstanceattributedialog.cpp:41
 #, kde-format
 msgid "Value Invalid"
-msgstr ""
+msgstr "Valoro Nevalida"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/umlinstanceattributedialog.ui:27
@@ -3801,7 +3812,7 @@ msgstr "Vi enigis nevalidan operacionomon."
 #: refactoring/refactoringassistant.cpp:824
 #, kde-format
 msgid "Operation Name Invalid"
-msgstr ""
+msgstr "Operacia Nomo Nevalida"
 
 #: dialogs/umloperationdialog.cpp:422 refactoring/refactoringassistant.cpp:821
 #, kde-format
@@ -3832,7 +3843,7 @@ msgstr "Vi donis nevalidan ŝablon-nomon."
 #: dialogs/umltemplatedialog.cpp:89
 #, kde-format
 msgid "Template Name Invalid"
-msgstr ""
+msgstr "Ŝablona Nomo Nevalida"
 
 #: dialogs/umltemplatedialog.cpp:98
 #, kde-format
@@ -3864,7 +3875,7 @@ msgstr ""
 #: dialogs/umluniqueconstraintdialog.cpp:220
 #, kde-format
 msgid "Constraint Name Invalid"
-msgstr ""
+msgstr "Limigaĵa Nomo Nevalida"
 
 #: dialogs/umlviewdialog.cpp:106
 #, kde-format
@@ -3906,7 +3917,7 @@ msgstr "&Detaligeblo:"
 #: dialogs/widgets/resolutionwidget.cpp:24
 #, kde-format
 msgid "DPI"
-msgstr ""
+msgstr "DPI"
 
 #: dialogs/widgets/selectdiagramwidget.cpp:51
 #, kde-format
@@ -4113,7 +4124,7 @@ msgstr "Dosiero transformenda"
 #: docgenerators/main.cpp:56
 #, kde-format
 msgid "The XSLT file to use"
-msgstr ""
+msgstr "La XSLT-dosiero uzenda"
 
 #: docgenerators/xhtmlgenerator.cpp:105
 #, kde-format
@@ -4128,17 +4139,17 @@ msgstr "XHTML-generado finiĝis..."
 #: docgenerators/xhtmlgenerator.cpp:137
 #, kde-format
 msgid "Copying CSS..."
-msgstr ""
+msgstr "Kopianta CSS..."
 
 #: docgenerators/xhtmlgenerator.cpp:150
 #, kde-format
 msgid "Finished Copying CSS..."
-msgstr ""
+msgstr "Finis kopiadon de CSS..."
 
 #: docgenerators/xhtmlgenerator.cpp:153
 #, kde-format
 msgid "Failed Copying CSS..."
-msgstr ""
+msgstr "Malsukcesis Kopiado de CSS..."
 
 #: docwindow.cpp:44
 #, kde-format
@@ -4187,7 +4198,7 @@ msgstr ""
 #: main.cpp:127
 #, kde-format
 msgid "Author of initial version."
-msgstr ""
+msgstr "Aŭtoro de komenca versio."
 
 #: main.cpp:132 main.cpp:135
 #, kde-format
@@ -4202,7 +4213,7 @@ msgstr ""
 #: main.cpp:141
 #, kde-format
 msgid "Current maintainer."
-msgstr "Aktuala prizorganto"
+msgstr "Aktuala prizorganto."
 
 #: main.cpp:144
 #, kde-format
@@ -4276,7 +4287,7 @@ msgstr "Forigi Punkton"
 #: menus/associationwidgetpopupmenu.cpp:52
 #, kde-format
 msgid "Choose Spline points automatically"
-msgstr ""
+msgstr "Elekti Splajnpunktojn aŭtomate"
 
 #: menus/associationwidgetpopupmenu.cpp:67
 #, kde-format
@@ -4307,22 +4318,22 @@ msgstr "Aranĝa menuo"
 #: menus/associationwidgetpopupmenu.cpp:95
 #, kde-format
 msgid "Polyline"
-msgstr ""
+msgstr "Polilinio"
 
 #: menus/associationwidgetpopupmenu.cpp:96
 #, kde-format
 msgid "Direct"
-msgstr ""
+msgstr "Direkta"
 
 #: menus/associationwidgetpopupmenu.cpp:97
 #, kde-format
 msgid "Spline"
-msgstr ""
+msgstr "Splajno"
 
 #: menus/associationwidgetpopupmenu.cpp:98
 #, kde-format
 msgid "Orthogonal"
-msgstr ""
+msgstr "Ortogonala"
 
 #: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:227
 #, kde-format
@@ -4719,7 +4730,7 @@ msgstr "Remeti Poziciojn de Etikedoj"
 #: menus/listpopupmenu.cpp:253
 #, kde-format
 msgid "Resize"
-msgstr ""
+msgstr "Aligrandigi"
 
 #: menus/listpopupmenu.cpp:254
 #, kde-format
@@ -4876,12 +4887,12 @@ msgstr "Kaŝi signaturojn"
 #: menus/widgetbasepopupmenu.cpp:134
 #, kde-format
 msgid "Hide Non-public members"
-msgstr ""
+msgstr "Kaŝi Nepublikajn membrojn"
 
 #: menus/widgetbasepopupmenu.cpp:135
 #, kde-format
 msgid "Show Non-public members"
-msgstr ""
+msgstr "Montri Nepublikajn membrojn"
 
 #: menus/widgetbasepopupmenu.cpp:138
 #, kde-format
@@ -5184,11 +5195,10 @@ msgstr "nova_ŝablono"
 #: model_utils.cpp:586 umlmodel/umlcanvasobject.cpp:204
 #, kde-format
 msgid "new_unique_constraint"
-msgstr ""
+msgstr "nova_unika_limigo"
 
 #: model_utils.cpp:587
-#, fuzzy, kde-format
-#| msgid "new_use case"
+#, kde-format
 msgid "new_use_case"
 msgstr "nova_uzkazo"
 
@@ -5832,7 +5842,7 @@ msgstr "Fenestraĵoj/Asocioj"
 #: models/objectsmodel.cpp:84
 #, kde-format
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: models/objectsmodel.cpp:86
 #, kde-format
@@ -5842,7 +5852,7 @@ msgstr "Konservita"
 #: models/objectsmodel.cpp:88
 #, kde-format
 msgid "Parent"
-msgstr ""
+msgstr "Parenco"
 
 #: models/objectsmodel.cpp:90
 #, kde-format
@@ -5894,7 +5904,7 @@ msgstr "Nomo Ne Unika"
 #: refactoring/refactoringassistant.cpp:443
 #, kde-format
 msgid "Add Base Class"
-msgstr ""
+msgstr "Aldoni Bazklason"
 
 #: refactoring/refactoringassistant.cpp:444
 #, kde-format
@@ -5960,7 +5970,7 @@ msgstr "Eraro pri Asocio"
 #: toolbarstatemessages.cpp:341
 #, kde-format
 msgid "destroy"
-msgstr ""
+msgstr "malkonstrui"
 
 #: toolbarstateother.cpp:277
 #, kde-format
@@ -6056,7 +6066,7 @@ msgstr "Bilda MIME-tipo"
 #: umbrello.kcfg:18
 #, kde-format
 msgid "The Mime Type of the Images"
-msgstr ""
+msgstr "La MIME-Tipo de la Bildoj"
 
 #. i18n: ectx: label, entry (undo), group (General Options)
 #: umbrello.kcfg:22
@@ -6068,7 +6078,7 @@ msgstr "Subteno por Malfaro"
 #: umbrello.kcfg:23
 #, kde-format
 msgid "Undo Support is enabled when this is true"
-msgstr ""
+msgstr "Malfarosubteno estas ebligata kiam tiu estas vera"
 
 #. i18n: ectx: label, entry (tabdiagrams), group (General Options)
 #: umbrello.kcfg:27
@@ -6116,7 +6126,7 @@ msgstr "Aranĝotipo"
 #: umbrello.kcfg:43
 #, kde-format
 msgid "The layout type to use for new lines"
-msgstr ""
+msgstr "La aranĝotipo uzanda por novaj linioj"
 
 #. i18n: ectx: label, entry (footerPrinting), group (General Options)
 #: umbrello.kcfg:55
@@ -6200,13 +6210,13 @@ msgstr "Apriora Programlingvo je lanĉo"
 #: umbrello.kcfg:108
 #, kde-format
 msgid "The Language that Umbrello should start with by default"
-msgstr ""
+msgstr "La programlingvo kun kiu Umbrello defaŭlte ekkomencu"
 
 #. i18n: ectx: label, entry (uml2), group (General Options)
 #: umbrello.kcfg:140
 #, kde-format
 msgid "Use UML-2.x Notation"
-msgstr ""
+msgstr "Uzi UML-2.x Notacion"
 
 #. i18n: ectx: whatsthis, entry (uml2), group (General Options)
 #: umbrello.kcfg:141
@@ -6541,7 +6551,7 @@ msgstr "Kaŝita Koloro"
 #: umbrello.kcfg:339
 #, kde-format
 msgid "Create Artifacts for imported files"
-msgstr ""
+msgstr "Krei Artefaktojn por importataj dosieroj"
 
 #. i18n: ectx: whatsthis, entry (createArtifacts), group (Code Importer)
 #: umbrello.kcfg:340
@@ -6559,13 +6569,13 @@ msgstr "Solvanta dependecojn"
 #: umbrello.kcfg:345
 #, kde-format
 msgid "Resolve dependencies when importing file"
-msgstr ""
+msgstr "Solvi interdependojn dum dosierimportado"
 
 #. i18n: ectx: label, entry (supportCPP11), group (Code Importer)
 #: umbrello.kcfg:349
 #, kde-format
 msgid "Support C++11 standard"
-msgstr ""
+msgstr "Subteni C++11-normon"
 
 #. i18n: ectx: whatsthis, entry (supportCPP11), group (Code Importer)
 #: umbrello.kcfg:350
@@ -6595,7 +6605,7 @@ msgstr "Komentostilo"
 #: umbrello.kcfg:362
 #, kde-format
 msgid "Sets the Style of Comments to be used"
-msgstr ""
+msgstr "Metas la Stilon de Komentoj uzendan"
 
 #. i18n: ectx: label, entry (defaultAssocFieldScope), group (Code Generation)
 #: umbrello.kcfg:370
@@ -6637,7 +6647,7 @@ msgstr "Enŝaltas/Elŝaltas Vorteman Dokumentadon"
 #: umbrello.kcfg:399
 #, kde-format
 msgid "Section Comment Policy"
-msgstr ""
+msgstr "Sekciokomenta Politiko"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:400
@@ -6703,20 +6713,20 @@ msgstr "Liniofina Stilo"
 #: umbrello.kcfg:436
 #, kde-format
 msgid "The type of line ending ( or new line type )"
-msgstr ""
+msgstr "La tipo de linifinaĵo ( 'newline'-tipo )"
 
 #. i18n: ectx: label, entry (modnamePolicy), group (Code Generation)
 #. i18n: ectx: whatsthis, entry (modnamePolicy), group (Code Generation)
 #: umbrello.kcfg:445 umbrello.kcfg:446
 #, kde-format
 msgid "Modifier Name Policy"
-msgstr ""
+msgstr "Modifilnoma Politiko"
 
 #. i18n: ectx: label, entry (outputDirectory), group (Code Generation)
 #: umbrello.kcfg:455
 #, kde-format
 msgid "Output Directory"
-msgstr ""
+msgstr "Eliga Dosierujo"
 
 #. i18n: ectx: whatsthis, entry (outputDirectory), group (Code Generation)
 #: umbrello.kcfg:456
@@ -6746,7 +6756,7 @@ msgstr "Enŝaltas/Elŝaltas aŭtogeneradon de aliriloj"
 #: umbrello.kcfg:479
 #, kde-format
 msgid "The prefix for class members"
-msgstr ""
+msgstr "La prefikso por klasmembroj"
 
 #. i18n: ectx: label, entry (inlineAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:483
@@ -6788,7 +6798,7 @@ msgstr ""
 #: umbrello.kcfg:498
 #, kde-format
 msgid "Public Accessors"
-msgstr ""
+msgstr "Publikaj Aliriloj"
 
 #. i18n: ectx: whatsthis, entry (publicAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:499
@@ -6824,7 +6834,7 @@ msgstr "La nomo de la \"string\"-klaso inkludenda"
 #: umbrello.kcfg:513
 #, kde-format
 msgid "String Include is Global"
-msgstr ""
+msgstr "'String'-inkludo estu Globala"
 
 #. i18n: ectx: whatsthis, entry (stringIncludeIsGlobal), group (CPP Code Generation)
 #: umbrello.kcfg:514
@@ -6846,8 +6856,7 @@ msgstr "La nomo de la \"vector\" klaso"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:523
-#, fuzzy, kde-format
-#| msgid "Vector Class Name Include "
+#, kde-format
 msgid "Vector Class Name Include"
 msgstr "Nomo de \"vector\"-klasa inkludo"
 
@@ -6861,7 +6870,7 @@ msgstr "La nomo de la \"vector\"-klaso inkludenda"
 #: umbrello.kcfg:528
 #, kde-format
 msgid "Vector include is global"
-msgstr ""
+msgstr "'Vector'-inkludo estu globala"
 
 #. i18n: ectx: whatsthis, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
 #: umbrello.kcfg:529
@@ -6885,7 +6894,7 @@ msgstr "Enŝaltas/Elŝaltas virtualaj malkonstruilojn"
 #: umbrello.kcfg:538
 #, kde-format
 msgid "Getters with 'get' prefix"
-msgstr ""
+msgstr "Leg-aliriloj komencu per 'get'"
 
 #. i18n: ectx: whatsthis, entry (getterWithGetPrefix), group (CPP Code Generation)
 #: umbrello.kcfg:539
@@ -6897,7 +6906,7 @@ msgstr ""
 #: umbrello.kcfg:543
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor methods"
-msgstr ""
+msgstr "Forigi prefikson '[a-zA-Z]_' de alirmedotoj"
 
 #. i18n: ectx: whatsthis, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
 #: umbrello.kcfg:544
@@ -6925,8 +6934,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:560
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors ( D ) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "Aŭtomate Generi Atributajn Alirilojn ( D )"
 
@@ -6950,15 +6958,13 @@ msgstr "Enŝaltas/Elŝaltas aŭtogeneradon de asociaj aliriloj"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:570
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (Java) "
+#, kde-format
 msgid "Build ANT Document (D)"
 msgstr "Konstrui ANT Dokumenton (Java)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:571
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (D) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (D)"
 msgstr "Enŝaltas/Elŝaltas konstruadon de ANT Dokumento ( D )"
 
@@ -6976,36 +6982,31 @@ msgstr "Enŝaltas/Elŝaltas aŭtogeneradon de atributaj aliriloj (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:582
-#, fuzzy, kde-format
-#| msgid "Auto Generate Assoc Accessors (Java) "
+#, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "Aŭto-Generi Asociajn Alirilojn (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:583
-#, fuzzy, kde-format
-#| msgid "Enables/Disables auto generation of association accessors (Java) "
+#, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr "Enŝaltas/Elŝaltas aŭtomatan generadon de asociaj aliriloj (Java)"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:587
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (Java) "
+#, kde-format
 msgid "Build ANT Document (Java)"
 msgstr "Konstrui ANT Dokumenton (Java)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:588
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (Java) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "Devigi Sekcian Dokumentadon"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:594
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors (Ruby) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr "Aŭto-Generi Atributajn Alirilojn (Ruby)"
 
@@ -7031,7 +7032,7 @@ msgstr "Enŝaltas/Elŝaltas aŭtomatan generadon de asociaj aliriloj (Ruby)"
 #: umbrello.kcfg:606
 #, kde-format
 msgid "Automatic Dot Path"
-msgstr ""
+msgstr "Aŭtomata Dot-Dosierujvojo"
 
 #. i18n: ectx: whatsthis, entry (autoDotPath), group (Auto Layout)
 #: umbrello.kcfg:607
@@ -7043,7 +7044,7 @@ msgstr ""
 #: umbrello.kcfg:611
 #, kde-format
 msgid "Dot Path"
-msgstr ""
+msgstr "Dot-Dosierujvojo"
 
 #. i18n: ectx: whatsthis, entry (dotPath), group (Auto Layout)
 #: umbrello.kcfg:612
@@ -7055,7 +7056,7 @@ msgstr ""
 #: umbrello.kcfg:616
 #, kde-format
 msgid "Show Export Layout"
-msgstr ""
+msgstr "Montri Eksportaranĝon"
 
 #. i18n: ectx: whatsthis, entry (showExportLayout), group (Auto Layout)
 #: umbrello.kcfg:617
@@ -7236,7 +7237,7 @@ msgstr "Malfari lastan agon"
 #: uml.cpp:458
 #, kde-format
 msgid "Redo last undone action"
-msgstr ""
+msgstr "Refari la lastan malfaritan agon"
 
 #: uml.cpp:460
 #, kde-format
@@ -7307,12 +7308,12 @@ msgstr "Arboperspek&tivo"
 #: uml.cpp:540
 #, kde-format
 msgid "&Debugging"
-msgstr ""
+msgstr "Sen&cimigo"
 
 #: uml.cpp:548
 #, kde-format
 msgid "&Logging"
-msgstr ""
+msgstr "Protoko&lado"
 
 #: uml.cpp:552
 #, kde-format
@@ -7387,7 +7388,7 @@ msgstr "Selekti Diagramon Dekstran"
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
-msgstr ""
+msgstr " &%1%"
 
 #: uml.cpp:844
 #, kde-format
@@ -7428,7 +7429,7 @@ msgstr "Sencimigi"
 #: uml.cpp:999
 #, kde-format
 msgid "&Log"
-msgstr ""
+msgstr "&Protoko&li"
 
 #: uml.cpp:1037 uml.cpp:1254 uml.cpp:1292
 #, kde-format
@@ -7518,7 +7519,7 @@ msgstr ""
 #: uml.cpp:1407
 #, kde-format
 msgid "'%1': %2 found"
-msgstr ""
+msgstr "'%1': %2 trovata"
 
 #: uml.cpp:1463
 #, kde-format
@@ -7598,7 +7599,7 @@ msgstr "Elekti dosierujon por importado:"
 #: uml.cpp:3280
 #, kde-format
 msgid "XHTML Generation failed ."
-msgstr ""
+msgstr "Generado de XHTML malsukcesis."
 
 #: umlappprivate.h:130
 #, kde-format
@@ -7613,7 +7614,7 @@ msgstr "&Stereotipoj"
 #: umlappprivate.h:156
 #, kde-format
 msgid "Welcome"
-msgstr ""
+msgstr "Bonvenon"
 
 #: umldoc.cpp:92 umldoc.cpp:2224 umldoc.cpp:2252 umldoc.cpp:2335
 #, kde-format
@@ -7623,7 +7624,7 @@ msgstr "UML Modelo"
 #: umldoc.cpp:130
 #, kde-format
 msgid "Logical View"
-msgstr "Logika  Perspektivo"
+msgstr "Logika Perspektivo"
 
 #: umldoc.cpp:131
 #, kde-format
@@ -7700,7 +7701,7 @@ msgstr "Problemo dum la ŝarĝado de la dosiero: %1"
 #: umldoc.cpp:676
 #, kde-format
 msgid "Reason: %1"
-msgstr ""
+msgstr "Kialo: %1"
 
 #: umldoc.cpp:746 umldoc.cpp:757 umldoc.cpp:775 umldoc.cpp:816 umldoc.cpp:843
 #, kde-format
@@ -7829,7 +7830,7 @@ msgstr "Enigi Novan Nomon"
 #: umldoc.cpp:2182
 #, kde-format
 msgid "Unsupported xmi file version: %1"
-msgstr ""
+msgstr "Nesubtenata XMI-dosiera versio: %1"
 
 #: umldoc.cpp:2346
 #, kde-format
@@ -7879,8 +7880,7 @@ msgid ""
 msgstr ""
 
 #: umllistview.cpp:560
-#, fuzzy, kde-format
-#| msgid "File Exist"
+#, kde-format
 msgid "File Exists"
 msgstr "Dosiero Jam Ekzistas"
 
@@ -8164,7 +8164,7 @@ msgstr "Enigu la novan nomon de la diagramo:"
 #: umlscene.cpp:3370
 #, kde-format
 msgid "Failed to import from file."
-msgstr ""
+msgstr "Malsukcesis importo el dosiero."
 
 #: umlviewimageexporter.cpp:72
 #, kde-format
@@ -8238,7 +8238,7 @@ msgstr "Enigi nomon de rolo:"
 #: umlwidgets/associationwidget.cpp:3180
 #, kde-format
 msgid "Press Ctrl with left mouse click to delete a point"
-msgstr ""
+msgstr "Premu Ctrl kun maldekstra musklako por forigi punkton"
 
 #: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
@@ -8533,7 +8533,7 @@ msgstr "nova nombrigtipo"
 #: umlwidgets/widget_utils.cpp:836
 #, kde-format
 msgid "new floating dash line"
-msgstr ""
+msgstr "nova flosanta streketlinio"
 
 #: umlwidgets/widget_utils.cpp:837
 #, kde-format
@@ -8633,7 +8633,7 @@ msgstr "Nova aktiveco"
 #: umlwidgets/widget_utils.cpp:875
 #, kde-format
 msgid "New box"
-msgstr ""
+msgstr "Nove skatolo"
 
 #: umlwidgets/widget_utils.cpp:878
 #, kde-format
@@ -8643,7 +8643,7 @@ msgstr "Nova kombinita fragmento"
 #: umlwidgets/widget_utils.cpp:883
 #, kde-format
 msgid "New floating dash line"
-msgstr ""
+msgstr "Nova flosanta streketlinio"
 
 #: umlwidgets/widget_utils.cpp:884
 #, kde-format
@@ -8721,8 +8721,7 @@ msgid "Enter the name of the new combined fragment:"
 msgstr "Enigi nomon de la nova kombinita fragmento:"
 
 #: umlwidgets/widget_utils.cpp:929
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new floating dash Line:"
+#, kde-format
 msgid "Enter the name of the new floating dash line:"
 msgstr "Enigi nomon de la nova flosanta streketolinio"
 
@@ -8887,8 +8886,7 @@ msgid "Enter the new name of the combined fragment:"
 msgstr "Enigu la novan nomon de la kombinita fragmento:"
 
 #: umlwidgets/widget_utils.cpp:1020
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the floating dash Line:"
+#, kde-format
 msgid "Enter the new name of the floating dash line:"
 msgstr "Enigu la novan nomon de la flosanta streketolinio:"
 
@@ -8980,7 +8978,7 @@ msgstr "Enum"
 #: umlwidgets/widgetbase.cpp:1266
 #, kde-format
 msgid "FloatingDashLine"
-msgstr ""
+msgstr "FlosantaStreketLinio"
 
 #: umlwidgets/widgetbase.cpp:1269
 #, kde-format
@@ -9020,7 +9018,7 @@ msgstr "Stato"
 #: umlwidgets/widgetbase.cpp:1311
 #, kde-format
 msgid "Text"
-msgstr ""
+msgstr "Teksto"
 
 #: umlwidgets/widgetbase.cpp:1314
 #, kde-format
