@@ -9126,26 +9126,3 @@ msgstr "Stav"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr ""
-
-#~ msgid "All Supported Files"
-#~ msgstr "Všechny podporované soubory"
-
-#~ msgid "set active language"
-#~ msgstr "nastavit aktivní jazyk"
-
-#~ msgid ""
-#~ "*.xmi|XMI File\n"
-#~ "*.xmi.tgz|Gzip Compressed XMI File\n"
-#~ "*.xmi.tar.bz2|Bzip2 Compressed XMI File\n"
-#~ "*|All Files"
-#~ msgstr ""
-#~ "*.xmi|XMI soubor\n"
-#~ "*.xmi.tgz|Gzip archivovaný XMI soubor\n"
-#~ "*.xmi.tar.bz2|Bzip2 archivovaný XMI soubor\n"
-#~ "*|Všechny soubory"
-
-#~ msgid "The file %1 does not exist."
-#~ msgstr "Soubor %1 neexistuje."
-
-#~ msgid "There was a problem uploading file: %1"
-#~ msgstr "Nastala chyba při zpětném načítání souboru: %1"
