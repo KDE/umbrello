@@ -520,7 +520,7 @@
     </para>
     <para>Allows customization of the Code Viewer. The <guilabel>Requested Font</guilabel>
         section allows the selection of the font, font style, and font size. A representation
-        of you choices is shown below the choices.
+        of your choices is shown below the choices.
     </para>
     <para>
         In the <guilabel>Colors</guilabel> section, changes can be made to Paper, Font, Selected,

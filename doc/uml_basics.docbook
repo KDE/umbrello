@@ -370,7 +370,7 @@ exist on its own. They exist only inside the whole, and if the whole is destroye
 <para>Class diagrams can contain several other items besides classes.</para>
 <sect4 id="interfaces">
 <title>Interfaces</title>
-<para>Interfaces are abstract classes which means instances cannot be directly created of them.  They can contain operations but no attributes.  Classes can inherit from interfaces (through a realisation association) and instances can then be made of these diagrams.</para>
+<para>Interfaces are abstract classes which means instances cannot be directly created of them.  They can contain operations but no attributes.  Classes can inherit from interfaces (through a realisation association) and instances can then be made of these classes.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="datatype">
