@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-07 00:53+0000\n"
-"PO-Revision-Date: 2023-01-02 07:12\n"
+"PO-Revision-Date: 2023-01-12 10:31\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -5187,10 +5187,9 @@ msgid "new_unique_constraint"
 msgstr "新唯一约束"
 
 #: model_utils.cpp:587
-#, fuzzy, kde-format
-#| msgid "new_class"
+#, kde-format
 msgid "new_use_case"
-msgstr "新建类"
+msgstr ""
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
 #, kde-format
@@ -6844,10 +6843,9 @@ msgstr "容器类的名称"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:523
-#, fuzzy, kde-format
-#| msgid "Vector Class Name Include "
+#, kde-format
 msgid "Vector Class Name Include"
-msgstr "容器类名包含"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:524
@@ -6923,10 +6921,9 @@ msgstr "用于生成 doxygen 文档的标记(\\\\、@)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:560
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors ( D ) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
-msgstr "自动生成属性存取器(D)"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:561
@@ -6948,17 +6945,15 @@ msgstr "启用/禁用自动生成关联存取器(D)"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:570
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (D) "
+#, kde-format
 msgid "Build ANT Document (D)"
-msgstr "构建 ANT 文档(D)"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:571
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (D) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (D)"
-msgstr "启用/禁用 ANT 文档构建(D)"
+msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:577
@@ -6974,38 +6969,33 @@ msgstr "启用/禁用属性存取器的自动生成(Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:582
-#, fuzzy, kde-format
-#| msgid "Auto Generate Assoc Accessors (Java) "
+#, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
-msgstr "自动生成关联存取器(Java)"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:583
-#, fuzzy, kde-format
-#| msgid "Enables/Disables auto generation of association accessors (Java) "
+#, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
-msgstr "启用/禁用关联存取器的自动生成(Java)"
+msgstr ""
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:587
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (Java) "
+#, kde-format
 msgid "Build ANT Document (Java)"
-msgstr "构建 ANT 文档(Java)"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:588
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (Java) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (Java)"
-msgstr "启用/禁用 ANT 文档构建(Java)"
+msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:594
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors (Ruby) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
-msgstr "自动生成属性存取器(Ruby)"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:595
@@ -7881,10 +7871,9 @@ msgstr ""
 "已有文件将被覆盖。"
 
 #: umllistview.cpp:560
-#, fuzzy, kde-format
-#| msgid "File Exist"
+#, kde-format
 msgid "File Exists"
-msgstr "文件已存在"
+msgstr ""
 
 #: umllistview.cpp:568 umlviewimageexportermodel.cpp:270
 #, kde-format
@@ -8725,10 +8714,9 @@ msgid "Enter the name of the new combined fragment:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:929
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new floating dash line:"
-msgstr "输入新状态的名称："
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:930
 #, kde-format
@@ -8891,10 +8879,9 @@ msgid "Enter the new name of the combined fragment:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1020
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the floating dash line:"
-msgstr "输入模型的新名称："
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1021
 #, kde-format
@@ -9131,29 +9118,3 @@ msgstr "状态"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "前置/后置条件"
-
-#~ msgid "All Supported Files"
-#~ msgstr "支持的所有文件"
-
-#~ msgid "the directory of the file"
-#~ msgstr "文件所在目录"
-
-#~ msgid "set active language"
-#~ msgstr "设置活动语言"
-
-#~ msgid ""
-#~ "*.xmi|XMI File\n"
-#~ "*.xmi.tgz|Gzip Compressed XMI File\n"
-#~ "*.xmi.tar.bz2|Bzip2 Compressed XMI File\n"
-#~ "*|All Files"
-#~ msgstr ""
-#~ "*.xmi|XMI 文件\n"
-#~ "*.xmi.tgz|Gzip 压缩的 XMI 文件\n"
-#~ "*.xmi.tar.bz2|Bzip2 压缩的 XMI 文件\n"
-#~ "*|所有文件"
-
-#~ msgid "The file %1 does not exist."
-#~ msgstr "文件 %1 不存在。"
-
-#~ msgid "There was a problem uploading file: %1"
-#~ msgstr "上传文件出错：%1"
