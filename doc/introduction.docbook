@@ -17,7 +17,7 @@ will benefit from a good model because it will give you an overview that will he
 you code things right the first time.
 </para>
 <para>
-&UML; is the diagramming language used to describing such models. You can represent your ideas in &UML;
+&UML; is the diagramming language used for describing such models. You can represent your ideas in &UML;
 using different types of diagrams. &umbrello; 2.11 supports the following types:
 </para>
 <itemizedlist>
