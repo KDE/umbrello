@@ -66,10 +66,6 @@ void UIOptionsPage::setupPage()
     layoutAssocs->setMargin(fontMetrics().height());
     uiPageLayout->addWidget(boxAssocs);
 
-    m_angularLinesCB = new QCheckBox(i18n("Use angular association lines"), boxAssocs);
-    m_angularLinesCB->setChecked(m_options->generalState.angularlines);
-    layoutAssocs->addWidget(m_angularLinesCB, 0, 0);
-
     m_layoutTypeW = new SelectLayoutTypeWidget(i18n("Create new association lines as:"), Settings::optionState().generalState.layoutType, boxAssocs);
     m_layoutTypeW->addToLayout(layoutAssocs, 1);
 
@@ -165,7 +161,6 @@ void UIOptionsPage::setDefaults()
     slotLineWidthCBChecked(false);
     m_rightToLeftUI->setChecked(false);
     m_layoutTypeW->setCurrentLayout(Uml::LayoutType::Direct);
-    m_angularLinesCB->setChecked(false);
 }
 
 /**
@@ -181,7 +176,6 @@ void UIOptionsPage::apply()
     m_options->uiState.backgroundColor = m_bgColorB->color();
     m_options->uiState.gridDotColor = m_gridColorB->color();
     m_options->generalState.layoutType = m_layoutTypeW->currentLayout();
-    m_options->generalState.angularlines = m_angularLinesCB->isChecked();
     UmbrelloSettings::setRightToLeftUI(m_rightToLeftUI->isChecked());
     qApp->setLayoutDirection(UmbrelloSettings::rightToLeftUI() ? Qt::RightToLeft : Qt::LeftToRight);
 }

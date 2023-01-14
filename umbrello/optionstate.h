@@ -33,7 +33,6 @@ public:
       : undo(false),
         tabdiagrams(false),
         newcodegen(false),
-        angularlines(false),
         layoutType(Uml::LayoutType::Undefined),
         footerPrinting(false),
         autosave(false),
@@ -52,7 +51,6 @@ public:
     bool undo;
     bool tabdiagrams;
     bool newcodegen;
-    bool angularlines;
     Uml::LayoutType::Enum layoutType;
     bool footerPrinting;
     bool autosave;

@@ -33,11 +33,6 @@
          <whatsthis>Enables/Disables Support for the New Code Generator</whatsthis>
          <default>false</default>
        </entry>
-       <entry name="angularlines" type="Bool">
-         <label>Angular Lines</label>
-         <whatsthis>Enables/Disables Support for Angular Lines in diagrams</whatsthis>
-         <default>true</default>
-       </entry>
        <entry name="layoutType" type="Enum">
          <label>Layout Type</label>
          <whatsthis>The layout type to use for new lines</whatsthis>

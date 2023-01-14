@@ -15,7 +15,6 @@ namespace Settings {
     #ifdef ENABLE_NEW_CODE_GENERATORS
         newcodegen = UmbrelloSettings::newcodegen();
     #endif
-        angularlines = UmbrelloSettings::angularlines();
         layoutType = UmbrelloSettings::layoutType();
         footerPrinting =  UmbrelloSettings::footerPrinting();
         uml2 = UmbrelloSettings::uml2();
@@ -45,7 +44,6 @@ namespace Settings {
         UmbrelloSettings::setUndo(undo);
         UmbrelloSettings::setTabdiagrams(tabdiagrams);
         UmbrelloSettings::setNewcodegen(newcodegen);
-        UmbrelloSettings::setAngularlines(angularlines);
         UmbrelloSettings::setFooterPrinting(footerPrinting);
         UmbrelloSettings::setAutosave(autosave);
         UmbrelloSettings::setTime(time);

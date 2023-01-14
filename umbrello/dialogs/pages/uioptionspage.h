@@ -61,7 +61,6 @@ protected:
     KColorButton * m_bgColorB;
     QSpinBox     * m_lineWidthB;
     QCheckBox * m_useFillColorCB;
-    QCheckBox *m_angularLinesCB;
     SelectLayoutTypeWidget *m_layoutTypeW;
     void setupPage();
 
