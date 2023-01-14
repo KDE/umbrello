@@ -467,7 +467,7 @@
 <title
 >Interfícies</title>
 <para
->Les interfícies són classes abstractes, el que significa que les instàncies no poden ser directament creades per elles. Poden contenir operadors però no atributs. Les classes poden heretar de les interfícies (a través de la realització d'una associació) i llavors es poden fer les instàncies des d'aquests diagrames.</para>
+>Les interfícies són classes abstractes, el que significa que les instàncies no poden ser directament creades per elles. Poden contenir operadors però no atributs. Les classes poden heretar de les interfícies (a través de la realització d'una associació) i llavors es poden fer les instàncies des d'aquestes classes.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="datatype">
