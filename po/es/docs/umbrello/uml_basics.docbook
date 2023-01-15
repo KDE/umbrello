@@ -465,7 +465,7 @@
 <title
 >Interfaces</title>
 <para
->Las interfaces son clases abstractas, lo que significa que no se pueden crear directamente instancias de ellas. Pueden contener operaciones, pero no atributos. Las clases pueden heredar de interfaces (mediante una asociación de realización), en cuyo caso se pueden hacer instancias de estos diagramas.</para>
+>Las interfaces son clases abstractas, lo que significa que no se pueden crear directamente instancias de ellas. Pueden contener operaciones, pero no atributos. Las clases pueden heredar de interfaces (mediante una asociación de realización), en cuyo caso se pueden crear instancias de estas clases.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="datatype">
