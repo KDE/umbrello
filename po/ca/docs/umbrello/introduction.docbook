@@ -7,7 +7,7 @@
 <para
 >Tenir un bon model del vostre programari és la millor manera de comunicar-vos amb altres desenvolupadors que treballen en el projecte i amb els vostres clients. Un bon model és extremadament important per projectes de mitjana i gran envergadura, però també és molt útil pels petits. Encara que esteu treballant en un petit projecte d'una sola persona us beneficiareu d'un bon model perquè dona una vista general que pot ajudar a programar bé les coses a la primera. </para>
 <para
->&UML; is the diagramming language used for describing such models. You can represent your ideas in &UML; using different types of diagrams. &umbrello; 2.11 supports the following types: </para>
+>&UML; és el llenguatge de diagrames usat per a descriure aquests models. Podeu representar les vostres idees en &UML; usant diferents tipus de diagrames. L'&umbrello; 2.11 implementa els següents tipus: </para>
 <itemizedlist>
 <listitem
 ><para
