@@ -11,6 +11,7 @@
   <name xml:lang="de">Umbrello</name>
   <name xml:lang="el">Umbrello</name>
   <name xml:lang="en-GB">Umbrello</name>
+  <name xml:lang="eo">Umbrello</name>
   <name xml:lang="es">Umbrello</name>
   <name xml:lang="et">Umbrello</name>
   <name xml:lang="eu">Umbrello</name>
@@ -43,6 +44,7 @@
   <summary xml:lang="de">UML-Modeller</summary>
   <summary xml:lang="el">Μοντελοποιητής UML</summary>
   <summary xml:lang="en-GB">UML Modeller</summary>
+  <summary xml:lang="eo">UML-Modelilo</summary>
   <summary xml:lang="es">Modelador UML</summary>
   <summary xml:lang="et">UML-i modelleerimise rakendus</summary>
   <summary xml:lang="eu">UML modelatzailea</summary>
@@ -79,6 +81,7 @@
     <p xml:lang="de">Umbrello ist ein Modellierungswerkzeug und Quelltextgenerator für die vereinheitlichte Modellierungssprache (UML). Es können Diagramme von Software und anderen System im Industriestandard UML sowie Quelltext für verschiedene Sprachen erstellt werden.</p>
     <p xml:lang="el">Το Umbrello είναι ένα εργαλείο για τη γλώσσα μοντελοποίησης λογισμικού (UML) και δημιουργίας κώδικα. Μπορεί να δημιουργήσει διαγράμματα λογισμικού και άλλων συστημάτων βιομηχανικού πρότυπου UML καθώς και να δημιουργήσει κώδικα από τα διαγράμματα UML από μία ποικιλία γλωσσών προγραμματισμού.</p>
     <p xml:lang="en-GB">Umbrello is a Unified Modelling Language (UML) modelling tool and code generator. It can create diagrams of software and other systems in the industry-standard UML format, and can also generate code from UML diagrams in a variety of programming languages.</p>
+    <p xml:lang="eo">Umbrello estas modelilo kaj kodgenerilo de Unuiĝinta Modelad-Lingvo (UML). Ĝi povas krei diagramojn de softvaraj aŭ aliaj sistemoj en la indstrie normigita UML-formato, kaj povas ankaŭ generi fontkodon el UML-diagramoj en vario de programlingvoj.</p>
     <p xml:lang="es">Umbrello es una herramienta de modelado y de generación de código para el lenguaje unificado de modelado (UML). Puede crear diagramas de software y de otros sistemas en el formato estándar de la industria UML, además de generar código a partir de diagramas UML en diversos lenguajes de programación.</p>
     <p xml:lang="et">Umbrello on unifitseeritud modelleerimiskeele UML modelleerimistööriist ja koodi genereerija. See võib luua tarkvara ja muude süsteemide skeeme standardses UML-vormingus, samuti genereerida UML-skeemide põhjal koodi mitmes programmeerimiskeeles.</p>
     <p xml:lang="eu">Umbrello UML (Unified Modelling Language - modelatzeko lengoaia bateratua) modelatzeko tresna bat eta kode-sortzaile bat da. Software-diagramak eta beste sistema batzuk sor ditzake industriaren UML formatu estandarrean, eta UML diagrametatik kodea sor dezake hainbat lengoaiatan.</p>
@@ -111,6 +114,7 @@
     <p xml:lang="de">Funktionen:</p>
     <p xml:lang="el">Χαρακτηριστικά:</p>
     <p xml:lang="en-GB">Features:</p>
+    <p xml:lang="eo">Kapabloj:</p>
     <p xml:lang="es">Funciones:</p>
     <p xml:lang="et">Omadused:</p>
     <p xml:lang="eu">Ezaugarriak:</p>
@@ -144,6 +148,7 @@
       <li xml:lang="de">Unterstützte Formate: XMI</li>
       <li xml:lang="el">Υποστηριζόμενοι τύποι: XMI</li>
       <li xml:lang="en-GB">Supported formats: XMI</li>
+      <li xml:lang="eo">Subtenataj formatoj: XMI</li>
       <li xml:lang="es">Formatos permitidos: XMI</li>
       <li xml:lang="et">Toetatud vormingud: XMI</li>
       <li xml:lang="eu">Onartutako formatuak: XMI</li>
@@ -175,6 +180,7 @@
       <li xml:lang="de">Verschiedene Diagramm-Typen werden unterstützt: Anwendungsfalldiagramm, Klassendiagramm, Sequenzdiagramm, Kommunikationsdiagramm, Zustandsdiagramm, Aktivitätsdiagramm, Komponentendiagramm, Verteilungsdiagramm, Entity-Relationship-Diagramm</li>
       <li xml:lang="el">Υποστηρίζονται διάφοροι τύποι διαγραμμάτων: περίπτωσης χρήσης, κλάσης, ακολουθίας, επικοινωνίας, κατάστασης, συστατικού, ανάπτυξης, σχέσεων οντότητας</li>
       <li xml:lang="en-GB">Several type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationship</li>
+      <li xml:lang="eo">Pluraj diagramtipoj subtenataj: uzkaza, klasa, sekvenca, komunikada, stata, aktiveca, komponanta, deploja, entorilata</li>
       <li xml:lang="es">Permite usar varios tipos de diagramas: casos de uso, clase, secuencia, comunicación, estado, actividad, componente, despliegue y relación de entidades</li>
       <li xml:lang="et">Toetatud on mitut tüüpi skeemid: kasutus, klass, järgnevus, suhtlus, olek, tegevus, komponent, evitus, olem-seos</li>
       <li xml:lang="eu">Zenbait diagrama mota onartzen ditu: erabilera kasua, klasea, sekuentzia, lankidetza, egoera, jarduera, osagaia, hedatzea, entitate-erlazioa</li>
@@ -213,6 +219,7 @@
       <caption xml:lang="cs">Zobrazuje diagram třídy</caption>
       <caption xml:lang="de">Anzeige eines Klassendiagramms</caption>
       <caption xml:lang="en-GB">Showing class diagram</caption>
+      <caption xml:lang="eo">Montranta klasdiagramon</caption>
       <caption xml:lang="es">Visualización de un diagrama de clase</caption>
       <caption xml:lang="et">Klassiskeemi näitamine</caption>
       <caption xml:lang="eu">Klase-diagrama erakusten</caption>
