@@ -1789,7 +1789,7 @@ msgstr "Contingut"
 #: dialogs/classpropertiesdialog.cpp:337
 #, kde-format
 msgid "Contents Settings"
-msgstr "Configuració dels continguts"
+msgstr "Configureu el contingut"
 
 #: dialogs/classpropertiesdialog.cpp:347
 #: dialogs/pages/classassociationspage.cpp:42
@@ -2046,13 +2046,13 @@ msgstr "Exporta totes les vistes"
 #: dialogs/exportallviewsdialogbase.ui:41
 #, kde-format
 msgid "The base directory used to save the images"
-msgstr "El directori base utilitzat per a guardar les imatges"
+msgstr "El directori base utilitzat per que es guardarà les imatges"
 
 #. i18n: ectx: property (text), widget (QLabel, kURLRequesterLabel)
 #: dialogs/exportallviewsdialogbase.ui:28
 #, kde-format
 msgid "&Directory to save the diagrams in:"
-msgstr "&Directori per a guardar els diagrames a:"
+msgstr "&Directori per que es guardarà els diagrames a:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_useFolders)
 #: dialogs/exportallviewsdialogbase.ui:57
@@ -2062,7 +2062,7 @@ msgid ""
 "in the document to store the views"
 msgstr ""
 "Crea en el directori de destinació la mateixa estructura en arbre\n"
-"utilitzada en el document per a guardar les vistes"
+"utilitzada en el document per que es guardarà les vistes"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_useFolders)
 #: dialogs/exportallviewsdialogbase.ui:61
@@ -2076,7 +2076,7 @@ msgid ""
 msgstr ""
 "Les vistes són guardades en carpetes en el document. Amb esta opció es pot "
 "crear en el directori base seleccionat la mateixa estructura en arbre "
-"utilitzada en el document per a guardar les vistes.\n"
+"utilitzada en el document per que es guardarà les vistes.\n"
 "Tan sols les carpetes creades per l'usuari seran creades en el directori "
 "base (la vista lògica, la vista de cas d'ús i altres no seran creades)."
 
@@ -2185,7 +2185,7 @@ msgstr "Tipus de lletra"
 #: dialogs/multipagedialogbase.cpp:338
 #, kde-format
 msgid "Font Settings"
-msgstr "Configuració del tipus de lletra"
+msgstr "Configureu el tipus de lletra"
 
 #: dialogs/multipagedialogbase.cpp:413
 #, kde-format
@@ -3343,7 +3343,7 @@ msgstr "Importador de codi"
 #: dialogs/settingsdialog.cpp:123
 #, kde-format
 msgid "Code Import Settings"
-msgstr "Configuració de l'importador de codi"
+msgstr "Configureu l'importador de codi"
 
 #: dialogs/settingsdialog.cpp:132 umllistview.cpp:1443
 #, kde-format
@@ -3373,7 +3373,7 @@ msgstr "Disposició automàtica"
 #: dialogs/settingsdialog.cpp:147
 #, kde-format
 msgid "Auto Layout Settings"
-msgstr "Configuració de la disposició automàtica"
+msgstr "Configureu la disposició automàtica"
 
 #: dialogs/singlepagedialogbase.cpp:35 dialogs/singlepagedialogbase.cpp:49
 #, kde-format
@@ -4303,8 +4303,8 @@ msgid ""
 "keep the tree structure used to store the views in the document in the "
 "target directory"
 msgstr ""
-"Manté l'estructura en arbre utilitzada per a guardar les vistes del document "
-"en el directori de destinació"
+"Manté l'estructura en arbre utilitzada per que es guardarà les vistes en el "
+"document en el directori de destinació"
 
 #: main.cpp:165
 #, kde-format
@@ -7642,7 +7642,7 @@ msgstr "No es pot veure el codi des d'un simple escriptor de codi."
 #: uml.cpp:2732
 #, kde-format
 msgid "Select file(s) to import:"
-msgstr "Selecció dels fitxers que s'han d'importar:"
+msgstr "Seleccioneu els fitxers que s'han d'importar:"
 
 #: uml.cpp:2761
 #, kde-format
@@ -9189,12 +9189,3 @@ msgstr "Estat"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "Pre/post condició"
-
-#~ msgid "Use angular association lines"
-#~ msgstr "Utilitza línies d'associació angulars"
-
-#~ msgid "Angular Lines"
-#~ msgstr "Línies angulars"
-
-#~ msgid "Enables/Disables Support for Angular Lines in diagrams"
-#~ msgstr "Activa/desactiva l'ús de les línies angulars als diagrames"
