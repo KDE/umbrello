@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-11-02 00:52+0000\n"
-"PO-Revision-Date: 2023-01-12 08:16+0100\n"
+"PO-Revision-Date: 2023-01-17 00:42+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1272,7 +1272,7 @@ msgstr "გამოტოვებულია"
 #: codeimpwizard/codeimpstatuspage.cpp:344
 #, kde-format
 msgid "Cannot open file!"
-msgstr ""
+msgstr "ფაილის გახსნის შეცდომა!"
 
 #: codegenwizard/codegenstatuspage.cpp:230
 #, kde-format
@@ -3409,7 +3409,7 @@ msgstr ""
 #, kde-format
 msgctxt "attribute type"
 msgid "&Type:"
-msgstr ""
+msgstr "&ტიპი:"
 
 #: dialogs/stereoattributedialog.cpp:88
 #, kde-format
@@ -3607,7 +3607,7 @@ msgstr "განახლებისას"
 #: dialogs/umlforeignkeyconstraintdialog.cpp:240
 #, kde-format
 msgid "On Delete"
-msgstr ""
+msgstr "წაშლისას"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:272
 #, kde-format
@@ -6498,7 +6498,7 @@ msgstr ""
 #: umbrello.kcfg:312 umbrello.kcfg:313
 #, kde-format
 msgid "Selected Color"
-msgstr ""
+msgstr "არჩეული ფერი"
 
 #. i18n: ectx: label, entry (editBlockColor), group (Code Viewer Options)
 #: umbrello.kcfg:317
@@ -8005,7 +8005,7 @@ msgstr "new_parameter"
 #, kde-format
 msgctxt "object name"
 msgid "Name"
-msgstr ""
+msgstr "სახელი"
 
 #: umlmodel/package.cpp:170
 #, kde-format
@@ -8257,7 +8257,7 @@ msgstr "დიაგრამის სახელი"
 #: umlwidgets/objectnodewidget.cpp:329
 #, kde-format
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: umlwidgets/combinedfragmentwidget.cpp:310
 #: umlwidgets/combinedfragmentwidget.cpp:441
@@ -8318,13 +8318,13 @@ msgstr "შეიყვანეთ ახალი ტექსტი:"
 #: umlwidgets/floatingtextwidget.cpp:366
 #, kde-format
 msgid "ERROR"
-msgstr ""
+msgstr "შეცდომა"
 
 #: umlwidgets/floatingtextwidget.cpp:722
 #, kde-format
 msgctxt "operation name"
 msgid "Name"
-msgstr ""
+msgstr "სახელი"
 
 #: umlwidgets/floatingtextwidget.cpp:723
 #, kde-format
@@ -8968,12 +8968,12 @@ msgstr ""
 #: umlwidgets/widgetbase.cpp:1278 worktoolbar.cpp:366
 #, kde-format
 msgid "Datatype"
-msgstr ""
+msgstr "მონაცემის ტიპი"
 
 #: umlwidgets/widgetbase.cpp:1284 worktoolbar.cpp:367
 #, kde-format
 msgid "Enum"
-msgstr ""
+msgstr "სია"
 
 #: umlwidgets/widgetbase.cpp:1287
 #, kde-format
@@ -9034,7 +9034,7 @@ msgstr "ეგზემპლარი"
 #, kde-format
 msgctxt "selection arrow"
 msgid "Select"
-msgstr ""
+msgstr "აირჩიეთ"
 
 #: worktoolbar.cpp:328
 #, kde-format
@@ -9070,7 +9070,7 @@ msgstr "კლასი"
 #: worktoolbar.cpp:355
 #, kde-format
 msgid "Send signal"
-msgstr ""
+msgstr "სიგნალის გაგზავნა"
 
 #: worktoolbar.cpp:356
 #, kde-format
