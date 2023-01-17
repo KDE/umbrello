@@ -9,6 +9,7 @@
   <name xml:lang="de">KDevelop – PHP-Unterstützung</name>
   <name xml:lang="el">KDevelop PHP Support</name>
   <name xml:lang="en-GB">KDevelop PHP Support</name>
+  <name xml:lang="eo">KDevelop PHP-Subteno</name>
   <name xml:lang="es">Implementación de PHP para KDevelop</name>
   <name xml:lang="et">KDevelopi PHP toetus</name>
   <name xml:lang="eu">KDevelop-en PHP euskarria</name>
@@ -38,6 +39,7 @@
   <summary xml:lang="de">PHP-Sprachunterstützung für KDevelop</summary>
   <summary xml:lang="el">Υποστήριξη γλώσσας PHP για το KDevelop</summary>
   <summary xml:lang="en-GB">PHP language support for KDevelop</summary>
+  <summary xml:lang="eo">PHP-lingvsubteno por KDevelop</summary>
   <summary xml:lang="es">Implementación del lenguaje PHP para KDevelop</summary>
   <summary xml:lang="et">KDevelop PHP keele toetus</summary>
   <summary xml:lang="eu">KDevelop-erako PHP lengoaiaren euskarria</summary>
