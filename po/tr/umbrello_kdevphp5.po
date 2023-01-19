@@ -4,20 +4,21 @@
 # Translators:
 # obsoleteman <tulliana@gmail.com>, 2009,2011.
 # Volkan Gezer <volkangezer@gmail.com>, 2015.
+# Emir SARI <emir_sari@icloud.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: extragear-kdevelop-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-05-27 00:18+0000\n"
-"PO-Revision-Date: 2017-08-12 15:44+0000\n"
-"Last-Translator: Kaan <kaanozdincer@gmail.com>\n"
+"PO-Revision-Date: 2023-01-18 22:31+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -216,7 +217,7 @@ msgstr "Özellik sabitlere sahip olamaz."
 msgid ""
 "Only booleans, ints, floats and strings are allowed for class constants."
 msgstr ""
-"Sadece boole, int, float ve string olanlar sınıf için sabit olabilirler."
+"Yalnızca boole, int, float ve string olanlar sınıf için sabit olabilirler."
 
 #: duchain/builders/declarationbuilder.cpp:709
 #, kde-format
@@ -232,7 +233,8 @@ msgstr "Metot niteleyici olarak static kullanılamaz"
 #, kde-format
 msgid "Default value for parameters with a class type hint can only be NULL."
 msgstr ""
-"Sınıf tipi ipucu ile parametreler için öntanımlı değer sadece NULL olabilir."
+"Sınıf tipi ipucu ile parametreler için öntanımlı değer yalnızca NULL "
+"olabilir."
 
 #: duchain/builders/declarationbuilder.cpp:763
 #, kde-format
