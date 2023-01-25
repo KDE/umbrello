@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2023-01-07 06:43+0100\n"
+"PO-Revision-Date: 2023-01-24 09:08+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -5373,7 +5373,7 @@ msgstr ""
 #: model_utils.cpp:665
 #, kde-format
 msgid "Enter the name of the new folder:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი საქაღალდის სახელი:"
 
 #: model_utils.cpp:666
 #, kde-format
@@ -6415,7 +6415,7 @@ msgstr ""
 #: umbrello.kcfg:297
 #, kde-format
 msgid "Paper Color"
-msgstr ""
+msgstr "ფურცლის ფერი"
 
 #. i18n: ectx: whatsthis, entry (paperColor), group (Code Viewer Options)
 #: umbrello.kcfg:298
@@ -6440,7 +6440,7 @@ msgstr ""
 #: umbrello.kcfg:307 umbrello.kcfg:308
 #, kde-format
 msgid "Selected Color"
-msgstr ""
+msgstr "არჩეული ფერი"
 
 #. i18n: ectx: label, entry (editBlockColor), group (Code Viewer Options)
 #: umbrello.kcfg:312
@@ -7106,7 +7106,7 @@ msgstr ""
 #: uml.cpp:445
 #, kde-format
 msgid "Opens a recently used file"
-msgstr ""
+msgstr "ამჟამად გამოყენებული ფაილის გახსნა"
 
 #: uml.cpp:446
 #, kde-format
@@ -7151,12 +7151,12 @@ msgstr ""
 #: uml.cpp:454
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
-msgstr ""
+msgstr "მონიშნული სექციის ამოჭრა და ბაფერში მოთავსება"
 
 #: uml.cpp:455
 #, kde-format
 msgid "Copies the selected section to the clipboard"
-msgstr ""
+msgstr "მონიშნული სექციის ბაფერში კოპირება"
 
 #: uml.cpp:456
 #, kde-format
@@ -7242,7 +7242,7 @@ msgstr ""
 #: uml.cpp:540
 #, kde-format
 msgid "&Debugging"
-msgstr ""
+msgstr "&გამართვა"
 
 #: uml.cpp:548
 #, kde-format
@@ -7476,17 +7476,17 @@ msgstr "გასვლა..."
 #: uml.cpp:1586
 #, kde-format
 msgid "Cutting selection..."
-msgstr ""
+msgstr "მონიშნულის ამოჭრა..."
 
 #: uml.cpp:1609
 #, kde-format
 msgid "Copying selection to clipboard..."
-msgstr ""
+msgstr "მონიშნულის ბაფერში კოპირება..."
 
 #: uml.cpp:1621
 #, kde-format
 msgid "Inserting clipboard contents..."
-msgstr ""
+msgstr "ბაფერის შემცველობის ჩასმა..."
 
 #: uml.cpp:1626
 #, kde-format
@@ -8007,7 +8007,7 @@ msgstr "კვანძის &სახელი:"
 #: umlmodel/umlobject.cpp:1263
 #, kde-format
 msgid "Package &name:"
-msgstr "&პაკეტის სახელი;"
+msgstr "&პაკეტის სახელი:"
 
 #: umlmodel/umlobject.cpp:1266
 #, kde-format
@@ -8022,7 +8022,7 @@ msgstr ""
 #: umlmodel/umlobject.cpp:1275
 #, kde-format
 msgid "Instance name:"
-msgstr "ეგზემპლარის სახელი"
+msgstr "ეგზემპლარის სახელი:"
 
 #: umlscene.cpp:718
 #, kde-format
@@ -8807,7 +8807,7 @@ msgstr "შეიყვანეთ კომბინირებული ფ�
 #: umlwidgets/widget_utils.cpp:1020
 #, kde-format
 msgid "Enter the new name of the floating dash line:"
-msgstr "შეიყვანეთ მცურავი პუნქტირული ხაზის ახალი სახელი"
+msgstr "შეიყვანეთ მცურავი პუნქტირული ხაზის ახალი სახელი:"
 
 #: umlwidgets/widget_utils.cpp:1021
 #, kde-format
@@ -8887,12 +8887,12 @@ msgstr ""
 #: umlwidgets/widgetbase.cpp:1257 worktoolbar.cpp:359
 #, kde-format
 msgid "Datatype"
-msgstr ""
+msgstr "მონაცემის ტიპი"
 
 #: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:360
 #, kde-format
 msgid "Enum"
-msgstr ""
+msgstr "სია"
 
 #: umlwidgets/widgetbase.cpp:1266
 #, kde-format
@@ -8989,7 +8989,7 @@ msgstr "კლასი"
 #: worktoolbar.cpp:348
 #, kde-format
 msgid "Send signal"
-msgstr ""
+msgstr "სიგნალის გაგზავნა"
 
 #: worktoolbar.cpp:349
 #, kde-format
