@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2023-01-24 09:08+0100\n"
+"PO-Revision-Date: 2023-01-25 06:16+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2275,22 +2275,22 @@ msgstr "ქმედებები"
 #: dialogs/pages/activitypage.cpp:77 dialogs/pages/classifierlistpage.cpp:176
 #, kde-format
 msgid "Move selected item to the top"
-msgstr ""
+msgstr "მონიშნული ელემენტის თავში ატანა"
 
 #: dialogs/pages/activitypage.cpp:83 dialogs/pages/classifierlistpage.cpp:182
 #, kde-format
 msgid "Move selected item up"
-msgstr ""
+msgstr "მონიშნული ელემენტის მაღლა ატანა"
 
 #: dialogs/pages/activitypage.cpp:89 dialogs/pages/classifierlistpage.cpp:188
 #, kde-format
 msgid "Move selected item down"
-msgstr ""
+msgstr "მონიშნული ელემენტის დაბლა ჩამოტანა"
 
 #: dialogs/pages/activitypage.cpp:95 dialogs/pages/classifierlistpage.cpp:194
 #, kde-format
 msgid "Move selected item to the bottom"
-msgstr ""
+msgstr "მონიშნული ელემენტის ბოლოში ჩამოტანა"
 
 #: dialogs/pages/activitypage.cpp:99
 #, kde-format
@@ -4286,7 +4286,7 @@ msgstr "ორთოგონალური"
 #: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:227
 #, kde-format
 msgid "New Template..."
-msgstr ""
+msgstr "ახალი ნიმუში..."
 
 #: menus/listpopupmenu.cpp:145
 #, kde-format
@@ -4902,7 +4902,7 @@ msgstr "გაწმენდა"
 #: menus/widgetbasepopupmenu.cpp:471 menus/widgetbasepopupmenu.cpp:514
 #, kde-format
 msgid "Change Text..."
-msgstr ""
+msgstr "ტექსტის შეცვლა…"
 
 #: menus/widgetbasepopupmenu.cpp:334 menus/widgetbasepopupmenu.cpp:585
 #, kde-format
