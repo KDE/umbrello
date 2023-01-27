@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2023-01-18 22:29+0300\n"
+"PO-Revision-Date: 2023-01-26 21:00+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -693,7 +693,7 @@ msgstr "<i><p align=\"center\">İçerilecek dosya</p></i>"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:526
 #, kde-format
 msgid "Use following for classes in generated code:"
-msgstr "Oluşturulmuş kod içindeki sınıflar için takibi kullan"
+msgstr "Üretilmiş kod içinde sınıflar için aşağıdakini kullan:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxDocumentation)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
@@ -1056,8 +1056,8 @@ msgid ""
 "If a file with the same name as the name code \n"
 "generator wants to use as output file already exists:"
 msgstr ""
-"Eğer kod oluşturucunun çıktı dosyası olarak kullanmak\n"
-"istediği dosya adı hali hazırda mevcutsa:"
+"Kod üretecinin çıktı dosyası adı olarak kullanmak \n"
+"istediği bir dosya adı halihazırda varsa:"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, ui_radioButtonOverwrite)
 #: codegenwizard/codegenoptionspage.ui:167
@@ -2264,7 +2264,7 @@ msgstr "&Merkezi Tampon"
 #: dialogs/objectnodedialog.cpp:166
 #, kde-format
 msgid "&Data Store "
-msgstr "&Veri Deposu"
+msgstr "&Veri Deposu "
 
 #: dialogs/objectnodedialog.cpp:169
 #, kde-format
@@ -2891,7 +2891,7 @@ msgstr ""
 #: dialogs/pages/diagrampropertiespage.ui:224
 #, kde-format
 msgid "Grid spacing:  "
-msgstr "Kılavuz aralığı:"
+msgstr "Izgara boşluklandırması:  "
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelX)
 #: dialogs/pages/diagrampropertiespage.ui:247
@@ -6037,7 +6037,7 @@ msgstr "İsim"
 #: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:80
 #, kde-format
 msgid "Type"
-msgstr "Tür:"
+msgstr "Tür"
 
 #: models/diagramsmodel.cpp:58
 #, fuzzy, kde-format
@@ -7476,7 +7476,7 @@ msgstr "&Sıra Diyagramı..."
 #: uml.cpp:495
 #, kde-format
 msgid "C&ommunication Diagram..."
-msgstr "&İletişim Diyagramı"
+msgstr "&İletişim Diyagramı..."
 
 #: uml.cpp:501
 #, kde-format
@@ -7603,7 +7603,7 @@ msgstr ""
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
-msgstr "Hazır."
+msgstr "Hazır"
 
 #: uml.cpp:852 uml.cpp:865
 #, fuzzy, kde-format
@@ -8076,7 +8076,7 @@ msgstr "UML ögeleri yükleniyor..."
 #: umldoc.cpp:2745
 #, kde-format
 msgid "Loading diagrams..."
-msgstr "Diyagramlar yükleniyor.."
+msgstr "Diyagramlar yükleniyor..."
 
 #: umldoc.cpp:3279
 #, kde-format
@@ -8141,7 +8141,7 @@ msgstr "Ayarlar"
 #: umllistview.cpp:2452
 #, kde-format
 msgid "Loading listview..."
-msgstr "Liste görünümleri yükleniyor.."
+msgstr "Liste görünümü yükleniyor..."
 
 #: umllistview.cpp:2821
 #, fuzzy, kde-format
@@ -8277,7 +8277,7 @@ msgstr ""
 #: umlmodel/umlobject.cpp:1236
 #, kde-format
 msgid "Association &name:"
-msgstr "İlişkile&ndirme İsmi"
+msgstr "İlişkilendirme &adı:"
 
 #: umlmodel/umlobject.cpp:1239
 #, kde-format
@@ -9461,79 +9461,3 @@ msgstr "Durum"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "Ön/Son koşul"
-
-#~ msgid "Use angular association lines"
-#~ msgstr "Açılı ilişki çizgileri kullan"
-
-#~ msgid "Angular Lines"
-#~ msgstr "Köşeli Çizgiler"
-
-#~ msgid "Enables/Disables Support for Angular Lines in diagrams"
-#~ msgstr "Diyagramlarda Köşeli Çizgiler Desteğini etkinleştir/pasifleştir"
-
-#~ msgid "All Supported Files"
-#~ msgstr "Desteklenen Tüm Dosyalar"
-
-#, fuzzy
-#~| msgid "The Width of the Line"
-#~ msgid "the directory of the file"
-#~ msgstr "Çizginin Genişliği"
-
-#, fuzzy
-#~| msgid "Active &Language"
-#~ msgid "set active language"
-#~ msgstr "&Etkin Dil"
-
-#, fuzzy
-#~| msgid ""
-#~| "*.xmi|XMI File\n"
-#~| "*.xmi.tgz|Gzip Compressed XMI File\n"
-#~| "*.xmi.tar.bz2|Bzip2 Compressed XMI File\n"
-#~| "*|All Files"
-#~ msgid ""
-#~ "*.xmi|XMI File\n"
-#~ "*.xmi.tgz|Gzip Compressed XMI File\n"
-#~ "*.xmi.tar.bz2|Bzip2 Compressed XMI File\n"
-#~ "*|All Files"
-#~ msgstr ""
-#~ "*.xmi|XMI Dosyası\n"
-#~ "*.xmi.tgz|Gzip ile Sıkıştırılmış XMI Dosyası\n"
-#~ "*.xmi.tar.bz2|Bzip2 ile Sıkıştırılmış XMI File\n"
-#~ "*|Tüm Dosyalar"
-
-#~ msgid "The file %1 does not exist."
-#~ msgstr "%1 dosyası bulunamadı."
-
-#~ msgid "There was a problem uploading file: %1"
-#~ msgstr "Dosyayı karşıya yüklerken bir sorun oluştu: %1"
-
-#~ msgid ""
-#~ "Write comments &for sections even if section \n"
-#~ "is empty"
-#~ msgstr ""
-#~ "Bölüm boş olsa bile bölümler için açıklamalar \n"
-#~ "yaz"
-
-#~ msgid "Force Section Documentation"
-#~ msgstr "Bölüm Belgelendirmeyi Zorla"
-
-#~ msgid "Enables/Disables verbose section documentation"
-#~ msgstr "Aytıntılı bölüm belgelendirmeyi etkinleştir/pasifleştir"
-
-#~ msgid "Paul Hensgen"
-#~ msgstr "Paul Hensgen"
-
-#~ msgid "Oliver Kellogg"
-#~ msgstr "Oliver Kellogg"
-
-#~ msgid "Ralf Habacker"
-#~ msgstr "Ralf Habacker"
-
-#~ msgid "Andi Fischer"
-#~ msgstr "Andi Fischer"
-
-#~ msgid "Jonathan Riddell"
-#~ msgstr "Jonathan Riddell"
-
-#~ msgid "Brian Thomas"
-#~ msgstr "Brian Thomas"
