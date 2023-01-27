@@ -4,35 +4,36 @@
 # Translators:
 # obsoleteman <tulliana@gmail.com>, 2009,2011.
 # Volkan Gezer <volkangezer@gmail.com>, 2015.
+# Emir SARI <emir_sari@icloud.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: extragear-kdevelop-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-05-27 00:18+0000\n"
-"PO-Revision-Date: 2017-08-12 15:44+0000\n"
-"Last-Translator: Kaan <kaanozdincer@gmail.com>\n"
+"PO-Revision-Date: 2023-01-26 20:53+0300\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Serdar Soytetir"
+msgstr "Serdar Soytetir, Emir SARI"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "tulliana@gmail.com"
+msgstr "tulliana@gmail.com, emir_sari@icloud.com"
 
 #: completion/implementationitem.cpp:60
 #, kde-format
 msgid "Override"
-msgstr "Üzerine Yaz"
+msgstr "Geçersiz Kıl"
 
 #: completion/implementationitem.cpp:63
 #, kde-format
@@ -42,13 +43,13 @@ msgstr "Gerçekleştir"
 #: completion/implementationitem.cpp:75
 #, kde-format
 msgid "From %1"
-msgstr "%1 Ögesinden"
+msgstr "Şuradan: %1"
 
 #. i18n: ectx: property (title), widget (QGroupBox, PhpDoc)
 #: docs/phpdocsconfig.ui:20
 #, kde-format
 msgid "PHP Manual Integration"
-msgstr "PHP Ek Kitabı Bütünleşmesi"
+msgstr "PHP Kılavuzu Tümleştirmesi"
 
 #. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
 #: docs/phpdocsconfig.ui:36
@@ -93,7 +94,7 @@ msgstr "Konum:"
 #: docs/phpdocsmodel.cpp:96
 #, kde-format
 msgid "<lost declaration>"
-msgstr "<kayıp bildirim>"
+msgstr "<kayıp beyan>"
 
 #: docs/phpdocsplugin.cpp:207
 #, kde-format
@@ -108,20 +109,14 @@ msgstr "Kullanılacak PHP belgelendirmesinin konumunu belirtir."
 
 #. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
 #: docs/phpdocssettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid ""
-#| "The location of the PHP documentation to use. You can either use a "
-#| "remote\n"
-#| "                 location like http://php.net or a local directory which "
-#| "contains the\n"
-#| "                 PHP documentation in HTML format with many files."
+#, kde-format
 msgid ""
 "The location of the PHP documentation to use. You can either use a remote\n"
 "                 location like https://php.net or a local directory which "
 "contains the\n"
 "                 PHP documentation in HTML format with many files."
 msgstr ""
-"Kullanılacak PHP belgelendirmesinin konumu. İsterseniz http://php.net gibi\n"
+"Kullanılacak PHP belgelendirmesinin konumu. İsterseniz https://php.net gibi\n"
 "                 uzak bir konumu veya çok sayfalı HTML biçimindeki yerel\n"
 "                 PHP belgelendirme dizinini kullanabilirsiniz."
 
@@ -143,17 +138,17 @@ msgstr "...belgelendirme yükleniyor..."
 #: duchain/builders/contextbuilder.cpp:397
 #, kde-format
 msgid "Circular inheritance of %1 and %2"
-msgstr "%1 ve %2 dairesel miras alma"
+msgstr "%1 ve %2 dairesel kalıtım"
 
 #: duchain/builders/declarationbuilder.cpp:321
 #, kde-format
 msgid "Access type for interface method %1 must be omitted."
-msgstr "Arayüz yöntemi %1 için erişim türü ihmal edilmelidir."
+msgstr "%1 arayüz yöntemi için erişim türü atlanmalıdır."
 
 #: duchain/builders/declarationbuilder.cpp:325
 #, kde-format
 msgid "Interface function %1 cannot contain body."
-msgstr "Arayüz fonksiyonu %1 gövde içeremez."
+msgstr "%1 arayüz işlevi gövde içeremez."
 
 #: duchain/builders/declarationbuilder.cpp:337
 #, kde-format
@@ -161,55 +156,57 @@ msgid ""
 "Class %1 contains abstract method %2 and must therefore be declared abstract "
 "or implement the method."
 msgstr ""
-"%1 sınıfı abstract metot %2 içeriyor ve bu nedenle abstract ya da "
-"gerçeklenmiş gerekiyor."
+"%1 sınıfı soyut yöntem %2 içeriyor ve bu nedenle soyut olarak beyan edilmesi "
+"veya yöntemin gerçeklenmesi gerekiyor."
 
 #: duchain/builders/declarationbuilder.cpp:343
 #, kde-format
 msgid "Abstract function %1 cannot contain body."
-msgstr "Özet fonksiyon %1 bir gövde içermiyor."
+msgstr "%1 soyut işlevi gövde içeremez."
 
 #: duchain/builders/declarationbuilder.cpp:346
 #, kde-format
 msgid "Cannot use the final modifier on an abstract class member."
-msgstr "Soyut sınıf üyesinde final niteleyicisi kullanılamaz."
+msgstr "Bir soyut sınıf üyesinde nihai değiştirici kullanılamaz."
 
 #: duchain/builders/declarationbuilder.cpp:356
 #, kde-format
 msgid "Non-abstract method %1 must contain body."
-msgstr "Soyut olmayan %1 metodu bir gövde içermelidir."
+msgstr "%1 soyut olmayan yöntemi gövde içermelidir."
 
 #: duchain/builders/declarationbuilder.cpp:374
 #, kde-format
 msgid "Properties cannot be declared final."
-msgstr "Özellikler sonda belirtilemez."
+msgstr "Özellikler nihai olarak beyan edilemez."
 
 #: duchain/builders/declarationbuilder.cpp:377
 #, kde-format
 msgid "Properties cannot be declared abstract."
-msgstr "Özellikler abstract olarak tanımlanamazlar."
+msgstr "Özellikler soyut olarak beyan edilemez."
 
 #: duchain/builders/declarationbuilder.cpp:423
 #, kde-format
 msgid ""
 "Trait method %1 has not been applied, because there are collisions with "
 "other trait methods on %2"
-msgstr "%1 özellik metodu uygulanmadı, çünkü %2 ile çakışmaları mevcut"
+msgstr ""
+"%1 özellik metodu uygulanmadı; çünkü %2 üzerindeki diğer özellik yöntemleri "
+"ile çakışıyor"
 
 #: duchain/builders/declarationbuilder.cpp:577
 #, kde-format
 msgid "Cannot redeclare private property %1 from this context."
-msgstr "Bu bağlamda, özel özellik %1 yeniden tanımlanamaz."
+msgstr "Bu bağlamda, %1 özel özelliği yeniden beyan edilemez."
 
 #: duchain/builders/declarationbuilder.cpp:583
 #, kde-format
 msgid "Cannot redeclare protected property %1 from this context."
-msgstr "Bu kapsamda korumalı özellik %1 yeniden tanımlanamaz."
+msgstr "Bu bağlamda, %1 korumalı özelliği yeniden beyan edilemez."
 
 #: duchain/builders/declarationbuilder.cpp:616
 #, kde-format
 msgid "Traits cannot have constants."
-msgstr "Özellik sabitlere sahip olamaz."
+msgstr "Özelliklerde sabitler olamaz."
 
 #: duchain/builders/declarationbuilder.cpp:657
 #, kde-format
@@ -221,12 +218,12 @@ msgstr ""
 #: duchain/builders/declarationbuilder.cpp:709
 #, kde-format
 msgid "Cannot use 'final' as method modifier"
-msgstr "Metot niteleyici olarak final kullanılamaz"
+msgstr "Yöntem değiştiricisi olarak 'final' kullanılamaz."
 
 #: duchain/builders/declarationbuilder.cpp:712
 #, kde-format
 msgid "Cannot use 'static' as method modifier"
-msgstr "Metot niteleyici olarak static kullanılamaz"
+msgstr "Yöntem değiştirici olarak 'static' kullanılamaz"
 
 #: duchain/builders/declarationbuilder.cpp:760
 #, kde-format
@@ -242,7 +239,7 @@ msgstr "Aşağıdaki parametrelere öntanımlı bir değer atanmak zorundadır."
 #: duchain/builders/declarationbuilder.cpp:870
 #, kde-format
 msgid "Cannot redeclare PHP internal %1."
-msgstr "PHP bütünleşiği %1 yeniden tanımlanamaz."
+msgstr "PHP içseli %1 yeniden beyan edilemez."
 
 #: duchain/builders/declarationbuilder.cpp:873
 #, kde-format
@@ -251,14 +248,15 @@ msgid ""
 "be incompatible, to improve maintainability consider using accessor methods "
 "in traits instead."
 msgstr ""
-"%1 ve %2 %1'in bileşiminde aynı özelliği (%3) tanımlar. Bu uyumsuz olabilir, "
-"sürdürülebilirliği geliştirmek için trait'lerde accessor metotlar kullanmayı "
-"düşünün."
+"%1 ve %2, %1 bileşiminde aynı özelliği (%3) tanımlar. Bu uyumsuz olabilir, "
+"sürdürülebilirliği artırmak için bunun yerine özelliklerde erişimci "
+"yöntemleri kullanmayı düşünün."
 
 #: duchain/builders/declarationbuilder.cpp:881
 #, kde-format
 msgid "Cannot redeclare %1, already declared in %2 on line %3."
-msgstr "%1 yeniden belirtilemez, zaten %2 içinde %3 satırında belirtilmiş."
+msgstr ""
+"%1 yeniden beyan edilemez, halihazırda %2 içinde %3 satırında beyan edilmiş."
 
 #: duchain/builders/declarationbuilder.cpp:967
 #, kde-format
@@ -266,8 +264,8 @@ msgid ""
 "Class %1 contains %2 abstract methods and must therefore be declared "
 "abstract or implement the remaining methods."
 msgstr ""
-"%1 sınıfı %2 özet yöntem içeriyor, bu nedenle abstract olarak tanımlanmalı "
-"ya da kalan yöntemler gerçeklenmeli."
+"%1 sınıfı %2 soyut yöntem içeriyor, bu nedenle soyut olarak tanımlanmalı "
+"veya kalan yöntemler gerçeklenmeli."
 
 #: duchain/builders/declarationbuilder.cpp:974
 #, kde-format
@@ -277,44 +275,44 @@ msgstr "$this yeniden atanamadı."
 #: duchain/builders/declarationbuilder.cpp:1410
 #, kde-format
 msgid "The use statement with non-compound name '%1' has no effect."
-msgstr "Bileşik olmayan '%1' isimli use ifadesinin bir etkisi yoktur."
+msgstr "Bileşik olmayan adı '%1' olan use ifadesinin hiçbir etkisi yok."
 
 #: duchain/builders/declarationbuilder.cpp:1434
 #, kde-format
 msgid "Cannot use '%1' as '%2' because the name is already in use."
-msgstr "'%1' ismi zaten kullanıldığından '%2' olarak kullanılamaz."
+msgstr "Ad zaten kullanımda olduğundan '%1', '%2' olarak kullanılamaz."
 
 #: duchain/builders/usebuilder.cpp:191
 #, kde-format
 msgid "Usage of %1 is deprecated."
-msgstr "%1 kullanımı önerilmemektedir."
+msgstr "%1, kullanımdan kaldırıldı."
 
 #: duchain/builders/usebuilder.cpp:193
 #, kde-format
 msgid "Declaration not found: %1"
-msgstr "Bildirim bulunamadı: %1"
+msgstr "Beyan bulunamadı: %1"
 
 #: duchain/declarations/traitmemberaliasdeclaration.cpp:55
 #: duchain/declarations/traitmethodaliasdeclaration.cpp:88
 #, kde-format
 msgid "Lost trait alias %1"
-msgstr "Trait takma ismi %1 kaybedildi"
+msgstr "Özellik arması %1 kayboldu"
 
 #: duchain/navigation/declarationnavigationcontext.cpp:113
 #: duchain/navigation/declarationnavigationcontext.cpp:126
 #, kde-format
 msgid "Use of %1 from %2<br />"
-msgstr "%2 den %1 kullanımı<br />"
+msgstr "Şuradan %1 kullanımı: %2<br />"
 
 #: duchain/navigation/declarationnavigationcontext.cpp:136
 #, kde-format
 msgid "Broken member alias trait."
-msgstr "Hatalı üye takma adlı trait."
+msgstr "Bozuk üye arması özelliği."
 
 #: duchain/navigation/declarationnavigationcontext.cpp:151
 #, kde-format
 msgid "PHP internal"
-msgstr "PHP bütünleşik ögesi"
+msgstr "PHP içseli"
 
 #: duchain/navigation/declarationnavigationcontext.cpp:161
 #, kde-format
@@ -330,22 +328,22 @@ msgstr "sihirli sabit"
 #: duchain/navigation/magicconstantnavigationcontext.cpp:62
 #, kde-format
 msgid "empty (not inside a class)"
-msgstr "boş (bir sınıf içerisinde değil)"
+msgstr "boş (bir sınıf içinde değil)"
 
 #: duchain/navigation/magicconstantnavigationcontext.cpp:81
 #, kde-format
 msgid "empty (not inside a method)"
-msgstr "boş (bir metot - method içerisinde değil)"
+msgstr "boş (bir yöntem içinde değil)"
 
 #: duchain/navigation/magicconstantnavigationcontext.cpp:91
 #, kde-format
 msgid "empty (not inside a function)"
-msgstr "boş (bir fonksiyon içerisinde değil)"
+msgstr "boş (bir işlev içinde değil)"
 
 #: duchain/navigation/magicconstantnavigationcontext.cpp:100
 #, kde-format
 msgid "empty (not inside a namespace)"
-msgstr "boş (bir isimlendirme uzayı içinde değil)"
+msgstr "boş (bir ad alanı içinde değil)"
 
 #: duchain/navigation/magicconstantnavigationcontext.cpp:104
 #, kde-format
@@ -356,7 +354,7 @@ msgstr "güncel değer: %1"
 #, kde-format
 msgctxt "as in list of int, set of string"
 msgid "%1 of %2"
-msgstr "%2'nin %1 kadarı"
+msgstr "%1/%2"
 
 #: parser/main.cpp:25
 #, kde-format
@@ -391,7 +389,7 @@ msgstr "Dosya açılamadı."
 #: parser/parsesession.cpp:77
 #, kde-format
 msgid "File permissions prevent opening for read."
-msgstr "Dosya izinleri okumak için açmaya izin vermiyor."
+msgstr "Dosya izinleri, okuma için açılmasını engelliyor."
 
 #: testprovider/phpunitrunjob.cpp:71
 #, kde-format
