@@ -9050,20 +9050,3 @@ msgstr "Състояние"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr ""
-
-#, fuzzy
-#~ msgid "All Supported Files"
-#~ msgstr "Всички файлове"
-
-#~ msgid "the directory of the file"
-#~ msgstr "папката на файла"
-
-#, fuzzy
-#~ msgid "set active language"
-#~ msgstr "Всички файлове"
-
-#~ msgid "The file %1 does not exist."
-#~ msgstr "Файлът %1 не съществува."
-
-#~ msgid "Paul Hensgen"
-#~ msgstr "Paul Hensgen"

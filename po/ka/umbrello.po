@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2023-01-25 06:16+0100\n"
+"PO-Revision-Date: 2023-01-27 10:16+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -5018,112 +5018,112 @@ msgstr ""
 #: model_utils.cpp:560
 #, kde-format
 msgid "new_actor"
-msgstr ""
+msgstr "new_actor"
 
 #: model_utils.cpp:561
 #, kde-format
 msgid "new_artifact"
-msgstr ""
+msgstr "new_artifact"
 
 #: model_utils.cpp:562 umlmodel/umlcanvasobject.cpp:186
 #, kde-format
 msgid "new_association"
-msgstr ""
+msgstr "new_association"
 
 #: model_utils.cpp:563 umlmodel/umlcanvasobject.cpp:189
 #, kde-format
 msgid "new_attribute"
-msgstr ""
+msgstr "new_attribute"
 
 #: model_utils.cpp:564
 #, kde-format
 msgid "new_category"
-msgstr ""
+msgstr "new_category"
 
 #: model_utils.cpp:565 umlmodel/umlcanvasobject.cpp:210
 #, kde-format
 msgid "new_check_constraint"
-msgstr ""
+msgstr "new_check_constraint"
 
 #: model_utils.cpp:567
 #, kde-format
 msgid "new_component"
-msgstr ""
+msgstr "new_component"
 
 #: model_utils.cpp:568
 #, kde-format
 msgid "new_datatype"
-msgstr ""
+msgstr "new_datatype"
 
 #: model_utils.cpp:569
 #, kde-format
 msgid "new_entity"
-msgstr ""
+msgstr "new_entity"
 
 #: model_utils.cpp:570
 #, kde-format
 msgid "new_entity_attribute"
-msgstr ""
+msgstr "new_entity_attribute"
 
 #: model_utils.cpp:571
 #, kde-format
 msgid "new_entity_constraint"
-msgstr ""
+msgstr "new_entity_constraint"
 
 #: model_utils.cpp:572
 #, kde-format
 msgid "new_enum"
-msgstr ""
+msgstr "new_enum"
 
 #: model_utils.cpp:573
 #, kde-format
 msgid "new_enum_literal"
-msgstr ""
+msgstr "new_enum_literal"
 
 #: model_utils.cpp:574
 #, kde-format
 msgid "new_folder"
-msgstr ""
+msgstr "new_folder"
 
 #: model_utils.cpp:575
 #, kde-format
 msgid "new_foreign_key_constraint"
-msgstr ""
+msgstr "new_foreign_key_constraint"
 
 #: model_utils.cpp:576
 #, kde-format
 msgid "new_instance"
-msgstr ""
+msgstr "new_instance"
 
 #: model_utils.cpp:577
 #, kde-format
 msgid "new_instance_attribute"
-msgstr ""
+msgstr "new_instance_attribute"
 
 #: model_utils.cpp:578
 #, kde-format
 msgid "new_interface"
-msgstr ""
+msgstr "new_interface"
 
 #: model_utils.cpp:579
 #, kde-format
 msgid "new_node"
-msgstr ""
+msgstr "new_node"
 
 #: model_utils.cpp:580 umlmodel/umlcanvasobject.cpp:195
 #, kde-format
 msgid "new_operation"
-msgstr ""
+msgstr "new_operation"
 
 #: model_utils.cpp:581
 #, kde-format
 msgid "new_package"
-msgstr ""
+msgstr "new_package"
 
 #: model_utils.cpp:582
 #, kde-format
 msgid "new_port"
-msgstr ""
+msgstr "new_port"
 
 #: model_utils.cpp:583
 #, kde-format
@@ -5133,17 +5133,17 @@ msgstr "ახალი_როლი"
 #: model_utils.cpp:584
 #, kde-format
 msgid "new_stereotype"
-msgstr ""
+msgstr "new_stereotype"
 
 #: model_utils.cpp:585 umlmodel/umlcanvasobject.cpp:192
 #, kde-format
 msgid "new_template"
-msgstr ""
+msgstr "new_template"
 
 #: model_utils.cpp:586 umlmodel/umlcanvasobject.cpp:204
 #, kde-format
 msgid "new_unique_constraint"
-msgstr ""
+msgstr "new_unique_constraint"
 
 #: model_utils.cpp:587
 #, kde-format
@@ -5153,27 +5153,27 @@ msgstr "new_use_case"
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
 #, kde-format
 msgid "new_object"
-msgstr ""
+msgstr "new_object"
 
 #: model_utils.cpp:609 umlwidgets/widget_utils.cpp:872
 #, kde-format
 msgid "New actor"
-msgstr ""
+msgstr "ახალი მსახიობი"
 
 #: model_utils.cpp:610 umlwidgets/widget_utils.cpp:873
 #, kde-format
 msgid "New artifact"
-msgstr ""
+msgstr "ახალი არტეფაქტი"
 
 #: model_utils.cpp:611 umlwidgets/widget_utils.cpp:874
 #, kde-format
 msgid "New association"
-msgstr ""
+msgstr "ახალი ასოციაცია"
 
 #: model_utils.cpp:612
 #, kde-format
 msgid "New attribute"
-msgstr ""
+msgstr "ახალი ატრიბუტი..."
 
 #: model_utils.cpp:613 umlwidgets/widget_utils.cpp:876
 #, kde-format
@@ -5183,27 +5183,27 @@ msgstr "ახალი კატეგორია"
 #: model_utils.cpp:614
 #, kde-format
 msgid "New check constraint"
-msgstr ""
+msgstr "ახალი შემოწმების შეზღუდვა"
 
 #: model_utils.cpp:615 umlwidgets/widget_utils.cpp:877
 #, kde-format
 msgid "New class"
-msgstr ""
+msgstr "ახალი კლასი"
 
 #: model_utils.cpp:616 umlwidgets/widget_utils.cpp:879
 #, kde-format
 msgid "New component"
-msgstr ""
+msgstr "ახალი კომპონენტი"
 
 #: model_utils.cpp:617 umlwidgets/widget_utils.cpp:880
 #, kde-format
 msgid "New datatype"
-msgstr ""
+msgstr "ახალი მონაცემის ტიპი"
 
 #: model_utils.cpp:618 umlwidgets/widget_utils.cpp:881
 #, kde-format
 msgid "New entity"
-msgstr ""
+msgstr "ახალი საგანი"
 
 #: model_utils.cpp:619
 #, kde-format
@@ -5218,7 +5218,7 @@ msgstr ""
 #: model_utils.cpp:621 umlwidgets/widget_utils.cpp:882
 #, kde-format
 msgid "New enum"
-msgstr ""
+msgstr "ახალი სია"
 
 #: model_utils.cpp:622
 #, kde-format
@@ -5248,37 +5248,37 @@ msgstr ""
 #: model_utils.cpp:627 umlwidgets/widget_utils.cpp:886
 #, kde-format
 msgid "New interface"
-msgstr ""
+msgstr "ახალი ინტერფეისი"
 
 #: model_utils.cpp:628 umlwidgets/widget_utils.cpp:888
 #, kde-format
 msgid "New node"
-msgstr ""
+msgstr "ახალი კვანძი"
 
 #: model_utils.cpp:629
 #, kde-format
 msgid "New operation"
-msgstr ""
+msgstr "ახალი ოპერაცია"
 
 #: model_utils.cpp:630 umlwidgets/widget_utils.cpp:892
 #, kde-format
 msgid "New package"
-msgstr ""
+msgstr "ახალი პაკეტი"
 
 #: model_utils.cpp:631 umlwidgets/widget_utils.cpp:894
 #, kde-format
 msgid "New port"
-msgstr ""
+msgstr "ახალი პორტი"
 
 #: model_utils.cpp:632
 #, kde-format
 msgid "New role"
-msgstr ""
+msgstr "ახალი როლი"
 
 #: model_utils.cpp:633
 #, kde-format
 msgid "New stereotype"
-msgstr ""
+msgstr "ახალი სტერეოტიპი"
 
 #: model_utils.cpp:634
 #, kde-format
@@ -5448,27 +5448,27 @@ msgstr ""
 #: model_utils.cpp:693 umlwidgets/widget_utils.cpp:963
 #, kde-format
 msgid "Rename actor"
-msgstr ""
+msgstr "მსახიობის სახელის გადარქმევა"
 
 #: model_utils.cpp:694 umlwidgets/widget_utils.cpp:964
 #, kde-format
 msgid "Rename artifact"
-msgstr ""
+msgstr "არტეფაქტის სახელის გადარქმევა"
 
 #: model_utils.cpp:695 umlwidgets/widget_utils.cpp:965
 #, kde-format
 msgid "Rename association"
-msgstr ""
+msgstr "ასოცირების სახელის გადარქმევა"
 
 #: model_utils.cpp:696
 #, kde-format
 msgid "Rename attribute"
-msgstr ""
+msgstr "ატრიბუტის სახელის გადარქმევა"
 
 #: model_utils.cpp:697 umlwidgets/widget_utils.cpp:967
 #, kde-format
 msgid "Rename category"
-msgstr ""
+msgstr "კატეგორიის სახელის გადარქმევა"
 
 #: model_utils.cpp:698
 #, kde-format
@@ -5478,17 +5478,17 @@ msgstr ""
 #: model_utils.cpp:699 umlwidgets/widget_utils.cpp:968
 #, kde-format
 msgid "Rename class"
-msgstr ""
+msgstr "კლასის სახელის გადარქმევა"
 
 #: model_utils.cpp:700 umlwidgets/widget_utils.cpp:970
 #, kde-format
 msgid "Rename component"
-msgstr ""
+msgstr "კომპონენტის სახელის გადარქმევა"
 
 #: model_utils.cpp:701 umlwidgets/widget_utils.cpp:971
 #, kde-format
 msgid "Rename datatype"
-msgstr ""
+msgstr "მონაცემის ტიპის სახელის გადარქმევა"
 
 #: model_utils.cpp:702 umlwidgets/widget_utils.cpp:972
 #, kde-format
@@ -5508,7 +5508,7 @@ msgstr ""
 #: model_utils.cpp:705 umlwidgets/widget_utils.cpp:973
 #, kde-format
 msgid "Rename enum"
-msgstr ""
+msgstr "ჩამონათვლის სახელის გადარქმევა"
 
 #: model_utils.cpp:706
 #, kde-format
@@ -5543,47 +5543,47 @@ msgstr ""
 #: model_utils.cpp:712 umlwidgets/widget_utils.cpp:979
 #, kde-format
 msgid "Rename node"
-msgstr ""
+msgstr "კვანძის სახელის გადარქმევა"
 
 #: model_utils.cpp:713
 #, kde-format
 msgid "Rename operation"
-msgstr ""
+msgstr "ოპერაციის სახელის გადარქმევა"
 
 #: model_utils.cpp:714 umlwidgets/widget_utils.cpp:983
 #, kde-format
 msgid "Rename package"
-msgstr ""
+msgstr "პაკეტის სახელის გადარქმევა"
 
 #: model_utils.cpp:715 umlwidgets/widget_utils.cpp:985
 #, kde-format
 msgid "Rename port"
-msgstr ""
+msgstr "პორტის სახელის გადარქმევა"
 
 #: model_utils.cpp:716
 #, kde-format
 msgid "Rename role"
-msgstr ""
+msgstr "როლის სახელის გადარქმევა"
 
 #: model_utils.cpp:717
 #, kde-format
 msgid "Rename stereotype"
-msgstr ""
+msgstr "სტერეოტიპის სახელის გადარქმევა"
 
 #: model_utils.cpp:718
 #, kde-format
 msgid "Rename template"
-msgstr ""
+msgstr "შაბლონის სახელის გადარქმევა"
 
 #: model_utils.cpp:719
 #, kde-format
 msgid "Rename unique constraint"
-msgstr ""
+msgstr "უნიკალური შეზღუდვის სახელის გადარქმევა"
 
 #: model_utils.cpp:720 umlwidgets/widget_utils.cpp:992
 #, kde-format
 msgid "Rename use case"
-msgstr ""
+msgstr "გამოყენების ვარიანტის სახელის გადარქმევა"
 
 #: model_utils.cpp:723
 #, kde-format
@@ -5593,27 +5593,27 @@ msgstr ""
 #: model_utils.cpp:735 umlwidgets/widget_utils.cpp:1009
 #, kde-format
 msgid "Enter the new name of the actor:"
-msgstr ""
+msgstr "შეიყვანეთ მსახიობის ახალი სახელი:"
 
 #: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1010
 #, kde-format
 msgid "Enter the new name of the artifact:"
-msgstr ""
+msgstr "შეიყვანეთ არტეფაქტის ახალი სახელი:"
 
 #: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1011
 #, kde-format
 msgid "Enter the new name of the association:"
-msgstr ""
+msgstr "შეიყვანეთ ასოცირების ახალი სახელი:"
 
 #: model_utils.cpp:738
 #, kde-format
 msgid "Enter the new name of the attribute:"
-msgstr ""
+msgstr "შეიყვანეთ ატრიბუტის ახალი სახელი:"
 
 #: model_utils.cpp:739 umlwidgets/widget_utils.cpp:1013
 #, kde-format
 msgid "Enter the new name of the category:"
-msgstr ""
+msgstr "შეიყვანეთ კატეგორიის ახალი სახელი:"
 
 #: model_utils.cpp:740
 #, kde-format
@@ -5623,17 +5623,17 @@ msgstr ""
 #: model_utils.cpp:741 umlwidgets/widget_utils.cpp:1014
 #, kde-format
 msgid "Enter the new name of the class:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი კლასის სახელი:"
 
 #: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1016
 #, kde-format
 msgid "Enter the new name of the component:"
-msgstr ""
+msgstr "შეიყვანეთ კომპონენტის ახალი სახელი:"
 
 #: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1017
 #, kde-format
 msgid "Enter the new name of the datatype:"
-msgstr ""
+msgstr "შეიყვანეთ მონაცემების ტიპის ახალი სახელი:"
 
 #: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1018
 #, kde-format
@@ -5653,7 +5653,7 @@ msgstr ""
 #: model_utils.cpp:747 umlwidgets/widget_utils.cpp:1019
 #, kde-format
 msgid "Enter the new name of the enum:"
-msgstr ""
+msgstr "შეიყვანეთ ჩამონათვლის ახალი სახელი:"
 
 #: model_utils.cpp:748
 #, kde-format
@@ -5663,12 +5663,12 @@ msgstr ""
 #: model_utils.cpp:749
 #, kde-format
 msgid "Enter the new name of the folder:"
-msgstr ""
+msgstr "შეიყვანეთ საქაღალდის ახალი სახელი:"
 
 #: model_utils.cpp:750
 #, kde-format
 msgid "Enter the new name of the foreign key constraint:"
-msgstr ""
+msgstr "შეიყვანეთ უცხო გასაღების შეზღუდვის ახალი სახელი:"
 
 #: model_utils.cpp:751 umlwidgets/widget_utils.cpp:1022
 #, kde-format
@@ -5683,47 +5683,47 @@ msgstr ""
 #: model_utils.cpp:753 umlwidgets/widget_utils.cpp:1023
 #, kde-format
 msgid "Enter the new name of the interface:"
-msgstr ""
+msgstr "შეიყვანეთ ინტერფეისის ახალი სახელი:"
 
 #: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1025
 #, kde-format
 msgid "Enter the new name of the node:"
-msgstr ""
+msgstr "შეიყვანეთ კვანძის ახალი სახელი:"
 
 #: model_utils.cpp:755
 #, kde-format
 msgid "Enter the new name of the operation:"
-msgstr ""
+msgstr "შეიყვანეთ ოპერაციის ახალი სახელი:"
 
 #: model_utils.cpp:756 umlwidgets/widget_utils.cpp:1029
 #, kde-format
 msgid "Enter the new name of the package:"
-msgstr ""
+msgstr "შეიყვანეთ პაკეტის ახალი სახელი:"
 
 #: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1031
 #, kde-format
 msgid "Enter the new name of the port:"
-msgstr ""
+msgstr "შეიყვანეთ პორტის ახალი სახელი:"
 
 #: model_utils.cpp:758
 #, kde-format
 msgid "Enter the new name of the role:"
-msgstr ""
+msgstr "შეიყვანეთ როლის ახალი სახელი:"
 
 #: model_utils.cpp:759
 #, kde-format
 msgid "Enter the new name of the stereotype:"
-msgstr ""
+msgstr "შეიყვანეთ სტერეოტიპის ახალი სახელი:"
 
 #: model_utils.cpp:760
 #, kde-format
 msgid "Enter the new name of the template:"
-msgstr ""
+msgstr "შეიყვანეთ შაბლონის ახალი სახელი:"
 
 #: model_utils.cpp:761
 #, kde-format
 msgid "Enter the new name of the unique constraint:"
-msgstr ""
+msgstr "შეიყვანეთ უნიკალური შეზღუდვის ახალი სახელი:"
 
 #: model_utils.cpp:762 umlwidgets/widget_utils.cpp:1038
 #, kde-format
@@ -5754,17 +5754,17 @@ msgstr ""
 #: model_utils.cpp:1202
 #, kde-format
 msgid "Unknown argument type"
-msgstr ""
+msgstr "უცნობი არგუმენტის ტიპი"
 
 #: model_utils.cpp:1202
 #, kde-format
 msgid "Illegal method name"
-msgstr ""
+msgstr "დაუშვებელი მეთოდის სახელი"
 
 #: model_utils.cpp:1203
 #, kde-format
 msgid "Unknown return type"
-msgstr ""
+msgstr "დაბრუნების უცნობი ტიპი"
 
 #: model_utils.cpp:1203
 #, kde-format
@@ -5780,7 +5780,7 @@ msgstr "სახელი"
 #: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:80
 #, kde-format
 msgid "Type"
-msgstr ""
+msgstr "ტიპი"
 
 #: models/diagramsmodel.cpp:58
 #, kde-format
@@ -5818,7 +5818,7 @@ msgstr "გამოყენება"
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:177
 #, kde-format
 msgid "That is an invalid name."
-msgstr ""
+msgstr "ეს არასწორი სახელია."
 
 #: object_factory.cpp:262
 #, kde-format
@@ -5863,7 +5863,7 @@ msgstr ""
 #: refactoring/refactoringassistant.cpp:464
 #, kde-format
 msgid "Add Operation"
-msgstr ""
+msgstr "ოპერაციის დამატება"
 
 #: refactoring/refactoringassistant.cpp:447
 #: refactoring/refactoringassistant.cpp:467
@@ -6533,7 +6533,7 @@ msgstr ""
 #: umbrello.kcfg:356
 #, kde-format
 msgid "Comment Style"
-msgstr ""
+msgstr "კომენტარის სტილი"
 
 #. i18n: ectx: whatsthis, entry (commentStyle), group (Code Generation)
 #: umbrello.kcfg:357
@@ -6629,7 +6629,7 @@ msgstr ""
 #: umbrello.kcfg:420
 #, kde-format
 msgid "Indentation Type"
-msgstr ""
+msgstr "სწორების ტიპი"
 
 #. i18n: ectx: whatsthis, entry (indentationType), group (Code Generation)
 #: umbrello.kcfg:421
@@ -6641,7 +6641,7 @@ msgstr ""
 #: umbrello.kcfg:430
 #, kde-format
 msgid "Line Ending Type"
-msgstr ""
+msgstr "ხაზის დასრულების ტიპი"
 
 #. i18n: ectx: whatsthis, entry (lineEndingType), group (Code Generation)
 #: umbrello.kcfg:431
@@ -6660,7 +6660,7 @@ msgstr ""
 #: umbrello.kcfg:450
 #, kde-format
 msgid "Output Directory"
-msgstr ""
+msgstr "გამოტანის საქაღალდე"
 
 #. i18n: ectx: whatsthis, entry (outputDirectory), group (Code Generation)
 #: umbrello.kcfg:451
@@ -6990,19 +6990,19 @@ msgstr ""
 #: umbrello.kcfg:611
 #, kde-format
 msgid "Show Export Layout"
-msgstr ""
+msgstr "გატანის განლაგების ჩვენება"
 
 #. i18n: ectx: whatsthis, entry (showExportLayout), group (Auto Layout)
 #: umbrello.kcfg:612
 #, kde-format
 msgid "show export layout"
-msgstr ""
+msgstr "გატანის განლაგების ჩვენება"
 
 #. i18n: ectx: Menu (file_export)
 #: umbrelloui.rc.cmake:5
 #, kde-format
 msgid "&Export model"
-msgstr ""
+msgstr "&მოდელის გატანა"
 
 #. i18n: ectx: Menu (edit)
 #: umbrelloui.rc.cmake:11
@@ -7014,19 +7014,19 @@ msgstr "&ჩასწორება"
 #: umbrelloui.rc.cmake:14
 #, kde-format
 msgid "&Diagram"
-msgstr ""
+msgstr "&დიაგრამა"
 
 #. i18n: ectx: Menu (new_view)
 #: umbrelloui.rc.cmake:15
 #, kde-format
 msgid "&New"
-msgstr ""
+msgstr "&ახალი"
 
 #. i18n: ectx: Menu (show_view)
 #: umbrelloui.rc.cmake:31
 #, kde-format
 msgid "Sh&ow"
-msgstr ""
+msgstr "&ჩვენება"
 
 #. i18n: ectx: Menu (zoom_menu)
 #: umbrelloui.rc.cmake:34
@@ -7050,7 +7050,7 @@ msgstr "&კოდი"
 #: umbrelloui.rc.cmake:58
 #, kde-format
 msgid "Active &Language"
-msgstr ""
+msgstr "&აქტიური ენა"
 
 #. i18n: ectx: Menu (settings)
 #: umbrelloui.rc.cmake:84
@@ -7111,7 +7111,7 @@ msgstr "ამჟამად გამოყენებული ფაილ�
 #: uml.cpp:446
 #, kde-format
 msgid "Saves the document"
-msgstr ""
+msgstr "შეინახავს დოკუმენტს"
 
 #: uml.cpp:447
 #, kde-format
@@ -7182,22 +7182,22 @@ msgstr ""
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
-msgstr ""
+msgstr "მონიშნულის &წაშლა"
 
 #: uml.cpp:475
 #, kde-format
 msgid "&Class Diagram..."
-msgstr ""
+msgstr "&კლასის დიაგრამა..."
 
 #: uml.cpp:482
 #, kde-format
 msgid "&Object Diagram..."
-msgstr ""
+msgstr "&ობიექტის დიაგრამა..."
 
 #: uml.cpp:489
 #, kde-format
 msgid "&Sequence Diagram..."
-msgstr ""
+msgstr "&მიმდევრობის დიაგრამა..."
 
 #: uml.cpp:495
 #, kde-format
@@ -7237,7 +7237,7 @@ msgstr ""
 #: uml.cpp:536 uml.cpp:954
 #, kde-format
 msgid "&Tree View"
-msgstr ""
+msgstr "&ხის ხედი"
 
 #: uml.cpp:540
 #, kde-format
@@ -7276,12 +7276,12 @@ msgstr ""
 #: uml.cpp:569
 #, kde-format
 msgid "S&how Grid"
-msgstr ""
+msgstr "&ბადის ჩვენება"
 
 #: uml.cpp:574
 #, kde-format
 msgid "&Delete Diagram"
-msgstr ""
+msgstr "&დიაგრამის წაშლა"
 
 #: uml.cpp:579
 #, kde-format
@@ -7746,12 +7746,12 @@ msgstr ""
 #: umldoc.cpp:1634
 #, kde-format
 msgid "Use Name"
-msgstr ""
+msgstr "სახელის გამოყოფილი"
 
 #: umldoc.cpp:1634
 #, kde-format
 msgid "Enter New Name"
-msgstr ""
+msgstr "შეიყვანეთ ახალი სახელი"
 
 #: umldoc.cpp:2182
 #, kde-format
