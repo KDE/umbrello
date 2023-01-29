@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2023-01-27 10:16+0100\n"
+"PO-Revision-Date: 2023-01-28 09:58+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2328,22 +2328,22 @@ msgstr "ტიპი:"
 #: dialogs/pages/associationrolepage.cpp:61
 #, kde-format
 msgid "Role A Properties"
-msgstr ""
+msgstr "A როლის თვისებები"
 
 #: dialogs/pages/associationrolepage.cpp:62
 #, kde-format
 msgid "Role B Properties"
-msgstr ""
+msgstr "B როლის თვისებები"
 
 #: dialogs/pages/associationrolepage.cpp:79
 #, kde-format
 msgid "Role A Changeability"
-msgstr ""
+msgstr "A როლის ცვალებადობა"
 
 #: dialogs/pages/associationrolepage.cpp:80
 #, kde-format
 msgid "Role B Changeability"
-msgstr ""
+msgstr "B როლის ცვალებადობა"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelRoleName)
 #: dialogs/pages/associationrolepage.cpp:109
@@ -2425,7 +2425,7 @@ msgstr ""
 #: dialogs/pages/autolayoutoptionpage.ui:37
 #, kde-format
 msgid "Generator executable path:"
-msgstr ""
+msgstr "გენერატორის გამშვები ფაილის ბილიკი:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, Other)
 #: dialogs/pages/autolayoutoptionpage.ui:82
@@ -2472,7 +2472,7 @@ msgstr "&გამშვები"
 #: dialogs/pages/classgeneralpage.cpp:223
 #, kde-format
 msgid "Draw as actor"
-msgstr ""
+msgstr "როგორც მოქმედი პირის დახატვა"
 
 #: dialogs/pages/classgeneralpage.cpp:228
 #, kde-format
@@ -2704,22 +2704,22 @@ msgstr "უნიკალური შეზღუდვა..."
 #: dialogs/pages/constraintlistpage.cpp:69 menus/listpopupmenu.cpp:242
 #, kde-format
 msgid "Primary Key Constraint..."
-msgstr ""
+msgstr "ძირითადი გასაღების შეზღუდვა..."
 
 #: dialogs/pages/constraintlistpage.cpp:73 menus/listpopupmenu.cpp:195
 #, kde-format
 msgid "Foreign Key Constraint..."
-msgstr ""
+msgstr "უცხო გასაღების შეზღუდვა..."
 
 #: dialogs/pages/constraintlistpage.cpp:77 menus/listpopupmenu.cpp:159
 #, kde-format
 msgid "Check Constraint..."
-msgstr ""
+msgstr "შესამოწმებელი შეზღუდვა..."
 
 #: dialogs/pages/defaultcodegenpolicypage.cpp:24
 #, kde-format
 msgid "<p align=\"center\">No Options Available.</p>"
-msgstr ""
+msgstr "<p align=\"center\">პარამეტრების გარეშე.</p>"
 
 #: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:120
 #, kde-format
@@ -2832,13 +2832,13 @@ msgstr ""
 #: dialogs/pages/diagrampropertiespage.ui:207
 #, kde-format
 msgid "Snap component size"
-msgstr ""
+msgstr "კომპონენტის ზომის მიბმა"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelGridSpacing)
 #: dialogs/pages/diagrampropertiespage.ui:224
 #, kde-format
 msgid "Grid spacing:  "
-msgstr ""
+msgstr "ბადის დაშორება:  "
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelX)
 #: dialogs/pages/diagrampropertiespage.ui:247
@@ -2856,7 +2856,7 @@ msgstr "Y"
 #: dialogs/pages/diagrampropertiespage.ui:312
 #, kde-format
 msgid "Autoincrement Sequence "
-msgstr ""
+msgstr "ავტომატური გადიდების მიმდევრობა  "
 
 #: dialogs/pages/generaloptionpage.cpp:41
 #: dialogs/pages/umlwidgetstylepage.cpp:198
@@ -2868,17 +2868,17 @@ msgstr "სხვადასხვა"
 #: dialogs/pages/generaloptionpage.cpp:48
 #, kde-format
 msgid "Enable undo"
-msgstr ""
+msgstr "დაბრუნების ჩართვა"
 
 #: dialogs/pages/generaloptionpage.cpp:52
 #, kde-format
 msgid "Use tabbed diagrams"
-msgstr ""
+msgstr "ჩანართებიანი დიაგრამების გამოყენება"
 
 #: dialogs/pages/generaloptionpage.cpp:56
 #, kde-format
 msgid "Use new C++/Java/Ruby generators"
-msgstr ""
+msgstr "ახალი C++/Java/Ruby გენერატორების გამოყენება"
 
 #: dialogs/pages/generaloptionpage.cpp:60
 #, kde-format
@@ -2888,7 +2888,7 @@ msgstr ""
 #: dialogs/pages/generaloptionpage.cpp:64
 #, kde-format
 msgid "Enable UML2 support"
-msgstr ""
+msgstr "UML2-ის მხარდაჭერის ჩართვა"
 
 #: dialogs/pages/generaloptionpage.cpp:69
 #, kde-format
@@ -2898,7 +2898,7 @@ msgstr "ავტომატური შენახვა"
 #: dialogs/pages/generaloptionpage.cpp:76
 #, kde-format
 msgid "E&nable autosave"
-msgstr ""
+msgstr "ავტომატური შენახვის &ჩართვა"
 
 #: dialogs/pages/generaloptionpage.cpp:80
 #, kde-format
@@ -2975,13 +2975,13 @@ msgstr "კლასის ოპერაცია:"
 #: menus/widgetbasepopupmenu.cpp:507
 #, kde-format
 msgid "New Operation..."
-msgstr ""
+msgstr "ახალი ოპერაცია..."
 
 #: dialogs/pages/selectoperationpage.cpp:84
 #: dialogs/selectoperationdialog.cpp:87
 #, kde-format
 msgid "Custom operation:"
-msgstr ""
+msgstr "ოპერაციის მითითება:"
 
 #: dialogs/pages/uioptionspage.cpp:54
 #, kde-format
@@ -3015,39 +3015,39 @@ msgstr "ფერი"
 #: dialogs/pages/uioptionspage.cpp:80
 #, kde-format
 msgid "Custom text color"
-msgstr ""
+msgstr "ტექსტის ფერის ხელით მითითება"
 
 #: dialogs/pages/uioptionspage.cpp:87
 #, kde-format
 msgid "Custom line color"
-msgstr ""
+msgstr "ხაზის ფერის ხელით მითითება"
 
 #. i18n("D&efault Color"), m_colorGB);
 #. colorLayout->addWidget(m_lineDefaultB, 0, 2);
 #: dialogs/pages/uioptionspage.cpp:97
 #, kde-format
 msgid "Custom fill color"
-msgstr ""
+msgstr "შესავსები ფერის ხელით მითითება"
 
 #: dialogs/pages/uioptionspage.cpp:103
 #, kde-format
 msgid "Custom grid color"
-msgstr ""
+msgstr "ბადის ფერის ხელით მითითება"
 
 #: dialogs/pages/uioptionspage.cpp:109
 #, kde-format
 msgid "Custom background color"
-msgstr ""
+msgstr "ფონის ფერის ხელით მითითება"
 
 #: dialogs/pages/uioptionspage.cpp:115
 #, kde-format
 msgid "Custom line width"
-msgstr ""
+msgstr "ხაზის სიგანის ხელით მითითება"
 
 #: dialogs/pages/uioptionspage.cpp:125
 #, kde-format
 msgid "&Use fill color"
-msgstr ""
+msgstr "შევსების ფერის &გამოყენება"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_propsGroupBox)
 #: dialogs/pages/umlrolepropertiesbase.ui:16 dialogs/umlroledialog.cpp:19
@@ -3326,7 +3326,7 @@ msgstr "State"
 #, kde-format
 msgctxt "end state in statechart"
 msgid "End state"
-msgstr ""
+msgstr "საბოლოო მდგომარეობა"
 
 #: dialogs/statedialog.cpp:142
 #, kde-format
@@ -3350,13 +3350,13 @@ msgstr "ჯანქშენი"
 #, kde-format
 msgctxt "deep history state in statechart"
 msgid "DeepHistory"
-msgstr ""
+msgstr "უფრო ღრმად"
 
 #: dialogs/statedialog.cpp:154
 #, kde-format
 msgctxt "shallow history state in statechart"
 msgid "ShallowHistory"
-msgstr ""
+msgstr "მაღლა"
 
 #: dialogs/statedialog.cpp:157
 #, kde-format
@@ -3373,22 +3373,22 @@ msgstr "სწორი წილადები"
 #: dialogs/statedialog.cpp:168
 #, kde-format
 msgid "State type:"
-msgstr ""
+msgstr "მდგომარეობის ტიპი:"
 
 #: dialogs/statedialog.cpp:173
 #, kde-format
 msgid "State name:"
-msgstr ""
+msgstr "მდგომარეობის სახელი:"
 
 #: dialogs/statedialog.cpp:183
 #, kde-format
 msgid "Linked diagram:"
-msgstr ""
+msgstr "მიბმული დიაგრამა:"
 
 #: dialogs/stereoattributedialog.cpp:39
 #, kde-format
 msgid "Stereotype Properties"
-msgstr ""
+msgstr "სტერეოტიპის თვისებები"
 
 #: dialogs/stereoattributedialog.cpp:59
 #, kde-format
@@ -3618,7 +3618,7 @@ msgstr "კასკადი"
 #: dialogs/umlforeignkeyconstraintdialog.cpp:269
 #, kde-format
 msgid "Set Null"
-msgstr ""
+msgstr "ნულის დაყენება"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
@@ -3640,7 +3640,7 @@ msgstr "ლოკალური"
 #, kde-format
 msgctxt "column header referenced"
 msgid "Referenced"
-msgstr ""
+msgstr "მიმართული"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:305
 #, kde-format
@@ -3650,7 +3650,7 @@ msgstr "ლოკალური სვეტი"
 #: dialogs/umlforeignkeyconstraintdialog.cpp:311
 #, kde-format
 msgid "Referenced Column"
-msgstr ""
+msgstr "მიმართული სვეტი"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:318
 #: dialogs/umluniqueconstraintdialog.cpp:108
@@ -3669,7 +3669,7 @@ msgstr ""
 #: dialogs/umlinstanceattributedialog.cpp:21
 #, kde-format
 msgid "Object Attribute Properties"
-msgstr ""
+msgstr "ობიექტის ატრიბუტის თვისებები"
 
 #: dialogs/umlinstanceattributedialog.cpp:40
 #, kde-format
@@ -3781,7 +3781,7 @@ msgstr ""
 #: dialogs/umltemplatedialog.cpp:37
 #, kde-format
 msgid "Template Properties"
-msgstr ""
+msgstr "ნიმუშის თვისებები"
 
 #: dialogs/umltemplatedialog.cpp:65
 #, kde-format
@@ -3797,7 +3797,7 @@ msgstr ""
 #: dialogs/umltemplatedialog.cpp:89
 #, kde-format
 msgid "Template Name Invalid"
-msgstr ""
+msgstr "ნიმუშის სახელი არასწორია"
 
 #: dialogs/umltemplatedialog.cpp:98
 #, kde-format
@@ -3809,7 +3809,7 @@ msgstr ""
 #: dialogs/umltemplatedialog.cpp:99
 #, kde-format
 msgid "Template Name Not Unique"
-msgstr ""
+msgstr "შაბლონის სახელი უნიკალური არაა"
 
 #: dialogs/umluniqueconstraintdialog.cpp:45
 #, kde-format
@@ -3829,7 +3829,7 @@ msgstr ""
 #: dialogs/umluniqueconstraintdialog.cpp:220
 #, kde-format
 msgid "Constraint Name Invalid"
-msgstr ""
+msgstr "შეზღუდვის სახელი არასწორია"
 
 #: dialogs/umlviewdialog.cpp:106
 #, kde-format
@@ -3980,7 +3980,7 @@ msgstr "განხორციელება"
 #: dialogs/widgets/visibilityenumwidget.cpp:45
 #, kde-format
 msgid "Role A Visibility"
-msgstr ""
+msgstr "A როლის ხილვადობა"
 
 #: dialogs/widgets/visibilityenumwidget.cpp:47
 #, kde-format
@@ -4009,12 +4009,12 @@ msgstr "განხორციელება"
 #: dialogs/widgets/visibilityenumwidget.cpp:51
 #, kde-format
 msgid "Role B Visibility"
-msgstr ""
+msgstr "B როლის ხილვადობა"
 
 #: docgenerators/docbook2xhtmlgeneratorjob.cpp:59
 #, kde-format
 msgid "Exporting to XHTML..."
-msgstr ""
+msgstr "XHTML-ში გატანა..."
 
 #: docgenerators/docbookgenerator.cpp:78 umlviewimageexporterall.cpp:95
 #, kde-format
@@ -4071,37 +4071,37 @@ msgstr ""
 #: docgenerators/main.cpp:55
 #, kde-format
 msgid "File to transform"
-msgstr ""
+msgstr "გარდასაქმნელი ფაილი"
 
 #: docgenerators/main.cpp:56
 #, kde-format
 msgid "The XSLT file to use"
-msgstr ""
+msgstr "გამოსაყენებელი XSLT ფაილი"
 
 #: docgenerators/xhtmlgenerator.cpp:105
 #, kde-format
 msgid "Generating XHTML..."
-msgstr ""
+msgstr "XHTML-ის გენერაცია..."
 
 #: docgenerators/xhtmlgenerator.cpp:131
 #, kde-format
 msgid "XHTML Generation Complete..."
-msgstr ""
+msgstr "XHTML-ის გენერაცია დასრულდა..."
 
 #: docgenerators/xhtmlgenerator.cpp:137
 #, kde-format
 msgid "Copying CSS..."
-msgstr ""
+msgstr "CSS-ის კოპირება..."
 
 #: docgenerators/xhtmlgenerator.cpp:150
 #, kde-format
 msgid "Finished Copying CSS..."
-msgstr ""
+msgstr "CSS-ის კოპირება დასრულდა..."
 
 #: docgenerators/xhtmlgenerator.cpp:153
 #, kde-format
 msgid "Failed Copying CSS..."
-msgstr ""
+msgstr "CSS-ის კოპირების შეცდომა..."
 
 #: docwindow.cpp:44
 #, kde-format
@@ -4353,7 +4353,7 @@ msgstr "ყველას ჩაკეცვა"
 #, kde-format
 msgctxt "add new combined state"
 msgid "Combined state..."
-msgstr ""
+msgstr "კომბინირებული მდგომარეობა..."
 
 #: menus/listpopupmenu.cpp:165 umlwidgets/widgetbase.cpp:1251
 #: worktoolbar.cpp:353
@@ -4372,44 +4372,44 @@ msgstr "საქაღალდე"
 #: menus/listpopupmenu.cpp:171
 #, kde-format
 msgid "Datatype..."
-msgstr ""
+msgstr "მონაცემის ტიპი..."
 
 #: menus/listpopupmenu.cpp:172 worktoolbar.cpp:362
 #, kde-format
 msgid "Deep History"
-msgstr ""
+msgstr "ღრმად"
 
 #: menus/listpopupmenu.cpp:176
 #, kde-format
 msgid "Edit combined state"
-msgstr ""
+msgstr "კომბინირებული მდგომარეობის ჩასწორება"
 
 #: menus/listpopupmenu.cpp:177 worktoolbar.cpp:376
 #, kde-format
 msgid "End Activity"
-msgstr ""
+msgstr "აქტივობის დასრულება"
 
 #: menus/listpopupmenu.cpp:178 worktoolbar.cpp:346
 #, kde-format
 msgid "End State"
-msgstr ""
+msgstr "საბოლოო მდგომარეობა"
 
 #: menus/listpopupmenu.cpp:179 umlwidgets/widgetbase.cpp:1260
 #: worktoolbar.cpp:361
 #, kde-format
 msgid "Entity"
-msgstr ""
+msgstr "არსი"
 
 #. i18n("Entity...")); break;
 #: menus/listpopupmenu.cpp:181
 #, kde-format
 msgid "Entity Attribute..."
-msgstr ""
+msgstr "არსის ატრიბუტი..."
 
 #: menus/listpopupmenu.cpp:184
 #, kde-format
 msgid "Enum..."
-msgstr ""
+msgstr "ჩამონათვალი..."
 
 #: menus/listpopupmenu.cpp:185
 #, kde-format
@@ -4434,27 +4434,27 @@ msgstr ""
 #: menus/listpopupmenu.cpp:190 menus/widgetbasepopupmenu.cpp:535
 #, kde-format
 msgid "Fill Color..."
-msgstr ""
+msgstr "შემვსები ფერი..."
 
 #: menus/listpopupmenu.cpp:191 worktoolbar.cpp:377
 #, kde-format
 msgid "Final Activity"
-msgstr ""
+msgstr "საბოლოო აქტივობა"
 
 #: menus/listpopupmenu.cpp:192
 #, kde-format
 msgid "Flip Horizontal"
-msgstr ""
+msgstr "ჰორიზონტალურად გადაბრუნება"
 
 #: menus/listpopupmenu.cpp:193
 #, kde-format
 msgid "Flip Vertical"
-msgstr ""
+msgstr "ვერტიკალურად გადაბრუნება"
 
 #: menus/listpopupmenu.cpp:194
 #, kde-format
 msgid "Text Line..."
-msgstr ""
+msgstr "ტექსტის ხაზი..."
 
 #: menus/listpopupmenu.cpp:196 menus/listpopupmenu.cpp:260 worktoolbar.cpp:365
 #, kde-format
@@ -4464,7 +4464,7 @@ msgstr "ფორკი"
 #: menus/listpopupmenu.cpp:197
 #, kde-format
 msgid "Go to state diagram"
-msgstr ""
+msgstr "მდგომარეობის დიაგრამაზე გადასვლა"
 
 #: menus/listpopupmenu.cpp:198
 #, kde-format
@@ -4531,12 +4531,12 @@ msgstr "ჯანქშენი"
 #: menus/listpopupmenu.cpp:212 menus/widgetbasepopupmenu.cpp:534
 #, kde-format
 msgid "Line Color..."
-msgstr ""
+msgstr "ხაზის ფერი..."
 
 #: menus/listpopupmenu.cpp:214 worktoolbar.cpp:324 worktoolbar.cpp:382
 #, kde-format
 msgid "Asynchronous Message"
-msgstr ""
+msgstr "ასინქრონული შეტყობინება"
 
 #: menus/listpopupmenu.cpp:215
 #, kde-format
@@ -4668,12 +4668,12 @@ msgstr ""
 #: menus/listpopupmenu.cpp:251
 #, kde-format
 msgid "Return to class"
-msgstr ""
+msgstr "კლასზე დაბრუნება"
 
 #: menus/listpopupmenu.cpp:252
 #, kde-format
 msgid "Reset Label Positions"
-msgstr ""
+msgstr "ჭდეების საწყის მნიშვნელობაზე დაბრუნება"
 
 #: menus/listpopupmenu.cpp:253
 #, kde-format
@@ -4683,7 +4683,7 @@ msgstr "ზომის შეცვლა"
 #: menus/listpopupmenu.cpp:254
 #, kde-format
 msgid "Select state diagram"
-msgstr ""
+msgstr "აირჩიეთ მდგომარეობის დიაგრამა"
 
 #: menus/listpopupmenu.cpp:255
 #, kde-format
@@ -4693,18 +4693,18 @@ msgstr "სიგნალის გაგზავნა"
 #: menus/listpopupmenu.cpp:256 worktoolbar.cpp:363
 #, kde-format
 msgid "Shallow History"
-msgstr ""
+msgstr "მაღლა"
 
 #: menus/listpopupmenu.cpp:258
 #, kde-format
 msgid "Show destruction box"
-msgstr ""
+msgstr "დესტრუქციის ბლოკის ჩვენება"
 
 #: menus/listpopupmenu.cpp:259
 #, kde-format
 msgctxt "add new state"
 msgid "State..."
-msgstr ""
+msgstr "მდგომარეობა..."
 
 #: menus/listpopupmenu.cpp:261
 #, kde-format
@@ -4731,7 +4731,7 @@ msgstr "დაბრუნება"
 #: menus/listpopupmenu.cpp:270 worktoolbar.cpp:342
 #, kde-format
 msgid "Use Case"
-msgstr ""
+msgstr "გამოყენების ვარიანტები"
 
 #: menus/listpopupmenu.cpp:351
 #, kde-format
@@ -4770,12 +4770,12 @@ msgstr "გაერთიანება"
 #: menus/widgetbasepopupmenu.cpp:226
 #, kde-format
 msgid "Change into Class"
-msgstr ""
+msgstr "კლასში გარდაქმნა"
 
 #: menus/umllistviewpopupmenu.cpp:160 menus/widgetbasepopupmenu.cpp:201
 #, kde-format
 msgid "Change into Package"
-msgstr ""
+msgstr "პაკეტში გარდაქმნა"
 
 #: menus/umlscenepopupmenu.cpp:53
 #, kde-format
@@ -4805,42 +4805,42 @@ msgstr ""
 #: menus/umlscenepopupmenu.cpp:105
 #, kde-format
 msgid "apply '%1'"
-msgstr ""
+msgstr "\"%1\"-ის გამოყენება"
 
 #: menus/widgetbasepopupmenu.cpp:86
 #, kde-format
 msgid "Public Only"
-msgstr ""
+msgstr "მხოლოდ საჯარო"
 
 #: menus/widgetbasepopupmenu.cpp:90
 #, kde-format
 msgid "Operation Signature"
-msgstr ""
+msgstr "ოპერაციის ხელმოწერა"
 
 #: menus/widgetbasepopupmenu.cpp:95 menus/widgetbasepopupmenu.cpp:726
 #, kde-format
 msgid "Attribute Signature"
-msgstr ""
+msgstr "ატრიბუტის ხელმოწერა"
 
 #: menus/widgetbasepopupmenu.cpp:119 menus/widgetbasepopupmenu.cpp:127
 #, kde-format
 msgid "Show Signatures"
-msgstr ""
+msgstr "ხელმოწერების ჩვენება"
 
 #: menus/widgetbasepopupmenu.cpp:120 menus/widgetbasepopupmenu.cpp:128
 #, kde-format
 msgid "Hide Signatures"
-msgstr ""
+msgstr "ხელმოწერების დამალვა"
 
 #: menus/widgetbasepopupmenu.cpp:134
 #, kde-format
 msgid "Hide Non-public members"
-msgstr ""
+msgstr "არა-საჯარო წევრების დამალვა"
 
 #: menus/widgetbasepopupmenu.cpp:135
 #, kde-format
 msgid "Show Non-public members"
-msgstr ""
+msgstr "არა-საჯარო წევრების ჩვენება"
 
 #: menus/widgetbasepopupmenu.cpp:138
 #, kde-format
@@ -4850,7 +4850,7 @@ msgstr "პაკეტები"
 #: menus/widgetbasepopupmenu.cpp:144
 #, kde-format
 msgid "Stereotypes"
-msgstr ""
+msgstr "სტერეოტიპები"
 
 #: menus/widgetbasepopupmenu.cpp:203
 #, kde-format
@@ -4860,27 +4860,27 @@ msgstr "რეფაქტორინგი"
 #: menus/widgetbasepopupmenu.cpp:204
 #, kde-format
 msgid "View Code"
-msgstr ""
+msgstr "კოდის ნახვა"
 
 #: menus/widgetbasepopupmenu.cpp:207
 #, kde-format
 msgid "Change into Interface"
-msgstr ""
+msgstr "ინტერფეისში გარდაქმნა"
 
 #: menus/widgetbasepopupmenu.cpp:224
 #, kde-format
 msgid "Draw as Circle"
-msgstr ""
+msgstr "წრედ დახატვა"
 
 #: menus/widgetbasepopupmenu.cpp:235 menus/widgetbasepopupmenu.cpp:304
 #, kde-format
 msgid "Rename Class..."
-msgstr ""
+msgstr "კლასის სახელის გადარქმევა..."
 
 #: menus/widgetbasepopupmenu.cpp:277 menus/widgetbasepopupmenu.cpp:444
 #, kde-format
 msgid "Name as Tooltip"
-msgstr ""
+msgstr "სახელი, როგორც მინიშნება"
 
 #: menus/widgetbasepopupmenu.cpp:296
 #, kde-format
@@ -4907,22 +4907,22 @@ msgstr "ტექსტის შეცვლა…"
 #: menus/widgetbasepopupmenu.cpp:334 menus/widgetbasepopupmenu.cpp:585
 #, kde-format
 msgid "Auto resize"
-msgstr ""
+msgstr "ზომის ავტომატური შეცვლა"
 
 #: menus/widgetbasepopupmenu.cpp:367
 #, kde-format
 msgid "Change State Name..."
-msgstr ""
+msgstr "მდგომარეობის სახელის შეცვლა..."
 
 #: menus/widgetbasepopupmenu.cpp:403
 #, kde-format
 msgid "Change Activity Name..."
-msgstr ""
+msgstr "აქტივობის სახელის შეცვლა..."
 
 #: menus/widgetbasepopupmenu.cpp:423
 #, kde-format
 msgid "Change Object Node Name..."
-msgstr ""
+msgstr "ობიექტის კვანძის სახელის შეცვლა..."
 
 #: menus/widgetbasepopupmenu.cpp:440
 #, kde-format
@@ -5173,7 +5173,7 @@ msgstr "ახალი ასოციაცია"
 #: model_utils.cpp:612
 #, kde-format
 msgid "New attribute"
-msgstr "ახალი ატრიბუტი..."
+msgstr "ახალი ატრიბუტი"
 
 #: model_utils.cpp:613 umlwidgets/widget_utils.cpp:876
 #, kde-format
@@ -6006,7 +6006,7 @@ msgstr "გეომეტრია"
 #: umbrello.kcfg:17
 #, kde-format
 msgid "Image Mime Type"
-msgstr ""
+msgstr "გამოსახულების MIME ტიპი"
 
 #. i18n: ectx: whatsthis, entry (imageMimeType), group (General Options)
 #: umbrello.kcfg:18
@@ -6054,7 +6054,7 @@ msgstr ""
 #: umbrello.kcfg:37
 #, kde-format
 msgid "Layout Type"
-msgstr ""
+msgstr "განლაგების იპი"
 
 #. i18n: ectx: whatsthis, entry (layoutType), group (General Options)
 #: umbrello.kcfg:38
@@ -6114,7 +6114,7 @@ msgstr ""
 #: umbrello.kcfg:79
 #, kde-format
 msgid "Load Last"
-msgstr ""
+msgstr "ბოლოს ჩატვირთვა"
 
 #. i18n: ectx: whatsthis, entry (loadlast), group (General Options)
 #: umbrello.kcfg:80
@@ -6126,19 +6126,19 @@ msgstr ""
 #: umbrello.kcfg:84
 #, kde-format
 msgid "Diagram To Load at Startup"
-msgstr ""
+msgstr "გაშვებისას ჩასატვირთი დიაგრამა"
 
 #. i18n: ectx: whatsthis, entry (diagram), group (General Options)
 #: umbrello.kcfg:85
 #, kde-format
 msgid "The Diagram to load at startup"
-msgstr ""
+msgstr "გაშვებისას ჩასატვირთი დიაგრამა"
 
 #. i18n: ectx: label, entry (defaultLanguage), group (General Options)
 #: umbrello.kcfg:102
 #, kde-format
 msgid "Default Language at Startup"
-msgstr ""
+msgstr "ნაგულისხმები ენა გაშვებისას"
 
 #. i18n: ectx: whatsthis, entry (defaultLanguage), group (General Options)
 #: umbrello.kcfg:103
@@ -6264,7 +6264,7 @@ msgstr ""
 #: umbrello.kcfg:194
 #, kde-format
 msgid "Show Visibility"
-msgstr ""
+msgstr "ხილვადობისჩვენება"
 
 #. i18n: ectx: whatsthis, entry (showVisibility), group (Class Options)
 #: umbrello.kcfg:195
@@ -6276,26 +6276,26 @@ msgstr ""
 #: umbrello.kcfg:199
 #, kde-format
 msgid "Show Attributes"
-msgstr ""
+msgstr "ატრიბუტების ჩვენება"
 
 #. i18n: ectx: whatsthis, entry (showAtts), group (Class Options)
 #: umbrello.kcfg:200
 #, kde-format
 msgid "Show attributes of the class"
-msgstr ""
+msgstr "კლასის ატრიბუტების ჩვენება"
 
 #. i18n: ectx: label, entry (showOps), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showOps), group (Class Options)
 #: umbrello.kcfg:204 umbrello.kcfg:205
 #, kde-format
 msgid "Show Operations"
-msgstr ""
+msgstr "ოპერაციების ჩვენება"
 
 #. i18n: ectx: label, entry (showPackage), group (Class Options)
 #: umbrello.kcfg:209
 #, kde-format
 msgid "Show Package"
-msgstr ""
+msgstr "პაკეტის ჩვენება"
 
 #. i18n: ectx: whatsthis, entry (showPackage), group (Class Options)
 #: umbrello.kcfg:210
@@ -6308,7 +6308,7 @@ msgstr ""
 #: umbrello.kcfg:214 umbrello.kcfg:215
 #, kde-format
 msgid "Show Stereotypes"
-msgstr ""
+msgstr "სტერეოტიპების ჩვენება"
 
 #. i18n: ectx: label, entry (showAttribAssocs), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showAttribAssocs), group (Class Options)
