@@ -489,7 +489,7 @@
 <title
 >Interfacce</title>
 <para
->Le interfacce sono classi astratte, che vuol dire che non se ne possono creare istanze direttamente. Possono contenere operazioni ma non attributi. Le classi possono ereditare dalle interfacce (attraverso una associazione di realizzazione) e possono essere create delle istanze di questi diagrammi.</para>
+>Le interfacce sono classi astratte, che vuol dire che non se ne possono creare istanze direttamente. Possono contenere operazioni ma non attributi. Le classi possono ereditare dalle interfacce (attraverso una associazione di realizzazione) e possono essere create delle istanze di queste classi.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="datatype">
