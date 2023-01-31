@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2023-01-28 09:58+0100\n"
+"PO-Revision-Date: 2023-01-30 10:55+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -3722,7 +3722,7 @@ msgstr "&ვირტუალური"
 #: dialogs/umloperationdialog.cpp:122
 #, kde-format
 msgid "&inline"
-msgstr ""
+msgstr "&ხაზშივე"
 
 #: dialogs/umloperationdialog.cpp:127
 #, kde-format
@@ -4148,7 +4148,7 @@ msgstr ""
 #: main.cpp:127
 #, kde-format
 msgid "Author of initial version."
-msgstr ""
+msgstr "საწყისი ვერსიის ავტორი."
 
 #: main.cpp:132 main.cpp:135
 #, kde-format
@@ -4291,12 +4291,12 @@ msgstr "ახალი ნიმუში..."
 #: menus/listpopupmenu.cpp:145
 #, kde-format
 msgid "Accept Signal"
-msgstr ""
+msgstr "სიგნალის მიღება"
 
 #: menus/listpopupmenu.cpp:146
 #, kde-format
 msgid "Accept Time Event"
-msgstr ""
+msgstr "დროის მოვლენის მიღება"
 
 #: menus/listpopupmenu.cpp:147 menus/listpopupmenu.cpp:220
 #, kde-format
@@ -4962,12 +4962,12 @@ msgstr "ფერი"
 #: umbrello.kcfg:142
 #, kde-format
 msgid "Use Fill Color"
-msgstr ""
+msgstr "შევსების ფერის გამოყენება"
 
 #: menus/widgetbasepopupmenu.cpp:537
 #, kde-format
 msgid "No Fill Color"
-msgstr ""
+msgstr "შევსების ფერის გარეშე"
 
 #: menus/widgetbasepopupmenu.cpp:593
 #, kde-format
@@ -5208,12 +5208,12 @@ msgstr "ახალი საგანი"
 #: model_utils.cpp:619
 #, kde-format
 msgid "New entity attribute"
-msgstr ""
+msgstr "არსის ახალი ატრიბუტი"
 
 #: model_utils.cpp:620
 #, kde-format
 msgid "New entity constraint"
-msgstr ""
+msgstr "ახალი არსის კონსტანტა"
 
 #: model_utils.cpp:621 umlwidgets/widget_utils.cpp:882
 #, kde-format
@@ -5223,7 +5223,7 @@ msgstr "ახალი სია"
 #: model_utils.cpp:622
 #, kde-format
 msgid "New enum literal"
-msgstr ""
+msgstr "ახალი ჩამოთვლადი კონსტანტა"
 
 #: model_utils.cpp:623
 #, kde-format
@@ -5233,17 +5233,17 @@ msgstr "ახალი საქაღალდე"
 #: model_utils.cpp:624
 #, kde-format
 msgid "New foreign key constraint"
-msgstr ""
+msgstr "გარე გასაღების ახალი შეზღუდვა"
 
 #: model_utils.cpp:625 umlwidgets/widget_utils.cpp:885
 #, kde-format
 msgid "New instance"
-msgstr ""
+msgstr "ახალი ეგზემპლარი"
 
 #: model_utils.cpp:626
 #, kde-format
 msgid "New instance attribute"
-msgstr ""
+msgstr "ახალი ეგზემპლარის ატრიბუტი"
 
 #: model_utils.cpp:627 umlwidgets/widget_utils.cpp:886
 #, kde-format
@@ -5288,87 +5288,87 @@ msgstr "ახალი ნიმუში"
 #: model_utils.cpp:635
 #, kde-format
 msgid "New unique constraint"
-msgstr ""
+msgstr "ახალი უნიკალურ შეზღუდვა"
 
 #: model_utils.cpp:636 umlwidgets/widget_utils.cpp:901
 #, kde-format
 msgid "New use case"
-msgstr ""
+msgstr "გამოყენების ახალი ვარიანტი"
 
 #: model_utils.cpp:639
 #, kde-format
 msgid "New UML object"
-msgstr ""
+msgstr "ახალი UML ობიექტი"
 
 #: model_utils.cpp:651 umlwidgets/widget_utils.cpp:918
 #, kde-format
 msgid "Enter the name of the new actor:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი მსახიობის სახელი:"
 
 #: model_utils.cpp:652 umlwidgets/widget_utils.cpp:919
 #, kde-format
 msgid "Enter the name of the new artifact:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი არტეფაქტის სახელი:"
 
 #: model_utils.cpp:653 umlwidgets/widget_utils.cpp:920
 #, kde-format
 msgid "Enter the name of the new association:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ასოცირების სახელი:"
 
 #: model_utils.cpp:654
 #, kde-format
 msgid "Enter the name of the new attribute:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ატრიბუტის სახელი:"
 
 #: model_utils.cpp:655 umlwidgets/widget_utils.cpp:922
 #, kde-format
 msgid "Enter the name of the new category:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი კატეგორიის სახელი:"
 
 #: model_utils.cpp:656
 #, kde-format
 msgid "Enter the name of the new check constraint:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი შეზღუდვის შემოწმების სახელი:"
 
 #: model_utils.cpp:657 umlwidgets/widget_utils.cpp:923
 #, kde-format
 msgid "Enter the name of the new class:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი კლასის სახელი:"
 
 #: model_utils.cpp:658 umlwidgets/widget_utils.cpp:925
 #, kde-format
 msgid "Enter the name of the new component:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი კომპონენტის სახელი:"
 
 #: model_utils.cpp:659 umlwidgets/widget_utils.cpp:926
 #, kde-format
 msgid "Enter the name of the new datatype:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი მონაცემის ტიპის სახელი:"
 
 #: model_utils.cpp:660 umlwidgets/widget_utils.cpp:927
 #, kde-format
 msgid "Enter the name of the new entity:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი არსის სახელი:"
 
 #: model_utils.cpp:661
 #, kde-format
 msgid "Enter the name of the new entity attribute:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი არსის ატრიბუტის სახელი:"
 
 #: model_utils.cpp:662
 #, kde-format
 msgid "Enter the name of the new entity constraint:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი არსის შეზღუდვის სახელი:"
 
 #: model_utils.cpp:663 umlwidgets/widget_utils.cpp:928
 #, kde-format
 msgid "Enter the name of the new enum:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ჩამონათვლის სახელი:"
 
 #: model_utils.cpp:664
 #, kde-format
 msgid "Enter the name of the new enum literal:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი კონსტანტების ჩამონათვლის სახელი:"
 
 #: model_utils.cpp:665
 #, kde-format
@@ -5378,72 +5378,72 @@ msgstr "შეიყვანეთ ახალი საქაღალდი�
 #: model_utils.cpp:666
 #, kde-format
 msgid "Enter the name of the new foreign key constraint:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი გარე გასაღების შეზღუდვის სახელი:"
 
 #: model_utils.cpp:667 umlwidgets/widget_utils.cpp:931
 #, kde-format
 msgid "Enter the name of the new instance:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ეგზემპლარის სახელი:"
 
 #: model_utils.cpp:668
 #, kde-format
 msgid "Enter the name of the new instance attribute:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ეგზემპლარის ატრიბუტის სახელი:"
 
 #: model_utils.cpp:669 umlwidgets/widget_utils.cpp:932
 #, kde-format
 msgid "Enter the name of the new interface:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ინტერფეისის სახელი:"
 
 #: model_utils.cpp:670 umlwidgets/widget_utils.cpp:934
 #, kde-format
 msgid "Enter the name of the new node:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი კვანძის სახელი:"
 
 #: model_utils.cpp:671
 #, kde-format
 msgid "Enter the name of the new operation:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი ოპერაციის სახელი:"
 
 #: model_utils.cpp:672 umlwidgets/widget_utils.cpp:938
 #, kde-format
 msgid "Enter the name of the new package:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი პაკეტის სახელი:"
 
 #: model_utils.cpp:673 umlwidgets/widget_utils.cpp:940
 #, kde-format
 msgid "Enter the name of the new port:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი პორტის სახელი:"
 
 #: model_utils.cpp:674
 #, kde-format
 msgid "Enter the name of the new role:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი როლის სახელი:"
 
 #: model_utils.cpp:675
 #, kde-format
 msgid "Enter the name of the new stereotype:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი სტერეოტიპის სახელი:"
 
 #: model_utils.cpp:676
 #, kde-format
 msgid "Enter the name of the new template:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი შაბლონის სახელი:"
 
 #: model_utils.cpp:677
 #, kde-format
 msgid "Enter the name of the new unique constraint:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი უნიკალური შეზღუდვის სახელი:"
 
 #: model_utils.cpp:678 umlwidgets/widget_utils.cpp:947
 #, kde-format
 msgid "Enter the name of the new use case:"
-msgstr ""
+msgstr "შეიყვანეთ გამოყენების ახალი ვარიანტის სახელი:"
 
 #: model_utils.cpp:681
 #, kde-format
 msgid "Enter the name of the new UML object"
-msgstr ""
+msgstr "შეიყვანეთ ახალი UML ობიექტის სახელი"
 
 #: model_utils.cpp:693 umlwidgets/widget_utils.cpp:963
 #, kde-format
@@ -5916,7 +5916,7 @@ msgstr ""
 #: toolbarstatemessages.cpp:341
 #, kde-format
 msgid "destroy"
-msgstr ""
+msgstr "განადგურება"
 
 #: toolbarstateother.cpp:277
 #, kde-format
