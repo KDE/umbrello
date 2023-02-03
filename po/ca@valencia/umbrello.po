@@ -2041,13 +2041,13 @@ msgstr "Exporta totes les vistes"
 #: dialogs/exportallviewsdialogbase.ui:41
 #, kde-format
 msgid "The base directory used to save the images"
-msgstr "El directori base utilitzat per que es guardarà les imatges"
+msgstr "El directori base utilitzat per a guardar les imatges"
 
 #. i18n: ectx: property (text), widget (QLabel, kURLRequesterLabel)
 #: dialogs/exportallviewsdialogbase.ui:28
 #, kde-format
 msgid "&Directory to save the diagrams in:"
-msgstr "&Directori per que es guardarà els diagrames a:"
+msgstr "&Directori per a guardar els diagrames a:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_useFolders)
 #: dialogs/exportallviewsdialogbase.ui:57
@@ -2057,7 +2057,7 @@ msgid ""
 "in the document to store the views"
 msgstr ""
 "Crea en el directori de destinació la mateixa estructura en arbre\n"
-"utilitzada en el document per que es guardarà les vistes"
+"utilitzada en el document per a guardar les vistes"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_useFolders)
 #: dialogs/exportallviewsdialogbase.ui:61
@@ -2071,7 +2071,7 @@ msgid ""
 msgstr ""
 "Les vistes són guardades en carpetes en el document. Amb esta opció es pot "
 "crear en el directori base seleccionat la mateixa estructura en arbre "
-"utilitzada en el document per que es guardarà les vistes.\n"
+"utilitzada en el document per a guardar les vistes.\n"
 "Tan sols les carpetes creades per l'usuari seran creades en el directori "
 "base (la vista lògica, la vista de cas d'ús i altres no seran creades)."
 
@@ -4351,8 +4351,8 @@ msgid ""
 "keep the tree structure used to store the views in the document in the "
 "target directory"
 msgstr ""
-"Manté l'estructura en arbre utilitzada per que es guardarà les vistes en el "
-"document en el directori de destinació"
+"Manté l'estructura en arbre utilitzada per a guardar les vistes del document "
+"en el directori de destinació"
 
 #: main.cpp:159
 #, kde-format
