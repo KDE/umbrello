@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2023-01-12 10:31\n"
+"PO-Revision-Date: 2023-02-07 11:02\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -9101,12 +9101,3 @@ msgstr "状态"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "前置/后置条件"
-
-#~ msgid "Use angular association lines"
-#~ msgstr "关联线从拐角引出"
-
-#~ msgid "Angular Lines"
-#~ msgstr "角线"
-
-#~ msgid "Enables/Disables Support for Angular Lines in diagrams"
-#~ msgstr "启用/禁用图表中的角线支持"
