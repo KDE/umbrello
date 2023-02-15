@@ -15,7 +15,7 @@
 >lediglich ausfüllen</quote
 >, um die Klassenoperationen mit Funktionalität zu füllen. </para>
 <para
->&umbrello; 2 bietet Quelltexterzeugung für ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL und Pascal. </para>
+>&umbrello; 2 bietet Quelltexterzeugung für ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala, und XMLSchema. </para>
 <sect2 id="generate-code">
 <title
 >Quelltext erzeugen</title>
@@ -132,7 +132,7 @@
 <title
 >Quelltext einlesen</title>
 <para
->&umbrello; kann bereits vorhandenen Quelltext eines bestehenden Projektes einlesen, um Sie beim Aufbau des Systemmodells zu unterstützen. &umbrello; 2 unterstützt Quelltext von ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, und Pascal. </para>
+>&umbrello; kann bereits vorhandenen Quelltext eines bestehenden Projektes einlesen, um Sie beim Aufbau des Systemmodells zu unterstützen. &umbrello; 2 unterstützt Quelltext von ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP und Vala. </para>
 <para
 >Um Klassen in das aktuelle Modell zu importieren, muss man <guimenuitem
 >Assistent für Quelltext-Import ...</guimenuitem

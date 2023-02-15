@@ -28,6 +28,12 @@
 > den Eintrag <guimenuitem
 >Als Bild exportieren ...</guimenuitem
 > auf. </para>
+<para
+>Sie können mehrere Diagramme auf einmal exportieren, indem Sie <guimenuitem
+>Diagramme in Bilder exportieren ...</guimenuitem
+> aus dem Menü <guimenu
+>Datei</guimenu
+> aufrufen. Hierbei können Sie auch die Bildauflösung einstellen, sodass die Bilder nicht zu unschaft werden. </para>
 </sect2>
 <sect2 id="printing">
 <title
