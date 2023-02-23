@@ -9,20 +9,20 @@
 # Julia Dronova <juliette.tux@gmail.com>, 2012.
 # Yuri Efremov <yur.arh@gmail.com>, 2013.
 # Alexander Lakhin <exclusion@gmail.com>, 2013, 2014.
-# Olesya Gerasimenko <gammaray@basealt.ru>, 2019, 2020, 2021, 2022.
+# Olesya Gerasimenko <gammaray@basealt.ru>, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2022-08-01 10:44+0300\n"
+"PO-Revision-Date: 2023-02-22 14:13+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.04.1\n"
+"X-Generator: Lokalize 22.08.3\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -1141,7 +1141,6 @@ msgstr "&Вставлять комментарии в документацию, 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
 #, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
 msgid "Write section comments:"
 msgstr "&Вставлять комментарии в документацию, даже если они пусты"
 
@@ -2461,14 +2460,7 @@ msgstr "Генератор шаблона"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>The auto layout feature depends on layout generators provided by the "
-#| "GraphViz package, which is normally installed aside Umbrello by a package "
-#| "manager.</p>\n"
-#| "<p>Umbrello has build in support for detecting the install location of  "
-#| "these layout generators. For cases where this dependency is not available "
-#| "or do not fit, a different installation path could be provided.</p>"
+#, kde-format
 msgid ""
 "<p>The auto layout feature depends on layout generators provided by the "
 "GraphViz package, which is normally installed aside Umbrello by a package "
@@ -4315,7 +4307,6 @@ msgstr "импорт файлов из каталога <dir>"
 
 #: main.cpp:167
 #, fuzzy, kde-format
-#| msgid "set active language"
 msgid "set language"
 msgstr "установить активный язык"
 
@@ -5249,7 +5240,6 @@ msgstr "new_unique_constraint"
 
 #: model_utils.cpp:587
 #, fuzzy, kde-format
-#| msgid "new_usecase"
 msgid "new_use_case"
 msgstr "new_usecase"
 
@@ -6897,7 +6887,6 @@ msgstr "Имя векторного класса"
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:518
 #, fuzzy, kde-format
-#| msgid "Vector Class Name Include "
 msgid "Vector Class Name Include"
 msgstr "Vector Class Name Include "
 
@@ -6977,7 +6966,6 @@ msgstr "Метки, используемые для генерации доку�
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:555
 #, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors ( D ) "
 msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "Генерировать методы доступа к атрибутам автоматически ( D ) "
 
@@ -7002,14 +6990,12 @@ msgstr "Автогенерация методов доступа к ассоци
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:565
 #, fuzzy, kde-format
-#| msgid "Build ANT Document (D) "
 msgid "Build ANT Document (D)"
 msgstr "Создать документ ANT ( D ) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:566
 #, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (D) "
 msgid "Enables/Disables building of ANT Document (D)"
 msgstr "Создание документа ANT ( D ) "
 
@@ -7028,35 +7014,30 @@ msgstr "Автогенерация методов доступа к атрибу
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:577
 #, fuzzy, kde-format
-#| msgid "Auto Generate Assoc Accessors (Java) "
 msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "Генерировать методы доступа к ассоциациям автоматически (Java) "
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:578
 #, fuzzy, kde-format
-#| msgid "Enables/Disables auto generation of association accessors (Java) "
 msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr "Автогенерация методов доступа к ассоциациям (Java) "
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:582
 #, fuzzy, kde-format
-#| msgid "Build ANT Document (Java) "
 msgid "Build ANT Document (Java)"
 msgstr "Создать документ ANT (Java) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:583
 #, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (Java) "
 msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "Создание документа ANT (Java) "
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:589
 #, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors (Ruby) "
 msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr "Генерировать методы доступа к атрибутам автоматически (Ruby) "
 
@@ -7943,7 +7924,6 @@ msgstr ""
 
 #: umllistview.cpp:560
 #, fuzzy, kde-format
-#| msgid "File Exist"
 msgid "File Exists"
 msgstr "Файл уже существует"
 
@@ -8798,7 +8778,6 @@ msgstr "Введите имя нового комбинированного фр
 
 #: umlwidgets/widget_utils.cpp:929
 #, fuzzy, kde-format
-#| msgid "Enter the name of the new floating dash Line:"
 msgid "Enter the name of the new floating dash line:"
 msgstr "Введите имя новой плавающей пунктирной линии:"
 
@@ -8966,7 +8945,6 @@ msgstr "Введите новое имя комбинированного фра
 
 #: umlwidgets/widget_utils.cpp:1020
 #, fuzzy, kde-format
-#| msgid "Enter the new name of the floating dash Line:"
 msgid "Enter the new name of the floating dash line:"
 msgstr "Введите новое имя плавающей пунктирной линии:"
 
