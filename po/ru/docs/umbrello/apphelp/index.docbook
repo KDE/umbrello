@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+ "dtd/kdedbx45.dtd" [
+ <!ENTITY umbrello "<application
+>Umbrello &UML; Modeller</application
+>">
+ <!ENTITY kappname "&umbrello;">
+ <!ENTITY UML "<acronym
+>UML</acronym
+>">
+ <!ENTITY % addindex "IGNORE">
+ <!ENTITY % Russian "INCLUDE"
+><!-- change language only here -->
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+
+<article id="Welcome" lang="&language;">
+<articleinfo>
+<title
+>Добро пожаловать</title>
+</articleinfo>
+
+<para
+>Добро пожаловать в &umbrello; — средство для работы с диаграммами, которое может быть полезным в процессе разработки программного обеспечения, особенно на стадиях анализа и проектирования. &umbrello; поможет создать высококачественный продукт. &UML; также возможно использовать для документирования проекта приложения. </para>
+<para
+>Чтобы приступить к работе с UML, создайте новую диаграмму на основе одного из следующих типов: </para>
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><ulink url="use-case-diagram"
+>Диаграмма вариантов использования</ulink
+></emphasis
+> — отображает действующие лица (людей или других пользователей системы), варианты использования (сценарии использования системы) и их взаимодействие.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="class-diagram"
+>Диаграмма классов</ulink
+></emphasis
+> — отображает классы и взаимодействие между ними.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="sequence-diagram"
+>Диаграмма последовательностей</ulink
+></emphasis
+> — отображает объекты и их взаимодействие, выделяя хронологию обмена сообщениями между объектами.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="collaboration-diagram"
+>Диаграмма кооперации</ulink
+></emphasis
+> — отображает объекты и их взаимодействие, выделяя объекты, которые участвуют в обмене сообщениями.</para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="state-diagram"
+>Диаграмма состояний</ulink
+></emphasis
+> отображает состояния, изменения состояний и события в объектах или компонентах системы.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="activity-diagram"
+>Диаграмма деятельности</ulink
+></emphasis
+> — отображает деятельность и переходы от одной деятельности к другой, являющиеся следствием событий, которые произошли в определённой части системы.</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="component-diagram"
+>Диаграмма компонентов</ulink
+></emphasis
+> — отображает компоненты верхнего уровня (такие как KParts или Java Beans).</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="deployment-diagram"
+>Диаграмма развёртывания</ulink
+></emphasis
+> — отображает экземпляры компонентов и их взаимоотношения.</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="entity-relationship-diagram"
+>Диаграмма отношений сущностей</ulink
+></emphasis
+> — отображает данные и отношения и ограничения, существующие между этими данными.</para
+></listitem>
+
+</itemizedlist>
+</article>

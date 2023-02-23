@@ -1,0 +1,750 @@
+<chapter id="settings">
+<title
+>Настройка</title>
+
+<sect1 id="general-settings">
+<title
+>Основные параметры</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Основные параметры</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="general-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Параметры на вкладке «Основные параметры»</phrase>
+            </textobject>
+            <caption>
+                <para
+>Параметры на вкладке «Основные параметры» </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<sect2 id= "misc-settings">
+<title
+>Разное</title>
+<itemizedlist>
+    <listitem>
+        <para
+>Параметр <guilabel
+>Включить запись действий для отмены</guilabel
+> позволяет отменить предыдущее действие.</para>
+    </listitem>
+    <listitem
+><para
+>Параметр <guilabel
+>Использовать новые генераторы классов C++, Java и Ruby</guilabel
+> позволяет пользователю выбрать старый или новый генератор кода.</para>
+    </listitem>
+    <listitem
+><para
+>Если флажок <guilabel
+>Печатать колонтитулы и номера страниц</guilabel
+> установлен, при печати диаграммы будут напечатаны колонтитулы и номера страниц.</para>
+    </listitem>
+    <listitem
+><para
+>Параметр <guilabel
+>Использовать вкладки</guilabel
+> позволяет работать сразу с несколькими диаграммами, открывая их во вкладках.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- misc-settings -->
+
+
+<sect2 id= "autosave-settings">
+<title
+>Автосохранение</title>
+<itemizedlist>
+    <listitem
+><para
+>Параметр <guilabel
+>Включить автосохранение</guilabel
+> позволяет включить или отключить автоматическое сохранение файла.</para>
+    </listitem>
+    <listitem
+><para
+>Параметр <guilabel
+>Интервал автосохранения, мин</guilabel
+> позволяет указать интервал времени между последовательными процедурами автосохранения файла.</para>
+    </listitem>
+    <listitem
+><para
+>Параметр <guilabel
+>Расширение автосохранения</guilabel
+> по умолчанию установлен в значение «.xmi», но при необходимости это значение возможно изменить.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>   <!-- autosave-settings -->
+
+
+<sect2 id= "startup-settings">
+    <title
+>Запуск приложения</title>
+    <itemizedlist>
+        <listitem
+><para
+>Если флажок <guilabel
+>Открыть последний проект</guilabel
+> установлен, при запуске программы всегда будет загрузаться последний рабочий проект.</para>
+        </listitem>
+        <listitem
+><para
+>Параметр <guilabel
+>Диаграмма по умолчанию для нового проекта</guilabel
+> позволяет выбрать тип диаграммы UML для использования в новом проекте.</para>
+        </listitem>
+        <listitem
+><para
+>Параметр <guilabel
+>Язык по умолчанию</guilabel
+> позволяет задать используемый по умолчанию язык программирования.</para>
+        </listitem>
+    </itemizedlist>
+</sect2
+>    <!-- startup-settings -->
+
+<sect2 id= "notifications-settings">
+<title
+>Уведомления</title>
+<itemizedlist>
+    <listitem
+><para
+>Параметр <guilabel
+>Включить все сообщения</guilabel
+> позволяет включить показ всех уведомлений или только их ограниченного набора.</para>
+    </listitem>
+    <listitem
+><para
+>Установка флажка <guilabel
+>Включить сообщения, связанные с удалением ассоциации</guilabel
+> обеспечит получение всех сообщений этого типа.</para>
+    </listitem>
+    <listitem
+><para
+>Установка флажка <guilabel
+>Включить сообщения, связанные с удалением диаграммы</guilabel
+> обеспечит получение всех сообщений этого типа.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>    <!-- notifications-settings -->
+
+</sect1
+>    <!-- general-settings -->
+
+<!-- Font Settings -->
+<sect1 id="font-settings">
+<title
+>Настройка шрифтов</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Настройка шрифтов</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="font-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Параметры на вкладке «Настройка шрифтов»</phrase>
+            </textobject>
+            <caption>
+                <para
+>Параметры на вкладке «Настройка шрифтов» </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<para
+>Эти параметры определяют свойства текста в диаграммах. Возможно выбрать гарнитуру и размер шрифта.</para>
+
+</sect1
+>    <!-- font-settings -->
+
+<sect1 id="ui-settings">
+    <title
+>Интерфейс пользователя</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Интерфейс пользователя</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="user-interface-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметры на вкладке «Интерфейс пользователя»</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметры на вкладке «Интерфейс пользователя» </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="ui-general">
+    <title
+>Общие</title>
+    <para
+>Параметр <guilabel
+>Интерфейс пользователя справа налево</guilabel
+> настраивает интерфейс для языков с написанием справа налево. </para>
+</sect2
+>    <!-- ui-general-settings -->
+
+<sect2 id="ui-associations">
+    <title
+>Ассоциации</title>
+    <para
+>Параметр <guilabel
+>Использовать ломаные соединительные линии</guilabel
+> позволяет изгибать соединительные линии под любым углом. </para>
+    <para
+>Параметр <guilabel
+>Создавать новые соединительные линии как</guilabel
+> позволяет изменить стиль соединительных линий. </para>
+</sect2
+>    <!-- ui-associations-settings -->
+
+<sect2 id="ui-color">
+    <title
+>Цвет</title>
+    <para
+>В разделе параметров цвета возможно настроить цвет текста, линий, заливки, сетки и фона, а также задать ширину линий.</para>
+</sect2
+>    <!-- ui-Color-settings -->
+
+</sect1
+>    <!-- ui-settings -->
+
+<sect1 id="class-settings">
+    <title
+>Параметры класса</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Параметры класса</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="class-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметры на вкладке «Параметры класса»</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметры на вкладке «Параметры класса» </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="show-class-settings">
+        <title
+>Показать</title>
+        <para
+>В разделе «Показать» представлены параметры, которые позволяют выбрать характеристики класса для показа в диаграмме классов.</para>
+</sect2
+>    <!-- show-class-settings -->
+
+<sect2 id="starting-scope-class-settings">
+        <title
+>Начальная область видимости</title>
+        <para
+>Возможно выбрать видимость атрибутов и операций по умолчанию (публичные, приватные или защищённые).</para>
+</sect2
+>    <!-- starting-scope-class-settings -->
+
+</sect1
+>    <!-- class-settings -->
+
+<sect1 id="code-importer-settings">
+    <title
+>Параметры импорта кода</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Параметры импорта кода</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-import-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметры на вкладке «Параметры импорта кода»</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметры на вкладке «Параметры импорта кода» </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="include-search-paths-settings">
+    <title
+>Пути поиска включений</title>
+    <para
+>Рекомендуется улучшить поиск, добавив переменную среды UMBRELLO_INCPATH.</para>
+</sect2
+>    <!-- include-search-paths-settings -->
+
+<sect2 id="cpp-import-settings">
+    <title
+>Импорт C++</title>
+    <itemizedlist>
+    <listitem>
+    <para
+><guilabel
+>Для каждого импортированного файла создать артефакт в диаграмме компонентов</guilabel
+> — созданный артефакт затем возможно перетащить в представление диаграммы классов, где вместе с атрибутами и функциями каждого файла легко просмотреть и зависимости.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Разрешать зависимости (замедляет процесс импорта)</guilabel
+> — обеспечивает разрешение зависимостей для всех файлов, которые затем будут показаны в зависимостях классов в диаграмме файлов.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Включить стандарт C++11 (экспериментальная возможность)</guilabel
+> — экспериментальная возможность для обеспечения соответствия стандарту C++11. Снимите флажок, если такое соответствие не требуется.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- c++-import-settings -->
+
+</sect1
+>    <!-- code-importer-settings -->
+
+<sect1 id="code-generation-settings">
+    <title
+>Генерация кода</title>
+
+    <sect2 id="code-gen-settings-general-tab">
+    <title
+>Вкладка «Общие» параметров генерации кода</title>
+
+    <para>
+        <screenshot>
+            <screeninfo
+>Вкладка «Общие» параметров генерации кода</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-general-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметры на вкладке «Общие» параметров генерации кода</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметры на вкладке «Общие» параметров генерации кода </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <para
+>Umbrello UML Modeller позволяет генерировать исходный код для различных языков программирования на основе модели, помогая начать реализацию проекта. Сгенерированный код состоит из объявлений классов с их методами и атрибутами; остаётся только «заполнить пустые места» для реализации функциональности классов.</para>
+
+    <sect3 id="code-gen-language-settings">
+        <title
+>Язык</title>
+        <para
+>Выберите язык программирования для использования в проектах. Доступные варианты: ActionScript, Ada, C++, C#, D, IDL, Java, JavaScript, MYSQL, Pascal, Perl, PHP, PHP5, PastgreSQL, Python, Ruby, SQL, Tcl, Vala и XMLSchema.</para>
+    </sect3
+>    <!-- code-gen-language-settings -->
+
+    <sect3 id="code-generation-folders-settings">
+    <title
+>Папки</title>
+    <para
+><guilabel
+>Сохранять сгенерированные файлы в папку</guilabel
+> — укажите в поле редактирования ту папку, в которой следует сохранять сгенерированные файлы, или нажмите кнопку «Обзор...» для выбора пути.</para>
+    <para
+><guilabel
+>Подключать заголовочные файлы из папки</guilabel
+> — если этот флажок установлен, возможно указать путь в поле редактирования или выбрать его с помощью кнопки «Обзор...».</para>
+    </sect3
+>    <!-- code-generation-folders-settings -->
+
+
+<sect3 id="code-generation-overwrite-settings">
+<title
+>Политика замены</title>
+    <para
+>Этот параметр определяет, что происходит, если в папке генерации кода обнаруживается файл с тем же названием, что и у созданного файла. </para>
+<itemizedlist>
+        <listitem>
+        <para
+><guilabel
+>Заменять</guilabel
+> файл без предупреждения или предложения выбрать другой вариант.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Спросить</guilabel
+>, следует ли перезаписать файл или переименовать его.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Выбрать другое имя</guilabel
+>, если файл уже существует (переименовать его путём добавления суффикса).</para>
+    </listitem>
+</itemizedlist>
+
+</sect3
+>    <!-- code-generation-overwrite-settings -->
+
+</sect2
+>    <!-- code-generation-settings-general-tab -->
+
+
+<sect2 id="code-gen-settings-format-tab">
+    <title
+>Вкладка «Оформление» параметров генерации кода</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Вкладка «Оформление» параметров генерации кода</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-formatting-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметры на вкладке «Оформление» параметров генерации кода</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметры на вкладке «Оформление» параметров генерации кода </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <sect3 id="code-gen-formatting-comment-verbosity">
+        <title
+>Подробность комментариев</title>
+        <para
+><guilabel
+>Вставлять комментарии в документацию, даже если они пусты</guilabel
+> — создаёт комментарии для классов и функций, даже если они являются пустыми.</para>
+        <para
+><guilabel
+>Вставлять комментарии для секций, даже если они пусты</guilabel
+> — записывает комментарии для приватных, защищённых и открытых секций, даже если они пусты.</para>
+</sect3
+>    <!-- code-gen-formatting-comment-verbosity -->
+
+<sect3 id="code-gen-formatting-lines">
+    <title
+>Строки</title>
+    <para
+><guilabel
+>Тип отступов</guilabel
+> — позволяет выбрать один из вариантов создания отступов (без отступов, табуляция или пробел).</para>
+    <para
+><guilabel
+>Количество символов</guilabel
+> — позволяет пользователю указать количество пробелов для создания отступов с помощью табуляции или пробелов.</para>
+    <para
+><guilabel
+>Конец строки</guilabel
+> — позволяет выбрать вариант конца строки (в стиле *NIX, Windows или Mac).</para>
+</sect3
+>    <!-- code-gen-formatting-lines -->
+
+</sect2
+>    <!-- code-gen-settings-format-tab -->
+
+<sect2 id="code-gen-settings-language-options">
+    <title
+>Вкладка «Языки программирования» параметров генерации кода</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Вкладка «Языки программирования» параметров генерации кода</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-language-general.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметры на вкладке «Языки программирования» параметров генерации кода</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметры на вкладке «Языки программирования» параметров генерации кода </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>Содержимое этой страницы зависит от языка программирования, выбранного на вкладке «Общие». В настоящее время доступны параметры только для языка C++.</para>
+
+<sect3 id="code-gen-settings-language-options-cpp">
+    <title
+>Генерация кода C++</title>
+    <para
+></para>
+
+    <sect4 id="code-gen-settings-language-options-documentation">
+        <title
+>Документация</title>
+        <para
+><guilabel
+>Стиль</guilabel
+> — позволяет выбрать вариант оформления документации («/** */» или «//»).</para>
+    </sect4
+>    <!-- code-gen-settings-language-options-documentation -->
+
+    <sect4 id="language-general-tab">
+        <title
+>Общие</title>
+        <para
+>Вкладка <guilabel
+>Языки программирования</guilabel
+> содержит вложенную вкладку <guilabel
+>Общие</guilabel
+>, на которой представлены несколько параметров генерации кода.</para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Префикс члена класса</guilabel
+></para>
+                <para
+>Этот параметр позволяет при генерации кода добавлять к членам класса заданный пользователем префикс.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Пакет является пространством имён</guilabel
+></para>
+                <para
+>В пространствах имён предусмотрен метод для предотвращения конфликтов имён в крупных проектах. Объявленные внутри блока пространства имён символы помещаются в именованную область, которая не позволяет ошибочно принять их за символы с такими же названиями, которые принадлежат другим областям программного кода.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Виртуальные деструкторы</guilabel
+></para>
+                <para
+>Хотя деструкторы и не наследуются, если в базовом классе деструктор объявлен как виртуальный, деструктор в производном классе всегда перезаписывает его. Это делает возможным удаление динамически размещённых объектов полиморфного типа с помощью указателей на базовый класс.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Генерировать пустые конструкторы</guilabel
+></para>
+                <para
+>Будут сгенерированы конструкторы с пустыми скобками.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Генерировать методы доступа к атрибутам</guilabel
+></para>
+                <para
+>Будут сгенерированы методы для доступа к типам данных.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Встроенные операции</guilabel
+></para>
+                <para
+>Генерировать методы как встроенные, но при этом компиляторы смогут самостоятельно определить, следует ли их встраивать.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Встроенные методы доступа к атрибутам</guilabel
+></para>
+                <para
+>Генерировать методы доступа к данным класса как встроенные, но при этом компиляторы смогут самостоятельно определить, следует ли их встраивать.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Публичные методы доступа к атрибутам</guilabel
+></para>
+                <para
+>С помощью этого пункта возможно указать, что методы, созданные как открытые, будут доступны любому экземпляру класса.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Создавать методы получения значения с префиксом «get»</guilabel
+></para>
+                <para
+>С помощью этого пункта возможно указать программе добавлять префикс «get» для методов, которые получают или возвращают данные класса.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Удалять префикс «[a-zA-Z]_» из названий методов доступа</guilabel
+></para>
+                <para
+>Если в пункте <guilabel
+>Префикс члена класса</guilabel
+> был указан префикс, он будет удалён.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Методы доступа начинаются с заглавных букв</guilabel
+></para>
+                <para
+>С помощью этого пункта можно указать программе делать первую букву названия метода заглавной.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Для документирования используйте метку «\», а не «@»</guilabel
+></para>
+                <para
+>Выбор метки, которую следует использовать при документировании параметров метода.</para>
+            </listitem>
+        </itemizedlist>
+    </sect4
+>    <!-- language-general-tab -->
+
+    <sect4 id="language-method-body-tab">
+        <title
+>Генерация тела метода</title>
+        <para>
+            <screenshot>
+                <screeninfo
+>Вкладка «Генерация тела метода» параметров генерации кода</screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="code-generation-language-method-settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Параметры на вкладке «Генерация тела метода» параметров генерации кода</phrase>
+                    </textobject>
+                    <caption>
+                        <para
+>Параметры на вкладке «Генерация тела метода» параметров генерации кода </para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para
+><guilabel
+>List</guilabel
+></para>
+        <para
+>Доступны следующие варианты типа списка: QPtrList, vector и std::vector. С помощью расположенного ниже поля возможно указать файл для включения. Предусмотрена кнопка выбора файла для включения в файловой системе. Также имеется параметр, который позволяет сделать список глобальным.</para>
+        <para
+><guilabel
+>String</guilabel
+></para>
+            <para
+>Доступны следующие варианты типа строки: string и QString.  С помощью расположенного ниже поля возможно указать файл для включения. Предусмотрена кнопка выбора файла для включения в файловой системе. Также имеется параметр, который позволяет сделать строку глобальной. </para>
+
+    </sect4
+>    <!-- language-method-body-tab -->
+
+</sect3
+>    <!-- code-gen-settings-language-options-cpp -->
+
+</sect2
+> <!-- code-gen-settings-language-options -->
+
+</sect1
+>    <!-- code-generation-settings-general-tab -->
+
+<sect1 id="code-viewer-settings">
+    <title
+>Просмотр кода</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Просмотр кода</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-viewer-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметры на вкладке «Просмотр кода»</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметры на вкладке «Просмотр кода» </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>Allows customization of the Code Viewer. The <guilabel
+>Requested Font</guilabel
+> section allows the selection of the font, font style, and font size. A representation of your choices is shown below the choices. </para>
+    <para
+>Группа <guilabel
+>Цвета</guilabel
+> содержит следующие параметры: «Бумага», «Шрифт», «Выделение», «Блок объекта UML», «Скрытый блок», «Изменяемый текст», «Неизменяемый текст». Чтобы изменить соответствующие цвета, щёлкните по полю цвета рядом с названием нужного параметра. </para>
+</sect1
+>    <!-- code-viewer-settings -->
+
+<sect1 id="auto-layout-settings">
+    <title
+>Параметры автоматического шаблона</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Параметры автоматического шаблона</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="auto-layout-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Параметры на вкладке «Параметры автоматического шаблона»</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Параметры на вкладке «Параметры автоматического шаблона» </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+><guilabel
+>Автоопределение генераторов шаблонов</guilabel
+></para>
+    <para
+>Функция автошаблона зависит от генераторов шаблонов из пакета GraphViz, который обычно устанавливается диспетчером пакетов вместе с Umbrello. Umbrello поддерживает автоматическое определение расположения этих генераторов шаблонов. В случаях, когда требуемый пакет не установлен или несовместим, возможно указать другой путь установки. </para>
+    <para
+><guilabel
+>Показывать шаблон экспорта в контекстном меню диаграммы</guilabel
+></para>
+    <para
+>Экспорт файла dot выполняется с помощью шаблона экспорта. Если эта опция отмечена, шаблон экспорта добавляется в список доступных шаблонов диаграмм и позволяет быстро просмотреть экспорт dot. </para>
+</sect1
+>    <!-- auto-layout-settings -->
+
+</chapter>
