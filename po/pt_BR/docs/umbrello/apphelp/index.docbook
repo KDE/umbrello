@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+ "dtd/kdedbx45.dtd" [
+ <!ENTITY umbrello "<application
+>Umbrello &UML; Modeller</application
+>">
+ <!ENTITY kappname "&umbrello;">
+ <!ENTITY UML "<acronym
+>UML</acronym
+>">
+ <!ENTITY % addindex "IGNORE">
+ <!ENTITY % Brazilian-Portuguese "INCLUDE"
+><!-- change language only here -->
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+
+<article id="Welcome" lang="&language;">
+<articleinfo>
+<title
+>Bem-vindo</title>
+</articleinfo>
+
+<para
+>Bem-vindo ao &umbrello;, uma ferramenta &UML; de diagrama que pode apoiá-lo no processo de desenvolvimento de software. Especialmente durante as fases de análise e design deste processo, o &umbrello; irá ajudá-lo a obter um produto de alta qualidade. O &UML; também pode ser usado para documentar seus programas de software para ajudar você e seus colegas desenvolvedores. </para>
+<para
+>Para começar a trabalhar com UML, você pode criar um novo diagrama a partir de um dos seguintes tipos de diagrama: </para>
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><ulink url="use-case-diagram"
+>Diagrama de casos de uso</ulink
+></emphasis
+> - mostrar atores (pessoas ou outros usuários do sistema), casos de uso (os cenários em que eles usam o sistema) e seus relacionamentos</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="class-diagram"
+>Diagrama de classes</ulink
+></emphasis
+> - mostrar as classes e os relacionamentos entre elas</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="sequence-diagram"
+>Diagrama de sequência</ulink
+></emphasis
+> - mostra objetos e uma sequência de chamadas de método que eles fazem para outros objetos.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="collaboration-diagram"
+>Diagrama de colaboração</ulink
+></emphasis
+> - mostrar objetos e seu relacionamento, enfatizando os objetos que participam da troca de mensagens</para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="state-diagram"
+>Diagrama de estado</ulink
+></emphasis
+> - mostra estados, mudanças de estado e eventos em um objeto ou parte do sistema</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="activity-diagram"
+>Diagrama de atividade</ulink
+></emphasis
+> - mostrar atividades e as mudanças de uma atividade para outra com os eventos que ocorrem em alguma parte do sistema</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="component-diagram"
+>Diagrama de componentes</ulink
+></emphasis
+> - mostra os componentes de programação de alto nível (como KParts ou Java Beans).</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="deployment-diagram"
+>Diagrama de implantação</ulink
+></emphasis
+> - mostre as instâncias dos componentes e seus relacionamentos.</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="entity-relationship-diagram"
+>Diagrama entidade relacionamento</ulink
+></emphasis
+> - mostrar dados e os relacionamentos e restrições entre os dados.</para
+></listitem>
+
+</itemizedlist>
+</article>
