@@ -489,7 +489,7 @@
 <title
 >Interfaces</title>
 <para
->Interfaces são classes abstratas que significam instâncias que não podem ser diretamente criadas delas. Elas podem conter operações mas não podem conter atributos. Classes podem derivar de interfaces (através da realização de uma associação) e instâncias podem então ser feitas destes diagramas.</para>
+>Interfaces are abstract classes which means instances cannot be directly created of them. They can contain operations but no attributes. Classes can inherit from interfaces (through a realisation association) and instances can then be made of these classes.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="datatype">
