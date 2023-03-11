@@ -4280,8 +4280,8 @@ msgid ""
 "\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 msgstr ""
 "Umbrello – UML-standardiin (Unified Modelling Language) perustuva "
-"visuaalinen ohjelmakehitysympäristö.<br/>Lue lisää: <a href=’http://www.omg."
-"org/spec/’>http://www.omg.org/spec/</a>."
+"visuaalinen ohjelmakehitysympäristö.<br/>Lue lisää: <a href=\"http://www.omg."
+"org/spec/\">http://www.omg.org/spec/</a>."
 
 #: main.cpp:123
 #, fuzzy, kde-format
