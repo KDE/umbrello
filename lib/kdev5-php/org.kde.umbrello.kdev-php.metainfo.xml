@@ -9,6 +9,7 @@
   <name xml:lang="de">KDevelop – PHP-Unterstützung</name>
   <name xml:lang="el">KDevelop PHP Support</name>
   <name xml:lang="en-GB">KDevelop PHP Support</name>
+  <name xml:lang="eo">KDevelop PHP-Subteno</name>
   <name xml:lang="es">Implementación de PHP para KDevelop</name>
   <name xml:lang="et">KDevelopi PHP toetus</name>
   <name xml:lang="eu">KDevelop-en PHP euskarria</name>
@@ -26,7 +27,7 @@
   <name xml:lang="sk">PHP podpora pre KDevelop</name>
   <name xml:lang="sl">Podpora PHP-ju za KDevelop</name>
   <name xml:lang="sv">KDevelop PHP-stöd</name>
-  <name xml:lang="tr">KDevelop PHP Desteği</name>
+  <name xml:lang="tr">K Geliştir PHP Desteği</name>
   <name xml:lang="uk">Підтримка PHP у KDevelop</name>
   <name xml:lang="x-test">xxKDevelop PHP Supportxx</name>
   <name xml:lang="zh-CN">KDevelop PHP 支持</name>
@@ -38,6 +39,7 @@
   <summary xml:lang="de">PHP-Sprachunterstützung für KDevelop</summary>
   <summary xml:lang="el">Υποστήριξη γλώσσας PHP για το KDevelop</summary>
   <summary xml:lang="en-GB">PHP language support for KDevelop</summary>
+  <summary xml:lang="eo">PHP-lingvsubteno por KDevelop</summary>
   <summary xml:lang="es">Implementación del lenguaje PHP para KDevelop</summary>
   <summary xml:lang="et">KDevelop PHP keele toetus</summary>
   <summary xml:lang="eu">KDevelop-erako PHP lengoaiaren euskarria</summary>
@@ -55,7 +57,7 @@
   <summary xml:lang="sk">Podpora jazyka PHP pre KDevelop</summary>
   <summary xml:lang="sl">Podpora jeziku PHP za KDevelop</summary>
   <summary xml:lang="sv">Stöd för språket PHP i KDevelop</summary>
-  <summary xml:lang="tr">KDevelop için PHP dili desteği</summary>
+  <summary xml:lang="tr">K Geliştir için PHP dili desteği</summary>
   <summary xml:lang="uk">Підтримка мови PHP у KDevelop</summary>
   <summary xml:lang="x-test">xxPHP language support for KDevelopxx</summary>
   <summary xml:lang="zh-CN">KDevelop 的 PHP 语言支持</summary>
