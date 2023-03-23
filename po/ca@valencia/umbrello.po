@@ -6211,7 +6211,7 @@ msgstr "Sufix de la guardada automàtica"
 #: umbrello.kcfg:75
 #, kde-format
 msgid "The Suffix for the auto save file"
-msgstr "El sufix per al guardada automàtica del fitxer"
+msgstr "El sufix per a la guardada automàtica del fitxer"
 
 #. i18n: ectx: label, entry (loadlast), group (General Options)
 #: umbrello.kcfg:79
