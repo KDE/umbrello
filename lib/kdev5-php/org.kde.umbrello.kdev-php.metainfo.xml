@@ -13,6 +13,7 @@
   <name xml:lang="es">Implementación de PHP para KDevelop</name>
   <name xml:lang="et">KDevelopi PHP toetus</name>
   <name xml:lang="eu">KDevelop-en PHP euskarria</name>
+  <name xml:lang="fi">KDevelopin PHP-tuki</name>
   <name xml:lang="fr">Prise en charge de PHP pour KDevelop</name>
   <name xml:lang="gl">Compatibilidade con PHP para KDevelop</name>
   <name xml:lang="hu">KDevelop PHP-támogatás</name>
@@ -43,6 +44,7 @@
   <summary xml:lang="es">Implementación del lenguaje PHP para KDevelop</summary>
   <summary xml:lang="et">KDevelop PHP keele toetus</summary>
   <summary xml:lang="eu">KDevelop-erako PHP lengoaiaren euskarria</summary>
+  <summary xml:lang="fi">PHP-kielen tuki KDevelopiin</summary>
   <summary xml:lang="fr">Prise en charge du langage PHP pour KDevelop</summary>
   <summary xml:lang="gl">Compatibilidade coa linguaxe PHP para KDevelop</summary>
   <summary xml:lang="hu">PHP nyelvi támogatás a KDevelophoz</summary>
