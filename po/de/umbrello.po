@@ -3,7 +3,7 @@
 # Stephan Johach <hunsum@gmx.de>, 2003, 2005, 2006.
 # Thomas Diehl <thd@kde.org>, 2004.
 # Thomas Reitelbach <tr@erdfunkstelle.de>, 2005, 2006, 2007, 2008.
-# Frederik Schwarzer <schwarzer@kde.org>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2022.
+# Frederik Schwarzer <schwarzer@kde.org>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2022, 2023.
 # Burkhard Lück <lueck@hube-lueck.de>, 2008, 2009, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021.
 # Panagiotis Papadopoulos <pano_90@gmx.net>, 2010.
 # Johannes Obermayr <johannesobermayr@gmx.de>, 2010.
@@ -14,15 +14,15 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2022-11-09 22:57+0100\n"
-"Last-Translator: Frank Steinmetzger <dev-kde@felsenfleischer.de>\n"
+"PO-Revision-Date: 2023-04-16 13:43+0200\n"
+"Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 22.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1124,21 +1124,20 @@ msgstr "Umfang Quelltextkommentare"
 #, kde-format
 msgid "Write comments &for class and method documentation even if empty"
 msgstr ""
-"Erzeugt Kommentare &für Klassen und Methoden-Dokumentation, selbst wenn "
+"Kommentare &für Klassen- und Methoden-Dokumentation erzeugen, selbst wenn "
 "diese leer sind"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_forceDoc)
 #: codegenwizard/codegenoptionspage.ui:240
 #, kde-format
 msgid "&Write documentation comments even if empty"
-msgstr "&Erzeugt Dokumentations-Kommentare, selbst wenn diese leer sind"
+msgstr "&Dokumentations-Kommentare erzeugen, selbst wenn diese leer sind"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
+#, kde-format
 msgid "Write section comments:"
-msgstr "&Erzeugt Dokumentations-Kommentare, selbst wenn diese leer sind"
+msgstr "Abschnitt-Kommentare erzeugen:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1148,26 +1147,25 @@ msgid ""
 "a class, even if the sections are empty"
 msgstr ""
 "Erzeugt Kommentare, um die verschiedenen Abschnitte (public, private usw.) "
-"in einer Klasse zu kennzeichnen, selbst wenn diese leer sind."
+"in einer Klasse zu kennzeichnen, selbst wenn diese leer sind"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:276
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgid "None"
-msgstr "Kein"
+msgstr "Keine"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
 msgid "When section is non empty"
-msgstr ""
+msgstr "Wenn Abschnitt nicht leer ist"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Immer"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -4322,10 +4320,9 @@ msgid "import files from directory <dir>"
 msgstr "Dateien aus Ordner <dir> importieren"
 
 #: main.cpp:167
-#, fuzzy, kde-format
-#| msgid "set active language"
+#, kde-format
 msgid "set language"
-msgstr "Aktive Sprache einstellen"
+msgstr "Sprache einstellen"
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
@@ -5256,8 +5253,7 @@ msgid "new_unique_constraint"
 msgstr "neue_eindeutige_einschraenkung"
 
 #: model_utils.cpp:587
-#, fuzzy, kde-format
-#| msgid "new_use case"
+#, kde-format
 msgid "new_use_case"
 msgstr "neuer_anwendungsfall"
 
@@ -6695,13 +6691,13 @@ msgstr "Aktiviert/Deaktiviert ausführliche Dokumentation"
 #: umbrello.kcfg:394
 #, kde-format
 msgid "Section Comment Policy"
-msgstr ""
+msgstr "Regeln für Abschnitt-Kommentare"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:395
 #, kde-format
 msgid "Whether section comments shall be written"
-msgstr ""
+msgstr "Ob Abschnitt-Kommentare erzeugt werden sollen"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:404
@@ -6905,8 +6901,7 @@ msgstr "Der Name der Vector-Klasse"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:518
-#, fuzzy, kde-format
-#| msgid "Vector Class Name Include "
+#, kde-format
 msgid "Vector Class Name Include"
 msgstr "Include für Vector-Klassenname"
 
@@ -6989,8 +6984,7 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:555
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors ( D ) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "Zugriffsmethoden für Attribute automatisch erstellen (D)"
 
@@ -7018,15 +7012,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:565
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (D) "
+#, kde-format
 msgid "Build ANT Document (D)"
 msgstr "ANT-Dokument erzeugen (D)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:566
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (D) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (D)"
 msgstr "Aktiviert/Deaktiviert Erstellung des ANT-Dokuments (D)"
 
@@ -7046,15 +7038,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:577
-#, fuzzy, kde-format
-#| msgid "Auto Generate Assoc Accessors (Java) "
+#, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "Zugriffsmethoden für Assoc automatisch erstellen (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:578
-#, fuzzy, kde-format
-#| msgid "Enables/Disables auto generation of association accessors (Java) "
+#, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr ""
 "Aktiviert/Deaktiviert automatisches Erstellen von Zugriffsmethoden für Assoc "
@@ -7062,22 +7052,19 @@ msgstr ""
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:582
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (Java) "
+#, kde-format
 msgid "Build ANT Document (Java)"
 msgstr "ANT-Dokument erzeugen (Java)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:583
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (Java) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "Aktiviert/Deaktiviert Erstellung des ANT-Dokuments (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:589
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors (Ruby) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr "Zugriffsfunen für Attribute automatisch erstellen (Ruby)"
 
@@ -7974,10 +7961,9 @@ msgstr ""
 "Die vorhandene Datei wird überschrieben."
 
 #: umllistview.cpp:560
-#, fuzzy, kde-format
-#| msgid "File Exist"
+#, kde-format
 msgid "File Exists"
-msgstr "Die Datei existiert bereits"
+msgstr "Datei existiert bereits"
 
 #: umllistview.cpp:568 umlviewimageexportermodel.cpp:270
 #, kde-format
@@ -8826,8 +8812,7 @@ msgid "Enter the name of the new combined fragment:"
 msgstr "Geben Sie den Namen des neuen kombinierten Fragments ein:"
 
 #: umlwidgets/widget_utils.cpp:929
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new floating dash Line:"
+#, kde-format
 msgid "Enter the name of the new floating dash line:"
 msgstr "Geben Sie den Namen der neuen freischwebenden Strichlinie ein:"
 
@@ -8992,8 +8977,7 @@ msgid "Enter the new name of the combined fragment:"
 msgstr "Geben Sie den neuen Namen des kombinierten Fragments ein:"
 
 #: umlwidgets/widget_utils.cpp:1020
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the floating dash Line:"
+#, kde-format
 msgid "Enter the new name of the floating dash line:"
 msgstr "Geben Sie den neuen Namen der freischwebenden Strichlinie ein:"
 
