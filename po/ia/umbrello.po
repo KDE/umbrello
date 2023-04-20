@@ -7452,7 +7452,7 @@ msgstr "'%1': %2 Trovate"
 #: uml.cpp:1463
 #, kde-format
 msgid "Print Preview..."
-msgstr "Vista preliminari de imprimer..."
+msgstr "Vista preliminar de imprimer..."
 
 #: uml.cpp:1490
 #, kde-format
