@@ -4,13 +4,13 @@
 # mvillarino <mvillarino@users.sourceforge.net>, 2007, 2008, 2009.
 # Marce Villarino <mvillarino@kde-espana.es>, 2009, 2010, 2013, 2014.
 # Adrian Chaves Fernandez <adriyetichaves@gmail.com>, 2013, 2015, 2016, 2017.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019, 2020.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019, 2020, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2020-03-07 07:57+0100\n"
+"PO-Revision-Date: 2023-05-12 00:11+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.08.3\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -108,7 +108,7 @@ msgstr "Asociación"
 #: basictypes.cpp:334
 #, kde-format
 msgid "Self Association"
-msgstr "Autoasociación"
+msgstr "Auto-asociación"
 
 #: basictypes.cpp:336
 #, kde-format
@@ -128,12 +128,12 @@ msgstr "Mensaxe de secuencia"
 #: basictypes.cpp:342
 #, kde-format
 msgid "Collaboration Self Message"
-msgstr "Automensaxe de colaboración"
+msgstr "Auto-mensaxe de colaboración"
 
 #: basictypes.cpp:344
 #, kde-format
 msgid "Sequence Self Message"
-msgstr "Automensaxe de secuencia"
+msgstr "Auto-mensaxe de secuencia"
 
 #: basictypes.cpp:346 worktoolbar.cpp:330
 #, kde-format
@@ -384,7 +384,7 @@ msgstr "Xerar construtores baleiros"
 #: codegenerators/cpp/cppcodegenerationform.cpp:45
 #, kde-format
 msgid "Generate accessor methods"
-msgstr "Xerar métodos accesores"
+msgstr "Xerar métodos lectores"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:49
 #, kde-format
@@ -394,17 +394,17 @@ msgstr "As operacións son «inline»"
 #: codegenerators/cpp/cppcodegenerationform.cpp:53
 #, kde-format
 msgid "Accessors are inline"
-msgstr "Os accesores son «inline»"
+msgstr "Os lectores son «inline»"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:57
 #, kde-format
 msgid "Accessors are public"
-msgstr "Os accesores son públicos"
+msgstr "Os lectores son públicos"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:61
 #, kde-format
 msgid "Create getters with 'get' prefix"
-msgstr "Crear obtedores co prefixo «get»"
+msgstr "Crear lectores co prefixo «get»"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:65
 #, kde-format
@@ -770,7 +770,7 @@ msgstr "Xerar construtores baleiros"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:109
 #, kde-format
 msgid "Association accessor methods"
-msgstr "Métodos accesores da asociación"
+msgstr "Métodos lectores da asociación"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_generateAttribAccessors)
 #: codegenerators/d/dcodegenerationformbase.ui:128
@@ -778,7 +778,7 @@ msgstr "Métodos accesores da asociación"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:119
 #, kde-format
 msgid "Attribute accessor methods"
-msgstr "Métodos accesores aos atributos"
+msgstr "Métodos lectores aos atributos"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelAccessorScope)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_3)
@@ -787,7 +787,7 @@ msgstr "Métodos accesores aos atributos"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:133
 #, kde-format
 msgid "Default attribute accessor scope:"
-msgstr "Ámbito predeterminado dos accesores aos atributos:"
+msgstr "Ámbito predeterminado dos lectores dos atributos:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_accessorScopeCB)
 #. i18n: ectx: property (text), item, widget (KComboBox, m_assocFieldScopeCB)
@@ -1126,10 +1126,9 @@ msgstr "Escri&bir comentarios de documentación aínda que estea baleiro"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
+#, kde-format
 msgid "Write section comments:"
-msgstr "Escri&bir comentarios de documentación aínda que estea baleiro"
+msgstr "Escribir os comentarios da sección:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1143,8 +1142,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:276
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgid "None"
 msgstr "Ningún"
 
@@ -1152,13 +1150,13 @@ msgstr "Ningún"
 #: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
 msgid "When section is non empty"
-msgstr ""
+msgstr "Cando a sección non está baleira"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Sempre"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -1309,7 +1307,7 @@ msgstr "Non xerado"
 #: codegenwizard/codegenstatuspage.cpp:179
 #, kde-format
 msgid "Skipped"
-msgstr ""
+msgstr "Saltado"
 
 #: codegenwizard/codegenstatuspage.cpp:204
 #: codegenwizard/codegenstatuspage.cpp:234
@@ -2449,14 +2447,7 @@ msgstr "Xerador de disposición"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>The auto layout feature depends on layout generators provided by the "
-#| "GraphViz package, which is normally installed aside Umbrello by a package "
-#| "manager.</p>\n"
-#| "<p>Umbrello has build in support for detecting the install location of  "
-#| "these layout generators. For cases where this dependency is not available "
-#| "or do not fit, a different installation path could be provided.</p>"
+#, kde-format
 msgid ""
 "<p>The auto layout feature depends on layout generators provided by the "
 "GraphViz package, which is normally installed aside Umbrello by a package "
@@ -2468,7 +2459,7 @@ msgstr ""
 "<p>A funcionalidade de disposición automática depende de xeradores "
 "fornecidos polo paquete GraphViz, que normalmente se instala xunto a "
 "Umbrello mediante un xestor de paquetes.</p>\n"
-"<p>Umbrello pode detectar o lugar onde están instalados os xeradores de "
+"<p>Umbrello permite de serie detectar onde están instalados os xeradores de "
 "disposicións. Nos casos onde esta dependencia non estea dispoñíbel ou non o "
 "estea nun lugar normal pode indicarse outra ruta de instalación.</p>"
 
@@ -2708,22 +2699,19 @@ msgid "Attribute Signatures"
 msgstr "Sinaturas de atributo"
 
 #: dialogs/pages/classoptionspage.cpp:438
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "No Stereotype"
-msgstr "Estereotipo"
+msgstr "Novo estereotipo"
 
 #: dialogs/pages/classoptionspage.cpp:439
-#, fuzzy, kde-format
-#| msgid "Stereotype &name:"
+#, kde-format
 msgid "Stereotype Name"
-msgstr "Nome do &estereotipo:"
+msgstr "Nome do estereotipo"
 
 #: dialogs/pages/classoptionspage.cpp:440
-#, fuzzy, kde-format
-#| msgid "Stereotypes"
+#, kde-format
 msgid "Stereotype with Tags"
-msgstr "Estereotipos"
+msgstr "Estereotipo con etiquetas"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: dialogs/pages/codeimportoptionspage.ui:31
@@ -2743,10 +2731,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/pages/codeimportoptionspage.ui:56
-#, fuzzy, kde-format
-#| msgid "C++- Import"
+#, kde-format
 msgid "C++ Import"
-msgstr "C++ — Importación"
+msgstr "Importación de C++"
 
 #. i18n: ectx: property (text), widget (QCheckBox, createArtifactCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:66
@@ -2867,17 +2854,15 @@ msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelWidth)
 #: dialogs/pages/diagrampropertiespage.ui:105
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width:"
-msgstr "Anchura"
+msgstr "Anchura:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelHeight)
 #: dialogs/pages/diagrampropertiespage.ui:144
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Height:"
-msgstr "Altura"
+msgstr "Altura:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_checkBoxShowGrid)
 #: dialogs/pages/diagrampropertiespage.ui:189
@@ -3469,16 +3454,14 @@ msgid "Linked diagram:"
 msgstr "Diagrama ligado:"
 
 #: dialogs/stereoattributedialog.cpp:39
-#, fuzzy, kde-format
-#| msgid "Note Properties"
+#, kde-format
 msgid "Stereotype Properties"
-msgstr "Propiedades da nota"
+msgstr "Propiedades do estereotipo"
 
 #: dialogs/stereoattributedialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Stereotype Attributes for "
-msgstr "Atributos da entidade"
+msgstr "Atributos de estereotipo para"
 
 #: dialogs/stereoattributedialog.cpp:75 dialogs/umlattributedialog.cpp:76
 #, kde-format
@@ -3487,19 +3470,16 @@ msgid "&Name:"
 msgstr "&Nome:"
 
 #: dialogs/stereoattributedialog.cpp:78
-#, fuzzy, kde-format
-#| msgid "&Type:"
+#, kde-format
 msgctxt "attribute type"
 msgid "&Type:"
 msgstr "&Tipo:"
 
 #: dialogs/stereoattributedialog.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "default line color button"
-#| msgid "&Default"
+#, kde-format
 msgctxt "default value"
 msgid "&Default:"
-msgstr "&Predeterminado"
+msgstr "&Predeterminado:"
 
 #: dialogs/umlattributedialog.cpp:43
 #, kde-format
@@ -4242,16 +4222,13 @@ msgstr ""
 "\">http://www.omg.org/spec/</a>."
 
 #: main.cpp:123
-#, fuzzy, kde-format
-#| msgid ""
-#| "Copyright © 2001 Paul Hensgen,\n"
-#| "Copyright © 2002-2020 Umbrello UML Modeller Authors"
+#, kde-format
 msgid ""
 "Copyright © 2001 Paul Hensgen,\n"
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
 msgstr ""
 "© 2001 Paul Hensgen\n"
-"© 2002-2020 Autores do modelador de UML Umbrello"
+"© 2002-2022 Autores do modelador de UML Umbrello"
 
 #: main.cpp:127
 #, kde-format
@@ -4326,10 +4303,9 @@ msgid "import files from directory <dir>"
 msgstr "Importar os ficheiros do cartafol <dir>."
 
 #: main.cpp:167
-#, fuzzy, kde-format
-#| msgid "set active language"
+#, kde-format
 msgid "set language"
-msgstr "Definir a linguaxe activa."
+msgstr "Estabelecer o idioma"
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
@@ -4380,7 +4356,7 @@ msgstr "Disposición"
 #: menus/associationwidgetpopupmenu.cpp:95
 #, kde-format
 msgid "Polyline"
-msgstr "Poliliña"
+msgstr "Multiliña"
 
 #: menus/associationwidgetpopupmenu.cpp:96
 #, kde-format
@@ -4543,7 +4519,7 @@ msgstr "Exportar como unha imaxe…"
 #: menus/listpopupmenu.cpp:189
 #, kde-format
 msgid "Externalize Folder..."
-msgstr "Externalizar o cartafol…"
+msgstr "Exteriorizar o cartafol…"
 
 #: menus/listpopupmenu.cpp:190 menus/widgetbasepopupmenu.cpp:535
 #, kde-format
@@ -4635,7 +4611,7 @@ msgstr "Interface requirida"
 #: menus/listpopupmenu.cpp:210
 #, kde-format
 msgid "Internalize Folder"
-msgstr "Internalizar o cartafol"
+msgstr "Interiorizar o cartafol"
 
 #: menus/listpopupmenu.cpp:211 worktoolbar.cpp:367
 #, kde-format
@@ -4873,7 +4849,7 @@ msgstr "Disxunta (Especialización)"
 #: menus/listpopupmenu.cpp:515
 #, kde-format
 msgid "Overlapping(Specialisation)"
-msgstr "Sobreposicionante (Especialización)"
+msgstr "Superposto (especialización)"
 
 #: menus/listpopupmenu.cpp:516
 #, kde-format
@@ -4949,7 +4925,7 @@ msgstr "Agochar as sinaturas"
 #: menus/widgetbasepopupmenu.cpp:134
 #, kde-format
 msgid "Hide Non-public members"
-msgstr "Agochar os membos non públicos"
+msgstr "Agochar os membros non públicos"
 
 #: menus/widgetbasepopupmenu.cpp:135
 #, kde-format
@@ -4969,7 +4945,7 @@ msgstr "Estereotipos"
 #: menus/widgetbasepopupmenu.cpp:203
 #, kde-format
 msgid "Refactor"
-msgstr "Refactorizar"
+msgstr "Pulir"
 
 #: menus/widgetbasepopupmenu.cpp:204
 #, kde-format
@@ -4994,7 +4970,7 @@ msgstr "Renomear a clase…"
 #: menus/widgetbasepopupmenu.cpp:277 menus/widgetbasepopupmenu.cpp:444
 #, kde-format
 msgid "Name as Tooltip"
-msgstr "Nome como axudiña"
+msgstr "Nome como axuda"
 
 #: menus/widgetbasepopupmenu.cpp:296
 #, kde-format
@@ -5260,8 +5236,7 @@ msgid "new_unique_constraint"
 msgstr "nova_restrición_de_unicidade"
 
 #: model_utils.cpp:587
-#, fuzzy, kde-format
-#| msgid "new_use case"
+#, kde-format
 msgid "new_use_case"
 msgstr "novo_caso_de_uso"
 
@@ -6678,13 +6653,13 @@ msgstr "Estabelece o ámbito predeterminado dos campos de asociación"
 #: umbrello.kcfg:377
 #, kde-format
 msgid "Default Attribute Accessor Scope"
-msgstr "Ámbito predeterminado dos accesores aos atributos"
+msgstr "Ámbito predeterminado dos lectores dos atributos"
 
 #. i18n: ectx: whatsthis, entry (defaultAttributeAccessorScope), group (Code Generation)
 #: umbrello.kcfg:378
 #, kde-format
 msgid "Sets the default attribute accessor scope"
-msgstr "Indica o ámbito predeterminado dos accesores aos atributos"
+msgstr "Indica o ámbito predeterminado dos lectores dos atributos"
 
 #. i18n: ectx: label, entry (forceDoc), group (Code Generation)
 #: umbrello.kcfg:389
@@ -6702,13 +6677,13 @@ msgstr "Activa ou desactiva a documentación detallada"
 #: umbrello.kcfg:394
 #, kde-format
 msgid "Section Comment Policy"
-msgstr ""
+msgstr "Política de comentarios de sección"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:395
 #, kde-format
 msgid "Whether section comments shall be written"
-msgstr ""
+msgstr "Se escribir os comentarios das seccións"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:404
@@ -6799,13 +6774,13 @@ msgstr "A política a seguir cando hai conflitos de nomes"
 #: umbrello.kcfg:468
 #, kde-format
 msgid "Auto Generate Accessors"
-msgstr "Xerar automaticamente os accesores"
+msgstr "Xerar automaticamente os lectores"
 
 #. i18n: ectx: whatsthis, entry (autoGenAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:469
 #, kde-format
 msgid "Enables/Disables auto generation of accessors"
-msgstr "Activa ou desactiva a xeración automática de accesores"
+msgstr "Activa ou desactiva a xeración automática de lectores"
 
 #. i18n: ectx: whatsthis, entry (classMemberPrefix), group (CPP Code Generation)
 #: umbrello.kcfg:474
@@ -6817,13 +6792,13 @@ msgstr "O prefixo para os membros de clase"
 #: umbrello.kcfg:478
 #, kde-format
 msgid "Inline Accessors"
-msgstr "Accesores «inline»"
+msgstr "Lectores de liña"
 
 #. i18n: ectx: whatsthis, entry (inlineAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:479
 #, kde-format
 msgid "Enables/Disables Inline accessors"
-msgstr "Activa ou desactiva os accesores «inline»"
+msgstr "Activa ou desactiva os lectores de liña"
 
 #. i18n: ectx: label, entry (inlineOps), group (CPP Code Generation)
 #: umbrello.kcfg:483
@@ -6853,13 +6828,13 @@ msgstr "Activa ou desactiva o tratar o paquete como un espazo de nomes"
 #: umbrello.kcfg:493
 #, kde-format
 msgid "Public Accessors"
-msgstr "Accesores públicos"
+msgstr "Lectores públicos"
 
 #. i18n: ectx: whatsthis, entry (publicAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:494
 #, kde-format
 msgid "Enables/Disables public accessors"
-msgstr "Activa ou desactiva os accesores públicos"
+msgstr "Activa ou desactiva os lectores públicos"
 
 #. i18n: ectx: label, entry (stringClassName), group (CPP Code Generation)
 #: umbrello.kcfg:498
@@ -6911,8 +6886,7 @@ msgstr "O nome da clase vector"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:518
-#, fuzzy, kde-format
-#| msgid "Vector Class Name Include "
+#, kde-format
 msgid "Vector Class Name Include"
 msgstr "Inclusión do nome da clase vector"
 
@@ -6950,13 +6924,13 @@ msgstr "Activa ou desactiva os destrutores virtuais"
 #: umbrello.kcfg:533
 #, kde-format
 msgid "Getters with 'get' prefix"
-msgstr "Obtedores co prefixo «get»"
+msgstr "Lectores co prefixo «get»"
 
 #. i18n: ectx: whatsthis, entry (getterWithGetPrefix), group (CPP Code Generation)
 #: umbrello.kcfg:534
 #, kde-format
 msgid "If enabled, create getters with 'get' prefix"
-msgstr "Se se activa, crear obtedores co prefixo «get»"
+msgstr "Se se activa, crear lectores co prefixo «get»"
 
 #. i18n: ectx: label, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
 #: umbrello.kcfg:538
@@ -6990,42 +6964,39 @@ msgstr "A etiqueta empregada para xerar a documentación doxygen (\\\\, @)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:555
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors ( D ) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
-msgstr "Xerar automaticamente os accesores aos atributos (D) "
+msgstr "Xerar automaticamente os lectores dos atributos (D)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:556
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors ( D )"
 msgstr ""
-"Activa ou desactiva a xeración automática dos accesores aos atributos (D)"
+"Activa ou desactiva a xeración automática dos lectores dos atributos (D)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:560
 #, kde-format
 msgid "Auto Generate Assoc Accessors ( D )"
-msgstr "Xerar automaticamente accesores ás asociacións (D)"
+msgstr "Xerar automaticamente lectores das asociacións (D)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:561
 #, kde-format
 msgid "Enables/Disables auto generation of association accessors ( D )"
 msgstr ""
-"Activa ou desactiva a xeración automática de accesores ás asociacións (D)"
+"Activa ou desactiva a xeración automática de lectores das asociacións (D)"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:565
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (D) "
+#, kde-format
 msgid "Build ANT Document (D)"
 msgstr "Construír o documento ANT (D)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:566
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (D) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (D)"
 msgstr "Activa ou desactiva a construción do documento ANT (D)"
 
@@ -7033,70 +7004,65 @@ msgstr "Activa ou desactiva a construción do documento ANT (D)"
 #: umbrello.kcfg:572
 #, kde-format
 msgid "Auto Generate Attribute Accessors (Java)"
-msgstr "Xerar automaticamente os accesores aos atributos (Java)"
+msgstr "Xerar automaticamente os lectores dos atributos (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:573
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Java)"
 msgstr ""
-"Activa ou desactiva a xeración automática dos accesores aos atributos (Java)"
+"Activa ou desactiva a xeración automática dos lectores dos atributos (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:577
-#, fuzzy, kde-format
-#| msgid "Auto Generate Assoc Accessors (Java) "
+#, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
-msgstr "Xerar automaticamente accesores ás asociacións (Java)"
+msgstr "Xerar automaticamente lectores das asociacións (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:578
-#, fuzzy, kde-format
-#| msgid "Enables/Disables auto generation of association accessors (Java) "
+#, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr ""
-"Activa ou desactiva a xeración automática de accesores ás asociacións (Java)"
+"Activa ou desactiva a xeración automática de lectores das asociacións (Java)"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:582
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (Java) "
+#, kde-format
 msgid "Build ANT Document (Java)"
 msgstr "Construír o documento ANT (Java)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:583
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (Java) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "Activa ou desactiva a construción do documento ANT (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:589
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors (Ruby) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
-msgstr "Xerar automaticamente os accesores aos atributos (Ruby)"
+msgstr "Xerar automaticamente os lectores dos atributos (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:590
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Ruby)"
 msgstr ""
-"Activa ou desactiva a xeración automática dos accesores aos atributos (Ruby)"
+"Activa ou desactiva a xeración automática dos lectores os atributos (Ruby)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:594
 #, kde-format
 msgid "Auto Generate Assoc Accessors (Ruby)"
-msgstr "Xerar automaticamente accesores ás asociacións (Ruby)"
+msgstr "Xerar automaticamente lectores ás asociacións (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:595
 #, kde-format
 msgid "Enables/Disables auto generation of association accessors (Ruby)"
 msgstr ""
-"Activa ou desactiva a xeración automática de accesores ás asociacións (Ruby)"
+"Activa ou desactiva a xeración automática de lectores ás asociacións (Ruby)"
 
 #. i18n: ectx: label, entry (autoDotPath), group (Auto Layout)
 #: umbrello.kcfg:601
@@ -7300,15 +7266,14 @@ msgid "Pastes the contents of the clipboard"
 msgstr "Pega o contido do portapapeis"
 
 #: uml.cpp:457
-#, fuzzy, kde-format
-#| msgid "Invoke action"
+#, kde-format
 msgid "Undo last action"
-msgstr "Invocar unha acción"
+msgstr "Desfacer a última acción feita"
 
 #: uml.cpp:458
 #, kde-format
 msgid "Redo last undone action"
-msgstr ""
+msgstr "Refacer a última acción desfeita"
 
 #: uml.cpp:460
 #, kde-format
@@ -7524,15 +7489,7 @@ msgid "Open File"
 msgstr "Abrir un ficheiro"
 
 #: uml.cpp:1262
-#, fuzzy, kde-format
-#| msgid ""
-#| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *."
-#| "xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
-#| "*.xmi|Uncompressed XMI Files (*.xmi)\n"
-#| "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
-#| "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
-#| "*.mdl|Rose model files (*.mdl)\n"
-#| "*.zargo|Compressed argo Files(*.zargo)\n"
+#, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
 "xmi, *.xmi.tgz, *.xmi.tar.bz2, *.uml, *.mdl, *.zargo)\n"
@@ -7543,11 +7500,12 @@ msgid ""
 "*.mdl|Rose model files (*.mdl)\n"
 "*.zargo|Compressed argo Files(*.zargo)\n"
 msgstr ""
-"*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|Todos os ficheiros compatíbeis "
-"(*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
+"*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|Todos os ficheiros "
+"compatíbeis (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.uml, *.mdl, *.zargo)\n"
 "*.xmi|Ficheiros XMI sen comprimir (*.xmi)\n"
 "*.xmi.tgz|Ficheiros XMI comprimidos con gzip (*.xmi.tgz)\n"
 "*.xmi.tar.bz2|Ficheiros XMI comprimidos con Bzip2 (*.xmi.tar.bz2)\n"
+"*.uml|Ficheiros de Eclipse PapyrusUML (*.uml)\n"
 "*.mdl|Ficheiros de modelo Rose (*.mdl)\n"
 "*.zargo|Ficheiros argo comprimidos (*.zargo)\n"
 
@@ -7780,7 +7738,7 @@ msgstr "Non se atopou ningún ficheiro XMI no ficheiro comprimido %1."
 #: umldoc.cpp:613
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
-msgstr "Houbo un problema ao cargar o ficheiro extraido: %1"
+msgstr "Houbo un problema ao cargar o ficheiro extraído: %1"
 
 #: umldoc.cpp:638 umldoc.cpp:674
 #, kde-format
@@ -7949,7 +7907,7 @@ msgstr "/autogardar%1"
 #: umllistview.cpp:530
 #, kde-format
 msgid "Externalize Folder"
-msgstr "Externalizar o cartafol"
+msgstr "Exteriorizar o cartafol"
 
 #: umllistview.cpp:550
 #, kde-format
@@ -7972,8 +7930,7 @@ msgstr ""
 "O ficheiro actual substituirase."
 
 #: umllistview.cpp:560
-#, fuzzy, kde-format
-#| msgid "File Exist"
+#, kde-format
 msgid "File Exists"
 msgstr "O ficheiro xa existe"
 
@@ -8041,7 +7998,7 @@ msgstr "Cartafol non baleiro"
 #: umllistviewitem.cpp:684
 #, kde-format
 msgid "Rename canceled"
-msgstr "Cancelouse o renomeamento"
+msgstr "Cancelouse o cambio de nome"
 
 #: umllistviewitem.cpp:719
 #, kde-format
@@ -8061,7 +8018,7 @@ msgid ""
 "Renaming process has been canceled."
 msgstr ""
 "O nome que inseriu era incorrecto.\n"
-"Cancelouse o proceso de renomeamento."
+"Cancelouse o proceso de cambio de nome."
 
 #: umllistviewitem.cpp:735
 #, kde-format
@@ -8819,8 +8776,7 @@ msgid "Enter the name of the new combined fragment:"
 msgstr "Escriba o nome do novo fragmento combinado:"
 
 #: umlwidgets/widget_utils.cpp:929
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new floating dash Line:"
+#, kde-format
 msgid "Enter the name of the new floating dash line:"
 msgstr "Escriba o nome da nova liña longa flotante:"
 
@@ -8985,8 +8941,7 @@ msgid "Enter the new name of the combined fragment:"
 msgstr "Escriba o novo nome do fragmento combinado:"
 
 #: umlwidgets/widget_utils.cpp:1020
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the floating dash Line:"
+#, kde-format
 msgid "Enter the new name of the floating dash line:"
 msgstr "Escriba o novo nome da liña longa flotante:"
 
@@ -9060,6 +9015,7 @@ msgstr "Escriba o novo nome do trebello:"
 msgid "Box"
 msgstr "Caixa"
 
+# well-spelled: FragmentoCombinado
 #: umlwidgets/widgetbase.cpp:1248
 #, kde-format
 msgid "CombinedFragment"
@@ -9075,11 +9031,13 @@ msgstr "Tipo de dato"
 msgid "Enum"
 msgstr "Enumerado"
 
+# well-spelled: LinaLongaFlotante
 #: umlwidgets/widgetbase.cpp:1266
 #, kde-format
 msgid "FloatingDashLine"
 msgstr "LinaLongaFlotante"
 
+# well-spelled: RamificarXuntar
 #: umlwidgets/widgetbase.cpp:1269
 #, kde-format
 msgid "ForkJoin"
@@ -9100,6 +9058,7 @@ msgstr "Nota"
 msgid "Object"
 msgstr "Obxecto"
 
+# well-spelled: NodoDeObxecto
 #: umlwidgets/widgetbase.cpp:1287
 #, kde-format
 msgid "ObjectNode"
@@ -9120,6 +9079,7 @@ msgstr "Estado"
 msgid "Text"
 msgstr "Texto"
 
+# well-spelled: CasoDeUso
 #: umlwidgets/widgetbase.cpp:1314
 #, kde-format
 msgid "UseCase"
