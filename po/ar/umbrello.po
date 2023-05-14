@@ -7329,7 +7329,7 @@ msgstr "صدِّر الكل التخطيطات صور."
 #: uml.cpp:604
 #, kde-format
 msgid "Z&oom to 100%"
-msgstr "&قرّب إلى ١٠٠٪"
+msgstr "&قرّب إلى 100٪"
 
 #: uml.cpp:647
 #, kde-format
