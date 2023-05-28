@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2023-03-22 16:26+0200\n"
+"PO-Revision-Date: 2023-05-08 14:08+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-POT-Import-Date: 2012-12-01 22:25:36+0000\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -253,17 +253,17 @@ msgstr "Muuta näkyvyyttä : %1"
 #: cmds/generic/cmdcreateumlobject.cpp:28 object_factory.cpp:179
 #, kde-format
 msgid "Create UML object : %1"
-msgstr "Luo UML-objekti : %1"
+msgstr "Luo UML-olio: %1"
 
 #: cmds/generic/cmdremoveumlobject.cpp:25
 #, kde-format
 msgid "Remove UML object : %1"
-msgstr "Poista UML-objekti : %1"
+msgstr "Poista UML-olio: %1"
 
 #: cmds/generic/cmdrenameumlobject.cpp:20
 #, kde-format
 msgid "Rename object : %1 to %2"
-msgstr "Muuta objektin nimeä : aiempi ”%1”, uusi ”%2”"
+msgstr "Muuta olion nimeä: ”%1” → ”%2”"
 
 #: cmds/widget/cmdchangefillcolor.cpp:21
 #, kde-format
@@ -853,7 +853,7 @@ msgstr "Protected"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:162
 #, kde-format
 msgid "From Parent Object"
-msgstr "Ylemmän tason objektilta"
+msgstr "Ylätason oliolta"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelAssocFieldScope)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_3_2)
@@ -1663,7 +1663,7 @@ msgstr "Aktiviteetin nimi:"
 #: dialogs/activitydialog.cpp:167
 #, kde-format
 msgid "Precondition :"
-msgstr "Esiehto :"
+msgstr "Ennakkoehto:"
 
 #: dialogs/activitydialog.cpp:171
 #, kde-format
@@ -1955,7 +1955,7 @@ msgstr "Valittu:"
 #: dialogs/codevieweroptionsbase.ui:208
 #, kde-format
 msgid "<p align=\"right\">UML object block:</p>"
-msgstr "<p align=\"right\">UML-objektin lohko:</p>"
+msgstr "<p align=\"right\">UML-olion lohko:</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: dialogs/codevieweroptionsbase.ui:224
@@ -2243,7 +2243,7 @@ msgstr "Datasäilö"
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
 msgid "ObjectFlow"
-msgstr "Objektivuo"
+msgstr "Oliovuo"
 
 #: dialogs/objectnodedialog.cpp:134
 #, kde-format
@@ -2254,12 +2254,12 @@ msgstr "Ominaisuudet"
 #: dialogs/objectnodedialog.cpp:149
 #, kde-format
 msgid "Object Node type:"
-msgstr "Objektisolmun tyyppi:"
+msgstr "Oliosolmun tyyppi:"
 
 #: dialogs/objectnodedialog.cpp:154
 #, kde-format
 msgid "Object Node name:"
-msgstr "Objektisolmun nimi:"
+msgstr "Oliosolmun nimi:"
 
 #: dialogs/objectnodedialog.cpp:158
 #, kde-format
@@ -2280,7 +2280,7 @@ msgstr "&Datasäilö "
 #: dialogs/objectnodedialog.cpp:169
 #, kde-format
 msgid "&Object Flow"
-msgstr "&Objektivuo"
+msgstr "Olio&vuo"
 
 #: dialogs/overwritedialog.cpp:27
 #, kde-format
@@ -4409,10 +4409,9 @@ msgid "New Template..."
 msgstr "Uusi malli…"
 
 #: menus/listpopupmenu.cpp:145
-#, fuzzy, kde-format
-#| msgid "Accept signal"
+#, kde-format
 msgid "Accept Signal"
-msgstr "Signaalin hyväksyntä"
+msgstr "Hyväksy signaali"
 
 #: menus/listpopupmenu.cpp:146
 #, fuzzy, kde-format
@@ -4588,10 +4587,9 @@ msgid "Fork"
 msgstr "Haarautuminen"
 
 #: menus/listpopupmenu.cpp:197
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Go to state diagram"
-msgstr "tilakaavio"
+msgstr "Siirry tilakaavioon"
 
 #: menus/listpopupmenu.cpp:198
 #, fuzzy, kde-format
@@ -4625,11 +4623,10 @@ msgid "Initial State"
 msgstr "Alkutila"
 
 #: menus/listpopupmenu.cpp:204
-#, fuzzy, kde-format
-#| msgid "Instance name:"
+#, kde-format
 msgctxt "new instance menu item"
 msgid "Instance..."
-msgstr "Instanssin nimi:"
+msgstr "Instanssi…"
 
 #: menus/listpopupmenu.cpp:205 menus/listpopupmenu.cpp:221
 #: menus/listpopupmenu.cpp:224
@@ -4638,16 +4635,14 @@ msgid "New Attribute..."
 msgstr "Uusi attribuutti…"
 
 #: menus/listpopupmenu.cpp:208
-#, fuzzy, kde-format
-#| msgid "Add Derived Interface"
+#, kde-format
 msgid "Provided interface"
-msgstr "Lisää johdettu rajapinta"
+msgstr "Tarjottu rajapinta"
 
 #: menus/listpopupmenu.cpp:209
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "Required interface"
-msgstr "Käyttöliittymä"
+msgstr "Vaadittu rajapinta"
 
 #: menus/listpopupmenu.cpp:210
 #, kde-format
@@ -4669,18 +4664,15 @@ msgstr "Viivan väri…"
 msgid "Asynchronous Message"
 msgstr "Asynkroninen viesti"
 
-# Keksitty suomennos, ei ehkä järin hyvä, mutta ei pitäisi olla suurta harmiakaan.
 #: menus/listpopupmenu.cpp:215
-#, fuzzy, kde-format
-#| msgid "Collaboration Self Message"
+#, kde-format
 msgid "Creation Message"
-msgstr "Itseyhteistyöviesti"
+msgstr "Luomisviesti"
 
 #: menus/listpopupmenu.cpp:216
-#, fuzzy, kde-format
-#| msgid "Lost Message"
+#, kde-format
 msgid "Destroy Message"
-msgstr "Kadonnut viesti"
+msgstr "Tuhoamisviesti"
 
 #: menus/listpopupmenu.cpp:217 worktoolbar.cpp:325
 #, kde-format
@@ -4727,13 +4719,13 @@ msgstr "Huomautus…"
 #: menus/listpopupmenu.cpp:231
 #, kde-format
 msgid "Object..."
-msgstr "Objekti…"
+msgstr "Olio…"
 
 # Keksitty suomennos. Kannattaa vaihtaa, jos löytää jostain käytössä olevan suomennoksen.
 #: menus/listpopupmenu.cpp:232 worktoolbar.cpp:384
 #, kde-format
 msgid "Object Node"
-msgstr "Objektisolmu"
+msgstr "Oliosolmu"
 
 #: menus/listpopupmenu.cpp:233
 #, kde-format
@@ -4760,8 +4752,7 @@ msgstr "Portti"
 
 #. i18n("Port...")); break;
 #: menus/listpopupmenu.cpp:241
-#, fuzzy, kde-format
-#| msgid "Pre/Post condition"
+#, kde-format
 msgid "Pre Post Condition"
 msgstr "Esi- tai jälkiehto"
 
@@ -4777,16 +4768,14 @@ msgid "Region"
 msgstr "Alue"
 
 #: menus/listpopupmenu.cpp:246
-#, fuzzy, kde-format
-#| msgid "<< Remove"
+#, kde-format
 msgid "Remove"
-msgstr "<< Poista"
+msgstr "Poista"
 
 #: menus/listpopupmenu.cpp:247
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Remove state diagram"
-msgstr "tilakaavio"
+msgstr "Poista tilakaavio"
 
 #: menus/listpopupmenu.cpp:248 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
@@ -4796,7 +4785,7 @@ msgstr "Muuta nimeä…"
 #: menus/listpopupmenu.cpp:249
 #, kde-format
 msgid "Rename Object..."
-msgstr "Muuta objektin nimeä…"
+msgstr "Muuta olion nimeä…"
 
 # ”Koottu palvelujoukko” Helsingin yliopiston tietojenkäsittelytieteen laitoksen asiaa käsittelevän kurssin (”Ohjelmistotekniikan menetelmät” k2008 ja ”Ohjelmistojen mallintaminen” s2008) luentokalvosta.
 #: menus/listpopupmenu.cpp:250
@@ -4806,10 +4795,9 @@ msgid "Return to combined state"
 msgstr "Koottu palvelujoukko"
 
 #: menus/listpopupmenu.cpp:251
-#, fuzzy, kde-format
-#| msgid "Rename Class..."
+#, kde-format
 msgid "Return to class"
-msgstr "Muuta luokan nimeä…"
+msgstr "Palaa luokkaan"
 
 #: menus/listpopupmenu.cpp:252
 #, kde-format
@@ -5066,7 +5054,7 @@ msgstr "Muuta aktiviteetin nimeä…"
 #: menus/widgetbasepopupmenu.cpp:423
 #, kde-format
 msgid "Change Object Node Name..."
-msgstr "Muuta objektisolmun nimeä…"
+msgstr "Muuta oliosolmun nimeä…"
 
 #: menus/widgetbasepopupmenu.cpp:440
 #, kde-format
@@ -5472,10 +5460,9 @@ msgid "New use case"
 msgstr "uusi_käyttötapaus"
 
 #: model_utils.cpp:639
-#, fuzzy, kde-format
-#| msgid "UML Object Color"
+#, kde-format
 msgid "New UML object"
-msgstr "UML-objektin väri"
+msgstr "Uusi UML-olio"
 
 #: model_utils.cpp:651 umlwidgets/widget_utils.cpp:918
 #, fuzzy, kde-format
@@ -5646,10 +5633,9 @@ msgid "Enter the name of the new use case:"
 msgstr "Anna uuden tilan nimi:"
 
 #: model_utils.cpp:681
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object flow"
+#, kde-format
 msgid "Enter the name of the new UML object"
-msgstr "Anna objektivuon nimi"
+msgstr "Anna uuden UML-olion nimi"
 
 #: model_utils.cpp:693 umlwidgets/widget_utils.cpp:963
 #, fuzzy, kde-format
@@ -5819,10 +5805,9 @@ msgid "Rename use case"
 msgstr "uusi_käyttötapaus"
 
 #: model_utils.cpp:723
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename UML object"
-msgstr "Muuta objektin nimeä"
+msgstr "Muuta UML-olion nimeä"
 
 #: model_utils.cpp:735 umlwidgets/widget_utils.cpp:1009
 #, fuzzy, kde-format
@@ -6735,13 +6720,13 @@ msgstr "Editoimattoman lohkon väri"
 #: umbrello.kcfg:322
 #, kde-format
 msgid "UML Object Color"
-msgstr "UML-objektin väri"
+msgstr "UML-olion väri"
 
 #. i18n: ectx: whatsthis, entry (umlObjectColor), group (Code Viewer Options)
 #: umbrello.kcfg:323
 #, kde-format
 msgid "Color of the UML Object"
-msgstr "UML-objektin väri"
+msgstr "UML-olion väri"
 
 #. i18n: ectx: label, entry (hiddenColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (hiddenColor), group (Code Viewer Options)
@@ -7834,10 +7819,9 @@ msgid "XHTML Generation failed ."
 msgstr "XHTML:n luonti epäonnistui."
 
 #: umlappprivate.h:130
-#, fuzzy, kde-format
-#| msgid "UML Object Color"
+#, kde-format
 msgid "&UML Objects"
-msgstr "UML-objektin väri"
+msgstr "&UML-oliot"
 
 #: umlappprivate.h:140
 #, kde-format
@@ -8074,7 +8058,7 @@ msgstr "Alustaa tiedostoa…"
 #: umldoc.cpp:2375
 #, kde-format
 msgid "Resolving object references..."
-msgstr "Selvittää objektin referenssit…"
+msgstr "Selvitetään olion viitteitä…"
 
 #: umldoc.cpp:2483
 #, kde-format
@@ -8116,8 +8100,7 @@ msgstr ""
 "Olemassa oleva tiedosto korvataan."
 
 #: umllistview.cpp:560
-#, fuzzy, kde-format
-#| msgid "File Exist"
+#, kde-format
 msgid "File Exists"
 msgstr "Tiedosto on olemassa"
 
@@ -8152,28 +8135,24 @@ msgid "Loading listview..."
 msgstr "Lataa luettelonäkymää…"
 
 #: umllistview.cpp:2821
-#, fuzzy, kde-format
-#| msgid "The folder must be emptied before it can be deleted."
+#, kde-format
 msgid "The class must be emptied before it can be deleted."
-msgstr "Kansio pitää olla tyhjä ennen poistamista."
+msgstr "Luokka pitää tyhjentää, ennen kun sen voi poistaa."
 
 #: umllistview.cpp:2822
-#, fuzzy, kde-format
-#| msgid "Folder Not Empty"
+#, kde-format
 msgid "Class Not Empty"
-msgstr "Kansio ei ole tyhjä"
+msgstr "Luokka ei ole tyhjä"
 
 #: umllistview.cpp:2826
-#, fuzzy, kde-format
-#| msgid "The folder must be emptied before it can be deleted."
+#, kde-format
 msgid "The package must be emptied before it can be deleted."
-msgstr "Kansio pitää olla tyhjä ennen poistamista."
+msgstr "Pakkaus pitää tyhjentää, ennen kuin sen voi poistaa."
 
 #: umllistview.cpp:2827
-#, fuzzy, kde-format
-#| msgid "Folder Not Empty"
+#, kde-format
 msgid "Package Not Empty"
-msgstr "Kansio ei ole tyhjä"
+msgstr "Pakkaus ei ole tyhjä"
 
 #: umllistview.cpp:2831
 #, kde-format
@@ -8253,8 +8232,8 @@ msgid ""
 "already exists in the package %2.\n"
 "Please enter a new name:"
 msgstr ""
-"Paketissa %2 on jo\n"
-"objekti nimeltä %1.\n"
+"Pakkauksessa %2 on jo\n"
+"olio, jonka nimi on %1.\n"
 "Anna uusi nimi:"
 
 #: umlmodel/umlcanvasobject.cpp:198
@@ -8580,7 +8559,7 @@ msgstr "Anna toiminnon nimi:"
 #: worktoolbar.cpp:328
 #, kde-format
 msgid "Precondition"
-msgstr "Esiehto"
+msgstr "Ennakkoehto"
 
 #: umlwidgets/notewidget.cpp:220
 #, kde-format
@@ -8605,22 +8584,22 @@ msgstr "Valitse huomautuksen tyyppi"
 #: umlwidgets/objectnodewidget.cpp:220
 #, kde-format
 msgid "Enter Object Node Name"
-msgstr "Anna objektisolmun nimi"
+msgstr "Anna oliosolmun nimi"
 
 #: umlwidgets/objectnodewidget.cpp:221
 #, kde-format
 msgid "Enter the name of the object node :"
-msgstr "Anna objektisolmun nimi :"
+msgstr "Anna oliosolmun nimi:"
 
 #: umlwidgets/objectnodewidget.cpp:298
 #, kde-format
 msgid "Select Object node type"
-msgstr "Valitse objektisolmun tyyppi"
+msgstr "Valitse oliosolmun tyyppi"
 
 #: umlwidgets/objectnodewidget.cpp:298
 #, kde-format
 msgid "Select the object node type"
-msgstr "Valitse objektisolmun tyyppi"
+msgstr "Valitse oliosolmun tyyppi"
 
 #: umlwidgets/objectnodewidget.cpp:304
 #, kde-format
@@ -8650,22 +8629,22 @@ msgstr "keskuspuskuri"
 #: umlwidgets/objectnodewidget.cpp:308
 #, kde-format
 msgid "Enter the name of the object flow"
-msgstr "Anna objektivuon nimi"
+msgstr "Anna oliovuon nimi"
 
 #: umlwidgets/objectnodewidget.cpp:308
 #, kde-format
 msgid "object flow"
-msgstr "objektivuo"
+msgstr "oliovuo"
 
 #: umlwidgets/objectnodewidget.cpp:325
 #, kde-format
 msgid "Enter Object Flow State"
-msgstr "Anna objektivuon tila"
+msgstr "Anna oliovuon tila"
 
 #: umlwidgets/objectnodewidget.cpp:326
 #, kde-format
 msgid "Enter State (keep '-' if there is no state for the object) "
-msgstr "Anna tila (pidä ”-”, jos objektilla ei ole tilaa)"
+msgstr "Anna tila (jätä ”-”, ellei oliolla ole tilaa) "
 
 #: umlwidgets/signalwidget.cpp:326
 #, kde-format
@@ -8706,22 +8685,22 @@ msgstr "Siirrä elementtejä"
 #: umlwidgets/umlwidget.cpp:794
 #, kde-format
 msgid "Rename Object"
-msgstr "Muuta objektin nimeä"
+msgstr "Muuta olion nimeä"
 
 #: umlwidgets/umlwidget.cpp:795
 #, kde-format
 msgid "Enter object name:"
-msgstr "Anna objektin nimi:"
+msgstr "Anna olion nimi:"
 
 #: umlwidgets/umlwidget.cpp:1547
 #, kde-format
 msgid "Hold shift or control to move in X axis."
-msgstr ""
+msgstr "Siirrä X-akselilla painamalla Vaihto tai Ctrl."
 
 #: umlwidgets/umlwidget.cpp:1548
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
-msgstr ""
+msgstr "Siirrä Y-akselilla painamalla Vaihto ja Ctrl."
 
 #: umlwidgets/widget_utils.cpp:825
 #, fuzzy, kde-format
@@ -8730,34 +8709,29 @@ msgid "new actor"
 msgstr "uusi_toimija"
 
 #: umlwidgets/widget_utils.cpp:826
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "new artifact"
-msgstr "uusi_tuotos"
+msgstr "uusi tuotos"
 
 #: umlwidgets/widget_utils.cpp:827
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "new association"
-msgstr "uusi_yhteys"
+msgstr "uusi yhteys"
 
 #: umlwidgets/widget_utils.cpp:828
-#, fuzzy, kde-format
-#| msgid "new port"
+#, kde-format
 msgid "new box"
-msgstr "uusi portti"
+msgstr "uusi laatikko"
 
 #: umlwidgets/widget_utils.cpp:829
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "new category"
-msgstr "uusi_luokka"
+msgstr "uusi kategoria"
 
 #: umlwidgets/widget_utils.cpp:830
-#, fuzzy, kde-format
-#| msgid "new_class"
+#, kde-format
 msgid "new class"
-msgstr "uusi_luokka"
+msgstr "uusi luokka"
 
 #: umlwidgets/widget_utils.cpp:831
 #, fuzzy, kde-format
@@ -8766,88 +8740,74 @@ msgid "new combined fragment"
 msgstr "uusi koottu palvelujoukko"
 
 #: umlwidgets/widget_utils.cpp:832
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "new component"
-msgstr "uusi_komponentti"
+msgstr "uusi komponentti"
 
 #: umlwidgets/widget_utils.cpp:833
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "new datatype"
-msgstr "uusi_tietotyyppi"
+msgstr "uusi tietotyyppi"
 
 #: umlwidgets/widget_utils.cpp:834
-#, fuzzy, kde-format
-#| msgid "new_entity"
+#, kde-format
 msgid "new entity"
-msgstr "uusi_käsite"
+msgstr "uusi käsite"
 
 #: umlwidgets/widget_utils.cpp:835
-#, fuzzy, kde-format
-#| msgid "new_enum"
+#, kde-format
 msgid "new enum"
-msgstr "uusi_luettelotyyppi"
+msgstr "uusi luettelotyyppi"
 
 #: umlwidgets/widget_utils.cpp:836
-#, fuzzy, kde-format
-#| msgid "FloatingDashLine"
+#, kde-format
 msgid "new floating dash line"
-msgstr "KelluvaKatkoviiva"
+msgstr "uusi kelluva katkoviiva"
 
 #: umlwidgets/widget_utils.cpp:837
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "new fork/join"
-msgstr "Haarautuminen/yhdistyminen"
+msgstr "uusi haarautuminen/yhdistyminen"
 
 #: umlwidgets/widget_utils.cpp:838
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "new instance"
-msgstr "uusi tila"
+msgstr "uusi instanssi"
 
 #: umlwidgets/widget_utils.cpp:839
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "new interface"
-msgstr "uusi_rajapinta"
+msgstr "uusi rajapinta"
 
 #: umlwidgets/widget_utils.cpp:840
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "new message"
-msgstr "uusi tila"
+msgstr "uusi viesti"
 
 #: umlwidgets/widget_utils.cpp:841
-#, fuzzy, kde-format
-#| msgid "new_node"
+#, kde-format
 msgid "new node"
-msgstr "uusi_paketti"
+msgstr "uusi solmu"
 
 #: umlwidgets/widget_utils.cpp:842
-#, fuzzy, kde-format
-#| msgid "new port"
+#, kde-format
 msgid "new note"
-msgstr "uusi portti"
+msgstr "uusi muistiinpano"
 
 #: umlwidgets/widget_utils.cpp:843
-#, fuzzy, kde-format
-#| msgid "new_object"
+#, kde-format
 msgid "new object"
-msgstr "uusi_kohde"
+msgstr "uusi olio"
 
 #: umlwidgets/widget_utils.cpp:844
-#, fuzzy, kde-format
-#| msgid "Enter object name:"
+#, kde-format
 msgid "new object node"
-msgstr "Anna objektin nimi:"
+msgstr "uusi oliosolmu"
 
 #: umlwidgets/widget_utils.cpp:845
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "new package"
-msgstr "uusi_pakkaus"
+msgstr "uusi pakkaus"
 
 #: umlwidgets/widget_utils.cpp:846
 #, fuzzy, kde-format
@@ -8863,7 +8823,7 @@ msgstr "uusi portti"
 #: umlwidgets/widget_utils.cpp:848
 #, kde-format
 msgid "new precondition"
-msgstr "uusi esiehto"
+msgstr "uusi ennakkoehto"
 
 #: umlwidgets/widget_utils.cpp:849
 #, fuzzy, kde-format
@@ -8910,7 +8870,7 @@ msgstr "uusi aktiviteetti"
 #: umlwidgets/widget_utils.cpp:875
 #, kde-format
 msgid "New box"
-msgstr ""
+msgstr "Uusi laatikko"
 
 #: umlwidgets/widget_utils.cpp:878
 #, fuzzy, kde-format
@@ -8919,16 +8879,14 @@ msgid "New combined fragment"
 msgstr "uusi koottu palvelujoukko"
 
 #: umlwidgets/widget_utils.cpp:883
-#, fuzzy, kde-format
-#| msgid "FloatingDashLine"
+#, kde-format
 msgid "New floating dash line"
-msgstr "KelluvaKatkoviiva"
+msgstr "Uusi kelluva katkoviiva"
 
 #: umlwidgets/widget_utils.cpp:884
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "New fork/join"
-msgstr "Haarautuminen/yhdistyminen"
+msgstr "Uusi haarautuminen/yhdistyminen"
 
 #: umlwidgets/widget_utils.cpp:887
 #, kde-format
@@ -8941,65 +8899,55 @@ msgid "New note"
 msgstr "Uusi muistiinpano"
 
 #: umlwidgets/widget_utils.cpp:890
-#, fuzzy, kde-format
-#| msgid "new_object"
+#, kde-format
 msgid "New object"
-msgstr "uusi_kohde"
+msgstr "Uusi olio"
 
 # Keksitty suomennos. Kannattaa vaihtaa, jos löytää jostain käytössä olevan suomennoksen.
 #: umlwidgets/widget_utils.cpp:891
-#, fuzzy, kde-format
-#| msgid "Object Node"
+#, kde-format
 msgid "New object node"
-msgstr "Objektisolmu"
+msgstr "Uusi oliosolmu"
 
 #: umlwidgets/widget_utils.cpp:893
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "New pin"
-msgstr "uusi signaali"
+msgstr "Uusi nasta"
 
 #: umlwidgets/widget_utils.cpp:895
-#, fuzzy, kde-format
-#| msgid "new precondition"
+#, kde-format
 msgid "New precondition"
-msgstr "uusi esiehto"
+msgstr "Uusi ennakkoehto"
 
 #: umlwidgets/widget_utils.cpp:896
-#, fuzzy, kde-format
-#| msgid "Region"
+#, kde-format
 msgid "New region"
-msgstr "Alue"
+msgstr "Uusi alue"
 
 #: umlwidgets/widget_utils.cpp:897
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "New signal"
-msgstr "uusi signaali"
+msgstr "Uusi signaali"
 
 #: umlwidgets/widget_utils.cpp:898
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "New state"
-msgstr "uusi tila"
+msgstr "Uusi tila"
 
 #: umlwidgets/widget_utils.cpp:899
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New text"
-msgstr "Stereotyyppi"
+msgstr "Uusi teksti"
 
 #: umlwidgets/widget_utils.cpp:900
-#, fuzzy, kde-format
-#| msgid "Move widgets"
+#, kde-format
 msgid "New UML widget"
-msgstr "Siirrä elementtejä"
+msgstr "Uusi UML-alkio"
 
 #: umlwidgets/widget_utils.cpp:905
-#, fuzzy, kde-format
-#| msgid "Move widgets"
+#, kde-format
 msgid "New widget"
-msgstr "Siirrä elementtejä"
+msgstr "Siirrä alkio"
 
 #: umlwidgets/widget_utils.cpp:921
 #, fuzzy, kde-format
@@ -9044,10 +8992,9 @@ msgid "Enter the name of the new object:"
 msgstr "Anna uuden tilan nimi:"
 
 #: umlwidgets/widget_utils.cpp:937
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object node :"
+#, kde-format
 msgid "Enter the name of the new object node:"
-msgstr "Anna objektisolmun nimi :"
+msgstr "Anna uuden oliosolmun nimi:"
 
 #: umlwidgets/widget_utils.cpp:939
 #, fuzzy, kde-format
@@ -9092,28 +9039,24 @@ msgid "Enter the name of the new widget:"
 msgstr "Anna uuden tilan nimi:"
 
 #: umlwidgets/widget_utils.cpp:962
-#, fuzzy, kde-format
-#| msgid "Rename Activity"
+#, kde-format
 msgid "Rename activity"
-msgstr "Muuta aktiviteetin nimeä"
+msgstr "Muuta toiminnon nimeä"
 
 #: umlwidgets/widget_utils.cpp:966
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename box"
-msgstr "Muuta nimeä"
+msgstr "Muuta laatikon nimeä"
 
 #: umlwidgets/widget_utils.cpp:969
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "Rename combined fragment"
-msgstr "uusi koottu palvelujoukko"
+msgstr "Muuta kootun palvelujoukon nimeä"
 
 #: umlwidgets/widget_utils.cpp:974
-#, fuzzy, kde-format
-#| msgid "FloatingDashLine"
+#, kde-format
 msgid "Rename floating dash line"
-msgstr "KelluvaKatkoviiva"
+msgstr "Muuta kelluvan katkoviivan nimeä"
 
 #: umlwidgets/widget_utils.cpp:975
 #, kde-format
@@ -9121,10 +9064,9 @@ msgid "Rename fork/join"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:978
-#, fuzzy, kde-format
-#| msgid "E&nable autosave"
+#, kde-format
 msgid "Rename message"
-msgstr "Salli automaattin&en tallennus"
+msgstr "Muuta viestin nimeä"
 
 #: umlwidgets/widget_utils.cpp:980
 #, kde-format
@@ -9137,46 +9079,39 @@ msgid "Rename object"
 msgstr "Muuta olion nimeä"
 
 #: umlwidgets/widget_utils.cpp:982
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename object node"
-msgstr "Muuta objektin nimeä"
+msgstr "Muuta oliosolmun nimeä"
 
 #: umlwidgets/widget_utils.cpp:984
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename pin"
-msgstr "Muuta nimeä"
+msgstr "Muuta nastan nimeä"
 
 #: umlwidgets/widget_utils.cpp:986
-#, fuzzy, kde-format
-#| msgid "new precondition"
+#, kde-format
 msgid "Rename precondition"
-msgstr "uusi esiehto"
+msgstr "Muuta ennakkoehdon nimeä"
 
 #: umlwidgets/widget_utils.cpp:987
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename region"
-msgstr "Muuta nimeä"
+msgstr "Muuta alueen nimeä"
 
 #: umlwidgets/widget_utils.cpp:988
-#, fuzzy, kde-format
-#| msgid "Send signal"
+#, kde-format
 msgid "Rename signal"
-msgstr "Signaalin lähetys"
+msgstr "Muuta signaalin nimeä"
 
 #: umlwidgets/widget_utils.cpp:989
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "Rename state"
-msgstr "uusi tila"
+msgstr "Muuta tilan nimeä"
 
 #: umlwidgets/widget_utils.cpp:990
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename text"
-msgstr "Muuta objektin nimeä"
+msgstr "Muuta tekstin nimeä"
 
 #: umlwidgets/widget_utils.cpp:991
 #, fuzzy, kde-format
@@ -9220,76 +9155,64 @@ msgid "Enter the new name of the fork/join widget:"
 msgstr "Anna mallin uusi nimi:"
 
 #: umlwidgets/widget_utils.cpp:1024
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the message:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna viestin uusi nimi:"
 
 #: umlwidgets/widget_utils.cpp:1026
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the note:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna muistiinpanon uusi nimi:"
 
 #: umlwidgets/widget_utils.cpp:1027
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the object:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna olion uusi nimi:"
 
 #: umlwidgets/widget_utils.cpp:1028
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object node :"
+#, kde-format
 msgid "Enter the new name of the object node:"
-msgstr "Anna objektisolmun nimi :"
+msgstr "Anna oliosolmun uusi nimi:"
 
 #: umlwidgets/widget_utils.cpp:1030
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the pin:"
-msgstr "Anna kaavion uusi nimi:"
+msgstr "Anna nastan uusi nimi:"
 
 #: umlwidgets/widget_utils.cpp:1032
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the precondition:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna ennakkoehdon uusi nimi:"
 
 #: umlwidgets/widget_utils.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the region:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna alueen uusi nimi:"
 
 #: umlwidgets/widget_utils.cpp:1034
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the signal:"
-msgstr "Anna kaavion uusi nimi:"
+msgstr "Anna signaalin uusi nimi:"
 
 #: umlwidgets/widget_utils.cpp:1035
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the new name of the state:"
-msgstr "Anna uuden tilan nimi:"
+msgstr "Anna tilan uusi nimi:"
 
 #: umlwidgets/widget_utils.cpp:1036
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the text:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna tekstin uusi nimi:"
 
 #: umlwidgets/widget_utils.cpp:1037
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the uml widget:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna UML-alkion uusi nimi:"
 
 #: umlwidgets/widget_utils.cpp:1041
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the widget:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna alkion uusi nimi:"
 
 #: umlwidgets/widgetbase.cpp:1242 worktoolbar.cpp:334
 #, kde-format
@@ -9335,13 +9258,13 @@ msgstr "Huomautus"
 #: umlwidgets/widgetbase.cpp:1284 worktoolbar.cpp:320
 #, kde-format
 msgid "Object"
-msgstr "Objekti"
+msgstr "Olio"
 
 # Keksitty suomennos. Kannattaa vaihtaa, jos löytää jostain käytössä olevan suomennoksen.
 #: umlwidgets/widgetbase.cpp:1287
 #, kde-format
 msgid "ObjectNode"
-msgstr "Objektisolmu"
+msgstr "Oliosolmu"
 
 #: umlwidgets/widgetbase.cpp:1305
 #, kde-format
@@ -9428,16 +9351,14 @@ msgid "Fork/Join"
 msgstr "Haarautuminen/yhdistyminen"
 
 #: worktoolbar.cpp:357
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interface Provider"
-msgstr "Rajapinta"
+msgstr "Rajapinnan tarjoaja"
 
 #: worktoolbar.cpp:358
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interface required"
-msgstr "Rajapinta"
+msgstr "Rajapinta vaaditaan"
 
 #: worktoolbar.cpp:364
 #, kde-format
