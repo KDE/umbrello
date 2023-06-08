@@ -4984,12 +4984,12 @@ msgstr "Nom com a consell d'eina"
 #: menus/widgetbasepopupmenu.cpp:296
 #, kde-format
 msgid "Move Up"
-msgstr "Mou amunt"
+msgstr "Mou cap amunt"
 
 #: menus/widgetbasepopupmenu.cpp:297
 #, kde-format
 msgid "Move Down"
-msgstr "Mou avall"
+msgstr "Mou cap avall"
 
 #: menus/widgetbasepopupmenu.cpp:330
 #, kde-format
