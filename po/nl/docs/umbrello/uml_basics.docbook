@@ -489,7 +489,7 @@
 <title
 >Interfaces</title>
 <para
->Interfaces are abstract classes which means instances cannot be directly created of them. They can contain operations but no attributes. Classes can inherit from interfaces (through a realisation association) and instances can then be made of these diagrams.</para>
+>Interfaces zijn abstracte klassen, wat wil zeggen dat instanties niet direct uit hen gemaakt kunnen worden. Zij kunnen operaties bevatten maar geen attributen. Klassen kunnen overerven van interfaces (via een realisatie-associatie) en pas dan kunnen klassen van deze diagrammen gemaakt worden.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="datatype">

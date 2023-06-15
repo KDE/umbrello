@@ -700,9 +700,9 @@
         </screenshot>
     </para>
     <para
->Allows customization of the Code Viewer. The <guilabel
->Requested Font</guilabel
-> section allows the selection of the font, font style, and font size. A representation of you choices is shown below the choices. </para>
+>Biedt aanpassen van de codeviewer. De sectie <guilabel
+>Gevraagd lettertype</guilabel
+> biedt de selectio van het lettertype, de stijl ervan en de grootte. Een representatie van uw keuzes wordt onder de keuzes getoond. </para>
     <para
 >In de sectie <guilabel
 >Kleuren</guilabel
