@@ -115,8 +115,7 @@ msgstr "Documentación de PHP"
 #, kde-format
 msgid "Specifies the location of the PHP documentation to use."
 msgstr ""
-"Especifica a localización onde está a documentación de PHP que se ha "
-"empregar."
+"Especifica a localización onde está a documentación de PHP que se ha usar."
 
 #. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
 #: docs/phpdocssettings.kcfg:13
@@ -127,7 +126,7 @@ msgid ""
 "contains the\n"
 "                 PHP documentation in HTML format with many files."
 msgstr ""
-"O lugar onde está a documentación de PHP que se vai empregar. Pode empregar\n"
+"O lugar onde está a documentación de PHP que se vai usar. Pode usar\n"
 "                 un lugar remoto como https://php.net ou un directorio local "
 "que conteña a\n"
 "                 documentación de PHP no formato HTML en varios ficheiros."
@@ -180,8 +179,7 @@ msgstr "A función abstracta %1 non pode ter corpo."
 #: duchain/builders/declarationbuilder.cpp:346
 #, kde-format
 msgid "Cannot use the final modifier on an abstract class member."
-msgstr ""
-"Non se pode empregar o modificador final nun membro dunha clase abstracta."
+msgstr "Non se pode usar o modificador final nun membro dunha clase abstracta."
 
 #: duchain/builders/declarationbuilder.cpp:356
 #, kde-format
