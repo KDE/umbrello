@@ -420,7 +420,7 @@ msgstr "Os métodos de acceso comezan por maiúscula"
 #: codegenerators/cpp/cppcodegenerationform.cpp:73
 #, kde-format
 msgid "Use '\\' as documentation tag instead of '@'"
-msgstr "Empregar «\\» como etiqueta da documentación no canto de «@»"
+msgstr "Usar «\\» como etiqueta da documentación no canto de «@»"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelTitle)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:31
@@ -690,7 +690,7 @@ msgstr "<p align=\"center\">Ficheiro de inclusión</p>"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:526
 #, kde-format
 msgid "Use following for classes in generated code:"
-msgstr "Empregar as seguintes clases no código xerado:"
+msgstr "Usar as seguintes clases no código xerado:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxDocumentation)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
@@ -929,7 +929,7 @@ msgid ""
 "Please set the appropriate permissions or choose another folder."
 msgstr ""
 "O cartafol de saída existe, pero permite escritura.\n"
-"Estabeleza os permisos axeitados ou escolla outro cartafol."
+"Defina os permisos axeitados ou escolla outro cartafol."
 
 #: codegenwizard/codegenoptionspage.cpp:254
 #, kde-format
@@ -1859,7 +1859,7 @@ msgstr "Agochar"
 #: menus/widgetbasepopupmenu.cpp:145 menus/widgetbasepopupmenu.cpp:723
 #, kde-format
 msgid "Show"
-msgstr "Mostrar"
+msgstr "Amosar"
 
 #: dialogs/codeeditor.cpp:764
 #, kde-format
@@ -1869,7 +1869,7 @@ msgstr "Agochar o comentario"
 #: dialogs/codeeditor.cpp:770
 #, kde-format
 msgid "Show Comment"
-msgstr "Mostrar o comentario"
+msgstr "Amosar o comentario"
 
 #: dialogs/codeeditor.cpp:778
 #, kde-format
@@ -1905,7 +1905,7 @@ msgstr "Visor de código - %1"
 #: dialogs/codeviewerdialogbase.ui:20
 #, kde-format
 msgid "Show hidden blocks"
-msgstr "Mostrar os bloques agochados"
+msgstr "Amosar os bloques agochados"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_componentLabel)
 #: dialogs/codeviewerdialogbase.ui:33
@@ -1917,7 +1917,7 @@ msgstr "<p align=\"center\">aquí o nome da compoñente</p>"
 #: dialogs/codeviewerdialogbase.ui:46
 #, kde-format
 msgid "Show block type"
-msgstr "Mostrar o tipo de bloque"
+msgstr "Amosar o tipo de bloque"
 
 #. i18n: ectx: property (title), widget (QGroupBox, colorGroupBox)
 #: dialogs/codevieweroptionsbase.ui:32
@@ -2498,7 +2498,7 @@ msgstr ""
 #: dialogs/pages/autolayoutoptionpage.ui:91
 #, kde-format
 msgid "Show export layout in diagram context menu"
-msgstr "Mostrar a disposición de exportación no menú contextual dos diagramas."
+msgstr "Amosar a disposición de exportación no menú contextual dos diagramas."
 
 #: dialogs/pages/classgeneralpage.cpp:126
 #, kde-format
@@ -2534,7 +2534,7 @@ msgstr "Instancia múltipla"
 #: dialogs/pages/classgeneralpage.cpp:234
 #, kde-format
 msgid "Show destruction"
-msgstr "Mostrar a destrución"
+msgstr "Amosar a destrución"
 
 #: dialogs/pages/classgeneralpage.cpp:340
 #: dialogs/pages/classgeneralpage.cpp:378
@@ -2868,7 +2868,7 @@ msgstr "Altura:"
 #: dialogs/pages/diagrampropertiespage.ui:189
 #, kde-format
 msgid "Show &grid"
-msgstr "Mostrar a &grade"
+msgstr "Amosar a &grade"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_snapToGrid)
 #: dialogs/pages/diagrampropertiespage.ui:196
@@ -4305,7 +4305,7 @@ msgstr "Importar os ficheiros do cartafol <dir>."
 #: main.cpp:167
 #, kde-format
 msgid "set language"
-msgstr "Estabelecer o idioma"
+msgstr "Definir o idioma"
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
@@ -4788,7 +4788,7 @@ msgstr "Historial superficial"
 #: menus/listpopupmenu.cpp:258
 #, kde-format
 msgid "Show destruction box"
-msgstr "Mostrar a caixa de destrución"
+msgstr "Amosar a caixa de destrución"
 
 #: menus/listpopupmenu.cpp:259
 #, kde-format
@@ -4885,12 +4885,12 @@ msgstr "Axustar o tamaño dos compoñentes á grade"
 #: menus/umlscenepopupmenu.cpp:61
 #, kde-format
 msgid "Show Grid"
-msgstr "Mostrar a grade"
+msgstr "Amosar a grade"
 
 #: menus/umlscenepopupmenu.cpp:63
 #, kde-format
 msgid "Show Documentation Indicator"
-msgstr "Mostrar o indicador da documentación"
+msgstr "Amosar o indicador da documentación"
 
 #: menus/umlscenepopupmenu.cpp:105
 #, kde-format
@@ -4915,7 +4915,7 @@ msgstr "Sinatura do atributo"
 #: menus/widgetbasepopupmenu.cpp:119 menus/widgetbasepopupmenu.cpp:127
 #, kde-format
 msgid "Show Signatures"
-msgstr "Mostrar as sinaturas"
+msgstr "Amosar as sinaturas"
 
 #: menus/widgetbasepopupmenu.cpp:120 menus/widgetbasepopupmenu.cpp:128
 #, kde-format
@@ -4930,7 +4930,7 @@ msgstr "Agochar os membros non públicos"
 #: menus/widgetbasepopupmenu.cpp:135
 #, kde-format
 msgid "Show Non-public members"
-msgstr "Mostrar os membros non públicos"
+msgstr "Amosar os membros non públicos"
 
 #: menus/widgetbasepopupmenu.cpp:138
 #, kde-format
@@ -6266,7 +6266,7 @@ msgstr "Cor de recheo"
 #: umbrello.kcfg:148
 #, kde-format
 msgid "The Fill Color to be used"
-msgstr "A cor de recheo a empregar"
+msgstr "A cor de recheo a usar"
 
 #. i18n: ectx: label, entry (lineColor), group (UI Options)
 #: umbrello.kcfg:152
@@ -6308,13 +6308,13 @@ msgstr "A cor do texto."
 #: umbrello.kcfg:167
 #, kde-format
 msgid "Show Doc Window"
-msgstr "Mostrar a xanela de documentación"
+msgstr "Amosar a xanela de documentación"
 
 #. i18n: ectx: whatsthis, entry (showDocWindow), group (UI Options)
 #: umbrello.kcfg:168
 #, kde-format
 msgid "Enables/Disables showing of the doc window"
-msgstr "Activa ou desactiva o mostrar a xanela de documentación"
+msgstr "Activa ou desactiva o amosar a xanela de documentación"
 
 #. i18n: ectx: whatsthis, entry (uiFont), group (UI Options)
 #: umbrello.kcfg:173
@@ -6358,7 +6358,7 @@ msgstr ""
 #: umbrello.kcfg:194
 #, kde-format
 msgid "Show Visibility"
-msgstr "Mostrar a visibilidade"
+msgstr "Amosar a visibilidade"
 
 #. i18n: ectx: whatsthis, entry (showVisibility), group (Class Options)
 #: umbrello.kcfg:195
@@ -6371,7 +6371,7 @@ msgstr ""
 #: umbrello.kcfg:199
 #, kde-format
 msgid "Show Attributes"
-msgstr "Mostrar os atributos"
+msgstr "Amosar os atributos"
 
 #. i18n: ectx: whatsthis, entry (showAtts), group (Class Options)
 #: umbrello.kcfg:200
@@ -6384,64 +6384,64 @@ msgstr "Mostra os atributos da clase"
 #: umbrello.kcfg:204 umbrello.kcfg:205
 #, kde-format
 msgid "Show Operations"
-msgstr "Mostrar as operacións"
+msgstr "Amosar as operacións"
 
 #. i18n: ectx: label, entry (showPackage), group (Class Options)
 #: umbrello.kcfg:209
 #, kde-format
 msgid "Show Package"
-msgstr "Mostrar o paquete"
+msgstr "Amosar o paquete"
 
 #. i18n: ectx: whatsthis, entry (showPackage), group (Class Options)
 #: umbrello.kcfg:210
 #, kde-format
 msgid "Enables/Disables showing of packages"
-msgstr "Activa ou desactiva o mostrar os paquetes"
+msgstr "Activa ou desactiva o amosar os paquetes"
 
 #. i18n: ectx: label, entry (showStereoType), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showStereoType), group (Class Options)
 #: umbrello.kcfg:214 umbrello.kcfg:215
 #, kde-format
 msgid "Show Stereotypes"
-msgstr "Mostrar os estereotipos"
+msgstr "Amosar os estereotipos"
 
 #. i18n: ectx: label, entry (showAttribAssocs), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showAttribAssocs), group (Class Options)
 #: umbrello.kcfg:224 umbrello.kcfg:225
 #, kde-format
 msgid "Show Attribute Associations"
-msgstr "Mostrar as asociacións dos atributos"
+msgstr "Amosar as asociacións dos atributos"
 
 #. i18n: ectx: label, entry (showPublicOnly), group (Class Options)
 #: umbrello.kcfg:229
 #, kde-format
 msgid "Show Public Only"
-msgstr "Mostrar só o público"
+msgstr "Amosar só o público"
 
 #. i18n: ectx: whatsthis, entry (showPublicOnly), group (Class Options)
 #: umbrello.kcfg:230
 #, kde-format
 msgid "Enables/Disables showing of public attributes/methods"
-msgstr "Activa ou desactiva o mostrar os métodos e atributos públicos"
+msgstr "Activa ou desactiva o amosar os métodos e atributos públicos"
 
 #. i18n: ectx: label, entry (showAttSig), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showAttSig), group (Class Options)
 #: umbrello.kcfg:234 umbrello.kcfg:235
 #, kde-format
 msgid "Show Attribute Signature"
-msgstr "Mostrar a sinatura dos atributos"
+msgstr "Amosar a sinatura dos atributos"
 
 #. i18n: ectx: label, entry (showOpSig), group (Class Options)
 #: umbrello.kcfg:239
 #, kde-format
 msgid "Show Operation Signature"
-msgstr "Mostrar a sinatura das operacións"
+msgstr "Amosar a sinatura das operacións"
 
 #. i18n: ectx: whatsthis, entry (showOpSig), group (Class Options)
 #: umbrello.kcfg:240
 #, kde-format
 msgid "Show operation signature"
-msgstr "Mostrar a sinatura das operacións"
+msgstr "Amosar a sinatura das operacións"
 
 #. i18n: ectx: label, entry (defaultAttributeScope), group (Class Options)
 #. i18n: ectx: whatsthis, entry (defaultAttributeScope), group (Class Options)
@@ -6486,7 +6486,7 @@ msgstr "Anchura do visor de código"
 #: umbrello.kcfg:282 umbrello.kcfg:283
 #, kde-format
 msgid "Show Hidden Blocks"
-msgstr "Mostrar os bloques agochados"
+msgstr "Amosar os bloques agochados"
 
 #. i18n: ectx: label, entry (blocksAreHighlighted), group (Code Viewer Options)
 #: umbrello.kcfg:287
@@ -6635,7 +6635,7 @@ msgstr "Estilo dos comentarios"
 #: umbrello.kcfg:357
 #, kde-format
 msgid "Sets the Style of Comments to be used"
-msgstr "Estabelece o estilo dos comentarios"
+msgstr "Define o estilo dos comentarios"
 
 #. i18n: ectx: label, entry (defaultAssocFieldScope), group (Code Generation)
 #: umbrello.kcfg:365
@@ -6647,7 +6647,7 @@ msgstr "Ámbito predeterminado dos campos de asociación"
 #: umbrello.kcfg:366
 #, kde-format
 msgid "Sets the default Association field scope"
-msgstr "Estabelece o ámbito predeterminado dos campos de asociación"
+msgstr "Define o ámbito predeterminado dos campos de asociación"
 
 #. i18n: ectx: label, entry (defaultAttributeAccessorScope), group (Code Generation)
 #: umbrello.kcfg:377
@@ -7092,13 +7092,13 @@ msgstr "Definir a ruta do punto executábel (opcional)."
 #: umbrello.kcfg:611
 #, kde-format
 msgid "Show Export Layout"
-msgstr "Mostrar a disposición de exportación"
+msgstr "Amosar a disposición de exportación"
 
 #. i18n: ectx: whatsthis, entry (showExportLayout), group (Auto Layout)
 #: umbrello.kcfg:612
 #, kde-format
 msgid "show export layout"
-msgstr "Mostrar a disposición de exportación"
+msgstr "Amosar a disposición de exportación"
 
 #. i18n: ectx: Menu (file_export)
 #: umbrelloui.rc.cmake:5
@@ -7128,7 +7128,7 @@ msgstr "&Novo"
 #: umbrelloui.rc.cmake:31
 #, kde-format
 msgid "Sh&ow"
-msgstr "&Mostrar"
+msgstr "&Amosar"
 
 #. i18n: ectx: Menu (zoom_menu)
 #: umbrelloui.rc.cmake:34
@@ -7378,7 +7378,7 @@ msgstr "A&xustar á grade"
 #: uml.cpp:569
 #, kde-format
 msgid "S&how Grid"
-msgstr "Mostrar a &grade"
+msgstr "Amosar a &grade"
 
 #: uml.cpp:574
 #, kde-format
