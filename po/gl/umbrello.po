@@ -4330,17 +4330,17 @@ msgstr "Escoller os puntos de spline automaticamente"
 #: menus/associationwidgetpopupmenu.cpp:67
 #, kde-format
 msgid "Change Association Name..."
-msgstr "Cambiar o nome da asociación…"
+msgstr "Renomear a asociación…"
 
 #: menus/associationwidgetpopupmenu.cpp:68 menus/widgetbasepopupmenu.cpp:490
 #, kde-format
 msgid "Change Role A Name..."
-msgstr "Cambiar o nome do papel A…"
+msgstr "Renomear o papel A…"
 
 #: menus/associationwidgetpopupmenu.cpp:69 menus/widgetbasepopupmenu.cpp:493
 #, kde-format
 msgid "Change Role B Name..."
-msgstr "Cambiar o nome do papel B…"
+msgstr "Renomear o papel B…"
 
 #: menus/associationwidgetpopupmenu.cpp:76 menus/widgetbasepopupmenu.cpp:508
 #, kde-format
@@ -5002,17 +5002,17 @@ msgstr "Adaptar automaticamente"
 #: menus/widgetbasepopupmenu.cpp:367
 #, kde-format
 msgid "Change State Name..."
-msgstr "Cambiar o nome do estado…"
+msgstr "Renomear o estado…"
 
 #: menus/widgetbasepopupmenu.cpp:403
 #, kde-format
 msgid "Change Activity Name..."
-msgstr "Cambiar o nome da actividade…"
+msgstr "Renomear a actividade…"
 
 #: menus/widgetbasepopupmenu.cpp:423
 #, kde-format
 msgid "Change Object Node Name..."
-msgstr "Cambiar o nome do obxecto nodo…"
+msgstr "Renomear o obxecto nodo…"
 
 #: menus/widgetbasepopupmenu.cpp:440
 #, kde-format
@@ -7998,7 +7998,7 @@ msgstr "Cartafol non baleiro"
 #: umllistviewitem.cpp:684
 #, kde-format
 msgid "Rename canceled"
-msgstr "Cancelouse o cambio de nome"
+msgstr "Cancelouse o renomeamento"
 
 #: umllistviewitem.cpp:719
 #, kde-format
@@ -8018,7 +8018,7 @@ msgid ""
 "Renaming process has been canceled."
 msgstr ""
 "O nome que inseriu era incorrecto.\n"
-"Cancelouse o proceso de cambio de nome."
+"Cancelouse o proceso de renomeamento."
 
 #: umllistviewitem.cpp:735
 #, kde-format
