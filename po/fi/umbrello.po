@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2023-05-08 14:08+0300\n"
+"PO-Revision-Date: 2023-06-02 20:37+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-POT-Import-Date: 2012-12-01 22:25:36+0000\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 23.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2725,10 +2725,9 @@ msgid "No Stereotype"
 msgstr "Ei stereotyyppiä"
 
 #: dialogs/pages/classoptionspage.cpp:439
-#, fuzzy, kde-format
-#| msgid "Stereotype &name:"
+#, kde-format
 msgid "Stereotype Name"
-msgstr "Stereotyypin &nimi:"
+msgstr "Stereotyypin nimi"
 
 #: dialogs/pages/classoptionspage.cpp:440
 #, fuzzy, kde-format
@@ -5401,46 +5400,39 @@ msgid "New instance attribute"
 msgstr "&Uusi attribuutti…"
 
 #: model_utils.cpp:627 umlwidgets/widget_utils.cpp:886
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "New interface"
-msgstr "uusi_rajapinta"
+msgstr "Uusi rajapinta"
 
 #: model_utils.cpp:628 umlwidgets/widget_utils.cpp:888
-#, fuzzy, kde-format
-#| msgid "new_node"
+#, kde-format
 msgid "New node"
-msgstr "uusi_paketti"
+msgstr "Uusi solmu"
 
 #: model_utils.cpp:629
-#, fuzzy, kde-format
-#| msgid "new_operation"
+#, kde-format
 msgid "New operation"
-msgstr "uusi_toiminto"
+msgstr "Uusi toiminto"
 
 #: model_utils.cpp:630 umlwidgets/widget_utils.cpp:892
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "New package"
-msgstr "uusi_pakkaus"
+msgstr "Uusi pakkaus"
 
 #: model_utils.cpp:631 umlwidgets/widget_utils.cpp:894
-#, fuzzy, kde-format
-#| msgid "new port"
+#, kde-format
 msgid "New port"
-msgstr "uusi portti"
+msgstr "Uusi portti"
 
 #: model_utils.cpp:632
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New role"
-msgstr "Stereotyyppi"
+msgstr "Uusi rooli"
 
 #: model_utils.cpp:633
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New stereotype"
-msgstr "Stereotyyppi"
+msgstr "Uusi stereotyyppi"
 
 #: model_utils.cpp:634
 #, kde-format
@@ -5454,10 +5446,9 @@ msgid "New unique constraint"
 msgstr "uusi_yksilöllisyysrajoite"
 
 #: model_utils.cpp:636 umlwidgets/widget_utils.cpp:901
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "New use case"
-msgstr "uusi_käyttötapaus"
+msgstr "Uusi käyttötapaus"
 
 #: model_utils.cpp:639
 #, kde-format
@@ -5751,46 +5742,39 @@ msgid "Rename interface"
 msgstr "Käyttöliittymä"
 
 #: model_utils.cpp:712 umlwidgets/widget_utils.cpp:979
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename node"
-msgstr "Muuta nimeä"
+msgstr "Muuta solmun nimeä"
 
 #: model_utils.cpp:713
-#, fuzzy, kde-format
-#| msgid "new_operation"
+#, kde-format
 msgid "Rename operation"
-msgstr "uusi_toiminto"
+msgstr "Muuta toiminnon nimeä"
 
 #: model_utils.cpp:714 umlwidgets/widget_utils.cpp:983
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "Rename package"
-msgstr "uusi_pakkaus"
+msgstr "Muuta pakkauksen nimeä"
 
 #: model_utils.cpp:715 umlwidgets/widget_utils.cpp:985
-#, fuzzy, kde-format
-#| msgid "new port"
+#, kde-format
 msgid "Rename port"
-msgstr "uusi portti"
+msgstr "Muuta portin nimeä"
 
 #: model_utils.cpp:716
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename role"
-msgstr "Muuta nimeä"
+msgstr "Muuta roolin nimeä"
 
 #: model_utils.cpp:717
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "Rename stereotype"
-msgstr "Stereotyyppi"
+msgstr "Muuta stereotyypin nimeä"
 
 #: model_utils.cpp:718
-#, fuzzy, kde-format
-#| msgid "new_template"
+#, kde-format
 msgid "Rename template"
-msgstr "uusi_malli"
+msgstr "Muuta mallin nimeä"
 
 #: model_utils.cpp:719
 #, fuzzy, kde-format
@@ -5894,10 +5878,9 @@ msgid "Enter the new name of the enum literal:"
 msgstr "Anna mallin uusi nimi:"
 
 #: model_utils.cpp:749
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the folder:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna kansion uusi nimi:"
 
 #: model_utils.cpp:750
 #, fuzzy, kde-format
@@ -5924,44 +5907,37 @@ msgid "Enter the new name of the interface:"
 msgstr "Anna kaavion uusi nimi:"
 
 #: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1025
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the node:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna solmun uusi nimi:"
 
 #: model_utils.cpp:755
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the operation:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna toiminnon uusi nimi:"
 
 #: model_utils.cpp:756 umlwidgets/widget_utils.cpp:1029
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the package:"
-msgstr "Anna kaavion uusi nimi:"
+msgstr "Anna pakkauksen uusi nimi:"
 
 #: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1031
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the port:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna portin uusi nimi:"
 
 #: model_utils.cpp:758
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the role:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna roolin uusi nimi:"
 
 #: model_utils.cpp:759
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the stereotype:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna stereotyypin uusi nimi:"
 
 #: model_utils.cpp:760
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the template:"
 msgstr "Anna mallin uusi nimi:"
 
@@ -5972,16 +5948,14 @@ msgid "Enter the new name of the unique constraint:"
 msgstr "Anna uuden tilan nimi:"
 
 #: model_utils.cpp:762 umlwidgets/widget_utils.cpp:1038
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the use case:"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna käyttötapauksen uusi nimi:"
 
 #: model_utils.cpp:765
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the UML object"
-msgstr "Anna mallin uusi nimi:"
+msgstr "Anna UML-olion uusi nimi"
 
 #: model_utils.cpp:1201
 #, kde-format
@@ -6026,10 +6000,9 @@ msgid "Name"
 msgstr "Nimi"
 
 #: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:80
-#, fuzzy, kde-format
-#| msgid "Type:"
+#, kde-format
 msgid "Type"
-msgstr "Tyyppi:"
+msgstr "Tyyppi"
 
 #: models/diagramsmodel.cpp:58
 #, fuzzy, kde-format
@@ -6053,10 +6026,9 @@ msgid "Parent"
 msgstr ""
 
 #: models/objectsmodel.cpp:90
-#, fuzzy, kde-format
-#| msgid "Add Point"
+#, kde-format
 msgid "Pointer"
-msgstr "Lisää piste"
+msgstr "Osoitin"
 
 #: models/stereotypesmodel.cpp:53
 #, kde-format
@@ -6303,11 +6275,9 @@ msgstr "Tuetaanko uutta koodigeneraattoria"
 
 #. i18n: ectx: label, entry (layoutType), group (General Options)
 #: umbrello.kcfg:37
-#, fuzzy, kde-format
-#| msgctxt "Layout menu"
-#| msgid "Layout"
+#, kde-format
 msgid "Layout Type"
-msgstr "Asettelu"
+msgstr "Asettelutyyppi"
 
 #. i18n: ectx: whatsthis, entry (layoutType), group (General Options)
 #: umbrello.kcfg:38
