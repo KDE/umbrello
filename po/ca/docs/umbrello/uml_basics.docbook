@@ -474,7 +474,7 @@
 <title
 >Tipus de dades</title>
 <para
->Els tipus de dades són primitives que normalment estan construïdes en un llenguatge de programació. Els exemples comuns inclouen nombres enters i booleans. No poden relacionar-se amb les classes, però les classes poden relacionar-se amb ells.</para>
+>Els tipus de dades són primitives que normalment estan integrades en un llenguatge de programació. Els exemples comuns inclouen nombres enters i booleans. No poden relacionar-se amb les classes, però les classes poden relacionar-se amb ells.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="enum">
