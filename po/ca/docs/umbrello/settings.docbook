@@ -739,7 +739,7 @@
 >Detecta automàticament el generador de disposicions</guilabel
 ></para>
     <para
->La funcionalitat de les disposicions automàtiques depèn dels generadors de disposicions proporcionats pel paquet GraphViz, el qual normalment s'instal·la a banda de l'Umbrello pel gestor de paquets. L'Umbrello es construeix amb implementació per a detectar la ubicació de la instal·lació d'aquests generadors de disposicions. Pels casos en què aquesta dependència no està disponible o no s'ajusta, es podrà indicar un camí d'instal·lació diferent. </para>
+>La funcionalitat de les disposicions automàtiques depèn dels generadors de disposicions proporcionats pel paquet GraphViz, el qual normalment s'instal·la a banda de l'Umbrello pel gestor de paquets. L'Umbrello integra la implementació per a detectar la ubicació de la instal·lació d'aquests generadors de disposicions. Pels casos en què aquesta dependència no està disponible o no s'ajusta, es podrà indicar un camí d'instal·lació diferent. </para>
     <para
 ><guilabel
 >Mostra la disposició d'exportació en el menú contextual del diagrama</guilabel
