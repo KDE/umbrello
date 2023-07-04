@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2023-06-26 11:09+0200\n"
+"PO-Revision-Date: 2023-07-03 11:55+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -6544,7 +6544,7 @@ msgstr "Color del tipus de lletra"
 #: umbrello.kcfg:307 umbrello.kcfg:308
 #, kde-format
 msgid "Selected Color"
-msgstr "Color de seleccionat"
+msgstr "Color seleccionat"
 
 #. i18n: ectx: label, entry (editBlockColor), group (Code Viewer Options)
 #: umbrello.kcfg:312
@@ -9188,38 +9188,3 @@ msgstr "Estat"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "Pre/post condició"
-
-#~ msgid "Use angular association lines"
-#~ msgstr "Usa línies d'associació angulars"
-
-#~ msgid "Angular Lines"
-#~ msgstr "Línies angulars"
-
-#~ msgid "Enables/Disables Support for Angular Lines in diagrams"
-#~ msgstr "Activa/desactiva l'ús de les línies angulars als diagrames"
-
-#~ msgid "All Supported Files"
-#~ msgstr "Tots els fitxers admesos"
-
-#~ msgid "the directory of the file"
-#~ msgstr "El directori del fitxer"
-
-#~ msgid "set active language"
-#~ msgstr "estableix el llenguatge actiu"
-
-#~ msgid ""
-#~ "*.xmi|XMI File\n"
-#~ "*.xmi.tgz|Gzip Compressed XMI File\n"
-#~ "*.xmi.tar.bz2|Bzip2 Compressed XMI File\n"
-#~ "*|All Files"
-#~ msgstr ""
-#~ "*.xmi|Fitxer XMI\n"
-#~ "*.xmi.tgz|Fitxer XMI comprimit amb Gzip\n"
-#~ "*.xmi.tar.bz2|Fitxer XMI comprimit amb Bzip2\n"
-#~ "*|Tots els fitxers"
-
-#~ msgid "The file %1 does not exist."
-#~ msgstr "El fitxer %1 no existeix."
-
-#~ msgid "There was a problem uploading file: %1"
-#~ msgstr "S'ha produït un problema en pujar el fitxer: %1"
