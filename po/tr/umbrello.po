@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2023-06-17 20:31+0300\n"
+"PO-Revision-Date: 2023-07-14 00:34+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1899,7 +1899,7 @@ msgstr "Kes"
 #: dialogs/codeviewerdialog.cpp:97
 #, kde-format
 msgid "Code Viewer - %1"
-msgstr "Kod İzleyici - %1"
+msgstr "Kod Görüntüleyicisi - %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_showHiddenCodeCB)
 #: dialogs/codeviewerdialogbase.ui:20
@@ -3349,12 +3349,12 @@ msgstr "Kod Oluşturma Ayarları"
 #: dialogs/settingsdialog.cpp:140 umllistview.cpp:1444
 #, kde-format
 msgid "Code Viewer"
-msgstr "Kod İzleyici"
+msgstr "Kod Görüntüleyicisi"
 
 #: dialogs/settingsdialog.cpp:140
 #, kde-format
 msgid "Code Viewer Settings"
-msgstr "Kod Görüntüleyici Ayarları"
+msgstr "Kod Görüntüleyicisi Ayarları"
 
 #: dialogs/settingsdialog.cpp:147 umllistview.cpp:1440
 #, kde-format
@@ -6646,7 +6646,7 @@ msgstr "Genişlik"
 #: umbrello.kcfg:277
 #, kde-format
 msgid "Width of the Code Viewer"
-msgstr "Kod Göstericinin Genişliği"
+msgstr "Kod Görüntüleyicisi Genişliği"
 
 #. i18n: ectx: label, entry (showHiddenBlocks), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (showHiddenBlocks), group (Code Viewer Options)
