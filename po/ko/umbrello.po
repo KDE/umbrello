@@ -7350,7 +7350,7 @@ msgstr ""
 #: uml.cpp:451
 #, kde-format
 msgid "Quits the application"
-msgstr "프로그램 종료"
+msgstr "앱 종료"
 
 #: uml.cpp:452
 #, kde-format
