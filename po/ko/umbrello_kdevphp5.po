@@ -1,17 +1,17 @@
-# Shinjo Park <kde@peremen.name>, 2014, 2015, 2019, 2020.
+# Shinjo Park <kde@peremen.name>, 2014, 2015, 2019, 2020, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdevelop\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-05-27 00:18+0000\n"
-"PO-Revision-Date: 2020-04-05 12:26+0200\n"
+"PO-Revision-Date: 2023-07-24 22:16+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.04.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
@@ -364,7 +364,7 @@ msgstr "(c) 2008 Niko Sams, 2009 Milian Wolff"
 #: parser/parsesession.cpp:68
 #, kde-format
 msgid "Could not open file '%1'"
-msgstr "파일 '%1'을(를) 열 수 없음"
+msgstr "'%1' 파일을 열 수 없음"
 
 #: parser/parsesession.cpp:71
 #, kde-format
