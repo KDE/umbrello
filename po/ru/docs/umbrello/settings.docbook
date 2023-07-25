@@ -700,9 +700,9 @@
         </screenshot>
     </para>
     <para
->Позволяет настроить параметры средства просмотра кода. В группе <guilabel
->Запрошенный шрифт</guilabel
-> представлены параметры выбора гарнитуры, начертания и размера шрифта. В расположенном ниже поле показан пример применения выбранных параметров. </para>
+>Allows customization of the Code Viewer. The <guilabel
+>Requested Font</guilabel
+> section allows the selection of the font, font style, and font size. A representation of your choices is shown below the choices. </para>
     <para
 >Группа <guilabel
 >Цвета</guilabel
