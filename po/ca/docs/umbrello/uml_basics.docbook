@@ -572,7 +572,7 @@
 >màquines d'estat</emphasis
 > o autòmats finits que poden ser en un grup d'estats finits i poden canviar el seu estat a través d'un grup finit d'estímuls. Per exemple, un objecte de tipus <emphasis
 >ServidorXarxa</emphasis
-> pot tenir un dels següents estats durant la seva vida:  </para>
+> pot tenir un dels següents estats durant la seva vida: </para>
 <itemizedlist>
 <listitem
 ><para
@@ -793,7 +793,7 @@
 <para
 >Una <emphasis
 >entitat</emphasis
-> és qualsevol concepte en el món real amb una existència independent. Poden ser un objecte amb existència física (per exemple un ordinador, robot) o poden ser un objecte amb una existència conceptual (p. ex. cursos de la universitat). Cada entitat té un conjunt d'atributs que descriuen les propietats de l'entitat. </para>
+> és qualsevol concepte en el món real amb una existència independent. Poden ser un objecte amb existència física (per exemple un ordinador, robot) o poden ser un objecte amb una existència conceptual (p. ex. cursos de la universitat). Cada entitat té un conjunt d'atributs que descriuen les propietats de l'entitat.</para>
 <para
 ><emphasis
 >Nota:</emphasis
