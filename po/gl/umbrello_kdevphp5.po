@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kdevphp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-05-27 00:18+0000\n"
-"PO-Revision-Date: 2023-04-23 05:40+0200\n"
+"PO-Revision-Date: 2023-05-11 16:58+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -22,22 +22,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Adrian Chaves (Gallaecio)"
+msgstr ""
+"mvillarino,\n"
+"Xosé Calvo"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "adrian@chaves.io"
+msgstr ""
+"mvillarino@users.sourceforge.net,\n"
+"xosecalvo@gmail.com"
 
 #: completion/implementationitem.cpp:60
 #, kde-format
 msgid "Override"
-msgstr "Sobrepor"
+msgstr "Anular"
 
 #: completion/implementationitem.cpp:63
 #, kde-format
@@ -223,8 +227,8 @@ msgstr "Os trazos non poden ter constantes."
 msgid ""
 "Only booleans, ints, floats and strings are allowed for class constants."
 msgstr ""
-"Só se permiten valores lóxicos, enteiros, de coma flotante ou cadeas para as "
-"constantes das clases."
+"Só se permiten valores lóxicos, enteiros, de coma flutuante ou cadeas para "
+"as constantes das clases."
 
 #: duchain/builders/declarationbuilder.cpp:709
 #, kde-format
@@ -247,7 +251,7 @@ msgstr ""
 #, kde-format
 msgid "Following parameters must have a default value assigned."
 msgstr ""
-"Os parámetros seguintes teñen que ter un valor predeterminado asignado."
+"Os parámetros seguintes teñen que ter asignado un valor predeterminado."
 
 #: duchain/builders/declarationbuilder.cpp:870
 #, kde-format
@@ -308,7 +312,7 @@ msgstr "Declaración non atopada: %1"
 #: duchain/declarations/traitmethodaliasdeclaration.cpp:88
 #, kde-format
 msgid "Lost trait alias %1"
-msgstr "Perdeuse o alias de trazo «%1»"
+msgstr "Perdeuse o alias de trazo %1"
 
 #: duchain/navigation/declarationnavigationcontext.cpp:113
 #: duchain/navigation/declarationnavigationcontext.cpp:126

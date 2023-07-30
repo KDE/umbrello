@@ -87,7 +87,7 @@
 >Fitxer</guimenu
 >, o clicant en la icona <guiicon
 >Nou</guiicon
-> de la barra d'eines de l'aplicació. Si actualment esteu treballant en un model que ha estat modificat l'&umbrello; us demanarà si voleu desar els canvis abans de carregar el model nou.  </para>
+> de la barra d'eines de l'aplicació. Si actualment esteu treballant en un model que ha estat modificat l'&umbrello; us demanarà si voleu desar els canvis abans de carregar el model nou. </para>
 </sect2>
 <sect2 id="save-model">
 <title
@@ -323,7 +323,7 @@
 <para
 >En la pàgina <guilabel
 >Opcions de visualització</guilabel
->, podeu establir que és el que es mostrarà en el diagrama. Una classe pot ser mostrada com a només un rectangle amb el nom de la classe (útil si teniu moltes classes en el diagrama, o de moment no esteu interessat en els detalls de cada classe) o com a una visualització completa mostrant els paquets, estereotips, i atributs i operacions amb signatura i visibilitat completes  </para>
+>, podeu establir que és el que es mostrarà en el diagrama. Una classe pot ser mostrada com a només un rectangle amb el nom de la classe (útil si teniu moltes classes en el diagrama, o de moment no esteu interessat en els detalls de cada classe) o com a una visualització completa mostrant els paquets, estereotips, i atributs i operacions amb signatura i visibilitat completes </para>
 <para
 >Depenent de la quantitat d'informació que voleu veure podeu seleccionar les opcions corresponents en aquesta pàgina. Els canvis que feu aquí només són <emphasis
 >opcions de visualització</emphasis
