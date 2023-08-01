@@ -7,30 +7,33 @@
 # Stelios <sstavra@gmail.com>, 2012.
 # Dimitrios Glentadakis <dglent@gmail.com>, 2012.
 # Petros Vidalis <pvidalis@gmail.com>, 2016, 2017, 2018.
+# Theofilos Intzoglou <int.teo@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2018-10-18 16:33+0300\n"
-"Last-Translator: Long Run <pvidalis@gmail.com>\n"
-"Language-Team: Greek <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2023-07-29 17:38+0300\n"
+"Last-Translator: Theofilos Intzoglou <int.teo@gmail.com>\n"
+"Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Lokalize 23.04.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Σπύρος Γεωργαράς, Τούσης Μανώλης, Πέτρος Βιδάλης"
+msgstr "Σπύρος Γεωργαράς, Τούσης Μανώλης, Πέτρος Βιδάλης, Ιντζόγλου Θεόφιλος"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "sng@hellug.gr, manolis@koppermind.homelinux.org, pvidalis@gmail.com"
+msgstr ""
+"sng@hellug.gr, manolis@koppermind.homelinux.org, pvidalis@gmail.com, int."
+"teo@gmail.com"
 
 #: basictypes.cpp:190
 #, kde-format
@@ -412,13 +415,13 @@ msgstr ""
 #: codegenerators/cpp/cppcodegenerationform.cpp:65
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor method names"
-msgstr ""
+msgstr "Αφαίρεσε από τις μεθόδους πρόσβασης το πρόθεμα '[a-zA-Z]_'"
 
 #. i18n: ectx: label, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
 #: codegenerators/cpp/cppcodegenerationform.cpp:69 umbrello.kcfg:543
 #, kde-format
 msgid "Accessor methods start with capital letters"
-msgstr ""
+msgstr "Οι μέθοδοι πρόσβασης ξεκινούν με κεφαλαίο γράμμα"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:73
 #, kde-format
@@ -444,7 +447,7 @@ msgstr "Γενικά"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:473
 #, kde-format
 msgid "Class member prefix"
-msgstr ""
+msgstr "Πρόθεμα μελών κλάσης"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabMethodBodyGeneration)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:85
@@ -1129,10 +1132,9 @@ msgstr "&Γραφή σχολίων τεκμηρίωσης ακόμη και γι
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
+#, kde-format
 msgid "Write section comments:"
-msgstr "&Γραφή σχολίων τεκμηρίωσης ακόμη και για κενά"
+msgstr "Γραφή σχολίων ενότητας:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1148,19 +1150,19 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:276
 #, kde-format
 msgid "None"
-msgstr ""
+msgstr "Κανένα"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
 msgid "When section is non empty"
-msgstr ""
+msgstr "Όταν η ενότητα δεν είναι κενή"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Πάντα"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -1311,7 +1313,7 @@ msgstr "Δε δημιουργήθηκε"
 #: codegenwizard/codegenstatuspage.cpp:179
 #, kde-format
 msgid "Skipped"
-msgstr ""
+msgstr "Παραλείφθηκε"
 
 #: codegenwizard/codegenstatuspage.cpp:204
 #: codegenwizard/codegenstatuspage.cpp:234
@@ -2205,10 +2207,9 @@ msgid "Style"
 msgstr "Στιλ"
 
 #: dialogs/multipagedialogbase.cpp:424
-#, fuzzy, kde-format
-#| msgid "Widget Style"
+#, kde-format
 msgid "Line Style"
-msgstr "Στιλ συστατικού"
+msgstr "Στιλ γραμμής"
 
 #: dialogs/multipagedialogbase.cpp:444
 #, kde-format
@@ -2455,14 +2456,7 @@ msgstr "Γεννήτρια διαγράμματος"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>The auto layout feature depends on layout generators provided by the "
-#| "GraphViz package, which is normally installed aside Umbrello by a package "
-#| "manager.</p>\n"
-#| "<p>Umbrello has build in support for detecting the install location of  "
-#| "these layout generators. For cases where this dependency is not available "
-#| "or do not fit, a different installation path could be provided.</p>"
+#, kde-format
 msgid ""
 "<p>The auto layout feature depends on layout generators provided by the "
 "GraphViz package, which is normally installed aside Umbrello by a package "
@@ -2471,13 +2465,13 @@ msgid ""
 "these layout generators. For cases where this dependency is not available or "
 "do not fit, a different installation path could be provided.</p>"
 msgstr ""
-"<p> Η λειτουργία αυτόματης διάταξης εξαρτάται από τις γεννήτριες διάταξης "
-"που παρέχονται από τοτο πακέτο GraphViz, το οποίο συνήθως τοποθετείται στην "
-"άκρη του Umbrello από ένα διαχειριστή πακέτων. </ p> \\ n<p> Το Umbrello "
-"έχει δημιουργήσει υποστήριξη για την ανίχνευση της τοποθεσίας εγκατάστασης "
-"τουαυτών των γεννητριών διάταξης. Για περιπτώσεις όπου αυτή η εξάρτηση δεν "
-"είναι διαθέσιμη ήδεν ταιριάζει, θα μπορούσε να παρέχεται μια διαφορετική "
-"διαδρομή εγκατάστασης. </ p>"
+"<p>Η λειτουργία αυτόματης διάταξης εξαρτάται από τις γεννήτριες διάταξης που "
+"παρέχονται από το πακέτο GraphViz, το οποίο συνήθως εγκαθίσταται μαζί με το "
+"Umbrello από το διαχειριστή πακέτων.</p>\n"
+"<p> Το Umbrello έχει ενσωματωμένη υποστήριξη για την ανίχνευση της "
+"τοποθεσίας εγκατάστασης αυτών των γεννητριών διάταξης. Για τις περιπτώσεις "
+"όπου αυτή η εξάρτηση δεν είναι διαθέσιμη ή δεν ταιριάζει, θα μπορούσε να "
+"παρέχεται μια διαφορετική διαδρομή εγκατάστασης.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:27
@@ -2505,12 +2499,16 @@ msgid ""
 "option checked, the export layout is added to the list of available diagram "
 "layouts and enables a quick dot export preview.</p>"
 msgstr ""
+"<p>Η εξαγωγή σε αρχείο dot πραγματοποιείται με την χρήση της διάταξης "
+"εξαγωγής.</p><p>Με αυτή την επιλογή ενεργοποιημένη, η διάταξη εξαγωγής θα "
+"προστεθεί στη λίστα διαθέσιμων διατάξεων διαγραμμάτων και επιτρέπει την "
+"γρήγορη προεπισκόπηση της εξαγωγής dot.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_showExportLayout)
 #: dialogs/pages/autolayoutoptionpage.ui:91
 #, kde-format
 msgid "Show export layout in diagram context menu"
-msgstr ""
+msgstr "Προσθήκη διάταξης εξαγωγής στο μενού διαγραμμάτων"
 
 #: dialogs/pages/classgeneralpage.cpp:126
 #, kde-format
@@ -2604,16 +2602,14 @@ msgid "N&ew Constraint..."
 msgstr "Νέος &περιορισμός..."
 
 #: dialogs/pages/classifierlistpage.cpp:136
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Instance Attribute"
-msgstr "Χαρακτηριστικά οντότητας"
+msgstr "Χαρακτηριστικό στιγμιότυπου"
 
 #: dialogs/pages/classifierlistpage.cpp:137
-#, fuzzy, kde-format
-#| msgid "N&ew Entity Attribute..."
+#, kde-format
 msgid "N&ew Instance Attribute..."
-msgstr "Νέο χαρα&κτηριστικό οντότητας..."
+msgstr "Νέο χαρα&κτηριστικό στιγμιότυπου..."
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
 #: uml.cpp:589
@@ -2635,8 +2631,7 @@ msgstr "Πηγαίος κώδικας"
 
 #: dialogs/pages/classoptionspage.cpp:152
 #: dialogs/pages/classoptionspage.cpp:246 uml.cpp:544
-#, fuzzy, kde-format
-#| msgid "Documentation"
+#, kde-format
 msgid "&Documentation"
 msgstr "Τεκμηρίωση"
 
@@ -2709,35 +2704,30 @@ msgid "Default operation scope:"
 msgstr "Προκαθορισμένη εμβέλεια λειτουργίας:"
 
 #: dialogs/pages/classoptionspage.cpp:333
-#, fuzzy, kde-format
-#| msgid "Attribute Signature"
+#, kde-format
 msgid "Attribute Signatures"
-msgstr "Υπογραφή χαρακτηριστικού"
+msgstr "Υπογραφές χαρακτηριστικού"
 
 #: dialogs/pages/classoptionspage.cpp:438
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "No Stereotype"
-msgstr "Στερεότυπο"
+msgstr "Χωρίς Στερεότυπο"
 
 #: dialogs/pages/classoptionspage.cpp:439
-#, fuzzy, kde-format
-#| msgid "Stereotype name:"
+#, kde-format
 msgid "Stereotype Name"
-msgstr "Όνομα στερεότυπου:"
+msgstr "Όνομα στερεότυπου"
 
 #: dialogs/pages/classoptionspage.cpp:440
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "Stereotype with Tags"
-msgstr "Στερεότυπο"
+msgstr "Στερεότυπο με ετικέτες"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: dialogs/pages/codeimportoptionspage.ui:31
-#, fuzzy, kde-format
-#| msgid "Include headings"
+#, kde-format
 msgid "Include search paths"
-msgstr "Ενσωμάτωση κεφαλίδων"
+msgstr "Συμπερίληψη διαδρομών αναζήτησης"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/pages/codeimportoptionspage.ui:43
@@ -2746,13 +2736,14 @@ msgid ""
 "Additional include search paths could be added by specifying environment "
 "variable UMBRELLO_INCPATH."
 msgstr ""
+"Πρόσθετες διαδρομές αναζήτησης μπορούν να προστεθούν ορίζοντας τη μεταβλητή "
+"περιβάλλοντος UMBRELLO_INCPATH."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/pages/codeimportoptionspage.ui:56
-#, fuzzy, kde-format
-#| msgid "C++- Import"
+#, kde-format
 msgid "C++ Import"
-msgstr "C++- Import"
+msgstr "Εισαγωγή C++"
 
 #. i18n: ectx: property (text), widget (QCheckBox, createArtifactCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:66
@@ -2762,16 +2753,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, resolveDependenciesCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:73
-#, fuzzy, kde-format
-#| msgid "Resolving object references..."
+#, kde-format
 msgid "Resolve dependencies (reduces import speed)"
-msgstr "Επίλυση αναφορών αντικειμένων..."
+msgstr "Επίλυση εξαρτήσεων (μειώνει την ταχύτητα εισαγωγής)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, supportCPP11CheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:80
 #, kde-format
 msgid "Enable C++11 standard (experimental)"
-msgstr ""
+msgstr "Ενεργοποίηση προτύπου C++11 (πειραματικό)"
 
 #: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:269
 #, kde-format
@@ -2874,17 +2864,15 @@ msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelWidth)
 #: dialogs/pages/diagrampropertiespage.ui:105
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width:"
-msgstr "Πλάτος"
+msgstr "Πλάτος:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelHeight)
 #: dialogs/pages/diagrampropertiespage.ui:144
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Height:"
-msgstr "Ύψος"
+msgstr "Ύψος:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_checkBoxShowGrid)
 #: dialogs/pages/diagrampropertiespage.ui:189
@@ -2937,10 +2925,9 @@ msgstr "Υ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_autoIncrementSequence)
 #: dialogs/pages/diagrampropertiespage.ui:312
-#, fuzzy, kde-format
-#| msgid "&Auto increment"
+#, kde-format
 msgid "Autoincrement Sequence "
-msgstr "&Αυτόματη αύξηση"
+msgstr "Ακολουθία Αυτόματης αύξησης"
 
 #: dialogs/pages/generaloptionpage.cpp:41
 #: dialogs/pages/umlwidgetstylepage.cpp:198
@@ -2970,10 +2957,9 @@ msgid "Turn on footer and page numbers when printing"
 msgstr "Ενεργοποίηση υποσέλιδου και αριθμών σελίδας κατά την εκτύπωση"
 
 #: dialogs/pages/generaloptionpage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Enable undo"
+#, kde-format
 msgid "Enable UML2 support"
-msgstr "Ενεργοποίηση αναίρεσης"
+msgstr "Ενεργοποίηση υποστήριξης UML2"
 
 #: dialogs/pages/generaloptionpage.cpp:69
 #, kde-format
@@ -3052,10 +3038,9 @@ msgstr "Αριθμός ακολουθίας:"
 
 #: dialogs/pages/selectoperationpage.cpp:67
 #: dialogs/selectoperationdialog.cpp:70
-#, fuzzy, kde-format
-#| msgid "&Auto increment"
+#, kde-format
 msgid "Auto increment:"
-msgstr "&Αυτόματη αύξηση"
+msgstr "Αυτόματη αύξηση:"
 
 #: dialogs/pages/selectoperationpage.cpp:72
 #: dialogs/selectoperationdialog.cpp:75
@@ -3077,8 +3062,7 @@ msgid "Custom operation:"
 msgstr "Προσαρμοσμένη λειτουργία:"
 
 #: dialogs/pages/uioptionspage.cpp:54
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgctxt "General options"
 msgid "General"
 msgstr "Γενικά"
@@ -3087,20 +3071,18 @@ msgstr "Γενικά"
 #: dialogs/pages/uioptionspage.cpp:60 umbrello.kcfg:187
 #, kde-format
 msgid "Right to left user interface"
-msgstr ""
+msgstr "Διεπαφή χρήστη από δεξιά προς αριστερά"
 
 #: dialogs/pages/uioptionspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Associations"
+#, kde-format
 msgctxt "Association options"
 msgid "Associations"
 msgstr "Συσχετίσεις"
 
 #: dialogs/pages/uioptionspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Use angular association lines"
+#, kde-format
 msgid "Create new association lines as:"
-msgstr "Χρήση γωνιακών γραμμών συσχέτισης"
+msgstr "Χρήση νέων γραμμών συσχέτισης ως:"
 
 #: dialogs/pages/uioptionspage.cpp:72
 #, kde-format
@@ -3109,42 +3091,36 @@ msgid "Color"
 msgstr "Χρώμα"
 
 #: dialogs/pages/uioptionspage.cpp:80
-#, fuzzy, kde-format
-#| msgid "Line color:"
+#, kde-format
 msgid "Custom text color"
-msgstr "Χρώμα γραμμής:"
+msgstr "Προσαρμοσμένο χρώμα κειμένου"
 
 #: dialogs/pages/uioptionspage.cpp:87
-#, fuzzy, kde-format
-#| msgid "Line color:"
+#, kde-format
 msgid "Custom line color"
-msgstr "Χρώμα γραμμής:"
+msgstr "Προσαρμοσμένο χρώμα γραμμής"
 
 #. i18n("D&efault Color"), m_colorGB);
 #. colorLayout->addWidget(m_lineDefaultB, 0, 2);
 #: dialogs/pages/uioptionspage.cpp:97
-#, fuzzy, kde-format
-#| msgid "&Use fill color"
+#, kde-format
 msgid "Custom fill color"
-msgstr "Χ&ρήση χρώματος γεμίσματος"
+msgstr "Προσαρμοσμένο χρώμα γεμίσματος"
 
 #: dialogs/pages/uioptionspage.cpp:103
-#, fuzzy, kde-format
-#| msgid "Custom operation:"
+#, kde-format
 msgid "Custom grid color"
-msgstr "Προσαρμοσμένη λειτουργία:"
+msgstr "Προσαρμοσμένη χρώμα πλέγματος"
 
 #: dialogs/pages/uioptionspage.cpp:109
-#, fuzzy, kde-format
-#| msgid "Font Color"
+#, kde-format
 msgid "Custom background color"
-msgstr "Χρώμα γραμματοσειράς"
+msgstr "Προσαρμοσμένο χρώμα φόντου"
 
 #: dialogs/pages/uioptionspage.cpp:115
-#, fuzzy, kde-format
-#| msgid "Line width:"
+#, kde-format
 msgid "Custom line width"
-msgstr "Πλάτος γραμμής:"
+msgstr "Προσαρμοσμένο πλάτος γραμμής"
 
 #: dialogs/pages/uioptionspage.cpp:125
 #, kde-format
@@ -3255,7 +3231,7 @@ msgstr "Προκα&θορισμένο"
 #, kde-format
 msgctxt "grid dot color"
 msgid "&Grid dot:"
-msgstr ""
+msgstr "&Πλέγμα τελειών:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:166
 #, kde-format
@@ -3282,10 +3258,9 @@ msgid "Defa&ult"
 msgstr "Προκαθορ&ισμένο"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:203
-#, fuzzy, kde-format
-#| msgid "The Width of the Line"
+#, kde-format
 msgid "Layout of the line:"
-msgstr "Το πλάτος της γραμμής"
+msgstr "Η διάταξη της γραμμής:"
 
 #: dialogs/parameterpropertiesdialog.cpp:49
 #, kde-format
@@ -3324,16 +3299,14 @@ msgid "Parameter Name Invalid"
 msgstr "Μη έγκυρο όνομα παραμέτρου"
 
 #: dialogs/selectdiagramdialog.cpp:18
-#, fuzzy, kde-format
-#| msgid "&Select diagrams"
+#, kde-format
 msgid "Select diagram"
-msgstr "&Επιλογή διαγραμμάτων"
+msgstr "Επιλογή διαγράμματος"
 
 #: dialogs/selectdiagramdialog.cpp:19
-#, fuzzy, kde-format
-#| msgid "&Diagram"
+#, kde-format
 msgid "Diagram"
-msgstr "&Διάγραμμα"
+msgstr "Διάγραμμα"
 
 #: dialogs/settingsdialog.cpp:35
 #, kde-format
@@ -3368,10 +3341,9 @@ msgid "Class Settings"
 msgstr "Ρυθμίσεις κλάσης"
 
 #: dialogs/settingsdialog.cpp:123 umllistview.cpp:1442
-#, fuzzy, kde-format
-#| msgid "Not Generated"
+#, kde-format
 msgid "Code Importer"
-msgstr "Δε δημιουργήθηκε"
+msgstr "Εισαγωγέας κώδικα"
 
 #: dialogs/settingsdialog.cpp:123
 #, kde-format
@@ -3399,21 +3371,19 @@ msgid "Code Viewer Settings"
 msgstr "Ρυθμίσεις προβολής κώδικα"
 
 #: dialogs/settingsdialog.cpp:147 umllistview.cpp:1440
-#, fuzzy, kde-format
-#| msgid "Auto Save"
+#, kde-format
 msgid "Auto Layout"
-msgstr "Αυτόματη αποθήκευση"
+msgstr "Αυτόματη διάταξη"
 
 #: dialogs/settingsdialog.cpp:147
-#, fuzzy, kde-format
-#| msgid "Attribute Settings"
+#, kde-format
 msgid "Auto Layout Settings"
-msgstr "Ρυθμίσεις χαρακτηριστικών"
+msgstr "Ρυθμίσεις αυτόματης διάταξης"
 
 #: dialogs/singlepagedialogbase.cpp:35 dialogs/singlepagedialogbase.cpp:49
 #, kde-format
 msgid "Search"
-msgstr ""
+msgstr "Αναζήτηση"
 
 #: dialogs/statedialog.cpp:120
 #, kde-format
@@ -3440,54 +3410,46 @@ msgid "End state"
 msgstr "Τελική κατάσταση"
 
 #: dialogs/statedialog.cpp:142
-#, fuzzy, kde-format
-#| msgid "Fork"
+#, kde-format
 msgctxt "fork state in statechart"
 msgid "Fork"
 msgstr "Διακλάδωση"
 
 #: dialogs/statedialog.cpp:145
-#, fuzzy, kde-format
-#| msgctxt "join states"
-#| msgid "Join"
+#, kde-format
 msgctxt "join state in statechart"
 msgid "Join"
 msgstr "Σύνδεση"
 
 #: dialogs/statedialog.cpp:148
-#, fuzzy, kde-format
-#| msgid "Junction"
+#, kde-format
 msgctxt "junction state in statechart"
 msgid "Junction"
-msgstr "Σύνδεσμος"
+msgstr "Διακλάδωση"
 
 #: dialogs/statedialog.cpp:151
-#, fuzzy, kde-format
-#| msgid "Deep History"
+#, kde-format
 msgctxt "deep history state in statechart"
 msgid "DeepHistory"
 msgstr "Μακρύ ιστορικό"
 
 #: dialogs/statedialog.cpp:154
-#, fuzzy, kde-format
-#| msgid "Shallow History"
+#, kde-format
 msgctxt "shallow history state in statechart"
 msgid "ShallowHistory"
 msgstr "Σύντομο ιστορικό"
 
 #: dialogs/statedialog.cpp:157
-#, fuzzy, kde-format
-#| msgid "Choice"
+#, kde-format
 msgctxt "choice state in statechart"
 msgid "Choice"
 msgstr "Επιλογή"
 
 #: dialogs/statedialog.cpp:160
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgctxt "combined state in statechart"
 msgid "Combined"
-msgstr "Συνδυασμένο τμήμα"
+msgstr "Συνδυασμένη"
 
 #: dialogs/statedialog.cpp:168
 #, kde-format
@@ -3500,22 +3462,19 @@ msgid "State name:"
 msgstr "Όνομα κατάστασης:"
 
 #: dialogs/statedialog.cpp:183
-#, fuzzy, kde-format
-#| msgid "Loading diagrams..."
+#, kde-format
 msgid "Linked diagram:"
-msgstr "Φόρτωση διαγραμμάτων..."
+msgstr "Συνδεδεμένο διάγραμμα:"
 
 #: dialogs/stereoattributedialog.cpp:39
-#, fuzzy, kde-format
-#| msgid "Note Properties"
+#, kde-format
 msgid "Stereotype Properties"
-msgstr "Ιδιότητες σημείωσης"
+msgstr "Ιδιότητες στερεότυπου"
 
 #: dialogs/stereoattributedialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Stereotype Attributes for "
-msgstr "Χαρακτηριστικά οντότητας"
+msgstr "Χαρακτηριστικά στερεότυπου για "
 
 #: dialogs/stereoattributedialog.cpp:75 dialogs/umlattributedialog.cpp:76
 #, kde-format
@@ -3524,19 +3483,16 @@ msgid "&Name:"
 msgstr "Ό&νομα:"
 
 #: dialogs/stereoattributedialog.cpp:78
-#, fuzzy, kde-format
-#| msgid "&Type:"
+#, kde-format
 msgctxt "attribute type"
 msgid "&Type:"
 msgstr "&Τύπος:"
 
 #: dialogs/stereoattributedialog.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "default line color button"
-#| msgid "&Default"
+#, kde-format
 msgctxt "default value"
 msgid "&Default:"
-msgstr "&Προκαθορισμένο"
+msgstr "&Προκαθορισμένο:"
 
 #: dialogs/umlattributedialog.cpp:43
 #, kde-format
@@ -3549,10 +3505,9 @@ msgid "&Initial value:"
 msgstr "Α&ρχική τιμή:"
 
 #: dialogs/umlattributedialog.cpp:89 dialogs/umloperationdialog.cpp:112
-#, fuzzy, kde-format
-#| msgid "Classifier &scope (\"static\")"
+#, kde-format
 msgid "Classifier &scope (\"static\")"
-msgstr "Εμ&βέλεια κατηγοριοποιητή (\"στατικό\")"
+msgstr "Εμ&βέλεια κατηγοριοποιητή (\"static\")"
 
 #: dialogs/umlattributedialog.cpp:123 dialogs/umlenumliteraldialog.cpp:84
 #, kde-format
@@ -3607,8 +3562,7 @@ msgid "&Name:"
 msgstr "Ό&νομα:"
 
 #: dialogs/umlentityattributedialog.cpp:82
-#, fuzzy, kde-format
-#| msgid "Length/Values:"
+#, kde-format
 msgid "Length/Values:"
 msgstr "Μήκος/τιμές:"
 
@@ -3618,8 +3572,7 @@ msgid "&Auto increment"
 msgstr "&Αυτόματη αύξηση"
 
 #: dialogs/umlentityattributedialog.cpp:89
-#, fuzzy, kde-format
-#| msgid "Allow &null"
+#, kde-format
 msgid "Allow &null"
 msgstr "Να επιτρέπεται το &κενό"
 
@@ -3634,8 +3587,7 @@ msgid "Indexing"
 msgstr "Ευρετήριο"
 
 #: dialogs/umlentityattributedialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "&Not Indexed"
+#, kde-format
 msgid "&Not Indexed"
 msgstr "&Χωρίς ευρετήριο"
 
@@ -3646,8 +3598,7 @@ msgstr "&Χωρίς ευρετήριο"
 #. scopeLayout->addWidget(m_pProtectedRB);
 #.
 #: dialogs/umlentityattributedialog.cpp:125
-#, fuzzy, kde-format
-#| msgid "&Indexed"
+#, kde-format
 msgid "&Indexed"
 msgstr "&Με ευρετήριο"
 
@@ -3682,9 +3633,7 @@ msgid "EnumLiteral Properties"
 msgstr "Γενικές ιδιότητες"
 
 #: dialogs/umlenumliteraldialog.cpp:57
-#, fuzzy, kde-format
-#| msgctxt "property name"
-#| msgid "&Name:"
+#, kde-format
 msgctxt "literal name"
 msgid "&Name:"
 msgstr "Ό&νομα:"
@@ -3692,7 +3641,7 @@ msgstr "Ό&νομα:"
 #: dialogs/umlenumliteraldialog.cpp:61
 #, kde-format
 msgid "&Value:"
-msgstr ""
+msgstr "&Τιμή:"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:54
 #, kde-format
@@ -3808,35 +3757,31 @@ msgstr ""
 "συνέχεια;"
 
 #: dialogs/umlinstanceattributedialog.cpp:21
-#, fuzzy, kde-format
-#| msgid "Attribute Properties"
+#, kde-format
 msgid "Object Attribute Properties"
-msgstr "Ιδιότητες χαρακτηριστικού"
+msgstr "Ιδιότητες χαρακτηριστικού αντικειμένου"
 
 #: dialogs/umlinstanceattributedialog.cpp:40
-#, fuzzy, kde-format
-#| msgid "You have entered an invalid attribute name."
+#, kde-format
 msgid "You have entered an invalid attribute value."
 msgstr "Εισάγατε ένα μη έγκυρο όνομα χαρακτηριστικού."
 
 #: dialogs/umlinstanceattributedialog.cpp:41
 #, kde-format
 msgid "Value Invalid"
-msgstr ""
+msgstr "Μη έγκυρη τιμή"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/umlinstanceattributedialog.ui:27
-#, fuzzy, kde-format
-#| msgid "Attributes:"
+#, kde-format
 msgid "Attribute Name:"
-msgstr "Χαρακτηριστικά:"
+msgstr "Όνομα Χαρακτηριστικού:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/umlinstanceattributedialog.ui:37
-#, fuzzy, kde-format
-#| msgid "Length/Values:"
+#, kde-format
 msgid "Value:"
-msgstr "Μήκος/τιμές:"
+msgstr "Τιμή:"
 
 #: dialogs/umloperationdialog.cpp:58
 #, kde-format
@@ -3850,30 +3795,27 @@ msgid "&Name:"
 msgstr "Ό&νομα:"
 
 #: dialogs/umloperationdialog.cpp:108
-#, fuzzy, kde-format
-#| msgid "&Abstract operation"
+#, kde-format
 msgid "&Abstract operation"
-msgstr "Α&φηρημένη λειτουργία"
+msgstr "&Αφηρημένη λειτουργία"
 
 #: dialogs/umloperationdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "&Query (\"const\")"
+#, kde-format
 msgid "&Query (\"const\")"
 msgstr "&Ερώτημα (\"const\")"
 
 #: dialogs/umloperationdialog.cpp:118
 #, kde-format
 msgid "&virtual"
-msgstr ""
+msgstr "&Εικονική"
 
 #: dialogs/umloperationdialog.cpp:122
 #, kde-format
 msgid "&inline"
-msgstr ""
+msgstr "&εμβόλιμο"
 
 #: dialogs/umloperationdialog.cpp:127
-#, fuzzy, kde-format
-#| msgid "&Overwrite"
+#, kde-format
 msgid "&Override"
 msgstr "&Αντικατάσταση"
 
@@ -4008,8 +3950,7 @@ msgid "Diagram Style"
 msgstr "Στιλ διαγράμματος"
 
 #: dialogs/widgets/defaultvaluewidget.cpp:36
-#, fuzzy, kde-format
-#| msgid "&Default value:"
+#, kde-format
 msgid "&Default value:"
 msgstr "&Προκαθορισμένη τιμή:"
 
@@ -4019,20 +3960,17 @@ msgid "&Image type:"
 msgstr "Τύπος ε&ικόνας:"
 
 #: dialogs/widgets/resolutionwidget.cpp:24
-#, fuzzy, kde-format
-#| msgid "Realization"
+#, kde-format
 msgid "&Resolution:"
-msgstr "Πραγματοποίηση"
+msgstr "&Ανάλυση:"
 
 #: dialogs/widgets/resolutionwidget.cpp:24
 #, kde-format
 msgid "DPI"
-msgstr ""
+msgstr "DPI"
 
 #: dialogs/widgets/selectdiagramwidget.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "new container menu"
-#| msgid "New"
+#, kde-format
 msgid "New"
 msgstr "Νέο"
 
@@ -4078,10 +4016,9 @@ msgid "Package path:"
 msgstr "Διαδρομή πακέτου:"
 
 #: dialogs/widgets/umlstereotypewidget.cpp:24 umlmodel/umlobject.cpp:1269
-#, fuzzy, kde-format
-#| msgid "Stereotype name:"
+#, kde-format
 msgid "Stereotype &name:"
-msgstr "Όνομα στερεότυπου:"
+msgstr "Όν&ομα στερεότυπου:"
 
 #: dialogs/widgets/visibilityenumwidget.cpp:26
 #, kde-format
@@ -4211,10 +4148,7 @@ msgid "Umbrello UML Modeller autonomous code generator"
 msgstr "Αυτόνομη γεννήτρια κώδικα του μοντελοποιητή Umbrello UML"
 
 #: docgenerators/main.cpp:48
-#, fuzzy, kde-format
-#| msgid ""
-#| "(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML "
-#| "Modeller Authors"
+#, kde-format
 msgid ""
 "(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller "
 "Authors"
@@ -4273,23 +4207,23 @@ msgid ""
 "Flag whether documentation was modified. Press left mouse button to apply "
 "modified content."
 msgstr ""
+"Σημείωσε αν η τεκμηρίωση έχει τροποποιηθεί. Πάτησε το αριστερό κουμπί του "
+"ποντικιού για να εφαρμόσεις το τροποποιημένο περιεχόμενο."
 
 #: docwindow.cpp:81
-#, fuzzy, kde-format
-#| msgid "Indentation type:"
+#, kde-format
 msgid "Documentation type"
-msgstr "Τύπος χρήσης εσοχών:"
+msgstr "Τύπος τεκμηρίωσης"
 
 #: docwindow.cpp:88
 #, kde-format
 msgid "Activate documentation edit after focus change."
-msgstr ""
+msgstr "Ενεργοποίησε τροποποίηση τεκμηρίωσης μετά την αλλαγή εστίασης"
 
 #: layoutgenerator.cpp:261
-#, fuzzy, kde-format
-#| msgid "Auto Save"
+#, kde-format
 msgid "Apply layout"
-msgstr "Αυτόματη αποθήκευση"
+msgstr "Εφαρμογή διάταξης"
 
 #: main.cpp:117
 #, kde-format
@@ -4303,37 +4237,39 @@ msgid ""
 "industry standard Unified Modelling Language (UML).<br/>See also <a href="
 "\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 msgstr ""
+"Umbrello – Οπτικό περιβάλλον ανάπτυξης για λογισμικό, βασισμένο στο "
+"βιομηχανικό πρότυπο της Ενοποιημένης Γλώσσας Μοντέλων (UML).<br/>Δείτε "
+"επίσης το <a href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 
 #: main.cpp:123
-#, fuzzy, kde-format
-#| msgid "(c) 2001 Paul Hensgen, (c) 2002-2012 Umbrello UML Modeller Authors"
+#, kde-format
 msgid ""
 "Copyright © 2001 Paul Hensgen,\n"
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
 msgstr ""
-"(c) 2001 Paul Hensgen, (c) 2002-2012 οι συγγραφείς του Μοντελοποιητή "
-"Umbrello UML"
+"Copyright © 2001 Paul Hensgen,\n"
+"Copyright © 2002-2022 οι συγγραφείς του Μοντελοποιητή Umbrello UML"
 
 #: main.cpp:127
 #, kde-format
 msgid "Author of initial version."
-msgstr ""
+msgstr "Συγγραφέας της αρχικής έκδοσης."
 
 #: main.cpp:132 main.cpp:135
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr ""
+"Διόρθωση σφαλμάτων, μεταφορά κώδικα, καθαρισμός κώδικα, νέα χαρακτηριστικά."
 
 #: main.cpp:138
 #, kde-format
 msgid "Porting work, code cleanup, new features."
-msgstr ""
+msgstr "Μεταφορά κώδικα, καθαρισμός κώδικα, νέα χαρακτηριστικά."
 
 #: main.cpp:141
-#, fuzzy, kde-format
-#| msgid "&Current diagram"
+#, kde-format
 msgid "Current maintainer."
-msgstr "&Τρέχον διάγραμμα"
+msgstr "Τρέχον συντηρητής."
 
 #: main.cpp:144
 #, kde-format
@@ -4361,16 +4297,14 @@ msgid "the local directory to save the exported diagrams in"
 msgstr "ο τοπικός κατάλογος στον οποίο θα αποθηκευτούν τα διαγράμματα"
 
 #: main.cpp:159
-#, fuzzy, kde-format
-#| msgid "importing file ..."
+#, kde-format
 msgid "import files"
-msgstr "εισαγωγή αρχείου..."
+msgstr "εισαγωγή αρχείων"
 
 #: main.cpp:161
-#, fuzzy, kde-format
-#| msgid "All Supported Files"
+#, kde-format
 msgid "list supported languages"
-msgstr "Όλα τα υποστηριζόμενα αρχεία"
+msgstr "λίστα υποστηριζόμενων γλωσσών"
 
 #: main.cpp:163
 #, kde-format
@@ -4382,16 +4316,14 @@ msgstr ""
 "προβολών στο έγγραφο στον κατάλογο προορισμού"
 
 #: main.cpp:165
-#, fuzzy, kde-format
-#| msgid "Import Project..."
+#, kde-format
 msgid "import files from directory <dir>"
-msgstr "Εισαγωγή έργου..."
+msgstr "εισαγωγή αρχείων από κατάλογο <dir>"
 
 #: main.cpp:167
-#, fuzzy, kde-format
-#| msgid "Active &Language"
+#, kde-format
 msgid "set language"
-msgstr "Ενεργή &γλώσσα"
+msgstr "ορισμός γλώσσας"
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
@@ -4399,16 +4331,14 @@ msgid "Delete Anchor"
 msgstr "Διαγραφή αγκύρωσης"
 
 #: menus/associationwidgetpopupmenu.cpp:48
-#, fuzzy, kde-format
-#| msgid "Add only"
+#, kde-format
 msgid "Add Point"
-msgstr "Μόνο προσθήκη"
+msgstr "Προσθήκη σημείου"
 
 #: menus/associationwidgetpopupmenu.cpp:50
-#, fuzzy, kde-format
-#| msgid "Delete"
+#, kde-format
 msgid "Delete Point"
-msgstr "Διαγραφή"
+msgstr "Διαγραφή σημείου"
 
 #: menus/associationwidgetpopupmenu.cpp:52
 #, kde-format
@@ -4436,11 +4366,10 @@ msgid "Select Operation..."
 msgstr "Επιλογή λειτουργίας..."
 
 #: menus/associationwidgetpopupmenu.cpp:94
-#, fuzzy, kde-format
-#| msgid "Auto Save"
+#, kde-format
 msgctxt "Layout menu"
 msgid "Layout"
-msgstr "Αυτόματη αποθήκευση"
+msgstr "Διάταξη"
 
 #: menus/associationwidgetpopupmenu.cpp:95
 #, kde-format
@@ -4455,12 +4384,12 @@ msgstr ""
 #: menus/associationwidgetpopupmenu.cpp:97
 #, kde-format
 msgid "Spline"
-msgstr ""
+msgstr "Spline"
 
 #: menus/associationwidgetpopupmenu.cpp:98
 #, kde-format
 msgid "Orthogonal"
-msgstr ""
+msgstr "Ορθογώνιος"
 
 #: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:227
 #, kde-format
@@ -4468,14 +4397,12 @@ msgid "New Template..."
 msgstr "Νέο πρότυπο..."
 
 #: menus/listpopupmenu.cpp:145
-#, fuzzy, kde-format
-#| msgid "Accept signal"
+#, kde-format
 msgid "Accept Signal"
 msgstr "Αποδοχή σήματος"
 
 #: menus/listpopupmenu.cpp:146
-#, fuzzy, kde-format
-#| msgid "Accept time event"
+#, kde-format
 msgid "Accept Time Event"
 msgstr "Αποδοχή χρονικού γεγονότος"
 
@@ -4531,11 +4458,10 @@ msgid "Collapse All"
 msgstr "Σύμπτυξη όλων"
 
 #: menus/listpopupmenu.cpp:164
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgctxt "add new combined state"
 msgid "Combined state..."
-msgstr "Συνδυασμένο τμήμα"
+msgstr "Συνδυασμένη κατάσταση..."
 
 #: menus/listpopupmenu.cpp:165 umlwidgets/widgetbase.cpp:1251
 #: worktoolbar.cpp:353
@@ -4562,10 +4488,9 @@ msgid "Deep History"
 msgstr "Μακρύ ιστορικό"
 
 #: menus/listpopupmenu.cpp:176
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "Edit combined state"
-msgstr "Συνδυασμένο τμήμα"
+msgstr "Επεξεργασία συνδυασμένης κατάστασης"
 
 #: menus/listpopupmenu.cpp:177 worktoolbar.cpp:376
 #, kde-format
@@ -4645,34 +4570,29 @@ msgid "Fork"
 msgstr "Διακλάδωση"
 
 #: menus/listpopupmenu.cpp:197
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Go to state diagram"
-msgstr "διάγραμμα κατάστασης"
+msgstr "Πήγαινε στο διάγραμμα κατάστασης"
 
 #: menus/listpopupmenu.cpp:198
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "Hide destruction box"
-msgstr "Εμφάνιση καταστροφής"
+msgstr "Απόκρυψη καταστροφής"
 
 #: menus/listpopupmenu.cpp:199
-#, fuzzy, kde-format
-#| msgid "Import Classes..."
+#, kde-format
 msgid "Import File(s)..."
-msgstr "Εισαγωγή κλάσεων..."
+msgstr "Εισαγωγή αρχείου(ων)..."
 
 #: menus/listpopupmenu.cpp:200 uml.cpp:386
-#, fuzzy, kde-format
-#| msgid "Import Project..."
+#, kde-format
 msgid "Import from Directory..."
-msgstr "Εισαγωγή έργου..."
+msgstr "Εισαγωγή από κατάλογο..."
 
 #: menus/listpopupmenu.cpp:201
-#, fuzzy, kde-format
-#| msgid "Closing file..."
+#, kde-format
 msgid "from file..."
-msgstr "Κλείσιμο αρχείου..."
+msgstr "από αρχείο..."
 
 #: menus/listpopupmenu.cpp:202 worktoolbar.cpp:380
 #, kde-format
@@ -4685,11 +4605,10 @@ msgid "Initial State"
 msgstr "Αρχική κατάσταση"
 
 #: menus/listpopupmenu.cpp:204
-#, fuzzy, kde-format
-#| msgid "Instance name:"
+#, kde-format
 msgctxt "new instance menu item"
 msgid "Instance..."
-msgstr "Όνομα αντιγράφου:"
+msgstr "Στιγμιότυπο..."
 
 #: menus/listpopupmenu.cpp:205 menus/listpopupmenu.cpp:221
 #: menus/listpopupmenu.cpp:224
@@ -4698,16 +4617,14 @@ msgid "New Attribute..."
 msgstr "Νέο χαρακτηριστικό..."
 
 #: menus/listpopupmenu.cpp:208
-#, fuzzy, kde-format
-#| msgid "Add Derived Interface"
+#, kde-format
 msgid "Provided interface"
-msgstr "Προσθήκη απογόνου διασύνδεσης"
+msgstr "Παρεχόμενη διεπαφή"
 
 #: menus/listpopupmenu.cpp:209
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "Required interface"
-msgstr "Περιβάλλον χρήστη"
+msgstr "Απαιτούμενη διεπαφή"
 
 #: menus/listpopupmenu.cpp:210
 #, kde-format
@@ -4730,16 +4647,14 @@ msgid "Asynchronous Message"
 msgstr "Ασύγχρονο μήνυμα"
 
 #: menus/listpopupmenu.cpp:215
-#, fuzzy, kde-format
-#| msgid "Collaboration Self Message"
+#, kde-format
 msgid "Creation Message"
-msgstr "Ίδιο μήνυμα συνεργασίας"
+msgstr "Δημιουργία μηνύματος"
 
 #: menus/listpopupmenu.cpp:216
-#, fuzzy, kde-format
-#| msgid "Lost Message"
+#, kde-format
 msgid "Destroy Message"
-msgstr "Χαμένο μήνυμα"
+msgstr "Καταστροφή μηνύματος"
 
 #: menus/listpopupmenu.cpp:217 worktoolbar.cpp:325
 #, kde-format
@@ -4779,10 +4694,9 @@ msgstr "Κόμβος"
 
 #. i18n("Node...")); break;
 #: menus/listpopupmenu.cpp:230
-#, fuzzy, kde-format
-#| msgid "Node..."
+#, kde-format
 msgid "Note..."
-msgstr "Κόμβος..."
+msgstr "Σημείωμα..."
 
 #: menus/listpopupmenu.cpp:231
 #, kde-format
@@ -4795,8 +4709,7 @@ msgid "Object Node"
 msgstr "Κόμβος αντικειμένου"
 
 #: menus/listpopupmenu.cpp:233
-#, fuzzy, kde-format
-#| msgid "Open File"
+#, kde-format
 msgid "Open file"
 msgstr "Άνοιγμα αρχείου"
 
@@ -4816,12 +4729,11 @@ msgstr "Καθήλωση"
 #: worktoolbar.cpp:379
 #, kde-format
 msgid "Port"
-msgstr ""
+msgstr "Θύρα"
 
 #. i18n("Port...")); break;
 #: menus/listpopupmenu.cpp:241
-#, fuzzy, kde-format
-#| msgid "Pre/Post condition"
+#, kde-format
 msgid "Pre Post Condition"
 msgstr "Προ/μετά συνθήκη"
 
@@ -4837,16 +4749,14 @@ msgid "Region"
 msgstr "Περιοχή"
 
 #: menus/listpopupmenu.cpp:246
-#, fuzzy, kde-format
-#| msgid "<< Remove"
+#, kde-format
 msgid "Remove"
-msgstr "<< Αφαίρεση"
+msgstr "Αφαίρεση"
 
 #: menus/listpopupmenu.cpp:247
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Remove state diagram"
-msgstr "διάγραμμα κατάστασης"
+msgstr "Αφαίρεση διαγράμματος κατάστασης"
 
 #: menus/listpopupmenu.cpp:248 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
@@ -4859,16 +4769,14 @@ msgid "Rename Object..."
 msgstr "Μετονομασία αντικειμένου..."
 
 #: menus/listpopupmenu.cpp:250
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "Return to combined state"
-msgstr "Συνδυασμένο τμήμα"
+msgstr "Επιστροφή σε συνδυασμένη κατάσταση"
 
 #: menus/listpopupmenu.cpp:251
-#, fuzzy, kde-format
-#| msgid "Rename Class..."
+#, kde-format
 msgid "Return to class"
-msgstr "Μετονομασία κλάσης..."
+msgstr "Επιστροφή σε κλάση"
 
 #: menus/listpopupmenu.cpp:252
 #, kde-format
@@ -4881,14 +4789,12 @@ msgid "Resize"
 msgstr "Αλλαγή μεγέθους"
 
 #: menus/listpopupmenu.cpp:254
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Select state diagram"
-msgstr "διάγραμμα κατάστασης"
+msgstr "Επιλογή διαγράμματος κατάστασης"
 
 #: menus/listpopupmenu.cpp:255
-#, fuzzy, kde-format
-#| msgid "Send signal"
+#, kde-format
 msgid "Send Signal"
 msgstr "Αποστολή σήματος"
 
@@ -4898,8 +4804,7 @@ msgid "Shallow History"
 msgstr "Σύντομο ιστορικό"
 
 #: menus/listpopupmenu.cpp:258
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "Show destruction box"
 msgstr "Εμφάνιση καταστροφής"
 
@@ -4910,9 +4815,7 @@ msgid "State..."
 msgstr "Κατάσταση..."
 
 #: menus/listpopupmenu.cpp:261
-#, fuzzy, kde-format
-#| msgctxt "join states"
-#| msgid "Join"
+#, kde-format
 msgid "Join"
 msgstr "Σύνδεση"
 
@@ -4951,8 +4854,7 @@ msgid "New"
 msgstr "Νέο"
 
 #: menus/listpopupmenu.cpp:513
-#, fuzzy, kde-format
-#| msgid "Category Type"
+#, kde-format
 msgctxt "category type sub menu"
 msgid "Category Type"
 msgstr "Τύπος κατηγορίας"
@@ -4979,10 +4881,9 @@ msgid "Change into Class"
 msgstr "Αλλαγή σε κλάση"
 
 #: menus/umllistviewpopupmenu.cpp:160 menus/widgetbasepopupmenu.cpp:201
-#, fuzzy, kde-format
-#| msgid "Change into Interface"
+#, kde-format
 msgid "Change into Package"
-msgstr "Αλλαγή σε διασύνδεση"
+msgstr "Αλλαγή σε πακέτο"
 
 #: menus/umlscenepopupmenu.cpp:53
 #, kde-format
@@ -4995,10 +4896,9 @@ msgid "Snap to Grid"
 msgstr "Προσαρμογή στον κάνναβο"
 
 #: menus/umlscenepopupmenu.cpp:59
-#, fuzzy, kde-format
-#| msgid "Snap component size"
+#, kde-format
 msgid "Snap Component Size to Grid"
-msgstr "Προσαρμογή μεγέθους συστατικού"
+msgstr "Προσαρμογή μεγέθους συστατικού στο πλέγμα"
 
 #: menus/umlscenepopupmenu.cpp:61
 #, kde-format
@@ -5006,10 +4906,9 @@ msgid "Show Grid"
 msgstr "Εμφάνιση καννάβου"
 
 #: menus/umlscenepopupmenu.cpp:63
-#, fuzzy, kde-format
-#| msgid "Show operation signature"
+#, kde-format
 msgid "Show Documentation Indicator"
-msgstr "Εμφάνιση υπογραφής λειτουργίας"
+msgstr "Εμφάνιση ένδειξης τεκμηρίωσης"
 
 #: menus/umlscenepopupmenu.cpp:105
 #, kde-format
@@ -5032,38 +4931,34 @@ msgid "Attribute Signature"
 msgstr "Υπογραφή χαρακτηριστικού"
 
 #: menus/widgetbasepopupmenu.cpp:119 menus/widgetbasepopupmenu.cpp:127
-#, fuzzy, kde-format
-#| msgid "Show Attribute Signature"
+#, kde-format
 msgid "Show Signatures"
-msgstr "Εμφάνιση υπογραφής χαρακτηριστικού"
+msgstr "Εμφάνιση υπογραφών"
 
 #: menus/widgetbasepopupmenu.cpp:120 menus/widgetbasepopupmenu.cpp:128
-#, fuzzy, kde-format
-#| msgid "Attribute Signature"
+#, kde-format
 msgid "Hide Signatures"
-msgstr "Υπογραφή χαρακτηριστικού"
+msgstr "Απόκρυψη υπογραφών"
 
 #: menus/widgetbasepopupmenu.cpp:134
 #, kde-format
 msgid "Hide Non-public members"
-msgstr ""
+msgstr "Απόκρυψη μη-δημόσιων μελών"
 
 #: menus/widgetbasepopupmenu.cpp:135
 #, kde-format
 msgid "Show Non-public members"
-msgstr ""
+msgstr "Εμφάνιση μη-δημόσιων μελών"
 
 #: menus/widgetbasepopupmenu.cpp:138
-#, fuzzy, kde-format
-#| msgid "Package"
+#, kde-format
 msgid "Packages"
-msgstr "Πακέτο"
+msgstr "Πακέτα"
 
 #: menus/widgetbasepopupmenu.cpp:144
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "Stereotypes"
-msgstr "Στερεότυπο"
+msgstr "Στερεότυπα"
 
 #: menus/widgetbasepopupmenu.cpp:203
 #, kde-format
@@ -5091,10 +4986,9 @@ msgid "Rename Class..."
 msgstr "Μετονομασία κλάσης..."
 
 #: menus/widgetbasepopupmenu.cpp:277 menus/widgetbasepopupmenu.cpp:444
-#, fuzzy, kde-format
-#| msgid "Name is Not Unique"
+#, kde-format
 msgid "Name as Tooltip"
-msgstr "Μη μοναδικό όνομα"
+msgstr "Όνομα ως επεξήγηση εργαλείου"
 
 #: menus/widgetbasepopupmenu.cpp:296
 #, kde-format
@@ -5119,10 +5013,9 @@ msgid "Change Text..."
 msgstr "Αλλαγή κειμένου..."
 
 #: menus/widgetbasepopupmenu.cpp:334 menus/widgetbasepopupmenu.cpp:585
-#, fuzzy, kde-format
-#| msgid "&Auto increment"
+#, kde-format
 msgid "Auto resize"
-msgstr "&Αυτόματη αύξηση"
+msgstr "Αυτόματη αλλαγή μεγέθους"
 
 #: menus/widgetbasepopupmenu.cpp:367
 #, kde-format
@@ -5180,17 +5073,15 @@ msgid "Use Fill Color"
 msgstr "Χρήση χρώματος γεμίσματος"
 
 #: menus/widgetbasepopupmenu.cpp:537
-#, fuzzy, kde-format
-#| msgid "Fill Color"
+#, kde-format
 msgid "No Fill Color"
-msgstr "Χρώμα γεμίσματος"
+msgstr "Χωρίς χρώμα γεμίσματος"
 
 #: menus/widgetbasepopupmenu.cpp:593
-#, fuzzy, kde-format
-#| msgid "&Align"
+#, kde-format
 msgctxt "align menu"
 msgid "Align"
-msgstr "&Στοίχιση"
+msgstr "Στοίχιση"
 
 #: menus/widgetbasepopupmenu.cpp:594 uml.cpp:608
 #, kde-format
@@ -5278,16 +5169,14 @@ msgid "new_entity"
 msgstr "νέα_οντότητα"
 
 #: model_utils.cpp:570
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "new_entity_attribute"
-msgstr "νέο_χαρακτηριστικό"
+msgstr "νέο_χαρακτηριστικό_οντότητας"
 
 #: model_utils.cpp:571
-#, fuzzy, kde-format
-#| msgid "new_fkey_constraint"
+#, kde-format
 msgid "new_entity_constraint"
-msgstr "νέος_περιορισμός_ξένου_κλειδιού"
+msgstr "νέος_περιορισμός_οντότητας"
 
 #: model_utils.cpp:572
 #, kde-format
@@ -5306,22 +5195,19 @@ msgid "new_folder"
 msgstr "νέος_φάκελος"
 
 #: model_utils.cpp:575
-#, fuzzy, kde-format
-#| msgid "new_fkey_constraint"
+#, kde-format
 msgid "new_foreign_key_constraint"
 msgstr "νέος_περιορισμός_ξένου_κλειδιού"
 
 #: model_utils.cpp:576
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "new_instance"
-msgstr "νέα_διασύνδεση"
+msgstr "νέο_στιγμιότυπο"
 
 #: model_utils.cpp:577
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "new_instance_attribute"
-msgstr "Χαρακτηριστικά οντότητας"
+msgstr "νέο_χαρακτηριστικό_στιγμιότυπου"
 
 #: model_utils.cpp:578
 #, kde-format
@@ -5344,22 +5230,19 @@ msgid "new_package"
 msgstr "νέο_πακέτο"
 
 #: model_utils.cpp:582
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new_port"
-msgstr "νέος_δράστης"
+msgstr "νέα_θύρα"
 
 #: model_utils.cpp:583
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "new_role"
-msgstr "νέος_φάκελος"
+msgstr "νέος_ρόλος"
 
 #: model_utils.cpp:584
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "new_stereotype"
-msgstr "Στερεότυπο"
+msgstr "νέο_στερεότυπο"
 
 #: model_utils.cpp:585 umlmodel/umlcanvasobject.cpp:192
 #, kde-format
@@ -5372,10 +5255,9 @@ msgid "new_unique_constraint"
 msgstr "νέος_μοναδικός_περιορισμός"
 
 #: model_utils.cpp:587
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "new_use_case"
-msgstr "νέα_περίπτωσηχρήσης"
+msgstr "νέα_περίπτωση_χρήσης"
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
 #, kde-format
@@ -5383,82 +5265,69 @@ msgid "new_object"
 msgstr "νέο_αντικείμενο"
 
 #: model_utils.cpp:609 umlwidgets/widget_utils.cpp:872
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "New actor"
-msgstr "νέος_δράστης"
+msgstr "Νέος δράστης"
 
 #: model_utils.cpp:610 umlwidgets/widget_utils.cpp:873
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "New artifact"
-msgstr "νέο_δημιούργημα"
+msgstr "Νέο δημιούργημα"
 
 #: model_utils.cpp:611 umlwidgets/widget_utils.cpp:874
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "New association"
-msgstr "νέα_συσχέτιση"
+msgstr "Νέα συσχέτιση"
 
 #: model_utils.cpp:612
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "New attribute"
-msgstr "νέο_χαρακτηριστικό"
+msgstr "Νέο χαρακτηριστικό"
 
 #: model_utils.cpp:613 umlwidgets/widget_utils.cpp:876
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "New category"
-msgstr "νέα_κατηγορία"
+msgstr "Νέα κατηγορία"
 
 #: model_utils.cpp:614
-#, fuzzy, kde-format
-#| msgid "new_check_constraint"
+#, kde-format
 msgid "New check constraint"
-msgstr "νέος_έλεγχος_περιορισμού"
+msgstr "Νέος περιορισμός ελέγχου"
 
 #: model_utils.cpp:615 umlwidgets/widget_utils.cpp:877
-#, fuzzy, kde-format
-#| msgid "New Class"
+#, kde-format
 msgid "New class"
 msgstr "Νέα κλάση"
 
 #: model_utils.cpp:616 umlwidgets/widget_utils.cpp:879
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "New component"
-msgstr "νέο_συστατικό"
+msgstr "Νέο συστατικό"
 
 #: model_utils.cpp:617 umlwidgets/widget_utils.cpp:880
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "New datatype"
-msgstr "νέος_τύποςδεδομένων"
+msgstr "Νέος τύπος δεδομένων"
 
 #: model_utils.cpp:618 umlwidgets/widget_utils.cpp:881
-#, fuzzy, kde-format
-#| msgid "new_entity"
+#, kde-format
 msgid "New entity"
-msgstr "νέα_οντότητα"
+msgstr "Νέα οντότητα"
 
 #: model_utils.cpp:619
-#, fuzzy, kde-format
-#| msgid "New Entity Attribute..."
+#, kde-format
 msgid "New entity attribute"
-msgstr "Νέο χαρακτηριστικό οντότητας..."
+msgstr "Νέο χαρακτηριστικό οντότητας"
 
 #: model_utils.cpp:620
-#, fuzzy, kde-format
-#| msgid "Entity Constraints"
+#, kde-format
 msgid "New entity constraint"
-msgstr "Περιορισμοί οντότητας"
+msgstr "Νέος περιορισμός οντότητας"
 
 #: model_utils.cpp:621 umlwidgets/widget_utils.cpp:882
-#, fuzzy, kde-format
-#| msgid "new_enum"
+#, kde-format
 msgid "New enum"
-msgstr "νέα_αρίθμηση"
+msgstr "Νέα αρίθμηση"
 
 #: model_utils.cpp:622
 #, fuzzy, kde-format
@@ -5467,124 +5336,104 @@ msgid "New enum literal"
 msgstr "Νέ&α αρίθμηση ορισμών..."
 
 #: model_utils.cpp:623
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "New folder"
-msgstr "νέος_φάκελος"
+msgstr "Νέος φάκελος"
 
 #: model_utils.cpp:624
-#, fuzzy, kde-format
-#| msgid "Foreign Key Constraint..."
+#, kde-format
 msgid "New foreign key constraint"
-msgstr "Περιορισμός ξένου κλειδιού..."
+msgstr "Νέος περιορισμός ξένου κλειδιού..."
 
 #: model_utils.cpp:625 umlwidgets/widget_utils.cpp:885
-#, fuzzy, kde-format
-#| msgid "Instance name:"
+#, kde-format
 msgid "New instance"
-msgstr "Όνομα αντιγράφου:"
+msgstr "Νέο στιγμιότυπο"
 
 #: model_utils.cpp:626
-#, fuzzy, kde-format
-#| msgid "N&ew Entity Attribute..."
+#, kde-format
 msgid "New instance attribute"
-msgstr "Νέο χαρα&κτηριστικό οντότητας..."
+msgstr "Νέο χαρακτηριστικό στιγμιότυπου..."
 
 #: model_utils.cpp:627 umlwidgets/widget_utils.cpp:886
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "New interface"
-msgstr "νέα_διασύνδεση"
+msgstr "Νέα διασύνδεση"
 
 #: model_utils.cpp:628 umlwidgets/widget_utils.cpp:888
-#, fuzzy, kde-format
-#| msgid "new_node"
+#, kde-format
 msgid "New node"
-msgstr "νέος_κόμβος"
+msgstr "Νέος κόμβος"
 
 #: model_utils.cpp:629
-#, fuzzy, kde-format
-#| msgid "new_operation"
+#, kde-format
 msgid "New operation"
-msgstr "νέα_λειτουργία"
+msgstr "Νέα λειτουργία"
 
 #: model_utils.cpp:630 umlwidgets/widget_utils.cpp:892
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "New package"
-msgstr "νέο_πακέτο"
+msgstr "Νέο πακέτο"
 
 #: model_utils.cpp:631 umlwidgets/widget_utils.cpp:894
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "New port"
-msgstr "νέος_δράστης"
+msgstr "Νέα θύρα"
 
 #: model_utils.cpp:632
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New role"
-msgstr "Στερεότυπο"
+msgstr "Νέος ρόλος"
 
 #: model_utils.cpp:633
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New stereotype"
-msgstr "Στερεότυπο"
+msgstr "Νέο στερεότυπο"
 
 #: model_utils.cpp:634
-#, fuzzy, kde-format
-#| msgid "new_template"
+#, kde-format
 msgid "New template"
-msgstr "νέο_πρότυπο"
+msgstr "Νέο πρότυπο"
 
 #: model_utils.cpp:635
-#, fuzzy, kde-format
-#| msgid "new_unique_constraint"
+#, kde-format
 msgid "New unique constraint"
-msgstr "νέος_μοναδικός_περιορισμός"
+msgstr "Νέος μοναδικός περιορισμός"
 
 #: model_utils.cpp:636 umlwidgets/widget_utils.cpp:901
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "New use case"
-msgstr "νέα_περίπτωσηχρήσης"
+msgstr "Νέα περίπτωση χρήσης"
 
 #: model_utils.cpp:639
-#, fuzzy, kde-format
-#| msgid "UML Object Color"
+#, kde-format
 msgid "New UML object"
-msgstr "Χρώμα αντικειμένου UML"
+msgstr "Νέο αντικείμενο UML"
 
 #: model_utils.cpp:651 umlwidgets/widget_utils.cpp:918
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new actor:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου δράστη:"
 
 #: model_utils.cpp:652 umlwidgets/widget_utils.cpp:919
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new artifact:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου δημιουργήματος:"
 
 #: model_utils.cpp:653 umlwidgets/widget_utils.cpp:920
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new association:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα της νέας συσχέτισης:"
 
 #: model_utils.cpp:654
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new attribute:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου χαρακτηριστικού:"
 
 #: model_utils.cpp:655 umlwidgets/widget_utils.cpp:922
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new category:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα της νέας κατηγορίας:"
 
 #: model_utils.cpp:656
 #, fuzzy, kde-format
@@ -5593,40 +5442,34 @@ msgid "Enter the name of the new check constraint:"
 msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
 
 #: model_utils.cpp:657 umlwidgets/widget_utils.cpp:923
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new class:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα της νέας κλάσης:"
 
 #: model_utils.cpp:658 umlwidgets/widget_utils.cpp:925
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new component:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου συστατικού:"
 
 #: model_utils.cpp:659 umlwidgets/widget_utils.cpp:926
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new datatype:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου τύπου δεδομένων:"
 
 #: model_utils.cpp:660 umlwidgets/widget_utils.cpp:927
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new entity:"
-msgstr "Εισάγετε το όνομα μιας νέας δραστηριότητας:"
+msgstr "Εισάγετε το όνομα της νέας οντότητας:"
 
 #: model_utils.cpp:661
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new entity attribute:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου χαρακτηριστικού οντότητας:"
 
 #: model_utils.cpp:662
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new entity constraint:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου περιορισμού οντότητας:"
 
 #: model_utils.cpp:663 umlwidgets/widget_utils.cpp:928
 #, fuzzy, kde-format
@@ -5641,166 +5484,139 @@ msgid "Enter the name of the new enum literal:"
 msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
 
 #: model_utils.cpp:665
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new folder:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου φακέλου:"
 
 #: model_utils.cpp:666
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new foreign key constraint:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου περιορισμού ξένου κλειδιού:"
 
 #: model_utils.cpp:667 umlwidgets/widget_utils.cpp:931
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new instance:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου στιγμιότυπου:"
 
 #: model_utils.cpp:668
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new instance attribute:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου χαρακτηριστικού στιγμιότυπου:"
 
 #: model_utils.cpp:669 umlwidgets/widget_utils.cpp:932
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new interface:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα της νέας διεπαφής:"
 
 #: model_utils.cpp:670 umlwidgets/widget_utils.cpp:934
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new node:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου κόβου:"
 
 #: model_utils.cpp:671
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new operation:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα της νέας λειτουργίας:"
 
 #: model_utils.cpp:672 umlwidgets/widget_utils.cpp:938
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new package:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου πακέτου:"
 
 #: model_utils.cpp:673 umlwidgets/widget_utils.cpp:940
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new port:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα της νέας θύρας:"
 
 #: model_utils.cpp:674
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new role:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου ρόλου:"
 
 #: model_utils.cpp:675
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new stereotype:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου στερεότυπου:"
 
 #: model_utils.cpp:676
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new template:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου προτύπου:"
 
 #: model_utils.cpp:677
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new unique constraint:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου μοναδικού περιορισμού:"
 
 #: model_utils.cpp:678 umlwidgets/widget_utils.cpp:947
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new use case:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα της νέας περίπτωσης χρήσης:"
 
 #: model_utils.cpp:681
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object flow"
+#, kde-format
 msgid "Enter the name of the new UML object"
-msgstr "Εισάγετε το όνομα της ροής αντικειμένου"
+msgstr "Εισάγετε το όνομα του νέου αντικειμένου UML"
 
 #: model_utils.cpp:693 umlwidgets/widget_utils.cpp:963
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename actor"
-msgstr "Μετονομασία αντικειμένου"
+msgstr "Μετονομασία δράστη"
 
 #: model_utils.cpp:694 umlwidgets/widget_utils.cpp:964
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "Rename artifact"
-msgstr "νέο_δημιούργημα"
+msgstr "Μετονομασία δημιουργήματος"
 
 #: model_utils.cpp:695 umlwidgets/widget_utils.cpp:965
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "Rename association"
-msgstr "νέα_συσχέτιση"
+msgstr "Μετονομασία συσχέτισης"
 
 #: model_utils.cpp:696
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "Rename attribute"
-msgstr "νέο_χαρακτηριστικό"
+msgstr "Μετονομασία χαρακτηριστικού"
 
 #: model_utils.cpp:697 umlwidgets/widget_utils.cpp:967
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "Rename category"
-msgstr "νέα_κατηγορία"
+msgstr "Μετονομασία κατηγορίας"
 
 #: model_utils.cpp:698
-#, fuzzy, kde-format
-#| msgid "new_check_constraint"
+#, kde-format
 msgid "Rename check constraint"
-msgstr "νέος_έλεγχος_περιορισμού"
+msgstr "Μετονομασία ελέγχου περιορισμού"
 
 #: model_utils.cpp:699 umlwidgets/widget_utils.cpp:968
-#, fuzzy, kde-format
-#| msgid "Rename Class..."
+#, kde-format
 msgid "Rename class"
-msgstr "Μετονομασία κλάσης..."
+msgstr "Μετονομασία κλάσης"
 
 #: model_utils.cpp:700 umlwidgets/widget_utils.cpp:970
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "Rename component"
-msgstr "νέο_συστατικό"
+msgstr "Μετονομασία συστατικού"
 
 #: model_utils.cpp:701 umlwidgets/widget_utils.cpp:971
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "Rename datatype"
-msgstr "νέος_τύποςδεδομένων"
+msgstr "Μετονομασία τύπου δεδομένων"
 
 #: model_utils.cpp:702 umlwidgets/widget_utils.cpp:972
-#, fuzzy, kde-format
-#| msgid "Rename Activity"
+#, kde-format
 msgid "Rename entity"
-msgstr "Μετονομασία δραστηριότητας"
+msgstr "Μετονομασία οντότητας"
 
 #: model_utils.cpp:703
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Rename entity attribute"
-msgstr "Χαρακτηριστικά οντότητας"
+msgstr "Μετονομασία χαρακτηριστικού οντότητας"
 
 #: model_utils.cpp:704
-#, fuzzy, kde-format
-#| msgid "Entity Constraints"
+#, kde-format
 msgid "Rename entity constraint"
-msgstr "Περιορισμοί οντότητας"
+msgstr "Μετονομασία περιορισμού οντότητας"
 
 #: model_utils.cpp:705 umlwidgets/widget_utils.cpp:973
 #, fuzzy, kde-format
@@ -5815,166 +5631,139 @@ msgid "Rename enum literal"
 msgstr "Αρίθμηση ορισμών"
 
 #: model_utils.cpp:707
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "Rename folder"
-msgstr "νέος_φάκελος"
+msgstr "Μετονομασία φακέλου"
 
 #: model_utils.cpp:708
-#, fuzzy, kde-format
-#| msgid "Foreign Key Constraint..."
+#, kde-format
 msgid "Rename foreign key constraint"
-msgstr "Περιορισμός ξένου κλειδιού..."
+msgstr "Μετονομασία περιορισμού ξένου κλειδιού"
 
 #: model_utils.cpp:709 umlwidgets/widget_utils.cpp:976
-#, fuzzy, kde-format
-#| msgid "Rename canceled"
+#, kde-format
 msgid "Rename instance"
-msgstr "Η μετονομασία ακυρώθηκε"
+msgstr "Μετονομασία στιγμιότυπου"
 
 #: model_utils.cpp:710
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Rename instance attribute"
-msgstr "Χαρακτηριστικά οντότητας"
+msgstr "Μετονομασία χαρακτηριστικού στιγμιότυπου"
 
 #: model_utils.cpp:711 umlwidgets/widget_utils.cpp:977
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "Rename interface"
-msgstr "Περιβάλλον χρήστη"
+msgstr "Μετονομασία διεπαφής"
 
 #: model_utils.cpp:712 umlwidgets/widget_utils.cpp:979
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename node"
-msgstr "Μετονομασία"
+msgstr "Μετονομασία κόμβου"
 
 #: model_utils.cpp:713
-#, fuzzy, kde-format
-#| msgid "new_operation"
+#, kde-format
 msgid "Rename operation"
-msgstr "νέα_λειτουργία"
+msgstr "Μετονομασία λειτουργίας"
 
 #: model_utils.cpp:714 umlwidgets/widget_utils.cpp:983
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "Rename package"
-msgstr "νέο_πακέτο"
+msgstr "Μετονομασία πακέτου"
 
 #: model_utils.cpp:715 umlwidgets/widget_utils.cpp:985
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "Rename port"
-msgstr "νέος_δράστης"
+msgstr "Μετονομασία θύρας"
 
 #: model_utils.cpp:716
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename role"
-msgstr "Μετονομασία"
+msgstr "Μετονομασία ρόλου"
 
 #: model_utils.cpp:717
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "Rename stereotype"
-msgstr "Στερεότυπο"
+msgstr "Μετονομασία στερεότυπου"
 
 #: model_utils.cpp:718
-#, fuzzy, kde-format
-#| msgid "new_template"
+#, kde-format
 msgid "Rename template"
-msgstr "νέο_πρότυπο"
+msgstr "Μετονομασία προτύπου"
 
 #: model_utils.cpp:719
-#, fuzzy, kde-format
-#| msgid "new_unique_constraint"
+#, kde-format
 msgid "Rename unique constraint"
-msgstr "νέος_μοναδικός_περιορισμός"
+msgstr "Μετονομασία μοναδικού περιορισμού"
 
 #: model_utils.cpp:720 umlwidgets/widget_utils.cpp:992
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "Rename use case"
-msgstr "νέα_περίπτωσηχρήσης"
+msgstr "Μετονομασία περίπτωσης χρήσης"
 
 #: model_utils.cpp:723
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename UML object"
-msgstr "Μετονομασία αντικειμένου"
+msgstr "Μετονομασία αντικειμένου UML"
 
 #: model_utils.cpp:735 umlwidgets/widget_utils.cpp:1009
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the actor:"
-msgstr "Εισάγετε το νέο όνομα της δραστηριότητας:"
+msgstr "Εισάγετε το νέο όνομα του δράστη:"
 
 #: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1010
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the artifact:"
-msgstr "Εισάγετε το νέο όνομα της δραστηριότητας:"
+msgstr "Εισάγετε το νέο όνομα του δημιουργήματος:"
 
 #: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1011
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the association:"
-msgstr "Εισάγετε το νέο όνομα της δραστηριότητας:"
+msgstr "Εισάγετε το νέο όνομα της συσχέτισης:"
 
 #: model_utils.cpp:738
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the attribute:"
-msgstr "Εισάγετε το νέο όνομα της δραστηριότητας:"
+msgstr "Εισάγετε το νέο όνομα του χαρακτηριστικού:"
 
 #: model_utils.cpp:739 umlwidgets/widget_utils.cpp:1013
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the category:"
-msgstr "Εισάγετε το νέο όνομα διαγράμματος:"
+msgstr "Εισάγετε το νέο όνομα της κατηγορίας:"
 
 #: model_utils.cpp:740
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the check constraint:"
-msgstr "Εισάγετε το νέο όνομα της δραστηριότητας:"
+msgstr "Εισάγετε το νέο όνομα του ελέγχου περιορισμού:"
 
 #: model_utils.cpp:741 umlwidgets/widget_utils.cpp:1014
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the class:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα της κλάσης:"
 
 #: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1016
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the component:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του συστατικού:"
 
 #: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1017
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the datatype:"
-msgstr "Εισάγετε το νέο όνομα της δραστηριότητας:"
+msgstr "Εισάγετε το νέο όνομα του τύπου δεδομένων:"
 
 #: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1018
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity:"
-msgstr "Εισάγετε το νέο όνομα της δραστηριότητας:"
+msgstr "Εισάγετε το νέο όνομα της οντότητας:"
 
 #: model_utils.cpp:745
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity attribute:"
-msgstr "Εισάγετε το νέο όνομα της δραστηριότητας:"
+msgstr "Εισάγετε το νέο όνομα του χαρακτηριστικού οντότητας:"
 
 #: model_utils.cpp:746
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity constraint:"
-msgstr "Εισάγετε το νέο όνομα της δραστηριότητας:"
+msgstr "Εισάγετε το νέο όνομα του περιορισμού οντότητας:"
 
 #: model_utils.cpp:747 umlwidgets/widget_utils.cpp:1019
 #, fuzzy, kde-format
@@ -5989,94 +5778,79 @@ msgid "Enter the new name of the enum literal:"
 msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
 
 #: model_utils.cpp:749
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the folder:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του φακέλου:"
 
 #: model_utils.cpp:750
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the foreign key constraint:"
-msgstr "Εισάγετε το νέο όνομα διαγράμματος:"
+msgstr "Εισάγετε το νέο όνομα του περιορισμού ξένου κλειδιού:"
 
 #: model_utils.cpp:751 umlwidgets/widget_utils.cpp:1022
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the instance:"
-msgstr "Εισάγετε το νέο όνομα διαγράμματος:"
+msgstr "Εισάγετε το νέο όνομα του στιγμιότυπου:"
 
 #: model_utils.cpp:752
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the instance attribute:"
-msgstr "Εισάγετε το νέο όνομα της δραστηριότητας:"
+msgstr "Εισάγετε το νέο όνομα του χαρακτηριστικού στιγμιότυπου:"
 
 #: model_utils.cpp:753 umlwidgets/widget_utils.cpp:1023
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the interface:"
-msgstr "Εισάγετε το νέο όνομα διαγράμματος:"
+msgstr "Εισάγετε το νέο όνομα της διεπαφής:"
 
 #: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1025
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the node:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του κόμβου:"
 
 #: model_utils.cpp:755
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the operation:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα της λειτουργίας:"
 
 #: model_utils.cpp:756 umlwidgets/widget_utils.cpp:1029
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the package:"
-msgstr "Εισάγετε το νέο όνομα διαγράμματος:"
+msgstr "Εισάγετε το νέο όνομα του πακέτου:"
 
 #: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1031
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the port:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα της θύρας:"
 
 #: model_utils.cpp:758
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the role:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του ρόλου:"
 
 #: model_utils.cpp:759
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the stereotype:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του στερότυπου:"
 
 #: model_utils.cpp:760
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the template:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του προτύπου:"
 
 #: model_utils.cpp:761
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the new name of the unique constraint:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το νέο όνομα του μοναδικού περιορισμού:"
 
 #: model_utils.cpp:762 umlwidgets/widget_utils.cpp:1038
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the use case:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα της περίπτωσης χρήσης:"
 
 #: model_utils.cpp:765
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the UML object"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του αντικειμένου UML:"
 
 #: model_utils.cpp:1201
 #, kde-format
@@ -6121,44 +5895,39 @@ msgid "Name"
 msgstr "Όνομα"
 
 #: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:80
-#, fuzzy, kde-format
-#| msgid "Type:"
+#, kde-format
 msgid "Type"
-msgstr "Τύπος:"
+msgstr "Τύπος"
 
 #: models/diagramsmodel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Associations"
+#, kde-format
 msgid "Widgets/Associations"
-msgstr "Συσχετίσεις"
+msgstr "Γραφικά συστατικά/Συσχετίσεις"
 
 #: models/objectsmodel.cpp:84
 #, kde-format
 msgid "ID"
-msgstr ""
+msgstr "Ταυτότητα"
 
 #: models/objectsmodel.cpp:86
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Saved"
-msgstr "Αποθήκευση ως"
+msgstr "Αποθηκεύτηκε"
 
 #: models/objectsmodel.cpp:88
 #, kde-format
 msgid "Parent"
-msgstr ""
+msgstr "Γονέας"
 
 #: models/objectsmodel.cpp:90
-#, fuzzy, kde-format
-#| msgid "Add only"
+#, kde-format
 msgid "Pointer"
-msgstr "Μόνο προσθήκη"
+msgstr "Δείκτης"
 
 #: models/stereotypesmodel.cpp:53
-#, fuzzy, kde-format
-#| msgid "Message"
+#, kde-format
 msgid "Usage"
-msgstr "Μήνυμα"
+msgstr "Χρήση"
 
 #: object_factory.cpp:255 umldoc.cpp:1595 umldoc.cpp:1630
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
@@ -6266,7 +6035,7 @@ msgstr "Σφάλμα συσχέτισης"
 #: toolbarstatemessages.cpp:341
 #, kde-format
 msgid "destroy"
-msgstr ""
+msgstr "κατέστρεψε"
 
 #: toolbarstateother.cpp:277
 #, kde-format
@@ -6404,17 +6173,15 @@ msgstr "Ενεργοποίηση/απενεργοποίηση της υποστ�
 
 #. i18n: ectx: label, entry (layoutType), group (General Options)
 #: umbrello.kcfg:37
-#, fuzzy, kde-format
-#| msgid "Auto Save"
+#, kde-format
 msgid "Layout Type"
-msgstr "Αυτόματη αποθήκευση"
+msgstr "Τύπος διάταξης"
 
 #. i18n: ectx: whatsthis, entry (layoutType), group (General Options)
 #: umbrello.kcfg:38
-#, fuzzy, kde-format
-#| msgid "The type of line ending ( or new line type )"
+#, kde-format
 msgid "The layout type to use for new lines"
-msgstr "Ο τύπος του τέλους γραμμών (ή τύπου νέων γραμμών)"
+msgstr "Ο τύπος διάταξης για νέες γραμμές"
 
 #. i18n: ectx: label, entry (footerPrinting), group (General Options)
 #: umbrello.kcfg:50
@@ -6505,14 +6272,13 @@ msgstr "Η γλώσσα στην οποία προκαθορισμένα το Um
 #: umbrello.kcfg:135
 #, kde-format
 msgid "Use UML-2.x Notation"
-msgstr ""
+msgstr "Χρήση γραφικών συμβόλων UML-2.x"
 
 #. i18n: ectx: whatsthis, entry (uml2), group (General Options)
 #: umbrello.kcfg:136
-#, fuzzy, kde-format
-#| msgid "Enables/Disables Verbose Documentation"
+#, kde-format
 msgid "Enables/Disables UML2 notation"
-msgstr "Ενεργοποίηση/απενεργοποίηση εμφάνισης τεκμηρίωσης"
+msgstr "Ενεργοποίηση/απενεργοποίηση γραφικών συμβόλων UML2"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:143
@@ -6600,23 +6366,22 @@ msgstr "Το χρώμα του φόντου στο διάγραμμα"
 
 #. i18n: ectx: label, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:182
-#, fuzzy, kde-format
-#| msgid "Widget Color"
+#, kde-format
 msgid "Grid Dot Color"
-msgstr "Χρώμα γραφικού συστατικού"
+msgstr "Χρώμα τελειών πλέγματος"
 
 #. i18n: ectx: whatsthis, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:183
-#, fuzzy, kde-format
-#| msgid "The Color of the Lines"
+#, kde-format
 msgid "The Color of the grid dots"
-msgstr "Το χρώμα των γραμμών"
+msgstr "Το χρώμα των τελειών στο πλέγμα"
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
 #: umbrello.kcfg:188
 #, kde-format
 msgid "Enable/disable user interface direction from right to left"
 msgstr ""
+"Ενεργοποίησε/απενεργοποίησε κατεύθυνσης διεπαφής από δεξιά προς αριστερά"
 
 #. i18n: ectx: label, entry (showVisibility), group (Class Options)
 #: umbrello.kcfg:194
@@ -6856,28 +6621,27 @@ msgstr ""
 
 #. i18n: ectx: label, entry (resolveDependencies), group (Code Importer)
 #: umbrello.kcfg:339
-#, fuzzy, kde-format
-#| msgid "Resolving object references..."
+#, kde-format
 msgid "Resolve dependencies"
-msgstr "Επίλυση αναφορών αντικειμένων..."
+msgstr "Επίλυση εξαρτήσεων"
 
 #. i18n: ectx: whatsthis, entry (resolveDependencies), group (Code Importer)
 #: umbrello.kcfg:340
 #, kde-format
 msgid "Resolve dependencies when importing file"
-msgstr ""
+msgstr "Επίλυση εξαρτήσεων κατά την εισαγωγή αρχείου"
 
 #. i18n: ectx: label, entry (supportCPP11), group (Code Importer)
 #: umbrello.kcfg:344
 #, kde-format
 msgid "Support C++11 standard"
-msgstr ""
+msgstr "Υποστήριξη για το πρότυπο C++11"
 
 #. i18n: ectx: whatsthis, entry (supportCPP11), group (Code Importer)
 #: umbrello.kcfg:345
 #, kde-format
 msgid "Support C++11 standard on code import"
-msgstr ""
+msgstr "Υποστήριξη για το πρότυπο C++11 κατά την εισαγωγή κώδικα"
 
 #. i18n: ectx: label, entry (autoGenEmptyConstructors), group (Code Generation)
 #: umbrello.kcfg:351
@@ -6944,13 +6708,13 @@ msgstr "Ενεργοποίηση/απενεργοποίηση εμφάνισης
 #: umbrello.kcfg:394
 #, kde-format
 msgid "Section Comment Policy"
-msgstr ""
+msgstr "Πολιτική σχολίων ενότητας"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:395
 #, kde-format
 msgid "Whether section comments shall be written"
-msgstr ""
+msgstr "Αν σχόλια ενότητας θα γραφούν ή όχι"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:404
@@ -7053,7 +6817,7 @@ msgstr "Ενεργοποίηση/απενεργοποίηση αυτόματης
 #: umbrello.kcfg:474
 #, kde-format
 msgid "The prefix for class members"
-msgstr ""
+msgstr "Το πρόθεμα για τα μέλη των κλάσεων"
 
 #. i18n: ectx: label, entry (inlineAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:478
@@ -7154,8 +6918,7 @@ msgstr "Το όνομα της κλάσης διανύσματος"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:518
-#, fuzzy, kde-format
-#| msgid "Vector Class Name Include "
+#, kde-format
 msgid "Vector Class Name Include"
 msgstr "Συμπερίληψη ονόματος κλάσης διανύσματος"
 
@@ -7173,8 +6936,7 @@ msgstr "Η συμπερίληψη διανύσματος είναι καθολι
 
 #. i18n: ectx: whatsthis, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
 #: umbrello.kcfg:524
-#, fuzzy, kde-format
-#| msgid "Enables/Disables global inclusing of vector class"
+#, kde-format
 msgid "Enables/Disables global inclusion of vector class"
 msgstr ""
 "Ενεργοποίηση/απενεργοποίηση της καθολικής συμπερίληψης της κλάσης διανύσματος"
@@ -7207,19 +6969,20 @@ msgstr ""
 #: umbrello.kcfg:538
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor methods"
-msgstr ""
+msgstr "Αφαίρεσε από τις μεθόδους πρόσβασης το πρόθεμα '[a-zA-Z]_'"
 
 #. i18n: ectx: whatsthis, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
 #: umbrello.kcfg:539
 #, kde-format
 msgid "If enabled, remove prefix '[a-zA-Z]_' from accessor methods"
 msgstr ""
+"Αν ενεργοποιηθεί, αφαιρεί από τις μεθόδους πρόσβασης το πρόθεμα '[a-zA-Z]_'"
 
 #. i18n: ectx: whatsthis, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
 #: umbrello.kcfg:544
 #, kde-format
 msgid "If enabled, accessor methods start with capital letters"
-msgstr ""
+msgstr "Αν ενεργοποιηθεί, οι μέθοδοι πρόσβασης θα ξεκινούν με κεφαλαίο"
 
 #. i18n: ectx: label, entry (docToolTag), group (CPP Code Generation)
 #: umbrello.kcfg:548
@@ -7235,8 +6998,7 @@ msgstr "Η ετικέτα για την παραγωγή τεκμηρίωσης 
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:555
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors ( D ) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "Αυτόματη δημιουργία πρόσβασης ιδιοτήτων ( D )"
 
@@ -7262,15 +7024,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:565
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (D) "
+#, kde-format
 msgid "Build ANT Document (D)"
 msgstr "Κατασκευή εγγράφου ANT (D) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:566
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (D) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (D)"
 msgstr "Ενεργοποίηση/απενεργοποίηση κατασκευής εγγράφου ANT (D) "
 
@@ -7289,40 +7049,35 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:577
-#, fuzzy, kde-format
-#| msgid "Auto Generate Assoc Accessors (Java) "
+#, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "Αυτόματη δημιουργία πρόσβασης συσχετίσεων (Java) "
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:578
-#, fuzzy, kde-format
-#| msgid "Enables/Disables auto generation of association accessors (Java) "
+#, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr ""
 "Ενεργοποίηση/απενεργοποίηση αυτόματης δημιουργίας πρόσβασης συσχετίσεων "
-"(Java) "
+"(Java)"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:582
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (Java) "
+#, kde-format
 msgid "Build ANT Document (Java)"
 msgstr "Κατασκευή εγγράφου ANT (Java) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:583
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (Java) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (Java)"
-msgstr "Ενεργοποίηση/απενεργοποίηση κατασκευής εγγράφου ANT (Java) "
+msgstr "Ενεργοποίηση/απενεργοποίηση κατασκευής εγγράφου ANT (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:589
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors (Ruby) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
-msgstr "Αυτόματη δημιουργία πρόσβασης ιδιοτήτων (Ruby) "
+msgstr "Αυτόματη δημιουργία πρόσβασης ιδιοτήτων (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:590
@@ -7349,44 +7104,43 @@ msgstr ""
 #: umbrello.kcfg:601
 #, kde-format
 msgid "Automatic Dot Path"
-msgstr ""
+msgstr "Αυτόματη διαδρομή dot"
 
 #. i18n: ectx: whatsthis, entry (autoDotPath), group (Auto Layout)
 #: umbrello.kcfg:602
 #, kde-format
 msgid "determine automatically the path of dot executable"
-msgstr ""
+msgstr "αυτόματος καθορισμός διαδρομής εκτελέσιμου dot"
 
 #. i18n: ectx: label, entry (dotPath), group (Auto Layout)
 #: umbrello.kcfg:606
 #, kde-format
 msgid "Dot Path"
-msgstr ""
+msgstr "Διαδρομή dot"
 
 #. i18n: ectx: whatsthis, entry (dotPath), group (Auto Layout)
 #: umbrello.kcfg:607
 #, kde-format
 msgid "set path to dot executable (optional)"
-msgstr ""
+msgstr "ορισμός διαδρομής προς το εκτελέσιμο dot (προαιρετικό)"
 
 #. i18n: ectx: label, entry (showExportLayout), group (Auto Layout)
 #: umbrello.kcfg:611
 #, kde-format
 msgid "Show Export Layout"
-msgstr ""
+msgstr "Εμφάνιση διάταξης εξαγωγής"
 
 #. i18n: ectx: whatsthis, entry (showExportLayout), group (Auto Layout)
 #: umbrello.kcfg:612
 #, kde-format
 msgid "show export layout"
-msgstr ""
+msgstr "εμφάνιση διάταξης εξαγωγής"
 
 #. i18n: ectx: Menu (file_export)
 #: umbrelloui.rc.cmake:5
-#, fuzzy, kde-format
-#| msgid "&Export model to XHTML"
+#, kde-format
 msgid "&Export model"
-msgstr "&Εξαγωγή μοντέλου σε XHTML"
+msgstr "&Εξαγωγή μοντέλου"
 
 #. i18n: ectx: Menu (edit)
 #: umbrelloui.rc.cmake:11
@@ -7432,17 +7186,15 @@ msgstr "&Κώδικας"
 
 #. i18n: ectx: Menu (active_lang_menu)
 #: umbrelloui.rc.cmake:58
-#, fuzzy, kde-format
-#| msgid "Active &Language"
+#, kde-format
 msgid "Active &Language"
 msgstr "Ενεργή &γλώσσα"
 
 #. i18n: ectx: Menu (settings)
 #: umbrelloui.rc.cmake:84
-#, fuzzy, kde-format
-#| msgid "Role Settings"
+#, kde-format
 msgid "&Settings"
-msgstr "Ρυθμίσεις ρόλων"
+msgstr "&Ρυθμίσεις"
 
 #: uml.cpp:362
 #, kde-format
@@ -7550,15 +7302,14 @@ msgid "Pastes the contents of the clipboard"
 msgstr "Επικόλληση των περιεχομένων του πρόχειρου"
 
 #: uml.cpp:457
-#, fuzzy, kde-format
-#| msgid "Invoke action"
+#, kde-format
 msgid "Undo last action"
-msgstr "Κλήση ενέργειας"
+msgstr "Αναίρεση τελευταίας ενέργειας"
 
 #: uml.cpp:458
 #, kde-format
 msgid "Redo last undone action"
-msgstr ""
+msgstr "Επανάληψη τελευταίας αναιρεθείσας ενέργειας"
 
 #: uml.cpp:460
 #, kde-format
@@ -7577,10 +7328,9 @@ msgid "&Class Diagram..."
 msgstr "Διάγραμμα &κλάσης..."
 
 #: uml.cpp:482
-#, fuzzy, kde-format
-#| msgid "S&tate Diagram..."
+#, kde-format
 msgid "&Object Diagram..."
-msgstr "Διάγραμμα κα&τάστασης..."
+msgstr "Διάγραμμα &αντικειμένου..."
 
 #: uml.cpp:489
 #, kde-format
@@ -7588,10 +7338,9 @@ msgid "&Sequence Diagram..."
 msgstr "Διάγραμμα &ακολουθίας..."
 
 #: uml.cpp:495
-#, fuzzy, kde-format
-#| msgid "C&ollaboration Diagram..."
+#, kde-format
 msgid "C&ommunication Diagram..."
-msgstr "Διάγραμμα &συνεργασίας..."
+msgstr "Διάγραμμα &επικοινωνίας..."
 
 #: uml.cpp:501
 #, kde-format
@@ -7631,16 +7380,15 @@ msgstr "Προβολή &δέντρου"
 #: uml.cpp:540
 #, kde-format
 msgid "&Debugging"
-msgstr ""
+msgstr "&Αποσφαλμάτωση"
 
 #: uml.cpp:548
 #, kde-format
 msgid "&Logging"
-msgstr ""
+msgstr "&Καταγραφή"
 
 #: uml.cpp:552
-#, fuzzy, kde-format
-#| msgid "Co&mmand history"
+#, kde-format
 msgid "&Command history"
 msgstr "Ιστορικό &εντολών"
 
@@ -7651,7 +7399,7 @@ msgstr "Ιστορικό &εντολών"
 #: uml.cpp:556 uml.cpp:1011
 #, kde-format
 msgid "&Bird's eye view"
-msgstr ""
+msgstr "Γενική άποψη"
 
 #: uml.cpp:561
 #, kde-format
@@ -7669,10 +7417,9 @@ msgid "S&how Grid"
 msgstr "Εμ&φάνιση καννάβου"
 
 #: uml.cpp:574
-#, fuzzy, kde-format
-#| msgid "Delete Diagram"
+#, kde-format
 msgid "&Delete Diagram"
-msgstr "Διαγραφή διαγράμματος"
+msgstr "&Διαγραφή διαγράμματος"
 
 #: uml.cpp:579
 #, kde-format
@@ -7680,10 +7427,9 @@ msgid "&Export as Picture..."
 msgstr "Ε&ξαγωγή ως εικόνα..."
 
 #: uml.cpp:584
-#, fuzzy, kde-format
-#| msgid "Export &All Diagrams as Pictures..."
+#, kde-format
 msgid "Export &Diagrams as Pictures..."
-msgstr "Εξαγωγή ό&λων των διαγραμμάτων ως εικόνες..."
+msgstr "Εξαγωγή &διαγραμμάτων ως εικόνες..."
 
 #: uml.cpp:604
 #, kde-format
@@ -7714,7 +7460,7 @@ msgstr "Επιλογή διαγράμματος στα δεξιά"
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
-msgstr ""
+msgstr " &%1%"
 
 #: uml.cpp:844
 #, kde-format
@@ -7725,13 +7471,12 @@ msgstr "Έτοιμο"
 #: uml.cpp:852 uml.cpp:865
 #, kde-format
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: uml.cpp:857
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Fit"
-msgstr "Φίλτρο"
+msgstr "Προσαρμογή"
 
 #: uml.cpp:908
 #, kde-format
@@ -7751,12 +7496,12 @@ msgstr "Ιστορικό &εντολών"
 #: uml.cpp:992
 #, kde-format
 msgid "&Debug"
-msgstr ""
+msgstr "&Αποσφαλμάτωση"
 
 #: uml.cpp:999
 #, kde-format
 msgid "&Log"
-msgstr ""
+msgstr "&Καταγραφή"
 
 #: uml.cpp:1037 uml.cpp:1254 uml.cpp:1292
 #, kde-format
@@ -7780,14 +7525,7 @@ msgid "Open File"
 msgstr "Άνοιγμα αρχείου"
 
 #: uml.cpp:1262
-#, fuzzy, kde-format
-#| msgid ""
-#| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi."
-#| "tgz, *.xmi.tar.bz2, *.mdl)\n"
-#| "*.xmi|Uncompressed XMI Files (*.xmi)\n"
-#| "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
-#| "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
-#| "*.mdl|Rose model files"
+#, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
 "xmi, *.xmi.tgz, *.xmi.tar.bz2, *.uml, *.mdl, *.zargo)\n"
@@ -7798,11 +7536,14 @@ msgid ""
 "*.mdl|Rose model files (*.mdl)\n"
 "*.zargo|Compressed argo Files(*.zargo)\n"
 msgstr ""
-"*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|Όλα τα υποστηριζόμενα αρχεία (*.xmi, *."
-"xmi.tgz, *.xmi.tar.bz2, *.mdl)\n"
+"*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|Όλα τα υποστηριζόμενα "
+"αρχεία (*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.uml, *.mdl, *.zargo)\n"
 "*.xmi|Ασυμπίεστα αρχεία XMI (*.xmi)\n"
 "*.xmi.tgz|Gzip συμπιεσμένα αρχεία XMI (*.xmi.tgz)\n"
-"*.xmi.tar.bz2|Bzip2 συμπιεσμένα αρχεία XMI (*.xmi.tar.bz2)"
+"*.xmi.tar.bz2|Bzip2 συμπιεσμένα αρχεία XMI (*.xmi.tar.bz2)\n"
+"*.uml|Αρχεία Eclipse PapyrusUML (*.uml)\n"
+"*.mdl|Αρχεία Rose model (*.mdl)\n"
+"*.zargo|Συμπιεσμένα αρχεία argo (*.zargo)\n"
 
 #: uml.cpp:1322
 #, kde-format
@@ -7820,20 +7561,14 @@ msgid "Save As"
 msgstr "Αποθήκευση ως"
 
 #: uml.cpp:1345
-#, fuzzy, kde-format
-#| msgid ""
-#| "*.xmi|XMI File\n"
-#| "*.xmi.tgz|Gzip Compressed XMI File\n"
-#| "*.xmi.tar.bz2|Bzip2 Compressed XMI File\n"
-#| "*|All Files"
+#, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
 "*.xmi.tar.bz2 | Bzip2 Compressed XMI File (*.xmi.tar.bz2);;* | All Files (*)"
 msgstr ""
-"*.xmi|Αρχείο XMI\n"
-"*.xmi.tgz|Gzip συμπιεσμένο αρχείο XMI\n"
-"*.xmi.tar.bz2|Bzip2 συμπιεσμένο αρχείο XMI\n"
-"*|Όλα τα αρχεία"
+"*.xmi | Αρχείο XMI (*.xmi);;*.xmi.tgz | Gzip συμπιεσμένο αρχείο XMI (*.xmi."
+"tgz);;*.xmi.tar.bz2 | Bzip2 συμπιεσμένο αρχείο XMI (*.xmi.tar.bz2);;* | Όλα "
+"τα αρχεία (*)"
 
 #: uml.cpp:1363
 #, kde-format
@@ -7862,12 +7597,12 @@ msgstr "Κλείσιμο αρχείου..."
 #: uml.cpp:1401
 #, kde-format
 msgid "No search term entered"
-msgstr ""
+msgstr "Δε δόθηκαν κριτήρια αναζήτησης"
 
 #: uml.cpp:1407
 #, kde-format
 msgid "'%1': %2 found"
-msgstr ""
+msgstr "'%1': %2 βρέθηκε"
 
 #: uml.cpp:1463
 #, kde-format
@@ -7936,16 +7671,14 @@ msgid "Cannot view code from simple code writer."
 msgstr "Αδυναμία προβολής κώδικα από τον απλό συγγραφέα κώδικα."
 
 #: uml.cpp:2732
-#, fuzzy, kde-format
-#| msgid "Select Code to Import"
+#, kde-format
 msgid "Select file(s) to import:"
-msgstr "Επιλογή κώδικα για εισαγωγή"
+msgstr "Επιλογή αρχείου(ων) για εισαγωγή:"
 
 #: uml.cpp:2761
-#, fuzzy, kde-format
-#| msgid "Select Code to Import"
+#, kde-format
 msgid "Select directory to import:"
-msgstr "Επιλογή κώδικα για εισαγωγή"
+msgstr "Επιλογή καταλόγου για εισαγωγή:"
 
 #: uml.cpp:3280
 #, kde-format
@@ -7953,21 +7686,19 @@ msgid "XHTML Generation failed ."
 msgstr "Αποτυχία δημιουργίας XHTML."
 
 #: umlappprivate.h:130
-#, fuzzy, kde-format
-#| msgid "UML Object Color"
+#, kde-format
 msgid "&UML Objects"
-msgstr "Χρώμα αντικειμένου UML"
+msgstr "Αντικείμενα &UML"
 
 #: umlappprivate.h:140
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "&Stereotypes"
-msgstr "Στερεότυπο"
+msgstr "&Στερεότυπα"
 
 #: umlappprivate.h:156
 #, kde-format
 msgid "Welcome"
-msgstr ""
+msgstr "Καλώς ήρθατε"
 
 #: umldoc.cpp:92 umldoc.cpp:2224 umldoc.cpp:2252 umldoc.cpp:2335
 #, kde-format
@@ -8020,10 +7751,9 @@ msgid "Warning"
 msgstr "Προειδοποίηση"
 
 #: umldoc.cpp:528
-#, fuzzy, kde-format
-#| msgid "The file %1 does not exist."
+#, kde-format
 msgid "The file <%1> does not exist."
-msgstr "Το αρχείο %1 δεν υπάρχει."
+msgstr "Το αρχείο <%1> δεν υπάρχει."
 
 #: umldoc.cpp:528 umldoc.cpp:549 umldoc.cpp:588 umldoc.cpp:600 umldoc.cpp:614
 #: umldoc.cpp:627 umldoc.cpp:639 umldoc.cpp:677 umlmodel/folder.cpp:451
@@ -8055,11 +7785,10 @@ msgstr "Υπήρξε ένα πρόβλημα κατά τη φόρτωση του
 #: umldoc.cpp:676
 #, kde-format
 msgid "Reason: %1"
-msgstr ""
+msgstr "Αιτία: %1"
 
 #: umldoc.cpp:746 umldoc.cpp:757 umldoc.cpp:775 umldoc.cpp:816 umldoc.cpp:843
-#, fuzzy, kde-format
-#| msgid "There was a problem saving file: %1"
+#, kde-format
 msgid "There was a problem saving: %1"
 msgstr "Υπήρξε ένα πρόβλημα κατά την αποθήκευση του αρχείου: %1"
 
@@ -8070,10 +7799,9 @@ msgid "Save Error"
 msgstr "Σφάλμα αποθήκευσης"
 
 #: umldoc.cpp:850
-#, fuzzy, kde-format
-#| msgid "There was a problem uploading file: %1"
+#, kde-format
 msgid "There was a problem uploading: %1"
-msgstr "Υπήρξε ένα πρόβλημα κατά την ενημέρωση του αρχείου: %1"
+msgstr "Υπήρξε ένα πρόβλημα κατά την αποστολή του αρχείου: %1"
 
 #: umldoc.cpp:1401
 #, kde-format
@@ -8091,16 +7819,14 @@ msgid "sequence diagram"
 msgstr "διάγραμμα ακολουθίας"
 
 #: umldoc.cpp:1410
-#, fuzzy, kde-format
-#| msgid "collaboration diagram"
+#, kde-format
 msgid "communication diagram"
-msgstr "διάγραμμα συνεργασίας"
+msgstr "διάγραμμα επικοινωνίας"
 
 #: umldoc.cpp:1413
-#, fuzzy, kde-format
-#| msgid "&Select diagrams"
+#, kde-format
 msgid "object diagram"
-msgstr "&Επιλογή διαγραμμάτων"
+msgstr "διάγραμμα αντικειμένων"
 
 #: umldoc.cpp:1416
 #, kde-format
@@ -8188,7 +7914,7 @@ msgstr "Εισάγετε νέο όνομα"
 #: umldoc.cpp:2182
 #, kde-format
 msgid "Unsupported xmi file version: %1"
-msgstr ""
+msgstr "Μη υποστηριζόμενη έκδοση αρχείου xmi: %1"
 
 #: umldoc.cpp:2346
 #, kde-format
@@ -8224,6 +7950,8 @@ msgstr "Εξαγωγή φακέλου"
 #, kde-format
 msgid "Folder %1 must be relative to the main model directory, %2."
 msgstr ""
+"Ο φάκελος %1 πρέπει να είναι σχετικός με τον κατάλογο του κύριου μοντέλου, "
+"%2."
 
 #: umllistview.cpp:551
 #, kde-format
@@ -8240,8 +7968,7 @@ msgstr ""
 "Το υφιστάμενο αρχείο θα αντικατασταθεί."
 
 #: umllistview.cpp:560
-#, fuzzy, kde-format
-#| msgid "File Exist"
+#, kde-format
 msgid "File Exists"
 msgstr "Το αρχείο υπάρχει"
 
@@ -8266,10 +7993,9 @@ msgid "Views"
 msgstr "Προβολές"
 
 #: umllistview.cpp:1436
-#, fuzzy, kde-format
-#| msgid "Role Settings"
+#, kde-format
 msgid "Settings"
-msgstr "Ρυθμίσεις ρόλων"
+msgstr "Ρυθμίσεις"
 
 #: umllistview.cpp:2452
 #, kde-format
@@ -8277,28 +8003,24 @@ msgid "Loading listview..."
 msgstr "Φόρτωση προβολής λίστας..."
 
 #: umllistview.cpp:2821
-#, fuzzy, kde-format
-#| msgid "The folder must be emptied before it can be deleted."
+#, kde-format
 msgid "The class must be emptied before it can be deleted."
-msgstr "Ο φάκελος πρέπει να αδειάσει πριν να μπορεί να διαγραφεί."
+msgstr "Η κλάση πρέπει να αδειάσει πριν να μπορεί να διαγραφεί."
 
 #: umllistview.cpp:2822
-#, fuzzy, kde-format
-#| msgid "Folder Not Empty"
+#, kde-format
 msgid "Class Not Empty"
-msgstr "Ο φάκελος δεν είναι κενός"
+msgstr "Η κλάση δεν είναι κενή"
 
 #: umllistview.cpp:2826
-#, fuzzy, kde-format
-#| msgid "The folder must be emptied before it can be deleted."
+#, kde-format
 msgid "The package must be emptied before it can be deleted."
-msgstr "Ο φάκελος πρέπει να αδειάσει πριν να μπορεί να διαγραφεί."
+msgstr "Το πακέτο πρέπει να αδειάσει πριν να μπορεί να διαγραφεί."
 
 #: umllistview.cpp:2827
-#, fuzzy, kde-format
-#| msgid "Folder Not Empty"
+#, kde-format
 msgid "Package Not Empty"
-msgstr "Ο φάκελος δεν είναι κενός"
+msgstr "Το πακέτο δεν είναι κενό"
 
 #: umllistview.cpp:2831
 #, kde-format
@@ -8343,10 +8065,7 @@ msgid "Name Not Valid"
 msgstr "Μη έγκυρο όνομα"
 
 #: umlmodel/classifier.cpp:281
-#, fuzzy, kde-format
-#| msgid ""
-#| "An operation with the same name and signature already exists. You can not "
-#| "add it again."
+#, kde-format
 msgid ""
 "An operation with the same name and signature already exists. You cannot add "
 "it again."
@@ -8412,10 +8131,9 @@ msgid "Artifact &name:"
 msgstr "Όνομα δη&μιουργήματος:"
 
 #: umlmodel/umlobject.cpp:1236
-#, fuzzy, kde-format
-#| msgid "Association Name"
+#, kde-format
 msgid "Association &name:"
-msgstr "Όνομα συσχέτισης"
+msgstr "&Όνομα συσχέτισης"
 
 #: umlmodel/umlobject.cpp:1239
 #, kde-format
@@ -8443,10 +8161,9 @@ msgid "Enum &name:"
 msgstr "Όνομα αρί&θμησης:"
 
 #: umlmodel/umlobject.cpp:1254
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "Folder &name:"
-msgstr "Όνομα κόμ&βου:"
+msgstr "&Όνομα φακέλου:"
 
 #: umlmodel/umlobject.cpp:1257
 #, kde-format
@@ -8464,10 +8181,9 @@ msgid "Package &name:"
 msgstr "Όνομα &πακέτου:"
 
 #: umlmodel/umlobject.cpp:1266
-#, fuzzy, kde-format
-#| msgid "Actor &name:"
+#, kde-format
 msgid "Port &name:"
-msgstr "Όνομα &δράστη:"
+msgstr "&Όνομα θύρας:"
 
 #: umlmodel/umlobject.cpp:1272
 #, kde-format
@@ -8485,58 +8201,49 @@ msgid "Diagram: %2 Page %1"
 msgstr "Διάγραμμα: %2 Σελίδα %1"
 
 #: umlscene.cpp:1519
-#, fuzzy, kde-format
-#| msgid "&Use fill color"
+#, kde-format
 msgid "Use fill color"
-msgstr "Χ&ρήση χρώματος γεμίσματος"
+msgstr "Χρήση χρώματος γεμίσματος"
 
 #: umlscene.cpp:1521
-#, fuzzy, kde-format
-#| msgid "Fill Color"
+#, kde-format
 msgid "No fill color"
-msgstr "Χρώμα γεμίσματος"
+msgstr "Χωρίς χρώμα γεμίσματος"
 
 #: umlscene.cpp:1536
-#, fuzzy, kde-format
-#| msgid "Change font : %1"
+#, kde-format
 msgid "Change font"
-msgstr "Αλλαγή γραμματοσειράς : %1"
+msgstr "Αλλαγή γραμματοσειράς"
 
 #: umlscene.cpp:1550
-#, fuzzy, kde-format
-#| msgid "Change Line Color"
+#, kde-format
 msgid "Change line color"
-msgstr "Τροποποίηση χρώματος γραμμής"
+msgstr "Αλλαγή χρώματος γραμμής"
 
 #: umlscene.cpp:1568
-#, fuzzy, kde-format
-#| msgid "Line width:"
+#, kde-format
 msgid "Change line width"
-msgstr "Πλάτος γραμμής:"
+msgstr "Αλλαγή πλάτους γραμμής"
 
 #: umlscene.cpp:1588
-#, fuzzy, kde-format
-#| msgid "Change Fill Color"
+#, kde-format
 msgid "Change fill color"
-msgstr "Τροποποίηση χρώματος γεμίσματος"
+msgstr "Αλλαγή χρώματος γεμίσματος"
 
 #: umlscene.cpp:1603
-#, fuzzy, kde-format
-#| msgid "Change Properties"
+#, kde-format
 msgid "Change visual property"
-msgstr "Αλλαγή ιδιοτήτων"
+msgstr "Αλλαγή οπτικών χαρακτηριστικών"
 
 #: umlscene.cpp:1654
-#, fuzzy, kde-format
-#| msgid "Delete"
+#, kde-format
 msgid "Delete widgets"
-msgstr "Διαγραφή"
+msgstr "Διαγραφή γραφικών συστατικών"
 
 #: umlscene.cpp:1700
-#, fuzzy, kde-format
-#| msgid "Resize widget : %1"
+#, kde-format
 msgid "Resize widgets"
-msgstr "Αλλαγή μεγέθους συστατικού : %1"
+msgstr "Αλλαγή μεγέθους συστατικού"
 
 #: umlscene.cpp:3353
 #, kde-format
@@ -8551,7 +8258,7 @@ msgstr "Εισάγετε το νέο όνομα διαγράμματος:"
 #: umlscene.cpp:3370
 #, kde-format
 msgid "Failed to import from file."
-msgstr ""
+msgstr "Αποτυχία εισαγωγής από αρχείο."
 
 #: umlviewimageexporter.cpp:72
 #, kde-format
@@ -8580,17 +8287,14 @@ msgid "File Already Exists"
 msgstr "Το αρχείο υπάρχει ήδη"
 
 #: umlviewimageexportermodel.cpp:239
-#, fuzzy, kde-format
-#| msgctxt "parse status"
-#| msgid "Empty"
+#, kde-format
 msgid "Empty scene"
-msgstr "Κενό"
+msgstr "Κενή σκηνή"
 
 #: umlviewimageexportermodel.cpp:244
-#, fuzzy, kde-format
-#| msgid "Can not create directory: %1"
+#, kde-format
 msgid "Cannot create directory: %1"
-msgstr "Αδύνατη η δημιουργία του φακέλου: %1"
+msgstr "Αδυναμία δημιουργίας του καταλόγου: %1"
 
 #: umlviewimageexportermodel.cpp:261
 #, kde-format
@@ -8631,6 +8335,7 @@ msgstr "Εισάγετε όνομα ρόλου:"
 #, kde-format
 msgid "Press Ctrl with left mouse click to delete a point"
 msgstr ""
+"Πατήστε το Ctrl με αριστερό κλικ του ποντικιού για να διαγράψετε ένα σημείο"
 
 #: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
@@ -8691,8 +8396,7 @@ msgid "Enter alternative Name"
 msgstr "Εισάγετε εναλλακτικό όνομα"
 
 #: umlwidgets/floatingdashlinewidget.cpp:103
-#, fuzzy, kde-format
-#| msgid "Enter the alternative :"
+#, kde-format
 msgid "Enter the alternative:"
 msgstr "Εισάγετε το εναλλακτικό όνομα:"
 
@@ -8847,10 +8551,9 @@ msgstr ""
 "Κάντε κλικ με το δεξί πλήκτρο του ποντικιού για ακύρωση."
 
 #: umlwidgets/umlwidget.cpp:551
-#, fuzzy, kde-format
-#| msgid "Move widget : %1"
+#, kde-format
 msgid "Move widgets"
-msgstr "Μετακίνηση συστατικού : %1"
+msgstr "Μετακίνηση γραφικών συστατικών"
 
 #: umlwidgets/umlwidget.cpp:794
 #, kde-format
@@ -8865,149 +8568,127 @@ msgstr "Εισάγετε όνομα αντικειμένου:"
 #: umlwidgets/umlwidget.cpp:1547
 #, kde-format
 msgid "Hold shift or control to move in X axis."
-msgstr ""
+msgstr "Κρατήστε πατημένο το shift ή το control για μετακίνηση στον άξονα X."
 
 #: umlwidgets/umlwidget.cpp:1548
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
-msgstr ""
+msgstr "Κρατήστε πατημένο το shift και το control για μετακίνηση στον άξονα Y."
 
 #: umlwidgets/widget_utils.cpp:825
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new actor"
-msgstr "νέος_δράστης"
+msgstr "νέος δράστης"
 
 #: umlwidgets/widget_utils.cpp:826
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "new artifact"
-msgstr "νέο_δημιούργημα"
+msgstr "νέο δημιούργημα"
 
 #: umlwidgets/widget_utils.cpp:827
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "new association"
-msgstr "νέα_συσχέτιση"
+msgstr "νέα συσχέτιση"
 
 #: umlwidgets/widget_utils.cpp:828
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new box"
-msgstr "νέος_δράστης"
+msgstr "νέος πλαίσιο"
 
 #: umlwidgets/widget_utils.cpp:829
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "new category"
-msgstr "νέα_κατηγορία"
+msgstr "νέα κατηγορία"
 
 #: umlwidgets/widget_utils.cpp:830
-#, fuzzy, kde-format
-#| msgid "new_class"
+#, kde-format
 msgid "new class"
-msgstr "νέα_κλάση"
+msgstr "νέα κλάση"
 
 #: umlwidgets/widget_utils.cpp:831
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "new combined fragment"
 msgstr "νέο συνδυασμένο τμήμα"
 
 #: umlwidgets/widget_utils.cpp:832
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "new component"
-msgstr "νέο_συστατικό"
+msgstr "νέο συστατικό"
 
 #: umlwidgets/widget_utils.cpp:833
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "new datatype"
-msgstr "νέος_τύποςδεδομένων"
+msgstr "νέος τύπος δεδομένων"
 
 #: umlwidgets/widget_utils.cpp:834
-#, fuzzy, kde-format
-#| msgid "new_entity"
+#, kde-format
 msgid "new entity"
-msgstr "νέα_οντότητα"
+msgstr "νέα οντότητα"
 
 #: umlwidgets/widget_utils.cpp:835
-#, fuzzy, kde-format
-#| msgid "new_enum"
+#, kde-format
 msgid "new enum"
-msgstr "νέα_αρίθμηση"
+msgstr "νέα αρίθμηση"
 
 #: umlwidgets/widget_utils.cpp:836
 #, kde-format
 msgid "new floating dash line"
-msgstr ""
+msgstr "νέα αιωρούμενη διακεκομμένη γραμμή"
 
 #: umlwidgets/widget_utils.cpp:837
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "new fork/join"
-msgstr "Διακλάδωση/σύνδεση"
+msgstr "νέα διακλάδωση/σύνδεση"
 
 #: umlwidgets/widget_utils.cpp:838
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "new instance"
-msgstr "νέα κατάσταση"
+msgstr "νέο στιγμιότυπο"
 
 #: umlwidgets/widget_utils.cpp:839
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "new interface"
-msgstr "νέα_διασύνδεση"
+msgstr "νέα διασύνδεση"
 
 #: umlwidgets/widget_utils.cpp:840
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "new message"
-msgstr "νέα κατάσταση"
+msgstr "νέο μήνυμα"
 
 #: umlwidgets/widget_utils.cpp:841
-#, fuzzy, kde-format
-#| msgid "new_node"
+#, kde-format
 msgid "new node"
-msgstr "νέος_κόμβος"
+msgstr "νέος κόμβος"
 
 #: umlwidgets/widget_utils.cpp:842
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new note"
-msgstr "νέος_δράστης"
+msgstr "νέα σημείωση"
 
 #: umlwidgets/widget_utils.cpp:843
-#, fuzzy, kde-format
-#| msgid "new_object"
+#, kde-format
 msgid "new object"
-msgstr "νέο_αντικείμενο"
+msgstr "νέο αντικείμενο"
 
 #: umlwidgets/widget_utils.cpp:844
-#, fuzzy, kde-format
-#| msgid "Enter object name:"
+#, kde-format
 msgid "new object node"
-msgstr "Εισάγετε όνομα αντικειμένου:"
+msgstr "νέος κόμβος αντικειμένου"
 
 #: umlwidgets/widget_utils.cpp:845
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "new package"
-msgstr "νέο_πακέτο"
+msgstr "νέο πακέτο"
 
 #: umlwidgets/widget_utils.cpp:846
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "new pin"
 msgstr "νέο σήμα"
 
 #: umlwidgets/widget_utils.cpp:847
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new port"
-msgstr "νέος_δράστης"
+msgstr "νέα θύρα"
 
 #: umlwidgets/widget_utils.cpp:848
 #, kde-format
@@ -9015,188 +8696,159 @@ msgid "new precondition"
 msgstr "νέα προσυνθήκη"
 
 #: umlwidgets/widget_utils.cpp:849
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "new region"
-msgstr "νέο σήμα"
+msgstr "νέα περιοχή"
 
 #: umlwidgets/widget_utils.cpp:850
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "new signal"
 msgstr "νέο σήμα"
 
 #: umlwidgets/widget_utils.cpp:852
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "new text"
-msgstr "νέα κατάσταση"
+msgstr "νέο κείμενο"
 
 #: umlwidgets/widget_utils.cpp:853
-#, fuzzy, kde-format
-#| msgid "Move widget : %1"
+#, kde-format
 msgid "new UML widget"
-msgstr "Μετακίνηση συστατικού : %1"
+msgstr "νέο γραφικό συστατικό UML"
 
 #: umlwidgets/widget_utils.cpp:854
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "new use case"
-msgstr "νέα_περίπτωσηχρήσης"
+msgstr "νέα περίπτωση χρήσης"
 
 #: umlwidgets/widget_utils.cpp:858
-#, fuzzy, kde-format
-#| msgid "Move widget : %1"
+#, kde-format
 msgid "new widget"
-msgstr "Μετακίνηση συστατικού : %1"
+msgstr "νέο γραφικό συστατικό"
 
 #: umlwidgets/widget_utils.cpp:871
-#, fuzzy, kde-format
-#| msgid "new activity"
+#, kde-format
 msgid "New activity"
-msgstr "νέα δραστηριότητα"
+msgstr "Νέα δραστηριότητα"
 
 #: umlwidgets/widget_utils.cpp:875
 #, kde-format
 msgid "New box"
-msgstr ""
+msgstr "Νέο πλαίσιο"
 
 #: umlwidgets/widget_utils.cpp:878
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "New combined fragment"
-msgstr "νέο συνδυασμένο τμήμα"
+msgstr "Νέο συνδυασμένο τμήμα"
 
 #: umlwidgets/widget_utils.cpp:883
 #, kde-format
 msgid "New floating dash line"
-msgstr ""
+msgstr "Νέα αιωρούμενη διακεκομμένη γραμμή"
 
 #: umlwidgets/widget_utils.cpp:884
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "New fork/join"
-msgstr "Διακλάδωση/σύνδεση"
+msgstr "Νέα διακλάδωση/σύνδεση"
 
 #: umlwidgets/widget_utils.cpp:887
-#, fuzzy, kde-format
-#| msgid "Message"
+#, kde-format
 msgid "New message"
-msgstr "Μήνυμα"
+msgstr "Νέο μήνυμα"
 
 #: umlwidgets/widget_utils.cpp:889
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New note"
-msgstr "Στερεότυπο"
+msgstr "Νέα σημείωση"
 
 #: umlwidgets/widget_utils.cpp:890
-#, fuzzy, kde-format
-#| msgid "new_object"
+#, kde-format
 msgid "New object"
-msgstr "νέο_αντικείμενο"
+msgstr "Νέο αντικείμενο"
 
 #: umlwidgets/widget_utils.cpp:891
-#, fuzzy, kde-format
-#| msgid "Object Node"
+#, kde-format
 msgid "New object node"
-msgstr "Κόμβος αντικειμένου"
+msgstr "Νέος κόμβος αντικειμένου"
 
 #: umlwidgets/widget_utils.cpp:893
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "New pin"
-msgstr "νέο σήμα"
+msgstr "Νέο σήμα"
 
 #: umlwidgets/widget_utils.cpp:895
-#, fuzzy, kde-format
-#| msgid "new precondition"
+#, kde-format
 msgid "New precondition"
-msgstr "νέα προσυνθήκη"
+msgstr "Νέα προσυνθήκη"
 
 #: umlwidgets/widget_utils.cpp:896
-#, fuzzy, kde-format
-#| msgid "Region"
+#, kde-format
 msgid "New region"
-msgstr "Περιοχή"
+msgstr "Νέα περιοχή"
 
 #: umlwidgets/widget_utils.cpp:897
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "New signal"
-msgstr "νέο σήμα"
+msgstr "Νέο σήμα"
 
 #: umlwidgets/widget_utils.cpp:898
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "New state"
-msgstr "νέα κατάσταση"
+msgstr "Νέα κατάσταση"
 
 #: umlwidgets/widget_utils.cpp:899
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New text"
-msgstr "Στερεότυπο"
+msgstr "Νέο κείμενο"
 
 #: umlwidgets/widget_utils.cpp:900
-#, fuzzy, kde-format
-#| msgid "Move widget : %1"
+#, kde-format
 msgid "New UML widget"
-msgstr "Μετακίνηση συστατικού : %1"
+msgstr "Νέο γραφικό συστατικό UML"
 
 #: umlwidgets/widget_utils.cpp:905
-#, fuzzy, kde-format
-#| msgid "Move widget : %1"
+#, kde-format
 msgid "New widget"
-msgstr "Μετακίνηση συστατικού : %1"
+msgstr "Νέο γραφικό συστατικό"
 
 #: umlwidgets/widget_utils.cpp:921
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new box:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου πλαισίου:"
 
 #: umlwidgets/widget_utils.cpp:924
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new combined fragment:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου συνδυασμένου τμήματος:"
 
 #: umlwidgets/widget_utils.cpp:929
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new floating dash line:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα της νέας αιωρούμενης διακεκομμένης γραμμής:"
 
 #: umlwidgets/widget_utils.cpp:930
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new fork/join:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα της νέας διακλάδωσης/ένωσης:"
 
 #: umlwidgets/widget_utils.cpp:933
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new message:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου μηνύματος:"
 
 #: umlwidgets/widget_utils.cpp:935
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new note:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα της νέας σημείωσης:"
 
 #: umlwidgets/widget_utils.cpp:936
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new object:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου αντικειμένου:"
 
 #: umlwidgets/widget_utils.cpp:937
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object node :"
+#, kde-format
 msgid "Enter the name of the new object node:"
-msgstr "Εισάγετε το όνομα του κόμβου του αντικειμένου: "
+msgstr "Εισάγετε το όνομα του νέου κόμβου αντικειμένου: "
 
 #: umlwidgets/widget_utils.cpp:939
 #, fuzzy, kde-format
@@ -9205,92 +8857,79 @@ msgid "Enter the name of the new pin:"
 msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
 
 #: umlwidgets/widget_utils.cpp:941
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new precondition:"
-msgstr "Εισάγετε το όνομα μιας νέας δραστηριότητας:"
+msgstr "Εισάγετε το όνομα της νέας προσυνθήκης:"
 
 #: umlwidgets/widget_utils.cpp:942
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new region:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα της νέας περιοχής:"
 
 #: umlwidgets/widget_utils.cpp:943
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new signal:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου σήματος:"
 
 #: umlwidgets/widget_utils.cpp:945
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new text:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου κειμένου:"
 
 #: umlwidgets/widget_utils.cpp:946
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new uml widget:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου γραφικού συστατικού uml:"
 
 #: umlwidgets/widget_utils.cpp:950
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new widget:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το όνομα του νέου γραφικού συστατικού:"
 
 #: umlwidgets/widget_utils.cpp:962
-#, fuzzy, kde-format
-#| msgid "Rename Activity"
+#, kde-format
 msgid "Rename activity"
 msgstr "Μετονομασία δραστηριότητας"
 
 #: umlwidgets/widget_utils.cpp:966
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename box"
-msgstr "Μετονομασία"
+msgstr "Μετονομασία πλαισίου"
 
 #: umlwidgets/widget_utils.cpp:969
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "Rename combined fragment"
-msgstr "νέο συνδυασμένο τμήμα"
+msgstr "Μετονομασία συνδυασμένου τμήματος"
 
 #: umlwidgets/widget_utils.cpp:974
 #, kde-format
 msgid "Rename floating dash line"
-msgstr ""
+msgstr "Μετονομασία αιωρούμενης διακεκομμένης γραμμής"
 
 #: umlwidgets/widget_utils.cpp:975
 #, kde-format
 msgid "Rename fork/join"
-msgstr ""
+msgstr "Μετονομασία διακλάδωσης/σύνδεσης"
 
 #: umlwidgets/widget_utils.cpp:978
-#, fuzzy, kde-format
-#| msgid "Enable all messages"
+#, kde-format
 msgid "Rename message"
-msgstr "Ενεργοποίηση όλων των μηνυμάτων"
+msgstr "Μετονομασία μηνύματος"
 
 #: umlwidgets/widget_utils.cpp:980
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename note"
-msgstr "Μετονομασία"
+msgstr "Μετονομασία σημείωσης"
 
 #: umlwidgets/widget_utils.cpp:981
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename object"
 msgstr "Μετονομασία αντικειμένου"
 
 #: umlwidgets/widget_utils.cpp:982
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename object node"
-msgstr "Μετονομασία αντικειμένου"
+msgstr "Μετονομασία κόμβου αντικειμένου"
 
 #: umlwidgets/widget_utils.cpp:984
 #, fuzzy, kde-format
@@ -9299,46 +8938,39 @@ msgid "Rename pin"
 msgstr "Μετονομασία"
 
 #: umlwidgets/widget_utils.cpp:986
-#, fuzzy, kde-format
-#| msgid "new precondition"
+#, kde-format
 msgid "Rename precondition"
-msgstr "νέα προσυνθήκη"
+msgstr "Μετονομασία προσυνθήκης"
 
 #: umlwidgets/widget_utils.cpp:987
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename region"
-msgstr "Μετονομασία"
+msgstr "Μετονομασία περιοχής"
 
 #: umlwidgets/widget_utils.cpp:988
-#, fuzzy, kde-format
-#| msgid "Send signal"
+#, kde-format
 msgid "Rename signal"
-msgstr "Αποστολή σήματος"
+msgstr "Μετονομασία σήματος"
 
 #: umlwidgets/widget_utils.cpp:989
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "Rename state"
-msgstr "νέα κατάσταση"
+msgstr "Μετονομασία κατάστασης"
 
 #: umlwidgets/widget_utils.cpp:990
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename text"
-msgstr "Μετονομασία αντικειμένου"
+msgstr "Μετονομασία κειμένου"
 
 #: umlwidgets/widget_utils.cpp:991
-#, fuzzy, kde-format
-#| msgid "Resize widget : %1"
+#, kde-format
 msgid "Rename UML widget"
-msgstr "Αλλαγή μεγέθους συστατικού : %1"
+msgstr "Μετονομασία γραφικού συστατικού UML"
 
 #: umlwidgets/widget_utils.cpp:996
-#, fuzzy, kde-format
-#| msgid "Resize widget : %1"
+#, kde-format
 msgid "Rename widget"
-msgstr "Αλλαγή μεγέθους συστατικού : %1"
+msgstr "Μετονομασία γραφικού συστατικού"
 
 #: umlwidgets/widget_utils.cpp:1008
 #, kde-format
@@ -9346,52 +8978,44 @@ msgid "Enter the new name of the activity:"
 msgstr "Εισάγετε το νέο όνομα της δραστηριότητας:"
 
 #: umlwidgets/widget_utils.cpp:1012
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the box:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του πλαισίου:"
 
 #: umlwidgets/widget_utils.cpp:1015
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the combined fragment:"
-msgstr "Εισάγετε το νέο όνομα διαγράμματος:"
+msgstr "Εισάγετε το νέο όνομα συνδυασμένου τμήματος:"
 
 #: umlwidgets/widget_utils.cpp:1020
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the floating dash line:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα της αιωρούμενης διακεκομμένης γραμμής:"
 
 #: umlwidgets/widget_utils.cpp:1021
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the fork/join widget:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του γραφικού συστατικού διακλάδωσης/ένωσης:"
 
 #: umlwidgets/widget_utils.cpp:1024
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the message:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του μηνύματος:"
 
 #: umlwidgets/widget_utils.cpp:1026
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the note:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα της σημείωσης:"
 
 #: umlwidgets/widget_utils.cpp:1027
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the object:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του αντικειμένου:"
 
 #: umlwidgets/widget_utils.cpp:1028
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object node :"
+#, kde-format
 msgid "Enter the new name of the object node:"
-msgstr "Εισάγετε το όνομα του κόμβου του αντικειμένου: "
+msgstr "Εισάγετε το νέο όνομα του κόμβου αντικειμένου:"
 
 #: umlwidgets/widget_utils.cpp:1030
 #, fuzzy, kde-format
@@ -9400,46 +9024,39 @@ msgid "Enter the new name of the pin:"
 msgstr "Εισάγετε το νέο όνομα διαγράμματος:"
 
 #: umlwidgets/widget_utils.cpp:1032
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the precondition:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα της προσυνθήκης:"
 
 #: umlwidgets/widget_utils.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the region:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα της περιοχής:"
 
 #: umlwidgets/widget_utils.cpp:1034
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the signal:"
-msgstr "Εισάγετε το νέο όνομα διαγράμματος:"
+msgstr "Εισάγετε το νέο όνομα του σήματος:"
 
 #: umlwidgets/widget_utils.cpp:1035
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the new name of the state:"
-msgstr "Εισάγετε το όνομα της νέας κατάστασης:"
+msgstr "Εισάγετε το νέο όνομα της κατάστασης:"
 
 #: umlwidgets/widget_utils.cpp:1036
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the text:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του κειμένου:"
 
 #: umlwidgets/widget_utils.cpp:1037
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the uml widget:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του γραφικού συστατικού uml:"
 
 #: umlwidgets/widget_utils.cpp:1041
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the widget:"
-msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
+msgstr "Εισάγετε το νέο όνομα του γραφικού συστατικού:"
 
 #: umlwidgets/widgetbase.cpp:1242 worktoolbar.cpp:334
 #, kde-format
@@ -9447,15 +9064,14 @@ msgid "Box"
 msgstr "Πλαίσιο"
 
 #: umlwidgets/widgetbase.cpp:1248
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "CombinedFragment"
-msgstr "Συνδυασμένο τμήμα"
+msgstr "ΣυνδυασμένοΤμήμα"
 
 #: umlwidgets/widgetbase.cpp:1257 worktoolbar.cpp:359
 #, kde-format
 msgid "Datatype"
-msgstr "Τύπος δεδομένων"
+msgstr "ΤύποςΔεδομένων"
 
 #: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:360
 #, kde-format
@@ -9465,13 +9081,12 @@ msgstr "Αρίθμηση"
 #: umlwidgets/widgetbase.cpp:1266
 #, kde-format
 msgid "FloatingDashLine"
-msgstr ""
+msgstr "ΑιωρούμενηΔιακεκομμένηΓραμμή"
 
 #: umlwidgets/widgetbase.cpp:1269
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "ForkJoin"
-msgstr "Διακλάδωση/σύνδεση"
+msgstr "ΔιακλάδωσηΣύνδεση"
 
 #: umlwidgets/widgetbase.cpp:1275
 #, kde-format
@@ -9489,42 +9104,34 @@ msgid "Object"
 msgstr "Αντικείμενο"
 
 #: umlwidgets/widgetbase.cpp:1287
-#, fuzzy, kde-format
-#| msgid "Object Node"
+#, kde-format
 msgid "ObjectNode"
-msgstr "Κόμβος αντικειμένου"
+msgstr "ΚόμβοςΑντικειμένου"
 
 #: umlwidgets/widgetbase.cpp:1305
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "Signal"
-msgstr "νέο σήμα"
+msgstr "Σήμα"
 
 #: umlwidgets/widgetbase.cpp:1308
-#, fuzzy, kde-format
-#| msgctxt "state in statechart"
-#| msgid "State"
+#, kde-format
 msgid "State"
 msgstr "Κατάσταση"
 
 #: umlwidgets/widgetbase.cpp:1311
-#, fuzzy, kde-format
-#| msgctxt "text color"
-#| msgid "&Text:"
+#, kde-format
 msgid "Text"
-msgstr "&Κείμενο:"
+msgstr "Κείμενο"
 
 #: umlwidgets/widgetbase.cpp:1314
-#, fuzzy, kde-format
-#| msgid "Use Case"
+#, kde-format
 msgid "UseCase"
-msgstr "Περίπτωση χρήσης"
+msgstr "ΠερίπτωσηΧρήσης"
 
 #: umlwidgets/widgetbase.cpp:1317 worktoolbar.cpp:389
-#, fuzzy, kde-format
-#| msgid "Instance name:"
+#, kde-format
 msgid "Instance"
-msgstr "Όνομα αντιγράφου:"
+msgstr "Στιγμιότυπο"
 
 #: worktoolbar.cpp:319
 #, kde-format
@@ -9533,15 +9140,14 @@ msgid "Select"
 msgstr "Επιλογή"
 
 #: worktoolbar.cpp:321
-#, fuzzy, kde-format
-#| msgid "Aggregation"
+#, kde-format
 msgid "Creation"
-msgstr "Αύξηση"
+msgstr "Δημιουργία"
 
 #: worktoolbar.cpp:322
 #, kde-format
 msgid "Destroy"
-msgstr ""
+msgstr "Κατέστρεψε"
 
 #: worktoolbar.cpp:327
 #, kde-format
@@ -9585,16 +9191,14 @@ msgid "Fork/Join"
 msgstr "Διακλάδωση/σύνδεση"
 
 #: worktoolbar.cpp:357
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interface Provider"
-msgstr "Διασύνδεση"
+msgstr "Πάροχος διασύνδεσης"
 
 #: worktoolbar.cpp:358
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interface required"
-msgstr "Διασύνδεση"
+msgstr "Απαιτείται διασύνδεση"
 
 #: worktoolbar.cpp:364
 #, kde-format

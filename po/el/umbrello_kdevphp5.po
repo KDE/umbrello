@@ -5,30 +5,31 @@
 # Stelios <sstavra@gmail.com>, 2011, 2012, 2017.
 # Dimitrios Glentadakis <dglent@gmail.com>, 2012.
 # Long Run <pvidalis@gmail.com>, 2018.
+# Theofilos Intzoglou <int.teo@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdevphp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-05-27 00:18+0000\n"
-"PO-Revision-Date: 2018-10-18 15:16+0200\n"
-"Last-Translator: Long Run <pvidalis@gmail.com>\n"
-"Language-Team: Greek <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2023-07-27 15:35+0300\n"
+"Last-Translator: Theofilos Intzoglou <int.teo@gmail.com>\n"
+"Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Πέτρος Βιδάλης"
+msgstr "Πέτρος Βιδάλης, Ιντζόγλου Θεόφιλος"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "pvidalis@gmail.com"
+msgstr "pvidalis@gmail.com, int.teo@gmail.com"
 
 #: completion/implementationitem.cpp:60
 #, kde-format
@@ -110,13 +111,7 @@ msgstr "Καθορίζει τη θέση της τεκμηρίωσης της PH
 
 #. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
 #: docs/phpdocssettings.kcfg:13
-#, fuzzy, kde-format
-#| msgid ""
-#| "The location of the PHP documentation to use. You can either use a "
-#| "remote\n"
-#| "                 location like http://php.net or a local directory which "
-#| "contains the\n"
-#| "                 PHP documentation in HTML format with many files."
+#, kde-format
 msgid ""
 "The location of the PHP documentation to use. You can either use a remote\n"
 "                 location like https://php.net or a local directory which "
@@ -124,7 +119,8 @@ msgid ""
 "                 PHP documentation in HTML format with many files."
 msgstr ""
 "Η θέση για την τεκμηρίωση της PHP. Μπορείτε ή να την χρησιμοποιήσετε από\n"
-"                 απόσταση στο http://php.net ή με έναν τοπικό κατάλογο που\n"
+"                 απόσταση δίνοντας https://php.net ή με έναν τοπικό κατάλογο "
+"που\n"
 "περιέχει την\n"
 "                 τεκμηρίωση της PHP σε μορφή HTML πολλών αρχείων."
 
