@@ -281,7 +281,7 @@
 <title
 >Arranjament general de la classe</title>
 <para
->La pàgina d'opcions generals del diàleg de propietats s'explica per si mateixa. Aquí podeu canviar el nom de la classe, la visibilitat, la documentació, &etc;. Aquesta pàgina sempre està disponible. </para>
+>La pàgina d'opcions generals del diàleg de propietats s'explica per si mateixa. Aquí podeu canviar el nom de la classe, la visibilitat, la documentació, &etc; Aquesta pàgina sempre està disponible. </para>
 </sect3>
 <sect3 id="class-attributes-settings">
 <title
