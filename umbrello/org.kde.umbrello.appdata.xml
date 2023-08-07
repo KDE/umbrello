@@ -50,7 +50,7 @@
   <summary xml:lang="eu">UML modelatzailea</summary>
   <summary xml:lang="fi">UML-mallinnusohjelma</summary>
   <summary xml:lang="fr">Modeleur UML</summary>
-  <summary xml:lang="gl">Modelador de UML</summary>
+  <summary xml:lang="gl">Modelador de UML.</summary>
   <summary xml:lang="hu">UML modellező</summary>
   <summary xml:lang="id">Pemodel UML</summary>
   <summary xml:lang="it">Modellatore UML</summary>
@@ -226,7 +226,7 @@
       <caption xml:lang="eu">Klase-diagrama erakusten</caption>
       <caption xml:lang="fi">Näytetään luokkadiagrammi</caption>
       <caption xml:lang="fr">Affichage du diagramme de classe</caption>
-      <caption xml:lang="gl">Mostra un diagrama de clases</caption>
+      <caption xml:lang="gl">Mostra un diagrama de clases.</caption>
       <caption xml:lang="hu">Osztálydiagram megjelenítése</caption>
       <caption xml:lang="id">Menampilkan diagram kelas</caption>
       <caption xml:lang="it">Mostrando il diagramma delle classi</caption>
