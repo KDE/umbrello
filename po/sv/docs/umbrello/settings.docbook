@@ -702,7 +702,7 @@
     <para
 >Tillåter anpassning av kodvisningen. Sektionen <guilabel
 >Begärt teckensnitt</guilabel
-> tillåter att teckensnittet väljes och teckenstorlek. En representation av det du väljer visas nedanför valen. </para>
+> gör att teckensnitt, teckenstil och och teckenstorlek kan väljas. En representation av det du väljer visas nedanför valen. </para>
     <para
 >I sektionen <guilabel
 >Färger</guilabel

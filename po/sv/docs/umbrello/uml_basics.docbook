@@ -487,7 +487,7 @@
 <title
 >Gränssnitt</title>
 <para
->Gränssnitt är abstrakta klasser vilket betyder att instanser inte direkt kan skapas från dem. De kan innehålla operationer men inga attribut. Klasser kan ärva från gränssnitt (via en realisationsassociation) och instanser kan därefter skapas av diagrammen.</para>
+>Gränssnitt är abstrakta klasser vilket betyder att instanser inte direkt kan skapas från dem. De kan innehålla operationer men inga attribut. Klasser kan ärva från gränssnitt (via en realisationsassociation) och instanser kan därefter skapas av klasserna.</para>
 <!-- FIXME screenshot -->
 </sect4>
 <sect4 id="datatype">

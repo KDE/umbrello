@@ -15,7 +15,7 @@
 >fylla i tomrummen</quote
 > genom att tillhandahålla funktionerna i klassernas operationer. </para>
 <para
->&umbrello; 2 levereras med kodgenereringsstöd för ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL och Pascal. </para>
+>&umbrello; 2 levereras med kodgenereringsstöd för ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala och XMLSchema. </para>
 <sect2 id="generate-code">
 <title
 >Generera kod</title>
@@ -130,7 +130,7 @@
 <title
 >Kodimport</title>
 <para
->&umbrello; kan importera källkod från befintliga projekt för att hjälpa dig bygga modeller av system. &umbrello; 2 stöder ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL och Pascal källkod. </para>
+>&umbrello; kan importera källkod från befintliga projekt för att hjälpa dig bygga modeller av system. &umbrello; 2 stöder ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP och Vala källkod. </para>
 <para
 >För att importera klasser till modellen, välj alternativet <guimenuitem
 >Kodimportguide...</guimenuitem

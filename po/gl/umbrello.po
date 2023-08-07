@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-14 11:33+0000\n"
-"PO-Revision-Date: 2023-05-12 00:11+0200\n"
+"PO-Revision-Date: 2023-08-06 05:09+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -747,7 +747,7 @@ msgstr "Xeración de código fonte"
 #: codegenerators/java/javacodegenerationformbase.ui:60
 #, kde-format
 msgid "Create ANT build document"
-msgstr "Crea un documento ANT de construción"
+msgstr "Crea un documento ANT de construción."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2)
 #: codegenerators/d/dcodegenerationformbase.ui:76
@@ -762,7 +762,7 @@ msgstr "Xerar automaticamente os métodos"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:99
 #, kde-format
 msgid "Empty constructor methods"
-msgstr "Xerar construtores baleiros"
+msgstr "Xerar construtores baleiros."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_generateAssocAccessors)
 #: codegenerators/d/dcodegenerationformbase.ui:118
@@ -770,7 +770,7 @@ msgstr "Xerar construtores baleiros"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:109
 #, kde-format
 msgid "Association accessor methods"
-msgstr "Métodos lectores da asociación"
+msgstr "Métodos lectores da asociación."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_generateAttribAccessors)
 #: codegenerators/d/dcodegenerationformbase.ui:128
@@ -778,7 +778,7 @@ msgstr "Métodos lectores da asociación"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:119
 #, kde-format
 msgid "Attribute accessor methods"
-msgstr "Métodos lectores aos atributos"
+msgstr "Métodos lectores aos atributos."
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelAccessorScope)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_3)
@@ -1116,13 +1116,13 @@ msgstr "Verbosidade dos comentarios"
 msgid "Write comments &for class and method documentation even if empty"
 msgstr ""
 "Escribir os comentarios de documentación para as clases e &métodos aínda que "
-"estes estean baleiros"
+"estes estean baleiros."
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_forceDoc)
 #: codegenwizard/codegenoptionspage.ui:240
 #, kde-format
 msgid "&Write documentation comments even if empty"
-msgstr "Escri&bir comentarios de documentación aínda que estea baleiro"
+msgstr "Escri&bir comentarios de documentación aínda que estea baleiro."
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
@@ -1248,7 +1248,7 @@ msgstr "Clases dispoñíbeis"
 #: codegenwizard/codegenselectpage.ui:73
 #, kde-format
 msgid "Add class for code generation"
-msgstr "Engadir a clase para a xeración de código"
+msgstr "Engadir a clase para a xeración de código."
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_addButton)
 #: codegenwizard/codegenselectpage.ui:76
@@ -1260,7 +1260,7 @@ msgstr "Engadir >>"
 #: codegenwizard/codegenselectpage.ui:103
 #, kde-format
 msgid "Remove class from Code Generation"
-msgstr "Retirar a clase da xeración de código"
+msgstr "Retirar a clase da xeración de código."
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_removeButton)
 #: codegenwizard/codegenselectpage.ui:106
@@ -1905,7 +1905,7 @@ msgstr "Visor de código - %1"
 #: dialogs/codeviewerdialogbase.ui:20
 #, kde-format
 msgid "Show hidden blocks"
-msgstr "Amosar os bloques agochados"
+msgstr "Amosar os bloques agochados."
 
 #. i18n: ectx: property (text), widget (QLabel, ui_componentLabel)
 #: dialogs/codeviewerdialogbase.ui:33
@@ -1917,7 +1917,7 @@ msgstr "<p align=\"center\">aquí o nome da compoñente</p>"
 #: dialogs/codeviewerdialogbase.ui:46
 #, kde-format
 msgid "Show block type"
-msgstr "Amosar o tipo de bloque"
+msgstr "Amosar o tipo de bloque."
 
 #. i18n: ectx: property (title), widget (QGroupBox, colorGroupBox)
 #: dialogs/codevieweroptionsbase.ui:32
@@ -2040,7 +2040,7 @@ msgstr "Exportar todas as vistas"
 #: dialogs/exportallviewsdialogbase.ui:41
 #, kde-format
 msgid "The base directory used to save the images"
-msgstr "O directorio base onde gardar as imaxes"
+msgstr "O directorio base onde gardar as imaxes."
 
 #. i18n: ectx: property (text), widget (QLabel, kURLRequesterLabel)
 #: dialogs/exportallviewsdialogbase.ui:28
@@ -2056,7 +2056,7 @@ msgid ""
 "in the document to store the views"
 msgstr ""
 "Crea no directorio de destino a mesma estrutura en árbore usada\n"
-"no documento para gardar as vistas"
+"no documento para gardar as vistas."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_useFolders)
 #: dialogs/exportallviewsdialogbase.ui:61
@@ -2078,7 +2078,7 @@ msgstr ""
 #: dialogs/exportallviewsdialogbase.ui:64
 #, kde-format
 msgid "Use &folders"
-msgstr "Usar &cartafoles"
+msgstr "Usar &cartafoles."
 
 #: dialogs/finddialog.cpp:11
 #, kde-format
@@ -2467,7 +2467,7 @@ msgstr ""
 #: dialogs/pages/autolayoutoptionpage.ui:27
 #, kde-format
 msgid "Auto detect layout generator"
-msgstr "Detectar automaticamente o xerador de disposición"
+msgstr "Detectar automaticamente o xerador de disposición."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/pages/autolayoutoptionpage.ui:37
@@ -2739,7 +2739,8 @@ msgstr "Importación de C++"
 #: dialogs/pages/codeimportoptionspage.ui:66
 #, kde-format
 msgid "For each imported file create an artifact in the component view"
-msgstr "Crear un artefacto na vista do compoñente para cada ficheiro importado"
+msgstr ""
+"Crear un artefacto na vista do compoñente para cada ficheiro importado."
 
 #. i18n: ectx: property (text), widget (QCheckBox, resolveDependenciesCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:73
@@ -2868,13 +2869,13 @@ msgstr "Altura:"
 #: dialogs/pages/diagrampropertiespage.ui:189
 #, kde-format
 msgid "Show &grid"
-msgstr "Amosar a &grade"
+msgstr "Amosar a &grade."
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_snapToGrid)
 #: dialogs/pages/diagrampropertiespage.ui:196
 #, kde-format
 msgid "Snap &to grid"
-msgstr "Axus&tar á grade"
+msgstr "Axus&tar á grade."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ui_snapComponentSizeToGrid)
 #: dialogs/pages/diagrampropertiespage.ui:204
@@ -2892,7 +2893,7 @@ msgstr ""
 #: dialogs/pages/diagrampropertiespage.ui:207
 #, kde-format
 msgid "Snap component size"
-msgstr "Axustar o tamaño dos compoñentes"
+msgstr "Axustar o tamaño dos compoñentes."
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelGridSpacing)
 #: dialogs/pages/diagrampropertiespage.ui:224
