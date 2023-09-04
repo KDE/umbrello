@@ -1,0 +1,41 @@
+{
+    "id": "org.kde.umbrello",
+    "branch": "master",
+    "base": "io.qt.qtwebengine.BaseApp",
+    "base-version": "5.15-22.08",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "5.15-22.08",
+    "sdk": "org.kde.Sdk",
+    "command": "umbrello5",
+    "tags": ["nightly"],
+    "desktop-file-name-suffix": " (Nightly)",
+    "finish-args": ["--share=ipc", "--socket=x11", "--socket=wayland" ],
+
+    "modules": [
+        {
+            "config-opts": [ "-DENABLE_TESTING=OFF" ],
+            "name": "kdelibs4support",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://invent.kde.org/frameworks/kdelibs4support.git",
+                    "tag": "v5.92.0",
+                    "x-checker-data": {
+                        "type": "git",
+                        "tag-pattern": "^v([\\d.]+)$"
+                    },
+                    "commit": "45f261c182f81096d32b010d51dcd7c73462bd0c"
+                }
+            ]
+        },
+        {
+            "name": "umbrello",
+            "buildsystem": "cmake-ninja",
+            "config-opts": ["-DBUILD_KF5=ON", "-DENABLE_TESTING=OFF", "-DQt5WebKit_DIR=/app/lib/cmake/Qt5WebKit/", "-DQt5WebKitWidgets_DIR=/app/lib/cmake/Qt5WebKitWidgets/"],
+            "sources": [
+                { "type": "dir", "path": "." }
+            ]
+        }
+    ]
+}
