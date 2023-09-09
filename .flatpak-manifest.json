@@ -32,7 +32,7 @@
         {
             "name": "umbrello",
             "buildsystem": "cmake-ninja",
-            "config-opts": ["-DBUILD_KF5=ON", "-DENABLE_TESTING=OFF", "-DQt5WebKit_DIR=/app/lib/cmake/Qt5WebKit/", "-DQt5WebKitWidgets_DIR=/app/lib/cmake/Qt5WebKitWidgets/"],
+            "config-opts": ["-DBUILD_KF5=ON", "-DENABLE_TESTING=OFF"],
             "sources": [
                 { "type": "dir", "path": "." }
             ]
