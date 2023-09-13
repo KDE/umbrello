@@ -1429,7 +1429,7 @@ msgstr "Neteja totes les seleccions."
 #: codeimpwizard/codeimpselectpage.cpp:140
 #, kde-format
 msgid "Add file extensions like e.g. '*.h *.hpp'."
-msgstr "Afig les extensions de fitxer p. ex. «*.h *.hpp»."
+msgstr "Afig les extensions de fitxer p. ex., «*.h *.hpp»."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ui_languageLabel)
 #: codeimpwizard/codeimpselectpage.ui:37
@@ -6375,7 +6375,7 @@ msgstr "Mostra la visibilitat"
 #: umbrello.kcfg:195
 #, kde-format
 msgid "Show the Visibility of the Attributes ( eg: private, public, protected)"
-msgstr "Mostra la visibilitat dels atributs (p. ex. privat, públic, protegit)"
+msgstr "Mostra la visibilitat dels atributs (p. ex., privat, públic, protegit)"
 
 #. i18n: ectx: label, entry (showAtts), group (Class Options)
 #: umbrello.kcfg:199
