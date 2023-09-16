@@ -159,8 +159,8 @@ public slots:
     virtual void syncCodeToDocument();
 
 signals:
-    void codeGenerated(UMLClassifier* concept, bool generated);
-    void codeGenerated(UMLClassifier* concept, CodeGenerator::GenerationState result);
+    void codeGenerated(UMLClassifier* classifier, bool generated);
+    void codeGenerated(UMLClassifier* classifier, CodeGenerator::GenerationState result);
     void showGeneratedFile(const QString& filename);
 };
 
