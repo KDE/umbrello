@@ -33,8 +33,8 @@
 
 DEBUG_REGISTER(JavaClassifierCodeDocument)
 
-JavaClassifierCodeDocument::JavaClassifierCodeDocument (UMLClassifier * concept)
-        : ClassifierCodeDocument (concept)
+JavaClassifierCodeDocument::JavaClassifierCodeDocument (UMLClassifier * classifier)
+        : ClassifierCodeDocument (classifier)
 {
     init();
 }

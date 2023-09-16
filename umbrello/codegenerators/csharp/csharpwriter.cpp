@@ -161,7 +161,7 @@ QStringList CSharpWriter::defaultDatatypes() const
 void CSharpWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        logWarn0("CSharpWriter::writeClass: Cannot write class of NULL concept");
+        logWarn0("CSharpWriter::writeClass: Cannot write class of NULL classifier");
         return;
     }
 
@@ -334,7 +334,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
 
 /**
  * Write all operations for a given class.
- * @param c the concept we are generating code for
+ * @param c the classifier we are generating code for
  * @param cs output stream
  */
 void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs)

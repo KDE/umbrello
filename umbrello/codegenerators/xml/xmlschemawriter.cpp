@@ -157,7 +157,7 @@ void XMLSchemaWriter::writeElementDecl(const QString &elementName, const QString
 }
 
 /**
- * Writes concept's documentation then guts.
+ * Writes classifier's documentation then guts.
  */
 void XMLSchemaWriter::writeClassifier(UMLClassifier *c, QTextStream &xs)
 {
@@ -178,7 +178,7 @@ void XMLSchemaWriter::writeClassifier(UMLClassifier *c, QTextStream &xs)
 }
 
 /**
- * Find all attributes for this concept.
+ * Find all attributes for this classifier.
  */
 UMLAttributeList XMLSchemaWriter::findAttributes(UMLClassifier *c)
 {
@@ -405,7 +405,7 @@ void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &xs
 
 /**
  * Discover the string name of all the attribute groups (which are child nodes)
- * of this concept (err.. element).
+ * of this classifier (err.. element).
  * These exist for abstract classes only (which become xs:group nodes).
  */
 QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
@@ -458,7 +458,7 @@ void XMLSchemaWriter::writeChildObjsInAssociation (UMLClassifier *c,
 }
 
 /**
- * Quick check to see if we have written the declaration for this concept yet.
+ * Quick check to see if we have written the declaration for this classifier yet.
  */
 bool XMLSchemaWriter::hasBeenWritten(UMLClassifier *c)
 {
@@ -469,7 +469,7 @@ bool XMLSchemaWriter::hasBeenWritten(UMLClassifier *c)
 }
 
 /**
- * Mark a concept as written, so it is not repeatedly re-declared in the schema.
+ * Mark a classifier as written, so it is not repeatedly re-declared in the schema.
  */
 void XMLSchemaWriter::markAsWritten(UMLClassifier *c)
 {
@@ -797,7 +797,7 @@ QString XMLSchemaWriter::fixInitialStringDeclValue(QString value, const QString 
 }
 
 /**
- * Find the element node name for this concept.
+ * Find the element node name for this classifier.
  */
 QString XMLSchemaWriter::getElementName(UMLClassifier *c)
 {

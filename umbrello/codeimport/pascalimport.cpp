@@ -209,7 +209,7 @@ bool PascalImport::parseStmt()
         m_section = sect_THREADVAR;
         return true;
     }
-    if (keyword == QStringLiteral("automated") || keyword == QStringLiteral("published")  // no concept in UML
+    if (keyword == QStringLiteral("automated") || keyword == QStringLiteral("published")  // no classifier in UML
      || keyword == QStringLiteral("public")) {
         m_currentAccess = Uml::Visibility::Public;
         return true;

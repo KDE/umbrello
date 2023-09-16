@@ -338,12 +338,12 @@ UMLAssociationList UMLCanvasObject::getAssociations() const
 }
 
 /**
- * Return a list of the superclasses of this concept.
+ * Return a list of the superclasses of this classifier.
  * TODO: This overlaps with UMLClassifier::findSuperClassConcepts(),
  *       see if we can merge the two.
  *
  * @param withRealizations include realizations in the returned list (default=yes)
- * @return  The list of superclasses for the concept.
+ * @return  The list of superclasses for the classifier.
  */
 UMLClassifierList UMLCanvasObject::getSuperClasses(bool withRealizations) const
 {
@@ -368,11 +368,11 @@ UMLClassifierList UMLCanvasObject::getSuperClasses(bool withRealizations) const
 }
 
 /**
- * Return a list of the classes that inherit from this concept.
+ * Return a list of the classes that inherit from this classifier.
  * TODO: This overlaps with UMLClassifier::findSubClassConcepts(),
  *       see if we can merge the two.
  *
- * @return  The list of classes inheriting from the concept.
+ * @return  The list of classes inheriting from the classifier.
  */
 UMLClassifierList UMLCanvasObject::getSubClasses() const
 {

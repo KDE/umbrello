@@ -2989,7 +2989,7 @@ PhpWriter::~PhpWriter()
 void PhpWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        logWarn0("PhpWriter::writeClass: Cannot write class of NULL concept");
+        logWarn0("PhpWriter::writeClass: Cannot write class of NULL classifier");
         return;
     }
 
@@ -3137,7 +3137,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
 
 /**
  * Write all operations for a given class.
- * @param c     the concept we are generating code for
+ * @param c     the classifier we are generating code for
  * @param php   output stream for the PHP file
  */
 void PhpWriter::writeOperations(UMLClassifier *c, QTextStream &php)

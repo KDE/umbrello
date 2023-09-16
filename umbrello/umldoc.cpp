@@ -1577,7 +1577,7 @@ void UMLDoc::renameDiagram(Uml::ID::Type id)
 
 /**
  * Used to rename a @ref UMLObject.  The @ref UMLObject is to be an
- * actor, use case or concept.
+ * actor, use case or classifier.
  *
  * @param o The object to rename.
  */
@@ -1605,7 +1605,7 @@ void UMLDoc::renameUMLObject(UMLObject *o)
 }
 
 /**
- * Used to rename an operation or attribute of a concept.
+ * Used to rename an operation or attribute of a classifier.
  *
  * @param o The attribute or operation to rename.
  */

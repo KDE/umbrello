@@ -16,7 +16,7 @@
 /**
  * Sets up a template.
  *
- * @param parent   The parent of this UMLTemplate (i.e. its concept).
+ * @param parent   The parent of this UMLTemplate (i.e. its classifier).
  * @param name     The name of this UMLTemplate.
  * @param id       The unique id given to this UMLTemplate.
  * @param type     The type of this UMLTemplate.
@@ -32,7 +32,7 @@ UMLTemplate::UMLTemplate(UMLObject *parent, const QString& name,
 /**
  * Sets up a template.
  *
- * @param parent    The parent of this UMLTemplate (i.e. its concept).
+ * @param parent    The parent of this UMLTemplate (i.e. its classifier).
  */
 UMLTemplate::UMLTemplate(UMLObject *parent)
         : UMLClassifierListItem(parent)

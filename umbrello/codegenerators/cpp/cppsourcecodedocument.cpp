@@ -29,8 +29,8 @@
 // qt includes
 #include <QRegExp>
 
-CPPSourceCodeDocument::CPPSourceCodeDocument (UMLClassifier * concept)
-        : ClassifierCodeDocument (concept)
+CPPSourceCodeDocument::CPPSourceCodeDocument (UMLClassifier * classifier)
+        : ClassifierCodeDocument (classifier)
 {
     setFileExtension(QStringLiteral(".cpp"));
 

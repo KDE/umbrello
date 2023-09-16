@@ -296,7 +296,7 @@ UMLOperation *createOperation(UMLClassifier *parent, const QString& name)
  * Creates an operation, attribute, template, or enum literal
  * for the parent classifier.
  *
- * @param parent    The parent concept
+ * @param parent    The parent classifier
  * @param type      The type to create
  * @param name      Optional name of object (skips creation dialog)
  * @return      Pointer to the UMLClassifierListItem created

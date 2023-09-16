@@ -179,7 +179,7 @@ QStringList ValaWriter::defaultDatatypes() const
 void ValaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        logWarn0("ValaWriter::writeClassL Cannot write class of NULL concept");
+        logWarn0("ValaWriter::writeClassL Cannot write class of NULL classifier");
         return;
     }
 
@@ -359,7 +359,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
 
 /**
  * Write all operations for a given class.
- * @param c the concept we are generating code for
+ * @param c the classifier we are generating code for
  * @param cs output stream
  */
 void ValaWriter::writeOperations(UMLClassifier *c, QTextStream &cs)

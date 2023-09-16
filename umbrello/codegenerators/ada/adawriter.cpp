@@ -207,7 +207,7 @@ void AdaWriter::declareClass(UMLClassifier *c, QTextStream &ada)
 void AdaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        logWarn0("AdaWriter::writeClass: Cannot write class of NULL concept!");
+        logWarn0("AdaWriter::writeClass: Cannot write class of NULL classifier!");
         return;
     }
     if (m_classesGenerated.contains(c))

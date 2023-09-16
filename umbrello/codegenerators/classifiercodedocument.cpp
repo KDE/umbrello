@@ -457,10 +457,10 @@ void ClassifierCodeDocument::init (UMLClassifier * c)
  * Example of the problem: CPPSourceCodeDocument reimplementing syncNamesToParent()
  *  CPPCodeGenerator::initFromParentDocument()
  *    CodeDocument * codeDoc = new CPPSourceCodeDocument(c);
- *      CPPSourceCodeDocument::CPPSourceCodeDocument(UMLClassifier * concept)
- *       : ClassifierCodeDocument(concept)
- *        ClassifierCodeDocument::ClassifierCodeDocument(concept)
- *         init(concept);
+ *      CPPSourceCodeDocument::CPPSourceCodeDocument(UMLClassifier * classifier)
+ *       : ClassifierCodeDocument(classifier)
+ *        ClassifierCodeDocument::ClassifierCodeDocument(classifier)
+ *         init(classifier);
  *          syncNamesToParent();
  *            dispatches to CPPSourceCodeDocument::syncNamesToParent()
  *            but that object is not yet constructed.

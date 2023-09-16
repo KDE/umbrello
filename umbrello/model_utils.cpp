@@ -2229,7 +2229,7 @@ QString updateDeleteActionToString(UMLForeignKeyConstraint::UpdateDeleteAction u
 bool typeIsAllowedInDiagram(UMLObject* o, UMLScene *scene)
 {
     //make sure dragging item onto correct diagram
-    // concept - class, seq, coll diagram
+    // classifier - class, seq, coll diagram
     // actor, usecase - usecase diagram
     UMLObject::ObjectType ot = o->baseType();
     Uml::ID::Type id = o->id();

@@ -98,7 +98,7 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
 void DWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        logWarn0("DWriter::writeClass: Cannot write class of NULL concept");
+        logWarn0("DWriter::writeClass: Cannot write class of NULL classifier");
         return;
     }
 
@@ -350,8 +350,8 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
         d << " : ";
 
         // (f) base classes
-        foreach (UMLClassifier* concept, superclasses) {
-            d << cleanName(concept->name());
+        foreach (UMLClassifier* classifier, superclasses) {
+            d << cleanName(classifier->name());
 
             count--;
 
@@ -359,8 +359,8 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
         }
 
         // (g) interfaces
-        foreach (UMLClassifier* concept, superinterfaces) {
-            d << cleanName(concept->name());
+        foreach (UMLClassifier* classifier, superinterfaces) {
+            d << cleanName(classifier->name());
 
             count--;
 
@@ -794,11 +794,11 @@ void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &
 {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
 
-    foreach (UMLClassifier* concept, superClasses) {
-        getSuperImplementedOperations(concept, yetImplementedOpList, toBeImplementedOpList, (concept->isInterface() && noClassInPath));
-        UMLOperationList opl = concept->getOpList();
+    foreach (UMLClassifier* classifier, superClasses) {
+        getSuperImplementedOperations(classifier, yetImplementedOpList, toBeImplementedOpList, (classifier->isInterface() && noClassInPath));
+        UMLOperationList opl = classifier->getOpList();
         foreach (UMLOperation* op, opl) {
-            if (concept->isInterface() && noClassInPath) {
+            if (classifier->isInterface() && noClassInPath) {
                 if (!DWriter::dMethodInList(op, toBeImplementedOpList))
                     toBeImplementedOpList.append(op);
             }

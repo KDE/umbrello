@@ -27,8 +27,8 @@ DEBUG_REGISTER(DClassifierCodeDocument)
 /**
  * Constructor.
  */
-DClassifierCodeDocument::DClassifierCodeDocument(UMLClassifier * concept)
-        : ClassifierCodeDocument(concept)
+DClassifierCodeDocument::DClassifierCodeDocument(UMLClassifier * classifier)
+        : ClassifierCodeDocument(classifier)
 {
     init();
 }

@@ -235,7 +235,7 @@ QSizeF EnumWidget::minimumSize() const
 
     height += lines * fontHeight;
 
-    //now set the width of the concept
+    //now set the width of the classifier
     //set width to name to start with
     if (m_showPackage)  {
         width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_umlObject->fullyQualifiedName()).width();

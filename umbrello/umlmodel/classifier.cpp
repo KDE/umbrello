@@ -562,7 +562,7 @@ UMLObject* UMLClassifier::findChildObjectById(Uml::ID::Type id,
 }
 
 /**
- * Returns a list of concepts which inherit from this concept.
+ * Returns a list of concepts which inherit from this classifier.
  *
  * @param type   The ClassifierType to seek.
  * @return       List of UMLClassifiers that inherit from us.
@@ -587,12 +587,12 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) cons
         if (a->getObjectId(RoleType::A) != myID)
         {
             UMLObject* obj = a->getObject(RoleType::A);
-            UMLClassifier *concept = obj->asUMLClassifier();
-            if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
-                            || (concept->isInterface() && type == INTERFACE))
-                        && (inheritingConcepts.indexOf(concept) == -1))
+            UMLClassifier *classifier = obj->asUMLClassifier();
+            if (classifier && (type == ALL || (!classifier->isInterface() && type == CLASS)
+                            || (classifier->isInterface() && type == INTERFACE))
+                        && (inheritingConcepts.indexOf(classifier) == -1))
             {
-                inheritingConcepts.append(concept);
+                inheritingConcepts.append(classifier);
             }
         }
     }
@@ -601,7 +601,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) cons
 }
 
 /**
- * Returns a list of concepts which this concept inherits from.
+ * Returns a list of concepts which this classifier inherits from.
  *
  * @param type   The ClassifierType to seek.
  * @return       List of UMLClassifiers we inherit from.
@@ -613,22 +613,22 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) co
 
     UMLClassifierList parentConcepts;
     Uml::ID::Type myID = id();
-    foreach (UMLClassifier *concept, list) {
-        uIgnoreZeroPointer(concept);
-        if (type == ALL || (!concept->isInterface() && type == CLASS)
-                || (concept->isInterface() && type == INTERFACE))
-            parentConcepts.append(concept);
+    foreach (UMLClassifier *classifier, list) {
+        uIgnoreZeroPointer(classifier);
+        if (type == ALL || (!classifier->isInterface() && type == CLASS)
+                || (classifier->isInterface() && type == INTERFACE))
+            parentConcepts.append(classifier);
     }
 
     foreach (UMLAssociation *a, rlist) {
         if (a->getObjectId(RoleType::A) == myID)
         {
             UMLObject* obj = a->getObject(RoleType::B);
-            UMLClassifier *concept = obj->asUMLClassifier();
-            if (concept && (type == ALL || (!concept->isInterface() && type == CLASS)
-                            || (concept->isInterface() && type == INTERFACE))
-                        && (parentConcepts.indexOf(concept) == -1))
-                parentConcepts.append(concept);
+            UMLClassifier *classifier = obj->asUMLClassifier();
+            if (classifier && (type == ALL || (!classifier->isInterface() && type == CLASS)
+                            || (classifier->isInterface() && type == INTERFACE))
+                        && (parentConcepts.indexOf(classifier) == -1))
+                parentConcepts.append(classifier);
         }
     }
 
@@ -825,7 +825,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::ID::Type id 
 
 /**
  * Adds an already created attribute.
- * The attribute object must not belong to any other concept.
+ * The attribute object must not belong to any other classifier.
  *
  * @param name    the name of the attribute
  * @param type    the type of the attribute 
@@ -850,7 +850,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, 
 
 /**
  * Adds an already created attribute.
- * The attribute object must not belong to any other concept.
+ * The attribute object must not belong to any other classifier.
  *
  * @param att        Pointer to the UMLAttribute.
  * @param log        Pointer to the IDChangeLog (optional.)
@@ -1016,7 +1016,7 @@ UMLClassifierListItemList UMLClassifier::getFilteredList(UMLObject::ObjectType o
 
 /**
  * Adds an already created template.
- * The template object must not belong to any other concept.
+ * The template object must not belong to any other classifier.
  *
  * @param name   the name of the template
  * @param id     the id of the template
@@ -1038,7 +1038,7 @@ UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::ID::Type id)
 
 /**
  * Adds an already created template.
- * The template object must not belong to any other concept.
+ * The template object must not belong to any other classifier.
  *
  * @param newTemplate   Pointer to the UMLTemplate object to add.
  * @param log           Pointer to the IDChangeLog.

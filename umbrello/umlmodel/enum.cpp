@@ -145,7 +145,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const 
 
 /**
  * Adds an already created enumliteral.
- * The enumliteral object must not belong to any other concept.
+ * The enumliteral object must not belong to any other classifier.
  * @param literal  Pointer to the UMLEnumLiteral.
  * @param Log      Pointer to the IDChangeLog.
  * @return  True if the enumliteral was successfully added.

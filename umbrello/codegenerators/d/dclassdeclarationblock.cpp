@@ -102,8 +102,8 @@ void DClassDeclarationBlock::updateContent ()
     if (count > 0) startText += QStringLiteral(" : ");
 
     // (e) base classes
-    foreach (UMLClassifier* concept, superclasses) {
-        startText += parentDoc->cleanName(concept->name());
+    foreach (UMLClassifier* classifier, superclasses) {
+        startText += parentDoc->cleanName(classifier->name());
 
         count--;
 
@@ -111,8 +111,8 @@ void DClassDeclarationBlock::updateContent ()
     }
 
     // (f) interfaces
-    foreach (UMLClassifier* concept, superinterfaces) {
-        startText += parentDoc->cleanName(concept->name());
+    foreach (UMLClassifier* classifier, superinterfaces) {
+        startText += parentDoc->cleanName(classifier->name());
 
         count--;
 

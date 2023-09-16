@@ -108,7 +108,7 @@ void IDLWriter::computeAssocTypeAndRole(UMLAssociation *a, UMLClassifier *c,
 void IDLWriter::writeClass(UMLClassifier *c) 
 {
     if (!c) {
-        logWarn0("IDLWriter::writeClass: Cannot write class of NULL concept");
+        logWarn0("IDLWriter::writeClass: Cannot write class of NULL classifier");
         return;
     }
 

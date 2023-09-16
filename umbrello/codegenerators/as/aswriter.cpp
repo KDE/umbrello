@@ -475,7 +475,7 @@ ASWriter::~ASWriter()
 void ASWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        logWarn0("ASWriter::writeClass: Cannot write class of NULL concept!");
+        logWarn0("ASWriter::writeClass: Cannot write class of NULL classifier!");
         return;
     }
 

@@ -38,7 +38,7 @@ RubyWriter::~RubyWriter()
 void RubyWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        logWarn0("RubyWriter::writeClass: Cannot write class of NULL concept");
+        logWarn0("RubyWriter::writeClass: Cannot write class of NULL classifier");
         return;
     }
 
@@ -89,18 +89,18 @@ void RubyWriter::writeClass(UMLClassifier *c)
     }
 
     // write inheritances out
-    UMLClassifier *concept;
+    UMLClassifier *classifier;
 
     h <<  "class " << cppToRubyType(className_) << (superclasses.count() > 0 ? QStringLiteral(" < ") : QString());
 
     int i = 0;
-    foreach (concept, superclasses) {
+    foreach (classifier, superclasses) {
         if (i == 0) {
-            h << cppToRubyType(concept->name()) << m_endl;
+            h << cppToRubyType(classifier->name()) << m_endl;
         } else {
             // Assume ruby modules that can be mixed in, after the first
             // superclass name in the list
-            h << m_indentation << "include " <<  cppToRubyType(concept->name()) << m_endl;
+            h << m_indentation << "include " <<  cppToRubyType(classifier->name()) << m_endl;
         }
         i++;
     }
@@ -169,7 +169,7 @@ QString RubyWriter::cppToRubyName(const QString &nameStr)
 
 /**
  * Write all operations for a given class.
- * @param c   the concept we are generating code for
+ * @param c   the classifier we are generating code for
  * @param h   output stream for the header file
  */
 void RubyWriter::writeOperations(UMLClassifier *c, QTextStream &h)

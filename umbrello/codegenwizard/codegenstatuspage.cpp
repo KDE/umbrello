@@ -114,13 +114,13 @@ void CodeGenStatusPage::generateCode()
 
         for (int row = 0; row < ui_tableWidgetStatus->rowCount(); ++row) {
             QTableWidgetItem* item = ui_tableWidgetStatus->item(row, 0);
-            UMLClassifier *concept = doc->findUMLClassifier(item->text());
-            if (concept == 0) {
+            UMLClassifier *classifier = doc->findUMLClassifier(item->text());
+            if (classifier == 0) {
                 logError1("CodeGenStatusPage::generateCode: Could not find classifier %1 "
                           "(not included in generated code)", item->text());
                 continue;
             }
-            cList.append(concept);
+            cList.append(classifier);
         }
         codeGenerator->writeCodeToFile(cList);
 
@@ -141,12 +141,12 @@ bool CodeGenStatusPage::isComplete() const
 
 /**
  * Updates the status of the code generation in the status table.
- * @param concept     the class for which the code was generated
+ * @param classifier     the class for which the code was generated
  * @param generated   the status of the generation
  */
-void CodeGenStatusPage::classGenerated(UMLClassifier* concept, bool generated)
+void CodeGenStatusPage::classGenerated(UMLClassifier* classifier, bool generated)
 {
-    classGenerated(concept, generated ? CodeGenerator::Generated : CodeGenerator::Failed);
+    classGenerated(classifier, generated ? CodeGenerator::Generated : CodeGenerator::Failed);
 }
 
 /**

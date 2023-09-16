@@ -321,8 +321,8 @@ void CodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
 {
     CodeDocumentList docs;
 
-    foreach (UMLClassifier *concept, concepts) {
-        CodeDocument * doc = findCodeDocumentByClassifier(concept);
+    foreach (UMLClassifier *classifier, concepts) {
+        CodeDocument * doc = findCodeDocumentByClassifier(classifier);
         if (doc) {
             docs.append(doc);
         }

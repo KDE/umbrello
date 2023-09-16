@@ -177,7 +177,7 @@ PythonWriter::~PythonWriter()
 void PythonWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        logWarn0("PythonWriter::writeClass: Cannot write class of NULL concept!");
+        logWarn0("PythonWriter::writeClass: Cannot write class of NULL classifier!");
         return;
     }
 
@@ -329,7 +329,7 @@ void PythonWriter::writeAttributes(UMLAttributeList atList, QTextStream &py)
 
 /**
  * Write all operations for a given class.
- * @param c   the concept we are generating code for
+ * @param c   the classifier we are generating code for
  * @param h   output stream for the header file
  */
 void PythonWriter::writeOperations(UMLClassifier *c, QTextStream &h)

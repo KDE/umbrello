@@ -72,10 +72,10 @@ UMLObject* UMLPackage::clone() const
 }
 
 /**
- * Adds an existing association to the matching concept in the list of concepts.
- * The selection of the matching concept depends on the association type:
- * For generalizations, the assoc is added to the concept that matches role A.
- * For aggregations and compositions, the assoc is added to the concept
+ * Adds an existing association to the matching classifier in the list of concepts.
+ * The selection of the matching classifier depends on the association type:
+ * For generalizations, the assoc is added to the classifier that matches role A.
+ * For aggregations and compositions, the assoc is added to the classifier
  * that matches role B.
  * @param assoc   the association to add
  */

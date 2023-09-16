@@ -102,7 +102,7 @@ Uml::ProgrammingLanguage::Enum TclWriter::language() const
 void TclWriter::writeClass(UMLClassifier * c)
 {
     if (!c) {
-        logWarn0("TclWriter::writeClass: Cannot write class of NULL concept");
+        logWarn0("TclWriter::writeClass: Cannot write class of NULL classifier");
         return;
     }
     QFile fileh, filetcl;

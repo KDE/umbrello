@@ -47,8 +47,8 @@ protected:
     QString className_;
     QString fileName_;
 
-    QString findFileName(UMLPackage* concept, const QString &ext);
-    QString overwritableName(UMLPackage* concept, const QString &name, const QString &ext);
+    QString findFileName(UMLPackage* classifier, const QString &ext);
+    QString overwritableName(UMLPackage* classifier, const QString &name, const QString &ext);
     bool hasDefaultValueAttr(UMLClassifier *c);
     bool hasAbstractOps(UMLClassifier *c);
 

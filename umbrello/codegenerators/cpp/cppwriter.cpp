@@ -93,7 +93,7 @@ CPPCodeGenerationPolicy *CppWriter::policyExt()
 void CppWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        logWarn0("CppWriter::writeClass: Cannot write class of NULL concept!");
+        logWarn0("CppWriter::writeClass: Cannot write class of NULL classifier!");
         return;
     }
 

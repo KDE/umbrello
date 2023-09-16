@@ -294,7 +294,7 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name)
 
 /**
  * Adds an entityAttribute.
- * The entityAttribute object must not belong to any other concept.
+ * The entityAttribute object must not belong to any other classifier.
  * @param name   name of the UMLEntityAttribute
  * @param id     id of the UMLEntityAttribute
  * @return  True if the entityAttribute was successfully added.
@@ -311,7 +311,7 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::ID::Type id)
 
 /**
  * Adds an already created entityAttribute.
- * The entityAttribute object must not belong to any other concept.
+ * The entityAttribute object must not belong to any other classifier.
  * @param att   Pointer to the UMLEntityAttribute.
  * @param log   Pointer to the IDChangeLog.
  * @return  True if the entityAttribute was successfully added.

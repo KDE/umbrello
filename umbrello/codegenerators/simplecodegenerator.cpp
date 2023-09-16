@@ -77,20 +77,20 @@ QString SimpleCodeGenerator::indent()
 
 /**
  * Determine the file name.
- * @param concept   the package
+ * @param classifier   the package
  * @param ext       the file extension
  * @return the valid file name
  */
-QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ext)
+QString SimpleCodeGenerator::findFileName(UMLPackage* classifier, const QString &ext)
 {
     //if we already know to which file this class was written/should be written, just return it.
-    if (m_fileMap.contains(concept))
-        return m_fileMap[concept];
+    if (m_fileMap.contains(classifier))
+        return m_fileMap[classifier];
 
     //else, determine the "natural" file name
     QString name;
     // Get the package name
-    QString package = concept->package(QStringLiteral("."));
+    QString package = classifier->package(QStringLiteral("."));
 
     // Replace all white spaces with blanks
     package = package.simplified();
@@ -103,12 +103,12 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
 
     // if package is given add this as a directory to the file name
     if (!package.isEmpty() && m_createDirHierarchyForPackages) {
-        name = package + QLatin1Char('.') + concept->name();
+        name = package + QLatin1Char('.') + classifier->name();
         name.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("/"));
         package.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("/"));
         package = QLatin1Char('/') + package;
     } else {
-        name = concept->fullyQualifiedName(QStringLiteral("-"));
+        name = classifier->fullyQualifiedName(QStringLiteral("-"));
     }
 
     if (! UMLApp::app()->activeLanguageIsCaseSensitive()) {
@@ -147,23 +147,23 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* concept, const QString &ex
     QString extension = ext.simplified();
     extension.replace(QLatin1Char(' '), QLatin1Char('_'));
 
-    return overwritableName(concept, name, extension);
+    return overwritableName(classifier, name, extension);
 }
 
 /**
  * Check if a file named "name" with extension "ext" already exists.
- * @param concept   the package
+ * @param classifier   the package
  * @param name      the name of the file
  * @param ext       the extension of the file
  * @return the valid filename or null
  */
-QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString &name, const QString &ext)
+QString SimpleCodeGenerator::overwritableName(UMLPackage* classifier, const QString &name, const QString &ext)
 {
     CodeGenerationPolicy *commonPolicy = UMLApp::app()->commonPolicy();
     QDir outputDir = commonPolicy->getOutputDirectory();
     QString filename = name + ext;
     if (!outputDir.exists(filename)) {
-        m_fileMap.insert(concept, filename);
+        m_fileMap.insert(classifier, filename);
         return filename; //if not, "name" is OK and we have not much to to
     }
 
@@ -223,7 +223,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* concept, const QString
         break;
     }
 
-    m_fileMap.insert(concept, filename);
+    m_fileMap.insert(classifier, filename);
     delete overwriteDialog;
     return filename;
 }

@@ -27,8 +27,8 @@ DEBUG_REGISTER(RubyClassifierCodeDocument)
 /**
  * Constructor.
  */
-RubyClassifierCodeDocument::RubyClassifierCodeDocument(UMLClassifier * concept)
-        : ClassifierCodeDocument(concept)
+RubyClassifierCodeDocument::RubyClassifierCodeDocument(UMLClassifier * classifier)
+        : ClassifierCodeDocument(classifier)
 {
     init();
 }

@@ -328,7 +328,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
 void PerlWriter::writeClass(UMLClassifier *c)
 {
   if (!c) {
-      logWarn0("PerlWriter::writeClass: Cannot write class of NULL concept");
+      logWarn0("PerlWriter::writeClass: Cannot write class of NULL classifier");
       return;
   }
   QString classname = cleanName(c->name());// this is fine: cleanName is "::-clean"
@@ -504,7 +504,7 @@ Uml::ProgrammingLanguage::Enum PerlWriter::language() const
 
 /**
  * Write all operations for a given class.
- * @param c      the concept we are generating code for
+ * @param c      the classifier we are generating code for
  * @param perl   output stream for the Perl file
  */
 void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)

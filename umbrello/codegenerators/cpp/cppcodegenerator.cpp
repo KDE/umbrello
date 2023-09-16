@@ -239,11 +239,11 @@ void CPPCodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
 {
     CodeDocumentList docs;
 
-    foreach (UMLClassifier* concept, concepts) {
-        CodeDocument * doc = findCodeDocumentByClassifier(concept);
+    foreach (UMLClassifier* classifier, concepts) {
+        CodeDocument * doc = findCodeDocumentByClassifier(classifier);
         if(doc)
             docs.append(doc);
-        CodeDocument * hdoc = findHeaderCodeDocumentByClassifier(concept);
+        CodeDocument * hdoc = findHeaderCodeDocumentByClassifier(classifier);
         if(hdoc)
             docs.append(hdoc);
     }

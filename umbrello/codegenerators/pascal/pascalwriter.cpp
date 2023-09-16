@@ -137,7 +137,7 @@ void PascalWriter::computeAssocTypeAndRole
 void PascalWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        logWarn0("PascalWriter::writeClass: Cannot write class of NULL concept");
+        logWarn0("PascalWriter::writeClass: Cannot write class of NULL classifier");
         return;
     }
 

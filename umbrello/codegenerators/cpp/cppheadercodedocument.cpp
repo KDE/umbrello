@@ -30,8 +30,8 @@
 /**
  * Constructor.
  */
-CPPHeaderCodeDocument::CPPHeaderCodeDocument(UMLClassifier* concept)
-  : ClassifierCodeDocument(concept)
+CPPHeaderCodeDocument::CPPHeaderCodeDocument(UMLClassifier* classifier)
+  : ClassifierCodeDocument(classifier)
 {
     setFileExtension(QStringLiteral(".h"));
 

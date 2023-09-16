@@ -40,7 +40,7 @@ bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *s2)
  *  Constructs a SelectOperationDialog instance.
  *
  *  @param  parent  The parent to this instance.
- *  @param  c       The concept to get the operations from.
+ *  @param  c       The classifier to get the operations from.
  *  @param  widget  The @ref LinkWidget with which the operation may be associated on diagram
  *  @param  enableAutoIncrement Flag to enable auto increment checkbox
  */

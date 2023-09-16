@@ -88,20 +88,20 @@ void RubyClassDeclarationBlock::updateContent ()
     startText.append(RubyClassName);
 
     int i = 0;
-    foreach (UMLClassifier* concept, superclasses) {
+    foreach (UMLClassifier* classifier, superclasses) {
         if (i == 0) {
-            startText.append(QString(QStringLiteral(" < ")) + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
+            startText.append(QString(QStringLiteral(" < ")) + RubyCodeGenerator::cppToRubyType(classifier->name()) + endLine);
         } else {
             // After the first superclass name in the list, assume the classes
             // are ruby modules that can be mixed in,
-            startText.append(QStringLiteral("include ") + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
+            startText.append(QStringLiteral("include ") + RubyCodeGenerator::cppToRubyType(classifier->name()) + endLine);
         }
         i++;
     }
 
     // Write out the interfaces we 'implement'. Are these modules to be mixed in, in Ruby?
-    foreach (UMLClassifier* concept, superinterfaces) {
-        startText.append(QString(QStringLiteral("include ")) + RubyCodeGenerator::cppToRubyType(concept->name()) + endLine);
+    foreach (UMLClassifier* classifier, superinterfaces) {
+        startText.append(QString(QStringLiteral("include ")) + RubyCodeGenerator::cppToRubyType(classifier->name()) + endLine);
     }
 
     // Set the header and end text for the hier.codeblock

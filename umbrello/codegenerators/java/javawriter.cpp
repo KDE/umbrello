@@ -57,7 +57,7 @@ Uml::ProgrammingLanguage::Enum JavaWriter::language() const
 void JavaWriter::writeClass(UMLClassifier *c)
 {
     if (!c) {
-        logWarn0("JavaWriter::writeClass: Cannot write class of NULL concept");
+        logWarn0("JavaWriter::writeClass: Cannot write class of NULL classifier");
         return;
     }
 
@@ -323,7 +323,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
     UMLClassifierList superclasses = c->findSuperClassConcepts(UMLClassifier::CLASS);
 
     int i = 0;
-    foreach (UMLClassifier *concept, superclasses) {
+    foreach (UMLClassifier *classifier, superclasses) {
         if (i == 0)
         {
             java <<  " extends ";
@@ -333,13 +333,13 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
             //The java generated code is wrong ! : No multiple inheritance of class
             java <<  ", " ;
         }
-        java <<  cleanName(concept->name());
+        java <<  cleanName(classifier->name());
         i++;
     }
 
     UMLClassifierList superInterfaces = c->findSuperClassConcepts(UMLClassifier::INTERFACE);
     i = 0;
-    foreach (UMLClassifier *concept, superInterfaces) {
+    foreach (UMLClassifier *classifier, superInterfaces) {
         if (i == 0)
         {
             if (m_isInterface)
@@ -352,7 +352,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
             //The java generated code is OK ! : multiple inheritance of interface
             java <<  ", " ;
         }
-        java <<  cleanName(concept->name());
+        java <<  cleanName(classifier->name());
         i++;
     }
 
@@ -811,12 +811,12 @@ void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationLis
 {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
 
-    foreach (UMLClassifier *concept, superClasses) {
+    foreach (UMLClassifier *classifier, superClasses) {
 
-        getSuperImplementedOperations(concept, yetImplementedOpList, toBeImplementedOpList, (concept->isInterface() && noClassInPath));
-        UMLOperationList opl = concept->getOpList();
+        getSuperImplementedOperations(classifier, yetImplementedOpList, toBeImplementedOpList, (classifier->isInterface() && noClassInPath));
+        UMLOperationList opl = classifier->getOpList();
         foreach (UMLOperation *op, opl) {
-            if (concept->isInterface() && noClassInPath) {
+            if (classifier->isInterface() && noClassInPath) {
                 if (!JavaWriter::javaMethodInList(op, toBeImplementedOpList))
                     toBeImplementedOpList.append(op);
             }

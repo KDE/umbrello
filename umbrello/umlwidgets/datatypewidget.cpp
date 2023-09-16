@@ -112,7 +112,7 @@ QSizeF DatatypeWidget::minimumSize() const
     height = width = 0;
     height += lines * fontHeight;
 
-    //now set the width of the concept
+    //now set the width of the classifier
     //set width to name to start with
     //set width to name to start with
     width = getFontMetrics(FT_BOLD_ITALIC).boundingRect(m_umlObject->fullyQualifiedName()).width();

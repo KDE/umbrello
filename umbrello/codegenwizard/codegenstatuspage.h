@@ -41,7 +41,7 @@ private:
 
 protected slots:
     void generateCode();
-    void classGenerated(UMLClassifier* concept, bool generated);
+    void classGenerated(UMLClassifier* classifier, bool generated);
     void classGenerated(UMLClassifier* classifier, CodeGenerator::GenerationState state);
     void populateStatusList();
     void showFileGenerated(const QString& filename);
