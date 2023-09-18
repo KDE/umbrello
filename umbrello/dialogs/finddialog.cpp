@@ -9,6 +9,8 @@ FindDialog::FindDialog(QWidget *parent) :
     SinglePageDialogBase(parent, false, true)
 {
     setCaption(i18n("Find"));
+    QFrame * frame = new QFrame(this);
+    setMainWidget(frame);
     setupUi(mainWidget());
     connect(ui_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
     ui_treeView->setChecked(true);
