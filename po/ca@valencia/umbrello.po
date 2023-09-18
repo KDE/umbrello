@@ -8301,7 +8301,7 @@ msgstr "Introduïu nom del rol:"
 #: umlwidgets/associationwidget.cpp:3180
 #, kde-format
 msgid "Press Ctrl with left mouse click to delete a point"
-msgstr "Premeu Ctrl amb un clic del botó esquerre per a suprimir un punt"
+msgstr "Premeu «Ctrl» amb un clic del botó esquerre per a suprimir un punt"
 
 #: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
@@ -8510,7 +8510,7 @@ msgid ""
 "Hold shift or ctrl to move in X axis. Hold shift and control to move in Y "
 "axis. Right button click to cancel move."
 msgstr ""
-"Manteniu premuda Majúscules o Control per a moure en l'eix X. Manteniu "
+"Manteniu premuda «Majúscules» o «Control» per a moure en l'eix X. Manteniu "
 "premudes ambdues tecles per a moure en l'eix Y. Feu clic amb el botó dret "
 "per a cancel·lar l'acció de moure."
 
