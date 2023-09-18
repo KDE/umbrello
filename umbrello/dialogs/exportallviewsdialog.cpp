@@ -24,6 +24,8 @@ ExportAllViewsDialog::ExportAllViewsDialog(QWidget* parent, const char* name)
   : SinglePageDialogBase(parent)
 {
     setObjectName(QString::fromLatin1(name));
+    QFrame * frame = new QFrame(this);
+    setMainWidget(frame);
     setupUi(mainWidget());
 
     // create and initialize m_imageType
