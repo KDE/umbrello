@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-14 11:33+0000\n"
+"POT-Creation-Date: 2023-09-19 02:31+0000\n"
 "PO-Revision-Date: 2018-03-03 17:38+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -2023,7 +2023,7 @@ msgstr "&Slet"
 msgid "Notifications"
 msgstr "Associationer"
 
-#: dialogs/exportallviewsdialog.cpp:59 dialogs/widgets/imagetypewidget.cpp:29
+#: dialogs/exportallviewsdialog.cpp:61 dialogs/widgets/imagetypewidget.cpp:29
 #, kde-format
 msgid "The format that the images will be exported to"
 msgstr "Formatet som billederne vil blive eksporteret til"
