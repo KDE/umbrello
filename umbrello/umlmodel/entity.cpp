@@ -463,7 +463,7 @@ bool UMLEntity::load1(QDomElement& element)
         }
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
-        if (UMLDoc::tagEq(tag, QStringLiteral("ownedAttribute"))) {
+        if (UMLDoc::tagEq(tag, QStringLiteral("ownedAttribute")) || UMLDoc::tagEq(tag, QStringLiteral("packagedElement"))) {
             tag = tempElement.attribute(QStringLiteral("xmi:type"));
         }
         if (UMLDoc::tagEq(tag, QStringLiteral("EntityAttribute"))) {   // for backward compatibility
