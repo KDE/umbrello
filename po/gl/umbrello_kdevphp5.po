@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kdevphp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-05-27 00:18+0000\n"
-"PO-Revision-Date: 2023-05-11 16:58+0200\n"
+"PO-Revision-Date: 2023-08-06 05:08+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -179,7 +179,8 @@ msgstr "A función abstracta %1 non pode ter corpo."
 #: duchain/builders/declarationbuilder.cpp:346
 #, kde-format
 msgid "Cannot use the final modifier on an abstract class member."
-msgstr "Non se pode usar o modificador final nun membro dunha clase abstracta."
+msgstr ""
+"Non é posíbel usar o modificador final nun membro dunha clase abstracta."
 
 #: duchain/builders/declarationbuilder.cpp:356
 #, kde-format
@@ -209,13 +210,13 @@ msgstr ""
 #, kde-format
 msgid "Cannot redeclare private property %1 from this context."
 msgstr ""
-"Non se pode declarar de novo a propiedade privada %1 desde este contexto."
+"Non é posíbel declarar de novo a propiedade privada %1 desde este contexto."
 
 #: duchain/builders/declarationbuilder.cpp:583
 #, kde-format
 msgid "Cannot redeclare protected property %1 from this context."
 msgstr ""
-"Non se pode declarar de novo a propiedade protexida %1 desde este contexto."
+"Non é posíbel declarar de novo a propiedade protexida %1 desde este contexto."
 
 #: duchain/builders/declarationbuilder.cpp:616
 #, kde-format
@@ -233,12 +234,12 @@ msgstr ""
 #: duchain/builders/declarationbuilder.cpp:709
 #, kde-format
 msgid "Cannot use 'final' as method modifier"
-msgstr "Non se pode usar «final» como modificador para un método."
+msgstr "Non é posíbel usar «final» como modificador para un método."
 
 #: duchain/builders/declarationbuilder.cpp:712
 #, kde-format
 msgid "Cannot use 'static' as method modifier"
-msgstr "Non se pode usar «static» como modificador para un método."
+msgstr "Non é posíbel usar «static» como modificador para un método."
 
 #: duchain/builders/declarationbuilder.cpp:760
 #, kde-format
@@ -256,7 +257,7 @@ msgstr ""
 #: duchain/builders/declarationbuilder.cpp:870
 #, kde-format
 msgid "Cannot redeclare PHP internal %1."
-msgstr "Non se pode declarar de novo %1 interno de PHP."
+msgstr "Non é posíbel declarar de novo %1 interno de PHP."
 
 #: duchain/builders/declarationbuilder.cpp:873
 #, kde-format
@@ -272,7 +273,7 @@ msgstr ""
 #: duchain/builders/declarationbuilder.cpp:881
 #, kde-format
 msgid "Cannot redeclare %1, already declared in %2 on line %3."
-msgstr "Non se pode declarar de novo %1, xa se declarou na liña %3 de %2."
+msgstr "Non é posíbel declarar de novo %1, xa se declarou na liña %3 de %2."
 
 #: duchain/builders/declarationbuilder.cpp:967
 #, kde-format
@@ -286,7 +287,7 @@ msgstr ""
 #: duchain/builders/declarationbuilder.cpp:974
 #, kde-format
 msgid "Cannot re-assign $this."
-msgstr "Non se pode asignar de novo $this."
+msgstr "Non é posíbel asignar de novo $this."
 
 #: duchain/builders/declarationbuilder.cpp:1410
 #, kde-format
@@ -301,7 +302,7 @@ msgstr "Non pode usarse «%1» como «%2» porque o nome xa está en uso."
 #: duchain/builders/usebuilder.cpp:191
 #, kde-format
 msgid "Usage of %1 is deprecated."
-msgstr "Utilizar %1 está obsoleto."
+msgstr "Usar %1 está obsoleto."
 
 #: duchain/builders/usebuilder.cpp:193
 #, kde-format
@@ -390,17 +391,17 @@ msgstr "© 2008 Niko Sams, 2009 Milian Wolff"
 #: parser/parsesession.cpp:68
 #, kde-format
 msgid "Could not open file '%1'"
-msgstr "Non se puido abrir o ficheiro «%1»"
+msgstr "Non foi posíbel abrir o ficheiro «%1»"
 
 #: parser/parsesession.cpp:71
 #, kde-format
 msgid "File could not be read from."
-msgstr "Non se puido ler o ficheiro."
+msgstr "Non foi posíbel ler o ficheiro."
 
 #: parser/parsesession.cpp:74
 #, kde-format
 msgid "File could not be opened."
-msgstr "Non se puido abrir o ficheiro."
+msgstr "Non foi posíbel abrir o ficheiro."
 
 #: parser/parsesession.cpp:77
 #, kde-format
