@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: kdevphp\n"
+"Project-Id-Version: umbrello_kdevphp5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2021-05-27 00:18+0000\n"
-"PO-Revision-Date: 2009-01-26 21:02+0900\n"
+"PO-Revision-Date: 2018-03-23 18:27-0700\n"
 "Last-Translator: Japanese KDE translation team <kde-jp@kde.org>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
@@ -335,17 +335,20 @@ msgid "(c) 2008 Niko Sams, 2009 Milian Wolff"
 msgstr ""
 
 #: parser/parsesession.cpp:68
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Could not open file '%1'"
 msgid "Could not open file '%1'"
 msgstr "ファイル ‘%1’ を開けませんでした"
 
 #: parser/parsesession.cpp:71
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "File could not be read from."
 msgid "File could not be read from."
 msgstr "ファイルから読めませんでした。"
 
 #: parser/parsesession.cpp:74
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "File could not be opened."
 msgid "File could not be opened."
 msgstr "ファイルを開けませんでした。"
 
