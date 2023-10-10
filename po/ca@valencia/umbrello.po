@@ -1068,8 +1068,7 @@ msgstr ""
 #, kde-format
 msgid "Overwrite existing files if they exist in the destination folder"
 msgstr ""
-"Sobreescriu els fitxers existents sí que ja es troben en la carpeta de "
-"destinació"
+"Sobreescriu els fitxers existents si ja es troben en la carpeta de destinació"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_radioButtonOverwrite)
 #: codegenwizard/codegenoptionspage.ui:170
@@ -1326,7 +1325,7 @@ msgstr "No s'ha pogut obrir el fitxer!"
 #: codegenwizard/codegenstatuspage.cpp:224
 #, kde-format
 msgid "Umbrello Code Generation - Logger Export"
-msgstr "Generació de codi d'Umbrello - Exportació del registrador"
+msgstr "Generació de codi d'Umbrello - Exporteu el registrador"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_statusTab)
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
@@ -1543,7 +1542,7 @@ msgstr "No s'ha importat"
 #: codeimpwizard/codeimpstatuspage.cpp:325
 #, kde-format
 msgid "Umbrello Code Import - Logger Export"
-msgstr "Importació de codi d'Umbrello - Exportació del registrador"
+msgstr "Importació de codi d'Umbrello - Exporteu el registrador"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabStatus)
 #: codeimpwizard/codeimpstatuspage.ui:33
