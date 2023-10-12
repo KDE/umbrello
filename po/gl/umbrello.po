@@ -934,7 +934,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.cpp:254
 #, kde-format
 msgid "Error Writing to Output Folder"
-msgstr "Ocorreu un erro ao escribir no cartafol de saída"
+msgstr "Produciuse un erro ao escribir no cartafol de saída"
 
 #: codegenwizard/codegenoptionspage.cpp:259
 #, kde-format
@@ -981,7 +981,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.cpp:272
 #, kde-format
 msgid "Error Creating Folder"
-msgstr "Ocorreu un erro ao crear o cartafol"
+msgstr "Produciuse un erro ao crear o cartafol"
 
 #: codegenwizard/codegenoptionspage.cpp:278
 #, kde-format
@@ -6004,7 +6004,7 @@ msgstr "Uso incorrecto das asociacións."
 #: toolbarstateassociation.cpp:182 toolbarstateassociation.cpp:280
 #, kde-format
 msgid "Association Error"
-msgstr "Ocorreu un erro de asociación"
+msgstr "Produciuse un erro de asociación"
 
 #: toolbarstatemessages.cpp:341
 #, kde-format
@@ -8229,7 +8229,7 @@ msgstr "Exportando a vista…"
 #: umlviewimageexporter.cpp:77
 #, kde-format
 msgid "An error happened when exporting the image:\n"
-msgstr "Ocorreu un erro ao exportar a imaxe:\n"
+msgstr "Produciuse un erro ao exportar a imaxe:\n"
 
 #: umlviewimageexporter.cpp:108
 #, kde-format
