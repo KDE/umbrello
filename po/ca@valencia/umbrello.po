@@ -4562,7 +4562,7 @@ msgstr "Bifurca"
 #: menus/listpopupmenu.cpp:197
 #, kde-format
 msgid "Go to state diagram"
-msgstr "Ves al diagrama d'estat"
+msgstr "Ves fins al diagrama d'estat"
 
 #: menus/listpopupmenu.cpp:198
 #, kde-format
