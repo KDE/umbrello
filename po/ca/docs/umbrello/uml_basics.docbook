@@ -694,7 +694,7 @@
 >.</para>
 
 <para
->Els diagrames d'activitats implementen les activitats seqüencials així com les paral·leles. L'execució en paral·lel es representa amb icones forquilla/espera, i per les activitats executant-se en paral·lel no és important l'ordre en què es duen a terme (poden executar-se a la mateixa vegada o una rere l'altra)</para>
+>Els diagrames d'activitats implementen les activitats seqüencials així com les paral·leles. L'execució en paral·lel es representa amb icones forquilla/espera, i per les activitats executant-se en paral·lel no és important l'ordre en què es duen a terme (poden executar-se al mateix temps o una rere l'altra)</para>
 <sect3 id="activity">
 <title
 >Activitat</title>
