@@ -7,7 +7,7 @@
 -->
 
 <para
->Aquest capítol us presentarà la interfície d'usuari del l'&umbrello; i us explicarà tot el que necessiteu conèixer per començar amb el modelatge. Totes les accions en l'&umbrello; són accessibles a través del menú i les barres d'eines, però l'&umbrello; també fa un ús intensiu dels menús contextuals del &BDR;. Podeu clicar amb el &BDR; en la majoria d'elements en l'àrea de treball de l'&umbrello; o en la vista en arbre per obtenir un menú amb les funcions més útils que poden ser aplicades a l'element particular sobre el qual esteu treballant. Alguns usuaris troben això una mica confús al començament perquè estan més familiaritzats a treballar amb el menú o les barres d'eines, però una vegada que us acostumeu a clicar amb el &BDR; accelerarà el vostre treball. </para>
+>Aquest capítol us presentarà la interfície d'usuari de l'&umbrello; i us explicarà tot el que necessiteu conèixer per començar amb el modelatge. Totes les accions en l'&umbrello; són accessibles a través del menú i les barres d'eines, però l'&umbrello; també fa un ús intensiu dels menús contextuals del &BDR;. Podeu clicar amb el &BDR; en la majoria d'elements en l'àrea de treball de l'&umbrello; o en la vista en arbre per obtenir un menú amb les funcions més útils que poden ser aplicades a l'element particular sobre el qual esteu treballant. Alguns usuaris troben això una mica confús al començament perquè estan més familiaritzats a treballar amb el menú o les barres d'eines, però una vegada que us acostumeu a clicar amb el &BDR; accelerarà el vostre treball. </para>
 
 <sect1 id="user-interface">
 <title
@@ -240,7 +240,7 @@
 <para
 >Quan hàgiu seleccionat una eina d'edició des de la barra d'eines de treball (per exemple, l'eina per inserir classes) el punter del ratolí canvia a una creu, i podeu inserir elements en el model amb un clic simple en el diagrama. Noteu que els elements en &UML; han de tenir un <emphasis
 >nom únic</emphasis
->. Per tant, si teniu una classe en un altre diagrama el nom de la qual és «ClasseA» i useu l'eina d'inserir classes en una altre diagrama no podeu usar aquest nom «ClasseA» per a la nova classe. Si se suposa que aquests són dos elements diferents, heu de donar-hi un nom únic. Si esteu intentant afegir el mateix element al diagrama, l'eina Insereix classe no és la correcta per a això. En lloc d'això heu d'arrossegar i deixar anar la classe des de la vista en arbre. </para>
+>. Per tant, si teniu una classe en un altre diagrama el nom de la qual és «ClasseA» i useu l'eina d'inserir classes en un altre diagrama no podeu usar aquest nom «ClasseA» per a la nova classe. Si se suposa que aquests són dos elements diferents, heu de donar-hi un nom únic. Si esteu intentant afegir el mateix element al diagrama, l'eina Insereix classe no és la correcta per a això. En lloc d'això heu d'arrossegar i deixar anar la classe des de la vista en arbre. </para>
 </sect2>
 <sect2 id="delete-elements">
 <title
@@ -268,7 +268,7 @@
 >Pels elements &UML; també podeu obrir el diàleg de propietat fent-hi doble clic si esteu usant l'eina de selecció (la fletxa). </para>
 
 <para
->Noteu que també podeu seleccionar l'opció de propietats des del menú contextual dels elements en la vista en arbre. Això us permet també editar les propietats dels diagrames, coma ara establir si s'ha de mostrar la graella o no. </para>
+>Noteu que també podeu seleccionar l'opció de propietats des del menú contextual dels elements en la vista en arbre. Això us permet també editar les propietats dels diagrames, com ara establir si s'ha de mostrar la graella o no. </para>
 </sect2>
 <sect2 id="edit-classes">
 <title
@@ -315,7 +315,7 @@
 >Associacions de la classe</guilabel
 > mostra totes les associacions d'aquesta classe en el diagrama actual. Fent doble clic en una associació es mostren les seves propietats, i depenent del tipus de l'associació podeu modificar alguns paràmetres com ara establir la multiplicitat i el nom del rol. Si l'associació no permet que es modifiquin aquestes opcions, el diàleg de propietats de l'associació és de només lectura i només podeu modificar la documentació associada amb aquesta associació. </para>
 <para
->Aquesta pàgina només està disponible si obriu les propietats de la classes des d'un diagrama. Si seleccioneu les propietats de la classe des del menú contextual de la vista en arbre, aquesta pàgina no està disponible. </para>
+>Aquesta pàgina només està disponible si obriu les propietats de la classe des d'un diagrama. Si seleccioneu les propietats de la classe des del menú contextual de la vista en arbre, aquesta pàgina no està disponible. </para>
 </sect3>
 <sect3 id="class-display-page">
 <title
