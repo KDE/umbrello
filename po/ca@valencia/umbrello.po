@@ -2757,7 +2757,7 @@ msgstr "Resol les dependències (reduïx la velocitat d'importació)"
 #: dialogs/pages/codeimportoptionspage.ui:80
 #, kde-format
 msgid "Enable C++11 standard (experimental)"
-msgstr "Activa el C++11 estàndard (experimental)"
+msgstr "Activa C++11 estàndard (experimental)"
 
 #: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:269
 #, kde-format
@@ -6513,7 +6513,7 @@ msgstr "Activa/desactiva el ressaltat dels blocs"
 #: umbrello.kcfg:293
 #, kde-format
 msgid "Font to be used in the Code Viewer"
-msgstr "Tipus de lletra que s'utilitzarà en el visor de codi"
+msgstr "Tipus de lletra que s'ha d'utilitzar en el visor de codi"
 
 #. i18n: ectx: label, entry (paperColor), group (Code Viewer Options)
 #: umbrello.kcfg:297
@@ -6613,13 +6613,13 @@ msgstr "Resol les dependències en importar un fitxer"
 #: umbrello.kcfg:344
 #, kde-format
 msgid "Support C++11 standard"
-msgstr "Implementa el C++11 estàndard"
+msgstr "Implementa C++11 estàndard"
 
 #. i18n: ectx: whatsthis, entry (supportCPP11), group (Code Importer)
 #: umbrello.kcfg:345
 #, kde-format
 msgid "Support C++11 standard on code import"
-msgstr "Implementa el C++11 estàndard en importar codi"
+msgstr "Implementa C++11 estàndard en importar codi"
 
 #. i18n: ectx: label, entry (autoGenEmptyConstructors), group (Code Generation)
 #: umbrello.kcfg:351
