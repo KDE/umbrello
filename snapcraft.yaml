@@ -7,6 +7,7 @@ confinement: strict
 grade: stable
 base: core22
 adopt-info: umbrello
+version: '23.08.2'
 apps:
     umbrello:
         # extensions:
