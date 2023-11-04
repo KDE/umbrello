@@ -40,7 +40,6 @@ Name[sr@latin]=Izvezi raspored
 Name[sv]=Exportera layout
 Name[tr]=Yerleşimi Dışa Aktar
 Name[uk]=Компонування експортованих даних
-Name[x-test]=xxExport Layoutxx
 Name[zh_CN]=导出布局
 Name[zh_TW]=匯出佈局
 Comment=Export Layout for State Diagrams
@@ -79,7 +78,6 @@ Comment[sr@latin]=Izvezi raspored za dijagrame stanja
 Comment[sv]=Exportera layout av tillståndsdiagram
 Comment[tr]=Yerleşimi Durum Diyagramları için Dışa Aktar
 Comment[uk]=Компонування для експортування діаграм станів
-Comment[x-test]=xxExport Layout for State Diagramsxx
 Comment[zh_CN]=导出状态图布局
 Comment[zh_TW]=狀態圖片的匯出佈局
 
