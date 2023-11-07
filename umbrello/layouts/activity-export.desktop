@@ -40,6 +40,7 @@ Name[sr@latin]=Izvezi raspored
 Name[sv]=Exportera layout
 Name[tr]=Yerleşimi Dışa Aktar
 Name[uk]=Компонування експортованих даних
+Name[x-test]=xxExport Layoutxx
 Name[zh_CN]=导出布局
 Name[zh_TW]=匯出佈局
 Comment=Export Layout for Activity Diagrams
@@ -79,6 +80,7 @@ Comment[sr@latin]=Izvezi raspored za dijagrame aktivnosti
 Comment[sv]=Exportera layout av aktivitetsdiagram
 Comment[tr]=Yerleşimi Etkinlik Diyagramları için Dışa Aktar
 Comment[uk]=Компонування для експортування діаграм дій
+Comment[x-test]=xxExport Layout for Activity Diagramsxx
 Comment[zh_CN]=导出活动图布局
 Comment[zh_TW]=活動圖片的匯出佈局
 

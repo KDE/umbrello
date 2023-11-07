@@ -40,6 +40,7 @@ Name[sr@latin]=Uspravni raspored
 Name[sv]=Vertikal layout
 Name[tr]=Dikey Yerleşim
 Name[uk]=Вертикальне компонування
+Name[x-test]=xxVertical Layoutxx
 Name[zh_CN]=垂直布局
 Name[zh_TW]=垂直佈局
 Comment=Layout which renders vertical
@@ -78,6 +79,7 @@ Comment[sr@latin]=Raspored koji iscrtava uspravno
 Comment[sv]=Layout som återges vertikalt
 Comment[tr]=Dikey sunan yerleşim
 Comment[uk]=Компонування з вертикальним розташуванням елементів
+Comment[x-test]=xxLayout which renders verticalxx
 Comment[zh_CN]=垂直显示的布局
 Comment[zh_TW]=垂直繪製的佈局
 

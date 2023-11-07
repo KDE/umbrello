@@ -31,6 +31,7 @@
         "Description[sv]": "PHP-språkstöd",
         "Description[tr]": "PHP Dil Desteği",
         "Description[uk]": "Підтримка мови PHP",
+        "Description[x-test]": "xxPHP Language Supportxx",
         "Description[zh_CN]": "PHP 语言支持",
         "Description[zh_TW]": "PHP 語言支援",
         "Icon": "application-x-php",
@@ -65,6 +66,7 @@
         "Name[sv]": "PHP-språkstöd",
         "Name[tr]": "PHP Dil Desteği",
         "Name[uk]": "Підтримка мови PHP",
+        "Name[x-test]": "xxPHP Language Supportxx",
         "Name[zh_CN]": "Php 语言支持",
         "Name[zh_TW]": "PHP 語言支援",
         "ServiceTypes": [
