@@ -30,6 +30,7 @@
   <name xml:lang="sv">KDevelop PHP-stöd</name>
   <name xml:lang="tr">K Geliştir PHP Desteği</name>
   <name xml:lang="uk">Підтримка PHP у KDevelop</name>
+  <name xml:lang="x-test">xxKDevelop PHP Supportxx</name>
   <name xml:lang="zh-CN">KDevelop PHP 支持</name>
   <name xml:lang="zh-TW">KDevelop PHP 支援</name>
   <summary>PHP language support for KDevelop</summary>
@@ -60,6 +61,7 @@
   <summary xml:lang="sv">Stöd för språket PHP i KDevelop</summary>
   <summary xml:lang="tr">K Geliştir için PHP dili desteği</summary>
   <summary xml:lang="uk">Підтримка мови PHP у KDevelop</summary>
+  <summary xml:lang="x-test">xxPHP language support for KDevelopxx</summary>
   <summary xml:lang="zh-CN">KDevelop 的 PHP 语言支持</summary>
   <summary xml:lang="zh-TW">適用於 KDevelop 的 PHP 語言支援</summary>
   <project_license>GPL-2.0+</project_license>
