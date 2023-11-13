@@ -104,6 +104,8 @@ parts:
         - libboost1.74-dev
         - libxml2
         - libxslt1.1
+        - graphvis
+        - kinit
         stage-snaps:
         - khelpcenter
         source: .
