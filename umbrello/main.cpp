@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
                          KAboutLicense::GPL,                           // licenseType
                          i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2022 Umbrello UML Modeller Authors"),
                          QString(),                                  // otherText
-                         "http://umbrello.kde.org/");                  // homePageAddress
+                         "https://apps.kde.org/umbrello");                  // homePageAddress
 
     aboutData.addAuthor(QStringLiteral("Paul Hensgen"), i18n("Author of initial version."), "phensgen@users.sourceforge.net");
     aboutData.addAuthor(i18n("Umbrello UML Modeller Authors"), QString(), "umbrello-devel@kde.org");
