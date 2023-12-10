@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-19 02:31+0000\n"
-"PO-Revision-Date: 2023-11-25 02:33\n"
+"PO-Revision-Date: 2023-12-09 09:29\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -2897,7 +2897,7 @@ msgstr "允许撤销"
 #: dialogs/pages/generaloptionpage.cpp:52
 #, kde-format
 msgid "Use tabbed diagrams"
-msgstr "使用标签式图表"
+msgstr "使用标签页图表"
 
 #: dialogs/pages/generaloptionpage.cpp:56
 #, kde-format
@@ -6066,13 +6066,13 @@ msgstr "为真时，撤销支持将启用"
 #: umbrello.kcfg:27
 #, kde-format
 msgid "Tabbed Diagrams"
-msgstr "标签式图表"
+msgstr "标签页图表"
 
 #. i18n: ectx: whatsthis, entry (tabdiagrams), group (General Options)
 #: umbrello.kcfg:28
 #, kde-format
 msgid "Enables/Disables Tabbed View of Diagrams in the view area"
-msgstr "启用/禁用视图区域中的标签式图表"
+msgstr "启用/禁用视图区域中的标签页图表"
 
 #. i18n: ectx: label, entry (newcodegen), group (General Options)
 #: umbrello.kcfg:32
@@ -7337,12 +7337,12 @@ msgstr "缩放到 100%(&O)"
 #: uml.cpp:647
 #, kde-format
 msgid "&Move Tab Left"
-msgstr "标签左移(&M)"
+msgstr "左移标签页(&M)"
 
 #: uml.cpp:648
 #, kde-format
 msgid "&Move Tab Right"
-msgstr "标签右移(&M)"
+msgstr "右移标签页(&M)"
 
 #: uml.cpp:663
 #, kde-format
