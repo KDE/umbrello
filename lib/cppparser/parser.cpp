@@ -287,8 +287,6 @@ bool Parser::skip(int l, int r)
             ++count;
         else if (tk == r)
             --count;
-        else if (l != '{' && (tk == '{' || tk == '}' || tk == ';'))
-            return false;
 
         if (count == 0)
             return true;
@@ -345,6 +343,11 @@ bool Parser::skipExpression(AST::Node& node)
             nextToken();
             break;
 
+        case '{':
+            skip('{', '}');
+            nextToken();
+            break;
+
 #if 0
         case Token_identifier:
             nextToken();
@@ -357,7 +360,6 @@ bool Parser::skipExpression(AST::Node& node)
         case ',':
         case ']':
         case ')':
-        case '{':
         case '}':
         case Token_case:
         case Token_default:
@@ -1118,17 +1120,21 @@ bool Parser::parsePtrOperator(AST::Node& node)
 
     int start = m_lexer->index();
 
-    if (m_lexer->lookAhead(0) == '&') {
+    switch (m_lexer->lookAhead(0)) {
+    case '&':
+    case Token_and:
+    case '*':
         nextToken();
-    } else if (m_lexer->lookAhead(0) == '*') {
-        nextToken();
-    } else {
+        break;
+    default:
+      {
         int index = m_lexer->index();
         AST::Node memPtr;
         if (!parsePtrToMember(memPtr)) {
             m_lexer->setIndex(index);
             return false;
         }
+      }
     }
 
     GroupAST::Node cv;
@@ -2389,10 +2395,21 @@ bool Parser::parseMemInitializer(AST::Node& /*node*/)
         reportError(i18n("Identifier expected"));
         return false;
     }
-    ADVANCE('(', "(");
+    Token token = m_lexer->lookAhead(0);
+    if (token != '(' && token != '{') {
+      reportError(i18n("'(' or '{' expected, found '%1'").arg(token.text()));
+      return false;
+    }
+    nextToken();
+
     AST::Node expr;
     skipCommaExpression(expr);
-    ADVANCE(')', ")");
+    token = m_lexer->lookAhead(0);
+    if (token != ')' && token != '}') {
+      reportError(i18n("')' or '}' expected, found '%1'").arg(token.text()));
+      return false;
+    }
+    nextToken();
 
     return true;
 }
@@ -3378,9 +3395,13 @@ bool Parser::parseFunctionBody(StatementListAST::Node& node)
     if (m_lexer->lookAhead(0) != '{') {
         return false;
     }
+    skip('{', '}');   // Using this instead of the #if 0 block below.
     nextToken();
 
     StatementListAST::Node ast = CreateNode<StatementListAST>();
+
+#if 0
+    /* For Umbrello we do not require function body statement representations */
 
     while (!m_lexer->lookAhead(0).isNull()) {
         if (m_lexer->lookAhead(0) == '}')
@@ -3402,6 +3423,7 @@ bool Parser::parseFunctionBody(StatementListAST::Node& node)
         reportError(i18n("} expected"));
     } else
         nextToken();
+#endif
 
     UPDATE_POS(ast, start, m_lexer->index());
     node = std::move(ast);
@@ -3513,6 +3535,7 @@ bool Parser::parsePrimaryExpression(AST::Node& /*node*/)
     case Token_char_literal:
     case Token_true:
     case Token_false:
+    case Token_default:
         nextToken();
         return true;
 
