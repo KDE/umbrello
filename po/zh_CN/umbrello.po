@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-19 02:31+0000\n"
-"PO-Revision-Date: 2023-12-09 09:29\n"
+"PO-Revision-Date: 2023-12-17 11:32\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -3454,7 +3454,7 @@ msgstr "初始值(&I)："
 #: dialogs/umlattributedialog.cpp:89 dialogs/umloperationdialog.cpp:112
 #, kde-format
 msgid "Classifier &scope (\"static\")"
-msgstr "类元作用域(静态)(&S)"
+msgstr "类元作用域 (静态) (&S)"
 
 #: dialogs/umlattributedialog.cpp:123 dialogs/umlenumliteraldialog.cpp:84
 #, kde-format
@@ -3742,7 +3742,7 @@ msgstr "抽象操作(&A)"
 #: dialogs/umloperationdialog.cpp:115
 #, kde-format
 msgid "&Query (\"const\")"
-msgstr "查询(常量)(&Q)"
+msgstr "查询 (常量) (&Q)"
 
 #: dialogs/umloperationdialog.cpp:118
 #, kde-format
