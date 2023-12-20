@@ -253,7 +253,9 @@
   </provides>
   <launchable type="desktop-id">org.kde.umbrello.desktop</launchable>
   <releases>
-    <release version="2.32.0" date="2020-08-27" />
-    <release version="2.31.2" date="2020-07-02" />
+    <release version="23.08.4" date="2023-12-07"/>
+    <release version="23.08.3" date="2023-11-09"/>
+    <release version="23.08.2" date="2023-10-12"/>
+    <release version="23.08.1" date="2023-09-14"/>
   </releases>
 </component>
