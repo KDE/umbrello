@@ -6,6 +6,7 @@ include:
     file:
       - /gitlab-templates/linux.yml
       - /gitlab-templates/freebsd.yml
+      - /gitlab-templates/windows.yml
       - /gitlab-templates/flatpak.yml
 suse_tumbleweed_qt515:
   except:
