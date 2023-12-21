@@ -35,6 +35,8 @@ option(BUILD_PHP_IMPORT "Build with php import support" ON)
 
 option(BUILD_QCH "Build with QCH support" ON)
 
+option(BUILD_TESTING "Build unit tests" ON)
+
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 include(Macros)
@@ -141,8 +143,6 @@ else()
 endif()
 
 set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello${APP_SUFFIX})
-
-set(BUILD_UNITTESTS 1)
 
 ki18n_install(po)
 kdoctools_install(po)
@@ -289,7 +289,7 @@ endif(LIBXSLT_FOUND AND LIBXML2_FOUND)
 add_subdirectory(maintainer)
 
 # for automatic unit tests
-if(BUILD_UNITTESTS)
+if(BUILD_TESTING)
     ecm_optional_add_subdirectory(unittests)
 endif()
 
