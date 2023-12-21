@@ -207,7 +207,7 @@
       <li xml:lang="zh-TW">支援數種類型的圖表：使用範例、類、序列、協作、狀態、活動、組件、佈署、實體關係</li>
     </ul>
   </description>
-  <content_rating type="oars-1.1" />
+  <content_rating type="oars-1.1"/>
   <url type="homepage">https://apps.kde.org/umbrello</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=umbrello</url>
   <url type="help">https://docs.kde.org/?application=umbrello</url>
