@@ -21,10 +21,11 @@ class CodeImportingWizard : public QWizard
 {
     Q_OBJECT
 public:
-    enum {SelectionPage, StatusPage};
+    enum { SelectionPage, StatusPage };
 
     CodeImportingWizard();
     ~CodeImportingWizard();
+    void setupPages();
 
     QList<QFileInfo> selectedFiles();
 

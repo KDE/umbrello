@@ -21,8 +21,11 @@
 #include <QWizardPage>
 
 /**
- * Constructor. Sets up the wizard and loads the wizard pages.
+ * Constructor. Sets up the wizard but does not load the wizard pages.
  * Each wizard page has its own class.
+ * Loading of the wizard pages needs to be done in separate step because
+ * it is too early to do that within the constructor (`this` not finalized).
+ * See https://bugs.kde.org/show_bug.cgi?id=479224
  */
 CodeImportingWizard::CodeImportingWizard()
   : QWizard((QWidget*)UMLApp::app())
@@ -31,9 +34,6 @@ CodeImportingWizard::CodeImportingWizard()
     setPixmap(QWizard::LogoPixmap, Icon_Utils::DesktopIcon(Icon_Utils::it_Code_Gen_Wizard));
     setWindowTitle(i18n("Code Importing Wizard"));
     setOption(QWizard::NoBackButtonOnStartPage, true);
-
-    setPage(SelectionPage, createSelectionPage());
-    setPage(StatusPage, createStatusPage());
 }
 
 /**
@@ -41,6 +41,16 @@ CodeImportingWizard::CodeImportingWizard()
  */
 CodeImportingWizard::~CodeImportingWizard()
 {
+}
+
+/**
+ * Set up the SelectionPage and the StatusPage.
+ * This needs to be called after constructing the CodeImportingWizard.
+ */
+void CodeImportingWizard::setupPages()
+{
+    setPage(SelectionPage, createSelectionPage());
+    setPage(StatusPage, createStatusPage());
 }
 
 /**

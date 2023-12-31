@@ -1,6 +1,6 @@
 /*
     SPDX-License-Identifier: GPL-2.0-or-later
-    SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
+    SPDX-FileCopyrightText: 2002-2023 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
 // own header
@@ -2772,6 +2772,7 @@ void UMLApp::slotImportProject()
 void UMLApp::slotImportingWizard()
 {
     QPointer<CodeImportingWizard> wizard = new CodeImportingWizard();
+    wizard->setupPages();
     wizard->exec();
     delete wizard;
 }
