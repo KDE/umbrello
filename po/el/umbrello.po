@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2024-01-01 00:42+0000\n"
 "PO-Revision-Date: 2023-07-29 17:38+0300\n"
 "Last-Translator: Theofilos Intzoglou <int.teo@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -1385,7 +1385,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr "Απέτυχε."
 
-#: codeimpwizard/codeimportingwizard.cpp:32
+#: codeimpwizard/codeimportingwizard.cpp:35
 #, kde-format
 msgid "Code Importing Wizard"
 msgstr "Βοηθός εισαγωγής κώδικα"
@@ -7680,7 +7680,7 @@ msgstr "Επιλογή αρχείου(ων) για εισαγωγή:"
 msgid "Select directory to import:"
 msgstr "Επιλογή καταλόγου για εισαγωγή:"
 
-#: uml.cpp:3280
+#: uml.cpp:3281
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Αποτυχία δημιουργίας XHTML."

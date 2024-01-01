@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2024-01-01 00:42+0000\n"
 "PO-Revision-Date: 2023-07-03 11:55+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -1385,7 +1385,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr "No s'ha pogut."
 
-#: codeimpwizard/codeimportingwizard.cpp:32
+#: codeimpwizard/codeimportingwizard.cpp:35
 #, kde-format
 msgid "Code Importing Wizard"
 msgstr "Assistent d'importació de codi"
@@ -7264,12 +7264,12 @@ msgstr "Exporta el model al format XHTML"
 #: uml.cpp:454
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
-msgstr "Retalla la secció seleccionada i la posa al porta-retalls"
+msgstr "Retalla la secció seleccionada i la posa a dins del porta-retalls"
 
 #: uml.cpp:455
 #, kde-format
 msgid "Copies the selected section to the clipboard"
-msgstr "Copia la secció seleccionada al porta-retalls"
+msgstr "Copia la secció seleccionada a dins del porta-retalls"
 
 #: uml.cpp:456
 #, kde-format
@@ -7607,7 +7607,7 @@ msgstr "S'està tallant la selecció..."
 #: uml.cpp:1609
 #, kde-format
 msgid "Copying selection to clipboard..."
-msgstr "S'està copiant la selecció al porta-retalls..."
+msgstr "S'està copiant la selecció a dins del porta-retalls..."
 
 #: uml.cpp:1621
 #, kde-format
@@ -7654,7 +7654,7 @@ msgstr "Seleccioneu els fitxers que s'han d'importar:"
 msgid "Select directory to import:"
 msgstr "Seleccioneu el directori que s'ha d'importar:"
 
-#: uml.cpp:3280
+#: uml.cpp:3281
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "No s'ha pogut generar XHTML."

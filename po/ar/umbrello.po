@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2024-01-01 00:42+0000\n"
 "PO-Revision-Date: 2022-01-29 15:15+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -1355,7 +1355,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr "فشل"
 
-#: codeimpwizard/codeimportingwizard.cpp:32
+#: codeimpwizard/codeimportingwizard.cpp:35
 #, fuzzy, kde-format
 msgid "Code Importing Wizard"
 msgstr "الرّمز الجيل المساعد"
@@ -7561,7 +7561,7 @@ msgstr "انتقِ الرّمز إلى استيراد"
 msgid "Select directory to import:"
 msgstr "انتقِ الرّمز إلى استيراد"
 
-#: uml.cpp:3280
+#: uml.cpp:3281
 #, fuzzy, kde-format
 msgid "XHTML Generation failed ."
 msgstr "الجيل failed."

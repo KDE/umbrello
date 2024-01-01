@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2024-01-01 00:42+0000\n"
 "PO-Revision-Date: 2020-05-02 10:38+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -1380,7 +1380,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr "Nurjus."
 
-#: codeimpwizard/codeimportingwizard.cpp:32
+#: codeimpwizard/codeimportingwizard.cpp:35
 #, kde-format
 msgid "Code Importing Wizard"
 msgstr "Koodi importimise abimees"
@@ -7669,7 +7669,7 @@ msgstr "Imporditavad failid:"
 msgid "Select directory to import:"
 msgstr "Imporditav kataloog:"
 
-#: uml.cpp:3280
+#: uml.cpp:3281
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML-i genereerimine nurjus."

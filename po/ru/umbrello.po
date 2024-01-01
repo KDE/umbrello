@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2024-01-01 00:42+0000\n"
 "PO-Revision-Date: 2023-04-24 10:04+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -1393,7 +1393,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr "Сбой."
 
-#: codeimpwizard/codeimportingwizard.cpp:32
+#: codeimpwizard/codeimportingwizard.cpp:35
 #, kde-format
 msgid "Code Importing Wizard"
 msgstr "Мастер импорта кода"
@@ -7637,7 +7637,7 @@ msgstr "Выберите файл(ы) для импорта:"
 msgid "Select directory to import:"
 msgstr "Выберите каталог для импорта:"
 
-#: uml.cpp:3280
+#: uml.cpp:3281
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Ошибка генерации XHTML."

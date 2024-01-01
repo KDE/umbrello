@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2024-01-01 00:42+0000\n"
 "PO-Revision-Date: 2014-07-19 17:56+0430\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <kde-i18n-fa@kde.org>\n"
@@ -1410,7 +1410,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr ""
 
-#: codeimpwizard/codeimportingwizard.cpp:32
+#: codeimpwizard/codeimportingwizard.cpp:35
 #, fuzzy, kde-format
 #| msgid "Code Generation Wizard"
 msgid "Code Importing Wizard"
@@ -7958,7 +7958,7 @@ msgstr "برگزیدن کد برای واردات"
 msgid "Select directory to import:"
 msgstr "برگزیدن کد برای واردات"
 
-#: uml.cpp:3280
+#: uml.cpp:3281
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""

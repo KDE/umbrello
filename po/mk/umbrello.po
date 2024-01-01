@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2024-01-01 00:42+0000\n"
 "PO-Revision-Date: 2006-09-30 17:38+0200\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -1416,7 +1416,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr ""
 
-#: codeimpwizard/codeimportingwizard.cpp:32
+#: codeimpwizard/codeimportingwizard.cpp:35
 #, fuzzy, kde-format
 #| msgid "Code Generation Wizard"
 msgid "Code Importing Wizard"
@@ -8168,7 +8168,7 @@ msgstr "Изберете код за внесување"
 msgid "Select directory to import:"
 msgstr "Изберете код за внесување"
 
-#: uml.cpp:3280
+#: uml.cpp:3281
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""

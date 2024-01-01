@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2024-01-01 00:42+0000\n"
 "PO-Revision-Date: 2023-01-13 10:38+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -1390,7 +1390,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr "Mislukt."
 
-#: codeimpwizard/codeimportingwizard.cpp:32
+#: codeimpwizard/codeimportingwizard.cpp:35
 #, kde-format
 msgid "Code Importing Wizard"
 msgstr "Assistent voor code importeren"
@@ -7661,7 +7661,7 @@ msgstr "Te importeren bestand(en) selecteren:"
 msgid "Select directory to import:"
 msgstr "Te importeren map selecteren:"
 
-#: uml.cpp:3280
+#: uml.cpp:3281
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Genereren van XHTML is mislukt ."

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2024-01-01 00:42+0000\n"
 "PO-Revision-Date: 2008-11-05 23:34+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -1411,7 +1411,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr ""
 
-#: codeimpwizard/codeimportingwizard.cpp:32
+#: codeimpwizard/codeimportingwizard.cpp:35
 #, fuzzy, kde-format
 #| msgid "Code Generation Wizard"
 msgid "Code Importing Wizard"
@@ -8059,7 +8059,7 @@ msgstr "オブジェクトノードのタイプを選択"
 msgid "Select directory to import:"
 msgstr ""
 
-#: uml.cpp:3280
+#: uml.cpp:3281
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML の生成に失敗しました。"

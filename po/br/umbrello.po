@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdesdk/umbrello.pot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2024-01-01 00:42+0000\n"
 "PO-Revision-Date: 2004-09-20 15:44+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: br <LL@li.org>\n"
@@ -1399,7 +1399,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr ""
 
-#: codeimpwizard/codeimportingwizard.cpp:32
+#: codeimpwizard/codeimportingwizard.cpp:35
 #, kde-format
 msgid "Code Importing Wizard"
 msgstr ""
@@ -8065,7 +8065,7 @@ msgstr "Dibab ar c'hod da enporzh"
 msgid "Select directory to import:"
 msgstr "Dibab ar c'hod da enporzh"
 
-#: uml.cpp:3280
+#: uml.cpp:3281
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""

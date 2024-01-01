@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2024-01-01 00:42+0000\n"
 "PO-Revision-Date: 2023-12-30 13:42\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1361,7 +1361,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr "失败。"
 
-#: codeimpwizard/codeimportingwizard.cpp:32
+#: codeimpwizard/codeimportingwizard.cpp:35
 #, kde-format
 msgid "Code Importing Wizard"
 msgstr "代码导入向导"
@@ -7568,7 +7568,7 @@ msgstr "选择要导入的文件："
 msgid "Select directory to import:"
 msgstr "选择要导入的文件："
 
-#: uml.cpp:3280
+#: uml.cpp:3281
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML 生成失败。"
