@@ -7264,12 +7264,12 @@ msgstr "Exporta el model al format XHTML"
 #: uml.cpp:454
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
-msgstr "Retalla la secció seleccionada i la posa al porta-retalls"
+msgstr "Retalla la secció seleccionada i la posa a dins del porta-retalls"
 
 #: uml.cpp:455
 #, kde-format
 msgid "Copies the selected section to the clipboard"
-msgstr "Copia la secció seleccionada al porta-retalls"
+msgstr "Copia la secció seleccionada a dins del porta-retalls"
 
 #: uml.cpp:456
 #, kde-format
@@ -7607,7 +7607,7 @@ msgstr "S'està tallant la selecció..."
 #: uml.cpp:1609
 #, kde-format
 msgid "Copying selection to clipboard..."
-msgstr "S'està copiant la selecció al porta-retalls..."
+msgstr "S'està copiant la selecció a dins del porta-retalls..."
 
 #: uml.cpp:1621
 #, kde-format
