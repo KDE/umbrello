@@ -13,7 +13,6 @@ Dependencies:
     'frameworks/kdoctools': '@stable'
     'frameworks/ki18n': '@stable'
     'frameworks/kiconthemes': '@stable'
-    'frameworks/kdelibs4support': '@stable'
     'frameworks/kio': '@stable'
     'frameworks/ktexteditor': '@stable'
     'frameworks/kwidgetsaddons': '@stable'

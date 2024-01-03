@@ -547,7 +547,6 @@ target_link_libraries(umbrello
     libumbrello
     KF5::Crash
     KF5::WindowSystem
-    # KF5::KDELibs4Support
 )
 set_target_properties(umbrello PROPERTIES OUTPUT_NAME umbrello5)
 
