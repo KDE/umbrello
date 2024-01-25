@@ -9,6 +9,6 @@ include:
 suse_tumbleweed_qt515:
   except:
     - qt4.8.6-kdelibs4.14.9
-freebsd_qt515:
+freebsd14_qt515:
   except:
     - qt4.8.6-kdelibs4.14.9
