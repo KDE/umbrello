@@ -7,7 +7,7 @@
 -->
 
 <para
->Aquest capítol us presentarà la interfície d'usuari de l'&umbrello; i us explicarà tot el que necessiteu conèixer per començar amb el modelatge. Totes les accions en l'&umbrello; són accessibles a través del menú i les barres d'eines, però l'&umbrello; també fa un ús intensiu dels menús contextuals del &BDR;. Podeu clicar amb el &BDR; en la majoria d'elements en l'àrea de treball de l'&umbrello; o en la vista en arbre per obtenir un menú amb les funcions més útils que poden ser aplicades a l'element particular sobre el qual esteu treballant. Alguns usuaris troben això una mica confús al començament perquè estan més familiaritzats a treballar amb el menú o les barres d'eines, però una vegada que us acostumeu a clicar amb el &BDR; accelerarà el vostre treball. </para>
+>Aquest capítol us presentarà la interfície d'usuari de l'&umbrello; i us explicarà tot el que necessiteu conèixer per a començar amb el modelatge. Totes les accions en l'&umbrello; són accessibles a través del menú i les barres d'eines, però l'&umbrello; també fa un ús intensiu dels menús contextuals del &BDR;. Podeu clicar amb el &BDR; en la majoria d'elements en l'àrea de treball de l'&umbrello; o en la vista en arbre per a obtenir un menú amb les funcions més útils que poden ser aplicades a l'element particular sobre el qual esteu treballant. Alguns usuaris troben això una mica confús al començament perquè estan més familiaritzats a treballar amb el menú o les barres d'eines, però una vegada que us acostumeu a clicar amb el &BDR; accelerarà el vostre treball. </para>
 
 <sect1 id="user-interface">
 <title
@@ -53,7 +53,7 @@
 <title
 >Vista en arbre</title>
 <para
->La vista en arbre està ubicada normalment en la part superior esquerra de la finestra i mostra la totalitat dels diagrames, classes, actors i els casos d'ús que construeixen el model. La vista en arbre us permet obtenir una vista general ràpida dels elements que componen el model. La vista en arbre també us dona un accés ràpid per commutar entre els diferents diagrames del model i inserir elements del model en el diagrama actual. </para>
+>La vista en arbre està ubicada normalment en la part superior esquerra de la finestra i mostra la totalitat dels diagrames, classes, actors i els casos d'ús que construeixen el model. La vista en arbre us permet obtenir una vista general ràpida dels elements que componen el model. La vista en arbre també us dona un accés ràpid per a commutar entre els diferents diagrames del model i inserir elements del model en el diagrama actual. </para>
 <para
 >Si esteu treballant en un model amb alguna cosa més que unes poques classes i diagrames la vista en arbre us pot ajudar a estar a sobre de les coses organitzant els elements del model en carpetes. Podeu crear carpetes seleccionant l'opció apropiada del menú contextual (clic amb el &BDR; en una de les carpetes de la vista en arbre) i podeu organitzar els elements movent-los a la carpeta apropiada (arrossegant i deixant anar) </para>
 </sect2>
@@ -68,7 +68,7 @@
 <title
 >Àrea de treball</title>
 <para
->L'àrea de treball és la finestra principal en l'&umbrello; i és on es du a terme l'acció real. Usareu l'àrea de treball per editar i visualitzar els diagrames en el model. L'àrea de treball mostra el diagrama actiu actualment. Actualment només es pot visualitzar un diagrama alhora en l'àrea de treball. </para>
+>L'àrea de treball és la finestra principal en l'&umbrello; i és on es du a terme l'acció real. Usareu l'àrea de treball per a editar i visualitzar els diagrames en el model. L'àrea de treball mostra el diagrama actiu actualment. Actualment només es pot visualitzar un diagrama alhora en l'àrea de treball. </para>
 </sect2>
 </sect1
 > <!--user-interface-->
@@ -76,7 +76,7 @@
 <title
 >Creació, càrrega i desat dels models</title>
 <para
->La primera cosa que necessiteu per començar a fer alguna cosa útil amb l'&umbrello; és crear un model on treballar. En iniciar l'&umbrello; sempre carrega el darrer model usat o crea un nou, model buit (depenent del vostre arranjament establert en el diàleg de configuració). Això us permetrà començar a treballar immediatament. </para>
+>La primera cosa que necessiteu per a començar a fer alguna cosa útil amb l'&umbrello; és crear un model on treballar. En iniciar l'&umbrello; sempre carrega el darrer model usat o crea un model buit nou (depenent del vostre arranjament establert en el diàleg de configuració). Això us permetrà començar a treballar immediatament. </para>
 <sect2 id="new-model">
 <title
 >Model nou</title>
@@ -113,7 +113,7 @@
 <title
 >Càrrega d'un model</title>
 <para
->Per carregar un model que ja existeix podeu seleccionar l'opció <guimenuitem
+>Per a carregar un model que ja existeix podeu seleccionar l'opció <guimenuitem
 >Obre</guimenuitem
 > del menú <guimenu
 >Fitxer</guimenu
@@ -123,9 +123,9 @@
 >Obre recent</guimenuitem
 > en el menú <guimenu
 >Fitxer</guimenu
-> per accelerar l'accés als models usats més freqüentment. </para>
+> per a accelerar l'accés als models usats més freqüentment. </para>
 <para
->L'&umbrello; només pot treballar en un model alhora, de manera que si demaneu al programa que carregui un model i el model actual ha estat modificat des de la darrera vegada que l'heu desat, l'&umbrello; preguntarà si s'han de desar els canvis per evitar qualsevol pèrdua de treball. També podeu iniciar dues o més instàncies de l'&umbrello; alhora, de manera que pugueu copiar i enganxar entre ambdues instàncies. </para>
+>L'&umbrello; només pot treballar en un model alhora, de manera que si demaneu al programa que carregui un model i el model actual ha estat modificat des de la darrera vegada que l'heu desat, l'&umbrello; preguntarà si s'han de desar els canvis per a evitar qualsevol pèrdua de treball. També podeu iniciar dues o més instàncies de l'&umbrello; alhora, de manera que pugueu copiar i enganxar entre ambdues instàncies. </para>
 </sect2>
 </sect1
 >  <!--load-save-->
@@ -147,7 +147,7 @@
 <para
 >Usant el menú contextual dels diferents elements en la vista en arbre podreu afegir, eliminar, i modificar la majoria dels elements del model. Clicant amb el botó <mousebutton
 >Dret</mousebutton
-> en les carpetes en la vista d'arbre se us donarà opcions per crear els diferents tipus de diagrames així com, depenent de si la carpeta és una <emphasis
+> en les carpetes en la vista d'arbre se us donarà opcions per a crear els diferents tipus de diagrames així com, depenent de si la carpeta és una <emphasis
 >Vista de casos d'ús</emphasis
 > o una <emphasis
 >Vista lògica</emphasis
@@ -159,7 +159,7 @@
 >dret</mousebutton
 > en els elements en la vista en arbre. </para>
 <para
->També podeu editar el model creant o modificant elements a través dels diagrames. Es donen més detalls de com fer això en les següents seccions. </para>
+>També podeu editar el model creant o modificant elements a través dels diagrames. Es donen més detalls de com fer això en les seccions següents. </para>
 </sect1>
 <sect1 id="add-remove-diagrams">
 <title
@@ -167,12 +167,12 @@
 <para
 >El model &UML; consisteix en un conjunt d'elements &UML; i les associacions entre ells. No obstant això no podeu veure el model directament, heu d'usar els <emphasis
 >Diagrames</emphasis
-> per veure'l. </para>
+> per a veure'l. </para>
 <sect2 id="create-diagram">
 <title
 >Creació de diagrames</title>
 <para
->Per crear un nou diagrama en el model simplement seleccioneu el tipus de diagrama que necessiteu des del submenú <guimenuitem
+>Per a crear un diagrama nou en el model simplement seleccioneu el tipus de diagrama que necessiteu des del submenú <guimenuitem
 >Nou</guimenuitem
 > en el menú <guimenu
 >Diagrama</guimenu
@@ -220,7 +220,7 @@
 <title
 >Inserció d'elements</title>
 <para
->Una de les primeres coses que heu de fer en editar un nou diagrama és inserir elements (classes, actors, casos d'ús, &etc;). Hi ha bàsicament dues maneres de per això:</para>
+>Una de les primeres coses que heu de fer en editar un diagrama nou és inserir elements (classes, actors, casos d'ús, &etc;). Hi ha bàsicament dues maneres de per això:</para>
 <itemizedlist>
 <listitem
 ><para
@@ -228,19 +228,19 @@
 ></listitem>
 <listitem
 ><para
->Crear nous elements en el model i afegir-los al diagrama alhora, usant una de les eines d'edició de la barra d'eines de treball</para
+>Crear elements nous en el model i afegir-los al diagrama alhora, usant una de les eines d'edició de la barra d'eines de treball</para
 ></listitem>
 </itemizedlist>
 <para
->Per inserir elements que ja existeixen en el model, simplement arrossegueu-los de la vista en arbre i deixeu-los anar on vulgueu en el diagrama. Sempre podeu moure elements en el diagrama usant l'eina de selecció </para>
+>Per a inserir elements que ja existeixen en el model, simplement arrossegueu-los de la vista en arbre i deixeu-los anar on vulgueu en el diagrama. Sempre podeu moure elements en el diagrama usant l'eina de selecció </para>
 <para
 >La segona manera d'afegir elements als diagrames és usant les eines d'edició de la barra d'eines de treball (noteu que això també afegeix els elements al model). </para>
 <para
 >La barra d'eines de treball era ubicada per omissió a la part superior de la finestra. Les eines disponibles en aquesta barra d'eines (els botons que podeu veure) canvien depenent del tipus de diagrama en el qual esteu treballant actualment. El botó per l'eina actual està activat en la barra d'eines. Podeu canviar a l'eina de selecció prement la tecla &Esc;. </para>
 <para
->Quan hàgiu seleccionat una eina d'edició des de la barra d'eines de treball (per exemple, l'eina per inserir classes) el punter del ratolí canvia a una creu, i podeu inserir elements en el model amb un clic simple en el diagrama. Noteu que els elements en &UML; han de tenir un <emphasis
+>Quan hàgiu seleccionat una eina d'edició des de la barra d'eines de treball (per exemple, l'eina per a inserir classes) el punter del ratolí canvia a una creu, i podeu inserir elements en el model amb un clic simple en el diagrama. Noteu que els elements en &UML; han de tenir un <emphasis
 >nom únic</emphasis
->. Per tant, si teniu una classe en un altre diagrama el nom de la qual és «ClasseA» i useu l'eina d'inserir classes en un altre diagrama no podeu usar aquest nom «ClasseA» per a la nova classe. Si se suposa que aquests són dos elements diferents, heu de donar-hi un nom únic. Si esteu intentant afegir el mateix element al diagrama, l'eina Insereix classe no és la correcta per a això. En lloc d'això heu d'arrossegar i deixar anar la classe des de la vista en arbre. </para>
+>. Per tant, si teniu una classe en un altre diagrama el nom de la qual és «ClasseA» i useu l'eina d'inserir classes en un altre diagrama no podeu usar aquest nom «ClasseA» per a la classe nova. Si se suposa que aquests són dos elements diferents, heu de donar-hi un nom únic. Si esteu intentant afegir el mateix element al diagrama, l'eina Insereix classe no és la correcta per a això. En lloc d'això heu d'arrossegar i deixar anar la classe des de la vista en arbre. </para>
 </sect2>
 <sect2 id="delete-elements">
 <title
@@ -345,7 +345,7 @@
 <para
 >Les associacions relacionen dos objectes &UML; l'un a l'altre. Normalment les associacions es defineixen entre dues classes, però també poden existir alguns tipus d'associacions entre casos d'ús i actors. </para>
 <para
->Per crear una associació seleccioneu l'eina apropiada de la barra d'eines de treball (associació genèrica, generalització, agregació, &etc;) i cliqueu en el primer element que participa de l'associació i després cliqueu en el segon element que participa. Noteu que aquests dos clics, un en cada un dels objectes que participen de l'associació, <emphasis
+>Per a crear una associació seleccioneu l'eina apropiada de la barra d'eines de treball (associació genèrica, generalització, agregació, &etc;) i cliqueu en el primer element que participa de l'associació i després cliqueu en el segon element que participa. Noteu que aquests dos clics, un en cada un dels objectes que participen de l'associació, <emphasis
 >no</emphasis
 > és arrossegar un objecte i deixar-lo anar en l'altre. </para>
 <para
@@ -364,13 +364,13 @@
 <para
 >Les associacions es dibuixen, per omissió, com una línia fina que connecta els dos objectes en el diagrama. </para>
 <para
->Podeu afegir punts d'ancoratge per doblegar una associació fent <mousebutton
+>Podeu afegir punts d'ancoratge per a doblegar una associació fent <mousebutton
 >doble</mousebutton
-> clic en algun punt de la línia de l'associació. Això inserirà un punt d'ancoratge (mostrat com un punt blau quan se selecciona la línia de l'associació) que podeu moure per donar forma a l'associació </para>
+> clic en algun punt de la línia de l'associació. Això inserirà un punt d'ancoratge (mostrat com un punt blau quan se selecciona la línia de l'associació) que podeu moure per a donar forma a l'associació </para>
 <para
 >Si necessiteu eliminar un punt d'ancoratge, feu-hi un <mousebutton
 >doble</mousebutton
-> clic de nou per eliminar-lo </para>
+> clic de nou per a eliminar-lo </para>
 <para
 >Noteu que l'única manera d'editar les propietats d'una associació és a través del menú contextual. Si intenteu fer-hi <mousebutton
 >doble</mousebutton
@@ -382,18 +382,18 @@
 <title
 >Notes, text i quadres</title>
 <para
->Les notes, les línies de text i els quadres són elements que poden estar presents en qualsevol tipus de diagrama, però sense tenir un valor semàntic real, són molt útils per afegir comentaris extres o explicacions que poden fer el diagrama més fàcil d'entendre. </para>
+>Les notes, les línies de text i els quadres són elements que poden estar presents en qualsevol tipus de diagrama, però sense tenir un valor semàntic real, són molt útils per a afegir comentaris extres o explicacions que poden fer el diagrama més fàcil d'entendre. </para>
 <para
->Per afegir una nota o una línia de text, seleccioneu l'eina corresponent de la barra d'eines de treball i cliqueu en el diagrama on voleu posar el comentari. Podeu editar el text obrint l'element a través del seu menú contextual o en el cas de les notes, també fent-hi <mousebutton
+>Per a afegir una nota o una línia de text, seleccioneu l'eina corresponent de la barra d'eines de treball i cliqueu en el diagrama on voleu posar el comentari. Podeu editar el text obrint l'element a través del seu menú contextual o en el cas de les notes, també fent-hi <mousebutton
 >doble</mousebutton
 > clic. </para>
 <sect3 id="anchors">
 <title
 >Àncores</title>
 <para
->Les àncores s'usen per enllaçar una nota de text i un altre element &UML;. Per exemple, normalment s'usa una nota de text per explicar o fer algun comentari quant a una classe o una associació en particular, en aquest cas useu l'àncora per deixar clar que la nota «pertany» a aquest element en particular. </para>
+>Les àncores s'usen per a enllaçar una nota de text i un altre element &UML;. Per exemple, normalment s'usa una nota de text per a explicar o fer algun comentari quant a una classe o una associació en particular, en aquest cas useu l'àncora per a deixar clar que la nota «pertany» a aquest element en particular. </para>
 <para
->Per afegir una àncora entre una nota i un altre element &UML;, useu l'eina d'àncora de la barra d'eines de treball. Primer heu de clicar en la nota i després en l'element &UML; que voleu enllaçar a la nota. </para>
+>Per a afegir una àncora entre una nota i un altre element &UML;, useu l'eina d'àncora de la barra d'eines de treball. Primer heu de clicar en la nota i després en l'element &UML; que voleu enllaçar a la nota. </para>
 </sect3>
 </sect2>
 </sect1>
