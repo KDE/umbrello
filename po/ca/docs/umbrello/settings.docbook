@@ -122,7 +122,7 @@
 ><para
 ><guilabel
 >Activa tots els missatges</guilabel
-> és una opció per veure totes les notificacions o un conjunt reduït de notificacions.</para>
+> és una opció per a veure totes les notificacions o un conjunt reduït de notificacions.</para>
     </listitem>
     <listitem
 ><para
@@ -324,7 +324,7 @@
         <para
 ><guilabel
 >Activa el C++11 estàndard (experimental)</guilabel
->: Una característica experimental per complir amb C++11, inhabilitar si no és necessària.</para>
+>: Una característica experimental per a complir amb C++11, inhabilitar si no és necessària.</para>
     </listitem>
 </itemizedlist>
 
@@ -363,7 +363,7 @@
     </para>
 
     <para
->El modelador &UML; &umbrello; pot generar codi font per diversos llenguatges de programació basat en el vostre model d'&UML; per ajudar-vos a començar amb la implementació del vostre projecte. El codi generar consisteix en la declaració de les classes, amb els seus mètodes i atributs, de manera que pugueu «emplenar els espais en blanc» proporcionant la funcionalitat de les operacions de les classes.</para>
+>El modelador &UML; &umbrello; pot generar codi font per diversos llenguatges de programació basat en el vostre model d'&UML; per a ajudar-vos a començar amb la implementació del vostre projecte. El codi generar consisteix en la declaració de les classes, amb els seus mètodes i atributs, de manera que pugueu «emplenar els espais en blanc» proporcionant la funcionalitat de les operacions de les classes.</para>
 
     <sect3 id="code-gen-language-settings">
         <title
@@ -568,7 +568,7 @@
 >Genera mètodes accessoris</guilabel
 ></para>
                 <para
->Generarà mètodes per accedir als tipus de dades.</para>
+>Generarà mètodes per a accedir als tipus de dades.</para>
             </listitem>
             <listitem>
                 <para
@@ -626,7 +626,7 @@
 >Usa «\» com a etiqueta de documentació en lloc de «@»</guilabel
 ></para>
                 <para
->Una opció d'etiqueta per utilitzar en documentar els paràmetres d'un mètode.</para>
+>Una opció d'etiqueta per a utilitzar en documentar els paràmetres d'un mètode.</para>
             </listitem>
         </itemizedlist>
     </sect4
@@ -659,13 +659,13 @@
 >Llista</guilabel
 ></para>
         <para
->Té opcions de QPtrList, vector i std::vector per al tipus de llista. Segueix un camp editable o seleccionable per especificar el fitxer d'inclusió juntament amb un botó d'exploració per trobar una selecció del fitxer d'inclusió. També hi ha una opció per a fer que la llista sigui global.</para>
+>Té opcions de QPtrList, vector i std::vector per al tipus de llista. Segueix un camp editable o seleccionable per a especificar el fitxer d'inclusió juntament amb un botó d'exploració per a trobar una selecció del fitxer d'inclusió. També hi ha una opció per a fer que la llista sigui global.</para>
         <para
 ><guilabel
 >Cadena</guilabel
 ></para>
             <para
->Opcions de cadena QString per al tipus de cadena. Segueix un camp editable o seleccionable per especificar el fitxer d'inclusió juntament amb un botó d'exploració per trobar una selecció del fitxer d'inclusió. També hi ha una opció per a fer que la cadena sigui global. </para>
+>Opcions de cadena QString per al tipus de cadena. Segueix un camp editable o seleccionable per a especificar el fitxer d'inclusió juntament amb un botó d'exploració per a trobar una selecció del fitxer d'inclusió. També hi ha una opció per a fer que la cadena sigui global. </para>
 
     </sect4
 >    <!-- language-method-body-tab -->

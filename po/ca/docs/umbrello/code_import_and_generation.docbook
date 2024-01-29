@@ -4,29 +4,29 @@
 <para
 >L'&umbrello; és una eina de modelatge &UML;, i la seva utilitat principal és ajudar-vos en <emphasis
 >l'anàlisi i el disseny</emphasis
-> dels vostres sistemes. No obstant això, per fer la transició entre el disseny i la <emphasis
+> dels vostres sistemes. No obstant això, per a fer la transició entre el disseny i la <emphasis
 >implementació</emphasis
 >, l'&umbrello; us permet generar el codi font en diversos llenguatges de programació perquè pugueu començar. També, si voleu començar a usar &UML; en un projecte C++ ja iniciat, l'&umbrello; us pot ajudar a crear un model en el vostre sistema des del codi font analitzant el codi font i important les classes trobades. </para>
 <sect1 id="code-generation">
 <title
 >Generació de codi</title>
 <para
->L'&umbrello; pot generar codi font per diversos llenguatges de programació basat en el vostre model &UML; per ajudar-vos a començar amb la implementació del vostre projecte. El codi generar consisteix en la declaració de les classes, amb els seus mètodes i atributs, de manera que pugueu «emplenar els espais en blanc» proporcionant la funcionalitat de les operacions de les classes. </para>
+>L'&umbrello; pot generar codi font per diversos llenguatges de programació basat en el vostre model &UML; per a ajudar-vos a començar amb la implementació del vostre projecte. El codi generar consisteix en la declaració de les classes, amb els seus mètodes i atributs, de manera que pugueu «emplenar els espais en blanc» proporcionant la funcionalitat de les operacions de les classes. </para>
 <para
 >L'&umbrello; 2 proporciona implementació de generació de codi per ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala, i XMLSchema. </para>
 <sect2 id="generate-code">
 <title
 >Generant el codi</title>
 <para
->Per tal de poder generar codi amb l'&umbrello; primer necessiteu crear o carregar un model que contingui almenys una classe. Quan esteu llest per començar a escriure codi, seleccioneu l'entrada <guimenuitem
+>Per tal de poder generar codi amb l'&umbrello; primer necessiteu crear o carregar un model que contingui almenys una classe. Quan esteu llest per a començar a escriure codi, seleccioneu l'entrada <guimenuitem
 >Assistent de generació de codi...</guimenuitem
 > del menú <guimenuitem
 >Codi</guimenuitem
-> per iniciar un assistent que us guiarà a través del procés de generació de codi. </para>
+> per a iniciar un assistent que us guiarà a través del procés de generació de codi. </para>
 <para
 >El primer pas és seleccionar les classes per les quals voleu generar el codi font. Per omissió totes les classes del model estan seleccionades, i podeu eliminar aquelles de les que no voleu generar el codi movent-les a la llista de l'esquerra. </para>
 <para
->El següent pas de l'assistent us permet modificar els paràmetres que el generador de codi usa mentre escriu el codi. Hi ha disponibles les següents opcions: </para>
+>El pas següent de l'assistent us permet modificar els paràmetres que el generador de codi usa mentre escriu el codi. Hi ha disponibles les opcions següents: </para>
 <para>
 <screenshot>
 <screeninfo
@@ -75,7 +75,7 @@
 <para
 >L'opció <guilabel
 >Inclou els fitxers de capçalera des de la carpeta</guilabel
-> permet inserir una capçalera al començament de cada fitxer generat. Els fitxers de capçalera poden contenir informació del copyright o informació de la llicència i contenir variables que són avaluades en temps de generació. Podeu donar un cop d'ull a la plantilla de fitxers de capçalera empaquetada amb l'&umbrello; per veure com usar aquestes variables per reemplaçar el vostre nom o la data actual en temps de generació. </para>
+> permet inserir una capçalera al començament de cada fitxer generat. Els fitxers de capçalera poden contenir informació del copyright o informació de la llicència i contenir variables que són avaluades en temps de generació. Podeu donar un cop d'ull a la plantilla de fitxers de capçalera empaquetada amb l'&umbrello; per a veure com usar aquestes variables per a reemplaçar el vostre nom o la data actual en temps de generació. </para>
 </sect4>
 <sect4>
 <title
@@ -114,7 +114,7 @@
 >Genera tot el codi</guimenuitem
 > complet del menú <guimenu
 >Codi</guimenu
->. Això generarà codi per a totes les classes del model usant l'arranjament actual (incloent-hi la carpeta de sortida i la política de sobreescriptura, per tant l'heu d'usar amb cura). </para>
+>. Això generarà codi per a totes les classes del model usant l'arranjament actual (incloent-hi la carpeta de sortida i la política de sobreescriptura, per tant, l'heu d'usar amb cura). </para>
 </sect3>
 </sect2
 ><!--generate-code-->
@@ -124,9 +124,9 @@
 <title
 >Importació de codi</title>
 <para
->L'&umbrello; pot importar el codi font dels vostres projectes existents per ajudar-vos a construir models dels vostres sistemes. L'&umbrello; 2 implementa el codi font ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP i Vala. </para>
+>L'&umbrello; pot importar el codi font dels vostres projectes existents per a ajudar-vos a construir models dels vostres sistemes. L'&umbrello; 2 implementa el codi font ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP i Vala. </para>
 <para
->Per importar classes en el model, seleccioneu l'entrada <guimenuitem
+>Per a importar classes en el model, seleccioneu l'entrada <guimenuitem
 >Assistent d'importació de codi...</guimenuitem
 > del menú <guimenu
 >Codi</guimenu
@@ -148,11 +148,11 @@
 	  </imageobject>
 	  <textobject>
 	    <phrase
->Menú per importar codi font en l'&umbrello;</phrase>
+>Menú per a importar codi font en l'&umbrello;</phrase>
 	  </textobject>
 	  <caption>
 	    <para
->Menú per importar codi font en l'&umbrello; </para>
+>Menú per a importar codi font en l'&umbrello; </para>
 	  </caption>
 	</mediaobject>
 </screenshot>

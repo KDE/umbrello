@@ -8,7 +8,7 @@
 <para
 >La versió 1.0 ja oferia un munt de funcionalitats, però després el projecte va ser revisat a la universitat del Paul; altres desenvolupadors van poder unir-se i van començar a fer valuoses aportacions al <application
 >UML Modeller</application
->, com ara el canvi d'un format de fitxer binari a un fitxer &XML;, implementació per més tipus de diagrames &UML;, generació del codi i importació del codi simplement per anomenar-ne unes quantes. </para>
+>, com ara el canvi d'un format de fitxer binari a un fitxer &XML;, implementació per més tipus de diagrames &UML;, generació del codi i importació del codi simplement per a anomenar-ne unes quantes. </para>
 <para
 >Paul es va haver de jubilar de l'equip de desenvolupament en l'estiu de 2002, però, com a programari de codi obert i gratuït que és, el programa continua millorant i evolucionant, i és mantingut per un grup de desenvolupadors de diferents parts del món. El setembre del 2002 el projecte va canviar el seu nom de <application
 >&UML; Modeller</application
@@ -16,7 +16,7 @@
 >Umbrello</application
 > és un nom molt més fresc. </para>
 <para
->El desenvolupament de l'&umbrello; així com els debats pel que fa a on el programa s'ha d'adreçar en les futures versions està obert i es porta a terme a través d'Internet. Si desitgeu contribuir al projecte, si us plau no dubteu en contactar amb els desenvolupadors. Hi ha moltes maneres en què podeu ajudar a l'&umbrello;: </para>
+>El desenvolupament de l'&umbrello; així com els debats pel que fa a on el programa s'ha d'adreçar en les futures versions està obert i es porta a terme a través d'Internet. Si desitgeu contribuir al projecte, si us plau no dubteu a contactar amb els desenvolupadors. Hi ha moltes maneres en què podeu ajudar a l'&umbrello;: </para>
 <itemizedlist>
 <listitem
 ><para
