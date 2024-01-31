@@ -7,13 +7,13 @@
 # Serdar Soytetir <tulliana@gmail.com>, 2008, 2009, 2012.
 # H. İbrahim Güngör <ibrahim@pardus.org.tr>, 2011.
 # Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2017, 2019.
-# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-01 00:42+0000\n"
-"PO-Revision-Date: 2023-08-26 12:29+0300\n"
+"PO-Revision-Date: 2024-01-30 15:32+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,17 +21,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Görkem Çetin"
+msgstr "Emir SARI"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "gorkem@kde.org"
+msgstr "emir_sari@icloud.com"
 
 #: basictypes.cpp:190
 #, kde-format
@@ -41,17 +41,17 @@ msgstr "Sınıf Diyagramı"
 #: basictypes.cpp:192
 #, kde-format
 msgid "Use Case Diagram"
-msgstr "Use Case Diyagramı"
+msgstr "Kullanım Senaryosu Diyagramı"
 
 #: basictypes.cpp:194
 #, kde-format
 msgid "Sequence Diagram"
-msgstr "Sıralı Diyagram"
+msgstr "Sıralama Diyagramı"
 
 #: basictypes.cpp:196
 #, kde-format
 msgid "Collaboration Diagram"
-msgstr "Birlikte Çalışma Tablosu"
+msgstr "Birlikte Çalışma Diyagramı"
 
 #: basictypes.cpp:198
 #, kde-format
@@ -76,7 +76,7 @@ msgstr "Dağılım Diyagramı"
 #: basictypes.cpp:206
 #, kde-format
 msgid "Entity Relationship Diagram"
-msgstr "İçerik İlişkileri Diyagramı"
+msgstr "Varlık İlişkisi Diyagramı"
 
 #: basictypes.cpp:208
 #, kde-format
@@ -106,42 +106,42 @@ msgstr "Bağımlılık"
 #: basictypes.cpp:332 umlwidgets/widgetbase.cpp:1239 worktoolbar.cpp:329
 #, kde-format
 msgid "Association"
-msgstr "Bağıntı"
+msgstr "İlişkilendirme"
 
 #: basictypes.cpp:334
 #, kde-format
 msgid "Self Association"
-msgstr "Kendi İlişkisi"
+msgstr "Kendi İlişkilendirmesi"
 
 #: basictypes.cpp:336
 #, kde-format
 msgid "Collaboration Asynchronous Message"
-msgstr "Asenkron İşbirliği Mesajı"
+msgstr "Eşzamansız İleti İşbirliği"
 
 #: basictypes.cpp:338
 #, kde-format
 msgid "Collaboration Synchronous Message"
-msgstr "Senkron İşbirliği Mesajı"
+msgstr "Eşzamanlı İleti İşbirliği"
 
 #: basictypes.cpp:340
 #, kde-format
 msgid "Sequence Message"
-msgstr "Sıralı Mesaj"
+msgstr "Sıralama İletisi"
 
 #: basictypes.cpp:342
 #, kde-format
 msgid "Collaboration Self Message"
-msgstr "Kendi İşbirliği Mesajı"
+msgstr "Kendi İletisi İşbirliği"
 
 #: basictypes.cpp:344
 #, kde-format
 msgid "Sequence Self Message"
-msgstr "Kendi Sıralı Mesajı"
+msgstr "Kendi İletisi Sıralaması"
 
 #: basictypes.cpp:346 worktoolbar.cpp:330
 #, kde-format
 msgid "Containment"
-msgstr "Kapsayıcı"
+msgstr "Kapsama"
 
 #: basictypes.cpp:348 worktoolbar.cpp:341
 #, kde-format
@@ -156,17 +156,17 @@ msgstr "Gerçekleme"
 #: basictypes.cpp:352
 #, kde-format
 msgid "Uni Association"
-msgstr ""
+msgstr "Tek Yönlü İlişkilendirme"
 
 #: basictypes.cpp:354 worktoolbar.cpp:331
 #, kde-format
 msgid "Anchor"
-msgstr "Çapa"
+msgstr "Tutturucu"
 
 #: basictypes.cpp:356 menus/listpopupmenu.cpp:262 worktoolbar.cpp:372
 #, kde-format
 msgid "State Transition"
-msgstr "Durum Aktarımı"
+msgstr "Durum Geçişi"
 
 #: basictypes.cpp:358 dialogs/activitydialog.cpp:139
 #: umlwidgets/widgetbase.cpp:1230 worktoolbar.cpp:374
@@ -182,12 +182,12 @@ msgstr "İstisna"
 #: basictypes.cpp:362 worktoolbar.cpp:387
 #, kde-format
 msgid "Category to Parent"
-msgstr "Sınıflandırmadan Aileye"
+msgstr "Kategoriden Üst Ögeye"
 
 #: basictypes.cpp:364 worktoolbar.cpp:388
 #, kde-format
 msgid "Child to Category"
-msgstr "Çocuktan Sınıflandırmaya"
+msgstr "Alt Ögeden Kategoriye"
 
 #: basictypes.cpp:366 worktoolbar.cpp:338
 #, kde-format
@@ -202,7 +202,7 @@ msgstr "Bilinmeyen"
 #: basictypes.cpp:370
 #, kde-format
 msgid "? AssociationType ?"
-msgstr "? İlişki Türü ?"
+msgstr "? İlişkilendirme Türü ?"
 
 #: clipboard/umlclipboard.cpp:751
 #, kde-format
@@ -210,8 +210,8 @@ msgid ""
 "At least one of the items in the clipboard could not be pasted because an "
 "item of the same name already exists.  Any other items have been pasted."
 msgstr ""
-"Panodaki ögelerden en azından birisi yapıştırılamıyor çünkü öge ile aynı "
-"isimde bir öge bulunuyor.  Diğer ögeler yapıştırıldı."
+"Aynı adda bir öge halihazırda var olduğundan panodaki ögelerden en az biri "
+"yapıştırılamadı. Diğer ögeler yapıştırıldı."
 
 #: clipboard/umlclipboard.cpp:755 uml.cpp:1628
 #, kde-format
@@ -226,17 +226,17 @@ msgstr "%1 diyagramını oluştur: %2"
 #: cmds/cmdhandlerename.cpp:22
 #, kde-format
 msgid "Change text : %1 to %2"
-msgstr "Metni değiştir: %1 - %2 şeklinde"
+msgstr "Metni değiştir: %1 → %2 olarak"
 
 #: cmds/cmdremovediagram.cpp:33
 #, kde-format
 msgid "Remove diagram %1"
-msgstr "%1 diyagramını sil"
+msgstr "%1 Diyagramını Kaldır"
 
 #: cmds/cmdsetstereotype.cpp:21
 #, kde-format
 msgid "Set stereotype : %1 to %2"
-msgstr "Stereotipini ayarla: %1 den %2 ye"
+msgstr "Stereotip ayarla: %1 → %2 olarak"
 
 #: cmds/cmdsetvisibility.cpp:22
 #, kde-format
@@ -246,42 +246,42 @@ msgstr "Görünürlüğü değiştir: %1"
 #: cmds/generic/cmdcreateumlobject.cpp:28 object_factory.cpp:179
 #, kde-format
 msgid "Create UML object : %1"
-msgstr "UML nesnesi oluştur : %1"
+msgstr "UML nesnesi oluştur: %1"
 
 #: cmds/generic/cmdremoveumlobject.cpp:25
 #, kde-format
 msgid "Remove UML object : %1"
-msgstr "UML nesnesini Kaldır : %1"
+msgstr "UML nesnesini kaldır: %1"
 
 #: cmds/generic/cmdrenameumlobject.cpp:20
 #, kde-format
 msgid "Rename object : %1 to %2"
-msgstr "Nesneyi yeniden adlandır: %1 - %2 şeklinde"
+msgstr "Nesneyi yeniden adlandır: %1 → %2 olarak"
 
 #: cmds/widget/cmdchangefillcolor.cpp:21
 #, kde-format
 msgid "Change fill color : %1"
-msgstr "Doldurma rengini değiştir : %1"
+msgstr "Dolgu rengini değiştir: %1"
 
 #: cmds/widget/cmdchangefont.cpp:19
 #, kde-format
 msgid "Change font : %1"
-msgstr "Yazıtipini değiştir : %1"
+msgstr "Yazıtipini değiştir: %1"
 
 #: cmds/widget/cmdchangelinecolor.cpp:21
 #, kde-format
 msgid "Change line color : %1"
-msgstr "Çizgi rengini değiştir : %1"
+msgstr "Çizgi rengini değiştir: %1"
 
 #: cmds/widget/cmdchangelinewidth.cpp:22
 #, kde-format
 msgid "Change line width : %1"
-msgstr "Çizgi genişliğini değiştir : %1"
+msgstr "Çizgi genişliğini değiştir: %1"
 
 #: cmds/widget/cmdchangemultiplicity.cpp:21
 #, kde-format
 msgid "Change multiplicity : %1 to %2"
-msgstr "Çoklu oluşumu değiştir : %1 den %2 ye"
+msgstr "Çoklu oluşumu değiştir: %1 → %2 olarak"
 
 #: cmds/widget/cmdchangetextcolor.cpp:21
 #, kde-format
@@ -291,47 +291,47 @@ msgstr "Metin rengini değiştir: %1"
 #: cmds/widget/cmdchangeusefillcolor.cpp:21
 #, kde-format
 msgid "Use fill color : %1"
-msgstr "Doldurma rengi kullan : %1"
+msgstr "Dolgu rengi kullan: %1"
 
 #: cmds/widget/cmdchangeusefillcolor.cpp:23
 #, kde-format
 msgid "No fill color : %1"
-msgstr "Doldurma rengini yok : %1"
+msgstr "Dolgu rengi yok: %1"
 
 #: cmds/widget/cmdchangevisualproperty.cpp:28
 #, kde-format
 msgid "Change visual property : %1"
-msgstr "Görünürlüğü değiştir : %1"
+msgstr "Görünürlüğü değiştir: %1"
 
 #: cmds/widget/cmdcreatewidget.cpp:29 cmds/widget/cmdcreatewidget.cpp:52
 #, kde-format
 msgid "Create widget : %1"
-msgstr "Parçacık oluştur : %1"
+msgstr "Araç takımı oluştur: %1"
 
 #: cmds/widget/cmdmovewidget.cpp:21
 #, kde-format
 msgid "Move widget : %1"
-msgstr "Parçacığı taşı: %1"
+msgstr "Araç takımını taşı: %1"
 
 #: cmds/widget/cmdremovewidget.cpp:26 cmds/widget/cmdremovewidget.cpp:77
 #, kde-format
 msgid "Remove widget : %1"
-msgstr "Parçacığı sil : %1"
+msgstr "Araç takımını kaldır: %1"
 
 #: cmds/widget/cmdresizewidget.cpp:21
 #, kde-format
 msgid "Resize widget : %1"
-msgstr "Parçacığı yeniden boyutlandır: %1"
+msgstr "Araç takımını yeniden boyutlandır: %1"
 
 #: cmds/widget/cmdsetname.cpp:21
 #, kde-format
 msgid "Set name : %1 to %2"
-msgstr "İsini ayarla: %1 den %2 ye"
+msgstr "Adını ayarla: %1 → %2 olarak"
 
 #: cmds/widget/cmdsettxt.cpp:25
 #, kde-format
 msgid "Set text : %1 to %2"
-msgstr "Metni ayarla: %1 den %2 ye"
+msgstr "Metni ayarla: %1 → %2 olarak"
 
 #: codegenerators/codegenerator.cpp:524
 #, kde-format
@@ -339,19 +339,19 @@ msgid ""
 "Cannot open file %1 for writing. Please make sure the folder exists and you "
 "have permissions to write to it."
 msgstr ""
-"%1 dosyasını yazmak için açılamadı. Lütfen dizinin var olduğundan ve sizin "
-"de yazma hakkınızın olduğundan emin olunuz."
+"%1 dosyası yazmak için açılamıyor. Lütfen klasörün var olduğundan ve bu "
+"klasöre yazma izniniz olduğundan emin olun."
 
 #: codegenerators/codegenerator.cpp:524
 #, kde-format
 msgid "Cannot Open File"
-msgstr "Dosya Açılamadı"
+msgstr "Dosya Açılamıyor"
 
 #: codegenerators/codegenerator.cpp:586
 #: codegenerators/simplecodegenerator.cpp:135
 #, kde-format
 msgid "Cannot create the folder:\n"
-msgstr "Dzin oluşturulamadı:\n"
+msgstr "Klasör oluşturulamıyor:\n"
 
 #: codegenerators/codegenerator.cpp:587
 #: codegenerators/simplecodegenerator.cpp:136
@@ -361,18 +361,18 @@ msgid ""
 "Please check the access rights"
 msgstr ""
 "\n"
-"Lütfen erişim haklarını kontrol edin"
+"Lütfen erişim haklarını denetleyin"
 
 #: codegenerators/codegenerator.cpp:588
 #: codegenerators/simplecodegenerator.cpp:137
 #, kde-format
 msgid "Cannot Create Folder"
-msgstr "Dizin Oluşturulamadı"
+msgstr "Klasör Oluşturulamıyor"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:33
 #, kde-format
 msgid "Package is a namespace"
-msgstr "Paket bir isim alanıdır"
+msgstr "Paket bir ad alanı"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:37
 #, kde-format
@@ -382,54 +382,54 @@ msgstr "Sanal yıkıcılar"
 #: codegenerators/cpp/cppcodegenerationform.cpp:41
 #, kde-format
 msgid "Generate empty constructors"
-msgstr "Boş yapıcıları oluştur"
+msgstr "Boş yapıcılar üret"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:45
 #, kde-format
 msgid "Generate accessor methods"
-msgstr "Erişim yöntemlerini oluştur"
+msgstr "Erişimci yöntemleri üret"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:49
 #, kde-format
 msgid "Operations are inline"
-msgstr "İşlemler içeride"
+msgstr "İşlemler satır içinde"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:53
 #, kde-format
 msgid "Accessors are inline"
-msgstr "Erişimler içeride"
+msgstr "Erişimciler satır içinde"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:57
 #, kde-format
 msgid "Accessors are public"
-msgstr "Erişimler herkese açık"
+msgstr "Erişimciler herkese açık"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:61
 #, kde-format
 msgid "Create getters with 'get' prefix"
-msgstr ""
+msgstr "'get' önekiyle alıcılar oluştur"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:65
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor method names"
-msgstr ""
+msgstr "Erişimci yöntemi adlarından '[a-zA-Z]_' önekini kaldır"
 
 #. i18n: ectx: label, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
 #: codegenerators/cpp/cppcodegenerationform.cpp:69 umbrello.kcfg:543
 #, kde-format
 msgid "Accessor methods start with capital letters"
-msgstr ""
+msgstr "Erişimci yöntemleri BÜYÜK harfle başlar"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:73
 #, kde-format
 msgid "Use '\\' as documentation tag instead of '@'"
-msgstr "Dökümantasyon etiketi olarak '@' yerine '\\' kullan"
+msgstr "Belgelendirme etiketi olarak '@' yerine '\\' kullan"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelTitle)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:31
 #, kde-format
 msgid "<p align=\"center\">C++ Code Generation</p>"
-msgstr "<p align=\"center\">C++ Kod Oluşturma</p>"
+msgstr "<p align=\"center\">C++ Kodu Üretimi</p>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
@@ -444,13 +444,13 @@ msgstr "Genel"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:473
 #, kde-format
 msgid "Class member prefix"
-msgstr ""
+msgstr "Sınıf üyesi öneki"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabMethodBodyGeneration)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:85
 #, kde-format
 msgid "Method Body Generation"
-msgstr "Yöntem Gövdesi Oluştur"
+msgstr "Yöntem Gövdesi Oluşturması"
 
 #. i18n: ectx: property (historyItems), widget (KHistoryComboBox, ui_listClassHCombo)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:122
@@ -597,13 +597,13 @@ msgstr "QString"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:496
 #, kde-format
 msgid "string"
-msgstr "string"
+msgstr "dizi"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelStringClass)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:295
 #, kde-format
 msgid "<p align=\"center\">String</p>"
-msgstr "<p align=\"center\">İfade</p>"
+msgstr "<p align=\"center\">Dizi</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelListClass)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:311
@@ -687,13 +687,13 @@ msgstr "Sınıf adı"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:514
 #, kde-format
 msgid "<i><p align=\"center\">Include file</p></i>"
-msgstr "<i><p align=\"center\">İçerilecek dosya</p></i>"
+msgstr "<i><p align=\"center\">Include dosyası</p></i>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelHelpMethodBodyGen)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:526
 #, kde-format
 msgid "Use following for classes in generated code:"
-msgstr "Üretilmiş kod içinde sınıflar için aşağıdakini kullan:"
+msgstr "Üretilen kod içinde sınıflar için aşağıdakileri kullan:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxDocumentation)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
@@ -709,7 +709,7 @@ msgstr "Üretilmiş kod içinde sınıflar için aşağıdakini kullan:"
 #: dialogs/widgets/documentationwidget.cpp:87 menus/widgetbasepopupmenu.cpp:77
 #, kde-format
 msgid "Documentation"
-msgstr "Belgeler"
+msgstr "Belgelendirme"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelStyle)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:558
@@ -743,21 +743,21 @@ msgstr "Bölü-Yıldız (/**  */)"
 #: codegenerators/java/javacodegenerationformbase.ui:42
 #, kde-format
 msgid "Project Generation"
-msgstr "Proje Oluşturma"
+msgstr "Proje Üretimi"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_makeANTDocumentCheckBox)
 #: codegenerators/d/dcodegenerationformbase.ui:60
 #: codegenerators/java/javacodegenerationformbase.ui:60
 #, kde-format
 msgid "Create ANT build document"
-msgstr "Bir ANT inşa belgesi oluştur"
+msgstr "ANT yapı belgesi oluştur"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2)
 #: codegenerators/d/dcodegenerationformbase.ui:76
 #: codegenerators/java/javacodegenerationformbase.ui:76
 #, kde-format
 msgid "Auto-Generate Methods"
-msgstr "Otomatik-Oluşturulmuş Yöntemler"
+msgstr "Kendiliğinden Oluşturulan Yöntemler"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_generateConstructors)
 #: codegenerators/d/dcodegenerationformbase.ui:108
@@ -765,7 +765,7 @@ msgstr "Otomatik-Oluşturulmuş Yöntemler"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:99
 #, kde-format
 msgid "Empty constructor methods"
-msgstr "Boş Yapıcı Yöntemler"
+msgstr "Boş yapıcı yöntemleri"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_generateAssocAccessors)
 #: codegenerators/d/dcodegenerationformbase.ui:118
@@ -773,7 +773,7 @@ msgstr "Boş Yapıcı Yöntemler"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:109
 #, kde-format
 msgid "Association accessor methods"
-msgstr "Bağlantı erişim yöntemleri"
+msgstr "İlişkilendirme erişimci yöntemleri"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_generateAttribAccessors)
 #: codegenerators/d/dcodegenerationformbase.ui:128
@@ -781,7 +781,7 @@ msgstr "Bağlantı erişim yöntemleri"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:119
 #, kde-format
 msgid "Attribute accessor methods"
-msgstr "Öznitelik erişim yöntemleri"
+msgstr "Öznitelik erişimci yöntemleri"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelAccessorScope)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_3)
@@ -790,7 +790,7 @@ msgstr "Öznitelik erişim yöntemleri"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:133
 #, kde-format
 msgid "Default attribute accessor scope:"
-msgstr "Öntanımlı öznitelik erişim kapsamı:"
+msgstr "Öntanımlı öznitelik erişimcisi kapsamı:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_accessorScopeCB)
 #. i18n: ectx: property (text), item, widget (KComboBox, m_assocFieldScopeCB)
@@ -846,7 +846,7 @@ msgstr "Korumalı"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:162
 #, kde-format
 msgid "From Parent Object"
-msgstr "Üst Nesneden"
+msgstr "Üst nesneden"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelAssocFieldScope)
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_3_2)
@@ -856,7 +856,7 @@ msgstr "Üst Nesneden"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:174
 #, kde-format
 msgid "Default association field scope:"
-msgstr "Öntanımlı bağlantı alanı kapsamı:"
+msgstr "Öntanımlı ilişkilendirme alanı kapsamı:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_assocFieldScopeCB)
 #: codegenerators/d/dcodegenerationformbase.ui:236
@@ -870,25 +870,25 @@ msgstr "Üst rolden"
 #: codegenerators/d/dcodegenerationformbase.ui:318
 #, kde-format
 msgid "<p align=\"center\">D Code Generation</p>"
-msgstr "<p align=\"center\">D Kod Oluşturma</p>"
+msgstr "<p align=\"center\">D Kodu Üretimi</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelTitle)
 #: codegenerators/java/javacodegenerationformbase.ui:318
 #, kde-format
 msgid "<p align=\"center\">Java Code Generation</p>"
-msgstr "<p align=\"center\">Java Kod Oluşturma</p>"
+msgstr "<p align=\"center\">Java Kodu Üretimi</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelTitle)
 #: codegenerators/ruby/rubycodegenerationformbase.ui:30
 #, kde-format
 msgid "<p align=\"center\">Ruby Code Generation</p>"
-msgstr "<p align=\"center\">Ruby Kod Oluşturma</p>"
+msgstr "<p align=\"center\">Ruby Kodu Üretimi</p>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_SelectCommentStyle)
 #: codegenerators/ruby/rubycodegenerationformbase.ui:69
 #, kde-format
 msgid "Hash (#)"
-msgstr "Hash (#)"
+msgstr "Kare (#)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_SelectCommentStyle)
 #: codegenerators/ruby/rubycodegenerationformbase.ui:74
@@ -900,12 +900,12 @@ msgstr "Başlangıç-Bitiş(=begin  =end)"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:91
 #, kde-format
 msgid "Auto-Generated Methods"
-msgstr "Otomatik-Oluşturulmuş Yöntemler"
+msgstr "Kendiliğinden Oluşturulan Yöntemler"
 
 #: codegenwizard/codegenerationwizard.cpp:36
 #, kde-format
 msgid "Code Generation Wizard"
-msgstr "Kod Oluşturma Sihirbazı"
+msgstr "Kod Üretim Sihirbazı"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenOptionsPage)
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeImpSelectPage)
@@ -913,12 +913,12 @@ msgstr "Kod Oluşturma Sihirbazı"
 #: codegenwizard/codegenoptionspage.ui:20 codeimpwizard/codeimpselectpage.ui:20
 #, kde-format
 msgid "Code Generation Options"
-msgstr "Kod Oluşturma Seçenekleri"
+msgstr "Kod Üretim Seçenekleri"
 
 #: codegenwizard/codegenoptionspage.cpp:34
 #, kde-format
 msgid "Adjust code generation options."
-msgstr "Kod oluşturma seçeneklerini ayarla."
+msgstr "Kod üretimi seçeneklerini ayarlayın."
 
 #: codegenwizard/codegenoptionspage.cpp:191
 #, kde-format
@@ -931,39 +931,39 @@ msgid ""
 "The output folder exists, but it is not writable.\n"
 "Please set the appropriate permissions or choose another folder."
 msgstr ""
-"Çıktı dizini bulunuyor ancak yazılabilir değildir.\n"
-"Lütfen uygun yetkilendirmeyi yapınız ya da başka bir dizin seçiniz."
+"Çıkış klasörü var; ancak yazılabilir değil.\n"
+"Lütfen uygun izinleri ayarlayın veya başka bir klasör seçin."
 
 #: codegenwizard/codegenoptionspage.cpp:254
 #, kde-format
 msgid "Error Writing to Output Folder"
-msgstr "Çıktı Dizinine Yazma Hatası"
+msgstr "Çıktı Klasörüne Yazma Hatası"
 
 #: codegenwizard/codegenoptionspage.cpp:259
 #, kde-format
 msgid "%1 does not seem to be a folder. Please choose a valid folder."
-msgstr "%1 dizin gibi görünmüyor. Lütfen geçerli bir dizin seçiniz."
+msgstr "%1, bir klasör gibi görünmüyor. Lütfen geçerli bir klasör seçin."
 
 #: codegenwizard/codegenoptionspage.cpp:260
 #, kde-format
 msgid "Please Choose Valid Folder"
-msgstr "Lütfen Geçerli Bir Dizin Seçin"
+msgstr "Lütfen Geçerli Bir Klasör Seçin"
 
 #: codegenwizard/codegenoptionspage.cpp:266
 #, kde-format
 msgid "The folder %1 does not exist. Do you want to create it now?"
-msgstr "%1 dizini yok. Oluşturmak istiyor musunuz?"
+msgstr "%1 klasörü yok. Oluşturmak istiyor musunuz?"
 
 #: codegenwizard/codegenoptionspage.cpp:267
 #: codegenwizard/codegenoptionspage.cpp:279
 #, kde-format
 msgid "Output Folder Does Not Exist"
-msgstr "Çıktı Dizini Yok"
+msgstr "Çıktı Klasörü Yok"
 
 #: codegenwizard/codegenoptionspage.cpp:267
 #, kde-format
 msgid "Create Folder"
-msgstr "Dizin Oluştur"
+msgstr "Klasörü Oluştur"
 
 #: codegenwizard/codegenoptionspage.cpp:267
 #, kde-format
@@ -977,19 +977,19 @@ msgid ""
 "Please make sure you have write access to its parent folder or select "
 "another, valid, folder."
 msgstr ""
-"Dizin oluşturulamadı.\n"
-"Lütfen üst dizine yazma hakkınız olduğuna emin olunuz ya da başka geçerli "
-"bir dizin seçiniz."
+"Klasör oluşturulamadı.\n"
+"Lütfen ana klasörüne yazma erişiminiz olduğundan emin olun veya geçerli "
+"başka bir klasör seçin."
 
 #: codegenwizard/codegenoptionspage.cpp:272
 #, kde-format
 msgid "Error Creating Folder"
-msgstr "Dizin Oluşturma Hatası"
+msgstr "Klasör Oluşturulurken Hata"
 
 #: codegenwizard/codegenoptionspage.cpp:278
 #, kde-format
 msgid "Please select a valid folder."
-msgstr "Lütfen geçerli bir dizin seçin."
+msgstr "Lütfen geçerli bir klasör seçin."
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLanguage)
 #: codegenwizard/codegenoptionspage.ui:53
@@ -1001,19 +1001,19 @@ msgstr "Dil"
 #: codegenwizard/codegenoptionspage.ui:71
 #, kde-format
 msgid "Folders"
-msgstr "Dizinler"
+msgstr "Klasörler"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelFolder)
 #: codegenwizard/codegenoptionspage.ui:77
 #, kde-format
 msgid "Write all generated files to folder:"
-msgstr "Oluşturulmuş tüm dosyaları dizine yaz:"
+msgstr "Şu klasöre üretilen tüm dosyaları yaz:"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, ui_outputDir)
 #: codegenwizard/codegenoptionspage.ui:89
 #, kde-format
 msgid "Files generated by Code Generator will be written to this folder"
-msgstr "Kod oluşturucusu ile oluşturulmuş dosyalar dizine yazılacaktır"
+msgstr "Kod Üreteci tarafından oluşturulan dosyalar bu klasöre yazılacaktır."
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_browseOutput)
 #: codegenwizard/codegenoptionspage.ui:96
@@ -1025,7 +1025,7 @@ msgstr "&Göz At..."
 #: codegenwizard/codegenoptionspage.ui:105
 #, kde-format
 msgid "&Include heading files from folder:"
-msgstr "D&izinde bulunan başlık dosyalarını dahil et:"
+msgstr "Klasördeki üstbilgi dosyalarını &içer:"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, ui_headingsDir)
 #: codegenwizard/codegenoptionspage.ui:117
@@ -1033,8 +1033,7 @@ msgstr "D&izinde bulunan başlık dosyalarını dahil et:"
 msgid ""
 "Files in this folder will be used as heading files in the generated code"
 msgstr ""
-"Dizin içerisinde bulunan dosyalar kod oluşturucusunda başlık dosyası olarak "
-"kullanılacaktır"
+"Bu klasördeki dosyalar üretilen kodda üstbilgi dosyaları olarak kullanılır"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_browseHeadings)
 #: codegenwizard/codegenoptionspage.ui:124
@@ -1056,14 +1055,14 @@ msgid ""
 "If a file with the same name as the name code \n"
 "generator wants to use as output file already exists:"
 msgstr ""
-"Kod üretecinin çıktı dosyası adı olarak kullanmak \n"
-"istediği bir dosya adı halihazırda varsa:"
+"Ad kodu üreteciyle aynı ada sahip bir dosya \n"
+"halihazırda çıktı dosyası olarak kullanmak istiyorsa:"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, ui_radioButtonOverwrite)
 #: codegenwizard/codegenoptionspage.ui:167
 #, kde-format
 msgid "Overwrite existing files if they exist in the destination folder"
-msgstr "Hedef dizinindeki var olan dosyanın üzerine yazılsın"
+msgstr "Hedef klasörde varsa var olan dosyaların üzerine yaz"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_radioButtonOverwrite)
 #: codegenwizard/codegenoptionspage.ui:170
@@ -1075,7 +1074,7 @@ msgstr "Ü&zerine yaz"
 #: codegenwizard/codegenoptionspage.ui:177
 #, kde-format
 msgid "If a file with the same name already exists, ask what to do"
-msgstr "Eğer aynı isimli dosya varsa ne yapılacağını sorsun"
+msgstr "Aynı adda bir dosya halihazırda varsa ne yapmak gerektiğini sor"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_radioButtonAsk)
 #: codegenwizard/codegenoptionspage.ui:180
@@ -1090,14 +1089,14 @@ msgid ""
 "If a file already exists in the destination folder, select a different name "
 "to use by adding a suffix to the file name"
 msgstr ""
-"Eğer hedef dizinde aynı isimli dosya var ise, dosya isminin sonuna ek "
-"ekleyerek başka bir isim seçilsin"
+"Hedef klasörde bir dosya halihazırda varsa dosya adına bir sonek ekleyerek "
+"kullanılacak farklı bir ad seç"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_radioButtonChangeName)
 #: codegenwizard/codegenoptionspage.ui:193
 #, kde-format
 msgid "&Use a different name"
-msgstr "&Farklı bir isim kullan"
+msgstr "&Farklı Ad Kullan"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabFormatting)
 #: codegenwizard/codegenoptionspage.ui:208
@@ -1109,26 +1108,25 @@ msgstr "Biçimlendirme"
 #: codegenwizard/codegenoptionspage.ui:216
 #, kde-format
 msgid "Comment Verbosity"
-msgstr "Açıklama Ayrıntısı"
+msgstr "Yorum Açıklığı"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ui_forceDoc)
 #: codegenwizard/codegenoptionspage.ui:237
 #, kde-format
 msgid "Write comments &for class and method documentation even if empty"
-msgstr "Sını&f ve yöntem belgelemesi için boş bile olsalar yorum yazınız"
+msgstr "Boş olsa &bile sınıf ve yöntem belgeleri için yorum yaz"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_forceDoc)
 #: codegenwizard/codegenoptionspage.ui:240
 #, kde-format
 msgid "&Write documentation comments even if empty"
-msgstr "&Boş olsa bile belgelemek için yorum yaz"
+msgstr "Boş &olsa bile belgelendirme yorumları yaz"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
+#, kde-format
 msgid "Write section comments:"
-msgstr "&Boş olsa bile belgelemek için yorum yaz"
+msgstr "Bölüm yorumları yaz:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1137,44 +1135,44 @@ msgid ""
 "Writes comments to indicate the different sections (public, private etc) in "
 "a class, even if the sections are empty"
 msgstr ""
-"Bölümler boş olsa bile farklı bölümleri belirtmek için(genel, özel gibi) "
-"açıklama yaz"
+"Bölümler boş olsa bile bir sınıftaki farklı bölümleri (genel, özel vb.) "
+"belirtmek için yorumlar yazar"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:276
 #, kde-format
 msgid "None"
-msgstr ""
+msgstr "Yok"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
 msgid "When section is non empty"
-msgstr ""
+msgstr "Bölüm boş olmadığında"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Her zaman"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
 #, kde-format
 msgid "Lines"
-msgstr "Satır"
+msgstr "Satırlar"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelType)
 #: codegenwizard/codegenoptionspage.ui:322
 #, kde-format
 msgid "Indentation type:"
-msgstr "Girinti türü:"
+msgstr "Girintileme türü:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectIndentationTypeBox)
 #: codegenwizard/codegenoptionspage.ui:333
 #, kde-format
 msgid "No Indentation"
-msgstr "Girinti Yok"
+msgstr "Girintileme yok"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectIndentationTypeBox)
 #: codegenwizard/codegenoptionspage.ui:338
@@ -1192,13 +1190,13 @@ msgstr "Boşluk"
 #: codegenwizard/codegenoptionspage.ui:361
 #, kde-format
 msgid "Indentation amount:"
-msgstr "Girinti miktarı:"
+msgstr "Girintileme miktarı:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelStyle)
 #: codegenwizard/codegenoptionspage.ui:378
 #, kde-format
 msgid "Line ending style:"
-msgstr "Satır bitiş biçimi:"
+msgstr "Satır sonu biçemi:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectEndLineCharsBox)
 #: codegenwizard/codegenoptionspage.ui:389
@@ -1216,12 +1214,12 @@ msgstr "Windows (\"\\r\\n\")"
 #: codegenwizard/codegenoptionspage.ui:399
 #, kde-format
 msgid "Mac (\"\\r\")"
-msgstr "Mac (\"\\r\")"
+msgstr "Mac OS (\"\\r\")"
 
 #: codegenwizard/codegenselectpage.cpp:29
 #, kde-format
 msgid "Select Classes"
-msgstr "Sınıfları Seç"
+msgstr "Sınıflar Seç"
 
 #: codegenwizard/codegenselectpage.cpp:30
 #, kde-format
@@ -1229,26 +1227,26 @@ msgid ""
 "Place all the classes you want to generate code\n"
 "for in the right hand side list."
 msgstr ""
-"Oluşturulmasını istediğiniz tüm sınıfları sağ taraftaki\n"
-"listeye konumlayınız."
+"Kodunu üretmek istediğiniz tüm sınıfları sağdaki\n"
+"listeye yerleştirin."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenSelectPage)
 #: codegenwizard/codegenselectpage.ui:20
 #, kde-format
 msgid "Code Generation Selection"
-msgstr "Kod Oluşturma Seçimi"
+msgstr "Kod Üretim Seçimi"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelListAvailable)
 #: codegenwizard/codegenselectpage.ui:33
 #, kde-format
 msgid "Classes Available"
-msgstr "Mevcut Sınıflar"
+msgstr "Kullanılabilir Sınıflar"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, ui_addButton)
 #: codegenwizard/codegenselectpage.ui:73
 #, kde-format
 msgid "Add class for code generation"
-msgstr "Kod oluşturulması için sınıf ekle"
+msgstr "Kod üretimi için sınıf ekle"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_addButton)
 #: codegenwizard/codegenselectpage.ui:76
@@ -1260,7 +1258,7 @@ msgstr "Ekle >>"
 #: codegenwizard/codegenselectpage.ui:103
 #, kde-format
 msgid "Remove class from Code Generation"
-msgstr "Sınıfı Kod Oluşturma İşleminden Çıkar"
+msgstr "Kod üretiminden sınıfı kaldır"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_removeButton)
 #: codegenwizard/codegenselectpage.ui:106
@@ -1272,10 +1270,10 @@ msgstr "<< Kaldır"
 #: codegenwizard/codegenselectpage.ui:140
 #, kde-format
 msgid "Classes Selected"
-msgstr "Seçilen Sınıflar"
+msgstr "Seçili sınıflar"
 
 #: codegenwizard/codegenstatuspage.cpp:39
-#, kde-format
+#, fuzzy, kde-format
 msgid "Status of Code Generation Progress"
 msgstr "Kod Oluşturma İşleminin Durumu"
 
