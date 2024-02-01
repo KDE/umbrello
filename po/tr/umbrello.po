@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-01 00:42+0000\n"
-"PO-Revision-Date: 2024-01-30 15:32+0300\n"
+"PO-Revision-Date: 2024-01-31 15:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -281,7 +281,7 @@ msgstr "Çizgi genişliğini değiştir: %1"
 #: cmds/widget/cmdchangemultiplicity.cpp:21
 #, kde-format
 msgid "Change multiplicity : %1 to %2"
-msgstr "Çoklu oluşumu değiştir: %1 → %2 olarak"
+msgstr "Çeşitliliği değiştir: %1 → %2 olarak"
 
 #: cmds/widget/cmdchangetextcolor.cpp:21
 #, kde-format
@@ -1273,9 +1273,9 @@ msgid "Classes Selected"
 msgstr "Seçili sınıflar"
 
 #: codegenwizard/codegenstatuspage.cpp:39
-#, fuzzy, kde-format
+#, kde-format
 msgid "Status of Code Generation Progress"
-msgstr "Kod Oluşturma İşleminin Durumu"
+msgstr "Kod Üretim İşleminin Durumu"
 
 #: codegenwizard/codegenstatuspage.cpp:40
 #, kde-format
@@ -1283,41 +1283,41 @@ msgid ""
 "Press the button Generate to start the code generation.\n"
 "Check the success state for every class."
 msgstr ""
-"Kod oluşturulmasını başlatmak içinoluştur düğmesine bas.\n"
-"Her sınıf için başarı durumunu kontrol ediniz."
+"Kod üretimini başlatmak için Üret düğmesine basın.\n"
+"Her sınıfın başarı durumunu denetleyin."
 
 #: codegenwizard/codegenstatuspage.cpp:81
 #: codeimpwizard/codeimpstatuspage.cpp:97
 #, kde-format
 msgid "Not Yet Generated"
-msgstr "Henüz Oluşturulmadı"
+msgstr "Henüz Üretilmedi"
 
 #: codegenwizard/codegenstatuspage.cpp:170
 #, kde-format
 msgid "Code Generated"
-msgstr "Kod Oluşturuldu"
+msgstr "Kod Üretildi"
 
 #: codegenwizard/codegenstatuspage.cpp:174
 #, kde-format
 msgid "Not Generated"
-msgstr "Oluşturulmadı"
+msgstr "Üretilmedi"
 
 #: codegenwizard/codegenstatuspage.cpp:179
 #, kde-format
 msgid "Skipped"
-msgstr ""
+msgstr "Atlandı"
 
 #: codegenwizard/codegenstatuspage.cpp:204
 #: codegenwizard/codegenstatuspage.cpp:234
 #: codeimpwizard/codeimpstatuspage.cpp:335
 #, kde-format
 msgid "Cannot open file!"
-msgstr "Dosya açılamadı!"
+msgstr "Dosya açılamıyor!"
 
 #: codegenwizard/codegenstatuspage.cpp:224
 #, kde-format
 msgid "Umbrello Code Generation - Logger Export"
-msgstr "Umbrello Kod Oluşturma - Günlük Tutucuyu Aktar"
+msgstr "Umbrello Kod Üretimi - Günlükçüyü Dışa Aktar"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_statusTab)
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
@@ -1340,7 +1340,7 @@ msgstr "Sınıf"
 #: codegenwizard/codegenstatuspage.ui:59 codeimpwizard/codeimpstatuspage.ui:117
 #, kde-format
 msgid "Logger"
-msgstr "Günlük Kaydı Tutucu"
+msgstr "Günlükçü"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonClear)
 #: codegenwizard/codegenstatuspage.ui:78 codeimpwizard/codeimpstatuspage.ui:143
@@ -1352,18 +1352,18 @@ msgstr "Temizle"
 #: codegenwizard/codegenstatuspage.ui:91 codeimpwizard/codeimpstatuspage.ui:156
 #, kde-format
 msgid "Export..."
-msgstr "Dışarıya Aktar..."
+msgstr "Dışa Aktar..."
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonGenerate)
 #: codegenwizard/codegenstatuspage.ui:114
 #, kde-format
 msgid "Generate"
-msgstr "Oluştur"
+msgstr "Üret"
 
 #: codeimport/classimport.cpp:101
 #, kde-format
 msgid "Importing file: %1 Progress: %2/%3"
-msgstr "Dosya içeriye aktarılıyor: %1 İlerleme: %2/%3"
+msgstr "Dosya içe aktarılıyor: %1, ilerleme: %2/%3"
 
 #: codeimport/classimport.cpp:109
 #, kde-format
@@ -1380,17 +1380,17 @@ msgstr "Başarısız oldu."
 #: codeimpwizard/codeimportingwizard.cpp:35
 #, kde-format
 msgid "Code Importing Wizard"
-msgstr "İçeriye Kod Aktarma Sihirbazı"
+msgstr "Kod İçe Aktarma Sihirbazı"
 
 #: codeimpwizard/codeimpselectpage.cpp:36
 #, kde-format
 msgid "Code Importing Path"
-msgstr "Kodu İçeriye Aktarma Yolu"
+msgstr "Kod İçe Aktarma Yolu"
 
 #: codeimpwizard/codeimpselectpage.cpp:37
 #, kde-format
 msgid "Select the code importing path."
-msgstr "İçeriye aktarılacak kodun yolunu seçiniz."
+msgstr "Kod içe aktarma yolunu seçin."
 
 #: codeimpwizard/codeimpselectpage.cpp:109
 #, kde-format
@@ -1400,27 +1400,27 @@ msgstr "Dosya Sistemi Modeli"
 #: codeimpwizard/codeimpselectpage.cpp:136
 #, kde-format
 msgid "Select the desired language to filter files."
-msgstr "Dosyaları filtrelemek için arzulanan dili seçiniz."
+msgstr "Dosyaları süzmek için istenen dili seçin."
 
 #: codeimpwizard/codeimpselectpage.cpp:137
 #, kde-format
 msgid "Select also all the files in the subdirectories."
-msgstr "Alt dizinlerdeki tüm dosyaları da seç."
+msgstr "Alt dizinlerdeki tüm dosyaları da seçin."
 
 #: codeimpwizard/codeimpselectpage.cpp:138
 #, kde-format
 msgid "Select all the files below the current directory."
-msgstr "Dizinin altındaki tüm dosyaları seç."
+msgstr "Geçerli dizinin altındaki tüm dosyaları seçin."
 
 #: codeimpwizard/codeimpselectpage.cpp:139
 #, kde-format
 msgid "Clear all selections."
-msgstr "Tüm seçimleri temizle."
+msgstr "Tüm seçimleri temizleyin."
 
 #: codeimpwizard/codeimpselectpage.cpp:140
 #, kde-format
 msgid "Add file extensions like e.g. '*.h *.hpp'."
-msgstr "'*.h *.hpp' gibi dosya uzantısı ekle."
+msgstr "'*.h *.hpp' gibi dosya uzantılarını ekleyin."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ui_languageLabel)
 #: codeimpwizard/codeimpselectpage.ui:37
@@ -1432,13 +1432,13 @@ msgstr "Projenin programlama dili."
 #: codeimpwizard/codeimpselectpage.ui:40
 #, kde-format
 msgid "Programming Language:"
-msgstr "Programlama Dili:"
+msgstr "Programlama dili:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_subdirCheckBox)
 #: codeimpwizard/codeimpselectpage.ui:66
 #, kde-format
 msgid "Include Subdirectories."
-msgstr "Alt Dizinleri Dahil Et."
+msgstr "Alt dizinleri içerin."
 
 #. i18n: ectx: property (text), widget (QLabel, ui_fileExtLabel)
 #: codeimpwizard/codeimpselectpage.ui:77
@@ -1450,13 +1450,13 @@ msgstr "Dosya uzantılarının listesi:"
 #: codeimpwizard/codeimpselectpage.ui:117
 #, kde-format
 msgid "Deselect all"
-msgstr "Hiçbirini Seçme"
+msgstr "Tümünün Seçimini Kaldır"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_selectAllButton)
 #: codeimpwizard/codeimpselectpage.ui:124
 #, kde-format
 msgid "Select all"
-msgstr "Tümünü seç"
+msgstr "Tümünü Seç"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_filesLabel)
 #: codeimpwizard/codeimpselectpage.ui:136
@@ -1473,7 +1473,7 @@ msgstr "0"
 #: codeimpwizard/codeimpstatuspage.cpp:48
 #, kde-format
 msgid "Status of Code Importing Progress"
-msgstr "İçeriye Kod Aktarma İşleminin Durumu"
+msgstr "Kod İçe Aktarma İşleminin Durumu"
 
 #: codeimpwizard/codeimpstatuspage.cpp:49
 #, kde-format
@@ -1481,73 +1481,72 @@ msgid ""
 "Press the button 'Start import' to start the code import.\n"
 "Check the success state for every class."
 msgstr ""
-"Kodu içeriye aktarımını başlatmak için 'İçe aktarmayı başlat' düğmesine "
-"basınız.\n"
-"Her sınıf için başarı durumunu kontrol ediniz."
+"Kodu içe aktarmayı başlatmak için 'İçe Aktarmayı Başlat' düğmesine basın.\n"
+"Her sınıfın başarı durumunu denetleyin."
 
 #: codeimpwizard/codeimpstatuspage.cpp:127
 #, kde-format
 msgid "<b>Code import of 1 file:</b><br>"
 msgid_plural "<b>Code import of %1 files:</b><br>"
-msgstr[0] "<b>1 dosyasının kodu içeriye aktarıldı:</b><br>"
-msgstr[1] "<b>%1 dosyalarının kodları içeriye aktarıldı:</b><br>"
+msgstr[0] "<b>1 dosyanın kodunun içe aktarımı:</b><br>"
+msgstr[1] "<b>%1 dosyanın kodunun içe aktarımı:</b><br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:151
 #, kde-format
 msgid "importing file ... DONE<br>"
-msgstr "dosya içeriye aktarılıyor ... TAMAMLANDI<br>"
+msgstr "Dosya içe aktarılıyor... BİTTİ<br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:152
 #, kde-format
 msgid "Import Done"
-msgstr "İçeriye Aktarma İşlemi Tamamlandı"
+msgstr "İçe Aktarma İşlemi Bitti"
 
 #: codeimpwizard/codeimpstatuspage.cpp:155
 #, kde-format
 msgid "importing file ... FAILED<br>"
-msgstr "dosya içeriye aktarılıyor ... BAŞARISIZ OLDU<br>"
+msgstr "Dosya içe aktarılıyor... BAŞARISIZ OLDU<br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:156
 #, kde-format
 msgid "Import Failed"
-msgstr "İçeriye Aktarma İşlemi Başarısız Oldu"
+msgstr "İçe Aktarma İşlemi Başarısız Oldu"
 
 #: codeimpwizard/codeimpstatuspage.cpp:167
 #, kde-format
 msgid "importing file ..."
-msgstr "dosya içeriye aktarılıyor ..."
+msgstr "Dosya içe aktarılıyor..."
 
 #: codeimpwizard/codeimpstatuspage.cpp:230
 #, kde-format
 msgid "importing file ... stopped<br>"
-msgstr "dosya içeriye aktarılıyor ... durdu<br>"
+msgstr "Dosya içe aktarılıyor... DURDURULDU<br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:231
 #, kde-format
 msgid "Import stopped"
-msgstr "İçeriye aktarma işlemi durdu"
+msgstr "İçe aktarma işlemi durduruldu"
 
 #: codeimpwizard/codeimpstatuspage.cpp:298
 #, kde-format
 msgid "Not Imported"
-msgstr "İçeriye Aktarılmadı"
+msgstr "İçe Aktarılmadı"
 
 #: codeimpwizard/codeimpstatuspage.cpp:325
 #, kde-format
 msgid "Umbrello Code Import - Logger Export"
-msgstr "Umbrello Kod İçeriye Aktarıcı - Günlük Tutucuyu Dışarı Aktar"
+msgstr "Umbrello Kod İçe Aktarıcısı - Günlükçüyü Dışa Aktar"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabStatus)
 #: codeimpwizard/codeimpstatuspage.ui:33
 #, kde-format
 msgid "Import Status"
-msgstr "İçeriye aktarma durumu"
+msgstr "İçe Aktarma Durumu"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonStart)
 #: codeimpwizard/codeimpstatuspage.ui:80
 #, kde-format
 msgid "Start import"
-msgstr "İçeriye aktarma işlemini başlat"
+msgstr "İçe Aktarmayı Başlat"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonStop)
 #: codeimpwizard/codeimpstatuspage.ui:99
@@ -1558,7 +1557,7 @@ msgstr "Durdur"
 #: codeimpwizard/codeimpthread.cpp:47
 #, kde-format
 msgid "Importing file: %1"
-msgstr "Dosya içeriye aktarılıyor: %1"
+msgstr "Dosya içe aktarılıyor: %1"
 
 #: codeimpwizard/codeimpthread.cpp:51
 #, kde-format
@@ -1575,7 +1574,7 @@ msgstr "Hazır."
 #: codeimpwizard/codeimpthread.cpp:66
 #, kde-format
 msgid "No code importer for file: %1"
-msgstr "Dosya için kodu içeriye aktarıcı yok: %1"
+msgstr "Dosya için kod içe aktarıcısı yok: %1"
 
 #: debug/debug_utils.cpp:140
 #, kde-format
@@ -1600,7 +1599,7 @@ msgstr "İlk etkinlik"
 #: dialogs/activitydialog.cpp:139
 #, kde-format
 msgid "End activity"
-msgstr "Bitiş etkinliği"
+msgstr "Son etkinlik"
 
 #: dialogs/activitydialog.cpp:139
 #, kde-format
@@ -1612,12 +1611,12 @@ msgstr "Bitiş etkinliği"
 #: worktoolbar.cpp:347
 #, kde-format
 msgid "Branch/Merge"
-msgstr "Ayrıl/Birleş"
+msgstr "Dallandır/Birleştir"
 
 #: dialogs/activitydialog.cpp:139
 #, kde-format
 msgid "Invoke action"
-msgstr "Çağırma eylemi"
+msgstr "Eylem çağır"
 
 #: dialogs/activitydialog.cpp:139
 #, kde-format
@@ -1653,12 +1652,12 @@ msgstr "Etkinlik adı:"
 #: dialogs/activitydialog.cpp:167
 #, kde-format
 msgid "Precondition :"
-msgstr "Ön koşul :"
+msgstr "Ön koşul:"
 
 #: dialogs/activitydialog.cpp:171
 #, kde-format
 msgid "Postcondition :"
-msgstr "Son koşul :"
+msgstr "Son koşul:"
 
 #: dialogs/activitydialog.cpp:178
 #, kde-format
@@ -1668,12 +1667,12 @@ msgstr "&Normal etkinlik"
 #: dialogs/activitydialog.cpp:181
 #, kde-format
 msgid "&Invoke action "
-msgstr "&Eylem başlat "
+msgstr "&Eylem çağır"
 
 #: dialogs/activitydialog.cpp:184
 #, kde-format
 msgid "&Parameter activity node"
-msgstr "&Parametre etkinlik düğümü"
+msgstr "&Parametre etkinliği düğümü"
 
 #: dialogs/associationpropertiesdialog.cpp:39
 #, kde-format
@@ -1698,12 +1697,12 @@ msgstr "Genel Ayarlar"
 #, kde-format
 msgctxt "display option page name"
 msgid "Display"
-msgstr "Göster"
+msgstr "Görüntü"
 
 #: dialogs/classpropertiesdialog.cpp:257 dialogs/classpropertiesdialog.cpp:267
 #, kde-format
 msgid "Display Options"
-msgstr "Görünüm Seçenekleri"
+msgstr "Görüntü Seçenekleri"
 
 #: dialogs/classpropertiesdialog.cpp:277
 #: dialogs/pages/classifierlistpage.cpp:112 menus/widgetbasepopupmenu.cpp:81
@@ -1744,12 +1743,12 @@ msgstr "Şablon Ayarları"
 #: dialogs/pages/classifierlistpage.cpp:124
 #, kde-format
 msgid "Enum Literals"
-msgstr ""
+msgstr "Enümerasyon Düz Değerleri"
 
 #: dialogs/classpropertiesdialog.cpp:307
 #, kde-format
 msgid "Enum Literals Settings"
-msgstr ""
+msgstr "Enümerasyon Düz Değerleri Ayarları"
 
 #: dialogs/classpropertiesdialog.cpp:317
 #: dialogs/pages/classifierlistpage.cpp:128
@@ -1760,23 +1759,23 @@ msgstr "Varlık Öznitelikleri"
 #: dialogs/classpropertiesdialog.cpp:317
 #, kde-format
 msgid "Entity Attributes Settings"
-msgstr "Varlık Özniteliği Ayarları"
+msgstr "Varlık Öznitelikleri Ayarları"
 
 #: dialogs/classpropertiesdialog.cpp:327
 #, kde-format
 msgid "Entity Constraints"
-msgstr ""
+msgstr "Varlık Kısıtlamaları"
 
 #: dialogs/classpropertiesdialog.cpp:327
 #, kde-format
 msgid "Entity Constraints Settings"
-msgstr ""
+msgstr "Varlık Kısıtlamaları Ayarları"
 
 #: dialogs/classpropertiesdialog.cpp:337
 #, kde-format
 msgctxt "contents settings page name"
 msgid "Contents"
-msgstr "İçindekiler"
+msgstr "İçerik"
 
 #: dialogs/classpropertiesdialog.cpp:337
 #, kde-format
@@ -1787,12 +1786,12 @@ msgstr "İçerik Ayarları"
 #: dialogs/pages/classassociationspage.cpp:42
 #, kde-format
 msgid "Associations"
-msgstr "Bağıntılar"
+msgstr "İlişkilendirmeler"
 
 #: dialogs/classpropertiesdialog.cpp:347
 #, kde-format
 msgid "Class Associations"
-msgstr "Sınıf Bağıntıları"
+msgstr "Sınıf İlişkilendirmeleri"
 
 #: dialogs/classpropertiesdialog.cpp:357
 #, kde-format
@@ -1818,7 +1817,7 @@ msgstr "Yeni Sınıf"
 #: dialogs/classwizard.cpp:78
 #, kde-format
 msgid "Add general info about the new class."
-msgstr "Yeni sınıf hakkında genel bilgiler ekle."
+msgstr "Yeni sınıf hakkında genel bilgiler ekleyin."
 
 #: dialogs/classwizard.cpp:95
 #, kde-format
@@ -1828,7 +1827,7 @@ msgstr "Sınıf Öznitelikleri"
 #: dialogs/classwizard.cpp:96
 #, kde-format
 msgid "Add attributes to the new class."
-msgstr "Yeni sınıfa öznitelikler ekle."
+msgstr "Yeni sınıfa öznitelikler ekleyin."
 
 #: dialogs/classwizard.cpp:113
 #, kde-format
@@ -1838,7 +1837,7 @@ msgstr "Sınıf İşlemleri"
 #: dialogs/classwizard.cpp:114
 #, kde-format
 msgid "Add operations to the new class."
-msgstr "Yeni sınıfa işlemler ekle."
+msgstr "Yeni sınıfa işlemler ekleyin."
 
 #: dialogs/codeeditor.cpp:749 menus/widgetbasepopupmenu.cpp:118
 #: menus/widgetbasepopupmenu.cpp:126 menus/widgetbasepopupmenu.cpp:133
@@ -1872,12 +1871,12 @@ msgstr "Açıklamayı Göster"
 #: dialogs/codeeditor.cpp:778
 #, kde-format
 msgid "Insert Code Block Before"
-msgstr "Bundan Önce Kod Bloğu Ekle"
+msgstr "Bundan Önce Kod Bloku Ekle"
 
 #: dialogs/codeeditor.cpp:783
 #, kde-format
 msgid "Insert Code Block After"
-msgstr "Bundan Sonra Kod Bloğu Ekle"
+msgstr "Bundan Sonra Kod Bloku Ekle"
 
 #: dialogs/codeeditor.cpp:790 menus/listpopupmenu.cpp:169
 #, kde-format
@@ -1909,7 +1908,7 @@ msgstr "Gizli sütunları göster"
 #: dialogs/codeviewerdialogbase.ui:33
 #, kde-format
 msgid "<p align=\"center\">component name here</p>"
-msgstr "<p align=\"center\">bileşen adı buraya gelecek</p>"
+msgstr "<p align=\"center\">bileşen adı buraya</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_highlightCheckBox)
 #: dialogs/codeviewerdialogbase.ui:46
@@ -1945,7 +1944,7 @@ msgstr "Seçili:"
 #: dialogs/codevieweroptionsbase.ui:208
 #, kde-format
 msgid "<p align=\"right\">UML object block:</p>"
-msgstr "<p align=\"right\">UML nesne bloğu:</p>"
+msgstr "<p align=\"right\">UML nesnesi bloku:</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: dialogs/codevieweroptionsbase.ui:224
@@ -1966,31 +1965,30 @@ msgid "<p align=\"right\">Editable text:</p>"
 msgstr "<p align=\"right\">Düzenlenebilir metin:</p>"
 
 #: dialogs/dialog_utils.cpp:31
-#, fuzzy, kde-format
-#| msgid "E&nable autosave"
+#, kde-format
 msgid "Enable all messages"
-msgstr "&Otomatik kaydetmeyi etkinleştir"
+msgstr "Tüm iletileri etkinleştir"
 
 #: dialogs/dialog_utils.cpp:32
 #, kde-format
 msgid "Enable 'delete association' related messages"
-msgstr ""
+msgstr "'İlişkilendirmeyi sil' ile ilgili iletileri etkinleştir"
 
 #: dialogs/dialog_utils.cpp:33
 #, kde-format
 msgid "Enable 'delete diagram' related messages"
-msgstr ""
+msgstr "'Diyagramı sil' ile ilgili iletileri etkinleştir"
 
 #: dialogs/dialog_utils.cpp:210
 #, kde-format
 msgid "You are about to delete an association. Do you really want to continue?"
 msgstr ""
+"Bir ilişkilendirmeyi silmek üzeresiniz. Sürdürmeyi gerçekten istiyor musunuz?"
 
 #: dialogs/dialog_utils.cpp:211
-#, fuzzy, kde-format
-#| msgid "Self Association"
+#, kde-format
 msgid "Delete Association"
-msgstr "Kendi İlişkisi"
+msgstr "İlişkilendirmeyi Sil"
 
 #: dialogs/dialog_utils.cpp:225
 #, kde-format
@@ -1998,18 +1996,18 @@ msgid ""
 "You are about to delete the entire diagram.\n"
 "Are you sure?"
 msgstr ""
-"Tüm diyagramı siliyorsunuz.\n"
+"Bütün diyagramı silmek üzeresiniz.\n"
 "Emin misiniz?"
 
 #: dialogs/dialog_utils.cpp:226
 #, kde-format
 msgid "Are you sure you want to delete diagram %1?"
-msgstr "%1 diyagramını silmek istediğinize emin misiniz?"
+msgstr "%1 diyagramını silmek istediğinizden emin misiniz?"
 
 #: dialogs/dialog_utils.cpp:231
 #, kde-format
 msgid "Delete Diagram?"
-msgstr "Diyagramı Silinsin mi?"
+msgstr "Diyagramı Sil?"
 
 #: dialogs/dialog_utils.cpp:232 dialogs/pages/classifierlistpage.cpp:208
 #: dialogs/umlforeignkeyconstraintdialog.cpp:320
@@ -2019,21 +2017,20 @@ msgid "&Delete"
 msgstr "&Sil"
 
 #: dialogs/dontaskagain.cpp:61
-#, fuzzy, kde-format
-#| msgid "Associations"
+#, kde-format
 msgid "Notifications"
-msgstr "Bağıntılar"
+msgstr "Bildirimler"
 
 #: dialogs/exportallviewsdialog.cpp:61 dialogs/widgets/imagetypewidget.cpp:29
 #, kde-format
 msgid "The format that the images will be exported to"
-msgstr "Resimlerin dışarıya aktarılacağı biçim"
+msgstr "Görsellerin dışa aktarılacağı biçim"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ExportAllViewsDialogBase)
 #: dialogs/exportallviewsdialogbase.ui:14
 #, kde-format
 msgid "Export All Views"
-msgstr "Tüm Görünümleri Dışarıya Aktar"
+msgstr "Tüm Görünümleri Dışa Aktar"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, kURLRequesterLabel)
 #. i18n: ectx: property (toolTip), widget (KUrlRequester, m_kURL)
@@ -2041,7 +2038,7 @@ msgstr "Tüm Görünümleri Dışarıya Aktar"
 #: dialogs/exportallviewsdialogbase.ui:41
 #, kde-format
 msgid "The base directory used to save the images"
-msgstr "Resimlerin kayıt edilmesinde kullanılacak temel dizin"
+msgstr "Görselleri kaydetmekte kullanılacak taban dizin"
 
 #. i18n: ectx: property (text), widget (QLabel, kURLRequesterLabel)
 #: dialogs/exportallviewsdialogbase.ui:28
@@ -2056,8 +2053,8 @@ msgid ""
 "Create in the target directory the same tree structure used\n"
 "in the document to store the views"
 msgstr ""
-"Dökümanların görünümde saklandığı ağaç yapısı ile aynı yapıyla\n"
-"hedef dizini oluştur"
+"Görünümleri depolamak için belgede kullanılan ağaç yapısının\n"
+"aynısını hedef dizinde oluşturun"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_useFolders)
 #: dialogs/exportallviewsdialogbase.ui:61
@@ -2069,23 +2066,28 @@ msgid ""
 "Only the folders made by the user are created in the base directory (Logical "
 "view, use case view and so on are not created)."
 msgstr ""
+"Görünümler belgedeki klasörlerde saklanır. Görünümleri depolamak için "
+"belgede kullanılan ağaç yapısının aynısı, bu seçenekle seçilen temel dizinde "
+"oluşturulabilir.\n"
+"Temel dizinde yalnızca kullanıcı tarafından oluşturulan klasörler "
+"oluşturulur (Mantıksal görünüm, kullanım durumu görünümü vb. oluşturulmaz)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_useFolders)
 #: dialogs/exportallviewsdialogbase.ui:64
 #, kde-format
 msgid "Use &folders"
-msgstr "&Dizinleri kullan"
+msgstr "&Klasörler kullan"
 
 #: dialogs/finddialog.cpp:11
 #, kde-format
 msgid "Find"
-msgstr "Ara"
+msgstr "Bul"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: dialogs/finddialog.ui:25 dialogs/pages/diagramprintpage.cpp:44
 #, kde-format
 msgid "Filter"
-msgstr "Filtre"
+msgstr "Süzgeç"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_treeView)
 #: dialogs/finddialog.ui:33
@@ -2097,7 +2099,7 @@ msgstr "Ağaç Görünümü"
 #: dialogs/finddialog.ui:43 dialogs/pages/diagramprintpage.cpp:51
 #, kde-format
 msgid "&Current diagram"
-msgstr "&Güncel diyagram"
+msgstr "&Geçerli diyagram"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_Diagrams)
 #: dialogs/finddialog.ui:53 dialogs/pages/diagramprintpage.cpp:55
@@ -2116,7 +2118,7 @@ msgstr "Kategori"
 #: dialogs/finddialog.ui:82
 #, kde-format
 msgid "All"
-msgstr "Hepsi"
+msgstr "Tümü"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100
@@ -2150,7 +2152,7 @@ msgstr "Öznitelik"
 #: dialogs/finddialog.ui:131
 #, kde-format
 msgid "Search Term:"
-msgstr "Arama Terimi:"
+msgstr "Arama terimi:"
 
 #: dialogs/multipagedialogbase.cpp:67
 #, kde-format
@@ -2186,7 +2188,7 @@ msgstr "Biçem"
 #: dialogs/multipagedialogbase.cpp:413
 #, kde-format
 msgid "Widget Style"
-msgstr "Parçacık Biçemi"
+msgstr "Araç Takımı Biçemi"
 
 #: dialogs/multipagedialogbase.cpp:424
 #, kde-format
@@ -2195,10 +2197,9 @@ msgid "Style"
 msgstr "Biçem"
 
 #: dialogs/multipagedialogbase.cpp:424
-#, fuzzy, kde-format
-#| msgid "Widget Style"
+#, kde-format
 msgid "Line Style"
-msgstr "Parçacık Biçemi"
+msgstr "Çizgi Biçemi"
 
 #: dialogs/multipagedialogbase.cpp:444
 #, kde-format
@@ -2212,15 +2213,14 @@ msgid "Role Settings"
 msgstr "Rol Ayarları"
 
 #: dialogs/notedialog.cpp:20
-#, fuzzy, kde-format
-#| msgid "Role Properties"
+#, kde-format
 msgid "Note Properties"
-msgstr "Rol Özellikleri"
+msgstr "Not Özellikleri"
 
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
 msgid "Central Buffer"
-msgstr "Merkezi Tampon"
+msgstr "Merkezi Arabellek"
 
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
@@ -2241,28 +2241,28 @@ msgstr "Özellikler"
 #: dialogs/objectnodedialog.cpp:149
 #, kde-format
 msgid "Object Node type:"
-msgstr "Nesne Düğüm türü:"
+msgstr "Nesne düğümü türü:"
 
 #: dialogs/objectnodedialog.cpp:154
 #, kde-format
 msgid "Object Node name:"
-msgstr "Nesne Düğüm adı:"
+msgstr "Nesne düğümü adı:"
 
 #: dialogs/objectnodedialog.cpp:158
 #, kde-format
 msgctxt "enter state label"
 msgid "State :"
-msgstr "Durum :"
+msgstr "Durum:"
 
 #: dialogs/objectnodedialog.cpp:163
 #, kde-format
 msgid "&Central Buffer"
-msgstr "&Merkezi Tampon"
+msgstr "&Merkezi Arabellek"
 
 #: dialogs/objectnodedialog.cpp:166
 #, kde-format
 msgid "&Data Store "
-msgstr "&Veri Deposu "
+msgstr "&Veri Deposu"
 
 #: dialogs/objectnodedialog.cpp:169
 #, kde-format
@@ -2272,22 +2272,22 @@ msgstr "&Nesne Akışı"
 #: dialogs/overwritedialog.cpp:27
 #, kde-format
 msgid "Destination File Already Exists"
-msgstr "Hedef Dosya Mevcut"
+msgstr "Hedef Dosya Var"
 
 #: dialogs/overwritedialog.cpp:28 umlviewimageexporter.cpp:109
 #, kde-format
 msgid "&Overwrite"
-msgstr "Ü&zerine yaz"
+msgstr "Ü&zerine Yaz"
 
 #: dialogs/overwritedialog.cpp:29
 #, kde-format
 msgid "&Generate Similar File Name"
-msgstr "&Benzer Bir Dosya Adı Oluştur"
+msgstr "&Benzer Dosya Adı Üret"
 
 #: dialogs/overwritedialog.cpp:30
 #, kde-format
 msgid "&Do Not Generate File"
-msgstr "&Dosya Oluşturma"
+msgstr "&Dosya Üretme"
 
 #: dialogs/overwritedialog.cpp:37
 #, kde-format
@@ -2297,10 +2297,10 @@ msgid ""
 "Umbrello can overwrite the file, generate a similar\n"
 "file name or not generate this file."
 msgstr ""
-"%1 dosyası %2 içerisine hali hazırda bulunuyor.\n"
+"%1 dosyası halihazırda %2 içinde var.\n"
 "\n"
-"Umbrello dosyanın üzerine yazabilir, benzer isimli dosya\n"
-"oluşturabilir ya da dosyayı oluşturmayabilir."
+"Umbrello dosyanın üzerine yazabilir, benzer bir\n"
+"dosya adı üretebilir veya bu dosyayı üretmeyebilir."
 
 #: dialogs/overwritedialog.cpp:40
 #, kde-format
@@ -2352,7 +2352,7 @@ msgstr "Yeniden Adlandır"
 #, kde-format
 msgctxt "name of association widget"
 msgid "Name:"
-msgstr "İsim:"
+msgstr "Ad:"
 
 #: dialogs/pages/associationgeneralpage.cpp:108
 #: menus/widgetbasepopupmenu.cpp:102 menus/widgetbasepopupmenu.cpp:729
@@ -2399,7 +2399,7 @@ msgstr "Rol adı:"
 #: dialogs/pages/umlrolepropertiesbase.ui:49
 #, kde-format
 msgid "Multiplicity:"
-msgstr "Çoklu Oluşum:"
+msgstr "Çeşitlilik:"
 
 #: dialogs/pages/associationrolepage.cpp:134
 #, kde-format
@@ -2441,7 +2441,7 @@ msgstr "Yalnızca ekle"
 #: dialogs/pages/autolayoutoptionpage.ui:17
 #, kde-format
 msgid "Layout Generator"
-msgstr "Düzen Oluşturucu"
+msgstr "Yerleşim Üreteci"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:24
@@ -2454,12 +2454,18 @@ msgid ""
 "these layout generators. For cases where this dependency is not available or "
 "do not fit, a different installation path could be provided.</p>"
 msgstr ""
+"<p>Kendiliğinden yerleşim özelliği, normalde bir paket yöneticisi tarafından "
+"Umbrello'nun yanına kurulan GraphViz paketi tarafından sağlanan düzen "
+"oluşturuculara bağlıdır.</p>\n"
+"<p>Umbrello, bu yerleşim oluşturucuların kurulum konumunu algılamak için "
+"yerleşik desteğe sahiptir. Bu bağımlılığın bulunmadığı veya uymadığı "
+"durumlarda farklı bir kurulum yolu sağlanabilir.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:27
 #, kde-format
 msgid "Auto detect layout generator"
-msgstr ""
+msgstr "Yerleşim üretecini kendiliğinden algıla"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/pages/autolayoutoptionpage.ui:37
@@ -2481,27 +2487,31 @@ msgid ""
 "option checked, the export layout is added to the list of available diagram "
 "layouts and enables a quick dot export preview.</p>"
 msgstr ""
+"<p>Nokta dosyası dışa aktarması, dışa aktarma yerleşimi kullanılarak "
+"gerçekleştirilir.</p><p>Bu seçenek işaretlendiğinde, dışa aktarma yerleşimi, "
+"kullanılabilir diyagram yerleşimleri listesine eklenir ve hızlı bir nokta "
+"dışa aktarma önizlemesine olanak tanır.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_showExportLayout)
 #: dialogs/pages/autolayoutoptionpage.ui:91
 #, kde-format
 msgid "Show export layout in diagram context menu"
-msgstr ""
+msgstr "Diyagram bağlam menüsünde dışa aktarma yerleşimini göster"
 
 #: dialogs/pages/classgeneralpage.cpp:126
 #, kde-format
 msgid "Reference:"
-msgstr "Referans:"
+msgstr "Başvuru:"
 
 #: dialogs/pages/classgeneralpage.cpp:143
 #, kde-format
 msgid "A&bstract class"
-msgstr ""
+msgstr "S&oyut sınıf"
 
 #: dialogs/pages/classgeneralpage.cpp:145
 #, kde-format
 msgid "A&bstract use case"
-msgstr ""
+msgstr "Soy&ut kullanım senaryosu"
 
 #: dialogs/pages/classgeneralpage.cpp:154
 #, kde-format
@@ -2517,12 +2527,12 @@ msgstr "Aktör olarak çiz"
 #: dialogs/pages/classgeneralpage.cpp:228
 #, kde-format
 msgid "Multiple instance"
-msgstr "Çoklu gerçekleme"
+msgstr "Birden çok örnek"
 
 #: dialogs/pages/classgeneralpage.cpp:234
 #, kde-format
 msgid "Show destruction"
-msgstr ""
+msgstr "Yıkımı göster"
 
 #: dialogs/pages/classgeneralpage.cpp:340
 #: dialogs/pages/classgeneralpage.cpp:378
@@ -2533,16 +2543,16 @@ msgid ""
 "is already being used.\n"
 "The name has been reset."
 msgstr ""
-"Seçtiğiniz isim hali hazırda\n"
-"kullanılmaktadır.\n"
-"İsim sıfırlanmıştır."
+"Seçtiğiniz ad\n"
+"halihazırda kullanılıyor.\n"
+"Ad sıfırlandı."
 
 #: dialogs/pages/classgeneralpage.cpp:341
 #: dialogs/pages/classgeneralpage.cpp:379
 #: dialogs/pages/classgeneralpage.cpp:397
 #, kde-format
 msgid "Name is Not Unique"
-msgstr "Bu İsim Biricik Değil"
+msgstr "Ad Benzersiz Değil"
 
 #: dialogs/pages/classifierlistpage.cpp:113
 #, kde-format
@@ -2562,7 +2572,7 @@ msgstr "&Yeni Şablon..."
 #: dialogs/pages/classifierlistpage.cpp:125
 #, kde-format
 msgid "N&ew Enum Literal..."
-msgstr ""
+msgstr "&Yeni Enümerasyon Düz Değeri..."
 
 #: dialogs/pages/classifierlistpage.cpp:129
 #, kde-format
@@ -2582,12 +2592,12 @@ msgstr "&Yeni Sabit..."
 #: dialogs/pages/classifierlistpage.cpp:136
 #, kde-format
 msgid "Instance Attribute"
-msgstr "Varlık Öznitelikleri"
+msgstr "Örnek Özniteliği"
 
 #: dialogs/pages/classifierlistpage.cpp:137
 #, kde-format
 msgid "N&ew Instance Attribute..."
-msgstr "Yeni Varlık Özniteliği..."
+msgstr "Yeni Örnek Özniteliği..."
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
 #: uml.cpp:589
@@ -2611,7 +2621,7 @@ msgstr "Kaynak Kod"
 #: dialogs/pages/classoptionspage.cpp:246 uml.cpp:544
 #, kde-format
 msgid "&Documentation"
-msgstr "&Belgeler"
+msgstr "&Belgelendirme"
 
 #: dialogs/pages/classoptionspage.cpp:157
 #: dialogs/pages/classoptionspage.cpp:251
@@ -2654,7 +2664,7 @@ msgstr "Öznitelik imzası"
 #: dialogs/pages/classoptionspage.cpp:284
 #, kde-format
 msgid "&Public Only"
-msgstr "&Yalnızca Genel"
+msgstr "&Yalnızca genel"
 
 #: dialogs/pages/classoptionspage.cpp:204
 #, kde-format
@@ -2664,12 +2674,12 @@ msgstr "Çember olarak çiz"
 #: dialogs/pages/classoptionspage.cpp:280
 #, kde-format
 msgid "&Attribute associations"
-msgstr ""
+msgstr "Öznitel&ik ilişkilendirmeleri"
 
 #: dialogs/pages/classoptionspage.cpp:289
 #, kde-format
 msgid "Starting Scope"
-msgstr "Başlama Kapsamı"
+msgstr "Başlangıç Kapsamı"
 
 #: dialogs/pages/classoptionspage.cpp:296
 #, kde-format
@@ -2682,28 +2692,24 @@ msgid "Default operation scope:"
 msgstr "Öntanımlı işlem kapsamı:"
 
 #: dialogs/pages/classoptionspage.cpp:333
-#, fuzzy, kde-format
-#| msgid "Attribute Signature"
+#, kde-format
 msgid "Attribute Signatures"
-msgstr "Öznitelik İmzası"
+msgstr "Öznitelik İmzaları"
 
 #: dialogs/pages/classoptionspage.cpp:438
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "No Stereotype"
-msgstr "Stereotip"
+msgstr "Stereotip Yok"
 
 #: dialogs/pages/classoptionspage.cpp:439
-#, fuzzy, kde-format
-#| msgid "Stereotype &name:"
+#, kde-format
 msgid "Stereotype Name"
-msgstr "Stereotip &ismi:"
+msgstr "Stereotip Adı"
 
 #: dialogs/pages/classoptionspage.cpp:440
-#, fuzzy, kde-format
-#| msgid "Stereotypes"
+#, kde-format
 msgid "Stereotype with Tags"
-msgstr "Stereotip"
+msgstr "Stereotip, Etiketlerle"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: dialogs/pages/codeimportoptionspage.ui:31
@@ -2718,52 +2724,51 @@ msgid ""
 "Additional include search paths could be added by specifying environment "
 "variable UMBRELLO_INCPATH."
 msgstr ""
-"Ek arama yollarını çevre değişkeni UMBRELLO_INCPATH ile de dahil edilebilir."
+"UMBRELLO_INCPATH çevre değişkeni belirtilerek ek arama yolları eklenebilir."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/pages/codeimportoptionspage.ui:56
-#, fuzzy, kde-format
-#| msgid "C++- Import"
+#, kde-format
 msgid "C++ Import"
-msgstr "C++- İçeriye Aktar"
+msgstr "C++ İçe Aktar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, createArtifactCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:66
 #, kde-format
 msgid "For each imported file create an artifact in the component view"
-msgstr ""
+msgstr "İçe aktarılan her dosya için bileşen görünümünde bir kalıntı oluştur"
 
 #. i18n: ectx: property (text), widget (QCheckBox, resolveDependenciesCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:73
 #, kde-format
 msgid "Resolve dependencies (reduces import speed)"
-msgstr "Bağımlılıkları çöz (içeriye aktarım hızı azalır)"
+msgstr "Bağımlılıkları çöz (içe aktarım hızını azaltır)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, supportCPP11CheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:80
 #, kde-format
 msgid "Enable C++11 standard (experimental)"
-msgstr ""
+msgstr "C++11 standardını etkinleştir"
 
 #: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:269
 #, kde-format
 msgid "Unique Constraint..."
-msgstr "Biricik Sabit..."
+msgstr "Benzersiz Kısıtlama..."
 
 #: dialogs/pages/constraintlistpage.cpp:69 menus/listpopupmenu.cpp:242
 #, kde-format
 msgid "Primary Key Constraint..."
-msgstr "Birincil Anahtar Sabiti..."
+msgstr "Birincil Anahtar Kısıtlaması..."
 
 #: dialogs/pages/constraintlistpage.cpp:73 menus/listpopupmenu.cpp:195
 #, kde-format
 msgid "Foreign Key Constraint..."
-msgstr ""
+msgstr "Yabancı Anahtar Kısıtlaması..."
 
 #: dialogs/pages/constraintlistpage.cpp:77 menus/listpopupmenu.cpp:159
 #, kde-format
 msgid "Check Constraint..."
-msgstr "Kısıtlamaları Kontrol et..."
+msgstr "Kısıtlamaları Denetle..."
 
 #: dialogs/pages/defaultcodegenpolicypage.cpp:24
 #, kde-format
@@ -2778,7 +2783,7 @@ msgstr "&Diyagramlar"
 #: dialogs/pages/diagramprintpage.cpp:58
 #, kde-format
 msgid "&Select diagrams"
-msgstr "&Diyagramları seç"
+msgstr "&Diyagramlar seç"
 
 #: dialogs/pages/diagramprintpage.cpp:61
 #, kde-format
@@ -2794,12 +2799,12 @@ msgstr "Seçim"
 #: dialogs/pages/diagramprintpage.cpp:155
 #, kde-format
 msgid "No diagrams selected."
-msgstr "Hiç diyagram seçilmedi."
+msgstr "Seçili diyagram yok."
 
 #: dialogs/pages/diagrampropertiespage.cpp:72
 #, kde-format
 msgid "The name you have entered is invalid."
-msgstr "Verdiğiniz isim geçerli değildir."
+msgstr "Girdiğiniz ad geçersiz."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:256
 #: umldoc.cpp:1502 umldoc.cpp:1566 umldoc.cpp:1595 umldoc.cpp:1630
@@ -2808,17 +2813,17 @@ msgstr "Verdiğiniz isim geçerli değildir."
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:178
 #, kde-format
 msgid "Invalid Name"
-msgstr "Geçersiz İsim"
+msgstr "Geçersiz Ad"
 
 #: dialogs/pages/diagrampropertiespage.cpp:82
 #, kde-format
 msgid "The name you have entered is not unique."
-msgstr "Verdiğiniz isim başka bir isimle çakışıyor."
+msgstr "Girdiğiniz ad benzersiz değil."
 
 #: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1634
 #, kde-format
 msgid "Name Not Unique"
-msgstr "Bu İsim Kullanılıyor"
+msgstr "Ad Benzersiz Değil"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxDiagramProperties)
 #: dialogs/pages/diagrampropertiespage.ui:17
@@ -2830,13 +2835,13 @@ msgstr "Diyagram Özellikleri"
 #: dialogs/pages/diagrampropertiespage.ui:31
 #, kde-format
 msgid "Name:"
-msgstr "İsim:"
+msgstr "Ad:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelZoom)
 #: dialogs/pages/diagrampropertiespage.ui:56
 #, kde-format
 msgid "Zoom:"
-msgstr "Odakla:"
+msgstr "Yakınlaştır:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelZoomUnit)
 #: dialogs/pages/diagrampropertiespage.ui:82
@@ -2846,29 +2851,27 @@ msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelWidth)
 #: dialogs/pages/diagrampropertiespage.ui:105
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width:"
-msgstr "Genişlik"
+msgstr "Genişlik:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelHeight)
 #: dialogs/pages/diagrampropertiespage.ui:144
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Height:"
-msgstr "Yükseklik"
+msgstr "Yükseklik:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_checkBoxShowGrid)
 #: dialogs/pages/diagrampropertiespage.ui:189
 #, kde-format
 msgid "Show &grid"
-msgstr "Kılavuzları &göster"
+msgstr "Izgarayı &göster"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_snapToGrid)
 #: dialogs/pages/diagrampropertiespage.ui:196
 #, kde-format
 msgid "Snap &to grid"
-msgstr "&Kılavuza uydur"
+msgstr "&Izgaraya tuttur"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ui_snapComponentSizeToGrid)
 #: dialogs/pages/diagrampropertiespage.ui:204
@@ -2878,18 +2881,21 @@ msgid ""
 "If 'Snap to Grid' is enabled a component will always be aligned with the "
 "grid on all 4 sides."
 msgstr ""
+"Bileşenlerin boyutunu ızgara aralığının katı olacak şekilde tutturun.\n"
+"'Izgaraya tuttur' etkinleştirilirse bir bileşen her zaman ızgaranın 4 "
+"tarafıyla hizalanacaktır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_snapComponentSizeToGrid)
 #: dialogs/pages/diagrampropertiespage.ui:207
 #, kde-format
 msgid "Snap component size"
-msgstr ""
+msgstr "Bileşen boyutunu tuttur"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelGridSpacing)
 #: dialogs/pages/diagrampropertiespage.ui:224
 #, kde-format
 msgid "Grid spacing:  "
-msgstr "Izgara boşluklandırması:  "
+msgstr "Izgara boşluklandırması: "
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelX)
 #: dialogs/pages/diagrampropertiespage.ui:247
@@ -2907,14 +2913,14 @@ msgstr "Y"
 #: dialogs/pages/diagrampropertiespage.ui:312
 #, kde-format
 msgid "Autoincrement Sequence "
-msgstr "Otomatik artan "
+msgstr "Kendiliğinden artan sıra"
 
 #: dialogs/pages/generaloptionpage.cpp:41
 #: dialogs/pages/umlwidgetstylepage.cpp:198
 #, kde-format
 msgctxt "miscellaneous group box"
 msgid "Miscellaneous"
-msgstr "Diğer"
+msgstr "Çeşitli"
 
 #: dialogs/pages/generaloptionpage.cpp:48
 #, kde-format
@@ -2924,43 +2930,42 @@ msgstr "Geri almayı etkinleştir"
 #: dialogs/pages/generaloptionpage.cpp:52
 #, kde-format
 msgid "Use tabbed diagrams"
-msgstr "Sekmelenmiş diyagramlar kullan"
+msgstr "Sekmeli diyagramlar kullan"
 
 #: dialogs/pages/generaloptionpage.cpp:56
 #, kde-format
 msgid "Use new C++/Java/Ruby generators"
-msgstr "Yeni C++/Java/Ruby oluşturucular kullan"
+msgstr "Yeni C++/Java/Ruby üreteçlerini kullan"
 
 #: dialogs/pages/generaloptionpage.cpp:60
 #, kde-format
 msgid "Turn on footer and page numbers when printing"
-msgstr "Yazdırılırken alt bilgi ve sayva sayısını aç"
+msgstr "Yazdırırken altbilgi ve sayfa sayısını aç"
 
 #: dialogs/pages/generaloptionpage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Enable undo"
+#, kde-format
 msgid "Enable UML2 support"
-msgstr "Geri almayı etkinleştir"
+msgstr "UML2 desteğini etkinleştir"
 
 #: dialogs/pages/generaloptionpage.cpp:69
 #, kde-format
 msgid "Autosave"
-msgstr "Otomatik kaydet"
+msgstr "Kendiliğinden Kaydet"
 
 #: dialogs/pages/generaloptionpage.cpp:76
 #, kde-format
 msgid "E&nable autosave"
-msgstr "&Otomatik kaydetmeyi etkinleştir"
+msgstr "&Kendiliğinden kaydetmeyi etkinleştir"
 
 #: dialogs/pages/generaloptionpage.cpp:80
 #, kde-format
 msgid "Select auto-save time interval (mins):"
-msgstr "Otomatik kaydetme zaman aralığını seç (dakika):"
+msgstr "Kendiliğinden kaydetme zaman aralığı (dakika):"
 
 #: dialogs/pages/generaloptionpage.cpp:92
 #, kde-format
 msgid "Set autosave suffix:"
-msgstr "Otomatik kaydet soneki:"
+msgstr "Kendiliğinden kaydetme soneki:"
 
 #: dialogs/pages/generaloptionpage.cpp:94
 #, kde-format
@@ -2972,6 +2977,13 @@ msgid ""
 "p><p>If the suffix is equal to the suffix of the file you have saved, the "
 "autosave will overwrite your file automatically.</p></qt>"
 msgstr ""
+"<qt><p>Kendiliğinden kaydetme işlemi siz dosyayı elle kaydetmeden önce "
+"gerçekleşirse kendiliğinden kaydetme dosyası ~/autosave.xmi dosyasına "
+"kaydedilecektir.</p><p>Zaten kaydettiyseniz kendiliğinden kaydetme dosyası, "
+"dosyayla aynı klasöre kaydedilecek ve dosyanın adı gibi adlandırılacak ve "
+"ardından belirtilen sonek gelecektir.</p><p>Sonek, kaydettiğiniz dosyanın "
+"sonekine eşitse kendiliğinden kaydetme, dosyanızın üzerine hemen yazar.</p></"
+"qt>"
 
 #: dialogs/pages/generaloptionpage.cpp:105
 #, kde-format
@@ -2986,12 +2998,12 @@ msgstr "&Son projeyi yükle"
 #: dialogs/pages/generaloptionpage.cpp:116
 #, kde-format
 msgid "Start new project with:"
-msgstr "Yeni bir projeye başla:"
+msgstr "Şununla yeni bir projeye başla:"
 
 #: dialogs/pages/generaloptionpage.cpp:133
 #, kde-format
 msgid "Default Language :"
-msgstr "Öntanımlı Dil :"
+msgstr "Öntanımlı dil:"
 
 #: dialogs/pages/packagecontentspage.cpp:40
 #, kde-format
@@ -3002,7 +3014,7 @@ msgstr "İçerilen Ögeler"
 #: dialogs/selectoperationdialog.cpp:55 dialogs/selectoperationdialog.cpp:62
 #, kde-format
 msgid "Select Operation"
-msgstr "İşlemi Seçin"
+msgstr "İşlem Seç"
 
 #: dialogs/pages/selectoperationpage.cpp:64
 #: dialogs/selectoperationdialog.cpp:67
@@ -3014,7 +3026,7 @@ msgstr "Sıra numarası:"
 #: dialogs/selectoperationdialog.cpp:70
 #, kde-format
 msgid "Auto increment:"
-msgstr "Otomatik artan:"
+msgstr "Kendiliğinden artan:"
 
 #: dialogs/pages/selectoperationpage.cpp:72
 #: dialogs/selectoperationdialog.cpp:75
@@ -3036,8 +3048,7 @@ msgid "Custom operation:"
 msgstr "Özel işlem:"
 
 #: dialogs/pages/uioptionspage.cpp:54
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgctxt "General options"
 msgid "General"
 msgstr "Genel"
@@ -3046,20 +3057,18 @@ msgstr "Genel"
 #: dialogs/pages/uioptionspage.cpp:60 umbrello.kcfg:187
 #, kde-format
 msgid "Right to left user interface"
-msgstr ""
+msgstr "Sağdan sola kullanıcı arayüzü"
 
 #: dialogs/pages/uioptionspage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Associations"
+#, kde-format
 msgctxt "Association options"
 msgid "Associations"
-msgstr "Bağıntılar"
+msgstr "İlişkilendirmeler"
 
 #: dialogs/pages/uioptionspage.cpp:69
-#, fuzzy, kde-format
-#| msgid "Use angular association lines"
+#, kde-format
 msgid "Create new association lines as:"
-msgstr "Açılı ilişki çizgileri kullan"
+msgstr "Farklı yeni ilişkilendirme çizgileri oluştur:"
 
 #: dialogs/pages/uioptionspage.cpp:72
 #, kde-format
@@ -3068,30 +3077,26 @@ msgid "Color"
 msgstr "Renk"
 
 #: dialogs/pages/uioptionspage.cpp:80
-#, fuzzy, kde-format
-#| msgid "Custom text color:"
+#, kde-format
 msgid "Custom text color"
-msgstr "Özel metin rengi:"
+msgstr "Özel metin rengi"
 
 #: dialogs/pages/uioptionspage.cpp:87
-#, fuzzy, kde-format
-#| msgid "Custom line color:"
+#, kde-format
 msgid "Custom line color"
-msgstr "Özel çizgi rengi:"
+msgstr "Özel çizgi rengi"
 
 #. i18n("D&efault Color"), m_colorGB);
 #. colorLayout->addWidget(m_lineDefaultB, 0, 2);
 #: dialogs/pages/uioptionspage.cpp:97
-#, fuzzy, kde-format
-#| msgid "Custom fill color:"
+#, kde-format
 msgid "Custom fill color"
-msgstr "Özel doldurma rengi:"
+msgstr "Özel dolgu rengi"
 
 #: dialogs/pages/uioptionspage.cpp:103
-#, fuzzy, kde-format
-#| msgid "Custom grid color:"
+#, kde-format
 msgid "Custom grid color"
-msgstr "Özel kılavuz rengi:"
+msgstr "Özel ızgara rengi"
 
 #: dialogs/pages/uioptionspage.cpp:109
 #, kde-format
@@ -3099,15 +3104,14 @@ msgid "Custom background color"
 msgstr "Özel arka plan rengi"
 
 #: dialogs/pages/uioptionspage.cpp:115
-#, fuzzy, kde-format
-#| msgid "Custom line width:"
+#, kde-format
 msgid "Custom line width"
-msgstr "Özel çizgi genişliği:"
+msgstr "Özel çizgi genişliği"
 
 #: dialogs/pages/uioptionspage.cpp:125
 #, kde-format
 msgid "&Use fill color"
-msgstr "&Doldurma rengi kullan"
+msgstr "&Dolgu rengi kullan"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_propsGroupBox)
 #: dialogs/pages/umlrolepropertiesbase.ui:16 dialogs/umlroledialog.cpp:19
@@ -3149,7 +3153,7 @@ msgstr "Donmuş"
 #: dialogs/pages/umlrolepropertiesbase.ui:130
 #, kde-format
 msgid "Add only"
-msgstr "Yalnızca ekleme"
+msgstr "Yalnızca ekle"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:104
 #, kde-format
@@ -3173,7 +3177,7 @@ msgstr "Ö&ntanımlı"
 #, kde-format
 msgctxt "line color"
 msgid "&Line:"
-msgstr "&Satır:"
+msgstr "&Çizgi:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:126
 #, kde-format
@@ -3184,7 +3188,7 @@ msgstr "Ö&ntanımlı"
 #: dialogs/pages/umlwidgetstylepage.cpp:129
 #, kde-format
 msgid "&Fill:"
-msgstr "&Doldur:"
+msgstr "&Dolgu:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:136
 #, kde-format
@@ -3195,7 +3199,7 @@ msgstr "Ö&ntanımlı"
 #: dialogs/pages/umlwidgetstylepage.cpp:139
 #, kde-format
 msgid "&Use fill"
-msgstr "Doldurmayı k&ullan"
+msgstr "Dolgu k&ullan"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:149
 #, kde-format
@@ -3240,10 +3244,9 @@ msgid "Defa&ult"
 msgstr "Ö&ntanımlı"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:203
-#, fuzzy, kde-format
-#| msgid "The Width of the Line"
+#, kde-format
 msgid "Layout of the line:"
-msgstr "Çizginin Genişliği"
+msgstr "Çizginin yerleşimi:"
 
 #: dialogs/parameterpropertiesdialog.cpp:49
 #, kde-format
@@ -3254,7 +3257,7 @@ msgstr "Parametre Özellikleri"
 #, kde-format
 msgctxt "property name"
 msgid "&Name:"
-msgstr "İsi&m:"
+msgstr "&Ad:"
 
 #: dialogs/parameterpropertiesdialog.cpp:82
 #, kde-format
@@ -3267,13 +3270,13 @@ msgid ""
 "\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout"
 "\" is a parameter for reading and writing."
 msgstr ""
-"\"in\" salt okunur parametresi, \"out\" salt yazma parametresi ve \"inout\" "
-"yazma ve okuma parametresidir."
+"\"in\" saltokunur bir parametredir, \"out\" saltyazılır bir parametredir ve "
+"\"inout\" okuma ve yazma için bir parametredir."
 
 #: dialogs/parameterpropertiesdialog.cpp:161
 #, kde-format
 msgid "You have entered an invalid parameter name."
-msgstr "Geçersiz bir parametre adı verdiniz."
+msgstr "Geçersiz bir parametre adı girdiniz."
 
 #: dialogs/parameterpropertiesdialog.cpp:162
 #, kde-format
@@ -3281,21 +3284,19 @@ msgid "Parameter Name Invalid"
 msgstr "Geçersiz Parametre Adı"
 
 #: dialogs/selectdiagramdialog.cpp:18
-#, fuzzy, kde-format
-#| msgid "&Select diagrams"
+#, kde-format
 msgid "Select diagram"
-msgstr "&Diyagramları seç"
+msgstr "Diyagram seç"
 
 #: dialogs/selectdiagramdialog.cpp:19
-#, fuzzy, kde-format
-#| msgid "&Diagram"
+#, kde-format
 msgid "Diagram"
-msgstr "&Diyagram"
+msgstr "Diyagram"
 
 #: dialogs/settingsdialog.cpp:35
 #, kde-format
 msgid "Umbrello Setup"
-msgstr "Umbrello Kurulumu"
+msgstr "Umbrello Ayarları"
 
 #: dialogs/settingsdialog.cpp:100 umllistview.cpp:1447
 #, kde-format
@@ -3327,22 +3328,22 @@ msgstr "Sınıf Ayarları"
 #: dialogs/settingsdialog.cpp:123 umllistview.cpp:1442
 #, kde-format
 msgid "Code Importer"
-msgstr "İçeriye Kod Aktarıcı"
+msgstr "Kod İçe Aktarıcısı"
 
 #: dialogs/settingsdialog.cpp:123
 #, kde-format
 msgid "Code Import Settings"
-msgstr "İçeriye Kod Aktarma Ayarları"
+msgstr "Kod İçe Aktarma Ayarları"
 
 #: dialogs/settingsdialog.cpp:132 umllistview.cpp:1443
 #, kde-format
 msgid "Code Generation"
-msgstr "Kod Oluşturma"
+msgstr "Kod Üretimi"
 
 #: dialogs/settingsdialog.cpp:132
 #, kde-format
 msgid "Code Generation Settings"
-msgstr "Kod Oluşturma Ayarları"
+msgstr "Kod Üretimi Ayarları"
 
 #: dialogs/settingsdialog.cpp:140 umllistview.cpp:1444
 #, kde-format
@@ -3357,12 +3358,12 @@ msgstr "Kod Görüntüleyicisi Ayarları"
 #: dialogs/settingsdialog.cpp:147 umllistview.cpp:1440
 #, kde-format
 msgid "Auto Layout"
-msgstr "Otomatik Düzen"
+msgstr "Kendiliğinden Yerleşim"
 
 #: dialogs/settingsdialog.cpp:147
 #, kde-format
 msgid "Auto Layout Settings"
-msgstr "Otomatik Düzen Ayarları"
+msgstr "Kendiliğinden Yerleşim Ayarları"
 
 #: dialogs/singlepagedialogbase.cpp:35 dialogs/singlepagedialogbase.cpp:49
 #, kde-format
@@ -3379,7 +3380,7 @@ msgstr "Genel"
 #, kde-format
 msgctxt "initial state in statechart"
 msgid "Initial state"
-msgstr "İlk durum"
+msgstr "Başlangıç durumu"
 
 #: dialogs/statedialog.cpp:136
 #, kde-format
@@ -3409,7 +3410,7 @@ msgstr "Katıl"
 #, kde-format
 msgctxt "junction state in statechart"
 msgid "Junction"
-msgstr "Junction"
+msgstr "Ağız"
 
 #: dialogs/statedialog.cpp:151
 #, kde-format
@@ -3427,14 +3428,13 @@ msgstr "SığGeçmiş"
 #, kde-format
 msgctxt "choice state in statechart"
 msgid "Choice"
-msgstr "Seçim"
+msgstr "Seçenek"
 
 #: dialogs/statedialog.cpp:160
-#, fuzzy, kde-format
-#| msgid "CombinedFragment"
+#, kde-format
 msgctxt "combined state in statechart"
 msgid "Combined"
-msgstr "BirleşmişParça"
+msgstr "Birleşmiş"
 
 #: dialogs/statedialog.cpp:168
 #, kde-format
@@ -3447,43 +3447,37 @@ msgid "State name:"
 msgstr "Durum adı:"
 
 #: dialogs/statedialog.cpp:183
-#, fuzzy, kde-format
-#| msgid "Loading diagrams..."
+#, kde-format
 msgid "Linked diagram:"
-msgstr "Diyagramlar yükleniyor.."
+msgstr "Bağlantılı diyagram:"
 
 #: dialogs/stereoattributedialog.cpp:39
-#, fuzzy, kde-format
-#| msgid "Role Properties"
+#, kde-format
 msgid "Stereotype Properties"
-msgstr "Rol Özellikleri"
+msgstr "Stereotip Özellikleri"
 
 #: dialogs/stereoattributedialog.cpp:59
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Stereotype Attributes for "
-msgstr "Varlık Öznitelikleri"
+msgstr "Şunun için stereotip öznitelikleri:"
 
 #: dialogs/stereoattributedialog.cpp:75 dialogs/umlattributedialog.cpp:76
 #, kde-format
 msgctxt "attribute name"
 msgid "&Name:"
-msgstr "İsi&m:"
+msgstr "&Ad:"
 
 #: dialogs/stereoattributedialog.cpp:78
-#, fuzzy, kde-format
-#| msgid "&Type:"
+#, kde-format
 msgctxt "attribute type"
 msgid "&Type:"
 msgstr "&Tür:"
 
 #: dialogs/stereoattributedialog.cpp:88
-#, fuzzy, kde-format
-#| msgctxt "default line color button"
-#| msgid "&Default"
+#, kde-format
 msgctxt "default value"
 msgid "&Default:"
-msgstr "Ö&ntanımlı"
+msgstr "Ö&ntanımlı:"
 
 #: dialogs/umlattributedialog.cpp:43
 #, kde-format
@@ -3493,52 +3487,51 @@ msgstr "Öznitelik Özellikleri"
 #: dialogs/umlattributedialog.cpp:80
 #, kde-format
 msgid "&Initial value:"
-msgstr "İ&lk değer:"
+msgstr "&Başlangıç değeri:"
 
 #: dialogs/umlattributedialog.cpp:89 dialogs/umloperationdialog.cpp:112
-#, fuzzy, kde-format
-#| msgid "Classifier scope (\"static\")"
+#, kde-format
 msgid "Classifier &scope (\"static\")"
-msgstr "Sınıflandırma Kapsamı (\"statik\")"
+msgstr "Sınıflandırıcı &kapsamı (\"durağan\")"
 
 #: dialogs/umlattributedialog.cpp:123 dialogs/umlenumliteraldialog.cpp:84
 #, kde-format
 msgid "You have entered an invalid attribute name."
-msgstr "Geçersiz bir öznitelik adı verdiniz."
+msgstr "Geçersiz bir öznitelik adı girdiniz."
 
 #: dialogs/umlattributedialog.cpp:124 dialogs/umlenumliteraldialog.cpp:85
 #: refactoring/refactoringassistant.cpp:845
 #, kde-format
 msgid "Attribute Name Invalid"
-msgstr "Öznitelik Adı Geçersiz"
+msgstr "Geçersiz Öznitelik Adı"
 
 #: dialogs/umlattributedialog.cpp:131 dialogs/umlenumliteraldialog.cpp:97
 #, kde-format
 msgid ""
 "The attribute name you have chosen is already being used in this operation."
-msgstr "Verilen öznitelik adı bu işlemde zaten kullanılıyor."
+msgstr "Seçtiğiniz öznitelik adı bu işlemde halihazırda kullanılıyor."
 
 #: dialogs/umlattributedialog.cpp:132 dialogs/umlenumliteraldialog.cpp:98
 #, kde-format
 msgid "Attribute Name Not Unique"
-msgstr "Öznitelik Adı Geçersiz"
+msgstr "Benzersiz Olmayan Öznitelik Adı"
 
 #: dialogs/umlcheckconstraintdialog.cpp:25
 #, kde-format
 msgid "Check Constraint Properties"
-msgstr "Kısıt Özelliklerini Kontrol Et"
+msgstr "Kısıtlama Özelliklerini Denetle"
 
 #: dialogs/umlcheckconstraintdialog.cpp:52
 #: dialogs/umluniqueconstraintdialog.cpp:79
 #, kde-format
 msgctxt "name label"
 msgid "Name"
-msgstr "İsim"
+msgstr "Ad"
 
 #: dialogs/umlcheckconstraintdialog.cpp:61
 #, kde-format
 msgid "Check Condition :"
-msgstr "Koşulları Kontrol Et :"
+msgstr "Koşulu denetle:"
 
 #: dialogs/umlentityattributedialog.cpp:43
 #, kde-format
@@ -3549,24 +3542,22 @@ msgstr "Varlık Özniteliği Özellikleri"
 #, kde-format
 msgctxt "name of entity attribute"
 msgid "&Name:"
-msgstr "İsi&m:"
+msgstr "&Ad:"
 
 #: dialogs/umlentityattributedialog.cpp:82
-#, fuzzy, kde-format
-#| msgid "Length:"
+#, kde-format
 msgid "Length/Values:"
-msgstr "Uzunluk:"
+msgstr "Uzunluk/Değerler:"
 
 #: dialogs/umlentityattributedialog.cpp:85
 #, kde-format
 msgid "&Auto increment"
-msgstr "&Otomatik artan"
+msgstr "&Kendiliğinden artan"
 
 #: dialogs/umlentityattributedialog.cpp:89
-#, fuzzy, kde-format
-#| msgid "Allow Null"
+#, kde-format
 msgid "Allow &null"
-msgstr "Belirsize izin ver"
+msgstr "Boş değere izin &ver"
 
 #: dialogs/umlentityattributedialog.cpp:96
 #, kde-format
@@ -3576,13 +3567,12 @@ msgstr "Öznitelikler:"
 #: dialogs/umlentityattributedialog.cpp:110
 #, kde-format
 msgid "Indexing"
-msgstr "Dizinleniyor"
+msgstr "İndeksleme"
 
 #: dialogs/umlentityattributedialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Not Inde&xed"
+#, kde-format
 msgid "&Not Indexed"
-msgstr "&İndekslenmemiş"
+msgstr "&İndekslenmiyor"
 
 #. i18n("&Primary"), m_pScopeGB);
 #. scopeLayout->addWidget(m_pPublicRB);
@@ -3591,44 +3581,42 @@ msgstr "&İndekslenmemiş"
 #. scopeLayout->addWidget(m_pProtectedRB);
 #.
 #: dialogs/umlentityattributedialog.cpp:125
-#, fuzzy, kde-format
-#| msgid "I&ndexed"
+#, kde-format
 msgid "&Indexed"
-msgstr "İ&ndekslenmiş"
+msgstr "İ&ndeksleniyor"
 
 #: dialogs/umlentityattributedialog.cpp:163
 #, kde-format
 msgid "You have entered an invalid entity attribute name."
-msgstr ""
+msgstr "Geçersiz bir varlık özniteliği adı girdiniz."
 
 #: dialogs/umlentityattributedialog.cpp:164
 #, kde-format
 msgid "Entity Attribute Name Invalid"
-msgstr "Varlık Özniteliği Adı Geçersiz"
+msgstr "Geçersiz Varlık Özniteliği Adı"
 
 #: dialogs/umlentityattributedialog.cpp:171
 #, kde-format
 msgid ""
 "The entity attribute name you have chosen is already being used in this "
 "operation."
-msgstr ""
+msgstr "Seçtiğiniz varlık özniteliği adı bu işlemde halihazırda kullanılıyor."
 
 #: dialogs/umlentityattributedialog.cpp:172
 #, kde-format
 msgid "Entity Attribute Name Not Unique"
-msgstr "Varlık Özniteliği Adı Biricik Değil"
+msgstr "Benzersiz Olmayan Varlık Özniteliği Adı"
 
 #: dialogs/umlenumliteraldialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "General Properties"
+#, kde-format
 msgid "EnumLiteral Properties"
-msgstr "Genel Özellikler"
+msgstr "Enümerasyon Düz Değeri Özellikleri"
 
 #: dialogs/umlenumliteraldialog.cpp:57
 #, kde-format
 msgctxt "literal name"
 msgid "&Name:"
-msgstr "&İsim:"
+msgstr "&Ad:"
 
 #: dialogs/umlenumliteraldialog.cpp:61
 #, kde-format
@@ -3638,7 +3626,7 @@ msgstr "&Değer:"
 #: dialogs/umlforeignkeyconstraintdialog.cpp:54
 #, kde-format
 msgid "Foreign Key Setup"
-msgstr "İkincil Anahtar Kurulumu"
+msgstr "Yabancı Anahtar Ayarları"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:204
 #, kde-format
@@ -3656,12 +3644,12 @@ msgstr "Genel"
 #, kde-format
 msgctxt "label for entering name"
 msgid "Name"
-msgstr "İsim"
+msgstr "Ad"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:218
 #, kde-format
 msgid "Referenced Entity"
-msgstr ""
+msgstr "Başvurulan Varlık"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:224
 #, kde-format
@@ -3686,7 +3674,7 @@ msgstr "Eylem Yok"
 #: dialogs/umlforeignkeyconstraintdialog.cpp:269
 #, kde-format
 msgid "Restrict"
-msgstr "Sınırla"
+msgstr "Kısıtla"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:269
 #, kde-format
@@ -3696,7 +3684,7 @@ msgstr "Basamakla"
 #: dialogs/umlforeignkeyconstraintdialog.cpp:269
 #, kde-format
 msgid "Set Null"
-msgstr "Belirsiz Olarak Ayarla"
+msgstr "Boş Değer Olarak Ayarla"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
@@ -3718,7 +3706,7 @@ msgstr "Yerel"
 #, kde-format
 msgctxt "column header referenced"
 msgid "Referenced"
-msgstr "Referans verilen"
+msgstr "Başvurulan"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:305
 #, kde-format
@@ -3728,7 +3716,7 @@ msgstr "Yerel Sütun"
 #: dialogs/umlforeignkeyconstraintdialog.cpp:311
 #, kde-format
 msgid "Referenced Column"
-msgstr "Referans Verilen Sütun"
+msgstr "Başvurulan Sütun"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:318
 #: dialogs/umluniqueconstraintdialog.cpp:108
@@ -3743,16 +3731,20 @@ msgid ""
 "Constraint. Any unapplied changes to the mappings between local and "
 "referenced entities will be lost. Are you sure you want to continue ?"
 msgstr ""
+"Bu Yabancı Anahtar Kısıtlamasının Başvurulan Varlığını değiştirmeye "
+"çalışıyorsunuz. Yerel ve başvurulan varlıklar arasındaki eşlemelerde "
+"uygulanmayan tüm değişiklikler kaybolacaktır. Sürdürmek istediğinden emin "
+"misiniz?"
 
 #: dialogs/umlinstanceattributedialog.cpp:21
 #, kde-format
 msgid "Object Attribute Properties"
-msgstr "Nesne Özniteliğinin Özellikleri"
+msgstr "Nesne Özniteliği Özellikleri"
 
 #: dialogs/umlinstanceattributedialog.cpp:40
 #, kde-format
 msgid "You have entered an invalid attribute value."
-msgstr "Geçersiz bir öznitelik değeri verdiniz."
+msgstr "Geçersiz bir öznitelik değeri girdiniz."
 
 #: dialogs/umlinstanceattributedialog.cpp:41
 #, kde-format
@@ -3763,7 +3755,7 @@ msgstr "Geçersiz Değer"
 #: dialogs/umlinstanceattributedialog.ui:27
 #, kde-format
 msgid "Attribute Name:"
-msgstr "Öznitelikler İsmi:"
+msgstr "Öznitelik adı:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/umlinstanceattributedialog.ui:37
@@ -3780,36 +3772,32 @@ msgstr "İşlem Özellikleri"
 #, kde-format
 msgctxt "operation name"
 msgid "&Name:"
-msgstr "İsi&m:"
+msgstr "&Ad:"
 
 #: dialogs/umloperationdialog.cpp:108
-#, fuzzy, kde-format
-#| msgid "&Abstract operation"
+#, kde-format
 msgid "&Abstract operation"
-msgstr "&Özet işlem"
+msgstr "&Soyut işlem"
 
 #: dialogs/umloperationdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "Query (\"const\")"
+#, kde-format
 msgid "&Query (\"const\")"
-msgstr "Sorgu (\"const\")"
+msgstr "&Sorgu (\"const\")"
 
 #: dialogs/umloperationdialog.cpp:118
 #, kde-format
 msgid "&virtual"
-msgstr ""
+msgstr "&Sanal"
 
 #: dialogs/umloperationdialog.cpp:122
-#, fuzzy, kde-format
-#| msgid "Spline"
+#, kde-format
 msgid "&inline"
-msgstr "Eğri"
+msgstr "S&atır içi"
 
 #: dialogs/umloperationdialog.cpp:127
-#, fuzzy, kde-format
-#| msgid "&Overwrite"
+#, kde-format
 msgid "&Override"
-msgstr "Ü&zerine yaz"
+msgstr "&Geçersiz kıl"
 
 #: dialogs/umloperationdialog.cpp:138
 #, kde-format
@@ -3827,19 +3815,19 @@ msgid ""
 "The parameter name you have chosen\n"
 "is already being used in this operation."
 msgstr ""
-"Seçilen parametre adı\n"
-"bu işlemde zaten kullanılıyor."
+"Seçitiğiniz parametre adı bu\n"
+"işlemde halihazırda kullanılıyor."
 
 #: dialogs/umloperationdialog.cpp:281 dialogs/umloperationdialog.cpp:328
 #, kde-format
 msgid "Parameter Name Not Unique"
-msgstr "Parametre Adı Kullanılıyor"
+msgstr "Benzersiz Olmayan Parametre Adı"
 
 #: dialogs/umloperationdialog.cpp:327
 #, kde-format
 msgid ""
 "The parameter name you have chosen is already being used in this operation."
-msgstr "Verilen parametre adı bu işlemde zaten kullanılıyor."
+msgstr "Seçtiğiniz parametre adı bu işlemde halihazırda kullanılıyor."
 
 #: dialogs/umloperationdialog.cpp:412
 #, kde-format
@@ -3855,23 +3843,23 @@ msgstr "Geçersiz İşlem Adı"
 #: dialogs/umloperationdialog.cpp:422 refactoring/refactoringassistant.cpp:821
 #, kde-format
 msgid "An operation with that signature already exists in %1.\n"
-msgstr ""
+msgstr "%1 içinde bu imzaya sahip bir işlem halihazırda var.\n"
 
 #: dialogs/umloperationdialog.cpp:424 refactoring/refactoringassistant.cpp:823
 #, kde-format
 msgid "Choose a different name or parameter list."
-msgstr "Farklı bir isim ya da parametre listesi kullanın."
+msgstr "Başka bir ad veya parametre listesi seçin."
 
 #: dialogs/umltemplatedialog.cpp:37
 #, kde-format
 msgid "Template Properties"
-msgstr "Şablon Özellikleri "
+msgstr "Şablon Özellikleri"
 
 #: dialogs/umltemplatedialog.cpp:65
 #, kde-format
 msgctxt "template name"
 msgid "&Name:"
-msgstr "İsi&m:"
+msgstr "&Ad:"
 
 #: dialogs/umltemplatedialog.cpp:88
 #, kde-format
@@ -3888,17 +3876,17 @@ msgstr "Geçersiz Şablon Adı"
 msgid ""
 "The template parameter name you have chosen is already being used in this "
 "operation."
-msgstr "Verilen şablon parametre adı bu işlemde zaten kullanılıyor."
+msgstr "Seçtiğiniz şablon parametresi adı bu işlemde halihazırda kullanılıyor."
 
 #: dialogs/umltemplatedialog.cpp:99
 #, kde-format
 msgid "Template Name Not Unique"
-msgstr "Şablon Adı Biricik Değil"
+msgstr "Benzersiz Olmayan Şablon Adı"
 
 #: dialogs/umluniqueconstraintdialog.cpp:45
 #, kde-format
 msgid "Unique Constraint Properties"
-msgstr ""
+msgstr "Benzersiz Kısıtlama Özellikleri"
 
 #: dialogs/umluniqueconstraintdialog.cpp:87
 #, kde-format
@@ -3908,23 +3896,23 @@ msgstr "Öznitelik Ayrıntıları"
 #: dialogs/umluniqueconstraintdialog.cpp:219
 #, kde-format
 msgid "You have entered an invalid constraint name."
-msgstr ""
+msgstr "Geçersiz bir kısıtlama adı girdiniz."
 
 #: dialogs/umluniqueconstraintdialog.cpp:220
 #, kde-format
 msgid "Constraint Name Invalid"
-msgstr ""
+msgstr "Geçersiz Kısıtlama Adı"
 
 #: dialogs/umlviewdialog.cpp:106
 #, kde-format
 msgctxt "classes display options page"
 msgid "Display"
-msgstr "Göster"
+msgstr "Görüntü"
 
 #: dialogs/umlviewdialog.cpp:106
 #, kde-format
 msgid "Classes Display Options"
-msgstr "Sınıf Görünüm Seçenekleri"
+msgstr "Sınıf Görüntüleme Seçenekleri"
 
 #: dialogs/umlviewdialog.cpp:116
 #, kde-format
@@ -3938,15 +3926,14 @@ msgid "Diagram Style"
 msgstr "Diyagram Biçemi"
 
 #: dialogs/widgets/defaultvaluewidget.cpp:36
-#, fuzzy, kde-format
-#| msgid "Default Value:"
+#, kde-format
 msgid "&Default value:"
-msgstr "Öntanımlı değer:"
+msgstr "Ö&ntanımlı değer:"
 
 #: dialogs/widgets/imagetypewidget.cpp:28
 #, kde-format
 msgid "&Image type:"
-msgstr "Gö&rsel türü:"
+msgstr "&Görsel türü:"
 
 #: dialogs/widgets/resolutionwidget.cpp:24
 #, kde-format
@@ -3959,9 +3946,7 @@ msgid "DPI"
 msgstr "DPI"
 
 #: dialogs/widgets/selectdiagramwidget.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "new container menu"
-#| msgid "New"
+#, kde-format
 msgid "New"
 msgstr "Yeni"
 
@@ -4004,12 +3989,12 @@ msgstr "&Tür:"
 #: dialogs/widgets/umlpackagewidget.cpp:29
 #, kde-format
 msgid "Package path:"
-msgstr "Paketin yolu:"
+msgstr "Paket yolu:"
 
 #: dialogs/widgets/umlstereotypewidget.cpp:24 umlmodel/umlobject.cpp:1269
 #, kde-format
 msgid "Stereotype &name:"
-msgstr "Stereotip &ismi:"
+msgstr "Stereotip &adı:"
 
 #: dialogs/widgets/visibilityenumwidget.cpp:26
 #, kde-format
@@ -4101,69 +4086,66 @@ msgstr "B Rolünün Görünürlüğü"
 #: docgenerators/docbook2xhtmlgeneratorjob.cpp:59
 #, kde-format
 msgid "Exporting to XHTML..."
-msgstr "XHTML olarak Dışarıya Aktarılıyor..."
+msgstr "XHTML olarak dışa aktarılıyor..."
 
 #: docgenerators/docbookgenerator.cpp:78 umlviewimageexporterall.cpp:95
 #, kde-format
 msgid "Exporting all views..."
-msgstr "Tüm görünümler dışarıya aktarılıyor..."
+msgstr "Tüm görünümler dışa aktarılıyor..."
 
 #: docgenerators/docbookgenerator.cpp:84 umlviewimageexporterall.cpp:101
 #, kde-format
 msgid "Some errors happened when exporting the images:"
-msgstr "Resmi dışarıya aktarırken bazı hatalar oluştu:"
+msgstr "Görseli dışa aktarırken bazı hatalar oluştu:"
 
 #: docgenerators/docbookgenerator.cpp:88
 #, kde-format
 msgid "Generating Docbook..."
-msgstr "Docbook Oluşturuluyor..."
+msgstr "Docbook üretiliyor..."
 
 #: docgenerators/docbookgenerator.cpp:108
 #, kde-format
 msgid "Docbook Generation Complete..."
-msgstr "Docbook Oluşturuma İşlemi Tamamlandı..."
+msgstr "Docbook üretimi tamamlandı..."
 
 #: docgenerators/docbookgenerator.cpp:111
 #, kde-format
 msgid "Docbook Generation Failed..."
-msgstr "Docbook Oluşturuma İşlemi Başarısız Oldu..."
+msgstr "Docbook üretimi başarısız oldu..."
 
 #: docgenerators/docbookgeneratorjob.cpp:191
 #, kde-format
 msgid "Exporting to DocBook..."
-msgstr "DockBook olarak Dışarıya Aktarılıyor..."
+msgstr "DockBook olarak dışa aktarılıyor..."
 
 #: docgenerators/main.cpp:33 docgenerators/main.cpp:46
 #, kde-format
 msgid "Umbrello UML Modeller autonomous code generator"
-msgstr "Umbrello UML Modelleyici otonom kod oluşturucu"
+msgstr "Umbrello UML Modelleyicisi otonom kod üreteci"
 
 #: docgenerators/main.cpp:48
-#, fuzzy, kde-format
-#| msgid ""
-#| "(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML "
-#| "Modeller Authors"
+#, kde-format
 msgid ""
 "(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller "
 "Authors"
 msgstr ""
-"(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML "
-"Modelleyici Yazarları"
+"(c) 2006 Gael de Chalendar (nam-ı diğer Kleag), (c) 2002-2006 Umbrello UML "
+"Modelleyicisi Yazarları"
 
 #: docgenerators/main.cpp:50
 #, kde-format
 msgid "Gael de Chalendar (aka Kleag)"
-msgstr "Gael de Chalendar (aka Kleag)"
+msgstr "Gael de Chalendar (nam-ı diğer Kleag)"
 
 #: docgenerators/main.cpp:51 main.cpp:128
 #, kde-format
 msgid "Umbrello UML Modeller Authors"
-msgstr "Umbrello UML Modelleyici Yazarları"
+msgstr "Umbrello UML Modelleyicisi Yazarları"
 
 #: docgenerators/main.cpp:55
 #, kde-format
 msgid "File to transform"
-msgstr "Dönüştürülecek dosya"
+msgstr "Dönüşüm yapılacak dosya"
 
 #: docgenerators/main.cpp:56
 #, kde-format
@@ -4173,27 +4155,27 @@ msgstr "Kullanılacak XSLT dosyası"
 #: docgenerators/xhtmlgenerator.cpp:105
 #, kde-format
 msgid "Generating XHTML..."
-msgstr "XHTML Oluşturuluyor..."
+msgstr "XHTML üretiliyor..."
 
 #: docgenerators/xhtmlgenerator.cpp:131
 #, kde-format
 msgid "XHTML Generation Complete..."
-msgstr "XHTML Oluşturma İşlemi Tamamlandı..."
+msgstr "XHTML üretimi tamamlandı..."
 
 #: docgenerators/xhtmlgenerator.cpp:137
 #, kde-format
 msgid "Copying CSS..."
-msgstr "CSS Kopyalanıyor..."
+msgstr "CSS kopyalanıyor..."
 
 #: docgenerators/xhtmlgenerator.cpp:150
 #, kde-format
 msgid "Finished Copying CSS..."
-msgstr "CSS Dosyalarının Kopyalanması Tamamlandı..."
+msgstr "CSS kopyalaması tamamlandı..."
 
 #: docgenerators/xhtmlgenerator.cpp:153
 #, kde-format
 msgid "Failed Copying CSS..."
-msgstr "CSS Dosyalarının Kopyalanması Başarısız Oldu..."
+msgstr "CSS kopyalanamadı..."
 
 #: docwindow.cpp:44
 #, kde-format
@@ -4201,26 +4183,28 @@ msgid ""
 "Flag whether documentation was modified. Press left mouse button to apply "
 "modified content."
 msgstr ""
+"Belgelerin değiştirilip değiştirilmediğini işaretleyin. Değiştirilen içeriği "
+"uygulamak için farenin sol düğmesine basın."
 
 #: docwindow.cpp:81
 #, kde-format
 msgid "Documentation type"
-msgstr "Döküman türü"
+msgstr "Belgelendirme türü"
 
 #: docwindow.cpp:88
 #, kde-format
 msgid "Activate documentation edit after focus change."
-msgstr ""
+msgstr "Odak değişikliğinden sonra belge düzenlemeyi etkinleştirin."
 
 #: layoutgenerator.cpp:261
 #, kde-format
 msgid "Apply layout"
-msgstr "Düzeni uygula"
+msgstr "Yerleşimi uygula"
 
 #: main.cpp:117
 #, kde-format
 msgid "Umbrello UML Modeller"
-msgstr "Umbrello UML Modelleyici"
+msgstr "Umbrello UML Modelleyicisi"
 
 #: main.cpp:119
 #, kde-format
@@ -4229,45 +4213,43 @@ msgid ""
 "industry standard Unified Modelling Language (UML).<br/>See also <a href="
 "\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 msgstr ""
+"Umbrello – Yazılım için endüstri standardı Birleşik Modelleme Dili'ni (UML) "
+"temel alan görsel geliştirme ortamı.<br/>Ayrıca <a href=\"http://www.omg.org/"
+"spec/\">http://www.omg.org/spec/</a> adresine bakın."
 
 #: main.cpp:123
-#, fuzzy, kde-format
-#| msgid ""
-#| "Copyright © 2001 Paul Hensgen,\n"
-#| "Copyright © 2002-2016 Umbrello UML Modeller Authors"
+#, kde-format
 msgid ""
 "Copyright © 2001 Paul Hensgen,\n"
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
 msgstr ""
-"Copyright © 2001 Paul Hensgen,\n"
-"Copyright © 2002-2016 Umbrello UML Modeller Yazarları"
+"Telif hakkı © 2001 Paul Hensgen,\n"
+"Telif hakkı © 2002-2022 Umbrello UML Modelleyicisi Yazarları"
 
 #: main.cpp:127
 #, kde-format
 msgid "Author of initial version."
-msgstr "Başlanıç sürümünün yazarı."
+msgstr "İlk sürümün yazarı."
 
 #: main.cpp:132 main.cpp:135
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
-msgstr ""
-"Hata düzeltmesi, geçiş çalışmaları, kod temizlenmesi, yeni özellikler "
-"eklemesi."
+msgstr "Hata düzeltmesi, geçiş çalışmaları, kod temizliği, yeni özellikler."
 
 #: main.cpp:138
 #, kde-format
 msgid "Porting work, code cleanup, new features."
-msgstr "Geçiş çalışması, kod temizlemesi, yeni özellikler eklemesi."
+msgstr "Geçiş çalışması, kod temizliği, yeni özellikler."
 
 #: main.cpp:141
 #, kde-format
 msgid "Current maintainer."
-msgstr "Güncel bakımcı."
+msgstr "Şu anki bakımcı."
 
 #: main.cpp:144
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
-msgstr "C++ ve java kod oluşturulması için bir çok çalışma. Codeeditor."
+msgstr "C++ ve Java kodu üretimi için bir çok çalışma. Kod düzenleyicisi."
 
 #: main.cpp:152
 #, kde-format
@@ -4275,63 +4257,53 @@ msgid "File to open"
 msgstr "Açılacak dosya"
 
 #: main.cpp:153
-#, fuzzy, kde-format
-#| msgid "Export diagrams to extension and exit."
+#, kde-format
 msgid "export diagrams to extension and exit"
-msgstr "Eklentiye diyagramı aktar ve çık."
+msgstr "Diyagramları uzantıya dışa aktar ve çık"
 
 #: main.cpp:155
-#, fuzzy, kde-format
-#| msgid "List available export extensions."
+#, kde-format
 msgid "list available export extensions"
-msgstr "Dışarıya aktarılabilecek eklentilerin listesi."
+msgstr "Kullanılabilir dışa aktarma uzantılarını listele"
 
 #: main.cpp:157
-#, fuzzy, kde-format
-#| msgid "The local directory to save the exported diagrams in."
+#, kde-format
 msgid "the local directory to save the exported diagrams in"
-msgstr "Dışarıya aktarılacak diyagramların kayıt edileceği yerel dizin."
+msgstr "Dışa aktarılan diyagramların kaydedileceği yerel dizin"
 
 #: main.cpp:159
-#, fuzzy, kde-format
-#| msgid "importing file ..."
+#, kde-format
 msgid "import files"
-msgstr "dosya içeriye aktarılıyor ..."
+msgstr "Dosyalar içe aktar"
 
 #: main.cpp:161
-#, fuzzy, kde-format
-#| msgid "All Supported Files"
+#, kde-format
 msgid "list supported languages"
-msgstr "Desteklenen Tüm Dosyalar"
+msgstr "Desteklenen dilleri listele"
 
 #: main.cpp:163
-#, fuzzy, kde-format
-#| msgid ""
-#| "Keep the tree structure used to store the views in the document in the "
-#| "target directory."
+#, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
 "target directory"
 msgstr ""
-"Belge içerisinde tutulan görünümleri aynı ağaç yapısını hedef dizinin "
-"içerisinde de sakla."
+"belgedeki görünümleri hedef dizinde saklamak için kullanılan ağaç yapısını "
+"koru"
 
 #: main.cpp:165
-#, fuzzy, kde-format
-#| msgid "Import from Directory..."
+#, kde-format
 msgid "import files from directory <dir>"
-msgstr "Dizinden İçeriye Aktar..."
+msgstr "<dizin>'den dosyalar içe aktar"
 
 #: main.cpp:167
-#, fuzzy, kde-format
-#| msgid "Active &Language"
+#, kde-format
 msgid "set language"
-msgstr "&Etkin Dil"
+msgstr "dil ayarla"
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
 msgid "Delete Anchor"
-msgstr "Çapayı Sil"
+msgstr "Tutturucuyu Sil"
 
 #: menus/associationwidgetpopupmenu.cpp:48
 #, kde-format
@@ -4341,17 +4313,17 @@ msgstr "Nokta Ekle"
 #: menus/associationwidgetpopupmenu.cpp:50
 #, kde-format
 msgid "Delete Point"
-msgstr "Nokta sil"
+msgstr "Noktayı Sil"
 
 #: menus/associationwidgetpopupmenu.cpp:52
 #, kde-format
 msgid "Choose Spline points automatically"
-msgstr ""
+msgstr "Eğri Noktalarını Kendiliğinden Seç"
 
 #: menus/associationwidgetpopupmenu.cpp:67
 #, kde-format
 msgid "Change Association Name..."
-msgstr "Bağıntılar Adını Değiştir..."
+msgstr "İlişkilendirme Adını Değiştir..."
 
 #: menus/associationwidgetpopupmenu.cpp:68 menus/widgetbasepopupmenu.cpp:490
 #, kde-format
@@ -4366,23 +4338,23 @@ msgstr "B Rolünün Adını Değiştir..."
 #: menus/associationwidgetpopupmenu.cpp:76 menus/widgetbasepopupmenu.cpp:508
 #, kde-format
 msgid "Select Operation..."
-msgstr "İşlemi Seç..."
+msgstr "İşlem Seç..."
 
 #: menus/associationwidgetpopupmenu.cpp:94
 #, kde-format
 msgctxt "Layout menu"
 msgid "Layout"
-msgstr "Düzen"
+msgstr "Yerleşim"
 
 #: menus/associationwidgetpopupmenu.cpp:95
 #, kde-format
 msgid "Polyline"
-msgstr "Çoklu çizgi"
+msgstr "Çoklu Çizgi"
 
 #: menus/associationwidgetpopupmenu.cpp:96
 #, kde-format
 msgid "Direct"
-msgstr "Direkt"
+msgstr "Doğrudan"
 
 #: menus/associationwidgetpopupmenu.cpp:97
 #, kde-format
@@ -4400,16 +4372,14 @@ msgid "New Template..."
 msgstr "Yeni Şablon..."
 
 #: menus/listpopupmenu.cpp:145
-#, fuzzy, kde-format
-#| msgid "Accept signal"
+#, kde-format
 msgid "Accept Signal"
-msgstr "Kabul sinyali"
+msgstr "Sinyali Kabul Et"
 
 #: menus/listpopupmenu.cpp:146
-#, fuzzy, kde-format
-#| msgid "Accept time event"
+#, kde-format
 msgid "Accept Time Event"
-msgstr "Zaman olayını kabul et"
+msgstr "Zaman Olayını Kabul Et"
 
 #: menus/listpopupmenu.cpp:147 menus/listpopupmenu.cpp:220
 #, kde-format
@@ -4419,7 +4389,7 @@ msgstr "Etkinlik..."
 #: menus/listpopupmenu.cpp:148 worktoolbar.cpp:373
 #, kde-format
 msgid "Activity Transition"
-msgstr "Etkinlik Aktarımı"
+msgstr "Etkinlik Geçişi"
 
 #: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1233
 #: worktoolbar.cpp:335
@@ -4432,7 +4402,7 @@ msgstr "Aktör"
 #: worktoolbar.cpp:355
 #, kde-format
 msgid "Artifact"
-msgstr ""
+msgstr "Kalıntı"
 
 #. i18n("Category...")); break;
 #: menus/listpopupmenu.cpp:158 menus/widgetbasepopupmenu.cpp:557
@@ -4443,7 +4413,7 @@ msgstr "Yazıtipini Değiştir..."
 #: menus/listpopupmenu.cpp:160
 #, kde-format
 msgid "Choice"
-msgstr "Seçim"
+msgstr "Seçenek"
 
 #: menus/listpopupmenu.cpp:161
 #, kde-format
@@ -4460,14 +4430,13 @@ msgstr "Çoğalt"
 #: menus/listpopupmenu.cpp:163
 #, kde-format
 msgid "Collapse All"
-msgstr "Tümünü Topla"
+msgstr "Tümünü Daralt"
 
 #: menus/listpopupmenu.cpp:164
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgctxt "add new combined state"
 msgid "Combined state..."
-msgstr "Birleştirilmiş Parça"
+msgstr "Birleştirilmiş Durum..."
 
 #: menus/listpopupmenu.cpp:165 umlwidgets/widgetbase.cpp:1251
 #: worktoolbar.cpp:353
@@ -4481,12 +4450,12 @@ msgstr "Bileşen"
 #: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:82
 #, kde-format
 msgid "Folder"
-msgstr "Dizin"
+msgstr "Klasör"
 
 #: menus/listpopupmenu.cpp:171
 #, kde-format
 msgid "Datatype..."
-msgstr "Veri türü..."
+msgstr "Veri Türü..."
 
 #: menus/listpopupmenu.cpp:172 worktoolbar.cpp:362
 #, kde-format
@@ -4494,15 +4463,14 @@ msgid "Deep History"
 msgstr "Derin Geçmiş"
 
 #: menus/listpopupmenu.cpp:176
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "Edit combined state"
-msgstr "Birleştirilmiş Parça"
+msgstr "Birleştirilmiş Durumu Düzenle"
 
 #: menus/listpopupmenu.cpp:177 worktoolbar.cpp:376
 #, kde-format
 msgid "End Activity"
-msgstr "Bitiş Aktivitesi"
+msgstr "Bitiş Etkinliği"
 
 #: menus/listpopupmenu.cpp:178 worktoolbar.cpp:346
 #, kde-format
@@ -4524,37 +4492,37 @@ msgstr "Varlık Özniteliği..."
 #: menus/listpopupmenu.cpp:184
 #, kde-format
 msgid "Enum..."
-msgstr ""
+msgstr "Enümerasyon..."
 
 #: menus/listpopupmenu.cpp:185
 #, kde-format
 msgid "Enum Literal..."
-msgstr ""
+msgstr "Enümerasyon Düz Değeri.."
 
 #: menus/listpopupmenu.cpp:187
 #, kde-format
 msgid "Expand All"
-msgstr "Tümünü Aç"
+msgstr "Tümünü Genişlet"
 
 #: menus/listpopupmenu.cpp:188
 #, kde-format
 msgid "Export as Picture..."
-msgstr "Resim Olarak Kaydet..."
+msgstr "Resim Olarak Dışa Aktar..."
 
 #: menus/listpopupmenu.cpp:189
 #, kde-format
 msgid "Externalize Folder..."
-msgstr "Dışında Bırakılmış Dizin..."
+msgstr "Klasörü Dışla..."
 
 #: menus/listpopupmenu.cpp:190 menus/widgetbasepopupmenu.cpp:535
 #, kde-format
 msgid "Fill Color..."
-msgstr "Doldurma Rengi..."
+msgstr "Dolgu Rengi..."
 
 #: menus/listpopupmenu.cpp:191 worktoolbar.cpp:377
 #, kde-format
 msgid "Final Activity"
-msgstr "Bitiş Etkinliği"
+msgstr "Son Etkinlik"
 
 #: menus/listpopupmenu.cpp:192
 #, kde-format
@@ -4577,36 +4545,34 @@ msgid "Fork"
 msgstr "Çatalla"
 
 #: menus/listpopupmenu.cpp:197
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Go to state diagram"
-msgstr "durum diyagramı"
+msgstr "Durum Diyagramına Git"
 
 #: menus/listpopupmenu.cpp:198
 #, kde-format
 msgid "Hide destruction box"
-msgstr ""
+msgstr "Yıkım Kutusunu Gizle"
 
 #: menus/listpopupmenu.cpp:199
 #, kde-format
 msgid "Import File(s)..."
-msgstr "Dosya(ları) İçeriye Aktar..."
+msgstr "Dosya(lar) İçe Aktar..."
 
 #: menus/listpopupmenu.cpp:200 uml.cpp:386
 #, kde-format
 msgid "Import from Directory..."
-msgstr "Dizinden İçeriye Aktar..."
+msgstr "Dizinden İçe Aktar..."
 
 #: menus/listpopupmenu.cpp:201
-#, fuzzy, kde-format
-#| msgid "Closing file..."
+#, kde-format
 msgid "from file..."
-msgstr "Dosya kapatılıyor..."
+msgstr "Dosyadan..."
 
 #: menus/listpopupmenu.cpp:202 worktoolbar.cpp:380
 #, kde-format
 msgid "Initial Activity"
-msgstr "İlk Etkinlik"
+msgstr "Başlangıç Etkinliği"
 
 #: menus/listpopupmenu.cpp:203 worktoolbar.cpp:344
 #, kde-format
@@ -4614,11 +4580,10 @@ msgid "Initial State"
 msgstr "Başlangıç Durumu"
 
 #: menus/listpopupmenu.cpp:204
-#, fuzzy, kde-format
-#| msgid "Interface..."
+#, kde-format
 msgctxt "new instance menu item"
 msgid "Instance..."
-msgstr "Arayüz..."
+msgstr "Örnek..."
 
 #: menus/listpopupmenu.cpp:205 menus/listpopupmenu.cpp:221
 #: menus/listpopupmenu.cpp:224
@@ -4627,26 +4592,24 @@ msgid "New Attribute..."
 msgstr "Yeni Öznitelik..."
 
 #: menus/listpopupmenu.cpp:208
-#, fuzzy, kde-format
-#| msgid "Add Derived Interface"
+#, kde-format
 msgid "Provided interface"
-msgstr "Türetilmiş Arayüz Ekle"
+msgstr "Sağlanan Arayüz"
 
 #: menus/listpopupmenu.cpp:209
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "Required interface"
-msgstr "Kullanıcı Arayüzü"
+msgstr "Gereken Arayüz"
 
 #: menus/listpopupmenu.cpp:210
 #, kde-format
 msgid "Internalize Folder"
-msgstr "İçine Dahil Edilmiş Dizin"
+msgstr "Klasörü İçselleştir"
 
 #: menus/listpopupmenu.cpp:211 worktoolbar.cpp:367
 #, kde-format
 msgid "Junction"
-msgstr ""
+msgstr "Ağız"
 
 #: menus/listpopupmenu.cpp:212 menus/widgetbasepopupmenu.cpp:534
 #, kde-format
@@ -4656,19 +4619,17 @@ msgstr "Çizgi Rengi..."
 #: menus/listpopupmenu.cpp:214 worktoolbar.cpp:324 worktoolbar.cpp:382
 #, kde-format
 msgid "Asynchronous Message"
-msgstr "Asenkron Mesaj"
+msgstr "Eşzamansız İleti"
 
 #: menus/listpopupmenu.cpp:215
-#, fuzzy, kde-format
-#| msgid "Collaboration Self Message"
+#, kde-format
 msgid "Creation Message"
-msgstr "Kendi İşbirliği Mesajı"
+msgstr "Oluşturma İletisi"
 
 #: menus/listpopupmenu.cpp:216
-#, fuzzy, kde-format
-#| msgid "Lost Message"
+#, kde-format
 msgid "Destroy Message"
-msgstr "Kayıp İleti"
+msgstr "Yıkım İletisi"
 
 #: menus/listpopupmenu.cpp:217 worktoolbar.cpp:325
 #, kde-format
@@ -4683,7 +4644,7 @@ msgstr "Kayıp İleti"
 #: menus/listpopupmenu.cpp:219 worktoolbar.cpp:323 worktoolbar.cpp:381
 #, kde-format
 msgid "Synchronous Message"
-msgstr "Senkron Mesaj"
+msgstr "Eşzamanlı İleti"
 
 #: menus/listpopupmenu.cpp:222
 #, kde-format
@@ -4693,7 +4654,7 @@ msgstr "Yeni Varlık Özniteliği..."
 #: menus/listpopupmenu.cpp:223
 #, kde-format
 msgid "New Literal..."
-msgstr "Yeni Gerçek..."
+msgstr "Yeni Düz Değer..."
 
 #: menus/listpopupmenu.cpp:226
 #, kde-format
@@ -4708,10 +4669,9 @@ msgstr "Düğüm"
 
 #. i18n("Node...")); break;
 #: menus/listpopupmenu.cpp:230
-#, fuzzy, kde-format
-#| msgid "Node..."
+#, kde-format
 msgid "Note..."
-msgstr "Uç..."
+msgstr "Not..."
 
 #: menus/listpopupmenu.cpp:231
 #, kde-format
@@ -4724,8 +4684,7 @@ msgid "Object Node"
 msgstr "Nesne Düğümü"
 
 #: menus/listpopupmenu.cpp:233
-#, fuzzy, kde-format
-#| msgid "Open File"
+#, kde-format
 msgid "Open file"
 msgstr "Dosya Aç"
 
@@ -4733,26 +4692,25 @@ msgstr "Dosya Aç"
 #: menus/listpopupmenu.cpp:236
 #, kde-format
 msgid "Package..."
-msgstr "Paket..."
+msgstr "Paketle..."
 
 #: menus/listpopupmenu.cpp:238 umlwidgets/widgetbase.cpp:1293
 #: worktoolbar.cpp:378
 #, kde-format
 msgid "Pin"
-msgstr "Pin"
+msgstr "Sabitle"
 
 #: menus/listpopupmenu.cpp:239 umlwidgets/widgetbase.cpp:1296
 #: worktoolbar.cpp:379
 #, kde-format
 msgid "Port"
-msgstr "Port"
+msgstr "Kapı"
 
 #. i18n("Port...")); break;
 #: menus/listpopupmenu.cpp:241
-#, fuzzy, kde-format
-#| msgid "Pre/Post condition"
+#, kde-format
 msgid "Pre Post Condition"
-msgstr "Ön/Son koşul"
+msgstr "Ön/Son Koşul"
 
 #: menus/listpopupmenu.cpp:244
 #, kde-format
@@ -4766,38 +4724,34 @@ msgid "Region"
 msgstr "Bölge"
 
 #: menus/listpopupmenu.cpp:246
-#, fuzzy, kde-format
-#| msgid "<< Remove"
+#, kde-format
 msgid "Remove"
-msgstr "<< Kaldır"
+msgstr "Kaldır"
 
 #: menus/listpopupmenu.cpp:247
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Remove state diagram"
-msgstr "durum diyagramı"
+msgstr "Durum Diyagramını Kaldır"
 
 #: menus/listpopupmenu.cpp:248 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
 msgid "Rename..."
-msgstr "Yeniden adlandır..."
+msgstr "Yeniden Adlandır..."
 
 #: menus/listpopupmenu.cpp:249
 #, kde-format
 msgid "Rename Object..."
-msgstr "Nesnenin Adını Değiştir..."
+msgstr "Nesneyi Yeniden Adlandır..."
 
 #: menus/listpopupmenu.cpp:250
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "Return to combined state"
-msgstr "Birleştirilmiş Parça"
+msgstr "Birleştirilmiş Duruma Dön"
 
 #: menus/listpopupmenu.cpp:251
-#, fuzzy, kde-format
-#| msgid "Rename Class..."
+#, kde-format
 msgid "Return to class"
-msgstr "Sınıfın Adını Değiştir..."
+msgstr "Sınıfa Dön"
 
 #: menus/listpopupmenu.cpp:252
 #, kde-format
@@ -4807,30 +4761,27 @@ msgstr "Etiket Konumlarını Sıfırla"
 #: menus/listpopupmenu.cpp:253
 #, kde-format
 msgid "Resize"
-msgstr "Yeniden boyutlandır"
+msgstr "Yeniden Boyutlandır"
 
 #: menus/listpopupmenu.cpp:254
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Select state diagram"
-msgstr "durum diyagramı"
+msgstr "Durum Diyagramı Seç"
 
 #: menus/listpopupmenu.cpp:255
-#, fuzzy, kde-format
-#| msgid "Send signal"
+#, kde-format
 msgid "Send Signal"
-msgstr "Sinyal gönder"
+msgstr "Sinyal Gönder"
 
 #: menus/listpopupmenu.cpp:256 worktoolbar.cpp:363
 #, kde-format
 msgid "Shallow History"
-msgstr ""
+msgstr "Sığ Geçmiş"
 
 #: menus/listpopupmenu.cpp:258
-#, fuzzy, kde-format
-#| msgid "Show Operations"
+#, kde-format
 msgid "Show destruction box"
-msgstr "İşlemleri Göster"
+msgstr "Yıkım Kutusunu Göster"
 
 #: menus/listpopupmenu.cpp:259
 #, kde-format
@@ -4846,7 +4797,7 @@ msgstr "Katıl"
 #: menus/listpopupmenu.cpp:264 worktoolbar.cpp:366
 #, kde-format
 msgid "Subsystem"
-msgstr "Alt sistem"
+msgstr "Alt Sistem"
 
 #. i18n("Subsystem...")); break;
 #: menus/listpopupmenu.cpp:266
@@ -4863,7 +4814,7 @@ msgstr "Geri Al"
 #: menus/listpopupmenu.cpp:270 worktoolbar.cpp:342
 #, kde-format
 msgid "Use Case"
-msgstr "Use Case"
+msgstr "Kullanım Senaryosu"
 
 #: menus/listpopupmenu.cpp:351
 #, kde-format
@@ -4878,8 +4829,7 @@ msgid "New"
 msgstr "Yeni"
 
 #: menus/listpopupmenu.cpp:513
-#, fuzzy, kde-format
-#| msgid "Category Type"
+#, kde-format
 msgctxt "category type sub menu"
 msgid "Category Type"
 msgstr "Kategori Türü"
@@ -4887,60 +4837,58 @@ msgstr "Kategori Türü"
 #: menus/listpopupmenu.cpp:514
 #, kde-format
 msgid "Disjoint(Specialisation)"
-msgstr ""
+msgstr "Ayrık (Uzmanlık)"
 
 #: menus/listpopupmenu.cpp:515
 #, kde-format
 msgid "Overlapping(Specialisation)"
-msgstr ""
+msgstr "Üst Üste Binmiş (Uzmanlık)"
 
 #: menus/listpopupmenu.cpp:516
 #, kde-format
 msgid "Union"
-msgstr ""
+msgstr "Birlik"
 
 #: menus/umllistviewpopupmenu.cpp:159 menus/widgetbasepopupmenu.cpp:200
 #: menus/widgetbasepopupmenu.cpp:226
 #, kde-format
 msgid "Change into Class"
-msgstr ""
+msgstr "Sınıfa Dönüştür"
 
 #: menus/umllistviewpopupmenu.cpp:160 menus/widgetbasepopupmenu.cpp:201
 #, kde-format
 msgid "Change into Package"
-msgstr "Paket bilgisini değiştir"
+msgstr "Pakete Dönüştür"
 
 #: menus/umlscenepopupmenu.cpp:53
 #, kde-format
 msgid "Clear Diagram"
-msgstr "Şekli Temizle"
+msgstr "Diyagramı Temizle"
 
 #: menus/umlscenepopupmenu.cpp:57
 #, kde-format
 msgid "Snap to Grid"
-msgstr "Kılavuza Uydur"
+msgstr "Izgaraya Tuttur"
 
 #: menus/umlscenepopupmenu.cpp:59
-#, fuzzy, kde-format
-#| msgid "Snap to Grid"
+#, kde-format
 msgid "Snap Component Size to Grid"
-msgstr "Kılavuza Uydur"
+msgstr "Bileşen Boyutunu Izgaraya Tuttur"
 
 #: menus/umlscenepopupmenu.cpp:61
 #, kde-format
 msgid "Show Grid"
-msgstr "Kılavuzu Göster"
+msgstr "Izgarayı Göster"
 
 #: menus/umlscenepopupmenu.cpp:63
-#, fuzzy, kde-format
-#| msgid "Show operation signature"
+#, kde-format
 msgid "Show Documentation Indicator"
-msgstr "İşlem imzasını göster"
+msgstr "Belgelendirme Göstergesini Göster"
 
 #: menus/umlscenepopupmenu.cpp:105
 #, kde-format
 msgid "apply '%1'"
-msgstr "'%1' Uygula"
+msgstr "Uygula: '%1'"
 
 #: menus/widgetbasepopupmenu.cpp:86
 #, kde-format
@@ -4960,22 +4908,22 @@ msgstr "Öznitelik İmzası"
 #: menus/widgetbasepopupmenu.cpp:119 menus/widgetbasepopupmenu.cpp:127
 #, kde-format
 msgid "Show Signatures"
-msgstr "İmzayı Göster"
+msgstr "İmzaları Göster"
 
 #: menus/widgetbasepopupmenu.cpp:120 menus/widgetbasepopupmenu.cpp:128
 #, kde-format
 msgid "Hide Signatures"
-msgstr "İmzayı Gizle"
+msgstr "İmzaları Gizle"
 
 #: menus/widgetbasepopupmenu.cpp:134
 #, kde-format
 msgid "Hide Non-public members"
-msgstr ""
+msgstr "Genel Olmayan Üyeleri Gizle"
 
 #: menus/widgetbasepopupmenu.cpp:135
 #, kde-format
 msgid "Show Non-public members"
-msgstr ""
+msgstr "Genel Olmayan Üyeleri Göster"
 
 #: menus/widgetbasepopupmenu.cpp:138
 #, kde-format
@@ -4990,7 +4938,7 @@ msgstr "Stereotip"
 #: menus/widgetbasepopupmenu.cpp:203
 #, kde-format
 msgid "Refactor"
-msgstr ""
+msgstr "Yeniden Düzenle"
 
 #: menus/widgetbasepopupmenu.cpp:204
 #, kde-format
@@ -5000,7 +4948,7 @@ msgstr "Kodu Görüntüle"
 #: menus/widgetbasepopupmenu.cpp:207
 #, kde-format
 msgid "Change into Interface"
-msgstr ""
+msgstr "Arayüze Dönüştür"
 
 #: menus/widgetbasepopupmenu.cpp:224
 #, kde-format
@@ -5010,12 +4958,12 @@ msgstr "Çember Olarak Çiz"
 #: menus/widgetbasepopupmenu.cpp:235 menus/widgetbasepopupmenu.cpp:304
 #, kde-format
 msgid "Rename Class..."
-msgstr "Sınıfın Adını Değiştir..."
+msgstr "Sınıfı Yeniden Adlandır..."
 
 #: menus/widgetbasepopupmenu.cpp:277 menus/widgetbasepopupmenu.cpp:444
 #, kde-format
 msgid "Name as Tooltip"
-msgstr "İpucu olarak ad"
+msgstr "İpucu Olarak Ad"
 
 #: menus/widgetbasepopupmenu.cpp:296
 #, kde-format
@@ -5042,7 +4990,7 @@ msgstr "Metni Değiştir..."
 #: menus/widgetbasepopupmenu.cpp:334 menus/widgetbasepopupmenu.cpp:585
 #, kde-format
 msgid "Auto resize"
-msgstr "Otomatik olarak yeniden boyutlandır"
+msgstr "Kendiliğinden Yeniden Boyutlandır"
 
 #: menus/widgetbasepopupmenu.cpp:367
 #, kde-format
@@ -5057,7 +5005,7 @@ msgstr "Etkinlik Adını Değiştir..."
 #: menus/widgetbasepopupmenu.cpp:423
 #, kde-format
 msgid "Change Object Node Name..."
-msgstr "Nesne Düğüm Adını Değiştir..."
+msgstr "Nesne Düğümü Adını Değiştir..."
 
 #: menus/widgetbasepopupmenu.cpp:440
 #, kde-format
@@ -5079,12 +5027,12 @@ msgstr "Temizle"
 #: menus/widgetbasepopupmenu.cpp:481 menus/widgetbasepopupmenu.cpp:484
 #, kde-format
 msgid "Change Multiplicity..."
-msgstr "Çoklu oluşumu değiştir..."
+msgstr "Çeşitliliği Değiştir..."
 
 #: menus/widgetbasepopupmenu.cpp:487
 #, kde-format
 msgid "Change Name"
-msgstr "İsmi Değiştir"
+msgstr "Adı Değiştir"
 
 #: menus/widgetbasepopupmenu.cpp:533 menus/widgetbasepopupmenu.cpp:614
 #, kde-format
@@ -5097,12 +5045,12 @@ msgstr "Renk"
 #: umbrello.kcfg:142
 #, kde-format
 msgid "Use Fill Color"
-msgstr "Doldurma Rengi Kullan"
+msgstr "Dolgu Rengi Kullan"
 
 #: menus/widgetbasepopupmenu.cpp:537
 #, kde-format
 msgid "No Fill Color"
-msgstr "Doldurma Rengi Yok"
+msgstr "Dolgu Rengi Yok"
 
 #: menus/widgetbasepopupmenu.cpp:593
 #, kde-format
@@ -5113,42 +5061,42 @@ msgstr "Hizala"
 #: menus/widgetbasepopupmenu.cpp:594 uml.cpp:608
 #, kde-format
 msgid "Align Right"
-msgstr "Sağa Yasla"
+msgstr "Sağa Hizala"
 
 #: menus/widgetbasepopupmenu.cpp:595 uml.cpp:613
 #, kde-format
 msgid "Align Left"
-msgstr "Sola Yasla"
+msgstr "Sola Hizala"
 
 #: menus/widgetbasepopupmenu.cpp:596 uml.cpp:618
 #, kde-format
 msgid "Align Top"
-msgstr "Yukarıya Hizala"
+msgstr "Yukarı Hizala"
 
 #: menus/widgetbasepopupmenu.cpp:597 uml.cpp:623
 #, kde-format
 msgid "Align Bottom"
-msgstr "Aşağıya Hizala"
+msgstr "Aşağı Hizala"
 
 #: menus/widgetbasepopupmenu.cpp:599 uml.cpp:628
 #, kde-format
 msgid "Align Vertical Middle"
-msgstr ""
+msgstr "Dikey Ortaya Hizala"
 
 #: menus/widgetbasepopupmenu.cpp:600 uml.cpp:633
 #, kde-format
 msgid "Align Horizontal Middle"
-msgstr ""
+msgstr "Yatay Ortaya Hizala"
 
 #: menus/widgetbasepopupmenu.cpp:601 uml.cpp:638
 #, kde-format
 msgid "Align Vertical Distribute"
-msgstr ""
+msgstr "Dikey Dağıtıma Hizala"
 
 #: menus/widgetbasepopupmenu.cpp:602 uml.cpp:643
 #, kde-format
 msgid "Align Horizontal Distribute"
-msgstr ""
+msgstr "Yatay Dağıtıma Hizala"
 
 #: model_utils.cpp:560
 #, kde-format
@@ -5158,12 +5106,12 @@ msgstr "yeni_aktör"
 #: model_utils.cpp:561
 #, kde-format
 msgid "new_artifact"
-msgstr ""
+msgstr "yeni_kalıntı"
 
 #: model_utils.cpp:562 umlmodel/umlcanvasobject.cpp:186
 #, kde-format
 msgid "new_association"
-msgstr "yeni_bağıntı"
+msgstr "yeni_ilişkilendirme"
 
 #: model_utils.cpp:563 umlmodel/umlcanvasobject.cpp:189
 #, kde-format
@@ -5178,7 +5126,7 @@ msgstr "yeni_kategori"
 #: model_utils.cpp:565 umlmodel/umlcanvasobject.cpp:210
 #, kde-format
 msgid "new_check_constraint"
-msgstr ""
+msgstr "yeni_denetim_kısıtlaması"
 
 #: model_utils.cpp:567
 #, kde-format
@@ -5188,7 +5136,7 @@ msgstr "yeni_bileşen"
 #: model_utils.cpp:568
 #, kde-format
 msgid "new_datatype"
-msgstr "yeni_veritürü"
+msgstr "yeni_veri_türü"
 
 #: model_utils.cpp:569
 #, kde-format
@@ -5196,49 +5144,44 @@ msgid "new_entity"
 msgstr "yeni_varlık"
 
 #: model_utils.cpp:570
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "new_entity_attribute"
-msgstr "yeni_öznitelik"
+msgstr "yeni_varlık_özniteliği"
 
 #: model_utils.cpp:571
-#, fuzzy, kde-format
-#| msgid "new_entity"
+#, kde-format
 msgid "new_entity_constraint"
-msgstr "yeni_varlık"
+msgstr "yeni_varlık_kısıtlaması"
 
 #: model_utils.cpp:572
 #, kde-format
 msgid "new_enum"
-msgstr ""
+msgstr "yeni_enümerasyon"
 
 #: model_utils.cpp:573
-#, fuzzy, kde-format
-#| msgid "new_template"
+#, kde-format
 msgid "new_enum_literal"
-msgstr "yeni_şablon"
+msgstr "yeni_enümerasyon_düz_değeri"
 
 #: model_utils.cpp:574
 #, kde-format
 msgid "new_folder"
-msgstr "yeni_dizin"
+msgstr "yeni_klasör"
 
 #: model_utils.cpp:575
 #, kde-format
 msgid "new_foreign_key_constraint"
-msgstr ""
+msgstr "yeni_yabancı_anahtar_kısıtlaması"
 
 #: model_utils.cpp:576
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "new_instance"
-msgstr "yeni_arayüz"
+msgstr "yeni_örnek"
 
 #: model_utils.cpp:577
-#, fuzzy, kde-format
-#| msgid "Instance Attribute"
+#, kde-format
 msgid "new_instance_attribute"
-msgstr "Varlık Öznitelikleri"
+msgstr "yeni_örnek_özniteliği"
 
 #: model_utils.cpp:578
 #, kde-format
@@ -5248,7 +5191,7 @@ msgstr "yeni_arayüz"
 #: model_utils.cpp:579
 #, kde-format
 msgid "new_node"
-msgstr "yeni_uç"
+msgstr "yeni_düğüm"
 
 #: model_utils.cpp:580 umlmodel/umlcanvasobject.cpp:195
 #, kde-format
@@ -5263,19 +5206,17 @@ msgstr "yeni_paket"
 #: model_utils.cpp:582
 #, kde-format
 msgid "new_port"
-msgstr "yeni_port"
+msgstr "yeni_kapı"
 
 #: model_utils.cpp:583
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "new_role"
-msgstr "yeni_dizin"
+msgstr "yeni_rol"
 
 #: model_utils.cpp:584
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "new_stereotype"
-msgstr "Stereotip"
+msgstr "yeni_stereotip"
 
 #: model_utils.cpp:585 umlmodel/umlcanvasobject.cpp:192
 #, kde-format
@@ -5285,13 +5226,12 @@ msgstr "yeni_şablon"
 #: model_utils.cpp:586 umlmodel/umlcanvasobject.cpp:204
 #, kde-format
 msgid "new_unique_constraint"
-msgstr ""
+msgstr "yeni_benzersiz_kısıtlama"
 
 #: model_utils.cpp:587
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "new_use_case"
-msgstr "yeni_usecase"
+msgstr "yeni_kullanım_senaryosu"
 
 #: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
 #, kde-format
@@ -5299,696 +5239,584 @@ msgid "new_object"
 msgstr "yeni_nesne"
 
 #: model_utils.cpp:609 umlwidgets/widget_utils.cpp:872
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "New actor"
-msgstr "yeni_aktör"
+msgstr "Yeni Aktör"
 
 #: model_utils.cpp:610 umlwidgets/widget_utils.cpp:873
-#, fuzzy, kde-format
-#| msgid "New Parameter"
+#, kde-format
 msgid "New artifact"
-msgstr "Yeni Parametre"
+msgstr "Yeni Kalıntı"
 
 #: model_utils.cpp:611 umlwidgets/widget_utils.cpp:874
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "New association"
-msgstr "yeni_bağıntı"
+msgstr "Yeni İlişkilendirme"
 
 #: model_utils.cpp:612
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "New attribute"
-msgstr "yeni_öznitelik"
+msgstr "Yeni Öznitelik"
 
 #: model_utils.cpp:613 umlwidgets/widget_utils.cpp:876
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "New category"
-msgstr "yeni_kategori"
+msgstr "Yeni Kategori"
 
 #: model_utils.cpp:614
-#, fuzzy, kde-format
-#| msgid "Check Constraint..."
+#, kde-format
 msgid "New check constraint"
-msgstr "Kısıtlamaları Kontrol et..."
+msgstr "Yeni Denetim Kısıtlaması"
 
 #: model_utils.cpp:615 umlwidgets/widget_utils.cpp:877
-#, fuzzy, kde-format
-#| msgid "New Class"
+#, kde-format
 msgid "New class"
 msgstr "Yeni Sınıf"
 
 #: model_utils.cpp:616 umlwidgets/widget_utils.cpp:879
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "New component"
-msgstr "yeni_bileşen"
+msgstr "Yeni Bileşen"
 
 #: model_utils.cpp:617 umlwidgets/widget_utils.cpp:880
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "New datatype"
-msgstr "yeni_veritürü"
+msgstr "Yeni Veri Türü"
 
 #: model_utils.cpp:618 umlwidgets/widget_utils.cpp:881
-#, fuzzy, kde-format
-#| msgid "new_entity"
+#, kde-format
 msgid "New entity"
-msgstr "yeni_varlık"
+msgstr "Yeni Varlık"
 
 #: model_utils.cpp:619
-#, fuzzy, kde-format
-#| msgid "New Entity Attribute..."
+#, kde-format
 msgid "New entity attribute"
-msgstr "Yeni Varlık Özniteliği..."
+msgstr "Yeni Varlık Özniteliği"
 
 #: model_utils.cpp:620
-#, fuzzy, kde-format
-#| msgid "N&ew Constraint..."
+#, kde-format
 msgid "New entity constraint"
-msgstr "&Yeni Sabit..."
+msgstr "Yeni Varlık Kısıtlaması"
 
 #: model_utils.cpp:621 umlwidgets/widget_utils.cpp:882
 #, kde-format
 msgid "New enum"
-msgstr ""
+msgstr "Yeni Enümerasyon"
 
 #: model_utils.cpp:622
-#, fuzzy, kde-format
-#| msgid "New Literal..."
+#, kde-format
 msgid "New enum literal"
-msgstr "Yeni Gerçek..."
+msgstr "Yeni Enümerasyon Düz Değeri"
 
 #: model_utils.cpp:623
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "New folder"
-msgstr "yeni_dizin"
+msgstr "Yeni Klasör"
 
 #: model_utils.cpp:624
 #, kde-format
 msgid "New foreign key constraint"
-msgstr ""
+msgstr "Yeni Yabancı Anahtar Kısıtlaması"
 
 #: model_utils.cpp:625 umlwidgets/widget_utils.cpp:885
-#, fuzzy, kde-format
-#| msgid "Multiple instance"
+#, kde-format
 msgid "New instance"
-msgstr "Çoklu gerçekleme"
+msgstr "Yeni Örnek"
 
 #: model_utils.cpp:626
-#, fuzzy, kde-format
-#| msgid "N&ew Instance Attribute..."
+#, kde-format
 msgid "New instance attribute"
-msgstr "Yeni Varlık Özniteliği..."
+msgstr "Yeni Örnek Özniteliği"
 
 #: model_utils.cpp:627 umlwidgets/widget_utils.cpp:886
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "New interface"
-msgstr "yeni_arayüz"
+msgstr "Yeni Arayüz"
 
 #: model_utils.cpp:628 umlwidgets/widget_utils.cpp:888
-#, fuzzy, kde-format
-#| msgid "new_node"
+#, kde-format
 msgid "New node"
-msgstr "yeni_uç"
+msgstr "Yeni Düğüm"
 
 #: model_utils.cpp:629
-#, fuzzy, kde-format
-#| msgid "new_operation"
+#, kde-format
 msgid "New operation"
-msgstr "yeni_işlem"
+msgstr "Yeni İşlem"
 
 #: model_utils.cpp:630 umlwidgets/widget_utils.cpp:892
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "New package"
-msgstr "yeni_paket"
+msgstr "Yeni Paket"
 
 #: model_utils.cpp:631 umlwidgets/widget_utils.cpp:894
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "New port"
-msgstr "yeni_aktör"
+msgstr "Yeni Kapı"
 
 #: model_utils.cpp:632
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New role"
-msgstr "Stereotip"
+msgstr "Yeni Rol"
 
 #: model_utils.cpp:633
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New stereotype"
-msgstr "Stereotip"
+msgstr "Yeni Stereotip"
 
 #: model_utils.cpp:634
-#, fuzzy, kde-format
-#| msgid "new_template"
+#, kde-format
 msgid "New template"
-msgstr "yeni_şablon"
+msgstr "Yeni Şablon"
 
 #: model_utils.cpp:635
-#, fuzzy, kde-format
-#| msgid "Unique Constraint..."
+#, kde-format
 msgid "New unique constraint"
-msgstr "Biricik Sabit..."
+msgstr "Yeni Benzersiz Kısıtlama"
 
 #: model_utils.cpp:636 umlwidgets/widget_utils.cpp:901
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "New use case"
-msgstr "yeni_usecase"
+msgstr "Yeni Kullanım Senaryosu"
 
 #: model_utils.cpp:639
-#, fuzzy, kde-format
-#| msgid "&UML Objects"
+#, kde-format
 msgid "New UML object"
-msgstr "&UML Nesneleri"
+msgstr "Yeni UML Nesnesi"
 
 #: model_utils.cpp:651 umlwidgets/widget_utils.cpp:918
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new actor:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni aktörün adını girin:"
 
 #: model_utils.cpp:652 umlwidgets/widget_utils.cpp:919
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new artifact:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni kalıntının adını girin:"
 
 #: model_utils.cpp:653 umlwidgets/widget_utils.cpp:920
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new association:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni ilişkilendirmenin adını girin:"
 
 #: model_utils.cpp:654
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new attribute:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni özniteliğin adını girin:"
 
 #: model_utils.cpp:655 umlwidgets/widget_utils.cpp:922
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new category:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni kategorinin adını girin:"
 
 #: model_utils.cpp:656
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new check constraint:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni denetim kısıtlamasının adını girin:"
 
 #: model_utils.cpp:657 umlwidgets/widget_utils.cpp:923
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new class:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni sınıfın adını girin:"
 
 #: model_utils.cpp:658 umlwidgets/widget_utils.cpp:925
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new component:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni bileşenin adını girin:"
 
 #: model_utils.cpp:659 umlwidgets/widget_utils.cpp:926
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new datatype:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni veri türünün adını girin:"
 
 #: model_utils.cpp:660 umlwidgets/widget_utils.cpp:927
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new entity:"
-msgstr "Yeni etkinliğin adını girin:"
+msgstr "Yeni varlığın adını girin:"
 
 #: model_utils.cpp:661
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new entity attribute:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni varlık özniteliğinin adını girin:"
 
 #: model_utils.cpp:662
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new entity constraint:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni varlık kısıtlamasının adını girin:"
 
 #: model_utils.cpp:663 umlwidgets/widget_utils.cpp:928
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new enum:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni enümerasyonun adını girin:"
 
 #: model_utils.cpp:664
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new enum literal:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni enümerasyon düz değerinin adını girin:"
 
 #: model_utils.cpp:665
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new folder:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni klasörün adını girin:"
 
 #: model_utils.cpp:666
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new foreign key constraint:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni yabancı anahtar kısıtlamasının adını girin:"
 
 #: model_utils.cpp:667 umlwidgets/widget_utils.cpp:931
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new instance:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni örneğin adını girin:"
 
 #: model_utils.cpp:668
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new instance attribute:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni örnek özniteliğinin adını girin:"
 
 #: model_utils.cpp:669 umlwidgets/widget_utils.cpp:932
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new interface:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni arayüzün adını girin:"
 
 #: model_utils.cpp:670 umlwidgets/widget_utils.cpp:934
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new node:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni düğümün adını girin:"
 
 #: model_utils.cpp:671
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new operation:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni işlemin adını girin:"
 
 #: model_utils.cpp:672 umlwidgets/widget_utils.cpp:938
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new package:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni paketin adını girin:"
 
 #: model_utils.cpp:673 umlwidgets/widget_utils.cpp:940
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new port:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni kapının adını girin:"
 
 #: model_utils.cpp:674
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new role:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni rolün adını girin:"
 
 #: model_utils.cpp:675
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new stereotype:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni stereotipin adını girin:"
 
 #: model_utils.cpp:676
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new template:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni şablonun adını girin:"
 
 #: model_utils.cpp:677
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new unique constraint:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni benzersiz kısıtlamanın adını girin:"
 
 #: model_utils.cpp:678 umlwidgets/widget_utils.cpp:947
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new use case:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni kullanım senaryosunun adını girin:"
 
 #: model_utils.cpp:681
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object flow"
+#, kde-format
 msgid "Enter the name of the new UML object"
-msgstr "Nesne akışının ismini girin"
+msgstr "Yeni UML nesnesinin adını girin:"
 
 #: model_utils.cpp:693 umlwidgets/widget_utils.cpp:963
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename actor"
-msgstr "Nesnenin Adını Değiştir"
+msgstr "Aktörü Yeniden Adlandır"
 
 #: model_utils.cpp:694 umlwidgets/widget_utils.cpp:964
-#, fuzzy, kde-format
-#| msgid "Rename Activity"
+#, kde-format
 msgid "Rename artifact"
-msgstr "Etkinliği Yeniden Adlandır"
+msgstr "Kalıntıyı Yeniden Adlandır"
 
 #: model_utils.cpp:695 umlwidgets/widget_utils.cpp:965
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "Rename association"
-msgstr "yeni_bağıntı"
+msgstr "İlişkilendirmeyi Yeniden Adlandır"
 
 #: model_utils.cpp:696
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "Rename attribute"
-msgstr "yeni_öznitelik"
+msgstr "Özniteliği Yeniden Adlandır"
 
 #: model_utils.cpp:697 umlwidgets/widget_utils.cpp:967
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "Rename category"
-msgstr "yeni_kategori"
+msgstr "Kategoriyi Yeniden Adlandır"
 
 #: model_utils.cpp:698
-#, fuzzy, kde-format
-#| msgid "Check Constraint..."
+#, kde-format
 msgid "Rename check constraint"
-msgstr "Kısıtlamaları Kontrol et..."
+msgstr "Denetim Kısıtlamasını Yeniden Adlandır"
 
 #: model_utils.cpp:699 umlwidgets/widget_utils.cpp:968
-#, fuzzy, kde-format
-#| msgid "Rename Class..."
+#, kde-format
 msgid "Rename class"
-msgstr "Sınıfın Adını Değiştir..."
+msgstr "Sınıfı Yeniden Adlandır"
 
 #: model_utils.cpp:700 umlwidgets/widget_utils.cpp:970
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "Rename component"
-msgstr "yeni_bileşen"
+msgstr "Bileşeni Yeniden Adlandır"
 
 #: model_utils.cpp:701 umlwidgets/widget_utils.cpp:971
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "Rename datatype"
-msgstr "yeni_veritürü"
+msgstr "Veri Türünü Yeniden Adlandır"
 
 #: model_utils.cpp:702 umlwidgets/widget_utils.cpp:972
-#, fuzzy, kde-format
-#| msgid "Rename Activity"
+#, kde-format
 msgid "Rename entity"
-msgstr "Etkinliği Yeniden Adlandır"
+msgstr "Varlığı Yeniden Adlandır"
 
 #: model_utils.cpp:703
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Rename entity attribute"
-msgstr "Varlık Öznitelikleri"
+msgstr "Varlık Özniteliğini Yeniden Adlandır"
 
 #: model_utils.cpp:704
-#, fuzzy, kde-format
-#| msgid "Generate empty constructors"
+#, kde-format
 msgid "Rename entity constraint"
-msgstr "Boş yapıcıları oluştur"
+msgstr "Varlık Sabitini Yeniden Adlandır"
 
 #: model_utils.cpp:705 umlwidgets/widget_utils.cpp:973
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename enum"
-msgstr "Yeniden Adlandır"
+msgstr "Enümerasyonu Yeniden Adlandır"
 
 #: model_utils.cpp:706
 #, kde-format
 msgid "Rename enum literal"
-msgstr ""
+msgstr "Enümerasyon Düz Değerini Yeniden Adlandır"
 
 #: model_utils.cpp:707
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "Rename folder"
-msgstr "yeni_dizin"
+msgstr "Klasörü Yeniden Adlandır"
 
 #: model_utils.cpp:708
 #, kde-format
 msgid "Rename foreign key constraint"
-msgstr ""
+msgstr "Yabancı Anahtar Kısıtlamasını Yeniden Adlandır"
 
 #: model_utils.cpp:709 umlwidgets/widget_utils.cpp:976
-#, fuzzy, kde-format
-#| msgid "Rename canceled"
+#, kde-format
 msgid "Rename instance"
-msgstr "Yeniden isimlendirme işlemi iptal edildi"
+msgstr "Örneği Yeniden Adlandır"
 
 #: model_utils.cpp:710
-#, fuzzy, kde-format
-#| msgid "Instance Attribute"
+#, kde-format
 msgid "Rename instance attribute"
-msgstr "Varlık Öznitelikleri"
+msgstr "Örnek Özniteliğini Yeniden Adlandır"
 
 #: model_utils.cpp:711 umlwidgets/widget_utils.cpp:977
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "Rename interface"
-msgstr "Kullanıcı Arayüzü"
+msgstr "Arayüzü Yeniden Adlandır"
 
 #: model_utils.cpp:712 umlwidgets/widget_utils.cpp:979
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename node"
-msgstr "Yeniden Adlandır"
+msgstr "Düğümü Yeniden Adlandır"
 
 #: model_utils.cpp:713
-#, fuzzy, kde-format
-#| msgid "new_operation"
+#, kde-format
 msgid "Rename operation"
-msgstr "yeni_işlem"
+msgstr "İşlemi Yeniden Adlandır"
 
 #: model_utils.cpp:714 umlwidgets/widget_utils.cpp:983
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "Rename package"
-msgstr "yeni_paket"
+msgstr "Paketi Yeniden Adlandır"
 
 #: model_utils.cpp:715 umlwidgets/widget_utils.cpp:985
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "Rename port"
-msgstr "yeni_aktör"
+msgstr "Kapıyı Yeniden Adlandır"
 
 #: model_utils.cpp:716
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename role"
-msgstr "Yeniden Adlandır"
+msgstr "Rolü Yeniden Adlandır"
 
 #: model_utils.cpp:717
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "Rename stereotype"
-msgstr "Stereotip"
+msgstr "Stereotipi Yeniden Adlandır"
 
 #: model_utils.cpp:718
-#, fuzzy, kde-format
-#| msgid "new_template"
+#, kde-format
 msgid "Rename template"
-msgstr "yeni_şablon"
+msgstr "Şablonu Yeniden Adlandır"
 
 #: model_utils.cpp:719
-#, fuzzy, kde-format
-#| msgid "Unique Constraint..."
+#, kde-format
 msgid "Rename unique constraint"
-msgstr "Biricik Sabit..."
+msgstr "Benzersiz Kısıtlamayı Yeniden Adlandır"
 
 #: model_utils.cpp:720 umlwidgets/widget_utils.cpp:992
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "Rename use case"
-msgstr "yeni_usecase"
+msgstr "Kullanım Senaryosunu Yeniden Adlandır"
 
 #: model_utils.cpp:723
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename UML object"
-msgstr "Nesnenin Adını Değiştir"
+msgstr "UML Nesnesini Yeniden Adlandır"
 
 #: model_utils.cpp:735 umlwidgets/widget_utils.cpp:1009
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the actor:"
-msgstr "Aktivitenin yeni adını yazın:"
+msgstr "Aktörün yeni adını girin:"
 
 #: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1010
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the artifact:"
-msgstr "Aktivitenin yeni adını yazın:"
+msgstr "Kalıntının yeni adını girin:"
 
 #: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1011
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the association:"
-msgstr "Aktivitenin yeni adını yazın:"
+msgstr "İlişkilendirmenin yeni adını girin:"
 
 #: model_utils.cpp:738
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the attribute:"
-msgstr "Aktivitenin yeni adını yazın:"
+msgstr "Etkinliğin yeni adını girin:"
 
 #: model_utils.cpp:739 umlwidgets/widget_utils.cpp:1013
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the category:"
-msgstr "Yeni diyagram ismini girin:"
+msgstr "Kategorinin yeni adını girin:"
 
 #: model_utils.cpp:740
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the check constraint:"
-msgstr "Aktivitenin yeni adını yazın:"
+msgstr "Denetim kısıtlamasının yeni adını girin:"
 
 #: model_utils.cpp:741 umlwidgets/widget_utils.cpp:1014
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the class:"
-msgstr "Modelin yeni adını girin:"
+msgstr "Sınıfın yeni adını girin:"
 
 #: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1016
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the component:"
-msgstr "Modelin yeni adını girin:"
+msgstr "Bileşenin yeni adını girin:"
 
 #: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1017
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the datatype:"
-msgstr "Aktivitenin yeni adını yazın:"
+msgstr "Veri türünün yeni adını girin:"
 
 #: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1018
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity:"
-msgstr "Aktivitenin yeni adını yazın:"
+msgstr "Varlığın yeni adını girin:"
 
 #: model_utils.cpp:745
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity attribute:"
-msgstr "Aktivitenin yeni adını yazın:"
+msgstr "Varlık özniteliğinin yeni adını girin:"
 
 #: model_utils.cpp:746
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity constraint:"
-msgstr "Aktivitenin yeni adını yazın:"
+msgstr "Varlık kısıtlamasının yeni adını girin:"
 
 #: model_utils.cpp:747 umlwidgets/widget_utils.cpp:1019
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the enum:"
-msgstr "Modelin yeni adını girin:"
+msgstr "Enümerasyonun yeni adını girin:"
 
 #: model_utils.cpp:748
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the enum literal:"
-msgstr "Modelin yeni adını girin:"
+msgstr "Enümerasyon düz değerinin yeni adını girin:"
 
 #: model_utils.cpp:749
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the folder:"
-msgstr "Modelin yeni adını girin:"
+msgstr "Klasörün yeni adını girin:"
 
 #: model_utils.cpp:750
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the foreign key constraint:"
-msgstr "Yeni diyagram ismini girin:"
+msgstr "Yabancı anahtar kısıtlamasının yeni adını girin:"
 
 #: model_utils.cpp:751 umlwidgets/widget_utils.cpp:1022
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the instance:"
-msgstr "Yeni diyagram ismini girin:"
+msgstr "Örneğin yeni adını girin:"
 
 #: model_utils.cpp:752
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the instance attribute:"
-msgstr "Aktivitenin yeni adını yazın:"
+msgstr "Örnek özniteliğinin yeni adını girin:"
 
 #: model_utils.cpp:753 umlwidgets/widget_utils.cpp:1023
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the interface:"
-msgstr "Yeni diyagram ismini girin:"
+msgstr "Arayüzün yeni adını girin:"
 
 #: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1025
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the node:"
-msgstr "Modelin yeni adını girin:"
+msgstr "Düğümün yeni adını girin:"
 
 #: model_utils.cpp:755
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the operation:"
-msgstr "Modelin yeni adını girin:"
+msgstr "İşlemin yeni adını girin:"
 
 #: model_utils.cpp:756 umlwidgets/widget_utils.cpp:1029
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the package:"
-msgstr "Yeni diyagram ismini girin:"
+msgstr "Paketin yeni adını girin:"
 
 #: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1031
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the port:"
-msgstr "Modelin yeni adını girin:"
+msgstr "Kapının yeni adını girin:"
 
 #: model_utils.cpp:758
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the role:"
-msgstr "Modelin yeni adını girin:"
+msgstr "Rolün yeni adını girin:"
 
 #: model_utils.cpp:759
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the stereotype:"
-msgstr "Modelin yeni adını girin:"
+msgstr "Stereotipin yeni adını girin:"
 
 #: model_utils.cpp:760
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the template:"
-msgstr "Modelin yeni adını girin:"
+msgstr "Şablonun yeni adını girin:"
 
 #: model_utils.cpp:761
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the new name of the unique constraint:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Benzersiz kısıtlamanın yeni adını girin:"
 
 #: model_utils.cpp:762 umlwidgets/widget_utils.cpp:1038
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the use case:"
-msgstr "Modelin yeni adını girin:"
+msgstr "Kullanım senaryosunun yeni adını girin:"
 
 #: model_utils.cpp:765
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the UML object"
-msgstr "Modelin yeni adını girin:"
+msgstr "UML nesnesinin yeni adını girin:"
 
 #: model_utils.cpp:1201
 #, kde-format
@@ -6004,7 +5832,7 @@ msgstr "Boş"
 #: model_utils.cpp:1201
 #, kde-format
 msgid "Malformed argument"
-msgstr "Bozuk argüman"
+msgstr "Hatalı oluşturulmuş argüman"
 
 #: model_utils.cpp:1202
 #, kde-format
@@ -6014,7 +5842,7 @@ msgstr "Bilinmeyen argüman türü"
 #: model_utils.cpp:1202
 #, kde-format
 msgid "Illegal method name"
-msgstr "Geçersiz yöntem adı"
+msgstr "İzin verilmeyen yöntem adı"
 
 #: model_utils.cpp:1203
 #, kde-format
@@ -6030,7 +5858,7 @@ msgstr "Belirtilmemiş hata"
 #: models/stereotypesmodel.cpp:51 refactoring/refactoringassistant.cpp:48
 #, kde-format
 msgid "Name"
-msgstr "İsim"
+msgstr "Ad"
 
 #: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:80
 #, kde-format
@@ -6038,15 +5866,14 @@ msgid "Type"
 msgstr "Tür"
 
 #: models/diagramsmodel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Associations"
+#, kde-format
 msgid "Widgets/Associations"
-msgstr "Bağıntılar"
+msgstr "Araç Takımları/İlişkilendirmeler"
 
 #: models/objectsmodel.cpp:84
 #, kde-format
 msgid "ID"
-msgstr "ID"
+msgstr "Kimlik"
 
 #: models/objectsmodel.cpp:86
 #, kde-format
@@ -6074,13 +5901,14 @@ msgstr "Kullanım"
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:177
 #, kde-format
 msgid "That is an invalid name."
-msgstr "Bu geçersiz bir isim."
+msgstr "Bu, geçersiz bir ad."
 
 #: object_factory.cpp:262
 #, kde-format
 msgid ""
 "This is a reserved keyword for the language of the configured code generator."
-msgstr "Bu kelime yapılandırılmış olan kod oluşturucu için ayrılmıştır."
+msgstr ""
+"Bu, yapılandırılmış kod üretecinin dili için ayrılmış bir anahtar sözcüktür."
 
 #: object_factory.cpp:263
 #, kde-format
@@ -6093,7 +5921,7 @@ msgstr "Ayrılmış Anahtar Sözcükler"
 #: umlmodel/entity.cpp:276
 #, kde-format
 msgid "That name is already being used."
-msgstr "Bu isim halen kullanılıyor."
+msgstr "Bu ad halihazırda kullanılıyor."
 
 #: object_factory.cpp:269 umldoc.cpp:1504 umldoc.cpp:1573 umldoc.cpp:1601
 #: umldoc.cpp:1639 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
@@ -6101,12 +5929,12 @@ msgstr "Bu isim halen kullanılıyor."
 #: umlmodel/entity.cpp:276
 #, kde-format
 msgid "Not a Unique Name"
-msgstr "Biricik bir İsim Değil"
+msgstr "Benzersiz Ad Değil"
 
 #: refactoring/refactoringassistant.cpp:443
 #, kde-format
 msgid "Add Base Class"
-msgstr "Temel Sınıf Ekle"
+msgstr "Taban Sınıf Ekle"
 
 #: refactoring/refactoringassistant.cpp:444
 #, kde-format
@@ -6130,7 +5958,7 @@ msgstr "Öznitelik Ekle"
 #: refactoring/refactoringassistant.cpp:450
 #, kde-format
 msgid "Add Base Interface"
-msgstr "Temel Arayüz Ekle"
+msgstr "Taban Arayüz Ekle"
 
 #: refactoring/refactoringassistant.cpp:451
 #, kde-format
@@ -6141,28 +5969,28 @@ msgstr "Türetilmiş Arayüz Ekle"
 #: refactoring/refactoringassistant.cpp:691
 #, kde-format
 msgid "Base Classifiers"
-msgstr "Temel Sınıflayıcılar"
+msgstr "Taban Sınıflayıcıları"
 
 #: refactoring/refactoringassistant.cpp:555
 #: refactoring/refactoringassistant.cpp:710
 #, kde-format
 msgid "Derived Classifiers"
-msgstr "Türetilmiş Tanımlayıcılar"
+msgstr "Türetilmiş Sınıflayıcılar"
 
 #: refactoring/refactoringassistant.cpp:842
 #, kde-format
 msgid "An attribute with that name already exists in %1.\n"
-msgstr "%1 isimde başka bir öznitelik zaten mevcut.\n"
+msgstr "%1 içinde aynı adlı bir öznitelik halihazırda var.\n"
 
 #: refactoring/refactoringassistant.cpp:844
 #, kde-format
 msgid "Choose a different name."
-msgstr "Farklı bir isim seçin."
+msgstr "Farklı bir ad seçin."
 
 #: toolbarstateassociation.cpp:182 toolbarstateassociation.cpp:280
 #, kde-format
 msgid "Incorrect use of associations."
-msgstr "ilişkilendirmenin hatalı kullanılmıştır."
+msgstr "İlişkilendirmelerin hatalı kullanımı."
 
 #: toolbarstateassociation.cpp:182 toolbarstateassociation.cpp:280
 #, kde-format
@@ -6172,12 +6000,12 @@ msgstr "İlişkilendirme Hatası"
 #: toolbarstatemessages.cpp:341
 #, kde-format
 msgid "destroy"
-msgstr ""
+msgstr "yık"
 
 #: toolbarstateother.cpp:277
 #, kde-format
 msgid "Enter Activity Name"
-msgstr "Etkinlik Adını Gir"
+msgstr "Etkinlik Adı Gir"
 
 #: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:585
 #: umlwidgets/widget_utils.cpp:824
@@ -6194,27 +6022,27 @@ msgstr "Yeni etkinliğin adını girin:"
 #: toolbarstateother.cpp:285
 #, kde-format
 msgid "Enter Signal Name"
-msgstr "Sinyal Adını Gir"
+msgstr "Sinyal Adı Gir"
 
 #: toolbarstateother.cpp:286
 #, kde-format
 msgid "Enter Signal"
-msgstr "Sinyali Gir"
+msgstr "Sinyal Gir"
 
 #: toolbarstateother.cpp:286
 #, kde-format
 msgid "new Signal"
-msgstr "yeni Sinyal"
+msgstr "yeni sinyal"
 
 #: toolbarstateother.cpp:292
 #, kde-format
 msgid "Enter Time Event Name"
-msgstr "Zaman Olayının İsmini Girin"
+msgstr "Zaman Olayı Adını Gir"
 
 #: toolbarstateother.cpp:293
 #, kde-format
 msgid "Enter Time Event"
-msgstr "Zaman Olayı Girin"
+msgstr "Zaman Olayını Gir"
 
 #: toolbarstateother.cpp:293
 #, kde-format
@@ -6224,22 +6052,22 @@ msgstr "yeni zaman olayı"
 #: toolbarstateother.cpp:299
 #, kde-format
 msgid "Enter Combined Fragment Name"
-msgstr "Birleşmiş Parça İsmi Girin"
+msgstr "Birleşmiş Parçacık Adını Gir"
 
 #: toolbarstateother.cpp:300
 #, kde-format
 msgid "Enter the Combined Fragment"
-msgstr "Birleşmiş Parça Girin"
+msgstr "Birleşmiş Parçacığı Gir"
 
 #: toolbarstateother.cpp:300
 #, kde-format
 msgid "new Combined Fragment"
-msgstr "yeni Birleşmiş Parça"
+msgstr "yeni birleşmiş parça"
 
 #: toolbarstateother.cpp:306
 #, kde-format
 msgid "Enter State Name"
-msgstr "Yeni Durum İsmi"
+msgstr "Durum Adı Gir"
 
 #: toolbarstateother.cpp:307 umlwidgets/widget_utils.cpp:851
 #, kde-format
@@ -6249,7 +6077,7 @@ msgstr "yeni durum"
 #: toolbarstateother.cpp:307 umlwidgets/widget_utils.cpp:944
 #, kde-format
 msgid "Enter the name of the new state:"
-msgstr "Yeni Durum İsmi Girin:"
+msgstr "Yeni durumun adını girin:"
 
 #. i18n: ectx: label, entry (Geometry), group (General Options)
 #. i18n: ectx: whatsthis, entry (Geometry), group (General Options)
@@ -6262,13 +6090,13 @@ msgstr "Geometri"
 #: umbrello.kcfg:17
 #, kde-format
 msgid "Image Mime Type"
-msgstr "Resim Mime Türü"
+msgstr "Görsel MIME Türü"
 
 #. i18n: ectx: whatsthis, entry (imageMimeType), group (General Options)
 #: umbrello.kcfg:18
 #, kde-format
 msgid "The Mime Type of the Images"
-msgstr "Resimlerin Mime Türü"
+msgstr "Görsellerin MIME türü"
 
 #. i18n: ectx: label, entry (undo), group (General Options)
 #: umbrello.kcfg:22
@@ -6280,95 +6108,94 @@ msgstr "Geri Al Desteği"
 #: umbrello.kcfg:23
 #, kde-format
 msgid "Undo Support is enabled when this is true"
-msgstr "Bu doğru olduğunda geri alma etkindir"
+msgstr "Bu doğru iken geri alma desteği etkindir"
 
 #. i18n: ectx: label, entry (tabdiagrams), group (General Options)
 #: umbrello.kcfg:27
 #, kde-format
 msgid "Tabbed Diagrams"
-msgstr "Sekmelenmiş Diyagramlar"
+msgstr "Sekmeli Diyagramlar"
 
 #. i18n: ectx: whatsthis, entry (tabdiagrams), group (General Options)
 #: umbrello.kcfg:28
 #, kde-format
 msgid "Enables/Disables Tabbed View of Diagrams in the view area"
 msgstr ""
-"Görünüm alanındaki diyagramların sekmeli görünümünü etkinleştir/pasifleştir"
+"Görünüm alanındaki diyagramların sekmeli görünümünü etkinleştirir/devre dışı "
+"bırakır"
 
 #. i18n: ectx: label, entry (newcodegen), group (General Options)
 #: umbrello.kcfg:32
 #, kde-format
 msgid "New Code Generator"
-msgstr "Yeni Kod Oluşturucu"
+msgstr "Yeni Kod Üreteci"
 
 #. i18n: ectx: whatsthis, entry (newcodegen), group (General Options)
 #: umbrello.kcfg:33
 #, kde-format
 msgid "Enables/Disables Support for the New Code Generator"
-msgstr "Yeni Kod Oluşturucu için desteği etkinleştir/pasifleştir"
+msgstr "Yeni kod üreteci için desteği etkinleştirir/devre dışı bırakır"
 
 #. i18n: ectx: label, entry (layoutType), group (General Options)
 #: umbrello.kcfg:37
-#, fuzzy, kde-format
-#| msgctxt "Layout menu"
-#| msgid "Layout"
+#, kde-format
 msgid "Layout Type"
-msgstr "Düzen"
+msgstr "Yerleşim Türü"
 
 #. i18n: ectx: whatsthis, entry (layoutType), group (General Options)
 #: umbrello.kcfg:38
-#, fuzzy, kde-format
-#| msgid "The type of line ending ( or new line type )"
+#, kde-format
 msgid "The layout type to use for new lines"
-msgstr "Satır sonu türü ( ya da yeni satır türü )"
+msgstr "Yeni çizgiler için kullanılacak yerleşim türü"
 
 #. i18n: ectx: label, entry (footerPrinting), group (General Options)
 #: umbrello.kcfg:50
 #, kde-format
 msgid "Footer Printing"
-msgstr "Dipnot Yazdırma"
+msgstr "Altbilgi Yazdırma"
 
 #. i18n: ectx: whatsthis, entry (footerPrinting), group (General Options)
 #: umbrello.kcfg:51
 #, kde-format
 msgid "Enables/Disables Support for footer printing"
-msgstr "Dipnot yazdırma desteğini etkinleştir/pasifleştir"
+msgstr "Albilgi yazdırma için desteği etkinleştirir/devre dışı bırakır"
 
 #. i18n: ectx: label, entry (autosave), group (General Options)
 #: umbrello.kcfg:55
 #, kde-format
 msgid "Auto Save"
-msgstr "Otomatik Kaydet"
+msgstr "Kendiliğinden Kaydet"
 
 #. i18n: ectx: whatsthis, entry (autosave), group (General Options)
 #: umbrello.kcfg:56
 #, kde-format
 msgid "Enables/Disables Auto Saving at Regular Intervals"
-msgstr "Düzenli aralıklarla otomatik kaydetmeyi etkinleştir/pasifleştir"
+msgstr ""
+"Düzenli aralıklarla kendiliğinden kaydetmeyi etkinleştirir/devre dışı bırakır"
 
 #. i18n: ectx: label, entry (time), group (General Options)
 #: umbrello.kcfg:60
 #, kde-format
 msgid "Auto Save Time ( Old )"
-msgstr "Otomatik Kaydetme Süresi ( Eski )"
+msgstr "Kendiliğinden Kaydetme Süresi (Eski)"
 
 #. i18n: ectx: whatsthis, entry (time), group (General Options)
 #: umbrello.kcfg:61
 #, kde-format
 msgid "Auto Save Time Interval ( Old )"
-msgstr "Otomatik Kaydetme Aralığı ( Eski )"
+msgstr "Kendiliğinden Kaydetme Aralığı (Eski)"
 
 #. i18n: ectx: label, entry (autosavesuffix), group (General Options)
 #: umbrello.kcfg:74
 #, kde-format
 msgid "Auto Save Suffix"
-msgstr "Otomatik Kaydetme Soneki"
+msgstr "Kendiliğinden Kaydetme Soneki"
 
 #. i18n: ectx: whatsthis, entry (autosavesuffix), group (General Options)
 #: umbrello.kcfg:75
 #, kde-format
 msgid "The Suffix for the auto save file"
-msgstr "Otomatik kaydedilen dosya için sonek"
+msgstr "Kendiliğinden kaydedilen dosya için sonek"
 
 #. i18n: ectx: label, entry (loadlast), group (General Options)
 #: umbrello.kcfg:79
@@ -6380,31 +6207,31 @@ msgstr "Sonuncuyu Yükle"
 #: umbrello.kcfg:80
 #, kde-format
 msgid "Enables/Disables Loading of the last open file"
-msgstr "Son açık olan dosyayı yüklemeyi aktifleştir/pasifleştir"
+msgstr "Son açık olan dosyanın yüklenmesini etkinleştirir/devre dışı bırakır"
 
 #. i18n: ectx: label, entry (diagram), group (General Options)
 #: umbrello.kcfg:84
 #, kde-format
 msgid "Diagram To Load at Startup"
-msgstr "Açılışta Yüklenecek Diyagram"
+msgstr "Başlangıçta Yüklenecek Diyagram"
 
 #. i18n: ectx: whatsthis, entry (diagram), group (General Options)
 #: umbrello.kcfg:85
 #, kde-format
 msgid "The Diagram to load at startup"
-msgstr "Açılışta yüklenecek diyagram"
+msgstr "Başlangıçta yüklenecek olan diyagram"
 
 #. i18n: ectx: label, entry (defaultLanguage), group (General Options)
 #: umbrello.kcfg:102
 #, kde-format
 msgid "Default Language at Startup"
-msgstr "Açılışta Kullanılacak Öntanımlı Dil"
+msgstr "Başlangıçtaki Öntanımlı Dil"
 
 #. i18n: ectx: whatsthis, entry (defaultLanguage), group (General Options)
 #: umbrello.kcfg:103
 #, kde-format
 msgid "The Language that Umbrello should start with by default"
-msgstr "Umbrello için açılışta kullanılacak öntanımlı dil"
+msgstr "Umbrello'nun öntanımlı olarak başlaması gereken dil"
 
 #. i18n: ectx: label, entry (uml2), group (General Options)
 #: umbrello.kcfg:135
@@ -6416,25 +6243,25 @@ msgstr "UML-2.x Simgelemini Kullan"
 #: umbrello.kcfg:136
 #, kde-format
 msgid "Enables/Disables UML2 notation"
-msgstr "UML2 notasyonunu aktifleştir/pasifleştir"
+msgstr "UML2 simgelemini etkinleştirir/devre dışı bırakır"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:143
 #, kde-format
 msgid "Enables/Disables usage of fill color"
-msgstr "Doldurma renginin kullanımını aktifleştir/pasifleştir"
+msgstr "Dolgu renginin kullanımını etkinleştirir/devre dışı bırakır"
 
 #. i18n: ectx: label, entry (fillColor), group (UI Options)
 #: umbrello.kcfg:147
 #, kde-format
 msgid "Fill Color"
-msgstr "Doldurma Rengi"
+msgstr "Dolgu Rengi"
 
 #. i18n: ectx: whatsthis, entry (fillColor), group (UI Options)
 #: umbrello.kcfg:148
 #, kde-format
 msgid "The Fill Color to be used"
-msgstr "Kullanılacak Doldurma Rengi"
+msgstr "Kullanılacak dolgu rengi"
 
 #. i18n: ectx: label, entry (lineColor), group (UI Options)
 #: umbrello.kcfg:152
@@ -6446,7 +6273,7 @@ msgstr "Çizgi Rengi"
 #: umbrello.kcfg:153
 #, kde-format
 msgid "The Color of the Lines"
-msgstr "Çizgilerin Rengi"
+msgstr "Çizgilerin rengi"
 
 #. i18n: ectx: label, entry (lineWidth), group (UI Options)
 #: umbrello.kcfg:157
@@ -6458,7 +6285,7 @@ msgstr "Çizgi Genişliği"
 #: umbrello.kcfg:158
 #, kde-format
 msgid "The Width of the Line"
-msgstr "Çizginin Genişliği"
+msgstr "Çizginin genişliği"
 
 #. i18n: ectx: label, entry (textColor), group (UI Options)
 #: umbrello.kcfg:162
@@ -6470,25 +6297,25 @@ msgstr "Metin Rengi"
 #: umbrello.kcfg:163
 #, kde-format
 msgid "The Color of the Text"
-msgstr "Metnin Rengi"
+msgstr "Metnin rengi"
 
 #. i18n: ectx: label, entry (showDocWindow), group (UI Options)
 #: umbrello.kcfg:167
 #, kde-format
 msgid "Show Doc Window"
-msgstr ""
+msgstr "Belge Penceresini Göster"
 
 #. i18n: ectx: whatsthis, entry (showDocWindow), group (UI Options)
 #: umbrello.kcfg:168
 #, kde-format
 msgid "Enables/Disables showing of the doc window"
-msgstr "Dök penceresinin gösterimini aktifleştir/pasifleştir"
+msgstr "Belge penceresinin gösterilmesini etkinleştirir/devre dışı bırakır"
 
 #. i18n: ectx: whatsthis, entry (uiFont), group (UI Options)
 #: umbrello.kcfg:173
 #, kde-format
 msgid "The Font to be used"
-msgstr "Kullanılacak Yazıtipi"
+msgstr "Kullanılacak yazıtipi"
 
 #. i18n: ectx: label, entry (backgroundColor), group (UI Options)
 #: umbrello.kcfg:177
@@ -6506,13 +6333,13 @@ msgstr "Diyagram arka planının rengi"
 #: umbrello.kcfg:182
 #, kde-format
 msgid "Grid Dot Color"
-msgstr "Izgaranın Noktasının Rengi"
+msgstr "Izgara Noktası Rengi"
 
 #. i18n: ectx: whatsthis, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:183
 #, kde-format
 msgid "The Color of the grid dots"
-msgstr "Izgaranın noktalarının rengi"
+msgstr "Izgara noktalarının rengi"
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
 #: umbrello.kcfg:188
@@ -8452,12 +8279,12 @@ msgstr "%1 içerisine diyagram kaydedilirken bir problem oluştu"
 #: umlwidgets/associationwidget.cpp:2659
 #, kde-format
 msgid "Multiplicity"
-msgstr "Çoklu oluşum"
+msgstr "Çeşitlilik"
 
 #: umlwidgets/associationwidget.cpp:2660 umlwidgets/floatingtextwidget.cpp:350
 #, kde-format
 msgid "Enter multiplicity:"
-msgstr "Çoklu oluşumu girin:"
+msgstr "Çeşitliliği gir:"
 
 #: umlwidgets/associationwidget.cpp:2678
 #, kde-format
@@ -9304,7 +9131,7 @@ msgstr "Veri türü"
 #: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:360
 #, kde-format
 msgid "Enum"
-msgstr "Enum"
+msgstr "Enümerasyon"
 
 #: umlwidgets/widgetbase.cpp:1266
 #, kde-format
