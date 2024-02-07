@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-01 00:42+0000\n"
-"PO-Revision-Date: 2024-02-01 17:44+0300\n"
+"PO-Revision-Date: 2024-02-06 16:39+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1096,7 +1096,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:193
 #, kde-format
 msgid "&Use a different name"
-msgstr "&Farklı Ad Kullan"
+msgstr "&Farklı bir ad kullan"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabFormatting)
 #: codegenwizard/codegenoptionspage.ui:208
@@ -1438,7 +1438,7 @@ msgstr "Programlama dili:"
 #: codeimpwizard/codeimpselectpage.ui:66
 #, kde-format
 msgid "Include Subdirectories."
-msgstr "Alt dizinleri içerin."
+msgstr "Alt dizinleri içer"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_fileExtLabel)
 #: codeimpwizard/codeimpselectpage.ui:77
@@ -2715,7 +2715,7 @@ msgstr "Stereotip, Etiketlerle"
 #: dialogs/pages/codeimportoptionspage.ui:31
 #, kde-format
 msgid "Include search paths"
-msgstr "Arama yollarını içer"
+msgstr "Arama Yollarını İçer"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/pages/codeimportoptionspage.ui:43
@@ -5868,7 +5868,7 @@ msgstr "Tür"
 #: models/diagramsmodel.cpp:58
 #, kde-format
 msgid "Widgets/Associations"
-msgstr "Araç Takımları/İlişkilendirmeler"
+msgstr "A. Takımları/İliş...meler"
 
 #: models/objectsmodel.cpp:84
 #, kde-format
@@ -7778,7 +7778,7 @@ msgstr "kullanım senaryosu diyagramı"
 #: umldoc.cpp:1404
 #, kde-format
 msgid "class diagram"
-msgstr "sınıf diyagramı"
+msgstr "Sınıf Diyagramı"
 
 #: umldoc.cpp:1407
 #, kde-format
