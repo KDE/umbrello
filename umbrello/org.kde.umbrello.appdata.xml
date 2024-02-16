@@ -64,7 +64,7 @@
   <summary xml:lang="sk">Modelár UML</summary>
   <summary xml:lang="sl">Modelirnik UML</summary>
   <summary xml:lang="sv">UML-modellering</summary>
-  <summary xml:lang="tr">UML Modelleyici</summary>
+  <summary xml:lang="tr">UML Modelleyicisi</summary>
   <summary xml:lang="uk">Засіб моделювання UML</summary>
   <summary xml:lang="x-test">xxUML Modellerxx</summary>
   <summary xml:lang="zh-CN">UML 建模工具</summary>
@@ -101,7 +101,7 @@
     <p xml:lang="sk">Umbrello je nástroj na modelovania v UML a generátor kódu. Dokáže vytvárať diagramy softvéru a iných systémov v priemyselnom štandarde UML a tiež generovať kód z UML diagramov v množstve programovacích jazykov.</p>
     <p xml:lang="sl">Umbrello je orodje za modeliranje v poenotenem jeziku za modeliranje (UML) in generator kode. Ustvari lahko diagrame programov in drugih sistemov v industrijski standardizirani obliki UML, iz diagramov UML pa lahko ustvari tudi kodo v različnih programskih jezikih.</p>
     <p xml:lang="sv">Umbrello är ett modelleringsverktyg för Unified Modelling Language och kodgenerator. Det kan skapa diagram av programvara och andra system med industristandardformatet UML, och kan också skapa kod från UML-diagram på ett antal olika programspråk.</p>
-    <p xml:lang="tr">Umbrello, Birleşik Modelleme Dili (UML) modelleme aracı ve kod oluşturucusudur. Endüstri standardı UML biçiminde yazılım ve diğer sistem çizimlerini oluşturabilir ve ayrıca çeşitli programlama dillerinde UML çizimlerinden kod üretebilir.</p>
+    <p xml:lang="tr">Umbrello, Birleşik Modelleme Dili (UML) modelleme aracı ve kod üretecidir. Endüstri standardı UML biçiminde yazılım ve diğer sistem çizimlerini oluşturabilir ve ayrıca çeşitli programlama dillerinde UML çizimlerinden kod üretebilir.</p>
     <p xml:lang="uk">Umbrello — засіб моделювання уніфікованою мовою моделювання (UML) та інструмент для створення шаблонів коду. Програма здатна створювати діаграми систем програмного забезпечення та інших систем у стандартному форматі UML та реалізовувати діаграми UML у програмному коді багатьма мовами програмування.</p>
     <p xml:lang="x-test">xxUmbrello is a Unified Modelling Language (UML) modelling tool and code generator. It can create diagrams of software and other systems in the industry-standard UML format, and can also generate code from UML diagrams in a variety of programming languages.xx</p>
     <p xml:lang="zh-CN">Umbrello 是一个统一建模语言（UML）建模工具和代码生成器。 它可以用行业标准的UML 格式绘制软件和其他系统图表，并且还可以从 UML 图生成各种编程语言的代码。</p>
