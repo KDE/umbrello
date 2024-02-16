@@ -8,13 +8,13 @@
 >Aquest capítol us dona una vista general ràpida dels conceptes bàsics de &UML;. Tingueu en compte que aquesta no és una guia d'aprenentatge global de &UML; sinó més aviat una breu introducció a &UML; que es pot llegir com una guia d'aprenentatge de &UML;. Si voleu aprendre més quant al llenguatge de modelatge unificat, o en general quant a l'anàlisi i disseny de programari, adreceu-vos a un dels molts llibres disponibles quant al tema. Hi ha també una gran quantitat de guies d'aprenentatge a Internet que podeu prendre com a punt de partida. </para>
 
 <para
->El llenguatge unificat de modelatge (&UML;) és un llenguatge per fer diagrames o notació per especificar, visualitzar i modelar documents de sistemes de programari orientat a objectes. &UML; no és un mètode de desenvolupament, això significa que no us diu el que heu de fer primer i el que heu de fer a continuació o com heu de dissenyar el sistema, però us ajuda a visualitzar el vostre disseny i comunicar-vos amb els altres. &UML; és controlat pel grup Object Management (<acronym
+>El llenguatge unificat de modelatge (&UML;) és un llenguatge per a fer diagrames o notació per a especificar, visualitzar i modelar documents de sistemes de programari orientat a objectes. &UML; no és un mètode de desenvolupament, això significa que no us diu el que heu de fer primer i el que heu de fer a continuació o com heu de dissenyar el sistema, però us ajuda a visualitzar el vostre disseny i comunicar-vos amb els altres. &UML; és controlat pel grup Object Management (<acronym
 >OMG</acronym
->) i és l'estàndard de la indústria per descriure gràficament el programari. </para>
+>) i és l'estàndard de la indústria per a descriure gràficament el programari. </para>
 <para
 >&UML; està dissenyat pel disseny de programari orientat a objectes i té un ús limitat per a altres paradigmes de programació. </para>
 <para
->&UML; es compon de molts elements de model que representen les diferents parts d'un sistema de programari. Els elements &UML; s'usen per crear diagrames, que representen una certa part, o un punt de vista del sistema. L'&umbrello; implementa els següents tipus de diagrames: </para>
+>&UML; es compon de molts elements de model que representen les diferents parts d'un sistema de programari. Els elements &UML; s'usen per a crear diagrames, que representen una certa part, o un punt de vista del sistema. L'&umbrello; implementa els tipus de diagrames següents: </para>
 
 <itemizedlist>
 
@@ -526,7 +526,7 @@
 </screenshot>
 
 <para
->Els missatges poden ser o bé síncrons, el tipus normal de missatge de crida on es passa el control a l'objecte anomenat fins que el mètode s'hagi acabat d'executar, o asíncrons on es torna el control directament a l'objecte cridat. Els missatges síncrons tenen un quadre vertical al costat de l'objecte cridat per mostrar el flux de control del programa.</para>
+>Els missatges poden ser o bé síncrons, el tipus normal de missatge de crida on es passa el control a l'objecte anomenat fins que el mètode s'hagi acabat d'executar, o asíncrons on es torna el control directament a l'objecte cridat. Els missatges síncrons tenen un quadre vertical al costat de l'objecte cridat per a mostrar el flux de control del programa.</para>
 </sect2
 > <!-- sequence diagrams -->
 
@@ -538,7 +538,7 @@
 >Els diagrames de col·laboració mostres les interaccions que ocorren entre els objectes que participen d'una situació específica. Això és més o menys la mateixa informació mostrada pels diagrames de seqüències, però aquí l'èmfasi es posa en com ocorren les interaccions en el temps mentre que en els diagrames de col·laboració es posen les relacions entre els objectes i la seva topologia en primer pla.</para>
 
 <para
->En un diagrama de col·laboració els missatges enviats des d'un objecte a un altre són representats per fletxes, mostrant el nom del missatge, els paràmetres, i la seqüència del missatge. Els diagrames de col·laboració són especialment útils per mostrar el flux o situació d'un programa específic i és un dels millors tipus de diagrames per demostrar o explicar ràpidament un procés en la lògica del programa. </para>
+>En un diagrama de col·laboració els missatges enviats des d'un objecte a un altre són representats per fletxes, mostrant el nom del missatge, els paràmetres, i la seqüència del missatge. Els diagrames de col·laboració són especialment útils per a mostrar el flux o situació d'un programa específic i és un dels millors tipus de diagrames per a demostrar o explicar ràpidament un procés en la lògica del programa. </para>
 
 <screenshot>
 <screeninfo
@@ -572,7 +572,7 @@
 >màquines d'estat</emphasis
 > o autòmats finits que poden ser en un grup d'estats finits i poden canviar el seu estat a través d'un grup finit d'estímuls. Per exemple, un objecte de tipus <emphasis
 >ServidorXarxa</emphasis
-> pot tenir un dels següents estats durant la seva vida: </para>
+> pot tenir un dels estats següents durant la seva vida: </para>
 <itemizedlist>
 <listitem
 ><para
@@ -729,14 +729,14 @@
 </itemizedlist
 >   
 <para
->Les línies de text són útils per afegir texts curts d'informació a un diagrama. És text lliure i no té significat per al propi model. </para
+>Les línies de text són útils per a afegir texts curts d'informació a un diagrama. És text lliure i no té significat per al propi model. </para
 >           
 
 <para
->Les notes són útils per afegir informació més detallada quant a un objecte o situació específica. Tenen un gran avantatge, ja que les notes es poden ancorar a elements &UML; per mostrar que la nota «pertany» a un objecte o situació específica. </para>
+>Les notes són útils per a afegir informació més detallada quant a un objecte o situació específica. Tenen un gran avantatge, ja que les notes es poden ancorar a elements &UML; per a mostrar que la nota «pertany» a un objecte o situació específica. </para>
 
 <para
->Els quadres són rectangles lliures que es poden usar per agrupar elements per fer els diagrames més llegibles. No tenen cap significat en el model.</para>
+>Els quadres són rectangles lliures que es poden usar per a agrupar elements per a fer els diagrames més llegibles. No tenen cap significat en el model.</para>
 
 <!-- FIXME, screenshot -->
 </sect2
@@ -766,7 +766,7 @@
 >Diagrames de relació d'entitats</title>
 
 <para
->Els diagrames de relació d'entitats (diagrames ER) mostren el disseny conceptual d'aplicacions de base de dades. Representen les diferents entitats (conceptes) en el sistema d'informació i les relacions existents i les restriccions entre elles. Una extensió dels diagrames de relació d'entitats amb el nom «diagrama ampliat de relació reforçada» o «diagrama de relació d'entitats avançat» (EER), s'usen per incorporar tècniques de disseny orientades a objectes en els diagrames ER. </para
+>Els diagrames de relació d'entitats (diagrames ER) mostren el disseny conceptual d'aplicacions de base de dades. Representen les diferents entitats (conceptes) en el sistema d'informació i les relacions existents i les restriccions entre elles. Una extensió dels diagrames de relació d'entitats amb el nom «diagrama ampliat de relació reforçada» o «diagrama de relació d'entitats avançat» (EER), s'usen per a incorporar tècniques de disseny orientades a objectes en els diagrames ER. </para
 > 
 <para>
 <screenshot>
@@ -797,7 +797,7 @@
 <para
 ><emphasis
 >Nota:</emphasis
-> No hi ha notacions estàndard per representar diagrames ER. Diferents textos sobre aquest tema utilitzen diferents notacions. Els conceptes i notacions per diagrames EER usats en Umbrello són del següent llibre: <emphasis
+> No hi ha notacions estàndard per a representar diagrames ER. Diferents textos sobre aquest tema utilitzen diferents notacions. Els conceptes i notacions per diagrames EER usats en Umbrello són del llibre següent: <emphasis
 >Elmasri R. i Navathe S. (2004). Fundamentals of Database Systems 4a edn. Addison Wesley</emphasis
 > </para>
 <para
@@ -877,7 +877,7 @@
 <title
 >Especialització</title>
 <para
->L'especialització és una manera de formar noves entitats usant entitats que ja s'han definit. Les noves entitats, conegudes com a entitats derivades, prenen (o hereten) atributs de les entitats preexistents, que són referenciades com a entitats base. El seu objectiu és ajudar a la reutilització de les dades existents amb poca o cap modificació.</para>
+>L'especialització és una manera de formar entitats noves usant entitats que ja s'han definit. Les entitats noves, conegudes com a entitats derivades, prenen (o hereten) atributs de les entitats preexistents, que són referenciades com a entitats base. El seu objectiu és ajudar a la reutilització de les dades existents amb poca o cap modificació.</para>
 <para
 >En Umbrello, es poden separar i superposar especialitzacions</para>
  <sect4 id="disjoint-specialization">

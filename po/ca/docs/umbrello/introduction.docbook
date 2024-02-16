@@ -3,11 +3,11 @@
 >Introducció</title>
 
 <para
->L'&umbrello; és una eina de diagrames &UML; que us pot ajudar en el procés de desenvolupament de programari. Especialment durant les fases d'anàlisi i disseny d'aquest procés, l'&umbrello; us ajuda a obtenir un producte d'alta qualitat. &UML; també es pot usar per documentar els vostres dissenys de programari per ajudar-vos a vós i als vostres companys desenvolupadors. </para>
+>L'&umbrello; és una eina de diagrames &UML; que us pot ajudar en el procés de desenvolupament de programari. Especialment durant les fases d'anàlisi i disseny d'aquest procés, l'&umbrello; us ajuda a obtenir un producte d'alta qualitat. &UML; també es pot usar per a documentar els vostres dissenys de programari per a ajudar-vos a vós i als vostres companys desenvolupadors. </para>
 <para
 >Tenir un bon model del vostre programari és la millor manera de comunicar-vos amb altres desenvolupadors que treballen en el projecte i amb els vostres clients. Un bon model és extremadament important per projectes de mitjana i gran envergadura, però també és molt útil pels petits. Encara que esteu treballant en un petit projecte d'una sola persona us beneficiareu d'un bon model perquè dona una vista general que pot ajudar a programar bé les coses a la primera. </para>
 <para
->&UML; és el llenguatge de diagrames usat per a descriure aquests models. Podeu representar les vostres idees en &UML; usant diferents tipus de diagrames. L'&umbrello; 2.11 implementa els següents tipus: </para>
+>&UML; és el llenguatge de diagrames usat per a descriure aquests models. Podeu representar les vostres idees en &UML; usant diferents tipus de diagrames. L'&umbrello; 2.11 implementa els tipus següents: </para>
 <itemizedlist>
 <listitem
 ><para
