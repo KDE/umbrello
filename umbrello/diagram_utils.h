@@ -22,8 +22,9 @@ class QStringList;
 namespace Diagram_Utils {
     typedef enum { Invalid, GDB, QtCreatorGDB, Simple} SequenceLineFormat;
     SequenceLineFormat detectSequenceLineFormat(const QStringList &lines);
-    bool importSequences(const QStringList &lines, UMLScene *scene, const QString &fileName=QString());
-    bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileName=QString());
+    bool importSequences(const QStringList &lines, UMLScene *scene, const QString &sourceHint=QString());
+    bool importClassGraph(const QStringList &lines, UMLScene *scene, const QString &sourceHint=QString());
+    bool importGraph(const QStringList &lines, UMLScene *scene, const QString &sourceHint=QString());
     bool importGraph(const QString &fileName, UMLScene *scene);
     bool importGraph(const QMimeData *mimeData, UMLScene *scene);
     bool isUniqueDiagramName(Uml::DiagramType::Enum type, QString &name);
