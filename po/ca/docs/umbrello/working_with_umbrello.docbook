@@ -260,7 +260,7 @@
 <title
 >Edició dels elements</title>
 <para
->Podeu editar la majoria dels elements &UML; en el model i els diagrames obrint el seu diàleg de propietats i seleccionant l'opció apropiada. Per editar les propietats d'un objecte, seleccioneu <guimenuitem
+>Podeu editar la majoria dels elements &UML; en el model i els diagrames obrint el seu diàleg de propietats i seleccionant l'opció apropiada. Per a editar les propietats d'un objecte, seleccioneu <guimenuitem
 >Propietats</guimenuitem
 > del seu menú contextual (clic &BDR;). Cada element té un diàleg que consisteix en diverses pàgines on podeu configurar les opcions corresponents a aquest element. Per alguns elements, com ara els actors, només podeu establir un conjunt d'opcions, com ara el nom de l'objecte i la documentació, mentre que per altres elements, com ara les classes, podeu editar els atributs i les operacions, seleccioneu que voleu que es mostri en el diagrama (tota la signatura de l'operació o només els noms de les operacions, etc) i també els colors que voleu usar per a la línia i el farciment de la representació de la classe en el diagrama. </para>
 
