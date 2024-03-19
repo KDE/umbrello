@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-01 00:42+0000\n"
-"PO-Revision-Date: 2024-02-06 16:39+0300\n"
+"PO-Revision-Date: 2024-03-18 19:45+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.01.95\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4249,7 +4249,7 @@ msgstr "Şu anki bakımcı."
 #: main.cpp:144
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
-msgstr "C++ ve Java kodu üretimi için bir çok çalışma. Kod düzenleyicisi."
+msgstr "C++ ve Java kodu üretimi için birçok çalışma. Kod düzenleyicisi."
 
 #: main.cpp:152
 #, kde-format
