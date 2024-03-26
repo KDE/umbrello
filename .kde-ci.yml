@@ -22,7 +22,7 @@ Dependencies:
     'kdevelop/kdevelop-pg-qt': '@stable'
     'kdevelop/kdevelop': '@same'
     'kdevelop/kdev-php': '@same'
-    'libs/qt/qtwebengine': '@same'
+
 
 Options:
   cmake-options: "-DBUILD_APIDOC=NO"
