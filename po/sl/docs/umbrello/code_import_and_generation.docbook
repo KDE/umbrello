@@ -1,0 +1,170 @@
+<chapter id="code-import-generation">
+<title
+>Uvoz kode in generiranje kode</title>
+<para
+>&umbrello; je &UML; orodje za modeliranje, zato je njegov glavni namen pomagati pri <emphasis
+>analizi in načrtovanju</emphasis
+> vaših sistemov. Vendar pa za prehod med vašo zasnovo in vašo <emphasis
+>izvedbo</emphasis
+> &umbrello; omogoča ustvarjanje izvorne kode v različnih programskih jezikih za lažji začetek. Tudi, če želite začeti uporabljati &UML; v že začetem projektu C++, vam &umbrello; lahko pomaga ustvariti model vašega sistema iz izvorne kode tako, da analizira vašo izvorno kodo in uvozi razrede, ki jih najdete v njej. </para>
+<sect1 id="code-generation">
+<title
+>Generiranje kode</title>
+<para
+>&umbrello; lahko ustvari izvorno kodo za različne programske jezike na podlagi vašega &UML; modela, ki vam bo pomagal pri začetku izvajanja vašega projekta. Ustvarjena koda je sestavljena iz deklaracij razredov z njihovimi metodami in atributi, tako da lahko <quote
+>izpolnite praznine</quote
+> z zagotavljanjem funkcionalnosti operacij vaših razredov. </para>
+<para
+>&umbrello; 2 prihaja s podporo za ustvarjanje kode za ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala in XMLSchema. </para>
+<sect2 id="generate-code">
+<title
+>Generiranje kode</title>
+<para
+>Če želite ustvariti kodo z &umbrello;, morate najprej ustvariti ali naložiti model, ki vsebuje vsaj en razred. Ko ste pripravljeni začeti pisati kodo, izberite vnos <guimenuitem
+>Čarovnik za generiranje kode</guimenuitem
+> v meniju <guimenuitem
+>Koda</guimenuitem
+>, da zaženete čarovnika, ki vas bo vodil skozi postopek generiranja kode. </para>
+<para
+>Prvi korak je, da izberete razrede, za katere želite ustvariti izvorno kodo. Privzeto so izbrani vsi razredi vašega modela, tiste, za katere ne želite ustvariti kode, pa lahko odstranite tako, da jih premaknete na seznam na levi strani. </para>
+<para
+>Naslednji korak čarovnika vam omogoča spreminjanje parametrov, ki jih Generator kode uporablja med pisanjem kode. Na voljo so naslednje možnosti: </para>
+<para>
+<screenshot>
+<screeninfo
+>Možnosti generiranja kode</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generation-options.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Možnosti za generiranje kode v &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Možnosti za ustvarjanje kode v &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="generation-options">
+<title
+>Možnosti generiranja</title>
+<!-- LW; to rearrange -->
+
+<sect4>
+<title
+>Besedljivost komentarja</title>
+<para
+>Možnost <guilabel
+>Zapiši dokumentacijske komentarje, tudi če so prazni</guilabel
+> naroči Generatorju kode, naj napiše komentarje v slogu /** bla */, tudi če so bloki komentarjev prazni. Če ste svojim razredom, metodam ali atributom v svojem modelu dodali dokumentacijo, bo Generator kode te komentarje zapisal kot dokumentacijo <application
+>Doxygen</application
+> ne glede na to, kaj ste tukaj nastavili, če pa izberete to možnost &umbrello; bo napisal bloke komentarjev za vse razrede, metode in atribute, tudi če v modelu ni dokumentacije; v tem primeru morate svoje razrede dokumentirati pozneje neposredno v izvorni kodi. </para>
+<para
+><guilabel
+>Pisanje komentarjev za razdelke, tudi če je razdelek prazen</guilabel
+> povzroči &umbrello; za pisanje komentarjev v izvorno kodo za razmejitev različnih delov razreda. Na primer <quote
+>javne metode</quote
+> ali <quote
+>Atributi</quote
+> pred ustreznimi razdelki. Če izberete to možnost &umbrello; bo napisal komentarje za vse razdelke razreda, tudi če je razdelek prazen. Napisal bi na primer komentar z napisom <quote
+>zaščitene metode</quote
+>, tudi če v vašem razredu ni zaščitenih metod. </para>
+</sect4>
+<sect4>
+<title
+>Mape</title>
+<para
+><guilabel
+>Zapiši vse ustvarjene datoteke v mapo</guilabel
+>. Tukaj morate izbrati mapo, v kateri želite &umbrello; postaviti ustvarjene vire. </para>
+<para
+>Možnost <guilabel
+>Vključi datoteke z naslovi iz mape</guilabel
+> vam omogoča, da vstavite naslov na začetek vsake ustvarjene datoteke. Datoteke z naslovi lahko vsebujejo informacije o avtorskih pravicah ali licencah in spremenljivke, ki se ovrednotijo v času ustvarjanja. Ogledate si lahko datoteke z naslovi predloge, poslane z &umbrello; da vidite, kako uporabiti te spremenljivke za zamenjavo vašega imena ali trenutnega datuma v času generiranja. </para>
+</sect4>
+<sect4>
+<title
+>Politika prepisovanja</title>
+<!-- FIXME update for Umbrello 1.2's new C++ and Java code generators -->
+<para
+>Ta možnost pove &umbrello; kaj storiti, če datoteka, ki jo želi ustvariti, že obstaja v ciljni mapi. &umbrello; <emphasis
+>ne more spreminjati obstoječih izvornih datotek</emphasis
+>, zato morate izbirati med prepisovanjem obstoječe datoteke, preskokom ustvarjanja te določene datoteke ali dovolitvijo &umbrello; izberite drugo ime datoteke. Če izberete možnost za uporabo drugega imena, &umbrello; bo imenu datoteke dodal pripono. </para>
+</sect4>
+<sect4>
+<title
+>Jezik</title>
+<para
+>&umbrello; bo privzeto ustvaril kodo v jeziku, ki ste ga izbrali kot aktivni jezik, vendar imate s čarovnikom za ustvarjanje kode možnost, da to spremenite v drug jezik. </para>
+</sect4>
+</sect3
+><!--generation-options-->
+<sect3 id="generation-wizard-generation">
+<title
+>Čarovnik za ustvarjanje Generation</title>
+<para
+>Tretji in zadnji korak čarovnika prikazuje status procesa generiranja kode. Morate le klikniti na gumb Generate, da bodo vaši razredi napisani za vas. </para>
+<para
+>Upoštevajte, da so možnosti, ki jih izberete med čarovnikom za ustvarjanje kode, veljavne samo za trenutno generacijo. Ko boste naslednjič zagnali čarovnika, boste morali znova izbrati vse možnosti (mapo z naslovi, pravilnik o prepisovanju itd.). Nastavite lahko privzete vrednosti, ki jih uporablja &umbrello; v razdelku <guilabel
+>Generacija kode</guilabel
+> programa &umbrello; nastavitve, ki so na voljo v <menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guimenuitem
+>Konfiguriraj &umbrello;...</guimenuitem
+></menuchoice
+> </para>
+<para
+>Če ste svoje možnosti za ustvarjanje kode nastavili na prave nastavitve in želite takoj ustvariti nekaj kode, ne da bi morali iti skozi čarovnika, lahko izberete celotno <guimenuitem
+>Ustvari celotno kodo</guimenuitem
+> v <guimenu
+>Koda</guimenu 
+> meni. To bo ustvarilo kodo za vse razrede v vašem modelu z uporabo trenutnih nastavitev (vključno z izhodno mapo in pravilnikom o prepisovanju, zato uporabljajte previdno). </para>
+</sect3>
+</sect2
+><!--generate-code-->
+</sect1
+> <!--code-generation-->
+<sect1 id="code-import">
+<title
+>Uvoz kode</title>
+<para
+>&umbrello; lahko uvozi izvorno kodo iz vaših obstoječih projektov, da vam pomaga zgraditi model vaših sistemov. &umbrello; 2 podpira izvorno kodo ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP in Vala. </para>
+<para
+>Če želite uvoziti razrede v svoj model, izberite vnos <guimenuitem
+>Čarovnik za uvoz kode...</guimenuitem
+> v meniju <guimenu
+>Koda</guimenu
+>. V pogovornem oknu datotek izberite datoteke, ki vsebujejo deklaracije razredov, in pritisnite <guibutton
+>Naprej 
+></guibutton
+>, nato <guibutton
+>Začni uvoz</guibutton
+> in <guibutton
+>Končaj</guibutton
+>. Razredi bodo uvoženi in našli jih boste kot del svojega modela v drevesnem pogledu. Upoštevajte, da &umbrello; ne bo ustvaril nobenih diagramov za prikaz vaših razredov, le uvoženi bodo v vaš model, da jih boste lahko pozneje uporabili v katerem koli diagramu, ki ga želite. </para>
+<para>
+<screenshot>
+<screeninfo
+>Uvoz kode</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="code-import.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Meni za uvoz izvorne kode v &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Meni za uvoz izvorne kode v &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect1>
+</chapter
+> <!--code-import-generation-->

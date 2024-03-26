@@ -1,0 +1,103 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+ "dtd/kdedbx45.dtd" [
+ <!ENTITY umbrello "<application
+>Umbrello &UML; Modeller</application
+>">
+ <!ENTITY kappname "&umbrello;">
+ <!ENTITY packagename "kdesdk">
+ <!ENTITY UML "<acronym
+>UML</acronym
+>">
+ <!ENTITY introduction-chapter SYSTEM "introduction.docbook">
+ <!ENTITY uml-basics-chapter SYSTEM "uml_basics.docbook">
+ <!ENTITY working-with-umbrello-chapter SYSTEM "working_with_umbrello.docbook">
+ <!ENTITY code-import-and-generation-chapter SYSTEM "code_import_and_generation.docbook">
+ <!ENTITY other-features-chapter SYSTEM "other_features.docbook">
+ <!ENTITY settings-chapter SYSTEM "settings.docbook">
+ <!ENTITY authors-chapter SYSTEM "authors.docbook">
+ <!ENTITY credits-chapter SYSTEM "credits.docbook">
+ <!ENTITY % addindex "IGNORE">
+ <!ENTITY % Slovenian "INCLUDE"
+><!-- change language only here -->
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+
+<book id="Umbrello" lang="&language;">
+<bookinfo>
+<title
+>&umbrello; Priročnik</title>
+
+<authorgroup>
+<corpauthor
+>&umbrello; Avtorji</corpauthor>
+<othercredit role="translator"
+><firstname
+>Matjaž</firstname
+><surname
+>Jeran</surname
+><affiliation
+><address
+><email
+>matjaz.jeran@amis.net</email
+></address
+></affiliation
+><contrib
+>Prevod</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<holder
+>Paul Hensgen</holder>
+</copyright>
+<copyright>
+<year
+>2002-2020</year>
+<holder
+>&umbrello; Avtorji</holder>
+</copyright>
+
+
+<date
+>01.06.2013</date>
+<releaseinfo
+>2.11.0</releaseinfo>
+
+<abstract>
+<para
+>&umbrello; pomaga pri procesu razvoja programske opreme z uporabo industrijskega standarda Unified Modeling Language (&UML;), ki vam omogoča ustvarjanje diagramov za načrtovanje in dokumentiranje vaših sistemov. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>UML</keyword>
+<keyword
+>modeliranje</keyword>
+<keyword
+>diagrami</keyword>
+<keyword
+>razvoj programske opreme</keyword>
+<keyword
+>razvoj</keyword>
+</keywordset>
+
+</bookinfo>
+
+&introduction-chapter;
+&uml-basics-chapter;
+&working-with-umbrello-chapter;
+&code-import-and-generation-chapter;
+&other-features-chapter;
+&settings-chapter;
+&authors-chapter;
+&credits-chapter;
+
+</book>

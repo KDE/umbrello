@@ -1,0 +1,750 @@
+<chapter id="settings">
+<title
+>Nastavitve</title>
+
+<sect1 id="general-settings">
+<title
+>Splošne nastavitve</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Splošne nastavitve</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="general-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Možnosti za splošne nastavitve v &umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para
+>Možnosti za splošne nastavitve v &umbrello; </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<sect2 id= "misc-settings">
+<title
+>Razno</title>
+<itemizedlist>
+    <listitem>
+        <para
+>Možnost <guilabel
+>Omogoči razveljavitev</guilabel
+> omogoča razveljavitev prejšnjega dejanja.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Uporabi nove generatorje C++/Java/Ruby</guilabel
+> omogoča uporabniku izbiro starih ali novih generatorjev kode</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Vklopi nogo in številke strani pri tiskanju</guilabel
+> ko je izbrana, natisne informacije o diagramu za diagram, ki se tiska, in številko strani.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Uporaba diagramov z zavihki</guilabel
+> daje možnost, da imate hkrati odprtih več oken diagramov z zavihki.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- misc-settings -->
+
+
+<sect2 id= "autosave-settings">
+<title
+>Samodejno shranjevanje</title>
+<itemizedlist>
+    <listitem
+><para
+><guilabel
+>Omogoči samodejno shranjevanje</guilabel
+> omogoča izbiro samodejnega shranjevanja datoteke.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Izberi časovni interval samodejnega shranjevanja (min):</guilabel
+> omogoča nastavitev časa, preden se datoteka samodejno shrani.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Nastavi pripono za samodejno shranjevanje:</guilabel
+> je privzeto nastavljena na .xmi, vendar dovoljuje nastavitev druge datotečne pripone.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>   <!-- autosave-settings -->
+
+
+<sect2 id= "startup-settings">
+    <title
+>Začetek</title>
+    <itemizedlist>
+        <listitem
+><para
+><guilabel
+>Naloži zadnji projekt</guilabel
+>, če je nastavljeno, vedno naloži zadnji delovni projekt ob zagonu programa.</para>
+        </listitem>
+        <listitem
+><para
+><guilabel
+>Začni nov projekt z:</guilabel
+> omogoča izbiro, s katero vrsto diagrama UML začeti v novem projektu.</para>
+        </listitem>
+        <listitem
+><para
+><guilabel
+>Privzeti jezik:</guilabel
+> je nastavitev za uporabljeni privzeti programski jezik.</para>
+        </listitem>
+    </itemizedlist>
+</sect2
+>    <!-- startup-settings -->
+
+<sect2 id= "notifications-settings">
+<title
+>Obvestila</title>
+<itemizedlist>
+    <listitem
+><para
+><guilabel
+>Omogoči vsa sporočila</guilabel
+> je možnost za ogled vseh obvestil ali zmanjšanega nabora obvestil.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Omogoči 'izbriši povezavo' povezana sporočila</guilabel
+> zagotavlja, da boste prejeli vsa sporočila te vrste, če je označeno.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Omogoči 'izbriši diagram' povezana sporočila</guilabel
+> bo omogočila vsa sporočila te vrste, če je označeno.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>    <!-- notifications-settings -->
+
+</sect1
+>    <!-- general-settings -->
+
+<!-- Font Settings -->
+<sect1 id="font-settings">
+<title
+>Nastavitve pisave</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Nastavitve pisave</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="font-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Možnosti za nastavitve pisave diagrama v &umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para
+>Možnosti za nastavitve pisave diagrama v &umbrello; </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<para
+>Te nastavitve pisave določajo značilnosti besedila v diagramih. Slog in velikost pisave sta edini izbirni možnosti.</para>
+
+</sect1
+>    <!-- font-settings -->
+
+<sect1 id="ui-settings">
+    <title
+>Nastavitve uporabniškega vmesnika</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Nastavitve uporabniškega vmesnika</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="user-interface-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Možnosti za nastavitve uporabniškega vmesnika v &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Možnosti za nastavitve uporabniškega vmesnika v &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="ui-general">
+    <title
+>Splošno</title>
+    <para
+><guilabel
+>Uporabniški vmesnik od desne proti levi</guilabel
+> konfigurira vmesnik za jezike od desne proti levi. </para>
+</sect2
+>    <!-- ui-general-settings -->
+
+<sect2 id="ui-associations">
+    <title
+>Asociacije</title>
+    <para
+><guilabel
+>Uporabi kotne povezovalne črte</guilabel
+> omogoča, da se asociacijske črte spreminjajo pod katerim koli kotom. </para>
+    <para
+><guilabel
+>Ustvari nove asociacijske črte kot:</guilabel
+> daje možnost spreminjanja sloga asociacijskih črt. </para>
+</sect2
+>    <!-- ui-associations-settings -->
+
+<sect2 id="ui-color">
+    <title
+>Barva</title>
+    <para
+>Oddelek za barve ponuja več možnosti za spreminjanje besedila, črt, barv polnila, mreže in ozadja ter širine črt.</para>
+</sect2
+>    <!-- ui-Color-settings -->
+
+</sect1
+>    <!-- ui-settings -->
+
+<sect1 id="class-settings">
+    <title
+>Nastavitve razreda</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Nastavitve razreda</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="class-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Možnosti za nastavitve razreda v &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Možnosti za nastavitve razreda v &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="show-class-settings">
+        <title
+>Pokaži</title>
+        <para
+>Razdelek Pokaži ima številne nastavitve, ki določajo, katere značilnosti razreda so prikazane v diagramu razreda.</para>
+</sect2
+>    <!-- show-class-settings -->
+
+<sect2 id="starting-scope-class-settings">
+        <title
+>Začetni obseg</title>
+        <para
+>Možnosti privzetih nastavitev atributov in operacij, javne, zasebne ali zaščitene.</para>
+</sect2
+>    <!-- starting-scope-class-settings -->
+
+</sect1
+>    <!-- class-settings -->
+
+<sect1 id="code-importer-settings">
+    <title
+>Nastavitve uvoza kode</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Nastavitve uvoza kode</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-import-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Možnosti za nastavitve uvoza kode v &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Možnosti za nastavitve uvoza kode v &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="include-search-paths-settings">
+    <title
+>Vključi iskalne poti</title>
+    <para
+>Podano je splošno priporočilo za izboljšanje iskanja z vključitvijo UMBRELLO INCPATH kot spremenljivke okolja.</para>
+</sect2
+>    <!-- include-search-paths-settings -->
+
+<sect2 id="cpp-import-settings">
+    <title
+>C++-Uvoz</title>
+    <itemizedlist>
+    <listitem>
+    <para
+><guilabel
+>Za vsako uvoženo datoteko ustvarite artefakt v pogledu komponent</guilabel
+> Ustvarjeni artefakt lahko nato povlečete v pogled diagrama razredov, kjer so odvisnosti zlahka vidne skupaj z atributi in funkcijami vsake datoteke.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Razreši odvisnosti (zmanjša hitrost uvoza)</guilabel
+> Zagotovi, da so razrešene vse odvisnosti datotek, kar se nato prikaže v odvisnostih razreda v diagramu razredov.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Omogoči standard C++11 (eksperimentalno)</guilabel
+> Eksperimentalna funkcija za skladnost s C++11, onemogočite, če ni potrebna.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- c++-import-settings -->
+
+</sect1
+>    <!-- code-importer-settings -->
+
+<sect1 id="code-generation-settings">
+    <title
+>Nastavitve generiranja kode</title>
+
+    <sect2 id="code-gen-settings-general-tab">
+    <title
+>Nastavitve generiranja kode Zavihek Splošno</title>
+
+    <para>
+        <screenshot>
+            <screeninfo
+>Splošne nastavitve za ustvarjanje kode</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-general-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Možnosti za splošne nastavitve generiranja kode v &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Možnosti za splošne nastavitve generiranja kode v &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <para
+>Umbrello UML Modeller lahko ustvari izvorno kodo za različne programske jezike, ki temeljijo na vašem modelu UML, da vam pomaga pri začetku izvajanja vašega projekta. Ustvarjena koda je sestavljena iz deklaracij razredov z njihovimi metodami in atributi, tako da lahko "zapolnite praznine" z zagotavljanjem funkcionalnosti operacij vaših razredov.</para>
+
+    <sect3 id="code-gen-language-settings">
+        <title
+>Jezik</title>
+        <para
+>Izberite programski jezik za uporabo pri projektih. Na voljo so ActionScript, Ada, C++, C#, D, IDL, Java, JavaScript, MYSQL, Pascal, Perl, PHP, PHP5, PastgreSQL, Python, Ruby, SQL, Tcl, Vala in XMLSchema</para>
+    </sect3
+>    <!-- code-gen-language-settings -->
+
+    <sect3 id="code-generation-folders-settings">
+    <title
+>Mape</title>
+    <para
+><guilabel
+>Zapiši vse ustvarjene datoteke v mapo:</guilabel
+> ima polje za urejanje želene poti do ustvarjenih datotek ali izbirno gumb za brskanje za izbiro poti.</para>
+    <para
+><guilabel
+>Vključi datoteke z naslovi iz mape:</guilabel
+> če je označeno, uporabniku omogoča, da določi pot v polju za urejanje ali jo izbere z gumbom za brskanje.</para>
+    </sect3
+>    <!-- code-generation-folders-settings -->
+
+
+<sect3 id="code-generation-overwrite-settings">
+<title
+>Politika prepisovanja</title>
+    <para
+>Ko je koda ustvarjena v podani mapi, ta nastavitev določa, kaj se zgodi, če se najde datoteka z enakim imenom. </para>
+<itemizedlist>
+        <listitem>
+        <para
+><guilabel
+>Prepiši</guilabel
+> datoteko brez opozorila ali možnosti.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Vprašajte</guilabel
+>, ali želite prepisati datoteko ali jo preimenovati.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Uporabite drugo ime</guilabel
+>, ko datoteka že obstaja, tako da jo preimenujete s pripono.</para>
+    </listitem>
+</itemizedlist>
+
+</sect3
+>    <!-- code-generation-overwrite-settings -->
+
+</sect2
+>    <!-- code-generation-settings-general-tab -->
+
+
+<sect2 id="code-gen-settings-format-tab">
+    <title
+>Zavihek Nastavitve generiranja kode Oblikovanje</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Nastavitve oblikovanja za ustvarjanje kode</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-formatting-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Možnosti za nastavitve oblikovanja za ustvarjanje kode v &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Možnosti za nastavitve oblikovanja za ustvarjanje kode v &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <sect3 id="code-gen-formatting-comment-verbosity">
+        <title
+>Besedljivost komentarja</title>
+        <para
+><guilabel
+>Pisanje komentarjev dokumentacije, tudi če so prazni</guilabel
+> Ustvari komentarje za razrede in funkcije, tudi če so prazni.</para>
+        <para
+><guilabel
+>Pisanje komentarjev za razdelke, tudi če je razdelek prazen</guilabel
+> Piše komentarje za zasebne, zaščitene in javne razdelke, tudi če so prazni.</para>
+</sect3
+>    <!-- code-gen-formatting-comment-verbosity -->
+
+<sect3 id="code-gen-formatting-lines">
+    <title
+>Črte</title>
+    <para
+><guilabel
+>Vrsta zamika:</guilabel
+> ponuja izbiro med brez zamika, tabulatorjem ali presledkom.</para>
+    <para
+><guilabel
+>Količina zamika:</guilabel
+> omogoča uporabniku, da določi število presledkov za izbiro zamika tabulatorja ali presledka.</para>
+    <para
+><guilabel
+>Slog konca vrstice:</guilabel
+> je izbira med slogi konca vrstice *NIX, Windows in Mac.</para>
+</sect3
+>    <!-- code-gen-formatting-lines -->
+
+</sect2
+>    <!-- code-gen-settings-format-tab -->
+
+<sect2 id="code-gen-settings-language-options">
+    <title
+>Jezikovne možnosti</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Možnosti jezika za ustvarjanje kode</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-language-general.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Možnosti za jezikovne nastavitve za generiranje kode v &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Možnosti za jezikovne nastavitve za generiranje kode v &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>Ta stran se spremeni za vsak programski jezik, izbran pod zavihkom Splošno. Trenutno so na voljo edine možnosti za jezik C++.</para>
+
+<sect3 id="code-gen-settings-language-options-cpp">
+    <title
+>Generiranje kode C++</title>
+    <para
+></para>
+
+    <sect4 id="code-gen-settings-language-options-documentation">
+        <title
+>Dokumentacija</title>
+        <para
+><guilabel
+>Slog:</guilabel
+> omogoča izbiro uporabe "/** */" ali "//" kot sloga dokumentacije</para>
+    </sect4
+>    <!-- code-gen-settings-language-options-documentation -->
+
+    <sect4 id="language-general-tab">
+        <title
+>Splošno</title>
+        <para
+>Pod zavihkom <guilabel
+>Splošno</guilabel
+> na zavihku <guilabel
+>Jezikovne možnosti</guilabel
+> je navedenih več možnosti generiranja kode.</para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Predpona člana razreda</guilabel
+></para>
+                <para
+>Možnost, ki omogoča dodajanje predpone, ki jo določi uporabnik, članom razreda, ko se ustvari koda.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Paket je imenski prostor</guilabel
+></para>
+                <para
+>Imenski prostori zagotavljajo metodo za preprečevanje konfliktov imen v velikih projektih. Simboli, deklarirani znotraj bloka imenskega prostora, so postavljeni v poimenovan obseg, ki preprečuje, da bi jih zamenjali za enako imenovane simbole v drugih obsegih.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Virtualni destruktorji</guilabel
+></para>
+                <para
+>Čeprav destruktorji niso podedovani, če osnovni razred svoj destruktor razglasi za navideznega, ga izpeljani destruktor vedno preglasi. To omogoča brisanje dinamično dodeljenih objektov polimorfnega tipa prek kazalcev na bazo.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Ustvarite prazne konstruktorje</guilabel
+></para>
+                <para
+>To bo ustvarilo konstruktorje s praznimi oklepaji.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Ustvari metode dostopnika</guilabel
+></para>
+                <para
+>Ustvaril bo metode za dostop do podatkovnih vrst.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Operacije so znorajvrstične</guilabel
+></para>
+                <para
+>Generirajte metode kot vgrajene, vendar se lahko prevajalniki odločijo, da metode ne bodo vdelane.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Pripomočki so znotrajvrstični</guilabel
+></para>
+                <para
+>Metode, ki dostopajo do podatkov razreda, bodo ustvarjene v vrstici, vendar se lahko prevajalniki odločijo, da metode ne bodo vdelali.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Dostopniki so javni</guilabel
+></para>
+                <para
+>Metode, ki so ustvarjene kot javne, bodo na voljo kateri koli primerku razreda.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Ustvarite getterje s predpono 'get'</guilabel
+></para>
+                <para
+>S tem boste metodam, ki dobijo/vrnejo podatke razreda, dodali predpono "get".</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Odstranite predpono '[a-zA-Z]_' iz imen metod dostopnikov</guilabel
+></para>
+                <para
+>Če je bila predpona vnesena v <guilabel
+>Predpona člana razreda</guilabel
+>, jo boste s tem odstranili.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Metode dostopnikov se začnejo z velikimi črkami</guilabel
+></para>
+                <para
+>To naredi prvo črko imena metode z veliko začetnico.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Uporabite '\' kot oznako dokumentacije namesto @</guilabel
+></para>
+                <para
+>Izbira oznake za uporabo pri dokumentiranju parametrov metode.</para>
+            </listitem>
+        </itemizedlist>
+    </sect4
+>    <!-- language-general-tab -->
+
+    <sect4 id="language-method-body-tab">
+        <title
+>Generacija telesa metode</title>
+        <para>
+            <screenshot>
+                <screeninfo
+>Možnosti telesa metode generiranja kode</screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="code-generation-language-method-settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Možnosti za nastavitve telesa metode generiranja kode v &umbrello;</phrase>
+                    </textobject>
+                    <caption>
+                        <para
+>Možnosti za nastavitve telesa jezika metode generiranja kode v &umbrello; </para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para
+><guilabel
+>Seznam</guilabel
+></para>
+        <para
+>Ima možnosti QPtrList, vector in std::vector za vrsto seznama. Sledi polje, ki ga je mogoče urejati ali izbrati, da določite vključeno datoteko skupaj z gumbom za brskanje, da poiščete in izberete vključeno datoteko. Obstaja tudi možnost, da seznam postane globalen.</para>
+        <para
+><guilabel
+>Niz</guilabel
+></para>
+            <para
+>Možnosti niza ali QString za vrsto niza. Sledi polje, ki ga je mogoče urejati ali izbrati, da določite vključeno datoteko skupaj z gumbom za brskanje, da poiščete in izberete vključeno datoteko. Obstaja tudi možnost, da niz naredite globalnega. </para>
+
+    </sect4
+>    <!-- language-method-body-tab -->
+
+</sect3
+>    <!-- code-gen-settings-language-options-cpp -->
+
+</sect2
+> <!-- code-gen-settings-language-options -->
+
+</sect1
+>    <!-- code-generation-settings-general-tab -->
+
+<sect1 id="code-viewer-settings">
+    <title
+>Nastavitve pregledovalnika kode</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Nastavitve pregledovalnika kode</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-viewer-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Možnosti za nastavitve pregledovalnika kode v &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Možnosti za nastavitve pregledovalnika kode v &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>Omogoča prilagajanje pregledovalnika kode. Razdelek <guilabel
+>Zahtevana pisava</guilabel
+> omogoča izbiro pisave, sloga pisave in velikosti pisave. Predstavitev vaših izbir je prikazana pod možnostmi. </para>
+    <para
+>V razdelku <guilabel
+>Barve</guilabel
+> lahko spremenite Papir, Pisavo, Izbrano, Blok predmeta UML, Skrit blok, Besedilo, ki ga je mogoče urejati, in Besedilo, ki ga ni mogoče urejati. Spremembe barv lahko izvedete s klikom na barvno polje ob ustrezni oznaki. </para>
+</sect1
+>    <!-- code-viewer-settings -->
+
+<sect1 id="auto-layout-settings">
+    <title
+>Nastavitve samodejne postavitve</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Nastavitve samodejne postavitve</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="auto-layout-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Možnosti za nastavitve samodejne postavitve v &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Možnosti za nastavitve samodejne postavitve v &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+><guilabel
+>Samodejno zaznaj generator postavitve</guilabel
+></para>
+    <para
+>Funkcija samodejne postavitve je odvisna od generatorjev postavitev, ki jih zagotavlja paket GraphViz, ki ga upravitelj paketov običajno namesti poleg Umbrella. Umbrello ima vgrajeno podporo za zaznavanje nameščene lokacije teh generatorjev postavitev. V primerih, ko ta odvisnost ni na voljo ali ne ustreza, lahko izberete drugo pot namestitve. </para>
+    <para
+><guilabel
+>Pokaži izvozno postavitev v kontekstnem meniju diagrama</guilabel
+></para>
+    <para
+>Izvoz datoteke s pikami se izvede z uporabo izvozne postavitve. Ko je ta možnost izbrana, se izvozna postavitev doda na seznam razpoložljivih postavitev diagramov in omogoči hiter predogled izvoza pik. </para>
+</sect1
+>    <!-- auto-layout-settings -->
+
+</chapter>

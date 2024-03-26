@@ -1,0 +1,84 @@
+<chapter id="other-features">
+<title
+>Druge zmožnosti</title>
+<sect1
+> 
+<title
+>Druge zmožnosti &umbrello;</title>
+<para
+>To poglavje bo na kratko razložilo nekatere druge zmožnosti, ki vam jih ponuja &umbrello;.</para>
+<sect2 id="copying-as-png">
+<title
+>Kopiranje predmetov kot slik PNG</title>
+<para
+>Poleg tega, da vam ponuja običajno funkcijo kopiranja, izrezovanja in lepljenja, ki bi jo pričakovali pri kopiranju predmetov med različnimi diagrami, &umbrello; lahko kopira predmete kot slike PNG, tako da jih lahko vstavite v katero koli drugo vrsto dokumenta. Za uporabo te funkcije vam ni treba storiti ničesar posebnega, samo izberite predmet iz diagrama (Razred, akter, &etc;) in ga kopirajte (<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>, ali z uporabo menija), nato odprite dokument <application
+>Calligra Words</application
+> (ali kateri koli program, v katerega lahko prilepite slike) in izberite <guimenuitem
+>Prilepi</guimenuitem
+>. To je odlična funkcija za izvoz delov diagrama kot preprostih slik. </para>
+</sect2>
+<sect2 id="export-as-png">
+<title
+>Izvoz v sliko</title>
+<para
+>Izvozite lahko tudi celoten diagram kot sliko. Edina stvar, ki jo morate storiti, je, da izberete diagram, ki ga želite izvoziti, in nato možnost <guimenuitem
+>Izvozi kot sliko...</guimenuitem
+> v meniju <guimenu
+>Diagram</guimenu
+>. </para>
+<para
+>Izvozite lahko več diagramov hkrati z možnostjo <guimenuitem
+>Izvozi diagrame kot slike...</guimenuitem
+> v meniju <guimenu
+>Datoteka</guimenu
+>. S tem lahko nastavite tudi ločljivost slike, tako da slike ne bodo tako zamegljene. </para>
+</sect2>
+<sect2 id="printing">
+<title
+>Tiskanje</title>
+<para
+>&umbrello; omogoča tiskanje posameznih diagramov. Pritisnite gumb <guiicon
+>Natisni</guiicon
+> v orodni vrstici aplikacije ali izberite možnost <guimenuitem
+>Natisni</guimenuitem
+> v meniju <guimenu
+>Datoteka</guimenu
+>, da dobite standardno &kde; Pogovorno okno za tiskanje, kjer lahko natisnete svoje diagrame. </para>
+</sect2>
+<sect2 id="logical-folders">
+<title
+>Logične mape</title>
+<para
+>Za boljšo organizacijo modela, zlasti za večje projekte, lahko ustvarite logične mape v drevesnem pogledu. Preprosto izberite možnost <menuchoice
+><guimenu
+>Nova</guimenu
+><guimenuitem
+>Mapa</guimenuitem
+></menuchoice
+> v kontekstnem meniju privzetih map v drevesnem pogledu, da jih ustvarite. Mape so lahko ugnezdene, predmete pa lahko premikate tako, da jih povlečete iz ene mape in spustite v drugo. </para>
+
+<screenshot>
+<screeninfo
+>Organiziranje vašega modela z mapami</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Organiziranje modela z logičnimi mapami v &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Organiziranje modela z logičnimi mapami v &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2>
+</sect1>
+</chapter>
