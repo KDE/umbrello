@@ -1,0 +1,413 @@
+<chapter id="working-with-umbrello">
+<title
+>Delo z &umbrello;</title>
+<!-- Umbrello basics: creating diagrams, creating classes, adding objects to diagrams,
+   associations, editing properties, anchor points in associations, removing objects, removing
+   diagrams
+-->
+
+<para
+>To poglavje vam bo predstavilo uporabniški vmesnik &umbrello; in vam povedalo vse, kar morate vedeti, da začnete modelirati. Vsa dejanja v &umbrello; so dostopni prek menija in orodnih vrstic, &umbrello; prav tako obsežno uporablja &RMB; kontekstne menije. Lahko &RMB; kliknite na skoraj kateri koli element v delovnem območju &umbrello; ali v drevesnem pogledu, da dobite meni z najbolj uporabnimi funkcijami, ki jih lahko uporabite za določen element, na katerem delate. Nekatere uporabnike to na začetku zdi nekoliko zmedeno, ker so bolj navajeni delati z menijem ali orodnimi vrsticami, ko pa se navadite <mousebutton
+>desnega</mousebutton
+> klikanja, bo vaše delo močno pospešilo. </para>
+
+<sect1 id="user-interface">
+<title
+>Uporabniški vmesnik</title>
+<para
+>Glavno okno &umbrello; je razdeljeno na tri področja, ki vam bodo pomagala ohraniti pregled nad vašim celotnim sistemom in hitro dostopati do različnih diagramov med delom na vašem modelu. </para>
+<para
+>Ta področja se imenujejo:</para>
+<itemizedlist>
+<listitem
+><para
+>Drevesni pogled</para
+></listitem>
+<listitem
+><para
+>Delovno območje</para
+></listitem>
+<listitem
+><para
+>Okno z dokumentacijo in zgodovino ukazov</para
+></listitem>
+</itemizedlist>
+
+<screenshot>
+<screeninfo
+>Uporabniški vmesnik &umbrello;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="umbrello-ui.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Uporabniški vmesnik &umbrello;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>Uporabniški vmesnik &umbrello; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<sect2 id="tree-view">
+<title
+>Drevesni pogled</title>
+<para
+>Drevesni pogled se običajno nahaja na zgornji levi strani okna in prikazuje vse diagrame, razrede, akterje in primere uporabe, ki sestavljajo vaš model. Drevesni pogled vam omogoča hiter pregled nad elementi, ki sestavljajo vaš model. Drevesni pogled vam omogoča tudi hiter način za preklapljanje med različnimi diagrami v vašem modelu in vstavljanje elementov iz vašega modela v trenutni diagram. </para>
+<para
+>Če delate na modelu z več kot le nekaj razredi in diagrami, vam lahko drevesni pogled pomaga ostati na tekočem z organiziranjem elementov modela v mape. Mape lahko ustvarite tako, da v kontekstnem meniju izberete ustrezno možnost (&RMB; kliknite eno od map v drevesnem pogledu), elemente pa lahko organizirate tako, da jih premaknete v ustrezno mapo (povleci in spusti) </para>
+</sect2>
+
+<sect2 id="documentation-window">
+<title
+>Okno z dokumentacijo in zgodovino ukazov</title>
+<para
+>Okno Dokumentacija in zgodovina ukazov je majhno okno, ki se nahaja v levem spodnjem delu &umbrello; in vam omogoča hiter predogled dokumentacije za trenutno izbran element in zgodovino ukazov vaše delovne seje. Okno z dokumentacijo je precej majhno, ker je namenjeno le hitremu pregledu dokumentacije elementa in pregledu zgodovine ukazov, pri čemer zavzame čim manj prostora na zaslonu. Če si želite podrobneje ogledati dokumentacijo, lahko vedno odprete lastnosti predmeta. </para>
+</sect2>
+<sect2 id="work-area">
+<title
+>Delovno območje</title>
+<para
+>Delovno območje je glavno okno v &umbrello; in tam se odvija prava akcija. Delovno območje uporabljate za urejanje in ogled diagramov v vašem modelu. Delovno območje prikazuje trenutno aktivni diagram. Trenutno je lahko na delovnem področju kadar koli prikazan samo en diagram. </para>
+</sect2>
+</sect1
+> <!--user-interface-->
+<sect1 id="load-save">
+<title
+>Ustvarjanje, nalaganje in shranjevanje modelov</title>
+<para
+>Prva stvar, ki jo morate začeti delati z &umbrello; je ustvariti model za delo. Ko zaženete &umbrello; vedno naloži zadnji uporabljeni model ali ustvari nov, prazen model (odvisno od vaših nastavitev v konfiguracijskem pogovornem oknu). Tako boste lahko takoj začeli delati. </para>
+<sect2 id="new-model">
+<title
+>Nov model</title>
+<para
+>Če morate kadar koli ustvariti nov model, lahko to storite tako, da v meniju <guimenu
+>Datoteka</guimenu
+> izberete vnos <guimenuitem
+>Nov</guimenuitem
+> ali kliknete <guiicon
+>Nov</guiicon
+> v orodni vrstici aplikacije. Če trenutno delate na modelu, ki je bil spremenjen &umbrello; vas bo vprašal, ali naj shrani vaše spremembe, preden naloži nov model. </para>
+</sect2>
+<sect2 id="save-model">
+<title
+>Shrani model</title>
+<para
+>Svoj model lahko kadar koli shranite z izbiro možnosti <guimenuitem
+>Shrani</guimenuitem
+> v meniju <guimenu
+>Datoteka</guimenu
+> ali s klikom na gumb <guiicon
+>Shrani</guiicon
+> v orodni vrstici aplikacije. Če želite svoj model shraniti pod drugim imenom, lahko uporabite možnost <guimenuitem
+>Shrani kot</guimenuitem
+> v meniju <guimenu
+>Datoteka</guimenu
+>. </para>
+<para
+>Za vaše udobje &umbrello; ponuja tudi možnost samodejnega shranjevanja vašega dela v določenem časovnem obdobju. Konfigurirate lahko, če želite to možnost, kot tudi časovne intervale v <guimenu
+>Nastavitve</guimenu
+> iz &umbrello;</para>
+</sect2>
+<sect2 id="load-model">
+<title
+>Naloži model</title>
+<para
+>Za nalaganje že obstoječega modela lahko izberete možnost <guimenuitem
+>Odpri</guimenuitem
+> v meniju <guimenu
+>Datoteka</guimenu
+> ali kliknete ikono <guiicon
+>Odpri</guiicon
+> v orodni vrstici aplikacije. Nazadnje uporabljeni modeli so na voljo tudi v podmeniju <guimenuitem
+>Odpri zadnje</guimenuitem
+> v meniju <guimenu
+>Datoteka</guimenu
+>, da pospešite dostop do najpogosteje uporabljenih modelov. </para>
+<para
+>&umbrello; lahko deluje samo na enem modelu naenkrat, tako da če programu naročite, naj naloži model namesto vas in je bil vaš trenutni model spremenjen od zadnjega shranjevanja, &umbrello; vas bo vprašal, ali naj vaše spremembe shranite, da preprečite izgubo dela. Zaženete lahko dva ali več pojavkov &umbrello; kadar koli lahko tudi kopirate in prilepite med pojavki. </para>
+</sect2>
+</sect1
+>  <!--load-save-->
+<sect1 id="edit-model">
+<title
+>Urejanje modelov</title>
+<para
+>V &umbrello; sta v osnovi dva načina za urejanje elementov v vašem modelu. <itemizedlist>
+<listitem
+><para
+>Elemente modela urejajte neposredno prek drevesnega pogleda</para
+></listitem>
+<listitem
+><para
+>Uredite elemente modela prek diagrama</para
+></listitem>
+</itemizedlist>
+</para>
+<para
+>Z uporabo kontekstnega menija različnih postavk v drevesnem pogledu lahko dodajate, odstranjujete in spreminjate skoraj vse elemente v svojem modelu. <mousebutton
+>Desni</mousebutton
+> klik na mape v drevesnem pogledu vam bo dal možnosti za ustvarjanje različnih vrst diagramov, odvisno od tega, ali je mapa <emphasis
+>Use Case View</emphasis
+> ali <emphasis
+>Logični pogled</emphasis
+>, akterji, primeri uporabe, razredi itd. </para>
+<para
+>Ko dodate elemente svojemu modelu, lahko element uredite tudi tako, da odprete pogovorno okno njegovih lastnosti, ki ga najdete tako, da izberete možnost <emphasis
+>Lastnosti</emphasis
+> v kontekstnem meniju, prikazanem ob <mousebutton
+>desnem</mousebutton
+> kliku na elementih v drevesnem pogledu. </para>
+<para
+>Svoj model lahko tudi uredite tako, da ustvarite ali spremenite elemente prek diagramov. Več podrobnosti o tem, kako to storite, je navedenih v naslednjih razdelkih. </para>
+</sect1>
+<sect1 id="add-remove-diagrams">
+<title
+>Dodajanje in odstranjevanje diagramov</title>
+<para
+>Vaš &UML; model je sestavljen iz niza &UML; elemente in povezave med njimi. Vendar modela ne morete videti neposredno, za ogled uporabite <emphasis
+>diagrame</emphasis
+>. </para>
+<sect2 id="create-diagram">
+<title
+>Ustvarjanje diagramov</title>
+<para
+>Če želite ustvariti nov diagram v svojem modelu, preprosto izberite vrsto diagrama, ki jo potrebujete, v podmeniju <guimenuitem
+>Novo</guimenuitem
+> v meniju <guimenu
+>Diagram</guimenu
+> in jo poimenujte. Diagram bo ustvarjen in aktiven in takoj ga boste videli v drevesnem pogledu. </para>
+<para
+>Ne pozabite, da &umbrello; obsežno uporablja kontekstne menije: lahko tudi &RMB; kliknite mapo v drevesnem pogledu in izberite ustrezno vrsto diagrama v podmeniju <guisubmenu
+>Novo</guisubmenu
+> v kontekstnem meniju. Upoštevajte, da lahko diagrame primerov uporabe ustvarite samo v mapah Pogled primerov uporabe, druge vrste diagramov pa lahko ustvarite samo v mapah Logični pogled. </para>
+</sect2>
+<sect2 id="remove-diagram">
+<title
+>Odstranjevanje diagramov</title>
+<para
+>Če bi morali odstraniti diagram iz svojega modela, lahko to storite tako, da ga aktivirate in izberete <guimenuitem
+>Izbriši</guimenuitem
+> v meniju <guimenu
+>Diagram</guimenu
+>. To lahko dosežete tudi tako, da v kontekstnem meniju diagramov v drevesnem pogledu izberete <guimenuitem
+>Izbriši</guimenuitem
+> </para>
+<para
+>Ker je brisanje diagrama nekaj resnega, kar bi lahko povzročilo izgubo dela, če bi ga naredili pomotoma, &umbrello; vas bo prosil, da potrdite operacijo brisanja, preden dejansko odstranite diagram. Ko je diagram izbrisan in je datoteka shranjena, tega dejanja ni več mogoče razveljaviti. </para>
+</sect2>
+<sect2 id="rename-diagram">
+<title
+>Preimenovanje diagramov</title>
+<para
+>Če želite spremeniti ime obstoječega diagrama, lahko to enostavno storite tako, da izberete možnost Preimenuj v &RMB; v drevesnem pogledu. </para>
+<para
+>Drug način za preimenovanje diagrama je, da to storite prek njegovega pogovornega okna z lastnostmi, ki ga dobite tako, da izberete Lastnosti v kontekstnem meniju ali tako, da dvokliknete diagram v drevesnem pogledu. </para>
+</sect2>
+</sect1>
+<sect1 id="edit-diagram">
+<title
+>Urejanje diagramov</title>
+<para
+>Ko delate na diagramu, &umbrello; vas bo poskušal voditi z uporabo nekaj preprostih pravil o tem, kateri elementi so veljavni v različnih vrstah diagramov, kot tudi razmerja, ki lahko obstajajo med njimi. Če ste &UML; strokovnjak, verjetno tega ne boste niti opazili, vendar bo to pomagalo &UML; novinci ustvarijo standardno skladne diagrame. </para>
+<para
+>Ko ustvarite svoje diagrame, je čas, da jih začnete urejati. Tukaj morate opaziti (za začetnike subtilno) razliko med urejanjem vašega diagrama in urejanjem <emphasis
+>modela</emphasis
+>. Kot že veste, so diagrami <emphasis
+>pogledi</emphasis
+> vašega modela. Na primer, če ustvarite razred z urejanjem diagrama razreda, v resnici urejate oboje, svoj diagram in svoj model. Če spremenite barvo ali druge možnosti prikaza razreda v diagramu razreda, urejate samo diagram, vendar se v vašem modelu ne spremeni nič. </para>
+<sect2 id="insert-elements">
+<title
+>Vstavi elemente</title>
+<para
+>Ena od prvih stvari, ki jih boste naredili pri urejanju novega diagrama, je, da vanj vstavite elemente (razrede, akterje, primere uporabe &etc;). To lahko storite na dva načina:</para>
+<itemizedlist>
+<listitem
+><para
+>Vlečenje obstoječih elementov v vašem modelu iz drevesnega pogleda</para
+></listitem>
+<listitem
+><para
+>Ustvarjanje novih elementov v vašem modelu in njihovo hkratno dodajanje v vaš diagram z uporabo enega od orodij za urejanje v delovni orodni vrstici</para
+></listitem>
+</itemizedlist>
+<para
+>Če želite vstaviti elemente, ki že obstajajo v vašem modelu, jih preprosto povlecite iz drevesnega pogleda in spustite, kamor želite v diagramu. Elemente v diagramu lahko vedno premikate z orodjem za izbiro </para>
+<para
+>Drugi način dodajanja elementov vašemu diagramu je uporaba orodij za urejanje delovne orodne vrstice (upoštevajte, da boste s tem elemente dodali tudi svojemu modelu). </para>
+<para
+>Delovna orodna vrstica je bila privzeto nameščena na vrhu okna. Orodja, ki so na voljo v tej orodni vrstici (gumbi, ki jih vidite na njej), se spreminjajo glede na vrsto diagrama, na katerem trenutno delate. V orodni vrstici se aktivira gumb za trenutno izbrano orodje. Na orodje za izbiro lahko preklopite tako, da pritisnete tipko &Esc;. </para>
+<para
+>Ko ste iz delovne orodne vrstice izbrali orodje za urejanje (na primer orodje za vstavljanje razredov), se kazalec miške spremeni v križec in elemente v svoj model lahko vstavite z enim klikom v diagram. Upoštevajte, da elementi v &UML; mora imeti <emphasis
+>Unikatno ime</emphasis
+>. Torej, če imate razred v enem diagramu z imenom <quote
+>ClassA</quote
+> in nato uporabite orodje za vstavljanje razreda, da vstavite razred v drug diagram, tega novega razreda ne morete poimenovati <quote
+>ClassA</quote
+> prav tako. Če naj bi bila ta dva različna elementa, jima morate dati edinstveno ime. Če poskušate v svoj diagram dodati <emphasis
+>isti</emphasis
+> element, potem Vstavi razred ni pravo orodje za to. Namesto tega razred povlecite in spustite iz drevesnega pogleda. </para>
+</sect2>
+<sect2 id="delete-elements">
+<title
+>Brisanje elementov</title>
+<para
+>Vsak element lahko izbrišete tako, da v njegovem kontekstnem meniju izberete možnost <guimenuitem
+>Izbriši</guimenuitem
+>. </para>
+<para
+>Spet obstaja <emphasis
+>velika</emphasis
+> razlika med odstranitvijo predmeta iz diagrama in brisanjem predmeta iz vašega modela: če izbrišete predmet znotraj diagrama, odstranite le predmet iz tega diagrama: element bo še vedno del vašega modela in če obstajajo drugi diagrami, ki uporabljajo isti element, se ne bodo spremenili. Če po drugi strani izbrišete element iz drevesnega pogleda, dejansko izbrišete element iz svojega <emphasis
+>modela</emphasis
+>. Ker element ne obstaja več v vašem modelu, bo samodejno odstranjen iz vseh diagramov, v katerih se pojavi. </para>
+</sect2>
+<sect2 id="edit-elements">
+<title
+>Urejanje elementov</title>
+<para
+>Urejate lahko večino &UML; elementov v vašem modelu in diagramih, tako da odprete njegovo pogovorno okno Lastnosti in izberete ustrezne možnosti. Če želite urediti lastnosti predmeta, izberite <guimenuitem
+>Lastnosti</guimenuitem
+> v njegovem kontekstnem meniju (&RMB; kliknite). Vsak element ima pogovorno okno, sestavljeno iz več strani, kjer lahko konfigurirate možnosti, ki ustrezajo temu elementu. Za nekatere elemente, kot so akterji, lahko nastavite le nekaj možnosti, kot je ime objekta in dokumentacija, medtem ko lahko za druge elemente, kot so razredi, uredite njegove atribute in operacije, izberete, kaj želite prikazati v diagramu (celoten podpis operacije ali samo imena operacij itd.) in celo barve, ki jih želite uporabiti za črto in polnilo predstavitve razreda na diagramu. </para>
+
+<para
+>Za &UML; elementov lahko odprete tudi pogovorno okno z lastnostmi, tako da dvokliknete nanj, če uporabljate izbirno orodje (puščica). </para>
+
+<para
+>Upoštevajte, da lahko izberete tudi možnost lastnosti v kontekstnem meniju elementov v drevesnem pogledu. To vam omogoča tudi urejanje lastnosti za diagrame, na primer nastavitev, ali naj bo mreža prikazana ali ne. </para>
+</sect2>
+<sect2 id="edit-classes">
+<title
+>Urejanje razredov</title>
+<para
+>Čeprav je bilo urejanje lastnosti vseh predmetov obravnavano že v prejšnjem razdelku, si razredi zaslužijo poseben razdelek, ker so nekoliko bolj zapleteni in imajo več možnosti kot večina drugih &UML; elementov. </para>
+<para
+>V pogovornem oknu lastnosti za razred lahko nastavite vse, od barve, ki jo uporablja, do operacij in atributov, ki jih ima. </para>
+<sect3 id="class-general-settings">
+<title
+>Splošne nastavitve razreda</title>
+<para
+>Stran s splošnimi nastavitvami pogovornega okna z lastnostmi je samoumevna. Tukaj lahko spremenite ime razreda, vidnost, dokumentacijo itd. Ta stran je vedno na voljo. </para>
+</sect3>
+<sect3 id="class-attributes-settings">
+<title
+>Nastavitve atributa razreda</title>
+<para
+>Na strani z nastavitvami atributov lahko dodajate, urejate ali brišete atribute (spremenljivke) razreda. Atribute lahko premikate gor in dol po seznamu s pritiskom na puščico ob strani. Ta stran je vedno na voljo. </para>
+</sect3>
+<sect3 id="class-operations-settings">
+<title
+>Nastavitve razrednih operacij</title>
+<para
+>Podobno kot na strani z nastavitvami atributov lahko na strani z nastavitvami operacij dodate, uredite ali odstranite operacije za svoj razred. Ko dodajate ali urejate operacijo, vnesete osnovne podatke v pogovorno okno <emphasis
+>Lastnosti operacije</emphasis
+>. Če želite svoji operaciji dodati parametre, morate klikniti gumb <guibutton
+>Nov parameter</guibutton
+>, ki bo prikazal pogovorno okno <emphasis
+>Lastnosti parametra</emphasis
+>. Ta stran je vedno na voljo </para>
+</sect3>
+<sect3 id="class-template-settings">
+<title
+>Nastavitve predloge razreda</title>
+<para
+>Ta stran vam omogoča dodajanje predlog razredov, ki so nedoločeni razredi ali podatkovni tipi. V Javi 1.5 se bodo ti imenovali Generics. </para>
+</sect3>
+<sect3 id="class-associations-page">
+<title
+>Stran asociacij razredov</title>
+<para
+>Stran <guilabel
+>Asociacije razredov</guilabel
+> prikazuje vse asociacije tega razreda v trenutnem diagramu. Dvojni klik na asociacijo prikaže njene lastnosti in glede na vrsto asociacije lahko tu spremenite nekatere parametre, na primer nastavitev množice in ime vloge. Če asociacija ne dovoljuje spreminjanja takih možnosti, je pogovorno okno Lastnosti asociacije samo za branje in lahko spremenite samo dokumentacijo, povezano s to asociacijo. </para>
+<para
+>Ta stran je na voljo le, če odprete Lastnosti razreda znotraj diagrama. Če izberete lastnosti razreda v kontekstnem meniju v drevesnem pogledu, ta stran ni na voljo. </para>
+</sect3>
+<sect3 id="class-display-page">
+<title
+>Stran za prikaz razreda</title>
+<para
+>Na strani <guilabel
+>Možnosti prikaza</guilabel
+> lahko nastavite, kaj naj bo prikazano v diagramu. Razred je lahko prikazan kot samo en pravokotnik z imenom razreda v njem (uporabno, če imate v diagramu veliko razredov ali vas trenutno ne zanimajo podrobnosti vsakega razreda) ali kot popoln kot prikaz paketov, stereotipov in atributi in operacije s popolnim podpisom in vidnostjo </para>
+<para
+>Glede na količino informacij, ki jih želite videti, lahko na tej strani izberete ustrezne možnosti. Spremembe, ki jih naredite tukaj, so le <emphasis
+>možnosti prikaza</emphasis
+> za diagram. To pomeni, da <quote
+>skrivanje</quote
+> operacij razreda samo povzroči, da le-te niso prikazane v diagramu, vendar je operacija še vedno tam kot del vašega modela. Ta možnost je na voljo le, če izberete lastnosti razreda znotraj diagrama. Če odprete lastnosti razreda v drevesnem pogledu, ta stran manjka, ker takšne možnosti prikaza v tem primeru nimajo smisla</para>
+</sect3>
+<sect3 id="class-color-page">
+<title
+>Stran s slogom razreda</title>
+<para
+>Na strani <guilabel
+>Slog gradnika</guilabel
+> lahko nastavite želene barve za črto in polnilo gradnika. Ta možnost je očitno smiselna samo za razrede, prikazane v diagramih, in manjka, če odprete pogovorno okno lastnosti razreda v drevesnem pogledu. </para>
+</sect3>
+</sect2>
+
+<sect2 id="associations">
+<title
+>Asociacije</title>
+<para
+>Asociacije povezujejo dva &UML; predmeta drug proti drugemu. Običajno so asociacije definirane med dvema razredoma, nekatere vrste asociacij pa lahko obstajajo tudi med primeri uporabe in akterji. </para>
+<para
+>Če želite ustvariti asociacijo, izberite ustrezno orodje v delovni orodni vrstici (generična asociacija, generalizacija, agregacija, &etc;) in z enim klikom na prvi element, ki sodeluje v povezavi, nato z enim klikom na drugi sodelujoči element. Upoštevajte, da gre za dva klika, enega na vsakega na objektih, ki sodelujejo v povezavi, to <emphasis
+>ni</emphasis
+> vlečenje z enega predmeta na drugega. </para>
+<para
+>Če poskušate uporabiti povezavo na način proti &UML; specifikacija &umbrello; bo zavrnil ustvarjanje asociacije in prejeli boste sporočilo o napaki. To bi se zgodilo, če na primer obstaja posplošitev iz razreda A v razred B in potem poskušate ustvariti drugo posplošitev iz razreda B v razred A </para>
+<para
+>Z <mousebutton
+>desnim</mousebutton
+> klikom na povezavo se prikaže kontekstni meni z dejanji, ki jih lahko uporabite zanj. Če morate izbrisati povezavo, preprosto izberite možnost <guimenuitem
+>Izbriši</guimenuitem
+> v tem priročnem meniju. Izberete lahko tudi možnost <guimenuitem
+>Lastnosti</guimenuitem
+> in, odvisno od vrste asociacije, uredite atribute, kot so vloge in številčnost. </para>
+<sect3 id="anchor-points">
+<title
+>Sidrne točke</title>
+<para
+>Asociacije so privzeto narisane kot ravna črta, ki povezuje dva predmeta v diagramu. </para>
+<para
+>Dodate lahko sidrne točke, da ukrivite asociacijo tako, da <mousebutton
+>dvojno</mousebutton
+> kliknete nekje na asociacijski črti. To bo vstavilo sidrno točko (prikazano kot modra točka, ko je izbrana asociacijska črta), ki jo lahko premikate, da daste povezavi obliko </para>
+<para
+>Če morate odstraniti sidrno točko, jo <mousebutton
+>dvojno</mousebutton
+> znova kliknite, da jo odstranite </para>
+<para
+>Upoštevajte, da je edini način za urejanje lastnosti povezave prek kontekstnega menija. Če poskusite <mousebutton
+>dvojno</mousebutton
+> klikniti nanjo kot pri drugih &UML; predmetov, bo to samo vstavilo sidrno točko. </para>
+</sect3>
+</sect2>
+
+<sect2 id="notes">
+<title
+>Opombe, besedilo in okvirji</title>
+<para
+>Opombe, vrstice besedila in okvirji so elementi, ki so lahko prisotni v kateri koli vrsti diagrama in nimajo prave semantične vrednosti, vendar so zelo koristni za dodajanje dodatnih komentarjev ali razlag, ki lahko olajšajo razumevanje vašega diagrama. </para>
+<para
+>Če želite dodati opombo ali vrstico besedila, izberite ustrezno orodje v delovni orodni vrstici in z enim klikom na diagram, kamor želite dodati svoj komentar. Besedilo lahko uredite tako, da odprete element v njegovem priročnem meniju ali v primeru opomb tako, da jih <mousebutton
+>dvojno</mousebutton
+> kliknete. </para>
+<sect3 id="anchors">
+<title
+>Sidra</title>
+<para
+>Sidra se uporabljajo za povezavo besedilne opombe in drugega &UML; Elementa skupaj. Na primer, običajno uporabljate besedilno opombo, da razložite ali komentirate razred ali določeno povezavo, v tem primeru lahko uporabite sidro, da pojasnite, da opomba <quote
+>pripada</quote
+> temu določenemu elementu . </para>
+<para
+>Če želite dodati sidro med opombo in drug &UML; element, uporabite sidrno orodje iz delovne orodne vrstice. Najprej morate klikniti opombo in nato &UML; element, s katerim želite, da je opomba povezana. </para>
+</sect3>
+</sect2>
+</sect1>
+</chapter>
+<!--edit-diagram-->

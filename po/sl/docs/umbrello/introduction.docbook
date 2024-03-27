@@ -1,0 +1,61 @@
+<chapter id="introduction">
+<title
+>Uvod</title>
+
+<para
+>&umbrello; je &UML; orodje za diagrame, ki vam lahko pomaga pri procesu razvoja programske opreme. Zlasti med fazo analize in načrtovanja tega procesa je &umbrello; vam bo pomagal do visokokakovostnega izdelka. &UML; se lahko uporablja tudi za dokumentiranje načrtov vaše programske opreme, da pomaga vam in vašim kolegom razvijalcem. </para>
+<para
+>Imeti dober model vaše programske opreme je najboljši način za komunikacijo z drugimi razvijalci, ki delajo na projektu, in s svojimi strankami. Dober model je izjemno pomemben za srednje in velike projekte, vendar je zelo uporaben tudi za majhne. Tudi če delate na majhnem projektu enega človeka, vam bo dober model koristil, saj vam bo dal pregled, ki vam bo pomagal pravilno kodirati stvari že prvič. </para>
+<para
+>&UML; je diagramski jezik, ki se uporablja za opis takih modelov. Svoje zamisli lahko predstavite v &UML; z uporabo različnih vrst diagramov. &umbrello; 2.11 podpira naslednje vrste: </para>
+<itemizedlist>
+<listitem
+><para
+>Diagram razreda</para
+></listitem>
+<listitem
+><para
+>Diagram zaporedja</para
+></listitem>
+<listitem
+><para
+>Diagram sodelovanja</para
+></listitem>
+<listitem
+><para
+>Diagram primera uporabe</para
+></listitem>
+<listitem
+><para
+>Diagram stanj</para
+></listitem>
+<listitem
+><para
+>Diagram dejavnosti</para
+></listitem>
+<listitem
+><para
+>Diagram komponent</para
+></listitem>
+<listitem
+><para
+>Diagram razmestitve</para
+></listitem>
+<listitem
+><para
+>Diagram odnosa entitet</para
+></listitem>
+</itemizedlist>
+<para
+>Več informacij o &UML; lahko najdete na spletnem mestu <ulink url="http://www.omg.org"
+><acronym
+>OMG</acronym
+>, http://www.omg.org</ulink
+>, ki ustvarja &UML; standard. </para>
+<para
+>Upamo, da vam je &umbrello; in da vam pomaga ustvariti visokokakovostno programsko opremo. &umbrello; je prosta programska oprema in je na voljo brezplačno, edina stvar, ki jo prosimo, je, da prijavite morebitne hrošče, težave ali predloge &umbrello; razvijalci na <email
+>umbrello-devel@kde.org</email
+> ali <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+</chapter>
