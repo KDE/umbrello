@@ -324,6 +324,7 @@ public:
     static qreal maxCanvasSize();
 
     void updateCanvasSizeEstimate(qreal x, qreal y, qreal w, qreal h);
+    void updateSceneRect();
 
     qreal fixX() const;
     qreal fixY() const;
@@ -396,6 +397,7 @@ private:
     static const qreal s_defaultCanvasWidth;    ///< The default width of a diagram in pixels.
     static const qreal s_defaultCanvasHeight;   ///< The default height of a diagram in pixels.
     static const qreal s_maxCanvasSize;         ///< The maximum supported canvas size.
+    static const qreal s_sceneBorder;           ///< A border around the bounding rectangle of the elements in the scene.
     static bool s_showDocumentationIndicator; ///< Status of documentation indicator
 
     UMLView *m_view;   ///< The view to which this scene is related.

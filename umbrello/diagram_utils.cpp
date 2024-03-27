@@ -191,11 +191,11 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
  *
  * @param lines String list with sequences
  * @param scene The diagram to import the sequences into.
- * @param fileName The filename the sequences are imported from
+ * @param sourceHint The source the sequences are imported from
  * @return true Import was successful.
  * @return false Import failed.
  */
-bool importSequences(const QStringList &lines, UMLScene *scene, const QString &fileName)
+bool importSequences(const QStringList &lines, UMLScene *scene, const QString &sourceHint)
 {
     // object widget cache map
     QMap<QString, ObjectWidget*> objectsMap;
@@ -237,7 +237,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &f
         if (!parseSequenceLine(line, stackframe, package, method, error)) {
             if (!error.isEmpty()) {
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
-                        .arg(fileName).arg(index)
+                        .arg(sourceHint).arg(index)
                         .arg(1).arg(line).arg(error);
                 UMLApp::app()->log(item);
             }
@@ -302,22 +302,8 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &f
     return true;
 }
 
-/**
- * Import sequence diagram entries from a string list.
- *
- * @param lines String list with sequences
- * @param scene The diagram to import the sequences into.
- * @param fileName Source file name for use in error message in case of error.
- * @return true Import was successful.
- * @return false Import failed.
- */
-bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileName)
+bool importClassGraph(const QStringList &lines, UMLScene *scene, const QString &sourceHint)
 {
-    if (scene->isSequenceDiagram())
-        return importSequences(lines, scene);
-    else if (scene->type() != Uml::DiagramType::Class)
-        return false;
-
     UMLDoc *umldoc = UMLApp::app()->document();
 
     UMLWidget *lastWidget = 0;
@@ -411,7 +397,7 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
             } else {
                 // in case of error, assoc remains nullptr
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
-                        .arg(fileName).arg(lineNumber)
+                        .arg(sourceHint).arg(lineNumber)
                         .arg(1).arg(line).arg(QStringLiteral("error:could not add association"));
                 UMLApp::app()->log(item);
             }
@@ -443,12 +429,33 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &fileN
             }
         } else {
             QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
-                    .arg(fileName).arg(lineNumber)
+                    .arg(sourceHint).arg(lineNumber)
                     .arg(1).arg(line).arg(QStringLiteral("syntax error"));
             UMLApp::app()->log(item);
         }
     }
     return true;
+}
+
+/**
+ * Import sequence diagram entries from a string list.
+ *
+ * @param lines String list with sequences
+ * @param scene The diagram to import the sequences into.
+ * @param sourceHint Source hint for use in error message in case of error.
+ * @return true Import was successful.
+ * @return false Import failed.
+ */
+bool importGraph(const QStringList &lines, UMLScene *scene, const QString &sourceHint)
+{
+    bool result = false;
+    if (scene->isSequenceDiagram())
+        result = importSequences(lines, scene, sourceHint);
+    else if (scene->isClassDiagram())
+        result = importClassGraph(lines, scene, sourceHint);
+    if (result)
+        scene->updateSceneRect();
+    return result;
 }
 
 /**
@@ -474,11 +481,7 @@ bool importGraph(const QMimeData* mimeData, UMLScene *scene)
 
     UMLDoc *doc = UMLApp::app()->document();
     doc->beginPaste();
-    bool result = false;
-    if (scene->isSequenceDiagram())
-        result = importSequences(lines, scene);
-    else
-        result = importGraph(lines, scene);
+    bool result = importGraph(lines, scene, QLatin1String("from clipboard"));
     doc->endPaste();
     return result;
 }
@@ -504,7 +507,8 @@ bool importGraph(const QString &fileName, UMLScene *scene)
     while (!in.atEnd()) {
         lines.append(in.readLine());
     }
-    return importGraph(lines, scene, fileName);
+    bool result = importGraph(lines, scene, fileName);
+    return result;
 }
 
 /**
