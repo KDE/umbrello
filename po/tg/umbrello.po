@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-01 00:42+0000\n"
+"POT-Creation-Date: 2024-03-27 11:39+0000\n"
 "PO-Revision-Date: 2019-09-29 12:21+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -8585,73 +8585,73 @@ msgstr "Истифодаи номи &назир:"
 msgid "Instance name:"
 msgstr "Номи нусхагӣ:"
 
-#: umlscene.cpp:718
+#: umlscene.cpp:719
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Диаграмма: %2 Саҳифа %1"
 
-#: umlscene.cpp:1519
+#: umlscene.cpp:1520
 #, fuzzy, kde-format
 #| msgid "&Use fill color"
 msgid "Use fill color"
 msgstr "&Истифода намудани пуркунанда"
 
-#: umlscene.cpp:1521
+#: umlscene.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Fill Color..."
 msgid "No fill color"
 msgstr "Ранги шероза..."
 
-#: umlscene.cpp:1536
+#: umlscene.cpp:1537
 #, fuzzy, kde-format
 #| msgid "Change Font..."
 msgid "Change font"
 msgstr "Дигаргун кардани ҳарф..."
 
-#: umlscene.cpp:1550
+#: umlscene.cpp:1551
 #, fuzzy, kde-format
 msgid "Change line color"
 msgstr "Тағйири ҳарф"
 
-#: umlscene.cpp:1568
+#: umlscene.cpp:1569
 #, fuzzy, kde-format
 #| msgid "Line width:"
 msgid "Change line width"
 msgstr "Васеъгии сатр:"
 
-#: umlscene.cpp:1588
+#: umlscene.cpp:1589
 #, fuzzy, kde-format
 #| msgid "Use Fill Color"
 msgid "Change fill color"
 msgstr "Истифодаи ранги шероза"
 
-#: umlscene.cpp:1603
+#: umlscene.cpp:1604
 #, fuzzy, kde-format
 #| msgid "Role Properties"
 msgid "Change visual property"
 msgstr "Хусусиятҳои нақш"
 
-#: umlscene.cpp:1654
+#: umlscene.cpp:1655
 #, fuzzy, kde-format
 msgid "Delete widgets"
 msgstr "Интихоб кардан"
 
-#: umlscene.cpp:1700
+#: umlscene.cpp:1701
 #, fuzzy, kde-format
 msgid "Resize widgets"
 msgstr "Натавонистам каталог бунёд созам"
 
-#: umlscene.cpp:3353
+#: umlscene.cpp:3354
 #, fuzzy, kde-format
 msgid "Enter Diagram Name"
 msgstr "Номи ҳолатро гузоред"
 
-#: umlscene.cpp:3354
+#: umlscene.cpp:3355
 #, fuzzy, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Номи нави фаъолиятро гузоред:"
 
-#: umlscene.cpp:3370
+#: umlscene.cpp:3371
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

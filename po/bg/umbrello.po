@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-01 00:42+0000\n"
+"POT-Creation-Date: 2024-03-27 11:39+0000\n"
 "PO-Revision-Date: 2011-07-27 13:53+0300\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -8030,67 +8030,67 @@ msgstr ""
 msgid "Instance name:"
 msgstr ""
 
-#: umlscene.cpp:718
+#: umlscene.cpp:719
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Диаграма: %2 Страница: %1"
 
-#: umlscene.cpp:1519
+#: umlscene.cpp:1520
 #, fuzzy, kde-format
 msgid "Use fill color"
 msgstr "Потребителски цвят на запълване:"
 
-#: umlscene.cpp:1521
+#: umlscene.cpp:1522
 #, fuzzy, kde-format
 msgid "No fill color"
 msgstr "Цвят на запълване"
 
-#: umlscene.cpp:1536
+#: umlscene.cpp:1537
 #, fuzzy, kde-format
 msgid "Change font"
 msgstr "Промяна на шрифта : %1"
 
-#: umlscene.cpp:1550
+#: umlscene.cpp:1551
 #, fuzzy, kde-format
 msgid "Change line color"
 msgstr "Промяна цвета на линия"
 
-#: umlscene.cpp:1568
+#: umlscene.cpp:1569
 #, fuzzy, kde-format
 msgid "Change line width"
 msgstr "Потребителска дебелина на линията:"
 
-#: umlscene.cpp:1588
+#: umlscene.cpp:1589
 #, fuzzy, kde-format
 msgid "Change fill color"
 msgstr "Промяна цвета на запълването"
 
-#: umlscene.cpp:1603
+#: umlscene.cpp:1604
 #, fuzzy, kde-format
 msgid "Change visual property"
 msgstr "Промяна на настройки"
 
-#: umlscene.cpp:1654
+#: umlscene.cpp:1655
 #, fuzzy, kde-format
 msgid "Delete widgets"
 msgstr "Изтриване"
 
-#: umlscene.cpp:1700
+#: umlscene.cpp:1701
 #, fuzzy, kde-format
 msgid "Resize widgets"
 msgstr "Преоразмеряване на джаджа: %1"
 
-#: umlscene.cpp:3353
+#: umlscene.cpp:3354
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Въведене име на диаграма"
 
-#: umlscene.cpp:3354
+#: umlscene.cpp:3355
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Въведете ново име за диаграмата:"
 
-#: umlscene.cpp:3370
+#: umlscene.cpp:3371
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""
