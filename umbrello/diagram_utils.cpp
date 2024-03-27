@@ -453,6 +453,8 @@ bool importGraph(const QStringList &lines, UMLScene *scene, const QString &sourc
         result = importSequences(lines, scene, sourceHint);
     else if (scene->isClassDiagram())
         result = importClassGraph(lines, scene, sourceHint);
+    if (result)
+        scene->updateSceneRect();
     return result;
 }
 

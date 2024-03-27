@@ -96,6 +96,7 @@
 const qreal UMLScene::s_defaultCanvasWidth  = 1100;
 const qreal UMLScene::s_defaultCanvasHeight =  800;
 const qreal UMLScene::s_maxCanvasSize = 100000.0;
+const qreal UMLScene::s_sceneBorder = 5.0;
 bool UMLScene::s_showDocumentationIndicator = false;
 
 
@@ -4615,6 +4616,15 @@ void UMLScene::updateCanvasSizeEstimate(qreal x, qreal y, qreal w, qreal h)
         m_minY = y;
     else if (y + h > m_maxY)
         m_maxY = y + h;
+}
+
+/**
+ * Adjust scene rect to cover all contained items
+ */
+void UMLScene::updateSceneRect()
+{
+    double b = s_sceneBorder;
+    setSceneRect(itemsBoundingRect().adjusted(-b, -b, b, b));
 }
 
 /**
