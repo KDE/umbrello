@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-01 00:42+0000\n"
+"POT-Creation-Date: 2024-03-28 02:07+0000\n"
 "PO-Revision-Date: 2008-08-05 22:28+0200\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (lengadocian) <ubuntu-l10n-oci@lists.ubuntu.com>\n"
@@ -8351,75 +8351,75 @@ msgstr ""
 msgid "Instance name:"
 msgstr ""
 
-#: umlscene.cpp:718
+#: umlscene.cpp:719
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr ""
 
-#: umlscene.cpp:1519
+#: umlscene.cpp:1520
 #, fuzzy, kde-format
 #| msgid "Change Fill Color"
 msgid "Use fill color"
 msgstr "Cambiar la color d'emplenament"
 
-#: umlscene.cpp:1521
+#: umlscene.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Fill Color"
 msgid "No fill color"
 msgstr "Color d'empliment"
 
-#: umlscene.cpp:1536
+#: umlscene.cpp:1537
 #, fuzzy, kde-format
 #| msgid "Change Font"
 msgid "Change font"
 msgstr "Modificar la poliça"
 
-#: umlscene.cpp:1550
+#: umlscene.cpp:1551
 #, fuzzy, kde-format
 #| msgid "Change Line Color"
 msgid "Change line color"
 msgstr "Modificar la color de las linhas"
 
-#: umlscene.cpp:1568
+#: umlscene.cpp:1569
 #, fuzzy, kde-format
 #| msgid "Change Line Color"
 msgid "Change line width"
 msgstr "Modificar la color de las linhas"
 
-#: umlscene.cpp:1588
+#: umlscene.cpp:1589
 #, fuzzy, kde-format
 #| msgid "Change Fill Color"
 msgid "Change fill color"
 msgstr "Cambiar la color d'emplenament"
 
-#: umlscene.cpp:1603
+#: umlscene.cpp:1604
 #, fuzzy, kde-format
 #| msgid "General Properties"
 msgid "Change visual property"
 msgstr "_Propietats generalas"
 
-#: umlscene.cpp:1654
+#: umlscene.cpp:1655
 #, fuzzy, kde-format
 #| msgid "Delete"
 msgid "Delete widgets"
 msgstr "Suprimir"
 
-#: umlscene.cpp:1700
+#: umlscene.cpp:1701
 #, kde-format
 msgid "Resize widgets"
 msgstr ""
 
-#: umlscene.cpp:3353
+#: umlscene.cpp:3354
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr ""
 
-#: umlscene.cpp:3354
+#: umlscene.cpp:3355
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr ""
 
-#: umlscene.cpp:3370
+#: umlscene.cpp:3371
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

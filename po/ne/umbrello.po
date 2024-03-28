@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-01 00:42+0000\n"
+"POT-Creation-Date: 2024-03-28 02:07+0000\n"
 "PO-Revision-Date: 2007-08-20 13:11+0545\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -8616,71 +8616,71 @@ msgstr "केस नाम प्रयोग गर्नुहोस्:"
 msgid "Instance name:"
 msgstr "दृष्टान्त नाम:"
 
-#: umlscene.cpp:718
+#: umlscene.cpp:719
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "रेखाचित्र: %2 पृष्ठ %1"
 
-#: umlscene.cpp:1519
+#: umlscene.cpp:1520
 #, fuzzy, kde-format
 #| msgid "&Use fill color"
 msgid "Use fill color"
 msgstr "भर्ने रङ प्रयोग गर्नुहोस्"
 
-#: umlscene.cpp:1521
+#: umlscene.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Fill Color..."
 msgid "No fill color"
 msgstr "रङ भर्नुहोस्..."
 
-#: umlscene.cpp:1536
+#: umlscene.cpp:1537
 #, fuzzy, kde-format
 msgid "Change font"
 msgstr "फन्ट परिवर्तन गर्नुहोस्..."
 
-#: umlscene.cpp:1550
+#: umlscene.cpp:1551
 #, fuzzy, kde-format
 msgid "Change line color"
 msgstr "वर्गमा परिवर्तन गर्नुहोस्"
 
-#: umlscene.cpp:1568
+#: umlscene.cpp:1569
 #, fuzzy, kde-format
 #| msgid "Line width:"
 msgid "Change line width"
 msgstr "रेखाको चौडाइ:"
 
-#: umlscene.cpp:1588
+#: umlscene.cpp:1589
 #, fuzzy, kde-format
 msgid "Change fill color"
 msgstr "भरेको रङ प्रयोग गर्नुहोस्"
 
-#: umlscene.cpp:1603
+#: umlscene.cpp:1604
 #, fuzzy, kde-format
 #| msgid "Role Properties"
 msgid "Change visual property"
 msgstr "भूमिका गुण"
 
-#: umlscene.cpp:1654
+#: umlscene.cpp:1655
 #, fuzzy, kde-format
 msgid "Delete widgets"
 msgstr "चयन गर्नुहोस्"
 
-#: umlscene.cpp:1700
+#: umlscene.cpp:1701
 #, fuzzy, kde-format
 msgid "Resize widgets"
 msgstr "फोल्डर सिर्जना गर्नुहोस्"
 
-#: umlscene.cpp:3353
+#: umlscene.cpp:3354
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "रेखाचित्र नाम प्रविष्ट गर्नुहोस्"
 
-#: umlscene.cpp:3354
+#: umlscene.cpp:3355
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "रेखाचित्रको नयाँ नाम प्रविष्ट गर्नुहोस्:"
 
-#: umlscene.cpp:3370
+#: umlscene.cpp:3371
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

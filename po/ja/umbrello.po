@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-01 00:42+0000\n"
+"POT-Creation-Date: 2024-03-28 02:07+0000\n"
 "PO-Revision-Date: 2008-11-05 23:34+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -8588,76 +8588,76 @@ msgstr "ユースケース名(&N):"
 msgid "Instance name:"
 msgstr "インスタンス名:"
 
-#: umlscene.cpp:718
+#: umlscene.cpp:719
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "図: %2 ページ: %1"
 
-#: umlscene.cpp:1519
+#: umlscene.cpp:1520
 #, fuzzy, kde-format
 #| msgid "&Use fill color"
 msgid "Use fill color"
 msgstr "塗りつぶしの色を使う(&U)"
 
-#: umlscene.cpp:1521
+#: umlscene.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Fill Color"
 msgid "No fill color"
 msgstr "塗りつぶしの色"
 
-#: umlscene.cpp:1536
+#: umlscene.cpp:1537
 #, fuzzy, kde-format
 #| msgid "Change Font"
 msgid "Change font"
 msgstr "フォントを変更"
 
-#: umlscene.cpp:1550
+#: umlscene.cpp:1551
 #, fuzzy, kde-format
 #| msgid "Change Line Color"
 msgid "Change line color"
 msgstr "線の色を変更"
 
-#: umlscene.cpp:1568
+#: umlscene.cpp:1569
 #, fuzzy, kde-format
 #| msgid "Line width:"
 msgid "Change line width"
 msgstr "線の幅:"
 
-#: umlscene.cpp:1588
+#: umlscene.cpp:1589
 #, fuzzy, kde-format
 #| msgid "Change Fill Color"
 msgid "Change fill color"
 msgstr "塗りつぶしの色を変更"
 
-#: umlscene.cpp:1603
+#: umlscene.cpp:1604
 #, fuzzy, kde-format
 #| msgid "Role Properties"
 msgid "Change visual property"
 msgstr "ロールのプロパティ"
 
-#: umlscene.cpp:1654
+#: umlscene.cpp:1655
 #, fuzzy, kde-format
 #| msgid "Delete"
 msgid "Delete widgets"
 msgstr "削除"
 
-#: umlscene.cpp:1700
+#: umlscene.cpp:1701
 #, fuzzy, kde-format
 #| msgid "Create widget :"
 msgid "Resize widgets"
 msgstr "ウィジェットを作成:"
 
-#: umlscene.cpp:3353
+#: umlscene.cpp:3354
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "図の名前を入力"
 
-#: umlscene.cpp:3354
+#: umlscene.cpp:3355
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "図の新しい名前を入力:"
 
-#: umlscene.cpp:3370
+#: umlscene.cpp:3371
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""
