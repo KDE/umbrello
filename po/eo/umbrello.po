@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-28 02:07+0000\n"
-"PO-Revision-Date: 2023-04-07 10:09+0100\n"
+"PO-Revision-Date: 2024-03-28 08:18+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -3059,7 +3059,7 @@ msgstr "Dekstra-al-maldekstra uzantinterfaco"
 #, kde-format
 msgctxt "Association options"
 msgid "Associations"
-msgstr "Asociaj opcioj"
+msgstr "Asocioj"
 
 #: dialogs/pages/uioptionspage.cpp:69
 #, kde-format
@@ -8063,7 +8063,7 @@ msgstr "Aganto&nomo:"
 #: umlmodel/umlobject.cpp:1233
 #, kde-format
 msgid "Artifact &name:"
-msgstr "Artefaraĵonomo:"
+msgstr "Artefaraĵ&nomo:"
 
 #: umlmodel/umlobject.cpp:1236
 #, kde-format
