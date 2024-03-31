@@ -80,6 +80,8 @@ public:
 
     void updateContent();
 
+    Q_SIGNAL void modified ();
+
 protected:
 
     void setParentUMLObject (UMLObject * obj);
@@ -122,11 +124,6 @@ private:
 
     // initialize the accessor methods for this field
     void initAccessorMethods();
-
-signals:
-
-    void modified ();
-
 };
 
 #endif // CODECLASSFIELD_H

@@ -34,6 +34,10 @@ public:
     UMLUniqueConstraintDialog(QWidget* parent, UMLUniqueConstraint* pUniqueConstraint);
     ~UMLUniqueConstraintDialog();
 
+    Q_SLOT void slotResetWidgetState();
+    Q_SLOT void slotAddAttribute();
+    Q_SLOT void slotDeleteAttribute();
+
 protected:
     void setupDialog();
 
@@ -53,12 +57,6 @@ private:
     // local cache
     UMLEntityAttributeList m_pEntityAttributeList;
     UMLEntityAttributeList m_pConstraintAttributeList;
-
-public slots:
-    void slotResetWidgetState();
-    void slotAddAttribute();
-    void slotDeleteAttribute();
-
 };
 
 #endif

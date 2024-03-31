@@ -35,16 +35,16 @@ public:
     CategoryWidget(UMLScene * scene, UMLCategory *o);
     virtual ~CategoryWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     void saveToXMI(QXmlStreamWriter& writer);
     // For loading we can use the loadFromXMI() inherited from UMLWidget.
 
+    Q_SLOT void slotMenuSelection(QAction* action);
+
 protected:
     QSizeF minimumSize() const;
 
-public slots:
-    void slotMenuSelection(QAction* action);
 
 };
 

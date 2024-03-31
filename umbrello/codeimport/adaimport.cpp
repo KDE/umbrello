@@ -21,7 +21,7 @@
 #include "umldoc.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include <stdio.h>
 
@@ -153,7 +153,7 @@ void AdaImport::fillSource(const QString& word)
  */
 QString AdaImport::expand(const QString& name)
 {
-    QRegExp pfxRegExp(QStringLiteral("^(\\w+)\\."));
+    QRegularExpression pfxRegExp(QStringLiteral("^(\\w+)\\."));
     pfxRegExp.setCaseSensitivity(Qt::CaseInsensitive);
     int pos = pfxRegExp.indexIn(name);
     if (pos == -1)

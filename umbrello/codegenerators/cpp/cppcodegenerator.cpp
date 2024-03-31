@@ -22,7 +22,7 @@
 #include <kconfig.h>
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 const bool CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE = false;
 

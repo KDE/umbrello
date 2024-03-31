@@ -25,7 +25,7 @@ class PhpDocsModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    explicit PhpDocsModel(QObject* parent = 0);
+    explicit PhpDocsModel(QObject* parent = nullptr);
     ~PhpDocsModel();
 
     enum CustomDataRoles {
@@ -49,6 +49,8 @@ public:
     /// @see PhpLanguageSupport
     KDevelop::IndexedString internalFunctionFile() const;
 
+    Q_SLOT void updateReady( const KDevelop::IndexedString& url, const KDevelop::ReferencedTopDUContext& topContext );
+
 private:
     /// fills model with all declarations from the internal PHP functions file
     void fillModel(const KDevelop::ReferencedTopDUContext& topContext);
@@ -59,8 +61,6 @@ private:
     /// internal function file
     const KDevelop::IndexedString m_internalFunctionsFile;
 
-public slots:
-    void updateReady( const KDevelop::IndexedString& url, const KDevelop::ReferencedTopDUContext& topContext );
 
 };
 

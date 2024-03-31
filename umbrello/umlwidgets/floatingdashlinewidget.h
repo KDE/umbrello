@@ -32,7 +32,7 @@ public:
     explicit FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id = Uml::ID::None, CombinedFragmentWidget *parent = 0);
     ~FloatingDashLineWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option = 0, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option = 0, QWidget *widget = nullptr);
 
     void slotMenuSelection(QAction* action);
 

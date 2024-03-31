@@ -58,7 +58,7 @@ public:
     void setPostconditionText(const QString&);
 
     virtual bool showPropertiesDialog();
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
 
     virtual bool loadFromXMI(QDomElement & qElement);
@@ -66,7 +66,6 @@ public:
 
     void constrain(qreal& width, qreal& height);
 
-signals:
     /**
      * Emitted when the activity widget is moved.
      * Provides the delta X and delta Y amount by which the widget was moved
@@ -75,10 +74,10 @@ signals:
      * @param diffX The difference between previous and new X value.
      * @param diffY The difference between previous and new Y value.
      */
-    void sigActMoved(qreal diffX, qreal diffY);
+    Q_SIGNAL void sigActMoved(qreal diffX, qreal diffY);
 
-public Q_SLOTS:
-    virtual void slotMenuSelection(QAction* action);
+public:
+    Q_SLOT virtual void slotMenuSelection(QAction* action);
 
 protected:
     virtual QSizeF minimumSize() const;

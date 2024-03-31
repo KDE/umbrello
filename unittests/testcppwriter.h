@@ -15,11 +15,11 @@
 class TestCppWriter: public TestCodeGeneratorBase
 {
     Q_OBJECT
-private slots:
-    void test_language();
-    void test_writeClass();
-    void test_reservedKeywords();
-    void test_defaultDatatypes();
+private:
+    Q_SLOT void test_language();
+    Q_SLOT void test_writeClass();
+    Q_SLOT void test_reservedKeywords();
+    Q_SLOT void test_defaultDatatypes();
 };
 
 #endif // TESTCPPWRITER_H

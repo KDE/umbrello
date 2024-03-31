@@ -15,14 +15,13 @@ class BenchmarkCodeCompletion : public DUChainTestBase
 {
     Q_OBJECT
 
-public slots:
     // don't do the stuff we do in the DUChainTestBase
-    void initTestCase();
+    Q_SLOT void initTestCase();
 
-private slots:
-    void globalCompletion();
-    void globalCompletionBigFile();
-    void completionData();
+private:
+    Q_SLOT void globalCompletion();
+    Q_SLOT void globalCompletionBigFile();
+    Q_SLOT void completionData();
 };
 
 }

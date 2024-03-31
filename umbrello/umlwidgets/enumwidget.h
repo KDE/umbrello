@@ -30,7 +30,7 @@ public:
     void setShowPackage(bool _status);
     void toggleShowPackage();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     virtual bool loadFromXMI(QDomElement& qElement);
     virtual void saveToXMI(QXmlStreamWriter& writer);

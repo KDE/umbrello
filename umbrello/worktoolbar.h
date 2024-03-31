@@ -143,87 +143,86 @@ private:
 
     void insertBasicAssociations();
 
-signals:
-    void sigButtonChanged(int);
+    Q_SIGNAL void sigButtonChanged(int);
 
-public slots:
-    void slotCheckToolBar(Uml::DiagramType::Enum dt);
-    void buttonChanged(int b);
-    void slotResetToolBar();
+public:
+    Q_SLOT void slotCheckToolBar(Uml::DiagramType::Enum dt);
+    Q_SLOT void buttonChanged(int b);
+    Q_SLOT void slotResetToolBar();
 
     /**
       * These slots are triggered by the buttons. They call buttonChanged with
       * the button id
       */
-    void slotArrow();
-    void slotGeneralization();
-    void slotAggregation();
-    void slotDependency();
-    void slotAssociation();
-    void slotContainment();
-    void slotColl_Mesg_Sync();
-    void slotColl_Mesg_Async();
-    void slotSeq_Message_Creation();
-    void slotSeq_Message_Destroy();
-    void slotSeq_Message_Synchronous();
-    void slotSeq_Message_Asynchronous();
-    void slotSeq_Message_Found();
-    void slotSeq_Message_Lost();
-    void slotSeq_Combined_Fragment();
-    void slotSeq_Precondition();
-    void slotComposition();
-    void slotRelationship();
-    void slotUniAssociation();
-    void slotState_Transition();
-    void slotActivity_Transition();
-    void slotAnchor(); // keep anchor as last association until code uses better algorithm for testing
-    void slotNote();
-    void slotBox();
-    void slotText();
-    void slotActor();
-    void slotUseCase();
-    void slotClass();
-    void slotInterface();
-    void slotInterfaceProvider();
-    void slotInterfaceRequired();
-    void slotDatatype();
-    void slotEnum();
-    void slotEntity();
-    void slotPackage();
-    void slotComponent();
-    void slotNode();
-    void slotArtifact();
-    void slotObject();
-    void slotRegion();
-    void slotInitial_State();
-    void slotState();
-    void slotEnd_State();
-    void slotInitial_Activity();
-    void slotActivity();
-    void slotEnd_Activity();
-    void slotFinal_Activity();
-    void slotBranch();
-    void slotSend_Signal();
-    void slotAccept_Signal();
-    void slotAccept_Time_Event();
-    void slotFork();
-    void slotDeepHistory();
-    void slotShallowHistory();
-    void slotStateJoin();
-    void slotStateFork();
-    void slotJunction();
-    void slotChoice();
-    void slotAndline();
-    void slotException();
-    void slotPrePostCondition();
-    void slotPin();
-    void slotPort();
-    void slotObject_Node();
-    void slotCategory();
-    void slotCategory2Parent();
-    void slotChild2Category();
-    void slotInstance();
-    void slotSubsystem();
+    Q_SLOT void slotArrow();
+    Q_SLOT void slotGeneralization();
+    Q_SLOT void slotAggregation();
+    Q_SLOT void slotDependency();
+    Q_SLOT void slotAssociation();
+    Q_SLOT void slotContainment();
+    Q_SLOT void slotColl_Mesg_Sync();
+    Q_SLOT void slotColl_Mesg_Async();
+    Q_SLOT void slotSeq_Message_Creation();
+    Q_SLOT void slotSeq_Message_Destroy();
+    Q_SLOT void slotSeq_Message_Synchronous();
+    Q_SLOT void slotSeq_Message_Asynchronous();
+    Q_SLOT void slotSeq_Message_Found();
+    Q_SLOT void slotSeq_Message_Lost();
+    Q_SLOT void slotSeq_Combined_Fragment();
+    Q_SLOT void slotSeq_Precondition();
+    Q_SLOT void slotComposition();
+    Q_SLOT void slotRelationship();
+    Q_SLOT void slotUniAssociation();
+    Q_SLOT void slotState_Transition();
+    Q_SLOT void slotActivity_Transition();
+    Q_SLOT void slotAnchor(); // keep anchor as last association until code uses better algorithm for testing
+    Q_SLOT void slotNote();
+    Q_SLOT void slotBox();
+    Q_SLOT void slotText();
+    Q_SLOT void slotActor();
+    Q_SLOT void slotUseCase();
+    Q_SLOT void slotClass();
+    Q_SLOT void slotInterface();
+    Q_SLOT void slotInterfaceProvider();
+    Q_SLOT void slotInterfaceRequired();
+    Q_SLOT void slotDatatype();
+    Q_SLOT void slotEnum();
+    Q_SLOT void slotEntity();
+    Q_SLOT void slotPackage();
+    Q_SLOT void slotComponent();
+    Q_SLOT void slotNode();
+    Q_SLOT void slotArtifact();
+    Q_SLOT void slotObject();
+    Q_SLOT void slotRegion();
+    Q_SLOT void slotInitial_State();
+    Q_SLOT void slotState();
+    Q_SLOT void slotEnd_State();
+    Q_SLOT void slotInitial_Activity();
+    Q_SLOT void slotActivity();
+    Q_SLOT void slotEnd_Activity();
+    Q_SLOT void slotFinal_Activity();
+    Q_SLOT void slotBranch();
+    Q_SLOT void slotSend_Signal();
+    Q_SLOT void slotAccept_Signal();
+    Q_SLOT void slotAccept_Time_Event();
+    Q_SLOT void slotFork();
+    Q_SLOT void slotDeepHistory();
+    Q_SLOT void slotShallowHistory();
+    Q_SLOT void slotStateJoin();
+    Q_SLOT void slotStateFork();
+    Q_SLOT void slotJunction();
+    Q_SLOT void slotChoice();
+    Q_SLOT void slotAndline();
+    Q_SLOT void slotException();
+    Q_SLOT void slotPrePostCondition();
+    Q_SLOT void slotPin();
+    Q_SLOT void slotPort();
+    Q_SLOT void slotObject_Node();
+    Q_SLOT void slotCategory();
+    Q_SLOT void slotCategory2Parent();
+    Q_SLOT void slotChild2Category();
+    Q_SLOT void slotInstance();
+    Q_SLOT void slotSubsystem();
 };
 
 #endif

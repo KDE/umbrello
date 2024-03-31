@@ -24,8 +24,7 @@ public:
     void setDefaults();
     void apply();
 
-signals:
-    void applyClicked();
+    Q_SIGNAL void applyClicked();
 
 protected:
     UMLScene *m_scene;

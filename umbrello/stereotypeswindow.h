@@ -18,13 +18,10 @@ public:
     explicit StereotypesWindow(const QString &title, QWidget *parent = 0);
     ~StereotypesWindow();
 
-signals:
+    Q_SLOT void modified();
 
-public slots:
-    void modified();
-
-protected slots:
-    void slotStereotypesDoubleClicked(QModelIndex index);
+protected:
+    Q_SLOT void slotStereotypesDoubleClicked(QModelIndex index);
 
 protected:
     QTableView *m_stereotypesTree;

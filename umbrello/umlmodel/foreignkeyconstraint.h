@@ -60,7 +60,7 @@ public:
 
     void saveToXMI(QXmlStreamWriter& writer);
 
-    virtual bool showPropertiesDialog(QWidget* parent = 0);
+    virtual bool showPropertiesDialog(QWidget* parent = nullptr);
 
     bool addEntityAttributePair(UMLEntityAttribute* pAttr, UMLEntityAttribute* rAttr);
 
@@ -80,11 +80,10 @@ public:
 
     bool resolveRef();
 
-signals:
-    void sigReferencedEntityChanged();
+    Q_SIGNAL void sigReferencedEntityChanged();
 
-private slots:
-    void slotReferencedEntityChanged();
+private:
+    Q_SLOT void slotReferencedEntityChanged();
 
 protected:
     bool load1(QDomElement & element);

@@ -14,7 +14,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 JavaCodeDocumentation::JavaCodeDocumentation(JavaClassifierCodeDocument * doc, const QString & text)
   : CodeComment(doc, text)
@@ -105,14 +105,14 @@ QString JavaCodeDocumentation::unformatText(const QString & text, const QString 
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
     // remove leading or trailing comment stuff
-    mytext.remove(QRegExp(QLatin1Char('^') + indent));
+    mytext.remove(QRegularExpression(QLatin1Char('^') + indent));
     if(p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
-        mytext.remove(QRegExp(QStringLiteral("^\\/\\*\\*\\s*\n?")));
-        mytext.remove(QRegExp(QStringLiteral("\\s*\\*\\/\\s*\n?$")));
-        mytext.remove(QRegExp(QStringLiteral("^\\s*\\*\\s*")));
+        mytext.remove(QRegularExpression(QStringLiteral("^\\/\\*\\*\\s*\n?")));
+        mytext.remove(QRegularExpression(QStringLiteral("\\s*\\*\\/\\s*\n?$")));
+        mytext.remove(QRegularExpression(QStringLiteral("^\\s*\\*\\s*")));
     } else
-        mytext.remove(QRegExp(QStringLiteral("^\\/\\/\\s*")));
+        mytext.remove(QRegularExpression(QStringLiteral("^\\/\\/\\s*")));
 
     return mytext;
 }

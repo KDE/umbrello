@@ -43,6 +43,8 @@ public:
 
     virtual void loadFromXMI(QDomElement & root);
 
+    virtual Q_SLOT void syncToParent();
+
 protected:
 
     virtual void release();
@@ -57,11 +59,6 @@ private:
 
     CodeClassField * m_parentclassfield;
     void init(CodeClassField * parent);
-
-public slots:
-
-    virtual void syncToParent();
-
 };
 
 #endif // CODECLASSFIELDDECLARATIONBLOCK_H

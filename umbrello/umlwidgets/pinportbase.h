@@ -27,7 +27,7 @@ public:
     PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner = 0, Uml::ID::Type id = Uml::ID::None);
     virtual ~PinPortBase();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     virtual QRectF boundingRect() const;
 
     virtual UMLWidget* ownerWidget() const;

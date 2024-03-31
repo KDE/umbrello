@@ -22,7 +22,7 @@
 
 #include <QApplication>
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QTextStream>
 
@@ -59,7 +59,7 @@ bool XhtmlGenerator::generateXhtmlForProject()
 {
     QUrl url = m_umlDoc->url();
     QString fileName = url.fileName();
-    fileName.remove(QRegExp(QStringLiteral(".xmi$")));
+    fileName.remove(QRegularExpression(QStringLiteral(".xmi$")));
     url.setPath(fileName);
     logDebug1("XhtmlGenerator::generateXhtmlForProject: Exporting to directory %1", url.path());
     return generateXhtmlForProjectInto(url);
@@ -100,7 +100,7 @@ void XhtmlGenerator::slotDocbookToXhtml(bool status)
     else {
         QUrl url = m_umlDoc->url();
         QString fileName = url.fileName();
-        fileName.replace(QRegExp(QStringLiteral(".xmi$")), QStringLiteral(".docbook"));
+        fileName.replace(QRegularExpression(QStringLiteral(".xmi$")), QStringLiteral(".docbook"));
         url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
         m_umlDoc->writeToStatusBar(i18n("Generating XHTML..."));
         m_d2xg  = new Docbook2XhtmlGeneratorJob(url, this);
@@ -122,7 +122,7 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     logDebug1("XhtmlGenerator: HTML generated %1", tmpFileName);
     QUrl url = m_umlDoc->url();
     QString fileName = url.fileName();
-    fileName.replace(QRegExp(QStringLiteral(".xmi$")), QStringLiteral(".html"));
+    fileName.replace(QRegularExpression(QStringLiteral(".xmi$")), QStringLiteral(".html"));
     url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
     KIO::Job* htmlCopyJob = KIO::file_copy(QUrl::fromLocalFile(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
     KJobWidgets::setWindow(htmlCopyJob, (QWidget*)UMLApp::app());

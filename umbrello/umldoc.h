@@ -338,49 +338,47 @@ private:
     typedef QMap<UMLFolder*, QList<QDomNode>> DiagramsMap;
     DiagramsMap m_diagramsToLoad;
 
-public slots:
-    void slotRemoveUMLObject(UMLObject*o);
-    void slotAutoSave();
-    void slotDiagramPopupMenu(QWidget* umlview, const QPoint& point);
+    Q_SLOT void slotRemoveUMLObject(UMLObject*o);
+    Q_SLOT void slotAutoSave();
+    Q_SLOT void slotDiagramPopupMenu(QWidget* umlview, const QPoint& point);
 
-signals:
-    void sigDiagramCreated(Uml::ID::Type id);
-    void sigDiagramRemoved(Uml::ID::Type id);
-    void sigDiagramRenamed(Uml::ID::Type t);
-    void sigDiagramChanged(Uml::DiagramType::Enum);
+    Q_SIGNAL void sigDiagramCreated(Uml::ID::Type id);
+    Q_SIGNAL void sigDiagramRemoved(Uml::ID::Type id);
+    Q_SIGNAL void sigDiagramRenamed(Uml::ID::Type t);
+    Q_SIGNAL void sigDiagramChanged(Uml::DiagramType::Enum);
 
-    void sigObjectCreated(UMLObject *);
-    void sigObjectRemoved(UMLObject *);
+    Q_SIGNAL void sigObjectCreated(UMLObject *);
+    Q_SIGNAL void sigObjectRemoved(UMLObject *);
 
     /**
      * Reset the status bar.
      */
-    void sigResetStatusbarProgress();
+    Q_SIGNAL void sigResetStatusbarProgress();
 
     /**
      * Set the total range of the progressbar.
      *
      * @param totalSteps Total range of the progressbar (0..totalSteps)
      */
-    void sigSetStatusbarProgressSteps(int totalSteps);
+    Q_SIGNAL void sigSetStatusbarProgressSteps(int totalSteps);
 
     /**
      * Set the progress position of the progressbar.
      *
      * @param stepPosition   The step position to set.
      */
-    void sigSetStatusbarProgress(int stepPosition);
+    Q_SIGNAL void sigSetStatusbarProgress(int stepPosition);
 
     /**
      * Write text to the status bar.
      */
-    void sigWriteToStatusBar(const QString &text);
+    Q_SIGNAL void sigWriteToStatusBar(const QString &text);
 
     /**
      * The diagram being displayed has changed.
      * UMLApp uses this to keep its menu items state up to date.
      */
-    void sigCurrentViewChanged();
+    Q_SIGNAL void sigCurrentViewChanged();
 
 };
 

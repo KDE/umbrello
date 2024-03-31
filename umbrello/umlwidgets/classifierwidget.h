@@ -99,7 +99,7 @@ public:
 
     QSizeF calculateSize(bool withExtensions = true) const;
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     virtual QPainterPath shape() const;
 
     virtual void saveToXMI(QXmlStreamWriter& writer);

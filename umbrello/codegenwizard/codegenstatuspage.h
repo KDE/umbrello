@@ -39,14 +39,14 @@ public:
 private:
     bool m_generationDone;
 
-protected slots:
-    void generateCode();
-    void classGenerated(UMLClassifier* classifier, bool generated);
-    void classGenerated(UMLClassifier* classifier, CodeGenerator::GenerationState state);
-    void populateStatusList();
-    void showFileGenerated(const QString& filename);
-    void loggerClear();
-    void loggerExport();
+protected:
+    Q_SLOT void generateCode();
+    Q_SLOT void classGenerated(UMLClassifier* classifier, bool generated);
+    Q_SLOT void classGenerated(UMLClassifier* classifier, CodeGenerator::GenerationState state);
+    Q_SLOT void populateStatusList();
+    Q_SLOT void showFileGenerated(const QString& filename);
+    Q_SLOT void loggerClear();
+    Q_SLOT void loggerExport();
 
 };
 

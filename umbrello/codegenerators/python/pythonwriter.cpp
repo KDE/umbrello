@@ -20,7 +20,7 @@
 #include <KMessageBox>
 
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextCodec>
 #include <QTextStream>
 
@@ -220,8 +220,8 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
     str = getHeadingFile(QStringLiteral(".py"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), fileh.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), fileh.fileName());
         h<<str<<m_endl;
     }
 
@@ -249,7 +249,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
     foreach(UMLPackage* conc, includes) {
         QString headerName = findFileName(conc, QStringLiteral(".py"));
         if (!headerName.isEmpty()) {
-            headerName.remove(QRegExp(QStringLiteral(".py$")));
+            headerName.remove(QRegularExpression(QStringLiteral(".py$")));
             str = findIncludeFromType(headerName.replace(QLatin1Char('/'), QLatin1Char('.')));
             // not yet imported
             if (includesList.indexOf(str) < 0)  {
@@ -467,7 +467,7 @@ QString PythonWriter::fixTypeName(const QString &string)
     if (string == QStringLiteral("string")) {
         return QStringLiteral("str");
     }
-    QRegExp re(QStringLiteral("^vector<(.*)>$"));
+    QRegularExpression re(QStringLiteral("^vector<(.*)>$"));
     if (re.indexIn(string) >= 0) {
         const QString listOf(QStringLiteral("List[%1]"));
         return listOf.arg(fixTypeName(re.cap(1)));
@@ -478,7 +478,7 @@ QString PythonWriter::fixTypeName(const QString &string)
 QString PythonWriter::findIncludeFromType(const QString &string)
 {
     const QString fixedTypeName = fixTypeName(string);
-    QRegExp re(QStringLiteral("^(Any|Dict|List|Tuple)\\["));
+    QRegularExpression re(QStringLiteral("^(Any|Dict|List|Tuple)\\["));
     if (re.indexIn(fixedTypeName) >= 0) {
         return QStringLiteral("typing");
     }

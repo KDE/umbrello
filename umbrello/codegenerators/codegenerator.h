@@ -126,6 +126,8 @@ public:
      */
     virtual void initFromParentDocument() = 0;
 
+    Q_SLOT virtual void syncCodeToDocument();
+
 protected:
     QString overwritableName(const QString& name, const QString &extension);
 
@@ -155,13 +157,11 @@ private:
 
     void loadCodeForOperation(const QString& id, const QDomElement& codeDocElement);
 
-public slots:
-    virtual void syncCodeToDocument();
 
-signals:
-    void codeGenerated(UMLClassifier* classifier, bool generated);
-    void codeGenerated(UMLClassifier* classifier, CodeGenerator::GenerationState result);
-    void showGeneratedFile(const QString& filename);
+protected:
+    Q_SIGNAL void codeGenerated(UMLClassifier* classifier, bool generated);
+    Q_SIGNAL void codeGenerated(UMLClassifier* classifier, CodeGenerator::GenerationState result);
+    Q_SIGNAL void showGeneratedFile(const QString& filename);
 };
 
 #endif // CODEGENERATOR_H

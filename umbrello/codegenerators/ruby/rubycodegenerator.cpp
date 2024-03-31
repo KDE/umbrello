@@ -19,7 +19,7 @@
 #include <KMessageBox>
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 /**
  * Constructor.
@@ -107,16 +107,16 @@ QString RubyCodeGenerator::cppToRubyType(const QString &cppType)
 {
     QString type = cleanName(cppType);
     type.remove(QStringLiteral("const "));
-    type.remove(QRegExp(QStringLiteral("[*&\\s]")));
-    type.replace(QRegExp(QStringLiteral("[<>]")), QStringLiteral("_"));
+    type.remove(QRegularExpression(QStringLiteral("[*&\\s]")));
+    type.replace(QRegularExpression(QStringLiteral("[<>]")), QStringLiteral("_"));
     type.replace(QStringLiteral("QStringList"), QStringLiteral("Array"));
-    type.replace(QRegExp(QStringLiteral("^string$")),QStringLiteral("String"));
+    type.replace(QRegularExpression(QStringLiteral("^string$")),QStringLiteral("String"));
     type.replace(QStringLiteral("QString"), QStringLiteral("String"));
     type.replace(QStringLiteral("bool"), QStringLiteral("true|false"));
-    type.replace(QRegExp(QStringLiteral("^(uint|int|ushort|short|ulong|long)$")), QStringLiteral("Integer"));
-    type.replace(QRegExp(QStringLiteral("^(float|double)$")), QStringLiteral("Float"));
-    type.replace(QRegExp(QStringLiteral("^Q(?=[A-Z])")), QStringLiteral("Qt::"));
-    type.replace(QRegExp(QStringLiteral("^K(?!(DE|Parts|IO)")), QStringLiteral("KDE::"));
+    type.replace(QRegularExpression(QStringLiteral("^(uint|int|ushort|short|ulong|long)$")), QStringLiteral("Integer"));
+    type.replace(QRegularExpression(QStringLiteral("^(float|double)$")), QStringLiteral("Float"));
+    type.replace(QRegularExpression(QStringLiteral("^Q(?=[A-Z])")), QStringLiteral("Qt::"));
+    type.replace(QRegularExpression(QStringLiteral("^K(?!(DE|Parts|IO)")), QStringLiteral("KDE::"));
 
     return type;
 }
@@ -130,8 +130,8 @@ QString RubyCodeGenerator::cppToRubyType(const QString &cppType)
 QString RubyCodeGenerator::cppToRubyName(const QString &cppName)
 {
     QString name = cleanName(cppName);
-    name.remove(QRegExp(QStringLiteral("^m_")));
-    name.remove(QRegExp(QStringLiteral("^[pbn](?=[A-Z])")));
+    name.remove(QRegularExpression(QStringLiteral("^m_")));
+    name.remove(QRegularExpression(QStringLiteral("^[pbn](?=[A-Z])")));
     name = name.mid(0, 1).toLower() + name.mid(1);
     return name;
 }

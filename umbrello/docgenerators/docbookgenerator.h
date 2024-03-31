@@ -38,14 +38,13 @@ class DocbookGenerator : public QObject
     void generateDocbookForProjectInto(const QUrl& destDir);
     static QString customXslFile();
 
-signals:
-    void finished(bool status);
+    Q_SIGNAL void finished(bool status);
 
-  private slots:
+  private:
 
-    void slotDocbookGenerationFinished(const QString&);
+    Q_SLOT void slotDocbookGenerationFinished(const QString&);
 
-    void threadFinished();
+    Q_SLOT void threadFinished();
 
   private:
 

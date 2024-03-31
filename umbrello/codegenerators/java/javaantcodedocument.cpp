@@ -18,7 +18,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QXmlStreamWriter>
 
 DEBUG_REGISTER(JavaANTCodeDocument)
@@ -260,10 +260,10 @@ QString JavaANTCodeDocument::getPath () const
     path = path.simplified();
 
     // Replace all blanks with underscore
-    path.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    path.replace(QRegularExpression(QStringLiteral(" ")), QStringLiteral("_"));
 
-    path.replace(QRegExp(QStringLiteral("\\.")),QStringLiteral("/"));
-    path.replace(QRegExp(QStringLiteral("::")), QStringLiteral("/"));
+    path.replace(QRegularExpression(QStringLiteral("\\.")),QStringLiteral("/"));
+    path.replace(QRegularExpression(QStringLiteral("::")), QStringLiteral("/"));
 
     path = path.toLower();
 

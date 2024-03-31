@@ -22,15 +22,15 @@ class PhpUnitRunJob : public KJob
 {
     Q_OBJECT
 public:
-    PhpUnitRunJob(PhpUnitTestSuite* suite, const QStringList& cases, KDevelop::OutputJob::OutputJobVerbosity verbosity, QObject* parent = 0);
+    PhpUnitRunJob(PhpUnitTestSuite* suite, const QStringList& cases, KDevelop::OutputJob::OutputJobVerbosity verbosity, QObject* parent = nullptr);
     virtual void start();
 
 protected:
     virtual bool doKill();
 
-private slots:
-    void processFinished(KJob* job);
-    void rowsInserted(const QModelIndex &parent, int startRow, int endRow);
+private:
+    Q_SLOT void processFinished(KJob* job);
+    Q_SLOT void rowsInserted(const QModelIndex &parent, int startRow, int endRow);
 
 private:
     KProcess* m_process;

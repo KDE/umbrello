@@ -114,7 +114,7 @@ public:
     void calculateDimensionsLost();
     void calculateDimensionsFound();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     void setTextPosition();
 
@@ -196,16 +196,15 @@ private:
      */
     Uml::ID::Type m_widgetAId, m_widgetBId, m_textId;
 
-public slots:
-    void slotWidgetMoved(Uml::ID::Type id);
-    void slotMenuSelection(QAction* action);
+public:
+    Q_SLOT void slotWidgetMoved(Uml::ID::Type id);
+    Q_SLOT void slotMenuSelection(QAction* action);
 
-signals:
     /**
      * emitted when the message widget is moved up or down
      * slots into ObjectWidget::slotMessageMoved()
      */
-    void sigMessageMoved();
+    Q_SIGNAL void sigMessageMoved();
 };
 
 #endif

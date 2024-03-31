@@ -27,11 +27,11 @@ private:
     QLabel *m_label;
     KComboBox* m_comboBox;  ///< The image type selected.
 
-signals:
-    void currentIndexChanged(const QString &index);
+protected:
+    Q_SIGNAL void currentIndexChanged(const QString &index);
 
-private slots:
-    void slotCurrentIndexChanged(const QString &index);
+private:
+    Q_SLOT void slotCurrentIndexChanged(const QString &index);
 };
 
 #endif // IMAGETYPEWIDGET_H

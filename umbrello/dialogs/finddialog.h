@@ -29,8 +29,8 @@ public:
 protected:
     void showEvent(QShowEvent *event);
 
-private slots:
-    void slotFilterButtonClicked(int button);
+private:
+    Q_SLOT void slotFilterButtonClicked(int button);
 };
 
 #endif // FINDDIALOG_H

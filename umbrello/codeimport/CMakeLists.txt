@@ -50,16 +50,16 @@ set(libkdevcppparser_SRCS
 
 add_library(codeimport STATIC ${libcodeimport_SRCS} ${libkdevcppparser_SRCS})
 target_link_libraries(codeimport
-    Qt5::Widgets
-    Qt5::Xml
-    KF5::CoreAddons
-    KF5::I18n
-    KF5::IconThemes
-    KF5::KIOCore
-    KF5::TextEditor
-    KF5::WidgetsAddons
-    KF5::XmlGui
-    KF5::Crash
+    Qt6::Widgets
+    Qt6::Xml
+    KF6::CoreAddons
+    KF6::I18n
+    KF6::IconThemes
+    KF6::KIOCore
+    KF6::TextEditor
+    KF6::WidgetsAddons
+    KF6::XmlGui
+    KF6::Crash
 )
 if(BUILD_PHP_IMPORT)
     target_link_libraries(codeimport

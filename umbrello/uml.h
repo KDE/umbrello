@@ -206,125 +206,124 @@ protected:
 
     void updateLangSelectMenu(Uml::ProgrammingLanguage::Enum activeLanguage);
 
-public slots:
-    void slotExecGenerationWizard();
-    void slotImportingWizard();
+    Q_SLOT void slotExecGenerationWizard();
+    Q_SLOT void slotImportingWizard();
 
-    void slotFileNew();
-    void slotFileOpen();
+    Q_SLOT void slotFileNew();
+    Q_SLOT void slotFileOpen();
 
-    void slotFileOpenRecent(const QUrl& url);
-    void slotFileSave();
-    bool slotFileSaveAs();
-    void slotFileClose();
-    bool slotPrintSettings();
-    void slotPrintPreview();
-    void slotPrintPreviewPaintRequested(QPrinter *printer);
-    void slotFilePrint();
-    void slotFileQuit();
-    void slotFileExportDocbook();
-    void slotFileExportXhtml();
-    void slotFind();
-    void slotFindNext();
-    void slotFindPrevious();
-    void slotEditCut();
-    void slotEditCopy();
-    void slotEditPaste();
-    void slotStatusMsg(const QString &text);
-    void slotClassDiagram();
-    void slotObjectDiagram();
-    void slotSequenceDiagram();
-    void slotCollaborationDiagram();
-    void slotUseCaseDiagram();
-    void slotStateDiagram();
-    void slotActivityDiagram();
-    void slotComponentDiagram();
-    void slotDeploymentDiagram();
-    void slotEntityRelationshipDiagram();
-    void slotAlignLeft();
-    void slotAlignRight();
-    void slotAlignTop();
-    void slotAlignBottom();
-    void slotAlignVerticalMiddle();
-    void slotAlignHorizontalMiddle();
-    void slotAlignVerticalDistribute();
-    void slotAlignHorizontalDistribute();
-    void slotClipDataChanged();
-    void slotCopyChanged();
-    void slotPrefs(MultiPageDialogBase::PageType page = MultiPageDialogBase::GeneralPage);
-    void slotApplyPrefs();
-    void slotImportClass();
-    void slotImportProject();
-    void slotUpdateViews();
-    void slotShowTreeView(bool state);
-    void slotShowDebugView(bool state);
-    void slotShowDocumentationView(bool state);
-    void slotShowCmdHistoryView(bool state);
-    void slotShowLogView(bool state);
-    void slotShowBirdView(bool state);
-    void slotCurrentViewClearDiagram();
-    void slotCurrentViewToggleSnapToGrid();
-    void slotCurrentViewToggleShowGrid();
-    void slotCurrentViewExportImage();
-    void slotViewsExportImages();
-    void slotCurrentProperties();
-    void slotClassWizard();
-    void slotAddDefaultDatatypes();
-    void slotCurrentViewChanged();
-    void slotSnapToGridToggled(bool gridOn);
-    void slotShowGridToggled(bool gridOn);
-    void slotSelectAll();
-    void slotDeleteSelected();
-    void slotDeleteDiagram();
-    void slotCloseDiagram(int index);
-    void slotGenerateAllCode();
+    Q_SLOT void slotFileOpenRecent(const QUrl& url);
+    Q_SLOT void slotFileSave();
+    Q_SLOT bool slotFileSaveAs();
+    Q_SLOT void slotFileClose();
+    Q_SLOT bool slotPrintSettings();
+    Q_SLOT void slotPrintPreview();
+    Q_SLOT void slotPrintPreviewPaintRequested(QPrinter *printer);
+    Q_SLOT void slotFilePrint();
+    Q_SLOT void slotFileQuit();
+    Q_SLOT void slotFileExportDocbook();
+    Q_SLOT void slotFileExportXhtml();
+    Q_SLOT void slotFind();
+    Q_SLOT void slotFindNext();
+    Q_SLOT void slotFindPrevious();
+    Q_SLOT void slotEditCut();
+    Q_SLOT void slotEditCopy();
+    Q_SLOT void slotEditPaste();
+    Q_SLOT void slotStatusMsg(const QString &text);
+    Q_SLOT void slotClassDiagram();
+    Q_SLOT void slotObjectDiagram();
+    Q_SLOT void slotSequenceDiagram();
+    Q_SLOT void slotCollaborationDiagram();
+    Q_SLOT void slotUseCaseDiagram();
+    Q_SLOT void slotStateDiagram();
+    Q_SLOT void slotActivityDiagram();
+    Q_SLOT void slotComponentDiagram();
+    Q_SLOT void slotDeploymentDiagram();
+    Q_SLOT void slotEntityRelationshipDiagram();
+    Q_SLOT void slotAlignLeft();
+    Q_SLOT void slotAlignRight();
+    Q_SLOT void slotAlignTop();
+    Q_SLOT void slotAlignBottom();
+    Q_SLOT void slotAlignVerticalMiddle();
+    Q_SLOT void slotAlignHorizontalMiddle();
+    Q_SLOT void slotAlignVerticalDistribute();
+    Q_SLOT void slotAlignHorizontalDistribute();
+    Q_SLOT void slotClipDataChanged();
+    Q_SLOT void slotCopyChanged();
+    Q_SLOT void slotPrefs(MultiPageDialogBase::PageType page = MultiPageDialogBase::GeneralPage);
+    Q_SLOT void slotApplyPrefs();
+    Q_SLOT void slotImportClass();
+    Q_SLOT void slotImportProject();
+    Q_SLOT void slotUpdateViews();
+    Q_SLOT void slotShowTreeView(bool state);
+    Q_SLOT void slotShowDebugView(bool state);
+    Q_SLOT void slotShowDocumentationView(bool state);
+    Q_SLOT void slotShowCmdHistoryView(bool state);
+    Q_SLOT void slotShowLogView(bool state);
+    Q_SLOT void slotShowBirdView(bool state);
+    Q_SLOT void slotCurrentViewClearDiagram();
+    Q_SLOT void slotCurrentViewToggleSnapToGrid();
+    Q_SLOT void slotCurrentViewToggleShowGrid();
+    Q_SLOT void slotCurrentViewExportImage();
+    Q_SLOT void slotViewsExportImages();
+    Q_SLOT void slotCurrentProperties();
+    Q_SLOT void slotClassWizard();
+    Q_SLOT void slotAddDefaultDatatypes();
+    Q_SLOT void slotCurrentViewChanged();
+    Q_SLOT void slotSnapToGridToggled(bool gridOn);
+    Q_SLOT void slotShowGridToggled(bool gridOn);
+    Q_SLOT void slotSelectAll();
+    Q_SLOT void slotDeleteSelected();
+    Q_SLOT void slotDeleteDiagram();
+    Q_SLOT void slotCloseDiagram(int index);
+    Q_SLOT void slotGenerateAllCode();
 
-    void slotSetZoom(QAction* action);
-    void slotZoomSliderMoved(int value);
-    void slotZoomFit();
-    void slotZoom100();
-    void slotZoomOut();
-    void slotZoomIn();
+    Q_SLOT void slotSetZoom(QAction* action);
+    Q_SLOT void slotZoomSliderMoved(int value);
+    Q_SLOT void slotZoomFit();
+    Q_SLOT void slotZoom100();
+    Q_SLOT void slotZoomOut();
+    Q_SLOT void slotZoomIn();
 
-    void slotBirdViewChanged(const QPointF& newCenter);
+    Q_SLOT void slotBirdViewChanged(const QPointF& newCenter);
 
-    void setupZoomMenu();
+    Q_SLOT void setupZoomMenu();
 
-    void slotEditUndo();
-    void slotEditRedo();
+    Q_SLOT void slotEditUndo();
+    Q_SLOT void slotEditRedo();
 
-    void slotTabChanged(int index);
-    void slotChangeTabLeft();
-    void slotChangeTabRight();
-    void slotMoveTabLeft();
-    void slotMoveTabRight();
+    Q_SLOT void slotTabChanged(int index);
+    Q_SLOT void slotChangeTabLeft();
+    Q_SLOT void slotChangeTabRight();
+    Q_SLOT void slotMoveTabLeft();
+    Q_SLOT void slotMoveTabRight();
 
-    void slotXhtmlDocGenerationFinished(bool status);
-    bool slotOpenFileInEditor(const QUrl &file, int startCursor = 0, int endCursor = 0);
+    Q_SLOT void slotXhtmlDocGenerationFinished(bool status);
+    Q_SLOT bool slotOpenFileInEditor(const QUrl &file, int startCursor = 0, int endCursor = 0);
 
-private slots:
-    void setLang_actionscript();
-    void setLang_ada();
-    void setLang_cpp();
-    void setLang_csharp();
-    void setLang_d();
-    void setLang_idl();
-    void setLang_java();
-    void setLang_javascript();
-    void setLang_mysql();
-    void setLang_pascal();
-    void setLang_perl();
-    void setLang_php();
-    void setLang_php5();
-    void setLang_postgresql();
-    void setLang_python();
-    void setLang_ruby();
-    void setLang_sql();
-    void setLang_tcl();
-    void setLang_vala();
-    void setLang_xmlschema();
-    void setLang_none();
-    void slotDiagramPopupMenu(const QPoint& point);
+private:
+    Q_SLOT void setLang_actionscript();
+    Q_SLOT void setLang_ada();
+    Q_SLOT void setLang_cpp();
+    Q_SLOT void setLang_csharp();
+    Q_SLOT void setLang_d();
+    Q_SLOT void setLang_idl();
+    Q_SLOT void setLang_java();
+    Q_SLOT void setLang_javascript();
+    Q_SLOT void setLang_mysql();
+    Q_SLOT void setLang_pascal();
+    Q_SLOT void setLang_perl();
+    Q_SLOT void setLang_php();
+    Q_SLOT void setLang_php5();
+    Q_SLOT void setLang_postgresql();
+    Q_SLOT void setLang_python();
+    Q_SLOT void setLang_ruby();
+    Q_SLOT void setLang_sql();
+    Q_SLOT void setLang_tcl();
+    Q_SLOT void setLang_vala();
+    Q_SLOT void setLang_xmlschema();
+    Q_SLOT void setLang_none();
+    Q_SLOT void slotDiagramPopupMenu(const QPoint& point);
 
 private:
     static UMLApp* s_instance;  ///< The last created instance of this class.
@@ -479,8 +478,8 @@ private:
     QPrinter *m_printer;               ///< print instance
     static bool s_shuttingDown;
 
-signals:
-    void sigCutSuccessful();
+private:
+    Q_SIGNAL void sigCutSuccessful();
 
     friend class UMLAppPrivate;
     friend class UMLView;

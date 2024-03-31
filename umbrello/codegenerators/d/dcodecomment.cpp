@@ -9,7 +9,7 @@
 #include "dcodecomment.h"
 
 // qt/kde includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 DCodeComment::DCodeComment (CodeDocument * doc, const QString & text)
         : CodeComment (doc, text)
@@ -42,7 +42,7 @@ QString DCodeComment::toString () const
         QString body = getText();
 
         // check the need for multiline comments
-        if (body.indexOf(QRegExp(endLine)) >= 0) {
+        if (body.indexOf(QRegularExpression(endLine)) >= 0) {
             output += indent + QStringLiteral("/**") + endLine;
             output += formatMultiLineText (body, indent + QStringLiteral(" * "), endLine);
             output += indent + QStringLiteral(" */") + endLine;
@@ -68,6 +68,6 @@ QString DCodeComment::unformatText (const QString & text, const QString & indent
     QString mytext = TextBlock::unformatText(text, indent);
 
     // now leading slashes
-    mytext.remove(QRegExp(QStringLiteral("^\\/\\/\\s*")));
+    mytext.remove(QRegularExpression(QStringLiteral("^\\/\\/\\s*")));
     return mytext;
 }

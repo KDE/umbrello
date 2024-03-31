@@ -30,7 +30,7 @@
 #include <KLocalizedString>
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 /**
  * Factory method for creating a ClassImport concretization by file extension
@@ -43,17 +43,17 @@ ClassImport *ClassImport::createImporterByFileExt(const QString &fileName, CodeI
     ClassImport *classImporter;
     if (fileName.endsWith(QStringLiteral(".idl")))
         classImporter = new IDLImport(thread);
-    else if (fileName.contains(QRegExp(QStringLiteral("\\.pyw?$"))))
+    else if (fileName.contains(QRegularExpression(QStringLiteral("\\.pyw?$"))))
         classImporter = new PythonImport(thread);
     else if (fileName.endsWith(QStringLiteral(".java")))
         classImporter = new JavaImport(thread);
-    else if (fileName.contains(QRegExp(QStringLiteral("\\.ad[sba]$"))))
+    else if (fileName.contains(QRegularExpression(QStringLiteral("\\.ad[sba]$"))))
         classImporter = new AdaImport(thread);
     else if (fileName.endsWith(QStringLiteral(".pas")))
         classImporter = new PascalImport(thread);
     else if (fileName.endsWith(QStringLiteral(".cs")))
         classImporter = new CSharpImport(thread);
-    else if (fileName.contains(QRegExp(QStringLiteral(".va[lp][ai]$"))))
+    else if (fileName.contains(QRegularExpression(QStringLiteral(".va[lp][ai]$"))))
         classImporter = new ValaImport(thread);
     else if (fileName.endsWith(QStringLiteral(".sql")))
         classImporter = new SQLImport(thread);

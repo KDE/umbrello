@@ -76,13 +76,12 @@ public:
     virtual void mouseDoubleClick(QGraphicsSceneMouseEvent* ome);
     virtual void mouseMove(QGraphicsSceneMouseEvent* ome);
 
-public slots:
-    virtual void slotAssociationRemoved(AssociationWidget* association);
-    virtual void slotWidgetRemoved(UMLWidget* widget);
+public:
+    Q_SLOT virtual void slotAssociationRemoved(AssociationWidget* association);
+    Q_SLOT virtual void slotWidgetRemoved(UMLWidget* widget);
 
-signals:
     // signals finish of operation
-    void finished();
+    Q_SIGNAL void finished();
 
 protected:
     ToolBarState(UMLScene* umlScene);

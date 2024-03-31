@@ -20,7 +20,7 @@
 
 // qt includes
 #include <QDateTime>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QStringList>
 #include <QTextStream>
@@ -579,11 +579,11 @@ QString CodeGenerationPolicy::getHeadingFile(const QString& str)
     }
 
     //do variable substitution
-    retstr.replace(QRegExp(QStringLiteral("%author%")),
+    retstr.replace(QRegularExpression(QStringLiteral("%author%")),
                    QString::fromLatin1(qgetenv("USER")));  //get the user name from some where else
-    retstr.replace(QRegExp(QStringLiteral("%headingpath%")), filename);
-    retstr.replace(QRegExp(QStringLiteral("%time%")), QTime::currentTime().toString());
-    retstr.replace(QRegExp(QStringLiteral("%date%")), QDate::currentDate().toString());
+    retstr.replace(QRegularExpression(QStringLiteral("%headingpath%")), filename);
+    retstr.replace(QRegularExpression(QStringLiteral("%time%")), QTime::currentTime().toString());
+    retstr.replace(QRegularExpression(QStringLiteral("%date%")), QDate::currentDate().toString());
     // the replace filepath, time parts are also in the code document updateHeader method
     // (which is not a virtual function)...
 

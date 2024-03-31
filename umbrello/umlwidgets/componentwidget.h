@@ -28,14 +28,13 @@ public:
     ComponentWidget(UMLScene * scene, UMLComponent *c);
     virtual ~ComponentWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void adjustAssocs(qreal dx, qreal dy);
     virtual void adjustUnselectedAssocs(qreal dx, qreal dy);
 
     virtual void saveToXMI(QXmlStreamWriter& writer);
 
-signals:
     /**
      * Emitted when the component widget is moved.
      * Provides the delta X and delta Y amount by which the widget was moved
@@ -44,7 +43,7 @@ signals:
      * @param diffX The difference between previous and new X value.
      * @param diffY The difference between previous and new Y value.
      */
-    void sigCompMoved(qreal diffX, qreal diffY);
+    Q_SIGNAL void sigCompMoved(qreal diffX, qreal diffY);
 
 protected:
     QSizeF minimumSize() const;

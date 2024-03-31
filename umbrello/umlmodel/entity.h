@@ -75,14 +75,14 @@ public:
 
     virtual UMLClassifierListItem* makeChildObject(const QString& xmiTag);
 
-private slots:
-    void slotEntityAttributeRemoved(UMLClassifierListItem*);
+    Q_SIGNAL void entityAttributeAdded(UMLClassifierListItem*);
+    Q_SIGNAL void entityAttributeRemoved(UMLClassifierListItem*);
+    Q_SIGNAL void entityConstraintAdded(UMLClassifierListItem*);
+    Q_SIGNAL void entityConstraintRemoved(UMLClassifierListItem*);
 
-signals:
-    void entityAttributeAdded(UMLClassifierListItem*);
-    void entityAttributeRemoved(UMLClassifierListItem*);
-    void entityConstraintAdded(UMLClassifierListItem*);
-    void entityConstraintRemoved(UMLClassifierListItem*);
+private:
+    Q_SLOT void slotEntityAttributeRemoved(UMLClassifierListItem*);
+
 
 protected:
     bool load1(QDomElement& element);

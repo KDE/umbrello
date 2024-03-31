@@ -18,14 +18,11 @@ public:
     explicit DiagramsWindow(const QString &title, QWidget *parent = 0);
     ~DiagramsWindow();
 
-signals:
+    Q_SLOT void modified();
 
-public slots:
-    void modified();
-
-protected slots:
-    void slotDiagramsDoubleClicked(QModelIndex index);
-    void slotDiagramsClicked(QModelIndex index);
+protected:
+    Q_SLOT void slotDiagramsDoubleClicked(QModelIndex index);
+    Q_SLOT void slotDiagramsClicked(QModelIndex index);
 
 protected:
     QTableView *m_diagramsTree;

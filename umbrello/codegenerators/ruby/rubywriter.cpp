@@ -20,7 +20,7 @@
 #include <KMessageBox>
 
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 RubyWriter::RubyWriter()
@@ -71,14 +71,14 @@ void RubyWriter::writeClass(UMLClassifier *c)
 
     str = getHeadingFile(QStringLiteral(".rb"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName_);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), fileh.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName_);
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), fileh.fileName());
         h << str << m_endl;
     }
 
     if (forceDoc() || !c->doc().isEmpty()) {
         QString docStr = c->doc();
-        docStr.replace(QRegExp(QStringLiteral("\\n")), QStringLiteral("\n# "));
+        docStr.replace(QRegularExpression(QStringLiteral("\\n")), QStringLiteral("\n# "));
         docStr.remove(QStringLiteral("@ref "));
         docStr.replace(QStringLiteral("@see"), QStringLiteral("_See_"));
         docStr.replace(QStringLiteral("@short"), QStringLiteral("_Summary_"));
@@ -140,15 +140,15 @@ QString RubyWriter::cppToRubyType(const QString &typeStr)
 {
     QString type = cleanName(typeStr);
     type.remove(QStringLiteral("const "));
-    type.remove(QRegExp(QStringLiteral("[*&\\s]")));
-    type.replace(QRegExp(QStringLiteral("[<>]")), QStringLiteral("_"));
+    type.remove(QRegularExpression(QStringLiteral("[*&\\s]")));
+    type.replace(QRegularExpression(QStringLiteral("[<>]")), QStringLiteral("_"));
     type.replace(QStringLiteral("QStringList"), QStringLiteral("Array"));
     type.replace(QStringLiteral("QString"), QStringLiteral("String"));
     type.replace(QStringLiteral("bool"), QStringLiteral("true|false"));
-    type.replace(QRegExp(QStringLiteral("^(uint|int|ushort|short|ulong|long)$")), QStringLiteral("Integer"));
-    type.replace(QRegExp(QStringLiteral("^(float|double)$")), QStringLiteral("Float"));
-    type.replace(QRegExp(QStringLiteral("^Q(?=[A-Z])")), QStringLiteral("Qt::"));
-    type.replace(QRegExp(QStringLiteral("^K(?!(DE|Parts|IO)")), QStringLiteral("KDE::"));
+    type.replace(QRegularExpression(QStringLiteral("^(uint|int|ushort|short|ulong|long)$")), QStringLiteral("Integer"));
+    type.replace(QRegularExpression(QStringLiteral("^(float|double)$")), QStringLiteral("Float"));
+    type.replace(QRegularExpression(QStringLiteral("^Q(?=[A-Z])")), QStringLiteral("Qt::"));
+    type.replace(QRegularExpression(QStringLiteral("^K(?!(DE|Parts|IO)")), QStringLiteral("KDE::"));
 
     return type;
 }
@@ -161,8 +161,8 @@ QString RubyWriter::cppToRubyType(const QString &typeStr)
 QString RubyWriter::cppToRubyName(const QString &nameStr)
 {
     QString name = cleanName(nameStr);
-    name.remove(QRegExp(QStringLiteral("^m_")));
-    name.remove(QRegExp(QStringLiteral("^[pbn](?=[A-Z])")));
+    name.remove(QRegularExpression(QStringLiteral("^m_")));
+    name.remove(QRegularExpression(QStringLiteral("^[pbn](?=[A-Z])")));
     name = name.mid(0, 1).toLower() + name.mid(1);
     return name;
 }
@@ -271,12 +271,12 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
             h << m_indentation << "#" << m_endl;
             QString docStr = op->doc();
 
-            docStr.replace(QRegExp(QStringLiteral("[\\n\\r]+ *")), m_endl);
-            docStr.replace(QRegExp(QStringLiteral("[\\n\\r]+\\t*")), m_endl);
+            docStr.replace(QRegularExpression(QStringLiteral("[\\n\\r]+ *")), m_endl);
+            docStr.replace(QRegularExpression(QStringLiteral("[\\n\\r]+\\t*")), m_endl);
 
             docStr.replace(QStringLiteral(" m_"), QStringLiteral(" "));
-            docStr.replace(QRegExp(QStringLiteral("\\s[npb](?=[A-Z])")), QStringLiteral(" "));
-            QRegExp re_params(QStringLiteral("@param (\\w)(\\w*)"));
+            docStr.replace(QRegularExpression(QStringLiteral("\\s[npb](?=[A-Z])")), QStringLiteral(" "));
+            QRegularExpression re_params(QStringLiteral("@param (\\w)(\\w*)"));
             int pos = re_params.indexIn(docStr);
             while (pos != -1) {
                 docStr.replace(re_params.cap(0),
@@ -298,7 +298,7 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
                     if (at->doc().isEmpty()) {
                         docStr += (QLatin1Char(' ') + cppToRubyType(at->getTypeName()));
                     } else {
-                        docStr += (QLatin1Char(' ') + at->doc().replace(QRegExp(QStringLiteral("[\\n\\r]+[\\t ]*")), m_endl + QStringLiteral("   ")));
+                        docStr += (QLatin1Char(' ') + at->doc().replace(QRegularExpression(QStringLiteral("[\\n\\r]+[\\t ]*")), m_endl + QStringLiteral("   ")));
                     }
                 }
             }
@@ -312,7 +312,7 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
             // item starting with '# *', then indent the text with
             // three spaces, '#   ', to line up with the list item.
             pos = docStr.indexOf(QStringLiteral("# *"));
-            QRegExp re_linestart(QStringLiteral("# (?!\\*)"));
+            QRegularExpression re_linestart(QStringLiteral("# (?!\\*)"));
             pos = re_linestart.indexIn(docStr, pos);
             while (pos > 0) {
                 docStr.insert(pos + 1, QStringLiteral("  "));
@@ -397,7 +397,7 @@ void RubyWriter::writeSingleAttributeAccessorMethods(
         QTextStream &h)
 {
     QString description = descr;
-    description.remove(QRegExp(QStringLiteral("m_[npb](?=[A-Z])")));
+    description.remove(QRegularExpression(QStringLiteral("m_[npb](?=[A-Z])")));
     description.remove(QStringLiteral("m_"));
     description.replace(QLatin1Char('\n'), QString(QStringLiteral("\n")) + m_indentation + QStringLiteral("# "));
 

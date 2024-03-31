@@ -7,7 +7,7 @@
 
 #include "rubycodecomment.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 
 RubyCodeComment::RubyCodeComment(CodeDocument * doc, const QString & text)
         : CodeComment(doc, text)
@@ -30,7 +30,7 @@ QString RubyCodeComment::unformatText(const QString & text, const QString & inde
     QString mytext = TextBlock::unformatText(text, indent);
 
     // now leading hash
-    mytext.remove(QRegExp(QStringLiteral("^#\\s*")));
+    mytext.remove(QRegularExpression(QStringLiteral("^#\\s*")));
     return mytext;
 }
 

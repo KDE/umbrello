@@ -58,23 +58,17 @@ public:
 
     void initFromParentDocument();
 
+    Q_SLOT virtual void checkAddUMLObject (UMLObject * obj);
+    Q_SLOT virtual void checkRemoveUMLObject (UMLObject * obj);
+    Q_SLOT virtual void syncCodeToDocument ();
+
 protected:
-
     CPPMakefileCodeDocument * newMakefileCodeDocument ();
-
     CPPHeaderCodeDocument * findHeaderCodeDocumentByClassifier (UMLClassifier * classifier);
 
 private:
-
     bool             m_createMakefile;
     CodeDocumentList m_headercodedocumentVector;  //< a separate list for recording the header documents
-
-public slots:
-
-    virtual void checkAddUMLObject (UMLObject * obj);
-    virtual void checkRemoveUMLObject (UMLObject * obj);
-
-    virtual void syncCodeToDocument ();
 };
 
 #endif // CPPCODEGENERATOR_H

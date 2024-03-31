@@ -24,17 +24,16 @@ public:
     PackageContentsPage(QWidget *parent, UMLPackage *pkg);
     ~PackageContentsPage();
 
+    Q_SLOT void slotDoubleClick(QListWidgetItem * item);
+    Q_SLOT void slotShowContextMenu(const QPoint&);
+    Q_SLOT void slotMenuSelection(QAction* action);
+
 private:
     UMLPackage * m_package;
     QListWidget * m_contentLW;
     QGroupBox * m_contentGB;
 
     void fillListBox();
-
-public slots:
-    void slotDoubleClick(QListWidgetItem * item);
-    void slotShowContextMenu(const QPoint&);
-    void slotMenuSelection(QAction* action);
 };
 
 #endif

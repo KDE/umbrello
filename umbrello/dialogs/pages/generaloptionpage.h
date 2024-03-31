@@ -34,8 +34,7 @@ public:
     void setDefaults();
     void apply();
 
-signals:
-    void applyClicked();
+    Q_SIGNAL void applyClicked();
 
 protected:
     struct GeneralWidgets {
@@ -70,8 +69,7 @@ protected:
     void insertDiagram(const QString& type, int index);
     void insertLayoutType(const QString& type, int index);
 
-protected slots:
-    void slotAutosaveCBClicked();
+    Q_SLOT void slotAutosaveCBClicked();
 
 };
 #endif

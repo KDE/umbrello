@@ -75,20 +75,19 @@ public:
 
     virtual bool isModified() const;
 
-signals:
-    void okClicked();
-    void applyClicked();
-    void defaultClicked();
+    Q_SIGNAL void okClicked();
+    Q_SIGNAL void applyClicked();
+    Q_SIGNAL void defaultClicked();
 
-protected slots:
-    void slotEnableButtonOk(bool state);
+protected:
+    Q_SLOT void slotEnableButtonOk(bool state);
 
-private slots:
-    void slotOkClicked();
-    void slotApplyClicked();
-    void slotDefaultClicked();
-    void slotHelpClicked();
-    void slotButtonClicked(QAbstractButton *button);
+private:
+    Q_SLOT void slotOkClicked();
+    Q_SLOT void slotApplyClicked();
+    Q_SLOT void slotDefaultClicked();
+    Q_SLOT void slotHelpClicked();
+    Q_SLOT void slotButtonClicked(QAbstractButton *button);
 protected:
     AssociationGeneralPage *m_pAssocGeneralPage;
     NotePage *m_notePage;

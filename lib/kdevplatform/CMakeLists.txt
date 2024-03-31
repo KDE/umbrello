@@ -8,7 +8,7 @@ target_link_libraries(KDevTests
         #KDev::Debugger
     PRIVATE
         # fix kdevelop-5.2.1 issue, see https://bugs.kde.org/show_bug.cgi?id=424794
-        KF5::ThreadWeaver
+        KF6::ThreadWeaver
 )
 
 add_library(KDev::Tests ALIAS KDevTests)

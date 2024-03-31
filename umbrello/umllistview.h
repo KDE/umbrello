@@ -43,7 +43,7 @@ class UMLListView : public QTreeWidget
 {
     Q_OBJECT
 public:
-    explicit UMLListView(QWidget *parent = 0);
+    explicit UMLListView(QWidget *parent = nullptr);
     ~UMLListView();
 
     void setDocument(UMLDoc * doc);
@@ -136,34 +136,27 @@ protected:
 
     void addAtContainer(UMLListViewItem *item, UMLListViewItem *parent);
 
-public slots:
-    void slotDiagramCreated(Uml::ID::Type id);
-    void slotDiagramRenamed(Uml::ID::Type id);
-    void slotDiagramRemoved(Uml::ID::Type id);
-    void slotObjectCreated(UMLObject* object);
-    void slotObjectRemoved(UMLObject* object);
+public:
+    Q_SLOT void slotDiagramCreated(Uml::ID::Type id);
+    Q_SLOT void slotDiagramRenamed(Uml::ID::Type id);
+    Q_SLOT void slotDiagramRemoved(Uml::ID::Type id);
+    Q_SLOT void slotObjectCreated(UMLObject* object);
+    Q_SLOT void slotObjectRemoved(UMLObject* object);
+    Q_SLOT void connectNewObjectsSlots(UMLObject* object);
+    Q_SLOT void childObjectAdded(UMLClassifierListItem* obj);
+    Q_SLOT void childObjectRemoved(UMLClassifierListItem* obj);
+    Q_SLOT void slotObjectChanged();
+    Q_SLOT void slotMenuSelection(QAction* action, const QPoint &position = QPoint());
+    Q_SLOT void slotDropped(QDropEvent* de, UMLListViewItem* target);
+    Q_SLOT void expandAll(UMLListViewItem *item);
+    Q_SLOT void collapseAll(UMLListViewItem *item);
+    Q_SLOT void slotCutSuccessful();
+    Q_SLOT void slotDeleteSelectedItems();
 
-    void connectNewObjectsSlots(UMLObject* object);
-
-    void childObjectAdded(UMLClassifierListItem* obj);
-    void childObjectRemoved(UMLClassifierListItem* obj);
-
-    void slotObjectChanged();
-
-    void slotMenuSelection(QAction* action, const QPoint &position = QPoint());
-
-    void slotDropped(QDropEvent* de, UMLListViewItem* target);
-
-    void expandAll(UMLListViewItem *item);
-    void collapseAll(UMLListViewItem *item);
-
-    void slotCutSuccessful();
-    void slotDeleteSelectedItems();
-
-protected slots:
-    void slotItemSelectionChanged();
-    void slotExpanded(QTreeWidgetItem* item);
-    void slotCollapsed(QTreeWidgetItem* item);
+protected:
+    Q_SLOT void slotItemSelectionChanged();
+    Q_SLOT void slotExpanded(QTreeWidgetItem* item);
+    Q_SLOT void slotCollapsed(QTreeWidgetItem* item);
 
 private:
     UMLListViewItem* recursiveSearchForView(UMLListViewItem* folder,

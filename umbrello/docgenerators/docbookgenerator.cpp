@@ -22,7 +22,7 @@
 
 #include <QApplication>
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 DEBUG_REGISTER(DocbookGenerator)
@@ -58,7 +58,7 @@ bool DocbookGenerator::generateDocbookForProject()
 {
     QUrl url = umlDoc->url();
   QString fileName = url.fileName();
-  fileName.remove(QRegExp(QStringLiteral(".xmi$")));
+  fileName.remove(QRegularExpression(QStringLiteral(".xmi$")));
   url.setPath(url.path() + QLatin1Char('/') + fileName);
   logDebug1("DocbookGenerator::generateDocbookForProject: Exporting to directory %1", url.path());
   generateDocbookForProjectInto(url);
@@ -99,7 +99,7 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
     logDebug1("DocbookGenerator: Generation finished (%1)", tmpFileName);
     QUrl url = umlDoc->url();
     QString fileName = url.fileName();
-    fileName.replace(QRegExp(QStringLiteral(".xmi$")), QStringLiteral(".docbook"));
+    fileName.replace(QRegularExpression(QStringLiteral(".xmi$")), QStringLiteral(".docbook"));
     url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
     KIO::Job* job = KIO::file_copy(QUrl::fromLocalFile(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
     KJobWidgets::setWindow(job, (QWidget*)UMLApp::app());

@@ -33,13 +33,12 @@ public:
         return m_bChangesMade;
     }
 
-protected slots:
-    void slotOk();
-    void slotApply();
-    void slotShowActivityParameter();
-    void slotHideActivityParameter();
-
 protected:
+    Q_SLOT void slotOk();
+    Q_SLOT void slotApply();
+    Q_SLOT void slotShowActivityParameter();
+    Q_SLOT void slotHideActivityParameter();
+
     void setupPages();
     void setupGeneralPage();
 

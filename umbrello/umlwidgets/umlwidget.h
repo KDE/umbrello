@@ -233,25 +233,24 @@ public:
     void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
     void setupFontType(QFont &font, UMLWidget::FontType fontType);
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
-public Q_SLOTS:
-    virtual void updateWidget();
-    virtual void slotMenuSelection(QAction* action);
-    virtual void slotWidgetMoved(Uml::ID::Type id);
-    virtual void slotFillColorChanged(Uml::ID::Type viewID);
-    virtual void slotLineColorChanged(Uml::ID::Type viewID);
-    virtual void slotTextColorChanged(Uml::ID::Type viewID);
-    virtual void slotLineWidthChanged(Uml::ID::Type viewID);
+public:
+    Q_SLOT virtual void updateWidget();
+    Q_SLOT virtual void slotMenuSelection(QAction* action);
+    Q_SLOT virtual void slotWidgetMoved(Uml::ID::Type id);
+    Q_SLOT virtual void slotFillColorChanged(Uml::ID::Type viewID);
+    Q_SLOT virtual void slotLineColorChanged(Uml::ID::Type viewID);
+    Q_SLOT virtual void slotTextColorChanged(Uml::ID::Type viewID);
+    Q_SLOT virtual void slotLineWidthChanged(Uml::ID::Type viewID);
 
     void slotSnapToGrid();
 
-signals:
     /**
      * Emit when the widget moves its' position.
      * @param id The id of the object behind the widget.
      */
-    void sigWidgetMoved(Uml::ID::Type id);
+    Q_SIGNAL void sigWidgetMoved(Uml::ID::Type id);
 
 protected:
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);

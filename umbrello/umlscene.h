@@ -423,37 +423,37 @@ private:
                                          UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);
 
-public slots:
-    void slotToolBarChanged(int c);
-    void slotObjectCreated(UMLObject * o);
-    void slotObjectRemoved(UMLObject * o);
-    void slotMenuSelection(QAction* action);
-    void slotActivate();
-    void slotCutSuccessful();
-    void slotShowView();
+public:
+    Q_SLOT void slotToolBarChanged(int c);
+    Q_SLOT void slotObjectCreated(UMLObject * o);
+    Q_SLOT void slotObjectRemoved(UMLObject * o);
+    Q_SLOT void slotMenuSelection(QAction* action);
+    Q_SLOT void slotActivate();
+    Q_SLOT void slotCutSuccessful();
+    Q_SLOT void slotShowView();
 
-    void alignLeft();
-    void alignRight();
-    void alignTop();
-    void alignBottom();
-    void alignVerticalMiddle();
-    void alignHorizontalMiddle();
-    void alignVerticalDistribute();
-    void alignHorizontalDistribute();
+    Q_SLOT void alignLeft();
+    Q_SLOT void alignRight();
+    Q_SLOT void alignTop();
+    Q_SLOT void alignBottom();
+    Q_SLOT void alignVerticalMiddle();
+    Q_SLOT void alignHorizontalMiddle();
+    Q_SLOT void alignVerticalDistribute();
+    Q_SLOT void alignHorizontalDistribute();
 
-signals:
-    void sigResetToolBar();
+protected:
+    Q_SIGNAL void sigResetToolBar();
 
-    void sigFillColorChanged(Uml::ID::Type);
-    void sigGridColorChanged(Uml::ID::Type);
-    void sigLineColorChanged(Uml::ID::Type);
-    void sigTextColorChanged(Uml::ID::Type);
-    void sigLineWidthChanged(Uml::ID::Type);
-    void sigSnapToGridToggled(bool);
-    void sigSnapComponentSizeToGridToggled(bool);
-    void sigShowGridToggled(bool);
-    void sigAssociationRemoved(AssociationWidget*);
-    void sigWidgetRemoved(UMLWidget*);
+    Q_SIGNAL void sigFillColorChanged(Uml::ID::Type);
+    Q_SIGNAL void sigGridColorChanged(Uml::ID::Type);
+    Q_SIGNAL void sigLineColorChanged(Uml::ID::Type);
+    Q_SIGNAL void sigTextColorChanged(Uml::ID::Type);
+    Q_SIGNAL void sigLineWidthChanged(Uml::ID::Type);
+    Q_SIGNAL void sigSnapToGridToggled(bool);
+    Q_SIGNAL void sigSnapComponentSizeToGridToggled(bool);
+    Q_SIGNAL void sigShowGridToggled(bool);
+    Q_SIGNAL void sigAssociationRemoved(AssociationWidget*);
+    Q_SIGNAL void sigWidgetRemoved(UMLWidget*);
 
     friend class DiagramProxyWidget;
 };

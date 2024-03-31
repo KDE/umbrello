@@ -53,6 +53,7 @@ public:
      * It is only called if the method is Auto-generated.
      */
     virtual void updateContent () = 0;
+    Q_SLOT virtual void syncToParent();
 
 protected:
 
@@ -79,10 +80,6 @@ private:
 
     QString m_startMethod;
     QString m_endMethod;
-
-public slots:
-
-    virtual void syncToParent();
 };
 
 #endif // CODEMETHODBLOCK_H

@@ -55,8 +55,8 @@ public:
     bool isClickable;
     bool isCodeAccessorMethod;
 
-    TextBlockInfo () { m_parent = 0; isClickable = false; isCodeAccessorMethod = false; }
-    void setParent(UMLObject *p = 0) { m_parent = p; }
+    TextBlockInfo () { m_parent = nullptr; isClickable = false; isCodeAccessorMethod = false; }
+    void setParent(UMLObject *p = nullptr) { m_parent = p; }
     UMLObject * parent() { return m_parent; }
     void setDisplayName(const QString& name) { m_displayName = name; }
     QString displayName() const { return m_displayName; }
@@ -67,7 +67,7 @@ class CodeEditor : public KTextEdit
 {
     Q_OBJECT
 public:
-    explicit CodeEditor(const QString & text, CodeViewerDialog * parent = 0, CodeDocument * doc = 0);
+    explicit CodeEditor(const QString & text, CodeViewerDialog * parent = nullptr, CodeDocument * doc = nullptr);
     explicit CodeEditor(CodeViewerDialog * parent = 0, CodeDocument * doc = 0);
     ~CodeEditor();
 
@@ -81,7 +81,7 @@ protected:
     void appendText(CodeClassFieldDeclarationBlock * db);
     void appendText(TextBlockList * items);
     void appendText(CodeMethodBlock * mb);
-    void appendText(CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName = QString());
+    void appendText(CodeComment * comment, TextBlock * parent, UMLObject * umlObj = nullptr, const QString & compName = QString());
     void appendText(CodeBlockWithComments * cb);
 
     void rebuildView(int startCursorPos);
@@ -141,26 +141,25 @@ private:
 
     static bool isNonBlank(const QString &str);
 
-public slots:
-    void insertParagraph(const QString & text, int para);
-    void removeParagraph(int para);
-    void changeHighlighting(int signal);
-    void changeShowHidden(int signal);
-    void slotRedrawText();
+    Q_SLOT void insertParagraph(const QString & text, int para);
+    Q_SLOT void removeParagraph(int para);
+    Q_SLOT void changeHighlighting(int signal);
+    Q_SLOT void changeShowHidden(int signal);
+    Q_SLOT void slotRedrawText();
 
-protected slots:
-    void slotCursorPositionChanged();
-    void slotCopyTextBlock();
-    void slotCutTextBlock();
-    void slotPasteTextBlock();
-    void slotChangeSelectedBlockView();
-    void slotChangeSelectedBlockCommentView();
-    void slotInsertCodeBlockAfterSelected();
-    void slotInsertCodeBlockBeforeSelected();
+protected:
+    Q_SLOT void slotCursorPositionChanged();
+    Q_SLOT void slotCopyTextBlock();
+    Q_SLOT void slotCutTextBlock();
+    Q_SLOT void slotPasteTextBlock();
+    Q_SLOT void slotChangeSelectedBlockView();
+    Q_SLOT void slotChangeSelectedBlockCommentView();
+    Q_SLOT void slotInsertCodeBlockAfterSelected();
+    Q_SLOT void slotInsertCodeBlockBeforeSelected();
 
-signals:
-    // void sigNewLinePressed();
-    // void sigBackspacePressed();
+public:
+    Q_SIGNAL void sigNewLinePressed();
+    Q_SIGNAL void sigBackspacePressed();
 
 };
 

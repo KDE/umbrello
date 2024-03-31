@@ -42,25 +42,24 @@ private:
     void setupTreeView();
     void setupFileExtEdit();
     void setupToolTips();
+protected:
+    Q_SLOT void languageChanged(int id);
+    Q_SLOT void treeClicked(const QModelIndex& index);
+    Q_SLOT void treeEntered(const QModelIndex& index);
 
-protected slots:
-    void languageChanged(int id);
-    void treeClicked(const QModelIndex& index);
-    void treeEntered(const QModelIndex& index);
+private:
+    Q_SLOT void changeLanguage();
+    Q_SLOT void subdirStateChanged(int state);
+    Q_SLOT void fileExtChanged();
+    Q_SLOT void selectAll();
+    Q_SLOT void deselectAll();
+    Q_SLOT void updateSelectionCounter();
 
-private slots:
-    void changeLanguage();
-    void subdirStateChanged(int state);
-    void fileExtChanged();
-    void selectAll();
-    void deselectAll();
-    void updateSelectionCounter();
-
-signals:
-    void applyClicked();
-    void languageChanged();
-    void syncCodeDocumentsToParent();
-    void selectionChanged();
+protected:
+    Q_SIGNAL void applyClicked();
+    Q_SIGNAL void languageChanged();
+    Q_SIGNAL void syncCodeDocumentsToParent();
+    Q_SIGNAL void selectionChanged();
 };
 
 #endif

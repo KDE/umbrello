@@ -30,29 +30,23 @@ public:
 
     void refactor(UMLClassifier *obj);
 
-signals:
+    Q_SLOT void addBaseClassifier();
+    Q_SLOT void addDerivedClassifier();
+    Q_SLOT void addInterfaceImplementation();
+    Q_SLOT void createOperation();
+    Q_SLOT void createAttribute();
+    Q_SLOT void editProperties();
+    Q_SLOT void deleteItem();
 
-//    void moved();
+    Q_SLOT void objectModified();
 
-public slots:
+    Q_SLOT void operationAdded(UMLClassifierListItem *listItem);
+    Q_SLOT void operationRemoved(UMLClassifierListItem *listItem);
 
-    void addBaseClassifier();
-    void addDerivedClassifier();
-    void addInterfaceImplementation();
-    void createOperation();
-    void createAttribute();
-    void editProperties();
-    void deleteItem();
+    Q_SLOT void attributeAdded(UMLClassifierListItem *listItem);
+    Q_SLOT void attributeRemoved(UMLClassifierListItem *listItem);
 
-    void objectModified();
-
-    void operationAdded(UMLClassifierListItem *listItem);
-    void operationRemoved(UMLClassifierListItem *listItem);
-
-    void attributeAdded(UMLClassifierListItem *listItem);
-    void attributeRemoved(UMLClassifierListItem *listItem);
-
-    void itemExecuted(QTreeWidgetItem *item, int column);
+    Q_SLOT void itemExecuted(QTreeWidgetItem *item, int column);
 
 protected:
 
@@ -77,11 +71,8 @@ protected:
     QMap<QTreeWidgetItem*, UMLObject*>  m_umlObjectMap;
     QSet<UMLClassifier *>               m_alreadySeen; ///< recursive guard
 
-private slots:
-
-    void showContextMenu(const QPoint&);
-
 private:
+    Q_SLOT void showContextMenu(const QPoint&);
 
     QAction* createAction(const QString& text, const char * method, const Icon_Utils::IconType icon = Icon_Utils::N_ICONTYPES);
 

@@ -25,7 +25,7 @@
 #include <QPaintEngine>
 #include <QProcess>
 #include <QRectF>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QString>
 #include <QTemporaryFile>
@@ -582,7 +582,7 @@ int DotGenerator::generatorVersion() const
     p.start(generatorFullPath(), args);
     p.waitForFinished();
     QString out(QLatin1String(p.readAllStandardError()));
-    QRegExp rx(QStringLiteral("\\((.*)\\."));
+    QRegularExpression rx(QStringLiteral("\\((.*)\\."));
     QString version = rx.indexIn(out) != -1 ? rx.cap(1) : QString();
     return version.toInt(0);
 }

@@ -47,7 +47,7 @@
 // qt includes
 #include <QtGlobal>
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 
 DEBUG_REGISTER(petalTree2Uml)
 
@@ -75,7 +75,7 @@ QString clean(const QString& s)
         return QString();
     QString str = s;
     str.remove(QLatin1Char('\"'));
-    str.remove(QRegExp(QStringLiteral("^.+::")));
+    str.remove(QRegularExpression(QStringLiteral("^.+::")));
     return str;
 }
 
@@ -178,8 +178,8 @@ qreal fetchInt(const PetalNode *node, const QString &attribute, int defaultValue
 UMLObject::ObjectType typeToCreate(const QString& name)
 {
     QString n = name;
-    n.remove(QRegExp(QStringLiteral("^.*::")));  // don't consider the scope prefix, it may contain spaces
-    UMLObject::ObjectType t = (n.contains(QRegExp(QStringLiteral("\\W"))) ? UMLObject::ot_Datatype
+    n.remove(QRegularExpression(QStringLiteral("^.*::")));  // don't consider the scope prefix, it may contain spaces
+    UMLObject::ObjectType t = (n.contains(QRegularExpression(QStringLiteral("\\W"))) ? UMLObject::ot_Datatype
                                                                          : UMLObject::ot_Class);
     return t;
 }
@@ -514,11 +514,11 @@ UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
     }
     file_name = file_name.mid(1, file_name.length() - 2);  // remove surrounding ""
     /* I wanted to use
-                  file_name.replace(QRegExp("\\\\+") "/");
+                  file_name.replace(QRegularExpression("\\\\+") "/");
        but this did not work using Qt 4.6.3. Workaround:
      */
     file_name.replace(QStringLiteral("\\\\"), QStringLiteral("/"));
-    file_name.replace(QRegExp(QStringLiteral("/+")), QStringLiteral("/"));
+    file_name.replace(QRegularExpression(QStringLiteral("/+")), QStringLiteral("/"));
     /* End of workaround */
 
     if (file_name.startsWith(QStringLiteral("$"))) {

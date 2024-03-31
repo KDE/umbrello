@@ -16,17 +16,15 @@ class ObjectsWindow : public QDockWidget
 {
     Q_OBJECT
 public:
-    explicit ObjectsWindow(const QString &title, QWidget *parent = 0);
+    explicit ObjectsWindow(const QString &title, QWidget *parent = nullptr);
     ~ObjectsWindow();
 
-signals:
+public:
+    Q_SLOT void modified();
 
-public slots:
-    void modified();
-
-protected slots:
-    void slotObjectsDoubleClicked(QModelIndex index);
-    void slotObjectsClicked(QModelIndex index);
+protected:
+    Q_SIGNAL void slotObjectsDoubleClicked(QModelIndex index);
+    Q_SIGNAL void slotObjectsClicked(QModelIndex index);
 
 protected:
     QTableView *m_objectsTree;

@@ -16,7 +16,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 RubyCodeOperation::RubyCodeOperation (RubyClassifierCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment)
         : CodeOperation (doc, parent, body, comment)
@@ -56,7 +56,7 @@ void RubyCodeOperation::updateMethodDeclaration()
     // Skip destructors, and operator methods which
     // can't be defined in ruby
     if (methodName.startsWith(QLatin1Char('~'))
-         || QRegExp(QStringLiteral("operator\\s*(=|--|\\+\\+|!=)$")).exactMatch(methodName))
+         || QRegularExpression(QStringLiteral("operator\\s*(=|--|\\+\\+|!=)$")).exactMatch(methodName))
     {
         getComment()->setText(QString());
         return;
@@ -66,7 +66,7 @@ void RubyCodeOperation::updateMethodDeclaration()
         methodName = QStringLiteral("initialize");
     }
 
-    methodName.remove(QRegExp(QStringLiteral("operator\\s*")));
+    methodName.remove(QRegularExpression(QStringLiteral("operator\\s*")));
     methodName = methodName.mid(0, 1).toLower() + methodName.mid(1);
 
     QString paramStr;
@@ -111,20 +111,20 @@ void RubyCodeOperation::updateMethodDeclaration()
             UMLAttributeList parameters = o->getParmList();
             foreach (UMLAttribute* currentAtt, parameters) {
                 comment += endLine + QStringLiteral("* _") + currentAtt->name() + QStringLiteral("_ ");
-                comment += (QLatin1Char(' ') + currentAtt->doc().replace(QRegExp(QStringLiteral("[\\n\\r]+[\\t ]*")), endLine + QStringLiteral("  ")));
+                comment += (QLatin1Char(' ') + currentAtt->doc().replace(QRegularExpression(QStringLiteral("[\\n\\r]+[\\t ]*")), endLine + QStringLiteral("  ")));
             }
             // add a returns statement too
-            if (!returnType.isEmpty() && !QRegExp(QStringLiteral("^void\\s*$")).exactMatch(returnType))
+            if (!returnType.isEmpty() && !QRegularExpression(QStringLiteral("^void\\s*$")).exactMatch(returnType))
                 comment += endLine + QStringLiteral("* _returns_ ") + returnType + QLatin1Char(' ');
             getComment()->setText(comment);
         }
     } else {
-        comment.replace(QRegExp(QStringLiteral("[\\n\\r]+ *")), endLine);
-        comment.replace(QRegExp(QStringLiteral("[\\n\\r]+\\t*")), endLine);
+        comment.replace(QRegularExpression(QStringLiteral("[\\n\\r]+ *")), endLine);
+        comment.replace(QRegularExpression(QStringLiteral("[\\n\\r]+\\t*")), endLine);
 
         comment.replace(QStringLiteral(" m_"), QStringLiteral(" "));
-        comment.replace(QRegExp(QStringLiteral("\\s[npb](?=[A-Z])")), QStringLiteral(" "));
-        QRegExp re_params(QStringLiteral("@param (\\w)(\\w*)"));
+        comment.replace(QRegularExpression(QStringLiteral("\\s[npb](?=[A-Z])")), QStringLiteral(" "));
+        QRegularExpression re_params(QStringLiteral("@param (\\w)(\\w*)"));
         int pos = re_params.indexIn(comment);
         while (pos != -1) {
             comment.replace(re_params.cap(0),
@@ -144,7 +144,7 @@ void RubyCodeOperation::updateMethodDeclaration()
                 if (currentAtt->doc().isEmpty()) {
                     comment += (QLatin1Char(' ') + RubyCodeGenerator::cppToRubyType(currentAtt->getTypeName()));
                 } else {
-                    comment += (QLatin1Char(' ') + currentAtt->doc().replace(QRegExp(QStringLiteral("[\\n\\r]+[\\t ]*")), endLine + QStringLiteral("  ")));
+                    comment += (QLatin1Char(' ') + currentAtt->doc().replace(QRegularExpression(QStringLiteral("[\\n\\r]+[\\t ]*")), endLine + QStringLiteral("  ")));
                 }
             }
         }
@@ -175,7 +175,7 @@ void RubyCodeOperation::updateMethodDeclaration()
 
         QString typeStr = RubyCodeGenerator::cppToRubyType(o->getTypeName());
         if (!typeStr.isEmpty()
-                && !QRegExp(QStringLiteral("^void\\s*$")).exactMatch(typeStr)
+                && !QRegularExpression(QStringLiteral("^void\\s*$")).exactMatch(typeStr)
                 && comment.contains(QStringLiteral("_returns_")) == 0)
         {
             comment += endLine + QStringLiteral("* _returns_ ") + typeStr;

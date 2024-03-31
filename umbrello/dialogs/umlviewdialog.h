@@ -33,6 +33,9 @@ public:
 
     virtual void apply();
 
+    Q_SLOT void slotOk();
+    Q_SLOT void slotApply();
+
 protected:
     void setupPages();
 
@@ -44,17 +47,14 @@ protected:
 
     void checkName();
 
-    UMLScene*              m_pScene;  ///< the scene to represent
-    DiagramPropertiesPage* m_diagramPropertiesPage;
-    ClassOptionsPage*      m_pOptionsPage;
-    KPageWidgetItem*       m_pageStyleItem;
-    KPageWidgetItem*       m_pageFontItem;
-    KPageWidgetItem*       m_pageDisplayItem;
-    KPageWidgetItem*       m_pageDiagramItem;
+    UMLScene*              m_pScene = nullptr;;  ///< the scene to represent
+    DiagramPropertiesPage* m_diagramPropertiesPage = nullptr;;
+    ClassOptionsPage*      m_pOptionsPage = nullptr;;
+    KPageWidgetItem*       m_pageStyleItem = nullptr;;
+    KPageWidgetItem*       m_pageFontItem = nullptr;;
+    KPageWidgetItem*       m_pageDisplayItem = nullptr;;
+    KPageWidgetItem*       m_pageDiagramItem = nullptr;;
 
-public slots:
-    void slotOk();
-    void slotApply();
 };
 
 #endif

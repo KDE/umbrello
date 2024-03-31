@@ -52,14 +52,13 @@ public:
     };
     Q_DECLARE_FLAGS(DumpAreas, DumpArea)
 
-public slots:
-    void initTestCase();
-    void cleanupTestCase();
+    Q_SLOT void initTestCase();
+    Q_SLOT void cleanupTestCase();
 
 protected:
     KDevelop::TopDUContext* parse(const QByteArray& unit,
                                   DUChainTestBase::DumpAreas dump = DumpAreas(DumpAll),
-                                  QUrl url = {}, KDevelop::TopDUContext* update = 0);
+                                  QUrl url = {}, KDevelop::TopDUContext* update = nullptr);
 
     KDevelop::TopDUContext* parseAdditionalFile(const KDevelop::IndexedString& fileName, const QByteArray& contents);
 

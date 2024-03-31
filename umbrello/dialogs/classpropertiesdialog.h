@@ -41,11 +41,10 @@ public:
 
     virtual void apply();
 
-protected slots:
-    void slotOk();
-    void slotApply();
-
 protected:
+    Q_SLOT void slotOk();
+    Q_SLOT void slotApply();
+
     void setupPages(bool assoc = false);
     void setupGeneralPage();
     void setupDisplayPage();

@@ -33,6 +33,9 @@ public:
     UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttribute);
     ~UMLAttributeDialog();
 
+    Q_SLOT void slotNameChanged(const QString &);
+    Q_SLOT void slotStereoTextChanged(const QString &);
+
 protected:
     void setupDialog();
     bool apply();
@@ -54,10 +57,6 @@ protected:
     QLineEdit           *m_pTagLE[N_STEREOATTRS];
     VisibilityEnumWidget *m_visibilityEnumWidget;
     DocumentationWidget *m_docWidget;
-
-public slots:
-    void slotNameChanged(const QString &);
-    void slotStereoTextChanged(const QString &);
 };
 
 #endif

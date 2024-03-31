@@ -25,9 +25,8 @@ public:
 protected:
     void setupPages();
 
-protected slots:
-    void slotOk();
-    void slotApply();
+    Q_SLOT void slotOk();
+    Q_SLOT void slotApply();
 
 private:
     MessageWidget  *m_widget;

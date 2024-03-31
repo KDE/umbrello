@@ -218,7 +218,7 @@ void CodeImpSelectPage::subdirStateChanged(int state)
 void CodeImpSelectPage::fileExtChanged()
 {
     QString inputStr = ui_fileExtLineEdit->text();
-    m_fileExtensions = inputStr.split(QRegExp(QStringLiteral("[,;: ]*")));
+    m_fileExtensions = inputStr.split(QRegularExpression(QStringLiteral("[,;: ]*")));
     logDebug1("CodeImpSelectPage: editing of file extension line edit finished and set to %1",
               m_fileExtensions.join(QStringLiteral(" ")));
 

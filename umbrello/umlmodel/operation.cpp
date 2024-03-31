@@ -23,7 +23,7 @@
 #include <KLocalizedString>
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 DEBUG_REGISTER(UMLOperation)
 
@@ -402,7 +402,7 @@ bool UMLOperation::isDestructorOperation() const
     // with "~" followed by the name of the parent classifier.
     if (! opName.startsWith(QLatin1Char('~')))
         return false;
-    opName.remove(QRegExp(QStringLiteral("^~\\s*")));
+    opName.remove(QRegularExpression(QStringLiteral("^~\\s*")));
     return (cName == opName);
 }
 

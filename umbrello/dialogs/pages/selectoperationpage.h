@@ -50,8 +50,12 @@ public:
     void setupDialog();
     bool apply();
 
-signals:
-    void enableButtonOk(bool state);
+    Q_SIGNAL void enableButtonOk(bool state);
+
+    Q_SLOT void slotAutoIncrementChecked(bool state);
+    Q_SLOT void slotNewOperation();
+    Q_SLOT void slotIndexChanged(int index);
+    Q_SLOT void slotTextChanged(const QString &text);
 
 protected:
     void setupOperationsList();
@@ -76,11 +80,6 @@ private:
     LinkWidget       *m_widget;
     bool              m_enableAutoIncrement;
 
-public slots:
-    void slotAutoIncrementChecked(bool state);
-    void slotNewOperation();
-    void slotIndexChanged(int index);
-    void slotTextChanged(const QString &text);
 };
 
 #endif

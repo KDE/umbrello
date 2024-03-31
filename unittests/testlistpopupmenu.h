@@ -13,13 +13,13 @@ class TestListPopupMenu : public TestBase
 {
     Q_OBJECT
 
-private slots:
-    void test_createWidgetsSingleSelect();
-    void test_createWidgetsMultiSelect();
-    void test_createAssociationWidget();
-    void test_createUMLScene();
-    void test_createUMLListview();
-    void test_createMiscMenu();
+private:
+    Q_SLOT void test_createWidgetsSingleSelect();
+    Q_SLOT void test_createWidgetsMultiSelect();
+    Q_SLOT void test_createAssociationWidget();
+    Q_SLOT void test_createUMLScene();
+    Q_SLOT void test_createUMLListview();
+    Q_SLOT void test_createMiscMenu();
 };
 
 #endif // TESTLISTPOPUPMENU_H

@@ -75,6 +75,9 @@ public:
 
     void apply();
 
+    Q_SLOT void slotStereoTextChanged(const QString &);
+    Q_SLOT void slotActorToggled(bool state);
+
 private:
     UMLObject * m_pObject;
     ObjectWidget * m_pWidget;
@@ -96,10 +99,6 @@ private:
 
     void insertStereotypesSorted(const QString& type);
     void setInstanceWidgetNameIfApplicable(const QString& name) const;
-
-public slots:
-    void slotStereoTextChanged(const QString &);
-    void slotActorToggled(bool state);
 };
 
 #endif

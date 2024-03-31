@@ -26,11 +26,10 @@ public:
     void setDefaults();
     void apply();
 
-signals:
-    void applyClicked();
+    Q_SIGNAL void applyClicked();
 
-protected slots:
-    void slotAutoDotPathCBClicked(bool value);
+protected:
+    Q_SLOT void slotAutoDotPathCBClicked(bool value);
 
 };
 #endif

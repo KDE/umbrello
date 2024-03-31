@@ -108,11 +108,8 @@ public:
     void setCommentStyle(CommentStyle new_var);
     CommentStyle getCommentStyle();
 
-signals:
-
-    void modifiedCodeContent();
-
 protected:
+    Q_SIGNAL void modifiedCodeContent();
 
 /*
     // Policy of how to deal with overwriting existing files. Allowed values are "ask", "yes" and "no".

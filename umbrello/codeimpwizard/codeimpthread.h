@@ -22,26 +22,24 @@ class CodeImpThread : public QObject
 {
     Q_OBJECT
 public:
-    explicit CodeImpThread(QFileInfo& file, QObject* parent = 0);
+    explicit CodeImpThread(QFileInfo& file, QObject* parent = nullptr);
     virtual ~CodeImpThread();
 
-public slots:
-    virtual void run();
+    Q_SLOT virtual void run();
 
-    int emitAskQuestion(const QString& question);
-    void emitMessageToLog(const QString& file, const QString& text);
+    Q_SLOT int emitAskQuestion(const QString& question);
+    Q_SLOT void emitMessageToLog(const QString& file, const QString& text);
 
-signals:
-    void askQuestion(const QString& question, int& answer);
-    void messageToWiz(const QString& file, const QString& text);
-    void messageToLog(const QString& file, const QString& text);
-    void messageToApp(const QString& text);
-    void aborted();
-    void failed();
-    void finished(bool noError);
+    Q_SIGNAL void askQuestion(const QString& question, int& answer);
+    Q_SIGNAL void messageToWiz(const QString& file, const QString& text);
+    Q_SIGNAL void messageToLog(const QString& file, const QString& text);
+    Q_SIGNAL void messageToApp(const QString& text);
+    Q_SIGNAL void aborted();
+    Q_SIGNAL void failed();
+    Q_SIGNAL void finished(bool noError);
 
-private slots:
-    void questionAsked(const QString& question, int& answer);
+private:
+    Q_SLOT void questionAsked(const QString& question, int& answer);
 
 private:
     QFileInfo&        m_file;

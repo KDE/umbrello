@@ -31,7 +31,7 @@ public:
     PreconditionWidget(UMLScene* scene, ObjectWidget* a, Uml::ID::Type id = Uml::ID::None);
     virtual ~PreconditionWidget();
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     int minY() const;
     int maxY() const;
@@ -45,9 +45,8 @@ public:
     ObjectWidget *objectWidget() const;
     void setObjectWidget(ObjectWidget *objectWidget);
 
-public slots:
-    void slotMenuSelection(QAction* action);
-    void slotWidgetMoved(Uml::ID::Type id);
+    Q_SLOT void slotMenuSelection(QAction* action);
+    Q_SLOT void slotWidgetMoved(Uml::ID::Type id);
 
 protected:
     QSizeF minimumSize() const;

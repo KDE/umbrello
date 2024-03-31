@@ -24,7 +24,7 @@
 
 // qt includes
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 static const char *reserved_words[] = {
@@ -171,8 +171,8 @@ void TclWriter::writeHeaderFile(UMLClassifier * c, QFile & fileh)
     // write header blurb
     QString str = getHeadingFile(QStringLiteral(".tcl"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName_);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), fileh.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName_);
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), fileh.fileName());
         writeCode(str);
     }
     // set current namespace
@@ -341,8 +341,8 @@ void TclWriter::writeSourceFile(UMLClassifier * c, QFile & filetcl)
     QString         str;
     str = getHeadingFile(QStringLiteral(".tclbody"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName_ + QStringLiteral("body"));
-        str.replace(QRegExp(QStringLiteral("%filepath%")), filetcl.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName_ + QStringLiteral("body"));
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), filetcl.fileName());
         writeCode(str);
     }
     // Start body of class
@@ -379,7 +379,7 @@ void TclWriter::writeCode(const QString &text)
  */
 void TclWriter::writeComm(const QString &text)
 {
-    QStringList lines = text.split(QRegExp(QStringLiteral("\n")));
+    QStringList lines = text.split(QRegularExpression(QStringLiteral("\n")));
     for (int i = 0; i < lines.count(); ++i) {
         *mStream << indent() << QStringLiteral("# ") << lines[i] << m_endl;
     }
@@ -390,7 +390,7 @@ void TclWriter::writeComm(const QString &text)
  */
 void TclWriter::writeDocu(const QString &text)
 {
-    QStringList lines = text.split(QRegExp(QStringLiteral("\n")));
+    QStringList lines = text.split(QRegularExpression(QStringLiteral("\n")));
     for (int i = 0; i < lines.count(); ++i) {
         *mStream << indent() << QStringLiteral("## ") << lines[i] << m_endl;
     }
@@ -587,13 +587,13 @@ void TclWriter::writeAssociationRoleDecl(const QString &fieldClassName, const QS
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    if (multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^[01]$")))) {
+    if (multi.isEmpty() || multi.contains(QRegularExpression(QStringLiteral("^[01]$")))) {
         QString fieldVarName = roleName.toLower();
 
         // record this for later consideration of initialization IF the
         // multi value requires 1 of these objects
         if (ObjectFieldVariables.indexOf(fieldVarName) == -1 &&
-                multi.contains(QRegExp(QStringLiteral("^1$")))
+                multi.contains(QRegularExpression(QStringLiteral("^1$")))
           ) {
             // ugh. UGLY. Storing variable name and its class in pairs.
             ObjectFieldVariables.append(fieldVarName);
@@ -875,7 +875,7 @@ void TclWriter::writeAssociationRoleSource(const QString &fieldClassName,
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    if (multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^[01]$")))) {
+    if (multi.isEmpty() || multi.contains(QRegularExpression(QStringLiteral("^[01]$")))) {
         QString fieldVarName = roleName.toLower();
 
         writeCode(QStringLiteral("configbody ") + mClassGlobal + QStringLiteral("::") + fieldVarName + QStringLiteral(" {} {"));

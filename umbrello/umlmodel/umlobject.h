@@ -286,11 +286,8 @@ public:
     const UMLUniqueConstraint      * asUMLUniqueConstraint()     const;
     const UMLUseCase               * asUMLUseCase()              const;
 
-public slots:
-    void emitModified();
-
-signals:
-    void modified();
+    Q_SLOT void emitModified();
+    Q_SIGNAL void modified();
 
 protected:
     void init();

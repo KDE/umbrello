@@ -33,9 +33,8 @@ public:
 
     QString value() const;
 
-public slots:
-    void setType(UMLObject *type);
-    void setType(const QString &type);
+    Q_SLOT void setType(UMLObject *type);
+    Q_SLOT void setType(const QString &type);
 
 protected:
     void showEvent(QShowEvent *event);

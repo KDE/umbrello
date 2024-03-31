@@ -15,7 +15,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 /**
@@ -256,7 +256,7 @@ QString TextBlock::unformatText(const QString & text, const QString & indent)
 
     if (!output.isEmpty()) {
         // remove indentation from this text block.
-        output.remove(QRegExp(QLatin1Char('^') + myIndent));
+        output.remove(QRegularExpression(QLatin1Char('^') + myIndent));
     }
 
     return output;
@@ -287,15 +287,15 @@ QString TextBlock::formatMultiLineText(const QString & work, const QString & lin
     QString output;
     QString text = work;
     QString endLine = getNewLineEndingChars();
-    int matches = text.indexOf(QRegExp(breakStr));
+    int matches = text.indexOf(QRegularExpression(breakStr));
     if (matches >= 0) {
         // check that last part of string matches, if not, then
         // we have to tack on extra match
-        if (!text.contains(QRegExp(breakStr + QStringLiteral("\\$"))))
+        if (!text.contains(QRegularExpression(breakStr + QStringLiteral("\\$"))))
             matches++;
 
         for (int i=0; i < matches; ++i) {
-            QString line = text.section(QRegExp(breakStr), i, i);
+            QString line = text.section(QRegularExpression(breakStr), i, i);
             output += linePrefix + line;
             if ((i != matches-1) || lastLineHasBreak)
                 output += endLine; // add break to line
@@ -374,7 +374,7 @@ void TextBlock::setAttributesFromNode(QDomElement & root)
 QString TextBlock::encodeText(const QString & text, const QString & endLine)
 {
     QString encoded = text;
-    encoded.replace(QRegExp(endLine), QStringLiteral("&#010;"));
+    encoded.replace(QRegularExpression(endLine), QStringLiteral("&#010;"));
     return encoded;
 }
 
@@ -388,7 +388,7 @@ QString TextBlock::encodeText(const QString & text, const QString & endLine)
 QString TextBlock::decodeText(const QString & text, const QString & endLine)
 {
     QString decoded = text;
-    decoded.replace(QRegExp(QStringLiteral("&#010;")), endLine);
+    decoded.replace(QRegularExpression(QStringLiteral("&#010;")), endLine);
     return decoded;
 }
 

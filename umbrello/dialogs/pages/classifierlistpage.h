@@ -96,28 +96,19 @@ protected:
 
     bool m_bSigWaiting;
 
-protected slots:
-
-    void slotActivateItem(QListWidgetItem* item);
-
-    void slotMenuSelection(QAction* action);
-
-    void slotListItemCreated(UMLObject* object);
-    void slotListItemModified();
-    void slotRightButtonPressed(const QPoint& p);
-
-    void slotDoubleClick(QListWidgetItem* item);
-
-    void slotTopClicked();
-    void slotUpClicked();
-    void slotDownClicked();
-    void slotBottomClicked();
-
-    void slotNewListItem();
-
-    void slotDelete();
-
-    void slotProperties();
+    Q_SLOT void slotActivateItem(QListWidgetItem* item);
+    Q_SLOT void slotMenuSelection(QAction* action);
+    Q_SLOT void slotListItemCreated(UMLObject* object);
+    Q_SLOT void slotListItemModified();
+    Q_SLOT void slotRightButtonPressed(const QPoint& p);
+    Q_SLOT void slotDoubleClick(QListWidgetItem* item);
+    Q_SLOT void slotTopClicked();
+    Q_SLOT void slotUpClicked();
+    Q_SLOT void slotDownClicked();
+    Q_SLOT void slotBottomClicked();
+    Q_SLOT void slotNewListItem();
+    Q_SLOT void slotDelete();
+    Q_SLOT void slotProperties();
 };
 
 #endif

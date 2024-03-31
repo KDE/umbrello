@@ -31,6 +31,9 @@ public:
     ClassAssociationsPage(QWidget *parent, UMLScene * scene, UMLObject * o);
     ~ClassAssociationsPage();
 
+    Q_SLOT void slotDoubleClick(QListWidgetItem *item);
+    Q_SLOT void slotRightButtonPressed(const QPoint &p);
+    Q_SLOT void slotMenuSelection(QAction* action);
 private:
     UMLObject             *m_pObject;
     UMLScene              *m_pScene;
@@ -39,11 +42,6 @@ private:
     AssociationWidgetList  m_List;
 
     void fillListBox();
-
-public slots:
-    void slotDoubleClick(QListWidgetItem *item);
-    void slotRightButtonPressed(const QPoint &p);
-    void slotMenuSelection(QAction* action);
 };
 
 #endif

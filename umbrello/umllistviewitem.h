@@ -106,10 +106,10 @@ public:
 
     static QString toString(ListViewType type);
 
-    UMLListViewItem(UMLListView * parent, const QString &name, ListViewType t, UMLObject* o = 0);
+    UMLListViewItem(UMLListView * parent, const QString &name, ListViewType t, UMLObject* o = nullptr);
     explicit UMLListViewItem(UMLListView * parent);
     explicit UMLListViewItem(UMLListViewItem * parent);
-    UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, UMLObject* o = 0);
+    UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, UMLObject* o = nullptr);
     UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, Uml::ID::Type id);
 
     ListViewType type() const;
@@ -155,8 +155,7 @@ public:
     bool isOpen() const { return isExpanded(); }
     void setOpen(bool state);
 
-public slots:
-    void slotEditFinished(const QString &newText);
+    Q_SLOT void slotEditFinished(const QString &newText);
 
 protected:
     void init();

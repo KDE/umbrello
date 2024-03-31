@@ -20,13 +20,13 @@ class Benchmarks : public DUChainTestBase
 public:
     Benchmarks();
 
-private slots:
+private:
     /// benchmarks the parser
-    void parser();
+    Q_SLOT void parser();
     /// benchmarks the declaration builder
-    void declarationBuilder();
+    Q_SLOT void declarationBuilder();
     /// benchmarks the use-builder
-    void useBuilder();
+    Q_SLOT void useBuilder();
 };
 
 }

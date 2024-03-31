@@ -23,14 +23,15 @@ class Docbook2XhtmlGeneratorJob : public QThread
     Q_OBJECT
   public:
     Docbook2XhtmlGeneratorJob(QUrl& docBookUrl, QObject* parent);
-  protected:
+    Q_SIGNAL void xhtmlGenerated(const QString&);
+
+protected:
      void run();
 
   private:
      QUrl m_docbookUrl;
 
-  signals:
-     void xhtmlGenerated(const QString&);
+
 };
 
 #endif

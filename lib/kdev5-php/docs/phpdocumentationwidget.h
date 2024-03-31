@@ -26,17 +26,16 @@ class PhpDocumentationWidget : public QStackedWidget
 
 public:
     explicit PhpDocumentationWidget(KDevelop::DocumentationFindWidget* find, const QUrl &url,
-                                    PhpDocsPlugin* provider, QWidget* parent = 0);
+                                    PhpDocsPlugin* provider, QWidget* parent = nullptr);
     ~PhpDocumentationWidget();
 
-private slots:
     /// used to inject some custom CSS to alter the remote php.net site
-    void documentLoaded();
-    void linkClicked(const QUrl& url);
+    Q_SLOT void documentLoaded();
+    Q_SLOT void linkClicked(const QUrl& url);
 
 private:
-    KDevelop::StandardDocumentationView* m_part;
-    QWidget* m_loading;
+    KDevelop::StandardDocumentationView* m_part = nullptr;
+    QWidget* m_loading = nullptr;
     QTemporaryFile* m_styleSheet;
     PhpDocsPlugin* m_provider;
 };

@@ -24,7 +24,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QXmlStreamWriter>
 
 /**
@@ -160,9 +160,9 @@ void RubyCodeAccessorMethod::updateMethodDeclaration()
     QString endLine = p->getNewLineEndingChars();
 
     QString description = getParentObject()->doc();
-    description.remove(QRegExp(QStringLiteral("m_[npb](?=[A-Z])")));
+    description.remove(QRegularExpression(QStringLiteral("m_[npb](?=[A-Z])")));
     description.remove(QStringLiteral("m_"));
-    description.replace(QRegExp(QStringLiteral("[\\n\\r]+[\\t ]*")), endLine);
+    description.replace(QRegularExpression(QStringLiteral("[\\n\\r]+[\\t ]*")), endLine);
 
     // set scope of this accessor appropriately..if its an attribute,
     // we need to be more sophisticated

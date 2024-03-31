@@ -29,33 +29,33 @@ class LexerTest : public QObject
 public:
     LexerTest();
 
-private slots:
-    void testOpenTagWithNewline();
-    void testOpenTagWithSpace();
-    void testCommentOneLine();
-    void testCommentOneLine2();
-    void testCommentMultiLine();
-    void testCommentMultiLine2();
-    void testEndTag();
-    void testNewlineInString();
-    void testNewlineInString2();
-    void testNewlineInStringWithVar();
-    void testNewlineInStringWithVar2();
-    void testNewlineInStringWithVar3();
-    void testMultiplePhpSections();
-    void testHereDoc();
-    void testHereDocQuoted();
-    void testNowdoc();
-    void testCommonStringTokens();
-    void testNonTerminatedStringWithVar();
-    void testPhpBlockWithComment();
-    void testNamespaces();
-    void testCloseTagInComment();
-    void testBinaryNumber();
-    void testHexadecimalNumber();
-    void testTypeHintsOnFunction();
-    void testExponentiation();
-    void testExceptionFinally();
+private:
+    Q_SLOT void testOpenTagWithNewline();
+    Q_SLOT void testOpenTagWithSpace();
+    Q_SLOT void testCommentOneLine();
+    Q_SLOT void testCommentOneLine2();
+    Q_SLOT void testCommentMultiLine();
+    Q_SLOT void testCommentMultiLine2();
+    Q_SLOT void testEndTag();
+    Q_SLOT void testNewlineInString();
+    Q_SLOT void testNewlineInString2();
+    Q_SLOT void testNewlineInStringWithVar();
+    Q_SLOT void testNewlineInStringWithVar2();
+    Q_SLOT void testNewlineInStringWithVar3();
+    Q_SLOT void testMultiplePhpSections();
+    Q_SLOT void testHereDoc();
+    Q_SLOT void testHereDocQuoted();
+    Q_SLOT void testNowdoc();
+    Q_SLOT void testCommonStringTokens();
+    Q_SLOT void testNonTerminatedStringWithVar();
+    Q_SLOT void testPhpBlockWithComment();
+    Q_SLOT void testNamespaces();
+    Q_SLOT void testCloseTagInComment();
+    Q_SLOT void testBinaryNumber();
+    Q_SLOT void testHexadecimalNumber();
+    Q_SLOT void testTypeHintsOnFunction();
+    Q_SLOT void testExponentiation();
+    Q_SLOT void testExceptionFinally();
 
 protected:
     TokenStream* tokenize(const QString& unit, bool debug = false, int initialState = Lexer::HtmlState);

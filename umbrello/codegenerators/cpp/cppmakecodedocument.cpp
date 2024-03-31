@@ -7,7 +7,7 @@
 
 #include "cppcodegenerator.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 
 const char * CPPMakefileCodeDocument::DOCUMENT_ID_VALUE = "Makefile_DOC";
 
@@ -46,10 +46,10 @@ QString CPPMakefileCodeDocument::getPath () const
     path = path.simplified();
 
     // Replace all blanks with underscore
-    path.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    path.replace(QRegularExpression(QStringLiteral(" ")), QStringLiteral("_"));
 
-    path.replace(QRegExp(QStringLiteral("\\.")),QStringLiteral("/"));
-    path.replace(QRegExp(QStringLiteral("::")), QStringLiteral("/"));
+    path.replace(QRegularExpression(QStringLiteral("\\.")),QStringLiteral("/"));
+    path.replace(QRegularExpression(QStringLiteral("::")), QStringLiteral("/"));
 
     path = path.toLower();
 
