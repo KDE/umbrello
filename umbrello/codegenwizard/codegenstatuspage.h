@@ -31,7 +31,7 @@ class CodeGenStatusPage : public QWizardPage, private Ui::CodeGenStatusPage
 {
     Q_OBJECT
 public:
-    explicit CodeGenStatusPage(QWidget *parent = 0);
+    explicit CodeGenStatusPage(QWidget *parent = nullptr);
     ~CodeGenStatusPage();
     void initializePage();
     bool isComplete() const;

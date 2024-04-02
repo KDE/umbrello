@@ -18,7 +18,7 @@ class CPPCodeGenerationForm : public QWidget, private Ui::CPPCodeGenerationFormB
     Q_OBJECT
 public:
 
-    explicit CPPCodeGenerationForm (QWidget *parent = 0, const char *name = 0);
+    explicit CPPCodeGenerationForm (QWidget *parent = nullptr, const char *name = nullptr);
     virtual ~CPPCodeGenerationForm();
 
     void setPackageIsANamespace(bool bFlag = true);

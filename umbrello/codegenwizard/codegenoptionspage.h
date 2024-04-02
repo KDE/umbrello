@@ -31,7 +31,7 @@ class CodeGenOptionsPage : public QWizardPage, private Ui::CodeGenOptionsPage
 {
     Q_OBJECT
 public:
-    explicit CodeGenOptionsPage(QWidget *parent = 0);
+    explicit CodeGenOptionsPage(QWidget *parent = nullptr);
     ~CodeGenOptionsPage();
     QString getLanguage();
     void apply();

@@ -99,7 +99,7 @@ private:
     static StateMap* s_states;
     static bool s_logToConsole;
 
-    explicit Tracer(QWidget *parent = 0);
+    explicit Tracer(QWidget *parent = nullptr);
 };
 
 // convenience macros for console output to the Umbrello area

@@ -20,7 +20,7 @@ class FindDialog : public SinglePageDialogBase, private Ui::FindDialog
 {
     Q_OBJECT
 public:
-    explicit FindDialog(QWidget *parent = 0);
+    explicit FindDialog(QWidget *parent = nullptr);
     ~FindDialog();
     QString text() const;
     UMLFinder::Filter filter() const;

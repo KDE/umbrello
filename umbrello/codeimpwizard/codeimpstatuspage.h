@@ -31,7 +31,7 @@ class CodeImpStatusPage : public QWizardPage, private Ui::CodeImpStatusPage
 {
     Q_OBJECT
 public:
-    explicit CodeImpStatusPage(QWidget *parent = 0);
+    explicit CodeImpStatusPage(QWidget *parent = nullptr);
     ~CodeImpStatusPage();
     void initializePage();
     bool isComplete() const;

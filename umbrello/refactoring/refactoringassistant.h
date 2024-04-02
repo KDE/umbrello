@@ -25,7 +25,7 @@ class RefactoringAssistant : public QTreeWidget
     Q_OBJECT
 public:
 
-    explicit RefactoringAssistant(UMLDoc *doc, UMLClassifier *obj = 0, QWidget *parent = 0, const QString &name = QString());
+    explicit RefactoringAssistant(UMLDoc *doc, UMLClassifier *obj = 0, QWidget *parent = nullptr, const QString &name = QString());
     virtual ~RefactoringAssistant();
 
     void refactor(UMLClassifier *obj);
@@ -58,7 +58,7 @@ protected:
 
     void deleteItem(QTreeWidgetItem *item, UMLObject *obj);
 
-    void addClassifier(UMLClassifier *classifier, QTreeWidgetItem *parent = 0, bool addSuper = true, bool addSub = true, bool recurse = false);
+    void addClassifier(UMLClassifier *classifier, QTreeWidgetItem *parent = nullptr, bool addSuper = true, bool addSub = true, bool recurse = false);
 
     virtual void dragMoveEvent(QDragMoveEvent *event);
     virtual void dropEvent(QDropEvent *event);
