@@ -93,7 +93,7 @@ public:
     virtual void setDefaults (CPPCodeGenerationPolicy * cppclone, bool emitUpdateSignal = true);
     virtual void setDefaults(bool emitUpdateSignal = true);
 
-    CodeGenerationPolicyPage * createPage (QWidget *parent = nullptr, const char * name = 0);
+    CodeGenerationPolicyPage * createPage (QWidget *parent = nullptr, const char * *name = nullptr);
 
 protected:
     void init();

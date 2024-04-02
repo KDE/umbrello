@@ -83,8 +83,8 @@ public:
 
     bool newDocument();
     void closeDocument();
-    bool openDocument(const QUrl& url, const char *format = 0);
-    bool saveDocument(const QUrl& url, const char *format = 0);
+    bool openDocument(const QUrl& url, const char * *format = nullptr);
+    bool saveDocument(const QUrl& url, const char * *format = nullptr);
     const QUrl& url() const;
     void setUrl(const QUrl& url);
     void setUrlUntitled();
