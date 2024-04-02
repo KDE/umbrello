@@ -86,7 +86,7 @@ bool StereotypesModel::addStereotype(UMLStereotype *stereotype)
 {
     if (m_stereotypes.contains(stereotype))
         return false;
-    Q_FOREACH(UMLStereotype *s, m_stereotypes) {
+    for(UMLStereotype *s : m_stereotypes) {
         if (s->name() == stereotype->name()) {
             return false;
         }
@@ -102,7 +102,7 @@ bool StereotypesModel::removeStereotype(UMLStereotype *stereotype)
 {
     if (!m_stereotypes.contains(stereotype)) {
         UMLStereotype *stFound = 0;
-        Q_FOREACH(UMLStereotype *s, m_stereotypes) {
+        for(UMLStereotype *s : m_stereotypes) {
             if (s->name() == stereotype->name()) {
                 stFound = s;
                 break;

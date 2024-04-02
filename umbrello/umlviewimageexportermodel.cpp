@@ -201,7 +201,7 @@ QStringList UMLViewImageExporterModel::exportViews(const UMLViewList &views, con
     // contains all the error messages returned by exportView calls
     QStringList errors;
 
-    Q_FOREACH(UMLView *view, views) {
+    for(UMLView *view : views) {
         QUrl url = QUrl::fromLocalFile(directory.path() + QLatin1Char('/') +
                  getDiagramFileName(view->umlScene(), imageType, useFolders));
 
