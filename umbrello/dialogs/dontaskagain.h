@@ -71,8 +71,7 @@ protected:
     QVBoxLayout *m_layout;
     QList<DontAskAgainItem *> &m_items;
 
-protected slots:
-    void slotToggled(bool state);
+    Q_SLOT void slotToggled(bool state);
 };
 
 /**

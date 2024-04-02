@@ -42,6 +42,7 @@ public:
      * @param c the class you want to generate code for.
      */
     virtual void writeClass(UMLClassifier *c) = 0;
+    Q_SLOT virtual void syncCodeToDocument();
 
 protected:
     QString className_;
@@ -74,10 +75,6 @@ protected:
     QString m_endl;
 
     virtual void initFromParentDocument();
-
-public slots:
-    virtual void syncCodeToDocument();
-
 };
 
 #endif // SIMPLECODEGENERATOR_H

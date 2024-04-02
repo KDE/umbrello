@@ -34,13 +34,12 @@ public:
     explicit DCodeGenerationPolicyPage(QWidget *parent=0, const char *name=0, DCodeGenerationPolicy * policy = 0);
     virtual ~DCodeGenerationPolicyPage();
 
+    Q_SLOT void apply();
+
 protected:
 
     DCodeGenerationFormBase * form;
 
-public slots:
-
-    void apply();
 
 };
 

@@ -84,18 +84,18 @@ protected:
     DocumentationWidget*  m_docWidget;
     VisibilityEnumWidget* m_visibilityEnumWidget;
 
-public slots:
-    void slotParmRightButtonPressed(const QPoint &p);
-    void slotParmDoubleClick(QListWidgetItem *item);
-    void slotMenuSelection(QAction* action);
-    void slotNewParameter();
-    void slotDeleteParameter();
-    void slotParameterProperties();
-    void slotParameterUp();
-    void slotParameterDown();
-    void slotParamsBoxClicked(QListWidgetItem* parameterItem);
-    void slotStereoTextChanged(const QString &);
-    void slotNameChanged(const QString &);
+public:
+    Q_SLOT void slotParmRightButtonPressed(const QPoint &p);
+    Q_SLOT void slotParmDoubleClick(QListWidgetItem *item);
+    Q_SLOT void slotMenuSelection(QAction* action);
+    Q_SLOT void slotNewParameter();
+    Q_SLOT void slotDeleteParameter();
+    Q_SLOT void slotParameterProperties();
+    Q_SLOT void slotParameterUp();
+    Q_SLOT void slotParameterDown();
+    Q_SLOT void slotParamsBoxClicked(QListWidgetItem* parameterItem);
+    Q_SLOT void slotStereoTextChanged(const QString &);
+    Q_SLOT void slotNameChanged(const QString &);
 };
 
 #endif

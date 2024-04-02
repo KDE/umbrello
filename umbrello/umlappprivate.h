@@ -106,15 +106,14 @@ public:
 
     bool openFileInEditor(const QUrl &file, int startCursor=0, int endCursor=0);
 
-public slots:
-    void slotLogWindowItemDoubleClicked(QListWidgetItem *item)
+    Q_SLOT void slotLogWindowItemDoubleClicked(QListWidgetItem *item)
     {
         QStringList columns = item->text().split(QChar::fromLatin1(':'));
 
         openFileInEditor(QUrl::fromLocalFile(columns[0]), columns[1].toInt()-1, columns[2].toInt());
     }
 
-    void createDiagramsWindow()
+    Q_SLOT void createDiagramsWindow()
     {
         // create the tree viewer
         diagramsWindow = new DiagramsWindow(i18n("&Diagrams"), parent);
@@ -124,7 +123,7 @@ public slots:
         connect(viewDiagramsWindow, SIGNAL(triggered(bool)), diagramsWindow, SLOT(setVisible(bool)));
     }
 
-    void createObjectsWindow()
+    Q_SLOT void createObjectsWindow()
     {
         // create the object window
         objectsWindow = new ObjectsWindow(i18n("&UML Objects"), parent);
@@ -134,7 +133,7 @@ public slots:
         connect(viewObjectsWindow, SIGNAL(triggered(bool)), objectsWindow, SLOT(setVisible(bool)));
     }
 
-    void createStereotypesWindow()
+    Q_SLOT void createStereotypesWindow()
     {
         // create the tree viewer
         stereotypesWindow = new StereotypesWindow(i18n("&Stereotypes"), parent);
@@ -144,7 +143,7 @@ public slots:
         connect(viewStereotypesWindow, SIGNAL(triggered(bool)), stereotypesWindow, SLOT(setVisible(bool)));
     }
 
-    void createWelcomeWindow()
+    Q_SLOT void createWelcomeWindow()
     {
         QString file = findWelcomeFile();
         if (file.isEmpty())
@@ -155,7 +154,7 @@ public slots:
         // qDebug() << html;
         welcomeWindow = new QDockWidget(i18n("Welcome"), parent);
         welcomeWindow->setObjectName(QStringLiteral("WelcomeDock"));
-#ifdef WEBKIT_WELCOMEPAGE
+
         QWebView *view = new QWebView;
         view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
         view->setContextMenuPolicy(Qt::NoContextMenu);
@@ -163,21 +162,14 @@ public slots:
         view->setHtml(html);
         view->show();
         welcomeWindow->setWidget(view);
-#else
-        QTextBrowser *tb = new QTextBrowser(dynamic_cast<QWidget*>(this));
-        tb->setOpenExternalLinks(true);
-        tb->setOpenLinks(false);
-        tb->setHtml(html);
-        connect(tb, SIGNAL(anchorClicked(const QUrl)), this, SLOT(slotWelcomeWindowLinkClicked(const QUrl)));
-        welcomeWindow->setWidget(tb);
-#endif
+
         parent->addDockWidget(Qt::RightDockWidgetArea, welcomeWindow);
 
         viewWelcomeWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_welcome"));
         connect(viewWelcomeWindow, SIGNAL(triggered(bool)), welcomeWindow, SLOT(setVisible(bool)));
     }
 
-    void slotWelcomeWindowLinkClicked(const QUrl &url)
+    Q_SLOT void slotWelcomeWindowLinkClicked(const QUrl &url)
     {
         //qDebug() << url;
         if (url.scheme() == QStringLiteral("mailto") || url.scheme().startsWith(QStringLiteral("http"))) {
@@ -187,17 +179,19 @@ public slots:
         QStringList list = url.toString().split(QLatin1Char('-'));
         list.removeLast();
         QString key;
-        foreach(const QString s, list) {
+        for(const QString& s : list) {
             QString a = s;
             a[0] = a[0].toUpper();
             key.append(a);
         }
         Uml::DiagramType::Enum type = Uml::DiagramType::fromString(key);
-        if (type == Uml::DiagramType::Undefined)
+        if (type == Uml::DiagramType::Undefined) {
             return;
+        }
         QString diagramName = UMLApp::app()->document()->createDiagramName(type);
-        if (!diagramName.isEmpty())
+        if (!diagramName.isEmpty()) {
             UMLApp::app()->executeCommand(new Uml::CmdCreateDiagram(UMLApp::app()->document(), type, diagramName));
+        }
     }
 
 private:

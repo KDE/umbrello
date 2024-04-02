@@ -32,9 +32,8 @@ public:
     void clear();
     int collect(UMLFinder::Filter filter, UMLFinder::Category category, const QString & text);
 
-public slots:
-    bool displayNext();
-    bool displayPrevious();
+    Q_SLOT bool displayNext();
+    Q_SLOT bool displayPrevious();
 
 protected:
     QList<UMLSceneFinder> m_sceneFinder;

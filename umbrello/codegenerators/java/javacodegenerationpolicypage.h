@@ -31,18 +31,13 @@ class JavaCodeGenerationPolicyPage : public CodeGenerationPolicyPage
     Q_OBJECT
 public:
 
-    explicit JavaCodeGenerationPolicyPage (QWidget *parent=0, const char *name=0, JavaCodeGenerationPolicy * policy = 0);
+    explicit JavaCodeGenerationPolicyPage (QWidget *parent=nullptr, const char *name=nullptr, JavaCodeGenerationPolicy * policy = nullptr);
 
     virtual ~JavaCodeGenerationPolicyPage();
+    Q_SLOT void apply();
 
 protected:
-
     JavaCodeGenerationFormBase * form;
-
-public slots:
-
-    void apply();
-
 };
 
 #endif

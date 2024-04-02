@@ -40,10 +40,9 @@ public:
 
     virtual bool showPropertiesDialog(QWidget *parent = nullptr);
 
-public slots:
-    void zoomIn();
-    void zoomOut();
-    void show();
+    Q_SLOT void zoomIn();
+    Q_SLOT void zoomOut();
+    Q_SLOT void show();
 
 protected:
     virtual void wheelEvent(QWheelEvent* event);

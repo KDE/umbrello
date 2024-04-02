@@ -46,6 +46,11 @@ public:
 
     bool apply();
 
+    Q_SLOT void slotAutoIncrementChecked(bool state);
+    Q_SLOT void slotNewOperation();
+    Q_SLOT void slotIndexChanged(int index);
+    Q_SLOT void slotTextChanged(const QString &text);
+
 protected:
     void setupDialog();
     void setupOperationsList();
@@ -68,12 +73,6 @@ private:
     UMLClassifier    *m_classifier;
     LinkWidget       *m_widget;
     bool              m_enableAutoIncrement;
-
-public slots:
-    void slotAutoIncrementChecked(bool state);
-    void slotNewOperation();
-    void slotIndexChanged(int index);
-    void slotTextChanged(const QString &text);
 };
 
 #endif

@@ -15,7 +15,7 @@
 class TestPythonWriter: public TestCodeGeneratorBase
 {
     Q_OBJECT
-private slots:
+private Q_SLOTS:
     void test_language();
     void test_writeClass();
     void test_reservedKeywords();

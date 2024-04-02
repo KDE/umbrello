@@ -35,8 +35,8 @@ public:
 
     QListWidget* getSelectionListWidget();
 
-protected slots:
-    void slotLanguageChanged();
+protected:
+    Q_SLOT void slotLanguageChanged();
 
 private:
     QWizardPage* createSelectionPage(UMLClassifierList *classList);

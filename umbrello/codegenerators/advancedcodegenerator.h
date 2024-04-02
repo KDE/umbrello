@@ -25,9 +25,8 @@ public:
     virtual CodeViewerDialog * getCodeViewerDialog(QWidget* parent, CodeDocument * doc,
             Settings::CodeViewerState & state);
 
-public slots:
-    virtual void checkAddUMLObject(UMLObject * obj);
-    virtual void checkRemoveUMLObject(UMLObject * obj);
+    Q_SLOT virtual void checkAddUMLObject(UMLObject * obj);
+    Q_SLOT virtual void checkRemoveUMLObject(UMLObject * obj);
 
 protected:
     virtual void initFromParentDocument();

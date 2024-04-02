@@ -44,9 +44,9 @@ private:
 
     void initGUI();
 
-public slots:
+public Q_SLOTS:
 
-protected slots:
+protected Q_SLOTS:
 
     virtual void languageChange();
 

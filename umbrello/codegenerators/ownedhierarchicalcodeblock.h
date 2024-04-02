@@ -51,6 +51,8 @@ public:
      */
     virtual void loadFromXMI (QDomElement & root) = 0;
 
+    Q_SLOT void syncToParent ();
+
 protected:
 
     virtual void release ();
@@ -61,11 +63,7 @@ protected:
 
     virtual void setAttributesFromObject (TextBlock * obj);
 
-private:
 
-public slots:
-
-    void syncToParent ();
 
 };
 

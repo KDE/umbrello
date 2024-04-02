@@ -112,16 +112,14 @@ private:
 
     void init(UMLClassifier *classifier);
 
-public slots:
-
-    void addAttributeClassField(UMLClassifierListItem *at, bool syncToParentIfAdded = true);
-    void addAssociationClassField(UMLAssociation *assoc, bool syncToParentIfAdded = true);
-    void removeAttributeClassField(UMLClassifierListItem *at);
-    void removeAssociationClassField(UMLAssociation *assoc);
-    void addOperation(UMLClassifierListItem *obj);
-    void removeOperation(UMLClassifierListItem *obj);
-    void syncToParent();
-
+public:
+    Q_SLOT void addAttributeClassField(UMLClassifierListItem *at, bool syncToParentIfAdded = true);
+    Q_SLOT void addAssociationClassField(UMLAssociation *assoc, bool syncToParentIfAdded = true);
+    Q_SLOT void removeAttributeClassField(UMLClassifierListItem *at);
+    Q_SLOT void removeAssociationClassField(UMLAssociation *assoc);
+    Q_SLOT void addOperation(UMLClassifierListItem *obj);
+    Q_SLOT void removeOperation(UMLClassifierListItem *obj);
+    Q_SLOT void syncToParent();
 };
 
 #endif // CLASSIFIERCODEDOCUMENT_H

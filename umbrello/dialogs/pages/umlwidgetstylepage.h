@@ -37,14 +37,12 @@ public:
 
     void apply();
 
-public slots:
-
-    void slotTextButtonClicked();
-    void slotLineButtonClicked();
-    void slotFillButtonClicked();
-    void slotBackgroundButtonClicked();
-    void slotGridDotButtonClicked();
-    void slotLineWidthButtonClicked();
+    Q_SLOT void slotTextButtonClicked();
+    Q_SLOT void slotLineButtonClicked();
+    Q_SLOT void slotFillButtonClicked();
+    Q_SLOT void slotBackgroundButtonClicked();
+    Q_SLOT void slotGridDotButtonClicked();
+    Q_SLOT void slotLineWidthButtonClicked();
 
 protected:
 

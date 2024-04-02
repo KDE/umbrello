@@ -15,42 +15,43 @@
 class TEST_classifier: public TestBase
 {
     Q_OBJECT
-private slots:
-    void test_equal();
-    void test_copyInto();
-    void test_clone();
-    void test_addAttributeWithType();
-    void test_addAttributeWithObject();
-    void test_addAttributeWithAttribute();
-    void test_removeAndCountAttribute();
-    void test_getAttributeList();
-    void test_addOperationWithPosition();
-    void test_addOperationWithLog();
-    void test_checkOperationSignature();
-    void test_removeAndCountOperation();
-    void test_getOperationList();
-    void test_addTemplateWithType();
-    void test_addTemplateWithLog();
-    void test_addTemplateWithPosition();
-    void test_removeAndCountTemplate();
-    void test_findTemplate();
-    void test_getTemplateList();
-    void test_takeItem();
-    void test_getFilteredList();
-    void test_resolveRef();
-    void test_findOperations();
-    void test_findChildObjectById();
-    void test_findOperation();
-    void test_findSuperClassConcepts();
-    void test_findSubClassConcepts();
-    void test_setGetClassAssoc();
-    void test_isInterface();
-    void test_setGetOriginType();
-    void test_setGetIsReference();
-    void test_hasAbstractOps();
-    void test_makeChildObject();
-    void test_getUniAssociationToBeImplemented();
-    void test_saveAndLoad();
+
+private:
+    Q_SLOT void test_equal();
+    Q_SLOT void test_copyInto();
+    Q_SLOT void test_clone();
+    Q_SLOT void test_addAttributeWithType();
+    Q_SLOT void test_addAttributeWithObject();
+    Q_SLOT void test_addAttributeWithAttribute();
+    Q_SLOT void test_removeAndCountAttribute();
+    Q_SLOT void test_getAttributeList();
+    Q_SLOT void test_addOperationWithPosition();
+    Q_SLOT void test_addOperationWithLog();
+    Q_SLOT void test_checkOperationSignature();
+    Q_SLOT void test_removeAndCountOperation();
+    Q_SLOT void test_getOperationList();
+    Q_SLOT void test_addTemplateWithType();
+    Q_SLOT void test_addTemplateWithLog();
+    Q_SLOT void test_addTemplateWithPosition();
+    Q_SLOT void test_removeAndCountTemplate();
+    Q_SLOT void test_findTemplate();
+    Q_SLOT void test_getTemplateList();
+    Q_SLOT void test_takeItem();
+    Q_SLOT void test_getFilteredList();
+    Q_SLOT void test_resolveRef();
+    Q_SLOT void test_findOperations();
+    Q_SLOT void test_findChildObjectById();
+    Q_SLOT void test_findOperation();
+    Q_SLOT void test_findSuperClassConcepts();
+    Q_SLOT void test_findSubClassConcepts();
+    Q_SLOT void test_setGetClassAssoc();
+    Q_SLOT void test_isInterface();
+    Q_SLOT void test_setGetOriginType();
+    Q_SLOT void test_setGetIsReference();
+    Q_SLOT void test_hasAbstractOps();
+    Q_SLOT void test_makeChildObject();
+    Q_SLOT void test_getUniAssociationToBeImplemented();
+    Q_SLOT void test_saveAndLoad();
 };
 
 #endif // TEST_CLASSIFIER_H

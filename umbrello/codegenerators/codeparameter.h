@@ -52,6 +52,8 @@ public:
 
     virtual void updateContent() = 0;
 
+    Q_SLOT void syncToParent();
+
 protected:
 
     virtual void setAttributesOnNode(QXmlStreamWriter& writer);
@@ -65,11 +67,6 @@ private:
     QString                 m_initialValue;  ///< initial value of this code parameter
 
     void initFields(ClassifierCodeDocument* doc, UMLObject* obj);
-
-public slots:
-
-    void syncToParent();
-
 };
 
 #endif // CODEPARAMETER_H

@@ -36,10 +36,10 @@ class TestBase : public QObject
 public:
     explicit TestBase(QObject *parent = nullptr);
 
-protected slots:
-    virtual void initTestCase();
-    virtual void cleanupTestCase();
-    virtual void cleanupOnExit(QObject *p);
+protected:
+    Q_SLOT virtual void initTestCase();
+    Q_SLOT virtual void cleanupTestCase();
+    Q_SLOT virtual void cleanupOnExit(QObject *p);
 
 protected:
     QList<QPointer<QObject>> m_objectsToDelete;
@@ -56,8 +56,8 @@ protected:
 class TestCodeGeneratorBase : public TestBase
 {
     Q_OBJECT
-private slots:
-    virtual void initTestCase();
+private:
+    Q_SLOT virtual void initTestCase();
 
 protected:
     QString m_tempPath;  ///< holds path to temporary directory

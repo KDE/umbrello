@@ -34,13 +34,11 @@ public:
         return m_bChangesMade;
     }
 
-protected slots:
-    void slotOk();
-
-    void slotApply();
-
-    void slotShowState();
-    void slotHideState();
+protected:
+    Q_SLOT void slotOk();
+    Q_SLOT void slotApply();
+    Q_SLOT void slotShowState();
+    Q_SLOT void slotHideState();
 
 protected:
     void setupPages();

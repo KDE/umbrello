@@ -39,6 +39,7 @@ public:
     ~AssociationGeneralPage();
 
     void apply();
+    Q_SLOT void slotStereoCheckboxChanged(int state);
 
 private:
     QGridLayout *m_pNameAndTypeLayout;
@@ -58,10 +59,6 @@ private:
     ObjectWidget *m_pWidget;
 
     void constructWidget();
-
-public slots:
-    void slotStereoCheckboxChanged(int state);
-
 };
 
 #endif

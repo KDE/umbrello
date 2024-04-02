@@ -21,14 +21,10 @@ public:
 
     virtual ~RubyCodeGenerationPolicyPage();
 
+    Q_SLOT void apply();
+
 protected:
-
     Ui::RubyCodeGenerationFormBase form;
-
-public slots:
-
-    void apply();
-
 };
 
 #endif

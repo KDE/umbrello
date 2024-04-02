@@ -49,15 +49,10 @@ public:
     bool getAccessorMethodsStartWithUpperCase();
     QString getClassMemberPrefix();
 
-public slots:
-
-    virtual void browseClicked();
-
-private slots:
-
-    virtual void generalOptionsListWidgetClicked(QListWidgetItem *);
+    Q_SLOT virtual void browseClicked();
 
 private:
+    Q_SLOT virtual void generalOptionsListWidgetClicked(QListWidgetItem *);
 
     friend class CPPCodeGenerationPolicyPage;
 

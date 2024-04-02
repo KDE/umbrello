@@ -78,9 +78,9 @@ protected:
     void updateParentItemCheckBox(QTreeWidgetItem *parent);
     virtual void showEvent(QShowEvent*);
 
-private slots:
-    void slotParentItemClicked(QTreeWidgetItem *parent);
-    void slotItemClicked(QTreeWidgetItem* item, int column);
+private:
+    Q_SLOT void slotParentItemClicked(QTreeWidgetItem *parent);
+    Q_SLOT void slotItemClicked(QTreeWidgetItem* item, int column);
 
 private:
     class MapEntry {

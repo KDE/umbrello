@@ -47,7 +47,7 @@ private:
     QThread         *m_thread;
 #endif
 
-protected slots:
+protected Q_SLOTS:
     void importCode(); ///< start importing
     void importCodeFile(bool noError=true); ///< import single file
     void importNextFile(bool noError=true);

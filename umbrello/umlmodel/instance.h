@@ -53,14 +53,15 @@ public:
 
     virtual void saveToXMI(QXmlStreamWriter& writer);
 
+public Q_SLOTS:
+    void attributeAdded(UMLClassifierListItem*);
+    void attributeRemoved(UMLClassifierListItem*);
+
 protected:
     bool load1(QDomElement& element);
     virtual bool resolveRef();
     bool showPropertiesDialog(QWidget *parent);
 
-public slots:
-    void attributeAdded(UMLClassifierListItem*);
-    void attributeRemoved(UMLClassifierListItem*);
 };
 
 #endif // UMLINSTANCE_H

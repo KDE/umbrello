@@ -47,15 +47,6 @@ private:
     VisibilityEnumWidget *m_visibilityWidgetB;
 
     void constructWidget();
-
-public slots:
-//    /**
-//     *  When the draw as actor check box is toggled, the draw
-//     *  as multi instance need to be enabled/disabled.  They
-//     *  both can't be available at the same time.
-//     */
-//    void slotActorToggled(bool state);
-
 };
 
 #endif

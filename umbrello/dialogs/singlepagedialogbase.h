@@ -35,11 +35,11 @@ public:
     void setMainWidget(QWidget *widget);
     void setButtonText(ButtonCode code, const QString &text);
 
-protected slots:
-    void slotApply();
-    void slotOk();
-    void slotCancel();
-    void slotClicked(QAbstractButton*);
+protected:
+    Q_SLOT void slotApply();
+    Q_SLOT void slotOk();
+    Q_SLOT void slotCancel();
+    Q_SLOT void slotClicked(QAbstractButton*);
 
 protected:
     QDialogButtonBox *m_buttonBox;

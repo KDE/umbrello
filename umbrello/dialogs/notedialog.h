@@ -22,7 +22,7 @@ public:
 
     bool apply();
 
-public slots:
+public Q_SLOTS:
     void slotOk();
     void slotApply();
 

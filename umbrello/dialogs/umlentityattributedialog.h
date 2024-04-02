@@ -56,7 +56,7 @@ protected:
     UMLStereotypeWidget *m_stereotypeWidget;
     DefaultValueWidget *m_defaultValueWidget;
 
-public slots:
+public Q_SLOTS:
     void slotAutoIncrementStateChanged(bool checked);
     void slotNameChanged(const QString &);
 };

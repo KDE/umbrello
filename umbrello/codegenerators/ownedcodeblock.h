@@ -31,6 +31,7 @@ public:
     UMLObject * getParentObject ();
 
     virtual void updateContent () = 0;
+    Q_SLOT virtual void syncToParent ();
 
 protected:
 
@@ -45,10 +46,6 @@ private:
     void initFields (UMLObject * parent);
 
     UMLObject * m_parentObject;
-
-public slots:
-
-    virtual void syncToParent ();
 
 };
 

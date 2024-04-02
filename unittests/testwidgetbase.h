@@ -12,7 +12,7 @@
 class TestWidgetBase : public TestBase
 {
     Q_OBJECT
-private slots:
+private Q_SLOTS:
     void test_setSelected();
     void test_clearSelected();
 };

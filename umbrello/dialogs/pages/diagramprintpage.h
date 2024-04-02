@@ -41,6 +41,10 @@ public:
 
     bool isValid(QString& msg);
 
+public:
+    Q_SLOT void slotClicked();
+    Q_SLOT void slotActivated(int index);
+
 private:
     bool isSelected(int index);
 
@@ -59,10 +63,6 @@ private:
     QList<Uml::ID::Type> m_nIdList;  ///< list containing the IDs of diagrams to print
 
     enum FilterType{Current = 0, All, Select, Type};
-
-public slots:
-    void slotClicked();
-    void slotActivated(int index);
 };
 
 #endif

@@ -14,7 +14,7 @@ class TestAssociation : public TestBase
     Q_OBJECT
 protected:
     SetLoading *_sl;
-protected slots:
+protected Q_SLOTS:
     void initTestCase()
     {
         TestBase::initTestCase();
@@ -26,7 +26,7 @@ protected slots:
         delete _sl;
     }
 
-private slots:
+private Q_SLOTS:
     void test_equal();
     void test_toString();
     void test_UMLRole();

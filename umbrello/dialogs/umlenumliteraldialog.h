@@ -42,7 +42,7 @@ protected:
     QLabel * m_pNameL, * m_pValueL;
     QLineEdit * m_pNameLE, * m_pValueLE;
 
-public slots:
+public Q_SLOTS:
     void slotNameChanged(const QString &);
 };
 
