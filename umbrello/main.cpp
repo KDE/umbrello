@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
     } else {
         const QCommandLineParser *parsedArgs = &parser;
         if (parsedArgs->isSet("export-formats")) {
-            Q_FOREACH(const QString& type, UMLViewImageExporterModel::supportedImageTypes())
+            for(const QString& type : UMLViewImageExporterModel::supportedImageTypes())
                 fprintf(stdout, "%s\n", qPrintable(type));
             return 0;
         } else if (parsedArgs->isSet("languages")) {

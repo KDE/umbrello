@@ -407,7 +407,7 @@ void UMLEntity::signalEntityAttributeRemoved(UMLClassifierListItem *eattr)
 bool UMLEntity::resolveRef()
 {
     bool success = UMLClassifier::resolveRef();
-    Q_FOREACH(UMLObject *obj, subordinates()) {
+    for(UMLObject *obj : subordinates()) {
         if (obj->resolveRef()) {
             UMLClassifierListItem *cli = obj->asUMLClassifierListItem();
             if (!cli)
@@ -438,12 +438,12 @@ void UMLEntity::saveToXMI(QXmlStreamWriter& writer)
     // save entity attributes
     UMLClassifierListItemList entityAttributes = getFilteredList(UMLObject::ot_EntityAttribute);
     UMLClassifierListItem* pEntityAttribute = 0;
-    Q_FOREACH(pEntityAttribute, entityAttributes) {
+    for(pEntityAttribute : entityAttributes) {
         pEntityAttribute->saveToXMI(writer);
     }
     // save entity constraints
     UMLClassifierListItemList entityConstraints = getFilteredList(UMLObject::ot_EntityConstraint);
-    Q_FOREACH(UMLClassifierListItem* cli, entityConstraints) {
+    for(UMLClassifierListItem* cli : entityConstraints) {
         cli->saveToXMI(writer);
     }
 
@@ -630,7 +630,7 @@ void UMLEntity::slotEntityAttributeRemoved(UMLClassifierListItem* cli)
     if (cli) {
        UMLClassifierListItemList ual = this->getFilteredList(UMLObject::ot_UniqueConstraint);
 
-       Q_FOREACH(UMLClassifierListItem* ucli,  ual) {
+       for(UMLClassifierListItem* ucli :  ual) {
            UMLUniqueConstraint* uuc = ucli->asUMLUniqueConstraint();
            if (uuc->hasEntityAttribute(entAtt)) {
                uuc->removeEntityAttribute(entAtt);
@@ -653,23 +653,23 @@ UMLClassifierListItemList UMLEntity::getFilteredList(UMLObject::ObjectType ot) c
 
         // append the lists to rcList
         // first the Unique Constraints
-        Q_FOREACH(UMLClassifierListItem* ucli, ucList) {
+        for(UMLClassifierListItem* ucli : ucList) {
             rcList.append(ucli);
         }
 
         // then the Foreign Key Constraints
-        Q_FOREACH(UMLClassifierListItem* ucli, fcList) {
+        for(UMLClassifierListItem* ucli : fcList) {
             rcList.append(ucli);
         }
 
-        Q_FOREACH(UMLClassifierListItem* ucli, ccList) {
+        for(UMLClassifierListItem* ucli : ccList) {
             rcList.append(ucli);
         }
 
         return rcList;
-    } else {
-        return UMLClassifier::getFilteredList(ot);
     }
+
+    return UMLClassifier::getFilteredList(ot);
 }
 
 /**
@@ -679,11 +679,7 @@ UMLClassifierListItemList UMLEntity::getFilteredList(UMLObject::ObjectType ot) c
  */
 bool UMLEntity::isPrimaryKey(const UMLUniqueConstraint* uConstr) const
 {
-    if (uConstr == m_PrimaryKey) {
-        return true;
-    }
-
-    return false;
+    return uConstr == m_PrimaryKey;
 }
 
 /**
@@ -693,7 +689,7 @@ bool UMLEntity::isPrimaryKey(const UMLUniqueConstraint* uConstr) const
 UMLEntityAttributeList UMLEntity::getEntityAttributes() const
 {
     UMLEntityAttributeList entityAttributeList;
-    Q_FOREACH(UMLObject *listItem, subordinates()) {
+    for(UMLObject *listItem, subordinates()) {
         if (listItem->baseType() == UMLObject::ot_EntityAttribute) {
             entityAttributeList.append(listItem->asUMLEntityAttribute());
         }
