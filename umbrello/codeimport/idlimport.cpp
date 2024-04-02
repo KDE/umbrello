@@ -71,7 +71,7 @@ IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QStringLiteral("/
         m_preProcessorArguments = arguments;
     }
     else {
-        log("Error: Cannot find any of the supported preprocessors (gcc, Microsoft Visual Studio 2010)");
+        log(QStringLiteral("Error: Cannot find any of the supported preprocessors (gcc, Microsoft Visual Studio 2010)"));
         m_enabled = false;
     }
     m_preProcessorChecked = true;
@@ -147,7 +147,7 @@ bool IDLImport::parseFile(const QString& filename)
     const QStringList includePaths = Import_Utils::includePathList();
 
     if (m_preProcessor.isEmpty()) { 
-        log("Error: no preprocessor installed, could not import file");
+        log(QStringLiteral("Error: no preprocessor installed, could not import file"));
         return false;
     }
     QStringList arguments(m_preProcessorArguments);
@@ -162,12 +162,12 @@ bool IDLImport::parseFile(const QString& filename)
     logDebug2("importIDL::parseFile: %1 %2", m_preProcessor, arguments.join(QStringLiteral(" ")));
     p.start(m_preProcessor, arguments);
     if (!p.waitForStarted()) {
-        log("Error: could not run preprocessor");
+        log(QStringLiteral("Error: could not run preprocessor"));
         return false;
     }
 
     if (!p.waitForFinished()) {
-        log("Error: could not run preprocessor");
+        log(QStringLiteral("Error: could not run preprocessor"));
         return false;
     }
     int exitCode = p.exitCode();
@@ -623,7 +623,7 @@ bool IDLImport::parseStmt()
                 pStereo->getAttributeDefs().append(tagDef);
             }
             attr->setUMLStereotype(pStereo);
-            const QString caseLabels = m_unionCases.join(QChar(' '));
+            const QString caseLabels = m_unionCases.join(QLatin1Char(' '));
             attr->tags().append(caseLabels);
             m_unionCases.clear();
         } else if (m_isUnionDefault) {

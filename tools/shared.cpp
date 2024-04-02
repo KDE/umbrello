@@ -34,10 +34,18 @@ using namespace std;
  */
 QStringList XMILanguagesAttributes()
 {
-    return QStringList() << "comment" << "documentation"
-                         << "label" << "name"
-                         << "pretext" << "posttext" << "text"
-                         << "statename" << "activityname" << "instancename";
+    return {
+         QStringLiteral("comment"),
+         QStringLiteral("documentation"),
+         QStringLiteral("label"),
+         QStringLiteral("name"),
+         QStringLiteral("pretext"),
+         QStringLiteral("posttext"),
+         QStringLiteral("text"),
+         QStringLiteral("statename"),
+         QStringLiteral("activityname"),
+         QStringLiteral("instancename")
+    };
 }
 
 /**
