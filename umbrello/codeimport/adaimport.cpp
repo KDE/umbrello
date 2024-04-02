@@ -13,7 +13,6 @@
 #define DBG_SRC QStringLiteral("AdaImport")
 #include "debug_utils.h"
 #include "enum.h"
-#include "folder.h"
 #include "import_utils.h"
 #include "operation.h"
 #include "package.h"
@@ -22,8 +21,6 @@
 
 // qt includes
 #include <QRegularExpression>
-
-#include <stdio.h>
 
 DEBUG_REGISTER(AdaImport)
 
@@ -154,12 +151,14 @@ void AdaImport::fillSource(const QString& word)
 QString AdaImport::expand(const QString& name)
 {
     QRegularExpression pfxRegExp(QStringLiteral("^(\\w+)\\."));
-    pfxRegExp.setCaseSensitivity(Qt::CaseInsensitive);
-    int pos = pfxRegExp.indexIn(name);
-    if (pos == -1)
+    pfxRegExp.setPatternOptions(QRegularExpression::PatternOption::CaseInsensitiveOption);
+    QRegularExpressionMatch match = pfxRegExp.match(name);
+    if (!match.hasMatch()) {
         return name;
+    }
+
     QString result = name;
-    QString pfx = pfxRegExp.cap(1);
+    QString pfx = match.captured(1);;
     if (m_renaming.contains(pfx)) {
         result.remove(pfxRegExp);
         result.prepend(m_renaming[pfx] + QLatin1Char('.'));
@@ -282,7 +281,7 @@ bool AdaImport::parseStmt()
         QString base = expand(advance());
         base.remove(QStringLiteral("Standard."), Qt::CaseInsensitive);
         UMLObject *type = umldoc->findUMLObject(base, UMLObject::ot_UMLObject, currentScope());
-        if (type == 0) {
+        if (type == nullptr) {
             type = Import_Utils::createUMLObject(UMLObject::ot_Datatype, base, currentScope());
         }
         UMLObject *subtype = Import_Utils::createUMLObject(type->baseType(), name,
@@ -327,10 +326,10 @@ bool AdaImport::parseStmt()
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                             name, currentScope(), m_comment);
             UMLEnum *enumType = ns->asUMLEnum();
-            if (enumType == 0)
+            if (enumType == nullptr)
                 enumType = Import_Utils::remapUMLEnum(ns, enumType);
             while ((next = advance()) != QStringLiteral(")")) {
-                if (enumType != 0)
+                if (enumType != nullptr)
                     Import_Utils::addEnumLiteral(enumType, next, m_comment);
                 m_comment.clear();
                 if (advance() != QStringLiteral(","))
@@ -401,7 +400,7 @@ bool AdaImport::parseStmt()
                 UMLObject *known = umldoc->findUMLObject(base, UMLObject::ot_UMLObject, currentScope());
                 t = (known ? known->baseType() : UMLObject::ot_Datatype);
             }
-            UMLObject *ns = Import_Utils::createUMLObject(t, base, 0);
+            UMLObject *ns = Import_Utils::createUMLObject(t, base, nullptr);
             UMLClassifier *parent = ns->asUMLClassifier();
             ns = Import_Utils::createUMLObject(t, name, currentScope(), m_comment);
             if (isExtension) {
@@ -440,7 +439,7 @@ bool AdaImport::parseStmt()
                 logError1("AdaImport::parseStmt end: expecting \"record\" at %1",
                           m_source[m_srcIndex]);
             }
-            m_klass = 0;
+            m_klass = nullptr;
         } else if (scopeIndex()) {
             if (advance() != QStringLiteral(";")) {
                 QString scopeName = currentScope()->fullyQualifiedName();
@@ -473,8 +472,8 @@ bool AdaImport::parseStmt()
             skipStmt();
             return true;
         }
-        UMLClassifier *klass = 0;
-        UMLOperation *op = 0;
+        UMLClassifier *klass = nullptr;
+        UMLOperation *op = nullptr;
         const uint MAX_PARNAMES = 16;
         while (m_srcIndex < srcLength && m_source[m_srcIndex] != QStringLiteral(")")) {
             QString parName[MAX_PARNAMES];
@@ -516,7 +515,7 @@ bool AdaImport::parseStmt()
             }
             typeName.remove(QStringLiteral("Standard."), Qt::CaseInsensitive);
             typeName = expand(typeName);
-            if (op == 0) {
+            if (op == nullptr) {
                 // In Ada, the first parameter indicates the class.
                 UMLObject *type = Import_Utils::createUMLObject(UMLObject::ot_Class, typeName, currentScope());
                 UMLObject::ObjectType t = type->baseType();
@@ -558,7 +557,7 @@ bool AdaImport::parseStmt()
         bool isAbstract = false;
         if (advance() == QStringLiteral("is") && advance() == QStringLiteral("abstract"))
             isAbstract = true;
-        if (klass != 0 && op != 0)
+        if (klass != nullptr && op != nullptr)
             Import_Utils::insertMethod(klass, op, m_currentAccess, returnType,
                                        false, isAbstract, false, false, false, m_comment);
         skipStmt();
@@ -597,7 +596,7 @@ bool AdaImport::parseStmt()
         return true;
     }
     // At this point we're only interested in attribute declarations.
-    if (m_klass == 0 || keyword == QStringLiteral("null")) {
+    if (m_klass == nullptr || keyword == QStringLiteral("null")) {
         skipStmt();
         return true;
     }

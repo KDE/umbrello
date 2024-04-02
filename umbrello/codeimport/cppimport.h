@@ -20,7 +20,7 @@ class CppDriver;
 class CppImport : public ClassImport
 {
 public:
-    explicit CppImport(CodeImpThread* thread = 0);
+    explicit CppImport(CodeImpThread* thread = nullptr);
     virtual ~CppImport();
 
 protected:

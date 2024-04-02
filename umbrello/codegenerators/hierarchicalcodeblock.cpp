@@ -218,7 +218,7 @@ void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list)
     {
         CodeClassField * field = *it;
         CodeAccessorMethodList list = field->getMethodList();
-        Q_FOREACH(CodeAccessorMethod *method, list)
+        for(CodeAccessorMethod *method : list)
         {
             QString tag = method->getTag();
             if (tag.isEmpty())
@@ -345,7 +345,7 @@ QString  HierarchicalCodeBlock::childTextBlocksToString() const
 {
     TextBlockList* list = getTextBlockList();
     QString retString;
-    foreach (TextBlock* block, *list)
+    for (TextBlock* block : *list)
     {
         QString blockValue = block->toString();
         if (!blockValue.isEmpty())
@@ -360,13 +360,14 @@ QString  HierarchicalCodeBlock::childTextBlocksToString() const
 TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag (const QString &tag)
 {
     ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
-    if(cdoc)
+    if(cdoc) {
         return cdoc->findCodeClassFieldTextBlockByTag(tag);
-    else
-        logError0("HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?");
+    }
+
+    logError0("HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?");
 
     // if we get here, we failed.
-    return (TextBlock*) 0;
+    return nullptr;
 }
 
 void HierarchicalCodeBlock::initAttributes()

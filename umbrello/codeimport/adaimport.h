@@ -20,7 +20,7 @@
 class AdaImport : public NativeImportBase
 {
 public:
-    explicit AdaImport(CodeImpThread* thread = 0);
+    explicit AdaImport(CodeImpThread* thread = nullptr);
     virtual ~AdaImport();
 
 protected:

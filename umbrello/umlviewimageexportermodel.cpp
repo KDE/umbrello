@@ -36,9 +36,6 @@
 #include <QSvgGenerator>
 #include <QTemporaryFile>
 
-// system includes
-#include <cmath>
-
 DEBUG_REGISTER(UMLViewImageExporterModel)
 
 QStringList *UMLViewImageExporterModel::s_supportedImageTypesList;
@@ -56,7 +53,7 @@ QStringList UMLViewImageExporterModel::supportedImageTypes()
         s_supportedImageTypesList = new QStringList();
         // QT supported formats
         QList<QByteArray> qImageFormats = QImageWriter::supportedImageFormats();
-        Q_FOREACH(const QByteArray& it, qImageFormats) {
+        for(const QByteArray& it : qImageFormats) {
             const QString format = QString::fromLatin1(it.toLower());
             if (!s_supportedImageTypesList->contains(format))
                 *s_supportedImageTypesList << format;

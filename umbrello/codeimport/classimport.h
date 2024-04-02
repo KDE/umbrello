@@ -20,7 +20,7 @@ class CodeImpThread;
 class ClassImport
 {
 public:
-    ClassImport(CodeImpThread* thread = 0);
+    ClassImport(CodeImpThread* thread = nullptr);
     virtual ~ClassImport();
 
     bool importFiles(const QStringList& fileNames);
@@ -34,7 +34,7 @@ public:
     */
     bool enabled() const { return m_enabled; }
 
-    static ClassImport *createImporterByFileExt(const QString &fileName, CodeImpThread* thread = 0);
+    static ClassImport *createImporterByFileExt(const QString &fileName, CodeImpThread* thread = nullptr);
 
 protected:
 

@@ -17,7 +17,7 @@ class UMLDoc;
  */
 class IDLImport : public NativeImportBase {
 public:
-    explicit IDLImport(CodeImpThread* thread = 0);
+    explicit IDLImport(CodeImpThread* thread = nullptr);
     virtual ~IDLImport();
 
     bool parseStmt();

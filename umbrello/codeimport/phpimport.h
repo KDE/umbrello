@@ -20,7 +20,7 @@ class PHPImportPrivate;
 class PHPImport : public ClassImport
 {
 public:
-    explicit PHPImport(CodeImpThread* thread = 0);
+    explicit PHPImport(CodeImpThread* thread = nullptr);
     virtual ~PHPImport();
 
 protected:

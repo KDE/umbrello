@@ -18,7 +18,7 @@ class UMLOperation;
 class PythonImport : public NativeImportBase
 {
 public:
-    explicit PythonImport(CodeImpThread* thread = 0);
+    explicit PythonImport(CodeImpThread* thread = nullptr);
     virtual ~PythonImport();
 
 protected:

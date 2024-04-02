@@ -11,7 +11,7 @@
 // local includes
 #include "association.h"
 #include "attribute.h"
-#include "debug_utils.h"
+
 #include "operation.h"
 #include "classifierlistitem.h"
 #include "classifier.h"
@@ -289,7 +289,7 @@ QList<const CodeOperation*> ClassifierCodeDocument::getCodeOperations () const
     QList<const CodeOperation*> list;
 
     TextBlockList * tlist = getTextBlockList();
-    foreach (TextBlock* tb, *tlist)
+    for (TextBlock* tb : *tlist)
     {
         const CodeOperation * cop = dynamic_cast<const CodeOperation*>(tb);
         if (cop) {
@@ -305,7 +305,7 @@ QList<const CodeOperation*> ClassifierCodeDocument::getCodeOperations () const
 void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o)
 {
     UMLOperation *op = o->asUMLOperation();
-    if (op == 0) {
+    if (op == nullptr) {
         logError0("arg is not a UMLOperation");
         return;
     }
@@ -361,7 +361,7 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list)
     {
         CodeClassField * field = *it;
         CodeAccessorMethodList list = field->getMethodList();
-        Q_FOREACH(CodeAccessorMethod *method, list)
+        for(CodeAccessorMethod *method : list)
         {
             /*
                 QString tag = method->getTag();
@@ -506,7 +506,7 @@ void ClassifierCodeDocument::syncClassFields()
 void ClassifierCodeDocument::updateOperations()
 {
     UMLOperationList opList(getParentClassifier()->getOpList());
-    foreach (UMLOperation *op, opList) {
+    for (UMLOperation *op : opList) {
         QString tag = CodeOperation::findTag(op);
         CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
         bool createdNew = false;
@@ -545,7 +545,7 @@ void ClassifierCodeDocument::initCodeClassFields()
     // first, do the code classifields that arise from attributes
     if (parentIsClass()) {
         UMLAttributeList alist = c->getAttributeList();
-        foreach(UMLAttribute * at, alist) {
+        for(UMLAttribute * at : alist) {
             CodeClassField * field = CodeGenFactory::newCodeClassField(this, at);
             addCodeClassField(field);
         }
@@ -570,7 +570,7 @@ void ClassifierCodeDocument::initCodeClassFields()
  */
 void ClassifierCodeDocument::updateAssociationClassFields (UMLAssociationList &assocList)
 {
-    foreach(UMLAssociation * a, assocList)
+    for(UMLAssociation * a : assocList)
         addAssociationClassField(a, false); // syncToParent later
 }
 
@@ -714,17 +714,6 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
  */
 void ClassifierCodeDocument::saveToXMI(QXmlStreamWriter& writer)
 {
-#if 0
-    // avoid the creation of primitive data type
-    QString strType;
-    if (getParentClassifier()->getBaseType() == Uml::ot_Datatype) {
-        strType = getParentClassifier()->getName();
-        // lets get the default code generator to check if it is a primitive data type
-        // there's a reason to create files for int/boolean and so ?
-        if (getParentGenerator()->isReservedKeyword(strType))
-           return;
-    }
-#endif
     writer.writeStartElement(QStringLiteral("classifiercodedocument"));
 
     setAttributesOnNode(writer);
@@ -782,12 +771,15 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
             return decl;
         // well, if not in the decl block, then in the methods perhaps?
         CodeAccessorMethodList mlist = cf->getMethodList();
-        Q_FOREACH(CodeAccessorMethod *m, mlist)
-            if(m->getTag() == tag)
+        for(CodeAccessorMethod *m : mlist) {
+            if(m->getTag() == tag) {
                 return m;
+            }
+        }
     }
+
     // if we get here, we failed.
-    return (TextBlock*) 0;
+    return nullptr;
 }
 
 
