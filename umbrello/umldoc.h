@@ -121,7 +121,7 @@ public:
 
     UMLObject* findUMLObject(const QString &name,
                              UMLObject::ObjectType type = UMLObject::ot_UMLObject,
-                             UMLObject *currentObj = 0);
+                             UMLObject *currentObj = nullptr);
 
     UMLObject* findUMLObjectRaw(Uml::ModelType::Enum,
                                 const QString &name,

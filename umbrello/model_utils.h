@@ -39,12 +39,12 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList);
 UMLObject* findUMLObject(const UMLObjectList& inList,
                           const QString& name,
                           UMLObject::ObjectType type = UMLObject::ot_UMLObject,
-                          UMLObject *currentObj = 0);
+                          UMLObject *currentObj = nullptr);
 
 UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
                              const QString& name,
                              UMLObject::ObjectType type = UMLObject::ot_UMLObject,
-                             UMLObject *currentObj = 0);
+                             UMLObject *currentObj = nullptr);
 
 UMLObject* findUMLObjectRecursive(const UMLObjectList& inList,
                                   const QString& name,
