@@ -1982,7 +1982,7 @@ void UMLApp::initClip()
 bool UMLApp::canDecode(const QMimeData* mimeData)
 {
     QStringList supportedFormats = mimeData->formats();
-    foreach(const QString &format, supportedFormats) {
+    Q_FOREACH(const QString &format, supportedFormats) {
         QByteArray fba = format.toLatin1();
         const char* f = fba.constData();
         if (!qstrnicmp(f,"application/x-uml-clip", 22)) {

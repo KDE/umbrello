@@ -155,7 +155,7 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLViewList& diagrams)
     stream.writeEndElement();  // umlobjects
     stream.writeStartElement(QStringLiteral("umlviews"));
 
-    foreach(UMLView* view, diagrams) {
+    Q_FOREACH(UMLView* view, diagrams) {
         view->umlScene()->saveToXMI(stream);
     }
 
@@ -175,7 +175,7 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
     stream.writeStartElement(QStringLiteral("xmiclip"));
     stream.writeStartElement(QStringLiteral("umllistviewitems"));
 
-    foreach(UMLListViewItem* item, umlListViewItems) {
+    Q_FOREACH(UMLListViewItem* item, umlListViewItems) {
         item->saveToXMI(stream);
     }
 

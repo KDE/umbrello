@@ -630,7 +630,7 @@ QString ListPopupMenu::toString(DataType data)
 void ListPopupMenu::dumpActions(const QString &title)
 {
     qDebug().nospace() << title;
-    foreach(DebugMenu e, d->debugActions) {
+    Q_FOREACH(DebugMenu e, d->debugActions) {
         if (!e.menu.isEmpty())
             qDebug().nospace() << "  " << e.menu;
         else

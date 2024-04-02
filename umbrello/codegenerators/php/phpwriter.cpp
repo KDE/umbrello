@@ -3025,7 +3025,7 @@ void PhpWriter::writeClass(UMLClassifier *c)
     UMLPackageList includes;
     findObjectsRelated(c, includes);
 
-    foreach(UMLPackage* conc, includes) {
+    Q_FOREACH(UMLPackage* conc, includes) {
         QString headerName = findFileName(conc, QStringLiteral(".php"));
         if (headerName.isEmpty()) {
             php << "include '" << headerName << "';" << m_endl;

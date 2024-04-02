@@ -435,7 +435,7 @@ void UMLDoc::closeDocument()
 
         // Remove any stereotypes.
         if (stereotypes().count() > 0) {
-            foreach(UMLStereotype *s, stereotypes()) {
+            Q_FOREACH(UMLStereotype *s, stereotypes()) {
                 m_stereotypesModel->removeStereotype(s);
                 delete s;
             }
@@ -2397,7 +2397,7 @@ bool UMLDoc::loadDiagrams1()
     DiagramsMap::const_iterator i;
     for (i = m_diagramsToLoad.constBegin(); i != m_diagramsToLoad.constEnd(); i++) {
         UMLFolder *f = i.key();
-        foreach(QDomNode node, i.value())
+        Q_FOREACH(QDomNode node, i.value())
             if (!f->loadDiagramsFromXMI1(node))
                 result = false;
     }
@@ -2996,7 +2996,7 @@ UMLViewList UMLDoc::viewIterator() const
 UMLViewList UMLDoc::views(Uml::DiagramType::Enum type) const
 {
     UMLViewList result;
-    foreach(UMLView *v, viewIterator()) {
+    Q_FOREACH(UMLView *v, viewIterator()) {
         if (type == Uml::DiagramType::Undefined || v->umlScene()->type() == type)
             result.append(v);
     }

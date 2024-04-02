@@ -187,7 +187,7 @@ UMLAttributeList XMLSchemaWriter::findAttributes(UMLClassifier *c)
 
     if (!c->isInterface()) {
         UMLAttributeList atl = c->getAttributeList();
-        foreach(UMLAttribute *at,  atl) {
+        Q_FOREACH(UMLAttribute *at,  atl) {
             switch(at->visibility())
             {
               case Uml::Visibility::Public:
@@ -263,7 +263,7 @@ void XMLSchemaWriter::writeGroupClassifierDecl (UMLClassifier *c,
     xs << indent() << "<" << makeSchemaTag(QStringLiteral("choice")) << ">" << m_endl;
     m_indentLevel++;
 
-    foreach(UMLClassifier *classifier, subclasses) {
+    Q_FOREACH(UMLClassifier *classifier, subclasses) {
         writeAssociationRoleDecl(classifier, QStringLiteral("1"), xs);
     }
 
@@ -395,11 +395,11 @@ void XMLSchemaWriter::writeConcreteClassifier (UMLClassifier *c, QTextStream &xs
     writeChildObjsInAssociation(c, compositions, xs);
 
     // write out any superclasses as needed
-    foreach(UMLClassifier *classifier, superclasses)
+    Q_FOREACH(UMLClassifier *classifier, superclasses)
         writeClassifier(classifier, xs);
 
     // write out any subclasses as needed
-    foreach(UMLClassifier *classifier, subclasses)
+    Q_FOREACH(UMLClassifier *classifier, subclasses)
         writeClassifier(classifier, xs);
 }
 
@@ -450,7 +450,7 @@ void XMLSchemaWriter::writeChildObjsInAssociation (UMLClassifier *c,
         QTextStream &xs)
 {
     UMLObjectList list = findChildObjsInAssociations (c, assoc);
-    foreach(UMLObject* obj, list) {
+    Q_FOREACH(UMLObject* obj, list) {
         UMLClassifier * thisClassifier = obj->asUMLClassifier();
         if (thisClassifier)
             writeClassifier(thisClassifier, xs);
@@ -535,7 +535,7 @@ void XMLSchemaWriter::writeAttributeGroupDecl (const QString &elementName, UMLAt
 
         m_indentLevel++;
 
-        foreach(UMLAttribute *at, attribs)
+        Q_FOREACH(UMLAttribute *at, attribs)
         {
             writeAttributeDecl(at, xs);
         }

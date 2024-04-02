@@ -61,7 +61,7 @@ DontAskAgainWidget::DontAskAgainWidget(QList<DontAskAgainItem *> &items, QWidget
     QGroupBox *box = new QGroupBox(i18n("Notifications"));
     layout()->addWidget(box);
     m_layout = new QVBoxLayout(box);
-    foreach(DontAskAgainItem *item, m_items) {
+    Q_FOREACH(DontAskAgainItem *item, m_items) {
         addItem(item);
     }
 }
@@ -69,7 +69,7 @@ DontAskAgainWidget::DontAskAgainWidget(QList<DontAskAgainItem *> &items, QWidget
 bool DontAskAgainWidget::apply()
 {
     // handle 'all messages' case
-    foreach(QCheckBox *c, this->findChildren<QCheckBox *>()) {
+    Q_FOREACH(QCheckBox *c, this->findChildren<QCheckBox *>()) {
         DontAskAgainItem *item = c->property("data").value<DontAskAgainItem*>();
         if (item->isAll() && c->isChecked()) {
             item->setEnabled();
@@ -77,7 +77,7 @@ bool DontAskAgainWidget::apply()
         }
     }
     // handle 'single message' case
-    foreach(QCheckBox *c, this->findChildren<QCheckBox *>()) {
+    Q_FOREACH(QCheckBox *c, this->findChildren<QCheckBox *>()) {
         DontAskAgainItem *item = c->property("data").value<DontAskAgainItem*>();
         if (!item->isAll() && c->isChecked() ^ item->isEnabled())
             item->setEnabled(c->isChecked());
@@ -87,7 +87,7 @@ bool DontAskAgainWidget::apply()
 
 void DontAskAgainWidget::setDefaults()
 {
-    foreach(QCheckBox *c, this->findChildren<QCheckBox *>()) {
+    Q_FOREACH(QCheckBox *c, this->findChildren<QCheckBox *>()) {
         DontAskAgainItem *item = c->property("data").value<DontAskAgainItem*>();
         if (item->isAll())
             c->setChecked(true);
@@ -113,7 +113,7 @@ void DontAskAgainWidget::slotToggled(bool state)
 
     DontAskAgainItem *item = c->property("data").value<DontAskAgainItem*>();
     if (item->isAll()) {
-        foreach(QCheckBox *cb, this->findChildren<QCheckBox *>()) {
+        Q_FOREACH(QCheckBox *cb, this->findChildren<QCheckBox *>()) {
             if (cb != c)
                 cb->setEnabled(!state);
         }

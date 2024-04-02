@@ -248,7 +248,7 @@ void UMLClipboard::addRelatedWidgets()
         }
     }
 
-    foreach(AssociationWidget *pAssoc, m_AssociationList) {
+    Q_FOREACH(AssociationWidget *pAssoc, m_AssociationList) {
         pWA = pAssoc->widgetForRole(Uml::RoleType::A);
         pWB = pAssoc->widgetForRole(Uml::RoleType::B);
         if (!relatedWidgets.contains(pWA))
@@ -257,7 +257,7 @@ void UMLClipboard::addRelatedWidgets()
             relatedWidgets.append(pWB);
     }
 
-    foreach(UMLWidget *widget, relatedWidgets) {
+    Q_FOREACH(UMLWidget *widget, relatedWidgets) {
         if (!m_WidgetList.contains(widget))
             m_WidgetList.append(widget);
     }

@@ -1344,7 +1344,7 @@ void TestDUChain::memberFunctionDocBlockParams()
 void TestDUChain::foreachLoop()
 {
     {
-    TopDUContext* top = parse("<? $a = array(1); foreach($a as $k=>$i) { $i; }", DumpAll);
+    TopDUContext* top = parse("<? $a = array(1); Q_FOREACH($a as $k=>$i) { $i; }", DumpAll);
     DUChainReleaser releaseTop(top);
     DUChainWriteLocker lock(DUChain::lock());
 
@@ -1358,7 +1358,7 @@ void TestDUChain::foreachLoop()
     }
     {
     // bug: https://bugs.kde.org/show_bug.cgi?id=237110
-    TopDUContext* top = parse("<? $a = array(1); foreach($a as $b) { $c = new stdclass; }", DumpAll);
+    TopDUContext* top = parse("<? $a = array(1); Q_FOREACH($a as $b) { $c = new stdclass; }", DumpAll);
     DUChainReleaser releaseTop(top);
     DUChainWriteLocker lock(DUChain::lock());
 
@@ -1751,7 +1751,7 @@ void TestDUChain::foreachIterator()
     code.append("public function valid() {} ");
     code.append("} ");
     code.append("$a = new A();");
-    code.append("foreach($a as $i) { $i; }");
+    code.append("Q_FOREACH($a as $i) { $i; }");
     TopDUContext* top = parse(code, DumpAST);
     DUChainReleaser releaseTop(top);
     DUChainWriteLocker lock(DUChain::lock());
@@ -1773,7 +1773,7 @@ void TestDUChain::foreachIterator2()
     code.append("public function next() {} ");
     code.append("public function valid() {} ");
     code.append("} ");
-    code.append("foreach(new A() as $i) { $i; }");
+    code.append("Q_FOREACH(new A() as $i) { $i; }");
     TopDUContext* top = parse(code, DumpAST);
     DUChainReleaser releaseTop(top);
     DUChainWriteLocker lock(DUChain::lock());
@@ -1798,7 +1798,7 @@ void TestDUChain::foreachIterator3()
     code.append("public function valid() {} ");
     code.append("} ");
     code.append("class C extends A { }");
-    code.append("foreach(new C() as $i) { $i; }");
+    code.append("Q_FOREACH(new C() as $i) { $i; }");
     TopDUContext* top = parse(code, DumpAST);
     DUChainReleaser releaseTop(top);
     DUChainWriteLocker lock(DUChain::lock());
@@ -1817,9 +1817,9 @@ void TestDUChain::foreachIterator4()
                       "class A {\n"
                       "  public static $s;\n"
                       "  function foo() {\n"
-                      "    foreach(array(1,2) as $this->i){}\n"
-                      "    foreach(array(1,2) as $this->k => $this->v){}\n"
-                      "    foreach(array(1,2) as A::$s){}\n"
+                      "    Q_FOREACH(array(1,2) as $this->i){}\n"
+                      "    Q_FOREACH(array(1,2) as $this->k => $this->v){}\n"
+                      "    Q_FOREACH(array(1,2) as A::$s){}\n"
                       "  }\n"
                       "}\n";
 
@@ -2488,7 +2488,7 @@ void TestDUChain::namespacesNoCurly()
     DUChainWriteLocker lock;
 
     QCOMPARE(top->problems().count(), 0);
-    foreach(ProblemPointer p, top->problems()) {
+    Q_FOREACH(ProblemPointer p, top->problems()) {
         qDebug() << p->description() << p->explanation() << p->finalLocation();
     }
     QCOMPARE(top->childContexts().size(), 2);
@@ -2883,7 +2883,7 @@ void TestDUChain::bug296709()
     //               01234567890123456789012345678901234567890123456789012345678901234567890123456789
     TopDUContext* top = parse(
                     "<?php\n"
-                    "foreach(array() as $a) {\n"
+                    "Q_FOREACH(array() as $a) {\n"
                     "  $a[0] = 1;\n"
                     "}\n", DumpAll);
     QVERIFY(top);

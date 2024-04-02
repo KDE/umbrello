@@ -234,7 +234,7 @@ void Tracer::update(const QString &name)
     if (!isVisible())
         return;
     QList<QTreeWidgetItem*> items = findItems(name, Qt::MatchFixedString);
-    foreach(QTreeWidgetItem* item, items) {
+    Q_FOREACH(QTreeWidgetItem* item, items) {
         item->setCheckState(0, (*s_classes)[name].state ? Qt::Checked : Qt::Unchecked);
     }
 }

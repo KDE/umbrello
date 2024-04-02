@@ -315,7 +315,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     if (! superclasses.isEmpty()) {
         idl << " : ";
         int count = superclasses.count();
-        foreach(UMLClassifier* parent, superclasses) {
+        Q_FOREACH(UMLClassifier* parent, superclasses) {
             count--;
             idl << parent->fullyQualifiedName(QStringLiteral("::"));
             if (count)

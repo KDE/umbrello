@@ -636,7 +636,7 @@ void DWriter::writeVectorAttributeAccessorMethods (QString fieldClassName, QStri
         d << m_indentation << "void remove" << fieldNameUC << "(";
         d << fieldClassName << " " << fieldNameUP << ") {" << startline;
         d << m_indentation << "int idx = " << fieldVarName << ".length;" << startline;
-        d << m_indentation << "foreach(i, o; " << fieldVarName << ")" << startline;
+        d << m_indentation << "Q_FOREACH(i, o; " << fieldVarName << ")" << startline;
         d << m_indentation << m_indentation << "if (o && o == " << fieldNameUP << ") {" << startline;
         d << m_indentation << m_indentation << m_indentation << "idx = i;" << startline;
         d << m_indentation << m_indentation << m_indentation << "break;" << startline;

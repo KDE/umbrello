@@ -657,7 +657,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
 
     //operations
     UMLOperationList opl(c->getOpList());
-    foreach(UMLOperation *op, opl) {
+    Q_FOREACH(UMLOperation *op, opl) {
         temp = 0;
         //check return value
         temp = (UMLClassifier*) op->getType();
@@ -666,7 +666,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
         }
         //check parameters
         UMLAttributeList atl = op->getParmList();
-        foreach(UMLAttribute *at, atl) {
+        Q_FOREACH(UMLAttribute *at, atl) {
             temp = (UMLClassifier*)at->getType();
             if (temp && !temp->isUMLDatatype() && !cList.count(temp)) {
                 cList.append(temp);

@@ -246,7 +246,7 @@ void PythonWriter::writeClass(UMLClassifier *c)
     UMLPackageList includes;
     findObjectsRelated(c, includes);
 
-    foreach(UMLPackage* conc, includes) {
+    Q_FOREACH(UMLPackage* conc, includes) {
         QString headerName = findFileName(conc, QStringLiteral(".py"));
         if (!headerName.isEmpty()) {
             headerName.remove(QRegularExpression(QStringLiteral(".py$")));
@@ -339,7 +339,7 @@ void PythonWriter::writeOperations(UMLClassifier *c, QTextStream &h)
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    foreach(UMLOperation *op, opl) {
+    Q_FOREACH(UMLOperation *op, opl) {
         switch(op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);

@@ -186,7 +186,7 @@ void TestDUChainMultipleFiles::testForeachImportedIdentifier()
 
     TestFile f2(QStringLiteral("<?\n"
                 "class A {\n"
-                "  public function foo() { $i = $this->bar(); foreach($i as $a => $b) {} } \n"
+                "  public function foo() { $i = $this->bar(); Q_FOREACH($i as $a => $b) {} } \n"
                 "  public function bar() { $a = new SomeIterator(); return $a; }\n"
                 " }\n"), QStringLiteral("php"), project);
 
@@ -223,7 +223,7 @@ void TestDUChainMultipleFiles::testUpdateForeach()
     m_projectController->closeAllProjects();
     m_projectController->addProject(project);
 
-    TestFile f(QStringLiteral("<?\n$k = null;\nforeach(array() as $i => $k) {}\n"), QStringLiteral("php"), project);
+    TestFile f(QStringLiteral("<?\n$k = null;\nQ_FOREACH(array() as $i => $k) {}\n"), QStringLiteral("php"), project);
 
     f.parse(features);
     QVERIFY(f.waitForParsed());
@@ -242,7 +242,7 @@ void TestDUChainMultipleFiles::testUpdateForeach()
     }
 
     // delete $k = null; line
-    f.setFileContents(QStringLiteral("<?\nforeach(array() as $i => $k) {}\n"));
+    f.setFileContents(QStringLiteral("<?\nQ_FOREACH(array() as $i => $k) {}\n"));
     f.parse(static_cast<TopDUContext::Features>(features | TopDUContext::ForceUpdate));
     QVERIFY(f.waitForParsed());
     QVERIFY(f.topContext());

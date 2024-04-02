@@ -219,7 +219,7 @@ void SelectOperationDialog::setupOperationsList()
     if (list.count() > 0)
         m_pOpCB->insertItem(0, QString());
     qSort(list.begin(), list.end(), caseInsensitiveLessThan);
-    foreach(UMLOperation * obj, list) {
+    Q_FOREACH(UMLOperation * obj, list) {
         QString s = obj->toString(Uml::SignatureType::SigNoVis);
         m_pOpCB->insertItem(list.count(), s);
         m_pOpCB->completionObject()->addItem(s);

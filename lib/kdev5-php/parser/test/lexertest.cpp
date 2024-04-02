@@ -513,7 +513,7 @@ TokenStream* LexerTest::tokenize(const QString& unit, bool debug, int initialSta
         tokens << t;
     }
     if (debug) {
-        foreach(const Parser::Token &t, tokens) {
+        Q_FOREACH(const Parser::Token &t, tokens) {
             qint64 beginLine;
             qint64 beginColumn;
             tokenStream->startPosition(i, &beginLine, &beginColumn);

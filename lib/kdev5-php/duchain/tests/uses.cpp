@@ -532,7 +532,7 @@ void TestUses::foreachArray()
 {
     //                 0         1         2         3         4         5         6         7
     //                 01234567890123456789012345678901234567890123456789012345678901234567890123456789
-    QByteArray method("<? $a = array(1); foreach($a as $k=>$i) { var_dump($k, $i); } ");
+    QByteArray method("<? $a = array(1); Q_FOREACH($a as $k=>$i) { var_dump($k, $i); } ");
 
     TopDUContext* top = parse(method, DumpAll);
     DUChainReleaser releaseTop(top);
@@ -929,7 +929,7 @@ void TestUses::namespaces()
                                           << RangeInRevision(14, 21, 14, 24)
                                           << RangeInRevision(14, 49, 14, 52));
     QCOMPARE(dec->internalContext()->localDeclarations().size(), 4);
-    foreach(Declaration* d, dec->internalContext()->localDeclarations()) {
+    Q_FOREACH(Declaration* d, dec->internalContext()->localDeclarations()) {
         qDebug() << d->toString() << d->qualifiedIdentifier();
     }
 

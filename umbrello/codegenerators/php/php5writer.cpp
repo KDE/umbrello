@@ -3030,7 +3030,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
     //write includes
     UMLPackageList includes;
     findObjectsRelated(c, includes);
-    foreach(UMLPackage* conc, includes) {
+    Q_FOREACH(UMLPackage* conc, includes) {
         QString headerName = findFileName(conc, QStringLiteral(".php"));
         if (!headerName.isEmpty()) {
             php << "require_once '" << headerName << "';" << m_endl;
@@ -3210,7 +3210,7 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php)
                 continue;
 
             UMLOperationList opl(real->getOpList());
-            foreach(UMLOperation *op, opl) {
+            Q_FOREACH(UMLOperation *op, opl) {
                 opreal.append(op);
             }
         }
@@ -3339,7 +3339,7 @@ void Php5Writer::writeAttributes(UMLClassifier *c, QTextStream &php)
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
 
-    foreach(UMLAttribute* at, atl) {
+    Q_FOREACH(UMLAttribute* at, atl) {
         if (!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch(at->visibility()) {

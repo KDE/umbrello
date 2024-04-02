@@ -566,7 +566,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
 {
     if (forceSections() || !associations.isEmpty()) {
 
-        foreach(UMLAssociation *a, associations) {
+        Q_FOREACH(UMLAssociation *a, associations) {
 
             // insert the methods to access the role of the other
             // class in the code of this one

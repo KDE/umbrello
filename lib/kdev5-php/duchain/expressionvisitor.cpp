@@ -74,7 +74,7 @@ DeclarationPointer ExpressionVisitor::processVariable(VariableIdentifierAst* var
         ///TODO: why doesn't m_currentContext->findDeclarations() work?
         ///      evaluate if the stuff below is fast enough (faster?) than findDeclarations()
         ///see r1028306
-        foreach(const DUContext::Import &import, m_currentContext->importedParentContexts() ) {
+        Q_FOREACH(const DUContext::Import &import, m_currentContext->importedParentContexts() ) {
             if ( !import.isDirect() || import.position > position ) {
                 continue;
             }
@@ -90,7 +90,7 @@ DeclarationPointer ExpressionVisitor::processVariable(VariableIdentifierAst* var
     }
     if (!ret) {
         //look for a superglobal variable
-        foreach(Declaration* dec, m_currentContext->topContext()->findDeclarations(identifier, position)) {
+        Q_FOREACH(Declaration* dec, m_currentContext->topContext()->findDeclarations(identifier, position)) {
             VariableDeclaration* varDec = dynamic_cast<VariableDeclaration*>(dec);
             if (varDec && varDec->isSuperglobal()) {
                 ret = dec;
@@ -253,7 +253,7 @@ void ExpressionVisitor::visitClosure(ClosureAst* node)
         DUChainWriteLocker lock;
         forever {
             DeclarationPointer found;
-            foreach(Declaration* dec, m_currentContext->findDeclarations(identifierForNode(it->element->variable))) {
+            Q_FOREACH(Declaration* dec, m_currentContext->findDeclarations(identifierForNode(it->element->variable))) {
                 if (dec->kind() == Declaration::Instance) {
                     found = dec;
                     break;
@@ -532,7 +532,7 @@ void ExpressionVisitor::visitEncapsVar(EncapsVarAst *node)
                         }
                     }
                     if (ctx) {
-                        foreach( Declaration* pdec, ctx->findDeclarations(identifierForNode(node->propertyIdentifier)) ) {
+                        Q_FOREACH( Declaration* pdec, ctx->findDeclarations(identifierForNode(node->propertyIdentifier)) ) {
                             if ( !pdec->isFunctionDeclaration() ) {
                                 foundDec = pdec;
                                 break;

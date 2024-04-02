@@ -454,7 +454,7 @@ UMLAttributeList UMLClassifier::getAttributeList(Visibility::Enum scope) const
     if (!isInterface())
     {
         UMLAttributeList atl = getAttributeList();
-        foreach(UMLAttribute* at, atl)
+        Q_FOREACH(UMLAttribute* at, atl)
         {
             uIgnoreZeroPointer(at);
             if (! at->isStatic())
@@ -489,7 +489,7 @@ UMLAttributeList UMLClassifier::getAttributeListStatic(Visibility::Enum scope) c
     if (!isInterface())
     {
         UMLAttributeList atl = getAttributeList();
-        foreach(UMLAttribute* at, atl)
+        Q_FOREACH(UMLAttribute* at, atl)
         {
             uIgnoreZeroPointer(at);
             if (at->isStatic())
@@ -574,7 +574,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) cons
 
     UMLClassifierList inheritingConcepts;
     Uml::ID::Type myID = id();
-    foreach(UMLClassifier *c, list) {
+    Q_FOREACH(UMLClassifier *c, list) {
         uIgnoreZeroPointer(c);
         if (type == ALL || (!c->isInterface() && type == CLASS)
                 || (c->isInterface() && type == INTERFACE)) {
@@ -646,7 +646,7 @@ void UMLClassifier::copyInto(UMLObject *lhs) const
     target->setBaseType(m_BaseType);
     // CHECK: association property m_pClassAssoc is not copied
     subordinates().copyInto(&(target->subordinates()));
-    foreach(UMLObject *o, target->subordinates()) {
+    Q_FOREACH(UMLObject *o, target->subordinates()) {
         o->setUMLParent(target);
     }
 }
@@ -670,7 +670,7 @@ void UMLClassifier::setNameCmd(const QString &strName)
     if (UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Cpp ||
             UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::CSharp ||
             UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Java) {
-        foreach(UMLOperation *op, getOpList()) {
+        Q_FOREACH(UMLOperation *op, getOpList()) {
             if (op->isConstructorOperation())
                 op->setNameCmd(strName);
             if (op->isDestructorOperation())
@@ -909,7 +909,7 @@ int UMLClassifier::removeAttribute(UMLAttribute* att)
 bool UMLClassifier::hasAbstractOps () const
 {
     UMLOperationList opl(getOpList());
-    foreach(UMLOperation *op, opl) {
+    Q_FOREACH(UMLOperation *op, opl) {
         uIgnoreZeroPointer(op);
         if (op->isAbstract()) {
             return true;
@@ -957,7 +957,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSe
 
         // get a list of parents of this class
         UMLClassifierList parents = findSuperClassConcepts();
-        foreach(UMLClassifier *c, parents) {
+        Q_FOREACH(UMLClassifier *c, parents) {
             if (alreadyTraversed->contains(c)) {
                 logError2("UMLClassifier::getOpList(%1) : class %2 is starting a dependency loop!",
                           name(), c->name());

@@ -551,7 +551,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     as << "}" << m_endl;
     as << m_endl;
 
-    foreach(UMLClassifier* obj, superclasses) {
+    Q_FOREACH(UMLClassifier* obj, superclasses) {
         as << classname << ".prototype = new " << cleanName(obj->name()) << " ();" << m_endl;
     }
 

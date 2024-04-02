@@ -82,7 +82,7 @@ void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierList
 {
     // we need to create an index on the referenced attributes before we can create a foreign key constraint in MySQL
 
-    foreach(UMLClassifierListItem* cli, constrList) {
+    Q_FOREACH(UMLClassifierListItem* cli, constrList) {
         UMLForeignKeyConstraint* fkc = cli->asUMLForeignKeyConstraint();
 
         QMap<UMLEntityAttribute*, UMLEntityAttribute*> attributeMap = fkc->getEntityAttributePairs();
@@ -92,7 +92,7 @@ void MySQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierList
 
         // convert to UMLEntityAttributeList
         UMLEntityAttributeList refAttList;
-        foreach(UMLEntityAttribute* ea, eaList) {
+        Q_FOREACH(UMLEntityAttribute* ea, eaList) {
             refAttList.append(ea);
         }
 
@@ -114,7 +114,7 @@ void MySQLWriter::printAutoIncrements(QTextStream& sql, const UMLEntityAttribute
 
     // get the first attribute of list with auto increment
     UMLEntityAttribute* autoIncrementEntAtt = 0;
-    foreach(UMLEntityAttribute* ea, entAttList) {
+    Q_FOREACH(UMLEntityAttribute* ea, entAttList) {
        if (ea->getAutoIncrement()) {
            autoIncrementEntAtt = ea;
            break;

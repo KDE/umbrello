@@ -571,7 +571,7 @@ void UMLOperation::saveToXMI(QXmlStreamWriter& writer)
     }
 
     //save each attribute here, type different
-    foreach(UMLAttribute* pAtt, m_args) {
+    Q_FOREACH(UMLAttribute* pAtt, m_args) {
         pAtt->UMLObject::save1(writer, QStringLiteral("Parameter"), QStringLiteral("ownedParameter"));
         UMLClassifier *attrType = pAtt->getType();
         if (attrType) {

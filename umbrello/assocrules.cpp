@@ -246,7 +246,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
         break;
 
     case Uml::AssociationType::Realization: // can only connect to abstract (interface) classes
-        foreach(AssociationWidget * assoc, list) {
+        Q_FOREACH(AssociationWidget * assoc, list) {
             if((widgetA == assoc->widgetForRole(Uml::RoleType::A) ||
                         widgetA == assoc->widgetForRole(Uml::RoleType::B))
                     && assoc->associationType() == Uml::AssociationType::Realization) {

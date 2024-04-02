@@ -414,7 +414,7 @@ void CPPHeaderCodeDocument::updateContent()
     QMap<UMLPackage *, QString> packageMap; // so we don't repeat packages
 
     CodeGenerator::findObjectsRelated(c, includes);
-    foreach(UMLPackage* con, includes) {
+    Q_FOREACH(UMLPackage* con, includes) {
         if (!con->isUMLDatatype() && !packageMap.contains(con)) {
             packageMap.insert(con, con->package());
             if(con != getParentClassifier())
@@ -430,7 +430,7 @@ void CPPHeaderCodeDocument::updateContent()
 
     // Using
     QString usingStatement;
-    foreach(UMLClassifier* classifier, superclasses) {
+    Q_FOREACH(UMLClassifier* classifier, superclasses) {
         if(classifier->package()!=c->package() && !classifier->package().isEmpty()) {
             usingStatement.append(QStringLiteral("using ") + CodeGenerator::cleanName(c->package()) + QStringLiteral("::") + cleanName(c->name()) + QLatin1Char(';') + endLine);
         }

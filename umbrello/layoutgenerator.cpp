@@ -188,7 +188,7 @@ bool LayoutGenerator::generate(UMLScene *scene, const QString &variant)
  */
 bool LayoutGenerator::apply(UMLScene *scene)
 {
-    foreach(AssociationWidget *assoc, scene->associationList()) {
+    Q_FOREACH(AssociationWidget *assoc, scene->associationList()) {
         AssociationLine& path = assoc->associationLine();
         QString type = Uml::AssociationType::toString(assoc->associationType()).toLower();
         QString key = QStringLiteral("type::") + type;
@@ -260,7 +260,7 @@ bool LayoutGenerator::apply(UMLScene *scene)
 
     UMLApp::app()->beginMacro(i18n("Apply layout"));
 
-    foreach(UMLWidget *widget, scene->widgetList()) {
+    Q_FOREACH(UMLWidget *widget, scene->widgetList()) {
         QString id = Uml::ID::toString(widget->localID());
         if (!m_nodes.contains(id))
             continue;
@@ -282,7 +282,7 @@ bool LayoutGenerator::apply(UMLScene *scene)
     }
     UMLApp::app()->endMacro();
 
-    foreach(AssociationWidget *assoc, scene->associationList()) {
+    Q_FOREACH(AssociationWidget *assoc, scene->associationList()) {
         assoc->calculateEndingPoints();
         assoc->associationLine().update();
         assoc->resetTextPositions();
@@ -303,13 +303,13 @@ bool LayoutGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QStrin
     QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
     const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello5/layouts"), QStandardPaths::LocateDirectory);
     QStringList fileNames;
-    foreach(const QString& dir, dirs) {
+    Q_FOREACH(const QString& dir, dirs) {
         const QStringList entries = QDir(dir).entryList(QStringList() << QString::fromLatin1("%1*.desktop").arg(diagramType));
-        foreach(const QString& file, entries) {
+        Q_FOREACH(const QString& file, entries) {
             fileNames.append(dir + QLatin1Char('/') + file);
         }
     }
-    foreach(const QString &fileName, fileNames) {
+    Q_FOREACH(const QString &fileName, fileNames) {
         QFileInfo fi(fileName);
         QString baseName;
         if (fi.baseName().contains(QStringLiteral("-")))

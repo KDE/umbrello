@@ -124,7 +124,7 @@ int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
  */
 void UMLCanvasObject::removeAllAssociationEnds()
 {
-    foreach(UMLObject *o, subordinates()) {
+    Q_FOREACH(UMLObject *o, subordinates()) {
         if (o->baseType() != UMLObject::ot_Association) {
             continue;
         }

@@ -378,7 +378,7 @@ void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
                   " is not a UMLClassifier", m_attribute->name());
     } else {
         UMLTemplateList tmplParams(pConcept->getTemplateList());
-        foreach(UMLTemplate* t, tmplParams) {
+        Q_FOREACH(UMLTemplate* t, tmplParams) {
             types << t->name();
         }
     }

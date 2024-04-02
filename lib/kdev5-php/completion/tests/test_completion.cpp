@@ -43,7 +43,7 @@ public:
     {
         beginResetModel();
         m_completionItems.clear();
-        foreach(const CompletionTreeItemPointer &i, items) {
+        Q_FOREACH(const CompletionTreeItemPointer &i, items) {
             m_completionItems << QExplicitlySharedDataPointer<CompletionTreeElement>(i);
         }
         m_completionContext = KDevelop::CodeCompletionContext::Ptr(completionContext);
@@ -134,7 +134,7 @@ TestCompletion::TestCompletion()
 void TestCompletion::dumpCompletionItems(QList<CompletionTreeItemPointer> items)
 {
     qDebug() << items.count() << "completion items:";
-    foreach(const CompletionTreeItemPointer &item, items) {
+    Q_FOREACH(const CompletionTreeItemPointer &item, items) {
         qDebug() << item->declaration()->toString();
     }
 }
@@ -518,7 +518,7 @@ void TestCompletion::nameNormalVariable()
     PhpCompletionTester tester(top, {});
     QCOMPARE(tester.completionContext->memberAccessOperation(), CodeCompletionContext::NoMemberAccess);
 
-    foreach(const QString &id, QStringList() << "ghi" << "def" << "$abc" << "$arr") {
+    Q_FOREACH(const QString &id, QStringList() << "ghi" << "def" << "$abc" << "$arr") {
         QVERIFY(tester.names.contains(id, Qt::CaseSensitive));
     }
 }
@@ -806,7 +806,7 @@ void TestCompletion::verifyExtendsOrImplements(const QString &codeStr, const QSt
     QVERIFY(!tester.items.isEmpty());
     // make sure the items are unique
     QCOMPARE(tester.names.size(), tester.names.toSet().size());
-    foreach(const CompletionTreeItemPointer &item, tester.items) {
+    Q_FOREACH(const CompletionTreeItemPointer &item, tester.items) {
         ClassDeclaration* klass = dynamic_cast<ClassDeclaration*>(item->declaration().data());
         QVERIFY(klass);
         QVERIFY(klass->classModifier() != ClassDeclarationData::Final);
@@ -920,7 +920,7 @@ void TestCompletion::unsureType()
     QCOMPARE(tester.completionContext->memberAccessOperation(), CodeCompletionContext::MemberAccess);
 
     qDebug() << tester.names;
-    foreach(const QString &id, QStringList() << "vA" << "vB") {
+    Q_FOREACH(const QString &id, QStringList() << "vA" << "vB") {
         QVERIFY(tester.names.contains(id, Qt::CaseSensitive));
     }
 }
@@ -1135,7 +1135,7 @@ void TestCompletion::functionArguments()
     PhpCompletionTester tester(top->childContexts().last(), {});
     // should get two local and the func itself
     QVERIFY(searchDeclaration(tester.items, fDec));
-    foreach( Declaration* dec, args ) {
+    Q_FOREACH( Declaration* dec, args ) {
         qDebug() << dec->toString();
         QVERIFY(searchDeclaration(tester.items, dec));
     }

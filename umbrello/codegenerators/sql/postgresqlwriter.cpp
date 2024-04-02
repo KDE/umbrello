@@ -82,7 +82,7 @@ void PostgreSQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeL
     // instead it uses sequences. For simulating auto increment, set default value of
     // each attribute to the nextval() of its very own sequence
 
-    foreach(UMLEntityAttribute* ea, entAttList) {
+    Q_FOREACH(UMLEntityAttribute* ea, entAttList) {
         if (!ea->getAutoIncrement())
             continue;
 

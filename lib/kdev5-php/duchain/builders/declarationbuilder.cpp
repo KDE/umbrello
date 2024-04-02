@@ -241,7 +241,7 @@ bool DeclarationBuilder::isBaseMethodRedeclaration(const IdentifierPair &ids, Cl
             if (!type->internalContext(currentContext()->topContext())) {
                 continue;
             }
-            foreach(Declaration * dec, type->internalContext(currentContext()->topContext())->findLocalDeclarations(ids.second.first(), startPos(node)))
+            Q_FOREACH(Declaration * dec, type->internalContext(currentContext()->topContext())->findLocalDeclarations(ids.second.first(), startPos(node)))
             {
                 if (dec->isFunctionDeclaration()) {
                     ClassMethodDeclaration* func = dynamic_cast<ClassMethodDeclaration*>(dec);
@@ -283,7 +283,7 @@ void DeclarationBuilder::visitClassStatement(ClassStatementAst *node)
             bool localError = false;
             {
                 DUChainWriteLocker lock(DUChain::lock());
-                foreach(Declaration * dec, currentContext()->findLocalDeclarations(ids.second.first(), startPos(node->methodName)))
+                Q_FOREACH(Declaration * dec, currentContext()->findLocalDeclarations(ids.second.first(), startPos(node->methodName)))
                 {
                     if (wasEncountered(dec) && dec->isFunctionDeclaration() && !dynamic_cast<TraitMethodAliasDeclaration*>(dec)) {
                         reportRedeclarationError(dec, node->methodName);
@@ -506,7 +506,7 @@ void DeclarationBuilder::visitClassVariable(ClassVariableAst *node)
     if (m_reportErrors) {   // check for redeclarations
         DUChainWriteLocker lock(DUChain::lock());
         Q_ASSERT(currentContext()->type() == DUContext::Class);
-        foreach(Declaration * dec, currentContext()->findLocalDeclarations(name.first(), startPos(node)))
+        Q_FOREACH(Declaration * dec, currentContext()->findLocalDeclarations(name.first(), startPos(node)))
         {
             if (wasEncountered(dec) && !dec->isFunctionDeclaration() && !(dec->abstractType()->modifiers() & AbstractType::ConstModifier)) {
                 reportRedeclarationError(dec, node);
@@ -619,7 +619,7 @@ void DeclarationBuilder::visitConstantDeclaration(ConstantDeclarationAst *node)
 
         // check for redeclarations
         DUChainWriteLocker lock(DUChain::lock());
-        foreach(Declaration * dec, currentContext()->findLocalDeclarations(identifierForNode(node->identifier).first(), startPos(node->identifier)))
+        Q_FOREACH(Declaration * dec, currentContext()->findLocalDeclarations(identifierForNode(node->identifier).first(), startPos(node->identifier)))
         {
             if (wasEncountered(dec) && !dec->isFunctionDeclaration() && dec->abstractType()->modifiers() & AbstractType::ConstModifier) {
                 reportRedeclarationError(dec, node->identifier);
@@ -825,7 +825,7 @@ void DeclarationBuilder::visitLexicalVar(LexicalVarAst* node)
     }
 
     // no existing declaration found, create one
-    foreach(Declaration* aliasedDeclaration, currentContext()->findDeclarations(id)) {
+    Q_FOREACH(Declaration* aliasedDeclaration, currentContext()->findDeclarations(id)) {
         if (aliasedDeclaration->kind() == Declaration::Instance) {
             AliasDeclaration* dec = openDefinition<AliasDeclaration>(id, editor()->findRange(node->variable));
             dec->setAliasedDeclaration(aliasedDeclaration);
@@ -851,7 +851,7 @@ bool DeclarationBuilder::isGlobalRedeclaration(const QualifiedIdentifier &identi
 
     DUChainWriteLocker lock(DUChain::lock());
     QList<Declaration*> declarations = currentContext()->topContext()->findDeclarations( identifier, startPos(node) );
-    foreach(Declaration* dec, declarations) {
+    Q_FOREACH(Declaration* dec, declarations) {
         if (wasEncountered(dec) && isMatch(dec, type)) {
             reportRedeclarationError(dec, node);
             return true;
@@ -1073,7 +1073,7 @@ DUContext* getClassContext(const QualifiedIdentifier &identifier, DUContext* cur
         }
     } else {
         DUChainReadLocker lock(DUChain::lock());
-        foreach( Declaration* parent, currentCtx->topContext()->findDeclarations(identifier) ) {
+        Q_FOREACH( Declaration* parent, currentCtx->topContext()->findDeclarations(identifier) ) {
             if ( StructureType::Ptr ctype = parent->type<StructureType>() ) {
                 return ctype->internalContext(currentCtx->topContext());
             }

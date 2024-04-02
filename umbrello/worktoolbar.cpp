@@ -484,7 +484,7 @@ void WorkToolBar::slotSubsystem()                { buttonChanged(tbb_SubSystem);
  */
 void WorkToolBar::setupActions()
 {
-    foreach(QAction *action, m_actions) {
+    Q_FOREACH(QAction *action, m_actions) {
         if (!action->shortcut().isEmpty()) {
             action->setToolTip(action->text() + QStringLiteral("\t[") +
                                action->shortcut().toString() + QStringLiteral("]"));
