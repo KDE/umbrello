@@ -187,12 +187,11 @@ UMLAttributeList UMLOperation::getParmList() const
  */
 UMLAttribute* UMLOperation::findParm(const QString &name) const
 {
-    UMLAttribute * obj=0;
-    Q_FOREACH(obj, m_args) {
+    for(UMLAttribute * obj : m_args) {
         if (obj->name() == name)
             return obj;
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -228,7 +227,7 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype
     if (last) {
         s.append(QStringLiteral("("));
         int i = 0;
-        Q_FOREACH(UMLAttribute *param, m_args) {
+        for(UMLAttribute *param : m_args) {
             i++;
             s.append(param->toString(Uml::SignatureType::SigNoVis, withStereotype));
             if (i < last)
@@ -354,7 +353,7 @@ bool UMLOperation::resolveRef()
 {
     bool overallSuccess = UMLObject::resolveRef();
     // See remark on iteration style in UMLClassifier::resolveRef()
-    Q_FOREACH(UMLAttribute* pAtt, m_args) {
+    for(UMLAttribute* pAtt : m_args) {
         if (! pAtt->resolveRef())
             overallSuccess = false;
     }
@@ -571,7 +570,7 @@ void UMLOperation::saveToXMI(QXmlStreamWriter& writer)
     }
 
     //save each attribute here, type different
-    Q_FOREACH(UMLAttribute* pAtt, m_args) {
+    for(UMLAttribute* pAtt : m_args) {
         pAtt->UMLObject::save1(writer, QStringLiteral("Parameter"), QStringLiteral("ownedParameter"));
         UMLClassifier *attrType = pAtt->getType();
         if (attrType) {

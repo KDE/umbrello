@@ -2975,12 +2975,14 @@ void AssociationWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
 QLineF::IntersectType AssociationWidget::intersect(const QRectF &rect, const QLineF &line,
                                                    QPointF* intersectionPoint)
 {
-    QList<QLineF> lines;
-    lines << QLineF(rect.topLeft(), rect.topRight());
-    lines << QLineF(rect.topRight(), rect.bottomRight());
-    lines << QLineF(rect.bottomRight(), rect.bottomLeft());
-    lines << QLineF(rect.bottomLeft(), rect.topLeft());
-    Q_FOREACH(const QLineF& rectLine, lines) {
+    QList<QLineF> lines = {
+        QLineF(rect.topLeft(), rect.topRight())
+        QLineF(rect.topRight(), rect.bottomRight())
+        QLineF(rect.bottomRight(), rect.bottomLeft())
+        QLineF(rect.bottomLeft(), rect.topLeft())
+    };
+
+    for(const QLineF& rectLine : lines) {
         QLineF::IntersectType type = rectLine.intersect(line, intersectionPoint);
         if (type == QLineF::BoundedIntersection) {
             return type;
@@ -3096,7 +3098,7 @@ bool AssociationWidget::setStartAndEndPoint(AssociationWidget *assocwidget, UMLW
  */
 void AssociationWidget::updateAssociations(UMLWidget *pWidget, AssociationWidgetList list)
 {
-    Q_FOREACH(AssociationWidget* assocwidget, list) {
+    for(AssociationWidget* assocwidget : list) {
         setStartAndEndPoint(assocwidget, pWidget);
     } // foreach
 }

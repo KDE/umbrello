@@ -76,7 +76,7 @@ QSizeF EntityWidget::calculateSize(bool withExtensions /* = true */) const
 
     const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
-    Q_FOREACH(UMLClassifierListItem* entityattribute, list) {
+    for(UMLClassifierListItem* entityattribute : list) {
         QString text = entityattribute->name();
         UMLEntityAttribute* umlEA = entityattribute->asUMLEntityAttribute();
         if (showAttributeSignature()) {
@@ -152,9 +152,8 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     QFontMetrics fontMetrics(font);
     const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
-    UMLClassifierListItem* entityattribute = 0;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
-    Q_FOREACH(entityattribute, list) {
+    for(UMLClassifierListItem* entityattribute : list) {
         QString text = entityattribute->name();
         painter->setPen(textColor());
         const UMLEntityAttribute* umlEA = entityattribute->asUMLEntityAttribute();
