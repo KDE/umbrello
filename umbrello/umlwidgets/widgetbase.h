@@ -232,7 +232,7 @@ public:
 
     virtual UMLWidget* onWidget(const QPointF &p);
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     bool isActivityWidget()         const { return baseType() == wt_Activity; }
     bool isActorWidget()            const { return baseType() == wt_Actor; }

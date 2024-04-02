@@ -68,7 +68,7 @@ class CodeEditor : public KTextEdit
     Q_OBJECT
 public:
     explicit CodeEditor(const QString & text, CodeViewerDialog * parent = nullptr, CodeDocument * doc = nullptr);
-    explicit CodeEditor(CodeViewerDialog  *parent = nullptr, CodeDocument * doc = 0);
+    explicit CodeEditor(CodeViewerDialog  *parent = nullptr, CodeDocument * doc = nullptr);
     ~CodeEditor();
 
     Settings::CodeViewerState state();
@@ -117,7 +117,7 @@ private:
 
     void insertText(const QString & text, TextBlock * parent, bool isEditable = false,
                  const QColor & fgcolor = QColor("black"), const QColor & bgcolor = QColor("white"),
-                 UMLObject * umlobj = 0, const QString & displayName = QString(), int startLine = -1);
+                 UMLObject * umlobj = nullptr, const QString & displayName = QString(), int startLine = -1);
 
     void editTextBlock(TextBlock * tBlock, int para);
     void clearText();

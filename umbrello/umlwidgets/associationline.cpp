@@ -874,7 +874,7 @@ void AssociationLine::createSplinePoints()
     if (m_autoLayoutSpline) {
         qreal dx = p2.x() - p1.x();
         qreal dy = p2.y() - p1.y();
-        /*qreal oneThirdX = 0.33 * dx;
+        /*qreal oneThirdX = nullptr.33 * dx;
         qreal oneThirdY = 0.33 * dy;
         QPointF c1(p1.x() + oneThirdX,  // control point 1
                    p1.y() - oneThirdY);

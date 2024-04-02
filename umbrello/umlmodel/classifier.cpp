@@ -860,7 +860,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, 
  *                   to the end of the list.
  * @return           True if the attribute was successfully added.
  */
-bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* log /* = 0 */,
+bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* log /* = nullptr */,
                                  int position /* = -1 */)
 {
     Q_ASSERT(att);
@@ -1044,7 +1044,7 @@ UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::ID::Type id)
  * @param log           Pointer to the IDChangeLog.
  * @return              True if the template was successfully added.
  */
-bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/)
+bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = nullptr*/)
 {
     QString name = newTemplate->name();
     if (findChildObject(name) == 0) {
@@ -1454,7 +1454,7 @@ void UMLClassifier::saveToXMI(QXmlStreamWriter& writer)
  */
 UMLClassifierListItem* UMLClassifier::makeChildObject(const QString& xmiTag)
 {
-    UMLClassifierListItem* pObject = 0;
+    UMLClassifierListItem* pObject = nullptr;
     if (UMLDoc::tagEq(xmiTag, QStringLiteral("Operation")) ||
         UMLDoc::tagEq(xmiTag, QStringLiteral("ownedOperation"))) {
         pObject = new UMLOperation(this);
@@ -1506,7 +1506,7 @@ void UMLClassifier::removeObject(UMLObject *pObject)
  */
 bool UMLClassifier::load1(QDomElement& element)
 {
-    UMLClassifierListItem *child = 0;
+    UMLClassifierListItem *child = nullptr;
     bool totalSuccess = true;
     for (QDomNode node = element.firstChild(); !node.isNull();
             node = node.nextSibling()) {

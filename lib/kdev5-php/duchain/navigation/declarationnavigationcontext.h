@@ -16,7 +16,7 @@ namespace Php
 class DeclarationNavigationContext : public KDevelop::AbstractDeclarationNavigationContext
 {
 public:
-    DeclarationNavigationContext(KDevelop::DeclarationPointer decl, KDevelop::TopDUContextPointer topContext, KDevelop::AbstractNavigationContext* previousContext = 0);
+    DeclarationNavigationContext(KDevelop::DeclarationPointer decl, KDevelop::TopDUContextPointer topContext, KDevelop::AbstractNavigationContext* previousContext = nullptr);
 
 protected:
     KDevelop::NavigationContextPointer registerChild(KDevelop::DeclarationPointer declaration);

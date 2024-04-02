@@ -284,7 +284,7 @@ void ContextBuilder::visitClosure(ClosureAst* node)
     visitParameterList(node->parameters);
     closeContext();
 
-    DUContext* imported = 0;
+    DUContext* imported = nullptr;
     if ( node->lexicalVars ) {
         imported = openContext(node->lexicalVars, DUContext::Other);
         Q_ASSERT(!imported->inSymbolTable());

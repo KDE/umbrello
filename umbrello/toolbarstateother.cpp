@@ -156,7 +156,7 @@ UMLObject::ObjectType ToolBarStateOther::getObjectType() const
  */
 bool ToolBarStateOther::newWidget()
 {
-    UMLWidget* umlWidget = 0;
+    UMLWidget* umlWidget = nullptr;
 
     switch (getButton()) {
         case WorkToolBar::tbb_Note:

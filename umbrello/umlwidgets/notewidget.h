@@ -40,7 +40,7 @@ public:
                         Uml::ID::Type id = Uml::ID::None);
     virtual ~NoteWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     static NoteType stringToNoteType(const QString& noteType);
 

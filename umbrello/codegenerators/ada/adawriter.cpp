@@ -173,7 +173,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
 void AdaWriter::declareClass(UMLClassifier *c, QTextStream &ada)
 {
     UMLClassifierList superclasses = c->getSuperClasses();
-    UMLClassifier *firstSuperClass = 0;
+    UMLClassifier *firstSuperClass = nullptr;
     if (!superclasses.isEmpty()) {
         for(UMLClassifier* super : superclasses) {
             if (!super->isInterface()) {
@@ -226,7 +226,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
         return;
     }
 
-    QFile *file = 0;
+    QFile *file = nullptr;
     bool isNewFile = false;
     PackageFileMap::iterator it = m_pkgsGenerated.find(pkg);
     if (it != m_pkgsGenerated.end()) {

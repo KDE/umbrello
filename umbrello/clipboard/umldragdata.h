@@ -34,18 +34,18 @@ class UMLDragData : public QMimeData
     Q_OBJECT
 public:
 
-    explicit UMLDragData(UMLObjectList& Objects, QWidget* dragSource = 0);
+    explicit UMLDragData(UMLObjectList& Objects, QWidget* dragSource = nullptr);
 
-    UMLDragData(UMLObjectList &Objects, UMLViewList& Diagrams, QWidget * dragSource = 0);
+    UMLDragData(UMLObjectList &Objects, UMLViewList& Diagrams, QWidget * dragSource = nullptr);
 
-    explicit UMLDragData(UMLListViewItemList& UMLListViewItems, QWidget* dragSource = 0);
+    explicit UMLDragData(UMLListViewItemList& UMLListViewItems, QWidget* dragSource = nullptr);
 
     UMLDragData(UMLObjectList& Objects, UMLWidgetList& Widgets, AssociationWidgetList& Associations,
-            QPixmap& PngImage, UMLScene *scene, QWidget* dragSource = 0);
+            QPixmap& PngImage, UMLScene *scene, QWidget* dragSource = nullptr);
 
-    UMLDragData(UMLObjectList& Objects, int, QWidget* dragSource = 0);
+    UMLDragData(UMLObjectList& Objects, int, QWidget* dragSource = nullptr);
 
-    explicit UMLDragData(QWidget* dragSource = 0);
+    explicit UMLDragData(QWidget* dragSource = nullptr);
 
     ~UMLDragData();
 

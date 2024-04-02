@@ -29,7 +29,7 @@ namespace Widget_Utils
 {
     UMLWidget* findWidget(Uml::ID::Type id,
                           const UMLWidgetList& widgets,
-                          const MessageWidgetList* messages = 0);
+                          const MessageWidgetList* messages = nullptr);
 
     QGraphicsRectItem* decoratePoint(const QPointF& p, QGraphicsItem *parent = nullptr);
 

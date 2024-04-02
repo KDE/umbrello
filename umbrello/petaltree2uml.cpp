@@ -162,7 +162,7 @@ qreal fetchDouble(const PetalNode *node, const QString &attribute, bool applyRos
 /**
  * Extract an int attribute from a petal node.
  */
-qreal fetchInt(const PetalNode *node, const QString &attribute, int defaultValue = 0)
+qreal fetchInt(const PetalNode *node, const QString &attribute, int defaultValue = nullptr)
 {
     bool ok;
     QString s = node->findAttribute(attribute).string;
@@ -221,7 +221,7 @@ public:
      * Return a UMLClassifierListItem of the specific type desired.
      * Abstract method to be implemented by inheriting classes.
      */
-    virtual UMLObject *createListItem() = 0;
+    virtual UMLObject *createListItem() = nullptr;
 
     virtual void setTypeReferences(UMLObject *item,
                                    const QString& quid, const QString& type) {
@@ -242,7 +242,7 @@ public:
      * @param node   The PetalNode which corresponds to the parent Umbrello object.
      * @param o      The UMLObject to insert.
      */
-    virtual void insertAtParent(const PetalNode *node, UMLObject *o) = 0;
+    virtual void insertAtParent(const PetalNode *node, UMLObject *o) = nullptr;
 
     /**
      * Iterate over the attributes of the given PetalNode and for each recognized
@@ -574,7 +574,7 @@ void handleAssocView(PetalNode *attr,
                      const PetalNode::NameValueList& parentAttrs,
                      Uml::AssociationType::Enum assocType,
                      UMLView *view,
-                     UMLObject *umlAssoc = 0)
+                     UMLObject *umlAssoc = nullptr)
 {
     QString assocStr = Uml::AssociationType::toString(assocType);
     PetalNode *roleview_list = attr->findAttribute(QStringLiteral("roleview_list")).node;
@@ -620,7 +620,7 @@ void handleAssocView(PetalNode *attr,
     else
         logDebug1("handleAssocView: %1 attribute 'client' not in viewTagToWidget", assocStr);
     if (!supW || !cliW) {
-        PetalNode *sup = 0, *cli = 0;
+        PetalNode *sup = 0, *cli = nullptr;
         for (int c = 0; c < parentAttrs.count(); ++c) {
             PetalNode *n = parentAttrs[c].second.node;
             QStringList initArgs = n->initialArgs();
@@ -702,7 +702,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
         // statemachine    (object State_Machine "State/Activity Model"
         PetalNode *statemachine = node->findAttribute(QStringLiteral("statemachine")).node;
         PetalNode *models = node->findAttribute(modelsAttr).node;
-        UMLObject *o = 0;
+        UMLObject *o = nullptr;
         if (models) {
             PetalNode::NameValueList atts = models->attributes();
             QString presAttr(isSubsystem ? QStringLiteral("physical_presentations")
@@ -748,7 +748,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
 
     } else if (objType == QStringLiteral("Class")) {
         QString stereotype = clean(node->findAttribute(QStringLiteral("stereotype")).string);
-        UMLObject *o = 0;
+        UMLObject *o = nullptr;
         if (stereotype == QStringLiteral("Actor")) {
             o = Object_Factory::createUMLObject(UMLObject::ot_Actor, name, parentPkg, false);
             o->setID(id);
@@ -899,7 +899,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             QString widgetId = attr->viewTag();
             qreal width = 0.0;
             qreal height = 0.0;
-            UMLWidget *w = 0;
+            UMLWidget *w = nullptr;
             if (objType == QStringLiteral("CategoryView")
                                 || objType == QStringLiteral("ClassView")
                                 || objType == QStringLiteral("UseCaseView")

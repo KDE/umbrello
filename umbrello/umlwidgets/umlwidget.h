@@ -45,7 +45,7 @@ public:
     static const int selectionMarkerSize;
     static const int resizeMarkerLineCount;
 
-    explicit UMLWidget(UMLScene *scene, WidgetType type = wt_UMLWidget, UMLObject *o = 0);
+    explicit UMLWidget(UMLScene *scene, WidgetType type = wt_UMLWidget, UMLObject *o = nullptr);
     explicit UMLWidget(UMLScene *scene, WidgetType type = wt_UMLWidget, Uml::ID::Type id = Uml::ID::None);
     virtual ~UMLWidget();
 
@@ -233,7 +233,7 @@ public:
     void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
     void setupFontType(QFont &font, UMLWidget::FontType fontType);
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 public:
     Q_SLOT virtual void updateWidget();

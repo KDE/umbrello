@@ -700,7 +700,7 @@ int MessageWidget::constrainX(int textX, int textWidth, Uml::TextRole::Enum tr)
     if (textX < minTextX || tr == Uml::TextRole::Seq_Message_Self) {
         result = minTextX;
     } else {
-        ObjectWidget *objectAtRight = 0;
+        ObjectWidget *objectAtRight = nullptr;
         if (m_pOw[Uml::RoleType::B]->x() > m_pOw[Uml::RoleType::A]->x())
             objectAtRight = m_pOw[Uml::RoleType::B];
         else
@@ -833,7 +833,7 @@ void MessageWidget::slotMenuSelection(QAction* action)
  * Activates a MessageWidget.  Connects its m_pOw[] pointers
  * to UMLObjects and also send signals about its FloatingTextWidget.
  */
-bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
+bool MessageWidget::activate(IDChangeLog * /*Log = nullptr*/)
 {
     m_scene->resetPastePoint();
     // UMLWidget::activate(Log);   CHECK: I don't think we need this ?
@@ -866,7 +866,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     updateResizability();
 
     const UMLClassifier *c = m_pOw[Uml::RoleType::B]->umlObject()->asUMLClassifier();
-    UMLOperation *op = 0;
+    UMLOperation *op = nullptr;
     if (c && !m_CustomOp.isEmpty()) {
         Uml::ID::Type opId = Uml::ID::fromString(m_CustomOp);
         op = c->findChildObjectById(opId, true)->asUMLOperation();

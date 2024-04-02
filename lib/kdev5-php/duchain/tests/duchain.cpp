@@ -1118,7 +1118,7 @@ void TestDUChain::staticFunctionCallFromOtherFile()
 void TestDUChain::classConstantFromOtherFile()
 {
 
-    TopDUContext* addTop = parseAdditionalFile(IndexedString("/duchaintest/foo2.php"), "<?php class Foo { const BAR = 0; } ");
+    TopDUContext* addTop = parseAdditionalFile(IndexedString("/duchaintest/foo2.php"), "<?php class Foo { const BAR = nullptr; } ");
     DUChainReleaser releaseAddTop(addTop);
     TopDUContext* top = parse("<? Foo::BAR; ", DumpNone);
     DUChainReleaser releaseTop(top);
@@ -1273,14 +1273,14 @@ void TestDUChain::functionDocBlock()
 void TestDUChain::variableDocBlock()
 {
     {
-        TopDUContext* top = parse("<? /**\n *Foo\n **/\n$a = 0; /**\n *Foo\n **/\nstatic $b;", DumpAll);
+        TopDUContext* top = parse("<? /**\n *Foo\n **/\n$a = nullptr; /**\n *Foo\n **/\nstatic $b;", DumpAll);
         DUChainReleaser releaseTop(top);
         DUChainWriteLocker lock(DUChain::lock());
         QCOMPARE(top->localDeclarations().first()->comment(), QByteArray("Foo"));
         QCOMPARE(top->localDeclarations().at(1)->comment(), QByteArray("Foo"));
     }
     {
-        TopDUContext* top = parse("<? /// Foo\n$a = 0; /// Foo\nstatic $b;", DumpAll);
+        TopDUContext* top = parse("<? /// Foo\n$a = nullptr; /// Foo\nstatic $b;", DumpAll);
         DUChainReleaser releaseTop(top);
         DUChainWriteLocker lock(DUChain::lock());
         QCOMPARE(top->localDeclarations().first()->comment(), QByteArray("Foo"));

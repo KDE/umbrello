@@ -41,9 +41,9 @@ public:
 
     void setSelected(bool state);
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    bool activate(IDChangeLog* ChangeLog = 0);
+    bool activate(IDChangeLog* ChangeLog = nullptr);
 
     void cleanup();
 

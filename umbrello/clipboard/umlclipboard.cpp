@@ -70,8 +70,8 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
     m_ObjectList.clear();
     m_ViewList.clear();
 
-    UMLDragData *data = 0;
-    QPixmap* png = 0;
+    UMLDragData *data = nullptr;
+    QPixmap* png = nullptr;
 
     UMLListView * listView = UMLApp::app()->listView();
 
@@ -234,7 +234,7 @@ bool UMLClipboard::paste(const QMimeData* data)
 void UMLClipboard::addRelatedWidgets()
 {
     UMLWidgetList relatedWidgets;
-    UMLWidget *pWA =0, *pWB = 0;
+    UMLWidget *pWA =0, *pWB = nullptr;
 
     Q_FOREACH(UMLWidget* widget, m_WidgetList) {
         if (widget->isMessageWidget()) {
@@ -390,8 +390,8 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* item, bool & withDiagra
     }
     UMLDoc *doc = UMLApp::app()->document();
     onlyAttsOps = true;
-    UMLView * view = 0;
-    UMLListViewItem * child = 0;
+    UMLView * view = nullptr;
+    UMLListViewItem * child = nullptr;
     UMLListViewItem::ListViewType type = item->type();
     if (Model_Utils::typeIsCanvasWidget(type)) {
         withObjects = true;
@@ -526,7 +526,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     UMLWidgetList widgets;
     AssociationWidgetList assocs;
 
-    IDChangeLog* idchanges = 0;
+    IDChangeLog* idchanges = nullptr;
 
     Uml::DiagramType::Enum diagramType;
 
@@ -618,7 +618,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
 
     UMLObjectList objects;
 
-    IDChangeLog* idchanges = 0;
+    IDChangeLog* idchanges = nullptr;
     bool result = UMLDragData::decodeClip5(data, objects, parent);
 
     if(!result) {

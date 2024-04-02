@@ -74,7 +74,7 @@ public:
 
     void saveToXMI(QXmlStreamWriter& writer);
 
-    virtual bool showPropertiesDialog(QWidget *parent = nullptr);
+    virtual bool showPropertiesDialog(QWidget *parent = 0);
 
 protected:
 

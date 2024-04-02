@@ -195,7 +195,7 @@ bool NoteWidget::setDiagramLink(const QString &diagramName)
     }
 
     UMLDoc *umldoc = UMLApp::app()->document();
-    UMLView *view = 0;
+    UMLView *view = nullptr;
     for (int i = 1; i < Uml::DiagramType::N_DIAGRAMTYPES; ++i) {
         Uml::DiagramType::Enum dt = Uml::DiagramType::fromInt(i);
         view = umldoc->findView(dt, diagramName, true);
@@ -271,7 +271,7 @@ void NoteWidget::saveToXMI(QXmlStreamWriter& writer)
 bool NoteWidget::showPropertiesDialog()
 {
     bool result = false;
-    NoteDialog * dlg = 0;
+    NoteDialog * dlg = nullptr;
     UMLApp::app()->docWindow()->updateDocumentation(false);
     dlg = new NoteDialog(umlScene()->activeView(), this);
     if (dlg->exec()) {

@@ -27,7 +27,7 @@ public:
     PinPortBase(UMLScene *scene, WidgetType type, UMLWidget *owner = nullptr, Uml::ID::Type id = Uml::ID::None);
     virtual ~PinPortBase();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     virtual QRectF boundingRect() const;
 
     virtual UMLWidget* ownerWidget() const;
@@ -56,7 +56,7 @@ public:
 
 protected:
     void init(UMLWidget *owner = nullptr);
-    bool activate(IDChangeLog* changeLog = 0);
+    bool activate(IDChangeLog* changeLog = nullptr);
 
 private:
     ChildWidgetPlacement* createPlacement(WidgetBase::WidgetType type);

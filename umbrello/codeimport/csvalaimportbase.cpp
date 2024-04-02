@@ -238,8 +238,8 @@ UMLObject* CsValaImportBase::resolveClass(const QString& className)
                 spawnImport(aFile);
                 // we need to set the package for the class that will be resolved
                 // start at the root package
-                UMLPackage *parent = 0;
-                UMLPackage *current = 0;
+                UMLPackage *parent = nullptr;
+                UMLPackage *current = nullptr;
 
                 for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
                     QString name = (*it);

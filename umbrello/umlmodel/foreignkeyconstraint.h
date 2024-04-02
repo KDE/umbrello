@@ -60,7 +60,7 @@ public:
 
     void saveToXMI(QXmlStreamWriter& writer);
 
-    virtual bool showPropertiesDialog(QWidget* parent = nullptr);
+    virtual bool showPropertiesDialog(QWidget* parent = 0);
 
     bool addEntityAttributePair(UMLEntityAttribute* pAttr, UMLEntityAttribute* rAttr);
 

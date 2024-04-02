@@ -11,6 +11,6 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
     // enable crash handler
-    int *a = 0;
+    int *a = nullptr;
     *a = 1;
 }

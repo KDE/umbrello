@@ -47,7 +47,7 @@ public:
                                     Uml::ID::Type id = Uml::ID::None);
     virtual ~CombinedFragmentWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     CombinedFragmentType combinedFragmentType() const;
     CombinedFragmentType combinedFragmentType(const QString& combinedfragmentType) const;

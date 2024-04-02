@@ -652,7 +652,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
                 break;
             }
 
-            UMLWidget *selectedResult = 0;
+            UMLWidget *selectedResult = nullptr;
 
             if (findResults.size() > 1) {
                 QMenu menu(this);
@@ -857,8 +857,8 @@ UMLListViewItem* UMLListView::determineParentItem(UMLObject* object) const
 {
     if (object == nullptr)
         return nullptr;
-    UMLListViewItem* parentItem = 0;
-    UMLPackage*      pkg = 0;
+    UMLListViewItem* parentItem = nullptr;
+    UMLPackage*      pkg = nullptr;
     UMLListViewItem* current = (UMLListViewItem*) currentItem();
     UMLListViewItem::ListViewType lvt = UMLListViewItem::lvt_Unknown;
     if (current)
@@ -961,7 +961,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
         newItem->setIcon(icon);
         return;
     }
-    UMLListViewItem* parentItem = 0;
+    UMLListViewItem* parentItem = nullptr;
     UMLPackage *p = object->umlPackage();
     if (p) {
         parentItem = findUMLObject(p);
@@ -1133,7 +1133,7 @@ void UMLListView::childObjectAdded(UMLClassifierListItem* child, UMLClassifier* 
     if (m_bCreatingChildObject)
         return;
     const QString text = child->toString(Uml::SignatureType::SigNoVis);
-    UMLListViewItem *childItem = 0;
+    UMLListViewItem *childItem = nullptr;
     UMLListViewItem *parentItem = findUMLObject(parent);
     if (parentItem == 0) {
         logDebug2("UMLListView::childObjectAdded %1: parent %2 does not yet exist, creating it now.",
@@ -1565,7 +1565,7 @@ bool UMLListView::acceptDrag(QDropEvent* event) const
             }
 
             UMLDragData::LvTypeAndID_It it(list);
-            UMLDragData::LvTypeAndID * data = 0;
+            UMLDragData::LvTypeAndID * data = nullptr;
             dstType = target->type();
             while (it.hasNext()) {
                 data = it.next();
@@ -1636,7 +1636,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
     if (move == 0)
         return 0;
 
-    UMLObject *newParentObj = 0;
+    UMLObject *newParentObj = nullptr;
     // Remove the source object at the old parent package.
     UMLObject *srcObj = m_doc->findObjectById(srcId);
     if (srcObj) {
@@ -1676,7 +1676,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
     UMLListViewItem::ListViewType newParentType = newParent->type();
     logDebug1("UMLListView::moveObject: newParentType is %1",
               UMLListViewItem::toString(newParentType));
-    UMLListViewItem *newItem = 0;
+    UMLListViewItem *newItem = nullptr;
 
     //make sure trying to place in correct location
     switch (srcType) {
@@ -1955,7 +1955,7 @@ void UMLListView::slotDropped(QDropEvent* de, UMLListViewItem* target)
             return;
         }
         UMLDragData::LvTypeAndID_It it(srcList);
-        UMLDragData::LvTypeAndID * src = 0;
+        UMLDragData::LvTypeAndID * src = nullptr;
         while (it.hasNext()) {
             src = it.next();
             moveObject(src->id, src->type, target);
@@ -2020,7 +2020,7 @@ UMLListViewItem* UMLListView::createDiagramItem(UMLView *view)
         return 0;
     }
     UMLListViewItem::ListViewType lvt = Model_Utils::convert_DT_LVT(view->umlScene()->type());
-    UMLListViewItem *parent = 0;
+    UMLListViewItem *parent = nullptr;
     UMLFolder *f = view->umlScene()->folder();
     if (f) {
         parent = findUMLObject(f);
@@ -2048,7 +2048,7 @@ UMLListViewItem* UMLListView::createDiagramItem(UMLView *view)
  */
 UMLListViewItem* UMLListView::determineParentItem(UMLListViewItem::ListViewType lvt) const
 {
-    UMLListViewItem* parent = 0;
+    UMLListViewItem* parent = nullptr;
     switch (lvt) {
     case UMLListViewItem::lvt_Datatype:
         parent = m_datatypeFolder;
@@ -2491,7 +2491,7 @@ bool UMLListView::loadChildrenFromXMI(UMLListViewItem * parent, QDomElement & el
         UMLListViewItem::ListViewType lvType = (UMLListViewItem::ListViewType)type.toInt();
         bool bOpen = (bool)open.toInt();
         Uml::ID::Type nID = Uml::ID::fromString(id);
-        UMLListViewItem * item = 0;
+        UMLListViewItem * item = nullptr;
         if (nID != Uml::ID::None) {
             // The following is an ad hoc hack for the copy/paste code.
             // The clip still contains the old children although new
@@ -2741,7 +2741,7 @@ bool UMLListView::startedCopy() const
  */
 UMLListViewItem *UMLListView::rootView(UMLListViewItem::ListViewType type)
 {
-    UMLListViewItem *theView = 0;
+    UMLListViewItem *theView = nullptr;
     switch (type) {
     case UMLListViewItem::lvt_View:
         theView = m_rv;

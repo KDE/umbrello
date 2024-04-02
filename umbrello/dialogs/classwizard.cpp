@@ -35,7 +35,7 @@ ClassWizard::ClassWizard(UMLDoc* doc)
 {
     m_doc = doc;
     //create a unique class to start with
-    UMLObject * pTemp = 0;
+    UMLObject * pTemp = nullptr;
     QString name = i18n("new_class");
     QString newName = name;
     QString num;

@@ -101,7 +101,7 @@ public:
     UMLAssociation * findAssociation(Uml::AssociationType::Enum assocType,
                                      const UMLObject *roleAObj,
                                      const UMLObject *roleBObj,
-                                     bool *swap = 0) const;
+                                     bool *swap = nullptr) const;
 
     QString createDiagramName(Uml::DiagramType::Enum type, bool askForName = true);
     UMLView* createDiagram(UMLFolder *folder,

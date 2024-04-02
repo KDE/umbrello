@@ -128,7 +128,7 @@ void JavaANTCodeDocument::loadChildTextBlocksFromNode (QDomElement & root)
                     UMLObject * obj = UMLApp::app()->document()->findObjectById(Uml::ID::fromString(id));
                     const UMLOperation * op = obj->asUMLOperation();
                     if (op) {
-                        CodeOperation * block = 0;
+                        CodeOperation * block = nullptr;
                         logWarn0("TODO: implement CodeGenFactory::newCodeOperation() for JavaANTCodeDocument");
                         break;  // remove when above is implemented
                         block->loadFromXMI(element);

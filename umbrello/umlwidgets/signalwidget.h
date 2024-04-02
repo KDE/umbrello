@@ -35,7 +35,7 @@ public:
     explicit SignalWidget(UMLScene * scene, SignalType signalType = Send, Uml::ID::Type id = Uml::ID::None);
     virtual ~SignalWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     void setX(qreal newX);
     void setY(qreal newY);

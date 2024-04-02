@@ -847,7 +847,7 @@ QString SQLImport::advance()
 
 UMLObject *SQLImport::addDatatype(const QStringList &type)
 {
-    UMLObject *datatype = 0;
+    UMLObject *datatype = nullptr;
     UMLPackage *parent = UMLApp::app()->document()->datatypeFolder();
     if (type.at(0).toLower() == QStringLiteral("enum")) {
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Enum, parent, type.at(0));
@@ -989,8 +989,8 @@ bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, c
     for(int i = 0; i < fieldNames.size(); i++) {
         const QString &fieldA = fieldNames.at(i);
         const QString &fieldB = referencedFields.at(i);
-        UMLEntityAttribute *aA = 0;
-        UMLEntityAttribute *aB = 0;
+        UMLEntityAttribute *aA = nullptr;
+        UMLEntityAttribute *aB = nullptr;
         for(UMLEntityAttribute *a : entityA->getEntityAttributes()) {
             if (a->name() == fieldA) {
                 aA = a;

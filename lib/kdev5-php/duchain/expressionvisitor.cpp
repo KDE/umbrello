@@ -361,7 +361,7 @@ void ExpressionVisitor::visitFunctionCall(FunctionCallAst* node)
 ///TODO: DUContext pointer?
 DUContext* ExpressionVisitor::findClassContext(IdentifierAst* className)
 {
-    DUContext* context = 0;
+    DUContext* context = nullptr;
     DeclarationPointer declaration = findDeclarationImport(ClassDeclarationType, className);
     usingDeclaration(className, declaration);
     if (declaration) {
@@ -377,7 +377,7 @@ DUContext* ExpressionVisitor::findClassContext(IdentifierAst* className)
 ///TODO: DUContext pointer?
 DUContext* ExpressionVisitor::findClassContext(NamespacedIdentifierAst* className)
 {
-    DUContext* context = 0;
+    DUContext* context = nullptr;
     const QualifiedIdentifier id = identifierForNamespace(className, m_editor);
     DeclarationPointer declaration = findDeclarationImport(ClassDeclarationType, id);
     usingDeclaration(className->namespaceNameSequence->back()->element, declaration);

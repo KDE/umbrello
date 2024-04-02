@@ -32,7 +32,7 @@ public:
     void setContents(const QString& contents);
     void setCurrentDocument(const KDevelop::IndexedString& filename);
     KDevelop::IndexedString currentDocument() const;
-    bool readFile(const QString& filename, const char* charset = 0);
+    bool readFile(const QString& filename, const char* charset = nullptr);
     void setDebug(bool);
     TokenStream* tokenStream() const;
     QString contents() const;

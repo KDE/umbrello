@@ -25,7 +25,7 @@ class RefactoringAssistant : public QTreeWidget
     Q_OBJECT
 public:
 
-    explicit RefactoringAssistant(UMLDoc *doc, UMLClassifier *obj = 0, QWidget *parent = nullptr, const QString &name = QString());
+    explicit RefactoringAssistant(UMLDoc *doc, UMLClassifier *obj = nullptr, QWidget *parent = nullptr, const QString &name = QString());
     virtual ~RefactoringAssistant();
 
     void refactor(UMLClassifier *obj);

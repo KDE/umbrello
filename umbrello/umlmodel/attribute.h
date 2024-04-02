@@ -53,7 +53,7 @@ public:
 
     virtual void saveToXMI(QXmlStreamWriter& writer);
 
-    virtual bool showPropertiesDialog(QWidget* parent = nullptr);
+    virtual bool showPropertiesDialog(QWidget* parent = 0);
 
     void setParmKind(Uml::ParameterDirection::Enum pk);
     Uml::ParameterDirection::Enum getParmKind() const;

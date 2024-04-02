@@ -36,7 +36,7 @@ protected:
 
     QString indentation(int level);
 
-    QString skipBody(Uml::PrimitiveTypes::Enum *foundReturn = 0);
+    QString skipBody(Uml::PrimitiveTypes::Enum *foundReturn = nullptr);
 
     /**
      * Buffer for number of indentation characters (whitespace,

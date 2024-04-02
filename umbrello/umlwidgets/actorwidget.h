@@ -39,7 +39,7 @@ public:
     ActorWidget(UMLScene * scene, UMLActor *o);
     virtual ~ActorWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     virtual void saveToXMI(QXmlStreamWriter& writer);
 

@@ -2197,7 +2197,7 @@ void UMLApp::enableRedoAction(bool enable)
 bool UMLApp::editCutCopy(bool bFromView)
 {
     UMLClipboard clipboard;
-    QMimeData * clipdata = 0;
+    QMimeData * clipdata = nullptr;
 
     // If not from-view, list items are copied. This flag is
     // used in UMLDragData to determine whether to assign new IDs
@@ -3184,7 +3184,7 @@ void UMLApp::slotChangeTabLeft()
         uError() << "currView not found in viewlist";
         return;
     }
-    UMLView* prevView = 0;
+    UMLView* prevView = nullptr;
     if (viewIndex != 0) {
         prevView = views.begin()[viewIndex -1 ];
     }
@@ -3214,7 +3214,7 @@ void UMLApp::slotChangeTabRight()
         uError() << "currView not found in viewlist";
         return;
     }
-    UMLView* nextView = 0;
+    UMLView* nextView = nullptr;
     if (viewIndex < views.count()-1) {
         nextView = views.begin()[viewIndex + 1];
         setCurrentView(nextView);

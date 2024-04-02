@@ -182,7 +182,7 @@ void ToolBarStateOneWidget::setWidget(UMLWidget* firstObject)
 {
     m_firstObject = firstObject;
 
-    UMLWidget * umlwidget = 0;
+    UMLWidget * umlwidget = nullptr;
     //m_pUMLScene->viewport()->setMouseTracking(true);
     if (widgetType() == WidgetBase::wt_Precondition) {
         QString name = Widget_Utils::defaultWidgetName(WidgetBase::wt_Precondition);

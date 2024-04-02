@@ -28,7 +28,7 @@ public:
     DatatypeWidget(UMLScene *scene, UMLClassifier *d);
     virtual ~DatatypeWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     bool loadFromXMI(QDomElement& qElement);
     void saveToXMI(QXmlStreamWriter& writer);

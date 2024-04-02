@@ -28,7 +28,7 @@ public:
     explicit PackageWidget(UMLScene * scene, UMLPackage * o);
     virtual ~PackageWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     void saveToXMI(QXmlStreamWriter& writer);
 

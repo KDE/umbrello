@@ -20,7 +20,7 @@ class DCodeGenerationPolicy : public CodeGenPolicyExt
     Q_OBJECT
 public:
 
-    //DCodeGenerationPolicy (CodeGenerationPolicy * defaults = 0);
+    //DCodeGenerationPolicy (CodeGenerationPolicy * defaults = nullptr);
     DCodeGenerationPolicy();
 
     virtual ~DCodeGenerationPolicy();

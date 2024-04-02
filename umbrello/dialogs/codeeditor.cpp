@@ -367,11 +367,11 @@ void CodeEditor::appendText(TextBlockList * items)
         // code block types in an enumerated list somewhere,
         // as well as a generic attribute "blockType" we could
         // quickly access, rather than casting. -b.t.
-        HierarchicalCodeBlock * hb = 0;
-        CodeMethodBlock * mb = 0;
-        CodeClassFieldDeclarationBlock * db = 0;
-        CodeBlockWithComments * cb = 0;
-        // CodeComment * cm = 0;
+        HierarchicalCodeBlock * hb = nullptr;
+        CodeMethodBlock * mb = nullptr;
+        CodeClassFieldDeclarationBlock * db = nullptr;
+        CodeBlockWithComments * cb = nullptr;
+        // CodeComment * cm = nullptr;
         if ((hb = dynamic_cast<HierarchicalCodeBlock *>(tb)))
             appendText(hb);
         else if ((mb = dynamic_cast<CodeMethodBlock*>(tb)))
@@ -511,7 +511,7 @@ void CodeEditor::appendText(CodeMethodBlock * mb)
     // ugly, but we need to know if there is a parent object here.
     CodeOperation * op = dynamic_cast<CodeOperation*>(mb);
     CodeAccessorMethod * accessor = dynamic_cast<CodeAccessorMethod*>(mb);
-    UMLObject * parentObj = 0;
+    UMLObject * parentObj = nullptr;
     if (op) {
         parentObj = op->getParentOperation();
         if (((UMLOperation*)parentObj)->isConstructorOperation())
@@ -571,7 +571,7 @@ void CodeEditor::appendText(HierarchicalCodeBlock * hblock)
         return;
 
     OwnedHierarchicalCodeBlock * test = dynamic_cast<OwnedHierarchicalCodeBlock *>(hblock);
-    UMLObject * parentObj = 0;
+    UMLObject * parentObj = nullptr;
     QString componentName;
     QColor paperColor = state().nonEditBlockColor;
     if (test) {
@@ -669,7 +669,7 @@ void CodeEditor::slotChangeSelectedBlockView()
 void CodeEditor::slotChangeSelectedBlockCommentView()
 {
     TextBlock * tb = m_selectedTextBlock;
-    CodeBlockWithComments * cb = 0;
+    CodeBlockWithComments * cb = nullptr;
     if (tb && (cb = dynamic_cast<CodeBlockWithComments*>(tb))) {
         CodeComment* codcom = cb->getComment();
         if (codcom) {

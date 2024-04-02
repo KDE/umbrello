@@ -42,7 +42,7 @@ void Benchmarks::parser()
     QBENCHMARK {
         ParseSession session = ParseSession();
         session.setContents(file->readAll());
-        StartAst* ast = 0;
+        StartAst* ast = nullptr;
         session.parse(&ast);
     }
     delete file;
@@ -54,7 +54,7 @@ void Benchmarks::declarationBuilder()
     ParseSession session;
     session.setContents(file->readAll());
     delete file;
-    StartAst* ast = 0;
+    StartAst* ast = nullptr;
     session.parse(&ast);
     EditorIntegrator editor(&session);
     QBENCHMARK {
@@ -73,7 +73,7 @@ void Benchmarks::useBuilder()
     session.setContents(file->readAll());
     delete file;
 
-    StartAst* ast = 0;
+    StartAst* ast = nullptr;
     session.parse(&ast);
     EditorIntegrator editor(&session);
     DeclarationBuilder builder(&editor);

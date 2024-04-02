@@ -45,7 +45,7 @@ KJob* createTestJob(QString launchModeId, QStringList arguments )
     qCDebug(TESTPROVIDER) << "got mode and type:" << type << type->id() << mode << mode->id();
     Q_ASSERT(type && mode);
 
-    KDevelop::ILauncher* launcher = 0;
+    KDevelop::ILauncher* launcher = nullptr;
     Q_FOREACH(KDevelop::ILauncher *l, type->launchers())
     {
         //qCDebug(TESTPROVIDER) << "available launcher" << l << l->id() << l->supportedModes();
@@ -56,7 +56,7 @@ KJob* createTestJob(QString launchModeId, QStringList arguments )
     }
     Q_ASSERT(launcher);
 
-    KDevelop::ILaunchConfiguration* ilaunch = 0;
+    KDevelop::ILaunchConfiguration* ilaunch = nullptr;
     QList<KDevelop::ILaunchConfiguration*> launchConfigurations = KDevelop::ICore::self()->runController()->launchConfigurations();
     Q_FOREACH(KDevelop::ILaunchConfiguration *l, launchConfigurations) {
         if (l->type() == type && l->config().readEntry("ConfiguredByPhpUnit", false)) {

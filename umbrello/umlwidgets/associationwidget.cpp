@@ -114,7 +114,7 @@ AssociationWidget* AssociationWidget::create(UMLScene *scene)
 AssociationWidget* AssociationWidget::create
                                     (UMLScene *scene, UMLWidget* pWidgetA,
                                      Uml::AssociationType::Enum assocType, UMLWidget* pWidgetB,
-                                     UMLObject *umlobject /* = 0 */)
+                                     UMLObject *umlobject /* = nullptr */)
 {
     AssociationWidget* instance = new AssociationWidget(scene);
     if (umlobject) {
@@ -215,9 +215,9 @@ void AssociationWidget::setUMLObject(UMLObject *obj)
     WidgetBase::setUMLObject(obj);
     if (obj == 0)
         return;
-    UMLClassifier *klass = 0;
-    UMLAttribute *attr = 0;
-    UMLEntity *ent = 0;
+    UMLClassifier *klass = nullptr;
+    UMLAttribute *attr = nullptr;
+    UMLEntity *ent = nullptr;
     const UMLObject::ObjectType ot = obj->baseType();
     switch (ot) {
         case UMLObject::ot_Association:
@@ -3388,7 +3388,7 @@ void AssociationWidget::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     event->accept();
 
     UMLScene *scene = umlScene();
-    QWidget *parent = 0;
+    QWidget *parent = nullptr;
     if (scene) {
         parent = scene->activeView();
     }

@@ -36,7 +36,7 @@ public:
     explicit ObjectNodeWidget(UMLScene * scene, ObjectNodeType objectNodeType = Normal, Uml::ID::Type id = Uml::ID::None);
     virtual ~ObjectNodeWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
     ObjectNodeType objectNodeType() const;
     static ObjectNodeType toObjectNodeType(const QString& type);

@@ -207,7 +207,7 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
  *                  canceled by the user.
  */
 UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
-                           UMLPackage *parentPkg /* = 0 */,
+                           UMLPackage *parentPkg /* = nullptr */,
                            bool solicitNewName /* = true */)
 {
     UMLDoc *doc = UMLApp::app()->document();
@@ -303,7 +303,7 @@ UMLOperation *createOperation(UMLClassifier *parent, const QString& name)
  */
 UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::ObjectType type, const QString& name)
 {
-    UMLObject* returnObject = 0;
+    UMLObject* returnObject = nullptr;
     switch (type) {
     case UMLObject::ot_Attribute: {
         UMLClassifier *c = parent->asUMLClassifier();
@@ -380,7 +380,7 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
 UMLObject* makeObjectFromXMI(const QString& xmiTag,
                              const QString& stereoID /* = QString() */)
 {
-    UMLObject* pObject = 0;
+    UMLObject* pObject = nullptr;
     if (UMLDoc::tagEq(xmiTag, QStringLiteral("UseCase"))) {
         pObject = new UMLUseCase();
     } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Actor"))) {

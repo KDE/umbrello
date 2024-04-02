@@ -35,7 +35,7 @@ void TestListPopupMenu::test_createWidgetsSingleSelect()
     QWidget qWidget;
     for(int i = WidgetBase::wt_Min+1; i < WidgetBase::wt_Max; i++) {
         WidgetBase::WidgetType type = static_cast<WidgetBase::WidgetType>(i);
-        WidgetBase *widget = 0;
+        WidgetBase *widget = nullptr;
         if (type == WidgetBase::wt_Entity) {
             widget = new EntityWidget(&scene, new UMLEntity("entity"));
         } else if (type == WidgetBase::wt_Category) {
@@ -60,7 +60,7 @@ void TestListPopupMenu::test_createWidgetsMultiSelect()
     QWidget qWidget;
     for(int i = WidgetBase::wt_Min+1; i < WidgetBase::wt_Max; i++) {
         WidgetBase::WidgetType type = static_cast<WidgetBase::WidgetType>(i);
-        WidgetBase *widget = 0;
+        WidgetBase *widget = nullptr;
         if (type == WidgetBase::wt_Entity) {
             widget = new EntityWidget(&scene, new UMLEntity("entity"));
         } else if (type == WidgetBase::wt_Category) {

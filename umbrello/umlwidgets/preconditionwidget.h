@@ -36,7 +36,7 @@ public:
     int minY() const;
     int maxY() const;
 
-    bool activate(IDChangeLog* Log = 0);
+    bool activate(IDChangeLog* Log = nullptr);
     void resolveObjectWidget(IDChangeLog* log);
 
     virtual void saveToXMI(QXmlStreamWriter& writer);

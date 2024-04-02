@@ -262,7 +262,7 @@ void UMLOperationDialog::slotMenuSelection(QAction* action)
 
 void UMLOperationDialog::slotNewParameter()
 {
-    UMLAttribute* pAtt = 0;
+    UMLAttribute* pAtt = nullptr;
 
     QString currentName = m_operation->getUniqueParameterName();
     UMLAttribute* newAttribute = new UMLAttribute(m_operation, currentName, Uml::ID::Reserved);
@@ -303,7 +303,7 @@ void UMLOperationDialog::slotDeleteParameter()
 
 void UMLOperationDialog::slotParameterProperties()
 {
-    UMLAttribute* pAtt = 0, * pOldAtt = 0;
+    UMLAttribute* pAtt = nullptr, * pOldAtt = nullptr;
 
     int position = m_pParmsLW->row(m_pParmsLW->currentItem());
     pOldAtt = m_operation->getParmList().at(position);

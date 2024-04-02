@@ -132,7 +132,7 @@ struct OpDescriptor {  ///< Data structure filled by parseOperation().
 
 Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningScope);
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope,
-                            Uml::Visibility::Enum *vis = 0);
+                            Uml::Visibility::Enum *vis = nullptr);
 Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope);
 Parse_Status parseConstraint(QString m, QString& name, UMLEntity* owningScope);
 

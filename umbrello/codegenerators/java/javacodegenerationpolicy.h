@@ -20,7 +20,7 @@ class JavaCodeGenerationPolicy : public CodeGenPolicyExt
     Q_OBJECT
 public:
 
-    //JavaCodeGenerationPolicy(CodeGenerationPolicy * defaults = 0);
+    //JavaCodeGenerationPolicy(CodeGenerationPolicy * defaults = nullptr);
     JavaCodeGenerationPolicy();
 
     virtual ~JavaCodeGenerationPolicy();

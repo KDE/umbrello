@@ -239,7 +239,7 @@ bool AdaImport::parseStmt()
         QStringList parentPkgs = name.toLower().split(QLatin1Char('.'));
         parentPkgs.pop_back();  // exclude the current package
         parseStems(parentPkgs);
-        UMLObject *ns = 0;
+        UMLObject *ns = nullptr;
         if (advance() == QStringLiteral("is")) {
             ns = Import_Utils::createUMLObject(UMLObject::ot_Package, name,
                                                currentScope(), m_comment);

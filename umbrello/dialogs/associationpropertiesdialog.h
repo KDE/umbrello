@@ -19,7 +19,7 @@ class AssociationPropertiesDialog : public MultiPageDialogBase
 {
     Q_OBJECT
 public:
-    AssociationPropertiesDialog(QWidget *parent, AssociationWidget *a, int pageNum = 0);
+    AssociationPropertiesDialog(QWidget *parent, AssociationWidget *a, int pageNum = nullptr);
     ~AssociationPropertiesDialog();
 
 protected:

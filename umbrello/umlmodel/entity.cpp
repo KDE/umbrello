@@ -316,7 +316,7 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::ID::Type id)
  * @param log   Pointer to the IDChangeLog.
  * @return  True if the entityAttribute was successfully added.
  */
-bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log /* = 0*/)
+bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log /* = nullptr*/)
 {
     QString name = (QString)att->name();
     if (findChildObject(name) == 0) {
@@ -437,7 +437,7 @@ void UMLEntity::saveToXMI(QXmlStreamWriter& writer)
 
     // save entity attributes
     UMLClassifierListItemList entityAttributes = getFilteredList(UMLObject::ot_EntityAttribute);
-    UMLClassifierListItem* pEntityAttribute = 0;
+    UMLClassifierListItem* pEntityAttribute = nullptr;
     for(pEntityAttribute : entityAttributes) {
         pEntityAttribute->saveToXMI(writer);
     }
@@ -708,7 +708,7 @@ UMLEntityAttributeList UMLEntity::getEntityAttributes() const
  */
 UMLClassifierListItem* UMLEntity::makeChildObject(const QString& xmiTag)
 {
-    UMLClassifierListItem* pObject = 0;
+    UMLClassifierListItem* pObject = nullptr;
     if (UMLDoc::tagEq(xmiTag, QStringLiteral("EntityAttribute"))) {
         pObject = new UMLEntityAttribute(this);
     }

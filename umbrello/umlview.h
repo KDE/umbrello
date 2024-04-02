@@ -38,7 +38,7 @@ public:
     qreal zoom() const ;
     void setZoom(qreal zoom);
 
-    virtual bool showPropertiesDialog(QWidget *parent = nullptr);
+    virtual bool showPropertiesDialog(QWidget *parent = 0);
 
     Q_SLOT void zoomIn();
     Q_SLOT void zoomOut();

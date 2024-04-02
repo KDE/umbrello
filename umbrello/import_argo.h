@@ -20,7 +20,7 @@ class KZip;
 class Import_Argo
 {
 public:
-    static bool loadFromZArgoFile(QIODevice & file, UMLPackage *parentPkg = 0);
+    static bool loadFromZArgoFile(QIODevice & file, UMLPackage *parentPkg = nullptr);
 
 protected:
     static bool loadFromArgoFile(const KZip &zipFile, const QString &fileName);

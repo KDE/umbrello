@@ -279,7 +279,7 @@ public:
                 it = it->next;
             } while (it != end);
         }
-        UMLPackage *parent = 0;
+        UMLPackage *parent = nullptr;
         QString names = nsNames.join("::");
         UMLObject *o = UMLApp::app()->document()->findUMLObject(names, UMLObject::ot_Class, parent);
         if (!o)
@@ -312,7 +312,7 @@ public:
         QString m_comment;
         UMLPackage *parentPackage = m_currentNamespace[m_nsCnt];
         UMLClassifier *c = parentPackage->asUMLClassifier();
-        UMLOperation *m = 0;
+        UMLOperation *m = nullptr;
         if (c) {
             m = Import_Utils::makeOperation(c, methodName);
         } else {
@@ -436,7 +436,7 @@ public:
         QString m_comment;
         UMLPackage *parentPackage = m_currentNamespace[m_nsCnt];
         UMLClassifier *c = parentPackage->asUMLClassifier();
-        UMLOperation *m = 0;
+        UMLOperation *m = nullptr;
         if (c) {
             m = Import_Utils::makeOperation(c, methodName);
         } else {

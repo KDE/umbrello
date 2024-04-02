@@ -25,7 +25,7 @@ public:
     explicit BoxWidget(UMLScene * scene, Uml::ID::Type id = Uml::ID::None, WidgetType type = WidgetBase::wt_Box);
     virtual ~BoxWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     virtual void saveToXMI(QXmlStreamWriter& writer);
 
     virtual bool showPropertiesDialog();

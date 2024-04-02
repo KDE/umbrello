@@ -161,7 +161,7 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
             typeId = typeSpec->name()->text();
 
         QList<InitDeclaratorAST*> l(declarators->initDeclaratorList());
-        InitDeclaratorAST* initDecl = 0;
+        InitDeclaratorAST* initDecl = nullptr;
         for (int i = 0; i < l.size(); ++i) {
             initDecl = l.at(i);
             if (initDecl==0) break;
@@ -187,7 +187,7 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
             bool isDatatype = Import_Utils::isDatatype(typeId, m_currentNamespace[m_nsCnt]);
 
             if (type.contains(QLatin1Char('*')) || isDatatype) {
-                UMLObject *inner = 0;
+                UMLObject *inner = nullptr;
                 if (m_currentNamespace[m_nsCnt] &&
                         m_currentNamespace[m_nsCnt]->baseType() == UMLObject::ot_Class &&
                         typeId == m_currentNamespace[m_nsCnt]->name())
@@ -421,7 +421,7 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
         m_thread->emitMessageToLog(QString(), QStringLiteral("class ") + className);
     }
     QStringList scope = scopeOfName(ast->name(), QStringList());
-    UMLObject *localParent = 0;
+    UMLObject *localParent = nullptr;
     if (!scope.isEmpty()) {
         localParent = m_doc->findUMLObject(scope.join(QStringLiteral("::")),
                                            UMLObject::ot_Class, m_currentNamespace[m_nsCnt]);

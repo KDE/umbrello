@@ -49,7 +49,7 @@ public:
 
 protected:
     DiagramProxyWidget& operator=(const DiagramProxyWidget& other);
-    bool activate(IDChangeLog* changeLog = 0);
+    bool activate(IDChangeLog* changeLog = nullptr);
     bool loadFromXMI(QDomElement &qElement);
     void saveToXMI(QXmlStreamWriter& writer);
     void setupEvent(QGraphicsSceneMouseEvent &e,

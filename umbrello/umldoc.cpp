@@ -240,7 +240,7 @@ void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
 {
     Q_UNUSED(enforceCurrentView)
     if (!view) {
-        logWarn0("UMLDoc::removeView(UMLView *view) called with view = 0");
+        logWarn0("UMLDoc::removeView(UMLView *view) called with view = nullptr");
         return;
     }
     logDebug1("UMLDoc::removeView %1", view->umlScene()->name());
@@ -293,7 +293,7 @@ void UMLDoc::removeView(UMLView *view, bool enforceCurrentView)
      */
         UMLViewList viewList;
         m_root[Uml::ModelType::Logical]->appendViews(viewList);
-        UMLView* firstView = 0;
+        UMLView* firstView = nullptr;
         if (!viewList.isEmpty()) {
             firstView =  viewList.first();
             /* Tried this:
@@ -871,7 +871,7 @@ void UMLDoc::setupSignals()
  */
 UMLView * UMLDoc::findView(Uml::ID::Type id) const
 {
-    UMLView *v = 0;
+    UMLView *v = nullptr;
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         v = m_root[i]->findView(id);
         if (v) {
@@ -908,7 +908,7 @@ UMLView * UMLDoc::findView(Uml::DiagramType::Enum type, const QString &name,
  */
 UMLObject* UMLDoc::findObjectById(Uml::ID::Type id)
 {
-    UMLObject *o = 0;
+    UMLObject *o = nullptr;
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         if (id == m_root[i]->id()) {
             return m_root[i];
@@ -937,7 +937,7 @@ UMLObject* UMLDoc::findObjectById(Uml::ID::Type id)
  */
 UMLObject* UMLDoc::findUMLObject(const QString &name,
                                  UMLObject::ObjectType type /* = ot_UMLObject */,
-                                 UMLObject *currentObj /* = 0 */)
+                                 UMLObject *currentObj /* = nullptr */)
 {
     UMLObject *o = m_datatypeRoot->findObject(name);
     if (o) {
@@ -1107,7 +1107,7 @@ bool UMLDoc::isUnique(const QString &name) const
 {
     UMLListView *listView = UMLApp::app()->listView();
     UMLListViewItem *currentItem = (UMLListViewItem*)listView->currentItem();
-    UMLListViewItem *parentItem = 0;
+    UMLListViewItem *parentItem = nullptr;
 
     // check for current item, if its a package, then we do a check on that
     // otherwise, if current item exists, find its parent and check if thats
@@ -1304,7 +1304,7 @@ UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType::Enum assocType,
         bool *swap) const
 {
     UMLAssociationList assocs = associations();
-    UMLAssociation *ret = 0;
+    UMLAssociation *ret = nullptr;
     for(UMLAssociation* a : assocs) {
         if (a->getAssocType() != assocType) {
             continue;
@@ -2269,7 +2269,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
                     }
                     UMLObject::ObjectType ot = pObject->baseType();
                     // Set the parent root folder.
-                    UMLPackage *pkg = 0;
+                    UMLPackage *pkg = nullptr;
                     if (ot != UMLObject::ot_Stereotype) {
                         if (ot == UMLObject::ot_Datatype) {
                             pkg = m_datatypeRoot;
@@ -2347,7 +2347,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     qApp->processEvents();  // give UI events a chance
     activateAllViews();
 
-    UMLView *viewToBeSet = 0;
+    UMLView *viewToBeSet = nullptr;
     if (m_nViewID != Uml::ID::None) {
         viewToBeSet = findView(m_nViewID);
     }
@@ -2584,7 +2584,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
         UMLObject::ObjectType ot = pObject->baseType();
         // Set the parent root folder.
-        UMLPackage *pkg = 0;
+        UMLPackage *pkg = nullptr;
         if (ot != UMLObject::ot_Stereotype) {
             if (ot == UMLObject::ot_Datatype) {
                 pkg = m_datatypeRoot;
@@ -2751,7 +2751,7 @@ bool UMLDoc::loadDiagramsFromXMI1(QDomNode & node)
         return true;  //return ok as it means there is no umlobjects
     }
     const Settings::OptionState state = Settings::optionState();
-    UMLView * pView = 0;
+    UMLView * pView = nullptr;
     int count = 0;
     while (!element.isNull()) {
         QString tag = element.tagName();
@@ -2954,7 +2954,7 @@ UMLAssociationList UMLDoc::associations() const
  */
 void UMLDoc::print(QPrinter * pPrinter, DiagramPrintPage * selectPage)
 {
-    UMLView * printView = 0;
+    UMLView * printView = nullptr;
     int count = selectPage->printUmlCount();
     QPainter painter(pPrinter);
     for (int i = 0; i < count; ++i) {
