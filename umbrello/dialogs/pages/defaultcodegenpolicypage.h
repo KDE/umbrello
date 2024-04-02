@@ -19,7 +19,7 @@ class DefaultCodeGenPolicyPage : public CodeGenerationPolicyPage
 {
     Q_OBJECT
 public:
-    explicit DefaultCodeGenPolicyPage(QWidget* parent = 0, const char* *name = nullptr, CodeGenPolicyExt * policy =0);
+    explicit DefaultCodeGenPolicyPage(QWidget *parent = nullptr, const char* *name = nullptr, CodeGenPolicyExt * policy =0);
     ~DefaultCodeGenPolicyPage();
 
 private:

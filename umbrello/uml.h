@@ -85,7 +85,7 @@ class UMLApp : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-    explicit UMLApp(QWidget* parent = 0);
+    explicit UMLApp(QWidget *parent = nullptr);
     ~UMLApp();
 
     void setup();

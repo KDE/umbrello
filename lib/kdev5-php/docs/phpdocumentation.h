@@ -28,7 +28,7 @@ public:
 
     QString name() const override;
     QString description() const override;
-    QWidget* documentationWidget(KDevelop::DocumentationFindWidget* findWidget, QWidget* parent = 0) override;
+    QWidget* documentationWidget(KDevelop::DocumentationFindWidget* findWidget, QWidget *parent = nullptr) override;
     KDevelop::IDocumentationProvider* provider() const override;
 
 private:

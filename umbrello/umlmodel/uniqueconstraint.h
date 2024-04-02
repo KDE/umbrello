@@ -43,7 +43,7 @@ public:
 
     void saveToXMI(QXmlStreamWriter& writer);
 
-    virtual bool showPropertiesDialog(QWidget* parent = 0);
+    virtual bool showPropertiesDialog(QWidget *parent = nullptr);
 
     bool hasEntityAttribute(UMLEntityAttribute* attr) const;
 

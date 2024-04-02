@@ -68,7 +68,7 @@ class CodeEditor : public KTextEdit
     Q_OBJECT
 public:
     explicit CodeEditor(const QString & text, CodeViewerDialog * parent = nullptr, CodeDocument * doc = nullptr);
-    explicit CodeEditor(CodeViewerDialog * parent = 0, CodeDocument * doc = 0);
+    explicit CodeEditor(CodeViewerDialog  *parent = nullptr, CodeDocument * doc = 0);
     ~CodeEditor();
 
     Settings::CodeViewerState state();
