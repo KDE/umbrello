@@ -148,7 +148,7 @@ public:
             return -1;
         } else {
             uint pos = 1;
-            foreach ( Parser::TokenType type, list ) {
+            Q_FOREACH( Parser::TokenType type, list ) {
                 if ( skipWhitespace && m_stream.at( m_pos - pos).kind == Parser::Token_WHITESPACE ) {
                     ++pos;
                 }
@@ -361,7 +361,7 @@ CodeCompletionContext::CodeCompletionContext(KDevelop::DUContextPointer context,
             if ( m_memberAccessOperation == InterfaceChoose ) {
                 ifDebug(qCDebug(COMPLETION) << "in implementation list";)
                 m_memberAccessOperation = InterfaceChoose;
-                foreach ( qint64 pos, identifierPositions ) {
+                Q_FOREACH( qint64 pos, identifierPositions ) {
                     forbidIdentifier(lastToken.stringAt(pos));
                 }
             } else {
@@ -1042,7 +1042,7 @@ QList<DUContext*> CodeCompletionContext::memberAccessContainers() const
     } else {
         types << expressionTarget;
     }
-    foreach (const AbstractType::Ptr &type, types) {
+    Q_FOREACH(const AbstractType::Ptr &type, types) {
         const IdentifiedType* idType = dynamic_cast<const IdentifiedType*>(type.data());
         Declaration* declaration = 0;
         if (idType) {
@@ -1112,12 +1112,12 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
         QList<Path> addedPaths;
         bool addedParentDir = false;
         const QUrl baseUrl = base.toUrl();
-        foreach ( ProjectBaseItem* item, ICore::self()->projectController()->projectModel()->itemsForPath(IndexedString(base.toUrl())) ) {
+        Q_FOREACH( ProjectBaseItem* item, ICore::self()->projectController()->projectModel()->itemsForPath(IndexedString(base.toUrl())) ) {
             if ( abort || !item->folder() ) {
                 break;
             }
             auto folder = item->folder();
-            foreach ( ProjectFileItem* subFile, folder->fileList() ) {
+            Q_FOREACH( ProjectFileItem* subFile, folder->fileList() ) {
                 if ( abort ) {
                     break;
                 }
@@ -1135,7 +1135,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
                 }
                 items << CompletionTreeItemPointer(new IncludeFileItem(item));
             }
-            foreach ( ProjectFolderItem* subFolder, folder->folderList() ) {
+            Q_FOREACH( ProjectFolderItem* subFolder, folder->folderList() ) {
                 if ( abort ) {
                     break;
                 }
@@ -1542,14 +1542,14 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
                         if ( ClassDeclaration* classDec = dynamic_cast<ClassDeclaration*>(decl) ) {
                             // search for ctor
                             decl = 0;
-                            foreach ( Declaration* dec, classDec->internalContext()->findDeclarations(Identifier("__construct")) ) {
+                            Q_FOREACH( Declaration* dec, classDec->internalContext()->findDeclarations(Identifier("__construct")) ) {
                                 if ( dec->isFunctionDeclaration() ) {
                                     decl = dec;
                                     break;
                                 }
                             }
                             if ( !decl ) {
-                                foreach ( Declaration* dec, classDec->internalContext()->findDeclarations(classDec->identifier()) ) {
+                                Q_FOREACH( Declaration* dec, classDec->internalContext()->findDeclarations(classDec->identifier()) ) {
                                     if ( dec->isFunctionDeclaration() ) {
                                         decl = dec;
                                         break;

@@ -457,12 +457,12 @@ void CPPHeaderCodeDocument::updateContent()
         UMLPackageList pkgList = c->packages();
         QString pkgs;
         UMLPackage *pkg;
-        foreach (pkg, pkgList) {
+        Q_FOREACH(pkg, pkgList) {
             pkgs += QStringLiteral("namespace ") + CodeGenerator::cleanName(pkg->name()) + QStringLiteral(" { ");
         }
         m_namespaceBlock->setStartText(pkgs);
         QString closingBraces;
-        foreach (pkg, pkgList) {
+        Q_FOREACH(pkg, pkgList) {
             closingBraces += QStringLiteral("} ");
         }
         m_namespaceBlock->setEndText(closingBraces);

@@ -243,7 +243,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
                 sql << "CREATE TYPE " << at->getTypeName() << " AS ENUM (";
                 QString delimiter(QStringLiteral(""));
                 UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
-                foreach (UMLClassifierListItem* enumLiteral, enumLiterals) {
+                Q_FOREACH(UMLClassifierListItem* enumLiteral, enumLiterals) {
                     sql << delimiter << "'" << enumLiteral->name() << "'";
                     delimiter = QStringLiteral(", ");
                 }
@@ -293,7 +293,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
         QMap<UMLAssociation*, UMLAssociation*> constraintMap; // so we don't repeat constraint
     UMLAssociationList relationships = m_pEntity->getRelationships();
     if (forceSections() || !relationships.isEmpty()) {
-        foreach (UMLAssociation* a, relationships) {
+        Q_FOREACH(UMLAssociation* a, relationships) {
             UMLObject *objA = a->getObject(Uml::RoleType::A);
             UMLObject *objB = a->getObject(Uml::RoleType::B);
             if (objA->id() == m_pEntity->id() && objB->id() != m_pEntity->id())
@@ -385,7 +385,7 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
 
     bool first = true;
 
-    foreach (UMLEntityAttribute* at, entityAttributeList) {
+    Q_FOREACH(UMLEntityAttribute* at, entityAttributeList) {
        // print, after attribute
          if (first) {
              first = false;
@@ -410,7 +410,7 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
             sql << " ENUM(";
             QString delimiter(QStringLiteral(""));
             UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
-            foreach (UMLClassifierListItem* enumLiteral, enumLiterals) {
+            Q_FOREACH(UMLClassifierListItem* enumLiteral, enumLiterals) {
                 sql << delimiter << "'" << enumLiteral->name() << "'";
                 delimiter = QStringLiteral(", ");
             }

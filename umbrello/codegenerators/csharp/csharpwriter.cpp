@@ -214,7 +214,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
     //m_seenIncludes.append(logicalView);
     if (includes.count()) {
 
-        foreach (UMLPackage* p, includes) {
+        Q_FOREACH(UMLPackage* p, includes) {
             UMLClassifier *cl = p->asUMLClassifier();
             if (cl)
                 p = cl->umlPackage();
@@ -264,7 +264,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
         // write baseclass, ignore interfaces, write error on multiple inheritance
         if (superclasses.count() > 0) {
             int supers = 0;
-            foreach (UMLClassifier* obj, superclasses) {
+            Q_FOREACH(UMLClassifier* obj, superclasses) {
                 if (!obj->isInterface()) {
                     if (supers > 0) {
                         cs << " // AND ";
@@ -281,7 +281,7 @@ void CSharpWriter::writeClass(UMLClassifier *c)
         UMLAssociationList realizations = c->getRealizations();
 
         if (!realizations.isEmpty()) {
-            foreach (UMLAssociation* a, realizations) {
+            Q_FOREACH(UMLAssociation* a, realizations) {
                 UMLClassifier *real = (UMLClassifier*)a->getObject(Uml::RoleType::B);
                 if(real != c) {
                     // write list of realizations
@@ -347,7 +347,7 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs)
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    foreach (UMLOperation* op,  opl) {
+    Q_FOREACH(UMLOperation* op,  opl) {
         switch (op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -411,11 +411,11 @@ void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTex
     // oplist for implemented abstract operations
     UMLOperationList opabstract;
 
-    foreach (UMLClassifier* obj, *superclasses) {
+    Q_FOREACH(UMLClassifier* obj, *superclasses) {
         if (!obj->isInterface() && obj->hasAbstractOps()) {
             // collect abstract ops
             UMLOperationList opl(obj->getOpList());
-            foreach (UMLOperation* op, opl) {
+            Q_FOREACH(UMLOperation* op, opl) {
                 if (op->isAbstract()) {
                     opabstract.append(op);
                 }
@@ -484,13 +484,13 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
                                  bool isOverride /* = false */,
                                  bool generateErrorStub /* = false */)
 {
-    foreach (UMLOperation* op, opList) {
+    Q_FOREACH(UMLOperation* op, opList) {
         UMLAttributeList atl = op->getParmList();
 
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->doc().isEmpty();
 
-        foreach (UMLAttribute* at, atl) {
+        Q_FOREACH(UMLAttribute* at, atl) {
             writeDoc |= !at->doc().isEmpty();
         }
 
@@ -502,7 +502,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
             cs << m_container_indent << m_indentation << "/// </summary>" << m_endl;
 
             //write parameter documentation
-            foreach (UMLAttribute* at, atl) {
+            Q_FOREACH(UMLAttribute* at, atl) {
                 if (forceDoc() || !at->doc().isEmpty()) {
                     cs << m_container_indent << m_indentation << "/// <param name=\"" << cleanName(at->name()) << "\">";
                     //removing newlines from parameter doc
@@ -602,7 +602,7 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs)
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
 
-    foreach (UMLAttribute* at, atl) {
+    Q_FOREACH(UMLAttribute* at, atl) {
         if (!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch (at->visibility()) {
@@ -650,7 +650,7 @@ void CSharpWriter::writeAttributes(UMLClassifier *c, QTextStream &cs)
  */
 void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs)
 {
-    foreach (UMLAttribute* at, atList) {
+    Q_FOREACH(UMLAttribute* at, atList) {
 
         bool asProperty = true;
         if (at->visibility() == Uml::Visibility::Private) {
@@ -672,7 +672,7 @@ void CSharpWriter::writeAttributes(UMLAttributeList &atList, QTextStream &cs)
  */
 void CSharpWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLClassifier *c, QTextStream &cs)
 {
-    foreach (UMLAssociation *a,  associated) {
+    Q_FOREACH(UMLAssociation *a,  associated) {
         if (c != a->getObject(Uml::RoleType::A))  // we need to be at the A side
             continue;
 

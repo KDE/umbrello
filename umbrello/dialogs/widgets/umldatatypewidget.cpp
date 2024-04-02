@@ -164,7 +164,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
     QString typeName = Model_Utils::normalize(m_editField->currentText());
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList dataTypes = pDoc->datatypes();
-    foreach (UMLClassifier* dat, dataTypes) {
+    Q_FOREACH(UMLClassifier* dat, dataTypes) {
         if (typeName == dat->name()) {
             m_entityAttribute->setType(dat);
             return true;
@@ -219,7 +219,7 @@ bool UMLDatatypeWidget::applyParameter()
     UMLClassifierList namesList(uDoc->concepts());
     bool matchFound = false;
 
-    foreach (UMLClassifier* obj, namesList) {
+    Q_FOREACH(UMLClassifier* obj, namesList) {
         if (obj->fullyQualifiedName() == typeName) {
             m_attribute->setType(obj);
             matchFound = true;
@@ -243,7 +243,7 @@ bool UMLDatatypeWidget::applyTemplate()
     QString typeName = Model_Utils::normalize(m_editField->currentText());
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList namesList(pDoc->concepts());
-    foreach (UMLClassifier* obj, namesList) {
+    Q_FOREACH(UMLClassifier* obj, namesList) {
         if (typeName == obj->name()) {
             m_template->setType(obj);
         }
@@ -286,7 +286,7 @@ void UMLDatatypeWidget::insertTypesFromConcepts(QStringList& types, bool fullNam
 {
     UMLDoc * uDoc = UMLApp::app()->document();
     UMLClassifierList namesList(uDoc->concepts());
-    foreach (UMLClassifier* obj, namesList) {
+    Q_FOREACH(UMLClassifier* obj, namesList) {
          types << (fullName ? obj->fullyQualifiedName() : obj->name());
     }
 }
@@ -307,7 +307,7 @@ void UMLDatatypeWidget::insertTypesFromDatatypes(QStringList& types)
         qApp->processEvents();
         dataTypes = pDoc->datatypes();
     }
-    foreach (UMLClassifier* dat, dataTypes) {
+    Q_FOREACH(UMLClassifier* dat, dataTypes) {
         types << dat->name();
     }
 }
@@ -354,7 +354,7 @@ void UMLDatatypeWidget::insertTypesSortedOperation(const QString& type)
     const UMLClassifier *classifier = m_parent->asUMLClassifier();
     if (classifier) {
         UMLClassifierListItemList tmplParams(classifier->getFilteredList(UMLOperation::ot_Template));
-        foreach (UMLClassifierListItem* li, tmplParams) {
+        Q_FOREACH(UMLClassifierListItem* li, tmplParams) {
             types << li->name();
         }
     }

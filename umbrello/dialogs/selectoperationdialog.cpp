@@ -297,7 +297,7 @@ bool SelectOperationDialog::apply()
             UMLClassifierList selfAndAncestors = m_classifier->findSuperClassConcepts();
             selfAndAncestors.prepend(m_classifier);
             UMLOperation *op = 0;
-            foreach (UMLClassifier *cl, selfAndAncestors) {
+            Q_FOREACH(UMLClassifier *cl, selfAndAncestors) {
                 op = cl->findOperation(od.m_name, od.m_args);
                 if (op) {
                     break;

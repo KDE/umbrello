@@ -403,7 +403,7 @@ QString UMLScene::autoIncrementSequenceValue()
 {
     int sequenceNumber = 0;
     if (isSequenceDiagram()) {
-        foreach (MessageWidget* message, messageList()) {
+        Q_FOREACH(MessageWidget* message, messageList()) {
             bool ok;
             int value = message->sequenceNumber().toInt(&ok);
             if (ok && value > sequenceNumber)
@@ -411,7 +411,7 @@ QString UMLScene::autoIncrementSequenceValue()
         }
     }
     else if (isCollaborationDiagram()) {
-        foreach (AssociationWidget* assoc, associationList()) {
+        Q_FOREACH(AssociationWidget* assoc, associationList()) {
             bool ok;
             int value = assoc->sequenceNumber().toInt(&ok);
             if (ok && value > sequenceNumber)
@@ -1112,7 +1112,7 @@ UMLWidget* UMLScene::widgetAt(const QPointF& p)
  */
 AssociationWidget* UMLScene::associationAt(const QPointF& p)
 {
-    foreach (AssociationWidget* association, associationList()) {
+    Q_FOREACH(AssociationWidget* association, associationList()) {
         if (association->onAssociation(p)) {
             return association;
         }
@@ -1899,7 +1899,7 @@ void UMLScene::selectWidget(UMLWidget* widget, QRectF* rect)
  */
 void UMLScene::selectWidgets(UMLWidgetList &widgets)
 {
-    foreach (UMLWidget* widget, widgets)
+    Q_FOREACH(UMLWidget* widget, widgets)
         makeSelected(widget);
 }
 
@@ -4472,7 +4472,7 @@ void UMLScene::alignVerticalMiddle()
 
     AssociationWidgetList assocList = selectedAssocs();
     if (!assocList.isEmpty()) {
-        foreach (AssociationWidget *widget, assocList) {
+        Q_FOREACH(AssociationWidget *widget, assocList) {
             widget->setYEntireAssoc(middle);
         }
     }
@@ -4500,7 +4500,7 @@ void UMLScene::alignHorizontalMiddle()
 
     AssociationWidgetList assocList = selectedAssocs();
     if (!assocList.isEmpty()) {
-        foreach (AssociationWidget *widget, assocList) {
+        Q_FOREACH(AssociationWidget *widget, assocList) {
             widget->setXEntireAssoc(middle);
         }
     }

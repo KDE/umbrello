@@ -422,7 +422,7 @@ void TestDUChain::returnTypeViaMember()
     QCOMPARE(bDec->logicalInternalContext(top)->localDeclarations().size(), 4);
 
     typedef QPair<QString, QString> idPair;
-    foreach ( const idPair & pair, QList< idPair >()
+    Q_FOREACH( const idPair & pair, QList< idPair >()
                                         << qMakePair(QString("fb1"), QString("astatic"))
                                         << qMakePair(QString("fb2"), QString("anormal")) )
     {
@@ -2288,7 +2288,7 @@ void TestDUChain::lateClassMembers()
 
 void TestDUChain::list()
 {
-    foreach ( const QString& code, QStringList() << "<?php list($i, $j, $k) = array(1,2,3);"
+    Q_FOREACH( const QString& code, QStringList() << "<?php list($i, $j, $k) = array(1,2,3);"
                                                  << "<?php $a = array(1,2,3); list($i,$j,$k) = $a;"
                                                  << "<?php function t() { return array(1,2,3); } list($i,$j,$k) = t();" )
     {
@@ -2298,7 +2298,7 @@ void TestDUChain::list()
         DUChainReleaser releaseTop(top);
         DUChainWriteLocker lock(DUChain::lock());
 
-        foreach ( const QString& identifier, QStringList() << "i" << "j" << "k" ) {
+        Q_FOREACH( const QString& identifier, QStringList() << "i" << "j" << "k" ) {
             qDebug() << "searching for declaration of " << identifier;
             QList<Declaration*> decs = top->findDeclarations(Identifier(identifier));
             QCOMPARE(decs.size(), 1);
@@ -2343,7 +2343,7 @@ void TestDUChain::findFunctionArgs()
     QVERIFY(funcDec->internalContext()->imports(funcDec->internalFunctionContext()));
 
     QList<Declaration*> decs;
-    foreach ( Declaration* arg, funcDec->internalFunctionContext()->localDeclarations() ) {
+    Q_FOREACH( Declaration* arg, funcDec->internalFunctionContext()->localDeclarations() ) {
         decs = funcDec->internalContext()->findDeclarations(arg->identifier());
         QCOMPARE(decs.size(), 1);
         decs = funcDec->internalContext()->findDeclarations(arg->qualifiedIdentifier());
@@ -2643,7 +2643,7 @@ void TestDUChain::errorRecovery()
     DUChainReleaser releaseTop(top);
     DUChainWriteLocker lock;
 
-    foreach ( const TestUse& use, usesMap ) {
+    Q_FOREACH( const TestUse& use, usesMap ) {
         QList< Declaration* > decs = top->findDeclarations(use.id);
         QCOMPARE(decs.count(), 1);
         Declaration* dec = decs.first();
@@ -2726,7 +2726,7 @@ void TestDUChain::embeddedHTML_data()
 
     QTest::newRow("if") << QStringLiteral("<?php if ( true ) : ?>\n<?php endif; ?>");
     QTest::newRow("elseif") << QStringLiteral("<?php if ( true ) : ?>\n<?php elseif ( false ) : ?>\n<?php endif; ?>");
-    QTest::newRow("foreach") << QStringLiteral("<?php foreach ( array(1,2) as $i ) : ?>\n<?php endforeach; ?>\n");
+    QTest::newRow("foreach") << QStringLiteral("<?php Q_FOREACH( array(1,2) as $i ) : ?>\n<?php endforeach; ?>\n");
     QTest::newRow("switch") << QStringLiteral("<?php switch ( 1 ) : case 1: ?>\n<?php break; endswitch; ?>\n");
     QTest::newRow("for") << QStringLiteral("<?php for ( ;; ) : ?>\n<?php endfor; ?>\n");
     QTest::newRow("while") << QStringLiteral("<?php while ( true ) : ?>\n<?php endwhile; ?>\n");

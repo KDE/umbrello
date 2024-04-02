@@ -122,7 +122,7 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
     if (index < 0)
     {
         // may be hiding in child hierarchical codeblock
-        foreach (TextBlock* tb, m_textblockVector)
+        Q_FOREACH(TextBlock* tb, m_textblockVector)
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
             if (hb && hb->insertTextBlock(newBlock, existingBlock, after))
@@ -173,7 +173,7 @@ bool HierarchicalCodeBlock::removeTextBlock (TextBlock * remove_object)
     }
     else {
         // may be hiding in child hierarchical codeblock
-        foreach (TextBlock* tb, m_textblockVector)
+        Q_FOREACH(TextBlock* tb, m_textblockVector)
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
             if (hb && hb->removeTextBlock(remove_object))

@@ -236,12 +236,12 @@ void XMLSchemaWriter::writeAbstractClassifier (UMLClassifier *c, QTextStream &xs
         writeAttributeGroupDecl(elementName, attribs, xs);
 
         // now write out inheriting classes, as needed
-        foreach (UMLClassifier * classifier, subclasses)
+        Q_FOREACH(UMLClassifier * classifier, subclasses)
             writeClassifier(classifier, xs);
     }
 
     // write out any superclasses as needed
-    foreach (UMLClassifier *classifier, superclasses)
+    Q_FOREACH(UMLClassifier *classifier, superclasses)
         writeClassifier(classifier, xs);
 }
 
@@ -414,7 +414,7 @@ QStringList XMLSchemaWriter::findAttributeGroups (UMLClassifier *c)
     // have attributes, then we need to notice
     QStringList list;
     UMLClassifierList superclasses = c->findSuperClassConcepts(); // list of what inherits from us
-    foreach (UMLClassifier *classifier, superclasses)
+    Q_FOREACH(UMLClassifier *classifier, superclasses)
     {
         if (classifier->isAbstract())
         {
@@ -483,7 +483,7 @@ void XMLSchemaWriter::markAsWritten(UMLClassifier *c)
  */
 void XMLSchemaWriter::writeAttributeDecls(UMLAttributeList &attribs, QTextStream &xs)
 {
-    foreach (UMLAttribute* at, attribs) {
+    Q_FOREACH(UMLAttribute* at, attribs) {
         writeAttributeDecl(at, xs);
     }
 }
@@ -589,7 +589,7 @@ bool XMLSchemaWriter::writeAssociationDecls(UMLAssociationList associations,
     {
         bool printRoleA = false, printRoleB = false;
 
-        foreach (UMLAssociation *a, associations)
+        Q_FOREACH(UMLAssociation *a, associations)
         {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
@@ -656,7 +656,7 @@ UMLObjectList XMLSchemaWriter::findChildObjsInAssociations (UMLClassifier *c, UM
 {
     Uml::ID::Type id = c->id();
     UMLObjectList list;
-    foreach (UMLAssociation *a, associations)
+    Q_FOREACH(UMLAssociation *a, associations)
     {
         if (a->getObjectId(Uml::RoleType::A) == id
                 && a->visibility(Uml::RoleType::B) != Uml::Visibility::Private

@@ -188,7 +188,7 @@ UMLAttributeList UMLOperation::getParmList() const
 UMLAttribute* UMLOperation::findParm(const QString &name) const
 {
     UMLAttribute * obj=0;
-    foreach (obj, m_args) {
+    Q_FOREACH(obj, m_args) {
         if (obj->name() == name)
             return obj;
     }
@@ -228,7 +228,7 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype
     if (last) {
         s.append(QStringLiteral("("));
         int i = 0;
-        foreach (UMLAttribute *param, m_args) {
+        Q_FOREACH(UMLAttribute *param, m_args) {
             i++;
             s.append(param->toString(Uml::SignatureType::SigNoVis, withStereotype));
             if (i < last)
@@ -354,7 +354,7 @@ bool UMLOperation::resolveRef()
 {
     bool overallSuccess = UMLObject::resolveRef();
     // See remark on iteration style in UMLClassifier::resolveRef()
-    foreach (UMLAttribute* pAtt, m_args) {
+    Q_FOREACH(UMLAttribute* pAtt, m_args) {
         if (! pAtt->resolveRef())
             overallSuccess = false;
     }

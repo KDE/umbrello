@@ -407,7 +407,7 @@ void UMLEntity::signalEntityAttributeRemoved(UMLClassifierListItem *eattr)
 bool UMLEntity::resolveRef()
 {
     bool success = UMLClassifier::resolveRef();
-    foreach (UMLObject *obj, subordinates()) {
+    Q_FOREACH(UMLObject *obj, subordinates()) {
         if (obj->resolveRef()) {
             UMLClassifierListItem *cli = obj->asUMLClassifierListItem();
             if (!cli)
@@ -438,7 +438,7 @@ void UMLEntity::saveToXMI(QXmlStreamWriter& writer)
     // save entity attributes
     UMLClassifierListItemList entityAttributes = getFilteredList(UMLObject::ot_EntityAttribute);
     UMLClassifierListItem* pEntityAttribute = 0;
-    foreach (pEntityAttribute, entityAttributes) {
+    Q_FOREACH(pEntityAttribute, entityAttributes) {
         pEntityAttribute->saveToXMI(writer);
     }
     // save entity constraints
@@ -693,7 +693,7 @@ bool UMLEntity::isPrimaryKey(const UMLUniqueConstraint* uConstr) const
 UMLEntityAttributeList UMLEntity::getEntityAttributes() const
 {
     UMLEntityAttributeList entityAttributeList;
-    foreach (UMLObject *listItem, subordinates()) {
+    Q_FOREACH(UMLObject *listItem, subordinates()) {
         if (listItem->baseType() == UMLObject::ot_EntityAttribute) {
             entityAttributeList.append(listItem->asUMLEntityAttribute());
         }

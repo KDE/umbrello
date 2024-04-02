@@ -236,7 +236,7 @@ QString SimpleCodeGenerator::overwritableName(UMLPackage* classifier, const QStr
 bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c)
 {
     UMLAttributeList atl = c->getAttributeList();
-    foreach (UMLAttribute* at, atl) {
+    Q_FOREACH(UMLAttribute* at, atl) {
         if (!at->getInitialValue().isEmpty())
             return true;
     }
@@ -251,7 +251,7 @@ bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c)
 bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c)
 {
     UMLOperationList opl(c->getOpList());
-    foreach (UMLOperation* op, opl) {
+    Q_FOREACH(UMLOperation* op, opl) {
         if (op->isAbstract())
             return true;
     }
@@ -274,7 +274,7 @@ void SimpleCodeGenerator::writeCodeToFile()
 void SimpleCodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
 {
     m_fileMap.clear(); // ??
-    foreach (UMLClassifier* c, concepts) {
+    Q_FOREACH(UMLClassifier* c, concepts) {
         if (! Model_Utils::isCommonDataType(c->name()))
             this->writeClass(c); // call the writer for each class.
     }

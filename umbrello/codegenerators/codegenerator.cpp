@@ -249,10 +249,10 @@ void CodeGenerator::saveToXMI(QXmlStreamWriter& writer)
 
     if (dynamic_cast<SimpleCodeGenerator*>(this)) {
         UMLClassifierList concepts = m_document->classesAndInterfaces();
-        foreach (UMLClassifier *c, concepts) {
+        Q_FOREACH(UMLClassifier *c, concepts) {
             uIgnoreZeroPointer(c);
             UMLOperationList operations = c->getOpList();
-            foreach (UMLOperation *op, operations) {
+            Q_FOREACH(UMLOperation *op, operations) {
                 // save the source code
                 QString code = op->getSourceCode();
                 if (code.isEmpty()) {
@@ -321,7 +321,7 @@ void CodeGenerator::writeCodeToFile(UMLClassifierList & concepts)
 {
     CodeDocumentList docs;
 
-    foreach (UMLClassifier *classifier, concepts) {
+    Q_FOREACH(UMLClassifier *classifier, concepts) {
         CodeDocument * doc = findCodeDocumentByClassifier(classifier);
         if (doc) {
             docs.append(doc);
@@ -611,7 +611,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
     UMLPackage *temp;
     UMLAssociationList associations = c->getAssociations();
 
-    foreach (UMLAssociation *a, associations) {
+    Q_FOREACH(UMLAssociation *a, associations) {
         temp = 0;
         switch (a->getAssocType()) {
         case Uml::AssociationType::Generalization:
@@ -677,7 +677,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
     //attributes
     if (!c->isInterface()) {
         UMLAttributeList atl = c->getAttributeList();
-        foreach (UMLAttribute *at, atl) {
+        Q_FOREACH(UMLAttribute *at, atl) {
             temp=0;
             temp = (UMLClassifier*) at->getType();
             if (temp && !temp->isUMLDatatype() && !cList.count(temp)) {

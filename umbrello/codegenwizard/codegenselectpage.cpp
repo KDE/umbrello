@@ -59,7 +59,7 @@ void CodeGenSelectPage::setClassifierList(UMLClassifierList *classList)
         switch (pl) {
             case Uml::ProgrammingLanguage::PostgreSQL:
             case Uml::ProgrammingLanguage::MySQL:
-                foreach (UMLEntity* ent, doc->entities()) {
+                Q_FOREACH(UMLEntity* ent, doc->entities()) {
                     cList.append(ent);
                 }
                 break;
@@ -70,7 +70,7 @@ void CodeGenSelectPage::setClassifierList(UMLClassifierList *classList)
         classList = &cList;
     }
 
-    foreach (UMLClassifier* c, cList) {
+    Q_FOREACH(UMLClassifier* c, cList) {
         new QListWidgetItem(c->fullyQualifiedName(), ui_listSelected);
     }
 }
@@ -127,7 +127,7 @@ void CodeGenSelectPage::deselectClass()
  */
 void CodeGenSelectPage::moveSelectedItems(QListWidget* fromList, QListWidget* toList)
 {
-    foreach (QListWidgetItem* item, fromList->selectedItems()) {
+    Q_FOREACH(QListWidgetItem* item, fromList->selectedItems()) {
         QString name = item->text();
         QList<QListWidgetItem*> foundItems = toList->findItems(name, Qt::MatchExactly);
         if (foundItems.isEmpty()) {

@@ -149,7 +149,7 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
 {
     bool found = false;
     QString filename = path.fileName();
-    foreach (QString extension, m_fileExtensions) { // krazy:exclude=foreach
+    Q_FOREACH(QString extension, m_fileExtensions) { // krazy:exclude=foreach
         extension.remove(QLatin1Char('*'));
         if (filename.endsWith(extension)) {
             found = true;
@@ -171,14 +171,14 @@ void CodeImpSelectPage::files(const QString& path, QStringList& filters)
     QDir searchDir(path);
     if (searchDir.exists()) {
         QString indent = QString();
-        foreach (const QFileInfo &file, searchDir.entryInfoList(filters, QDir::Files)) {
+        Q_FOREACH(const QFileInfo &file, searchDir.entryInfoList(filters, QDir::Files)) {
             if (matchFilter(file)) {
                 m_fileList.append(file);
                 logDebug1("CodeImpSelectPage::files: file = %1", file.absoluteFilePath());
             }
         }
         if (ui_subdirCheckBox->isChecked()) {
-            foreach (const QFileInfo &subDir, searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks)) {
+            Q_FOREACH(const QFileInfo &subDir, searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks)) {
                 m_fileList.append(subDir);
                 //uDebug() << "directory = " << subDir.fileName();
                 files(searchDir.absoluteFilePath(subDir.fileName()), filters);
@@ -349,7 +349,7 @@ QList<QFileInfo> CodeImpSelectPage::selectedFiles()
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
     QModelIndexList list = ui_treeView->selectionModel()->selectedIndexes();
     int row = -1;
-    foreach (const QModelIndex &idx, list) {
+    Q_FOREACH(const QModelIndex &idx, list) {
         if (idx.row() != row && idx.column() == 0) {
             QFileInfo fileInfo = model->fileInfo(idx);
             if (fileInfo.isFile() && matchFilter(fileInfo)) {

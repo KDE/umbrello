@@ -576,7 +576,7 @@ void ExpressionVisitor::visitVariableProperty(VariablePropertyAst *node)
                     ifDebug(qCDebug(DUCHAIN) << "property id:" << propertyId.toString();)
 
                     QList<Declaration*> decs;
-                    foreach ( Declaration* dec, context->findDeclarations(propertyId) ) {
+                    Q_FOREACH( Declaration* dec, context->findDeclarations(propertyId) ) {
                         if ( node->isFunctionCall != -1 ) {
                             if ( dec->isFunctionDeclaration() ) {
                                 decs << dec;

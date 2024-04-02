@@ -248,7 +248,7 @@ void ClassifierListPage::reloadItemListBox()
 
     // add each item in the list to the ListBox and connect each item modified signal
     // to the ListItemModified slot in this class
-    foreach (UMLClassifierListItem* listItem, itemList) {
+    Q_FOREACH(UMLClassifierListItem* listItem, itemList) {
         m_pItemListLB->addItem(listItem->toString(Uml::SignatureType::SigNoVis));
         connect(listItem, SIGNAL(modified()), this, SLOT(slotListItemModified()));
     }

@@ -522,7 +522,7 @@ bool importGraph(const QString &fileName, UMLScene *scene)
 bool isUniqueDiagramName(Uml::DiagramType::Enum type, QString &name)
 {
     bool found = false;
-    foreach (UMLView *view, UMLApp::app()->document()->viewIterator()) {
+    Q_FOREACH(UMLView *view, UMLApp::app()->document()->viewIterator()) {
         if (type == Uml::DiagramType::Undefined || view->umlScene()->type() == type) {
             if (view->umlScene()->name() == name)
                 found = true;

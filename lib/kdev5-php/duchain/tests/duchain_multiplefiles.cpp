@@ -285,13 +285,13 @@ void TestDUChainMultipleFiles::testTodoExtractorReparse()
 }
 
 void TestDUChainMultipleFiles::testIteratorForeachReparse() {
-    TestFile file(QStringLiteral("<?php\n/*\n\n/*\n*/\nforeach (new A() as $a) {}\nclass A implements Iterator {\npublic function current() { return 0; }\n}"), QStringLiteral("php"));
+    TestFile file(QStringLiteral("<?php\n/*\n\n/*\n*/\nQ_FOREACH(new A() as $a) {}\nclass A implements Iterator {\npublic function current() { return 0; }\n}"), QStringLiteral("php"));
 
     auto features = TopDUContext::AllDeclarationsAndContexts;
 
     for (int i = 0; i < 2; ++i) {
         if (i == 1) {
-            file.setFileContents(QStringLiteral("<?php\n/*\n*/\n\n/*\n*/\nforeach (new A() as $a) {}\nclass A implements Iterator {\npublic function current() { return 0; }\n}"));
+            file.setFileContents(QStringLiteral("<?php\n/*\n*/\n\n/*\n*/\nQ_FOREACH(new A() as $a) {}\nclass A implements Iterator {\npublic function current() { return 0; }\n}"));
             features = static_cast<TopDUContext::Features>(features | TopDUContext::ForceUpdate);
         }
 

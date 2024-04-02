@@ -27,7 +27,7 @@ int UMLDocFinder::collect(UMLFinder::Category category, const QString &text)
     m_sceneFinder.clear();
     UMLViewList views = UMLApp::app()->document()->viewIterator();
     int counts = 0;
-    foreach (UMLView *view, views) {
+    Q_FOREACH(UMLView *view, views) {
         UMLSceneFinder finder(view);
         int count = finder.collect(category, text);
         if (count > 0) {

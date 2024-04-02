@@ -639,7 +639,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
 
             if (Model_Utils::typeIsCanvasWidget(lvt)) {
                 UMLViewList views = m_doc->viewIterator();
-                foreach (UMLView *view, views) {
+                Q_FOREACH(UMLView *view, views) {
                     Q_FOREACH(UMLWidget *widget, view->umlScene()->widgetList()) {
                         if (object == widget->umlObject()) {
                             findResults.append(widget);
@@ -2311,7 +2311,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
             clearSelection();
             instanceItem->setSelected(true);
             UMLObjectList& values = inst->subordinates();
-            foreach (UMLObject *child, values) {
+            Q_FOREACH(UMLObject *child, values) {
                 if (!child->isUMLInstanceAttribute())
                     continue;
                 connectNewObjectsSlots(child);

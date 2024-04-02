@@ -550,7 +550,7 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             if (selectionCount > 1) {
                 UMLApp::app()->beginMacro(i18n("Move widgets"));
             }
-            foreach (UMLWidget* widget, selectedWidgets) {
+            Q_FOREACH(UMLWidget* widget, selectedWidgets) {
                 UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(widget));
                 Widget_Utils::ensureNestedVisible(widget, umlScene()->widgetList());
             }

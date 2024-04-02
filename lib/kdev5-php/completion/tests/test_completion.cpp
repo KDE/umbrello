@@ -931,7 +931,7 @@ void TestCompletion::completionAfterComments()
     DUChainReleaser releaseTop(top);
     DUChainWriteLocker lock(DUChain::lock());
 
-    foreach ( const QString &code, QStringList() << "# asdf\n"
+    Q_FOREACH( const QString &code, QStringList() << "# asdf\n"
                                     << "// asdf\n"
                                     << "/* */" )
     {
@@ -951,7 +951,7 @@ void TestCompletion::completionInComments()
     DUChainReleaser releaseTop(top);
     DUChainWriteLocker lock(DUChain::lock());
 
-    foreach ( const QString &code, QStringList() << "# "
+    Q_FOREACH( const QString &code, QStringList() << "# "
                                     << "// " << "/* " )
     {
         PhpCompletionTester tester(top, code);
@@ -966,7 +966,7 @@ void TestCompletion::phpStartTag()
     DUChainReleaser releaseTop(top);
     DUChainWriteLocker lock(DUChain::lock());
 
-    foreach ( const QString &code, QStringList() << "p" << "ph" << "php" ) {
+    Q_FOREACH( const QString &code, QStringList() << "p" << "ph" << "php" ) {
         PhpCompletionTester tester(top, QStringLiteral("<?"), code);
 
         QVERIFY(tester.items.isEmpty());
@@ -1009,7 +1009,7 @@ void TestCompletion::fileCompletion()
 
     ///TODO: somehow offer files and check whether they work with relative sub-paths
     ///TODO: make sure items after dirname(__FILE__) or similar start with a /
-    foreach ( const QString& code, QStringList() << "include \"" << "include_once \"" << "require_once \""
+    Q_FOREACH( const QString& code, QStringList() << "include \"" << "include_once \"" << "require_once \""
                                                  << "require \"" << "include ( \""
                                                  << "include dirname(__FILE__) . \"/"
                                                  << "include ( dirname(__FILE__) . \"/"
@@ -1031,7 +1031,7 @@ void TestCompletion::instanceof()
 
     PhpCompletionTester tester(top, QStringLiteral("$a instanceof "));
 
-    foreach ( const QString& name, QStringList() << "a" << "b" << "c" << "d" ) {
+    Q_FOREACH( const QString& name, QStringList() << "a" << "b" << "c" << "d" ) {
         qDebug() << name;
         QList<Declaration*> decs = top->findLocalDeclarations(Identifier(name));
         QCOMPARE(decs.size(), 1);
@@ -1040,7 +1040,7 @@ void TestCompletion::instanceof()
         QVERIFY(searchDeclaration(tester.items, cdec));
     }
 
-    foreach ( const CompletionTreeItemPointer &item, tester.items ) {
+    Q_FOREACH( const CompletionTreeItemPointer &item, tester.items ) {
         QVERIFY(dynamic_cast<ClassDeclaration*>(item->declaration().data()));
     }
 }
@@ -1051,7 +1051,7 @@ void TestCompletion::afterFunctionArg()
     DUChainReleaser releaseTop(top);
     DUChainWriteLocker lock(DUChain::lock());
 
-    foreach ( const QString &code, QStringList() << "if ($a->" << "while ($a->" << "foobar($a->" ) {
+    Q_FOREACH( const QString &code, QStringList() << "if ($a->" << "while ($a->" << "foobar($a->" ) {
         qDebug() << code;
         PhpCompletionTester tester(top, code);
         QCOMPARE(tester.names.size(), 1);

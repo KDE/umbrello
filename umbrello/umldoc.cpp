@@ -1183,7 +1183,7 @@ UMLStereotype* UMLDoc::createStereotype(const QString &name)
  */
 UMLStereotype* UMLDoc::findStereotype(const QString &name) const
 {
-    foreach (UMLStereotype *s, m_stereoList) {
+    Q_FOREACH(UMLStereotype *s, m_stereoList) {
         if (s->name() == name) {
             return s;
         }
@@ -1212,7 +1212,7 @@ UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name)
  */
 UMLStereotype * UMLDoc::findStereotypeById(Uml::ID::Type id) const
 {
-    foreach (UMLStereotype *s, m_stereoList) {
+    Q_FOREACH(UMLStereotype *s, m_stereoList) {
         if (s->id() == id)
             return s;
     }
@@ -1305,7 +1305,7 @@ UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType::Enum assocType,
 {
     UMLAssociationList assocs = associations();
     UMLAssociation *ret = 0;
-    foreach (UMLAssociation* a, assocs) {
+    Q_FOREACH(UMLAssociation* a, assocs) {
         if (a->getAssocType() != assocType) {
             continue;
         }
@@ -1360,7 +1360,7 @@ void UMLDoc::addAssociation(UMLAssociation *assoc)
     // This may happen when loading old XMI files where all the association
     // information was taken from the <UML:AssocWidget> tag.
     UMLAssociationList assocs = associations();
-    foreach (UMLAssociation* a,  assocs) {
+    Q_FOREACH(UMLAssociation* a,  assocs) {
         // check if its already been added (shouldn't be the case right now
         // as UMLAssociations only belong to one associationwidget at a time)
         if (a == assoc) {
@@ -1824,7 +1824,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                 // should not remove elements from m_objectList while it is
                 // being iterated over.
                 UMLAssociationList assocsToRemove;
-                foreach (UMLObject *obj, rootObjects) {
+                Q_FOREACH(UMLObject *obj, rootObjects) {
                     uIgnoreZeroPointer(obj);
                     if (obj->baseType() == UMLObject::ot_Association) {
                         UMLAssociation *assoc = obj->asUMLAssociation();
@@ -1833,7 +1833,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                         }
                     }
                 }
-                foreach (UMLAssociation *a, assocsToRemove) {
+                Q_FOREACH(UMLAssociation *a, assocsToRemove) {
                     removeAssociation(a, false);
                 }
             }
@@ -2007,7 +2007,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
     // There is a bug causing duplication of the same stereotype in m_stereoList.
     // As a workaround, we use a string list to memorize which stereotype has been saved.
     QStringList stereoNames;
-    foreach (UMLStereotype *s, m_stereoList) {
+    Q_FOREACH(UMLStereotype *s, m_stereoList) {
         QString stName = s->name();
         if (!stereoNames.contains(stName)) {
             s->saveToXMI(writer);
@@ -2894,7 +2894,7 @@ UMLClassifierList UMLDoc::datatypes(bool includeInactive /* = false */) const
 {
     UMLObjectList objects = m_datatypeRoot->containedObjects(includeInactive);
     UMLClassifierList datatypeList;
-    foreach (UMLObject *obj, objects) {
+    Q_FOREACH(UMLObject *obj, objects) {
         uIgnoreZeroPointer(obj);
         if (obj->isUMLDatatype()) {
             datatypeList.append(obj->asUMLClassifier());
@@ -2914,7 +2914,7 @@ UMLDatatype * UMLDoc::findDatatype(QString name, bool includeInactive /* = false
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     name = Model_Utils::normalize(name);
-    foreach (UMLClassifier *c, datatypes(includeInactive)) {
+    Q_FOREACH(UMLClassifier *c, datatypes(includeInactive)) {
         UMLDatatype *type = dynamic_cast<UMLDatatype*>(c);
         if (!type)
             continue;
@@ -2939,7 +2939,7 @@ UMLAssociationList UMLDoc::associations() const
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         UMLAssociationList assocs = m_root[i]->getAssociations();
 
-        foreach (UMLAssociation* a, assocs) {
+        Q_FOREACH(UMLAssociation* a, assocs) {
             associationList.append(a);
         }
     }
@@ -3050,13 +3050,13 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
     if (obj->baseType() == UMLObject::ot_Class) {
         UMLClassifier *c = obj->asUMLClassifier();
         UMLClassifierListItemList attributes = c->getFilteredList(UMLObject::ot_Attribute);
-        foreach (UMLObject* listItem,  attributes) {
+        Q_FOREACH(UMLObject* listItem,  attributes) {
             result = assignNewID(listItem->id());
             listItem->setID(result);
         }
 
         UMLClassifierListItemList templates = c->getFilteredList(UMLObject::ot_Template);
-        foreach (UMLObject* listItem, templates) {
+        Q_FOREACH(UMLObject* listItem, templates) {
             result = assignNewID(listItem->id());
             listItem->setID(result);
         }
@@ -3064,7 +3064,7 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
 
     if (obj->baseType() == UMLObject::ot_Interface || obj->baseType() == UMLObject::ot_Class) {
         UMLOperationList operations(((UMLClassifier*)obj)->getOpList());
-        foreach (UMLObject* listItem, operations) {
+        Q_FOREACH(UMLObject* listItem, operations) {
             result = assignNewID(listItem->id());
             listItem->setID(result);
         }
@@ -3383,7 +3383,7 @@ void UMLDoc::removeDatatype(const QString &name)
     UMLObjectList datatypes = m_datatypeRoot->containedObjects();
     // We don't use Model_Utils::findUMLObject because that function considers
     // case sensitivity of the active language, which we don't want here.
-    foreach (UMLObject *obj, datatypes) {
+    Q_FOREACH(UMLObject *obj, datatypes) {
         uIgnoreZeroPointer(obj);
         if (obj->name() == name) {
             removeUMLObject(obj);

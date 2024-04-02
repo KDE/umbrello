@@ -269,7 +269,7 @@ void LexerTest::testNowdoc()
 void LexerTest::testCommonStringTokens()
 {
     // all these should have open_tag followed by constant encapsed string
-    foreach ( const QString& code, QStringList() << "<?php ''" << "<?php \"\"" << "<?php '" << "<?php \"" ) {
+    Q_FOREACH( const QString& code, QStringList() << "<?php ''" << "<?php \"\"" << "<?php '" << "<?php \"" ) {
         qDebug() << code;
         TokenStream* ts = tokenize(code, true);
 

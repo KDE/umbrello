@@ -425,7 +425,7 @@ UMLPackage* rootPackage(UMLObject* obj)
 void treeViewAddViews(const UMLViewList& viewList)
 {
     UMLListView* tree = UMLApp::app()->listView();
-    foreach (UMLView* v,  viewList) {
+    Q_FOREACH(UMLView* v,  viewList) {
         if (tree->findItem(v->umlScene()->ID()) != 0) {
             continue;
         }
