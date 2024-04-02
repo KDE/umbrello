@@ -175,7 +175,7 @@ void AdaWriter::declareClass(UMLClassifier *c, QTextStream &ada)
     UMLClassifierList superclasses = c->getSuperClasses();
     UMLClassifier *firstSuperClass = 0;
     if (!superclasses.isEmpty()) {
-        Q_FOREACH(UMLClassifier* super, superclasses) {
+        for(UMLClassifier* super : superclasses) {
             if (!super->isInterface()) {
                 firstSuperClass = super;
                 break;
@@ -192,7 +192,7 @@ void AdaWriter::declareClass(UMLClassifier *c, QTextStream &ada)
         ada << "tagged ";
     } else {
         ada << "new " << className(firstSuperClass, false);
-        Q_FOREACH(UMLClassifier* super, superclasses) {
+        for(UMLClassifier* super : superclasses) {
             if (super->isInterface() && super != firstSuperClass)
                 ada << " and " << className(super, false);
         }
@@ -259,7 +259,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
         UMLPackageList imports;
         findObjectsRelated(c, imports);
         if (imports.count()) {
-            Q_FOREACH(UMLPackage* con, imports) {
+            for(UMLPackage* con : imports) {
                 if (con->isUMLDatatype())
                     continue;
                 QString pkgDep = packageName(con);
@@ -274,7 +274,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
         if (template_params.count()) {
             ada << indent() << "generic" << m_endl;
             m_indentLevel++;
-            Q_FOREACH(UMLTemplate* t, template_params) {
+            for(UMLTemplate* t : template_params) {
                 QString formalName = t->name();
                 QString typeName = t->getTypeName();
                 if (typeName == QStringLiteral("class")) {
@@ -310,7 +310,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
         uint i = 0;
         ada << indent() << "type " << classname << " is (" << m_endl;
         m_indentLevel++;
-        Q_FOREACH(UMLClassifierListItem* lit, litList) {
+        for(UMLClassifierListItem* lit : litList) {
             QString enumLiteral = cleanName(lit->name());
             ada << indent() << enumLiteral;
             if (++i < (uint)litList.count())
@@ -330,7 +330,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
                 UMLAttributeList atl = c->getAttributeList();
                 ada << indent() << "type " << classname << " is record" << m_endl;
                 m_indentLevel++;
-                Q_FOREACH(UMLAttribute* at,  atl) {
+                for(UMLAttribute* at :  atl) {
                     QString name = cleanName(at->name());
                     QString typeName = at->getTypeName();
                     ada << indent() << name << " : " << typeName;
@@ -356,7 +356,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     UMLClassifierList superclasses = c->getSuperClasses();
     if (!superclasses.isEmpty()) {
         // Ensure that superclasses in same package are declared before this class.
-        Q_FOREACH(UMLClassifier* super, superclasses) {
+        for(UMLClassifier* super : superclasses) {
             if (packageName(super) == pkg && !m_classesGenerated.contains(super)) {
                 writeClass(super);
             }
@@ -378,7 +378,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
         ada << "private;" << m_endl << m_endl;
     } else {
         ada << indent() << "type " << name << " is interface";
-        Q_FOREACH(UMLClassifier* super, superclasses) {
+        for(UMLClassifier* super : superclasses) {
             if (super->isInterface())
                 ada << " and " << className(super, false);
         }
@@ -395,14 +395,14 @@ void AdaWriter::writeClass(UMLClassifier *c)
 
         atl = c->getAttributeList();
 
-        Q_FOREACH(UMLAttribute* at, atl) {
+        for(UMLAttribute* at : atl) {
             if (at->visibility() == Uml::Visibility::Public)
                 atpub.append(at);
         }
         if (forceSections() || atpub.count())
             ada << indent() << "-- Accessors for public attributes:" << m_endl << m_endl;
 
-        Q_FOREACH(UMLAttribute* at, atpub) {
+        for(UMLAttribute* at : atpub) {
             QString member = cleanName(at->name());
             ada << indent() << "procedure Set_" << member << " (";
             if (! at->isStatic())
@@ -418,14 +418,14 @@ void AdaWriter::writeClass(UMLClassifier *c)
     // Generate public operations.
     UMLOperationList opl(c->getOpList());
     UMLOperationList oppub;
-    Q_FOREACH(UMLOperation* op, opl) {
+    for(UMLOperation* op : opl) {
         if (op->visibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count())
         ada << indent() << "-- Public methods:" << m_endl << m_endl;
 
-    Q_FOREACH(UMLOperation* op, oppub) {
+    for(UMLOperation* op : oppub) {
         writeOperation(op, ada);
     }
 
@@ -463,7 +463,7 @@ void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comme
     if (atl.count()) {
         uint i = 0;
         m_indentLevel++;
-        Q_FOREACH(UMLAttribute* at, atl) {
+        for(UMLAttribute* at : atl) {
             ada << indent();
             if (is_comment)
                 ada << "-- ";
@@ -669,7 +669,7 @@ void AdaWriter::finalizeRun()
         QFile *file = i.value();
         QTextStream ada(file);
         ada << m_endl << "private" << m_endl << m_endl;
-        Q_FOREACH(UMLClassifier* c, m_classesGenerated) {
+        for(UMLClassifier* c : m_classesGenerated) {
             if (packageName(c) != pkg)
                 continue;
             bool isClass = !c->isInterface();
@@ -683,7 +683,7 @@ void AdaWriter::finalizeRun()
 
                 if (forceSections() || !aggregations.isEmpty()) {
                     ada << indent() << "-- Aggregations:" << m_endl;
-                    Q_FOREACH(UMLAssociation *a, aggregations) {
+                    for(UMLAssociation *a : aggregations) {
                         if (c != a->getObject(Uml::RoleType::A))
                             continue;
                         QString typeName, roleName;
@@ -694,7 +694,7 @@ void AdaWriter::finalizeRun()
                 }
                 if (forceSections() || !compositions.isEmpty()) {
                     ada << indent() << "-- Compositions:" << m_endl;
-                    Q_FOREACH(UMLAssociation *a, compositions) {
+                    for(UMLAssociation *a : compositions) {
                         if (c != a->getObject(Uml::RoleType::A))
                             continue;
                         QString typeName, roleName;
@@ -707,7 +707,7 @@ void AdaWriter::finalizeRun()
                 UMLAttributeList atl = c->getAttributeList();
                 if (forceSections() || atl.count()) {
                     ada << indent() << "-- Attributes:" << m_endl;
-                    Q_FOREACH(UMLAttribute* at, atl) {
+                    for(UMLAttribute* at : atl) {
                         if (!at || at->isStatic())
                             continue;
                         ada << indent() << cleanName(at->name()) << " : "
@@ -724,7 +724,7 @@ void AdaWriter::finalizeRun()
                 ada << indent() << "end record;" << m_endl << m_endl;
                 if (haveAttrs) {
                     bool seen_static_attr = false;
-                    Q_FOREACH(UMLAttribute* at, atl) {
+                    for(UMLAttribute* at : atl) {
                         if (! at->isStatic())
                             continue;
                         if (! seen_static_attr) {
@@ -746,13 +746,13 @@ void AdaWriter::finalizeRun()
             UMLOperationList opl(c->getOpList());
             // Generate protected operations.
             UMLOperationList opprot;
-            Q_FOREACH(UMLOperation* op,  opl) {
+            for(UMLOperation* op : opl) {
                 if (op->visibility() == Uml::Visibility::Protected)
                     opprot.append(op);
             }
             if (forceSections() || opprot.count())
                 ada << indent() << "-- Protected methods:" << m_endl << m_endl;
-            Q_FOREACH(UMLOperation* op, opprot) {
+            for(UMLOperation* op : opprot) {
                 writeOperation(op, ada);
             }
 
@@ -763,7 +763,7 @@ void AdaWriter::finalizeRun()
             // hand written code sections, private operations should be generated
             // into the package body.
             UMLOperationList oppriv;
-            Q_FOREACH(UMLOperation* op, opl) {
+            for(UMLOperation* op : opl) {
                 const Uml::Visibility::Enum vis = op->visibility();
                 if (vis == Uml::Visibility::Private ||
                     vis == Uml::Visibility::Implementation)
@@ -771,7 +771,7 @@ void AdaWriter::finalizeRun()
             }
             if (forceSections() || oppriv.count())
                 ada << indent() << "-- Private methods:" << m_endl << m_endl;
-            Q_FOREACH(UMLOperation* op, oppriv) {
+            for(UMLOperation* op : oppriv) {
                 writeOperation(op, ada, true);
             }
         }

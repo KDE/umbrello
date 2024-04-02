@@ -26,7 +26,7 @@ qreal getSmallestX(const UMLWidgetList &widgetList)
     qreal smallestX = 0;
 
     int i = 1;
-    Q_FOREACH(UMLWidget *widget,  widgetList) {
+    for(UMLWidget *widget : widgetList) {
         if (i == 1) {
             smallestX = widget->x();
         } else {
@@ -52,7 +52,7 @@ qreal getSmallestY(const UMLWidgetList &widgetList)
     qreal smallestY = 0;
 
     int i = 1;
-    Q_FOREACH(UMLWidget *widget,  widgetList) {
+    for(UMLWidget *widget : widgetList) {
         if (i == 1) {
             smallestY = widget->y();
         } else {
