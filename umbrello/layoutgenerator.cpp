@@ -24,7 +24,7 @@
 #include <QFile>
 #include <QHash>
 #include <QProcess>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QString>
 #include <QTemporaryFile>
@@ -424,8 +424,8 @@ typedef QMap<QString,QStringList> ParameterList;
 bool LayoutGenerator::splitParameters(QMap<QString,QStringList> &map, const QString &s)
 {
     // FIXME: add shape=box without '"'
-    static QRegExp rx(QStringLiteral("([a-zA-Z_]+)=\"([a-zA-Z0-9.- #]+)\""));
-    static QRegExp rx2(QStringLiteral("([a-zA-Z_]+)=([a-zA-Z0-9.- #]+)"));
+    static QRegularExpression rx(QStringLiteral("([a-zA-Z_]+)=\"([a-zA-Z0-9.- #]+)\""));
+    static QRegularExpression rx2(QStringLiteral("([a-zA-Z_]+)=([a-zA-Z0-9.- #]+)"));
     int pos = 0;
     int count = 0;
     /*
@@ -484,7 +484,7 @@ digraph G {
 
 bool LayoutGenerator::parseLine(const QString &line)
 {
-    static QRegExp m_cols(QStringLiteral("^[\t ]*(.*)[\t ]*\\[(.*)\\]"));
+    static QRegularExpression m_cols(QStringLiteral("^[\t ]*(.*)[\t ]*\\[(.*)\\]"));
     static int m_level = -1;
 
     if (line.contains(QLatin1Char('{'))) {

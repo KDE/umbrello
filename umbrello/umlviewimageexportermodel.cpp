@@ -32,7 +32,7 @@
 #include <QPicture>
 #include <QPrinter>
 #include <QRect>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QSvgGenerator>
 #include <QTemporaryFile>
 

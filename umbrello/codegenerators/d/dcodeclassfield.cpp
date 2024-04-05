@@ -21,7 +21,7 @@
 #include "dclassifiercodedocument.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 DCodeClassField::DCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role)
         : CodeClassField(parentDoc, role)

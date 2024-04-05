@@ -12,7 +12,7 @@
 
 #include <QString>
 #include <QStringList>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QDebug>
 
 #include "parserdebug.h"

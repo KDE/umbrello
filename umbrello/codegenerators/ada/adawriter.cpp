@@ -25,7 +25,7 @@
 #include <KMessageBox>
 
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 const QString AdaWriter::defaultPackageSuffix = QStringLiteral("_Holder");
@@ -149,7 +149,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
         return;
     const QString multi = a->getMultiplicity(Uml::RoleType::B);
     bool hasNonUnityMultiplicity = (!multi.isEmpty() && multi != QStringLiteral("1"));
-    hasNonUnityMultiplicity &= !multi.contains(QRegExp(QStringLiteral("^1 *\\.\\. *1$")));
+    hasNonUnityMultiplicity &= !multi.contains(QRegularExpression(QStringLiteral("^1 *\\.\\. *1$")));
     roleName = cleanName(a->getRoleName(Uml::RoleType::B));
     if (roleName.isEmpty())
         roleName = cleanName(a->name());
@@ -250,8 +250,8 @@ void AdaWriter::writeClass(UMLClassifier *c)
         QString str;
         str = getHeadingFile(QStringLiteral(".ads"));
         if (!str.isEmpty()) {
-            str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-            str.replace(QRegExp(QStringLiteral("%filepath%")), file->fileName());
+            str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
+            str.replace(QRegularExpression(QStringLiteral("%filepath%")), file->fileName());
             ada << str << m_endl;
         }
 

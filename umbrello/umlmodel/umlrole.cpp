@@ -17,7 +17,7 @@
 
 // qt includes
 #include <QPointer>
-#include <QRegExp>
+#include <QRegularExpression>
 
 DEBUG_REGISTER(UMLRole)
 

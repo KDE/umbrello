@@ -14,7 +14,7 @@
 #include "umldoc.h"
 #include "uml.h"  // Only needed for log{Warn,Error}
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 JSWriter::JSWriter()
@@ -65,8 +65,8 @@ void JSWriter::writeClass(UMLClassifier *c)
     str = getHeadingFile(QStringLiteral(".js"));
     if (!str.isEmpty())
     {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), filejs.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), filejs.fileName());
         js << str << m_endl;
     }
 

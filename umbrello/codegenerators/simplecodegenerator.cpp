@@ -30,7 +30,7 @@
 #include <QDateTime>
 #include <QDir>
 #include <QPointer>
-#include <QRegExp>
+#include <QRegularExpression>
 
 // system includes
 #include <cstdlib> //to get the user name
@@ -96,16 +96,16 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* classifier, const QString 
     package = package.simplified();
 
     // Replace all blanks with underscore
-    package.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    package.replace(QRegularExpression(QStringLiteral(" ")), QStringLiteral("_"));
 
     // Convert all "::" to "/" : Platform-specific path separator
-    // package.replace(QRegExp(QStringLiteral("::")), QStringLiteral("/"));
+    // package.replace(QRegularExpression(QStringLiteral("::")), QStringLiteral("/"));
 
     // if package is given add this as a directory to the file name
     if (!package.isEmpty() && m_createDirHierarchyForPackages) {
         name = package + QLatin1Char('.') + classifier->name();
-        name.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("/"));
-        package.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("/"));
+        name.replace(QRegularExpression(QStringLiteral("\\.")), QStringLiteral("/"));
+        package.replace(QRegularExpression(QStringLiteral("\\.")), QStringLiteral("/"));
         package = QLatin1Char('/') + package;
     } else {
         name = classifier->fullyQualifiedName(QStringLiteral("-"));
@@ -142,7 +142,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* classifier, const QString 
     }
 
     name = name.simplified();
-    name.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    name.replace(QRegularExpression(QStringLiteral(" ")), QStringLiteral("_"));
 
     QString extension = ext.simplified();
     extension.replace(QLatin1Char(' '), QLatin1Char('_'));

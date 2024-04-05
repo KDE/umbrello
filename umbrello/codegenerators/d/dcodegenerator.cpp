@@ -19,7 +19,7 @@
 #include <KMessageBox>
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 /**
  * Constructor.
@@ -117,7 +117,7 @@ QString DCodeGenerator::capitalizeFirstLetter(const QString &item)
  */
 QString DCodeGenerator::fixTypeName(const QString &item)
 {
-    if (item.isEmpty() || item.contains(QRegExp(QStringLiteral("^\\s+$"))))
+    if (item.isEmpty() || item.contains(QRegularExpression(QStringLiteral("^\\s+$"))))
         return QStringLiteral("void");
     if (item == QStringLiteral("string"))
         return QStringLiteral("char[]");

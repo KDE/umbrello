@@ -18,7 +18,7 @@
 
 // qt includes
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 DEBUG_REGISTER(NativeImportBase)
@@ -397,7 +397,7 @@ void NativeImportBase::scan(const QString& line)
             return;
         ln = ln.left(pos);
     }
-    if (ln.contains(QRegExp(QStringLiteral("^\\s*$"))))
+    if (ln.contains(QRegularExpression(QStringLiteral("^\\s*$"))))
         return;
     const QStringList words = split(ln);
     for (QStringList::ConstIterator it = words.begin(); it != words.end(); ++it) {
@@ -429,7 +429,7 @@ void NativeImportBase::initVars()
 bool NativeImportBase::parseFile(const QString& filename)
 {
     QString nameWithoutPath = filename;
-    nameWithoutPath.remove(QRegExp(QStringLiteral("^.*/")));
+    nameWithoutPath.remove(QRegularExpression(QStringLiteral("^.*/")));
     if (m_parsedFiles.contains(nameWithoutPath))
         return true;
     m_parsedFiles.append(nameWithoutPath);
@@ -437,7 +437,7 @@ bool NativeImportBase::parseFile(const QString& filename)
     const QString msgPrefix = filename + QStringLiteral(": ");
     if (filename.contains(QLatin1Char('/'))) {
         QString path = filename;
-        path.remove(QRegExp(QStringLiteral("/[^/]+$")));
+        path.remove(QRegularExpression(QStringLiteral("/[^/]+$")));
         logDebug2("NativeImportBase::parseFile %1 adding path %2", msgPrefix, path);
         Import_Utils::addIncludePath(path);
     }

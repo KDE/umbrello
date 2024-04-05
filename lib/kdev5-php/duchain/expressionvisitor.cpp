@@ -464,7 +464,7 @@ void ExpressionVisitor::visitScalar(ScalarAst *node)
 
     if (!m_inDefine && node->commonScalar && node->commonScalar->scalarType == ScalarTypeString) {
         QString str = m_editor->parseSession()->symbol(node->commonScalar);
-        QRegExp exp("^['\"]([A-Za-z0-9_]+)['\"]$");
+        QRegularExpression exp("^['\"]([A-Za-z0-9_]+)['\"]$");
         if (exp.exactMatch(str)) {
             //that *could* be a class name
             QualifiedIdentifier id(exp.cap(1).toLower());

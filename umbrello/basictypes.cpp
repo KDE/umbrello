@@ -12,7 +12,7 @@
 
 // qt includes
 #include <QFontDatabase>
-#include <QRegExp>
+#include <QRegularExpression>
 
 namespace Uml
 {

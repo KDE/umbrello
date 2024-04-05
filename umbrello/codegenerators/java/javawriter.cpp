@@ -22,7 +22,7 @@
 
 // qt includes
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 /**
@@ -139,8 +139,8 @@ void JavaWriter::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(QStringLiteral(".java"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), file.fileName());
         java << str << m_endl;
     }
 
@@ -432,7 +432,7 @@ void JavaWriter::writeComment(const QString &comment, const QString &myIndent,
     // in the case we have several line comment..
     // NOTE: this part of the method has the problem of adopting UNIX newline,
     // need to resolve for using with MAC/WinDoze eventually I assume
-    if (comment.contains(QRegExp(QStringLiteral("\n")))) {
+    if (comment.contains(QRegularExpression(QStringLiteral("\n")))) {
 
         if (javaDocStyle)
             java << myIndent << "/**" << m_endl;
@@ -544,7 +544,7 @@ void JavaWriter::writeAssociationRoleDecl(QString fieldClassName,
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    if (multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^[01]$"))))
+    if (multi.isEmpty() || multi.contains(QRegularExpression(QStringLiteral("^[01]$"))))
     {
         QString fieldVarName = QStringLiteral("m_") + roleName.replace(0, 1, roleName.left(1).toLower());
         java << m_startline << scope << " " << fieldClassName << " " << fieldVarName << ";";
@@ -610,7 +610,7 @@ void JavaWriter::writeAssociationRoleMethod (QString fieldClassName, QString rol
         QString description, Uml::Visibility::Enum visib, Uml::Changeability::Enum change,
         QTextStream &java)
 {
-    if (multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^[01]$"))))
+    if (multi.isEmpty() || multi.contains(QRegularExpression(QStringLiteral("^[01]$"))))
     {
         QString fieldVarName = QStringLiteral("m_") + roleName.replace(0, 1, roleName.left(1).toLower());
         writeSingleAttributeAccessorMethods(fieldClassName, fieldVarName, roleName,

@@ -20,7 +20,7 @@
 #include "umldoc.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include <stdio.h>
 

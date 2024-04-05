@@ -130,7 +130,7 @@ QStringList findInDocComment(const QString &docComment, const QString &docCommen
     // old code was something like this:
     /*
     if (!docComment.isEmpty()) {
-        QRegExp rx("\\*\\s+@param\\s([^\\s]*)");
+        QRegularExpression rx("\\*\\s+@param\\s([^\\s]*)");
         int pos = 0;
         while ((pos = rx.indexIn(docComment, pos)) != -1) {
             ret << parseType(rx.cap(1), node);

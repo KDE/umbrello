@@ -9,7 +9,7 @@
 #include "cppcodecomment.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 
 CPPCodeComment::CPPCodeComment (CodeDocument * doc, const QString & text)
@@ -56,6 +56,6 @@ QString CPPCodeComment::unformatText (const QString & text, const QString & inde
     QString mytext = TextBlock::unformatText(text, indent);
 
     // now leading slashes
-    mytext.remove(QRegExp(QStringLiteral("^\\/\\/\\s*")));
+    mytext.remove(QRegularExpression(QStringLiteral("^\\/\\/\\s*")));
     return mytext;
 }

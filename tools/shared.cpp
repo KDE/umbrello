@@ -111,8 +111,8 @@ QString toXMLCharacterEntities(QString s)
 
 QString escape(QString s)
 {
-    s.replace(QRegExp("\\\\"), "\\\\");
-    s.replace(QRegExp("\""), "\\\"");
+    s.replace(QRegularExpression("\\\\"), "\\\\");
+    s.replace(QRegularExpression("\""), "\\\"");
     return s;
 }
 

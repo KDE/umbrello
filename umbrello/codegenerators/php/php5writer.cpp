@@ -16,7 +16,7 @@
 #include "umldoc.h"
 #include "uml.h"  // only needed for log{Warn,Error}
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 static const char *reserved_words[] = {
@@ -3020,8 +3020,8 @@ void Php5Writer::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(QStringLiteral(".php"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), filephp.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), filephp.fileName());
         php<<str<<m_endl;
     } else {
         php << "<?php" << m_endl;

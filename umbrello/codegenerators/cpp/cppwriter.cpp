@@ -29,7 +29,7 @@
 
 // qt includes
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 // 3-14-2003: this code developed from the javawriter with parts of the
@@ -125,7 +125,7 @@ void CppWriter::writeClass(UMLClassifier *c)
         need_impl = false;
     }
     if (need_impl) {
-        fileName_.replace(QRegExp(QStringLiteral(".h$")), QStringLiteral(".cpp"));
+        fileName_.replace(QRegularExpression(QStringLiteral(".h$")), QStringLiteral(".cpp"));
         if (!openFile(filecpp, fileName_)) {
             Q_EMIT codeGenerated(c, false);
             return;
@@ -149,13 +149,13 @@ void CppWriter::writeHeaderFile (UMLClassifier *c, QFile &file)
     // write header blurb
     QString str = getHeadingFile(QStringLiteral(".h"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName_ + QStringLiteral(".h"));
-        str.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName_ + QStringLiteral(".h"));
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), file.fileName());
         h << str<< m_endl;
     }
 
     // Write the hash define stuff to prevent multiple parsing/inclusion of header
-    QString hashDefine = className_.toUpper().simplified().replace(QRegExp(QStringLiteral(" ")),  QStringLiteral("_"));
+    QString hashDefine = className_.toUpper().simplified().replace(QRegularExpression(QStringLiteral(" ")),  QStringLiteral("_"));
     writeBlankLine(h);
     h << "#ifndef "<< hashDefine << "_H" << m_endl;
     h << "#define "<< hashDefine << "_H" << m_endl;
@@ -222,8 +222,8 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
     QString str;
     str = getHeadingFile(QStringLiteral(".cpp"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName_ + QStringLiteral(".cpp"));
-        str.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName_ + QStringLiteral(".cpp"));
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), file.fileName());
         cpp << str << m_endl;
     }
 
@@ -752,14 +752,14 @@ void CppWriter::writeAssociationRoleDecl(QString fieldClassName, QString roleNam
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    if (multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^[01]$"))))
+    if (multi.isEmpty() || multi.contains(QRegularExpression(QStringLiteral("^[01]$"))))
     {
         QString fieldVarName = QStringLiteral("m_") + roleName.toLower();
 
         // record this for later consideration of initialization IF the
         // multi value requires 1 of these objects
         if (ObjectFieldVariables.indexOf(fieldVarName) == -1 &&
-                multi.contains(QRegExp(QStringLiteral("^1$"))))
+                multi.contains(QRegularExpression(QStringLiteral("^1$"))))
         {
             // ugh. UGLY. Storing variable name and its class in pairs.
             ObjectFieldVariables.append(fieldVarName);
@@ -846,7 +846,7 @@ void CppWriter::writeAssociationRoleMethod (const QString &fieldClassName,
         const QString &description, Uml::Changeability::Enum change,
         QTextStream &stream)
 {
-    if (multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^[01]$"))))
+    if (multi.isEmpty() || multi.contains(QRegularExpression(QStringLiteral("^[01]$"))))
     {
         QString fieldVarName = QStringLiteral("m_") + roleName.toLower();
         writeSingleAttributeAccessorMethods(fieldClassName, fieldVarName, roleName,
@@ -885,9 +885,9 @@ void CppWriter::writeVectorAttributeAccessorMethods (
         stream << "add" << fldName << " (" << className << " add_object)";
         if (writeMethodBody) {
             QString method = VECTOR_METHOD_APPEND;
-            method.replace(QRegExp(QStringLiteral("%VARNAME%")), fieldVarName);
-            method.replace(QRegExp(QStringLiteral("%VECTORTYPENAME%")), policyExt()->getVectorClassName());
-            method.replace(QRegExp(QStringLiteral("%ITEMCLASS%")), className);
+            method.replace(QRegularExpression(QStringLiteral("%VARNAME%")), fieldVarName);
+            method.replace(QRegularExpression(QStringLiteral("%VECTORTYPENAME%")), policyExt()->getVectorClassName());
+            method.replace(QRegularExpression(QStringLiteral("%ITEMCLASS%")), className);
             stream << indnt << " {" << m_endl;
             m_indentLevel++;
             printTextAsSeparateLinesWithIndent(method, indent(), stream);
@@ -908,9 +908,9 @@ void CppWriter::writeVectorAttributeAccessorMethods (
         stream << "remove" << fldName << " (" << className << " remove_object)";
         if (writeMethodBody) {
             QString method = VECTOR_METHOD_REMOVE;
-            method.replace(QRegExp(QStringLiteral("%VARNAME%")), fieldVarName);
-            method.replace(QRegExp(QStringLiteral("%VECTORTYPENAME%")), policyExt()->getVectorClassName());
-            method.replace(QRegExp(QStringLiteral("%ITEMCLASS%")), className);
+            method.replace(QRegularExpression(QStringLiteral("%VARNAME%")), fieldVarName);
+            method.replace(QRegularExpression(QStringLiteral("%VECTORTYPENAME%")), policyExt()->getVectorClassName());
+            method.replace(QRegularExpression(QStringLiteral("%ITEMCLASS%")), className);
             stream << indnt << " {" << m_endl;
             m_indentLevel++;
             printTextAsSeparateLinesWithIndent(method, indent(), stream);
@@ -1092,8 +1092,8 @@ void CppWriter::writeInitAttributeMethod(UMLClassifier * c, QTextStream &stream)
         for (it = VectorFieldVariables.begin(); it != VectorFieldVariables.end(); ++it) {
             QString fieldVarName = *it;
             QString method = VECTOR_METHOD_INIT;
-            method.replace(QRegExp(QStringLiteral("%VARNAME%")), fieldVarName);
-            method.replace(QRegExp(QStringLiteral("%VECTORTYPENAME%")), policyExt()->getVectorClassName());
+            method.replace(QRegularExpression(QStringLiteral("%VARNAME%")), fieldVarName);
+            method.replace(QRegularExpression(QStringLiteral("%VECTORTYPENAME%")), policyExt()->getVectorClassName());
             stream << indent() << method << m_endl;
         }
     }
@@ -1105,8 +1105,8 @@ void CppWriter::writeInitAttributeMethod(UMLClassifier * c, QTextStream &stream)
             it++;
             QString fieldClassName = *it;
             QString method = OBJECT_METHOD_INIT;
-            method.replace(QRegExp(QStringLiteral("%VARNAME%")), fieldVarName);
-            method.replace(QRegExp(QStringLiteral("%ITEMCLASS%")), fieldClassName);
+            method.replace(QRegularExpression(QStringLiteral("%VARNAME%")), fieldVarName);
+            method.replace(QRegularExpression(QStringLiteral("%ITEMCLASS%")), fieldClassName);
             stream << indent() << method << m_endl;
         }
     }
@@ -1428,7 +1428,7 @@ QString CppWriter::getAttributeMethodBaseName(const QString &fieldName)
 {
     QString fldName = fieldName;
     if (policyExt()->getRemovePrefixFromAccessorMethods())
-        fldName.replace(QRegExp(QStringLiteral("^[a-zA-Z]_")), QStringLiteral(""));
+        fldName.replace(QRegularExpression(QStringLiteral("^[a-zA-Z]_")), QStringLiteral(""));
     return fldName;
 }
 

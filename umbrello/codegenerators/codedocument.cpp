@@ -17,7 +17,7 @@
 
 // qt includes
 #include <QDateTime>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QXmlStreamWriter>
 
 /**
@@ -102,11 +102,11 @@ QString CodeDocument::getPath () const
     path = path.simplified();
 
     // Replace all blanks with underscore
-    path.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    path.replace(QRegularExpression(QStringLiteral(" ")), QStringLiteral("_"));
 
     // this allows multiple directory paths (ala Java, some other languages)
     // in from the package specification
-    path.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("/"));
+    path.replace(QRegularExpression(QStringLiteral("\\.")), QStringLiteral("/"));
     // Simple hack!.. but this is more or less language
     // dependent and should probably be commented out.
     // Still, as a general default it may be useful -b.t.
@@ -278,10 +278,10 @@ void CodeDocument::updateHeader ()
     //try to find a heading file (license, comments, etc) then extract its text
     QString headingText = UMLApp::app()->commonPolicy()->getHeadingFile(getFileExtension());
 
-    headingText.replace(QRegExp(QStringLiteral("%filename%")), getFileName()+getFileExtension());
-    headingText.replace(QRegExp(QStringLiteral("%filepath%")), getPath());
-    headingText.replace(QRegExp(QStringLiteral("%time%")), QTime::currentTime().toString());
-    headingText.replace(QRegExp(QStringLiteral("%date%")), QDate::currentDate().toString());
+    headingText.replace(QRegularExpression(QStringLiteral("%filename%")), getFileName()+getFileExtension());
+    headingText.replace(QRegularExpression(QStringLiteral("%filepath%")), getPath());
+    headingText.replace(QRegularExpression(QStringLiteral("%time%")), QTime::currentTime().toString());
+    headingText.replace(QRegularExpression(QStringLiteral("%date%")), QDate::currentDate().toString());
 
     getHeader()->setText(headingText);
 
@@ -390,7 +390,7 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
     QString pkgStr = root.attribute(QStringLiteral("package"));
     if (!pkgStr.isEmpty() && pkgStr != QStringLiteral("-1")) {
         UMLDoc *umldoc = UMLApp::app()->document();
-        if (pkgStr.contains(QRegExp(QStringLiteral("\\D")))) {
+        if (pkgStr.contains(QRegularExpression(QStringLiteral("\\D")))) {
             // suspecting pre-1.5.3 file format where the package name was
             // saved instead of the package ID.
             UMLObject *o = umldoc->findUMLObject(pkgStr);

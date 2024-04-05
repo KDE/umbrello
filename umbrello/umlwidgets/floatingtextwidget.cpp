@@ -32,7 +32,7 @@
 // qt includes
 #include <QFontDialog>
 #include <QPointer>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QPainter>
 #include <QValidator>
 #include <QXmlStreamWriter>
@@ -105,7 +105,7 @@ void FloatingTextWidget::setText(const QString &t)
             op = m_linkWidget->lwOperationText();
         if (op.length() > 0) {
             if (!m_scene->showOpSig())
-                op.replace(QRegExp(QStringLiteral("\\(.*\\)")), QStringLiteral("()"));
+                op.replace(QRegularExpression(QStringLiteral("\\(.*\\)")), QStringLiteral("()"));
             m_Text = op;
         }
         else

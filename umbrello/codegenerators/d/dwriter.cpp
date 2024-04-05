@@ -22,7 +22,7 @@
 
 // qt includes
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 /**
@@ -127,8 +127,8 @@ void DWriter::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(QStringLiteral(".d"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), file.fileName());
         d<<str<<m_endl;
     }
 
@@ -535,7 +535,7 @@ void DWriter::writeAssociationRoleDecl(QString fieldClassName,
     // declare the association based on whether it is this a single variable
     // or a List (Vector). One day this will be done correctly with special
     // multiplicity object that we don't have to figure out what it means via regex.
-    if (multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^[01]$")))) {
+    if (multi.isEmpty() || multi.contains(QRegularExpression(QStringLiteral("^[01]$")))) {
         d << m_indentation << fieldClassName << " ";
 
         if (hasAccessors) d << "m_";
@@ -594,7 +594,7 @@ void DWriter::writeAssociationRoleMethod (QString fieldClassName, QString roleNa
         QString description, Uml::Visibility::Enum visib, Uml::Changeability::Enum change,
         QTextStream &d)
 {
-    if (multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^[01]$")))) {
+    if (multi.isEmpty() || multi.contains(QRegularExpression(QStringLiteral("^[01]$")))) {
         QString fieldVarName = QStringLiteral("m_") + deCapitaliseFirstLetter(roleName);
 
         writeSingleAttributeAccessorMethods(

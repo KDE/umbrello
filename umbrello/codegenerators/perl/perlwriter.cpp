@@ -16,7 +16,7 @@
 
 #include <QDateTime>
 #include <QDir>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QString>
 #include <QTextStream>
 
@@ -291,7 +291,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
     QString neatName = cleanName(conc->name());
     if (neatName != AV && neatName != SV && neatName != HV) {
       QString OtherPkgName =  conc->package(QStringLiteral("."));
-      OtherPkgName.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("::"));
+      OtherPkgName.replace(QRegularExpression(QStringLiteral("\\.")), QStringLiteral("::"));
       QString OtherName = OtherPkgName + QStringLiteral("::") + cleanName(conc->name());
 
       // Only print out the use statement if the other package isn't the
@@ -311,7 +311,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
     Ret += QStringLiteral("use base qw(");
     for(UMLClassifier  *obj : superclasses) {
       QString packageName =  obj->package(QStringLiteral("."));
-      packageName.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("::"));
+      packageName.replace(QRegularExpression(QStringLiteral("\\.")), QStringLiteral("::"));
 
       Ret += packageName + QStringLiteral("::") + cleanName(obj->name()) + QLatin1Char(' ');
     }
@@ -339,11 +339,11 @@ void PerlWriter::writeClass(UMLClassifier *c)
   packageName = packageName.simplified();
 
   // Replace all blanks with underscore
-  packageName.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+  packageName.replace(QRegularExpression(QStringLiteral(" ")), QStringLiteral("_"));
 
   // Replace all dots (".") with double colon scope resolution operators
   // ("::")
-  packageName.replace(QRegExp(QStringLiteral("\\.")), QStringLiteral("::"));
+  packageName.replace(QRegularExpression(QStringLiteral("\\.")), QStringLiteral("::"));
 
   // Store complete package name
   QString ThisPkgName = packageName + QStringLiteral("::") + classname;
@@ -363,7 +363,7 @@ void PerlWriter::writeClass(UMLClassifier *c)
     newDir = curDir;
     QString fragment = fileName;
     QDir* existing = new QDir (curDir);
-    QRegExp regEx(QStringLiteral("(.*)(::)"));
+    QRegularExpression regEx(QStringLiteral("(.*)(::)"));
     regEx.setMinimal(true);
     while (regEx.indexIn(fragment) > -1) {
       newDir = regEx.cap(1);
@@ -405,14 +405,14 @@ void PerlWriter::writeClass(UMLClassifier *c)
 
   str = getHeadingFile(QStringLiteral(".pm"));   // what this mean?
   if (!str.isEmpty()) {
-    str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-    str.replace(QRegExp(QStringLiteral("%filepath%")), fileperl.fileName());
-    str.replace(QRegExp(QStringLiteral("%year%")), QDate::currentDate().toString(QStringLiteral("yyyy")));
-    str.replace(QRegExp(QStringLiteral("%date%")), QDate::currentDate().toString());
-    str.replace(QRegExp(QStringLiteral("%time%")), QTime::currentTime().toString());
-    str.replace(QRegExp(QStringLiteral("%package-name%")), ThisPkgName);
-    if(str.indexOf(QRegExp(QStringLiteral("%PACKAGE-DECLARE%")))){
-      str.replace(QRegExp(QStringLiteral("%PACKAGE-DECLARE%")),
+    str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
+    str.replace(QRegularExpression(QStringLiteral("%filepath%")), fileperl.fileName());
+    str.replace(QRegularExpression(QStringLiteral("%year%")), QDate::currentDate().toString(QStringLiteral("yyyy")));
+    str.replace(QRegularExpression(QStringLiteral("%date%")), QDate::currentDate().toString());
+    str.replace(QRegularExpression(QStringLiteral("%time%")), QTime::currentTime().toString());
+    str.replace(QRegularExpression(QStringLiteral("%package-name%")), ThisPkgName);
+    if(str.indexOf(QRegularExpression(QStringLiteral("%PACKAGE-DECLARE%")))){
+      str.replace(QRegularExpression(QStringLiteral("%PACKAGE-DECLARE%")),
                   QStringLiteral("package ") + ThisPkgName + QLatin1Char(';')
                   + m_endl + m_endl
                   + QStringLiteral("#UML_MODELER_BEGIN_PERSONAL_VARS_") + classname
@@ -423,10 +423,10 @@ void PerlWriter::writeClass(UMLClassifier *c)
       bPackageDeclared = true;
     }
 
-    if (str.indexOf(QRegExp(QStringLiteral("%USE-STATEMENTS%")))){
+    if (str.indexOf(QRegularExpression(QStringLiteral("%USE-STATEMENTS%")))){
       QString UseStms;
       if(GetUseStatements(c, UseStms, ThisPkgName)){
-        str.replace(QRegExp(QStringLiteral("%USE-STATEMENTS%")), UseStms);
+        str.replace(QRegularExpression(QStringLiteral("%USE-STATEMENTS%")), UseStms);
         bUseStmsWritten = true;
       }
     }

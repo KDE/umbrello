@@ -14,7 +14,7 @@
 #include "uml.h"
 #include "umldoc.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 static const char *reserved_words[] = {
@@ -188,8 +188,8 @@ void CSharpWriter::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(QStringLiteral(".cs"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), filecs.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), filecs.fileName());
         cs << str << m_endl;
     }
 
@@ -509,7 +509,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
                     QString doc(formatDoc(at->doc(), QString()));
                     doc.replace(QLatin1Char('\n'), QLatin1Char(' '));
                     doc.remove(QLatin1Char('\r'));
-                    doc.remove(QRegExp(QStringLiteral(" $")));
+                    doc.remove(QRegularExpression(QStringLiteral(" $")));
                     cs << doc;
                     cs << "</param>" << m_endl;
                 }

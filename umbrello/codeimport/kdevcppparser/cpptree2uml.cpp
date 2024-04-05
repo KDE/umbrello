@@ -31,7 +31,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QList>
-#include <QRegExp>
+#include <QRegularExpression>
 
 DEBUG_REGISTER(CppTree2Uml)
 
@@ -534,7 +534,7 @@ void CppTree2Uml::parseElaboratedTypeSpecifier(ElaboratedTypeSpecifierAST* typeS
     if (m_thread) {
         m_thread->emitMessageToLog(QString(), QStringLiteral("forward declaration of ") + text);
     }
-    text.remove(QRegExp(QStringLiteral("^class\\s+")));
+    text.remove(QRegularExpression(QStringLiteral("^class\\s+")));
     UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Class, text, m_currentNamespace[m_nsCnt]);
     flushTemplateParams(o->asUMLClassifier());
 }
