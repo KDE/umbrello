@@ -563,7 +563,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KComboBox" name="ui_selectCommentStyle">
+         <widget class="QComboBox" name="ui_selectCommentStyle">
           <item>
            <property name="text">
             <string>Slash-Slash (//)</string>
@@ -585,52 +585,10 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>KComboBox</header>
-  </customwidget>
-  <customwidget>
    <class>KHistoryComboBox</class>
    <extends>KComboBox</extends>
    <header>KHistoryComboBox</header>
   </customwidget>
  </customwidgets>
- <includes>
-  <include location="local">klineedit.h</include>
- </includes>
  <resources/>
- <connections>
-  <connection>
-   <sender>ui_browseListButton</sender>
-   <signal>clicked()</signal>
-   <receiver>CPPCodeGenerationFormBase</receiver>
-   <slot>browseClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ui_browseStringButton</sender>
-   <signal>clicked()</signal>
-   <receiver>CPPCodeGenerationFormBase</receiver>
-   <slot>browseClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
 </ui>
