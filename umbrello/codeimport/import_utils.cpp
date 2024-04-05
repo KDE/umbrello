@@ -124,9 +124,11 @@ QString formatComment(const QString &comment)
     QString& first = lines.first();
     QRegularExpression wordex(QStringLiteral("\\w"));
     if (first.startsWith(QStringLiteral("/*"))) {
+        QRegularExpressionMatch match = wordex.match(first);
+
         int wordpos = wordex.indexIn(first);
-        if (wordpos != -1)
-            first = first.mid(wordpos);  // remove comment start
+        if (match.hasMatch())
+            first = first.mid(match.capturedStart());  // remove comment start
         else
             lines.pop_front();  // nothing interesting on this line
     }
