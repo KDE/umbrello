@@ -775,8 +775,6 @@ void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &
  */
 QString XMLSchemaWriter::fixTypeName(const QString& string)
 {
-    //  string.replace(QRegularExpression("^string$"), schemaNamespaceTag + ":string");
-    //  string.replace(QRegularExpression("^bool$"), schemaNamespaceTag + ":boolean");
     return schemaNamespaceTag + QLatin1Char(':') + string;
 }
 
