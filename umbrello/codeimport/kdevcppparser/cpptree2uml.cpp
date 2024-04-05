@@ -115,7 +115,7 @@ void CppTree2Uml::parseNamespace(NamespaceAST* ast)
         QFileInfo fileInfo(m_fileName);
         QString shortFileName = fileInfo.baseName();
 
-        nsName.sprintf("(%s_%d)", shortFileName.toLocal8Bit().constData(), m_anon++);
+        nsName = QStringLiteral("(%s_%d)").arg(shortFileName).arg(m_anon++);
     } else {
         nsName = ast->namespaceName()->text();
     }
@@ -412,7 +412,7 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
     } else if (!ast->name()){
         QFileInfo fileInfo(m_fileName);
         QString shortFileName = fileInfo.baseName();
-        className.sprintf("(%s_%d)", shortFileName.toLocal8Bit().constData(), m_anon++);
+        className = QStringLiteral("(%s_%d)").arg(shortFileName).arg(m_anon++);
     } else {
         className = ast->name()->unqualifiedName()->text().trimmed();
     }
