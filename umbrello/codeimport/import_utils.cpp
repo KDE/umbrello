@@ -361,18 +361,19 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     if (gRelatedClassifier == 0 || gRelatedClassifier == o)
         return o;
     QRegularExpression templateInstantiation(QStringLiteral("^[\\w:\\.]+\\s*<(.*)>"));
-    int pos = templateInstantiation.indexIn(name);
-    if (pos == -1)
+    QRegularExpressionMatch match = templateInstantiation.match(name);
+
+    if (!match.hasMatch())
         return o;
     // Create dependencies on template parameters.
-    QString caption = templateInstantiation.cap(1);
+    QString caption = match.captured();
     const QStringList params = caption.split(QRegularExpression(QStringLiteral("[^\\w:\\.]+")));
     if (!params.count())
         return o;
     QStringList::ConstIterator end(params.end());
     for (QStringList::ConstIterator it(params.begin()); it != end; ++it) {
         UMLObject *p = umldoc->findUMLObject(*it, UMLObject::ot_UMLObject, parentPkg);
-        if (p == 0 || p->isUMLDatatype())
+        if (p == nullptr || p->isUMLDatatype())
             continue;
         const Uml::AssociationType::Enum at = Uml::AssociationType::Dependency;
         UMLAssociation *assoc = umldoc->findAssociation(at, gRelatedClassifier, p);
