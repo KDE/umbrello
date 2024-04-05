@@ -36,7 +36,7 @@ class PetalNode
 public:
     /**
      * Use `string' if it is not empty.
-     * Use `node' if it is not NULL.
+     * Use `node' if it is not nullptr.
      * Either `string' is set, or `node', but never both.
      * (Perhaps this should be a union but that is ugly.)
      */

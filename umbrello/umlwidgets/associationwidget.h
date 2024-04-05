@@ -36,7 +36,7 @@ class UMLOperation;
  * UMLAssociation. The UMLAssociation can be retrieved using the getAssociation
  * method.
  * A pure widget association does not have a corresponding UMLAssociation.
- * The getAssociation method returns NULL in this case.
+ * The getAssociation method returns nullptr in this case.
  *
  * @author Gustavo Madrigal
  * @author Gopala Krishna

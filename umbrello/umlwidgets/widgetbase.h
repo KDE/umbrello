@@ -350,7 +350,7 @@ protected:
 
     /**
      * This ID is only used when the widget does not have a
-     * corresponding UMLObject (i.e. the m_umlObject pointer is NULL.)
+     * corresponding UMLObject (i.e. the m_umlObject pointer is nullptr.)
      * For UMLObjects, the ID from the UMLObject is used.
      */
     Uml::ID::Type m_nId;

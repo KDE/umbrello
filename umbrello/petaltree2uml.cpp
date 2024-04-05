@@ -221,7 +221,7 @@ public:
      * Return a UMLClassifierListItem of the specific type desired.
      * Abstract method to be implemented by inheriting classes.
      */
-    virtual UMLObject *createListItem() = nullptr;
+    virtual UMLObject *createListItem() = 0;
 
     virtual void setTypeReferences(UMLObject *item,
                                    const QString& quid, const QString& type) {
@@ -242,7 +242,7 @@ public:
      * @param node   The PetalNode which corresponds to the parent Umbrello object.
      * @param o      The UMLObject to insert.
      */
-    virtual void insertAtParent(const PetalNode *node, UMLObject *o) = nullptr;
+    virtual void insertAtParent(const PetalNode *node, UMLObject *o) = 0;
 
     /**
      * Iterate over the attributes of the given PetalNode and for each recognized
