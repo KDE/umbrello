@@ -141,20 +141,13 @@
      </property>
      <layout class="QVBoxLayout" >
       <item>
-       <widget class="KTextEdit" name="ui_pDocTE" />
+       <widget class="QTextEdit" name="ui_pDocTE" />
       </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
-  <customwidgets>
-  <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

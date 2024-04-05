@@ -329,20 +329,13 @@ If 'Snap to Grid' is enabled a component will always be aligned with the grid on
        <number>6</number>
       </property>
       <item row="0" column="0">
-       <widget class="KTextEdit" name="ui_documentation"/>
+       <widget class="QTextEdit" name="ui_documentation"/>
       </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
