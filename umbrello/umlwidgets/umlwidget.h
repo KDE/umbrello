@@ -233,7 +233,7 @@ public:
     void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
     void setupFontType(QFont &font, UMLWidget::FontType fontType);
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
 public:
     Q_SLOT virtual void updateWidget();

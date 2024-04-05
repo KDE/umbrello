@@ -40,7 +40,7 @@ public:
     UseCaseWidget(UMLScene * scene, UMLUseCase *o);
     virtual ~UseCaseWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     // For loading we can use the loadFromXMI() inherited from
     // UMLWidget.

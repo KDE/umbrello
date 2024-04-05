@@ -28,7 +28,7 @@ public:
     ComponentWidget(UMLScene * scene, UMLComponent *c);
     virtual ~ComponentWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
     virtual void adjustAssocs(qreal dx, qreal dy);
     virtual void adjustUnselectedAssocs(qreal dx, qreal dy);

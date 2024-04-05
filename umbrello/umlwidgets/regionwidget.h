@@ -18,7 +18,7 @@ public:
     explicit RegionWidget(UMLScene* scene, Uml::ID::Type id = Uml::ID::None);
     virtual ~RegionWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     void saveToXMI(QXmlStreamWriter& writer);
     bool loadFromXMI(QDomElement& qElement);

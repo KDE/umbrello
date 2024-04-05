@@ -28,7 +28,7 @@ public:
     ArtifactWidget(UMLScene *scene, UMLArtifact *a);
     virtual ~ArtifactWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     // Note: For loading from XMI, the inherited parent method is used.
     virtual void saveToXMI(QXmlStreamWriter& writer);

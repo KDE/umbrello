@@ -35,7 +35,7 @@ public:
     CategoryWidget(UMLScene * scene, UMLCategory *o);
     virtual ~CategoryWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     void saveToXMI(QXmlStreamWriter& writer);
     // For loading we can use the loadFromXMI() inherited from UMLWidget.
