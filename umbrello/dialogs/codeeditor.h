@@ -11,7 +11,7 @@
 #include "codeviewerstate.h"
 #include "textblocklist.h"
 
-#include <ktextedit.h>
+#include <KTextEditor>
 
 #include <QList>
 #include <QString>
