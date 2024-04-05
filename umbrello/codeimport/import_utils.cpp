@@ -126,7 +126,6 @@ QString formatComment(const QString &comment)
     if (first.startsWith(QStringLiteral("/*"))) {
         QRegularExpressionMatch match = wordex.match(first);
 
-        int wordpos = wordex.indexIn(first);
         if (match.hasMatch())
             first = first.mid(match.capturedStart());  // remove comment start
         else
@@ -266,7 +265,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             QStringList components;
             QString scopeSeparator = UMLApp::app()->activeLanguageScopeSeparator();
             if (typeName.contains(scopeSeparator)) {
-                components = typeName.split(scopeSeparator, QString::SkipEmptyParts);
+                components = typeName.split(scopeSeparator, Qt::SkipEmptyParts);
             } else if (typeName.contains(QStringLiteral("..."))) {
                 // Java variable length arguments
                 type = UMLObject::ot_Datatype;

@@ -337,7 +337,7 @@ QStringList NativeImportBase::split(const QString& line)
 {
     QStringList list;
     QString listElement;
-    QChar stringIntro = 0;  // buffers the string introducer character
+    QChar stringIntro;  // buffers the string introducer character
     bool seenSpace = false;
     QString ln = line.trimmed();
     for (int i = 0; i < ln.length(); ++i) {
@@ -348,7 +348,7 @@ QStringList NativeImportBase::split(const QString& line)
                 if (ln[i - 1] != QLatin1Char('\\')) {
                     list.append(listElement);
                     listElement.clear();
-                    stringIntro = 0;  // we are no longer in a string
+                    stringIntro = QChar();  // we are no longer in a string
                 }
             }
         } else if (c == QLatin1Char('"') || c == QLatin1Char('\'')) {
