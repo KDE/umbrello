@@ -19,10 +19,10 @@
 // kde includes
 #include <KActionCollection>
 #include <KToggleAction>
-#include <ktexteditor/configinterface.h>
-#include <ktexteditor/document.h>
-#include <ktexteditor/editor.h>
-#include <ktexteditor/view.h>
+
+#include <KTextEditor/Document>
+#include <KTextEditor/Editor>
+#include <KTextEditor/View>
 
 // qt includes
 #include <QDesktopServices>
