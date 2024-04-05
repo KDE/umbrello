@@ -19,7 +19,7 @@ namespace Uml
     class CmdCreateDiagram : public QUndoCommand
     {
     public:
-        explicit CmdCreateDiagram(UMLDoc* doc, Uml::DiagramType::Enum type, const QString& name, UMLFolder *parent=0);
+        explicit CmdCreateDiagram(UMLDoc* doc, Uml::DiagramType::Enum type, const QString& name, UMLFolder *parent = nullptr);
         ~CmdCreateDiagram();
 
         void redo();

@@ -19,11 +19,11 @@ class UMLDatatypeWidget : public ComboBoxWidgetBase
 {
     Q_OBJECT
 public:
-    UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent=0);
-    UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent=0);
-    UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent=0);
-    UMLDatatypeWidget(UMLOperation *operation, QWidget *parent=0);
-    UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent=0);
+    UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent = nullptr);
+    UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent = nullptr);
+    UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent = nullptr);
+    UMLDatatypeWidget(UMLOperation *operation, QWidget *parent = nullptr);
+    UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent = nullptr);
 
     bool apply();
     void reset();

@@ -168,7 +168,7 @@ public:
     void setAbstract(bool bAbstract);
     bool isAbstract() const;
 
-    virtual bool showPropertiesDialog(QWidget *parent = 0);
+    virtual bool showPropertiesDialog(QWidget *parent = nullptr);
 
     virtual bool resolveRef();
 

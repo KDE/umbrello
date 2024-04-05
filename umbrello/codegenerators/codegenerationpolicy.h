@@ -94,7 +94,7 @@ public:
     void setAssociationFieldScope(Uml::Visibility::Enum var);
     Uml::Visibility::Enum getAssociationFieldScope();
 
-    virtual CodeGenerationPolicyPage * createPage(QWidget *parent = nullptr, const char * *name = 0);
+    virtual CodeGenerationPolicyPage * createPage(QWidget *parent = nullptr, const char * *name = nullptr);
 
     QString getHeadingFile(const QString& str);
 

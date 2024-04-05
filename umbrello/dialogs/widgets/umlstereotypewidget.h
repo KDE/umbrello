@@ -14,7 +14,7 @@ class UMLStereotype;
 class UMLStereotypeWidget : public ComboBoxWidgetBase
 {
 public:
-    explicit UMLStereotypeWidget(UMLObject *object, QWidget *parent=0);
+    explicit UMLStereotypeWidget(UMLObject *object, QWidget *parent = nullptr);
 
     void setEditable(bool state);
     void apply();

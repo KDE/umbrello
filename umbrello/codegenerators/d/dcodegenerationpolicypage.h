@@ -31,7 +31,7 @@ class DCodeGenerationPolicyPage : public CodeGenerationPolicyPage
     Q_OBJECT
 public:
 
-    explicit DCodeGenerationPolicyPage(QWidget *parent=0, const char *name=0, DCodeGenerationPolicy * policy = nullptr);
+    explicit DCodeGenerationPolicyPage(QWidget *parent = nullptr, const char *name=0, DCodeGenerationPolicy * policy = nullptr);
     virtual ~DCodeGenerationPolicyPage();
 
     Q_SLOT void apply();
