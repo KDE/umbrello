@@ -1290,7 +1290,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
                 str += QStringLiteral(", ");
             doc += policyExt()->getDocToolTag() + QStringLiteral("param  ") + atName + QLatin1Char(' ') + at->doc() + m_endl;
         }
-        doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
+        doc = doc.remove(doc.size() - 1, 1);  // remove last QLatin1Char('\n')of comment
         str += QLatin1Char(')');
 
         if (op->getConst())

@@ -947,7 +947,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
             doc += QStringLiteral("@param        ") + atName + QLatin1Char(' ') + at->doc() + QLatin1Char('\n');
             j++;
         }
-        doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
+        doc = doc.remove(doc.size() - 1, 1);  // remove last QLatin1Char('\n')of comment
         str += QLatin1Char(')');
 
         // method only gets a body IF it is not abstract

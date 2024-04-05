@@ -639,7 +639,7 @@ private:
             includeFileVisitor.visitStart(m_ast);
         }
         if (!m_session.problems().isEmpty()) {
-            qout << endl << "problems encountered during parsing:" ;
+            qout << QLatin1Char('\n')<< "problems encountered during parsing:" ;
             for(KDevelop::ProblemPointer p : m_session.problems()) {
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(p->finalLocation().start().line()+1)

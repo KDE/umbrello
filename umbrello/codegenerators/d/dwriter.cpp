@@ -915,7 +915,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
                    + ((j < i-1) ? QStringLiteral(", ") : QString());
             doc += QStringLiteral("@param ") + atName + QLatin1Char(' ') + at->doc() + m_endl;
         }
-        doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
+        doc = doc.remove(doc.size() - 1, 1);  // remove last QLatin1Char('\n')of comment
         str += QLatin1Char(')');
 
         // method only gets a body IF it is not abstract
