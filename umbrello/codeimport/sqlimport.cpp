@@ -41,7 +41,7 @@ DEBUG_REGISTER(SQLImport)
  *
  * @param thread                  thread in which the code import runs
  */
-SQLImport::SQLImport(CodeImpThread* thread) : NativeImportBase(QStringLiteral("--"), thread)
+SQLImport::SQLImport(CodeImpThread* thread) : QObject(), NativeImportBase(QStringLiteral("--"), thread)
 {
     setMultiLineComment(QStringLiteral("/*"), QStringLiteral("*/"));
 }

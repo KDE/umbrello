@@ -71,14 +71,14 @@ void CacheManager::increaseFrame()
 {
     m_currentFrame ++;
     if (m_set.size() > m_maxNodes) {
-        DEBUG() << "Have " << m_set.size() << " nodes, maximum is " << m_maxNodes << ", erasing." << endl;
+        DEBUG() << "Have " << m_set.size() << " nodes, maximum is " << m_maxNodes << ", erasing.";
         int mustErase = m_set.size() - m_maxNodes;
         while (!m_set.empty() && mustErase != 0) {
             --mustErase;
             SetType::iterator it = m_set.begin();
             erase(*it);
         }
-        DEBUG() << "Have " << m_set.size() << " nodes after erasing." << endl;
+        DEBUG() << "Have " << m_set.size() << " nodes after erasing.";
     }
 }
 

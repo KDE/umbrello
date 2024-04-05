@@ -314,7 +314,7 @@ public:
 
         m_lex.setReportMessages(m_reportMessages);
 
-        DEBUG() << "lexing file " << m_fileName << endl;
+        DEBUG() << "lexing file " << m_fileName;
         m_fileContent = m_driver->sourceProvider()->contents(m_fileName);
         m_lex.setSource(m_fileContent);
         if (m_previousCachedLexedFile)
@@ -435,7 +435,7 @@ void Driver::addDependence(const QString & fileName, const Dependence & dep)
 
     IntIncreaser i(m_dependenceDepth);
     if (m_dependenceDepth > m_maxDependenceDepth) {
-        DEBUG() << "maximum dependence-depth of " << m_maxDependenceDepth << " was reached, " << fileName << " will not be processed" << endl;
+        DEBUG() << "maximum dependence-depth of " << m_maxDependenceDepth << " was reached, " << fileName << " will not be processed" ;
         return;
     }
 

@@ -543,10 +543,10 @@ public:
     bool parseFile( const QString &fileName )
     {
         if (!m_session.readFile(fileName, "utf-8")) {
-            qerr << "Can't open file " << fileName << endl;
+            qerr << "Can't open file " << fileName ;
             std::exit(255);
         } else {
-            qout << "Parsing file " << fileName << endl;
+            qout << "Parsing file " << fileName ;
         }
         return runSession(fileName);
     }
@@ -556,7 +556,7 @@ public:
     {
         m_session.setContents(code);
 
-        qout << "Parsing input" << endl;
+        qout << "Parsing input" ;
         return runSession();
     }
 
@@ -621,10 +621,10 @@ private:
         }
         m_ast = 0;
         if (!m_session.parse(&m_ast)) {
-            qerr << "no AST tree could be generated" << endl;
+            qerr << "no AST tree could be generated" ;
             result = false;
         } else {
-            qout << "AST tree successfully generated" << endl;
+            qout << "AST tree successfully generated" ;
             if (m_printAst) {
                 DebugVisitorT debugVisitor(m_session.tokenStream(), m_session.contents());
                 debugVisitor.visitStart(m_ast);
@@ -639,7 +639,7 @@ private:
             includeFileVisitor.visitStart(m_ast);
         }
         if (!m_session.problems().isEmpty()) {
-            qout << endl << "problems encountered during parsing:" << endl;
+            qout << endl << "problems encountered during parsing:" ;
             for(KDevelop::ProblemPointer p : m_session.problems()) {
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(p->finalLocation().start().line()+1)
@@ -648,7 +648,7 @@ private:
                 UMLApp::app()->log(item);
             }
         } else {
-            qout << "no problems encountered during parsing" << endl;
+            qout << "no problems encountered during parsing" ;
         }
         return result;
     }
@@ -658,7 +658,7 @@ private:
         int begin = lexer.tokenBegin();
         int end = lexer.tokenEnd();
         qout << m_session.contents().mid(begin, end - begin + 1).replace('\n', "\\n")
-             << ' ' << TokenTextT(token) << endl;
+             << ' ' << TokenTextT(token) ;
     }
 
     SessionT m_session;
