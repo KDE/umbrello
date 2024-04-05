@@ -525,6 +525,8 @@ target_link_libraries(libumbrello
     KF6::I18n
     KF6::IconThemes
     KF6::KIOCore
+    KF6::KIOFileWidgets
+    KF6::KIOWidgets
     KF6::TextEditor
     KF6::WidgetsAddons
     KF6::XmlGui
