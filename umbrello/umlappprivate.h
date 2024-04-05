@@ -31,11 +31,7 @@
 #include <QFont>
 #include <QListWidget>
 #include <QObject>
-#ifdef WEBKIT_WELCOMEPAGE
-#include <QWebView>
-#else
-#include <QTextBrowser>
-#endif
+#include <QWebEngineView>
 
 class QWidget;
 
@@ -155,7 +151,7 @@ public:
         welcomeWindow = new QDockWidget(i18n("Welcome"), parent);
         welcomeWindow->setObjectName(QStringLiteral("WelcomeDock"));
 
-        QWebView *view = new QWebView;
+        auto *view = new QWebEngineView();
         view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
         view->setContextMenuPolicy(Qt::NoContextMenu);
         connect(view, SIGNAL(linkClicked(const QUrl)), this, SLOT(slotWelcomeWindowLinkClicked(const QUrl)));

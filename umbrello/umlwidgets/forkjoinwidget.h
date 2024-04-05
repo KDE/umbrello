@@ -41,7 +41,7 @@ public Q_SLOTS:
 protected:
     QSizeF minimumSize() const;
 
-    virtual void paintSelected(QPainter * p, int offsetX = nullptr, int offsetY = 0);
+    virtual void paintSelected(QPainter * p, int offsetX = 0, int offsetY = 0);
 
     void constrain(qreal& width, qreal& height);
 

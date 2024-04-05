@@ -92,6 +92,7 @@ find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS
     Test
     Widgets
     Xml
+    WebEngineWidgets
 )
 
 # search packages used by KDE

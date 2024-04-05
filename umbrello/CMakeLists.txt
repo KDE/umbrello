@@ -519,6 +519,7 @@ target_link_libraries(libumbrello
     Qt6::Xml
     Qt6::PrintSupport
     Qt6::Svg
+    Qt6::WebEngineWidgets
     KF6::Archive
     KF6::Completion
     KF6::CoreAddons

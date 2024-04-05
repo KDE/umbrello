@@ -11,7 +11,7 @@
 
 // qt includes
 #include <QAbstractTableModel>
-
+#include "stereotype.h"
 class UMLStereotype;
 
 Q_DECLARE_METATYPE(UMLStereotype*);
