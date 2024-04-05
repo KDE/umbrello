@@ -985,7 +985,7 @@ void Lexer::nextToken(Token& tk, bool stopOnNewline)
 #if defined(KDEVELOP_BGPARSER)
                     qthread_yield();
 #endif
-                    insertCurrent(QString(" ") + (*pos).second + QString(" "));
+                    insertCurrent(QStringLiteral(" ") + (*pos).second + QStringLiteral(" "));
                 }
             } else if ( /*qt_rx.exactMatch(ide) ||*/
                 ide.str().endsWith(QLatin1String("EXPORT")) ||

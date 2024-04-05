@@ -146,6 +146,6 @@ Plugin::configure()
 QString
 Plugin::category()
 {
-    return QString("miscellaneous");
+    return QStringLiteral("miscellaneous");
 }
 

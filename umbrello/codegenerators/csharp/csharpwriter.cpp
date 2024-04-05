@@ -561,7 +561,7 @@ void CSharpWriter::writeOperations(UMLOperationList opList,
 
             // no initial values in C#
             //<< (!(at->getInitialValue().isEmpty()) ?
-            //    (QString(" = ")+at->getInitialValue()) :
+            //    (QStringLiteral(" = ")+at->getInitialValue()) :
             //    QString())
             cs << ((j < i-1) ? QStringLiteral(", ") : QString());
         }

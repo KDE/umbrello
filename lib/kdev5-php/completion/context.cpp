@@ -911,7 +911,7 @@ void CodeCompletionContext::evaluateExpression(TokenAccess& lastToken)
             LOCKDUCHAIN;
             ifDebug(qCDebug(COMPLETION) << "expression type: " << m_expressionResult.type()->toString();)
         } else {
-            ifDebug(qCDebug(COMPLETION) << QString("expression could not be evaluated"));
+            ifDebug(qCDebug(COMPLETION) << QStringLiteral("expression could not be evaluated"));
             if ( m_memberAccessOperation == FunctionCallAccess ) {
                 ifDebug(qCDebug(COMPLETION) << "function not found";)
                 return;
@@ -932,7 +932,7 @@ void CodeCompletionContext::evaluateExpression(TokenAccess& lastToken)
         if ( lastToken.type() == Parser::Token_COMMA ) {
             removeOtherArguments(lastToken);
             if ( lastToken.type() == Parser::Token_INVALID ) {
-                ifDebug(qCDebug(COMPLETION) << QString("Could not find start position for parent function-call. Aborting.");)
+                ifDebug(qCDebug(COMPLETION) << QStringLiteral("Could not find start position for parent function-call. Aborting.");)
                 m_valid = false;
                 return;
             }
@@ -944,7 +944,7 @@ void CodeCompletionContext::evaluateExpression(TokenAccess& lastToken)
             return;
         }
 
-        ifDebug(qCDebug(COMPLETION) << QString("Recursive function-call: creating parent context"));
+        ifDebug(qCDebug(COMPLETION) << QStringLiteral("Recursive function-call: creating parent context"));
         m_parentContext = new CodeCompletionContext(m_duContext, m_position, lastToken, m_depth + 1);
 
         if (!m_parentContext->isValid()) {

@@ -476,7 +476,7 @@ public:
             {
                 tokenString = m_content.mid(begin, 10);
                 tokenString += " ...";
-                tokenString += QString("%1 more").arg(end-begin-20);
+                tokenString += QStringLiteral("%1 more").arg(end-begin-20);
                 tokenString += "... ";
                 tokenString += m_content.mid(end-10, 10);
             }

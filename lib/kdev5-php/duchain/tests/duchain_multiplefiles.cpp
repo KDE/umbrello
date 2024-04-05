@@ -279,7 +279,7 @@ void TestDUChainMultipleFiles::testTodoExtractorReparse()
         auto top = file.topContext();
         QVERIFY(top);
         QCOMPARE(top->problems().size(), 1);
-        QCOMPARE(top->problems().at(0)->description(), QString("TODO"));
+        QCOMPARE(top->problems().at(0)->description(), QStringLiteral("TODO"));
         QCOMPARE(top->problems().at(0)->range(), RangeInRevision(2, 3, 2, 7));
     }
 }
