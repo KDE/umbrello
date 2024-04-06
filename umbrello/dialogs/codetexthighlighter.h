@@ -14,6 +14,7 @@
 #include <QHash>
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
+#include <QRegularExpression>
 
 class QTextDocument;
 

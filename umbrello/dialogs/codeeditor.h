@@ -11,6 +11,7 @@
 #include "codeviewerstate.h"
 #include "textblocklist.h"
 
+#include <QTextEdit>
 #include <KTextEditor/Document>
 #include <KTextEditor/Editor>
 #include <KTextEditor/View>

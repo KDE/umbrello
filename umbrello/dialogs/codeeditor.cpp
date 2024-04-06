@@ -46,6 +46,7 @@
 #include <QMouseEvent>
 #include <QPointer>
 #include <QRegularExpression>
+#include <QTextBlock>
 
 DEBUG_REGISTER(CodeEditor)
 
@@ -53,7 +54,7 @@ DEBUG_REGISTER(CodeEditor)
  * Constructor.
  */
 CodeEditor::CodeEditor(const QString & text, CodeViewerDialog * parent, CodeDocument * doc)
-  : KTextEdit(text, parent)
+  : QTextEdit(text, parent)
 {
     init(parent, doc);
 }
@@ -62,7 +63,7 @@ CodeEditor::CodeEditor(const QString & text, CodeViewerDialog * parent, CodeDocu
  * Constructor.
  */
 CodeEditor::CodeEditor(CodeViewerDialog * parent, CodeDocument * doc)
-  : KTextEdit(parent)
+  : QTextEdit(parent)
 {
     init(parent, doc);
 }
@@ -144,7 +145,7 @@ bool CodeEditor::close()
         updateTextBlockFromText (m_lastTextBlockToBeEdited);
         m_lastTextBlockToBeEdited = 0;
     }
-    return KTextEdit::close();
+    return QTextEdit::close();
 }
 
 /**
@@ -201,7 +202,7 @@ void CodeEditor::keyPressEvent(QKeyEvent * e)
     if ((e->key() == 10) || (e->key() == 13) || (e->text() == QString::fromLatin1("\r\n"))) {
         m_newLinePressed = true;
     }
-    KTextEdit::keyPressEvent(e);
+    QTextEdit::keyPressEvent(e);
 }
 
 /**
@@ -267,7 +268,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
                 }
             }
         }
-        KTextEdit::append(text); // put actual text in. Use insert instead of append so history is preserved?
+        QTextEdit::append(text); // put actual text in. Use insert instead of append so history is preserved?
     }
     else {
         isInsert = true;
@@ -332,7 +333,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
             TextBlockInfo * thisTbInfo = it.value();
             int firstLoc = m_textBlockList.indexOf(tblock);
 
-            Q_FOREACH(ParaInfo * pi, thisTbInfo->m_paraList) {
+            for(ParaInfo * pi : thisTbInfo->m_paraList) {
                 int minPara = pi->start + firstLoc;
 
                 // only worth doing if in range of the whole representation
@@ -361,7 +362,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
 void CodeEditor::appendText(TextBlockList * items)
 {
     logDebug0("CodeEditor::appendText text block list");
-    Q_FOREACH(TextBlock* tb, *items) {
+    for(TextBlock* tb : *items) {
         // types of things we may cast our text block into
         // This isnt efficient, and is a vote for recording
         // code block types in an enumerated list somewhere,
@@ -962,7 +963,7 @@ void CodeEditor::updateTextBlockFromText(TextBlock * block)
         // Assemble content from editiable paras
         if (info) {
             QList<ParaInfo*> list = info->m_paraList;
-            Q_FOREACH(ParaInfo * item, list) {
+            for(ParaInfo * item : list) {
                 if (item->isEditable) {
                     int lastpara = item->start+pstart+item->size;
                     int endEdit = block->lastEditableLine();
@@ -1156,7 +1157,7 @@ bool CodeEditor::paraIsNotSingleLine(int para)
         int pstart = m_textBlockList.indexOf(tBlock);
         TextBlockInfo *info = m_tbInfoMap[tBlock];
         QList<ParaInfo*> list = info->m_paraList;
-        Q_FOREACH(ParaInfo * item, list) {
+        for(ParaInfo * item : list) {
             if ((pstart+item->start) <= para && (item->start+pstart+item->size) >= para)
                 if (item->size > 0)
                     return true;
@@ -1225,7 +1226,7 @@ bool CodeEditor::isParaEditable(int para)
             int pstart = m_textBlockList.indexOf(tBlock);
             int relativeLine = para - pstart;
             QList<ParaInfo*> list = info->m_paraList;
-            Q_FOREACH(ParaInfo * item, list) {
+            for(ParaInfo * item : list) {
                 if (item->start+pstart <= para && item->start+pstart+item->size >= para) {
                     if (item->isEditable && hasEditableRange) {
                         if (relativeLine >= editStart && relativeLine <= (item->size + editEnd))
@@ -1261,7 +1262,7 @@ void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected)
         }
         QList<ParaInfo*> list = info->m_paraList;
         int pstart = m_textBlockList.indexOf(tBlock);
-        Q_FOREACH(ParaInfo * item, list) {
+        for(ParaInfo * item : list) {
             for (int p=(item->start+pstart); p<=(item->start+pstart+item->size); ++p) {
                 if (selected) {
                     if (info->isClickable) {
@@ -1349,7 +1350,7 @@ void CodeEditor::contractSelectedParagraph(int paraToRemove)
             TextBlockInfo *info = m_tbInfoMap[tBlock];
             QList<ParaInfo*> list = info->m_paraList;
             bool lowerStartPosition = false;
-            Q_FOREACH(ParaInfo * item, list) {
+            for(ParaInfo * item : list) {
                 if (lowerStartPosition) {
                     item->start -= 1;
                 }
@@ -1384,7 +1385,7 @@ void CodeEditor::expandSelectedParagraph(int priorPara)
 
         // now update the paragraph information
         bool upStartPosition = false;
-        Q_FOREACH(ParaInfo * item, list) {
+        for(ParaInfo * item : list) {
             // AFTER we get a match, then following para's need to have start position upped too
             if (upStartPosition)
                 item->start += 1;
@@ -1468,7 +1469,7 @@ void CodeEditor::contentsMouseMoveEvent(QMouseEvent * e)
  * If connections are right, then the UMLObject will send out the modified()
  * signal which will trigger a call to re-generate the appropriate code within
  * the code document. Our burden is to appropriately prepare the tool: we clear
- * out ALL the textblocks in the KTextEdit widget and then re-show them
+ * out ALL the textblocks in the QTextEdit widget and then re-show them
  * after the dialog disappears.
  */
 void CodeEditor::rebuildView(int startCursorPos)

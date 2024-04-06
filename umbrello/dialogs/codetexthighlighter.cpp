@@ -28,7 +28,7 @@ CodeTextHighlighter::CodeTextHighlighter(QTextDocument *parent)
     m_keywordFormat.setFontWeight(QFont::Bold);
 
     QStringList keywordPatterns = keywords();
-    Q_FOREACH(const QString &pattern, keywordPatterns) {
+    for(const QString &pattern : keywordPatterns) {
         rule.pattern = QRegularExpression(pattern);
         rule.format = m_keywordFormat;
         m_highlightingRules.append(rule);
@@ -68,7 +68,7 @@ CodeTextHighlighter::CodeTextHighlighter(QTextDocument *parent)
  */
 void CodeTextHighlighter::highlightBlock(const QString &text)
 {
-    Q_FOREACH(const HighlightingRule &rule, m_highlightingRules) {
+    for(const HighlightingRule &rule : m_highlightingRules) {
         QRegularExpression expression(rule.pattern);
         int index = expression.indexIn(text);
         while (index >= 0) {
