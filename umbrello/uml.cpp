@@ -1594,7 +1594,7 @@ void UMLApp::slotEditCut()
     }
 
     if (editCutCopy(fromview)) {
-        emit sigCutSuccessful();
+        Q_EMIT sigCutSuccessful();
         slotDeleteSelected();
         m_doc->setModified(true);
     }

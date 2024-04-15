@@ -1766,7 +1766,7 @@ void AssociationWidget::mergeAssociationDataIntoUMLRepresentation()
     if (umlassoc == 0 && umlattr == 0)
         return;
 
-    // block emit modified signal, or we get a horrible loop
+    // block Q_EMIT modified signal, or we get a horrible loop
     m_umlObject->blockSignals(true);
 
     // would be desirable to do the following

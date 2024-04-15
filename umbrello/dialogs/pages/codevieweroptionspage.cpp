@@ -46,7 +46,7 @@ void CodeViewerOptionsPage::apply()
         m_options.fontColor = fontColorButton->color();
         m_options.font = fontChooser->font();
      */
-    emit applyClicked();
+    Q_EMIT applyClicked();
 }
 
 Settings::CodeViewerState CodeViewerOptionsPage::getOptions()

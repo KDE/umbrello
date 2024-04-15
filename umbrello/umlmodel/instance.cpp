@@ -58,7 +58,7 @@ void UMLInstance::setClassifier(UMLClassifier *classifier)
 /**
  * Set classifier
  * @param classifier  the classifier which is the type of this instance
- * @param emitSignal  flag controlling whether to emit a modification signal (default: true)
+ * @param emitSignal  flag controlling whether to Q_EMIT a modification signal (default: true)
  */
 void UMLInstance::setClassifierCmd(UMLClassifier *classifier, bool emitSignal /* = true */)
 {

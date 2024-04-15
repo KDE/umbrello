@@ -339,7 +339,7 @@ void UMLForeignKeyConstraint::setReferencedEntity(UMLEntity* ent)
 
     m_ReferencedEntity = ent;
 
-    emit sigReferencedEntityChanged();
+    Q_EMIT sigReferencedEntityChanged();
 }
 
 /**

@@ -66,7 +66,7 @@ void AutoLayoutOptionPage::apply()
     Settings::optionState().autoLayoutState.dotPath = m_autoDotPath->isChecked() ? QString()
                                                                                  : m_dotPath->text();
     Settings::optionState().autoLayoutState.showExportLayout = m_showExportLayout->isChecked();
-    emit applyClicked();
+    Q_EMIT applyClicked();
 }
 
 void AutoLayoutOptionPage::slotAutoDotPathCBClicked(bool value)

@@ -118,13 +118,13 @@ void IDLWriter::writeClass(UMLClassifier *c)
     //find an appropriate name for our file
     QString fileName = findFileName(c, QStringLiteral(".idl"));
     if (fileName.isEmpty()) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
     QFile file;
     if (!openFile(file, fileName)) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
@@ -419,8 +419,8 @@ void IDLWriter::writeClass(UMLClassifier *c)
         idl << indent() << "};" << m_endl << m_endl;
     }
     file.close();
-    emit codeGenerated(c, true);
-    emit showGeneratedFile(file.fileName());
+    Q_EMIT codeGenerated(c, true);
+    Q_EMIT showGeneratedFile(file.fileName());
 }
 
 /**

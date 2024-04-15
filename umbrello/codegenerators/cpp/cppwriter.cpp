@@ -102,7 +102,7 @@ void CppWriter::writeClass(UMLClassifier *c)
     // find an appropriate name for our file
     fileName_ = findFileName(c, QStringLiteral(".h"));
     if (fileName_.isEmpty()) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
@@ -110,7 +110,7 @@ void CppWriter::writeClass(UMLClassifier *c)
 
     if (c->visibility() != Uml::Visibility::Implementation) {
         if (!openFile(fileh, fileName_)) {
-            emit codeGenerated(c, false);
+            Q_EMIT codeGenerated(c, false);
             return;
         }
         // write Header file
@@ -127,7 +127,7 @@ void CppWriter::writeClass(UMLClassifier *c)
     if (need_impl) {
         fileName_.replace(QRegularExpression(QStringLiteral(".h$")), QStringLiteral(".cpp"));
         if (!openFile(filecpp, fileName_)) {
-            emit codeGenerated(c, false);
+            Q_EMIT codeGenerated(c, false);
             return;
         }
         // write Source file
@@ -135,7 +135,7 @@ void CppWriter::writeClass(UMLClassifier *c)
         filecpp.close();
     }
 
-    emit codeGenerated(c, true);
+    Q_EMIT codeGenerated(c, true);
 }
 
 /**

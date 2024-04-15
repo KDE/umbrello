@@ -486,14 +486,14 @@ void ASWriter::writeClass(UMLClassifier *c)
     fileName = findFileName(c, QStringLiteral(".as"));
     if (fileName.isEmpty())
     {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
     QFile fileas;
     if (!openFile(fileas, fileName))
     {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
     QTextStream as(&fileas);
@@ -649,8 +649,8 @@ void ASWriter::writeClass(UMLClassifier *c)
 
     //close files and notfiy we are done
     fileas.close();
-    emit codeGenerated(c, true);
-    emit showGeneratedFile(fileas.fileName());
+    Q_EMIT codeGenerated(c, true);
+    Q_EMIT showGeneratedFile(fileas.fileName());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

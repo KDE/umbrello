@@ -35,7 +35,7 @@ class Plugin;
  * On the subject of unloading, we actually have very little to do.
  * The unload method on a plugin is simply a reference decrementer.
  * When it reaches 0, the object destroys itself. Being a QObject,
- * it will emit the destroyed signal just before deletion, allowing
+ * it will Q_EMIT the destroyed signal just before deletion, allowing
  * the plugin loader to respond to the event and remove the plugin
  * from its mapping.
  *

@@ -346,7 +346,7 @@ QString CPPCodeGenerationPolicy::getObjectMethodInit(const QString & variableNam
 /**
  * Set the defaults for this code generator from the passed generator.
  * @param cppclone           code generation policy object for cloning
- * @param emitUpdateSignal   flag whether to emit update signal
+ * @param emitUpdateSignal   flag whether to Q_EMIT update signal
  */
 void CPPCodeGenerationPolicy::setDefaults(CPPCodeGenerationPolicy * cppclone, bool emitUpdateSignal)
 {
@@ -385,7 +385,7 @@ void CPPCodeGenerationPolicy::setDefaults(CPPCodeGenerationPolicy * cppclone, bo
 
 /**
  * Set the defaults from a config file for this code generator from the passed KConfig pointer.
- * @param emitUpdateSignal   flag whether to emit update signal
+ * @param emitUpdateSignal   flag whether to Q_EMIT update signal
  */
 void CPPCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 {

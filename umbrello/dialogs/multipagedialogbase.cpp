@@ -183,7 +183,7 @@ bool MultiPageDialogBase::isModified() const
  */
 void MultiPageDialogBase::slotOkClicked()
 {
-    emit okClicked();
+    Q_EMIT okClicked();
 }
 
 /**
@@ -191,7 +191,7 @@ void MultiPageDialogBase::slotOkClicked()
  */
 void MultiPageDialogBase::slotApplyClicked()
 {
-    emit applyClicked();
+    Q_EMIT applyClicked();
 }
 
 /**
@@ -199,7 +199,7 @@ void MultiPageDialogBase::slotApplyClicked()
  */
 void MultiPageDialogBase::slotDefaultClicked()
 {
-    emit defaultClicked();
+    Q_EMIT defaultClicked();
 }
 
 /**

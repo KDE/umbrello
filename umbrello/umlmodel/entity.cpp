@@ -303,7 +303,7 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::ID::Type id)
 {
     UMLEntityAttribute* literal = new UMLEntityAttribute(this, name, id);
     subordinates().append(literal);
-    emit entityAttributeAdded(literal);
+    Q_EMIT entityAttributeAdded(literal);
     UMLObject::emitModified();
     connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
     return literal;
@@ -322,7 +322,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log /* 
     if (findChildObject(name) == 0) {
         att->setParent(this);
         subordinates().append(att);
-        emit entityAttributeAdded(att);
+        Q_EMIT entityAttributeAdded(att);
         UMLObject::emitModified();
         connect(att, SIGNAL(modified()), this, SIGNAL(modified()));
         return true;
@@ -353,7 +353,7 @@ bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, int position)
         } else {
             subordinates().append(att);
         }
-        emit entityAttributeAdded(att);
+        Q_EMIT entityAttributeAdded(att);
         UMLObject::emitModified();
         connect(att, SIGNAL(modified()), this, SIGNAL(modified()));
         return true;
@@ -373,7 +373,7 @@ int UMLEntity::removeEntityAttribute(UMLClassifierListItem* att)
         logDebug0("UMLEntity::removeEntityAttribute cannot find att given in list");
         return -1;
     }
-    emit entityAttributeRemoved(att);
+    Q_EMIT entityAttributeRemoved(att);
     UMLObject::emitModified();
     // If we are deleting the object, then we don't need to disconnect..this is done auto-magically
     // for us by QObject. -b.t.
@@ -397,7 +397,7 @@ int UMLEntity::entityAttributes() const
  */
 void UMLEntity::signalEntityAttributeRemoved(UMLClassifierListItem *eattr)
 {
-    emit entityAttributeRemoved(eattr);
+    Q_EMIT entityAttributeRemoved(eattr);
 }
 
 /**
@@ -414,11 +414,11 @@ bool UMLEntity::resolveRef()
                 return success;
             switch (cli->baseType()) {
                 case UMLObject::ot_EntityAttribute:
-                    emit entityAttributeAdded(cli);
+                    Q_EMIT entityAttributeAdded(cli);
                     break;
                 case UMLObject::ot_UniqueConstraint:
                 case UMLObject::ot_ForeignKeyConstraint:
-                    emit entityConstraintAdded(cli);
+                    Q_EMIT entityConstraintAdded(cli);
                     break;
                 default:
                     break;
@@ -584,7 +584,7 @@ bool UMLEntity::addConstraint(UMLEntityConstraint* constr)
 
     subordinates().append(constr);
 
-    emit entityConstraintAdded(constr);
+    Q_EMIT entityConstraintAdded(constr);
     UMLObject::emitModified();
     connect(constr, SIGNAL(modified()), this, SIGNAL(modified()));
 
@@ -611,7 +611,7 @@ bool UMLEntity::removeConstraint(UMLEntityConstraint* constr)
 
     subordinates().removeAll(constr);
 
-    emit entityConstraintRemoved(constr);
+    Q_EMIT entityConstraintRemoved(constr);
     UMLObject::emitModified();
 
     delete constr;

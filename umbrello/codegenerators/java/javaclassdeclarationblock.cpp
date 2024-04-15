@@ -73,7 +73,7 @@ void JavaClassDeclarationBlock::updateContent ()
         startText.append(QStringLiteral("abstract "));
 
     if (c->visibility() != Uml::Visibility::Public) {
-        // We should probably emit a warning in here .. java doesn't like to allow
+        // We should probably Q_EMIT a warning in here .. java doesn't like to allow
         // private/protected classes. The best we can do (I believe)
         // is to let these declarations default to "package visibility"
         // which is a level between traditional "private" and "protected"

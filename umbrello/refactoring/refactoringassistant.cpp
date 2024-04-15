@@ -856,7 +856,7 @@ DEBUG() << "acceptProposedAction";  //:TODO:fischer
         newClassifier->addAttribute(newAtt);
         m_doc->signalUMLObjectCreated(newAtt);  //:TODO: really?
     }
-//    emit moved();
+//    Q_EMIT moved();
     refactor(m_umlObject);  //:TODO:fischer
 }
 

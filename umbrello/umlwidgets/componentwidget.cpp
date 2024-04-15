@@ -132,7 +132,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
 void ComponentWidget::moveWidgetBy(qreal diffX, qreal diffY)
 {
     UMLWidget::moveWidgetBy(diffX, diffY);
-    emit sigCompMoved(diffX, diffY);
+    Q_EMIT sigCompMoved(diffX, diffY);
 }
 
 /**

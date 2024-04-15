@@ -150,7 +150,7 @@ void UMLOperation::moveParmRight(UMLAttribute * a)
  * Remove a parameter from the operation.
  *
  * @param a         the parameter to remove
- * @param emitModifiedSignal  whether to emit the "modified" signal
+ * @param emitModifiedSignal  whether to Q_EMIT the "modified" signal
  *                  which creates an entry in the Undo stack for the
  *                  removal, default: true
  */
@@ -166,7 +166,7 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
         logDebug1("UMLOperation::removeParm: Error removing parm %1", a->name());
 
     if (emitModifiedSignal)
-        emit modified();
+        Q_EMIT modified();
 }
 
 /**

@@ -61,14 +61,14 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     QString fileName = findFileName(c,QStringLiteral(".xsd"));
 
     if (fileName.isEmpty()) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
     // check that we may open that file for writing
     QFile file;
     if (!openFile(file, fileName)) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
@@ -134,8 +134,8 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     file.close();
 
     // bookkeeping for code generation
-    emit codeGenerated(c, true);
-    emit showGeneratedFile(file.fileName());
+    Q_EMIT codeGenerated(c, true);
+    Q_EMIT showGeneratedFile(file.fileName());
 
     // need to clear HERE, NOT in the destructor because we want each
     // schema that we write to have all related classes.

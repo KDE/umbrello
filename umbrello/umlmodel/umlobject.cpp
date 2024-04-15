@@ -382,7 +382,7 @@ void UMLObject::emitModified()
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     if (!umldoc->loading() && !umldoc->closing())
-        emit modified();
+        Q_EMIT modified();
 }
 
 /**
@@ -510,7 +510,7 @@ void UMLObject::setUMLStereotype(UMLStereotype *stereo)
         }
     }
     m_pStereotype = stereo;
-    // TODO: don't emit modified() if predefined folder
+    // TODO: don't Q_EMIT modified() if predefined folder
     if (!UMLApp::shuttingDown())
         emitModified();
 }

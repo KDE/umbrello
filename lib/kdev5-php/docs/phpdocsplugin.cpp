@@ -188,7 +188,7 @@ void PhpDocsPlugin::loadUrl(const QUrl& url) const
 void PhpDocsPlugin::addToHistory(const QUrl& url)
 {
     auto doc = documentationForUrl(url, url.toString());
-    emit addHistory(doc);
+    Q_EMIT addHistory(doc);
 }
 
 IDocumentation::Ptr PhpDocsPlugin::documentationForUrl(const QUrl& url, const QString& name, const QByteArray& description) const

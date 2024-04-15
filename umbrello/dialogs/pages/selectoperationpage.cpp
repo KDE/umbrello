@@ -163,7 +163,7 @@ void SelectOperationPage::slotNewOperation()
         return;
     setupOperationsList();
     setClassOp(op->toString(Uml::SignatureType::SigNoVis));
-    emit enableButtonOk(true);
+    Q_EMIT enableButtonOk(true);
 }
 
 /**
@@ -174,10 +174,10 @@ void SelectOperationPage::slotIndexChanged(int index)
     if (index != -1) {
         m_pOpLE->setText(QString());
         m_id = OP;
-        emit enableButtonOk(true);
+        Q_EMIT enableButtonOk(true);
     }
     if (m_pOpCB->currentText().isEmpty()) {
-        emit enableButtonOk(false);
+        Q_EMIT enableButtonOk(false);
     }
 }
 
@@ -187,12 +187,12 @@ void SelectOperationPage::slotIndexChanged(int index)
 void SelectOperationPage::slotTextChanged(const QString &text)
 {
     if (text.isEmpty()) {
-        emit enableButtonOk(false);
+        Q_EMIT enableButtonOk(false);
     }
     else {
         m_pOpCB->setCurrentIndex(-1);
         m_id = CUSTOM;
-        emit enableButtonOk(true);
+        Q_EMIT enableButtonOk(true);
     }
 }
 
@@ -285,7 +285,7 @@ void SelectOperationPage::setupDialog()
     } else {
         setClassOp(m_widget->lwOperationText());
     }
-    emit enableButtonOk(false);
+    Q_EMIT enableButtonOk(false);
 }
 
 /**

@@ -344,7 +344,7 @@ void CodeGenerator::writeListedCodeDocsToFile(CodeDocumentList * docs)
     CodeDocumentList::iterator end = docs->end();
     for (; it != end; ++it)
     {
-        // we need this so we know when to emit a 'codeGenerated' signal
+        // we need this so we know when to Q_EMIT a 'codeGenerated' signal
         ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument *>(*it);
         bool codeGenSuccess = false;
 
@@ -358,7 +358,7 @@ void CodeGenerator::writeListedCodeDocsToFile(CodeDocumentList * docs)
                 stream << (*it)->toString() << endl;
                 file.close();
                 codeGenSuccess = true; // we wrote the code - OK
-                emit showGeneratedFile(file.fileName());
+                Q_EMIT showGeneratedFile(file.fileName());
             }
             else {
                 logWarn1("Cannot open file %1 for writing", file.fileName());
@@ -367,7 +367,7 @@ void CodeGenerator::writeListedCodeDocsToFile(CodeDocumentList * docs)
         }
 
         if (cdoc) {
-            emit codeGenerated(cdoc->getParentClassifier(), codeGenSuccess);
+            Q_EMIT codeGenerated(cdoc->getParentClassifier(), codeGenSuccess);
         }
     }
 }

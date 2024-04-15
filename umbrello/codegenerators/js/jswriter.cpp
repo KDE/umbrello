@@ -44,14 +44,14 @@ void JSWriter::writeClass(UMLClassifier *c)
     fileName = findFileName(c, QStringLiteral(".js"));
     if (fileName.isEmpty())
     {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
     QFile filejs;
     if (!openFile(filejs, fileName))
     {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
     QTextStream js(&filejs);
@@ -169,8 +169,8 @@ void JSWriter::writeClass(UMLClassifier *c)
 
     //close files and notfiy we are done
     filejs.close();
-    emit codeGenerated(c, true);
-    emit showGeneratedFile(filejs.fileName());
+    Q_EMIT codeGenerated(c, true);
+    Q_EMIT showGeneratedFile(filejs.fileName());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

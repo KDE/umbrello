@@ -71,7 +71,7 @@ void UMLRoleProperties::apply()
 {
     if (m_pRole) {
 
-        // block signals to save work load. we only need to emit modified once,
+        // block signals to save work load. we only need to Q_EMIT modified once,
         // not each time we update an attribute of the association. I suppose
         // we could check to see IF anything changed, but thats a lot more code,
         // and not much gained. This way is easier, if less 'beautiful'. -b.t.

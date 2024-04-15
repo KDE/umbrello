@@ -83,7 +83,7 @@ bool DCodeGenerationPolicy::getAutoGenerateAssocAccessors()
 /**
  * Set the defaults for this code generator from the passed generator.
  * @param clone   the code gen policy ext object
- * @param emitUpdateSignal   flag whether to emit the update signal
+ * @param emitUpdateSignal   flag whether to Q_EMIT the update signal
  */
 void DCodeGenerationPolicy::setDefaults (CodeGenPolicyExt * clone, bool emitUpdateSignal)
 {
@@ -112,7 +112,7 @@ void DCodeGenerationPolicy::setDefaults (CodeGenPolicyExt * clone, bool emitUpda
 
 /**
  * Set the defaults from a config file for this code generator from the passed KConfig pointer.
- * @param emitUpdateSignal   flag whether to emit the update signal
+ * @param emitUpdateSignal   flag whether to Q_EMIT the update signal
  */
 void DCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 {

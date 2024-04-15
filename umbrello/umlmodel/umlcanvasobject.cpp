@@ -81,9 +81,9 @@ bool UMLCanvasObject::addAssociationEnd(UMLAssociation* assoc)
     {
         subordinates().append(assoc);
 
-        // Don't emit signals during load from XMI
+        // Don't Q_EMIT signals during load from XMI
         UMLObject::emitModified();
-        emit sigAssociationEndAdded(assoc);
+        Q_EMIT sigAssociationEndAdded(assoc);
         return true;
     }
     return false;
@@ -115,7 +115,7 @@ int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
     }
     UMLApp::app()->document()->removeAssociation(assoc, false);
     UMLObject::emitModified();
-    emit sigAssociationEndRemoved(assoc);
+    Q_EMIT sigAssociationEndRemoved(assoc);
     return subordinates().count();
 }
 

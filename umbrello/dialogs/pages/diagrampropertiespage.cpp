@@ -110,5 +110,5 @@ void DiagramPropertiesPage::apply()
     if (m_scene->isSequenceDiagram() || m_scene->isCollaborationDiagram()) {
         m_scene->setAutoIncrementSequence(ui_autoIncrementSequence->isChecked());
     }
-    emit applyClicked();
+    Q_EMIT applyClicked();
 }

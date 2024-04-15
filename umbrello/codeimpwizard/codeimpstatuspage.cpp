@@ -205,7 +205,7 @@ void CodeImpStatusPage::importCodeFinish()
 
     m_workDone = true;
     setFinalPage(true);
-    emit completeChanged();
+    Q_EMIT completeChanged();
 #ifdef ENABLE_IMPORT_THREAD
     delete m_thread;
     m_thread = 0;
@@ -242,7 +242,7 @@ void CodeImpStatusPage::importCodeStop()
 
     m_workDone = true;
     setFinalPage(true);
-    emit completeChanged();
+    Q_EMIT completeChanged();
 #ifdef ENABLE_IMPORT_THREAD
     delete m_thread;
     m_thread = 0;

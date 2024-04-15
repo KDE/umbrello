@@ -73,7 +73,7 @@ bool RubyCodeGenerationPolicy::getAutoGenerateAssocAccessors()
 /**
  * Set the defaults for this code generator from the passed generator.
  * @param defaults           the defaults to set
- * @param emitUpdateSignal   flag whether to emit the update signal
+ * @param emitUpdateSignal   flag whether to Q_EMIT the update signal
  */
 void RubyCodeGenerationPolicy::setDefaults (CodeGenPolicyExt * defaults, bool emitUpdateSignal)
 {
@@ -101,7 +101,7 @@ void RubyCodeGenerationPolicy::setDefaults (CodeGenPolicyExt * defaults, bool em
 
 /**
  * Set the defaults from a config file for this code generator from the passed KConfig pointer.
- * @param emitUpdateSignal   flag whether to emit the update signal
+ * @param emitUpdateSignal   flag whether to Q_EMIT the update signal
  */
 void RubyCodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
 {
