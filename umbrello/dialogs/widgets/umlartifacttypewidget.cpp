@@ -32,7 +32,6 @@ UMLArtifactTypeWidget::UMLArtifactTypeWidget(UMLArtifact *a, QWidget *parent) :
     m_box = new QGroupBox(i18n("Draw As"), this);
     QHBoxLayout* drawAsLayout = new QHBoxLayout(m_box );
     int margin = fontMetrics().height();
-    drawAsLayout->setMargin(margin);
 
     for(Map::const_iterator i = texts.constBegin(); i != texts.constEnd(); ++i) {
         QRadioButton *button = new QRadioButton(i.value(), m_box );

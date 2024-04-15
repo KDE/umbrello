@@ -39,7 +39,6 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc)
     setWindowTitle(i18n("&Diagrams"));
     QHBoxLayout * mainLayout = new QHBoxLayout(this);
     mainLayout->setSpacing(10);
-    mainLayout->setMargin(margin);
 
     m_pFilterGB = new QGroupBox(i18n("Filter"), this);
     mainLayout->addWidget(m_pFilterGB);

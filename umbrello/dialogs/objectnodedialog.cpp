@@ -136,7 +136,6 @@ void ObjectNodeDialog::setupGeneralPage()
 
     QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
     generalLayout->setSpacing(Dialog_Utils::spacingHint());
-    generalLayout->setMargin(fontMetrics().height());
 
     QString objType;
     if (type < types.count()) {

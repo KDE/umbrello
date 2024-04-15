@@ -97,7 +97,6 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     QVBoxLayout* docLayout = new QVBoxLayout(this);
     docLayout->addLayout(statusLayout);
     docLayout->addWidget(m_docTE);
-    docLayout->setMargin(0);
 
     connect(m_docTE, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
 }

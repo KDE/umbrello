@@ -56,14 +56,12 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     setMainWidget(frame);
     QVBoxLayout * topLayout = new QVBoxLayout(frame);
     topLayout->setSpacing(10);
-    topLayout->setMargin(margin);
 
     m_pParmGB = new QGroupBox(i18n("Properties"));
     topLayout->addWidget(m_pParmGB);
 
     QGridLayout * propLayout = new QGridLayout(m_pParmGB);
     propLayout->setSpacing(10);
-    propLayout->setMargin(margin);
 
     m_datatypeWidget = new UMLDatatypeWidget(m_pAtt);
     m_datatypeWidget->addToLayout(propLayout, 0);
@@ -83,7 +81,6 @@ ParameterPropertiesDialog::ParameterPropertiesDialog(QWidget * parent, UMLDoc * 
     m_pKindGB->setToolTip(i18n("\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout\" is a parameter for reading and writing."));
 
     QHBoxLayout * kindLayout = new QHBoxLayout(m_pKindGB);
-    kindLayout->setMargin(margin);
 
     m_pIn =  new QRadioButton(QString::fromLatin1("in"), m_pKindGB);
     kindLayout->addWidget(m_pIn);

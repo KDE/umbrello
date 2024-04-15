@@ -96,7 +96,6 @@ void SinglePageDialogBase::setMainWidget(QWidget *widget)
     if (!m_mainWidget)
         return;
     QVBoxLayout* vlayout = new QVBoxLayout(this);
-    vlayout->setMargin(0);
     vlayout->addWidget(m_mainWidget);
     QHBoxLayout* hlayout = new QHBoxLayout;
     hlayout->addWidget(m_buttonBox);

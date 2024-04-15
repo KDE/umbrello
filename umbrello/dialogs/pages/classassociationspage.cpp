@@ -44,7 +44,6 @@ ClassAssociationsPage::ClassAssociationsPage(QWidget *parent, UMLScene *s, UMLOb
 
     QHBoxLayout * layout = new QHBoxLayout(m_pAssocGB);
     layout->setSpacing(10);
-    layout->setMargin(margin);
 
     m_pAssocLW = new QListWidget(m_pAssocGB);
     m_pAssocLW->setContextMenuPolicy(Qt::CustomContextMenu);

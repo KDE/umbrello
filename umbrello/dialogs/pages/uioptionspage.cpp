@@ -54,7 +54,6 @@ void UIOptionsPage::setupPage()
     QGroupBox *box = new QGroupBox(i18nc("General options", "General"), this);
     QGridLayout * otherLayout = new QGridLayout(box);
     //otherLayout->setSpacing(Dialog_Utils::spacingHint());
-    otherLayout->setMargin(fontMetrics().height());
     uiPageLayout->addWidget(box);
 
     m_rightToLeftUI = new QCheckBox(i18n("Right to left user interface"), box);
@@ -72,7 +71,6 @@ void UIOptionsPage::setupPage()
     m_colorGB = new QGroupBox(i18nc("color group box", "Color"), this);
     QGridLayout * colorLayout = new QGridLayout(m_colorGB);
     //colorLayout->setSpacing(spacingHint());
-    colorLayout->setMargin(fontMetrics().height());
     uiPageLayout->addWidget(m_colorGB);
 
     uiPageLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Minimum, QSizePolicy::Expanding));

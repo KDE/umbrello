@@ -102,7 +102,6 @@ void DocumentationWidget::init(const QString &text)
     } else {
         layout->addWidget(m_editField);
     }
-    layout->setMargin(fontMetrics().height());
     l->addWidget(m_box);
     setLayout(l);
 }

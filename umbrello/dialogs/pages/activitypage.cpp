@@ -56,7 +56,6 @@ void ActivityPage::setupPage()
 
     // vertical box layout for the activity lists, arrow buttons and the button box
     QVBoxLayout* listVBoxLayout = new QVBoxLayout(m_pActivityGB);
-    listVBoxLayout->setMargin(margin);
     listVBoxLayout->setSpacing(10);
 
     //horizontal box contains the list box and the move up/down buttons

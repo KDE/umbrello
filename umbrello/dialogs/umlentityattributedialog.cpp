@@ -61,7 +61,6 @@ void UMLEntityAttributeDialog::setupDialog()
 
     m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
-    valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
 
     m_datatypeWidget = new UMLDatatypeWidget(m_pEntityAttribute);
@@ -109,7 +108,6 @@ void UMLEntityAttributeDialog::setupDialog()
 
     m_pScopeGB = new QGroupBox(i18n("Indexing"), frame);
     QHBoxLayout* scopeLayout = new QHBoxLayout(m_pScopeGB);
-    scopeLayout->setMargin(margin);
 
     m_pNoneRB = new QRadioButton(i18n("&Not Indexed"), m_pScopeGB);
     scopeLayout->addWidget(m_pNoneRB);

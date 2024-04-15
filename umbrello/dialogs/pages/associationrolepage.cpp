@@ -87,11 +87,9 @@ void AssociationRolePage::constructWidget()
 
     QGridLayout * propsALayout = new QGridLayout(propsAGB);
     propsALayout->setSpacing(6);
-    propsALayout->setMargin(margin);
 
     QGridLayout * propsBLayout = new QGridLayout(propsBGB);
     propsBLayout->setSpacing(6);
-    propsBLayout->setMargin(margin);
 
     QStringList multiplicities;
     multiplicities << QString()
@@ -129,7 +127,6 @@ void AssociationRolePage::constructWidget()
 
     // Changeability A
     QHBoxLayout * changeALayout = new QHBoxLayout(changeABG);
-    changeALayout->setMargin(margin);
 
     m_ChangeableARB = new QRadioButton(i18nc("changeability for A is changeable", "Changeable"), changeABG);
     changeALayout->addWidget(m_ChangeableARB);
@@ -178,7 +175,6 @@ void AssociationRolePage::constructWidget()
 
     // Changeability B
     QHBoxLayout * changeBLayout = new QHBoxLayout(changeBBG);
-    changeBLayout->setMargin(margin);
 
     m_ChangeableBRB = new QRadioButton(i18nc("changeability for B is changeable", "Changeable"), changeBBG);
     changeBLayout->addWidget(m_ChangeableBRB);
@@ -206,7 +202,6 @@ void AssociationRolePage::constructWidget()
 
     // Document A
     QHBoxLayout * docALayout = new QHBoxLayout(docAGB);
-    docALayout->setMargin(margin);
     m_docA = new KTextEdit(docAGB);
     docALayout->addWidget(m_docA);
     m_docA-> setText(m_pAssociationWidget->roleDocumentation(Uml::RoleType::A));
@@ -216,7 +211,6 @@ void AssociationRolePage::constructWidget()
 
     // Document B
     QHBoxLayout * docBLayout = new QHBoxLayout(docBGB);
-    docBLayout->setMargin(margin);
     m_docB = new KTextEdit(docBGB);
     docBLayout->addWidget(m_docB);
     m_docB->setText(m_pAssociationWidget->roleDocumentation(Uml::RoleType::B));

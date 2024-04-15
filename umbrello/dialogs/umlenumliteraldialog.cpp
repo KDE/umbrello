@@ -50,7 +50,6 @@ void UMLEnumLiteralDialog::setupDialog()
 
     m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
-    valuesLayout->setMargin(margin);
     valuesLayout->setSpacing(10);
 
     Dialog_Utils::makeLabeledEditField(valuesLayout, 0,

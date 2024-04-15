@@ -145,7 +145,6 @@ void ClassOptionsPage::setupPage()
     topLayout->addWidget(m_visibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_visibilityGB);
     visibilityLayout->setSpacing(10);
-    visibilityLayout->setMargin(margin);
     visibilityLayout->setRowStretch(3, 1);
 
 #ifdef ENABLE_WIDGET_SHOW_DOC
@@ -218,7 +217,6 @@ void ClassOptionsPage::setupPageFromScene()
     topLayout->addWidget(m_visibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_visibilityGB);
     visibilityLayout->setSpacing(10);
-    visibilityLayout->setMargin(margin);
     visibilityLayout->setRowStretch(3, 1);
 
     m_showOpSigCB = new QCheckBox(i18n("O&peration signature"), m_visibilityGB);
@@ -240,7 +238,6 @@ void ClassOptionsPage::setupClassPageOption()
     topLayout->addWidget(m_visibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_visibilityGB);
     visibilityLayout->setSpacing(10);
-    visibilityLayout->setMargin(margin);
 
 #ifdef ENABLE_WIDGET_SHOW_DOC
     m_showDocumentationCB = new QCheckBox(i18n("&Documentation"), m_visibilityGB);
@@ -291,7 +288,6 @@ void ClassOptionsPage::setupClassPageOption()
 
         QGridLayout * scopeLayout = new QGridLayout(m_scopeGB);
         scopeLayout->setSpacing(10);
-        scopeLayout->setMargin(fontMetrics().height());
 
         m_attributeLabel = new QLabel(i18n("Default attribute scope:"), m_scopeGB);
         scopeLayout->addWidget(m_attributeLabel, 0, 0);
@@ -327,7 +323,6 @@ void ClassOptionsPage::setupPageFromEntityWidget()
     topLayout->addWidget(m_visibilityGB);
     QGridLayout * visibilityLayout = new QGridLayout(m_visibilityGB);
     visibilityLayout->setSpacing(10);
-    visibilityLayout->setMargin(margin);
     visibilityLayout->setRowStretch(3, 1);
 
     m_showAttSigCB = new QCheckBox(i18n("Attribute Signatures"), m_visibilityGB);

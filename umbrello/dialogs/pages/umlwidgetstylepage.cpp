@@ -104,7 +104,6 @@ void UMLWidgetStylePage::init()
     m_pColorGB = new QGroupBox(i18nc("title of color group", "Color"), this);
     topLayout->addWidget(m_pColorGB);
     QGridLayout * colorLayout = new QGridLayout(m_pColorGB);
-    colorLayout->setMargin(margin);
 
     m_pTextColorL = new QLabel(i18nc("text color", "&Text:"), m_pColorGB);
     colorLayout->addWidget(m_pTextColorL, row, 0);
@@ -174,7 +173,6 @@ void UMLWidgetStylePage::init()
     m_pStyleGB = new QGroupBox(i18nc("title of width group", "Width"), this);
     topLayout->addWidget(m_pStyleGB);
     QGridLayout *styleLayout = new QGridLayout(m_pStyleGB);
-    styleLayout->setMargin(margin);
 
     m_lineWidthL = new QLabel(i18nc("line width", "Line &width:"), m_pStyleGB);
     styleLayout->addWidget(m_lineWidthL, ++row, 0);

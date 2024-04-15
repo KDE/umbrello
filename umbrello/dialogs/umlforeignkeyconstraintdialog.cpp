@@ -209,7 +209,6 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
 
     QGridLayout* generalLayout = new QGridLayout(m_GeneralWidgets.generalGB);
     generalLayout->setSpacing(Dialog_Utils::spacingHint());
-    generalLayout->setMargin(fontMetrics().height());
 
     Dialog_Utils::makeLabeledEditField(generalLayout, 0,
                                        m_GeneralWidgets.nameL, i18nc("label for entering name", "Name"),
@@ -226,7 +225,6 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
 
     QGridLayout* actionLayout = new QGridLayout(m_GeneralWidgets.actionGB);
     generalLayout->setSpacing(Dialog_Utils::spacingHint());
-    generalLayout->setMargin(fontMetrics().height());
 
     m_GeneralWidgets.onUpdateL = new QLabel(i18n("On Update"));
     actionLayout->addWidget(m_GeneralWidgets.onUpdateL, 0, 0);

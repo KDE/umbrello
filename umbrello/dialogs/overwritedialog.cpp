@@ -32,7 +32,6 @@ OverwriteDialog::OverwriteDialog(const QString& fileName, const QString& outputD
 
     QFrame *frame = new QFrame(this);
     QVBoxLayout* layout = new QVBoxLayout(frame);
-    layout->setMargin(0);
 
     QLabel* dialogueLabel = new QLabel(i18n("The file %1 already exists in %2.\n\nUmbrello can overwrite the file, generate a similar\nfile name or not generate this file.", fileName, outputDirectory));
     layout->addWidget(dialogueLabel);

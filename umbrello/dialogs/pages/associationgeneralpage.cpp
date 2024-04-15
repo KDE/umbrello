@@ -80,7 +80,6 @@ void AssociationGeneralPage::constructWidget()
 
     m_pNameAndTypeLayout = new QGridLayout(nameAndTypeGB);
     m_pNameAndTypeLayout->setSpacing(6);
-    m_pNameAndTypeLayout->setMargin(margin);
 
     // Association name
     m_pAssocNameL = new QLabel(i18nc("name of association widget", "Name:"));
