@@ -69,7 +69,7 @@ QStringList ResolutionWidget::resolutions()
     QString currentResolution = QString::number(qApp->desktop()->logicalDpiX());
     if (!result.contains(currentResolution))
         result << currentResolution;
-    qSort(result.begin(), result.end(), numberLessThan);
+    std::sort(result.begin(), result.end(), numberLessThan);
     return result;
 }
 
