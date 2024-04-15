@@ -28,7 +28,7 @@ class ExportAllViewsDialog : public SinglePageDialogBase, private Ui::ExportAllV
 
 public:
 
-    explicit ExportAllViewsDialog(QWidget *parent = nullptr, const char* *name = nullptr);
+    explicit ExportAllViewsDialog(QWidget *parent = nullptr, const char* name = nullptr);
 
     ~ExportAllViewsDialog();
 
