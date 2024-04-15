@@ -46,9 +46,6 @@ void CodeViewerDialog::initGUI()
 
     ui_highlightCheckBox->setChecked(state().blocksAreHighlighted);
     ui_showHiddenCodeCB->setChecked (state().showHiddenBlocks);
-
-    int margin = fontMetrics().height();
-    CodeViewerDialogBase::gridLayout->setMargin(margin);
 }
 
 /**
