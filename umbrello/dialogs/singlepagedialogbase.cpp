@@ -89,7 +89,6 @@ void SinglePageDialogBase::setMainWidget(QWidget *widget)
     m_mainWidget = widget;
     if (m_mainWidget && m_mainWidget->layout()) {
         // Avoid double-margin problem
-        m_mainWidget ->layout()->setMargin(0);
     }
 
     delete layout();
