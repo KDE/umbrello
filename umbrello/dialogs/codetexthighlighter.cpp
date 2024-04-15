@@ -70,11 +70,13 @@ void CodeTextHighlighter::highlightBlock(const QString &text)
 {
     for(const HighlightingRule &rule : m_highlightingRules) {
         QRegularExpression expression(rule.pattern);
-        int index = expression.indexIn(text);
-        while (index >= 0) {
-            int length = expression.matchedLength();
-            setFormat(index, length, rule.format);
-            index = expression.indexIn(text, index + length);
+        const QRegularExpressionMatch match = expression.match(text);
+        if (!match.hasMatch()) {
+            continue;
+        }
+
+        for (int i = 0; i <= match.lastCapturedIndex(); i++) {
+            setFormat(match.capturedStart(i), match.capturedLength(i), rule.format);
         }
     }
     setCurrentBlockState(0);
