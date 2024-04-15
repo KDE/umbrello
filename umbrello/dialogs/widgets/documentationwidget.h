@@ -13,7 +13,7 @@ class CodeTextEdit;
 class UMLObject;
 class UMLWidget;
 
-class KTextEdit;
+class QTextEdit;
 
 class QGridLayout;
 class QGroupBox;

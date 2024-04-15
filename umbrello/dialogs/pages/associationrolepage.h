@@ -11,7 +11,7 @@
 class AssociationWidget;
 class KComboBox;
 class QLineEdit;
-class KTextEdit;
+class QTextEdit;
 class ObjectWidget;
 class QRadioButton;
 class UMLDoc;

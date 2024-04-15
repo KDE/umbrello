@@ -9,7 +9,7 @@
 #include <QWidget>
 
 class AssociationWidget;
-class KTextEdit;
+class QTextEdit;
 class ModifiedWidget;
 class QLabel;
 class UMLObject;

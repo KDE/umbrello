@@ -14,7 +14,7 @@
 class CodeTextEdit;
 class UMLClassifier;
 class UMLDoc;
-class KTextEdit;
+class QTextEdit;
 class QGroupBox;
 class QHBoxLayout;
 class QListWidget;
