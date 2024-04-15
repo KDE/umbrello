@@ -72,7 +72,7 @@ private:
     QLabel    *m_typeLabel;      ///< label for type icon
     QLabel    *m_nameLabel;      ///< label for name text
     ModifiedWidget *m_modifiedWidget;  ///< label for modified flag icon
-    KTextEdit *m_docTE;          ///< documentation widget
+    QTextEdit *m_docTE;          ///< documentation widget
     bool m_focusEnabled;
 
     bool isModified() const;

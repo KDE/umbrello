@@ -31,7 +31,7 @@ public:
 
 protected:
     QGroupBox *m_box;
-    KTextEdit *m_editField;
+    QTextEdit *m_editField;
     CodeTextEdit *m_codeEditField;
     UMLObject *m_object;
     UMLWidget *m_widget;

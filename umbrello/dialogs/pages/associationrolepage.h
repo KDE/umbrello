@@ -38,7 +38,7 @@ public:
 private:
     QLineEdit *m_pRoleALE, *m_pRoleBLE;
     KComboBox *m_pMultiACB, *m_pMultiBCB;
-    KTextEdit *m_docA, *m_docB;
+    QTextEdit *m_docA, *m_docB;
     AssociationWidget *m_pAssociationWidget;
     ObjectWidget *m_pWidget;
     QRadioButton *m_ChangeableARB, *m_AddOnlyARB, *m_FrozenARB;
