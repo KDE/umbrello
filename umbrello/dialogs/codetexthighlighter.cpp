@@ -81,11 +81,10 @@ void CodeTextHighlighter::highlightBlock(const QString &text)
     }
     setCurrentBlockState(0);
 
-    int startIndex = 0;
-    if (previousBlockState() != 1)
-        startIndex = m_commentStartExpression.indexIn(text);
-
-    while (startIndex >= 0) {
+    // TODO: Move this to KSyntaxHighlight
+#if 0
+    const QRegularExpressionMatch commentMatch = m_commentStartExpression.match(text);
+    for (int i = 0; i <= match.lastCapturedIndex(); i++) {
         int endIndex = m_commentEndExpression.indexIn(text, startIndex);
         int commentLength;
         if (endIndex == -1) {
@@ -98,6 +97,7 @@ void CodeTextHighlighter::highlightBlock(const QString &text)
         setFormat(startIndex, commentLength, m_multiLineCommentFormat);
         startIndex = m_commentStartExpression.indexIn(text, startIndex + commentLength);
     }
+#endif
 }
 
 /**
