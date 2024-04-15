@@ -120,7 +120,7 @@ bool UMLAttributeDialog::apply()
     QString name = m_pNameLE->text();
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid attribute name."),
-                           i18n("Attribute Name Invalid"), 0);
+                           i18n("Attribute Name Invalid"));
         m_pNameLE->setText(m_pAttribute->name());
         return false;
     }
@@ -128,7 +128,7 @@ bool UMLAttributeDialog::apply()
     UMLObject *o = pConcept ? pConcept->findChildObject(name) : 0;
     if (o && o != m_pAttribute) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
-                           i18n("Attribute Name Not Unique"), 0);
+                           i18n("Attribute Name Not Unique"));
         m_pNameLE->setText(m_pAttribute->name());
         return false;
     }
