@@ -223,7 +223,7 @@ void SelectOperationPage::setupOperationsList()
     UMLOperationList list = m_classifier->getOpList(true);
     if (list.count() > 0)
         m_pOpCB->insertItem(0, QString());
-    qSort(list.begin(), list.end(), caseInsensitiveLessThan);
+    std::sort(list.begin(), list.end(), caseInsensitiveLessThan);
     for(UMLOperation * obj : list) {
         QString s = obj->toString(Uml::SignatureType::SigNoVis);
         m_pOpCB->insertItem(list.count(), s);
