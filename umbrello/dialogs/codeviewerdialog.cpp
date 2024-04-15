@@ -54,8 +54,8 @@ void CodeViewerDialog::initGUI()
 void CodeViewerDialog::addCodeDocument(CodeDocument * doc)
 {
     CodeEditor * page = new CodeEditor(this, doc);
-    QString name = doc->getFileName();
-    QString ext = doc->getFileExtension();
+    const QString name = doc->getFileName();
+    const QString ext = doc->getFileExtension();
     logDebug2("CodeViewerDialog::addCodeDocument: name=%1 / ext=%2", name, ext);
     ui_tabWidget->addTab(page, (name + (ext.isEmpty() ? QString() : ext)));
 

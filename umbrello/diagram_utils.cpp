@@ -224,14 +224,14 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &s
     QStringList l;
     SequenceLineFormat format = detectSequenceLineFormat(lines);
     if (format == GDB || format == QtCreatorGDB)
-        Q_FOREACH(const QString &s, lines)
+        for(const QString &s : lines)
             l.push_front(s);
     else
         l = lines;
 
     // for each line
     int index = 1;
-    Q_FOREACH(const QString &line, l) {
+    for(const QString &line : l) {
         QString stackframe, package, method, error;
 
         if (!parseSequenceLine(line, stackframe, package, method, error)) {
@@ -286,13 +286,13 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &s
         return false;
 
     // adjust vertical position
-    Q_FOREACH(MessageWidget *w, messages) {
+    for(MessageWidget *w : messages) {
         w->setY(w->y() + 20);
     }
 
     // adjust heights starting from the last message
     MessageWidget *previous = messages.takeFirst();
-    Q_FOREACH(MessageWidget *w, messages) {
+    for(MessageWidget *w : messages) {
         w->setSize(w->width(), previous->y() - w->y() + previous->height() + 5);
         // adjust vertical line length of object widgets
         w->objectWidget(Uml::RoleType::A)->slotMessageMoved();
@@ -312,7 +312,7 @@ bool importClassGraph(const QStringList &lines, UMLScene *scene, const QString &
     QMap<QString, QPointer<UMLWidget>> widgetList;
     int lineNumber = 0;
     // for each line
-    Q_FOREACH(const QString &line, lines) {
+    for(const QString &line : lines) {
         lineNumber++;
         if (line.trimmed().isEmpty() || line.startsWith(QLatin1Char('#')) || line.startsWith(QStringLiteral("//")))
             continue;
@@ -522,7 +522,7 @@ bool importGraph(const QString &fileName, UMLScene *scene)
 bool isUniqueDiagramName(Uml::DiagramType::Enum type, QString &name)
 {
     bool found = false;
-    Q_FOREACH(UMLView *view, UMLApp::app()->document()->viewIterator()) {
+    for(UMLView *view : UMLApp::app()->document()->viewIterator()) {
         if (type == Uml::DiagramType::Undefined || view->umlScene()->type() == type) {
             if (view->umlScene()->name() == name)
                 found = true;

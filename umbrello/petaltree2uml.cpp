@@ -1294,7 +1294,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
         }
         // Adjust swimlane Y extent to encompass all widgets
         maxY += 20.0;  // add a bottom margin
-        Q_FOREACH(UMLWidget *bw, swimlanes) {
+        for(UMLWidget *bw : swimlanes) {
             if (maxY > bw->height()) {
                 logDebug2("Adjusting swimlane %1 to height %2", bw->name(), maxY);
                 QRectF rect = bw->rect();

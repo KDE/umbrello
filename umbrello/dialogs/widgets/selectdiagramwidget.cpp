@@ -37,7 +37,7 @@ void SelectDiagramWidget::setupWidget(Uml::DiagramType::Enum type, const QString
 {
     QStringList diagrams;
 
-    Q_FOREACH(UMLView *view, UMLApp::app()->document()->viewIterator()) {
+    for(UMLView *view : UMLApp::app()->document()->viewIterator()) {
         QString name = view->umlScene()->name();
         if (name == excludeName)
             continue;

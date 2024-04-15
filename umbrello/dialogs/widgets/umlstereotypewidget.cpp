@@ -72,7 +72,7 @@ void UMLStereotypeWidget::insertItems(UMLStereotype *type)
     UMLDoc *umldoc = UMLApp::app()->document();
     QMap<QString, UMLStereotype*> types;
 
-    Q_FOREACH(UMLStereotype* ust, umldoc->stereotypes()) {
+    for(UMLStereotype* ust : umldoc->stereotypes()) {
         types[ust->name()] = ust;
     }
     // add the given parameter
@@ -82,7 +82,7 @@ void UMLStereotypeWidget::insertItems(UMLStereotype *type)
 
     m_editField->clear();
     m_editField->addItem(QStringLiteral(""), QVariant(0));
-    Q_FOREACH(const QString &key, types.keys()) { // krazy:exclude=foreach
+    for(const QString &key : types.keys()) {
         m_editField->addItem(key, QVariant::fromValue((types[key])));
     }
 

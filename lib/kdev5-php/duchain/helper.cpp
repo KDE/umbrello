@@ -106,7 +106,7 @@ DeclarationPointer findDeclarationImportHelper(DUContext* currentContext, const 
             classCtx = currentContext->parentContext();
         }
         if (classCtx) {
-            Q_FOREACH(const DUContext::Import &i, classCtx->importedParentContexts()) {
+            for(const DUContext::Import &i : classCtx->importedParentContexts()) {
                 DUContext* ctx = i.context(classCtx->topContext());
                 if (ctx && ctx->type() == DUContext::Class) {
                     return DeclarationPointer(ctx->owner());
@@ -128,7 +128,7 @@ DeclarationPointer findDeclarationImportHelper(DUContext* currentContext, const 
             foundDeclarations = currentContext->topContext()->findDeclarations(identifierWithNamespace(id, currentContext));
         }
 
-        Q_FOREACH(Declaration *declaration, foundDeclarations) {
+        for(Declaration *declaration : foundDeclarations) {
             if (isMatch(declaration, declarationType)) {
                 return DeclarationPointer(declaration);
             }
@@ -302,7 +302,7 @@ static IndexedString findIncludeFile(const QString &includePath, const IndexedSt
     // in the first round look for a project that is a parent of the current document
     // in the next round look for any project
     for (int i = 0; i < 2; ++i) {
-        Q_FOREACH(IProject* project, ICore::self()->projectController()->projects()) {
+        for(IProject* project : ICore::self()->projectController()->projects()) {
             if ( !i && !project->path().isParentOf(currentPath)) {
                 continue;
             }

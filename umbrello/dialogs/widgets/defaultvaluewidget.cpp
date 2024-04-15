@@ -59,7 +59,7 @@ public:
             listWidget->addItem(new QListWidgetItem);
             const UMLEnum *e = type->asUMLEnum();
             UMLClassifierListItemList enumLiterals = e->getFilteredList(UMLObject::ot_EnumLiteral);
-            Q_FOREACH(UMLClassifierListItem* enumLiteral, enumLiterals) {
+            for(UMLClassifierListItem* enumLiteral : enumLiterals) {
                 QListWidgetItem *item = new QListWidgetItem(enumLiteral->name());
                 listWidget->addItem(item);
             }
