@@ -68,7 +68,7 @@ private:
 
     QGroupBox*     m_docGB;
     QGroupBox*     m_pItemListGB;
-    KTextEdit*     m_docTE;
+    QTextEdit*     m_docTE;
     CodeTextEdit*  m_pCodeTE;
     QListWidget*   m_pItemListLB;
 
