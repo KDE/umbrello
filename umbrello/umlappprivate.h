@@ -153,8 +153,6 @@ public Q_SLOTS:
         welcomeWindow->setObjectName(QStringLiteral("WelcomeDock"));
 
         auto *view = new QWebEngineView();
-        view->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-        view->setContextMenuPolicy(Qt::NoContextMenu);
         connect(view, SIGNAL(linkClicked(const QUrl)), this, SLOT(slotWelcomeWindowLinkClicked(const QUrl)));
         view->setHtml(html);
         view->show();
