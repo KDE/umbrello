@@ -15,7 +15,7 @@
 #include "multipagedialogbase.h"
 #include "widgetbase.h"
 
-#include <QLinkedList>
+#include <QList>
 #include <QString>
 
 // forward declarations
@@ -121,8 +121,8 @@ struct NameAndType {  ///< Data structure filled by parseAttribute().
               m_direction(direction), m_initialValue(initialValue) {}
 };
 
-typedef QLinkedList<NameAndType> NameAndType_List;               ///< Auxiliary type for OpDescriptor.
-typedef QLinkedList<NameAndType>::iterator NameAndType_ListIt;   ///< Auxiliary type for OpDescriptor.
+typedef QList<NameAndType> NameAndType_List;               ///< Auxiliary type for OpDescriptor.
+typedef QList<NameAndType>::iterator NameAndType_ListIt;   ///< Auxiliary type for OpDescriptor.
 
 struct OpDescriptor {  ///< Data structure filled by parseOperation().
     QString m_name;
