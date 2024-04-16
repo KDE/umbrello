@@ -8,6 +8,7 @@
 #define SQLIMPORT_H
 
 #include "nativeimportbase.h"
+#include <QObject>
 
 class UMLEntity;
 class UMLObject;
