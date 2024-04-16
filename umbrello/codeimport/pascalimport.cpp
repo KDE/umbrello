@@ -232,7 +232,7 @@ bool PascalImport::parseStmt()
         // This is an imperfection in the token splitter.
         // @todo flesh out function split() which should be reimplemented from NativeImportBase
         while (m_srcIndex < m_source.count()) {
-            if (advance().endsWith("]"))
+            if (advance().endsWith(QStringLiteral("]")))
                 break;
         }
         return true;
