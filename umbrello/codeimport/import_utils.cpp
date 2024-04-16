@@ -126,7 +126,6 @@ QString formatComment(const QString &comment)
     if (first.startsWith(QStringLiteral("/*"))) {
         QRegularExpressionMatch match = wordex.match(first);
 
-        int wordpos = wordex.indexIn(first);
         if (match.hasMatch())
             first = first.mid(match.capturedStart());  // remove comment start
         else
