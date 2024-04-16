@@ -13,7 +13,6 @@
 #define DBG_SRC QStringLiteral("AdaImport")
 #include "debug_utils.h"
 #include "enum.h"
-#include "folder.h"
 #include "import_utils.h"
 #include "operation.h"
 #include "package.h"
@@ -22,8 +21,6 @@
 
 // qt includes
 #include <QRegularExpression>
-
-#include <stdio.h>
 
 DEBUG_REGISTER(AdaImport)
 
