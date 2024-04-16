@@ -82,7 +82,7 @@ AbstractType::Ptr TypeBuilder::parseType(QString type, AstNode* node)
         }
         if (type.contains('|')) {
             QList<AbstractType::Ptr> types;
-            Q_FOREACH(const QString& t, type.split('|')) {
+            for(const QString& t : type.split('|')) {
                 AbstractType::Ptr subType = parseType(t, node);
                 if (!(IntegralType::Ptr::dynamicCast(subType) && IntegralType::Ptr::staticCast(subType)->dataType() == IntegralType::TypeMixed)) {
                     types << parseType(t, node);
@@ -90,7 +90,7 @@ AbstractType::Ptr TypeBuilder::parseType(QString type, AstNode* node)
             }
             if (!type.isEmpty()) {
                 UnsureType::Ptr ret(new UnsureType());
-                Q_FOREACH(const AbstractType::Ptr& t, types) {
+                for(const AbstractType::Ptr& t : types) {
                     ret->addType(t->indexed());
                 }
                 //qCDebug(DUCHAIN) << type << ret->toString();
@@ -219,7 +219,7 @@ QList<AbstractType::Ptr> TypeBuilder::parseDocCommentParams(AstNode* node)
         const QStringList& matches = findInDocComment(docComment, QStringLiteral("param"), false);
         if ( !matches.isEmpty() ) {
             ret.reserve(matches.size());
-            Q_FOREACH( const QString& type, matches ) {
+            for( const QString& type : matches ) {
                 ret << parseType(type, node);
             }
         }
@@ -529,7 +529,7 @@ void TypeBuilder::visitStatement(StatementAst* node)
                     static const QualifiedIdentifier currentQId(QStringLiteral("current"));
                     auto classContext = classDec->internalContext();
                     if (classContext) {
-                        Q_FOREACH(Declaration *d, classContext->findDeclarations(currentQId)) {
+                        for(Declaration *d : classContext->findDeclarations(currentQId)) {
                             if (!dynamic_cast<ClassMethodDeclaration*>(d)) continue;
                             Q_ASSERT(d->type<FunctionType>());
                             injectType(d->type<FunctionType>()->returnType());

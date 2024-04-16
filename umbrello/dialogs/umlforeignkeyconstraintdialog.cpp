@@ -388,9 +388,9 @@ void UMLForeignKeyConstraintDialog::slotReferencedEntityChanged(int index)
     }
 
     if (!m_pAttributeMapList.empty()) {
-        int result = KMessageBox::questionYesNo(this, i18n("You are attempting to change the Referenced Entity of this ForeignKey Constraint. Any unapplied changes to the mappings between local and referenced entities will be lost. Are you sure you want to continue ?"));
+        int result = QMessageBox::question(this, i18n("Change the reference?"), i18n("You are attempting to change the Referenced Entity of this ForeignKey Constraint. Any unapplied changes to the mappings between local and referenced entities will be lost. Are you sure you want to continue ?"));
 
-        if (result != KMessageBox::Yes) {
+        if (result != QMessageBox::Yes) {
             // revert back to old index
             m_GeneralWidgets.referencedEntityCB->setCurrentIndex(m_pReferencedEntityIndex);
             return;

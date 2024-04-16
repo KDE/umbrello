@@ -74,7 +74,7 @@ DeclarationPointer ExpressionVisitor::processVariable(VariableIdentifierAst* var
         ///TODO: why doesn't m_currentContext->findDeclarations() work?
         ///      evaluate if the stuff below is fast enough (faster?) than findDeclarations()
         ///see r1028306
-        Q_FOREACH(const DUContext::Import &import, m_currentContext->importedParentContexts() ) {
+        for(const DUContext::Import &import : m_currentContext->importedParentContexts() ) {
             if ( !import.isDirect() || import.position > position ) {
                 continue;
             }
@@ -90,7 +90,7 @@ DeclarationPointer ExpressionVisitor::processVariable(VariableIdentifierAst* var
     }
     if (!ret) {
         //look for a superglobal variable
-        Q_FOREACH(Declaration* dec, m_currentContext->topContext()->findDeclarations(identifier, position)) {
+        for(Declaration* dec : m_currentContext->topContext()->findDeclarations(identifier, position)) {
             VariableDeclaration* varDec = dynamic_cast<VariableDeclaration*>(dec);
             if (varDec && varDec->isSuperglobal()) {
                 ret = dec;
@@ -253,7 +253,7 @@ void ExpressionVisitor::visitClosure(ClosureAst* node)
         DUChainWriteLocker lock;
         forever {
             DeclarationPointer found;
-            Q_FOREACH(Declaration* dec, m_currentContext->findDeclarations(identifierForNode(it->element->variable))) {
+            for(Declaration* dec : m_currentContext->findDeclarations(identifierForNode(it->element->variable))) {
                 if (dec->kind() == Declaration::Instance) {
                     found = dec;
                     break;
@@ -532,7 +532,7 @@ void ExpressionVisitor::visitEncapsVar(EncapsVarAst *node)
                         }
                     }
                     if (ctx) {
-                        Q_FOREACH( Declaration* pdec, ctx->findDeclarations(identifierForNode(node->propertyIdentifier)) ) {
+                        for( Declaration* pdec : ctx->findDeclarations(identifierForNode(node->propertyIdentifier)) ) {
                             if ( !pdec->isFunctionDeclaration() ) {
                                 foundDec = pdec;
                                 break;
@@ -576,7 +576,7 @@ void ExpressionVisitor::visitVariableProperty(VariablePropertyAst *node)
                     ifDebug(qCDebug(DUCHAIN) << "property id:" << propertyId.toString();)
 
                     QList<Declaration*> decs;
-                    Q_FOREACH( Declaration* dec, context->findDeclarations(propertyId) ) {
+                    for( Declaration* dec : context->findDeclarations(propertyId) ) {
                         if ( node->isFunctionCall != -1 ) {
                             if ( dec->isFunctionDeclaration() ) {
                                 decs << dec;

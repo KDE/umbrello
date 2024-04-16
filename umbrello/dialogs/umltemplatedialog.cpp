@@ -85,7 +85,7 @@ bool UMLTemplateDialog::apply()
     QString name = m_pNameLE->text();
     if(name.length() == 0) {
         KMessageBox::error(this, i18n("You have entered an invalid template name."),
-                           i18n("Template Name Invalid"), 0);
+                           i18n("Template Name Invalid"));
         m_pNameLE->setText(m_pTemplate->name());
         return false;
     }
@@ -95,7 +95,7 @@ bool UMLTemplateDialog::apply()
         UMLObject *o = pClass->findChildObject(name);
         if (o && o != m_pTemplate) {
             KMessageBox::error(this, i18n("The template parameter name you have chosen is already being used in this operation."),
-                               i18n("Template Name Not Unique"), 0);
+                               i18n("Template Name Not Unique"));
             m_pNameLE->setText(m_pTemplate->name());
             return false;
         }

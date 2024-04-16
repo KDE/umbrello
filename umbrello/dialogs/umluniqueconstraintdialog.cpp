@@ -116,7 +116,7 @@ void UMLUniqueConstraintDialog::setupDialog()
     logDebug1("UMLUniqueConstraintDialog::setupDialog: UniqueConstraint parent=%1", ue->name());
     if (ue) {
        UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
-       Q_FOREACH(UMLClassifierListItem* att, ual) {
+       for(UMLClassifierListItem* att : ual) {
            m_pEntityAttributeList.append(att->asUMLEntityAttribute());
            m_pAttributeCB->addItem(att->toString(Uml::SignatureType::SigNoVis));
        }
@@ -124,7 +124,7 @@ void UMLUniqueConstraintDialog::setupDialog()
 
     // Then we add the attributes in the constraint to the list box
     UMLEntityAttributeList eal = m_pUniqueConstraint->getEntityAttributeList();
-    Q_FOREACH(UMLEntityAttribute* att, eal) {
+    for(UMLEntityAttribute* att : eal) {
 
         // add to local cache
         m_pConstraintAttributeList.append(att);
@@ -216,7 +216,7 @@ bool UMLUniqueConstraintDialog::apply()
     QString name = m_pNameLE->text();
     if (name.length() == 0) {
         KMessageBox::error(this, i18n("You have entered an invalid constraint name."),
-                           i18n("Constraint Name Invalid"), 0);
+                           i18n("Constraint Name Invalid"));
         m_pNameLE->setText(m_pUniqueConstraint->name());
         return false;
     }
@@ -225,7 +225,7 @@ bool UMLUniqueConstraintDialog::apply()
     m_pUniqueConstraint->clearAttributeList();
 
     // fill it with contents of local cache
-    Q_FOREACH(UMLEntityAttribute* att, m_pConstraintAttributeList) {
+    for(UMLEntityAttribute* att : m_pConstraintAttributeList) {
         m_pUniqueConstraint->addEntityAttribute(att);
     }
 

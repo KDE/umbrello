@@ -91,7 +91,7 @@ void AdvancedCodeGenerator::initFromParentDocument()
     // Walk through the document converting classifiers into
     // classifier code documents as needed (e.g only if doesn't exist)
     UMLClassifierList concepts = m_document->classesAndInterfaces();
-    Q_FOREACH(UMLClassifier *c, concepts) {
+    for(UMLClassifier *c : concepts) {
         // Doesn't exist? Then build one.
         CodeDocument * codeDoc = findCodeDocumentByClassifier(c);
         if (!codeDoc) {

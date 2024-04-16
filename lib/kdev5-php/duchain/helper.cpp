@@ -207,7 +207,7 @@ DeclarationPointer findDeclarationInPST(DUContext* currentContext, QualifiedIden
         /*
         if (ICore::self() && !ICore::self()->projectController()->projects().isEmpty()) {
             bool loadedProjectContainsUrl = false;
-            Q_FOREACH(IProject *project, ICore::self()->projectController()->projects()) {
+            for(IProject *project : ICore::self()->projectController()->projects()) {
                 if (project->fileSet().contains(top->url())) {
                     loadedProjectContainsUrl = true;
                     break;
