@@ -28,8 +28,8 @@ include(KDECMakeSettings)
 include(GenerateExportHeader)
 include(FeatureSummary)
 
-find_package(Qt5 REQUIRED Core Widgets Test)
-find_package(KF5 REQUIRED COMPONENTS Archive ThreadWeaver TextEditor I18n ItemModels KCMUtils)
+find_package(Qt6 REQUIRED Core Widgets Test)
+find_package(KF6 REQUIRED COMPONENTS Archive ThreadWeaver TextEditor I18n ItemModels KCMUtils)
 find_package(KDevPlatform ${KDEVPLATFORM_VERSION} REQUIRED)
 find_package(KDevelop-PG-Qt REQUIRED)
 
@@ -73,8 +73,8 @@ target_link_libraries(kdevphplanguagesupport
     kdevphpparser
     kdevphpcompletion
 
-    KF5::I18n
-    KF5::TextEditor
+    KF6::I18n
+    KF6::TextEditor
 )
 endif()
 

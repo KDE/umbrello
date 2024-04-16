@@ -2,8 +2,8 @@ ecm_add_test(
     lexertest.cpp
     LINK_LIBRARIES
         kdevphpparser
-        Qt5::Test
-        Qt5::Core
+        Qt6::Test
+        Qt6::Core
         KDev::Language
 )
 

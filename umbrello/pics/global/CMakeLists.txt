@@ -9,5 +9,5 @@ ecm_install_icons(
           128-apps-umbrello.png
           sc-apps-umbrello.svgz
     THEME hicolor
-    DESTINATION ${ICON_INSTALL_DIR}
+    DESTINATION ${KDE_INSTALL_ICONDIR}
 )

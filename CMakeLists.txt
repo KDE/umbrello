@@ -52,11 +52,18 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
-set(APP_SUFFIX 5)
-set(LIB_PREFIX Qt5::)
-set(KF5_MIN_VERSION "5.2.0")
+# KF6 only
+set(QT_MIN_VERSION "6.5.0")
+set(KF6_DEP_VERSION "5.240.0")
+set(QT_MAJOR_VERSION "6")
+set(KDEV_MIN_VERSION 6)
+set(KDEV_SOURCE_DIR lib/kdev5-php)
+
+set(APP_SUFFIX 6)
+set(LIB_PREFIX Qt6::)
+
 # we need some parts of the ECM CMake helpers
-find_package(ECM ${KF5_MIN_VERSION} NO_MODULE REQUIRED)
+find_package(ECM ${KF6_DEP_VERSION} QUIET REQUIRED NO_MODULE)
 
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
@@ -69,16 +76,15 @@ include(ECMSetupVersion)
 include(ECMOptionalAddSubdirectory)
 include(ECMAddAppIcon)
 include(ECMAddTests)
-set(QT_MIN_VERSION "5.2.0")
-set(KDEV_MIN_VERSION 5.1.2)
-set(KDEV_SOURCE_DIR lib/kdev5-php)
+
+
 set(KDEV_COMPONENTS KDev::Interfaces KDev::Language KDev::Shell)
 if(NOT QTQCHDIR)
     set(QTQCHDIR ${KDE_INSTALL_QTQCHDIR})
 endif()
 
 # search packages used by Qt
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS
+find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS
     Core
     Gui
     PrintSupport
@@ -86,10 +92,11 @@ find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS
     Test
     Widgets
     Xml
+    WebEngineWidgets
 )
 
 # search packages used by KDE
-find_package(KF5 REQUIRED COMPONENTS
+find_package(KF6 REQUIRED COMPONENTS
     Archive
     Completion
     Config
@@ -144,8 +151,8 @@ endif()
 
 set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello${APP_SUFFIX})
 
-ki18n_install(po)
-kdoctools_install(po)
+# ki18n_install(po)
+# kdoctools_install(po)
 
 if(POLICY CMP0071)
   cmake_policy(SET CMP0071 OLD)

@@ -6,7 +6,7 @@ ecm_add_test(
     LINK_LIBRARIES
         kdevphpduchain
         kdevphpparser
-        Qt5::Test
+        Qt6::Test
         KDev::Tests
         KDev::Language
 )
@@ -19,7 +19,7 @@ ecm_add_test(
     LINK_LIBRARIES
         kdevphpduchain
         kdevphpparser
-        Qt5::Test
+        Qt6::Test
         KDev::Tests
         KDev::Language
 )
@@ -31,7 +31,7 @@ ecm_add_test(
     LINK_LIBRARIES
         kdevphpduchain
         kdevphpparser
-        Qt5::Test
+        Qt6::Test
         KDev::Tests
         KDev::Language
         KDev::Interfaces
@@ -44,7 +44,7 @@ add_executable(benchmarks
 target_link_libraries(benchmarks
     kdevphpduchain
     kdevphpparser
-    Qt5::Test
+    Qt6::Test
     KDev::Tests
     KDev::Language
     KDev::Interfaces
@@ -59,7 +59,7 @@ ecm_add_test(
     LINK_LIBRARIES
         kdevphpduchain
         kdevphpparser
-        Qt5::Test
+        Qt6::Test
         KDev::Tests
         KDev::Language
         KDev::Interfaces

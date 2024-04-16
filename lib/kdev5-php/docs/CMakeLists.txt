@@ -21,7 +21,7 @@ target_link_libraries(kdevphpdocs
     KDev::Interfaces
     KDev::Language
     KDev::Documentation
-    KF5::KCMUtils
+    KF6::KCMUtils
 )
 
 ### Configuration module for PHP documentation plugin
@@ -35,10 +35,10 @@ ki18n_wrap_ui(kcm_kdevphpdocs_SRCS phpdocsconfig.ui)
 
 add_library( kcm_kdevphpdocs MODULE ${kcm_kdevphpdocs_SRCS} )
 target_link_libraries( kcm_kdevphpdocs
-    KF5::ConfigWidgets
-    KF5::KIOWidgets
-    KF5::I18n
-    KF5::KCMUtils
+    KF6::ConfigWidgets
+    KF6::KIOWidgets
+    KF6::I18n
+    KF6::KCMUtils
 )
 
 configure_file(kcm_kdevphpdocs.desktop.cmake ${CMAKE_CURRENT_BINARY_DIR}/kcm_kdevphpdocs.desktop)

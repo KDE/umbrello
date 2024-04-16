@@ -6,7 +6,7 @@ ecm_add_test(
         kdevphpcompletion
         kdevphpduchain
         kdevphpparser
-        Qt5::Test
+        Qt6::Test
         KDev::Tests
         KDev::Language
 )
@@ -20,12 +20,12 @@ ecm_add_test(
         kdevphpduchain
         kdevphpparser
 
-        Qt5::Test
+        Qt6::Test
         KDev::Tests
         KDev::Language
 
-        # TODO: KF5: KDevice is forcing us to have this dependency. I'm sure
+        # TODO: KF6: KDevice is forcing us to have this dependency. I'm sure
         # we can work-around it :)
-        KF5::Archive
+        KF6::Archive
 )
 
