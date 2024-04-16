@@ -27,7 +27,7 @@ int main( int argc, char **argv )
 
    TranslationMap translationMap;
    if (!fetchPoFile(argv[2], translationMap)) {
-       cerr << "failed to fetch po file: '" << argv[2] << "'" << endl;
+       cerr << "failed to fetch po file: '" << argv[2] << "'" ;
        exit(2);
    }
 

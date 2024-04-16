@@ -21,13 +21,13 @@ void outputMsg(const char *prefix, const QString &message);
 int main( int argc, char **argv )
 {
     if (argc != 2) {
-        cerr << "usage: " << argv[0] << " english-XMI" << endl;
+        cerr << "usage: " << argv[0] << " english-XMI" ;
         exit(1);
     }
 
     POMap map;
     if (!extractAttributesFromXMI(argv[1], XMILanguagesAttributes(), map)) {
-        cerr << "failed to extract attributes from: '" << argv[1] << "'" << endl;
+        cerr << "failed to extract attributes from: '" << argv[1] << "'" ;
         exit(2);
     }
 
@@ -54,7 +54,7 @@ int main( int argc, char **argv )
 
     for (POMap::ConstIterator it = map.constBegin(); it != map.constEnd(); ++it)
     {
-        cout << "#. Tag: " << (*it).tagNames.join(" ").toUtf8().data() << endl;
+        cout << "#. Tag: " << (*it).tagNames.join(" ").toUtf8().data() ;
         cout << "#: ";
         for (QList<int>::ConstIterator it2 =
                  (*it).lineNumbers.constBegin(); it2 != (*it).lineNumbers.constEnd(); ++it2) {

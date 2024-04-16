@@ -37,11 +37,11 @@ bool eachCanUpdate(const MapContainer& old, const MapContainer& newMap)
 template<class MapContainer>
 void eachUpdate(MapContainer& old, const MapContainer& newMap)
 {
-    if (old.size() != newMap.size()) uError() << "error in eachUpdate(...) 1" << endl;
+    if (old.size() != newMap.size()) uError() << "error in eachUpdate(...) 1" ;
     typename MapContainer::iterator oldIt = old.begin();
     typename MapContainer::const_iterator newIt = newMap.begin();
     while (oldIt != old.end()) {
-        if ((*oldIt).size() != (*newIt).size()) uError() << "error in eachUpdate(...) 2" << endl;
+        if ((*oldIt).size() != (*newIt).size()) uError() << "error in eachUpdate(...) 2" ;
         typedef typename MapContainer::mapped_type ListType;
         typename ListType::iterator it1 = (*oldIt).begin();
         typename ListType::const_iterator it2 = (*newIt).begin();
@@ -74,7 +74,7 @@ bool eachCanUpdateSingle(const MapContainer& old, const MapContainer& newMap)
 template<class MapContainer>
 void eachUpdateSingle(MapContainer& old, const MapContainer& newMap)
 {
-    if (old.size() != newMap.size()) uError() << "error in eachUpdate(...) 1" << endl;
+    if (old.size() != newMap.size()) uError() << "error in eachUpdate(...) 1" ;
     typename MapContainer::iterator oldIt = old.begin();
     typename MapContainer::const_iterator newIt = newMap.begin();
     while (oldIt != old.end()) {

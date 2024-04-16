@@ -270,7 +270,7 @@ bool applyTranslationToXMIFile(const char *fileName, const QStringList &attribut
                     writerAttributes.append(attr);
                     continue;
                 }
-                //cerr << name.toUtf8().data() << ":" << value.toUtf8().data() << "->" << newValue.toUtf8().data() << endl;
+                //cerr << name.toUtf8().data() << ":" << value.toUtf8().data() << "->" << newValue.toUtf8().data() ;
                 QXmlStreamAttribute newAttribute(name, newValue);
                 writerAttributes.append(newAttribute);
                 //qDebug() << writerAttributes;
