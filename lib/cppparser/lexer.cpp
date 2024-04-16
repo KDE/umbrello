@@ -1356,7 +1356,7 @@ void Lexer::processInclude()
         QChar ch = currentChar();
         if (ch == '"' || ch == '<') {
             nextChar();
-            QChar ch2 = ch == QChar('"') ? QChar('"') : QChar('>');
+            QChar ch2 = ch == QLatin1Char('"') ? QLatin1Char('"') : QLatin1Char('>');
 
             int startWord = currentPosition();
             if (startWord < 0)

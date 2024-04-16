@@ -623,7 +623,7 @@ bool IDLImport::parseStmt()
                 pStereo->getAttributeDefs().append(tagDef);
             }
             attr->setUMLStereotype(pStereo);
-            const QString caseLabels = m_unionCases.join(QChar(' '));
+            const QString caseLabels = m_unionCases.join(QLatin1Char(' '));
             attr->tags().append(caseLabels);
             m_unionCases.clear();
         } else if (m_isUnionDefault) {
