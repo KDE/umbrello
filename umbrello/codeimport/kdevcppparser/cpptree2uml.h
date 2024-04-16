@@ -21,7 +21,7 @@ class UMLPackage;
 class CppTree2Uml: public TreeParser
 {
 public:
-    explicit CppTree2Uml(const QString& fileName, CodeImpThread* thread = 0);
+    explicit CppTree2Uml(const QString& fileName, CodeImpThread *thread = nullptr);
     virtual ~CppTree2Uml();
 
     void clear();

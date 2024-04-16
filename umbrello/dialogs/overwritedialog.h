@@ -26,7 +26,7 @@ class OverwriteDialog: public SinglePageDialogBase
     Q_OBJECT
 public:
     OverwriteDialog(const QString& fileName, const QString& outputDirectory,
-                    bool applyToAllRemaining, QWidget* parent = 0);
+                    bool applyToAllRemaining, QWidget *parent = nullptr);
     ~OverwriteDialog();
 
     bool applyToAllRemaining();

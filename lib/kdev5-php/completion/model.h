@@ -30,7 +30,7 @@ class KDEVPHPCOMPLETION_EXPORT CodeCompletionModel : public KDevelop::CodeComple
     Q_OBJECT
 
 public:
-    CodeCompletionModel(QObject* parent = 0);
+    CodeCompletionModel(QObject *parent = nullptr);
     virtual ~CodeCompletionModel();
 
     bool shouldAbortCompletion(KTextEditor::View* view,

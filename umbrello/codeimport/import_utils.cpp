@@ -53,7 +53,7 @@ bool bNewUMLObjectWasCreated = false;
  * Related classifier for creation of dependencies on template
  * parameters in createUMLObject().
  */
-UMLClassifier * gRelatedClassifier = 0;
+UMLClassifier  *gRelatedClassifier = nullptr;
 
 /**
  * On encountering a scoped typename string where the scopes
@@ -218,7 +218,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     }
     checkStdString(name);
     bNewUMLObjectWasCreated = false;
-    UMLObject *o = 0;
+    UMLObject  *o = nullptr;
     if (searchInParentPackageOnly) {
         o = Model_Utils::findUMLObject(parentPkg->containedObjects(), name, type);
         if (!o) {
@@ -732,13 +732,13 @@ UMLObject *createArtifact(const QString& name,
 void createGeneralization(UMLClassifier *child, const QString &parentName)
 {
     const QString& scopeSep = UMLApp::app()->activeLanguageScopeSeparator();
-    UMLObject *parentObj = 0;
+    UMLObject  *parentObj = nullptr;
     if (parentName.contains(scopeSep)) {
         QStringList split = parentName.split(scopeSep);
         QString className = split.last();
         split.pop_back(); // remove the classname
-        UMLPackage *parent = 0;
-        UMLPackage *current = 0;
+        UMLPackage  *parent = nullptr;
+        UMLPackage  *current = nullptr;
         for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
             QString name = (*it);
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,

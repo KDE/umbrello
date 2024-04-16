@@ -59,7 +59,7 @@ public Q_SLOTS:
 protected:
     KDevelop::TopDUContext* parse(const QByteArray& unit,
                                   DUChainTestBase::DumpAreas dump = DumpAreas(DumpAll),
-                                  QUrl url = {}, KDevelop::TopDUContext* update = 0);
+                                  QUrl url = {}, KDevelop::TopDUContext *update = nullptr);
 
     KDevelop::TopDUContext* parseAdditionalFile(const KDevelop::IndexedString& fileName, const QByteArray& contents);
 

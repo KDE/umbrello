@@ -290,7 +290,7 @@ QString FloatingTextWidget::postText() const
  * @param ChangeLog Pointer to the IDChangeLog.
  * @return  true for success
  */
-bool FloatingTextWidget::activate(IDChangeLog* ChangeLog /*= 0 */)
+bool FloatingTextWidget::activate(IDChangeLog *ChangeLog /*= nullptr */)
 {
     if (! UMLWidget::activate(ChangeLog))
         return false;

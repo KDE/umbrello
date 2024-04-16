@@ -268,7 +268,7 @@ public:
     static QString toString(DataType data);
     static QVariant dataFromAction(DataType key, QAction* action);
 
-    ListPopupMenu(QWidget* parent = 0);
+    ListPopupMenu(QWidget *parent = nullptr);
 
     virtual ~ListPopupMenu();
 

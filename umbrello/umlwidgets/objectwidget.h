@@ -43,7 +43,7 @@ public:
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
-    bool activate(IDChangeLog* ChangeLog = 0);
+    bool activate(IDChangeLog *ChangeLog = nullptr);
 
     void cleanup();
 

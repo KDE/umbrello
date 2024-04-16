@@ -43,7 +43,7 @@ ExpressionEvaluationResult ExpressionParser::evaluateType(const QByteArray& expr
     ParseSession* session = new ParseSession();
     session->setContents(expression);
     Parser* parser = session->createParser(Parser::DefaultState);
-    ExprAst* ast = 0;
+    ExprAst *ast = nullptr;
     if (!parser->parseExpr(&ast)) {
         qCDebug(DUCHAIN) << "Failed to parse \"" << expression << "\"";
         delete session;

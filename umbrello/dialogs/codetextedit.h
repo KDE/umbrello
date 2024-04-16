@@ -27,7 +27,7 @@ class CodeTextEdit : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    explicit CodeTextEdit(QWidget *parent = 0);
+    explicit CodeTextEdit(QWidget  *parent = nullptr);
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();

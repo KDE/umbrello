@@ -22,7 +22,7 @@ class CodeTextHighlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    explicit CodeTextHighlighter(QTextDocument *parent = 0);
+    explicit CodeTextHighlighter(QTextDocument  *parent = nullptr);
 
 protected:
     void highlightBlock(const QString &text);

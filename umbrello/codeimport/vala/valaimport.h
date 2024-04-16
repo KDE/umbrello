@@ -16,7 +16,7 @@
 class ValaImport : public CsValaImportBase
 {
 public:
-    explicit ValaImport(CodeImpThread* thread = 0);
+    explicit ValaImport(CodeImpThread *thread = nullptr);
     virtual ~ValaImport();
     QString fileExtension();
 

@@ -34,7 +34,7 @@ class TestBase : public QObject
 {
     Q_OBJECT
 public:
-    explicit TestBase(QObject *parent = 0);
+    explicit TestBase(QObject  *parent = nullptr);
 
 protected Q_SLOTS:
     virtual void initTestCase();

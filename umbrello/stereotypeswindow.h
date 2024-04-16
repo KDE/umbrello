@@ -15,7 +15,7 @@ class StereotypesWindow : public QDockWidget
 {
     Q_OBJECT
 public:
-    explicit StereotypesWindow(const QString &title, QWidget *parent = 0);
+    explicit StereotypesWindow(const QString &title, QWidget  *parent = nullptr);
     ~StereotypesWindow();
 
 Q_SIGNALS:

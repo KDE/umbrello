@@ -90,7 +90,7 @@ void ParseJob::run(ThreadWeaver::JobPointer /*self*/, ThreadWeaver::Thread * /*t
     session.setCurrentDocument(document());
 
     // 2) parse
-    StartAst* ast = 0;
+    StartAst *ast = nullptr;
     bool matched = session.parse(&ast);
 
     if (abortRequested() || ICore::self()->shuttingDown()) {

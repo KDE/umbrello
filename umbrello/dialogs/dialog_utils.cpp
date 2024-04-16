@@ -49,7 +49,7 @@ namespace Dialog_Utils {
 QLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,
                                 QLabel*     &label,     const QString& labelText,
                                 QLineEdit*  &editField, const QString& editFieldText /* = QString() */,
-                                int columnOffset /* = 0 */)
+                                int columnOffset / *= nullptr */)
 {
     label = new QLabel(labelText);
     layout->addWidget(label, row, columnOffset);
@@ -112,7 +112,7 @@ void remakeTagEditFields(const QString &stereoText,
             pTagLineEdit[i] = 0;
         }
     }
-    UMLStereotype *stereo = 0;
+    UMLStereotype  *stereo = nullptr;
     for(UMLStereotype  *st : UMLApp::app()->document()->stereotypes()) {
         if (st->name() == stereoText) {
             stereo = st;

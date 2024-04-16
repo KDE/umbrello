@@ -15,7 +15,7 @@ class DiagramSelectionDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:
-    explicit DiagramSelectionDialog(DiagramPrintPage *page, QWidget *parent = 0);
+    explicit DiagramSelectionDialog(DiagramPrintPage  *page, QWidget *parent = nullptr);
     ~DiagramSelectionDialog();
 };
 

@@ -139,7 +139,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
     QFontMetrics fontMetrics(font);
     const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
-    UMLClassifierListItem* enumLiteral = 0;
+    UMLClassifierListItem *enumLiteral = nullptr;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
     for(enumLiteral: list) {
         QString text = enumLiteral->toString();

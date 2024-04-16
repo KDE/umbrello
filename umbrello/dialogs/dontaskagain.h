@@ -62,7 +62,7 @@ class DontAskAgainWidget : public QWidget
 {
     Q_OBJECT
 public:
-    DontAskAgainWidget(QList<DontAskAgainItem *> &items, QWidget *parent = 0);
+    DontAskAgainWidget(QList<DontAskAgainItem  *> &items, QWidget *parent = nullptr);
     bool apply();
     void setDefaults();
 

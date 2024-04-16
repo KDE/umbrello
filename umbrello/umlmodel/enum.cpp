@@ -150,7 +150,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const 
  * @param Log      Pointer to the IDChangeLog.
  * @return  True if the enumliteral was successfully added.
  */
-bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
+bool UMLEnum::addEnumLiteral(UMLEnumLiteral *literal, IDChangeLog* Log /* = nullptr*/)
 {
     QString name = (QString)literal->name();
     if (findChildObject(name) == 0) {
@@ -297,7 +297,7 @@ bool UMLEnum::load1(QDomElement& element)
  */
 UMLClassifierListItem* UMLEnum::makeChildObject(const QString& xmiTag)
 {
-    UMLClassifierListItem* pObject = 0;
+    UMLClassifierListItem *pObject = nullptr;
     if (UMLDoc::tagEq(xmiTag, QStringLiteral("EnumerationLiteral")) ||
                UMLDoc::tagEq(xmiTag, QStringLiteral("EnumLiteral"))) {
         pObject = new UMLEnumLiteral(this);

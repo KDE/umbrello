@@ -123,7 +123,7 @@ bool UMLDatatypeWidget::applyAttribute()
     }
     UMLDoc * pDoc = UMLApp::app()->document();
 
-    UMLObject *obj = 0;
+    UMLObject  *obj = nullptr;
     if (!typeName.isEmpty()) {
         obj = pDoc->findUMLObject(typeName);
     }
@@ -190,7 +190,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
 bool UMLDatatypeWidget::applyOperation()
 {
     QString typeName = Model_Utils::normalize(m_editField->currentText());
-    UMLTemplate *tmplParam = 0;
+    UMLTemplate  *tmplParam = nullptr;
     if (m_parent) {
         tmplParam = m_parent->findTemplate(typeName);
     }

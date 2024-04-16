@@ -71,7 +71,7 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
     int y = pos.y();
     Uml::DiagramType::Enum diagramType = scene->type();
     UMLObject::ObjectType type = o->baseType();
-    UMLWidget *newWidget = 0;
+    UMLWidget  *newWidget = nullptr;
     switch (type) {
     case UMLObject::ot_Actor:
         if (diagramType == Uml::DiagramType::Sequence) {
@@ -204,7 +204,7 @@ bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::ID::Typ
 UMLWidget* makeWidgetFromXMI(const QString& tag,
                              const QString& idStr, UMLScene *scene)
 {
-    UMLWidget *widget = 0;
+    UMLWidget  *widget = nullptr;
 
         // Loading of widgets which do NOT represent any UMLObject,
         // just graphic stuff with no real model information

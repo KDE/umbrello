@@ -145,7 +145,7 @@ void CodeAccessorMethod::setAttributesFromNode(QDomElement & root)
         // then we may have problems (ugh.. I cant imagine allowing this, but
         // perhaps someone will see a need to allow it. -b.t.)
         QString id = root.attribute("classfield_id","-1");
-        CodeClassField * newCF = 0;
+        CodeClassField  *newCF = nullptr;
         ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
         if (cdoc)
                 newCF = cdoc->findCodeClassFieldFromParentID (Uml::ID::fromString(id));

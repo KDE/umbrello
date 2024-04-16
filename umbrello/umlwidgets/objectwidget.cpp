@@ -241,7 +241,7 @@ bool ObjectWidget::drawAsActor() const
 /**
  * Activate the object after serializing it from a QDataStream
  */
-bool ObjectWidget::activate(IDChangeLog* ChangeLog /*= 0*/)
+bool ObjectWidget::activate(IDChangeLog *ChangeLog /*= nullptr*/)
 {
     if (! UMLWidget::activate(ChangeLog))
         return false;

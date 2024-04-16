@@ -500,7 +500,7 @@ void RefactoringAssistant::addBaseClassifier()
 
     //////////////////////   Manually add the classifier to the assistant - would be nicer to do it with
     /////////////////////    a signal, like operations and attributes
-    QTreeWidgetItem *baseFolder = 0;
+    QTreeWidgetItem  *baseFolder = nullptr;
     for (int i = 0; i < item->childCount(); ++i) {
         baseFolder = item->child(i);
         if (!baseFolder) {
@@ -545,7 +545,7 @@ void RefactoringAssistant::addDerivedClassifier()
 
     //////////////////////   Manually add the classifier to the assistant - would be nicer to do it with
     /////////////////////    a signal, like operations and attributes
-    QTreeWidgetItem *derivedFolder = 0;
+    QTreeWidgetItem  *derivedFolder = nullptr;
     for (int i = 0; i < item->childCount(); ++i) {
         derivedFolder = item->child(i);
         if (!derivedFolder) {

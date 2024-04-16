@@ -152,7 +152,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     QFontMetrics fontMetrics(font);
     const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
-    UMLClassifierListItem* entityattribute = 0;
+    UMLClassifierListItem *entityattribute = nullptr;
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
     for(entityattribute: list) {
         QString text = entityattribute->name();

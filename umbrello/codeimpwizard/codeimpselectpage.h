@@ -22,7 +22,7 @@ class CodeImpSelectPage : public QWizardPage, private Ui::CodeImpSelectPage
 {
     Q_OBJECT
 public:
-    explicit CodeImpSelectPage(QWidget *parent = 0);
+    explicit CodeImpSelectPage(QWidget  *parent = nullptr);
     ~CodeImpSelectPage();
 
     QString language();

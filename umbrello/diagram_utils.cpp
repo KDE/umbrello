@@ -215,9 +215,9 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &s
     scene->addWidgetCmd(leftWidget);
     objectsMap[name] = leftWidget;
 
-    ObjectWidget *rightWidget = 0;
+    ObjectWidget  *rightWidget = nullptr;
     ObjectWidget *mostRightWidget = leftWidget;
-    MessageWidget *messageWidget = 0;
+    MessageWidget  *messageWidget = nullptr;
     // for further processing
     MessageWidgetList messages;
 
@@ -306,8 +306,8 @@ bool importClassGraph(const QStringList &lines, UMLScene *scene, const QString &
 {
     UMLDoc *umldoc = UMLApp::app()->document();
 
-    UMLWidget *lastWidget = 0;
-    UMLClassifier *c = 0;
+    UMLWidget  *lastWidget = nullptr;
+    UMLClassifier  *c = nullptr;
     QString methodIdentifier(QStringLiteral("()"));
     QMap<QString, QPointer<UMLWidget>> widgetList;
     int lineNumber = 0;
@@ -340,7 +340,7 @@ bool importClassGraph(const QStringList &lines, UMLScene *scene, const QString &
                 o2 = Object_Factory::createUMLObject(UMLObject::ot_Class, l[2]);
             bool swapObjects = false;
             Uml::AssociationType::Enum type = Uml::AssociationType::Unknown;
-            UMLAssociation *assoc = 0;
+            UMLAssociation  *assoc = nullptr;
             bool newAssoc = false;
             if (l[1] == QStringLiteral("---")) {
                 type = Uml::AssociationType::Association;

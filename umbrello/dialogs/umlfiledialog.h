@@ -23,7 +23,7 @@ class UMLFileDialog : public QObject
 {
     Q_OBJECT
 public:
-    UMLFileDialog(const QUrl &startDir, const QString &filter, QWidget *parent, QWidget *widget=0);
+    UMLFileDialog(const QUrl &startDir, const QString &filter, QWidget  *parent, QWidget *widget= nullptr);
     ~UMLFileDialog();
 
     int exec();

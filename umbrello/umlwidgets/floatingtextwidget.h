@@ -58,7 +58,7 @@ public:
     LinkWidget* link() const;
     void setLink(LinkWidget * l);
 
-    bool activate(IDChangeLog* ChangeLog = 0);
+    bool activate(IDChangeLog *ChangeLog = nullptr);
 
     Uml::TextRole::Enum textRole() const;
     void setTextRole(Uml::TextRole::Enum role);

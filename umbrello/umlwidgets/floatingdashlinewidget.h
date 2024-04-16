@@ -29,7 +29,7 @@ class FloatingDashLineWidget : public UMLWidget
 {
     Q_OBJECT
 public:
-    explicit FloatingDashLineWidget(UMLScene * scene, Uml::ID::Type id = Uml::ID::None, CombinedFragmentWidget *parent = 0);
+    explicit FloatingDashLineWidget(UMLScene  *scene, Uml::ID::Type id = Uml::ID::None, CombinedFragmentWidget *parent = nullptr);
     ~FloatingDashLineWidget();
 
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option = 0, QWidget *widget = 0);

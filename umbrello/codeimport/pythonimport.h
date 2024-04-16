@@ -18,7 +18,7 @@ class UMLOperation;
 class PythonImport : public NativeImportBase
 {
 public:
-    explicit PythonImport(CodeImpThread* thread = 0);
+    explicit PythonImport(CodeImpThread *thread = nullptr);
     virtual ~PythonImport();
 
 protected:
@@ -36,7 +36,7 @@ protected:
 
     QString indentation(int level);
 
-    QString skipBody(Uml::PrimitiveTypes::Enum *foundReturn = 0);
+    QString skipBody(Uml::PrimitiveTypes::Enum  *foundReturn = nullptr);
 
     /**
      * Buffer for number of indentation characters (whitespace,

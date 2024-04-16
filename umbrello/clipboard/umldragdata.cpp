@@ -42,7 +42,7 @@ DEBUG_REGISTER(UMLDragData)
 /**
  *  Constructor.
  */
-UMLDragData::UMLDragData(UMLObjectList& objects, QWidget* dragSource /* = 0 */)
+UMLDragData::UMLDragData(UMLObjectList& objects, QWidget *dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip1(objects);
@@ -53,7 +53,7 @@ UMLDragData::UMLDragData(UMLObjectList& objects, QWidget* dragSource /* = 0 */)
  * from the ListView to be copied, Mime type =
  * "application/x-uml-clip2
  */
-UMLDragData::UMLDragData(UMLObjectList& objects, UMLViewList& diagrams, QWidget* dragSource /* = 0 */)
+UMLDragData::UMLDragData(UMLObjectList& objects, UMLViewList& diagrams, QWidget *dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip2(objects, diagrams);
@@ -63,7 +63,7 @@ UMLDragData::UMLDragData(UMLObjectList& objects, UMLViewList& diagrams, QWidget*
  *  Constructor.
  */
 UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems,
-                         QWidget* dragSource /* = 0 */)
+                         QWidget *dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip3(umlListViewItems);
@@ -78,7 +78,7 @@ UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems,
  */
 UMLDragData::UMLDragData(UMLObjectList& objects,
                          UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
-                         QPixmap& pngImage, UMLScene* scene, QWidget* dragSource /* = 0 */)
+                         QPixmap& pngImage, UMLScene *scene, QWidget* dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip4(objects, widgets, associationDatas, pngImage, scene);
@@ -90,7 +90,7 @@ UMLDragData::UMLDragData(UMLObjectList& objects,
  * "application/x-uml-clip5
  */
 UMLDragData::UMLDragData(UMLObjectList& objects, int,
-                         QWidget* dragSource /* = 0 */)
+                         QWidget *dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip5(objects);
@@ -99,7 +99,7 @@ UMLDragData::UMLDragData(UMLObjectList& objects, int,
 /**
  *  Constructor.
  */
-UMLDragData::UMLDragData(QWidget* dragSource /* = 0 */)
+UMLDragData::UMLDragData(QWidget *dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
 }
@@ -123,7 +123,7 @@ void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
     stream.writeStartElement(QStringLiteral("umlobjects"));
 
     UMLObjectListIt object_it(objects);
-    UMLObject* obj = 0;
+    UMLObject *obj = nullptr;
     while (object_it.hasNext()) {
         obj = object_it.next();
         obj->saveToXMI(stream);
@@ -146,7 +146,7 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLViewList& diagrams)
     stream.writeStartElement(QStringLiteral("umlobjects"));
 
     UMLObjectListIt object_it(objects);
-    UMLObject* obj = 0;
+    UMLObject *obj = nullptr;
     while (object_it.hasNext()) {
         obj = object_it.next();
         obj->saveToXMI(stream);
@@ -740,7 +740,7 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
     if (element.isNull()) {
         return false;//return ok as it means there is no umlobjects
     }
-    UMLObject* pObject = 0;
+    UMLObject *pObject = nullptr;
     while (!element.isNull()) {
         pObject = 0;
         QString type = element.tagName();
@@ -786,7 +786,7 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
         );
 
         // Determine the parent package of the pasted object
-        UMLPackage* newParent = 0;
+        UMLPackage *newParent = nullptr;
         if (oldParentId != Uml::ID::None) {
             Uml::ID::Type newParentId = doc->changeLog()->findNewID(oldParentId);
 

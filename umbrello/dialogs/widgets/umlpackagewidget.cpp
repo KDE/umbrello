@@ -82,7 +82,7 @@ void UMLPackageWidget::addToLayout(QGridLayout *layout, int row)
 void UMLPackageWidget::apply()
 {
     QString packageName = m_editField->currentText().trimmed();
-    UMLObject* newPackage = 0;
+    UMLObject *newPackage = nullptr;
 
     if (!packageName.isEmpty()) {
         if ((newPackage = UMLApp::app()->document()->findUMLObject(packageName, UMLObject::ot_Package)) == 0) {

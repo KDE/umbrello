@@ -16,7 +16,7 @@ class ObjectsWindow : public QDockWidget
 {
     Q_OBJECT
 public:
-    explicit ObjectsWindow(const QString &title, QWidget *parent = 0);
+    explicit ObjectsWindow(const QString &title, QWidget  *parent = nullptr);
     ~ObjectsWindow();
 
 Q_SIGNALS:

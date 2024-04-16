@@ -22,7 +22,7 @@ class UMLObject;
 class SQLImport : public QObject, public NativeImportBase {
     Q_OBJECT
 public:
-    explicit SQLImport(CodeImpThread* thread = 0);
+    explicit SQLImport(CodeImpThread *thread = nullptr);
     virtual ~SQLImport();
 
     bool parseStmt();

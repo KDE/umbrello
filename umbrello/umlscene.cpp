@@ -882,7 +882,7 @@ void UMLScene::dragEnterEvent(QGraphicsSceneDragDropEvent *e)
         UMLListViewItem::ListViewType lvtype = (*it)->type;
         Uml::ID::Type id = (*it)->id;
 
-        UMLObject* temp = 0;
+        UMLObject *temp = nullptr;
         //if dragging diagram - might be a drag-to-note
         if (Model_Utils::typeIsDiagram(lvtype)) {
             break;
@@ -2407,7 +2407,7 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
         return;
     // See if the object has a widget representation in this view.
     // While we're at it, also see if the new parent has a widget here.
-    UMLWidget *selfWidget = 0, *newParentWidget = 0;
+    UMLWidget   *selfWidget = nullptr, *newParentWidget = nullptr;
     UMLPackage *newParent = self->umlPackage();
     for(UMLWidget *w : widgetList()) {
         UMLObject *o = w->umlObject();
@@ -2499,7 +2499,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
 
     Uml::ID::Type myID = umlObj->id();
     for(UMLAssociation *assoc : umlAssocs) {
-        UMLCanvasObject *other = 0;
+        UMLCanvasObject  *other = nullptr;
         UMLObject *roleAObj = assoc->getObject(Uml::RoleType::A);
         if (roleAObj == 0) {
             logDebug1("UMLScene::createAutoAssociations: roleA object is NULL at UMLAssoc %1",
@@ -4125,7 +4125,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
 
 bool UMLScene::loadWidgetsFromXMI(QDomElement & qElement)
 {
-    UMLWidget* widget = 0;
+    UMLWidget *widget = nullptr;
     QDomNode node = qElement.firstChild();
     QDomElement widgetElement = node.toElement();
     while (!widgetElement.isNull()) {
@@ -4172,7 +4172,7 @@ UMLWidget* UMLScene::loadWidgetFromXMI(QDomElement& widgetElement)
 
 bool UMLScene::loadMessagesFromXMI(QDomElement & qElement)
 {
-    MessageWidget * message = 0;
+    MessageWidget  *message = nullptr;
     QDomNode node = qElement.firstChild();
     QDomElement messageElement = node.toElement();
     while (!messageElement.isNull()) {
@@ -4290,7 +4290,7 @@ bool UMLScene::loadUisDiagramPresentation(QDomElement & qElement)
             UMLObject::ObjectType ot = o->baseType();
             logDebug1("UMLScene::loadUisDiagramPresentation: Create widget for model object of type %1",
                       UMLObject::toString(ot));
-            UMLWidget *widget = 0;
+            UMLWidget  *widget = nullptr;
             switch (ot) {
             case UMLObject::ot_Class:
                 widget = new ClassifierWidget(this, o->asUMLClassifier());
@@ -4352,7 +4352,7 @@ bool UMLScene::loadUISDiagram(QDomElement & qElement)
     if (idStr.isEmpty())
         return false;
     m_nID = Uml::ID::fromString(idStr);
-    UMLListViewItem *ulvi = 0;
+    UMLListViewItem  *ulvi = nullptr;
     for (QDomNode node = qElement.firstChild(); !node.isNull(); node = node.nextSibling()) {
         if (node.isComment())
             continue;
@@ -4525,7 +4525,7 @@ void UMLScene::alignVerticalDistribute()
     qSort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerY);
 
     int i = 1;
-    UMLWidget* widgetPrev = 0;
+    UMLWidget *widgetPrev = nullptr;
     for(UMLWidget  *widget : widgetList) {
         if (i == 1) {
             widgetPrev = widget;
@@ -4556,7 +4556,7 @@ void UMLScene::alignHorizontalDistribute()
     qSort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerX);
 
     int i = 1;
-    UMLWidget* widgetPrev = 0;
+    UMLWidget *widgetPrev = nullptr;
     for(UMLWidget  *widget :  widgetList) {
         if (i == 1) {
             widgetPrev = widget;

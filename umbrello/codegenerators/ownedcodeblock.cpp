@@ -127,7 +127,7 @@ void OwnedCodeBlock::setAttributesFromNode (QDomElement & elem)
         const UMLAssociation * assoc = obj->asUMLAssociation();
         if (assoc) {
             // In this case we init with indicated role child obj.
-            UMLRole * role = 0;
+            UMLRole  *role = nullptr;
             int role_id = elem.attribute(QStringLiteral("role_id"), QStringLiteral("-1")).toInt();
             // see comment on role_id at setAttributesOnNode()
             if (role_id == 1)

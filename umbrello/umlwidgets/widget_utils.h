@@ -29,9 +29,9 @@ namespace Widget_Utils
 {
     UMLWidget* findWidget(Uml::ID::Type id,
                           const UMLWidgetList& widgets,
-                          const MessageWidgetList* messages = 0);
+                          const MessageWidgetList *messages = nullptr);
 
-    QGraphicsRectItem* decoratePoint(const QPointF& p, QGraphicsItem* parent = 0);
+    QGraphicsRectItem *decoratePoint(const QPointF& p, QGraphicsItem* parent = nullptr);
 
     void drawCrossInEllipse(QPainter *p, const QRectF& ellipse);
     void drawTriangledRect(QPainter *painter, const QRectF& rect, const QSizeF& triSize);

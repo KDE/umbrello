@@ -94,7 +94,7 @@ UMLObject* UMLEntity::clone() const
  * @param iv     the initial value for the attribute
  * @return   the just created attribute or null 
  */
-UMLAttribute* UMLEntity::createAttribute(const QString &name /*= QString()*/, UMLObject *type /*= 0*/,
+UMLAttribute *UMLEntity::createAttribute(const QString &name /*= QString()*/, UMLObject *type /*= nullptr*/,
                                          Uml::Visibility::Enum vis /* = Uml::Visibility::Private*/,
                                          const QString& iv /* = QString()*/)
 {
@@ -316,7 +316,7 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::ID::Type id)
  * @param log   Pointer to the IDChangeLog.
  * @return  True if the entityAttribute was successfully added.
  */
-bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log /* = 0*/)
+bool UMLEntity::addEntityAttribute(UMLEntityAttribute *att, IDChangeLog* log /* = nullptr*/)
 {
     QString name = (QString)att->name();
     if (findChildObject(name) == 0) {
@@ -712,7 +712,7 @@ UMLEntityAttributeList UMLEntity::getEntityAttributes() const
  */
 UMLClassifierListItem* UMLEntity::makeChildObject(const QString& xmiTag)
 {
-    UMLClassifierListItem* pObject = 0;
+    UMLClassifierListItem *pObject = nullptr;
     if (UMLDoc::tagEq(xmiTag, QStringLiteral("EntityAttribute"))) {
         pObject = new UMLEntityAttribute(this);
     }

@@ -183,7 +183,7 @@ bool UMLWidget::operator==(const UMLWidget& other) const
     // {
     AssociationWidgetListIt assoc_it(m_Assocs);
     AssociationWidgetListIt assoc_it2(other.m_Assocs);
-    AssociationWidget * assoc = 0, *assoc2 = 0;
+    AssociationWidget   *assoc = nullptr, *assoc2 = nullptr;
     while (assoc_it.hasNext() &&  assoc_it2.hasNext()) {
         assoc = assoc_it.next();
         assoc2 = assoc_it2.next();
@@ -1204,7 +1204,7 @@ bool UMLWidget::activate(IDChangeLog* changeLog)
     m_activated = true;
     updateGeometry();
     if (m_scene->getPaste()) {
-        FloatingTextWidget * ft = 0;
+        FloatingTextWidget  *ft = nullptr;
         QPointF point = m_scene->getPastePoint();
         int x = point.x() + this->x();
         int y = point.y() + this->y();

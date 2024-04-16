@@ -1236,7 +1236,7 @@ void DeclarationBuilder::declareFoundVariable(AbstractType::Ptr type)
 
     ///TODO: support something like: foo($var[0])
     if ( !m_findVariable.isArray ) {
-        DUContext *ctx = 0;
+        DUContext  *ctx = nullptr;
         if ( m_findVariable.parentIdentifier.isEmpty() ) {
             ctx = currentContext();
         } else {

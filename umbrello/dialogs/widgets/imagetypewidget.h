@@ -20,7 +20,7 @@ class ImageTypeWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ImageTypeWidget(const QStringList &imageTypes, const QString &_default, QWidget *parent = 0);
+    explicit ImageTypeWidget(const QStringList &imageTypes, const QString &_default, QWidget  *parent = nullptr);
     QString currentType();
 
 private:

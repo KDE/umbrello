@@ -18,7 +18,7 @@ class CodeViewerOptionsPage : public DialogPageBase, private Ui::CodeViewerOptio
 {
     Q_OBJECT
 public:
-    explicit CodeViewerOptionsPage (Settings::CodeViewerState options, QWidget *parent = 0, const char *name = 0);
+    explicit CodeViewerOptionsPage (Settings::CodeViewerState options, QWidget   *parent = nullptr, const char *name = nullptr);
     ~CodeViewerOptionsPage();
 
     Settings::CodeViewerState getOptions();

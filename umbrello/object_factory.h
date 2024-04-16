@@ -20,7 +20,7 @@ namespace Object_Factory {
 
 UMLObject* createUMLObject(UMLObject::ObjectType type,
                            const QString &n = QString(),
-                           UMLPackage *parentPkg = 0,
+                           UMLPackage  *parentPkg = nullptr,
                            bool solicitNewName = true);
 
 UMLObject* createNewUMLObject(UMLObject::ObjectType type,
@@ -33,7 +33,7 @@ UMLClassifierListItem* createChildObject(UMLClassifier *parent,
                                          const QString& name = QString());
 
 UMLAttribute *createAttribute(UMLObject *parent, const QString& name,
-                              UMLObject *type = 0);
+                              UMLObject  *type = nullptr);
 
 UMLOperation *createOperation(UMLClassifier *parent, const QString& name);
 

@@ -410,7 +410,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
  *          In case of success with non NULL parentPkg: pointer to UMLPackage created for controlled unit
  *          In case of success with NULL parentPkg: pointer to root folder of Logical View
  */
-UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */) 
+UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */) 
 {
     methodName(QStringLiteral("loadFromMDL"));
     if (parentPkg == 0) {
@@ -423,7 +423,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     QTextStream stream(&file);
     stream.setCodec("ISO 8859-1");
     QString line;
-    PetalNode *root = 0;
+    PetalNode  *root = nullptr;
     uint nClosures_sav = nClosures;
     uint linum_sav = linum;
     nClosures = 0;

@@ -177,7 +177,7 @@ void CodeGenOptionsPage::updateCodeGenerationPolicyTab()
     }
 
     Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(ui_SelectLanguageBox->currentIndex());
-    CodeGenPolicyExt *policyExt = 0;
+    CodeGenPolicyExt  *policyExt = nullptr;
     if (pl != Uml::ProgrammingLanguage::Reserved)
         policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
 

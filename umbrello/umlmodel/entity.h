@@ -40,7 +40,7 @@ public:
     virtual UMLObject* clone() const;
 
     virtual UMLAttribute* createAttribute(const QString &name = QString(),
-                                  UMLObject *type = 0, Uml::Visibility::Enum vis = Uml::Visibility::Private,
+                                  UMLObject  *type = nullptr, Uml::Visibility::Enum vis = Uml::Visibility::Private,
                                   const QString &init = QString());
 
     UMLUniqueConstraint* createUniqueConstraint(const QString &name = QString());
@@ -48,7 +48,7 @@ public:
     UMLCheckConstraint* createCheckConstraint(const QString &name = QString());
 
     UMLObject* addEntityAttribute(const QString &name, Uml::ID::Type id = Uml::ID::None);
-    bool addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log = 0);
+    bool addEntityAttribute(UMLEntityAttribute *att, IDChangeLog* log = nullptr);
     bool addEntityAttribute(UMLEntityAttribute* att, int position);
 
     int removeEntityAttribute(UMLClassifierListItem* att);

@@ -25,7 +25,7 @@ class DocWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit DocWindow(UMLDoc * doc, QWidget *parent = 0);
+    explicit DocWindow(UMLDoc  *doc, QWidget *parent = nullptr);
     ~DocWindow();
 
     void showDocumentation(UMLObject * object, bool overwrite = false);

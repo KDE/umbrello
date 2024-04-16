@@ -20,7 +20,7 @@ class AutoLayoutOptionPage : public DialogPageBase, private Ui::AutoLayoutOption
 {
     Q_OBJECT
 public:
-    explicit AutoLayoutOptionPage(QWidget* parent = 0);
+    explicit AutoLayoutOptionPage(QWidget *parent = nullptr);
     virtual ~AutoLayoutOptionPage();
 
     void setDefaults();

@@ -17,7 +17,7 @@ class ResolutionWidget : public ComboBoxWidgetBase
 {
     Q_OBJECT
 public:
-    explicit ResolutionWidget(QWidget *parent = 0);
+    explicit ResolutionWidget(QWidget  *parent = nullptr);
     float currentResolution();
 
 private Q_SLOTS:

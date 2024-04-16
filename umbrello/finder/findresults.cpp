@@ -65,7 +65,7 @@ void FindResults::clear()
  */
 bool FindResults::displayNext()
 {
-    UMLFinder *finder = 0;
+    UMLFinder  *finder = nullptr;
     if (m_listViewFinder.size() > 0)
         finder = &m_listViewFinder.first();
     else if (m_sceneFinder.size() > 0)
@@ -92,7 +92,7 @@ bool FindResults::displayNext()
  */
 bool FindResults::displayPrevious()
 {
-    UMLFinder *finder = 0;
+    UMLFinder  *finder = nullptr;
     if (m_listViewFinder.size() > 0)
         finder = &m_listViewFinder.first();
     else if (m_sceneFinder.size() > 0)

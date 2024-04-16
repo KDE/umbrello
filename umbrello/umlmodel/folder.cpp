@@ -160,7 +160,7 @@ UMLView *UMLFolder::findView(Uml::ID::Type id)
         }
     }
 
-    UMLView* v = 0;
+    UMLView *v = nullptr;
     UMLPackageList packages;
     appendPackages(packages);
     for(UMLPackage  *o : packages) {
@@ -191,7 +191,7 @@ UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, b
         }
     }
 
-    UMLView* v = 0;
+    UMLView *v = nullptr;
     if (searchAllScopes) {
         for(UMLObject *o : m_objects) {
             uIgnoreZeroPointer(o);
@@ -544,7 +544,7 @@ bool UMLFolder::load1(QDomElement& element)
                 continue;
             }
         }
-        UMLObject *pObject = 0;
+        UMLObject  *pObject = nullptr;
         // Avoid duplicate creation of forward declared object
         QString idStr = Model_Utils::getXmiId(tempElement);
         if (!idStr.isEmpty()) {

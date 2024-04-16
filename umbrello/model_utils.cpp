@@ -185,7 +185,7 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
 UMLObject* findUMLObject(const UMLObjectList& inList,
                          const QString& inName,
                          UMLObject::ObjectType type /* = ot_UMLObject */,
-                         UMLObject *currentObj /* = 0 */)
+                         UMLObject  *currentObj /* = nullptr */)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     QString name = normalize(inName);
@@ -215,7 +215,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
         nameWithoutFirstPrefix = components.join(scopeSeparator);
     }
     if (currentObj) {
-        UMLPackage *pkg = 0;
+        UMLPackage  *pkg = nullptr;
         if (currentObj->asUMLClassifierListItem()) {
             currentObj = currentObj->umlParent();
         }
@@ -360,7 +360,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
 UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
                             const QString& name,
                             UMLObject::ObjectType type /* = ot_UMLObject */,
-                            UMLObject *currentObj /*= 0*/)
+                            UMLObject  *currentObj /*= nullptr*/)
 {
     Q_UNUSED(currentObj);
     for (UMLObjectListIt oit(inList); oit.hasNext();) {
@@ -1000,7 +1000,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
 
     QStringList nameAndType = t.split(QRegExp(QStringLiteral("\\s*:\\s*")));
     if (nameAndType.count() == 2) {
-        UMLObject *pType = 0;
+        UMLObject  *pType = nullptr;
         if (nameAndType[1] != QStringLiteral("class")) {
             pType = pDoc->findUMLObject(nameAndType[1], UMLObject::ot_UMLObject, owningScope);
             if (pType == 0)
@@ -1031,7 +1031,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
  * @return      Error status of the parse, PS_OK for success.
  */
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope,
-                            Uml::Visibility::Enum *vis /* = 0 */)
+                            Uml::Visibility::Enum  *vis /* = nullptr */)
 {
     UMLDoc *pDoc = UMLApp::app()->document();
 

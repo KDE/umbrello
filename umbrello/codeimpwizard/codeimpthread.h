@@ -22,7 +22,7 @@ class CodeImpThread : public QObject
 {
     Q_OBJECT
 public:
-    explicit CodeImpThread(QFileInfo& file, QObject* parent = 0);
+    explicit CodeImpThread(QFileInfo& file, QObject *parent = nullptr);
     virtual ~CodeImpThread();
 
 public Q_SLOTS:

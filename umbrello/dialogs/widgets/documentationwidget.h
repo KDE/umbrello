@@ -22,9 +22,9 @@ class DocumentationWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit DocumentationWidget(UMLObject *o, QWidget *parent = 0);
-    explicit DocumentationWidget(UMLWidget *w, QWidget *parent = 0);
-    explicit DocumentationWidget(AssociationWidget *w, QWidget *parent = 0);
+    explicit DocumentationWidget(UMLObject  *o, QWidget *parent = nullptr);
+    explicit DocumentationWidget(UMLWidget  *w, QWidget *parent = nullptr);
+    explicit DocumentationWidget(AssociationWidget  *w, QWidget *parent = nullptr);
     ~DocumentationWidget();
 
     void apply();

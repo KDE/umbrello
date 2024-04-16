@@ -190,7 +190,7 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig, bool withStereotype
 QString UMLAttribute::getFullyQualifiedName(const QString& separator,
                                             bool includeRoot /* = false */) const
 {
-    const UMLOperation *op = 0;
+    const UMLOperation  *op = nullptr;
     UMLObject *owningObject = umlParent();
     if (owningObject->baseType() == UMLObject::ot_Operation) {
         op = owningObject->asUMLOperation();

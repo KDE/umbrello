@@ -44,7 +44,7 @@ namespace Import_Utils {
 
     UMLObject* createUMLObject(UMLObject::ObjectType type,
                                const QString& name,
-                               UMLPackage *parentPkg = 0,
+                               UMLPackage  *parentPkg = nullptr,
                                const QString& comment = QString(),
                                const QString& stereotype = QString(),
                                bool searchInParentPackageOnly = false,
@@ -98,7 +98,7 @@ namespace Import_Utils {
 
     bool newUMLObjectWasCreated();
 
-    bool isDatatype(const QString& name, UMLPackage *parentPkg = 0);
+    bool isDatatype(const QString& name, UMLPackage  *parentPkg = nullptr);
 
     UMLPackage *globalScope();
 

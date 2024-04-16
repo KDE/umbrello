@@ -26,7 +26,7 @@ class PhpDocumentationWidget : public QStackedWidget
 
 public:
     explicit PhpDocumentationWidget(KDevelop::DocumentationFindWidget* find, const QUrl &url,
-                                    PhpDocsPlugin* provider, QWidget* parent = 0);
+                                    PhpDocsPlugin *provider, QWidget* parent = nullptr);
     ~PhpDocumentationWidget();
 
 private Q_SLOTS:

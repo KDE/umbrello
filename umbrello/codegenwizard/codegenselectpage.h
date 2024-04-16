@@ -21,7 +21,7 @@ class CodeGenSelectPage : public QWizardPage, private Ui::CodeGenSelectPage
 {
     Q_OBJECT
 public:
-    explicit CodeGenSelectPage(QWidget * parent = 0);
+    explicit CodeGenSelectPage(QWidget  *parent = nullptr);
     ~CodeGenSelectPage();
     void setClassifierList(UMLClassifierList *classList);
     bool isComplete() const;

@@ -101,7 +101,7 @@ bool StereotypesModel::addStereotype(UMLStereotype *stereotype)
 bool StereotypesModel::removeStereotype(UMLStereotype *stereotype)
 {
     if (!m_stereotypes.contains(stereotype)) {
-        UMLStereotype *stFound = 0;
+        UMLStereotype  *stFound = nullptr;
         for(UMLStereotype  *s : m_stereotypes) {
             if (s->name() == stereotype->name()) {
                 stFound = s;

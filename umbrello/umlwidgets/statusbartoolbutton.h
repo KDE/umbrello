@@ -29,7 +29,7 @@ public:
         GroupCenter = 3
     };
 
-    explicit StatusBarToolButton(QWidget* parent = 0);
+    explicit StatusBarToolButton(QWidget *parent = nullptr);
 
     virtual QSize minimumSizeHint() const;
     virtual QSize sizeHint() const;

@@ -180,7 +180,7 @@ void AssociationGeneralPage::constructWidget()
 
 void AssociationGeneralPage::slotStereoCheckboxChanged(int state)
 {
-    QWidget *nameInputWidget = 0;
+    QWidget  *nameInputWidget = nullptr;
     if (state) {
         m_pAssocNameLE->hide();
         m_pNameAndTypeLayout->removeWidget(m_pAssocNameLE);
