@@ -168,7 +168,7 @@ void TestDUChain::declareClass()
     QCOMPARE(top->localDeclarations().count(), 1);
     Declaration* dec = top->localDeclarations().first();
     QCOMPARE(dec->kind(), Declaration::Type);
-    QCOMPARE(dec->toString(), QString("class A"));
+    QCOMPARE(dec->toString(), QStringLiteral("class A"));
     QCOMPARE(dec->qualifiedIdentifier(), QualifiedIdentifier("a"));
     QCOMPARE(dec->isDefinition(), true);
     QCOMPARE(dec->logicalInternalContext(top), contextClassA);
@@ -441,7 +441,7 @@ void TestDUChain::returnTypeViaMember()
 
         QCOMPARE(fDec->logicalInternalContext(top)->localDeclarations().size(), 1);
         Declaration* iDec = fDec->logicalInternalContext(top)->localDeclarations().first();
-        QCOMPARE(iDec->identifier().toString(), QString("i"));
+        QCOMPARE(iDec->identifier().toString(), QStringLiteral("i"));
         QVERIFY(iDec->type<StructureType>());
         QCOMPARE(iDec->type<StructureType>()->declaration(top), aDec);
     }
@@ -656,7 +656,7 @@ void TestDUChain::classImplementsInterface()
     Declaration* dec = top->localDeclarations().at(0);
     QVERIFY(dec->isDefinition());
     QCOMPARE(dec->identifier(), Identifier("i"));
-    QCOMPARE(dec->toString(), QString("interface I"));
+    QCOMPARE(dec->toString(), QStringLiteral("interface I"));
     StructureType::Ptr typeI = dec->type<StructureType>();
     QCOMPARE(typeI->qualifiedIdentifier(), QualifiedIdentifier("i"));
     QVERIFY(typeI->declaration(top) == dec);
@@ -1030,8 +1030,8 @@ void TestDUChain::defaultFunctionParam()
     QVERIFY(fun);
 
     QCOMPARE(fun->defaultParametersSize(), 2u);
-    QCOMPARE(fun->defaultParameters()[0].str(), QString("false"));
-    QCOMPARE(fun->defaultParameters()[1].str(), QString("null"));
+    QCOMPARE(fun->defaultParameters()[0].str(), QStringLiteral("false"));
+    QCOMPARE(fun->defaultParameters()[1].str(), QStringLiteral("null"));
 }
 
 void TestDUChain::globalFunction()
@@ -1369,7 +1369,7 @@ void TestDUChain::foreachLoop()
     QCOMPARE(top->localDeclarations().at(1)->abstractType().cast<IntegralType>()->dataType(), static_cast<uint>(IntegralType::TypeMixed));
     QCOMPARE(top->localDeclarations().at(2)->qualifiedIdentifier(), QualifiedIdentifier("c"));
     QVERIFY(top->localDeclarations().at(2)->abstractType().cast<StructureType>());
-    QCOMPARE(top->localDeclarations().at(2)->abstractType().cast<StructureType>()->qualifiedIdentifier().toString(), QString("stdclass"));
+    QCOMPARE(top->localDeclarations().at(2)->abstractType().cast<StructureType>()->qualifiedIdentifier().toString(), QStringLiteral("stdclass"));
     }
 }
 
@@ -1736,7 +1736,7 @@ void TestDUChain::resourceType()
     QVERIFY(ftype);
     IntegralType::Ptr rtype = IntegralType::Ptr::dynamicCast(ftype->returnType());
     QVERIFY(rtype);
-    QCOMPARE(rtype->toString(), QString("resource"));
+    QCOMPARE(rtype->toString(), QStringLiteral("resource"));
     QVERIFY(rtype->dataType() == IntegralTypeExtended::TypeResource);
 }
 
@@ -1884,9 +1884,9 @@ void TestDUChain::unsureReturnType2()
     QVERIFY(ut);
     QCOMPARE((uint)2, ut->typesSize());
     QVERIFY(ut->types()[0].type<StructureType>());
-    QCOMPARE(ut->types()[0].type<StructureType>()->toString(), QString("A"));
+    QCOMPARE(ut->types()[0].type<StructureType>()->toString(), QStringLiteral("A"));
     QVERIFY(ut->types()[1].type<StructureType>());
-    QCOMPARE(ut->types()[1].type<StructureType>()->toString(), QString("B"));
+    QCOMPARE(ut->types()[1].type<StructureType>()->toString(), QStringLiteral("B"));
 }
 
 void TestDUChain::unsureReturnType3()
@@ -2429,11 +2429,11 @@ void TestDUChain::namespaces()
     QCOMPARE(top->problems().count(), 0);
 
     QCOMPARE(top->childContexts().size(), 4);
-    QCOMPARE(top->childContexts().at(0)->localScopeIdentifier().toString(), QString("asdf"));
-    QCOMPARE(top->childContexts().at(1)->localScopeIdentifier().toString(), QString("ns1"));
+    QCOMPARE(top->childContexts().at(0)->localScopeIdentifier().toString(), QStringLiteral("asdf"));
+    QCOMPARE(top->childContexts().at(1)->localScopeIdentifier().toString(), QStringLiteral("ns1"));
 
     QCOMPARE(top->childContexts().at(2)->type(), DUContext::Function);
-    QCOMPARE(top->childContexts().at(3)->localScopeIdentifier().toString(), QString("a"));
+    QCOMPARE(top->childContexts().at(3)->localScopeIdentifier().toString(), QStringLiteral("a"));
 
     QCOMPARE(top->localDeclarations().size(), 3);
     QCOMPARE(top->localDeclarations().at(0)->kind(), Declaration::Namespace);
@@ -2450,13 +2450,13 @@ void TestDUChain::namespaces()
     QCOMPARE(top->childContexts().at(1)->localDeclarations().size(), 1);
     QCOMPARE(top->childContexts().at(1)->localDeclarations().first()->kind(), Declaration::Namespace);
     ///TODO: support \ as separator
-    QCOMPARE(top->childContexts().at(1)->localDeclarations().first()->qualifiedIdentifier().toString(), QString("ns1::ns2"));
+    QCOMPARE(top->childContexts().at(1)->localDeclarations().first()->qualifiedIdentifier().toString(), QStringLiteral("ns1::ns2"));
     QCOMPARE(top->findDeclarations(QualifiedIdentifier("ns1::ns2")).size(), 1);
     QCOMPARE(top->findDeclarations(QualifiedIdentifier("ns1::ns2")).first()->logicalInternalContext(top)->localDeclarations().size(), 3);
     QCOMPARE(top->childContexts().at(1)->childContexts().size(), 1);
     QCOMPARE(top->childContexts().at(1)->childContexts().first()->localDeclarations().size(), 3);
     QCOMPARE(top->findDeclarations(QualifiedIdentifier("ns1::ns2")).first()->logicalInternalContext(top)->localDeclarations().first()->qualifiedIdentifier().toString(),
-             QString("ns1::ns2::a"));
+             QStringLiteral("ns1::ns2::a"));
     QCOMPARE(top->findDeclarations(QualifiedIdentifier("ns1::ns2::a")).size(), 1);
     QCOMPARE(top->findDeclarations(QualifiedIdentifier("ns1::ns2::b")).size(), 1);
     QCOMPARE(top->findDeclarations(QualifiedIdentifier("ns1::ns2::c")).size(), 1);
@@ -2492,8 +2492,8 @@ void TestDUChain::namespacesNoCurly()
         qDebug() << p->description() << p->explanation() << p->finalLocation();
     }
     QCOMPARE(top->childContexts().size(), 2);
-    QCOMPARE(top->childContexts().at(0)->localScopeIdentifier().toString(), QString("asdf"));
-    QCOMPARE(top->childContexts().at(1)->localScopeIdentifier().toString(), QString("ns1"));
+    QCOMPARE(top->childContexts().at(0)->localScopeIdentifier().toString(), QStringLiteral("asdf"));
+    QCOMPARE(top->childContexts().at(1)->localScopeIdentifier().toString(), QStringLiteral("ns1"));
 
     QCOMPARE(top->localDeclarations().size(), 2);
     QCOMPARE(top->localDeclarations().at(0)->kind(), Declaration::Namespace);
@@ -2527,15 +2527,15 @@ void TestDUChain::useNamespace()
     QCOMPARE(top->localDeclarations().count(), 5);
 
     Declaration* dec = top->localDeclarations().at(2);
-    QCOMPARE(dec->qualifiedIdentifier().toString(), QString("ns2"));
+    QCOMPARE(dec->qualifiedIdentifier().toString(), QStringLiteral("ns2"));
     QVERIFY(dynamic_cast<NamespaceAliasDeclaration*>(dec));
 
     dec = top->localDeclarations().at(3);
-    QCOMPARE(dec->qualifiedIdentifier().toString(), QString("ns5"));
+    QCOMPARE(dec->qualifiedIdentifier().toString(), QStringLiteral("ns5"));
     QVERIFY(dynamic_cast<NamespaceAliasDeclaration*>(dec));
 
     dec = top->localDeclarations().at(4);
-    QCOMPARE(dec->qualifiedIdentifier().toString(), QString("ns6"));
+    QCOMPARE(dec->qualifiedIdentifier().toString(), QStringLiteral("ns6"));
     QVERIFY(dynamic_cast<NamespaceAliasDeclaration*>(dec));
     ///TODO: find out why this is explicitly required
     QVERIFY(!dynamic_cast<NamespaceAliasDeclaration*>(dec)->importIdentifier().explicitlyGlobal());
@@ -2793,7 +2793,7 @@ void TestDUChain::closures()
 
     QCOMPARE(top->localDeclarations().count(), 2);
     Declaration* l = top->localDeclarations().first();
-    QCOMPARE(l->identifier().toString(), QString("l"));
+    QCOMPARE(l->identifier().toString(), QStringLiteral("l"));
     Declaration* closure = top->localDeclarations().last();
     QVERIFY(closure->identifier().isEmpty());
 
@@ -2804,7 +2804,7 @@ void TestDUChain::closures()
     QVERIFY(funcType->arguments().at(0).cast<IntegralType>());
     QCOMPARE(funcType->arguments().at(0).cast<IntegralType>()->dataType(), static_cast<uint>(IntegralType::TypeMixed));
     QVERIFY(funcType->arguments().at(1).cast<StructureType>());
-    QCOMPARE(funcType->arguments().at(1).cast<StructureType>()->qualifiedIdentifier().toString(), QString("stdclass"));
+    QCOMPARE(funcType->arguments().at(1).cast<StructureType>()->qualifiedIdentifier().toString(), QStringLiteral("stdclass"));
 
     QVERIFY(funcType->returnType().cast<IntegralType>());
     QCOMPARE(funcType->returnType().cast<IntegralType>()->dataType(), static_cast<uint>(IntegralType::TypeInt));
@@ -2849,7 +2849,7 @@ void TestDUChain::iife()
     QVERIFY(top->problems().isEmpty());
     QCOMPARE(top->localDeclarations().count(), 2);
     Declaration* l = top->localDeclarations().first();
-    QCOMPARE(l->identifier().toString(), QString("l"));
+    QCOMPARE(l->identifier().toString(), QStringLiteral("l"));
     Declaration* iife = top->localDeclarations().last();
     QVERIFY(iife->identifier().isEmpty());
 }
@@ -2938,9 +2938,9 @@ void Php::TestDUChain::testTodoExtractor()
 
     QVERIFY(top);
     QCOMPARE(top->problems().size(), 2);
-    QCOMPARE(top->problems().at(0)->description(), QString("TODO: bla"));
+    QCOMPARE(top->problems().at(0)->description(), QStringLiteral("TODO: bla"));
     QCOMPARE(top->problems().at(0)->range(), RangeInRevision(1, 3, 1, 12));
-    QCOMPARE(top->problems().at(1)->description(), QString("FIXME blub"));
+    QCOMPARE(top->problems().at(1)->description(), QStringLiteral("FIXME blub"));
     QCOMPARE(top->problems().at(1)->range(), RangeInRevision(2, 4, 2, 14));
 }
 

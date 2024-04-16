@@ -371,7 +371,7 @@ void TestUses::classConstant()
 
     Declaration* dec = top->childContexts().first()->localDeclarations().first();
     QVERIFY(dec->abstractType()->modifiers() & AbstractType::ConstModifier);
-    QCOMPARE(dec->qualifiedIdentifier().toString(), QString("a::FOO"));
+    QCOMPARE(dec->qualifiedIdentifier().toString(), QStringLiteral("a::FOO"));
     compareUses(dec, QList<RangeInRevision>() << RangeInRevision(1, 43, 1, 46)
                                           << RangeInRevision(2, 3, 2, 6)
                                           << RangeInRevision(3, 3, 3, 6));
@@ -606,11 +606,11 @@ void TestUses::staticArrayIndex()
     DUChainWriteLocker lock(DUChain::lock());
 
     Declaration* a = top->childContexts().first()->localDeclarations().first();
-    QCOMPARE(a->identifier().toString(), QString("a"));
+    QCOMPARE(a->identifier().toString(), QStringLiteral("a"));
     compareUses(a, RangeInRevision(0, 68, 0, 70));
 
     Declaration* i = top->childContexts().first()->childContexts().first()->localDeclarations().first();
-    QCOMPARE(i->identifier().toString(), QString("i"));
+    QCOMPARE(i->identifier().toString(), QStringLiteral("i"));
     compareUses(i, RangeInRevision(0, 71, 0, 73));
 }
 
@@ -1047,11 +1047,11 @@ void TestUses::closures()
     QCOMPARE(top->localDeclarations().count(), 4);
 
     Declaration* a = top->localDeclarations().at(0);
-    QCOMPARE(a->identifier().toString(), QString("a"));
+    QCOMPARE(a->identifier().toString(), QStringLiteral("a"));
     compareUses(a, QList<RangeInRevision>() << RangeInRevision(1, 23, 1, 25) << RangeInRevision(1, 36, 1, 38));
 
     Declaration* b = top->localDeclarations().at(1);
-    QCOMPARE(b->identifier().toString(), QString("b"));
+    QCOMPARE(b->identifier().toString(), QStringLiteral("b"));
     QVERIFY(b->uses().isEmpty());
 }
 
@@ -1069,7 +1069,7 @@ void TestUses::instanceof()
     QCOMPARE(top->localDeclarations().count(), 3);
 
     Declaration* a = top->localDeclarations().at(0);
-    QCOMPARE(a->identifier().toString(), QString("a"));
+    QCOMPARE(a->identifier().toString(), QStringLiteral("a"));
     compareUses(a, QList<RangeInRevision>()
                     << RangeInRevision(1, 9, 1, 10)
                     << RangeInRevision(2, 19, 2, 20));
@@ -1087,7 +1087,7 @@ void TestUses::classNameString()
 
 
     Declaration* foo = top->localDeclarations().at(0);
-    QCOMPARE(foo->identifier().toString(), QString("foo"));
+    QCOMPARE(foo->identifier().toString(), QStringLiteral("foo"));
     compareUses(foo, RangeInRevision(0, 22, 0, 27));
 }
 
@@ -1204,7 +1204,7 @@ void TestUses::exceptionFinally()
     DUChainWriteLocker lock(DUChain::lock());
 
     Declaration *a = top->localDeclarations().at(0);
-    QCOMPARE(a->identifier().toString(), QString("a"));
+    QCOMPARE(a->identifier().toString(), QStringLiteral("a"));
     compareUses(a, QList<RangeInRevision>() << RangeInRevision(0, 17, 0, 19)
             << RangeInRevision(0, 37, 0, 39));
 }

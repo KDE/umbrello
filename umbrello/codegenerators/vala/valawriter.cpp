@@ -594,7 +594,7 @@ void ValaWriter::writeOperations(UMLOperationList opList,
 
             // no initial values in Vala
             //<< (!(at->getInitialValue().isEmpty()) ?
-            //    (QString(" = ")+at->getInitialValue()) :
+            //    (QStringLiteral(" = ")+at->getInitialValue()) :
             //    QString())
             cs << ((j < i-1) ? QStringLiteral(", ") : QString());
         }
