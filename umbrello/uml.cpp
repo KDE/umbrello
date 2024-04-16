@@ -1622,7 +1622,7 @@ void UMLApp::slotEditPaste()
     UMLClipboard clipboard;
     setCursor(Qt::WaitCursor);
     if (!clipboard.paste(data)) {
-        KMessageBox::sorry(this, i18n("Umbrello could not paste the clipboard contents.  "
+        QMessageBox::information(this, i18n("Umbrello could not paste the clipboard contents.  "
                                        "The objects in the clipboard may be of the wrong "
                                        "type to be pasted here."), i18n("Paste Error"));
     }
@@ -2249,10 +2249,10 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
                 dialog = 0;
             } else {
                 // shouldn't happen..
-                KMessageBox::sorry(0, i18n("Cannot view code until you generate some first."), i18n("Cannot View Code"));
+                QMessageBox::information(0, i18n("Cannot view code until you generate some first."), i18n("Cannot View Code"));
             }
         } else {
-            KMessageBox::sorry(0, i18n("Cannot view code from simple code writer."), i18n("Cannot View Code"));
+            QMessageBox::information(0, i18n("Cannot view code from simple code writer."), i18n("Cannot View Code"));
         }
     } else {
         uWarning() << "No CodeGenerator or UMLClassifier given!";

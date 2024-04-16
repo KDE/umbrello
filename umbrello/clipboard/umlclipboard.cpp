@@ -747,7 +747,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
 void UMLClipboard::pasteItemAlreadyExists()
 {
     UMLView *currentView = UMLApp::app()->currentView();
-    KMessageBox::sorry(currentView,
+    QMessageBox::information(currentView,
                         i18n("At least one of the items in the clipboard "
                              "could not be pasted because an item of the "
                              "same name already exists.  Any other items "
