@@ -13,7 +13,7 @@ class CodeTextEdit;
 class UMLObject;
 class UMLWidget;
 
-class KTextEdit;
+class QTextEdit;
 
 class QGridLayout;
 class QGroupBox;
@@ -31,7 +31,7 @@ public:
 
 protected:
     QGroupBox *m_box;
-    KTextEdit *m_editField;
+    QTextEdit *m_editField;
     CodeTextEdit *m_codeEditField;
     UMLObject *m_object;
     UMLWidget *m_widget;

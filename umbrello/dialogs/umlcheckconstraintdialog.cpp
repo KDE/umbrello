@@ -11,7 +11,7 @@
 
 // kde includes
 #include <KLocalizedString>
-#include <ktextedit.h>
+#include <QTextEdit>
 #include <QLineEdit>
 
 // qt includes

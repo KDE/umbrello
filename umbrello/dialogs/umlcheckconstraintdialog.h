@@ -12,7 +12,7 @@
 class UMLDoc;
 class UMLCheckConstraint;
 class QLineEdit;
-class KTextEdit;
+class QTextEdit;
 class QLabel;
 
 /**
@@ -56,7 +56,7 @@ private:
     QLabel* m_pNameL;
     QLineEdit* m_pNameLE;
     QLabel* m_pCheckConditionL;
-    KTextEdit* m_pCheckConditionTE;
+    QTextEdit* m_pCheckConditionTE;
 };
 
 #endif

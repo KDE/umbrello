@@ -11,7 +11,7 @@
 #include "umlobject.h"
 #include "umlwidget.h"
 
-#include <KTextEdit>
+#include <QTextEdit>
 #include <KLocalizedString>
 
 #include <QGroupBox>
