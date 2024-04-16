@@ -40,7 +40,7 @@ private:
     QAction* newCheckConstraintAction;
     void setupActions();
 
-private slots:
+private Q_SLOTS:
 
     void slotNewUniqueConstraint();
     void slotNewPrimaryKeyConstraint();

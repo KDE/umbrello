@@ -291,7 +291,7 @@ qreal ObjectWidget::centerX()
 void ObjectWidget::moveEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event)
-    emit sigWidgetMoved(m_nLocalID);
+    Q_EMIT sigWidgetMoved(m_nLocalID);
     if (m_pLine) {
         m_pLine->setStartPoint(x() + width() / 2, y() + height());
     }

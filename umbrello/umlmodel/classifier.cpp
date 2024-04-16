@@ -331,7 +331,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position)
     else {
         subordinates().append(op);
     }
-    emit operationAdded(op);
+    Q_EMIT operationAdded(op);
     UMLObject::emitModified();
     connect(op, SIGNAL(modified()), this, SIGNAL(modified()));
     return true;
@@ -379,7 +379,7 @@ int UMLClassifier::removeOperation(UMLOperation *op)
     // disconnection needed.
     // note that we don't delete the operation, just remove it from the Classifier
     disconnect(op, SIGNAL(modified()), this, SIGNAL(modified()));
-    emit operationRemoved(op);
+    Q_EMIT operationRemoved(op);
     UMLObject::emitModified();
     return subordinates().count();
 }
@@ -704,13 +704,13 @@ bool UMLClassifier::resolveRef()
                 continue;
             switch (cli->baseType()) {
                 case UMLObject::ot_Attribute:
-                    emit attributeAdded(cli);
+                    Q_EMIT attributeAdded(cli);
                     break;
                 case UMLObject::ot_Operation:
-                    emit operationAdded(cli);
+                    Q_EMIT operationAdded(cli);
                     break;
                 case UMLObject::ot_Template:
-                    emit templateAdded(cli);
+                    Q_EMIT templateAdded(cli);
                     break;
                 default:
                     break;
@@ -817,7 +817,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::ID::Type id 
     Uml::Visibility::Enum scope = Settings::optionState().classState.defaultAttributeScope;
     UMLAttribute *a = new UMLAttribute(this, name, id, scope);
     subordinates().append(a);
-    emit attributeAdded(a);
+    Q_EMIT attributeAdded(a);
     UMLObject::emitModified();
     connect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     return a;
@@ -842,7 +842,7 @@ UMLAttribute* UMLClassifier::addAttribute(const QString &name, UMLObject *type, 
         a->setType(type);
     }
     subordinates().append(a);
-    emit attributeAdded(a);
+    Q_EMIT attributeAdded(a);
     UMLObject::emitModified();
     connect(a, SIGNAL(modified()), this, SIGNAL(modified()));
     return a;
@@ -872,7 +872,7 @@ bool UMLClassifier::addAttribute(UMLAttribute* att, IDChangeLog* log /* = 0 */,
         else {
             subordinates().append(att);
         }
-        emit attributeAdded(att);
+        Q_EMIT attributeAdded(att);
         UMLObject::emitModified();
         connect(att, SIGNAL(modified()), this, SIGNAL(modified()));
         return true;
@@ -898,7 +898,7 @@ int UMLClassifier::removeAttribute(UMLAttribute* att)
     }
     // note that we don't delete the attribute, just remove it from the Classifier
     disconnect(att, SIGNAL(modified()), this, SIGNAL(modified()));
-    emit attributeRemoved(att);
+    Q_EMIT attributeRemoved(att);
     UMLObject::emitModified();
     return subordinates().count();
 }
@@ -1030,7 +1030,7 @@ UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::ID::Type id)
     }
     templt = new UMLTemplate(this, name, id);
     subordinates().append(templt);
-    emit templateAdded(templt);
+    Q_EMIT templateAdded(templt);
     UMLObject::emitModified();
     connect(templt, SIGNAL(modified()), this, SIGNAL(modified()));
     return templt;
@@ -1050,7 +1050,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 
     if (findChildObject(name) == 0) {
         newTemplate->setParent(this);
         subordinates().append(newTemplate);
-        emit templateAdded(newTemplate);
+        Q_EMIT templateAdded(newTemplate);
         UMLObject::emitModified();
         connect(newTemplate, SIGNAL(modified()), this, SIGNAL(modified()));
         return true;
@@ -1084,7 +1084,7 @@ bool UMLClassifier::addTemplate(UMLTemplate* templt, int position)
         else {
             subordinates().append(templt);
         }
-        emit templateAdded(templt);
+        Q_EMIT templateAdded(templt);
         UMLObject::emitModified();
         connect(templt, SIGNAL(modified()), this, SIGNAL(modified()));
         return true;
@@ -1106,7 +1106,7 @@ int UMLClassifier::removeTemplate(UMLTemplate* umltemplate)
         logWarn1("UMLClassifier::removeTemplate(%1) : cannot find att given in list", name());
         return -1;
     }
-    emit templateRemoved(umltemplate);
+    Q_EMIT templateRemoved(umltemplate);
     UMLObject::emitModified();
     disconnect(umltemplate, SIGNAL(modified()), this, SIGNAL(modified()));
     return subordinates().count();
@@ -1195,7 +1195,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
         case UMLObject::ot_Attribute: {
             UMLAttribute *retval = subordinates().takeAt(index)->asUMLAttribute();
             if (retval) {
-                emit attributeRemoved(retval);
+                Q_EMIT attributeRemoved(retval);
                 UMLObject::emitModified();
             } else {
                 index = -1;
@@ -1205,7 +1205,7 @@ int UMLClassifier::takeItem(UMLClassifierListItem *item)
         case UMLObject::ot_Template: {
             UMLTemplate *templt = subordinates().takeAt(index)->asUMLTemplate();
             if (templt) {
-                emit templateRemoved(templt);
+                Q_EMIT templateRemoved(templt);
                 UMLObject::emitModified();
             } else {
                 index = -1;

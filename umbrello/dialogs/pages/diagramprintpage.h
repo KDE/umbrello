@@ -60,7 +60,7 @@ private:
 
     enum FilterType{Current = 0, All, Select, Type};
 
-public slots:
+public Q_SLOTS:
     void slotClicked();
     void slotActivated(int index);
 };

@@ -29,7 +29,7 @@ class LexerTest : public QObject
 public:
     LexerTest();
 
-private slots:
+private Q_SLOTS:
     void testOpenTagWithNewline();
     void testOpenTagWithSpace();
     void testCommentOneLine();

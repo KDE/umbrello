@@ -47,7 +47,7 @@ private:
     void accept();
     void reject();
 
-protected slots:
+protected Q_SLOTS:
     void showHelp();
 
 };

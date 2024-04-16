@@ -24,7 +24,7 @@ class PhpUnitProvider : public KDevelop::IPlugin
 public:
     PhpUnitProvider(QObject* parent, const QList<QVariant>& args = QList<QVariant>());
 
-public slots:
+public Q_SLOTS:
     void updateReady(const KDevelop::IndexedString& document, const KDevelop::ReferencedTopDUContext& context);
 
 private:

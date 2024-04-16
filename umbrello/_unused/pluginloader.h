@@ -98,7 +98,7 @@ public:
     /** Get a reference to the plugin category mapping. */
     const CategoryMap &categories() const;
 
-private slots:
+private Q_SLOTS:
     /**
      * This is used to connect to the destroyed signal emitted by plugins
      * when they are finally deleted. The plugin loader uses this signal

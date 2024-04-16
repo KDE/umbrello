@@ -36,7 +36,7 @@ class TestBase : public QObject
 public:
     explicit TestBase(QObject *parent = 0);
 
-protected slots:
+protected Q_SLOTS:
     virtual void initTestCase();
     virtual void cleanupTestCase();
     virtual void cleanupOnExit(QObject *p);
@@ -56,7 +56,7 @@ protected:
 class TestCodeGeneratorBase : public TestBase
 {
     Q_OBJECT
-private slots:
+private Q_SLOTS:
     virtual void initTestCase();
 
 protected:

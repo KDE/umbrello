@@ -54,7 +54,7 @@ private:
     UMLEntityAttributeList m_pEntityAttributeList;
     UMLEntityAttributeList m_pConstraintAttributeList;
 
-public slots:
+public Q_SLOTS:
     void slotResetWidgetState();
     void slotAddAttribute();
     void slotDeleteAttribute();

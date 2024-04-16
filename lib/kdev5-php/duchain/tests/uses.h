@@ -18,7 +18,7 @@ class TestUses : public DUChainTestBase
 public:
     TestUses();
 
-private slots:
+private Q_SLOTS:
     void newObject();
     void functionCall();
     void memberFunctionCall();

@@ -63,7 +63,7 @@ protected:
 
 private:
 
-public slots:
+public Q_SLOTS:
 
     void syncToParent ();
 

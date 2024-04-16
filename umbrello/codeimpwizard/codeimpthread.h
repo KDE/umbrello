@@ -25,13 +25,13 @@ public:
     explicit CodeImpThread(QFileInfo& file, QObject* parent = 0);
     virtual ~CodeImpThread();
 
-public slots:
+public Q_SLOTS:
     virtual void run();
 
     int emitAskQuestion(const QString& question);
     void emitMessageToLog(const QString& file, const QString& text);
 
-signals:
+Q_SIGNALS:
     void askQuestion(const QString& question, int& answer);
     void messageToWiz(const QString& file, const QString& text);
     void messageToLog(const QString& file, const QString& text);
@@ -40,7 +40,7 @@ signals:
     void failed();
     void finished(bool noError);
 
-private slots:
+private Q_SLOTS:
     void questionAsked(const QString& question, int& answer);
 
 private:

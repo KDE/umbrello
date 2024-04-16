@@ -53,5 +53,5 @@ void CodeImportOptionsPage::apply()
     Settings::optionState().codeImportState.createArtifacts = createArtifactCheckBox->isChecked();
     Settings::optionState().codeImportState.resolveDependencies = resolveDependenciesCheckBox->isChecked();
     Settings::optionState().codeImportState.supportCPP11 = supportCPP11CheckBox->isChecked();
-    emit applyClicked();
+    Q_EMIT applyClicked();
 }

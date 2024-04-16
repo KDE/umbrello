@@ -308,7 +308,7 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
 void ActivityWidget::moveWidgetBy(qreal diffX, qreal diffY)
 {
     UMLWidget::moveWidgetBy(diffX, diffY);
-    emit sigActMoved(diffX, diffY);
+    Q_EMIT sigActMoved(diffX, diffY);
 }
 
 /**

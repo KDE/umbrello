@@ -35,7 +35,7 @@ public:
     void setMainWidget(QWidget *widget);
     void setButtonText(ButtonCode code, const QString &text);
 
-protected slots:
+protected Q_SLOTS:
     void slotApply();
     void slotOk();
     void slotCancel();

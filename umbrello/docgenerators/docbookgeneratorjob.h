@@ -27,7 +27,7 @@ class DocbookGeneratorJob : public QThread
   protected:
     void run();
 
-  signals:
+  Q_SIGNALS:
     void docbookGenerated(const QString& url);
 
 };

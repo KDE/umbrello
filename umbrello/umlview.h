@@ -40,7 +40,7 @@ public:
 
     virtual bool showPropertiesDialog(QWidget *parent = 0);
 
-public slots:
+public Q_SLOTS:
     void zoomIn();
     void zoomOut();
     void show();

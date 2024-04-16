@@ -104,7 +104,7 @@ private:
     KPageWidgetItem *pageCodeViewer, *pageFont, *pageCodeImport, *pageCodeGen,
                     *pageUserInterface, *pageClass, *pageAutoLayout, *pageGeneral;
 
-private slots:
+private Q_SLOTS:
     void slotApply();
     void slotOk();
     void slotDefault();

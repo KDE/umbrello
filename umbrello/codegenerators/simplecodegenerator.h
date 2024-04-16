@@ -75,7 +75,7 @@ protected:
 
     virtual void initFromParentDocument();
 
-public slots:
+public Q_SLOTS:
     virtual void syncCodeToDocument();
 
 };

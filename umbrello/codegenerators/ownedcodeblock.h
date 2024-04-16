@@ -46,7 +46,7 @@ private:
 
     UMLObject * m_parentObject;
 
-public slots:
+public Q_SLOTS:
 
     virtual void syncToParent ();
 

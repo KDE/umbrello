@@ -39,7 +39,7 @@ public:
 private:
     bool m_generationDone;
 
-protected slots:
+protected Q_SLOTS:
     void generateCode();
     void classGenerated(UMLClassifier* classifier, bool generated);
     void classGenerated(UMLClassifier* classifier, CodeGenerator::GenerationState state);

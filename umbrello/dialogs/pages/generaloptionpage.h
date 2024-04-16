@@ -34,7 +34,7 @@ public:
     void setDefaults();
     void apply();
 
-signals:
+Q_SIGNALS:
     void applyClicked();
 
 protected:
@@ -70,7 +70,7 @@ protected:
     void insertDiagram(const QString& type, int index);
     void insertLayoutType(const QString& type, int index);
 
-protected slots:
+protected Q_SLOTS:
     void slotAutosaveCBClicked();
 
 };

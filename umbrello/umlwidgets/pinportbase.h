@@ -52,7 +52,7 @@ public:
     void saveToXMI(QXmlStreamWriter& writer);
     bool loadFromXMI(QDomElement& qElement);
 
-public slots:
+public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 protected:

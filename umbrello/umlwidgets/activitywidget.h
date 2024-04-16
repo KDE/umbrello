@@ -66,7 +66,7 @@ public:
 
     void constrain(qreal& width, qreal& height);
 
-signals:
+Q_SIGNALS:
     /**
      * Emitted when the activity widget is moved.
      * Provides the delta X and delta Y amount by which the widget was moved

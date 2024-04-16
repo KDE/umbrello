@@ -59,7 +59,7 @@ private:
 
     void constructWidget();
 
-public slots:
+public Q_SLOTS:
     void slotStereoCheckboxChanged(int state);
 
 };

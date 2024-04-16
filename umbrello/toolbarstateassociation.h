@@ -44,7 +44,7 @@ public:
 
     virtual void mouseMove(QGraphicsSceneMouseEvent* ome);
 
-public slots:
+public Q_SLOTS:
 
     virtual void slotWidgetRemoved(UMLWidget* widget);
 

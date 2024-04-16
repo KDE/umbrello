@@ -199,6 +199,6 @@ void DocbookGeneratorJob::run()
     xsltCleanupGlobals();
     xmlCleanupParser();
 
-    emit docbookGenerated(tmpDocBook.fileName());
+    Q_EMIT docbookGenerated(tmpDocBook.fileName());
 }
 

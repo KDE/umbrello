@@ -50,15 +50,15 @@ private:
      static int indentTypeToInteger(CodeGenerationPolicy::IndentationType value);
      void setupActiveLanguageBox();
 
-protected slots:
+protected Q_SLOTS:
      void activeLanguageChanged(int id);
      void updateCodeGenerationPolicyTab();
      void browseClicked();
 
-private slots:
+private Q_SLOTS:
     void changeLanguage();
 
-signals:
+Q_SIGNALS:
      void applyClicked();
      void languageChanged();
      void syncCodeDocumentsToParent();

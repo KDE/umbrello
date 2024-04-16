@@ -2997,13 +2997,13 @@ void PhpWriter::writeClass(UMLClassifier *c)
     //find an appropriate name for our file
     QString fileName = findFileName(c, QStringLiteral(".php"));
     if (fileName.isEmpty()) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
     QFile filephp;
     if (!openFile(filephp, fileName)) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
     QTextStream php(&filephp);
@@ -3128,8 +3128,8 @@ void PhpWriter::writeClass(UMLClassifier *c)
 
     //close files and notfiy we are done
     filephp.close();
-    emit codeGenerated(c, true);
-    emit showGeneratedFile(filephp.fileName());
+    Q_EMIT codeGenerated(c, true);
+    Q_EMIT showGeneratedFile(filephp.fileName());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

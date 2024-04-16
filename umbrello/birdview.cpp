@@ -151,7 +151,7 @@ void BirdView::mouseMoveEvent(QMouseEvent *event)
     QPoint scaledDelta(delta.x() * scale.width(), delta.y() * scale.height());
     QPointF oldCenter = m_view->mapToScene(m_view->viewport()->rect().center());
     QPointF newCenter = m_view->mapToScene(m_view->viewport()->rect().center() + scaledDelta);
-    emit viewPositionChanged(newCenter - oldCenter);
+    Q_EMIT viewPositionChanged(newCenter - oldCenter);
     slotViewChanged();
     m_moveStartPos = event->globalPos();
 }
@@ -261,6 +261,6 @@ BirdViewDockWidget::BirdViewDockWidget(const QString& title, QWidget* parent, Qt
  */
 void BirdViewDockWidget::resizeEvent(QResizeEvent *event)
 {
-    emit sizeChanged(event->size());
+    Q_EMIT sizeChanged(event->size());
 }
 

@@ -38,7 +38,7 @@ protected:
 
     DCodeGenerationFormBase * form;
 
-public slots:
+public Q_SLOTS:
 
     void apply();
 

@@ -196,11 +196,11 @@ private:
      */
     Uml::ID::Type m_widgetAId, m_widgetBId, m_textId;
 
-public slots:
+public Q_SLOTS:
     void slotWidgetMoved(Uml::ID::Type id);
     void slotMenuSelection(QAction* action);
 
-signals:
+Q_SIGNALS:
     /**
      * emitted when the message widget is moved up or down
      * slots into ObjectWidget::slotMessageMoved()

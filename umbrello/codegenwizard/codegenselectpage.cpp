@@ -104,7 +104,7 @@ QListWidget* CodeGenSelectPage::getSelectionListWidget()
 void CodeGenSelectPage::selectClass()
 {
     moveSelectedItems(ui_listAvailable, ui_listSelected);
-    emit completeChanged();
+    Q_EMIT completeChanged();
 }
 
 /**
@@ -114,7 +114,7 @@ void CodeGenSelectPage::selectClass()
 void CodeGenSelectPage::deselectClass()
 {
     moveSelectedItems(ui_listSelected, ui_listAvailable);
-    emit completeChanged();
+    Q_EMIT completeChanged();
 }
 
 /**

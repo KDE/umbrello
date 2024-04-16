@@ -222,7 +222,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     //find an appropriate name for our file
     fileName = overwritableName(c, fileName, QStringLiteral(".ads"));
     if (fileName.isEmpty()) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
@@ -234,7 +234,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     } else {
         file = new QFile();
         if (!openFile(*file, fileName)) {
-            emit codeGenerated(c, false);
+            Q_EMIT codeGenerated(c, false);
             delete file;
             return;
         }
@@ -429,7 +429,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
         writeOperation(op, ada);
     }
 
-    emit codeGenerated(c, true);
+    Q_EMIT codeGenerated(c, true);
 }
 
 /**
@@ -777,7 +777,7 @@ void AdaWriter::finalizeRun()
         }
         ada << m_endl << "end " << i.key() << ";" << m_endl;
         file->close();
-        emit showGeneratedFile(file->fileName());
+        Q_EMIT showGeneratedFile(file->fileName());
         delete file;
     }
 }

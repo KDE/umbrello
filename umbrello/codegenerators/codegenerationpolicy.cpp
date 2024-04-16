@@ -85,7 +85,7 @@ CodeGenerationPolicy::OverwritePolicy CodeGenerationPolicy::getOverwritePolicy (
 void CodeGenerationPolicy::setCommentStyle (CommentStyle new_var)
 {
     Settings::optionState().codeGenerationState.commentStyle = new_var;
-    emit modifiedCodeContent();
+    Q_EMIT modifiedCodeContent();
 }
 
 /**
@@ -107,7 +107,7 @@ CodeGenerationPolicy::CommentStyle CodeGenerationPolicy::getCommentStyle()
 void CodeGenerationPolicy::setSectionCommentsPolicy (WriteSectionCommentsPolicy new_var)
 {
     Settings::optionState().codeGenerationState.writeSectionComments = new_var;
-    emit modifiedCodeContent();
+    Q_EMIT modifiedCodeContent();
 }
 
 /**
@@ -133,7 +133,7 @@ CodeGenerationPolicy::getSectionCommentsPolicy () const
 void CodeGenerationPolicy::setCodeVerboseDocumentComments (bool new_var)
 {
     Settings::optionState().codeGenerationState.forceDoc = new_var;
-    emit modifiedCodeContent();
+    Q_EMIT modifiedCodeContent();
 }
 
 /**
@@ -175,7 +175,7 @@ QString CodeGenerationPolicy::getHeadingFileDir () const
 void CodeGenerationPolicy::setIncludeHeadings (bool new_var)
 {
     Settings::optionState().codeGenerationState.includeHeadings = new_var;
-    emit modifiedCodeContent();
+    Q_EMIT modifiedCodeContent();
 }
 
 /**
@@ -227,7 +227,7 @@ void CodeGenerationPolicy::setLineEndingType (NewLineType type)
         m_lineEndingChars = QString(QStringLiteral("\n"));
         break;
     }
-    emit modifiedCodeContent();
+    Q_EMIT modifiedCodeContent();
 }
 
 /**
@@ -258,7 +258,7 @@ void CodeGenerationPolicy::setIndentationType (IndentationType new_var)
 {
     Settings::optionState().codeGenerationState.indentationType = new_var;
     calculateIndentation();
-    emit modifiedCodeContent();
+    Q_EMIT modifiedCodeContent();
 }
 
 /**
@@ -279,7 +279,7 @@ void CodeGenerationPolicy::setIndentationAmount (int amount)
     {
         Settings::optionState().codeGenerationState.indentationAmount = amount;
         calculateIndentation();
-        emit modifiedCodeContent();
+        Q_EMIT modifiedCodeContent();
     }
 }
 
@@ -349,7 +349,7 @@ CodeGenerationPolicy::ModifyNamePolicy CodeGenerationPolicy::getModifyPolicy () 
 void CodeGenerationPolicy::setAutoGenerateConstructors(bool var)
 {
     Settings::optionState().codeGenerationState.autoGenEmptyConstructors = var;
-    emit modifiedCodeContent();
+    Q_EMIT modifiedCodeContent();
 }
 
 /**
@@ -368,7 +368,7 @@ bool CodeGenerationPolicy::getAutoGenerateConstructors()
 void CodeGenerationPolicy::setAttributeAccessorScope(Uml::Visibility::Enum var)
 {
     Settings::optionState().codeGenerationState.defaultAttributeAccessorScope = var;
-    emit modifiedCodeContent();
+    Q_EMIT modifiedCodeContent();
 }
 
 /**
@@ -387,7 +387,7 @@ Uml::Visibility::Enum CodeGenerationPolicy::getAttributeAccessorScope()
 void CodeGenerationPolicy::setAssociationFieldScope(Uml::Visibility::Enum var)
 {
     Settings::optionState().codeGenerationState.defaultAssocFieldScope = var;
-    emit modifiedCodeContent();
+    Q_EMIT modifiedCodeContent();
 }
 
 /**
@@ -414,7 +414,7 @@ CodeGenerationPolicyPage * CodeGenerationPolicy::createPage (QWidget *pWidget, c
 void CodeGenerationPolicy::emitModifiedCodeContentSig()
 {
     if (!UMLApp::app()->document()->loading())
-        emit modifiedCodeContent();
+        Q_EMIT modifiedCodeContent();
 }
 
 /**
@@ -444,7 +444,7 @@ void CodeGenerationPolicy::setDefaults (CodeGenerationPolicy * clone, bool emitU
     blockSignals(false); // "as you were citizen"
 
     if (emitUpdateSignal)
-        emit modifiedCodeContent();
+        Q_EMIT modifiedCodeContent();
 }
 
 /**
@@ -488,7 +488,7 @@ void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     blockSignals(false); // "as you were citizen"
 
     if (emitUpdateSignal)
-        emit modifiedCodeContent();
+        Q_EMIT modifiedCodeContent();
 }
 
 /**

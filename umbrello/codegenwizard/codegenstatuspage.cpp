@@ -126,7 +126,7 @@ void CodeGenStatusPage::generateCode()
 
         m_generationDone = true;
         setFinalPage(true);
-        emit completeChanged();
+        Q_EMIT completeChanged();
     }
 }
 

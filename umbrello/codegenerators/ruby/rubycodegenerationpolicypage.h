@@ -25,7 +25,7 @@ protected:
 
     Ui::RubyCodeGenerationFormBase form;
 
-public slots:
+public Q_SLOTS:
 
     void apply();
 

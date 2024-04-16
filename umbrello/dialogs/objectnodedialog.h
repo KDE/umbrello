@@ -34,7 +34,7 @@ public:
         return m_bChangesMade;
     }
 
-protected slots:
+protected Q_SLOTS:
     void slotOk();
 
     void slotApply();

@@ -49,13 +49,13 @@ void RubyWriter::writeClass(UMLClassifier *c)
     //find an appropriate name for our file
     fileName_ = findFileName(c, QStringLiteral(".rb"));
     if (fileName_.isEmpty()) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
     QFile fileh;
     if (!openFile(fileh, fileName_)) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
     QTextStream h(&fileh);
@@ -128,7 +128,7 @@ void RubyWriter::writeClass(UMLClassifier *c)
 
     //close files and notfiy we are done
     fileh.close();
-    emit codeGenerated(c, true);
+    Q_EMIT codeGenerated(c, true);
 }
 
 /**

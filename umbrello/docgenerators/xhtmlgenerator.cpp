@@ -159,7 +159,7 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
         qApp->processEvents();
     }
 
-    emit finished(m_pStatus);
+    Q_EMIT finished(m_pStatus);
 }
 
 /**

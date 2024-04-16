@@ -76,7 +76,7 @@ public:
     virtual void saveToXMI(QXmlStreamWriter& writer);
     virtual bool loadFromXMI(QDomElement& qElement);
 
-public slots:
+public Q_SLOTS:
     void slotMenuSelection(QAction* action);
     virtual void slotFillColorChanged(Uml::ID::Type viewID);
     void slotMessageMoved();

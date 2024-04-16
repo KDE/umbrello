@@ -138,7 +138,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const 
     UMLEnumLiteral* literal = new UMLEnumLiteral(this, name, id, value);
     subordinates().append(literal);
     UMLObject::emitModified();
-    emit enumLiteralAdded(literal);
+    Q_EMIT enumLiteralAdded(literal);
     connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
     return literal;
 }
@@ -157,7 +157,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
         literal->setParent(this);
         subordinates().append(literal);
         UMLObject::emitModified();
-        emit enumLiteralAdded(literal);
+        Q_EMIT enumLiteralAdded(literal);
         connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
         return true;
     } else if (Log) {
@@ -188,7 +188,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
             subordinates().append(literal);
         }
         UMLObject::emitModified();
-        emit enumLiteralAdded(literal);
+        Q_EMIT enumLiteralAdded(literal);
         connect(literal, SIGNAL(modified()), this, SIGNAL(modified()));
         return true;
     }
@@ -207,7 +207,7 @@ int UMLEnum::removeEnumLiteral(UMLEnumLiteral* literal)
         logDebug0("UMLEnum::removeEnumLiteral: cannot find att given in list");
         return -1;
     }
-    emit enumLiteralRemoved(literal);
+    Q_EMIT enumLiteralRemoved(literal);
     UMLObject::emitModified();
     // If we are deleting the object, then we don't need to disconnect..this is done auto-magically
     // for us by QObject. -b.t.
@@ -230,7 +230,7 @@ int UMLEnum::enumLiterals() const
  */
 void UMLEnum::signalEnumLiteralRemoved(UMLClassifierListItem *elit)
 {
-    emit enumLiteralRemoved(elit);
+    Q_EMIT enumLiteralRemoved(elit);
 }
 
 /**

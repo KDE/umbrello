@@ -155,10 +155,10 @@ private:
 
     void loadCodeForOperation(const QString& id, const QDomElement& codeDocElement);
 
-public slots:
+public Q_SLOTS:
     virtual void syncCodeToDocument();
 
-signals:
+Q_SIGNALS:
     void codeGenerated(UMLClassifier* classifier, bool generated);
     void codeGenerated(UMLClassifier* classifier, CodeGenerator::GenerationState result);
     void showGeneratedFile(const QString& filename);

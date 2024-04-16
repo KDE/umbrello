@@ -40,10 +40,10 @@ public:
     bool generateXhtmlForProjectInto(const QUrl& destDir);
     static QString customXslFile();
 
-signals:
+Q_SIGNALS:
     void finished(bool status);
 
-protected slots:
+protected Q_SLOTS:
 
     void slotDocbookToXhtml(bool status);
     void slotHtmlGenerated(const QString& tmpFileName);

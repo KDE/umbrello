@@ -80,10 +80,10 @@ public:
 
     bool resolveRef();
 
-signals:
+Q_SIGNALS:
     void sigReferencedEntityChanged();
 
-private slots:
+private Q_SLOTS:
     void slotReferencedEntityChanged();
 
 protected:

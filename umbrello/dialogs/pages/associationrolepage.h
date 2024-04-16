@@ -48,7 +48,7 @@ private:
 
     void constructWidget();
 
-public slots:
+public Q_SLOTS:
 //    /**
 //     *  When the draw as actor check box is toggled, the draw
 //     *  as multi instance need to be enabled/disabled.  They

@@ -246,7 +246,7 @@ public Q_SLOTS:
 
     void slotSnapToGrid();
 
-signals:
+Q_SIGNALS:
     /**
      * Emit when the widget moves its' position.
      * @param id The id of the object behind the widget.

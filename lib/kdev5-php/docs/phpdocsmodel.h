@@ -59,7 +59,7 @@ private:
     /// internal function file
     const KDevelop::IndexedString m_internalFunctionsFile;
 
-public slots:
+public Q_SLOTS:
     void updateReady( const KDevelop::IndexedString& url, const KDevelop::ReferencedTopDUContext& topContext );
 
 };

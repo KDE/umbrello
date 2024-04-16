@@ -227,7 +227,7 @@ void WorkToolBar::buttonChanged(int b)
 
         // signal needed, in the case (when switching diagrams) that
         // Arrow Button gets activated, but the toolBarState of the Views may be different
-        emit sigButtonChanged(m_CurrentButtonID);
+        Q_EMIT sigButtonChanged(m_CurrentButtonID);
 
         view->setCursor(currentCursor());
         return;
@@ -238,14 +238,14 @@ void WorkToolBar::buttonChanged(int b)
         m_map[m_Type] = m_CurrentButtonID;  // store old tool for this diagram type
         m_actions[tbb_Arrow]->toggle();
         m_CurrentButtonID = tbb_Arrow;
-        emit sigButtonChanged(m_CurrentButtonID);
+        Q_EMIT sigButtonChanged(m_CurrentButtonID);
         view->setCursor(currentCursor());
         return;
     }
     m_map[m_Type] = m_CurrentButtonID;
     m_actions[m_CurrentButtonID]->toggle();
     m_CurrentButtonID = tbb;
-    emit sigButtonChanged(m_CurrentButtonID);
+    Q_EMIT sigButtonChanged(m_CurrentButtonID);
     view->setCursor(currentCursor());
 }
 
@@ -274,7 +274,7 @@ void WorkToolBar::slotResetToolBar()
     m_actions[m_CurrentButtonID]->toggle();
     m_CurrentButtonID = tbb_Arrow;
     m_actions[m_CurrentButtonID]->toggle();
-    emit sigButtonChanged(m_CurrentButtonID);
+    Q_EMIT sigButtonChanged(m_CurrentButtonID);
 
     UMLView* view = UMLApp::app()->currentView();
     if (view != 0) {

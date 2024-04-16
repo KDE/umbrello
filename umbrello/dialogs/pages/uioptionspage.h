@@ -64,7 +64,7 @@ protected:
     SelectLayoutTypeWidget *m_layoutTypeW;
     void setupPage();
 
-protected slots:
+protected Q_SLOTS:
     void slotTextCBChecked(bool value);
     void slotLineCBChecked(bool value);
     void slotFillCBChecked(bool value);

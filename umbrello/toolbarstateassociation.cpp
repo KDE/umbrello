@@ -244,7 +244,7 @@ void ToolBarStateAssociation::setSecondWidget()
                 attr->setType(widgetB->umlObject());
                 c->addAttribute(attr);
                 cleanAssociation();
-                emit finished();
+                Q_EMIT finished();
                 return;
             }
             /*  Activating this code will produce a DataType named as the Role B type
@@ -259,7 +259,7 @@ void ToolBarStateAssociation::setSecondWidget()
                 attr->setTypeName(QString(QStringLiteral("%1*")).arg(widgetB->umlObject()->name()));
                 c->addAttribute(attr);
                 cleanAssociation();
-                emit finished();
+                Q_EMIT finished();
                 return;
             } */
         }
@@ -281,7 +281,7 @@ void ToolBarStateAssociation::setSecondWidget()
     }
 
     cleanAssociation();
-    emit finished();
+    Q_EMIT finished();
 }
 
 /**

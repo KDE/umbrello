@@ -35,7 +35,7 @@ public:
 
     virtual void saveToXMI(QXmlStreamWriter& writer);
 
-signals:
+Q_SIGNALS:
     /**
      * Emitted when the component widget is moved.
      * Provides the delta X and delta Y amount by which the widget was moved

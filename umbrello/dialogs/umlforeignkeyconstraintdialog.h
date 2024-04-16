@@ -103,7 +103,7 @@ private:
 
     KPageWidgetItem *pageGeneral, *pageColumn;
 
-public slots:
+public Q_SLOTS:
     void slotResetWidgetState();
     void slotApply();
     void slotOk();

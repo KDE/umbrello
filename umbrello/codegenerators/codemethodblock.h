@@ -80,7 +80,7 @@ private:
     QString m_startMethod;
     QString m_endMethod;
 
-public slots:
+public Q_SLOTS:
 
     virtual void syncToParent();
 };

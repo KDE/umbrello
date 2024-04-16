@@ -75,15 +75,15 @@ public:
 
     virtual bool isModified() const;
 
-signals:
+Q_SIGNALS:
     void okClicked();
     void applyClicked();
     void defaultClicked();
 
-protected slots:
+protected Q_SLOTS:
     void slotEnableButtonOk(bool state);
 
-private slots:
+private Q_SLOTS:
     void slotOkClicked();
     void slotApplyClicked();
     void slotDefaultClicked();

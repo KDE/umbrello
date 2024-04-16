@@ -222,7 +222,7 @@ void UMLDoc::addView(UMLView *view)
     }
     if (!m_bLoading) {
         view->show();
-        emit sigDiagramChanged(view->umlScene()->type());
+        Q_EMIT sigDiagramChanged(view->umlScene()->type());
     }
 
     pApp->setDiagramMenuItemsState(true);
@@ -1079,7 +1079,7 @@ bool UMLDoc::addUMLObject(UMLObject* object)
  */
 void UMLDoc::writeToStatusBar(const QString &text)
 {
-    emit sigWriteToStatusBar(text);
+    Q_EMIT sigWriteToStatusBar(text);
 }
 
 /**
@@ -1226,7 +1226,7 @@ UMLStereotype * UMLDoc::findStereotypeById(Uml::ID::Type id) const
 void UMLDoc::addStereotype(UMLStereotype *s)
 {
     if (m_stereotypesModel->addStereotype(s))
-        emit sigObjectCreated(s);
+        Q_EMIT sigObjectCreated(s);
 }
 
 /**
@@ -1236,7 +1236,7 @@ void UMLDoc::addStereotype(UMLStereotype *s)
 void UMLDoc::removeStereotype(UMLStereotype *s)
 {
     if (m_stereotypesModel->removeStereotype(s))
-        emit sigObjectRemoved(s);
+        Q_EMIT sigObjectRemoved(s);
 }
 
 /**
@@ -1381,7 +1381,7 @@ void UMLDoc::addAssociation(UMLAssociation *assoc)
     pkg->addObject(assoc);
 
     // I don't believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
-    // emit sigObjectCreated(o);
+    // Q_EMIT sigObjectCreated(o);
 
     setModified(true);
 }
@@ -1534,7 +1534,7 @@ UMLView* UMLDoc::createDiagram(UMLFolder *folder, Uml::DiagramType::Enum type, c
         view->umlScene()->setType(type);
         view->umlScene()->setID(id);
         addView(view);
-        emit sigDiagramCreated(id);
+        Q_EMIT sigDiagramCreated(id);
         setModified(true);
         UMLApp::app()->enablePrint(true);
         changeCurrentView(id);
@@ -1566,7 +1566,7 @@ void UMLDoc::renameDiagram(Uml::ID::Type id)
             KMessageBox::error(0, i18n("That is an invalid name for a diagram."), i18n("Invalid Name"));
         } else if (!findView(type, name)) {
             view->umlScene()->setName(name);
-            emit sigDiagramRenamed(id);
+            Q_EMIT sigDiagramRenamed(id);
             setModified(true);
             break;
         } else {
@@ -1654,10 +1654,10 @@ void UMLDoc::changeCurrentView(Uml::ID::Type id)
         UMLScene* scene = view->umlScene();
         scene->setIsOpen(true);
         UMLApp::app()->setCurrentView(view);
-        emit sigDiagramChanged(scene->type());
+        Q_EMIT sigDiagramChanged(scene->type());
         UMLApp::app()->setDiagramMenuItemsState(true);
         setModified(true);
-        emit sigCurrentViewChanged();
+        Q_EMIT sigCurrentViewChanged();
         // when clicking on a tab, the documentation of diagram is upated in docwindow
         UMLApp::app()->docWindow()->showDocumentation(scene);
     }
@@ -1707,7 +1707,7 @@ void UMLDoc::removeDiagramCmd(Uml::ID::Type id)
     }
 
     removeView(umlview);
-    emit sigDiagramRemoved(id);
+    Q_EMIT sigDiagramRemoved(id);
     setModified(true);
 }
 
@@ -1803,7 +1803,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
     } else if (type == UMLObject::ot_Association) {
         UMLAssociation *a = umlobject->asUMLAssociation();
         removeAssociation(a, false);  // don't call setModified here, it's done below
-        emit sigObjectRemoved(umlobject);
+        Q_EMIT sigObjectRemoved(umlobject);
         if (deleteObject)
             delete a;
     } else {
@@ -1838,7 +1838,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                 }
             }
             pkg->removeObject(umlobject);
-            emit sigObjectRemoved(umlobject);
+            Q_EMIT sigObjectRemoved(umlobject);
             if (deleteObject)
                 delete umlobject;
         } else {
@@ -1855,7 +1855,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
  */
 void UMLDoc::signalUMLObjectCreated(UMLObject * o)
 {
-    emit sigObjectCreated(o);
+    Q_EMIT sigObjectCreated(o);
     /* This is the wrong place to do:
                setModified(true);
        Instead, that should be done by the callers when object creation and all
@@ -2343,7 +2343,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     resolveTypes();
     loadDiagrams1();
 
-    emit sigWriteToStatusBar(i18n("Setting up the document..."));
+    Q_EMIT sigWriteToStatusBar(i18n("Setting up the document..."));
     qApp->processEvents();  // give UI events a chance
     activateAllViews();
 
@@ -2358,7 +2358,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
         createDiagram(m_root[Uml::ModelType::Logical], Uml::DiagramType::Class, name);
         m_pCurrentRoot = m_root[Uml::ModelType::Logical];
     }
-    emit sigResetStatusbarProgress();
+    Q_EMIT sigResetStatusbarProgress();
     return true;
 }
 
@@ -2475,12 +2475,12 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
     /* FIXME need a way to make status bar actually reflect
        how much of the file has been loaded rather than just
        counting to 10 (an arbitrary number)
-    emit sigResetStatusbarProgress();
-    emit sigSetStatusbarProgress(0);
-    emit sigSetStatusbarProgressSteps(10);
+    Q_EMIT sigResetStatusbarProgress();
+    Q_EMIT sigSetStatusbarProgress(0);
+    Q_EMIT sigSetStatusbarProgressSteps(10);
     m_count = 0;
      */
-    emit sigWriteToStatusBar(i18n("Loading UML elements..."));
+    Q_EMIT sigWriteToStatusBar(i18n("Loading UML elements..."));
 
     // For Umbrello native XMI files, when called from loadFromXMI() we
     // get here with Element.tagName() == "UML:Model" from the XMI input:
@@ -2641,7 +2641,7 @@ bool UMLDoc::loadUMLObjectsFromXMI(QDomElement& element)
         }
 
         /* FIXME see comment at loadUMLObjectsFromXMI
-        emit sigSetStatusbarProgress(++m_count);
+        Q_EMIT sigSetStatusbarProgress(++m_count);
          */
     }
     return true;
@@ -2742,10 +2742,10 @@ void UMLDoc::loadExtensionsFromXMI1(QDomNode& node)
  */
 bool UMLDoc::loadDiagramsFromXMI1(QDomNode & node)
 {
-    emit sigWriteToStatusBar(i18n("Loading diagrams..."));
-    emit sigResetStatusbarProgress();
-    emit sigSetStatusbarProgress(0);
-    emit sigSetStatusbarProgressSteps(10); //FIX ME
+    Q_EMIT sigWriteToStatusBar(i18n("Loading diagrams..."));
+    Q_EMIT sigResetStatusbarProgress();
+    Q_EMIT sigSetStatusbarProgress(0);
+    Q_EMIT sigSetStatusbarProgressSteps(10); //FIX ME
     QDomElement element = node.toElement();
     if (element.isNull()) {
         return true;  //return ok as it means there is no umlobjects
@@ -2784,7 +2784,7 @@ bool UMLDoc::loadDiagramsFromXMI1(QDomNode & node)
                 logWarn2("UMLDoc::loadDiagramsFromXMI cannot add %1 because scene type %2 cannot be mapped to ModelType",
                          tag, pView->umlScene()->type());
             }
-            emit sigSetStatusbarProgress(++count);
+            Q_EMIT sigSetStatusbarProgress(++count);
             qApp->processEvents();  // give UI events a chance
         }
         node = node.nextSibling();
@@ -2803,7 +2803,7 @@ void UMLDoc::removeAllViews()
     }
 
     UMLApp::app()->setCurrentView(0);
-    emit sigDiagramChanged(Uml::DiagramType::Undefined);
+    Q_EMIT sigDiagramChanged(Uml::DiagramType::Undefined);
     UMLApp::app()->setDiagramMenuItemsState(false);
 }
 
@@ -3210,7 +3210,7 @@ bool UMLDoc::addUMLView(UMLView * pView)
     pView->umlScene()->setOptionState(Settings::optionState());
     addView(pView);
 
-    emit sigDiagramCreated(pView->umlScene()->ID());
+    Q_EMIT sigDiagramCreated(pView->umlScene()->ID());
 
     setModified(true);
     return true;
@@ -3319,7 +3319,7 @@ void UMLDoc::signalDiagramRenamed(UMLView* view)
         if (optionState.generalState.tabdiagrams) {
             UMLApp::app()->tabWidget()->setTabText(UMLApp::app()->tabWidget()->indexOf(view), view->umlScene()->name());
         }
-        emit sigDiagramRenamed(view->umlScene()->ID());
+        Q_EMIT sigDiagramRenamed(view->umlScene()->ID());
     }
     else {
       logError0("Cannot signal diagram renamed - view is NULL!");

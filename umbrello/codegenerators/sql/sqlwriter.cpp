@@ -201,13 +201,13 @@ void SQLWriter::writeClass(UMLClassifier *c)
     //find an appropriate name for our file
     QString fileName = findFileName(m_pEntity, QStringLiteral(".sql"));
     if (fileName.isEmpty()) {
-        emit codeGenerated(m_pEntity, false);
+        Q_EMIT codeGenerated(m_pEntity, false);
         return;
     }
 
     QFile file;
     if (!openFile(file, fileName)) {
-        emit codeGenerated(m_pEntity, false);
+        Q_EMIT codeGenerated(m_pEntity, false);
         return;
     }
 
@@ -313,8 +313,8 @@ void SQLWriter::writeClass(UMLClassifier *c)
     }
 
     file.close();
-    emit codeGenerated(m_pEntity, true);
-    emit showGeneratedFile(file.fileName());
+    Q_EMIT codeGenerated(m_pEntity, true);
+    Q_EMIT showGeneratedFile(file.fileName());
 }
 
 /**

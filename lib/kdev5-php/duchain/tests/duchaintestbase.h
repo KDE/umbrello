@@ -52,7 +52,7 @@ public:
     };
     Q_DECLARE_FLAGS(DumpAreas, DumpArea)
 
-public slots:
+public Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
 

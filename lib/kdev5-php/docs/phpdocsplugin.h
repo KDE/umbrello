@@ -33,10 +33,10 @@ class PhpDocsPlugin : public KDevelop::IPlugin, public KDevelop::IDocumentationP
 
     void addToHistory(const QUrl& url);
 
-  signals:
+  Q_SIGNALS:
     void addHistory( const KDevelop::IDocumentation::Ptr& doc ) const override;
 
-  public slots:
+  public Q_SLOTS:
     void loadUrl(const QUrl &url) const;
 
   private:
@@ -45,7 +45,7 @@ class PhpDocsPlugin : public KDevelop::IPlugin, public KDevelop::IDocumentationP
     QString getDocumentationFilename(KDevelop::Declaration* dec, const bool& isLocal) const;
     PhpDocsModel* m_model;
 
-  private slots:
+  private Q_SLOTS:
     void readConfig();
 };
 

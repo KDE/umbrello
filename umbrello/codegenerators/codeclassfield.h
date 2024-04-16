@@ -123,7 +123,7 @@ private:
     // initialize the accessor methods for this field
     void initAccessorMethods();
 
-signals:
+Q_SIGNALS:
 
     void modified ();
 

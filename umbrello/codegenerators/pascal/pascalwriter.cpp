@@ -149,13 +149,13 @@ void PascalWriter::writeClass(UMLClassifier *c)
     //find an appropriate name for our file
     fileName = overwritableName(c, fileName, QStringLiteral(".pas"));
     if (fileName.isEmpty()) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
     QFile file;
     if (!openFile(file, fileName)) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
@@ -336,8 +336,8 @@ void PascalWriter::writeClass(UMLClassifier *c)
     m_indentLevel--;
     pas << "end;" << m_endl << m_endl;
     file.close();
-    emit codeGenerated(c, true);
-    emit showGeneratedFile(file.fileName());
+    Q_EMIT codeGenerated(c, true);
+    Q_EMIT showGeneratedFile(file.fileName());
 }
 
 /**

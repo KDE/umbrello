@@ -194,18 +194,18 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
     // Do not generate files for classes that has a container
     if (hasContainer(fileName)) {
-        emit codeGenerated(c, CodeGenerator::Skipped);
+        Q_EMIT codeGenerated(c, CodeGenerator::Skipped);
         return;
     }
 
     if (fileName.isEmpty()) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
     QFile fileh;
     if (!openFile(fileh, fileName)) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
     QTextStream h(&fileh);
@@ -298,8 +298,8 @@ void PythonWriter::writeClass(UMLClassifier *c)
 
     //close files and notfiy we are done
     fileh.close();
-    emit codeGenerated(c, true);
-    emit showGeneratedFile(fileh.fileName());
+    Q_EMIT codeGenerated(c, true);
+    Q_EMIT showGeneratedFile(fileh.fileName());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

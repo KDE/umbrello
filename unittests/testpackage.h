@@ -14,7 +14,7 @@ class TestPackage : public TestBase
     Q_OBJECT
 protected:
     SetLoading *_sl;
-protected slots:
+protected Q_SLOTS:
     void initTestCase()
     {
         TestBase::initTestCase();
@@ -26,7 +26,7 @@ protected slots:
         delete _sl;
     }
 
-private slots:
+private Q_SLOTS:
     void test_appendClassesAndInterfaces();
     void test_saveAndLoad();
 };

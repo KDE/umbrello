@@ -20,7 +20,7 @@ namespace Php
 class TestDUChainMultipleFiles : public DUChainTestBase
 {
     Q_OBJECT
-private slots:
+private Q_SLOTS:
     void initTestCase();
 
     void testImportsGlobalFunction();

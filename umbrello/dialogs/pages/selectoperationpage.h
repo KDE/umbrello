@@ -50,7 +50,7 @@ public:
     void setupDialog();
     bool apply();
 
-signals:
+Q_SIGNALS:
     void enableButtonOk(bool state);
 
 protected:
@@ -76,7 +76,7 @@ private:
     LinkWidget       *m_widget;
     bool              m_enableAutoIncrement;
 
-public slots:
+public Q_SLOTS:
     void slotAutoIncrementChecked(bool state);
     void slotNewOperation();
     void slotIndexChanged(int index);

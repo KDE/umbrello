@@ -165,7 +165,7 @@ void MessageWidget::setY(qreal y)
 
     if (m_pFText && !UMLApp::app()->document()->loading()) {
         setTextPosition();
-        emit sigMessageMoved();
+        Q_EMIT sigMessageMoved();
     }
 }
 
@@ -259,7 +259,7 @@ void MessageWidget::resizeWidget(qreal newW, qreal newH)
         calculateWidget();
 
     }
-    emit sigMessageMoved();
+    Q_EMIT sigMessageMoved();
 }
 
 /**
@@ -908,7 +908,7 @@ bool MessageWidget::activate(IDChangeLog * /*Log = 0*/)
     // Position the floating text accordingly
     setTextPosition();
 
-    emit sigMessageMoved();
+    Q_EMIT sigMessageMoved();
     return true;
 }
 

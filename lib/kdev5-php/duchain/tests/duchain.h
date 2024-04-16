@@ -18,7 +18,7 @@ class TestDUChain : public DUChainTestBase
 public:
     TestDUChain();
 
-private slots:
+private Q_SLOTS:
     void declareFunction();
     void declareVar();
     void varTypehint();

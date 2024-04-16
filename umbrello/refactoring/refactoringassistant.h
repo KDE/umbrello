@@ -30,11 +30,11 @@ public:
 
     void refactor(UMLClassifier *obj);
 
-signals:
+Q_SIGNALS:
 
 //    void moved();
 
-public slots:
+public Q_SLOTS:
 
     void addBaseClassifier();
     void addDerivedClassifier();
@@ -77,7 +77,7 @@ protected:
     QMap<QTreeWidgetItem*, UMLObject*>  m_umlObjectMap;
     QSet<UMLClassifier *>               m_alreadySeen; ///< recursive guard
 
-private slots:
+private Q_SLOTS:
 
     void showContextMenu(const QPoint&);
 

@@ -33,7 +33,7 @@ public:
 
     QString value() const;
 
-public slots:
+public Q_SLOTS:
     void setType(UMLObject *type);
     void setType(const QString &type);
 

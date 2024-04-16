@@ -58,7 +58,7 @@ private:
     CodeClassField * m_parentclassfield;
     void init(CodeClassField * parent);
 
-public slots:
+public Q_SLOTS:
 
     virtual void syncToParent();
 

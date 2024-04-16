@@ -52,7 +52,7 @@ protected:
     KPageWidgetItem*       m_pageDisplayItem;
     KPageWidgetItem*       m_pageDiagramItem;
 
-public slots:
+public Q_SLOTS:
     void slotOk();
     void slotApply();
 };

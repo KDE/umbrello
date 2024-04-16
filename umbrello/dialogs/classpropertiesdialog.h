@@ -41,7 +41,7 @@ public:
 
     virtual void apply();
 
-protected slots:
+protected Q_SLOTS:
     void slotOk();
     void slotApply();
 

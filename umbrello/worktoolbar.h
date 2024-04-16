@@ -143,10 +143,10 @@ private:
 
     void insertBasicAssociations();
 
-signals:
+Q_SIGNALS:
     void sigButtonChanged(int);
 
-public slots:
+public Q_SLOTS:
     void slotCheckToolBar(Uml::DiagramType::Enum dt);
     void buttonChanged(int b);
     void slotResetToolBar();

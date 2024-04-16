@@ -36,7 +36,7 @@ private:
     ImageTypeWidget* m_imageType;  ///< The image type selected.
     ResolutionWidget* m_imageResolution;  ///< The image resolution selected.
 
-protected slots:
+protected Q_SLOTS:
 
     friend class UMLViewImageExporterAll;
 

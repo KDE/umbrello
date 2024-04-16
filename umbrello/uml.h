@@ -206,7 +206,7 @@ protected:
 
     void updateLangSelectMenu(Uml::ProgrammingLanguage::Enum activeLanguage);
 
-public slots:
+public Q_SLOTS:
     void slotExecGenerationWizard();
     void slotImportingWizard();
 
@@ -302,7 +302,7 @@ public slots:
     void slotXhtmlDocGenerationFinished(bool status);
     bool slotOpenFileInEditor(const QUrl &file, int startCursor = 0, int endCursor = 0);
 
-private slots:
+private Q_SLOTS:
     void setLang_actionscript();
     void setLang_ada();
     void setLang_cpp();
@@ -479,7 +479,7 @@ private:
     QPrinter *m_printer;               ///< print instance
     static bool s_shuttingDown;
 
-signals:
+Q_SIGNALS:
     void sigCutSuccessful();
 
     friend class UMLAppPrivate;

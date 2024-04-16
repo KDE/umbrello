@@ -35,7 +35,7 @@ public:
 
     QListWidget* getSelectionListWidget();
 
-protected slots:
+protected Q_SLOTS:
     void slotLanguageChanged();
 
 private:

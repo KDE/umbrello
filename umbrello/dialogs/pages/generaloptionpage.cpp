@@ -187,7 +187,7 @@ void GeneralOptionPage::apply()
     optionState.generalState.loadlast = m_GeneralWidgets.loadlastCB->isChecked();
     optionState.generalState.diagram  = Uml::DiagramType::fromInt(m_GeneralWidgets.diagramKB->currentIndex() + 1);
     optionState.generalState.defaultLanguage = Uml::ProgrammingLanguage::fromInt(m_GeneralWidgets.languageKB->currentIndex());
-    emit applyClicked();
+    Q_EMIT applyClicked();
 }
 
 /**

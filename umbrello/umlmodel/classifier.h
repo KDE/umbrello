@@ -147,7 +147,7 @@ public:
 
     virtual UMLAssociationList  getUniAssociationToBeImplemented() const;
 
-signals:
+Q_SIGNALS:
 
     void operationAdded(UMLClassifierListItem *);
     void operationRemoved(UMLClassifierListItem *);

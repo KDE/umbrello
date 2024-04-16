@@ -30,7 +30,7 @@ public:
 
     // int getMinY();
 
-public slots:
+public Q_SLOTS:
     void slotMenuSelection(QAction* action);
 
 // private:

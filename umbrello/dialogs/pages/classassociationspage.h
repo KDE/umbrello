@@ -40,7 +40,7 @@ private:
 
     void fillListBox();
 
-public slots:
+public Q_SLOTS:
     void slotDoubleClick(QListWidgetItem *item);
     void slotRightButtonPressed(const QPoint &p);
     void slotMenuSelection(QAction* action);

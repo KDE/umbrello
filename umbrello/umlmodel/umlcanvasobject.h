@@ -96,7 +96,7 @@ private:
      */
     mutable UMLObjectList m_List;
 
-signals:
+Q_SIGNALS:
 
     void sigAssociationEndAdded(UMLAssociation * assoc);
     void sigAssociationEndRemoved(UMLAssociation * assoc);

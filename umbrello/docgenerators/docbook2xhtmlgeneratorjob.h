@@ -29,7 +29,7 @@ class Docbook2XhtmlGeneratorJob : public QThread
   private:
      QUrl m_docbookUrl;
 
-  signals:
+  Q_SIGNALS:
      void xhtmlGenerated(const QString&);
 };
 
