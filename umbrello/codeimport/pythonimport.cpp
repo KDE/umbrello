@@ -239,9 +239,9 @@ QString PythonImport::skipBody(Uml::PrimitiveTypes::Enum *foundReturn)
                     QString next = lookAhead();
                     if (next == QStringLiteral("False") || next == QStringLiteral("True")) {
                         *foundReturn = Uml::PrimitiveTypes::Boolean;
-                    } else if (next.contains(QRegularExpression("^-?\\d+$"))) {
+                    } else if (next.contains(QRegularExpression(QStringLiteral("^-?\\d+$")))) {
                         *foundReturn = Uml::PrimitiveTypes::Integer;
-                    } else if (next.contains(QRegularExpression("^-?\\d+\\."))) {
+                    } else if (next.contains(QRegularExpression(QStringLiteral("^-?\\d+\\.")))) {
                         *foundReturn = Uml::PrimitiveTypes::Real;
                     } else if (next != QStringLiteral("None")) {
                         *foundReturn = Uml::PrimitiveTypes::String;

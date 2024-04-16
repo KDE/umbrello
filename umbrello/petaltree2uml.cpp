@@ -514,7 +514,7 @@ UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
     }
     file_name = file_name.mid(1, file_name.length() - 2);  // remove surrounding ""
     /* I wanted to use
-                  file_name.replace(QRegularExpression("\\\\+") "/");
+                  file_name.replace(QRegularExpression(QStringLiteral("\\\\+") "/"));
        but this did not work using Qt 4.6.3. Workaround:
      */
     file_name.replace(QStringLiteral("\\\\"), QStringLiteral("/"));
