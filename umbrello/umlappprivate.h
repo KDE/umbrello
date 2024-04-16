@@ -19,7 +19,6 @@
 // kde includes
 #include <KActionCollection>
 #include <KToggleAction>
-#include <ktexteditor/configinterface.h>
 #include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>
 #include <ktexteditor/view.h>
