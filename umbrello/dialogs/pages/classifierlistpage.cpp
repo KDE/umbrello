@@ -221,7 +221,7 @@ void ClassifierListPage::setupDocumentationGroup(int margin)
     QVBoxLayout* docLayout = new QVBoxLayout(m_docGB);
     docLayout->setSpacing(10);
     if (m_itemType == UMLObject::ot_Operation) {
-        m_docTE = new KTextEdit();
+        m_docTE = new QTextEdit();
         m_pCodeTE = new CodeTextEdit();
         QTabWidget* tabWidget = new QTabWidget();
         tabWidget->addTab(m_docTE, i18n("Comment"));
@@ -229,7 +229,7 @@ void ClassifierListPage::setupDocumentationGroup(int margin)
         docLayout->addWidget(tabWidget);
     }
     else {
-        m_docTE = new KTextEdit();
+        m_docTE = new QTextEdit();
         docLayout->addWidget(m_docTE);
     }
 }

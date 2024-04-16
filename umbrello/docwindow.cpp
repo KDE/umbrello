@@ -90,7 +90,7 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     statusLayout->addWidget(box, 0, 5, 1, 1);
     m_modifiedWidget = new ModifiedWidget(this);
     statusLayout->addWidget(m_modifiedWidget, 0, 6, 1, 1);
-    m_docTE = new KTextEdit(this);
+    m_docTE = new QTextEdit(this);
     m_docTE->setText(QString());
     setFocusProxy(m_docTE);
     //m_docTE->setWordWrapMode(QTextEdit::WidgetWidth);

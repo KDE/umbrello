@@ -85,7 +85,7 @@ void DocumentationWidget::init(const QString &text)
     l->setMargin(0);
     m_box = new QGroupBox;
     m_box->setTitle(i18n("Documentation"));
-    m_editField = new KTextEdit(m_box);
+    m_editField = new QTextEdit(m_box);
     m_editField->setLineWrapMode(QTextEdit::WidgetWidth);
     m_editField->setWordWrapMode(QTextOption::WordWrap);
     m_editField->setText(text);

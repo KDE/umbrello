@@ -202,7 +202,7 @@ void AssociationRolePage::constructWidget()
 
     // Document A
     QHBoxLayout * docALayout = new QHBoxLayout(docAGB);
-    m_docA = new KTextEdit(docAGB);
+    m_docA = new QTextEdit(docAGB);
     docALayout->addWidget(m_docA);
     m_docA-> setText(m_pAssociationWidget->roleDocumentation(Uml::RoleType::A));
     // m_docA->setText("<<not implemented yet>>");
@@ -211,7 +211,7 @@ void AssociationRolePage::constructWidget()
 
     // Document B
     QHBoxLayout * docBLayout = new QHBoxLayout(docBGB);
-    m_docB = new KTextEdit(docBGB);
+    m_docB = new QTextEdit(docBGB);
     docBLayout->addWidget(m_docB);
     m_docB->setText(m_pAssociationWidget->roleDocumentation(Uml::RoleType::B));
     // m_docB->setEnabled(false);
