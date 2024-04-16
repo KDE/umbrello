@@ -881,14 +881,14 @@ bool SQLImport::addPrimaryKey(UMLEntity *entity, const QString &_name, const QSt
     else
         name = _name;
 
-    foreach(UMLObject *a, entity->getFilteredList(UMLObject::ot_EntityConstraint)) {
+    Q_FOREACH(UMLObject *a, entity->getFilteredList(UMLObject::ot_EntityConstraint)) {
         if (a->name() == name)
             return false;
     }
 
     UMLUniqueConstraint *pkey = new UMLUniqueConstraint(entity, name);
-    foreach(const QString &field, fields) {
-        foreach(UMLEntityAttribute *a, entity->getEntityAttributes()) {
+    Q_FOREACH(const QString &field, fields) {
+        Q_FOREACH(UMLEntityAttribute *a, entity->getEntityAttributes()) {
             if (a->name() == field)
                 pkey->addEntityAttribute(a);
         }
@@ -926,14 +926,14 @@ bool SQLImport::addUniqueConstraint(UMLEntity *entity, const QString &_name, con
     else
         name = _name;
 
-    foreach(UMLObject *a, entity->getFilteredList(UMLObject::ot_EntityConstraint)) {
+    Q_FOREACH(UMLObject *a, entity->getFilteredList(UMLObject::ot_EntityConstraint)) {
         if (a->name() == name)
             return false;
     }
 
     UMLUniqueConstraint *uc = new UMLUniqueConstraint(entity, name);
-    foreach(const QString &field, fields) {
-        foreach(UMLEntityAttribute *a, entity->getEntityAttributes()) {
+    Q_FOREACH(const QString &field, fields) {
+        Q_FOREACH(UMLEntityAttribute *a, entity->getEntityAttributes()) {
             if (a->name() == field)
                 uc->addEntityAttribute(a);
         }
@@ -967,7 +967,7 @@ bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, c
     else
         name = _name;
 
-    foreach(UMLObject *a, entityA->getFilteredList(UMLObject::ot_EntityConstraint)) {
+    Q_FOREACH(UMLObject *a, entityA->getFilteredList(UMLObject::ot_EntityConstraint)) {
         if (a->name() == name)
             return false;
     }
@@ -991,14 +991,14 @@ bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, c
         const QString &fieldB = referencedFields.at(i);
         UMLEntityAttribute *aA = 0;
         UMLEntityAttribute *aB = 0;
-        foreach(UMLEntityAttribute *a, entityA->getEntityAttributes()) {
+        Q_FOREACH(UMLEntityAttribute *a, entityA->getEntityAttributes()) {
             if (a->name() == fieldA) {
                 aA = a;
                 break;
             }
         }
 
-        foreach(UMLEntityAttribute *a, entityB->getEntityAttributes()) {
+        Q_FOREACH(UMLEntityAttribute *a, entityB->getEntityAttributes()) {
             if (a->name() == fieldB) {
                 aB = a;
                 break;

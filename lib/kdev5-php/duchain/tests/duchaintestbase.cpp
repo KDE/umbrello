@@ -80,7 +80,7 @@ void DUChainTestBase::cleanupTestCase()
 
 CompletionTreeItemPointer DUChainTestBase::searchDeclaration(QList<CompletionTreeItemPointer> items, Declaration* declaration)
 {
-    foreach(const CompletionTreeItemPointer &item, items) {
+    Q_FOREACH(const CompletionTreeItemPointer &item, items) {
         if (item->declaration().data() == declaration) {
             return item;
         }
@@ -92,7 +92,7 @@ bool DUChainTestBase::hasImportedParentContext(TopDUContext* top, DUContext* loo
 {
     qDebug() << "this topcontext has " << top->importedParentContexts().count() << " imported parent contexts"
     << "\n we are looking for: " << lookingFor->url().byteArray();
-    foreach(const DUContext::Import &import, top->importedParentContexts()) {
+    Q_FOREACH(const DUContext::Import &import, top->importedParentContexts()) {
         if (import.context(top)) {
             qDebug() << import.context(top)->url().byteArray();
         }
@@ -122,7 +122,7 @@ TopDUContext* DUChainTestBase::parseAdditionalFile(const IndexedString& fileName
 
     if (!session.problems().isEmpty()) {
         DUChainWriteLocker lock;
-        foreach( const ProblemPointer& p, session.problems() ) {
+        Q_FOREACH( const ProblemPointer& p, session.problems() ) {
             top->addProblem(p);
         }
     }
@@ -162,7 +162,7 @@ TopDUContext* DUChainTestBase::parse(const QByteArray& unit, DumpAreas dump,
 
     if (!session.problems().isEmpty()) {
         DUChainWriteLocker lock;
-        foreach( const ProblemPointer& p, session.problems() ) {
+        Q_FOREACH( const ProblemPointer& p, session.problems() ) {
             top->addProblem(p);
         }
     }
@@ -184,7 +184,7 @@ TopDUContext* DUChainTestBase::parse(const QByteArray& unit, DumpAreas dump,
         qDebug() << "===== Types:";
         DUChainWriteLocker lock(DUChain::lock());
         DumpTypes dt;
-        foreach(const AbstractType::Ptr& type, declarationBuilder.topTypes()) {
+        Q_FOREACH(const AbstractType::Ptr& type, declarationBuilder.topTypes()) {
             dt.dump(type.data());
         }
     }

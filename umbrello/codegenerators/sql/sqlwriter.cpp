@@ -234,7 +234,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
     // write all entity attributes
     UMLEntityAttributeList entAttList = m_pEntity->getEntityAttributes();
     if (language() == Uml::ProgrammingLanguage::PostgreSQL) {
-        foreach(UMLEntityAttribute *at, entAttList) {
+        Q_FOREACH(UMLEntityAttribute *at, entAttList) {
             if (at->getType()->baseType() == UMLObject::ot_Enum) {
                 const UMLEnum *_enum = at->getType()->asUMLEnum();
                 if (m_enumsGenerated.contains(at->getTypeName()))
@@ -243,7 +243,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
                 sql << "CREATE TYPE " << at->getTypeName() << " AS ENUM (";
                 QString delimiter(QStringLiteral(""));
                 UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
-                foreach (UMLClassifierListItem* enumLiteral, enumLiterals) {
+                Q_FOREACH (UMLClassifierListItem* enumLiteral, enumLiterals) {
                     sql << delimiter << "'" << enumLiteral->name() << "'";
                     delimiter = QStringLiteral(", ");
                 }
@@ -260,7 +260,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
 
     // auto increments
     UMLEntityAttributeList autoIncrementList;
-    foreach(UMLEntityAttribute* entAtt, entAttList) {
+    Q_FOREACH(UMLEntityAttribute* entAtt, entAttList) {
         autoIncrementList.append(entAtt);
     }
 
@@ -281,7 +281,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
     printCheckConstraints(sql, constrList);
 
     // write all other indexes
-    foreach(UMLEntityAttribute* ea, entAttList) {
+    Q_FOREACH(UMLEntityAttribute* ea, entAttList) {
         if (ea->indexType() != UMLEntityAttribute::Index)
             continue;
         UMLEntityAttributeList tempList;
@@ -293,7 +293,7 @@ void SQLWriter::writeClass(UMLClassifier *c)
         QMap<UMLAssociation*, UMLAssociation*> constraintMap; // so we don't repeat constraint
     UMLAssociationList relationships = m_pEntity->getRelationships();
     if (forceSections() || !relationships.isEmpty()) {
-        foreach (UMLAssociation* a, relationships) {
+        Q_FOREACH (UMLAssociation* a, relationships) {
             UMLObject *objA = a->getObject(Uml::RoleType::A);
             UMLObject *objB = a->getObject(Uml::RoleType::B);
             if (objA->id() == m_pEntity->id() && objB->id() != m_pEntity->id())
@@ -385,7 +385,7 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
 
     bool first = true;
 
-    foreach (UMLEntityAttribute* at, entityAttributeList) {
+    Q_FOREACH (UMLEntityAttribute* at, entityAttributeList) {
        // print, after attribute
          if (first) {
              first = false;
@@ -410,7 +410,7 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
             sql << " ENUM(";
             QString delimiter(QStringLiteral(""));
             UMLClassifierListItemList enumLiterals = _enum->getFilteredList(UMLObject::ot_EnumLiteral);
-            foreach (UMLClassifierListItem* enumLiteral, enumLiterals) {
+            Q_FOREACH (UMLClassifierListItem* enumLiteral, enumLiterals) {
                 sql << delimiter << "'" << enumLiteral->name() << "'";
                 delimiter = QStringLiteral(", ");
             }
@@ -457,7 +457,7 @@ void SQLWriter::printEntityAttributes(QTextStream& sql, UMLEntityAttributeList e
  */
 void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
-   foreach(UMLClassifierListItem* cli, constrList) {
+   Q_FOREACH(UMLClassifierListItem* cli, constrList) {
        const UMLUniqueConstraint* uuc = cli->asUMLUniqueConstraint();
        if (!uuc) {
            logError2("SQLWriter::printUniqueConstraints: Invalid cast from '%1' to UMLUniqueConstraint* %2",
@@ -482,7 +482,7 @@ void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemLi
        sql << '(';
 
        bool first = true;
-       foreach(UMLEntityAttribute* entAtt, attList) {
+       Q_FOREACH(UMLEntityAttribute* entAtt, attList) {
            if (first)
                first = false;
            else
@@ -505,7 +505,7 @@ void SQLWriter::printUniqueConstraints(QTextStream& sql, UMLClassifierListItemLi
  */
 void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
-   foreach(UMLClassifierListItem* cli, constrList) {
+   Q_FOREACH(UMLClassifierListItem* cli, constrList) {
        UMLForeignKeyConstraint* fkc = cli->asUMLForeignKeyConstraint();
        if (!fkc) {
            logError2("SQLWriter::printForeignKeyConstraints: Invalid cast from '%1' to UMLForeignKeyConstraint* %2",
@@ -530,7 +530,7 @@ void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListIt
 
        bool first = true;
        // the local attributes which refer the attributes of the referenced entity
-       foreach(UMLEntityAttribute* entAtt, entAttList) {
+       Q_FOREACH(UMLEntityAttribute* entAtt, entAttList) {
            if (first)
                first = false;
            else
@@ -552,7 +552,7 @@ void SQLWriter::printForeignKeyConstraints(QTextStream& sql, UMLClassifierListIt
 
        first = true;
        // the attributes of the referenced entity which are being referenced
-       foreach(UMLEntityAttribute* refEntAtt, refEntAttList) {
+       Q_FOREACH(UMLEntityAttribute* refEntAtt, refEntAttList) {
           if (first)
               first = false;
           else
@@ -591,7 +591,7 @@ void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent, UMLEntityAttributeL
     // we don;t have any name, so we just merge the names of all attributes along with their entity name
 
     sql << cleanName(ent->name()) << '_';
-    foreach(UMLEntityAttribute* entAtt,  entAttList) {
+    Q_FOREACH(UMLEntityAttribute* entAtt,  entAttList) {
         sql << cleanName(entAtt->name()) << '_';
     }
     sql << "index ";
@@ -600,7 +600,7 @@ void SQLWriter::printIndex(QTextStream& sql, UMLEntity* ent, UMLEntityAttributeL
 
     bool first = true;
 
-    foreach(UMLEntityAttribute* entAtt, entAttList) {
+    Q_FOREACH(UMLEntityAttribute* entAtt, entAttList) {
         if (first)
             first = false;
         else
@@ -633,7 +633,7 @@ void SQLWriter::printAutoIncrements(QTextStream& sql, UMLEntityAttributeList ent
  */
 void SQLWriter::printCheckConstraints(QTextStream& sql, UMLClassifierListItemList constrList)
 {
-    foreach(UMLClassifierListItem* cli, constrList) {
+    Q_FOREACH(UMLClassifierListItem* cli, constrList) {
         const UMLCheckConstraint* chConstr = cli->asUMLCheckConstraint();
         if (!chConstr) {
             logError2("SQLWriter::printCheckConstraints: Invalid cast from '%1' to UMLCheckConstraint* %2",

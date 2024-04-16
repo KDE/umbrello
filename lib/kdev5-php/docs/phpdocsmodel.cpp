@@ -64,7 +64,7 @@ void PhpDocsModel::fillModel(const ReferencedTopDUContext& top)
 
     qCDebug(DOCS) << "filling model";
     typedef QPair<Declaration*, int> DeclDepthPair;
-    foreach ( DeclDepthPair declpair, top->allDeclarations(top->range().end, top) ) {
+    Q_FOREACH ( DeclDepthPair declpair, top->allDeclarations(top->range().end, top) ) {
         if ( declpair.first->abstractType() && declpair.first->abstractType()->modifiers() & AbstractType::ConstModifier ) {
             // filter global constants, since they are hard to find in the documentation
             continue;
@@ -72,7 +72,7 @@ void PhpDocsModel::fillModel(const ReferencedTopDUContext& top)
         m_declarations << DeclarationPointer(declpair.first);
 
         if ( StructureType::Ptr type = declpair.first->type<StructureType>() ) {
-            foreach ( Declaration* dec, type->internalContext(top)->localDeclarations() ) {
+            Q_FOREACH ( Declaration* dec, type->internalContext(top)->localDeclarations() ) {
                 m_declarations << DeclarationPointer(dec);
             }
         }

@@ -244,7 +244,7 @@ void UMLEnum::saveToXMI(QXmlStreamWriter& writer)
         writer.writeStartElement(QStringLiteral("UML:Enumeration.literal"));
     }
     UMLClassifierListItemList enumLiterals = getFilteredList(UMLObject::ot_EnumLiteral);
-    foreach (UMLClassifierListItem* pEnumLiteral, enumLiterals) {
+    Q_FOREACH (UMLClassifierListItem* pEnumLiteral, enumLiterals) {
         pEnumLiteral->saveToXMI(writer);
     }
     if (! Settings::optionState().generalState.uml2) {

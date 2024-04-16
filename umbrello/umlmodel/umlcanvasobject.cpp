@@ -57,7 +57,7 @@ UMLCanvasObject::~UMLCanvasObject()
 UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum assocType) const
 {
     UMLAssociationList list;
-    foreach (UMLObject *o, subordinates()) {
+    Q_FOREACH (UMLObject *o, subordinates()) {
         if (o->baseType() != UMLObject::ot_Association)
             continue;
         UMLAssociation *a = o->asUMLAssociation();
@@ -124,7 +124,7 @@ int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
  */
 void UMLCanvasObject::removeAllAssociationEnds()
 {
-    foreach(UMLObject *o, subordinates()) {
+    Q_FOREACH(UMLObject *o, subordinates()) {
         if (o->baseType() != UMLObject::ot_Association) {
             continue;
         }
@@ -237,7 +237,7 @@ QString UMLCanvasObject::uniqChildName(const UMLObject::ObjectType type,
 UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::ObjectType t) const
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
-    foreach (UMLObject *obj, subordinates()) {
+    Q_FOREACH (UMLObject *obj, subordinates()) {
         if (t != UMLObject::ot_UMLObject && obj->baseType() != t)
             continue;
         if (caseSensitive) {
@@ -260,7 +260,7 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object
 UMLObject* UMLCanvasObject::findChildObjectById(Uml::ID::Type id, bool considerAncestors) const
 {
     Q_UNUSED(considerAncestors);
-    foreach (UMLObject *o, subordinates()) {
+    Q_FOREACH (UMLObject *o, subordinates()) {
         if (o->id() == id)
             return o;
     }
@@ -313,7 +313,7 @@ void UMLCanvasObject::copyInto(UMLObject *lhs) const
 int UMLCanvasObject::associations() const
 {
     int count = 0;
-    foreach (UMLObject *obj, subordinates()) {
+    Q_FOREACH (UMLObject *obj, subordinates()) {
         if (obj->baseType() == UMLObject::ot_Association)
             count++;
     }
@@ -328,7 +328,7 @@ int UMLCanvasObject::associations() const
 UMLAssociationList UMLCanvasObject::getAssociations() const
 {
     UMLAssociationList assocs;
-    foreach (UMLObject *o, subordinates()) {
+    Q_FOREACH (UMLObject *o, subordinates()) {
         if (o->baseType() != UMLObject::ot_Association)
             continue;
         UMLAssociation *assoc = o->asUMLAssociation();
@@ -349,7 +349,7 @@ UMLClassifierList UMLCanvasObject::getSuperClasses(bool withRealizations) const
 {
     UMLClassifierList list;
     UMLAssociationList assocs = getAssociations();
-    foreach (UMLAssociation* a, assocs) {
+    Q_FOREACH (UMLAssociation* a, assocs) {
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::AssociationType::Generalization &&
              a->getAssocType() != Uml::AssociationType::Realization) ||
@@ -378,7 +378,7 @@ UMLClassifierList UMLCanvasObject::getSubClasses() const
 {
     UMLClassifierList list;
     UMLAssociationList assocs = getAssociations();
-    foreach (UMLAssociation* a, assocs) {
+    Q_FOREACH (UMLAssociation* a, assocs) {
         uIgnoreZeroPointer(a);
         if ((a->getAssocType() != Uml::AssociationType::Generalization &&
              a->getAssocType() != Uml::AssociationType::Realization) ||
@@ -441,7 +441,7 @@ UMLAssociationList UMLCanvasObject::getRelationships() const
 bool UMLCanvasObject::resolveRef()
 {
     bool overallSuccess = UMLObject::resolveRef();
-    foreach (UMLObject *obj, subordinates()) {
+    Q_FOREACH (UMLObject *obj, subordinates()) {
         if (! obj->resolveRef()) {
             subordinates().removeAll(obj);
             overallSuccess = false;

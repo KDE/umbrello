@@ -85,7 +85,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
         return;
     Uml::ID::Type AId = assoc->getObjectId(Uml::RoleType::A);
     Uml::ID::Type BId = assoc->getObjectId(Uml::RoleType::B);
-    foreach (UMLObject *o, m_objects) {
+    Q_FOREACH (UMLObject *o, m_objects) {
         UMLCanvasObject *c = o->asUMLCanvasObject();
         if (c == 0)
             continue;
@@ -109,7 +109,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
  */
 void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
 {
-    foreach (UMLObject *o, m_objects) {
+    Q_FOREACH (UMLObject *o, m_objects) {
         UMLCanvasObject *c = o->asUMLCanvasObject();
         if (c) {
             if (c->hasAssociation(assoc))
@@ -186,7 +186,7 @@ bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true
     else {
         QString nameToAdd = pObject->name();
         bool found = false;
-        foreach (const UMLObject *obj, m_objects) {
+        Q_FOREACH (const UMLObject *obj, m_objects) {
             if (obj->name() == nameToAdd) {
                 found = true;
                 break;
@@ -269,7 +269,7 @@ void UMLPackage::removeAllObjects()
 UMLObjectList UMLPackage::containedObjects(bool includeInactive /* = false */) const
 {
     UMLObjectList result;
-    foreach (UMLObject *obj, m_objects) {
+    Q_FOREACH (UMLObject *obj, m_objects) {
         uIgnoreZeroPointer(obj);
         if (includeInactive) {
             result.append(obj);
@@ -295,7 +295,7 @@ UMLObjectList UMLPackage::containedObjects(bool includeInactive /* = false */) c
 UMLObject * UMLPackage::findObject(const QString &name) const
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
-    foreach (UMLObject *obj, m_objects) {
+    Q_FOREACH (UMLObject *obj, m_objects) {
         if (!obj)
             continue;
         if (caseSensitive) {
@@ -329,7 +329,7 @@ UMLObject * UMLPackage::findObjectById(Uml::ID::Type id) const
  */
 void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested) const
 {
-    foreach (UMLObject *o, m_objects) {
+    Q_FOREACH (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Package || ot == ot_Folder) {
@@ -353,7 +353,7 @@ void UMLPackage::appendPackages(UMLPackageList& packages, bool includeNested) co
 void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
                                    bool includeNested /* = true */) const
 {
-    foreach (UMLObject *o, m_objects) {
+    Q_FOREACH (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface ||
@@ -377,7 +377,7 @@ void UMLPackage::appendClassifiers(UMLClassifierList& classifiers,
 void UMLPackage::appendEntities(UMLEntityList& entities,
                                  bool includeNested /* = true */) const
 {
-    foreach (UMLObject *o, m_objects) {
+    Q_FOREACH (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Entity) {
@@ -401,7 +401,7 @@ void UMLPackage::appendEntities(UMLEntityList& entities,
 void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
         bool includeNested /* = true */) const
 {
-    foreach (UMLObject *o, m_objects) {
+    Q_FOREACH (UMLObject *o, m_objects) {
         uIgnoreZeroPointer(o);
         ObjectType ot = o->baseType();
         if (ot == ot_Class || ot == ot_Interface || ot == ot_Enum) {
@@ -425,7 +425,7 @@ void UMLPackage::appendClassesAndInterfaces(UMLClassifierList& classifiers,
 bool UMLPackage::resolveRef()
 {
     bool overallSuccess = UMLCanvasObject::resolveRef();
-    foreach (UMLObject *obj, m_objects) {
+    Q_FOREACH (UMLObject *obj, m_objects) {
         uIgnoreZeroPointer(obj);
         if (! obj->resolveRef()) {
             UMLObject::ObjectType ot = obj->baseType();
@@ -447,12 +447,12 @@ void UMLPackage::saveToXMI(QXmlStreamWriter& writer)
         writer.writeStartElement(QStringLiteral("UML:Namespace.ownedElement"));
     }
     // save classifiers etc.
-    foreach (UMLObject *obj, m_objects) {
+    Q_FOREACH (UMLObject *obj, m_objects) {
         uIgnoreZeroPointer(obj);
         obj->saveToXMI (writer);
     }
     // save associations
-    foreach (UMLObject *obj, subordinates()) {
+    Q_FOREACH (UMLObject *obj, subordinates()) {
         obj->saveToXMI (writer);
     }
     if (! Settings::optionState().generalState.uml2) {

@@ -387,7 +387,7 @@ UMLObject* findUMLObjectRecursive(const UMLObjectList& inList,
                                   const QString& name,
                                   UMLObject::ObjectType type /* = ot_UMLObject */)
 {
-    foreach(UMLObject *obj, inList) {
+    Q_FOREACH(UMLObject *obj, inList) {
         if (obj->name() == name && type == obj->baseType())
             return obj;
         const UMLPackage *pkg = obj->asUMLPackage();
@@ -425,7 +425,7 @@ UMLPackage* rootPackage(UMLObject* obj)
 void treeViewAddViews(const UMLViewList& viewList)
 {
     UMLListView* tree = UMLApp::app()->listView();
-    foreach (UMLView* v,  viewList) {
+    Q_FOREACH (UMLView* v,  viewList) {
         if (tree->findItem(v->umlScene()->ID()) != 0) {
             continue;
         }

@@ -187,7 +187,7 @@ public slots:
         QStringList list = url.toString().split(QLatin1Char('-'));
         list.removeLast();
         QString key;
-        foreach(const QString s, list) {
+        Q_FOREACH(const QString s, list) {
             QString a = s;
             a[0] = a[0].toUpper();
             key.append(a);

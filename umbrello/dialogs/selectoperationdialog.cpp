@@ -219,7 +219,7 @@ void SelectOperationDialog::setupOperationsList()
     if (list.count() > 0)
         m_pOpCB->insertItem(0, QString());
     qSort(list.begin(), list.end(), caseInsensitiveLessThan);
-    foreach(UMLOperation * obj, list) {
+    Q_FOREACH(UMLOperation * obj, list) {
         QString s = obj->toString(Uml::SignatureType::SigNoVis);
         m_pOpCB->insertItem(list.count(), s);
         m_pOpCB->completionObject()->addItem(s);
@@ -297,7 +297,7 @@ bool SelectOperationDialog::apply()
             UMLClassifierList selfAndAncestors = m_classifier->findSuperClassConcepts();
             selfAndAncestors.prepend(m_classifier);
             UMLOperation *op = 0;
-            foreach (UMLClassifier *cl, selfAndAncestors) {
+            Q_FOREACH (UMLClassifier *cl, selfAndAncestors) {
                 op = cl->findOperation(od.m_name, od.m_args);
                 if (op) {
                     break;

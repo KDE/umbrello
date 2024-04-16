@@ -462,7 +462,7 @@ QLabel* DocWindow::createPixmapLabel()
  */
 void DocWindow::toForeground()
 {
-    foreach(QTabBar *tab, UMLApp::app()->findChildren<QTabBar *>()) {
+    Q_FOREACH(QTabBar *tab, UMLApp::app()->findChildren<QTabBar *>()) {
         for(int i = 0; i < tab->count(); i++) {
             if (tab->tabText(i) == parentWidget()->windowTitle())
                 tab->setCurrentIndex(i);

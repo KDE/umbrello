@@ -37,7 +37,7 @@ void SelectDiagramWidget::setupWidget(Uml::DiagramType::Enum type, const QString
 {
     QStringList diagrams;
 
-    foreach (UMLView *view, UMLApp::app()->document()->viewIterator()) {
+    Q_FOREACH (UMLView *view, UMLApp::app()->document()->viewIterator()) {
         QString name = view->umlScene()->name();
         if (name == excludeName)
             continue;
@@ -74,7 +74,7 @@ QString SelectDiagramWidget::currentText()
 Uml::ID::Type SelectDiagramWidget::currentID()
 {
     QString name = m_editField->currentText();
-    foreach (UMLView *view, UMLApp::app()->document()->viewIterator()) {
+    Q_FOREACH (UMLView *view, UMLApp::app()->document()->viewIterator()) {
         if (name == view->umlScene()->name())
             return view->umlScene()->ID();
     }

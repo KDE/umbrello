@@ -497,7 +497,7 @@ int ClassifierWidget::displayedMembers(UMLObject::ObjectType ot) const
     if (!umlc)
         return count;
     UMLClassifierListItemList list = umlc->getFilteredList(ot);
-    foreach (UMLClassifierListItem *m, list) {
+    Q_FOREACH (UMLClassifierListItem *m, list) {
         if (!(visualProperty(ShowPublicOnly) && m->visibility() != Uml::Visibility::Public))
             count++;
     }
@@ -614,7 +614,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
             height += fontHeight * numAtts;
             // calculate width of the attributes
             UMLClassifierListItemList list = umlc->getFilteredList(UMLObject::ot_Attribute);
-            foreach (UMLClassifierListItem *a, list) {
+            Q_FOREACH (UMLClassifierListItem *a, list) {
                 if (visualProperty(ShowPublicOnly) && a->visibility() != Uml::Visibility::Public)
                     continue;
                 const int attWidth = fm.size(0, a->toString(m_attributeSignature, visualProperty(ShowStereotype))).width();
@@ -633,7 +633,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
             height += numOps * fontHeight;
             // ... width
             UMLOperationList list(umlc->getOpList());
-            foreach (UMLOperation* op,  list) {
+            Q_FOREACH (UMLOperation* op,  list) {
                       if (visualProperty(ShowPublicOnly) && op->visibility() != Uml::Visibility::Public)
                     continue;
                 const QString displayedOp = op->toString(m_operationSignature, visualProperty(ShowStereotype));
@@ -702,7 +702,7 @@ QSize ClassifierWidget::calculateTemplatesBoxSize() const
     int width = 0;
     int height = count * fm.lineSpacing() + (defaultMargin*2);
 
-    foreach (UMLTemplate *t, list) {
+    Q_FOREACH (UMLTemplate *t, list) {
         int textWidth = fm.size(0, t->toString(Uml::SignatureType::NoSig, visualProperty(ShowStereotype))).width();
         if (textWidth > width)
             width = textWidth;
@@ -826,7 +826,7 @@ void ClassifierWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         const int x = width() - templatesBoxSize.width() + defaultMargin;
         int y = defaultMargin;
         const int templateWidth = templatesBoxSize.width() - 2 * defaultMargin;
-        foreach (UMLTemplate *t, tlist) {
+        Q_FOREACH (UMLTemplate *t, tlist) {
             QString text = t->toString(Uml::SignatureType::NoSig, m_showStereotype != Uml::ShowStereoType::None);
             painter->drawText(x, y, templateWidth, fontHeight, Qt::AlignVCenter, text);
             y += fontHeight;
@@ -982,7 +982,7 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
     bool showRequired = false;
     AssociationWidgetList requiredAssocs;
 
-    foreach (AssociationWidget *aw, associationWidgetList()) {
+    Q_FOREACH (AssociationWidget *aw, associationWidgetList()) {
         const Uml::AssociationType::Enum aType = aw->associationType();
         UMLWidget *otherEnd = aw->widgetForRole(Uml::RoleType::A);
         UMLWidget *thisEnd = aw->widgetForRole(Uml::RoleType::B);
@@ -1011,7 +1011,7 @@ void ClassifierWidget::drawAsCircle(QPainter *painter, const QStyleOptionGraphic
         const qreal cX = center.x();
         const qreal cY = center.y();
 
-        foreach (AssociationWidget *aw, requiredAssocs) {
+        Q_FOREACH (AssociationWidget *aw, requiredAssocs) {
             const AssociationLine& assocLine = aw->associationLine();
             const QPointF p(assocLine.endPoint());
             const qreal tolerance = 18.0;

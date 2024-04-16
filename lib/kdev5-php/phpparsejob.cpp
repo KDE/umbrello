@@ -168,7 +168,7 @@ void ParseJob::run(ThreadWeaver::JobPointer /*self*/, ThreadWeaver::Thread * /*t
         {
             DUChainWriteLocker lock(DUChain::lock());
 
-            foreach(const ProblemPointer &p, session.problems()) {
+            Q_FOREACH(const ProblemPointer &p, session.problems()) {
                 chain->addProblem(p);
             }
 
@@ -196,7 +196,7 @@ void ParseJob::run(ThreadWeaver::JobPointer /*self*/, ThreadWeaver::Thread * /*t
             top = new TopDUContext(document(), RangeInRevision(0, 0, INT_MAX, INT_MAX), file);
             DUChain::self()->addDocumentChain(top);
         }
-        foreach(const ProblemPointer &p, session.problems()) {
+        Q_FOREACH(const ProblemPointer &p, session.problems()) {
             top->addProblem(p);
         }
         setDuChain(top);

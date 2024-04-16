@@ -220,7 +220,7 @@ void ImplementationItem::execute(KTextEditor::View* view, const KTextEditor::Ran
                 parameters = DUChainUtils::getArgumentContext(m_declaration.data())->localDeclarations();
             arguments = '(';
             bool first = true;
-            foreach(Declaration* dec, parameters) {
+            Q_FOREACH(Declaration* dec, parameters) {
                 if (first)
                     first = false;
                 else

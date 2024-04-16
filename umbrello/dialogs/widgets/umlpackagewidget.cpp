@@ -39,7 +39,7 @@ UMLPackageWidget::UMLPackageWidget(UMLObject *o, QWidget *parent) :
     Uml::ModelType::Enum guess = Model_Utils::guessContainer(o);
     UMLPackageList packageList = UMLApp::app()->document()->packages(true, guess);
     QStringList packages;
-    foreach(UMLPackage* package, packageList) {
+    Q_FOREACH(UMLPackage* package, packageList) {
         packages << package->name();
     }
     packages.sort();

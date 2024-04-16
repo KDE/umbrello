@@ -105,7 +105,7 @@ void UMLFolder::removeView(UMLView *view)
 void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
 {
     if (includeNested) {
-        foreach (UMLObject* o, m_objects) {
+        Q_FOREACH (UMLObject* o, m_objects) {
             uIgnoreZeroPointer(o);
             if (o->baseType() == UMLObject::ot_Folder) {
                 UMLFolder *f = o->asUMLFolder();
@@ -113,7 +113,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
             }
         }
     }
-    foreach (UMLView* v, m_diagrams) {
+    Q_FOREACH (UMLView* v, m_diagrams) {
         viewList.append(v);
     }
 }
@@ -125,7 +125,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
  */
 void UMLFolder::activateViews()
 {
-    foreach (UMLObject* o, m_objects) {
+    Q_FOREACH (UMLObject* o, m_objects) {
         uIgnoreZeroPointer(o);
         if (o->baseType() == UMLObject::ot_Folder) {
             UMLFolder *f = o->asUMLFolder();
@@ -133,7 +133,7 @@ void UMLFolder::activateViews()
         }
     }
 
-    foreach (UMLView* v, m_diagrams) {
+    Q_FOREACH (UMLView* v, m_diagrams) {
         UMLScene *scene = v->umlScene();
         scene->activateAfterLoad();
         uDebug() << "UMLFolder::activateViews: " << scene->name() << " sceneRect = " << scene->sceneRect();
@@ -154,7 +154,7 @@ void UMLFolder::activateViews()
  */
 UMLView *UMLFolder::findView(Uml::ID::Type id)
 {
-    foreach (UMLView* v, m_diagrams) {
+    Q_FOREACH (UMLView* v, m_diagrams) {
         if (v && v->umlScene() && v->umlScene()->ID() == id) {
             return v;
         }
@@ -163,7 +163,7 @@ UMLView *UMLFolder::findView(Uml::ID::Type id)
     UMLView* v = 0;
     UMLPackageList packages;
     appendPackages(packages);
-    foreach (UMLPackage *o, packages) {
+    Q_FOREACH (UMLPackage *o, packages) {
         if (o->baseType() != UMLObject::ot_Folder) {
             continue;
         }
@@ -185,7 +185,7 @@ UMLView *UMLFolder::findView(Uml::ID::Type id)
  */
 UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, bool searchAllScopes)
 {
-    foreach (UMLView* v, m_diagrams) {
+    Q_FOREACH (UMLView* v, m_diagrams) {
         if (v->umlScene()->type() == type && v->umlScene()->name() == name) {
             return v;
         }
@@ -193,7 +193,7 @@ UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, b
 
     UMLView* v = 0;
     if (searchAllScopes) {
-        foreach (UMLObject* o, m_objects) {
+        Q_FOREACH (UMLObject* o, m_objects) {
             uIgnoreZeroPointer(o);
             if (o->baseType() != UMLObject::ot_Folder) {
                 continue;
@@ -214,7 +214,7 @@ UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, b
 void UMLFolder::setViewOptions(const Settings::OptionState& optionState)
 {
     // for each view update settings
-    foreach (UMLView* v, m_diagrams) {
+    Q_FOREACH (UMLView* v, m_diagrams) {
         v->umlScene()->setOptionState(optionState);
     }
 }
@@ -224,7 +224,7 @@ void UMLFolder::setViewOptions(const Settings::OptionState& optionState)
  */
 void UMLFolder::removeAllViews()
 {
-    foreach (UMLObject* o, m_objects) {
+    Q_FOREACH (UMLObject* o, m_objects) {
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Folder)
             continue;
@@ -232,7 +232,7 @@ void UMLFolder::removeAllViews()
         f->removeAllViews();
     }
 
-    foreach (UMLView* v, m_diagrams) {
+    Q_FOREACH (UMLView* v, m_diagrams) {
         // TODO ------------------ check this code - bad: calling back to UMLDoc::removeView()
         v->umlScene()->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
         // from a view, it also causes any UMLAssociations that lack parent
@@ -273,12 +273,12 @@ void UMLFolder::saveContents(QXmlStreamWriter& writer)
         writer.writeStartElement(QStringLiteral("UML:Namespace.ownedElement"));
     }
     // Save contained objects if any.
-    foreach (UMLObject *obj, m_objects) {
+    Q_FOREACH (UMLObject *obj, m_objects) {
         uIgnoreZeroPointer(obj);
         obj->saveToXMI (writer);
     }
     // Save associations if any.
-    foreach (UMLObject *obj, subordinates()) {
+    Q_FOREACH (UMLObject *obj, subordinates()) {
         obj->saveToXMI (writer);
     }
     if (! Settings::optionState().generalState.uml2) {
@@ -298,7 +298,7 @@ void UMLFolder::saveContents(QXmlStreamWriter& writer)
             writer.writeAttribute(QStringLiteral("resolution"),
                                   QString::number(UMLApp::app()->document()->resolution()));
         }
-        foreach (UMLView* pView, m_diagrams) {
+        Q_FOREACH (UMLView* pView, m_diagrams) {
             pView->umlScene()->saveToXMI(writer);
         }
         writer.writeEndElement();            // diagrams
@@ -557,7 +557,7 @@ bool UMLFolder::load1(QDomElement& element)
         // Avoid duplicate creation of datatype
         if (pObject == 0 && this == umldoc->datatypeFolder()) {
             QString name = tempElement.attribute(QStringLiteral("name"));
-            foreach (UMLObject *o, m_objects) {
+            Q_FOREACH (UMLObject *o, m_objects) {
                 uIgnoreZeroPointer(o);
                 if (o->name() == name) {
                     UMLDatatype *dt = o->asUMLDatatype();

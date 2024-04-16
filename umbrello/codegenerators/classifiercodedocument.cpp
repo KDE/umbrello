@@ -289,7 +289,7 @@ QList<const CodeOperation*> ClassifierCodeDocument::getCodeOperations () const
     QList<const CodeOperation*> list;
 
     TextBlockList * tlist = getTextBlockList();
-    foreach (TextBlock* tb, *tlist)
+    Q_FOREACH (TextBlock* tb, *tlist)
     {
         const CodeOperation * cop = dynamic_cast<const CodeOperation*>(tb);
         if (cop) {
@@ -506,7 +506,7 @@ void ClassifierCodeDocument::syncClassFields()
 void ClassifierCodeDocument::updateOperations()
 {
     UMLOperationList opList(getParentClassifier()->getOpList());
-    foreach (UMLOperation *op, opList) {
+    Q_FOREACH (UMLOperation *op, opList) {
         QString tag = CodeOperation::findTag(op);
         CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
         bool createdNew = false;
@@ -545,7 +545,7 @@ void ClassifierCodeDocument::initCodeClassFields()
     // first, do the code classifields that arise from attributes
     if (parentIsClass()) {
         UMLAttributeList alist = c->getAttributeList();
-        foreach(UMLAttribute * at, alist) {
+        Q_FOREACH(UMLAttribute * at, alist) {
             CodeClassField * field = CodeGenFactory::newCodeClassField(this, at);
             addCodeClassField(field);
         }
@@ -570,7 +570,7 @@ void ClassifierCodeDocument::initCodeClassFields()
  */
 void ClassifierCodeDocument::updateAssociationClassFields (UMLAssociationList &assocList)
 {
-    foreach(UMLAssociation * a, assocList)
+    Q_FOREACH(UMLAssociation * a, assocList)
         addAssociationClassField(a, false); // syncToParent later
 }
 

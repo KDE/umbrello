@@ -89,7 +89,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
 
     if (!m_isInterface) {
         UMLAttributeList atl = c->getAttributeList();
-        foreach (UMLAttribute *at,  atl) {
+        Q_FOREACH (UMLAttribute *at,  atl) {
             switch(at->visibility())
             {
               case Uml::Visibility::Public:
@@ -160,7 +160,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     //only import classes in a different package as this class
     UMLPackageList imports;
     findObjectsRelated(c, imports);
-    foreach (UMLPackage* con,  imports) {
+    Q_FOREACH (UMLPackage* con,  imports) {
         if (con->isUMLDatatype())
             continue;
         QString pkg = con->package();
@@ -323,7 +323,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
     UMLClassifierList superclasses = c->findSuperClassConcepts(UMLClassifier::CLASS);
 
     int i = 0;
-    foreach (UMLClassifier *classifier, superclasses) {
+    Q_FOREACH (UMLClassifier *classifier, superclasses) {
         if (i == 0)
         {
             java <<  " extends ";
@@ -339,7 +339,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 
     UMLClassifierList superInterfaces = c->findSuperClassConcepts(UMLClassifier::INTERFACE);
     i = 0;
-    foreach (UMLClassifier *classifier, superInterfaces) {
+    Q_FOREACH (UMLClassifier *classifier, superInterfaces) {
         if (i == 0)
         {
             if (m_isInterface)
@@ -368,7 +368,7 @@ void JavaWriter::writeClassDecl(UMLClassifier *c, QTextStream &java)
 void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &atprot,
                                      UMLAttributeList &atpriv, QTextStream &java)
 {
-    foreach (UMLAttribute *at, atpub) {
+    Q_FOREACH (UMLAttribute *at, atpub) {
         QString documentation = at->doc();
         QString staticValue = at->isStatic() ? QStringLiteral("static ") : QString();
         QString typeName = fixTypeName(at->getTypeName());
@@ -379,7 +379,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
              << (initialValue.isEmpty() ? QString() : QStringLiteral(" = ") + initialValue) << ";";
     }
 
-    foreach (UMLAttribute *at, atprot){
+    Q_FOREACH (UMLAttribute *at, atprot){
         QString documentation = at->doc();
         QString typeName = fixTypeName(at->getTypeName());
         QString staticValue = at->isStatic() ? QStringLiteral("static ") : QString();
@@ -390,7 +390,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
              << (initialValue.isEmpty() ? QString() : QStringLiteral(" = ") + initialValue) << ";";
     }
 
-    foreach (UMLAttribute *at, atpriv) {
+    Q_FOREACH (UMLAttribute *at, atpriv) {
         QString documentation = at->doc();
         QString typeName = fixTypeName(at->getTypeName());
         QString staticValue = at->isStatic() ? QStringLiteral("static ") : QString();
@@ -408,7 +408,7 @@ void JavaWriter::writeAttributeDecls(UMLAttributeList &atpub, UMLAttributeList &
  */
 void JavaWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility::Enum visibility, QTextStream &java)
 {
-    foreach (UMLAttribute *at, atpub){
+    Q_FOREACH (UMLAttribute *at, atpub){
         QString fieldName = cleanName(at->name());
         // force capitalizing the field name, this is silly,
         // from what I can tell, this IS the default behavior for
@@ -491,7 +491,7 @@ void JavaWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID:
     if (forceSections() || !associations.isEmpty())
     {
         bool printRoleA = false, printRoleB = false;
-        foreach (UMLAssociation *a, associations) {
+        Q_FOREACH (UMLAssociation *a, associations) {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
             if (a->getObjectId(Uml::RoleType::A) == id)
@@ -566,7 +566,7 @@ void JavaWriter::writeAssociationMethods (UMLAssociationList associations, UMLCl
 {
     if (forceSections() || !associations.isEmpty()) {
 
-        foreach(UMLAssociation *a, associations) {
+        Q_FOREACH(UMLAssociation *a, associations) {
 
             // insert the methods to access the role of the other
             // class in the code of this one
@@ -791,7 +791,7 @@ bool JavaWriter::compareJavaMethod(UMLOperation *op1, UMLOperation *op2)
  */
 bool JavaWriter::javaMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
 {
-    foreach (UMLOperation *op, opl) {
+    Q_FOREACH (UMLOperation *op, opl) {
         if (JavaWriter::compareJavaMethod(op, umlOp)) {
             return true;
         }
@@ -811,11 +811,11 @@ void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationLis
 {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
 
-    foreach (UMLClassifier *classifier, superClasses) {
+    Q_FOREACH (UMLClassifier *classifier, superClasses) {
 
         getSuperImplementedOperations(classifier, yetImplementedOpList, toBeImplementedOpList, (classifier->isInterface() && noClassInPath));
         UMLOperationList opl = classifier->getOpList();
-        foreach (UMLOperation *op, opl) {
+        Q_FOREACH (UMLOperation *op, opl) {
             if (classifier->isInterface() && noClassInPath) {
                 if (!JavaWriter::javaMethodInList(op, toBeImplementedOpList))
                     toBeImplementedOpList.append(op);
@@ -841,7 +841,7 @@ void JavaWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOpe
     UMLOperationList toBeImplementedOpList;
 
     getSuperImplementedOperations(c, yetImplementedOpList, toBeImplementedOpList);
-    foreach (UMLOperation *op, toBeImplementedOpList) {
+    Q_FOREACH (UMLOperation *op, toBeImplementedOpList) {
         if (! JavaWriter::javaMethodInList(op, yetImplementedOpList) && ! JavaWriter::javaMethodInList(op, opList))
             opList.append(op);
     }
@@ -861,7 +861,7 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     if (! c->isInterface()) {
         getInterfacesOperationsToBeImplemented(c, opl);
     }
-    foreach (UMLOperation *op, opl) {
+    Q_FOREACH (UMLOperation *op, opl) {
         switch(op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -919,7 +919,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
     QString str;
 
     // generate method decl for each operation given
-    foreach (UMLOperation* op, oplist) {
+    Q_FOREACH (UMLOperation* op, oplist) {
 
         QString doc;
         // write documentation
@@ -937,7 +937,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
         atl = op->getParmList();
         i= atl.count();
         j=0;
-        foreach (UMLAttribute* at, atl) {
+        Q_FOREACH (UMLAttribute* at, atl) {
             QString typeName = fixTypeName(at->getTypeName());
             QString atName = cleanName(at->name());
             str += typeName + QLatin1Char(' ') + atName +
