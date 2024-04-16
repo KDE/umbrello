@@ -62,7 +62,6 @@ void UIOptionsPage::setupPage()
 
     QGroupBox *boxAssocs = new QGroupBox(i18nc("Association options", "Associations"), this);
     QGridLayout *layoutAssocs = new QGridLayout(boxAssocs);
-    layoutAssocs->setMargin(fontMetrics().height());
     uiPageLayout->addWidget(boxAssocs);
 
     m_layoutTypeW = new SelectLayoutTypeWidget(i18n("Create new association lines as:"), Settings::optionState().generalState.layoutType, boxAssocs);

@@ -82,7 +82,6 @@ void DocumentationWidget::apply()
 void DocumentationWidget::init(const QString &text)
 {
     QHBoxLayout *l = new QHBoxLayout;
-    l->setMargin(0);
     m_box = new QGroupBox;
     m_box->setTitle(i18n("Documentation"));
     m_editField = new QTextEdit(m_box);

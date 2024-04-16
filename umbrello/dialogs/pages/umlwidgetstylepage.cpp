@@ -195,7 +195,6 @@ void UMLWidgetStylePage::init()
 
         QGroupBox *boxMisc = new QGroupBox(i18nc("miscellaneous group box", "Miscellaneous"), this);
         QGridLayout *layoutAssocs = new QGridLayout(boxMisc);
-        layoutAssocs->setMargin(margin);
         topLayout->addWidget(boxMisc);
 
         m_layoutTypeW = new SelectLayoutTypeWidget(i18n("Layout of the line:"), aw->associationLine().layout(), boxMisc);

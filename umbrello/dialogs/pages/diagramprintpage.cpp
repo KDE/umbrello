@@ -45,7 +45,6 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc)
 
     QVBoxLayout * filter = new QVBoxLayout(m_pFilterGB);
     filter->setSpacing(10);
-    filter->setMargin(margin);
 
     m_pCurrentRB = new QRadioButton(i18n("&Current diagram"), m_pFilterGB);
     filter->addWidget(m_pCurrentRB);
@@ -65,7 +64,6 @@ DiagramPrintPage::DiagramPrintPage(QWidget * parent, UMLDoc * doc)
 
     QVBoxLayout * select = new QVBoxLayout(m_pSelectGB);
     select->setSpacing(10);
-    select->setMargin(margin);
 
     m_pTypeCB = new KComboBox(m_pSelectGB);
     select->addWidget(m_pTypeCB);
