@@ -24,7 +24,7 @@
 #include "object_factory.h"
 
 #include <KLocalizedString>
-#include <ktextedit.h>
+#include <QTextEdit>
 
 #include <QApplication>
 #include <QDialogButtonBox>

@@ -18,7 +18,7 @@
 #include "umlwidget.h"
 
 // kde includes
-#include <ktextedit.h>
+#include <QTextEdit>
 #include <KLocalizedString>
 
 // qt includes

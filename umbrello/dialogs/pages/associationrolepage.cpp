@@ -19,7 +19,7 @@
 #include <klineedit.h>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <ktextedit.h>
+#include <QTextEdit>
 
 // qt includes
 #include <QGridLayout>

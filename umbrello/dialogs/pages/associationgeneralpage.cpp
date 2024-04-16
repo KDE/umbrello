@@ -23,7 +23,7 @@
 #include <QLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <ktextedit.h>
+#include <QTextEdit>
 
 // qt includes
 #include <QHBoxLayout>
