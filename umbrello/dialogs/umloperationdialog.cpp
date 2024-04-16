@@ -277,7 +277,7 @@ void UMLOperationDialog::slotNewParameter()
             m_pParmsLW->addItem(newAttribute->toString(Uml::SignatureType::SigNoVis));
             m_doc->setModified(true);
         } else {
-            KMessageBox::sorry(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
+            KMessageBox::information(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
                                i18n("Parameter Name Not Unique"), 0);
             delete newAttribute;
         }
