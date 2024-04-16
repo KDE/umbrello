@@ -63,7 +63,7 @@ bool extractAttributesFromXMI(const char *fileName, const QStringList &attribute
         if (type != QXmlStreamReader::StartElement)
             continue;
 
-        Q_FOREACH(const QString &attributeName, attributes) {
+        for(const QString &attributeName: attributes) {
             if (!xmlReader.attributes().hasAttribute(attributeName))
                 continue;
 

@@ -56,7 +56,7 @@ QStringList UMLViewImageExporterModel::supportedImageTypes()
         s_supportedImageTypesList = new QStringList();
         // QT supported formats
         QList<QByteArray> qImageFormats = QImageWriter::supportedImageFormats();
-        Q_FOREACH(const QByteArray& it, qImageFormats) {
+        for(const QByteArray& it: qImageFormats) {
             const QString format = QString::fromLatin1(it.toLower());
             if (!s_supportedImageTypesList->contains(format))
                 *s_supportedImageTypesList << format;
@@ -204,7 +204,7 @@ QStringList UMLViewImageExporterModel::exportViews(const UMLViewList &views, con
     // contains all the error messages returned by exportView calls
     QStringList errors;
 
-    Q_FOREACH (UMLView *view, views) {
+    for(UMLView  *view : views) {
         QUrl url = QUrl::fromLocalFile(directory.path() + QLatin1Char('/') +
                  getDiagramFileName(view->umlScene(), imageType, useFolders));
 

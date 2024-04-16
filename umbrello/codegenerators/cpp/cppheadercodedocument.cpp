@@ -414,7 +414,7 @@ void CPPHeaderCodeDocument::updateContent()
     QMap<UMLPackage *, QString> packageMap; // so we don't repeat packages
 
     CodeGenerator::findObjectsRelated(c, includes);
-    Q_FOREACH(UMLPackage* con, includes) {
+    for(UMLPackage *con : includes) {
         if (!con->isUMLDatatype() && !packageMap.contains(con)) {
             packageMap.insert(con, con->package());
             if(con != getParentClassifier())
@@ -430,7 +430,7 @@ void CPPHeaderCodeDocument::updateContent()
 
     // Using
     QString usingStatement;
-    Q_FOREACH(UMLClassifier* classifier, superclasses) {
+    for(UMLClassifier *classifier : superclasses) {
         if(classifier->package()!=c->package() && !classifier->package().isEmpty()) {
             usingStatement.append(QStringLiteral("using ") + CodeGenerator::cleanName(c->package()) + QStringLiteral("::") + cleanName(c->name()) + QLatin1Char(';') + endLine);
         }
@@ -457,12 +457,12 @@ void CPPHeaderCodeDocument::updateContent()
         UMLPackageList pkgList = c->packages();
         QString pkgs;
         UMLPackage *pkg;
-        Q_FOREACH (pkg, pkgList) {
+        for(pkg: pkgList) {
             pkgs += QStringLiteral("namespace ") + CodeGenerator::cleanName(pkg->name()) + QStringLiteral(" { ");
         }
         m_namespaceBlock->setStartText(pkgs);
         QString closingBraces;
-        Q_FOREACH (pkg, pkgList) {
+        for(pkg: pkgList) {
             closingBraces += QStringLiteral("} ");
         }
         m_namespaceBlock->setEndText(closingBraces);

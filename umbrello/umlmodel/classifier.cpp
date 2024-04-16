@@ -141,7 +141,7 @@ UMLOperation * UMLClassifier::checkOperationSignature(
     const int inputParmCount = opParams.count();
 
     // there is at least one operation with the same name... compare the parameter list
-    Q_FOREACH (UMLOperation* test, list) {
+    for(UMLOperation *test : list) {
         if (test == exemptOp) {
             continue;
         }
@@ -184,7 +184,7 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
     // if there are operation(s) with the same name then compare the parameter list
     const int inputParmCount = params.count();
 
-    Q_FOREACH (UMLOperation* test, list) {
+    for(UMLOperation *test : list) {
         UMLAttributeList testParams = test->getParmList();
         const int pCount = testParams.count();
         if (inputParmCount == 0 && pCount == 0)
@@ -323,7 +323,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position)
         subordinates().insert(position, op);
         UMLClassifierListItemList itemList = getFilteredList(UMLObject::ot_Operation);
         QString buf;
-        Q_FOREACH (UMLClassifierListItem* currentAtt, itemList) {
+        for(UMLClassifierListItem *currentAtt : itemList) {
             buf.append(QLatin1Char(' ') + currentAtt->name());
         }
         logDebug1("UMLClassifier::addOperation list after change:%1", buf);
@@ -435,7 +435,7 @@ UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString(
 UMLAttributeList UMLClassifier::getAttributeList() const
 {
     UMLAttributeList attributeList;
-    Q_FOREACH (UMLObject* listItem, subordinates()) {
+    for(UMLObject *listItem : subordinates()) {
         if (listItem->baseType() == UMLObject::ot_Attribute) {
             attributeList.append(listItem->asUMLAttribute());
         }
@@ -454,7 +454,7 @@ UMLAttributeList UMLClassifier::getAttributeList(Visibility::Enum scope) const
     if (!isInterface())
     {
         UMLAttributeList atl = getAttributeList();
-        Q_FOREACH(UMLAttribute* at, atl)
+        for(UMLAttribute *at : atl)
         {
             uIgnoreZeroPointer(at);
             if (! at->isStatic())
@@ -489,7 +489,7 @@ UMLAttributeList UMLClassifier::getAttributeListStatic(Visibility::Enum scope) c
     if (!isInterface())
     {
         UMLAttributeList atl = getAttributeList();
-        Q_FOREACH(UMLAttribute* at, atl)
+        for(UMLAttribute *at : atl)
         {
             uIgnoreZeroPointer(at);
             if (at->isStatic())
@@ -522,7 +522,7 @@ UMLOperationList UMLClassifier::findOperations(const QString &n) const
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     UMLOperationList list;
-    Q_FOREACH (UMLObject*  obj, subordinates()) {
+    for(UMLObject *obj : subordinates()) {
         if (obj->baseType() != UMLObject::ot_Operation)
             continue;
         UMLOperation *op = obj->asUMLOperation();
@@ -551,7 +551,7 @@ UMLObject* UMLClassifier::findChildObjectById(Uml::ID::Type id,
     }
     if (considerAncestors) {
         UMLClassifierList ancestors = findSuperClassConcepts();
-        Q_FOREACH (UMLClassifier *anc, ancestors) {
+        for(UMLClassifier  *anc : ancestors) {
             UMLObject *o = anc->findChildObjectById(id);
             if (o) {
                 return o;
@@ -574,7 +574,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) cons
 
     UMLClassifierList inheritingConcepts;
     Uml::ID::Type myID = id();
-    Q_FOREACH(UMLClassifier *c, list) {
+    for(UMLClassifier  *c : list) {
         uIgnoreZeroPointer(c);
         if (type == ALL || (!c->isInterface() && type == CLASS)
                 || (c->isInterface() && type == INTERFACE)) {
@@ -582,7 +582,7 @@ UMLClassifierList UMLClassifier::findSubClassConcepts (ClassifierType type) cons
         }
     }
 
-    Q_FOREACH (UMLAssociation *a, rlist) {
+    for(UMLAssociation  *a : rlist) {
         uIgnoreZeroPointer(a);
         if (a->getObjectId(RoleType::A) != myID)
         {
@@ -613,14 +613,14 @@ UMLClassifierList UMLClassifier::findSuperClassConcepts (ClassifierType type) co
 
     UMLClassifierList parentConcepts;
     Uml::ID::Type myID = id();
-    Q_FOREACH (UMLClassifier *classifier, list) {
+    for(UMLClassifier  *classifier : list) {
         uIgnoreZeroPointer(classifier);
         if (type == ALL || (!classifier->isInterface() && type == CLASS)
                 || (classifier->isInterface() && type == INTERFACE))
             parentConcepts.append(classifier);
     }
 
-    Q_FOREACH (UMLAssociation *a, rlist) {
+    for(UMLAssociation  *a : rlist) {
         if (a->getObjectId(RoleType::A) == myID)
         {
             UMLObject* obj = a->getObject(RoleType::B);
@@ -646,7 +646,7 @@ void UMLClassifier::copyInto(UMLObject *lhs) const
     target->setBaseType(m_BaseType);
     // CHECK: association property m_pClassAssoc is not copied
     subordinates().copyInto(&(target->subordinates()));
-    Q_FOREACH(UMLObject *o, target->subordinates()) {
+    for(UMLObject  *o : target->subordinates()) {
         o->setUMLParent(target);
     }
 }
@@ -670,7 +670,7 @@ void UMLClassifier::setNameCmd(const QString &strName)
     if (UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Cpp ||
             UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::CSharp ||
             UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Java) {
-        Q_FOREACH(UMLOperation *op, getOpList()) {
+        for(UMLOperation  *op : getOpList()) {
             if (op->isConstructorOperation())
                 op->setNameCmd(strName);
             if (op->isDestructorOperation())
@@ -692,7 +692,7 @@ bool UMLClassifier::resolveRef()
 {
     bool success = UMLPackage::resolveRef();
     // Using reentrant iteration is a bare necessity here:
-    Q_FOREACH (UMLObject* obj, subordinates()) {
+    for(UMLObject *obj : subordinates()) {
         /**** For reference, here is the non-reentrant iteration scheme -
               DO NOT USE THIS !
         for (UMLObject *obj = subordinates().first(); obj; obj = subordinates().next())
@@ -809,7 +809,7 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
 
 UMLAttribute* UMLClassifier::addAttribute(const QString &name, Uml::ID::Type id /* = Uml::id_None */)
 {
-    Q_FOREACH (UMLObject* obj, subordinates()) {
+    for(UMLObject *obj : subordinates()) {
         uIgnoreZeroPointer(obj);
         if (obj->baseType() == UMLObject::ot_Attribute && obj->name() == name)
             return obj->asUMLAttribute();
@@ -909,7 +909,7 @@ int UMLClassifier::removeAttribute(UMLAttribute* att)
 bool UMLClassifier::hasAbstractOps () const
 {
     UMLOperationList opl(getOpList());
-    Q_FOREACH(UMLOperation *op, opl) {
+    for(UMLOperation  *op : opl) {
         uIgnoreZeroPointer(op);
         if (op->isAbstract()) {
             return true;
@@ -939,7 +939,7 @@ int UMLClassifier::operations() const
 UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSet *alreadyTraversed) const
 {
     UMLOperationList ops;
-    Q_FOREACH (UMLObject* li, subordinates()) {
+    for(UMLObject *li : subordinates()) {
         uIgnoreZeroPointer(li);
         if (li->baseType() == ot_Operation) {
             ops.append(li->asUMLOperation());
@@ -957,7 +957,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSe
 
         // get a list of parents of this class
         UMLClassifierList parents = findSuperClassConcepts();
-        Q_FOREACH(UMLClassifier *c, parents) {
+        for(UMLClassifier  *c : parents) {
             if (alreadyTraversed->contains(c)) {
                 logError2("UMLClassifier::getOpList(%1) : class %2 is starting a dependency loop!",
                           name(), c->name());
@@ -966,10 +966,10 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSe
             // get operations for each parent by recursive call
             UMLOperationList pops = c->getOpList(true, alreadyTraversed);
             // add these operations to operation list, but only if unique.
-            Q_FOREACH (UMLOperation *po, pops) {
+            for(UMLOperation  *po : pops) {
                 QString po_as_string(po->toString(Uml::SignatureType::SigNoVis));
                 bool breakFlag = false;
-                Q_FOREACH (UMLOperation* o,  ops) {
+                for(UMLOperation *o :  ops) {
                     if (o->toString(Uml::SignatureType::SigNoVis) == po_as_string) {
                         breakFlag = true;
                         break;
@@ -999,7 +999,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSe
 UMLClassifierListItemList UMLClassifier::getFilteredList(UMLObject::ObjectType ot) const
 {
     UMLClassifierListItemList resultList;
-    Q_FOREACH (UMLObject* o, subordinates()) {
+    for(UMLObject *o : subordinates()) {
         uIgnoreZeroPointer(o);
         if (!o || o->baseType() == UMLObject::ot_Association) {
             continue;
@@ -1120,7 +1120,7 @@ int UMLClassifier::removeTemplate(UMLTemplate* umltemplate)
 UMLTemplate *UMLClassifier::findTemplate(const QString& name) const
 {
     UMLTemplateList templParams = getTemplateList();
-    Q_FOREACH (UMLTemplate *templt, templParams) {
+    for(UMLTemplate  *templt : templParams) {
         if (templt->name() == name) {
             return templt;
         }
@@ -1149,7 +1149,7 @@ int UMLClassifier::templates() const
 UMLTemplateList UMLClassifier::getTemplateList() const
 {
     UMLTemplateList templateList;
-    Q_FOREACH (UMLObject* listItem, subordinates()) {
+    for(UMLObject *listItem : subordinates()) {
         uIgnoreZeroPointer(listItem);
         if (listItem->baseType() == UMLObject::ot_Template) {
             templateList.append(listItem->asUMLTemplate());
@@ -1169,7 +1169,7 @@ UMLTemplateList UMLClassifier::getTemplateList() const
 int UMLClassifier::takeItem(UMLClassifierListItem *item)
 {
     QString buf;
-    Q_FOREACH (UMLObject* currentAtt, subordinates()) {
+    for(UMLObject *currentAtt : subordinates()) {
         uIgnoreZeroPointer(currentAtt);
 #if 0
         QString txt = currentAtt->name();
@@ -1320,7 +1320,7 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented() const
     UMLAssociationList associations = getSpecificAssocs(AssociationType::UniAssociation);
     UMLAssociationList uniAssocListToBeImplemented;
 
-    Q_FOREACH (UMLAssociation *a, associations) {
+    for(UMLAssociation  *a : associations) {
         uIgnoreZeroPointer(a);
         if (a->getObjectId(RoleType::B) == id()) {
             continue;  // we need to be at the A side
@@ -1330,7 +1330,7 @@ UMLAssociationList  UMLClassifier::getUniAssociationToBeImplemented() const
             UMLAttributeList atl = getAttributeList();
             bool found = false;
             //make sure that an attribute with the same name doesn't already exist
-            Q_FOREACH (UMLAttribute *at, atl) {
+            for(UMLAttribute  *at : atl) {
                 uIgnoreZeroPointer(at);
                 if (at->name() == roleNameB) {
                     found = true;
@@ -1378,7 +1378,7 @@ void UMLClassifier::saveToXMI(QXmlStreamWriter& writer)
         if (! Settings::optionState().generalState.uml2) {
             writer.writeStartElement(QStringLiteral("UML:ModelElement.templateParameter"));
         }
-        Q_FOREACH (UMLClassifierListItem *tmpl, list) {
+        for(UMLClassifierListItem  *tmpl : list) {
             tmpl->saveToXMI(writer);
         }
         if (! Settings::optionState().generalState.uml2) {
@@ -1392,7 +1392,7 @@ void UMLClassifier::saveToXMI(QXmlStreamWriter& writer)
         if (! Settings::optionState().generalState.uml2) {
             writer.writeStartElement(QStringLiteral("UML:GeneralizableElement.generalization"));
         }
-        Q_FOREACH (UMLAssociation *asso, generalizations) {
+        for(UMLAssociation  *asso : generalizations) {
             // We are the subclass if we are at the role A end.
             if (m_nId != asso->getObjectId(RoleType::A)) {
                 continue;
@@ -1423,11 +1423,11 @@ void UMLClassifier::saveToXMI(QXmlStreamWriter& writer)
             writer.writeStartElement(QStringLiteral("UML:Classifier.feature"));
         }
         // save attributes
-        Q_FOREACH (UMLClassifierListItem *pAtt, attList) {
+        for(UMLClassifierListItem  *pAtt : attList) {
             pAtt->saveToXMI(writer);
         }
         // save operations
-        Q_FOREACH (UMLOperation *pOp, opList) {
+        for(UMLOperation  *pOp : opList) {
             pOp->saveToXMI(writer);
         }
         if (! Settings::optionState().generalState.uml2) {
@@ -1440,7 +1440,7 @@ void UMLClassifier::saveToXMI(QXmlStreamWriter& writer)
         if (! Settings::optionState().generalState.uml2) {
             writer.writeStartElement(QStringLiteral("UML:Namespace.ownedElement"));
         }
-        Q_FOREACH (UMLObject* obj, m_objects) {
+        for(UMLObject *obj : m_objects) {
             uIgnoreZeroPointer(obj);
             obj->saveToXMI (writer);
         }

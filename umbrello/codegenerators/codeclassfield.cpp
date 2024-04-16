@@ -49,7 +49,7 @@ CodeClassField::CodeClassField (ClassifierCodeDocument * doc, UMLAttribute * att
 CodeClassField::~CodeClassField ()
 {
     // remove methods from parent document
-    Q_FOREACH(CodeAccessorMethod *m, m_methodVector)
+    for(CodeAccessorMethod  *m : m_methodVector)
     {
         getParentDocument()->removeTextBlock(m);
         m->forceRelease();
@@ -247,7 +247,7 @@ void CodeClassField::setAttributesOnNode (QXmlStreamWriter& writer)
     m_declCodeBlock->saveToXMI(writer);
 
     // now record the tags on our accessormethods
-    Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
+    for(CodeAccessorMethod  *method : m_methodVector)
     {
         method->saveToXMI(writer);
     }
@@ -409,7 +409,7 @@ QString CodeClassField::fixInitialStringDeclValue(const QString& val, const QStr
 void CodeClassField::synchronize ()
 {
     updateContent();
-    Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
+    for(CodeAccessorMethod  *method : m_methodVector)
         method->syncToParent();
 
     if(m_declCodeBlock)
@@ -431,13 +431,13 @@ CodeAccessorMethod * CodeClassField::findMethodByType (CodeAccessorMethod::Acces
     */
     if(role_id > 1 || role_id < 0)
     {
-        Q_FOREACH(CodeAccessorMethod *m, m_methodVector)
+        for(CodeAccessorMethod  *m : m_methodVector)
             if(m->getType() == type)
                 return m;
     } else {
         // ugh. forced into this underperforming algorithm because of bad association
         // design.
-        Q_FOREACH(CodeAccessorMethod *m, m_methodVector)
+        for(CodeAccessorMethod  *m : m_methodVector)
         {
             const UMLRole * role = m->getParentObject()->asUMLRole();
             if(!role)
@@ -520,7 +520,7 @@ void CodeClassField::updateContent()
     // all here? -b.t.
     if (parentIsAttribute())
     {
-        Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
+        for(CodeAccessorMethod  *method : m_methodVector)
             method->setWriteOutText(m_writeOutMethods);
         return;
     }
@@ -531,7 +531,7 @@ void CodeClassField::updateContent()
     bool isSingleValue = fieldIsSingleValue();
     bool isEmptyRole = role->name().isEmpty() ? true : false;
 
-    Q_FOREACH(CodeAccessorMethod *method, m_methodVector)
+    for(CodeAccessorMethod  *method : m_methodVector)
     {
 
         CodeAccessorMethod::AccessorType type = method->getType();

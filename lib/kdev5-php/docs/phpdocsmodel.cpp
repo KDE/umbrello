@@ -72,7 +72,7 @@ void PhpDocsModel::fillModel(const ReferencedTopDUContext& top)
         m_declarations << DeclarationPointer(declpair.first);
 
         if ( StructureType::Ptr type = declpair.first->type<StructureType>() ) {
-            Q_FOREACH ( Declaration* dec, type->internalContext(top)->localDeclarations() ) {
+            for(Declaration *dec : type->internalContext(top)->localDeclarations() ) {
                 m_declarations << DeclarationPointer(dec);
             }
         }

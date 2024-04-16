@@ -96,7 +96,7 @@ void UMLScenePopupMenu::insertLayoutItems()
         QHash<QString, QString> configFiles;
         if (LayoutGenerator::availableConfigFiles(m_scene, configFiles)) {
             int i = 0;
-            Q_FOREACH(const QString &key, configFiles.keys()) { // krazy:exclude=foreach
+            for(const QString &key: configFiles.keys()) { // krazy:exclude=foreach
                 if (i >= types.size())
                     break;
                 if (key == QStringLiteral("export") &&

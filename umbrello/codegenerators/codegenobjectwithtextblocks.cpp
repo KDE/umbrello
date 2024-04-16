@@ -97,7 +97,7 @@ bool CodeGenObjectWithTextBlocks::removeTextBlock (TextBlock * remove_object)
     }
     else {
         // may be hiding in child hierarchical codeblock
-        Q_FOREACH (TextBlock* tb, m_textblockVector) {
+        for(TextBlock *tb : m_textblockVector) {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
             if (hb && hb->removeTextBlock(remove_object))
                 return true;
@@ -146,7 +146,7 @@ CodeGenObjectWithTextBlocks * CodeGenObjectWithTextBlocks::findParentObjectForTa
 
     if (!findTextBlockByTag(tag)) {
         // may be hiding in child hierarchical codeblock
-        Q_FOREACH (TextBlock* tb, m_textblockVector) {
+        for(TextBlock *tb : m_textblockVector) {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
             if (hb) {
                 CodeGenObjectWithTextBlocks* cgowtb = dynamic_cast<CodeGenObjectWithTextBlocks*>(hb);
@@ -340,7 +340,7 @@ void CodeGenObjectWithTextBlocks::setAttributesFromObject (CodeGenObjectWithText
     Q_UNUSED(obj);
 /*
     TextBlockList * list = obj->getTextBlockList();
-    Q_FOREACH (TextBlock* tb, *list) {
+    for(TextBlock *tb : *list) {
         // FIX : we need some functionality like
         // loadChildTextBlocksFromObject(obj) here
     }
@@ -358,7 +358,7 @@ void CodeGenObjectWithTextBlocks::setAttributesOnNode (QXmlStreamWriter& writer)
 
     // only concrete calls to textblocks are saved
     TextBlockList * tbList = getTextBlockList();
-    Q_FOREACH (TextBlock* block, *tbList) {
+    for(TextBlock *block : *tbList) {
         block->saveToXMI(writer);
     }
     writer.writeEndElement();

@@ -184,7 +184,7 @@ void UMLOperationDialog::setupDialog()
 
     // fill in parm list box
     UMLAttributeList list = m_operation->getParmList();
-    Q_FOREACH (UMLAttribute* pAtt, list) {
+    for(UMLAttribute *pAtt : list) {
         m_pParmsLW->addItem(pAtt->toString(Uml::SignatureType::SigNoVis));
     }
 

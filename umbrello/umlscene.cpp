@@ -134,25 +134,25 @@ public:
         UMLWidgetList ports;
         UMLWidgetList components;
 
-        Q_FOREACH(UMLWidget *w, p->widgetList()) {
+        for(UMLWidget  *w : p->widgetList()) {
             if (w->isPortWidget())
                 ports.append(w);
             else if (w->isComponentWidget())
                 components.append(w);
         }
 
-        Q_FOREACH(UMLWidget *cw, components) {
+        for(UMLWidget  *cw : components) {
             const UMLComponent *c = cw->umlObject()->asUMLComponent();
             if (!c)
                 continue;
             // iterate through related ports for this component widget
-            Q_FOREACH(UMLObject *o, c->containedObjects()) {
+            for(UMLObject  *o : c->containedObjects()) {
                 UMLPort *up = o->asUMLPort();
                 if (!up)
                     continue;
                 Uml::ID::Type id = o->id();
                 bool found = false;
-                Q_FOREACH(UMLWidget *p, ports) {
+                for(UMLWidget  *p : ports) {
                     if (p->id() == id) {
                         found = true;
                         break;
@@ -170,7 +170,7 @@ public:
      */
     void fixPortPositions()
     {
-        Q_FOREACH(UMLWidget *w, p->widgetList()) {
+        for(UMLWidget  *w : p->widgetList()) {
             if (w->isPortWidget()) {
                 QGraphicsItem *g = w->parentItem();
                 ComponentWidget *c = dynamic_cast<ComponentWidget*>(g);
@@ -206,7 +206,7 @@ public:
         logDebug2("UMLScenePrivate::removeDuplicatedFloatingTextInstances checking diagram %1 id %2",
                   pName, Uml::ID::toString(p->ID()));
 
-        Q_FOREACH(UMLWidget *w, p->widgetList()) {
+        for(UMLWidget  *w : p->widgetList()) {
             if (!w->isTextWidget())
                 continue;
             if (w->parentItem())
@@ -214,8 +214,8 @@ public:
             else
                 labelsWithoutParents.append(w);
         }
-        Q_FOREACH(UMLWidget *w, labelsWithoutParents) {
-            Q_FOREACH(UMLWidget *wp, labelsWithParent) {
+        for(UMLWidget  *w : labelsWithoutParents) {
+            for(UMLWidget  *wp : labelsWithParent) {
                 if (w->id() == wp->id() &&
                         w->localID() == wp->localID() &&
                         w->name() == wp->name()) {
@@ -403,7 +403,7 @@ QString UMLScene::autoIncrementSequenceValue()
 {
     int sequenceNumber = 0;
     if (isSequenceDiagram()) {
-        Q_FOREACH (MessageWidget* message, messageList()) {
+        for(MessageWidget *message : messageList()) {
             bool ok;
             int value = message->sequenceNumber().toInt(&ok);
             if (ok && value > sequenceNumber)
@@ -411,7 +411,7 @@ QString UMLScene::autoIncrementSequenceValue()
         }
     }
     else if (isCollaborationDiagram()) {
-        Q_FOREACH (AssociationWidget* assoc, associationList()) {
+        for(AssociationWidget *assoc : associationList()) {
             bool ok;
             int value = assoc->sequenceNumber().toInt(&ok);
             if (ok && value > sequenceNumber)
@@ -606,7 +606,7 @@ void UMLScene::setOptionState(const Settings::OptionState& options)
 AssociationWidgetList UMLScene::associationList() const
 {
     AssociationWidgetList result;
-    Q_FOREACH(QGraphicsItem *item, items()) {
+    for(QGraphicsItem  *item : items()) {
         AssociationWidget *w = dynamic_cast<AssociationWidget*>(item);
         if (w)
             result.append(w);
@@ -620,7 +620,7 @@ AssociationWidgetList UMLScene::associationList() const
 UMLWidgetList UMLScene::widgetList() const
 {
     UMLWidgetList result;
-    Q_FOREACH(QGraphicsItem *item, items()) {
+    for(QGraphicsItem  *item : items()) {
         UMLWidget *w = dynamic_cast<UMLWidget*>(item);
         if (w && !w->isMessageWidget() && !w->isAssociationWidget())
             result.append(w);
@@ -648,7 +648,7 @@ void UMLScene::addWidgetCmd(AssociationWidget* widget)
 MessageWidgetList UMLScene::messageList() const
 {
     MessageWidgetList result;
-    Q_FOREACH(QGraphicsItem *item, items()) {
+    for(QGraphicsItem  *item : items()) {
         MessageWidget *w = dynamic_cast<MessageWidget*>(item);
         if (w)
             result.append(w);
@@ -857,7 +857,7 @@ void UMLScene::slotObjectRemoved(UMLObject * o)
     m_bPaste = false;
     Uml::ID::Type id = o->id();
 
-    Q_FOREACH(UMLWidget* obj, widgetList()) {
+    for(UMLWidget *obj : widgetList()) {
         if (obj->id() != id)
             continue;
         removeWidget(obj);
@@ -937,8 +937,8 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
 
         if (Model_Utils::typeIsDiagram(lvtype)) {
             bool breakFlag = false;
-            UMLWidget* w = 0;
-            Q_FOREACH(w, widgetList()) {
+            UMLWidget *w = nullptr;
+            for(w: widgetList()) {
                 if (w->isNoteWidget() && w->onWidget(e->scenePos())) {
                     breakFlag = true;
                     break;
@@ -1036,7 +1036,7 @@ void UMLScene::mouseReleaseEvent(QGraphicsSceneMouseEvent* ome)
  */
 ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
 {
-    Q_FOREACH(UMLWidget* obj, widgetList()) {
+    for(UMLWidget *obj : widgetList()) {
         ObjectWidget *ow = obj->asObjectWidget();
         if (ow == 0)
             continue;
@@ -1061,7 +1061,7 @@ ObjectWidget * UMLScene::onWidgetLine(const QPointF &point) const
  */
 ObjectWidget * UMLScene::onWidgetDestructionBox(const QPointF &point) const
 {
-    Q_FOREACH(UMLWidget* obj, widgetList()) {
+    for(UMLWidget *obj : widgetList()) {
         ObjectWidget *ow = obj->asObjectWidget();
         if (ow == 0)
             continue;
@@ -1096,7 +1096,7 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
  */
 UMLWidget* UMLScene::widgetAt(const QPointF& p)
 {
-    Q_FOREACH(QGraphicsItem *item, items(p)) {
+    for(QGraphicsItem  *item : items(p)) {
         UMLWidget *w = dynamic_cast<UMLWidget*>(item);
         if (w)
             return w;
@@ -1112,7 +1112,7 @@ UMLWidget* UMLScene::widgetAt(const QPointF& p)
  */
 AssociationWidget* UMLScene::associationAt(const QPointF& p)
 {
-    Q_FOREACH (AssociationWidget* association, associationList()) {
+    for(AssociationWidget *association : associationList()) {
         if (association->onAssociation(p)) {
             return association;
         }
@@ -1127,7 +1127,7 @@ AssociationWidget* UMLScene::associationAt(const QPointF& p)
  */
 MessageWidget* UMLScene::messageAt(const QPointF& p)
 {
-    Q_FOREACH(MessageWidget *message, messageList()) {
+    for(MessageWidget  *message : messageList()) {
         if (message->onWidget(p)) {
             return message;
         }
@@ -1145,7 +1145,7 @@ void UMLScene::checkMessages(ObjectWidget * w)
         return;
     }
 
-    Q_FOREACH(MessageWidget *obj, messageList()) {
+    for(MessageWidget  *obj : messageList()) {
         if (obj->hasObjectWidget(w)) {
             removeWidgetCmd(obj);
         }
@@ -1161,7 +1161,7 @@ void UMLScene::checkMessages(ObjectWidget * w)
  */
 UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
 {
-    Q_FOREACH(UMLWidget *obj, widgetList()) {
+    for(UMLWidget  *obj : widgetList()) {
         if (!obj)
             continue;
         UMLWidget* w = obj->widgetWithID(id);
@@ -1169,7 +1169,7 @@ UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
             return w;
     }
 
-    Q_FOREACH(UMLWidget *obj, messageList()) {
+    for(UMLWidget  *obj : messageList()) {
         // CHECK: Should MessageWidget reimplement widgetWithID() ?
         //       If yes then we should use obj->widgetWithID(id) here too.
         if (id == obj->id())
@@ -1188,7 +1188,7 @@ UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
  */
 UMLWidget* UMLScene::widgetOnDiagram(WidgetBase::WidgetType type)
 {
-    Q_FOREACH(UMLWidget *widget, widgetList()) {
+    for(UMLWidget  *widget : widgetList()) {
         if (!widget)
             continue;
         if (widget->baseType() == type)
@@ -1206,7 +1206,7 @@ UMLWidget* UMLScene::widgetOnDiagram(WidgetBase::WidgetType type)
  */
 UMLWidget * UMLScene::findWidget(Uml::ID::Type id)
 {
-    Q_FOREACH(UMLWidget* obj, widgetList()) {
+    for(UMLWidget *obj : widgetList()) {
         if (!obj)
             continue;
         UMLWidget* w = obj->widgetWithID(id);
@@ -1215,7 +1215,7 @@ UMLWidget * UMLScene::findWidget(Uml::ID::Type id)
         }
     }
 
-    Q_FOREACH(UMLWidget* obj, messageList()) {
+    for(UMLWidget *obj : messageList()) {
         // CHECK: Should MessageWidget reimplement widgetWithID() ?
         //       If yes then we should use obj->widgetWithID(id) here too.
         if (obj->localID() == id ||
@@ -1235,7 +1235,7 @@ UMLWidget * UMLScene::findWidget(Uml::ID::Type id)
  */
 AssociationWidget * UMLScene::findAssocWidget(Uml::ID::Type id)
 {
-    Q_FOREACH(AssociationWidget* obj, associationList()) {
+    for(AssociationWidget *obj : associationList()) {
         UMLAssociation* umlassoc = obj->association();
         if (umlassoc && umlassoc->id() == id) {
             return obj;
@@ -1259,7 +1259,7 @@ AssociationWidget * UMLScene::findAssocWidget(Uml::ID::Type id)
 AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
                                               UMLWidget *pWidgetB, const QString& roleNameB)
 {
-    Q_FOREACH(AssociationWidget* assoc, associationList()) {
+    for(AssociationWidget *assoc : associationList()) {
         const Uml::AssociationType::Enum testType = assoc->associationType();
         if (testType != Uml::AssociationType::Association &&
                 testType != Uml::AssociationType::UniAssociation &&
@@ -1290,7 +1290,7 @@ AssociationWidget * UMLScene::findAssocWidget(UMLWidget *pWidgetA,
 AssociationWidget * UMLScene::findAssocWidget(AssociationType::Enum at,
                                               UMLWidget *pWidgetA, UMLWidget *pWidgetB)
 {
-    Q_FOREACH(AssociationWidget* assoc, associationList()) {
+    for(AssociationWidget *assoc : associationList()) {
         Uml::AssociationType::Enum testType = assoc->associationType();
         if (testType != at) {
             continue;
@@ -1377,7 +1377,7 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
  */
 void UMLScene::removeOwnedWidgets(UMLWidget* o)
 {
-    Q_FOREACH(QGraphicsItem* item, o->childItems()) {
+    for(QGraphicsItem *item : o->childItems()) {
         UMLWidget* widget = dynamic_cast<UMLWidget*>(item);
         if ((widget != 0) &&
             (widget->isPinWidget() ||
@@ -1431,7 +1431,7 @@ UMLWidgetList UMLScene::selectedWidgets() const
     QList<QGraphicsItem *> items = selectedItems();
 
     UMLWidgetList widgets;
-    Q_FOREACH(QGraphicsItem *item, items) {
+    for(QGraphicsItem  *item : items) {
         UMLWidget *w = dynamic_cast<UMLWidget*>(item);
         if (w)
             widgets.append(w);
@@ -1448,7 +1448,7 @@ AssociationWidgetList UMLScene::selectedAssociationWidgets() const
     QList<QGraphicsItem *> items = selectedItems();
 
     AssociationWidgetList widgets;
-    Q_FOREACH(QGraphicsItem *item, items) {
+    for(QGraphicsItem  *item : items) {
         AssociationWidget *w = dynamic_cast<AssociationWidget*>(item);
         if (w)
             widgets.append(w);
@@ -1465,7 +1465,7 @@ UMLWidgetList UMLScene::selectedMessageWidgets() const
     QList<QGraphicsItem *> items = selectedItems();
 
     UMLWidgetList widgets;
-    Q_FOREACH(QGraphicsItem *item, items) {
+    for(QGraphicsItem  *item : items) {
         MessageWidget *w = dynamic_cast<MessageWidget*>(item);
         if (w) {
             widgets.append(w);
@@ -1484,7 +1484,7 @@ UMLWidgetList UMLScene::selectedMessageWidgets() const
 void UMLScene::clearSelected()
 {
     QList<QGraphicsItem *> items = selectedItems();
-    Q_FOREACH(QGraphicsItem *item, items) {
+    for(QGraphicsItem  *item : items) {
         WidgetBase *wb = dynamic_cast<WidgetBase*>(item);
         if (wb) {
             wb->setSelected(false);
@@ -1504,7 +1504,7 @@ void UMLScene::clearSelected()
 void UMLScene::moveSelectedBy(qreal dX, qreal dY)
 {
     // logDebug1("UMLScene::moveSelectedBy: m_selectedList count=%1", m_selectedList.count());
-    Q_FOREACH(UMLWidget *w, selectedWidgets()) {
+    for(UMLWidget  *w : selectedWidgets()) {
         w->moveByLocal(dX, dY);
     }
 }
@@ -1522,7 +1522,7 @@ void UMLScene::selectionUseFillColor(bool useFC)
         UMLApp::app()->beginMacro(i18n("No fill color"));
     }
 
-    Q_FOREACH(UMLWidget* widget, selectedWidgets()) {
+    for(UMLWidget *widget : selectedWidgets()) {
         widget->setUseFillColor(useFC);
     }
 
@@ -1536,7 +1536,7 @@ void UMLScene::selectionSetFont(const QFont &font)
 {
     UMLApp::app()->beginMacro(i18n("Change font"));
 
-    Q_FOREACH(UMLWidget* temp, selectedWidgets()) {
+    for(UMLWidget *temp : selectedWidgets()) {
         temp->setFont(font);
     }
 
@@ -1550,11 +1550,11 @@ void UMLScene::selectionSetLineColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change line color"));
 
-    Q_FOREACH(UMLWidget *temp, selectedWidgets()) {
+    for(UMLWidget  *temp : selectedWidgets()) {
         temp->setLineColor(color);
     }
     AssociationWidgetList assoclist = selectedAssocs();
-    Q_FOREACH(AssociationWidget *aw, assoclist) {
+    for(AssociationWidget  *aw : assoclist) {
         aw->setLineColor(color);
     }
 
@@ -1568,12 +1568,12 @@ void UMLScene::selectionSetLineWidth(uint width)
 {
     UMLApp::app()->beginMacro(i18n("Change line width"));
 
-    Q_FOREACH(UMLWidget* temp, selectedWidgets()) {
+    for(UMLWidget *temp : selectedWidgets()) {
         temp->setLineWidth(width);
         temp->setUsesDiagramLineWidth(false);
     }
     AssociationWidgetList assoclist = selectedAssocs();
-    Q_FOREACH(AssociationWidget *aw, assoclist) {
+    for(AssociationWidget  *aw : assoclist) {
         aw->setLineWidth(width);
         aw->setUsesDiagramLineWidth(false);
     }
@@ -1588,7 +1588,7 @@ void UMLScene::selectionSetFillColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change fill color"));
 
-    Q_FOREACH(UMLWidget* widget, selectedWidgets()) {
+    for(UMLWidget *widget : selectedWidgets()) {
         widget->setFillColor(color);
         widget->setUsesDiagramFillColor(false);
     }
@@ -1603,7 +1603,7 @@ void UMLScene::selectionSetVisualProperty(ClassifierWidget::VisualProperty prope
 {
     UMLApp::app()->beginMacro(i18n("Change visual property"));
 
-    Q_FOREACH(UMLWidget *temp, selectedWidgets()) {
+    for(UMLWidget  *temp : selectedWidgets()) {
         ClassifierWidget *cw = temp->asClassifierWidget();
         cw->setVisualProperty(property, value);
     }
@@ -1616,10 +1616,10 @@ void UMLScene::selectionSetVisualProperty(ClassifierWidget::VisualProperty prope
  */
 void UMLScene::unselectChildrenOfSelectedWidgets()
 {
-    Q_FOREACH(UMLWidget* widget, selectedWidgets()) {
+    for(UMLWidget *widget : selectedWidgets()) {
         if (widget->isPinWidget() ||
             widget->isPortWidget()) {
-            Q_FOREACH(UMLWidget* potentialParentWidget, selectedWidgets()) {
+            for(UMLWidget *potentialParentWidget : selectedWidgets()) {
                 if (widget->parentItem() == potentialParentWidget) {
                     widget->setSelectedFlag(false);
                 }
@@ -1641,7 +1641,7 @@ void UMLScene::deleteSelection()
 
     // check related associations
     bool hasAssociations = false;
-    Q_FOREACH(UMLWidget* widget, selectedWidgets()) {
+    for(UMLWidget *widget : selectedWidgets()) {
         if (widget->isTextWidget() && widget->asFloatingTextWidget()->textRole() != Uml::TextRole::Floating) {
             continue;
         }
@@ -1656,7 +1656,7 @@ void UMLScene::deleteSelection()
 
     unselectChildrenOfSelectedWidgets();
 
-    Q_FOREACH(UMLWidget* widget, selectedWidgets()) {
+    for(UMLWidget *widget : selectedWidgets()) {
         //  Don't delete text widget that are connect to associations as these will
         //  be cleaned up by the associations.
         if (widget->isTextWidget() &&
@@ -1675,12 +1675,12 @@ void UMLScene::deleteSelection()
     }
 
     // Delete any selected associations.
-    Q_FOREACH(AssociationWidget* assocwidget, selectedAssociations) {
+    for(AssociationWidget *assocwidget : selectedAssociations) {
         removeWidget(assocwidget);
     }
 
     // we also have to remove selected messages from sequence diagrams
-    Q_FOREACH(UMLWidget* cur_msgWgt, selectedMessageWidgets()) {
+    for(UMLWidget *cur_msgWgt : selectedMessageWidgets()) {
         removeWidget(cur_msgWgt);
     }
 
@@ -1703,7 +1703,7 @@ void UMLScene::resizeSelection()
 
     if (selectedCount() == 0)
         return;
-    Q_FOREACH(UMLWidget *w, selectedWidgets()) {
+    for(UMLWidget  *w : selectedWidgets()) {
         w->resize();
     }
     m_doc->setModified();
@@ -1823,13 +1823,13 @@ void UMLScene::selectWidgets(qreal px, qreal py, qreal qx, qreal qy)
     }
 
     // Select UMLWidgets that fall within the selection rectangle
-    Q_FOREACH(UMLWidget* temp, widgetList()) {
+    for(UMLWidget *temp : widgetList()) {
         uIgnoreZeroPointer(temp);
         selectWidget(temp, &rect);
     }
 
     // Select messages that fall within the selection rectangle
-    Q_FOREACH(MessageWidget* temp, messageList()) {
+    for(MessageWidget *temp : messageList()) {
         selectWidget(temp->asUMLWidget(), &rect);
     }
 
@@ -1837,7 +1837,7 @@ void UMLScene::selectWidgets(qreal px, qreal py, qreal qx, qreal qy)
     selectAssociations(true);
 
     // Automatically select all messages if two object widgets are selected
-    Q_FOREACH(MessageWidget *w, messageList()) {
+    for(MessageWidget  *w : messageList()) {
         if (w->objectWidget(Uml::RoleType::A) &&
             w->objectWidget(Uml::RoleType::B) &&
             w->objectWidget(Uml::RoleType::A)->isSelected() &&
@@ -1899,7 +1899,7 @@ void UMLScene::selectWidget(UMLWidget* widget, QRectF* rect)
  */
 void UMLScene::selectWidgets(UMLWidgetList &widgets)
 {
-    Q_FOREACH (UMLWidget* widget, widgets)
+    for(UMLWidget *widget : widgets)
         makeSelected(widget);
 }
 
@@ -1933,12 +1933,12 @@ void  UMLScene::getDiagram(QPainter &painter, const QRectF &source, const QRectF
     //UMLSceneImageExporter and UMLSceneImageExporterModel
 
     UMLWidgetList selected = selectedWidgets();
-    Q_FOREACH(UMLWidget* widget, selected) {
+    for(UMLWidget *widget : selected) {
         widget->setSelected(false);
     }
     AssociationWidgetList selectedAssociationsList = selectedAssocs();
 
-    Q_FOREACH(AssociationWidget* association, selectedAssociationsList) {
+    for(AssociationWidget *association : selectedAssociationsList) {
         association->setSelected(false);
     }
 
@@ -1957,10 +1957,10 @@ void  UMLScene::getDiagram(QPainter &painter, const QRectF &source, const QRectF
     setSnapGridVisible(showSnapGrid);
 
     //select again
-    Q_FOREACH(UMLWidget* widget, selected) {
+    for(UMLWidget *widget : selected) {
         widget->setSelected(true);
     }
-    Q_FOREACH(AssociationWidget* association, selectedAssociationsList) {
+    for(AssociationWidget *association : selectedAssociationsList) {
         association->setSelected(true);
     }
 }
@@ -1989,7 +1989,7 @@ void UMLScene::slotActivate()
 void UMLScene::activate()
 {
     //Activate Regular widgets then activate  messages
-    Q_FOREACH(UMLWidget* obj, widgetList()) {
+    for(UMLWidget *obj : widgetList()) {
         uIgnoreZeroPointer(obj);
         //If this UMLWidget is already activated or is a MessageWidget then skip it
         if (obj->isActivated() || obj->isMessageWidget()) {
@@ -2005,7 +2005,7 @@ void UMLScene::activate()
     }//end Q_FOREACH
 
     //Activate Message widgets
-    Q_FOREACH(UMLWidget* obj, messageList()) {
+    for(UMLWidget *obj : messageList()) {
         //If this MessageWidget is already activated then skip it
         if (obj->isActivated())
             continue;
@@ -2017,7 +2017,7 @@ void UMLScene::activate()
 
     // Activate all association widgets
 
-    Q_FOREACH(AssociationWidget* aw, associationList()) {
+    for(AssociationWidget *aw : associationList()) {
         if (aw->activate()) {
             if (m_PastePoint.x() != 0) {
                 int x = m_PastePoint.x() - m_pos.x();
@@ -2044,7 +2044,7 @@ int UMLScene::selectedCount(bool filterText) const
     if (!filterText)
         return selectedWidgets().count();
     int counter = 0;
-    Q_FOREACH(UMLWidget* temp, selectedWidgets()) {
+    for(UMLWidget *temp : selectedWidgets()) {
         if (temp->isTextWidget()) {
             const FloatingTextWidget *ft = static_cast<const FloatingTextWidget*>(temp);
             if (ft->textRole() == TextRole::Floating)
@@ -2068,7 +2068,7 @@ UMLWidgetList UMLScene::selectedWidgetsExt(bool filterText /*= true*/)
 {
     UMLWidgetList widgetList;
 
-    Q_FOREACH(UMLWidget* widgt, selectedWidgets()) {
+    for(UMLWidget *widgt : selectedWidgets()) {
         if (filterText && widgt->isTextWidget()) {
             FloatingTextWidget *ft = widgt->asFloatingTextWidget();
             if (ft->textRole() == Uml::TextRole::Floating)
@@ -2087,7 +2087,7 @@ AssociationWidgetList UMLScene::selectedAssocs()
 {
     AssociationWidgetList assocWidgetList;
 
-    Q_FOREACH(AssociationWidget* assocwidget, associationList()) {
+    for(AssociationWidget *assocwidget : associationList()) {
         if (assocwidget->isSelected())
             assocWidgetList.append(assocwidget);
     }
@@ -2199,7 +2199,7 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
 
     //make sure there isn't already the same assoc
 
-    Q_FOREACH(AssociationWidget* assocwidget, associationList()) {
+    for(AssociationWidget *assocwidget : associationList()) {
         if (*pAssoc == *assocwidget)
             // this is nuts. Paste operation wants to know if 'true'
             // for duplicate, but loadFromXMI needs 'false' value
@@ -2322,7 +2322,7 @@ void UMLScene::removeAssocInViewAndDoc(AssociationWidget* a)
  */
 void UMLScene::removeAssociations(UMLWidget* widget)
 {
-    Q_FOREACH(AssociationWidget* assocwidget, associationList()) {
+    for(AssociationWidget *assocwidget : associationList()) {
         if (assocwidget->containsAsEndpoint(widget)) {
             removeWidgetCmd(assocwidget);
         }
@@ -2336,7 +2336,7 @@ void UMLScene::removeAssociations(UMLWidget* widget)
  */
 void UMLScene::selectAssociations(bool bSelect)
 {
-    Q_FOREACH(AssociationWidget* assocwidget, associationList()) {
+    for(AssociationWidget *assocwidget : associationList()) {
         UMLWidget *widA = assocwidget->widgetForRole(Uml::RoleType::A);
         UMLWidget *widB = assocwidget->widgetForRole(Uml::RoleType::B);
         if (bSelect &&
@@ -2357,7 +2357,7 @@ void UMLScene::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associati
     if (! Obj)
         return;
 
-    Q_FOREACH(AssociationWidget* assocwidget, associationList()) {
+    for(AssociationWidget *assocwidget : associationList()) {
         if (assocwidget->widgetForRole(Uml::RoleType::A)->umlObject() == Obj ||
             assocwidget->widgetForRole(Uml::RoleType::B)->umlObject() == Obj)
             Associations.append(assocwidget);
@@ -2371,7 +2371,7 @@ void UMLScene::getWidgetAssocs(UMLObject* Obj, AssociationWidgetList & Associati
 void UMLScene::removeAllAssociations()
 {
     //Remove All association widgets
-    Q_FOREACH(AssociationWidget* assocwidget, associationList()) {
+    for(AssociationWidget *assocwidget : associationList()) {
         removeWidgetCmd(assocwidget);
     }
 }
@@ -2382,7 +2382,7 @@ void UMLScene::removeAllAssociations()
 void UMLScene::removeAllWidgets()
 {
     // Remove widgets.
-    Q_FOREACH(UMLWidget* temp, widgetList()) {
+    for(UMLWidget *temp : widgetList()) {
         uIgnoreZeroPointer(temp);
         // I had to take this condition back in, else umbrello
         // crashes on exit. Still to be analyzed.  --okellogg
@@ -2409,7 +2409,7 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
     // While we're at it, also see if the new parent has a widget here.
     UMLWidget *selfWidget = 0, *newParentWidget = 0;
     UMLPackage *newParent = self->umlPackage();
-    Q_FOREACH(UMLWidget* w, widgetList()) {
+    for(UMLWidget *w : widgetList()) {
         UMLObject *o = w->umlObject();
         if (o == self)
             selfWidget = w;
@@ -2419,7 +2419,7 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
     if (selfWidget == 0)
         return;
     // Remove possibly obsoleted containment association.
-    Q_FOREACH(AssociationWidget* a, associationList()) {
+    for(AssociationWidget *a : associationList()) {
         if (a->associationType() != Uml::AssociationType::Containment)
             continue;
         // Container is at role A, containee at B.
@@ -2498,7 +2498,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     const UMLAssociationList& umlAssocs = umlObj->getAssociations();
 
     Uml::ID::Type myID = umlObj->id();
-    Q_FOREACH(UMLAssociation* assoc, umlAssocs) {
+    for(UMLAssociation *assoc : umlAssocs) {
         UMLCanvasObject *other = 0;
         UMLObject *roleAObj = assoc->getObject(Uml::RoleType::A);
         if (roleAObj == 0) {
@@ -2529,8 +2529,8 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         Uml::ID::Type otherID = other->id();
 
         bool breakFlag = false;
-        UMLWidget* pOtherWidget = 0;
-        Q_FOREACH(pOtherWidget, widgetList()) {
+        UMLWidget *pOtherWidget = nullptr;
+        for(pOtherWidget: widgetList()) {
             if (pOtherWidget->id() == otherID) {
                 breakFlag = true;
                 break;
@@ -2591,11 +2591,11 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         // for each of the object's containedObjects
         const UMLPackage *umlPkg = umlObj->asUMLPackage();
         UMLObjectList lst = umlPkg->containedObjects();
-        Q_FOREACH(UMLObject* obj,  lst) {
+        for(UMLObject *obj :  lst) {
             uIgnoreZeroPointer(obj);
             // if the containedObject has a widget representation on this view then
             Uml::ID::Type id = obj->id();
-            Q_FOREACH(UMLWidget *w, widgetList()) {
+            for(UMLWidget  *w : widgetList()) {
                 uIgnoreZeroPointer(w);
                 if (w->id() != id)
                     continue;
@@ -2620,8 +2620,8 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     Uml::ID::Type pkgID = parent->id();
 
     bool breakFlag = false;
-    UMLWidget* pWidget = 0;
-    Q_FOREACH(pWidget, widgetList()) {
+    UMLWidget *pWidget = nullptr;
+    for(pWidget: widgetList()) {
         uIgnoreZeroPointer(pWidget);
         if (pWidget->id() == pkgID) {
             breakFlag = true;
@@ -2691,7 +2691,7 @@ void UMLScene::createAutoAttributeAssociations(UMLWidget *widget)
     const UMLClassifier * klass = tmpUmlObj->asUMLClassifier();
     // for each of the UMLClassifier's UMLAttributes
     UMLAttributeList attrList = klass->getAttributeList();
-    Q_FOREACH(UMLAttribute* attr, attrList) {
+    for(UMLAttribute *attr : attrList) {
         createAutoAttributeAssociation(attr->getType(), attr, widget);
         /*
          * The following code from attachment 19935 of https://bugs.kde.org/140669
@@ -2804,7 +2804,7 @@ void UMLScene::createAutoConstraintAssociations(UMLWidget *widget)
     // for each of the UMLEntity's UMLForeignKeyConstraints
     UMLClassifierListItemList constrList = entity->getFilteredList(UMLObject::ot_ForeignKeyConstraint);
 
-    Q_FOREACH(UMLClassifierListItem* cli, constrList) {
+    for(UMLClassifierListItem *cli : constrList) {
         UMLEntityConstraint *eConstr = cli->asUMLEntityConstraint();
 
         UMLForeignKeyConstraint* fkc = eConstr->asUMLForeignKeyConstraint();
@@ -2855,7 +2855,7 @@ void UMLScene::createAutoConstraintAssociation(UMLEntity* refEntity, UMLForeignK
 
 void UMLScene::createAutoAttributeAssociations2(UMLWidget *widget)
 {
-    Q_FOREACH(UMLWidget* w, widgetList()) {
+    for(UMLWidget *w : widgetList()) {
         uIgnoreZeroPointer(w);
         if (w != widget) {
             createAutoAttributeAssociations(w);
@@ -2922,7 +2922,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     qreal px = -1, py = -1, qx = -1, qy = -1;
 
     //first get the smallest rect holding the widgets
-    Q_FOREACH(UMLWidget* temp, selectedWidgets()) {
+    for(UMLWidget *temp : selectedWidgets()) {
         qreal x = temp->x();
         qreal y = temp->y();
         qreal x1 = x + temp->width() - 1;
@@ -2946,7 +2946,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     //get each type of associations
     //This needs to be reimplemented to increase the rectangle
     //if a part of any association is not included
-    Q_FOREACH(AssociationWidget *a, associationList()) {
+    for(AssociationWidget  *a : associationList()) {
         if (! a->isSelected())
             continue;
         const FloatingTextWidget* multiA = a->multiplicityWidget(Uml::RoleType::A);
@@ -3473,7 +3473,7 @@ void UMLScene::setFont(QFont font, bool changeAllWidgets /* = false */)
     m_Options.uiState.font = font;
     if (!changeAllWidgets)
         return;
-    Q_FOREACH(UMLWidget* w, widgetList()) {
+    for(UMLWidget *w : widgetList()) {
         uIgnoreZeroPointer(w);
         w->setFont(font);
     }
@@ -3484,7 +3484,7 @@ void UMLScene::setFont(QFont font, bool changeAllWidgets /* = false */)
  */
 void UMLScene::setClassWidgetOptions(ClassOptionsPage * page)
 {
-    Q_FOREACH(UMLWidget* pWidget, widgetList()) {
+    for(UMLWidget *pWidget : widgetList()) {
         uIgnoreZeroPointer(pWidget);
         WidgetBase::WidgetType wt = pWidget->baseType();
         if (wt == WidgetBase::wt_Class) {
@@ -3514,7 +3514,7 @@ WidgetBase::WidgetType UMLScene::getUniqueSelectionType()
     WidgetBase::WidgetType tmpType = pTemp->baseType();
 
     // Check all selected items, if they have the same BaseType
-    Q_FOREACH(pTemp, selectedWidgets()) {
+    for(pTemp: selectedWidgets()) {
         if (pTemp->baseType() != tmpType) {
             return WidgetBase::wt_UMLWidget;
         }
@@ -3732,7 +3732,7 @@ void UMLScene::fileLoaded()
 void UMLScene::updateComponentSizes()
 {
     // update sizes of all components
-    Q_FOREACH(UMLWidget *obj, widgetList()) {
+    for(UMLWidget  *obj : widgetList()) {
         uIgnoreZeroPointer(obj);
         obj->updateGeometry();
     }
@@ -3749,7 +3749,7 @@ void UMLScene::updateComponentSizes()
  */
 void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
 {
-    Q_FOREACH(UMLWidget *obj, widgetList()) {
+    for(UMLWidget  *obj : widgetList()) {
         uIgnoreZeroPointer(obj);
         obj->forceUpdateFontMetrics(painter);
     }
@@ -3824,7 +3824,7 @@ void UMLScene::saveToXMI(QXmlStreamWriter& writer)
 
     //now save all the widgets
     writer.writeStartElement(QStringLiteral("widgets"));
-    Q_FOREACH(UMLWidget *widget, widgetList()) {
+    for(UMLWidget  *widget : widgetList()) {
         uIgnoreZeroPointer(widget);
         // do not save floating text widgets having a parent widget; they are saved as part of the parent
         if (widget->isTextWidget() && widget->parentItem())
@@ -3842,7 +3842,7 @@ void UMLScene::saveToXMI(QXmlStreamWriter& writer)
     writer.writeEndElement();            // widgets
     //now save the message widgets
     writer.writeStartElement(QStringLiteral("messages"));
-    Q_FOREACH(UMLWidget* widget, messageList()) {
+    for(UMLWidget *widget : messageList()) {
         widget->saveToXMI(writer);
     }
     writer.writeEndElement();            // messages
@@ -3860,8 +3860,8 @@ void UMLScene::saveToXMI(QXmlStreamWriter& writer)
         //  ^  UMLApp::newDocument()
         //  ^  main()
         //
-        AssociationWidget * assoc = 0;
-        Q_FOREACH(assoc, associationList()) {
+        AssociationWidget  *assoc = nullptr;
+        for(assoc: associationList()) {
             assoc->saveToXMI(writer);
         }
     }
@@ -4393,7 +4393,7 @@ void UMLScene::alignLeft()
 
     qreal smallestX = WidgetList_Utils::getSmallestX(widgetList);
 
-    Q_FOREACH(UMLWidget *widget, widgetList) {
+    for(UMLWidget  *widget : widgetList) {
         widget->setX(smallestX);
         widget->adjustAssocs(widget->x(), widget->y());
     }
@@ -4410,7 +4410,7 @@ void UMLScene::alignRight()
         return;
     qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
 
-    Q_FOREACH(UMLWidget *widget, widgetList) {
+    for(UMLWidget  *widget : widgetList) {
         widget->setX(biggestX - widget->width());
         widget->adjustAssocs(widget->x(), widget->y());
     }
@@ -4428,7 +4428,7 @@ void UMLScene::alignTop()
 
     qreal smallestY = WidgetList_Utils::getSmallestY(widgetList);
 
-    Q_FOREACH(UMLWidget *widget, widgetList) {
+    for(UMLWidget  *widget : widgetList) {
         widget->setY(smallestY);
         widget->adjustAssocs(widget->x(), widget->y());
     }
@@ -4445,7 +4445,7 @@ void UMLScene::alignBottom()
         return;
     qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
 
-    Q_FOREACH(UMLWidget *widget, widgetList) {
+    for(UMLWidget  *widget : widgetList) {
         widget->setY(biggestY - widget->height());
         widget->adjustAssocs(widget->x(), widget->y());
     }
@@ -4465,14 +4465,14 @@ void UMLScene::alignVerticalMiddle()
     qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
     qreal middle = int((biggestY - smallestY) / 2) + smallestY;
 
-    Q_FOREACH(UMLWidget *widget, widgetList) {
+    for(UMLWidget  *widget : widgetList) {
         widget->setY(middle - widget->height() / 2);
         widget->adjustAssocs(widget->x(), widget->y());
     }
 
     AssociationWidgetList assocList = selectedAssocs();
     if (!assocList.isEmpty()) {
-        Q_FOREACH (AssociationWidget *widget, assocList) {
+        for(AssociationWidget  *widget : assocList) {
             widget->setYEntireAssoc(middle);
         }
     }
@@ -4493,14 +4493,14 @@ void UMLScene::alignHorizontalMiddle()
     qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
     qreal middle = int((biggestX - smallestX) / 2) + smallestX;
 
-    Q_FOREACH(UMLWidget *widget, widgetList) {
+    for(UMLWidget  *widget : widgetList) {
         widget->setX(middle - widget->width() / 2);
         widget->adjustAssocs(widget->x(), widget->y());
     }
 
     AssociationWidgetList assocList = selectedAssocs();
     if (!assocList.isEmpty()) {
-        Q_FOREACH (AssociationWidget *widget, assocList) {
+        for(AssociationWidget  *widget : assocList) {
             widget->setXEntireAssoc(middle);
         }
     }
@@ -4526,7 +4526,7 @@ void UMLScene::alignVerticalDistribute()
 
     int i = 1;
     UMLWidget* widgetPrev = 0;
-    Q_FOREACH(UMLWidget *widget, widgetList) {
+    for(UMLWidget  *widget : widgetList) {
         if (i == 1) {
             widgetPrev = widget;
         } else {
@@ -4557,7 +4557,7 @@ void UMLScene::alignHorizontalDistribute()
 
     int i = 1;
     UMLWidget* widgetPrev = 0;
-    Q_FOREACH(UMLWidget *widget,  widgetList) {
+    for(UMLWidget  *widget :  widgetList) {
         if (i == 1) {
             widgetPrev = widget;
         } else {

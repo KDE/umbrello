@@ -94,7 +94,7 @@ void ClassAssociationsPage::fillListBox()
     m_pAssocLW->clear();
     m_pScene->getWidgetAssocs(m_pObject, m_List);
     int i = 0;
-    Q_FOREACH(AssociationWidget* assocwidget, m_List) {
+    for(AssociationWidget *assocwidget : m_List) {
         if(assocwidget->associationType() != Uml::AssociationType::Anchor) {
             m_pAssocLW->insertItem(i, assocwidget->toString());
             i++;

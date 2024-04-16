@@ -667,7 +667,7 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
     attsFolder->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Folder_Orange));
     attsFolder->setExpanded(true);
     UMLAttributeList atts(classifier->getAttributeList());
-    Q_FOREACH(UMLAttribute* att, atts) {
+    for(UMLAttribute *att : atts) {
         attributeAdded(att);
     }
 
@@ -683,7 +683,7 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
     opsFolder->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Folder_Orange));
     opsFolder->setExpanded(true);
     UMLOperationList ops(classifier->getOpList());
-    Q_FOREACH(UMLOperation* op, ops) {
+    for(UMLOperation *op : ops) {
         operationAdded(op);
     }
 
@@ -691,7 +691,7 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
         QTreeWidgetItem *superFolder = new QTreeWidgetItem(classifierItem, QStringList(i18n("Base Classifiers")));
         superFolder->setExpanded(true);
         UMLClassifierList super = classifier->findSuperClassConcepts();
-        Q_FOREACH(UMLClassifier* cl, super) {
+        for(UMLClassifier *cl : super) {
             item = new QTreeWidgetItem(superFolder, QStringList(cl->name()));
             item->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Generalisation));
             item->setExpanded(true);
@@ -710,7 +710,7 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
         QTreeWidgetItem *derivedFolder = new QTreeWidgetItem(classifierItem, QStringList(i18n("Derived Classifiers")));
         derivedFolder->setExpanded(true);
         UMLClassifierList derived = classifier->findSubClassConcepts();
-        Q_FOREACH(UMLClassifier* d, derived) {
+        for(UMLClassifier *d : derived) {
             item = new QTreeWidgetItem(derivedFolder, QStringList(d->name()));
             item->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Uniassociation));
             item->setExpanded(true);

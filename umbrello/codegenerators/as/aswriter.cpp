@@ -515,7 +515,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     //write includes
     UMLPackageList includes;
     findObjectsRelated(c, includes);
-    Q_FOREACH (UMLPackage* conc, includes) {
+    for(UMLPackage *conc : includes) {
         QString headerName = findFileName(conc, QStringLiteral(".as"));
         if (!headerName.isEmpty())
         {
@@ -551,7 +551,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     as << "}" << m_endl;
     as << m_endl;
 
-    Q_FOREACH(UMLClassifier* obj, superclasses) {
+    for(UMLClassifier *obj : superclasses) {
         as << classname << ".prototype = new " << cleanName(obj->name()) << " ();" << m_endl;
     }
 
@@ -570,7 +570,7 @@ void ASWriter::writeClass(UMLClassifier *c)
         as << " */" << m_endl;
         as << classname << ".prototype._init = function ()" << m_endl;
         as << "{" << m_endl;
-        Q_FOREACH (UMLAttribute* at, atl) {
+        for(UMLAttribute *at : atl) {
             if (forceDoc() || !at->doc().isEmpty())
             {
                 as << m_indentation << "/**" << m_endl
@@ -606,7 +606,7 @@ void ASWriter::writeClass(UMLClassifier *c)
 
     if (isClass) {
         UMLAttributeList atl = c->getAttributeList();
-        Q_FOREACH (UMLAttribute* at, atl) {
+        for(UMLAttribute *at : atl) {
           if (at->visibility() == Uml::Visibility::Protected) {
                 as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(at->name()) << "\", 1);" << m_endl;
           }
@@ -614,7 +614,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     }
 
     UMLOperationList opList(c->getOpList());
-    Q_FOREACH (UMLOperation* op, opList) {
+    for(UMLOperation *op : opList) {
         if (op->visibility() == Uml::Visibility::Protected) {
             as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->name()) << "\", 1);" << m_endl;
         }
@@ -623,14 +623,14 @@ void ASWriter::writeClass(UMLClassifier *c)
     as << m_indentation << "/**Private: */" << m_endl;
     if (isClass) {
         UMLAttributeList atl = c->getAttributeList();
-        Q_FOREACH (UMLAttribute* at,  atl) {
+        for(UMLAttribute *at :  atl) {
             if (at->visibility() == Uml::Visibility::Private) {
                 as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(at->name()) << "\", 7);" << m_endl;
             }
         }
     }
 
-    Q_FOREACH (UMLOperation* op, opList) {
+    for(UMLOperation *op : opList) {
         if (op->visibility() == Uml::Visibility::Protected) {
             as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->name()) << "\", 7);" << m_endl;
         }
@@ -665,7 +665,7 @@ void ASWriter::writeClass(UMLClassifier *c)
  */
 void ASWriter::writeAssociation(QString& classname, UMLAssociationList& assocList, QTextStream &as)
 {
-    Q_FOREACH (UMLAssociation *a, assocList)
+    for(UMLAssociation  *a : assocList)
     {
         // association side
         Uml::RoleType::Enum role = a->getObject(Uml::RoleType::A)->name() == classname ? Uml::RoleType::B : Uml::RoleType::A;
@@ -723,11 +723,11 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 {
     UMLAttributeList atl;
 
-    Q_FOREACH (UMLOperation* op, *opList) {
+    for(UMLOperation *op : *opList) {
         atl = op -> getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->doc().isEmpty();
-        Q_FOREACH (UMLAttribute* at,  atl) {
+        for(UMLAttribute *at :  atl) {
             writeDoc |= !at->doc().isEmpty();
         }
 
@@ -735,7 +735,7 @@ void ASWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
         {
             as << "/**" << m_endl << formatDoc(op->doc(), QStringLiteral(" * "));
 
-            Q_FOREACH (UMLAttribute* at,  atl) {
+            for(UMLAttribute *at :  atl) {
                 if (forceDoc() || !at->doc().isEmpty()) {
                     as << " * @param " << cleanName(at->name()) << m_endl;
                     as << formatDoc(at->doc(), QStringLiteral("    *      "));

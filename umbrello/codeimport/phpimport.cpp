@@ -212,7 +212,7 @@ public:
         }
 
         m_nsCnt = 0;
-        Q_FOREACH(const QString &nsName, nsNames) {
+        for(const QString &nsName: nsNames) {
             UMLPackage *parentPackage = m_currentNamespace[m_nsCnt];
             UMLObject *o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Package, parentPackage);
             if (!o)
@@ -241,7 +241,7 @@ public:
         }
 
         m_nsCnt = 0;
-        Q_FOREACH(const QString &nsName, nsNames) {
+        for(const QString &nsName: nsNames) {
             UMLPackage *parentPackage = m_currentNamespace[m_nsCnt];
             UMLObject *o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Package, parentPackage);
             if (!o)
@@ -340,7 +340,7 @@ public:
         if (node->identifier) {
             QString baseName = tokenValue(node->identifier);
             UMLClassifier *a = m_currentNamespace[m_nsCnt]->asUMLClassifier();
-            Q_FOREACH(UMLObject *uc, m_usingClasses) {
+            for(UMLObject  *uc : m_usingClasses) {
                 if (uc->name() == baseName) {
                     Import_Utils::createGeneralization(a, uc->asUMLClassifier());
                 }
@@ -355,7 +355,7 @@ public:
             QString baseName = tokenValue(node->implementsSequence);
             UMLClassifier *a = m_currentNamespace[m_nsCnt]->asUMLClassifier();
             bool found = false;
-            Q_FOREACH(UMLObject *uc, m_usingClasses) {
+            for(UMLObject  *uc : m_usingClasses) {
                 if (uc->name() == baseName) {
                     Import_Utils::createGeneralization(a, uc->asUMLClassifier());
                     found = true;
@@ -640,7 +640,7 @@ private:
         }
         if (!m_session.problems().isEmpty()) {
             qout << endl << "problems encountered during parsing:" << endl;
-            Q_FOREACH(KDevelop::ProblemPointer p, m_session.problems()) {
+            for(KDevelop::ProblemPointer p: m_session.problems()) {
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(p->finalLocation().start().line()+1)
                         .arg(p->finalLocation().start().column())
@@ -694,12 +694,12 @@ public:
 
     bool parseFile(const QStringList &files)
     {
-        Q_FOREACH(const QString &fileName, files) {
+        for(const QString &fileName: files) {
             PhpParser *parser = new PhpParser(m_printAst, m_printTokens);
             QFileInfo fi(fileName);
             parser->parseFile(fi.canonicalFilePath());
             m_parsers[fi.canonicalFilePath()] = parser;
-            Q_FOREACH(const QString dependency, parser->dependencies()) {
+            for(const QString dependency: parser->dependencies()) {
                 QFileInfo di(dependency);
                 QFileInfo ei(di.isAbsolute() ? dependency : fi.canonicalPath() + "/" + dependency);
                 QString usePath = ei.canonicalFilePath();
@@ -728,7 +728,7 @@ public:
         if (!m_parsers.contains(f))
             return files;
         files.append(f);
-        Q_FOREACH(const QString dependency, m_parsers[f]->dependencies()) {
+        for(const QString dependency: m_parsers[f]->dependencies()) {
             QFileInfo di(dependency);
             QFileInfo ei(di.isAbsolute() ? dependency : fi.canonicalPath() + "/" + dependency);
             QString path = ei.canonicalFilePath();
@@ -770,7 +770,7 @@ PHPImport::~PHPImport()
  */
 void PHPImport::feedTheModel(const QString& fileName)
 {
-    Q_FOREACH(const QString &file, m_d->getParsedFiles(fileName)) {
+    for(const QString &file: m_d->getParsedFiles(fileName)) {
         PhpParser *p = m_d->m_parsers[file];
         Php::PHPImportVisitor visitor(p->tokenStream(), p->contents());
         visitor.setFileName(file);

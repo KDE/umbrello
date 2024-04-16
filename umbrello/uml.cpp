@@ -1982,7 +1982,7 @@ void UMLApp::initClip()
 bool UMLApp::canDecode(const QMimeData* mimeData)
 {
     QStringList supportedFormats = mimeData->formats();
-    Q_FOREACH(const QString &format, supportedFormats) {
+    for(const QString &format: supportedFormats) {
         QByteArray fba = format.toLatin1();
         const char* f = fba.constData();
         if (!qstrnicmp(f,"application/x-uml-clip", 22)) {
@@ -2066,7 +2066,7 @@ void UMLApp::slotApplyPrefs()
                 m_layout->removeWidget(m_viewStack);
                 m_viewStack->hide();
 
-                Q_FOREACH (UMLView *view, views) {
+                for(UMLView  *view : views) {
                     UMLScene *scene = view->umlScene();
                     m_viewStack->removeWidget(view);
                     int tabIndex = m_tabWidget->addTab(view, scene->name());
@@ -2081,7 +2081,7 @@ void UMLApp::slotApplyPrefs()
                 m_layout->removeWidget(m_tabWidget);
                 m_tabWidget->hide();
 
-                Q_FOREACH (UMLView *view, views) {
+                for(UMLView  *view : views) {
                     m_tabWidget->removeTab(m_tabWidget->indexOf(view));
                     m_viewStack->addWidget(view);
                 }
@@ -2684,7 +2684,7 @@ void UMLApp::slotUpdateViews()
     menu->clear();
 
     UMLViewList views = m_doc->viewIterator();
-    Q_FOREACH (UMLView *view, views) {
+    for(UMLView  *view : views) {
         menu->addAction(view->umlScene()->name(), view->umlScene(), SLOT(slotShowView()));
         view->umlScene()->fileLoaded();
     }
@@ -2745,9 +2745,9 @@ void getFiles(QStringList& files, const QString& path, QStringList& filters)
 {
     QDir searchDir(path);
     if (searchDir.exists()) {
-        Q_FOREACH (const QFileInfo &file, searchDir.entryList(filters, QDir::Files))
+        for(const QFileInfo &file, searchDir.entryList(filters: QDir::Files))
             files.append(searchDir.absoluteFilePath(file.fileName()));
-        Q_FOREACH (const QFileInfo &subDir, searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks))
+        for(const QFileInfo &subDir: searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks))
             getFiles(files, searchDir.absoluteFilePath(subDir.fileName()), filters);
     }
 }

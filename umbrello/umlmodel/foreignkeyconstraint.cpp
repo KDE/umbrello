@@ -124,7 +124,7 @@ QString UMLForeignKeyConstraint::toString(Uml::SignatureType::Enum sig, bool /*w
         s += QStringLiteral(" Foreign Key (");
         QList<UMLEntityAttribute*> keys = m_AttributeMap.keys();
         bool first = true;
-        Q_FOREACH(UMLEntityAttribute* key, keys) {
+        for(UMLEntityAttribute *key : keys) {
             if (first) {
                 first = false;
             } else
@@ -215,7 +215,7 @@ bool UMLForeignKeyConstraint::addEntityAttributePair(UMLEntityAttribute* pAttr, 
         return false;
 
     // check if value takes part in some mapping (no direct function)
-    Q_FOREACH(UMLEntityAttribute* attr, m_AttributeMap.values()) {
+    for(UMLEntityAttribute *attr : m_AttributeMap.values()) {
         if (rAttr == attr)
             return false;
     }

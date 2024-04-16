@@ -26,7 +26,7 @@ namespace Uml
         setText(i18n("Remove widget : %1", widget->name()));
 
         // save "child" elements
-        Q_FOREACH(QGraphicsItem* item, widget->childItems()) {
+        for(QGraphicsItem *item : widget->childItems()) {
             UMLWidget* child = dynamic_cast<UMLWidget*>(item);
             uIgnoreZeroPointer(child);
             QString xmi;
@@ -126,7 +126,7 @@ namespace Uml
                 addWidgetToScene(widget);
             }
 
-            Q_FOREACH(QDomElement childElement, m_children) {
+            for(QDomElement childElement: m_children) {
                 widgetElement = childElement.firstChild().toElement();
                 widget = scene()->loadWidgetFromXMI(widgetElement);
                 if (widget != nullptr) {

@@ -155,7 +155,7 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLViewList& diagrams)
     stream.writeEndElement();  // umlobjects
     stream.writeStartElement(QStringLiteral("umlviews"));
 
-    Q_FOREACH(UMLView* view, diagrams) {
+    for(UMLView *view : diagrams) {
         view->umlScene()->saveToXMI(stream);
     }
 
@@ -175,7 +175,7 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
     stream.writeStartElement(QStringLiteral("xmiclip"));
     stream.writeStartElement(QStringLiteral("umllistviewitems"));
 
-    Q_FOREACH(UMLListViewItem* item, umlListViewItems) {
+    for(UMLListViewItem *item : umlListViewItems) {
         item->saveToXMI(stream);
     }
 
@@ -202,21 +202,21 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects,
     stream.writeAttribute(QStringLiteral("diagramid"), Uml::ID::toString(scene->ID()));
     stream.writeStartElement(QStringLiteral("umlobjects"));
 
-    Q_FOREACH (UMLObject* obj, objects) {
+    for(UMLObject *obj : objects) {
         obj->saveToXMI(stream);
     }
 
     stream.writeEndElement();  // umlobjects
     stream.writeStartElement(QStringLiteral("widgets"));
 
-    Q_FOREACH (UMLWidget* widget, widgets) {
+    for(UMLWidget *widget : widgets) {
         widget->saveToXMI(stream);
     }
 
     stream.writeEndElement();  // widgets
     stream.writeStartElement(QStringLiteral("associations"));
 
-    Q_FOREACH (AssociationWidget* association, associations) {
+    for(AssociationWidget *association : associations) {
         association->saveToXMI(stream);
     }
 
@@ -245,7 +245,7 @@ void UMLDragData::setUMLDataClip5(UMLObjectList& objects)
     stream.writeStartElement(QStringLiteral("xmiclip"));
     stream.writeStartElement(QStringLiteral("umlobjects"));
 
-    Q_FOREACH (UMLObject* obj, objects) {
+    for(UMLObject *obj : objects) {
         obj->saveToXMI(stream);
     }
 
@@ -618,7 +618,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     // Make sure all object widgets are loaded before adding messages or
     // preconditions
     if (!fromSameDiagram) {
-        Q_FOREACH (UMLWidget* widget, widgets) {
+        for(UMLWidget *widget : widgets) {
             if (widget->isObjectWidget()) {
                 executeCreateWidgetCommand(widget);
             }
@@ -626,7 +626,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     }
 
     // Now add all remaining widgets
-    Q_FOREACH (UMLWidget* widget, widgets) {
+    for(UMLWidget *widget : widgets) {
         if (!fromSameDiagram && widget->isMessageWidget()) {
             MessageWidget* message = widget->asMessageWidget();
             message->resolveObjectWidget(log);

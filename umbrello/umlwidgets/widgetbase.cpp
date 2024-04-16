@@ -1156,7 +1156,7 @@ void WidgetBase::slotMenuSelection(QAction *trigger)
 
      case ListPopupMenu::mt_Clone:
         {
-            Q_FOREACH (UMLWidget* widget, umlScene()->selectedWidgets()) {
+            for(UMLWidget *widget : umlScene()->selectedWidgets()) {
                 if (Model_Utils::isCloneable(widget->baseType())) {
                     UMLObject *clone = widget->umlObject()->clone();
                     umlScene()->addObject(clone);

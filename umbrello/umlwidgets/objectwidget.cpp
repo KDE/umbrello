@@ -587,7 +587,7 @@ void ObjectWidget::slotMessageMoved()
 {
     if (m_pLine) {
         int lowestMessage = 0;
-        Q_FOREACH (MessageWidget* message, m_messages) {
+        for(MessageWidget *message : m_messages) {
             int messageHeight = message->y() + message->height();
             if (lowestMessage < messageHeight) {
                 lowestMessage = messageHeight;
@@ -606,7 +606,7 @@ void ObjectWidget::slotMessageMoved()
  */
 bool ObjectWidget::messageOverlap(qreal y, MessageWidget* messageWidget)
 {
-    Q_FOREACH (MessageWidget* message, m_messages) {
+    for(MessageWidget *message : m_messages) {
         if (message == messageWidget) {
             continue;
         }

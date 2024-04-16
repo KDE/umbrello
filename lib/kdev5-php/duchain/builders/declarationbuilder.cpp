@@ -241,7 +241,7 @@ bool DeclarationBuilder::isBaseMethodRedeclaration(const IdentifierPair &ids, Cl
             if (!type->internalContext(currentContext()->topContext())) {
                 continue;
             }
-            Q_FOREACH(Declaration * dec, type->internalContext(currentContext()->topContext())->findLocalDeclarations(ids.second.first(), startPos(node)))
+            for(Declaration  *dec, type->internalContext(currentContext()->topContext())->findLocalDeclarations(ids.second.first() : startPos(node)))
             {
                 if (dec->isFunctionDeclaration()) {
                     ClassMethodDeclaration* func = dynamic_cast<ClassMethodDeclaration*>(dec);
@@ -283,7 +283,7 @@ void DeclarationBuilder::visitClassStatement(ClassStatementAst *node)
             bool localError = false;
             {
                 DUChainWriteLocker lock(DUChain::lock());
-                Q_FOREACH(Declaration * dec, currentContext()->findLocalDeclarations(ids.second.first(), startPos(node->methodName)))
+                for(Declaration  *dec, currentContext()->findLocalDeclarations(ids.second.first() : startPos(node->methodName)))
                 {
                     if (wasEncountered(dec) && dec->isFunctionDeclaration() && !dynamic_cast<TraitMethodAliasDeclaration*>(dec)) {
                         reportRedeclarationError(dec, node->methodName);
@@ -402,9 +402,9 @@ void DeclarationBuilder::importTraitMethods(ClassStatementAst *node)
 
         ifDebug(qCDebug(DUCHAIN) << "Importing from" << dec.data()->identifier().toString() << "to" << currentContext()->localScopeIdentifier().toString();)
 
-        Q_FOREACH (Declaration* import, declarations) {
+        for(Declaration *import : declarations) {
             Declaration* found = nullptr;
-            Q_FOREACH (Declaration* local, localDeclarations) {
+            for(Declaration *local : localDeclarations) {
                 ifDebug(qCDebug(DUCHAIN) << "Comparing" << import->identifier().toString() << "with" << local->identifier().toString();)
                 if (auto trait = dynamic_cast<TraitMethodAliasDeclaration*>(local)) {
                     if (trait->aliasedDeclaration().data() == import) {
@@ -506,7 +506,7 @@ void DeclarationBuilder::visitClassVariable(ClassVariableAst *node)
     if (m_reportErrors) {   // check for redeclarations
         DUChainWriteLocker lock(DUChain::lock());
         Q_ASSERT(currentContext()->type() == DUContext::Class);
-        Q_FOREACH(Declaration * dec, currentContext()->findLocalDeclarations(name.first(), startPos(node)))
+        for(Declaration  *dec, currentContext()->findLocalDeclarations(name.first() : startPos(node)))
         {
             if (wasEncountered(dec) && !dec->isFunctionDeclaration() && !(dec->abstractType()->modifiers() & AbstractType::ConstModifier)) {
                 reportRedeclarationError(dec, node);
@@ -571,7 +571,7 @@ void DeclarationBuilder::declareClassMember(DUContext *parentCtx, AbstractType::
     {
         // only interesting context might be the class context when we are inside a method
         DUContext *ctx = currentContext()->parentContext();
-        Q_FOREACH ( Declaration* dec, parentCtx->findDeclarations(identifier) ) {
+        for(Declaration *dec : parentCtx->findDeclarations(identifier) ) {
             if ( ClassMemberDeclaration* cdec = dynamic_cast<ClassMemberDeclaration*>(dec) ) {
                 if ( cdec->accessPolicy() == Declaration::Private && cdec->context() != ctx ) {
                     reportError(i18n("Cannot redeclare private property %1 from this context.",
@@ -619,7 +619,7 @@ void DeclarationBuilder::visitConstantDeclaration(ConstantDeclarationAst *node)
 
         // check for redeclarations
         DUChainWriteLocker lock(DUChain::lock());
-        Q_FOREACH(Declaration * dec, currentContext()->findLocalDeclarations(identifierForNode(node->identifier).first(), startPos(node->identifier)))
+        for(Declaration  *dec, currentContext()->findLocalDeclarations(identifierForNode(node->identifier).first() : startPos(node->identifier)))
         {
             if (wasEncountered(dec) && !dec->isFunctionDeclaration() && dec->abstractType()->modifiers() & AbstractType::ConstModifier) {
                 reportRedeclarationError(dec, node->identifier);
@@ -815,7 +815,7 @@ void DeclarationBuilder::visitLexicalVar(LexicalVarAst* node)
     DUChainWriteLocker lock;
     if ( recompiling() ) {
         // sadly we can't use findLocalDeclarations() here, since it un-aliases declarations
-        Q_FOREACH ( Declaration* dec, currentContext()->localDeclarations() ) {
+        for(Declaration *dec : currentContext()->localDeclarations() ) {
             if ( dynamic_cast<AliasDeclaration*>(dec) && dec->identifier() == id.first() ) {
                 // don't redeclare but reuse the existing declaration
                 encounter(dec);
@@ -825,7 +825,7 @@ void DeclarationBuilder::visitLexicalVar(LexicalVarAst* node)
     }
 
     // no existing declaration found, create one
-    Q_FOREACH(Declaration* aliasedDeclaration, currentContext()->findDeclarations(id)) {
+    for(Declaration *aliasedDeclaration : currentContext()->findDeclarations(id)) {
         if (aliasedDeclaration->kind() == Declaration::Instance) {
             AliasDeclaration* dec = openDefinition<AliasDeclaration>(id, editor()->findRange(node->variable));
             dec->setAliasedDeclaration(aliasedDeclaration);
@@ -851,7 +851,7 @@ bool DeclarationBuilder::isGlobalRedeclaration(const QualifiedIdentifier &identi
 
     DUChainWriteLocker lock(DUChain::lock());
     QList<Declaration*> declarations = currentContext()->topContext()->findDeclarations( identifier, startPos(node) );
-    Q_FOREACH(Declaration* dec, declarations) {
+    for(Declaration *dec : declarations) {
         if (wasEncountered(dec) && isMatch(dec, type)) {
             reportRedeclarationError(dec, node);
             return true;
@@ -1073,7 +1073,7 @@ DUContext* getClassContext(const QualifiedIdentifier &identifier, DUContext* cur
         }
     } else {
         DUChainReadLocker lock(DUChain::lock());
-        Q_FOREACH( Declaration* parent, currentCtx->topContext()->findDeclarations(identifier) ) {
+        for(Declaration *parent : currentCtx->topContext()->findDeclarations(identifier) ) {
             if ( StructureType::Ptr ctype = parent->type<StructureType>() ) {
                 return ctype->internalContext(currentCtx->topContext());
             }
@@ -1247,7 +1247,7 @@ void DeclarationBuilder::declareFoundVariable(AbstractType::Ptr type)
             {
                 DUChainWriteLocker lock(DUChain::lock());
                 RangeInRevision range = m_editor->findRange(m_findVariable.node);
-                Q_FOREACH ( Declaration* dec, ctx->findDeclarations(m_findVariable.identifier) ) {
+                for(Declaration *dec : ctx->findDeclarations(m_findVariable.identifier) ) {
                     if ( dec->kind() == Declaration::Instance ) {
                         if (!wasEncountered(dec) || (dec->context() == ctx && range < dec->range())) {
                             // just like a "redeclaration", hence we must update the range
@@ -1326,7 +1326,7 @@ void DeclarationBuilder::visitGlobalVar(GlobalVarAst* node)
         if ( recompiling() ) {
             DUChainWriteLocker lock(DUChain::lock());
             // sadly we can't use findLocalDeclarations() here, since it un-aliases declarations
-            Q_FOREACH ( Declaration* dec, currentContext()->localDeclarations() ) {
+            for(Declaration *dec : currentContext()->localDeclarations() ) {
                 if ( dynamic_cast<AliasDeclaration*>(dec) && dec->identifier() == id.first() ) {
                     // don't redeclare but reuse the existing declaration
                     encounter(dec);
@@ -1370,7 +1370,7 @@ void DeclarationBuilder::visitUnaryExpression(UnaryExpressionAst* node)
 
         QualifiedIdentifier identifier(includeFile.str());
 
-        Q_FOREACH ( Declaration* dec, includedCtx->findDeclarations(identifier, CursorInRevision(0, 1)) ) {
+        for(Declaration *dec, includedCtx->findDeclarations(identifier, CursorInRevision(0 : 1)) ) {
             if ( dec->kind() == Declaration::Import ) {
                 encounter(dec);
                 return;

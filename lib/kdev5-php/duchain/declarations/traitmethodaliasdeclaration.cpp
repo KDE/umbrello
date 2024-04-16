@@ -104,7 +104,7 @@ IndexedDeclaration TraitMethodAliasDeclaration::aliasedDeclaration() const
 void TraitMethodAliasDeclaration::setOverrides(const QVector< IndexedQualifiedIdentifier>& ids)
 {
     d_func_dynamic()->itemsList().clear();
-    Q_FOREACH (const IndexedQualifiedIdentifier& id, ids) {
+    for(const IndexedQualifiedIdentifier& id: ids) {
         d_func_dynamic()->itemsList().append(id);
     }
 }

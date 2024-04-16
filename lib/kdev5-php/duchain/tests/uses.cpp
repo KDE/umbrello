@@ -929,7 +929,7 @@ void TestUses::namespaces()
                                           << RangeInRevision(14, 21, 14, 24)
                                           << RangeInRevision(14, 49, 14, 52));
     QCOMPARE(dec->internalContext()->localDeclarations().size(), 4);
-    Q_FOREACH(Declaration* d, dec->internalContext()->localDeclarations()) {
+    for(Declaration *d : dec->internalContext()->localDeclarations()) {
         qDebug() << d->toString() << d->qualifiedIdentifier();
     }
 
