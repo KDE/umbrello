@@ -402,3 +402,32 @@ msgstr "Els permisos del fitxer impedeixen que s'obri per a lectura."
 #, kde-format
 msgid "PHPUnit"
 msgstr "PHPUnit"
+
+#~ msgid ""
+#~ "A class constant must not be called 'class'; it is reserved for class "
+#~ "name fetching"
+#~ msgstr ""
+#~ "Una constant de classe no es pot anomenar «class»; això està reservat per "
+#~ "a la recuperació del nom de la classe"
+
+#~ msgid "Cannot use 'abstract' as method modifier"
+#~ msgstr "No es pot usar «abstract» com a modificador de mètode"
+
+#~ msgid "Variadic parameter cannot have a default value"
+#~ msgstr "Els paràmetres «variadic» no poden tenir un valor per omissió"
+
+#~ msgid "Only the last parameter can be variadic."
+#~ msgstr "Només el darrer paràmetre pot ser «variadic»."
+
+#~ msgid "Cannot use positional argument after argument unpacking"
+#~ msgstr ""
+#~ "No es pot usar l'argument posicional després de desempaquetar un argument"
+
+#~ msgid "empty (not inside a trait)"
+#~ msgstr "buida (no dins d'un «trait»)"
+
+#~ msgid "Use of "
+#~ msgstr "Ús de "
+
+#~ msgid " from "
+#~ msgstr " des de "
