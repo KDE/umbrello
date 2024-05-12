@@ -139,7 +139,7 @@ msgstr ""
 #: docs/phpdocumentationwidget.cpp:56
 #, kde-format
 msgid "...loading documentation..."
-msgstr "...s'està carregant la documentació..."
+msgstr "…s'està carregant la documentació…"
 
 #: duchain/builders/contextbuilder.cpp:397
 #, kde-format

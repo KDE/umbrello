@@ -510,7 +510,7 @@ msgstr "<b>Variable</b>"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:343
 #, kde-format
 msgid "..."
-msgstr "..."
+msgstr "…"
 
 #. i18n: ectx: property (historyItems), widget (KHistoryComboBox, ui_stringClassHCombo)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:192
@@ -1023,7 +1023,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:96
 #, kde-format
 msgid "Bro&wse..."
-msgstr "E&xplora..."
+msgstr "E&xplora…"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_includeHeadings)
 #: codegenwizard/codegenoptionspage.ui:105
@@ -1044,7 +1044,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:124
 #, kde-format
 msgid "B&rowse..."
-msgstr "Ex&plora..."
+msgstr "Ex&plora…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxOverwritePolicy)
 #. i18n: ectx: label, entry (overwritePolicy), group (Code Generation)
@@ -1360,7 +1360,7 @@ msgstr "Neteja"
 #: codegenwizard/codegenstatuspage.ui:91 codeimpwizard/codeimpstatuspage.ui:156
 #, kde-format
 msgid "Export..."
-msgstr "Exporta..."
+msgstr "Exporta…"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonGenerate)
 #: codegenwizard/codegenstatuspage.ui:114
@@ -1502,7 +1502,7 @@ msgstr[1] "<b>Importació de codi d'%1 fitxers:</b><br>"
 #: codeimpwizard/codeimpstatuspage.cpp:151
 #, kde-format
 msgid "importing file ... DONE<br>"
-msgstr "S'està important el fitxer... FET<br>"
+msgstr "S'està important el fitxer… FET<br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:152
 #, kde-format
@@ -1512,7 +1512,7 @@ msgstr "Importació acabada"
 #: codeimpwizard/codeimpstatuspage.cpp:155
 #, kde-format
 msgid "importing file ... FAILED<br>"
-msgstr "S'està important el fitxer... HA FALLAT<br>"
+msgstr "S'està important el fitxer… HA FALLAT<br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:156
 #, kde-format
@@ -1522,12 +1522,12 @@ msgstr "No s'ha pogut importar"
 #: codeimpwizard/codeimpstatuspage.cpp:167
 #, kde-format
 msgid "importing file ..."
-msgstr "S'està important el fitxer..."
+msgstr "S'està important el fitxer…"
 
 #: codeimpwizard/codeimpstatuspage.cpp:230
 #, kde-format
 msgid "importing file ... stopped<br>"
-msgstr "S'està important el fitxer... s'ha parat<br>"
+msgstr "S'està important el fitxer… s'ha parat<br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:231
 #, kde-format
@@ -2342,7 +2342,7 @@ msgstr "Mou l'element seleccionat a baix de tot"
 #: dialogs/pages/activitypage.cpp:99
 #, kde-format
 msgid "New Activity..."
-msgstr "Activitat nova..."
+msgstr "Activitat nova…"
 
 #: dialogs/pages/activitypage.cpp:101 menus/listpopupmenu.cpp:173
 #: refactoring/refactoringassistant.cpp:460
@@ -2496,7 +2496,7 @@ msgid ""
 "layouts and enables a quick dot export preview.</p>"
 msgstr ""
 "<p>L'exportació del fitxer «dot» es porta a terme utilitzant la disposició "
-"d'exportació.</p><p>Amb esta opció seleccionada, la disposició d'exportació "
+"d'exportació.</p><p>Amb esta opció activada, la disposició d'exportació "
 "s'afig a la llista de disposicions de diagrama disponibles i activa una "
 "vista prèvia de l'exportació de «dot».</p>"
 
@@ -2565,27 +2565,27 @@ msgstr "El nom no és únic"
 #: dialogs/pages/classifierlistpage.cpp:113
 #, kde-format
 msgid "N&ew Attribute..."
-msgstr "Atribut n&ou..."
+msgstr "Atribut n&ou…"
 
 #: dialogs/pages/classifierlistpage.cpp:117
 #, kde-format
 msgid "N&ew Operation..."
-msgstr "Op&eració nova..."
+msgstr "Op&eració nova…"
 
 #: dialogs/pages/classifierlistpage.cpp:121
 #, kde-format
 msgid "N&ew Template..."
-msgstr "Plantilla no&va..."
+msgstr "Plantilla no&va…"
 
 #: dialogs/pages/classifierlistpage.cpp:125
 #, kde-format
 msgid "N&ew Enum Literal..."
-msgstr "Lit&eral enumerat nou..."
+msgstr "Lit&eral enumerat nou…"
 
 #: dialogs/pages/classifierlistpage.cpp:129
 #, kde-format
 msgid "N&ew Entity Attribute..."
-msgstr "Atribut nou d'&entitat..."
+msgstr "Atribut nou d'&entitat…"
 
 #: dialogs/pages/classifierlistpage.cpp:132
 #, kde-format
@@ -2595,7 +2595,7 @@ msgstr "Restriccions"
 #: dialogs/pages/classifierlistpage.cpp:133
 #, kde-format
 msgid "N&ew Constraint..."
-msgstr "R&estricció nova..."
+msgstr "R&estricció nova…"
 
 #: dialogs/pages/classifierlistpage.cpp:136
 #, kde-format
@@ -2605,7 +2605,7 @@ msgstr "Atributs de la instància"
 #: dialogs/pages/classifierlistpage.cpp:137
 #, kde-format
 msgid "N&ew Instance Attribute..."
-msgstr "Atribut n&ou d'instància..."
+msgstr "Atribut n&ou d'instància…"
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
 #: uml.cpp:589
@@ -2762,22 +2762,22 @@ msgstr "Activa C++11 estàndard (experimental)"
 #: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:269
 #, kde-format
 msgid "Unique Constraint..."
-msgstr "Restricció única..."
+msgstr "Restricció única…"
 
 #: dialogs/pages/constraintlistpage.cpp:69 menus/listpopupmenu.cpp:242
 #, kde-format
 msgid "Primary Key Constraint..."
-msgstr "Restricció de clau primària..."
+msgstr "Restricció de clau primària…"
 
 #: dialogs/pages/constraintlistpage.cpp:73 menus/listpopupmenu.cpp:195
 #, kde-format
 msgid "Foreign Key Constraint..."
-msgstr "Restricció de clau externa..."
+msgstr "Restricció de clau externa…"
 
 #: dialogs/pages/constraintlistpage.cpp:77 menus/listpopupmenu.cpp:159
 #, kde-format
 msgid "Check Constraint..."
-msgstr "Restricció de comprovació..."
+msgstr "Restricció de comprovació…"
 
 #: dialogs/pages/defaultcodegenpolicypage.cpp:24
 #, kde-format
@@ -3048,7 +3048,7 @@ msgstr "Operació de classe:"
 #: menus/widgetbasepopupmenu.cpp:507
 #, kde-format
 msgid "New Operation..."
-msgstr "Operació nova..."
+msgstr "Operació nova…"
 
 #: dialogs/pages/selectoperationpage.cpp:84
 #: dialogs/selectoperationdialog.cpp:87
@@ -3818,7 +3818,7 @@ msgstr "Paràmetres"
 #: dialogs/umloperationdialog.cpp:162
 #, kde-format
 msgid "Ne&w Parameter..."
-msgstr "Paràmetre no&u..."
+msgstr "Paràmetre no&u…"
 
 #: dialogs/umloperationdialog.cpp:280
 #, kde-format
@@ -4100,12 +4100,12 @@ msgstr "Visibilitat del rol B"
 #: docgenerators/docbook2xhtmlgeneratorjob.cpp:59
 #, kde-format
 msgid "Exporting to XHTML..."
-msgstr "S'està exportant el model a XHTML..."
+msgstr "S'està exportant el model a XHTML…"
 
 #: docgenerators/docbookgenerator.cpp:78 umlviewimageexporterall.cpp:95
 #, kde-format
 msgid "Exporting all views..."
-msgstr "Exporta totes les vistes..."
+msgstr "Exporta totes les vistes…"
 
 #: docgenerators/docbookgenerator.cpp:84 umlviewimageexporterall.cpp:101
 #, kde-format
@@ -4115,22 +4115,22 @@ msgstr "S'han generat alguns errors en exportar les imatges:"
 #: docgenerators/docbookgenerator.cpp:88
 #, kde-format
 msgid "Generating Docbook..."
-msgstr "S'està generant Docbook..."
+msgstr "S'està generant Docbook…"
 
 #: docgenerators/docbookgenerator.cpp:108
 #, kde-format
 msgid "Docbook Generation Complete..."
-msgstr "S'ha completat la generació de Docbook..."
+msgstr "S'ha completat la generació de Docbook…"
 
 #: docgenerators/docbookgenerator.cpp:111
 #, kde-format
 msgid "Docbook Generation Failed..."
-msgstr "No s'ha pogut generar Docbook..."
+msgstr "No s'ha pogut generar Docbook…"
 
 #: docgenerators/docbookgeneratorjob.cpp:191
 #, kde-format
 msgid "Exporting to DocBook..."
-msgstr "S'està exportant el model a DocBook..."
+msgstr "S'està exportant el model a DocBook…"
 
 #: docgenerators/main.cpp:33 docgenerators/main.cpp:46
 #, kde-format
@@ -4169,27 +4169,27 @@ msgstr "El fitxer XSLT que s'ha d'utilitzar"
 #: docgenerators/xhtmlgenerator.cpp:105
 #, kde-format
 msgid "Generating XHTML..."
-msgstr "S'està generant XHTML..."
+msgstr "S'està generant XHTML…"
 
 #: docgenerators/xhtmlgenerator.cpp:131
 #, kde-format
 msgid "XHTML Generation Complete..."
-msgstr "S'ha completat la generació del XHTML..."
+msgstr "S'ha completat la generació del XHTML…"
 
 #: docgenerators/xhtmlgenerator.cpp:137
 #, kde-format
 msgid "Copying CSS..."
-msgstr "S'està copiant el CSS..."
+msgstr "S'està copiant el CSS…"
 
 #: docgenerators/xhtmlgenerator.cpp:150
 #, kde-format
 msgid "Finished Copying CSS..."
-msgstr "S'ha acabat de copiar el CSS..."
+msgstr "S'ha acabat de copiar el CSS…"
 
 #: docgenerators/xhtmlgenerator.cpp:153
 #, kde-format
 msgid "Failed Copying CSS..."
-msgstr "No s'ha pogut copiar el CSS..."
+msgstr "No s'ha pogut copiar el CSS…"
 
 #: docwindow.cpp:44
 #, kde-format
@@ -4338,22 +4338,22 @@ msgstr "Tria automàticament els punts de la «Spline»"
 #: menus/associationwidgetpopupmenu.cpp:67
 #, kde-format
 msgid "Change Association Name..."
-msgstr "Canvia nom de l'associació..."
+msgstr "Canvia nom de l'associació…"
 
 #: menus/associationwidgetpopupmenu.cpp:68 menus/widgetbasepopupmenu.cpp:490
 #, kde-format
 msgid "Change Role A Name..."
-msgstr "Canvia nom del rol A..."
+msgstr "Canvia nom del rol A…"
 
 #: menus/associationwidgetpopupmenu.cpp:69 menus/widgetbasepopupmenu.cpp:493
 #, kde-format
 msgid "Change Role B Name..."
-msgstr "Canvia nom del rol B..."
+msgstr "Canvia nom del rol B…"
 
 #: menus/associationwidgetpopupmenu.cpp:76 menus/widgetbasepopupmenu.cpp:508
 #, kde-format
 msgid "Select Operation..."
-msgstr "Selecciona operació..."
+msgstr "Selecciona operació…"
 
 #: menus/associationwidgetpopupmenu.cpp:94
 #, kde-format
@@ -4384,7 +4384,7 @@ msgstr "Ortogonal"
 #: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:227
 #, kde-format
 msgid "New Template..."
-msgstr "Plantilla nova..."
+msgstr "Plantilla nova…"
 
 #: menus/listpopupmenu.cpp:145
 #, kde-format
@@ -4399,7 +4399,7 @@ msgstr "Accepta un esdeveniment de temps"
 #: menus/listpopupmenu.cpp:147 menus/listpopupmenu.cpp:220
 #, kde-format
 msgid "Activity..."
-msgstr "Activitat..."
+msgstr "Activitat…"
 
 #: menus/listpopupmenu.cpp:148 worktoolbar.cpp:373
 #, kde-format
@@ -4423,7 +4423,7 @@ msgstr "Artefacte"
 #: menus/listpopupmenu.cpp:158 menus/widgetbasepopupmenu.cpp:557
 #, kde-format
 msgid "Change Font..."
-msgstr "Canvia el tipus de lletra..."
+msgstr "Canvia el tipus de lletra…"
 
 #: menus/listpopupmenu.cpp:160
 #, kde-format
@@ -4434,7 +4434,7 @@ msgstr "Elecció"
 #, kde-format
 msgctxt "new class menu item"
 msgid "Class..."
-msgstr "Classe..."
+msgstr "Classe…"
 
 #: menus/listpopupmenu.cpp:162
 #, kde-format
@@ -4451,7 +4451,7 @@ msgstr "Reduïx-ho tot"
 #, kde-format
 msgctxt "add new combined state"
 msgid "Combined state..."
-msgstr "Estat combinat..."
+msgstr "Estat combinat…"
 
 #: menus/listpopupmenu.cpp:165 umlwidgets/widgetbase.cpp:1251
 #: worktoolbar.cpp:353
@@ -4470,7 +4470,7 @@ msgstr "Carpeta"
 #: menus/listpopupmenu.cpp:171
 #, kde-format
 msgid "Datatype..."
-msgstr "Tipus de dada..."
+msgstr "Tipus de dada…"
 
 #: menus/listpopupmenu.cpp:172 worktoolbar.cpp:362
 #, kde-format
@@ -4502,17 +4502,17 @@ msgstr "Entitat"
 #: menus/listpopupmenu.cpp:181
 #, kde-format
 msgid "Entity Attribute..."
-msgstr "Atribut d'entitat..."
+msgstr "Atribut d'entitat…"
 
 #: menus/listpopupmenu.cpp:184
 #, kde-format
 msgid "Enum..."
-msgstr "Enum..."
+msgstr "Enum…"
 
 #: menus/listpopupmenu.cpp:185
 #, kde-format
 msgid "Enum Literal..."
-msgstr "Enum literal..."
+msgstr "Enum literal…"
 
 #: menus/listpopupmenu.cpp:187
 #, kde-format
@@ -4522,17 +4522,17 @@ msgstr "Expandix-ho tot"
 #: menus/listpopupmenu.cpp:188
 #, kde-format
 msgid "Export as Picture..."
-msgstr "Exporta com a imatge..."
+msgstr "Exporta com a imatge…"
 
 #: menus/listpopupmenu.cpp:189
 #, kde-format
 msgid "Externalize Folder..."
-msgstr "Externalitza carpeta..."
+msgstr "Externalitza carpeta…"
 
 #: menus/listpopupmenu.cpp:190 menus/widgetbasepopupmenu.cpp:535
 #, kde-format
 msgid "Fill Color..."
-msgstr "Color de farciment..."
+msgstr "Color de farciment…"
 
 #: menus/listpopupmenu.cpp:191 worktoolbar.cpp:377
 #, kde-format
@@ -4552,7 +4552,7 @@ msgstr "Invertix verticalment"
 #: menus/listpopupmenu.cpp:194
 #, kde-format
 msgid "Text Line..."
-msgstr "Línia de text..."
+msgstr "Línia de text…"
 
 #: menus/listpopupmenu.cpp:196 menus/listpopupmenu.cpp:260 worktoolbar.cpp:365
 #, kde-format
@@ -4572,17 +4572,17 @@ msgstr "Oculta el quadro de destrucció"
 #: menus/listpopupmenu.cpp:199
 #, kde-format
 msgid "Import File(s)..."
-msgstr "Importa fitxers..."
+msgstr "Importa fitxers…"
 
 #: menus/listpopupmenu.cpp:200 uml.cpp:386
 #, kde-format
 msgid "Import from Directory..."
-msgstr "Importa des del directori..."
+msgstr "Importa des del directori…"
 
 #: menus/listpopupmenu.cpp:201
 #, kde-format
 msgid "from file..."
-msgstr "des del fitxer..."
+msgstr "des del fitxer…"
 
 #: menus/listpopupmenu.cpp:202 worktoolbar.cpp:380
 #, kde-format
@@ -4598,13 +4598,13 @@ msgstr "Estat inicial"
 #, kde-format
 msgctxt "new instance menu item"
 msgid "Instance..."
-msgstr "Instància..."
+msgstr "Instància…"
 
 #: menus/listpopupmenu.cpp:205 menus/listpopupmenu.cpp:221
 #: menus/listpopupmenu.cpp:224
 #, kde-format
 msgid "New Attribute..."
-msgstr "Atribut nou..."
+msgstr "Atribut nou…"
 
 #: menus/listpopupmenu.cpp:208
 #, kde-format
@@ -4629,7 +4629,7 @@ msgstr "Unió"
 #: menus/listpopupmenu.cpp:212 menus/widgetbasepopupmenu.cpp:534
 #, kde-format
 msgid "Line Color..."
-msgstr "Color de línia..."
+msgstr "Color de línia…"
 
 #: menus/listpopupmenu.cpp:214 worktoolbar.cpp:324 worktoolbar.cpp:382
 #, kde-format
@@ -4664,17 +4664,17 @@ msgstr "Missatge síncron"
 #: menus/listpopupmenu.cpp:222
 #, kde-format
 msgid "New Entity Attribute..."
-msgstr "Atribut nou d'entitat..."
+msgstr "Atribut nou d'entitat…"
 
 #: menus/listpopupmenu.cpp:223
 #, kde-format
 msgid "New Literal..."
-msgstr "Literal nou..."
+msgstr "Literal nou…"
 
 #: menus/listpopupmenu.cpp:226
 #, kde-format
 msgid "New Parameter..."
-msgstr "Paràmetre nou..."
+msgstr "Paràmetre nou…"
 
 #: menus/listpopupmenu.cpp:228 umlwidgets/widgetbase.cpp:1278
 #: worktoolbar.cpp:354
@@ -4686,12 +4686,12 @@ msgstr "Node"
 #: menus/listpopupmenu.cpp:230
 #, kde-format
 msgid "Note..."
-msgstr "Nota..."
+msgstr "Nota…"
 
 #: menus/listpopupmenu.cpp:231
 #, kde-format
 msgid "Object..."
-msgstr "Objecte..."
+msgstr "Objecte…"
 
 #: menus/listpopupmenu.cpp:232 worktoolbar.cpp:384
 #, kde-format
@@ -4707,7 +4707,7 @@ msgstr "Obri un fitxer"
 #: menus/listpopupmenu.cpp:236
 #, kde-format
 msgid "Package..."
-msgstr "Paquet..."
+msgstr "Paquet…"
 
 #: menus/listpopupmenu.cpp:238 umlwidgets/widgetbase.cpp:1293
 #: worktoolbar.cpp:378
@@ -4751,12 +4751,12 @@ msgstr "Elimina el diagrama d'estat"
 #: menus/listpopupmenu.cpp:248 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
 msgid "Rename..."
-msgstr "Canvia el nom..."
+msgstr "Canvia el nom…"
 
 #: menus/listpopupmenu.cpp:249
 #, kde-format
 msgid "Rename Object..."
-msgstr "Canvia el nom de l'objecte..."
+msgstr "Canvia el nom de l'objecte…"
 
 #: menus/listpopupmenu.cpp:250
 #, kde-format
@@ -4802,7 +4802,7 @@ msgstr "Mostra el quadro de destrucció"
 #, kde-format
 msgctxt "add new state"
 msgid "State..."
-msgstr "Estat..."
+msgstr "Estat…"
 
 #: menus/listpopupmenu.cpp:261
 #, kde-format
@@ -4973,7 +4973,7 @@ msgstr "Dibuixa com un cercle"
 #: menus/widgetbasepopupmenu.cpp:235 menus/widgetbasepopupmenu.cpp:304
 #, kde-format
 msgid "Rename Class..."
-msgstr "Canvia el nom d'una classe..."
+msgstr "Canvia el nom d'una classe…"
 
 #: menus/widgetbasepopupmenu.cpp:277 menus/widgetbasepopupmenu.cpp:444
 #, kde-format
@@ -5000,7 +5000,7 @@ msgstr "Neteja"
 #: menus/widgetbasepopupmenu.cpp:471 menus/widgetbasepopupmenu.cpp:514
 #, kde-format
 msgid "Change Text..."
-msgstr "Canvia el text..."
+msgstr "Canvia el text…"
 
 #: menus/widgetbasepopupmenu.cpp:334 menus/widgetbasepopupmenu.cpp:585
 #, kde-format
@@ -5010,17 +5010,17 @@ msgstr "Redimensiona automàticament"
 #: menus/widgetbasepopupmenu.cpp:367
 #, kde-format
 msgid "Change State Name..."
-msgstr "Canvia el nom de l'estat..."
+msgstr "Canvia el nom de l'estat…"
 
 #: menus/widgetbasepopupmenu.cpp:403
 #, kde-format
 msgid "Change Activity Name..."
-msgstr "Canvia el nom de l'activitat..."
+msgstr "Canvia el nom de l'activitat…"
 
 #: menus/widgetbasepopupmenu.cpp:423
 #, kde-format
 msgid "Change Object Node Name..."
-msgstr "Canvia el nom del node d'objecte..."
+msgstr "Canvia el nom del node d'objecte…"
 
 #: menus/widgetbasepopupmenu.cpp:440
 #, kde-format
@@ -5042,7 +5042,7 @@ msgstr "Neteja"
 #: menus/widgetbasepopupmenu.cpp:481 menus/widgetbasepopupmenu.cpp:484
 #, kde-format
 msgid "Change Multiplicity..."
-msgstr "Canvia la multiplicitat..."
+msgstr "Canvia la multiplicitat…"
 
 #: menus/widgetbasepopupmenu.cpp:487
 #, kde-format
@@ -6939,7 +6939,7 @@ msgstr "«Getters» amb el prefix «get»"
 #: umbrello.kcfg:534
 #, kde-format
 msgid "If enabled, create getters with 'get' prefix"
-msgstr "Si se selecciona, es crearan els «getters» amb el prefix «get»"
+msgstr "Si està marcada, es crearan els «getters» amb el prefix «get»"
 
 #. i18n: ectx: label, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
 #: umbrello.kcfg:538
@@ -6952,14 +6952,13 @@ msgstr "Elimina el prefix «[a-zA-Z]_» dels mètodes d'accés"
 #, kde-format
 msgid "If enabled, remove prefix '[a-zA-Z]_' from accessor methods"
 msgstr ""
-"Si se selecciona, s'eliminarà el prefix «[a-zA-Z]_» dels mètodes d'accés"
+"Si està marcada, s'eliminarà el prefix «[a-zA-Z]_» dels mètodes d'accés"
 
 #. i18n: ectx: whatsthis, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
 #: umbrello.kcfg:544
 #, kde-format
 msgid "If enabled, accessor methods start with capital letters"
-msgstr ""
-"Si se selecciona, els mètodes d'accés començaran per lletres majúscules"
+msgstr "Si està marcada, els mètodes d'accés començaran per lletres majúscules"
 
 #. i18n: ectx: label, entry (docToolTag), group (CPP Code Generation)
 #: umbrello.kcfg:548
@@ -7184,7 +7183,7 @@ msgstr "&Exporta el model a XHTML"
 #: uml.cpp:370
 #, kde-format
 msgid "&New Class Wizard..."
-msgstr "&Assistent de classe nova..."
+msgstr "&Assistent de classe nova…"
 
 #: uml.cpp:374
 #, kde-format
@@ -7194,12 +7193,12 @@ msgstr "Afi&g els tipus de dades predeterminats per al llenguatge actiu"
 #: uml.cpp:381
 #, kde-format
 msgid "Code &Importing Wizard..."
-msgstr "Assistent d'&importació de codi..."
+msgstr "Assistent d'&importació de codi…"
 
 #: uml.cpp:391
 #, kde-format
 msgid "&Code Generation Wizard..."
-msgstr "Assistent de generació de &codi..."
+msgstr "Assistent de generació de &codi…"
 
 #: uml.cpp:396
 #, kde-format
@@ -7229,7 +7228,7 @@ msgstr "Guarda el document"
 #: uml.cpp:447
 #, kde-format
 msgid "Saves the document as..."
-msgstr "Guarda el document com a..."
+msgstr "Guarda el document com a…"
 
 #: uml.cpp:448
 #, kde-format
@@ -7300,52 +7299,52 @@ msgstr "Suprimix la &selecció"
 #: uml.cpp:475
 #, kde-format
 msgid "&Class Diagram..."
-msgstr "Diagrama de &classes..."
+msgstr "Diagrama de &classes…"
 
 #: uml.cpp:482
 #, kde-format
 msgid "&Object Diagram..."
-msgstr "Diagrama d'&objectes..."
+msgstr "Diagrama d'&objectes…"
 
 #: uml.cpp:489
 #, kde-format
 msgid "&Sequence Diagram..."
-msgstr "Diagrama de &seqüències..."
+msgstr "Diagrama de &seqüències…"
 
 #: uml.cpp:495
 #, kde-format
 msgid "C&ommunication Diagram..."
-msgstr "Diagrama de c&omunicació..."
+msgstr "Diagrama de c&omunicació…"
 
 #: uml.cpp:501
 #, kde-format
 msgid "&Use Case Diagram..."
-msgstr "Diagrama de casos d'&ús..."
+msgstr "Diagrama de casos d'&ús…"
 
 #: uml.cpp:507
 #, kde-format
 msgid "S&tate Diagram..."
-msgstr "Diagrama d'&estats..."
+msgstr "Diagrama d'&estats…"
 
 #: uml.cpp:513
 #, kde-format
 msgid "&Activity Diagram..."
-msgstr "Diagrama d'&activitats..."
+msgstr "Diagrama d'&activitats…"
 
 #: uml.cpp:519
 #, kde-format
 msgid "Co&mponent Diagram..."
-msgstr "Diagrama de co&mponents..."
+msgstr "Diagrama de co&mponents…"
 
 #: uml.cpp:525
 #, kde-format
 msgid "&Deployment Diagram..."
-msgstr "Diagrama de &desplegament..."
+msgstr "Diagrama de &desplegament…"
 
 #: uml.cpp:531
 #, kde-format
 msgid "&Entity Relationship Diagram..."
-msgstr "Diagrama de relació d'&entitats..."
+msgstr "Diagrama de relació d'&entitats…"
 
 #: uml.cpp:536 uml.cpp:954
 #, kde-format
@@ -7399,12 +7398,12 @@ msgstr "Sup&rimix el diagrama"
 #: uml.cpp:579
 #, kde-format
 msgid "&Export as Picture..."
-msgstr "&Exporta com a imatge..."
+msgstr "&Exporta com a imatge…"
 
 #: uml.cpp:584
 #, kde-format
 msgid "Export &Diagrams as Pictures..."
-msgstr "Exporta els &diagrames com a imatges..."
+msgstr "Exporta els &diagrames com a imatges…"
 
 #: uml.cpp:604
 #, kde-format
@@ -7481,7 +7480,7 @@ msgstr "&Registre"
 #: uml.cpp:1037 uml.cpp:1254 uml.cpp:1292
 #, kde-format
 msgid "Opening file..."
-msgstr "S'està obrint el fitxer..."
+msgstr "S'està obrint el fitxer…"
 
 #: uml.cpp:1088 uml.cpp:1159 uml.cpp:1323 umldoc.cpp:349 umldoc.cpp:372
 #: umldoc.cpp:3277
@@ -7492,7 +7491,7 @@ msgstr "Sense títol"
 #: uml.cpp:1236
 #, kde-format
 msgid "Creating new document..."
-msgstr "S'està creant un document nou..."
+msgstr "S'està creant un document nou…"
 
 #: uml.cpp:1261
 #, kde-format
@@ -7523,12 +7522,12 @@ msgstr ""
 #: uml.cpp:1322
 #, kde-format
 msgid "Saving file..."
-msgstr "S'està guardant el fitxer..."
+msgstr "S'està guardant el fitxer…"
 
 #: uml.cpp:1339
 #, kde-format
 msgid "Saving file with a new filename..."
-msgstr "S'està guardant el fitxer amb un nom nou..."
+msgstr "S'està guardant el fitxer amb un nom nou…"
 
 #: uml.cpp:1344 umlviewimageexporter.cpp:171
 #, kde-format
@@ -7567,7 +7566,7 @@ msgstr "Sobreescriu"
 #: uml.cpp:1390
 #, kde-format
 msgid "Closing file..."
-msgstr "S'està tancant el fitxer..."
+msgstr "S'està tancant el fitxer…"
 
 #: uml.cpp:1401
 #, kde-format
@@ -7582,12 +7581,12 @@ msgstr "«%1»: %2 trobat"
 #: uml.cpp:1463
 #, kde-format
 msgid "Print Preview..."
-msgstr "Vista prèvia d'impressió..."
+msgstr "Vista prèvia d'impressió…"
 
 #: uml.cpp:1490
 #, kde-format
 msgid "Printing..."
-msgstr "S'està imprimint..."
+msgstr "S'està imprimint…"
 
 #: uml.cpp:1496
 #, kde-format
@@ -7597,22 +7596,22 @@ msgstr "S'imprimix %1"
 #: uml.cpp:1515
 #, kde-format
 msgid "Exiting..."
-msgstr "S'està eixint..."
+msgstr "S'està eixint…"
 
 #: uml.cpp:1586
 #, kde-format
 msgid "Cutting selection..."
-msgstr "S'està tallant la selecció..."
+msgstr "S'està tallant la selecció…"
 
 #: uml.cpp:1609
 #, kde-format
 msgid "Copying selection to clipboard..."
-msgstr "S'està copiant la selecció a dins del porta-retalls..."
+msgstr "S'està copiant la selecció a dins del porta-retalls…"
 
 #: uml.cpp:1621
 #, kde-format
 msgid "Inserting clipboard contents..."
-msgstr "S'està inserint el contingut del porta-retalls..."
+msgstr "S'està inserint el contingut del porta-retalls…"
 
 #: uml.cpp:1626
 #, kde-format
@@ -7893,22 +7892,22 @@ msgstr "Versió no admesa del fitxer XMI: %1"
 #: umldoc.cpp:2346
 #, kde-format
 msgid "Setting up the document..."
-msgstr "S'està configurant el document..."
+msgstr "S'està configurant el document…"
 
 #: umldoc.cpp:2375
 #, kde-format
 msgid "Resolving object references..."
-msgstr "S'estan resolent les referències a objectes..."
+msgstr "S'estan resolent les referències a objectes…"
 
 #: umldoc.cpp:2483
 #, kde-format
 msgid "Loading UML elements..."
-msgstr "S'estan carregant els elements UML..."
+msgstr "S'estan carregant els elements UML…"
 
 #: umldoc.cpp:2745
 #, kde-format
 msgid "Loading diagrams..."
-msgstr "S'estan carregant els diagrames..."
+msgstr "S'estan carregant els diagrames…"
 
 #: umldoc.cpp:3279
 #, kde-format
@@ -7974,7 +7973,7 @@ msgstr "Configuració"
 #: umllistview.cpp:2452
 #, kde-format
 msgid "Loading listview..."
-msgstr "S'està carregant la vista en llista..."
+msgstr "S'està carregant la vista en llista…"
 
 #: umllistview.cpp:2821
 #, kde-format
@@ -8237,7 +8236,7 @@ msgstr "No s'ha pogut importar des d'un fitxer."
 #: umlviewimageexporter.cpp:72
 #, kde-format
 msgid "Exporting view..."
-msgstr "S'està exportant la vista..."
+msgstr "S'està exportant la vista…"
 
 #: umlviewimageexporter.cpp:77
 #, kde-format
