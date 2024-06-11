@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-28 02:07+0000\n"
-"PO-Revision-Date: 2019-08-12 18:54+0800\n"
+"PO-Revision-Date: 2024-06-10 23:11+0900\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
 "Language: zh_TW\n"
@@ -2607,7 +2607,7 @@ msgstr "註解"
 #: dialogs/widgets/documentationwidget.cpp:100
 #, kde-format
 msgid "Source Code"
-msgstr "源碼"
+msgstr "原始碼"
 
 #: dialogs/pages/classoptionspage.cpp:152
 #: dialogs/pages/classoptionspage.cpp:246 uml.cpp:544
