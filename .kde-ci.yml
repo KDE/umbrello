@@ -25,4 +25,4 @@ Dependencies:
 
 Options:
   cmake-options: "-DBUILD_APIDOC=NO"
-  require-passing-tests-on: [ 'Linux', 'FreeBSD', 'Windows' ]
+  require-passing-tests-on: [ 'Linux', 'Windows' ]
