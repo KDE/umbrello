@@ -18,9 +18,9 @@ Dependencies:
     'frameworks/kwidgetsaddons': '@stable'
     'frameworks/kwindowsystem': '@stable'
     'frameworks/kxmlgui': '@stable'
-    #'kdevelop/kdevelop-pg-qt': '@stable'
-    #'kdevelop/kdevelop': '@same'
-    #'kdevelop/kdev-php': '@same'
+    'kdevelop/kdevelop-pg-qt': '@stable'
+    'kdevelop/kdevelop': '@stable'
+    'kdevelop/kdev-php': '@stable'
 
 
 Options:
