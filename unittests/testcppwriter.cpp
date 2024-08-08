@@ -17,9 +17,9 @@ const bool IS_NOT_IMPL = false;
 class CppWriterTest : public CppWriter
 {
 public:
-    QString findFileName(UMLPackage* concept, const QString &ext)
+    QString findFileName(UMLPackage* classifier, const QString &ext)
     {
-       return CppWriter::findFileName(concept,ext);
+       return CppWriter::findFileName(classifier, ext);
     }
 };
 

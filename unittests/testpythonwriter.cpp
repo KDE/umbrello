@@ -17,9 +17,9 @@ const bool IS_NOT_IMPL = false;
 class PythonWriterTest : public PythonWriter
 {
 public:
-    QString findFileName(UMLPackage* concept, const QString &ext)
+    QString findFileName(UMLPackage* classifier, const QString &ext)
     {
-       return PythonWriter::findFileName(concept,ext);
+       return PythonWriter::findFileName(classifier, ext);
     }
 };
 
