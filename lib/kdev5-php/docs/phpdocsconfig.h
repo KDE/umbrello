@@ -23,7 +23,7 @@ class PhpDocsConfig
   Q_OBJECT
 
   public:
-    explicit PhpDocsConfig(QWidget *parent = 0, const QVariantList &args = QVariantList());
+    explicit PhpDocsConfig(QWidget  *parent = nullptr, const QVariantList &args = QVariantList());
     virtual ~PhpDocsConfig();
 
     void save() override;

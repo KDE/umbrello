@@ -16,7 +16,7 @@ class QLabel;
 class UMLObjectNameWidget : public QWidget
 {
 public:
-    UMLObjectNameWidget(const QString &label, const QString &text, QWidget *parent=0);
+    UMLObjectNameWidget(const QString &label, const QString &text, QWidget  *parent= nullptr);
     ~UMLObjectNameWidget();
 
     void addToLayout(QGridLayout *layout, int row);

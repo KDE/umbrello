@@ -21,8 +21,8 @@
 DocumentationWidget::DocumentationWidget(UMLObject *o, QWidget *parent) :
     QWidget(parent),
     m_object(o),
-    m_widget(0),
-    m_assocWidget(0)
+    m_widget(nullptr),
+    m_assocWidget(nullptr)
 {
     Q_ASSERT(o);
     init(o->doc());
@@ -30,9 +30,9 @@ DocumentationWidget::DocumentationWidget(UMLObject *o, QWidget *parent) :
 
 DocumentationWidget::DocumentationWidget(UMLWidget *w, QWidget *parent) :
     QWidget(parent),
-    m_object(0),
+    m_object(nullptr),
     m_widget(w),
-    m_assocWidget(0)
+    m_assocWidget(nullptr)
 {
     Q_ASSERT(w);
     init(w->documentation());
@@ -40,8 +40,8 @@ DocumentationWidget::DocumentationWidget(UMLWidget *w, QWidget *parent) :
 
 DocumentationWidget::DocumentationWidget(AssociationWidget *w, QWidget *parent) :
     QWidget(parent),
-    m_object(0),
-    m_widget(0),
+    m_object(nullptr),
+    m_widget(nullptr),
     m_assocWidget(w)
 {
     Q_ASSERT(w);

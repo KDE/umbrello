@@ -257,7 +257,7 @@ void HashedStringSet::read(QDataStream& stream)
             m_data->m_files.insert(s);
         }
     } else {
-        m_data = 0;
+        m_data = nullptr;
     }
 }
 

@@ -51,14 +51,14 @@ public:
     virtual void setNameCmd(const QString &strName);
 
     virtual UMLAttribute* createAttribute(const QString &name = QString(),
-                                          UMLObject *type = 0,
+                                          UMLObject  *type = nullptr,
                                           Uml::Visibility::Enum vis = Uml::Visibility::Private,
                                           const QString &init = QString());
 
     UMLAttribute* addAttribute(const QString &name, Uml::ID::Type id = Uml::ID::None);
     UMLAttribute* addAttribute(const QString &name, UMLObject *type, Uml::Visibility::Enum scope);
 
-    bool addAttribute(UMLAttribute* att, IDChangeLog* log = 0,
+    bool addAttribute(UMLAttribute *att, IDChangeLog* log = nullptr,
                       int position = -1);
 
     int removeAttribute(UMLAttribute *att);
@@ -68,27 +68,27 @@ public:
     UMLAttributeList getAttributeListStatic(Uml::Visibility::Enum scope) const;
 
     UMLOperation* createOperation(const QString &name = QString(),
-                                  bool *isExistingOp = 0,
-                                  Model_Utils::NameAndType_List *params = 0);
+                                  bool  *isExistingOp = nullptr,
+                                  Model_Utils::NameAndType_List  *params = nullptr);
 
     bool addOperation(UMLOperation* op, int position = -1);
     bool addOperation(UMLOperation* op, IDChangeLog* log);
 
     UMLOperation * checkOperationSignature(const QString& name,
                                            UMLAttributeList opParams,
-                                           UMLOperation *exemptOp = 0) const;
+                                           UMLOperation  *exemptOp = nullptr) const;
 
     int removeOperation(UMLOperation *op);
 
     int operations() const;
 
-    UMLOperationList getOpList(bool includeInherited = false, UMLClassifierSet *alreadyTraversed = 0) const;
+    UMLOperationList getOpList(bool includeInherited = false, UMLClassifierSet  *alreadyTraversed = nullptr) const;
 
     UMLObject* createTemplate(const QString& name = QString());
 
     UMLTemplate* addTemplate(const QString &name, Uml::ID::Type id = Uml::ID::None);
 
-    bool addTemplate(UMLTemplate* newTemplate, IDChangeLog* log = 0);
+    bool addTemplate(UMLTemplate *newTemplate, IDChangeLog* log = nullptr);
     bool addTemplate(UMLTemplate* templt, int position);
 
     int removeTemplate(UMLTemplate* umltemplate);

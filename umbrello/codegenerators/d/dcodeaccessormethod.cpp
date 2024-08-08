@@ -120,7 +120,7 @@ void DCodeAccessorMethod::updateMethodDeclaration()
     DCodeClassField * dfield = dynamic_cast<DCodeClassField*>(getParentClassField());
 
     // Check for dynamic casting failure!
-    if (dfield == 0)
+    if (dfield == nullptr)
     {
         logError0("dfield: invalid dynamic cast");
         return;

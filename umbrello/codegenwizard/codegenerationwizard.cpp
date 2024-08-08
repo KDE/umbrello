@@ -99,5 +99,5 @@ QListWidget* CodeGenerationWizard::getSelectionListWidget()
  */
 void CodeGenerationWizard::slotLanguageChanged()
 {
-    m_SelectionPage->setClassifierList(0);
+    m_SelectionPage->setClassifierList(nullptr);
 }

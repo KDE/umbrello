@@ -96,7 +96,7 @@ void SettingsDialog::setCurrentPage(PageType page)
 
 void SettingsDialog::setupUIPage()
 {
-    m_uiOptionsPage = new UIOptionsPage(0, m_pOptionState);
+    m_uiOptionsPage = new UIOptionsPage(nullptr, m_pOptionState);
     pageUserInterface = createPage(i18n("User Interface"), i18n("User Interface Settings"),
                                    Icon_Utils::it_Properties_UserInterface, m_uiOptionsPage);
 }
@@ -112,7 +112,7 @@ void SettingsDialog::setupGeneralPage()
 
 void SettingsDialog::setupClassPage()
 {
-    m_pClassPage = new ClassOptionsPage(0, m_pOptionState, false);
+    m_pClassPage = new ClassOptionsPage(nullptr, m_pOptionState, false);
     pageClass = createPage(i18nc("class settings page", "Class"), i18n("Class Settings"),
                            Icon_Utils::it_Properties_Class, m_pClassPage);
 }

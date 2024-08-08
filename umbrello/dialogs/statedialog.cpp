@@ -36,10 +36,10 @@
  */
 StateDialog::StateDialog(QWidget * parent, StateWidget * pWidget)
   : MultiPageDialogBase(parent),
-    m_pActivityPage(0),
+    m_pActivityPage(nullptr),
     m_pStateWidget(pWidget),
     m_bChangesMade(false),
-    pageActivity(0)
+    pageActivity(nullptr)
 {
     setCaption(i18n("Properties"));
     setupPages();

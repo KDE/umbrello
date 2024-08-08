@@ -36,7 +36,7 @@ class UMLOperation;
  * UMLAssociation. The UMLAssociation can be retrieved using the getAssociation
  * method.
  * A pure widget association does not have a corresponding UMLAssociation.
- * The getAssociation method returns NULL in this case.
+ * The getAssociation method returns nullptr in this case.
  *
  * @author Gustavo Madrigal
  * @author Gopala Krishna
@@ -51,7 +51,7 @@ public:
     static AssociationWidget* create
                      (UMLScene *scene, UMLWidget* WidgetA,
                       Uml::AssociationType::Enum assocType, UMLWidget* WidgetB,
-                      UMLObject *umlobject = 0);
+                      UMLObject  *umlobject = nullptr);
 
     virtual ~AssociationWidget();
 
@@ -140,7 +140,7 @@ public:
     const AssociationLine& associationLine() const;
     AssociationLine& associationLine();
 
-    virtual bool activate(IDChangeLog *changeLog = 0);
+    virtual bool activate(IDChangeLog *changeLog = nullptr);
     virtual QRectF boundingRect() const;
     virtual QPainterPath shape() const;
 

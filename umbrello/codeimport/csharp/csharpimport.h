@@ -16,7 +16,7 @@
 class CSharpImport : public CsValaImportBase
 {
 public:
-    explicit CSharpImport(CodeImpThread* thread = 0);
+    explicit CSharpImport(CodeImpThread *thread = nullptr);
     virtual ~CSharpImport();
     QString fileExtension();
     void fillSource(const QString& word);

@@ -68,14 +68,14 @@ static const char *reserved_words[] = {
     "variable",
     "virtual",
     "while",
-    0
+    nullptr
 };
 
 /**
  * Constructor, initialises a couple of variables.
  */
 TclWriter::TclWriter()
-  : mStream(0)
+  : mStream(nullptr)
 {
 }
 
@@ -404,20 +404,20 @@ void TclWriter::writeAssociationIncl(UMLAssociationList list, Uml::ID::Type myId
                                      const QString &type)
 {
     foreach (UMLAssociation * a, list) {
-        UMLClassifier  *classifier = 0;
+        UMLClassifier  *classifier = nullptr;
 
         writeComm(m_endl + type + m_endl + a->toString() + m_endl + a->doc());
         // only use OTHER classes (e.g. we don't need to write includes for ourselves!!
         // AND only IF the roleName is defined, otherwise, it is not meant to be noticed.
         if (a->getObjectId(Uml::RoleType::A) == myId && !a->getRoleName(Uml::RoleType::B).isEmpty()) {
             classifier = a->getObject(Uml::RoleType::B)->asUMLClassifier();
-            if (classifier == 0)
+            if (classifier == nullptr)
                 continue;
             writeUse(classifier);
         } else if (a->getObjectId(Uml::RoleType::B) == myId
                    && !a->getRoleName(Uml::RoleType::A).isEmpty()) {
             classifier = a->getObject(Uml::RoleType::A)->asUMLClassifier();
-            if (classifier == 0)
+            if (classifier == nullptr)
                 continue;
             if (classifier->package().isEmpty())
                 writeCode(QStringLiteral("namespace eval ") + cleanName(classifier->name()) +
@@ -924,7 +924,7 @@ QString TclWriter::fixTypeName(const QString &string)
  */
 QString TclWriter::getUMLObjectName(UMLObject * obj)
 {
-    return (obj != 0) ? obj->name() : QStringLiteral("NULL");
+    return (obj != nullptr) ? obj->name() : QStringLiteral("NULL");
 }
 
 /**

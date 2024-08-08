@@ -67,7 +67,7 @@ class UMLScene : public QGraphicsScene
 public:
     friend class UMLViewImageExporterModel;
 
-    explicit UMLScene(UMLFolder *parentFolder, UMLView *view = 0);
+    explicit UMLScene(UMLFolder  *parentFolder, UMLView *view = nullptr);
     virtual ~UMLScene();
 
     UMLView* activeView() const;
@@ -286,7 +286,7 @@ public:
 
     void selectWidgets(qreal px, qreal py, qreal qx, qreal qy);
     void selectWidgets(UMLWidgetList &widgets);
-    void selectWidget(UMLWidget* widget, QRectF* rect = 0);
+    void selectWidget(UMLWidget *widget, QRectF* rect = nullptr);
     void selectWidgetsOfAssoc(AssociationWidget *a);
 
     ObjectWidget * onWidgetLine(const QPointF &point) const;
@@ -381,7 +381,7 @@ protected:
 #if !(QT_DEPRECATED_SINCE(5, 0))
     inline QGraphicsItem *itemAt(const QPointF &position) const {
         QList<QGraphicsItem *> itemsAtPoint = items(position);
-        return itemsAtPoint.isEmpty() ? 0 : itemsAtPoint.first();
+        return itemsAtPoint.isEmpty() ? nullptr : itemsAtPoint.first();
     }
 #endif
 

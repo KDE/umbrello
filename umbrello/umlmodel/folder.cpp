@@ -160,7 +160,7 @@ UMLView *UMLFolder::findView(Uml::ID::Type id)
         }
     }
 
-    UMLView* v = 0;
+    UMLView* v = nullptr;
     UMLPackageList packages;
     appendPackages(packages);
     foreach (UMLPackage *o, packages) {
@@ -191,7 +191,7 @@ UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, b
         }
     }
 
-    UMLView* v = 0;
+    UMLView* v = nullptr;
     if (searchAllScopes) {
         foreach (UMLObject* o, m_objects) {
             uIgnoreZeroPointer(o);
@@ -448,11 +448,11 @@ bool UMLFolder::loadFolderFile(const QString& path)
 {
     QFile file(path);
     if (!file.exists()) {
-        KMessageBox::error(0, i18n("The folderfile %1 does not exist.", path), i18n("Load Error"));
+        KMessageBox::error(nullptr, i18n("The folderfile %1 does not exist.", path), i18n("Load Error"));
         return false;
     }
     if (!file.open(QIODevice::ReadOnly)) {
-        KMessageBox::error(0, i18n("The folderfile %1 cannot be opened.", path), i18n("Load Error"));
+        KMessageBox::error(nullptr, i18n("The folderfile %1 cannot be opened.", path), i18n("Load Error"));
         return false;
     }
     QTextStream stream(&file);
@@ -544,7 +544,7 @@ bool UMLFolder::load1(QDomElement& element)
                 continue;
             }
         }
-        UMLObject *pObject = 0;
+        UMLObject  *pObject = nullptr;
         // Avoid duplicate creation of forward declared object
         QString idStr = Model_Utils::getXmiId(tempElement);
         if (!idStr.isEmpty()) {
@@ -555,7 +555,7 @@ bool UMLFolder::load1(QDomElement& element)
             }
         }
         // Avoid duplicate creation of datatype
-        if (pObject == 0 && this == umldoc->datatypeFolder()) {
+        if (pObject == nullptr && this == umldoc->datatypeFolder()) {
             QString name = tempElement.attribute(QStringLiteral("name"));
             foreach (UMLObject *o, m_objects) {
                 uIgnoreZeroPointer(o);
@@ -570,7 +570,7 @@ bool UMLFolder::load1(QDomElement& element)
                 }
             }
         }
-        if (pObject == 0) {
+        if (pObject == nullptr) {
             QString stereoID = tempElement.attribute(QStringLiteral("stereotype"));
             pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
             if (!pObject) {

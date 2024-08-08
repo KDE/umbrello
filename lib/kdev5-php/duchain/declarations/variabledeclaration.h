@@ -35,7 +35,7 @@ bool m_isSuperglobal;
 };
 
 /**
- * Declaration used for Php variables eg. $a = 0;
+ * Declaration used for Php variables eg. $a = nullptr;
  */
 class KDEVPHPDUCHAIN_EXPORT VariableDeclaration : public KDevelop::Declaration
 {

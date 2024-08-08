@@ -311,7 +311,7 @@ void ObjectNodeWidget::askForObjectNodeType(UMLWidget* &targetWidget)
     } else {
         targetWidget->cleanup();
         delete targetWidget;
-        targetWidget = 0;
+        targetWidget = nullptr;
     }
 }
 

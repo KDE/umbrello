@@ -283,7 +283,7 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
  */
 QString UMLViewImageExporterModel::getDiagramFileName(UMLScene* scene, const QString &imageType, bool useFolders /* = false */) const
 {
-    if (scene == 0) {
+    if (scene == nullptr) {
         logWarn0("UMLViewImageExporterModel::getDiagramFileName: Scene is null!");
         return QString();
     }
@@ -438,7 +438,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
     scene->getDiagram(painter, rect);
 
     // next painting will most probably be to a different device (i.e. the screen)
-    scene->forceUpdateWidgetFontMetrics(0);
+    scene->forceUpdateWidgetFontMetrics(nullptr);
 
     return true;
 }

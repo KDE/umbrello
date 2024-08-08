@@ -53,7 +53,7 @@ int UMLSceneFinder::collect(Category category, const QString &text)
 
 UMLFinder::Result UMLSceneFinder::displayNext()
 {
-    if (m_items.size() == 0 || UMLApp::app()->document()->findView(m_id) == 0)
+    if (m_items.size() == 0 || UMLApp::app()->document()->findView(m_id) == nullptr)
         return Empty;
     if (m_index >= m_items.size()-1) {
         m_index = -1;
@@ -64,7 +64,7 @@ UMLFinder::Result UMLSceneFinder::displayNext()
 
 UMLFinder::Result UMLSceneFinder::displayPrevious()
 {
-    if (m_items.size() == 0 || UMLApp::app()->document()->findView(m_id) == 0)
+    if (m_items.size() == 0 || UMLApp::app()->document()->findView(m_id) == nullptr)
         return Empty;
     if (m_index < 1) {
         m_index = m_items.size();

@@ -35,7 +35,7 @@ void TestListPopupMenu::test_createWidgetsSingleSelect()
     QWidget qWidget;
     for(int i = WidgetBase::wt_Min+1; i < WidgetBase::wt_Max; i++) {
         WidgetBase::WidgetType type = static_cast<WidgetBase::WidgetType>(i);
-        WidgetBase *widget = 0;
+        WidgetBase *widget = nullptr;
         if (type == WidgetBase::wt_Entity) {
             widget = new EntityWidget(&scene, new UMLEntity("entity"));
         } else if (type == WidgetBase::wt_Category) {
@@ -60,7 +60,7 @@ void TestListPopupMenu::test_createWidgetsMultiSelect()
     QWidget qWidget;
     for(int i = WidgetBase::wt_Min+1; i < WidgetBase::wt_Max; i++) {
         WidgetBase::WidgetType type = static_cast<WidgetBase::WidgetType>(i);
-        WidgetBase *widget = 0;
+        WidgetBase *widget = nullptr;
         if (type == WidgetBase::wt_Entity) {
             widget = new EntityWidget(&scene, new UMLEntity("entity"));
         } else if (type == WidgetBase::wt_Category) {
@@ -83,7 +83,7 @@ void TestListPopupMenu::test_createAssociationWidget()
     UMLView view(&folder);
     UMLScene scene(&folder, &view);
     QWidget qWidget;
-    UMLWidget widgetA(&scene, WidgetBase::wt_UMLWidget, 0), widgetB(&scene, WidgetBase::wt_UMLWidget, 0);
+    UMLWidget widgetA(&scene, WidgetBase::wt_UMLWidget, nullptr), widgetB(&scene, WidgetBase::wt_UMLWidget, nullptr);
     for (int i = Uml::AssociationType::Generalization; i < Uml::AssociationType::Reserved; ++i) {
         Uml::AssociationType::Enum type = Uml::AssociationType::fromInt(i);
         AssociationWidget *widget = AssociationWidget::create(&scene, &widgetA, type, &widgetB);

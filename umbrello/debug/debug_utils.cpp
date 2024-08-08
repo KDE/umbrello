@@ -209,7 +209,7 @@ bool Tracer::logToConsole()
  * @param state  initial enabled state
  * @param filePath  path qualified source filename of class
  */
-void Tracer::registerClass(const char * name, bool state, const char * filePath /* = 0 */)
+void Tracer::registerClass(const char  *name, bool state, const char * filePath /* = nullptr */)
 {
     if (n_clients >= MAX_TRACERCLIENTS) {
         uError() << "Tracer::registerClass : MAX_TRACERCLIENTS is exceeded";
@@ -221,7 +221,7 @@ void Tracer::registerClass(const char * name, bool state, const char * filePath 
     if (filePath)
         client.filePath = strdup(filePath);
     else
-        client.filePath = 0;
+        client.filePath = nullptr;
     n_clients++;
 }
 

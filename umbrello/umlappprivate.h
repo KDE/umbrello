@@ -71,17 +71,17 @@ public:
     explicit UMLAppPrivate(UMLApp *_parent)
       : parent(_parent),
         findDialog(_parent),
-        viewDiagramsWindow(0),
-        viewObjectsWindow(0),
-        viewStereotypesWindow(0),
-        viewWelcomeWindow(0),
-        diagramsWindow(0),
-        objectsWindow(0),
-        stereotypesWindow(0),
-        welcomeWindow(0),
-        editorWindow(0),
-        view(0),
-        document(0)
+        viewDiagramsWindow(nullptr),
+        viewObjectsWindow(nullptr),
+        viewStereotypesWindow(nullptr),
+        viewWelcomeWindow(nullptr),
+        diagramsWindow(nullptr),
+        objectsWindow(nullptr),
+        stereotypesWindow(nullptr),
+        welcomeWindow(nullptr),
+        editorWindow(nullptr),
+        view(nullptr),
+        document(nullptr)
     {
         /* TODO: On the call to KTextEditor::Editor::instance() Valgrind reports
            "Conditional jump or move depends on uninitialised value(s)".

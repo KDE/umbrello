@@ -45,9 +45,9 @@ PluginLoader::instance()
 Plugin *
 PluginLoader::loadPlugin(const QString &name)
 {
-    KLibrary *lib = 0;
-    KLibFactory *factory = 0;
-    Plugin *plugin = 0;
+    KLibrary  *lib = nullptr;
+    KLibFactory  *factory = nullptr;
+    Plugin  *plugin = nullptr;
     PluginMap::iterator it;
     bool success = true;
 

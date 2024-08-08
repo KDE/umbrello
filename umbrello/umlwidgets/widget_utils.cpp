@@ -42,7 +42,7 @@ namespace Widget_Utils
      */
     UMLWidget* findWidget(Uml::ID::Type id,
                           const UMLWidgetList& widgets,
-                          const MessageWidgetList* messages /* = 0 */)
+                          const MessageWidgetList* messages /* = nullptr */)
     {
         foreach (UMLWidget* obj, widgets) {
             if (obj->isObjectWidget()) {
@@ -54,12 +54,12 @@ namespace Widget_Utils
         }
 
         if (messages) {
-            foreach (UMLWidget* obj, *messages) {
+            for(UMLWidget *obj : *messages) {
                 if (obj->id() == id)
                     return obj;
             }
         }
-        return 0;
+        return nullptr;
     }
 
     /**
@@ -469,7 +469,7 @@ namespace Widget_Utils
         else if(style == Qt::LinearGradientPattern
                 || style == Qt::RadialGradientPattern
                 || style == Qt::ConicalGradientPattern) {
-            QGradient *gradient = 0;
+            QGradient  *gradient = nullptr;
             QDomElement gradElement = qElement.firstChildElement(QStringLiteral("gradient"));
 
             if(!loadGradientFromXMI(gradElement, gradient) || !gradient) {

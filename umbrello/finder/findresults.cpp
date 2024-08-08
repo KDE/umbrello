@@ -65,14 +65,14 @@ void FindResults::clear()
  */
 bool FindResults::displayNext()
 {
-    UMLFinder *finder = 0;
+    UMLFinder  *finder = nullptr;
     if (m_listViewFinder.size() > 0)
         finder = &m_listViewFinder.first();
     else if (m_sceneFinder.size() > 0)
         finder = &m_sceneFinder.first();
     else if (m_docFinder.size() > 0)
         finder = &m_docFinder.first();
-    if (finder == 0)
+    if (finder == nullptr)
         return false;
     UMLFinder::Result result = finder->displayNext();
     if (result == UMLFinder::Empty)
@@ -92,14 +92,14 @@ bool FindResults::displayNext()
  */
 bool FindResults::displayPrevious()
 {
-    UMLFinder *finder = 0;
+    UMLFinder  *finder = nullptr;
     if (m_listViewFinder.size() > 0)
         finder = &m_listViewFinder.first();
     else if (m_sceneFinder.size() > 0)
         finder = &m_sceneFinder.first();
     else if (m_docFinder.size() > 0)
         finder = &m_docFinder.first();
-    if (finder == 0)
+    if (finder == nullptr)
         return false;
     UMLFinder::Result result = finder->displayPrevious();
     if (result == UMLFinder::Empty)

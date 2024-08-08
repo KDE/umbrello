@@ -43,8 +43,8 @@ UMLAttributeDialog::UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttrib
     setCaption(i18n("Attribute Properties"));
     m_pAttribute = pAttribute;
     for (int i = 0; i < N_STEREOATTRS; i++) {
-        m_pTagL [i] = 0;
-        m_pTagLE[i] = 0;
+        m_pTagL [i] = nullptr;
+        m_pTagLE[i] = nullptr;
     }
     setupDialog();
 }
@@ -126,7 +126,7 @@ bool UMLAttributeDialog::apply()
         return false;
     }
     const UMLClassifier * pConcept = m_pAttribute->umlParent()->asUMLClassifier();
-    UMLObject *o = pConcept ? pConcept->findChildObject(name) : 0;
+    UMLObject *o = pConcept ? pConcept->findChildObject(name) : nullptr;
     if (o && o != m_pAttribute) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
                            i18n("Attribute Name Not Unique"), 0);

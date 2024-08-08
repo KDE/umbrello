@@ -106,10 +106,10 @@ public:
 
     static QString toString(ListViewType type);
 
-    UMLListViewItem(UMLListView * parent, const QString &name, ListViewType t, UMLObject* o = 0);
+    UMLListViewItem(UMLListView  *parent, const QString &name, ListViewType t, UMLObject* o = nullptr);
     explicit UMLListViewItem(UMLListView * parent);
     explicit UMLListViewItem(UMLListViewItem * parent);
-    UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, UMLObject* o = 0);
+    UMLListViewItem(UMLListViewItem  *parent, const QString &name, ListViewType t, UMLObject* o = nullptr);
     UMLListViewItem(UMLListViewItem * parent, const QString &name, ListViewType t, Uml::ID::Type id);
 
     ListViewType type() const;

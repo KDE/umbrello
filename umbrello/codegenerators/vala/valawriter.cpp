@@ -97,7 +97,7 @@ static const char *reserved_words[] = {
     "void",
     "volatile",
     "while",
-    0
+    nullptr
 };
 
 /**
@@ -223,7 +223,7 @@ void ValaWriter::writeClass(UMLClassifier *c)
     //write includes and namespace
     UMLPackage *container = c->umlPackage();
     if (container == logicalView) {
-        container = 0;
+        container = nullptr;
     }
 
     UMLPackageList includes;
@@ -716,7 +716,7 @@ void ValaWriter::writeAssociatedAttributes(UMLAssociationList &associated, UMLCl
         }
 
         UMLObject *o = a->getObject(Uml::RoleType::B);
-        if (o == 0) {
+        if (o == nullptr) {
             logError0("ValaWriter::writeAssociatedAttributes: composition role B object is NULL");
             continue;
         }

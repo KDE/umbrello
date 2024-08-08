@@ -15,7 +15,7 @@ class TestDoxDelegate : public QItemDelegate
 {
 
 public:
-    explicit TestDoxDelegate(QObject* parent = 0);
+    explicit TestDoxDelegate(QObject *parent = nullptr);
     virtual ~TestDoxDelegate();
     virtual void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const;
 

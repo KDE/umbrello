@@ -28,7 +28,7 @@ public:
     Qt::Orientation orientation() const;
     void setOrientation(Qt::Orientation ori);
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     virtual bool loadFromXMI(QDomElement & qElement);
     virtual void saveToXMI(QXmlStreamWriter& writer);

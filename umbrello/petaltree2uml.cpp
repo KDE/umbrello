@@ -256,7 +256,7 @@ public:
     void read(const PetalNode *node, const QString& name)
     {
         PetalNode *attributes = node->findAttribute(m_attributeTag).node;
-        if (attributes == 0) {
+        if (attributes == nullptr) {
 #ifdef VERBOSE_DEBUGGING
             logDebug2("petaltree2uml ClassifierListReader::read(%1): no %2 found",
                       name, m_attributeTag);
@@ -505,12 +505,12 @@ UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
 {
     Q_UNUSED(id);
     if (node->findAttribute(QStringLiteral("is_unit")).string != QStringLiteral("TRUE"))
-        return 0;
+        return nullptr;
     //bool is_loaded = (node->findAttribute(QStringLiteral("is_loaded")).string != QStringLiteral("FALSE"));
     QString file_name = node->findAttribute(QStringLiteral("file_name")).string;
     if (file_name.isEmpty()) {
         logError1("Import_Rose::handleControlledUnit(%1): attribute file_name not found (?)", name);
-        return 0;
+        return nullptr;
     }
     file_name = file_name.mid(1, file_name.length() - 2);  // remove surrounding ""
     /* I wanted to use
@@ -535,7 +535,7 @@ UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
         if (envVarBA.isNull() || envVarBA.isEmpty()) {
             logError3("handleControlledUnit(%1): cannot process file_name %2 because env var %3 is not set",
                       name, file_name, envVarName);
-            return 0;
+            return nullptr;
         }
         QString envVar(QString::fromLatin1(envVarBA));
         logDebug3("handleControlledUnit(%1) : envVar %2 contains %3", name, envVarName, envVar);
@@ -560,11 +560,11 @@ UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
     QFile file(file_name);
     if (!file.exists()) {
         logError2("Import_Rose::handleControlledUnit(%1): file_name %2 not found", name, file_name);
-        return 0;
+        return nullptr;
     }
     if (!file.open(QIODevice::ReadOnly)) {
         logError2("Import_Rose::handleControlledUnit(%1): file_name %2 cannot be opened", name, file_name);
-        return 0;
+        return nullptr;
     }
     UMLPackage *controlledUnit = loadFromMDL(file, parentPkg);
     return controlledUnit;
@@ -574,7 +574,7 @@ void handleAssocView(PetalNode *attr,
                      const PetalNode::NameValueList& parentAttrs,
                      Uml::AssociationType::Enum assocType,
                      UMLView *view,
-                     UMLObject *umlAssoc = 0)
+                     UMLObject  *umlAssoc = nullptr)
 {
     QString assocStr = Uml::AssociationType::toString(assocType);
     PetalNode *roleview_list = attr->findAttribute(QStringLiteral("roleview_list")).node;
@@ -620,7 +620,7 @@ void handleAssocView(PetalNode *attr,
     else
         logDebug1("handleAssocView: %1 attribute 'client' not in viewTagToWidget", assocStr);
     if (!supW || !cliW) {
-        PetalNode *sup = 0, *cli = 0;
+        PetalNode   *sup = nullptr, *cli = nullptr;
         for (int c = 0; c < parentAttrs.count(); ++c) {
             PetalNode *n = parentAttrs[c].second.node;
             QStringList initArgs = n->initialArgs();
@@ -645,12 +645,12 @@ void handleAssocView(PetalNode *attr,
         }
         supW = view->umlScene()->widgetOnDiagram(spId);
         cliW = view->umlScene()->widgetOnDiagram(clId);
-        if (supW == 0) {
+        if (supW == nullptr) {
             logError2("Import_Rose::handleAssocView: %1 supplier widget %2 is not on diagram (?)",
                       assocStr, spIdStr);
             return;
         }
-        if (cliW == 0) {
+        if (cliW == nullptr) {
             logError2("Import_Rose::handleAssocView: %1 client widget is not on diagram (?)",
                       assocStr, clIdStr);
             return;
@@ -685,7 +685,7 @@ Uml::DiagramType::Enum diagramType(QString objType)
  */
 bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
 {
-    if (node == 0) {
+    if (node == nullptr) {
         logError0("Import_Rose::umbrellify: node is NULL");
         return false;
     }
@@ -702,7 +702,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
         // statemachine    (object State_Machine "State/Activity Model"
         PetalNode *statemachine = node->findAttribute(QStringLiteral("statemachine")).node;
         PetalNode *models = node->findAttribute(modelsAttr).node;
-        UMLObject *o = 0;
+        UMLObject  *o = nullptr;
         if (models) {
             PetalNode::NameValueList atts = models->attributes();
             QString presAttr(isSubsystem ? QStringLiteral("physical_presentations")
@@ -726,7 +726,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             }
         } else {
             o = handleControlledUnit(node, name, id, parentPkg);
-            if (o == 0) {
+            if (o == nullptr) {
                 logWarn2("Import_Rose::umbrellify: %1 handleControlledUnit(%2) returns error",
                          objType, name);
                 return false;
@@ -748,7 +748,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
 
     } else if (objType == QStringLiteral("Class")) {
         QString stereotype = clean(node->findAttribute(QStringLiteral("stereotype")).string);
-        UMLObject *o = 0;
+        UMLObject  *o = nullptr;
         if (stereotype == QStringLiteral("Actor")) {
             o = Object_Factory::createUMLObject(UMLObject::ot_Actor, name, parentPkg, false);
             o->setID(id);
@@ -811,7 +811,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
 
     } else if (objType == QStringLiteral("Association")) {
         PetalNode *roles = node->findAttribute(QStringLiteral("roles")).node;
-        if (roles == 0) {
+        if (roles == nullptr) {
             logError1("Import_Rose::umbrellify: cannot find roles of Association quid=%1",
                       Uml::ID::toString(id));
             return false;
@@ -820,7 +820,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
         PetalNode::NameValueList roleList = roles->attributes();
         for (uint i = 0; i <= 1; ++i) {
             PetalNode *roleNode = roleList[i].second.node;
-            if (roleNode == 0) {
+            if (roleNode == nullptr) {
                 logError1("Import_Rose::umbrellify: roleNode of Association %1 is NULL",
                           Uml::ID::toString(id));
                 return false;
@@ -883,7 +883,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
         UMLFolder *rootFolder = parentPkg->asUMLFolder();
         UMLView *view = umlDoc->createDiagram(rootFolder, dt, name, id);
         PetalNode *items = node->findAttribute(QStringLiteral("items")).node;
-        if (items == 0) {
+        if (items == nullptr) {
             logError2("Import_Rose::umbrellify: diagramType %1 object %2 attribute 'items' not found",
                       dt, objType);
             return false;
@@ -899,7 +899,7 @@ bool umbrellify(PetalNode *node, UMLPackage *parentPkg)
             QString widgetId = attr->viewTag();
             qreal width = 0.0;
             qreal height = 0.0;
-            UMLWidget *w = 0;
+            UMLWidget  *w = nullptr;
             if (objType == QStringLiteral("CategoryView")
                                 || objType == QStringLiteral("ClassView")
                                 || objType == QStringLiteral("UseCaseView")
@@ -1319,7 +1319,7 @@ bool importView(PetalNode *root,
                 const QString& presentationsName) 
 {
     PetalNode *viewRoot = root->findAttribute(rootName).node;
-    if (viewRoot == 0) {
+    if (viewRoot == nullptr) {
         logDebug1("petaltree2uml importView: cannot find %1", rootName);
         return false;
     }
@@ -1329,7 +1329,7 @@ bool importView(PetalNode *root,
         return false;
     }
     PetalNode *models = viewRoot->findAttribute(modelsName).node;
-    if (models == 0) {
+    if (models == nullptr) {
         logError2("Import_Rose::importView: cannot find %1 of %2", rootName, modelsName);
         return false;
     }
@@ -1366,7 +1366,7 @@ bool importView(PetalNode *root,
         return true;
 
     PetalNode *presentations = viewRoot->findAttribute(presentationsName).node;
-    if (presentations == 0) {
+    if (presentations == nullptr) {
         logError2("Import_Rose::importView %1: cannot find %2", modelsName, presentationsName);
         return false;
     }
@@ -1388,23 +1388,23 @@ bool importView(PetalNode *root,
  */
 UMLPackage * petalTree2Uml(PetalNode *root, UMLPackage *parentPkg)
 {
-    if (root == 0) {
+    if (root == nullptr) {
         logError0("petalTree2Uml: root is NULL");
-        return 0;
+        return nullptr;
     }
     UMLPackage *rootPkg = Model_Utils::rootPackage(parentPkg);
-    if (rootPkg == 0) {
+    if (rootPkg == nullptr) {
         logError0("petalTree2Uml: internal error - rootPkg is NULL");
-        return 0;
+        return nullptr;
     }
     UMLDoc *umlDoc = UMLApp::app()->document();
     Uml::ModelType::Enum mt = umlDoc->rootFolderType(rootPkg);
     QString modelsAttr(mt == Uml::ModelType::Component ? QStringLiteral("physical_models")
                                                        : QStringLiteral("logical_models"));
     PetalNode *models = root->findAttribute(modelsAttr).node;
-    if (models == 0) {
+    if (models == nullptr) {
         logError1("petalTree2Uml: cannot find %1", modelsAttr);
-        return 0;
+        return nullptr;
     }
     QStringList args = root->initialArgs();
     QString name = clean(args[1]);

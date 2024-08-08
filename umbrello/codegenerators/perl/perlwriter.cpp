@@ -261,7 +261,7 @@ static const char *reserved_words[] = {
     "while",
     "write",
     "xor",
-    0
+    nullptr
 };
 
 PerlWriter::PerlWriter()

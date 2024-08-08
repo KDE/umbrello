@@ -43,7 +43,7 @@ void UMLStereotypeWidget::setEditable(bool state)
 void UMLStereotypeWidget::apply()
 {
     if (m_editField->currentText().isEmpty()) {
-        m_object->setUMLStereotype(0);
+        m_object->setUMLStereotype(nullptr);
         return;
     }
 

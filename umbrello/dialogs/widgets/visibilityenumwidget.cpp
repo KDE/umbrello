@@ -18,7 +18,7 @@
 VisibilityEnumWidget::VisibilityEnumWidget(UMLObject *o, QWidget *parent)
     : QWidget(parent),
       m_object(o),
-      m_widget(0),
+      m_widget(nullptr),
       m_role(Uml::RoleType::A)
 {
     Q_ASSERT(o);
@@ -33,7 +33,7 @@ VisibilityEnumWidget::VisibilityEnumWidget(UMLObject *o, QWidget *parent)
 
 VisibilityEnumWidget::VisibilityEnumWidget(AssociationWidget *a, Uml::RoleType::Enum role, QWidget *parent)
     : QWidget(parent),
-      m_object(0),
+      m_object(nullptr),
       m_widget(a),
       m_role(role)
 {

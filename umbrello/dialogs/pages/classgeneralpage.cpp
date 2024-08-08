@@ -52,29 +52,29 @@
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
   : DialogPageBase(parent),
     m_pObject(o),
-    m_pWidget(0),
-    m_pInstanceWidget(0),
+    m_pWidget(nullptr),
+    m_pInstanceWidget(nullptr),
     m_pUmldoc(d),
-    m_pMultiCB(0),
-    m_pDrawActorCB(0),
-    m_pAbstractCB(0),
-    m_pDeconCB(0),
-    m_pExecutableCB(0),
-    m_docWidget(0),
-    m_nameWidget(0),
-    m_instanceNameWidget(0),
-    m_stereotypeWidget(0),
-    m_packageWidget(0),
-    m_artifactTypeWidget(0),
-    m_visibilityEnumWidget(0)
+    m_pMultiCB(nullptr),
+    m_pDrawActorCB(nullptr),
+    m_pAbstractCB(nullptr),
+    m_pDeconCB(nullptr),
+    m_pExecutableCB(nullptr),
+    m_docWidget(nullptr),
+    m_nameWidget(nullptr),
+    m_instanceNameWidget(nullptr),
+    m_stereotypeWidget(nullptr),
+    m_packageWidget(nullptr),
+    m_artifactTypeWidget(nullptr),
+    m_visibilityEnumWidget(nullptr)
 {
     if (!m_pObject) {
         logWarn0("ClassGeneralPage: Given UMLObject is NULL.");
         return;
     }
     for (int i = 0; i < N_STEREOATTRS; i++) {
-        m_pTagL [i] = 0;
-        m_pTagLE[i] = 0;
+        m_pTagL [i] = nullptr;
+        m_pTagLE[i] = nullptr;
     }
 
     setMinimumSize(310, 330);
@@ -174,30 +174,30 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLObject* o)
 
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
   : DialogPageBase(parent),
-    m_pObject(0),
+    m_pObject(nullptr),
     m_pWidget(o),
-    m_pInstanceWidget(0),
+    m_pInstanceWidget(nullptr),
     m_pUmldoc(d),
-    m_pMultiCB(0),
-    m_pDrawActorCB(0),
-    m_pAbstractCB(0),
-    m_pDeconCB(0),
-    m_pExecutableCB(0),
-    m_docWidget(0),
-    m_nameWidget(0),
-    m_instanceNameWidget(0),
-    m_stereotypeWidget(0),
-    m_packageWidget(0),
-    m_artifactTypeWidget(0),
-    m_visibilityEnumWidget(0)
+    m_pMultiCB(nullptr),
+    m_pDrawActorCB(nullptr),
+    m_pAbstractCB(nullptr),
+    m_pDeconCB(nullptr),
+    m_pExecutableCB(nullptr),
+    m_docWidget(nullptr),
+    m_nameWidget(nullptr),
+    m_instanceNameWidget(nullptr),
+    m_stereotypeWidget(nullptr),
+    m_packageWidget(nullptr),
+    m_artifactTypeWidget(nullptr),
+    m_visibilityEnumWidget(nullptr)
 {
     if (!m_pWidget) {
         logWarn0("ClassGeneralPage: Given ObjectWidget is NULL.");
         return;
     }
     for (int i = 0; i < N_STEREOATTRS; i++) {
-        m_pTagL [i] = 0;
-        m_pTagLE[i] = 0;
+        m_pTagL [i] = nullptr;
+        m_pTagLE[i] = nullptr;
     }
 
     setMinimumSize(310, 330);
@@ -245,26 +245,26 @@ ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, ObjectWidget* o)
 
 ClassGeneralPage::ClassGeneralPage(UMLDoc* d, QWidget* parent, UMLWidget* widget)
   : DialogPageBase(parent),
-    m_pObject(0),
-    m_pWidget(0),
+    m_pObject(nullptr),
+    m_pWidget(nullptr),
     m_pInstanceWidget(widget),
     m_pUmldoc(d),
-    m_pMultiCB(0),
-    m_pDrawActorCB(0),
-    m_pAbstractCB(0),
-    m_pDeconCB(0),
-    m_pExecutableCB(0),
-    m_docWidget(0),
-    m_nameWidget(0),
-    m_instanceNameWidget(0),
-    m_stereotypeWidget(0),
-    m_packageWidget(0),
-    m_artifactTypeWidget(0),
-    m_visibilityEnumWidget(0)
+    m_pMultiCB(nullptr),
+    m_pDrawActorCB(nullptr),
+    m_pAbstractCB(nullptr),
+    m_pDeconCB(nullptr),
+    m_pExecutableCB(nullptr),
+    m_docWidget(nullptr),
+    m_nameWidget(nullptr),
+    m_instanceNameWidget(nullptr),
+    m_stereotypeWidget(nullptr),
+    m_packageWidget(nullptr),
+    m_artifactTypeWidget(nullptr),
+    m_visibilityEnumWidget(nullptr)
 {
     for (int i = 0; i < N_STEREOATTRS; i++) {
-        m_pTagL [i] = 0;
-        m_pTagLE[i] = 0;
+        m_pTagL [i] = nullptr;
+        m_pTagLE[i] = nullptr;
     }
 
     setMinimumSize(310, 330);

@@ -60,7 +60,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent, const QString &name,
   : QTreeWidgetItem(parent)
 {
     init();
-    if (parent == 0) {
+    if (parent == nullptr) {
         logDebug0("UMLListViewItem constructor called with a null listview parent");
     }
     m_type = t;
@@ -81,7 +81,7 @@ UMLListViewItem::UMLListViewItem(UMLListView * parent)
   : QTreeWidgetItem(parent)
 {
     init();
-    if (parent == 0) {
+    if (parent == nullptr) {
         logDebug0("UMLListViewItem constructor called with a NULL listview parent");
     }
 }
@@ -183,7 +183,7 @@ UMLListViewItem::UMLListViewItem(UMLListViewItem * parent, const QString &name, 
 void UMLListViewItem::init()
 {
     m_type = lvt_Unknown;
-    m_object = 0;
+    m_object = nullptr;
     m_id = Uml::ID::None;
     if (!s_comap)
         s_comap = new ChildObjectMap();
@@ -253,7 +253,7 @@ void UMLListViewItem::deleteChildItem(UMLObject *child)
         return;
     }
     UMLListViewItem *childItem = findChildObject(child);
-    if (childItem == 0) {
+    if (childItem == nullptr) {
         logError1("UMLListViewItem::deleteChildItem: child listview item %1 not found", child->name());
         return;
     }
@@ -339,7 +339,7 @@ bool UMLListViewItem::isOwnParent(Uml::ID::Type listViewItemID)
 {
     UMLListView* listView = static_cast<UMLListView*>(treeWidget());
     QTreeWidgetItem *lvi = static_cast<QTreeWidgetItem*>(listView->findItem(listViewItemID));
-    if (lvi == 0) {
+    if (lvi == nullptr) {
         logError1("UMLListViewItem::isOwnParent: listView->findItem(%1) returns null",
                   Uml::ID::toString(listViewItemID));
         return true;
@@ -356,7 +356,7 @@ bool UMLListViewItem::isOwnParent(Uml::ID::Type listViewItemID)
  */
 void UMLListViewItem::updateObject()
 {
-    if (m_object == 0)
+    if (m_object == nullptr)
         return;
 
     // check if parent has been changed, remap parent if so
@@ -532,7 +532,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
     case lvt_Port:
     case lvt_Node:
     case lvt_Category:
-        if (m_object == 0 || !doc->isUnique(newText)) {
+        if (m_object == nullptr || !doc->isUnique(newText)) {
             cancelRenameWithMsg();
             return;
         }
@@ -542,7 +542,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
         break;
 
     case lvt_Operation: {
-        if (m_object == 0) {
+        if (m_object == nullptr) {
             cancelRenameWithMsg();
             return;
         }
@@ -587,7 +587,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             }
             m_label = op->toString(Uml::SignatureType::SigNoVis);
         } else {
-            KMessageBox::error(0,
+            KMessageBox::error(nullptr,
                                Model_Utils::psText(st),
                                i18n("Rename canceled"));
         }
@@ -598,7 +598,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
     case lvt_Attribute:
     case lvt_EntityAttribute:
     case lvt_InstanceAttribute: {
-        if (m_object == 0) {
+        if (m_object == nullptr) {
             cancelRenameWithMsg();
             return;
         }
@@ -608,7 +608,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
         Model_Utils::Parse_Status st;
         st = Model_Utils::parseAttribute(newText, nt, parent, &vis);
         if (st == Model_Utils::PS_OK) {
-            UMLObject *exists = parent ? parent->findChildObject(newText) : 0;
+            UMLObject *exists = parent ? parent->findChildObject(newText) : nullptr;
             if (exists) {
                 cancelRenameWithMsg();
                 return;
@@ -621,7 +621,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             pAtt->setInitialValue(nt.m_initialValue);
             m_label = pAtt->toString(Uml::SignatureType::SigNoVis);
         } else {
-            KMessageBox::error(0,
+            KMessageBox::error(nullptr,
                                Model_Utils::psText(st),
                                i18n("Rename canceled"));
         }
@@ -633,7 +633,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
     case lvt_UniqueConstraint:
     case lvt_ForeignKeyConstraint:
     case lvt_CheckConstraint: {
-        if (m_object == 0) {
+        if (m_object == nullptr) {
             cancelRenameWithMsg();
             return;
         }
@@ -652,7 +652,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             UMLEntityConstraint* uec = m_object->asUMLEntityConstraint();
             m_label = uec->toString(Uml::SignatureType::SigNoVis);
         } else {
-            KMessageBox::error(0,
+            KMessageBox::error(nullptr,
                                Model_Utils::psText(st),
                                i18n("Rename canceled"));
         }
@@ -661,7 +661,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
     }
 
     case lvt_Template: {
-        if (m_object == 0) {
+        if (m_object == nullptr) {
             cancelRenameWithMsg();
             return;
         }
@@ -669,7 +669,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
         Model_Utils::NameAndType nt;
         Model_Utils::Parse_Status st = Model_Utils::parseTemplate(newText, nt, parent);
         if (st == Model_Utils::PS_OK) {
-            UMLObject *exists = parent ? parent->findChildObject(newText) : 0;
+            UMLObject *exists = parent ? parent->findChildObject(newText) : nullptr;
             if (exists) {
                 cancelRenameWithMsg();
                 return;
@@ -679,7 +679,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             tmpl->setType(nt.m_type);
             m_label = tmpl->toString(Uml::SignatureType::SigNoVis);
         } else {
-            KMessageBox::error(0,
+            KMessageBox::error(nullptr,
                                Model_Utils::psText(st),
                                i18n("Rename canceled"));
         }
@@ -697,13 +697,13 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
     case lvt_Deployment_Diagram:
     case lvt_Object_Diagram:{
         UMLView *view = doc->findView(ID());
-        if (view == 0) {
+        if (view == nullptr) {
             cancelRenameWithMsg();
             return;
         }
         UMLView *anotherView = doc->findView(view->umlScene()->type(), newText);
         if (anotherView && anotherView->umlScene()->ID() == ID()) {
-            anotherView = 0;
+            anotherView = nullptr;
         }
         if (anotherView) {
             cancelRenameWithMsg();
@@ -715,7 +715,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
         break;
     }
     default:
-        KMessageBox::error(0,
+        KMessageBox::error(nullptr,
                            i18n("Renaming an item of listview type %1 is not yet implemented.", m_type),
                            i18n("Function Not Implemented"));
         setText(m_label);
@@ -730,7 +730,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
 void UMLListViewItem::cancelRenameWithMsg()
 {
     logDebug1("UMLListViewItem::cancelRenameWithMsg - column=:TODO:col, text=%1", text(0));
-    KMessageBox::error(0,
+    KMessageBox::error(nullptr,
                        i18n("The name you entered was invalid.\nRenaming process has been canceled."),
                        i18n("Name Not Valid"));
     setText(m_label);
@@ -864,7 +864,7 @@ UMLListViewItem* UMLListViewItem::findUMLObject(const UMLObject *o)
 {
     if (!o) {
         logError0("UMLListViewItem::findUMLObject: null argument given (returning null)");
-        return 0;
+        return nullptr;
     }
     if (m_object == o)
         return this;
@@ -895,7 +895,7 @@ UMLListViewItem* UMLListViewItem::findUMLObject_r(const UMLObject *o)
             return testItem;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -909,7 +909,7 @@ UMLListViewItem* UMLListViewItem::findChildObject(const UMLObject *child)
     if (it != s_comap->end()) {
         return *it;
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -932,7 +932,7 @@ UMLListViewItem * UMLListViewItem::findItem(Uml::ID::Type id)
             return inner;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -947,7 +947,7 @@ void UMLListViewItem::saveToXMI(QXmlStreamWriter& writer)
     if (id != Uml::ID::None)
         writer.writeAttribute(QStringLiteral("id"), idStr);
     writer.writeAttribute(QStringLiteral("type"), QString::number(m_type));
-    if (m_object == 0) {
+    if (m_object == nullptr) {
         if (! Model_Utils::typeIsDiagram(m_type) && m_type != lvt_View)
             logError1("UMLListViewItem::saveToXMI(%1) : m_object is NULL", text(0));
         if (m_type != lvt_View)

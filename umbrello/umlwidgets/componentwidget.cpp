@@ -56,7 +56,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(widget);
 
     const UMLComponent *umlcomp = m_umlObject->asUMLComponent();
-    if (umlcomp == 0)
+    if (umlcomp == nullptr)
         return;
     setPenFromSettings(painter);
     QPen origPen = painter->pen();

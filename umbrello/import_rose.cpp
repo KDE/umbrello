@@ -287,7 +287,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
     methodName(QStringLiteral("readAttributes"));
     if (initialArgs.count() == 0) {
         logError1("%1 initialArgs is empty", loc());
-        return 0;
+        return nullptr;
     }
     PetalNode::NodeType nt;
     QString type = shift(initialArgs);
@@ -297,7 +297,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
         nt = PetalNode::nt_list;
     else {
         logError2("%1 unknown node type %2", loc(), type);
-        return 0;
+        return nullptr;
     }
     PetalNode *node = new PetalNode(nt);
     bool seenClosing = checkClosing(initialArgs);
@@ -317,7 +317,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
         if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp(QStringLiteral("^[A-Za-z]")))) {
             logError2("%1 unexpected line %2", loc(), line);
             delete node;
-            return 0;
+            return nullptr;
         }
         PetalNode::StringOrNode value;
         if (nt == PetalNode::nt_object) {
@@ -357,9 +357,9 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
                 value.string = extractValue(tokens, stream);
             } else {
                 value.node = readAttributes(tokens, stream);
-                if (value.node == 0) {
+                if (value.node == nullptr) {
                     delete node;
-                    return 0;
+                    return nullptr;
                 }
             }
             PetalNode::NameValue attr(name, value);
@@ -410,10 +410,10 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
  *          In case of success with non NULL parentPkg: pointer to UMLPackage created for controlled unit
  *          In case of success with NULL parentPkg: pointer to root folder of Logical View
  */
-UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */) 
+UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */) 
 {
     methodName(QStringLiteral("loadFromMDL"));
-    if (parentPkg == 0) {
+    if (parentPkg == nullptr) {
         QString fName = file.fileName();
         int lastSlash = fName.lastIndexOf(QLatin1Char('/'));
         if (lastSlash > 0) {
@@ -423,7 +423,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     QTextStream stream(&file);
     stream.setCodec("ISO 8859-1");
     QString line;
-    PetalNode *root = 0;
+    PetalNode *root = nullptr;
     uint nClosures_sav = nClosures;
     uint linum_sav = linum;
     nClosures = 0;
@@ -511,8 +511,8 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     file.close();
     nClosures = nClosures_sav;
     linum = linum_sav;
-    if (root == 0)
-        return 0;
+    if (root == nullptr)
+        return nullptr;
 
     if (progLang != UMLApp::app()->activeLanguage()) {
         logDebug1("loadFromMDL: Setting active language to %1",
@@ -529,7 +529,7 @@ UMLPackage* loadFromMDL(QFile& file, UMLPackage *parentPkg /* = 0 */)
     if (root->name() != QStringLiteral("Design")) {
         logError1("%1 expecting root name Design", loc());
         delete root;
-        return 0;
+        return nullptr;
     }
     Import_Utils::assignUniqueIdOnCreation(false);
     UMLDoc *umldoc = UMLApp::app()->document();

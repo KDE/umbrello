@@ -111,7 +111,7 @@ Parser::Parser(Driver* driver, Lexer* lexer)
 Parser::~Parser()
 {
     delete d;
-    d = 0;
+    d = nullptr;
 }
 
 bool Parser::reportError(const Error& err)

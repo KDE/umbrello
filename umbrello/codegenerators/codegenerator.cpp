@@ -113,7 +113,7 @@ CodeDocument * CodeGenerator::findCodeDocumentByID(const QString &tag)
         return doc;
     }
     else {
-        return 0;
+        return nullptr;
     }
 }
 
@@ -612,7 +612,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
     UMLAssociationList associations = c->getAssociations();
 
     foreach (UMLAssociation *a, associations) {
-        temp = 0;
+        temp = nullptr;
         switch (a->getAssocType()) {
         case Uml::AssociationType::Generalization:
         case Uml::AssociationType::Realization:
@@ -658,7 +658,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
     //operations
     UMLOperationList opl(c->getOpList());
     foreach(UMLOperation *op, opl) {
-        temp = 0;
+        temp = nullptr;
         //check return value
         temp = (UMLClassifier*) op->getType();
         if (temp && !temp->isUMLDatatype() && !cList.count(temp)) {
@@ -678,7 +678,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
     if (!c->isInterface()) {
         UMLAttributeList atl = c->getAttributeList();
         foreach (UMLAttribute *at, atl) {
-            temp=0;
+            temp=nullptr;
             temp = (UMLClassifier*) at->getType();
             if (temp && !temp->isUMLDatatype() && !cList.count(temp)) {
                 cList.append(temp);

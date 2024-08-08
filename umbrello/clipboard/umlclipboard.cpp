@@ -70,27 +70,27 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
     m_ObjectList.clear();
     m_ViewList.clear();
 
-    UMLDragData *data = 0;
-    QPixmap* png = 0;
+    UMLDragData  *data = nullptr;
+    QPixmap *png = nullptr;
 
     UMLListView * listView = UMLApp::app()->listView();
 
     if (fromView) {
         m_type = clip4;
         UMLView *view = UMLApp::app()->currentView();
-        if (view == 0) {
+        if (view == nullptr) {
             logError0("UMLApp::app()->currentView() is NULL");
-            return 0;
+            return nullptr;
         }
         UMLScene *scene = view->umlScene();
-        if (scene == 0) {
+        if (scene == nullptr) {
             logError0("UMLClipboard::copy: currentView umlScene() is NULL");
-            return 0;
+            return nullptr;
         }
         m_WidgetList = scene->selectedWidgetsExt();
         //if there is no selected widget then there is no copy action
         if (!m_WidgetList.count()) {
-            return 0;
+            return nullptr;
         }
         m_AssociationList = scene->selectedAssocs();
         scene->copyAsImage(png);
@@ -113,7 +113,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         // The copy action is being performed from the ListView
         UMLListViewItemList itemsSelected = listView->selectedItems();
         if (itemsSelected.count() <= 0) {
-            return 0;
+            return nullptr;
         }
 
         // Set What type of copy operation are we performing and
@@ -126,7 +126,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         if (m_type == clip2) {
             foreach (UMLView* view, m_ViewList) {
                 UMLScene *scene = view->umlScene();
-                if (scene == 0) {
+                if (scene == nullptr) {
                     logError0("UMLClipboard::copy: currentView umlScene() is NULL");
                     continue;
                 }
@@ -134,7 +134,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
 
                 AssociationWidgetList associations = scene->associationList();
                 foreach (AssociationWidget* association, associations) {
-                    if (association->umlObject() != 0) {
+                    if (association->umlObject() != nullptr) {
                         m_ObjectList.append(association->umlObject());
                     }
                 }
@@ -143,11 +143,11 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
             // Clip1, 4 and 5: fill the clip with only the specific objects
             // selected in the list view
             if (!fillSelectionLists(itemsSelected)) {
-                return 0;
+                return nullptr;
             }
 
             if (itemsSelected.count() <= 0) {
-                return 0;
+                return nullptr;
             }
         }
     }
@@ -169,7 +169,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
             data = new UMLDragData(m_ObjectList, m_WidgetList,
                                    m_AssociationList, *png, view->umlScene());
         } else {
-            return 0;
+            return nullptr;
         }
         break;
     case clip5:
@@ -234,7 +234,7 @@ bool UMLClipboard::paste(const QMimeData* data)
 void UMLClipboard::addRelatedWidgets()
 {
     UMLWidgetList relatedWidgets;
-    UMLWidget *pWA =0, *pWB = 0;
+    UMLWidget   *pWA = nullptr, *pWB = nullptr;
 
     foreach (UMLWidget* widget, m_WidgetList) {
         if (widget->isMessageWidget()) {
@@ -276,11 +276,11 @@ void UMLClipboard::fillObjectListForWidgets(const UMLWidgetList& widgets)
 
     foreach (UMLWidget* widget, widgets) {
         UMLObject* widgetObject = widget->umlObject();
-        if (widgetObject != 0) {
+        if (widgetObject != nullptr) {
             packages.clear();
 
             UMLPackage* package = widgetObject->umlPackage();
-            while (package != 0) {
+            while (package != nullptr) {
                 packages.prepend(package);
                 package = package->umlPackage();
             }
@@ -390,8 +390,8 @@ void UMLClipboard::checkItemForCopyType(UMLListViewItem* item, bool & withDiagra
     }
     UMLDoc *doc = UMLApp::app()->document();
     onlyAttsOps = true;
-    UMLView * view = 0;
-    UMLListViewItem * child = 0;
+    UMLView  *view = nullptr;
+    UMLListViewItem  *child = nullptr;
     UMLListViewItem::ListViewType type = item->type();
     if (Model_Utils::typeIsCanvasWidget(type)) {
         withObjects = true;
@@ -472,7 +472,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
     }
 
     if (NoteWidget::s_pCurrentNote) {
-        NoteWidget::s_pCurrentNote = 0;
+        NoteWidget::s_pCurrentNote = nullptr;
     } else {
         foreach (UMLView* pView, views) {
             if (!doc->addUMLView(pView)) {
@@ -526,7 +526,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     UMLWidgetList widgets;
     AssociationWidgetList assocs;
 
-    IDChangeLog* idchanges = 0;
+    IDChangeLog *idchanges = nullptr;
 
     Uml::DiagramType::Enum diagramType;
 
@@ -611,14 +611,14 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
     }
     UMLClassifier *parent = lvitem->umlObject()->asUMLClassifier();
 
-    if (parent == 0) {
+    if (parent == nullptr) {
         logError0("UMLClipboard::pasteClip5: parent is not a UMLClassifier");
         return false;
     }
 
     UMLObjectList objects;
 
-    IDChangeLog* idchanges = 0;
+    IDChangeLog *idchanges = nullptr;
     bool result = UMLDragData::decodeClip5(data, objects, parent);
 
     if(!result) {

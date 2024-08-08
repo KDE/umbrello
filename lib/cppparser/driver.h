@@ -91,7 +91,7 @@ public:
 
     operator TranslationUnitAST* () const   // May be zero
     {
-        if (!this) return 0;
+        if (!this) return nullptr;
         return (TranslationUnitAST*)m_translationUnit.data();
     }
 
@@ -131,7 +131,7 @@ public:
         stream >> m_timeStamp;
         stream >> m_includedFrom;
         m_usedMacros.read(stream);
-        m_translationUnit = 0;
+        m_translationUnit = nullptr;
         m_includeFiles.read(stream);
     }
 

@@ -68,13 +68,13 @@ public:
     void setOldLoadMode(bool value = true);
     bool getOldLoadMode() const;
 
-    virtual UMLObject* clone() const { return 0; }
+    virtual UMLObject* clone() const { return nullptr; }
 
     virtual bool resolveRef();
 
     void saveToXMI(QXmlStreamWriter& writer);
 
-    virtual bool showPropertiesDialog(QWidget *parent = 0);
+    virtual bool showPropertiesDialog(QWidget *parent = nullptr);
 
 protected:
 

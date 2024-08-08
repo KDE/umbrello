@@ -36,16 +36,16 @@ class PetalNode
 public:
     /**
      * Use `string' if it is not empty.
-     * Use `node' if it is not NULL.
+     * Use `node' if it is not nullptr.
      * Either `string' is set, or `node', but never both.
      * (Perhaps this should be a union but that is ugly.)
      */
     struct StringOrNode {
         QString string;
         PetalNode *node;
-        StringOrNode() { node = 0; }
+        StringOrNode() { node = nullptr; }
         virtual ~StringOrNode() { }
-        bool isEmpty() const { return (string.isEmpty() && node == 0); }
+        bool isEmpty() const { return (string.isEmpty() && node == nullptr); }
     };
     typedef QPair<QString, StringOrNode> NameValue;
     typedef QList<NameValue> NameValueList;

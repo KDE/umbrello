@@ -83,8 +83,8 @@ public:
 
     bool newDocument();
     void closeDocument();
-    bool openDocument(const QUrl& url, const char *format = 0);
-    bool saveDocument(const QUrl& url, const char *format = 0);
+    bool openDocument(const QUrl& url, const char  *format = nullptr);
+    bool saveDocument(const QUrl& url, const char  *format = nullptr);
     const QUrl& url() const;
     void setUrl(const QUrl& url);
     void setUrlUntitled();
@@ -101,7 +101,7 @@ public:
     UMLAssociation * findAssociation(Uml::AssociationType::Enum assocType,
                                      const UMLObject *roleAObj,
                                      const UMLObject *roleBObj,
-                                     bool *swap = 0) const;
+                                     bool  *swap = nullptr) const;
 
     QString createDiagramName(Uml::DiagramType::Enum type, bool askForName = true);
     UMLView* createDiagram(UMLFolder *folder,
@@ -121,7 +121,7 @@ public:
 
     UMLObject* findUMLObject(const QString &name,
                              UMLObject::ObjectType type = UMLObject::ot_UMLObject,
-                             UMLObject *currentObj = 0);
+                             UMLObject  *currentObj = nullptr);
 
     UMLObject* findUMLObjectRaw(Uml::ModelType::Enum,
                                 const QString &name,

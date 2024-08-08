@@ -130,7 +130,7 @@ bool UMLInstance::load1(QDomElement &element)
         QDomElement tempElement = node.toElement();
         QString tag = tempElement.tagName();
         if (UMLDoc::tagEq(tag, QStringLiteral("slot"))) {
-            UMLInstanceAttribute *pInstanceAttribute = new UMLInstanceAttribute(this, 0);
+            UMLInstanceAttribute *pInstanceAttribute = new UMLInstanceAttribute(this, nullptr);
             if (!pInstanceAttribute->loadFromXMI(tempElement)) {
                 return false;
             }

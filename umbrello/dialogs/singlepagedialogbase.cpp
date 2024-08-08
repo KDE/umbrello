@@ -22,7 +22,7 @@ DEBUG_REGISTER(SinglePageDialogBase)
  */
 SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton, bool withSearchButton)
   : QDialog(parent),
-    m_mainWidget(0)
+    m_mainWidget(nullptr)
 {
     setModal(true);
     QDialogButtonBox::StandardButtons buttons = QDialogButtonBox::Ok | QDialogButtonBox::Cancel;

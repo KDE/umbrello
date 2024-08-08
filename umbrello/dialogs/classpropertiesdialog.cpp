@@ -42,7 +42,7 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLObject * c, boo
   : MultiPageDialogBase(parent)
 {
     init();
-    m_pWidget = 0;
+    m_pWidget = nullptr;
     m_pObject = c;
 
     setupPages(assoc);
@@ -117,16 +117,16 @@ ClassPropertiesDialog::ClassPropertiesDialog(QWidget *parent, UMLWidget *w)
 void ClassPropertiesDialog::init()
 {
     setCaption(i18n("Properties"));
-    m_pAssocPage = 0;
-    m_pGenPage = 0;
-    m_pAttPage = 0;
-    m_pOpsPage = 0;
-    m_pPkgContentsPage = 0;
-    m_pTemplatePage = 0;
-    m_pEnumLiteralPage = 0;
-    m_pEntityAttributePage = 0;
-    m_pEntityConstraintPage = 0;
-    m_pOptionsPage = 0;
+    m_pAssocPage = nullptr;
+    m_pGenPage = nullptr;
+    m_pAttPage = nullptr;
+    m_pOpsPage = nullptr;
+    m_pPkgContentsPage = nullptr;
+    m_pTemplatePage = nullptr;
+    m_pEnumLiteralPage = nullptr;
+    m_pEntityAttributePage = nullptr;
+    m_pEntityConstraintPage = nullptr;
+    m_pOptionsPage = nullptr;
     m_doc = UMLApp::app()->document();
 }
 
@@ -227,7 +227,7 @@ void ClassPropertiesDialog::setupPages(bool assoc)
     if (assoc) {
         setupAssociationsPage();
     } else {
-        m_pAssocPage = 0;
+        m_pAssocPage = nullptr;
     }
 }
 
@@ -237,11 +237,11 @@ void ClassPropertiesDialog::setupPages(bool assoc)
 void ClassPropertiesDialog::setupGeneralPage()
 {
     if (m_pWidget && m_pWidget->baseType() == UMLWidget::wt_Object)
-        m_pGenPage = new ClassGeneralPage(m_doc, 0, static_cast<ObjectWidget*>(m_pWidget));
+        m_pGenPage = new ClassGeneralPage(m_doc, nullptr, static_cast<ObjectWidget*>(m_pWidget));
     else if (m_pWidget && !m_pObject)
-        m_pGenPage = new ClassGeneralPage(m_doc, 0, m_pWidget);
+        m_pGenPage = new ClassGeneralPage(m_doc, nullptr, m_pWidget);
     else
-        m_pGenPage = new ClassGeneralPage(m_doc, 0, m_pObject);
+        m_pGenPage = new ClassGeneralPage(m_doc, nullptr, m_pObject);
     createPage(i18nc("general settings page name", "General"), i18n("General Settings"),
                Icon_Utils::it_Properties_General, m_pGenPage)->widget()->setMinimumSize(310, 330);
     m_pGenPage->setFocus();
@@ -253,7 +253,7 @@ void ClassPropertiesDialog::setupGeneralPage()
 void ClassPropertiesDialog::setupDisplayPage()
 {
     ClassifierWidget *cw = m_pWidget->asClassifierWidget();
-    m_pOptionsPage = new ClassOptionsPage(0, cw);
+    m_pOptionsPage = new ClassOptionsPage(nullptr, cw);
     createPage(i18nc("display option page name", "Display"), i18n("Display Options"),
                Icon_Utils::it_Properties_Display, m_pOptionsPage);
 }
@@ -263,7 +263,7 @@ void ClassPropertiesDialog::setupDisplayPage()
  */
 void ClassPropertiesDialog::setupEntityDisplayPage(EntityWidget *widget)
 {
-    m_pOptionsPage = new ClassOptionsPage(0, widget);
+    m_pOptionsPage = new ClassOptionsPage(nullptr, widget);
     createPage(i18nc("display option page name", "Display"), i18n("Display Options"),
                Icon_Utils::it_Properties_Display, m_pOptionsPage);
 }
@@ -273,7 +273,7 @@ void ClassPropertiesDialog::setupEntityDisplayPage(EntityWidget *widget)
  */
 void ClassPropertiesDialog::setupAttributesPage()
 {
-    m_pAttPage = new ClassifierListPage(0, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Attribute);
+    m_pAttPage = new ClassifierListPage(nullptr, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Attribute);
     createPage(i18n("Attributes"), i18n("Attribute Settings"),
                Icon_Utils::it_Properties_Attributes, m_pAttPage);
 }
@@ -283,7 +283,7 @@ void ClassPropertiesDialog::setupAttributesPage()
  */
 void ClassPropertiesDialog::setupOperationsPage()
 {
-    m_pOpsPage = new ClassifierListPage(0, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_Operation);
+    m_pOpsPage = new ClassifierListPage(nullptr, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_Operation);
     createPage(i18n("Operations"), i18n("Operation Settings"),
                Icon_Utils::it_Properties_Operations, m_pOpsPage);
 }
@@ -293,7 +293,7 @@ void ClassPropertiesDialog::setupOperationsPage()
  */
 void ClassPropertiesDialog::setupTemplatesPage()
 {
-    m_pTemplatePage = new ClassifierListPage(0, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Template);
+    m_pTemplatePage = new ClassifierListPage(nullptr, (UMLClassifier *)m_pObject, m_doc, UMLObject::ot_Template);
     createPage(i18n("Templates"), i18n("Templates Settings"),
                Icon_Utils::it_Properties_Templates, m_pTemplatePage);
 }
@@ -303,7 +303,7 @@ void ClassPropertiesDialog::setupTemplatesPage()
  */
 void ClassPropertiesDialog::setupEnumLiteralsPage()
 {
-    m_pEnumLiteralPage = new ClassifierListPage(0, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EnumLiteral);
+    m_pEnumLiteralPage = new ClassifierListPage(nullptr, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EnumLiteral);
     createPage(i18n("Enum Literals"), i18n("Enum Literals Settings"),
                Icon_Utils::it_Properties_EnumLiterals, m_pEnumLiteralPage);
 }
@@ -313,7 +313,7 @@ void ClassPropertiesDialog::setupEnumLiteralsPage()
  */
 void ClassPropertiesDialog::setupEntityAttributesPage()
 {
-    m_pEntityAttributePage = new ClassifierListPage(0, (UMLEntity*)m_pObject, m_doc, UMLObject::ot_EntityAttribute);
+    m_pEntityAttributePage = new ClassifierListPage(nullptr, (UMLEntity*)m_pObject, m_doc, UMLObject::ot_EntityAttribute);
     createPage(i18n("Entity Attributes"), i18n("Entity Attributes Settings"),
                Icon_Utils::it_Properties_EntityAttributes, m_pEntityAttributePage);
 }
@@ -323,7 +323,7 @@ void ClassPropertiesDialog::setupEntityAttributesPage()
  */
 void ClassPropertiesDialog::setupEntityConstraintsPage()
 {
-    m_pEntityConstraintPage = new ConstraintListPage(0, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EntityConstraint);
+    m_pEntityConstraintPage = new ConstraintListPage(nullptr, (UMLClassifier*)m_pObject, m_doc, UMLObject::ot_EntityConstraint);
     createPage(i18n("Entity Constraints"), i18n("Entity Constraints Settings"),
                Icon_Utils::it_Properties_EntityConstraints, m_pEntityConstraintPage);
 }
@@ -333,7 +333,7 @@ void ClassPropertiesDialog::setupEntityConstraintsPage()
  */
 void ClassPropertiesDialog::setupContentsPage()
 {
-    m_pPkgContentsPage = new PackageContentsPage(0, (UMLPackage*)m_pObject);
+    m_pPkgContentsPage = new PackageContentsPage(nullptr, (UMLPackage*)m_pObject);
     createPage(i18nc("contents settings page name", "Contents"), i18n("Contents Settings"),
                Icon_Utils::it_Properties_Contents, m_pPkgContentsPage);
 }
@@ -343,7 +343,7 @@ void ClassPropertiesDialog::setupContentsPage()
  */
 void ClassPropertiesDialog::setupAssociationsPage()
 {
-    m_pAssocPage = new ClassAssociationsPage(0, UMLApp::app()->currentView()->umlScene(), m_pObject);
+    m_pAssocPage = new ClassAssociationsPage(nullptr, UMLApp::app()->currentView()->umlScene(), m_pObject);
     createPage(i18n("Associations"), i18n("Class Associations"),
                Icon_Utils::it_Properties_Associations, m_pAssocPage);
 }
@@ -353,9 +353,9 @@ void ClassPropertiesDialog::setupAssociationsPage()
  */
 void ClassPropertiesDialog::setupInstancePages()
 {
-    m_pGenPage = new ClassGeneralPage(m_doc, 0, m_pWidget);
+    m_pGenPage = new ClassGeneralPage(m_doc, nullptr, m_pWidget);
     createPage(i18nc("instance general settings page name", "General"), i18n("General Settings"),
                Icon_Utils::it_Properties_General, m_pGenPage)->widget()->setMinimumSize(310, 330);
-    m_pAssocPage = 0;
+    m_pAssocPage = nullptr;
 }
 

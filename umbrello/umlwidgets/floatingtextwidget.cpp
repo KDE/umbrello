@@ -49,7 +49,7 @@ DEBUG_REGISTER_DISABLED(FloatingTextWidget)
  */
 FloatingTextWidget::FloatingTextWidget(UMLScene * scene, Uml::TextRole::Enum role, const QString& text, Uml::ID::Type id)
   : UMLWidget(scene, WidgetBase::wt_Text, id),
-    m_linkWidget(0),
+    m_linkWidget(nullptr),
     m_preText(QString()),
     m_postText(QString()),
     m_textRole(role),
@@ -290,7 +290,7 @@ QString FloatingTextWidget::postText() const
  * @param ChangeLog Pointer to the IDChangeLog.
  * @return  true for success
  */
-bool FloatingTextWidget::activate(IDChangeLog* ChangeLog /*= 0 */)
+bool FloatingTextWidget::activate(IDChangeLog *ChangeLog /*= nullptr */)
 {
     if (! UMLWidget::activate(ChangeLog))
         return false;
@@ -585,7 +585,7 @@ void FloatingTextWidget::constrainMovementForAllWidgets(qreal &diffX, qreal &dif
 UMLWidget* FloatingTextWidget::onWidget(const QPointF &p)
 {
     WidgetBase *pw = dynamic_cast<WidgetBase*>(parentItem());
-    if (pw == 0) {
+    if (pw == nullptr) {
         return WidgetBase::onWidget(p);
     }
     const WidgetBase::WidgetType t = pw->baseType();
@@ -614,7 +614,7 @@ UMLWidget* FloatingTextWidget::onWidget(const QPointF &p)
         // uDebug() << "floatingtext: " << m_Text;
         return this;
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -707,12 +707,12 @@ void FloatingTextWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_New_Operation: // needed by AssociationWidget
     case ListPopupMenu::mt_Operation:
         {
-            if (m_linkWidget == 0) {
+            if (m_linkWidget == nullptr) {
                 logDebug0("FloatingTextWidget::slotMenuSelection(mt_Operation): m_linkWidget is NULL");
                 return;
             }
             UMLClassifier* c = m_linkWidget->operationOwner();
-            if (c == 0) {
+            if (c == nullptr) {
                 QString opText = text();
                 bool ok = Dialog_Utils::askName(i18nc("operation name", "Name"),
                                                 i18n("Enter operation name:"),

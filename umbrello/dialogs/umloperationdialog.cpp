@@ -53,15 +53,15 @@ DEBUG_REGISTER(UMLOperationDialog)
  */
 UMLOperationDialog::UMLOperationDialog(QWidget * parent, UMLOperation * pOperation)
   : SinglePageDialogBase(parent),
-    m_pOverrideCB(0)
+    m_pOverrideCB(nullptr)
 {
     setCaption(i18n("Operation Properties"));
     m_operation = pOperation;
     m_doc = UMLApp::app()->document();
-    m_menu = 0;
+    m_menu = nullptr;
     for (int i = 0; i < N_STEREOATTRS; i++) {
-        m_pTagL [i] = 0;
-        m_pTagLE[i] = 0;
+        m_pTagL [i] = nullptr;
+        m_pTagLE[i] = nullptr;
     }
     setupDialog();
 }
@@ -229,7 +229,7 @@ void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
         m_menu->hide();
         disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         delete m_menu;
-        m_menu = 0;
+        m_menu = nullptr;
     }
     DialogsPopupMenu popup(this, type);
     QAction *triggered = popup.exec(m_pParmsLW->mapToGlobal(p));
@@ -262,7 +262,7 @@ void UMLOperationDialog::slotMenuSelection(QAction* action)
 
 void UMLOperationDialog::slotNewParameter()
 {
-    UMLAttribute* pAtt = 0;
+    UMLAttribute *pAtt = nullptr;
 
     QString currentName = m_operation->getUniqueParameterName();
     UMLAttribute* newAttribute = new UMLAttribute(m_operation, currentName, Uml::ID::Reserved);
@@ -303,7 +303,7 @@ void UMLOperationDialog::slotDeleteParameter()
 
 void UMLOperationDialog::slotParameterProperties()
 {
-    UMLAttribute* pAtt = 0, * pOldAtt = 0;
+    UMLAttribute  *pAtt = nullptr, * pOldAtt = nullptr;
 
     int position = m_pParmsLW->row(m_pParmsLW->currentItem());
     pOldAtt = m_operation->getParmList().at(position);
@@ -416,7 +416,7 @@ bool UMLOperationDialog::apply()
     }
 
     UMLClassifier *classifier = m_operation->umlParent()->asUMLClassifier();
-    if(classifier != 0 &&
+    if(classifier != nullptr &&
             classifier->checkOperationSignature(name, m_operation->getParmList(), m_operation))
     {
         QString msg = i18n("An operation with that signature already exists in %1.\n", classifier->name())

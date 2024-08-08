@@ -114,7 +114,7 @@ bool UMLApp::s_shuttingDown = false;
  * @todo This is an ugly _HACK_ to allow to compile umbrello.
  *       All the menu stuff should be ported to KDE4 (using actions)
  *
- * @param name  The name of the menu to search for (name, not text)
+ * @param name  The name of the menu to search for (name :  not text)
  */
 QMenu* UMLApp::findMenu(const QString& name)
 {
@@ -123,7 +123,7 @@ QMenu* UMLApp::findMenu(const QString& name)
         return dynamic_cast<QMenu*>(widget);
     }
     logDebug1("UMLApp::findMenu factory()->container(%1) returns NULL", name);
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -131,80 +131,80 @@ QMenu* UMLApp::findMenu(const QString& name)
  */
 UMLApp::UMLApp(QWidget* parent)
   : KXmlGuiWindow(parent),
-    m_d(0),                // setup()
-    m_langSelect(0),
-    m_zoomSelect(0),
+    m_d(nullptr),                // setup()
+    m_langSelect(nullptr),
+    m_zoomSelect(nullptr),
     m_activeLanguage(Uml::ProgrammingLanguage::Reserved),
-    m_codegen(0),
+    m_codegen(nullptr),
     m_commoncodegenpolicy(new CodeGenerationPolicy()),
-    m_policyext(0),
+    m_policyext(nullptr),
     m_config(KSharedConfig::openConfig()),
-    m_view(0),
-    m_doc(0),              // setup()
-    m_listView(0),
-    m_mainDock(0),
-    m_listDock(0),
-    m_debugDock(0),
-    m_documentationDock(0),
-    m_cmdHistoryDock(0),
-    m_propertyDock(0),
-    m_logDock(0),
-    m_birdViewDock(0),
-    m_docWindow(0),
-    m_birdView(0),
-    m_pQUndoView(0),
-    m_refactoringAssist(0),
-    fileOpenRecent(0),
-    printPreview(0),
-    filePrint(0),
-    editCut(0),
-    editCopy(0),
-    editPaste(0),
-    editUndo(0),
-    editRedo(0),
-    viewShowTree(0),
-    viewShowDebug(0),
-    viewShowDoc(0),
-    viewShowLog(0),
-    viewShowCmdHistory(0),
-    viewShowBirdView(0),
-    newDiagram(0),
-    viewClearDiagram(0),
-    viewSnapToGrid(0),
-    viewShowGrid(0),
-    viewExportImage(0),
-    viewProperties(0),
-    zoom100Action(0),
-    deleteSelectedWidget(0),
-    deleteDiagram(0),
-    m_newSessionButton(0),
-    m_toolsbar(0),
-    m_clipTimer(0),
-    m_copyTimer(0),
+    m_view(nullptr),
+    m_doc(nullptr),              // setup()
+    m_listView(nullptr),
+    m_mainDock(nullptr),
+    m_listDock(nullptr),
+    m_debugDock(nullptr),
+    m_documentationDock(nullptr),
+    m_cmdHistoryDock(nullptr),
+    m_propertyDock(nullptr),
+    m_logDock(nullptr),
+    m_birdViewDock(nullptr),
+    m_docWindow(nullptr),
+    m_birdView(nullptr),
+    m_pQUndoView(nullptr),
+    m_refactoringAssist(nullptr),
+    fileOpenRecent(nullptr),
+    printPreview(nullptr),
+    filePrint(nullptr),
+    editCut(nullptr),
+    editCopy(nullptr),
+    editPaste(nullptr),
+    editUndo(nullptr),
+    editRedo(nullptr),
+    viewShowTree(nullptr),
+    viewShowDebug(nullptr),
+    viewShowDoc(nullptr),
+    viewShowLog(nullptr),
+    viewShowCmdHistory(nullptr),
+    viewShowBirdView(nullptr),
+    newDiagram(nullptr),
+    viewClearDiagram(nullptr),
+    viewSnapToGrid(nullptr),
+    viewShowGrid(nullptr),
+    viewExportImage(nullptr),
+    viewProperties(nullptr),
+    zoom100Action(nullptr),
+    deleteSelectedWidget(nullptr),
+    deleteDiagram(nullptr),
+    m_newSessionButton(nullptr),
+    m_toolsbar(nullptr),
+    m_clipTimer(nullptr),
+    m_copyTimer(nullptr),
     m_loading(false),
-    m_viewStack(0),
-    m_tabWidget(0),
-    m_layout(0),
+    m_viewStack(nullptr),
+    m_tabWidget(nullptr),
+    m_layout(nullptr),
     m_imageMimeType(QString()),
-    m_settingsDialog(0),
-    m_imageExporterAll(0),  // setup()
-    m_zoomValueLbl(0),
-    m_defaultZoomWdg(0),
-    m_pZoomOutPB(0),
-    m_pZoomInPB(0),
-    m_pZoomFitSBTB(0),
-    m_pZoomFullSBTB(0),
-    m_pZoomSlider(0),
-    m_statusBarMessage(0),
-    m_xhtmlGenerator(0),
-    m_pUndoStack(0),        // setup()
+    m_settingsDialog(nullptr),
+    m_imageExporterAll(nullptr),  // setup()
+    m_zoomValueLbl(nullptr),
+    m_defaultZoomWdg(nullptr),
+    m_pZoomOutPB(nullptr),
+    m_pZoomInPB(nullptr),
+    m_pZoomFitSBTB(nullptr),
+    m_pZoomFullSBTB(nullptr),
+    m_pZoomSlider(nullptr),
+    m_statusBarMessage(nullptr),
+    m_xhtmlGenerator(nullptr),
+    m_pUndoStack(nullptr),        // setup()
     m_undoEnabled(true),
     m_hasBegunMacro(false),
-    m_printSettings(0),
-    m_printer(0)            // setup()
+    m_printSettings(nullptr),
+    m_printer(nullptr)            // setup()
 {
     for (int i = 0; i <= (int)Uml::ProgrammingLanguage::Reserved; i++)
-        m_langAct[i] = 0;
+        m_langAct[i] = nullptr;
 }
 
 /**
@@ -253,14 +253,14 @@ void UMLApp::setup()
     m_langSelect = findMenu(QStringLiteral("active_lang_menu"));
     //in case langSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
-    if (m_langSelect == 0) {
+    if (m_langSelect == nullptr) {
         m_langSelect = new QMenu(QStringLiteral("active_lang_menu"), this);
     }
 
     m_zoomSelect = findMenu(QStringLiteral("zoom_menu"));
     //in case zoomSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
-    if (m_zoomSelect == 0) {
+    if (m_zoomSelect == nullptr) {
         m_zoomSelect = new QMenu(QStringLiteral("zoom_menu"), this);
     }
 
@@ -292,7 +292,7 @@ UMLApp::~UMLApp()
     delete m_printer;
     delete m_policyext;
     delete m_pUndoStack;
-    m_pUndoStack = 0;
+    m_pUndoStack = nullptr;
     delete m_refactoringAssist;
     delete m_xhtmlGenerator;
     delete m_listView;
@@ -346,8 +346,8 @@ void UMLApp::initActions()
     editUndo->setPriority(QAction::LowPriority);   // icon only
     editRedo->setPriority(QAction::LowPriority);   // icon only
 
-    disconnect(m_pUndoStack, SIGNAL(undoTextChanged(QString)), editUndo, 0);
-    disconnect(m_pUndoStack, SIGNAL(redoTextChanged(QString)), editRedo, 0);
+    disconnect(m_pUndoStack, SIGNAL(undoTextChanged(QString)), editUndo, nullptr);
+    disconnect(m_pUndoStack, SIGNAL(redoTextChanged(QString)), editRedo, nullptr);
 
     editCut = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
     editCopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
@@ -903,14 +903,14 @@ void UMLApp::initStatusBar()
 void UMLApp::initView()
 {
     setCaption(m_doc->url().fileName(), false);
-    m_view = 0;
+    m_view = nullptr;
     m_toolsbar = new WorkToolBar(this);
     m_toolsbar->setWindowTitle(i18n("Diagram Toolbar"));
     addToolBar(Qt::TopToolBarArea, m_toolsbar);
 
 //     m_mainDock = new QDockWidget(this);
 //     addDockWidget (Qt::RightDockWidgetArea, m_mainDock);
-    m_newSessionButton = 0;
+    m_newSessionButton = nullptr;
 
     // Prepare Stacked Diagram Representation
     m_viewStack = new QStackedWidget(this);
@@ -1434,7 +1434,7 @@ bool UMLApp::slotPrintSettings()
     if (m_printSettings) {
         delete m_printSettings;
     }
-    m_printSettings = new DiagramPrintPage(0, m_doc);
+    m_printSettings = new DiagramPrintPage(nullptr, m_doc);
     QPointer<QDialog> dlg = new QDialog();
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(m_printSettings);
@@ -1449,7 +1449,7 @@ bool UMLApp::slotPrintSettings()
     bool result = dlg->exec() == QDialog::Accepted;
     // keep settings
     layout->removeWidget(m_printSettings);
-    m_printSettings->setParent(0);
+    m_printSettings->setParent(nullptr);
 
     delete dlg;
     return result;
@@ -1470,7 +1470,7 @@ void UMLApp::slotPrintPreview()
     preview->exec();
     delete preview;
     delete m_printSettings;
-    m_printSettings = 0;
+    m_printSettings = nullptr;
     resetStatusMsg();
 }
 
@@ -1498,7 +1498,7 @@ void UMLApp::slotFilePrint()
         m_doc->print(m_printer, m_printSettings);
     }
     delete m_printSettings;
-    m_printSettings = 0;
+    m_printSettings = nullptr;
     delete printDialog;
     resetStatusMsg();
 }
@@ -2039,7 +2039,7 @@ void UMLApp::slotPrefs(MultiPageDialogBase::PageType page)
        }
 
        delete m_settingsDialog;
-       m_settingsDialog = 0;
+       m_settingsDialog = nullptr;
 }
 
 /**
@@ -2197,7 +2197,7 @@ void UMLApp::enableRedoAction(bool enable)
 bool UMLApp::editCutCopy(bool bFromView)
 {
     UMLClipboard clipboard;
-    QMimeData * clipdata = 0;
+    QMimeData  *clipdata = nullptr;
 
     // If not from-view, list items are copied. This flag is
     // used in UMLDragData to determine whether to assign new IDs
@@ -2205,7 +2205,7 @@ bool UMLApp::editCutCopy(bool bFromView)
         listView()->setStartedCopy(true);
     }
 
-    if ((clipdata = clipboard.copy(bFromView)) != 0) {
+    if ((clipdata = clipboard.copy(bFromView)) != nullptr) {
         QClipboard* clip = QApplication::clipboard();
         clip->setMimeData(clipdata);//the global clipboard takes ownership of the clipdata memory
         connect(clip, SIGNAL(dataChanged()), this, SLOT(slotClipDataChanged()));
@@ -2247,7 +2247,7 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
                 dialog->exec();
                 optionState.codeViewerState = dialog->state();
                 delete dialog;
-                dialog = 0;
+                dialog = nullptr;
             } else {
                 // shouldn't happen..
                 KMessageBox::sorry(0, i18n("Cannot view code until you generate some first."), i18n("Cannot View Code"));
@@ -2268,7 +2268,7 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
 void UMLApp::refactor(UMLClassifier* classifier)
 {
     if (!m_refactoringAssist) {
-        m_refactoringAssist = new RefactoringAssistant(m_doc, 0, 0,
+        m_refactoringAssist = new RefactoringAssistant(m_doc, nullptr, nullptr,
                                                        QStringLiteral("refactoring_assistant"));
     }
     m_refactoringAssist->refactor(classifier);
@@ -2327,7 +2327,7 @@ CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage::Enum pl)
             m_doc->removeUMLObject(*it);
         }
         delete m_codegen;  // ATTENTION! remove all refs to it or its policy first
-        m_codegen = 0;
+        m_codegen = nullptr;
     }
     m_activeLanguage = pl;
     if (pl != Uml::ProgrammingLanguage::Reserved) {
@@ -2385,7 +2385,7 @@ void UMLApp::slotGenerateAllCode()
  */
 void UMLApp::slotExecGenerationWizard()
 {
-    QPointer<CodeGenerationWizard> wizard = new CodeGenerationWizard(0 /*classList*/);
+    QPointer<CodeGenerationWizard> wizard = new CodeGenerationWizard(nullptr /*classList*/);
     wizard->exec();
     delete wizard;
 }
@@ -2624,7 +2624,7 @@ void UMLApp::slotCurrentViewExportImage()
 void UMLApp::slotViewsExportImages()
 {
     //delete m_printSettings;
-    m_printSettings = new DiagramPrintPage(0, m_doc);
+    m_printSettings = new DiagramPrintPage(nullptr, m_doc);
 
     DiagramSelectionDialog dlg(m_printSettings);
     if (dlg.exec() == QDialog::Accepted)
@@ -2899,7 +2899,7 @@ void UMLApp::initGenerator()
 {
     if (m_codegen) {
         delete m_codegen;
-        m_codegen = 0;
+        m_codegen = nullptr;
     }
     Uml::ProgrammingLanguage::Enum defLanguage = defaultLanguage();
     setActiveLanguage(defLanguage);
@@ -2964,7 +2964,7 @@ void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e)
 {
     // in case we have selected something in the diagram, move it by one pixel
     // to the direction pointed by the cursor key
-    if (m_view == 0 || !m_view->umlScene()->selectedCount() || e->modifiers() != Qt::AltModifier) {
+    if (m_view == nullptr || !m_view->umlScene()->selectedCount() || e->modifiers() != Qt::AltModifier) {
         e->ignore();
         return;
     }
@@ -3086,7 +3086,7 @@ void UMLApp::slotBirdViewChanged(const QPointF& delta)
 void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
 {
     m_view = view;
-    if (view == 0) {
+    if (view == nullptr) {
         DEBUG() << "view is NULL";
         docWindow()->reset();
         return;
@@ -3184,12 +3184,12 @@ void UMLApp::slotChangeTabLeft()
         uError() << "currView not found in viewlist";
         return;
     }
-    UMLView* prevView = 0;
+    UMLView *prevView = nullptr;
     if (viewIndex != 0) {
         prevView = views.begin()[viewIndex -1 ];
     }
 
-    if ((currView = prevView) != 0) {
+    if ((currView = prevView) != nullptr) {
         setCurrentView(currView);
     }
     else {
@@ -3214,7 +3214,7 @@ void UMLApp::slotChangeTabRight()
         uError() << "currView not found in viewlist";
         return;
     }
-    UMLView* nextView = 0;
+    UMLView *nextView = nullptr;
     if (viewIndex < views.count()-1) {
         nextView = views.begin()[viewIndex + 1];
         setCurrentView(nextView);
@@ -3282,7 +3282,7 @@ void UMLApp::slotXhtmlDocGenerationFinished(bool status)
   }
 
   delete m_xhtmlGenerator;
-  m_xhtmlGenerator = 0;
+  m_xhtmlGenerator = nullptr;
 }
 
 /**
@@ -3382,7 +3382,7 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
     if (!m_pUndoStack)
         return;
 
-    if (cmd == 0)
+    if (cmd == nullptr)
         return;
     if (isUndoEnabled()) {
         m_pUndoStack->push(cmd);

@@ -183,7 +183,7 @@ void ActivityPage::slotDelete()
     QString name = m_pActivityLW->currentItem()->text();
     m_pStateWidget->removeActivity(name);
     m_pActivityLW->takeItem(m_pActivityLW->currentRow());
-    slotClicked(0);
+    slotClicked(nullptr);
 }
 
 void ActivityPage::slotRename()

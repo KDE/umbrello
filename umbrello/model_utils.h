@@ -39,12 +39,12 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList);
 UMLObject* findUMLObject(const UMLObjectList& inList,
                           const QString& name,
                           UMLObject::ObjectType type = UMLObject::ot_UMLObject,
-                          UMLObject *currentObj = 0);
+                          UMLObject  *currentObj = nullptr);
 
 UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
                              const QString& name,
                              UMLObject::ObjectType type = UMLObject::ot_UMLObject,
-                             UMLObject *currentObj = 0);
+                             UMLObject  *currentObj = nullptr);
 
 UMLObject* findUMLObjectRecursive(const UMLObjectList& inList,
                                   const QString& name,
@@ -94,7 +94,7 @@ Uml::ModelType::Enum convert_LVT_MT(UMLListViewItem::ListViewType lvt);
 UMLListViewItem::ListViewType convert_DT_LVT(Uml::DiagramType::Enum dt);
 UMLObject::ObjectType convert_LVT_OT(UMLListViewItem::ListViewType lvt);
 UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o);
-Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject *o=0);
+Icon_Utils::IconType convert_LVT_IT(UMLListViewItem::ListViewType lvt, UMLObject  *o= nullptr);
 Uml::DiagramType::Enum convert_LVT_DT(UMLListViewItem::ListViewType lvt);
 MultiPageDialogBase::PageType convert_LVT_PT(UMLListViewItem::ListViewType type);
 Uml::ModelType::Enum convert_OT_MT(UMLObject::ObjectType ot);
@@ -113,7 +113,7 @@ struct NameAndType {  ///< Data structure filled by parseAttribute().
     UMLObject *m_type;
     Uml::ParameterDirection::Enum m_direction;
     QString m_initialValue;
-    NameAndType() : m_type(0), m_direction(Uml::ParameterDirection::In) {}
+    NameAndType() : m_type(nullptr), m_direction(Uml::ParameterDirection::In) {}
     NameAndType(QString name, UMLObject *type,
                 Uml::ParameterDirection::Enum direction = Uml::ParameterDirection::In,
                 QString initialValue = QString())
@@ -132,7 +132,7 @@ struct OpDescriptor {  ///< Data structure filled by parseOperation().
 
 Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningScope);
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope,
-                            Uml::Visibility::Enum *vis = 0);
+                            Uml::Visibility::Enum  *vis = nullptr);
 Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owningScope);
 Parse_Status parseConstraint(QString m, QString& name, UMLEntity* owningScope);
 

@@ -53,7 +53,7 @@ bool bNewUMLObjectWasCreated = false;
  * Related classifier for creation of dependencies on template
  * parameters in createUMLObject().
  */
-UMLClassifier * gRelatedClassifier = 0;
+UMLClassifier  *gRelatedClassifier = nullptr;
 
 /**
  * On encountering a scoped typename string where the scopes
@@ -192,7 +192,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     QString name = inName;
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLFolder *logicalView = umldoc->rootFolder(Uml::ModelType::Logical);
-    if (parentPkg == 0) {
+    if (parentPkg == nullptr) {
         // logDebug1("Import_Utils::createUMLObject(%1): parentPkg is 0, assuming Logical View", name);
         parentPkg = logicalView;
     } else if (parentPkg->baseType() == UMLObject::ot_Artifact) {
@@ -218,7 +218,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     }
     checkStdString(name);
     bNewUMLObjectWasCreated = false;
-    UMLObject *o = 0;
+    UMLObject  *o = nullptr;
     if (searchInParentPackageOnly) {
         o = Model_Utils::findUMLObject(parentPkg->containedObjects(), name, type);
         if (!o) {
@@ -229,7 +229,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     } else {
         o = umldoc->findUMLObject(name, type, parentPkg);
     }
-    if (o == 0) {
+    if (o == nullptr) {
         // Strip possible adornments and look again.
         bool isConst = false;
         if (name.contains(QRegExp(QStringLiteral("^const ")))) {
@@ -256,7 +256,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         typeName = typeName.simplified();
         checkStdString(typeName);
         UMLObject *origType = umldoc->findUMLObject(typeName, UMLObject::ot_UMLObject, parentPkg);
-        if (origType == 0) {
+        if (origType == nullptr) {
             // Still not found. Create the stripped down type.
             if (bPutAtGlobalScope)
                 parentPkg = logicalView;
@@ -315,7 +315,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
             o = Object_Factory::createUMLObject(UMLObject::ot_Datatype, name,
                                                 umldoc->datatypeFolder(),
                                                 false); //solicitNewName
-            UMLDatatype *dt = o ? o->asUMLDatatype() : 0;
+            UMLDatatype *dt = o ? o->asUMLDatatype() : nullptr;
             UMLClassifier *c = origType->asUMLClassifier();
             if (dt && c)
                 dt->setOriginType(c);
@@ -358,7 +358,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     if (o && !stereotype.isEmpty()) {
         o->setStereotype(stereotype);
     }
-    if (gRelatedClassifier == 0 || gRelatedClassifier == o)
+    if (gRelatedClassifier == nullptr || gRelatedClassifier == o)
         return o;
     QRegExp templateInstantiation(QStringLiteral("^[\\w:\\.]+\\s*<(.*)>"));
     int pos = templateInstantiation.indexIn(name);
@@ -372,7 +372,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     QStringList::ConstIterator end(params.end());
     for (QStringList::ConstIterator it(params.begin()); it != end; ++it) {
         UMLObject *p = umldoc->findUMLObject(*it, UMLObject::ot_UMLObject, parentPkg);
-        if (p == 0 || p->isUMLDatatype())
+        if (p == nullptr || p->isUMLDatatype())
             continue;
         const Uml::AssociationType::Enum at = Uml::AssociationType::Dependency;
         UMLAssociation *assoc = umldoc->findAssociation(at, gRelatedClassifier, p);
@@ -382,7 +382,7 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
         assoc->setUMLPackage(umldoc->rootFolder(Uml::ModelType::Logical));
         umldoc->addAssociation(assoc);
     }
-    if (o == 0) {
+    if (o == nullptr) {
         logError1("Import_Utils::createUMLObject(%1) : operation failed", inName);
     }
     return o;
@@ -462,7 +462,7 @@ UMLAttribute* insertAttribute(UMLClassifier *owner,
            (ot == UMLObject::ot_Interface && pl == Uml::ProgrammingLanguage::Java))) {
         logDebug2("Import_Utils::insertAttribute: Don't know what to do with %1 (object type %2)",
                   owner->name(), UMLObject::toString(ot));
-        return 0;
+        return nullptr;
     }
     UMLObject *o = owner->findChildObject(name, UMLObject::ot_Attribute);
     if (o) {
@@ -490,11 +490,11 @@ UMLAttribute *insertAttribute(UMLClassifier *owner, Uml::Visibility::Enum scope,
                            bool isStatic /* =false */)
 {
     UMLObject *attrType = owner->findTemplate(type);
-    if (attrType == 0) {
+    if (attrType == nullptr) {
         bPutAtGlobalScope = true;
         gRelatedClassifier = owner;
         attrType = createUMLObject(UMLObject::ot_UMLObject, type, owner);
-        gRelatedClassifier = 0;
+        gRelatedClassifier = nullptr;
         bPutAtGlobalScope = false;
     }
     return insertAttribute (owner, scope, name,
@@ -534,11 +534,11 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
             op->setType(klass);
         } else {
             UMLObject *typeObj = klass->findTemplate(type);
-            if (typeObj == 0) {
+            if (typeObj == nullptr) {
                 bPutAtGlobalScope = true;
                 gRelatedClassifier = klass;
                 typeObj = createUMLObject(UMLObject::ot_UMLObject, type, klass);
-                gRelatedClassifier = 0;
+                gRelatedClassifier = nullptr;
                 bPutAtGlobalScope = false;
                 op->setType(typeObj);
             }
@@ -598,12 +598,12 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
                                  const QString& name)
 {
     UMLClassifier *owner = method->umlParent()->asUMLClassifier();
-    UMLObject *typeObj = owner ? owner->findTemplate(type) : 0;
-    if (typeObj == 0) {
+    UMLObject *typeObj = owner ? owner->findTemplate(type) : nullptr;
+    if (typeObj == nullptr) {
         bPutAtGlobalScope = true;
         gRelatedClassifier = owner;
         typeObj = createUMLObject(UMLObject::ot_UMLObject, type, owner);
-        gRelatedClassifier = 0;
+        gRelatedClassifier = nullptr;
         bPutAtGlobalScope = false;
     }
     UMLAttribute *attr = Object_Factory::createAttribute(method, name, typeObj);
@@ -732,13 +732,13 @@ UMLObject *createArtifact(const QString& name,
 void createGeneralization(UMLClassifier *child, const QString &parentName)
 {
     const QString& scopeSep = UMLApp::app()->activeLanguageScopeSeparator();
-    UMLObject *parentObj = 0;
+    UMLObject  *parentObj = nullptr;
     if (parentName.contains(scopeSep)) {
         QStringList split = parentName.split(scopeSep);
         QString className = split.last();
         split.pop_back(); // remove the classname
-        UMLPackage *parent = 0;
-        UMLPackage *current = 0;
+        UMLPackage  *parent = nullptr;
+        UMLPackage  *current = nullptr;
         for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
             QString name = (*it);
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
@@ -769,27 +769,27 @@ void createGeneralization(UMLClassifier *child, const QString &parentName)
  */
 UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope)
 {
-    if (ns == 0) {
-        return 0;
+    if (ns == nullptr) {
+        return nullptr;
     }
     QString comment = ns->doc();
     QString name = ns->name();
     QString stereotype = ns->stereotype();
     Uml::Visibility::Enum visibility = ns->visibility();
     UMLApp::app()->document()->removeUMLObject(ns, true);
-    if (currentScope == 0)
+    if (currentScope == nullptr)
         currentScope = UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical);
     UMLObject *o = Object_Factory::createNewUMLObject(UMLObject::ot_Enum, name, currentScope, false);
     if (!o) {
         logDebug1("Import_Utils::remapUMLEnum(%1) : Object_Factory::createNewUMLObject(ot_Enum) returns null",
                   name);
-        return 0;
+        return nullptr;
     }
     UMLEnum *e = o->asUMLEnum();
     if (!e) {
         logDebug1("Import_Utils::remapUMLEnum(%1) : object returned by Object_Factory::createNewUMLObject "
                   "is not Enum", name);
-        return 0;
+        return nullptr;
     }
     e->setDoc(comment);
     e->setStereotypeCmd(stereotype.isEmpty() ? QStringLiteral("enum") : stereotype);
@@ -798,7 +798,7 @@ UMLEnum *remapUMLEnum(UMLObject *ns, UMLPackage *currentScope)
     if (currentScope->addObject(e, false))  // false => non interactively
         return e;
     logDebug2("Import_Utils::remapUMLEnum(%1) : name is already present in %2", name, currentScope->name());
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -833,7 +833,7 @@ bool isDatatype(const QString& name, UMLPackage *parentPkg)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLObject * o = umldoc->findUMLObject(name, UMLObject::ot_Datatype, parentPkg);
-    return (o != 0);
+    return (o != nullptr);
 }
 
 /**

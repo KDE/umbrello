@@ -38,8 +38,8 @@ DEBUG_REGISTER(ToolBarStateAssociation)
  */
 ToolBarStateAssociation::ToolBarStateAssociation(UMLScene *umlScene)
   : ToolBarStatePool(umlScene),
-    m_firstWidget(0),
-    m_associationLine(0)
+    m_firstWidget(nullptr),
+    m_associationLine(nullptr)
 {
 }
 
@@ -358,9 +358,9 @@ bool ToolBarStateAssociation::addAssociationInViewAndDoc(AssociationWidget* asso
  */
 void ToolBarStateAssociation::cleanAssociation()
 {
-    m_firstWidget = 0;
+    m_firstWidget = nullptr;
 
     delete m_associationLine;
-    m_associationLine = 0;
+    m_associationLine = nullptr;
 }
 

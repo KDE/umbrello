@@ -36,12 +36,12 @@
  */
 AssociationRolePage::AssociationRolePage (QWidget *parent, AssociationWidget *assoc)
   : DialogPageBase(parent),
-    m_pRoleALE(0),
-    m_pRoleBLE(0),
-    m_pMultiACB(0),
-    m_pMultiBCB(0),
+    m_pRoleALE(nullptr),
+    m_pRoleBLE(nullptr),
+    m_pMultiACB(nullptr),
+    m_pMultiBCB(nullptr),
     m_pAssociationWidget(assoc),
-    m_pWidget(0)
+    m_pWidget(nullptr)
 {
     constructWidget();
 }
@@ -104,13 +104,13 @@ void AssociationRolePage::constructWidget()
     //
 
     // Rolename A
-    QLabel *pRoleAL = 0;
+    QLabel  *pRoleAL = nullptr;
     Dialog_Utils::makeLabeledEditField(propsALayout, 0,
                                     pRoleAL, i18n("Rolename:"),
                                     m_pRoleALE, nameA);
 
     // Multi A
-    QLabel *pMultiAL = 0;
+    QLabel  *pMultiAL = nullptr;
     pMultiAL = new QLabel(i18n("Multiplicity:"), propsAGB);
     m_pMultiACB = new KComboBox(propsAGB);
     m_pMultiACB->addItems(multiplicities);
@@ -153,13 +153,13 @@ void AssociationRolePage::constructWidget()
     }
 
     // Rolename B
-    QLabel * pRoleBL = 0;
+    QLabel  *pRoleBL = nullptr;
     Dialog_Utils::makeLabeledEditField(propsBLayout, 0,
                                     pRoleBL, i18n("Rolename:"),
                                     m_pRoleBLE, nameB);
 
     // Multi B
-    QLabel *pMultiBL = 0;
+    QLabel  *pMultiBL = nullptr;
     pMultiBL = new QLabel(i18n("Multiplicity:"), propsBGB);
     m_pMultiBCB = new KComboBox(propsBGB);
     m_pMultiBCB->addItems(multiplicities);

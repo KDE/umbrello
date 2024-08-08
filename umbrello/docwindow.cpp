@@ -67,11 +67,11 @@ public:
  */
 DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
   : QWidget(parent),
-    m_pUMLObject(0),
-    m_pUMLScene(0),
+    m_pUMLObject(nullptr),
+    m_pUMLScene(nullptr),
     m_pUMLDoc(doc),
-    m_pUMLWidget(0),
-    m_pAssocWidget(0),
+    m_pUMLWidget(nullptr),
+    m_pAssocWidget(nullptr),
     m_Showing(st_Project),
     m_focusEnabled(false)
 {
@@ -304,10 +304,10 @@ void DocWindow::updateDocumentation(bool clear, bool startup)
  */
 void DocWindow::reset()
 {
-    m_pUMLScene = 0;
-    m_pUMLObject = 0;
-    m_pUMLWidget = 0;
-    m_pAssocWidget = 0;
+    m_pUMLScene = nullptr;
+    m_pUMLObject = nullptr;
+    m_pUMLWidget = nullptr;
+    m_pAssocWidget = nullptr;
     m_Showing = st_Project;
     m_docTE->setText(m_pUMLDoc->documentation());
     updateLabel(m_pUMLDoc->name());

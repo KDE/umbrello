@@ -18,7 +18,7 @@ class UMLObject;
 class CsValaImportBase : public NativeImportBase
 {
 public:
-    explicit CsValaImportBase(CodeImpThread* thread = 0);
+    explicit CsValaImportBase(CodeImpThread *thread = nullptr);
     virtual ~CsValaImportBase();
     virtual QString fileExtension();
 

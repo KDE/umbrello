@@ -25,7 +25,7 @@ CPPHeaderCodeClassFieldDeclarationBlock::~CPPHeaderCodeClassFieldDeclarationBloc
 void CPPHeaderCodeClassFieldDeclarationBlock::updateContent()
 {
     UMLObject *umlparent = CodeClassFieldDeclarationBlock::getParentObject();
-    if (umlparent == 0) {
+    if (umlparent == nullptr) {
         return;
     }
 
@@ -33,7 +33,7 @@ void CPPHeaderCodeClassFieldDeclarationBlock::updateContent()
     CPPCodeClassField * hcppcf = dynamic_cast<CPPCodeClassField*>(cf);
 
     // Check for dynamic casting failure!
-    if (hcppcf == 0)
+    if (hcppcf == nullptr)
     {
         logError0("hcppcf: invalid dynamic cast");
         return;

@@ -20,7 +20,7 @@ class JavaCodeGenerationPolicy : public CodeGenPolicyExt
     Q_OBJECT
 public:
 
-    //JavaCodeGenerationPolicy(CodeGenerationPolicy * defaults = 0);
+    //JavaCodeGenerationPolicy(CodeGenerationPolicy  *defaults = nullptr);
     JavaCodeGenerationPolicy();
 
     virtual ~JavaCodeGenerationPolicy();
@@ -34,7 +34,7 @@ public:
     virtual void setDefaults(CodeGenPolicyExt * defaults, bool emitUpdateSignal = true);
     virtual void setDefaults(bool emitUpdateSignal = true);
 
-    CodeGenerationPolicyPage * createPage (QWidget *parent = 0, const char * name = 0);
+    CodeGenerationPolicyPage   *createPage (QWidget *parent = nullptr, const char * name = nullptr);
 
 private:
 

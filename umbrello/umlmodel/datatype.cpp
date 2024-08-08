@@ -108,7 +108,7 @@ void UMLDatatype::saveToXMI(QXmlStreamWriter& writer)
 {
     UMLObject::save1(writer, QStringLiteral("DataType"));
 
-    if (m_pSecondary != 0)
+    if (m_pSecondary != nullptr)
         writer.writeAttribute(QStringLiteral("elementReference"),
                                         Uml::ID::toString(m_pSecondary->id()));
     if (!m_isActive)

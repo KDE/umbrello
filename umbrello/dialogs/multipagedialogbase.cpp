@@ -42,15 +42,15 @@ DEBUG_REGISTER(MultiPageDialogBase)
  */
 MultiPageDialogBase::MultiPageDialogBase(QWidget *parent, bool withDefaultButton)
   : QWidget(parent),
-    m_pAssocGeneralPage(0),
-    m_notePage(0),
-    m_operationGeneralPage(0),
-    m_pRolePage(0),
-    m_fontChooser(0),
-    m_pStylePage(0),
-    m_pageItem(0),
-    m_pageDialog(0),
-    m_pageWidget(0),
+    m_pAssocGeneralPage(nullptr),
+    m_notePage(nullptr),
+    m_operationGeneralPage(nullptr),
+    m_pRolePage(nullptr),
+    m_fontChooser(nullptr),
+    m_pStylePage(nullptr),
+    m_pageItem(nullptr),
+    m_pageDialog(nullptr),
+    m_pageWidget(nullptr),
     m_useDialog(!parent || strcmp(parent->metaObject()->className(),"PropertiesWindow") != 0),
     m_isModified(false)
 {
@@ -420,7 +420,7 @@ KPageWidgetItem *MultiPageDialogBase::setupStylePage(WidgetBase *widget)
  */
 KPageWidgetItem *MultiPageDialogBase::setupStylePage(AssociationWidget *widget)
 {
-    m_pStylePage = new UMLWidgetStylePage(0, widget);
+    m_pStylePage = new UMLWidgetStylePage(nullptr, widget);
     return createPage(i18nc("style page name", "Style"), i18n("Line Style"),
                       Icon_Utils::it_Properties_Color, m_pStylePage);
 }
@@ -440,7 +440,7 @@ void MultiPageDialogBase::applyStylePage()
  */
 KPageWidgetItem *MultiPageDialogBase::setupAssociationRolePage(AssociationWidget *widget)
 {
-    m_pRolePage = new AssociationRolePage(0, widget);
+    m_pRolePage = new AssociationRolePage(nullptr, widget);
     return createPage(i18nc("role page name", "Roles"), i18n("Role Settings"),
                       Icon_Utils::it_Properties_Roles, m_pRolePage);
 }

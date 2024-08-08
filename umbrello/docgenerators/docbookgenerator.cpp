@@ -35,7 +35,7 @@ DocbookGenerator::DocbookGenerator()
   umlDoc = UMLApp::app()->document();
   m_pStatus = true;
   m_pThreadFinished = false;
-  docbookGeneratorJob = 0;
+  docbookGeneratorJob = nullptr;
 }
 
 /**
@@ -124,7 +124,7 @@ void DocbookGenerator::threadFinished()
 {
     m_pThreadFinished = true;
     delete docbookGeneratorJob;
-    docbookGeneratorJob = 0;
+    docbookGeneratorJob = nullptr;
 }
 
 /**

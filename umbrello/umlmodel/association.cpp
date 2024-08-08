@@ -57,7 +57,7 @@ UMLAssociation::UMLAssociation(Uml::AssociationType::Enum type,
 UMLAssociation::UMLAssociation(Uml::AssociationType::Enum type)
   : UMLObject(QString(), Uml::ID::Reserved)
 {
-    init(type, 0, 0);
+    init(type, nullptr, nullptr);
 }
 
 /**
@@ -65,17 +65,17 @@ UMLAssociation::UMLAssociation(Uml::AssociationType::Enum type)
  */
 UMLAssociation::~UMLAssociation()
 {
-    if (m_pRole[RoleType::A] == 0) {
+    if (m_pRole[RoleType::A] == nullptr) {
         logError0("UMLAssociation destructor: m_pRole[A] is null already");
     } else {
         delete m_pRole[RoleType::A];
-        m_pRole[RoleType::A] = 0;
+        m_pRole[RoleType::A] = nullptr;
     }
-    if (m_pRole[RoleType::B] == 0) {
+    if (m_pRole[RoleType::B] == nullptr) {
         logError0("UMLAssociation destructor: m_pRole[B] is null already");
     } else {
         delete m_pRole[RoleType::B];
-        m_pRole[RoleType::B] = 0;
+        m_pRole[RoleType::B] = nullptr;
     }
 }
 
@@ -219,7 +219,7 @@ bool UMLAssociation::load1(QDomElement & element)
         return false; // old style XMI file. No real info in this association.
 
     UMLDoc * doc = UMLApp::app()->document();
-    UMLObject * obj[2] = { 0, NULL };
+    UMLObject * obj[2] = { nullptr, NULL };
     if (m_AssocType == Uml::AssociationType::Generalization ||
         m_AssocType == Uml::AssociationType::Realization    ||
         m_AssocType == Uml::AssociationType::Dependency     ||
@@ -228,7 +228,7 @@ bool UMLAssociation::load1(QDomElement & element)
         QString general = element.attribute(QStringLiteral("general"));
         if (!general.isEmpty()) {
             UMLClassifier *owningClassifier = umlParent()->asUMLClassifier();
-            if (owningClassifier == 0){
+            if (owningClassifier == nullptr){
                 logWarn1("Cannot load UML2 generalization: m_pUMLPackage (%1) is expected "
                          "to be the owning classifier (=client)", umlParent()->name());
                 return false;
@@ -253,11 +253,11 @@ bool UMLAssociation::load1(QDomElement & element)
             // set umlobject of role if possible (else defer resolution)
             obj[r] = doc->findObjectById(Uml::ID::fromString(roleIdStr));
             Uml::RoleType::Enum role = Uml::RoleType::fromInt(r);
-            if (obj[r] == 0) {
+            if (obj[r] == nullptr) {
                 m_pRole[role]->setSecondaryId(roleIdStr);  // defer to resolveRef()
             } else {
                 m_pRole[role]->setObject(obj[r]);
-                if (umlPackage() == 0) {
+                if (umlPackage() == nullptr) {
                     Uml::ModelType::Enum mt = Model_Utils::convert_OT_MT(obj[r]->baseType());
                     setUMLPackage(doc->rootFolder(mt));
                     DEBUG() << "assoctype " << m_AssocType
@@ -265,7 +265,7 @@ bool UMLAssociation::load1(QDomElement & element)
                 }
             }
         }
-        if (obj[RoleType::A] == 0 || obj[RoleType::B] == 0) {
+        if (obj[RoleType::A] == nullptr || obj[RoleType::B] == nullptr) {
             for (QDomNode node = element.firstChild(); !node.isNull();
                     node = node.nextSibling()) {
                 if (node.isComment())
@@ -367,7 +367,7 @@ bool UMLAssociation::load1(QDomElement & element)
         if (! getUMLRole(RoleType::B)->loadFromXMI(tempElement))
             return false;
 
-        if (umlPackage() == 0) {
+        if (umlPackage() == nullptr) {
             Uml::ModelType::Enum mt = Model_Utils::convert_OT_MT(getObject(RoleType::B)->baseType());
             setUMLPackage(doc->rootFolder(mt));
             DEBUG() << "setting model type " << Uml::ModelType::toString(mt);
@@ -504,8 +504,8 @@ bool UMLAssociation::load1(QDomElement & element)
  */
 UMLObject* UMLAssociation::getObject(Uml::RoleType::Enum role) const
 {
-    if (m_pRole[role] == 0)
-        return 0;
+    if (m_pRole[role] == nullptr)
+        return nullptr;
     return m_pRole[role]->object();
 }
 
@@ -517,10 +517,10 @@ UMLObject* UMLAssociation::getObject(Uml::RoleType::Enum role) const
 Uml::ID::Type UMLAssociation::getObjectId(Uml::RoleType::Enum role) const
 {
     UMLRole *roleObj = m_pRole[role];
-    if (roleObj == 0)
+    if (roleObj == nullptr)
         return Uml::ID::None;
     UMLObject *o = roleObj->object();
-    if (o == 0) {
+    if (o == nullptr) {
         QString auxID = roleObj->secondaryId();
         if (auxID.isEmpty()) {
             logError1("UMLAssociation::getObjectId role %1 : getObject returns null",

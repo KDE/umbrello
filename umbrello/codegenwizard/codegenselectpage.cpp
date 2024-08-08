@@ -54,7 +54,7 @@ void CodeGenSelectPage::setClassifierList(UMLClassifierList *classList)
     UMLClassifierList cList;
     ui_listSelected->clear();
 
-    if (classList == 0) {
+    if (classList == nullptr) {
         Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
         switch (pl) {
             case Uml::ProgrammingLanguage::PostgreSQL:

@@ -2975,7 +2975,7 @@ static const char *reserved_words[] = {
     "zip_entry_read",
     "zip_open",
     "zip_read",
-    0
+    nullptr
 };
 
 Php5Writer::Php5Writer()
@@ -3091,7 +3091,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
             //maybe we should parse the string here and take multiplicity into account to decide
             //which container to use.
             UMLObject *o = a->getObject(Uml::RoleType::A);
-            if (o == 0) {
+            if (o == nullptr) {
                 logError0("Php5Writer::writeClass: aggregation role A object is NULL");
                 continue;
             }

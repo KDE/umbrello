@@ -405,7 +405,7 @@ Uml::Visibility::Enum CodeGenerationPolicy::getAssociationFieldScope()
  */
 CodeGenerationPolicyPage * CodeGenerationPolicy::createPage (QWidget *pWidget, const char *name)
 {
-    return new CodeGenerationPolicyPage (pWidget, name, 0);
+    return new CodeGenerationPolicyPage (pWidget, name, nullptr);
 }
 
 /**

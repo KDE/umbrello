@@ -39,11 +39,11 @@ AssociationLine::AssociationLine(AssociationWidget *association)
     m_associationWidget(association),
     m_activePointIndex(-1),
     m_activeSegmentIndex(-1),
-    m_startSymbol(0),
-    m_endSymbol(0),
-    m_subsetSymbol(0),
-    m_collaborationLineItem(0),
-    m_collaborationLineHead(0),
+    m_startSymbol(nullptr),
+    m_endSymbol(nullptr),
+    m_subsetSymbol(nullptr),
+    m_collaborationLineItem(nullptr),
+    m_collaborationLineHead(nullptr),
     m_layout(Settings::optionState().generalState.layoutType),
     m_autoLayoutSpline(true)
 {
@@ -601,7 +601,7 @@ void AssociationLine::setStartSymbol(Symbol::SymbolType symbolType)
     Q_ASSERT(symbolType != Symbol::Count);
     if (symbolType == Symbol::None) {
         delete m_startSymbol;
-        m_startSymbol = 0;
+        m_startSymbol = nullptr;
         return;
     }
 
@@ -625,7 +625,7 @@ void AssociationLine::setEndSymbol(Symbol::SymbolType symbolType)
     Q_ASSERT(symbolType != Symbol::Count);
     if (symbolType == Symbol::None) {
         delete m_endSymbol;
-        m_endSymbol = 0;
+        m_endSymbol = nullptr;
         return;
     }
 
@@ -656,7 +656,7 @@ void AssociationLine::createSubsetSymbol()
 void AssociationLine::removeSubsetSymbol()
 {
     delete m_subsetSymbol;
-    m_subsetSymbol = 0;
+    m_subsetSymbol = nullptr;
 }
 
 /**
@@ -687,10 +687,10 @@ void AssociationLine::createCollaborationLine()
 void AssociationLine::removeCollaborationLine()
 {
     delete m_collaborationLineItem;
-    m_collaborationLineItem = 0;
+    m_collaborationLineItem = nullptr;
 
     delete m_collaborationLineHead;
-    m_collaborationLineHead = 0;
+    m_collaborationLineHead = nullptr;
 }
 
 /**

@@ -65,7 +65,7 @@ public:
      */
     virtual void setCustomOpText(const QString &opText) = 0;
 
-    QString operationText(UMLScene *scene = 0);
+    QString operationText(UMLScene  *scene = nullptr);
 
     virtual void resetTextPositions();
 

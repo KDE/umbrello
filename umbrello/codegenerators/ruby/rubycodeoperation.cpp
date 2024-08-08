@@ -199,7 +199,7 @@ int RubyCodeOperation::lastEditableLine()
     ClassifierCodeDocument * doc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
 
     // Check for dynamic casting failure
-    if (doc == 0)
+    if (doc == nullptr)
     {
         logError0("RubyCodeOperation::lastEditableLine doc: invalid dynamic cast");
         return -1;

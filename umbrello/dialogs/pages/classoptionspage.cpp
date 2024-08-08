@@ -415,17 +415,17 @@ void ClassOptionsPage::applyEntityWidget()
  */
 void ClassOptionsPage::init()
 {
-    m_scene = 0;
-    m_options = 0;
-    m_pWidget = 0;
-    m_entityWidget = 0;
-    m_showStereotypeCB = 0;
-    m_showAttsCB = 0;
-    m_showAttSigCB = 0;
-    m_showAttribAssocsCB = 0;
-    m_showDocumentationCB = 0;
-    m_showPublicOnlyCB = 0;
-    m_drawAsCircleCB = 0;
+    m_scene = nullptr;
+    m_options = nullptr;
+    m_pWidget = nullptr;
+    m_entityWidget = nullptr;
+    m_showStereotypeCB = nullptr;
+    m_showAttsCB = nullptr;
+    m_showAttSigCB = nullptr;
+    m_showAttribAssocsCB = nullptr;
+    m_showDocumentationCB = nullptr;
+    m_showPublicOnlyCB = nullptr;
+    m_drawAsCircleCB = nullptr;
 }
 
 /**

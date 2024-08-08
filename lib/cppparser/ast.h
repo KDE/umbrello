@@ -29,7 +29,7 @@ private:
 public:
     typedef _Tp element_type;
 
-    explicit AUTO_PTR(_Tp* __p = 0)  _THROW0() : _M_ptr(__p) {}
+    explicit AUTO_PTR(_Tp *__p = nullptr)  _THROW0() : _M_ptr(__p) {}
 
     template <class _Tp1> AUTO_PTR(AUTO_PTR<_Tp1>& __a)  _THROW0()
         : _M_ptr(__a.release()) {}
@@ -80,7 +80,7 @@ public:
         _M_ptr = 0;
         return __tmp;
     }
-    void reset(_Tp* __p = 0)  _THROW0()
+    void reset(_Tp *__p = nullptr)  _THROW0()
     {
         delete _M_ptr;
         _M_ptr = __p;

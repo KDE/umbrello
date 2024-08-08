@@ -36,7 +36,7 @@ static const char description[] =
 
 int main(int argc, char *argv[])
 {
-  xsltStylesheetPtr cur = 0;
+  xsltStylesheetPtr cur = nullptr;
   xmlDocPtr doc, res;
 
   const char *params[16 + 1];

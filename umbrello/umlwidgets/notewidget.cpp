@@ -167,7 +167,7 @@ void NoteWidget::setDiagramLink(Uml::ID::Type viewID)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLView *view = umldoc->findView(viewID);
-    if (view == 0) {
+    if (view == nullptr) {
         logError1("NoteWidget::setDiagramLink: no view found for viewID %1",
                   Uml::ID::toString(viewID));
         return;
@@ -195,14 +195,14 @@ bool NoteWidget::setDiagramLink(const QString &diagramName)
     }
 
     UMLDoc *umldoc = UMLApp::app()->document();
-    UMLView *view = 0;
+    UMLView  *view = nullptr;
     for (int i = 1; i < Uml::DiagramType::N_DIAGRAMTYPES; ++i) {
         Uml::DiagramType::Enum dt = Uml::DiagramType::fromInt(i);
         view = umldoc->findView(dt, diagramName, true);
         if (view)
             break;
     }
-    if (view == 0 || view->umlScene() == 0) {
+    if (view == nullptr || view->umlScene() == nullptr) {
         m_diagramLink = Uml::ID::None;
         return false;
     }
@@ -230,7 +230,7 @@ void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
     } else {
         targetWidget->cleanup();
         delete targetWidget;
-        targetWidget = 0;
+        targetWidget = nullptr;
     }
 }
 
@@ -271,7 +271,7 @@ void NoteWidget::saveToXMI(QXmlStreamWriter& writer)
 bool NoteWidget::showPropertiesDialog()
 {
     bool result = false;
-    NoteDialog * dlg = 0;
+    NoteDialog  *dlg = nullptr;
     UMLApp::app()->docWindow()->updateDocumentation(false);
     dlg = new NoteDialog(umlScene()->activeView(), this);
     if (dlg->exec()) {
@@ -355,7 +355,7 @@ QSizeF NoteWidget::calculateSize(bool withExtensions /* = true */) const
  */
 void NoteWidget::paintText(QPainter *painter)
 {
-    if (painter == 0) {
+    if (painter == nullptr) {
         return;
     }
 
@@ -422,7 +422,7 @@ void NoteWidget::paintText(QPainter *painter)
  */
 void NoteWidget::paintTextWordWrap(QPainter *painter)
 {
-    if (painter == 0) {
+    if (painter == nullptr) {
         return;
     }
     QString text = documentation();

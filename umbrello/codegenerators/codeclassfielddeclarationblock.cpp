@@ -67,7 +67,7 @@ void CodeClassFieldDeclarationBlock::forceRelease()
         // m_parentclassfield->getParentObject()->disconnect(this);
         m_parentclassfield->disconnect(this);
     }
-    m_parentclassfield = 0;
+    m_parentclassfield = nullptr;
     OwnedCodeBlock::release();
     TextBlock::release();
 }
@@ -138,7 +138,7 @@ void CodeClassFieldDeclarationBlock::syncToParent ()
     if (!(getParentClassField()->parentIsAttribute()))
     {
         const UMLRole * parent = getParentObject()->asUMLRole();
-        if (parent == 0)
+        if (parent == nullptr)
             return;
         if (parent->name().isEmpty())
         {

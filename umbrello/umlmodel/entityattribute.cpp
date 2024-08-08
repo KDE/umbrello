@@ -233,7 +233,7 @@ UMLObject* UMLEntityAttribute::clone() const
 void UMLEntityAttribute::saveToXMI(QXmlStreamWriter& writer)
 {
     UMLObject::save1(writer, QStringLiteral("EntityAttribute"), QStringLiteral("ownedAttribute"));
-    if (m_pSecondary == 0) {
+    if (m_pSecondary == nullptr) {
         logDebug2("UMLEntityAttribute::saveToXMI %1: m_pSecondary is null, using local name %2",
                   name(), m_SecondaryId);
         writer.writeAttribute(QStringLiteral("type"), m_SecondaryId);

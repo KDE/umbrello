@@ -445,7 +445,7 @@ bool PythonImport::parseStmt()
         return true;
     }
     if (keyword == QStringLiteral("def")) {
-        if (m_klass == 0) {
+        if (m_klass == nullptr) {
             // skip functions outside of a class
             skipBody();
             return true;

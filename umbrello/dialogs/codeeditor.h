@@ -55,8 +55,8 @@ public:
     bool isClickable;
     bool isCodeAccessorMethod;
 
-    TextBlockInfo () { m_parent = 0; isClickable = false; isCodeAccessorMethod = false; }
-    void setParent(UMLObject *p = 0) { m_parent = p; }
+    TextBlockInfo () { m_parent = nullptr; isClickable = false; isCodeAccessorMethod = false; }
+    void setParent(UMLObject  *p = nullptr) { m_parent = p; }
     UMLObject * parent() { return m_parent; }
     void setDisplayName(const QString& name) { m_displayName = name; }
     QString displayName() const { return m_displayName; }
@@ -67,8 +67,8 @@ class CodeEditor : public KTextEdit
 {
     Q_OBJECT
 public:
-    explicit CodeEditor(const QString & text, CodeViewerDialog * parent = 0, CodeDocument * doc = 0);
-    explicit CodeEditor(CodeViewerDialog * parent = 0, CodeDocument * doc = 0);
+    explicit CodeEditor(const QString & text, CodeViewerDialog   *parent = nullptr, CodeDocument * doc = nullptr);
+    explicit CodeEditor(CodeViewerDialog   *parent = nullptr, CodeDocument * doc = nullptr);
     ~CodeEditor();
 
     Settings::CodeViewerState state();
@@ -81,7 +81,7 @@ protected:
     void appendText(CodeClassFieldDeclarationBlock * db);
     void appendText(TextBlockList * items);
     void appendText(CodeMethodBlock * mb);
-    void appendText(CodeComment * comment, TextBlock * parent, UMLObject * umlObj = 0, const QString & compName = QString());
+    void appendText(CodeComment  *comment, TextBlock * parent, UMLObject * umlObj = nullptr, const QString & compName = QString());
     void appendText(CodeBlockWithComments * cb);
 
     void rebuildView(int startCursorPos);
@@ -117,7 +117,7 @@ private:
 
     void insertText(const QString & text, TextBlock * parent, bool isEditable = false,
                  const QColor & fgcolor = QColor("black"), const QColor & bgcolor = QColor("white"),
-                 UMLObject * umlobj = 0, const QString & displayName = QString(), int startLine = -1);
+                 UMLObject  *umlobj = nullptr, const QString & displayName = QString(), int startLine = -1);
 
     void editTextBlock(TextBlock * tBlock, int para);
     void clearText();

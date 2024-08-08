@@ -88,7 +88,7 @@ void JavaCodeClassFieldDeclarationBlock::updateContent()
         const UMLRole * role = cf->getParentObject()->asUMLRole();
 
         // Check for dynamic casting failure
-        if (role == 0)
+        if (role == nullptr)
         {
             logError0("JavaCodeClassFieldDeclarationBlock::updateContent role: invalid dynamic cast");
             return;

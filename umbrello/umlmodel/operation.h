@@ -23,7 +23,7 @@ public:
     UMLOperation(UMLClassifier * parent, const QString& name,
                  Uml::ID::Type id = Uml::ID::None,
                  Uml::Visibility::Enum s = Uml::Visibility::Public,
-                 UMLObject *rt = 0);
+                 UMLObject  *rt = nullptr);
     explicit UMLOperation(UMLClassifier * parent);
     virtual ~UMLOperation();
 
@@ -53,7 +53,7 @@ public:
 
     QString getUniqueParameterName() const;
 
-    virtual bool showPropertiesDialog(QWidget* parent = 0);
+    virtual bool showPropertiesDialog(QWidget* parent = nullptr);
 
     bool isConstructorOperation() const;
     bool isDestructorOperation() const;

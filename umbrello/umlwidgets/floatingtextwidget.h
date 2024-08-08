@@ -58,7 +58,7 @@ public:
     LinkWidget* link() const;
     void setLink(LinkWidget * l);
 
-    bool activate(IDChangeLog* ChangeLog = 0);
+    bool activate(IDChangeLog *ChangeLog = nullptr);
 
     Uml::TextRole::Enum textRole() const;
     void setTextRole(Uml::TextRole::Enum role);
@@ -73,7 +73,7 @@ public:
 
     UMLWidget* onWidget(const QPointF& p);
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     virtual void saveToXMI(QXmlStreamWriter& writer);
     virtual bool loadFromXMI(QDomElement& qElement);

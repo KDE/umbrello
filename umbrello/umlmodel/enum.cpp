@@ -102,7 +102,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
         QString name = newEnumLiteral->name();
 
         if(name.length() == 0) {
-            KMessageBox::error(0, i18n("That is an invalid name."), i18n("Invalid Name"));
+            KMessageBox::error(nullptr, i18n("That is an invalid name."), i18n("Invalid Name"));
         } else {
             goodName = true;
         }
@@ -110,7 +110,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
 
     if (!ok) {
         delete newEnumLiteral;
-        return 0;
+        return nullptr;
     }
 
     addEnumLiteral(newEnumLiteral);
@@ -131,7 +131,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
 UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const QString& value)
 {
     UMLObject *el = UMLCanvasObject::findChildObject(name);
-    if (el != 0) {
+    if (el != nullptr) {
         logDebug1("UMLEnum::addEnumLiteral: %1 is already present", name);
         return el;
     }
@@ -153,7 +153,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const 
 bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
 {
     QString name = (QString)literal->name();
-    if (findChildObject(name) == 0) {
+    if (findChildObject(name) == nullptr) {
         literal->setParent(this);
         subordinates().append(literal);
         UMLObject::emitModified();
@@ -180,7 +180,7 @@ bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, int position)
 {
     Q_ASSERT(literal);
     QString name = (QString)literal->name();
-    if (findChildObject(name) == 0) {
+    if (findChildObject(name) == nullptr) {
         literal->setParent(this);
         if (position >= 0 && position <= (int)subordinates().count())  {
             subordinates().insert(position, literal);
@@ -297,7 +297,7 @@ bool UMLEnum::load1(QDomElement& element)
  */
 UMLClassifierListItem* UMLEnum::makeChildObject(const QString& xmiTag)
 {
-    UMLClassifierListItem* pObject = 0;
+    UMLClassifierListItem *pObject = nullptr;
     if (UMLDoc::tagEq(xmiTag, QStringLiteral("EnumerationLiteral")) ||
                UMLDoc::tagEq(xmiTag, QStringLiteral("EnumLiteral"))) {
         pObject = new UMLEnumLiteral(this);

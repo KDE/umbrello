@@ -59,7 +59,7 @@ ChildWidgetPlacement* PinPortBase::createPlacement(WidgetBase::WidgetType type)
         return new ChildWidgetPlacementPort(this);
     }
     else {
-        return 0;
+        return nullptr;
     }
 }
 
@@ -72,7 +72,7 @@ void PinPortBase::init(UMLWidget *owner)
     m_ignoreSnapComponentSizeToGrid = true;
     m_resizable = false;
     setParentItem(owner);
-    m_pName = 0;
+    m_pName = nullptr;
     const int edgeLength = 15;  // old: (m_baseType == wt_Pin ? 10 : 15);
     const QSizeF fixedSize(edgeLength, edgeLength);
     setMinimumSize(fixedSize);
@@ -194,7 +194,7 @@ void PinPortBase::slotMenuSelection(QAction* action)
         if (m_pName) {
             action->setChecked(true);
             delete m_pName;
-            m_pName = 0;
+            m_pName = nullptr;
             setToolTip(name());
         } else {
             action->setChecked(false);
@@ -203,7 +203,7 @@ void PinPortBase::slotMenuSelection(QAction* action)
             m_pName->setText(name());  // to get geometry update
             m_pName->activate();
             UMLWidget* owner = ownerWidget();
-            if (owner == 0) {
+            if (owner == nullptr) {
                 logError0("PinPortBase::slotMenuSelection: ownerWidget() returns null");
                 setX(x());
                 setY(y());
@@ -257,7 +257,7 @@ UMLWidget* PinPortBase::onWidget(const QPointF &p)
 {
     UMLWidget * onWidget = UMLWidget::onWidget(p);
     logDebug4("PinPortBase::onWidget (%1,%2) returns %3 (owner %4)",
-              p.x(), p.y(), (onWidget != 0), ownerWidget()->name());
+              p.x(), p.y(), (onWidget != nullptr), ownerWidget()->name());
     if (onWidget) {
         return this;
     }
@@ -265,7 +265,7 @@ UMLWidget* PinPortBase::onWidget(const QPointF &p)
         logDebug1("PinPortBase::onWidget floatingtext: %1", m_pName->text());
         return m_pName->onWidget(p);
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -277,7 +277,7 @@ UMLWidget* PinPortBase::widgetWithID(Uml::ID::Type id)
         return this;
     if (m_pName && m_pName->widgetWithID(id))
         return m_pName;
-    return 0;
+    return nullptr;
 }
 
 
@@ -289,7 +289,7 @@ void PinPortBase::saveToXMI(QXmlStreamWriter& writer)
     QString tag = (baseType() == wt_Pin ? QStringLiteral("pinwidget")
                                         : QStringLiteral("portwidget"));
     writer.writeStartElement(tag);
-    Q_ASSERT(ownerWidget() != 0);
+    Q_ASSERT(ownerWidget() != nullptr);
     writer.writeAttribute(QStringLiteral("widgetaid"), Uml::ID::toString(ownerWidget()->id()));
     UMLWidget::saveToXMI(writer);
     if (m_pName && !m_pName->text().isEmpty()) {
@@ -309,7 +309,7 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
     QString widgetaid = qElement.attribute(QStringLiteral("widgetaid"), QStringLiteral("-1"));
     Uml::ID::Type aId = Uml::ID::fromString(widgetaid);
     UMLWidget *owner = m_scene->findWidget(aId);
-    if (owner == 0) {
+    if(owner == nullptr) {
         logDebug1("PinPortBase::loadFromXMI: owner object %1 not found", Uml::ID::toString(aId));
         return false;
     }
@@ -328,7 +328,7 @@ bool PinPortBase::loadFromXMI(QDomElement & qElement)
                 // Most likely cause: The FloatingTextWidget is empty.
                 // m_scene->removeItem(m_pName); m_pName->deleteLater();
                 delete m_pName;
-                m_pName = 0;
+                m_pName = nullptr;
             } else {
                 m_pName->activate();
                 m_pName->update();

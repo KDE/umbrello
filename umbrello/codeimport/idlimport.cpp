@@ -188,7 +188,7 @@ bool IDLImport::parseFile(const QString& filename)
 
     // Parse the QStringList m_source.
     m_scope.clear();
-    pushScope(0); // global scope
+    pushScope(nullptr); // global scope
     const int srcLength = m_source.count();
     for (m_srcIndex = 0; m_srcIndex < srcLength; ++m_srcIndex) {
         const QString& keyword = m_source[m_srcIndex];
@@ -390,11 +390,11 @@ bool IDLImport::parseStmt()
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, currentScope(), m_comment);
         UMLEnum *enumType = ns->asUMLEnum();
-        if (enumType == 0)
+        if (enumType == nullptr)
             enumType = Import_Utils::remapUMLEnum(ns, currentScope());
         m_srcIndex++;  // skip name
         while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QStringLiteral("}")) {
-            if (enumType != 0)
+            if (enumType != nullptr)
                 Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
             if (advance() != QStringLiteral(","))
                 break;
@@ -427,7 +427,7 @@ bool IDLImport::parseStmt()
             skipStmt();
             UMLObject::ObjectType ot = (oldType.length() ? UMLObject::ot_Class : UMLObject::ot_Datatype);
             UMLObject *pOld = m_doc->findUMLObject(oldType, UMLObject::ot_UMLObject, currentScope());
-            if (pOld == 0) {
+            if (pOld == nullptr) {
                 pOld = Import_Utils::createUMLObject(ot, oldType, currentScope());
             }
             UMLObject *dt = Import_Utils::createUMLObject(ot, newType, currentScope(), m_comment);
@@ -438,7 +438,7 @@ bool IDLImport::parseStmt()
             }
             QString stereoName = (oldType.length() ? QStringLiteral("idlSequence") : QStringLiteral("idlString"));
             UMLStereotype *pStereo = m_doc->findStereotype(stereoName);
-            if (pStereo == 0) {
+            if (pStereo == nullptr) {
                 pStereo = m_doc->createStereotype(stereoName);
                 UMLStereotype::AttributeDef tagDef(QStringLiteral("bound"), Uml::PrimitiveTypes::UnlimitedNatural);
                 // Empty bound stands for "unbounded".
@@ -475,10 +475,10 @@ bool IDLImport::parseStmt()
         UMLObject *pNew = Import_Utils::createUMLObject(ot, newType, currentScope(), m_comment,
                                                         QStringLiteral("idlTypedef")); /* stereotype */
         UMLClassifier *newClassifier = pNew->asUMLClassifier();
-        if (oldClassifier == 0) {
+        if (oldClassifier == nullptr) {
             log(QStringLiteral("Error: importIDL(typedef ") + newType +
                 QStringLiteral("): Origin type ") + oldType + QStringLiteral(" is not a classifier"));
-        } else if (newClassifier == 0) {
+        } else if (newClassifier == nullptr) {
             log(QStringLiteral("Error: importIDL(typedef ") + newType +
                 QStringLiteral(") internal error: Import_Utils::createUMLObject did not return a classifier"));
         } else {
@@ -570,7 +570,7 @@ bool IDLImport::parseStmt()
         return false;
     }
     // At this point we most definitely need a class.
-    if (m_klass == 0) {
+    if (m_klass == nullptr) {
         log(QStringLiteral("Error: importIDL: no class set for ") + name);
         return false;
     }
@@ -617,7 +617,7 @@ bool IDLImport::parseStmt()
         if (m_unionCases.count()) {
             const QString stereoName = QStringLiteral("idlCase");
             UMLStereotype *pStereo = m_doc->findStereotype(stereoName);
-            if (pStereo == 0) {
+            if (pStereo == nullptr) {
                 pStereo = m_doc->createStereotype(stereoName);
                 UMLStereotype::AttributeDef tagDef(QStringLiteral("label"), Uml::PrimitiveTypes::String);
                 pStereo->getAttributeDefs().append(tagDef);

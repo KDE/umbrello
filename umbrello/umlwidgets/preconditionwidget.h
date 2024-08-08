@@ -31,12 +31,12 @@ public:
     PreconditionWidget(UMLScene* scene, ObjectWidget* a, Uml::ID::Type id = Uml::ID::None);
     virtual ~PreconditionWidget();
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    void paint(QPainter  *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     int minY() const;
     int maxY() const;
 
-    bool activate(IDChangeLog* Log = 0);
+    bool activate(IDChangeLog *Log = nullptr);
     void resolveObjectWidget(IDChangeLog* log);
 
     virtual void saveToXMI(QXmlStreamWriter& writer);

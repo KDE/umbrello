@@ -20,7 +20,7 @@ namespace Uml
         m_name(name),
         m_type(type),
         m_pUMLDoc(doc),
-        m_pUMLView(0),
+        m_pUMLView(nullptr),
         m_parent(parent)
     {
         QString msg = i18n("Create diagram %1: %2", DiagramType::toString(type), name);

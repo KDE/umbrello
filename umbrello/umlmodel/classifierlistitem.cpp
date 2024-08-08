@@ -97,7 +97,7 @@ QString UMLClassifierListItem::toString(Uml::SignatureType::Enum sig, bool) cons
  */
 UMLClassifier * UMLClassifierListItem::getType() const
 {
-    return m_pSecondary ? m_pSecondary->asUMLClassifier() : 0;
+    return m_pSecondary ? m_pSecondary->asUMLClassifier() : nullptr;
 }
 
 /**
@@ -107,10 +107,10 @@ UMLClassifier * UMLClassifierListItem::getType() const
  */
 QString UMLClassifierListItem::getTypeName() const
 {
-    if (m_pSecondary == 0)
+    if (m_pSecondary == nullptr)
         return m_SecondaryId;
     const UMLPackage *typePkg = m_pSecondary->umlPackage();
-    if (typePkg != 0 && typePkg != umlPackage())
+    if (typePkg != nullptr && typePkg != umlPackage())
         return m_pSecondary->fullyQualifiedName();
     return m_pSecondary->name();
 }
@@ -137,13 +137,13 @@ void UMLClassifierListItem::setType(UMLObject *type)
 void UMLClassifierListItem::setTypeName(const QString &type)
 {
     if (type.isEmpty() || type == QStringLiteral("void")) {
-        m_pSecondary = 0;
+        m_pSecondary = nullptr;
         m_SecondaryId.clear();
         return;
     }
     UMLDoc *pDoc = UMLApp::app()->document();
     m_pSecondary = pDoc->findUMLObject(type);
-    if (m_pSecondary == 0) {
+    if (m_pSecondary == nullptr) {
         // Make data type for easily identified cases
         if (Model_Utils::isCommonDataType(type) || type.contains(QLatin1Char('*'))) {
             m_pSecondary = Object_Factory::createUMLObject(UMLObject::ot_Datatype, type);

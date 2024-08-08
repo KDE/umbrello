@@ -18,7 +18,7 @@ class UMLPackage;
  */
 namespace Import_Rose {
 
-    UMLPackage* loadFromMDL(QFile & file, UMLPackage *parentPkg = 0);
+    UMLPackage *loadFromMDL(QFile & file, UMLPackage *parentPkg = nullptr);
 
     QString mdlPath();
 

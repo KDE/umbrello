@@ -165,7 +165,7 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
             break;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -185,14 +185,14 @@ UMLObject* findObjectInList(Uml::ID::Type id, const UMLObjectList& inList)
 UMLObject* findUMLObject(const UMLObjectList& inList,
                          const QString& inName,
                          UMLObject::ObjectType type /* = ot_UMLObject */,
-                         UMLObject *currentObj /* = 0 */)
+                         UMLObject  *currentObj /* = nullptr */)
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     QString name = normalize(inName);
     const bool atGlobalScope = name.startsWith(QStringLiteral("::"));
     if (atGlobalScope) {
         name = name.mid(2);
-        currentObj = 0;
+        currentObj = nullptr;
     }
     QStringList components;
 #ifdef TRY_BUGFIX_120862
@@ -215,12 +215,12 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
         nameWithoutFirstPrefix = components.join(scopeSeparator);
     }
     if (currentObj) {
-        UMLPackage *pkg = 0;
+        UMLPackage  *pkg = nullptr;
         if (currentObj->asUMLClassifierListItem()) {
             currentObj = currentObj->umlParent();
         }
         pkg = currentObj->asUMLPackage();
-        if (pkg == 0 || pkg->baseType() == UMLObject::ot_Association)
+        if (pkg == nullptr || pkg->baseType() == UMLObject::ot_Association)
             pkg = currentObj->umlPackage();
         // Remember packages that we've seen - for avoiding cycles.
         UMLPackageList seenPkgs;
@@ -339,7 +339,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
         return findUMLObject(pkg->containedObjects(),
                               nameWithoutFirstPrefix, type);
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -360,7 +360,7 @@ UMLObject* findUMLObject(const UMLObjectList& inList,
 UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
                             const QString& name,
                             UMLObject::ObjectType type /* = ot_UMLObject */,
-                            UMLObject *currentObj /*= 0*/)
+                            UMLObject  *currentObj /*= nullptr*/)
 {
     Q_UNUSED(currentObj);
     for (UMLObjectListIt oit(inList); oit.hasNext();) {
@@ -368,7 +368,7 @@ UMLObject* findUMLObjectRaw(const UMLObjectList& inList,
         if (obj->name() == name && type == obj->baseType())
             return obj;
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -397,7 +397,7 @@ UMLObject* findUMLObjectRecursive(const UMLObjectList& inList,
                 return o;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -405,13 +405,13 @@ UMLObject* findUMLObjectRecursive(const UMLObjectList& inList,
  */
 UMLPackage* rootPackage(UMLObject* obj)
 {
-    if (obj == 0)
-        return 0;
+    if (obj == nullptr)
+        return nullptr;
     UMLPackage* root = obj->umlPackage();
-    if (root == 0) {
+    if (root == nullptr) {
         root = obj->asUMLPackage();
     } else {
-        while (root->umlPackage() != 0) {
+        while (root->umlPackage() != nullptr) {
             root = root->umlPackage();
         }
     }
@@ -505,7 +505,7 @@ UMLPackage* treeViewGetPackageFromCurrent()
         parentItem = static_cast<UMLListViewItem*>(parentItem->parent());
     }
 
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -527,10 +527,10 @@ QString treeViewBuildDiagramName(Uml::ID::Type id)
         // Relies on the tree structure of the UMLListView. There are a base "Views" folder
         // and five children, one for each view type (Logical, use case, components, deployment
         // and entity relationship)
-        while (listView->rootView(listViewItem->type()) == 0) {
+        while (listView->rootView(listViewItem->type()) == nullptr) {
             name.insert(0, listViewItem->text(0) + QLatin1Char('/'));
             listViewItem = static_cast<UMLListViewItem*>(listViewItem->parent());
-            if (listViewItem == 0)
+            if (listViewItem == nullptr)
                 break;
         }
         return name;
@@ -832,7 +832,7 @@ bool isCommonXMI1Attribute(const QString &tag)
 bool isCommonDataType(QString type)
 {
     CodeGenerator *gen = UMLApp::app()->generator();
-    if (gen == 0) {
+    if (gen == nullptr) {
         // When no code generator is set we use UMLPrimitiveTypes
         for (int i = 0; i < Uml::PrimitiveTypes::Reserved; i++) {
             if (type == Uml::PrimitiveTypes::toString(i))
@@ -927,7 +927,7 @@ Uml::ModelType::Enum guessContainer(UMLObject *o)
                 UMLDoc *umldoc = UMLApp::app()->document();
                 for (int r = Uml::RoleType::A; r <= Uml::RoleType::B; ++r) {
                     UMLObject *roleObj = assoc->getObject(Uml::RoleType::fromInt(r));
-                    if (roleObj == 0) {
+                    if (roleObj == nullptr) {
                         // Ouch! we have been called while types are not yet resolved
                         return Uml::ModelType::N_MODELTYPES;
                     }
@@ -1003,12 +1003,12 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
         UMLObject *pType = 0;
         if (nameAndType[1] != QStringLiteral("class")) {
             pType = pDoc->findUMLObject(nameAndType[1], UMLObject::ot_UMLObject, owningScope);
-            if (pType == 0)
+            if (pType == nullptr)
                 return PS_Unknown_ArgType;
         }
         nmTp = NameAndType(nameAndType[0], pType);
     } else {
-        nmTp = NameAndType(t, 0);
+        nmTp = NameAndType(t, nullptr);
     }
     return PS_OK;
 }
@@ -1041,7 +1041,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
 
     int colonPos = a.indexOf(QLatin1Char(':'));
     if (colonPos < 0) {
-        nmTp = NameAndType(a, 0);
+        nmTp = NameAndType(a, nullptr);
         return PS_OK;
     }
     QString name = a.left(colonPos).trimmed();
@@ -1077,14 +1077,14 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
     }
     a = a.mid(colonPos + 1).trimmed();
     if (a.isEmpty()) {
-        nmTp = NameAndType(name, 0, pd);
+        nmTp = NameAndType(name, nullptr, pd);
         return PS_OK;
     }
     QStringList typeAndInitialValue = a.split(QRegExp(QStringLiteral("\\s*=\\s*")));
     const QString &type = typeAndInitialValue[0];
     UMLObject *pType = pDoc->findUMLObject(type, UMLObject::ot_UMLObject, owningScope);
-    if (pType == 0) {
-        nmTp = NameAndType(name, 0, pd);
+    if (pType == nullptr) {
+        nmTp = NameAndType(name, nullptr, pd);
         return PS_Unknown_ArgType;
     }
     QString initialValue;
@@ -1128,7 +1128,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
             return PS_Illegal_MethodName;
         desc.m_name = beginningUpToOpenParenth.cap(1);
     }
-    desc.m_pReturnType = 0;
+    desc.m_pReturnType = nullptr;
     QRegExp pat = QRegExp(QStringLiteral("\\) *:(.*)$"));
     int pos = pat.indexIn(m);
     if (pos != -1) {  // return type is optional
@@ -1136,7 +1136,7 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
         retType = retType.trimmed();
         if (retType != QStringLiteral("void")) {
             UMLObject *pRetType = owningScope ? owningScope->findTemplate(retType) : 0;
-            if (pRetType == 0) {
+            if (pRetType == nullptr) {
                 pRetType = pDoc->findUMLObject(retType, UMLObject::ot_UMLObject, owningScope);
                 if (pRetType == 0)
                     return PS_Unknown_ReturnType;
@@ -1676,7 +1676,7 @@ UMLListViewItem::ListViewType convert_OT_LVT(UMLObject *o)
                     }
                     return type;
                 }
-            } while ((p = p->umlPackage()) != 0);
+            } while ((p = p->umlPackage()) != nullptr);
             logError1("Model_Utils::convert_OT_LVT(%1): internal error - "
                       "object is not properly nested in folder", o->name());
         }

@@ -69,7 +69,7 @@ WidgetBase::WidgetBase(UMLScene *scene, WidgetType type, Uml::ID::Type id)
   : QGraphicsObjectWrapper(),
     m_baseType(type),
     m_scene(scene),
-    m_umlObject(0),
+    m_umlObject(nullptr),
     m_nId(id == Uml::ID::None ? UniqueID::gen() : id),
     m_nLocalID(UniqueID::gen()),
     m_textColor(QColor("black")),
@@ -745,7 +745,7 @@ bool WidgetBase::loadFromXMI(QDomElement& qElement)
     if (lineColor != QStringLiteral("none")) {
         setLineColor(QColor(lineColor));
         m_usesDiagramLineColor = false;
-    } else if (m_baseType != WidgetBase::wt_Box && m_scene != 0) {
+    } else if (m_baseType != WidgetBase::wt_Box && m_scene != nullptr) {
         setLineColor(m_scene->lineColor());
         m_usesDiagramLineColor = true;
     }
@@ -883,8 +883,8 @@ QRectF WidgetBase::boundingRect() const
 UMLWidget* WidgetBase::onWidget(const QPointF &p)
 {
     UMLWidget *uw = this->asUMLWidget();
-    if (uw == 0)
-        return 0;
+    if (uw == nullptr)
+        return nullptr;
     const qreal w = m_rect.width();
     const qreal h = m_rect.height();
     const qreal left = x();  // don't use m_rect.x() for this, it is always 0
@@ -897,7 +897,7 @@ UMLWidget* WidgetBase::onWidget(const QPointF &p)
     if (p.x() < left || p.x() > right ||
             p.y() < top || p.y() > bottom) { // Qt coord.sys. origin in top left corner
         // uDebug() << "returning NULL";
-        return 0;
+        return nullptr;
     }
     // uDebug() << "returning this";
     return uw;
@@ -937,7 +937,7 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
             scene->clearSelected();
         }
 
-        if (umlObject() != 0) {
+        if (umlObject() != nullptr) {
             scene->selectWidget(this->asUMLWidget());
         } else {
             setSelected(true);
@@ -949,7 +949,7 @@ void WidgetBase::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     // Determine multi state
     bool multi = (isSelected() && count > 1);
 
-    WidgetBasePopupMenu popup(0, this, multi, scene->getUniqueSelectionType());
+    WidgetBasePopupMenu popup(nullptr, this, multi, scene->getUniqueSelectionType());
 
     // Disable the "view code" menu for simple code generators
     if (UMLApp::app()->isSimpleCodeGeneratorActive()) {

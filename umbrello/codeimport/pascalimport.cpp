@@ -239,7 +239,7 @@ bool PascalImport::parseStmt()
     }
     if (keyword == QStringLiteral("end")) {
         if (m_klass) {
-            m_klass = 0;
+            m_klass = nullptr;
         } else if (scopeIndex()) {
             popScope();
             m_currentAccess = Uml::Visibility::Public;
@@ -252,7 +252,7 @@ bool PascalImport::parseStmt()
     }
     if (keyword == QStringLiteral("function") || keyword == QStringLiteral("procedure") ||
         keyword == QStringLiteral("constructor") || keyword == QStringLiteral("destructor")) {
-        if (m_klass == 0) {
+        if (m_klass == nullptr) {
             // Unlike a Pascal unit, a UML package does not support subprograms.
             // In order to map those, we would need to create a UML class with
             // stereotype <<utility>> for the unit, https://bugs.kde.org/89167
@@ -338,7 +338,7 @@ bool PascalImport::parseStmt()
         skipStmt();
         return true;
     }
-    if (m_klass == 0) {
+    if (m_klass == nullptr) {
         const QString& name = m_source[m_srcIndex];
         QString nextToken = advance();
         if (nextToken != QStringLiteral("=")) {
@@ -352,10 +352,10 @@ bool PascalImport::parseStmt()
             UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                             name, currentScope(), m_comment);
             UMLEnum *enumType = ns->asUMLEnum();
-            if (enumType == 0)
+            if (enumType == nullptr)
                 enumType = Import_Utils::remapUMLEnum(ns, currentScope());
             while (++m_srcIndex < srcLength && m_source[m_srcIndex] != QStringLiteral(")")) {
-                if (enumType != 0)
+                if (enumType != nullptr)
                     Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
                 if (advance() != QStringLiteral(","))
                     break;
@@ -391,7 +391,7 @@ bool PascalImport::parseStmt()
                 advance();
                 do {
                     QString base = advance();
-                    UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, base, 0);
+                    UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Class, base, nullptr);
                     UMLClassifier *parent = ns->asUMLClassifier();
                     m_comment.clear();
                     Import_Utils::createGeneralization(klass, parent);
@@ -453,7 +453,7 @@ bool PascalImport::parseStmt()
         return true;
     }
     // At this point we need a class because we're expecting its member attributes.
-    if (m_klass == 0) {
+    if (m_klass == nullptr) {
         logDebug1("PascalImport::parseStmt: skipping %1", m_source[m_srcIndex]);
         skipStmt();
         return true;

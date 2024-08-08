@@ -157,7 +157,7 @@ bool UMLForeignKeyConstraintDialog::apply()
 
     UMLEntity* ue = uo->asUMLEntity();
 
-    if (ue == 0) {
+    if (ue == nullptr) {
         logDebug1("UMLForeignKeyConstraintDialog::apply: Could not find UML Entity with name %1",
                   entityName);
         return false;
@@ -255,7 +255,7 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     UMLEntity* referencedEntity = m_pForeignKeyConstraint->getReferencedEntity();
 
     int index;
-    if (referencedEntity != 0) {
+    if (referencedEntity != nullptr) {
         index = m_GeneralWidgets.referencedEntityCB->findText(referencedEntity->name());
         if (index != -1)
             m_GeneralWidgets.referencedEntityCB->setCurrentIndex(index);
@@ -462,7 +462,7 @@ void UMLForeignKeyConstraintDialog::slotResetWidgetState()
     }
 
     // get index of selected Attribute in List Box
-    if (m_ColumnWidgets.mappingTW->currentItem() == 0) {
+    if (m_ColumnWidgets.mappingTW->currentItem() == nullptr) {
         m_ColumnWidgets.removePB->setEnabled(false);
     }
 }

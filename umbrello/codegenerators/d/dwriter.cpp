@@ -760,7 +760,7 @@ QStringList DWriter::defaultDatatypes() const
 
 bool DWriter::compareDMethod(UMLOperation *op1, UMLOperation *op2)
 {
-    if (op1 == 0 || op2 == 0)
+    if (op1 == nullptr || op2 == nullptr)
         return false;
     if (op1 == op2)
         return true;

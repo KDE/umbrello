@@ -587,7 +587,7 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
         logDebug2("SQLImport::parseCreateDefinition: field %1 type %2", fieldName, fieldType.at(0));
         if (entity && !fieldName.isEmpty()) {
             UMLObject *type = addDatatype(fieldType);
-            UMLEntityAttribute *a = new UMLEntityAttribute(0, fieldName,
+            UMLEntityAttribute *a = new UMLEntityAttribute(nullptr, fieldName,
                     Uml::ID::None,
                     Uml::Visibility::Public,
                     type);
@@ -847,13 +847,13 @@ QString SQLImport::advance()
 
 UMLObject *SQLImport::addDatatype(const QStringList &type)
 {
-    UMLObject *datatype = 0;
+    UMLObject  *datatype = nullptr;
     UMLPackage *parent = UMLApp::app()->document()->datatypeFolder();
     if (type.at(0).toLower() == QStringLiteral("enum")) {
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Enum, parent, type.at(0));
         datatype = Import_Utils::createUMLObject(UMLObject::ot_Enum, name, parent);
         UMLEnum *enumType = datatype->asUMLEnum();
-        if (enumType == 0)
+        if (enumType == nullptr)
             enumType = Import_Utils::remapUMLEnum(datatype, currentScope());
         if (enumType) {
             for (int i = 2; i < type.size(); i++) {
@@ -989,8 +989,8 @@ bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, c
     for(int i = 0; i < fieldNames.size(); i++) {
         const QString &fieldA = fieldNames.at(i);
         const QString &fieldB = referencedFields.at(i);
-        UMLEntityAttribute *aA = 0;
-        UMLEntityAttribute *aB = 0;
+        UMLEntityAttribute *aA = nullptr;
+        UMLEntityAttribute *aB = nullptr;
         foreach(UMLEntityAttribute *a, entityA->getEntityAttributes()) {
             if (a->name() == fieldA) {
                 aA = a;

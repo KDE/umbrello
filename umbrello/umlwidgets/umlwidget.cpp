@@ -183,7 +183,7 @@ bool UMLWidget::operator==(const UMLWidget& other) const
     // {
     AssociationWidgetListIt assoc_it(m_Assocs);
     AssociationWidgetListIt assoc_it2(other.m_Assocs);
-    AssociationWidget * assoc = 0, *assoc2 = 0;
+    AssociationWidget   *assoc = nullptr, *assoc2 = nullptr;
     while (assoc_it.hasNext() &&  assoc_it2.hasNext()) {
         assoc = assoc_it.next();
         assoc2 = assoc_it2.next();
@@ -493,7 +493,7 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 
     logDebug2("UMLWidget::mouseMoveEvent: diffX=%1 / diffY=%2", diffX, diffY);
     foreach(UMLWidget* widget, umlScene()->selectedWidgets()) {
-        if ((widget->parentItem() == 0) || (!widget->parentItem()->isSelected())) {
+        if ((widget->parentItem() == nullptr) || (!widget->parentItem()->isSelected())) {
             widget->moveWidgetBy(diffX, diffY);
             widget->adjustUnselectedAssocs(delta.x(), delta.y());
             widget->slotSnapToGrid();
@@ -744,7 +744,7 @@ void UMLWidget::init()
     connect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
 
-    m_umlObject = 0;
+    m_umlObject = nullptr;
 
     m_oldPos = QPointF();
     m_pressOffset = QPointF();
@@ -797,7 +797,7 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         if (ok) {
             m_instanceName = name;
             updateGeometry();
-            moveEvent(0);
+            moveEvent(nullptr);
             update();
             UMLApp::app()->document()->setModified(true);
         }
@@ -1204,7 +1204,7 @@ bool UMLWidget::activate(IDChangeLog* changeLog)
     m_activated = true;
     updateGeometry();
     if (m_scene->getPaste()) {
-        FloatingTextWidget * ft = 0;
+        FloatingTextWidget  *ft = nullptr;
         QPointF point = m_scene->getPastePoint();
         int x = point.x() + this->x();
         int y = point.y() + this->y();
@@ -1287,7 +1287,7 @@ void UMLWidget::addAssoc(AssociationWidget* pAssoc)
  */
 AssociationWidgetList &UMLWidget::associationWidgetList() const
 {
-    m_Assocs.removeAll(0);
+    m_Assocs.removeAll(nullptr);
     return m_Assocs;
 }
 
@@ -2057,7 +2057,7 @@ void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm)
 void UMLWidget::setFont(const QFont &font)
 {
     QFont newFont = font;
-    forceUpdateFontMetrics(newFont, 0);
+    forceUpdateFontMetrics(newFont, nullptr);
 
     if (m_font != newFont) {
         UMLApp::app()->executeCommand(new CmdChangeFont(this, font));
@@ -2072,7 +2072,7 @@ void UMLWidget::setFont(const QFont &font)
 void UMLWidget::setFontCmd(const QFont &font)
 {
     WidgetBase::setFont(font);
-    forceUpdateFontMetrics(0);
+    forceUpdateFontMetrics(nullptr);
     if (m_doc->loading())
         return;
     update();
@@ -2095,14 +2095,14 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
  */
 void UMLWidget::forceUpdateFontMetrics(QFont& font, QPainter *painter)
 {
-    if (painter == 0) {
+    if (painter == nullptr) {
         for (int i = (int)FT_INVALID - 1; i >= 0; --i) {
-            if (m_pFontMetrics[(UMLWidget::FontType)i] != 0)
+            if (m_pFontMetrics[(UMLWidget::FontType)i] != nullptr)
                 setDefaultFontMetrics(font, (UMLWidget::FontType)i);
         }
     } else {
         for (int i2 = (int)FT_INVALID - 1; i2 >= 0; --i2) {
-            if (m_pFontMetrics[(UMLWidget::FontType)i2] != 0)
+            if (m_pFontMetrics[(UMLWidget::FontType)i2] != nullptr)
                 setDefaultFontMetrics(font, (UMLWidget::FontType)i2, *painter);
         }
     }
@@ -2135,10 +2135,10 @@ void UMLWidget::setShowStereotype(Uml::ShowStereoType::Enum flag)
  */
 QString UMLWidget::tags() const
 {
-    if (m_umlObject == 0)
+    if (m_umlObject == nullptr)
         return QString();
     UMLStereotype *s = m_umlObject->umlStereotype();
-    if (s == 0)
+    if (s == nullptr)
         return QString();
     UMLStereotype::AttributeDefs adefs = s->getAttributeDefs();
     if (adefs.isEmpty())
@@ -2239,7 +2239,7 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     bool usesRelativeCoords = (baseType() == wt_Pin || baseType() == wt_Port);
     if (!usesRelativeCoords && baseType() == wt_Text) {
         UMLWidget *parent = dynamic_cast<UMLWidget*>(parentItem());
-        usesRelativeCoords = (parent != 0);
+        usesRelativeCoords = (parent != nullptr);
     }
     if (applyOffsetCorrection && !usesRelativeCoords) {
         fixedX += umlScene()->fixX();  // bug 449622

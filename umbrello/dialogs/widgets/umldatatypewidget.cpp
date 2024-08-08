@@ -31,10 +31,10 @@ DEBUG_REGISTER(UMLDatatypeWidget)
 UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
  :  ComboBoxWidgetBase(i18n("&Type:"), QString(), parent),
     m_attribute(attribute),
-    m_datatype(0),
-    m_entityAttribute(0),
-    m_operation(0),
-    m_template(0)
+    m_datatype(nullptr),
+    m_entityAttribute(nullptr),
+    m_operation(nullptr),
+    m_template(nullptr)
 {
     init();
     m_parent = m_attribute->umlParent()->umlParent()->asUMLClassifier();
@@ -43,11 +43,11 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLAttribute *attribute, QWidget *parent)
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *parent)
  :  ComboBoxWidgetBase(i18n("&Type:"), QString(), parent),
-    m_attribute(0),
+    m_attribute(nullptr),
     m_datatype(datatype),
-    m_entityAttribute(0),
-    m_operation(0),
-    m_template(0)
+    m_entityAttribute(nullptr),
+    m_operation(nullptr),
+    m_template(nullptr)
 {
     init();
     m_parent = m_datatype->umlParent()->asUMLClassifier();
@@ -56,24 +56,24 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLClassifierListItem *datatype, QWidget *p
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLEntityAttribute *entityAttribute, QWidget *parent)
   :  ComboBoxWidgetBase(i18n("&Type:"), QString(), parent),
-     m_attribute(0),
-     m_datatype(0),
+     m_attribute(nullptr),
+     m_datatype(nullptr),
      m_entityAttribute(entityAttribute),
-     m_operation(0),
-     m_template(0)
+     m_operation(nullptr),
+     m_template(nullptr)
 {
     init();
-    m_parent = 0;
+    m_parent = nullptr;
     insertTypesSortedEntityAttribute(m_entityAttribute->getTypeName());
 }
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
  :  ComboBoxWidgetBase(i18n("&Type:"), QString(), parent),
-    m_attribute(0),
-    m_datatype(0),
-    m_entityAttribute(0),
+    m_attribute(nullptr),
+    m_datatype(nullptr),
+    m_entityAttribute(nullptr),
     m_operation(operation),
-    m_template(0)
+    m_template(nullptr)
 {
     init();
     m_parent = m_operation->umlParent()->asUMLClassifier();
@@ -82,14 +82,14 @@ UMLDatatypeWidget::UMLDatatypeWidget(UMLOperation *operation, QWidget *parent)
 
 UMLDatatypeWidget::UMLDatatypeWidget(UMLTemplate *_template, QWidget *parent)
  :  ComboBoxWidgetBase(i18n("&Type:"), QString(), parent),
-    m_attribute(0),
-    m_datatype(0),
-    m_entityAttribute(0),
-    m_operation(0),
+    m_attribute(nullptr),
+    m_datatype(nullptr),
+    m_entityAttribute(nullptr),
+    m_operation(nullptr),
     m_template(_template)
 {
     init();
-    m_parent = 0;
+    m_parent = nullptr;
     insertTypesSortedTemplate(m_template->getTypeName());
 }
 
@@ -123,13 +123,13 @@ bool UMLDatatypeWidget::applyAttribute()
     }
     UMLDoc * pDoc = UMLApp::app()->document();
 
-    UMLObject *obj = 0;
+    UMLObject  *obj = nullptr;
     if (!typeName.isEmpty()) {
         obj = pDoc->findUMLObject(typeName);
     }
 
-    UMLClassifier *classifier = obj ? obj->asUMLClassifier() : 0;
-    if (classifier == 0) {
+    UMLClassifier *classifier = obj ? obj->asUMLClassifier() : nullptr;
+    if (classifier == nullptr) {
         Uml::ProgrammingLanguage::Enum pl = UMLApp::app()->activeLanguage();
         // Import_Utils does not handle creating a new object with empty name
         // string well. Use Object_Factory in those cases.
@@ -142,7 +142,7 @@ bool UMLDatatypeWidget::applyAttribute()
             // and java package than Object_Factory::createUMLObject
             Import_Utils::setRelatedClassifier(m_parent);
             obj = Import_Utils::createUMLObject(UMLObject::ot_UMLObject, typeName);
-            Import_Utils::setRelatedClassifier(0);
+            Import_Utils::setRelatedClassifier(nullptr);
         } else {
             // If it's obviously a pointer type (C++) then create a datatype.
             // Else we don't know what it is so as a compromise create a class.
@@ -151,7 +151,7 @@ bool UMLDatatypeWidget::applyAttribute()
                                                           : UMLObject::ot_Class);
             obj = Object_Factory::createUMLObject(ot, typeName);
         }
-        if (obj == 0)
+        if (obj == nullptr)
             return false;
         classifier = obj->asUMLClassifier();
     }
@@ -172,14 +172,14 @@ bool UMLDatatypeWidget::applyEntityAttribute()
     }
     UMLObject *obj = pDoc->findUMLObject(typeName);
     UMLClassifier *classifier = obj->asUMLClassifier();
-    if (classifier == 0) {
+    if (classifier == nullptr) {
         // If it's obviously a pointer type (C++) then create a datatype.
         // Else we don't know what it is so as a compromise create a class.
         UMLObject::ObjectType ot =
             (typeName.contains(QChar::fromLatin1('*')) ? UMLObject::ot_Datatype
                                                       : UMLObject::ot_Class);
         obj = Object_Factory::createUMLObject(ot, typeName);
-        if (obj == 0)
+        if (obj == nullptr)
             return false;
         classifier = obj->asUMLClassifier();
     }
@@ -190,7 +190,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
 bool UMLDatatypeWidget::applyOperation()
 {
     QString typeName = Model_Utils::normalize(m_editField->currentText());
-    UMLTemplate *tmplParam = 0;
+    UMLTemplate  *tmplParam = nullptr;
     if (m_parent) {
         tmplParam = m_parent->findTemplate(typeName);
     }
@@ -205,7 +205,7 @@ bool UMLDatatypeWidget::applyParameter()
 {
     // set the type name
     QString typeName = Model_Utils::normalize(m_editField->currentText());
-    if (m_parent == 0) {
+    if (m_parent == nullptr) {
         logError1("UMLDatatypeWidget::applyParameter: grandparent of %1 is not a UMLClassifier",
                   m_attribute->name());
     } else {
@@ -373,7 +373,7 @@ void UMLDatatypeWidget::insertTypesSortedParameter(const QString& type)
     QStringList types;
     // add template parameters
     const UMLClassifier *pConcept = m_parent->asUMLClassifier();
-    if (pConcept == 0) {
+    if (pConcept == nullptr) {
         logError1("UMLDatatypeWidget::insertTypesSortedParameter: grandparent of %1 "
                   " is not a UMLClassifier", m_attribute->name());
     } else {

@@ -84,7 +84,7 @@ void ClassifierListPage::setupPage()
     reloadItemListBox();
 
     enableWidgets(false);//disable widgets until an att is chosen
-    m_pOldListItem = 0;
+    m_pOldListItem = nullptr;
 
     connect(m_pItemListLB, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(slotActivateItem(QListWidgetItem*)));
     connect(m_pItemListLB, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotDoubleClick(QListWidgetItem*)));
@@ -335,10 +335,10 @@ void ClassifierListPage::slotActivateItem(QListWidgetItem* item)
     UMLClassifierListItemList itemList = getItemList();
     int itemIndex;
 
-    if (item == 0) {
+    if (item == nullptr) {
         if (m_pItemListLB->count() == 0) {
             enableWidgets(false);
-            m_pOldListItem = 0;
+            m_pOldListItem = nullptr;
             m_pItemListLB->clearSelection();
             return;
         }
@@ -387,7 +387,7 @@ void ClassifierListPage::slotListItemCreated(UMLObject* object)
         return;
     }
     const UMLClassifierListItem *listItem = object->asUMLClassifierListItem();
-    if (listItem == 0)  {
+    if (listItem == nullptr)  {
         return;
     }
 
@@ -544,7 +544,7 @@ void ClassifierListPage::slotTopClicked()
     //shouldn't occur, but just in case
     if(count <= 1 || index <= 0)
         return;
-    m_pOldListItem = 0;
+    m_pOldListItem = nullptr;
 
     //swap the text around in the ListBox
     QString currentString = m_pItemListLB->item(index)->text();
@@ -579,7 +579,7 @@ void ClassifierListPage::slotUpClicked()
     //shouldn't occur, but just in case
     if (count <= 1 || index <= 0)
         return;
-    m_pOldListItem = 0;
+    m_pOldListItem = nullptr;
 
     //swap the text around in the ListBox
     QString aboveString = m_pItemListLB->item(index - 1)->text();
@@ -617,7 +617,7 @@ void ClassifierListPage::slotDownClicked()
     //shouldn't occur, but just in case
     if (count <= 1 || index >= count - 1 || index == -1)
         return;
-    m_pOldListItem = 0;
+    m_pOldListItem = nullptr;
 
     //swap the text around in the ListBox
     QString belowString = m_pItemListLB->item(index + 1)->text();
@@ -654,7 +654,7 @@ void ClassifierListPage::slotBottomClicked()
     //shouldn't occur, but just in case
     if (count <= 1 || index >= count - 1 || index == -1)
         return;
-    m_pOldListItem = 0;
+    m_pOldListItem = nullptr;
 
     //swap the text around in the ListBox
     QString currentString = m_pItemListLB->item(index)->text();
@@ -727,9 +727,9 @@ void ClassifierListPage::slotDelete()
         //should really wait for signal back
         //but really shouldn't matter
         m_doc->removeUMLObject(selectedItem);
-        m_pOldListItem = 0;
+        m_pOldListItem = nullptr;
 
-        slotActivateItem(0);
+        slotActivateItem(nullptr);
     }
 }
 
@@ -802,7 +802,7 @@ bool ClassifierListPage::addToClassifier(UMLClassifierListItem* listitem, int po
                           listitem->name());
                 return false;
             }
-            return m_pClassifier->addAttribute(att, 0, position);
+            return m_pClassifier->addAttribute(att, nullptr, position);
         }
     case UMLObject::ot_Operation: {
             UMLOperation *op = listitem->asUMLOperation();

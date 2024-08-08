@@ -167,7 +167,7 @@ bool ParameterPropertiesDialog::validate()
 
 bool ParameterPropertiesDialog::apply()
 {
-    if (m_pAtt != 0) {
+    if (m_pAtt != nullptr) {
 
         m_pAtt->setName(getName());         // set the name
         m_pAtt->setParmKind(getParmKind());  // set the direction

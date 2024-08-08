@@ -33,7 +33,7 @@ DEBUG_REGISTER(UMLViewDialog)
  */
 UMLViewDialog::UMLViewDialog(QWidget * pParent, UMLScene * pScene)
   : MultiPageDialogBase(pParent),
-    m_pOptionsPage(0)
+    m_pOptionsPage(nullptr)
 {
     setCaption(i18n("Properties"));
     m_pScene = pScene;
@@ -84,7 +84,7 @@ void UMLViewDialog::setupPages()
  */
 void UMLViewDialog::setupDiagramPropertiesPage()
 {
-    m_diagramPropertiesPage = new DiagramPropertiesPage(0, m_pScene);
+    m_diagramPropertiesPage = new DiagramPropertiesPage(nullptr, m_pScene);
     m_pageDiagramItem = createPage(i18nc("general settings page", "General"), i18n("General Settings"),
                                    Icon_Utils::it_Properties_General, m_diagramPropertiesPage);
 }
@@ -94,7 +94,7 @@ void UMLViewDialog::setupDiagramPropertiesPage()
  */
 void UMLViewDialog::setupDisplayPage()
 {
-    m_pageDisplayItem = 0;
+    m_pageDisplayItem = nullptr;
     // Display page currently only shows class-related display options that are
     // applicable for class- and sequence diagram
     if (m_pScene->type() != Uml::DiagramType::Class &&
@@ -102,7 +102,7 @@ void UMLViewDialog::setupDisplayPage()
         return;
     }
 
-    m_pOptionsPage = new ClassOptionsPage(0, m_pScene);
+    m_pOptionsPage = new ClassOptionsPage(nullptr, m_pScene);
     m_pageDisplayItem = createPage(i18nc("classes display options page", "Display"), i18n("Classes Display Options"),
                                    Icon_Utils::it_Properties_Display, m_pOptionsPage);
 }
@@ -112,7 +112,7 @@ void UMLViewDialog::setupDisplayPage()
  */
 void UMLViewDialog::setupStylePage()
 {
-    m_pStylePage = new UMLWidgetStylePage(0, m_pScene);
+    m_pStylePage = new UMLWidgetStylePage(nullptr, m_pScene);
     m_pageStyleItem = createPage(i18nc("diagram style page", "Style"), i18n("Diagram Style"),
                                  Icon_Utils::it_Properties_Color, m_pStylePage);
 }
@@ -122,7 +122,7 @@ void UMLViewDialog::setupStylePage()
  */
 void UMLViewDialog::applyPage(KPageWidgetItem *item)
 {
-    if (item == 0) {
+    if (item == nullptr) {
         // Page not loaded in this dialog
         return;
     }

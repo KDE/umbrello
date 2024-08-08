@@ -35,7 +35,7 @@ CodeGenOptionsPage::CodeGenOptionsPage(QWidget *parent)
 
     setupUi(this);
 
-    m_pCodePolicyPage = 0;
+    m_pCodePolicyPage = nullptr;
     m_parentPolicy = UMLApp::app()->commonPolicy();
     CodeGenerator* gen = UMLApp::app()->generator();
 
@@ -173,19 +173,19 @@ void CodeGenOptionsPage::updateCodeGenerationPolicyTab()
         m_pCodePolicyPage->disconnect();
 
         delete m_pCodePolicyPage;
-        m_pCodePolicyPage = 0;
+        m_pCodePolicyPage = nullptr;
     }
 
     Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(ui_SelectLanguageBox->currentIndex());
-    CodeGenPolicyExt *policyExt = 0;
+    CodeGenPolicyExt  *policyExt = nullptr;
     if (pl != Uml::ProgrammingLanguage::Reserved)
         policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
 
     if (policyExt) {
-        m_pCodePolicyPage = policyExt->createPage(0, "codelangpolicypage");
+        m_pCodePolicyPage = policyExt->createPage(nullptr, "codelangpolicypage");
     }
     else {
-        m_pCodePolicyPage = new DefaultCodeGenPolicyPage(0, "codelangpolicypage");
+        m_pCodePolicyPage = new DefaultCodeGenPolicyPage(nullptr, "codelangpolicypage");
     }
 
     ui_tabWidgetMain->insertTab(2, m_pCodePolicyPage, i18n("Language Options"));

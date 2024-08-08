@@ -96,9 +96,9 @@ void DClassifierCodeDocument::init()
                              // CodeGenFactory::newCodeClassField(this)
                              // but "this" is still in construction at that time.
 
-    classDeclCodeBlock = 0;
-    operationsBlock = 0;
-    constructorBlock = 0;
+    classDeclCodeBlock = nullptr;
+    operationsBlock = nullptr;
+    constructorBlock = nullptr;
 
     // this will call updateContent() as well as other things that sync our document.
     synchronize();
@@ -260,9 +260,9 @@ DClassDeclarationBlock * DClassifierCodeDocument::getClassDecl()
 void DClassifierCodeDocument::resetTextBlocks()
 {
     // all special pointers to text blocks need to be zero'd out
-    operationsBlock = 0;
-    constructorBlock = 0;
-    classDeclCodeBlock = 0;
+    operationsBlock = nullptr;
+    constructorBlock = nullptr;
+    classDeclCodeBlock = nullptr;
 
     // now do traditional release of text blocks.
     ClassifierCodeDocument::resetTextBlocks();

@@ -495,7 +495,7 @@ void TypeBuilder::visitStatement(StatementAst* node)
         }
     }
 
-    AstNode *foreachNode = 0;
+    AstNode  *foreachNode = nullptr;
     if (node->foreachVar) {
         foreachNode = node->foreachVar;
     } else if (node->foreachExpr) {

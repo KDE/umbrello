@@ -166,7 +166,7 @@ bool UMLEntityAttributeDialog::apply()
         return false;
     }
     const UMLClassifier * pConcept = m_pEntityAttribute->umlParent()->asUMLClassifier();
-    UMLObject *o = pConcept ? pConcept->findChildObject(name) : 0;
+    UMLObject *o = pConcept ? pConcept->findChildObject(name) : nullptr;
     if (o && o != m_pEntityAttribute) {
         KMessageBox::error(this, i18n("The entity attribute name you have chosen is already being used in this operation."),
                            i18n("Entity Attribute Name Not Unique"), 0);

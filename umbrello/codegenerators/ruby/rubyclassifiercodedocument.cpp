@@ -96,16 +96,16 @@ void RubyClassifierCodeDocument::init()
                              // CodeGenFactory::newCodeClassField(this)
                              // but "this" is still in construction at that time.
 
-    classDeclCodeBlock = 0;
-    publicBlock = 0;
-    protectedBlock = 0;
-    privateBlock = 0;
-    pubConstructorBlock = 0;
-    protConstructorBlock = 0;
-    privConstructorBlock = 0;
-    pubOperationsBlock = 0;
-    privOperationsBlock = 0;
-    protOperationsBlock = 0;
+    classDeclCodeBlock = nullptr;
+    publicBlock = nullptr;
+    protectedBlock = nullptr;
+    privateBlock = nullptr;
+    pubConstructorBlock = nullptr;
+    protConstructorBlock = nullptr;
+    privConstructorBlock = nullptr;
+    pubOperationsBlock = nullptr;
+    privOperationsBlock = nullptr;
+    protOperationsBlock = nullptr;
 
     // this will call updateContent() as well as other things that sync our document.
     synchronize();
@@ -294,9 +294,9 @@ RubyClassDeclarationBlock * RubyClassifierCodeDocument::getClassDecl()
 void RubyClassifierCodeDocument::resetTextBlocks()
 {
     // all special pointers to text blocks need to be zero'd out
-    operationsBlock = 0;
-    constructorBlock = 0;
-    classDeclCodeBlock = 0;
+    operationsBlock = nullptr;
+    constructorBlock = nullptr;
+    classDeclCodeBlock = nullptr;
 
     // now do traditional release of text blocks.
     ClassifierCodeDocument::resetTextBlocks();
@@ -352,7 +352,7 @@ void RubyClassifierCodeDocument::updateContent()
 
     bool isInterface = parentIsInterface();
     bool hasOperationMethods = false;
-    Q_ASSERT(c != 0);
+    Q_ASSERT(c != nullptr);
     if (c) {
         UMLOperationList list = c->getOpList();
         hasOperationMethods = ! list.isEmpty();
@@ -374,17 +374,17 @@ void RubyClassifierCodeDocument::updateContent()
 
     // declare public, protected and private methods, attributes (fields).
     // set the start text ONLY if this is the first time we created the objects.
-    bool createdPublicBlock = publicBlock == 0 ? true : false;
+    bool createdPublicBlock = publicBlock == nullptr ? true : false;
     publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QStringLiteral("publicBlock"), QStringLiteral("Public Items"), 0);
     if (createdPublicBlock)
         publicBlock->setStartText(QStringLiteral("public"));
 
-    bool createdProtBlock = protectedBlock == 0 ? true : false;
+    bool createdProtBlock = protectedBlock == nullptr ? true : false;
     protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QStringLiteral("protectedBlock"), QStringLiteral("Protected Items"), 0);
     if (createdProtBlock)
         protectedBlock->setStartText(QStringLiteral("protected"));
 
-    bool createdPrivBlock = privateBlock == 0 ? true : false;
+    bool createdPrivBlock = privateBlock == nullptr ? true : false;
     privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QStringLiteral("privateBlock"), QStringLiteral("Private Items"), 0);
     if (createdPrivBlock)
         privateBlock->setStartText(QStringLiteral("private"));

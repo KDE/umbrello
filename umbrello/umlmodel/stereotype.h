@@ -22,7 +22,7 @@
  * decrRefCount() as appropriate.
  *
  * The one and only owner of all stereotypes is the UMLDoc, and the
- * ownership is specially managed (umlPackage() returns NULL for a
+ * ownership is specially managed (umlPackage() returns nullptr for a
  * UMLStereotype.) The reason for this special treatment is that
  * class UMLDoc does not inherit from class UMLPackage, and therefore
  * setUMLPackage() cannot be used for stereotypes.

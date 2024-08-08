@@ -28,7 +28,7 @@ class GeneralOptionPage : public DialogPageBase
 {
     Q_OBJECT
 public:
-    explicit GeneralOptionPage(QWidget* parent = 0);
+    explicit GeneralOptionPage(QWidget* parent = nullptr);
     virtual ~GeneralOptionPage();
 
     void setDefaults();

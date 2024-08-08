@@ -44,7 +44,7 @@ class Symbol : public QGraphicsItem
             Count
         };
 
-        explicit Symbol(SymbolType symbolType, QGraphicsItem *parent = 0);
+        explicit Symbol(SymbolType symbolType, QGraphicsItem  *parent = nullptr);
         virtual ~Symbol();
 
         SymbolType symbolType() const;

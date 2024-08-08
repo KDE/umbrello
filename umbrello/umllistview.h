@@ -43,7 +43,7 @@ class UMLListView : public QTreeWidget
 {
     Q_OBJECT
 public:
-    explicit UMLListView(QWidget *parent = 0);
+    explicit UMLListView(QWidget  *parent = nullptr);
     ~UMLListView();
 
     void setDocument(UMLDoc * doc);

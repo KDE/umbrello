@@ -96,13 +96,13 @@ void ConstraintListPage::slotNewPrimaryKeyConstraint()
     // set the last object created as Primary Key
     UMLEntity* ent = m_pClassifier->asUMLEntity();
 
-    if (ent == 0) {
+    if (ent == nullptr) {
         logError0("ConstraintListPage::slotNewPrimaryKeyConstraint: Could not set Primary Key. "
                   "Entity Value is Null");
         return;
     }
 
-    if (m_pLastObjectCreated != 0) {
+    if (m_pLastObjectCreated != nullptr) {
         m_bSigWaiting = true;
         ent->setAsPrimaryKey(m_pLastObjectCreated->asUMLUniqueConstraint());
         m_itemType = UMLObject::ot_EntityConstraint;

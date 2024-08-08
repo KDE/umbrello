@@ -93,11 +93,11 @@ bool assignUniqueIdOnCreation()
 UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
                               UMLPackage *parentPkg, bool undoable /* = true */)
 {
-    if (parentPkg == 0) {
+    if (parentPkg == nullptr) {
         logError1("Object_Factory::createNewUMLObject(%1): parentPkg is NULL", name);
-        return 0;
+        return nullptr;
     }
-    QPointer<UMLObject> o = 0;
+    QPointer<UMLObject> o = nullptr;
     switch (type) {
         case UMLObject::ot_Actor:
             o = new UMLActor(name, g_predefinedId);
@@ -162,9 +162,9 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
         default:
             logWarn2("Object_Factory::createNewUMLObject(%1) error unknown type: %2",
                      name, UMLObject::toString(type));
-            return 0;
+            return nullptr;
     }
-
+    logDebug1("Object_Factory::createUMLObject: undoable=%d", undoable);
     if (!undoable) {
         o->setUMLPackage(parentPkg);
         UMLApp::app()->document()->signalUMLObjectCreated(o);
@@ -207,11 +207,11 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
  *                  canceled by the user.
  */
 UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
-                           UMLPackage *parentPkg /* = 0 */,
+                           UMLPackage  *parentPkg /* = nullptr */,
                            bool solicitNewName /* = true */)
 {
     UMLDoc *doc = UMLApp::app()->document();
-    if (parentPkg == 0) {
+    if (parentPkg == nullptr) {
         if (type == UMLObject::ot_Datatype) {
             parentPkg = doc->datatypeFolder();
         } else {
@@ -223,7 +223,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
     }
     if (!n.isEmpty()) {
         UMLObject *o = doc->findUMLObject(n, type, parentPkg);
-        if (o == 0) {
+        if (o == nullptr) {
             o = createNewUMLObject(type, n, parentPkg);
             return o;
         }
@@ -249,7 +249,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
     while (bValidNameEntered == false) {
         bool ok = Dialog_Utils::askNewName(type, name);
         if (!ok) {
-            return 0;
+            return nullptr;
         }
         if (name.length() == 0) {
             KMessageBox::error(0, i18n("That is an invalid name."),
@@ -303,7 +303,7 @@ UMLOperation *createOperation(UMLClassifier *parent, const QString& name)
  */
 UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::ObjectType type, const QString& name)
 {
-    UMLObject* returnObject = 0;
+    UMLObject *returnObject = nullptr;
     switch (type) {
     case UMLObject::ot_Attribute: {
         UMLClassifier *c = parent->asUMLClassifier();
@@ -380,7 +380,7 @@ UMLClassifierListItem* createChildObject(UMLClassifier* parent, UMLObject::Objec
 UMLObject* makeObjectFromXMI(const QString& xmiTag,
                              const QString& stereoID /* = QString() */)
 {
-    UMLObject* pObject = 0;
+    UMLObject *pObject = nullptr;
     if (UMLDoc::tagEq(xmiTag, QStringLiteral("UseCase"))) {
         pObject = new UMLUseCase();
     } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Actor"))) {
@@ -396,7 +396,7 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
             if (stereo && stereo->name() == QStringLiteral("folder"))
                 pObject = new UMLFolder();
         }
-        if (pObject == 0)
+        if (pObject == nullptr)
             pObject = new UMLPackage();
     } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Component"))) {
         pObject = new UMLComponent();

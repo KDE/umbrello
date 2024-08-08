@@ -65,7 +65,7 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
 BirdView::~BirdView()
 {
     disconnect(m_view, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyed(QObject*)));
-    setParent(0);
+    setParent(nullptr);
     delete m_protectFrame;
     delete m_birdView;
 }
@@ -76,8 +76,8 @@ BirdView::~BirdView()
 void BirdView::slotDestroyed(QObject *object)
 {
     if (m_view == object) {
-        m_birdView->setScene(0);
-        m_view = 0;
+        m_birdView->setScene(nullptr);
+        m_view = nullptr;
     }
 }
 

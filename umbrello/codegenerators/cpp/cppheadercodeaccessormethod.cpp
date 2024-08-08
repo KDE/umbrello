@@ -44,7 +44,7 @@ void CPPHeaderCodeAccessorMethod::updateContent()
     CPPCodeClassField * cppfield = dynamic_cast<CPPCodeClassField*>(parentField);
 
     // Check for dynamic casting failure!
-    if (cppfield == 0)
+    if (cppfield == nullptr)
     {
         logError0("cppfield: invalid dynamic cast");
         return;
@@ -54,7 +54,7 @@ void CPPHeaderCodeAccessorMethod::updateContent()
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
 
     // Check for dynamic casting failure!
-    if (policy == 0)
+    if (policy == nullptr)
     {
         logError0("policy: invalid dynamic cast");
         return;

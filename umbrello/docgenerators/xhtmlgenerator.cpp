@@ -36,7 +36,7 @@ XhtmlGenerator::XhtmlGenerator()
     m_umlDoc = UMLApp::app()->document();
     m_pStatus = true;
     m_pThreadFinished = false;
-    m_d2xg = 0;
+    m_d2xg = nullptr;
 }
 
 /**
@@ -169,7 +169,7 @@ void XhtmlGenerator::threadFinished()
 {
     m_pThreadFinished = true;
     delete m_d2xg;
-    m_d2xg = 0;
+    m_d2xg = nullptr;
 }
 
 /**

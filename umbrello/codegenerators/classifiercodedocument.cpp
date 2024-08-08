@@ -305,7 +305,7 @@ QList<const CodeOperation*> ClassifierCodeDocument::getCodeOperations () const
 void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o)
 {
     UMLOperation *op = o->asUMLOperation();
-    if (op == 0) {
+    if (op == nullptr) {
         logError0("arg is not a UMLOperation");
         return;
     }
@@ -787,7 +787,7 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
                 return m;
     }
     // if we get here, we failed.
-    return (TextBlock*) 0;
+    return nullptr;
 }
 
 

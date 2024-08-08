@@ -451,7 +451,7 @@ static const char *reserved_words[] = {
     "_xscale",
     "_y",
     "_ymouse",
-    0
+    nullptr
 };
 
 /**

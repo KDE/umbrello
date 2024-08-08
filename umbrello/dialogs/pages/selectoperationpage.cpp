@@ -280,7 +280,7 @@ void SelectOperationPage::setupDialog()
    } else
         setSeqNumber(m_widget->sequenceNumber());
 
-    if (m_widget->operation() == 0) {
+    if (m_widget->operation() == nullptr) {
         setCustomOp(m_widget->lwOperationText());
     } else {
         setClassOp(m_widget->lwOperationText());
@@ -304,7 +304,7 @@ bool SelectOperationPage::apply()
         if (st == Model_Utils::PS_OK) {
             UMLClassifierList selfAndAncestors = m_classifier->findSuperClassConcepts();
             selfAndAncestors.prepend(m_classifier);
-            UMLOperation *op = 0;
+            UMLOperation *op = nullptr;
             foreach (UMLClassifier *cl, selfAndAncestors) {
                 op = cl->findOperation(od.m_name, od.m_args);
                 if (op) {
@@ -313,7 +313,7 @@ bool SelectOperationPage::apply()
             }
             if (!op) {
                 // The op does not yet exist. Create a new one.
-                UMLObject *o = m_classifier->createOperation(od.m_name, 0, &od.m_args);
+                UMLObject *o = m_classifier->createOperation(od.m_name, nullptr, &od.m_args);
                 op = o->asUMLOperation();
             }
             if (od.m_pReturnType) {
@@ -323,10 +323,10 @@ bool SelectOperationPage::apply()
             m_widget->setOperation(op);
             opText.clear();
         } else {
-            m_widget->setOperation(0);
+            m_widget->setOperation(nullptr);
         }
     } else {
-        m_widget->setOperation(0);
+        m_widget->setOperation(nullptr);
     }
     m_widget->setSequenceNumber(getSeqNumber());
     m_widget->setOperationText(opText);

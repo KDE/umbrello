@@ -71,7 +71,7 @@ void makeTagEditFields(UMLObject *o, QGridLayout *genLayout,
                        int row /* = 1 */)
 {
     UMLStereotype *stereo = o->umlStereotype();
-    if (stereo == 0)
+    if (stereo == nullptr)
         return;
     const UMLStereotype::AttributeDefs& attrDefs = stereo->getAttributeDefs();
     const QStringList& tags = o->tags();
@@ -108,18 +108,18 @@ void remakeTagEditFields(const QString &stereoText,
         if (pTagLabel[i]) {
             delete pTagLabel [i];
             delete pTagLineEdit[i];
-            pTagLabel [i] = 0;
-            pTagLineEdit[i] = 0;
+            pTagLabel [i] = nullptr;
+            pTagLineEdit[i] = nullptr;
         }
     }
-    UMLStereotype *stereo = 0;
+    UMLStereotype  *stereo = nullptr;
     foreach (UMLStereotype *st, UMLApp::app()->document()->stereotypes()) {
         if (st->name() == stereoText) {
             stereo = st;
             break;
         }
     }
-    if (stereo == 0)
+    if (stereo == nullptr)
         return;
     const UMLStereotype::AttributeDefs& attrDefs = stereo->getAttributeDefs();
     for (int i = 0; i < attrDefs.size() && i < N_STEREOATTRS; i++) {
@@ -141,13 +141,13 @@ void updateTagsFromEditFields(UMLObject * o,
                               QLineEdit *pTagLineEdit[N_STEREOATTRS])
 {
     UMLStereotype *stereo = o->umlStereotype();
-    if (stereo == 0)
+    if (stereo == nullptr)
         return;
     const UMLStereotype::AttributeDefs& attrDefs = stereo->getAttributeDefs();
     QStringList& tags = o->tags();
     tags.clear();
     for (int i = 0; i < attrDefs.size() && i < N_STEREOATTRS; i++) {
-        if (pTagLineEdit[i] == 0) {
+        if (pTagLineEdit[i] == nullptr) {
             logError3("updateTagsFromEditFields(%1): %2 pTagLineEdit[%3] is null",
                       o->name(), stereo->name(true), i);
             break;
@@ -176,7 +176,7 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
     }
     else {
         delete targetWidget;
-        targetWidget = 0;
+        targetWidget = nullptr;
     }
 }
 

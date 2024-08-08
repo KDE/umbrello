@@ -20,7 +20,7 @@ class CodeImportOptionsPage : public DialogPageBase, private Ui::CodeImportOptio
 {
     Q_OBJECT
 public:
-    explicit CodeImportOptionsPage(QWidget *parent = 0);
+    explicit CodeImportOptionsPage(QWidget  *parent = nullptr);
     ~CodeImportOptionsPage();
     void setDefaults();
     void apply();

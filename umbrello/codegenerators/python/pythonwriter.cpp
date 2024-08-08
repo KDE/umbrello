@@ -159,7 +159,7 @@ static const char *reserved_words[] = {
     "yield",
     "ZeroDivisionError",
     "zip",
-    0
+    nullptr
 };
 
 PythonWriter::PythonWriter() : m_bNeedPass(true)

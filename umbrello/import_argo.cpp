@@ -138,7 +138,7 @@ bool Import_Argo::loadFromZArgoFile(QIODevice &file, UMLPackage *parentPkg)
         const KArchiveEntry *entry = directory->entry(name);
         if (entry->isFile()) {
             const KArchiveFile *file = static_cast<const KArchiveFile*>(entry);
-            if (file == 0) {
+            if (file == nullptr) {
                 logError1("loadFromZArgoFile: Could not read file from %1", name);
                 continue;
             }

@@ -25,7 +25,7 @@ class PhpDocsModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    explicit PhpDocsModel(QObject* parent = 0);
+    explicit PhpDocsModel(QObject *parent = nullptr);
     ~PhpDocsModel();
 
     enum CustomDataRoles {

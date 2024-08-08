@@ -247,7 +247,7 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object
             return obj;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -264,7 +264,7 @@ UMLObject* UMLCanvasObject::findChildObjectById(Uml::ID::Type id, bool considerA
         if (o->id() == id)
             return o;
     }
-    return 0;
+    return nullptr;
 }
 
 /**

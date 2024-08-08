@@ -87,7 +87,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
     Uml::ID::Type BId = assoc->getObjectId(Uml::RoleType::B);
     foreach (UMLObject *o, m_objects) {
         UMLCanvasObject *c = o->asUMLCanvasObject();
-        if (c == 0)
+        if (c == nullptr)
             continue;
         if (AId == c->id() || (BId == c->id())) {
             if (c->hasAssociation(assoc)) {
@@ -133,7 +133,7 @@ void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
  * @return    True if the object was actually added.
  */
 bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true */) {
-    if (pObject == 0) {
+    if (pObject == nullptr) {
         logError0("UMLPackage::addObject is called with a null object");
         return false;
     }
@@ -163,7 +163,7 @@ bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true
       QString name = pObject->name();
       QString oldName = name;
       UMLObject *o;
-      while ((o = findObject(name)) != 0 && o->baseType() != UMLObject::ot_Association) {
+      while ((o = findObject(name)) != nullptr && o->baseType() != UMLObject::ot_Association) {
          QString prevName = name;
          name = Model_Utils::uniqObjectName(pObject->baseType(), this);
          bool ok = Dialog_Utils::askName(i18nc("object name", "Name"),
@@ -174,7 +174,7 @@ bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true
             continue;
          }
          if (name.length() == 0) {
-            KMessageBox::error(0, i18n("That is an invalid name."),
+            KMessageBox::error(nullptr, i18n("That is an invalid name."),
                                i18n("Invalid Name"));
             continue;
         }
@@ -186,7 +186,7 @@ bool UMLPackage::addObject(UMLObject *pObject, bool interactOnConflict /* = true
     else {
         QString nameToAdd = pObject->name();
         bool found = false;
-        foreach (const UMLObject *obj, m_objects) {
+        for(const UMLObject *obj : m_objects) {
             if (obj->name() == nameToAdd) {
                 found = true;
                 break;
@@ -305,7 +305,7 @@ UMLObject * UMLPackage::findObject(const QString &name) const
             return obj;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /**

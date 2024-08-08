@@ -28,7 +28,7 @@ public:
     explicit EntityWidget(UMLScene *scene, UMLObject* o);
     virtual ~EntityWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     virtual bool loadFromXMI(QDomElement &qElement);
     virtual void saveToXMI(QXmlStreamWriter& writer);

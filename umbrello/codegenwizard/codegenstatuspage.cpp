@@ -115,7 +115,7 @@ void CodeGenStatusPage::generateCode()
         for (int row = 0; row < ui_tableWidgetStatus->rowCount(); ++row) {
             QTableWidgetItem* item = ui_tableWidgetStatus->item(row, 0);
             UMLClassifier *classifier = doc->findUMLClassifier(item->text());
-            if (classifier == 0) {
+            if (classifier == nullptr) {
                 logError1("CodeGenStatusPage::generateCode: Could not find classifier %1 "
                           "(not included in generated code)", item->text());
                 continue;

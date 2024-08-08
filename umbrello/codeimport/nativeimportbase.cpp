@@ -34,7 +34,7 @@ NativeImportBase::NativeImportBase(const QString &singleLineCommentIntro, CodeIm
   : ClassImport(thread),
     m_singleLineCommentIntro(singleLineCommentIntro),
     m_srcIndex(0),
-    m_klass(0),
+    m_klass(nullptr),
     m_currentAccess(Uml::Visibility::Public),
     m_inComment(false),
     m_isAbstract(false)
@@ -487,7 +487,7 @@ bool NativeImportBase::parseFile(const QString& filename)
                          QStringLiteral(" / lines: ") + QString::number(lineCount));
     file.close();
     // Parse the QStringList m_source.
-    m_klass = 0;
+    m_klass = nullptr;
     m_currentAccess = Uml::Visibility::Public;
     m_scope.clear();
     pushScope(Import_Utils::globalScope()); // index 0 is reserved for the global scope

@@ -57,7 +57,7 @@ UMLWidgetStylePage::UMLWidgetStylePage(QWidget *pParent, WidgetBase *pWidget)
  */
 UMLWidgetStylePage::UMLWidgetStylePage(QWidget * pParent, Settings::OptionState *options)
   : QWidget(pParent)
-  , m_pUMLWidget(0)
+  , m_pUMLWidget(nullptr)
   , m_options(options)
   , m_layoutTypeW(nullptr)
 {

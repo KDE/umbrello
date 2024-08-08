@@ -26,7 +26,7 @@ public:
     CodeGenPolicyExt() {}
     virtual ~CodeGenPolicyExt() {}
 
-    virtual CodeGenerationPolicyPage * createPage(QWidget *parent = 0, const char *name = 0) = 0;
+    virtual CodeGenerationPolicyPage * createPage(QWidget *parent = nullptr, const char *name = nullptr) = 0;
 
     virtual void setDefaults(bool emitUpdateSignal = true) = 0;
 

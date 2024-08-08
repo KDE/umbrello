@@ -32,7 +32,7 @@ B* asB(A* p)
 
 A* getPointer()
 {
-    return 0;
+    return nullptr;
 }
 
 void TestBasicTypes::test_dynamic_cast()
@@ -43,7 +43,7 @@ void TestBasicTypes::test_dynamic_cast()
     QScopedPointer<A> a2(new B);
     B* b2 = dynamic_cast<B*> (a2.data());
     QVERIFY(b2);
-    QScopedPointer<A> a3((B*)0);
+    QScopedPointer<A> a3((B*)nullptr);
     B* b3 = dynamic_cast<B*> (a3.data());
     QVERIFY(!b3);
     B* b4 = dynamic_cast<B*> (getPointer());

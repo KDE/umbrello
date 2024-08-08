@@ -17,5 +17,5 @@ DiagramSelectionDialog::DiagramSelectionDialog(DiagramPrintPage *page, QWidget *
 DiagramSelectionDialog::~DiagramSelectionDialog()
 {
     // keep settings
-    setMainWidget(0);
+    setMainWidget(nullptr);
 }

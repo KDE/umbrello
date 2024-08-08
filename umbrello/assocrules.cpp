@@ -117,7 +117,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::State:
         {
             StateWidget *pState = widget->asStateWidget();
-            if (pState == 0 || pState->stateType() != StateWidget::End)
+            if (pState == nullptr || pState->stateType() != StateWidget::End)
                 return true;
             logDebug2("allowAssociation(widget %1, assoc %2) : disallowing because "
                       "state type is not 'End'", widgetType, assocType);
@@ -128,7 +128,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
     case Uml::AssociationType::Exception:
         {
             ActivityWidget *pActivity = widget->asActivityWidget();
-            if (pActivity == 0 || pActivity->activityType() != ActivityWidget::End)
+            if (pActivity == nullptr || pActivity->activityType() != ActivityWidget::End)
                 return true;
             logDebug2("allowAssociation(widget %1, assoc %2) : disallowing because "
                       "activity type is not 'End'", widgetType, assocType);
@@ -306,11 +306,11 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
             if ((actTypeB == ActivityWidget::End || actTypeB == ActivityWidget::Final) &&
                 actTypeA != ActivityWidget::Normal &&
                 actTypeA != ActivityWidget::Branch &&
-                widgetA->asForkJoinWidget() == 0 && !isSignal &&!isObjectNode) {
+                widgetA->asForkJoinWidget() == nullptr && !isSignal &&!isObjectNode) {
                 return false;
             }
             // only Forks and Branches can have more than one "outgoing" transition
-            if (actA != 0 && actTypeA != ActivityWidget::Branch) {
+            if (actA != nullptr && actTypeA != ActivityWidget::Branch) {
                 AssociationWidgetList list = widgetA->associationWidgetList();
                 foreach (AssociationWidget* assoc, list) {
                     if (assoc->widgetForRole(Uml::RoleType::A) == widgetA) {

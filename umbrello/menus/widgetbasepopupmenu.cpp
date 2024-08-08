@@ -278,7 +278,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
         {
             PinPortBase *pW = static_cast<PinPortBase*>(widget);
             FloatingTextWidget *ft = pW->floatingTextWidget();
-            if (ft == 0)
+            if (ft == nullptr)
                 m_actions[mt_NameAsTooltip]->setChecked(true);
         }
         insert(mt_Delete);
@@ -444,7 +444,7 @@ void WidgetBasePopupMenu::insertSingleSelectionMenu(WidgetBase* widget)
             insert(mt_NameAsTooltip, i18n("Name as Tooltip"), true);
             PinPortBase *pW = static_cast<PinPortBase*>(widget);
             FloatingTextWidget *ft = pW->floatingTextWidget();
-            if (ft == 0)
+            if (ft == nullptr)
                 m_actions[mt_NameAsTooltip]->setChecked(true);
         }
         insert(mt_Delete);
