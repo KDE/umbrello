@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-28 02:07+0000\n"
+"POT-Creation-Date: 2024-08-09 01:47+0000\n"
 "PO-Revision-Date: 2023-08-06 05:09+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -7960,37 +7960,37 @@ msgstr "Vistas"
 msgid "Settings"
 msgstr "Configuración"
 
-#: umllistview.cpp:2452
+#: umllistview.cpp:2453
 #, kde-format
 msgid "Loading listview..."
 msgstr "Cargando a vista en lista…"
 
-#: umllistview.cpp:2821
+#: umllistview.cpp:2822
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr "A clase debe baleirarse antes para poder eliminarse."
 
-#: umllistview.cpp:2822
+#: umllistview.cpp:2823
 #, kde-format
 msgid "Class Not Empty"
 msgstr "Clase non baleira"
 
-#: umllistview.cpp:2826
+#: umllistview.cpp:2827
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr "O paquete debe baleirarse para poder eliminarse."
 
-#: umllistview.cpp:2827
+#: umllistview.cpp:2828
 #, kde-format
 msgid "Package Not Empty"
 msgstr "Paquete non baleiro"
 
-#: umllistview.cpp:2831
+#: umllistview.cpp:2832
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "O cartafol debe estar baleiro antes de poder eliminarse."
 
-#: umllistview.cpp:2832
+#: umllistview.cpp:2833
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "Cartafol non baleiro"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-28 02:07+0000\n"
+"POT-Creation-Date: 2024-08-09 01:47+0000\n"
 "PO-Revision-Date: 2023-07-03 11:55+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -7970,37 +7970,37 @@ msgstr "Vistes"
 msgid "Settings"
 msgstr "Configuració"
 
-#: umllistview.cpp:2452
+#: umllistview.cpp:2453
 #, kde-format
 msgid "Loading listview..."
 msgstr "S'està carregant la vista en llista…"
 
-#: umllistview.cpp:2821
+#: umllistview.cpp:2822
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr "La classe ha de buidar-se abans que es puga suprimir."
 
-#: umllistview.cpp:2822
+#: umllistview.cpp:2823
 #, kde-format
 msgid "Class Not Empty"
 msgstr "Classe no buida"
 
-#: umllistview.cpp:2826
+#: umllistview.cpp:2827
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr "Este paquet ha de buidar-se abans que es puga suprimir."
 
-#: umllistview.cpp:2827
+#: umllistview.cpp:2828
 #, kde-format
 msgid "Package Not Empty"
 msgstr "Paquet no buit"
 
-#: umllistview.cpp:2831
+#: umllistview.cpp:2832
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "La carpeta ha de buidar-se abans que es puga suprimir."
 
-#: umllistview.cpp:2832
+#: umllistview.cpp:2833
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "Carpeta no buida"

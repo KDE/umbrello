@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-28 02:07+0000\n"
+"POT-Creation-Date: 2024-08-09 01:47+0000\n"
 "PO-Revision-Date: 2023-02-03 17:06+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -7835,37 +7835,37 @@ msgstr "ხედები"
 msgid "Settings"
 msgstr "პარამეტრები"
 
-#: umllistview.cpp:2452
+#: umllistview.cpp:2453
 #, kde-format
 msgid "Loading listview..."
 msgstr ""
 
-#: umllistview.cpp:2821
+#: umllistview.cpp:2822
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr ""
 
-#: umllistview.cpp:2822
+#: umllistview.cpp:2823
 #, kde-format
 msgid "Class Not Empty"
 msgstr "კლასი ცარიელი არაა"
 
-#: umllistview.cpp:2826
+#: umllistview.cpp:2827
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr ""
 
-#: umllistview.cpp:2827
+#: umllistview.cpp:2828
 #, kde-format
 msgid "Package Not Empty"
 msgstr "პაკეტი ცარიელი არაა"
 
-#: umllistview.cpp:2831
+#: umllistview.cpp:2832
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr ""
 
-#: umllistview.cpp:2832
+#: umllistview.cpp:2833
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "საქაღალდე ცარიელი არაა"

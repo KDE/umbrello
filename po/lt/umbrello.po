@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-28 02:07+0000\n"
+"POT-Creation-Date: 2024-08-09 01:47+0000\n"
 "PO-Revision-Date: 2015-12-29 16:00+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
@@ -8050,39 +8050,39 @@ msgstr "Vaizdai"
 msgid "Settings"
 msgstr "Nuostatos"
 
-#: umllistview.cpp:2452
+#: umllistview.cpp:2453
 #, kde-format
 msgid "Loading listview..."
 msgstr ""
 
-#: umllistview.cpp:2821
+#: umllistview.cpp:2822
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr ""
 
-#: umllistview.cpp:2822
+#: umllistview.cpp:2823
 #, fuzzy, kde-format
 #| msgid "Class Name"
 msgid "Class Not Empty"
 msgstr "Klasės vardas"
 
-#: umllistview.cpp:2826
+#: umllistview.cpp:2827
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr ""
 
-#: umllistview.cpp:2827
+#: umllistview.cpp:2828
 #, fuzzy, kde-format
 #| msgid "Package path:"
 msgid "Package Not Empty"
 msgstr "Paketo kelias:"
 
-#: umllistview.cpp:2831
+#: umllistview.cpp:2832
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr ""
 
-#: umllistview.cpp:2832
+#: umllistview.cpp:2833
 #, kde-format
 msgid "Folder Not Empty"
 msgstr ""

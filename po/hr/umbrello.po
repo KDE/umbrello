@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-28 02:07+0000\n"
+"POT-Creation-Date: 2024-08-09 01:47+0000\n"
 "PO-Revision-Date: 2004-04-20 13:30+CEST\n"
 "Last-Translator: auto\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -8051,37 +8051,37 @@ msgstr "Pogledi"
 msgid "Settings"
 msgstr "Postavke pisma"
 
-#: umllistview.cpp:2452
+#: umllistview.cpp:2453
 #, fuzzy, kde-format
 msgid "Loading listview..."
 msgstr "Učitavam dijagrame..."
 
-#: umllistview.cpp:2821
+#: umllistview.cpp:2822
 #, fuzzy, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr "Direktorij se mora prvo isprazniti da bi se obrisao."
 
-#: umllistview.cpp:2822
+#: umllistview.cpp:2823
 #, fuzzy, kde-format
 msgid "Class Not Empty"
 msgstr "Direktorij nije prazan"
 
-#: umllistview.cpp:2826
+#: umllistview.cpp:2827
 #, fuzzy, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr "Direktorij se mora prvo isprazniti da bi se obrisao."
 
-#: umllistview.cpp:2827
+#: umllistview.cpp:2828
 #, fuzzy, kde-format
 msgid "Package Not Empty"
 msgstr "Direktorij nije prazan"
 
-#: umllistview.cpp:2831
+#: umllistview.cpp:2832
 #, fuzzy, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "Direktorij se mora prvo isprazniti da bi se obrisao."
 
-#: umllistview.cpp:2832
+#: umllistview.cpp:2833
 #, fuzzy, kde-format
 msgid "Folder Not Empty"
 msgstr "Direktorij nije prazan"

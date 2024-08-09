@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-28 02:07+0000\n"
+"POT-Creation-Date: 2024-08-09 01:47+0000\n"
 "PO-Revision-Date: 2021-09-17 20:07+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -8275,41 +8275,41 @@ msgstr "दृश्य"
 msgid "Settings"
 msgstr "भूमिका विन्यास "
 
-#: umllistview.cpp:2452
+#: umllistview.cpp:2453
 #, kde-format
 msgid "Loading listview..."
 msgstr "सूचीदृश्य लोड किया जा रहा है..."
 
-#: umllistview.cpp:2821
+#: umllistview.cpp:2822
 #, fuzzy, kde-format
 #| msgid "The folder must be emptied before it can be deleted."
 msgid "The class must be emptied before it can be deleted."
 msgstr "फ़ोल्डर को मिटा सकें इस के लिए पहले इसे खाली करना होगा."
 
-#: umllistview.cpp:2822
+#: umllistview.cpp:2823
 #, fuzzy, kde-format
 #| msgid "Folder Not Empty"
 msgid "Class Not Empty"
 msgstr "फ़ोल्डर खाली नहीं है"
 
-#: umllistview.cpp:2826
+#: umllistview.cpp:2827
 #, fuzzy, kde-format
 #| msgid "The folder must be emptied before it can be deleted."
 msgid "The package must be emptied before it can be deleted."
 msgstr "फ़ोल्डर को मिटा सकें इस के लिए पहले इसे खाली करना होगा."
 
-#: umllistview.cpp:2827
+#: umllistview.cpp:2828
 #, fuzzy, kde-format
 #| msgid "Folder Not Empty"
 msgid "Package Not Empty"
 msgstr "फ़ोल्डर खाली नहीं है"
 
-#: umllistview.cpp:2831
+#: umllistview.cpp:2832
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "फ़ोल्डर को मिटा सकें इस के लिए पहले इसे खाली करना होगा."
 
-#: umllistview.cpp:2832
+#: umllistview.cpp:2833
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "फ़ोल्डर खाली नहीं है"
