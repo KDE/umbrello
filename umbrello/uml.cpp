@@ -2250,10 +2250,10 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
                 dialog = nullptr;
             } else {
                 // shouldn't happen..
-                KMessageBox::sorry(0, i18n("Cannot view code until you generate some first."), i18n("Cannot View Code"));
+                KMessageBox::sorry(nullptr, i18n("Cannot view code until you generate some first."), i18n("Cannot View Code"));
             }
         } else {
-            KMessageBox::sorry(0, i18n("Cannot view code from simple code writer."), i18n("Cannot View Code"));
+            KMessageBox::sorry(nullptr, i18n("Cannot view code from simple code writer."), i18n("Cannot View Code"));
         }
     } else {
         uWarning() << "No CodeGenerator or UMLClassifier given!";

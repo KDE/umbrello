@@ -146,7 +146,7 @@ void PreconditionWidget::calculateWidget()
  * its m_objectWidget pointer so that PreconditionWidget can adjust to the move of
  * the object widget.
  */
-bool PreconditionWidget::activate(IDChangeLog * Log /*= 0*/)
+bool PreconditionWidget::activate(IDChangeLog  *Log /*= nullptr*/)
 {
     m_scene->resetPastePoint();
     UMLWidget::activate(Log);

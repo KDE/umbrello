@@ -272,7 +272,7 @@ void Tracer::showEvent(QShowEvent* e)
     MapType::const_iterator i = s_classes->constBegin();
     for(; i != s_classes->constEnd(); i++) {
         QList<QTreeWidgetItem*> items = findItems(i.value().filePath, Qt::MatchFixedString);
-        QTreeWidgetItem* topLevel = nullptr;
+        QTreeWidgetItem *topLevel = nullptr;
         if (items.size() == 0) {
             topLevel = new QTreeWidgetItem(QStringList(i.value().filePath));
             topLevel->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);

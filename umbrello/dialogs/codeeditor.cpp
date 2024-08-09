@@ -367,11 +367,11 @@ void CodeEditor::appendText(TextBlockList * items)
         // code block types in an enumerated list somewhere,
         // as well as a generic attribute "blockType" we could
         // quickly access, rather than casting. -b.t.
-        HierarchicalCodeBlock * hb = nullptr;
-        CodeMethodBlock * mb = nullptr;
-        CodeClassFieldDeclarationBlock * db = nullptr;
-        CodeBlockWithComments * cb = nullptr;
-        // CodeComment * cm = nullptr;
+        HierarchicalCodeBlock *hb = nullptr;
+        CodeMethodBlock *mb = nullptr;
+        CodeClassFieldDeclarationBlock *db = nullptr;
+        CodeBlockWithComments *cb = nullptr;
+        // CodeComment *cm = nullptr;
         if ((hb = dynamic_cast<HierarchicalCodeBlock *>(tb)))
             appendText(hb);
         else if ((mb = dynamic_cast<CodeMethodBlock*>(tb)))

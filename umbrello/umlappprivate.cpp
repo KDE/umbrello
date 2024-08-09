@@ -143,11 +143,11 @@ bool UMLAppPrivate::openFileInEditor(const QUrl &file, int startCursor, int endC
     }
 
     if (document) {
-        editorWindow->setWidget(0);
+        editorWindow->setWidget(nullptr);
         delete view;
         delete document;
     }
-    document = editor->createDocument(0);
+    document = editor->createDocument(nullptr);
     view = document->createView(parent);
     view->document()->openUrl(file);
     view->document()->setReadWrite(false);

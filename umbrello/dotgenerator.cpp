@@ -584,7 +584,7 @@ int DotGenerator::generatorVersion() const
     QString out(QLatin1String(p.readAllStandardError()));
     QRegExp rx(QStringLiteral("\\((.*)\\."));
     QString version = rx.indexIn(out) != -1 ? rx.cap(1) : QString();
-    return version.toInt(0);
+    return version.toInt(nullptr);
 }
 
 #if 0

@@ -17,7 +17,7 @@ class RubyCodeGenerationPolicyPage : public CodeGenerationPolicyPage
     Q_OBJECT
 public:
 
-    explicit RubyCodeGenerationPolicyPage (QWidget    *parent= nullptr, const char *name= nullptr, RubyCodeGenerationPolicy * policy = nullptr);
+    explicit RubyCodeGenerationPolicyPage (QWidget    *parent= nullptr, const char *name= nullptr, RubyCodeGenerationPolicy *policy = nullptr);
 
     virtual ~RubyCodeGenerationPolicyPage();
 

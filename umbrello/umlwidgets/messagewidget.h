@@ -103,7 +103,7 @@ public:
 
     void calculateWidget();
 
-    virtual bool activate(IDChangeLog * Log = nullptr);
+    virtual bool activate(IDChangeLog *Log = nullptr);
     void resolveObjectWidget(IDChangeLog* log);
 
     void calculateDimensions();

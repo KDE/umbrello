@@ -179,7 +179,7 @@ void ToolBarStateAssociation::setFirstWidget()
     if (!AssocRules::allowAssociation(type, widget)) {
         //TODO improve error feedback: tell the user what are the valid type of associations for
         //that widget
-        KMessageBox::error(0, i18n("Incorrect use of associations."), i18n("Association Error"));
+        KMessageBox::error(nullptr, i18n("Incorrect use of associations."), i18n("Association Error"));
         return;
     }
     //set up position
@@ -277,7 +277,7 @@ void ToolBarStateAssociation::setSecondWidget()
     } else {
         //TODO improve error feedback: tell the user what are the valid type of associations for
         //the second widget using the first widget
-        KMessageBox::error(0, i18n("Incorrect use of associations."), i18n("Association Error"));
+        KMessageBox::error(nullptr, i18n("Incorrect use of associations."), i18n("Association Error"));
     }
 
     cleanAssociation();

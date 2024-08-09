@@ -1044,11 +1044,11 @@ QList<DUContext*> CodeCompletionContext::memberAccessContainers() const
     }
     foreach (const AbstractType::Ptr &type, types) {
         const IdentifiedType* idType = dynamic_cast<const IdentifiedType*>(type.data());
-        Declaration* declaration = nullptr;
+        Declaration *declaration = nullptr;
         if (idType) {
             declaration = idType->declaration(m_duContext->topContext());
         }
-        DUContext* ctx = nullptr;
+        DUContext *ctx = nullptr;
         if (declaration) {
             ctx = declaration->logicalInternalContext(m_duContext->topContext());
         }
@@ -1318,7 +1318,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
             }
         }
     } else if (m_memberAccessOperation == BackslashAccess || m_memberAccessOperation == NamespaceChoose) {
-        DUContext* ctx = nullptr;
+        DUContext *ctx = nullptr;
         if (m_namespace.isEmpty()) {
             ctx = m_duContext->topContext();
         } else {
@@ -1350,7 +1350,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
         qCDebug(COMPLETION) << "containers: " << containers.count();
         if (!containers.isEmpty()) {
             // get the parent class when we are inside a method declaration
-            ClassDeclaration* currentClass = nullptr;
+            ClassDeclaration *currentClass = nullptr;
             if (m_duContext->owner() && m_duContext->owner()->isFunctionDeclaration() &&
                     m_duContext->parentContext() && m_duContext->parentContext()->owner()) {
                 currentClass = dynamic_cast<ClassDeclaration*>(m_duContext->parentContext()->owner());
@@ -1464,7 +1464,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
                     continue;
                 }
                 uint count = 0;
-                const CodeModelItem* foundItems = nullptr;
+                const CodeModelItem *foundItems = nullptr;
                 CodeModel::self().items(url, count, foundItems);
                 for (uint i = 0; i < count; ++i) {
                     CodeModelItem::Kind k = foundItems[i].kind;
@@ -1504,7 +1504,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
         foreach(QSet<IndexedString> urlSets, completionFiles()) {
             foreach(const IndexedString &url, urlSets) {
                 uint count = 0;
-                const CompletionCodeModelItem* foundItems = nullptr;
+                const CompletionCodeModelItem *foundItems = nullptr;
                 CompletionCodeModel::self().items(url, count, foundItems);
                 for (uint i = 0; i < count; ++i) {
                     if (abort) return items;

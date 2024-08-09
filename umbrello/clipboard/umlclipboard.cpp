@@ -105,7 +105,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         fillObjectListForWidgets(m_WidgetList);
 
         foreach (WidgetBase* widget, m_AssociationList) {
-            if (widget->umlObject() != 0) {
+            if (widget->umlObject() != nullptr) {
                 m_ObjectList.append(widget->umlObject());
             }
         }

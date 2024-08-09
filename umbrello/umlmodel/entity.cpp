@@ -316,7 +316,7 @@ UMLObject* UMLEntity::addEntityAttribute(const QString& name, Uml::ID::Type id)
  * @param log   Pointer to the IDChangeLog.
  * @return  True if the entityAttribute was successfully added.
  */
-bool UMLEntity::addEntityAttribute(UMLEntityAttribute* att, IDChangeLog* log /* = nullptr*/)
+bool UMLEntity::addEntityAttribute(UMLEntityAttribute *att, IDChangeLog* log /* = nullptr*/)
 {
     QString name = (QString)att->name();
     if (findChildObject(name) == nullptr) {
@@ -527,8 +527,8 @@ bool UMLEntity::setAsPrimaryKey(UMLUniqueConstraint* uconstr)
 
     // check if this constraint already exists as a unique constraint for this entity
     UMLObject *o = findChildObjectById(uconstr->id());
-    UMLUniqueConstraint* uuc = o ? o->asUMLUniqueConstraint() : 0;
-    if (uuc == 0) {
+    UMLUniqueConstraint* uuc = o ? o->asUMLUniqueConstraint() : nullptr;
+    if (uuc == nullptr) {
         addConstraint(uconstr);
         uuc = uconstr;
     }

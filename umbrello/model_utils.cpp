@@ -426,7 +426,7 @@ void treeViewAddViews(const UMLViewList& viewList)
 {
     UMLListView* tree = UMLApp::app()->listView();
     foreach (UMLView* v,  viewList) {
-        if (tree->findItem(v->umlScene()->ID()) != 0) {
+        if (tree->findItem(v->umlScene()->ID()) != nullptr) {
             continue;
         }
         tree->createDiagramItem(v);
@@ -1000,7 +1000,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
 
     QStringList nameAndType = t.split(QRegExp(QStringLiteral("\\s*:\\s*")));
     if (nameAndType.count() == 2) {
-        UMLObject *pType = 0;
+        UMLObject *pType = nullptr;
         if (nameAndType[1] != QStringLiteral("class")) {
             pType = pDoc->findUMLObject(nameAndType[1], UMLObject::ot_UMLObject, owningScope);
             if (pType == nullptr)
@@ -1031,7 +1031,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
  * @return      Error status of the parse, PS_OK for success.
  */
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope,
-                            Uml::Visibility::Enum *vis /* = 0 */)
+                            Uml::Visibility::Enum *vis /* = nullptr */)
 {
     UMLDoc *pDoc = UMLApp::app()->document();
 
@@ -1135,10 +1135,10 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
         QString retType = pat.cap(1);
         retType = retType.trimmed();
         if (retType != QStringLiteral("void")) {
-            UMLObject *pRetType = owningScope ? owningScope->findTemplate(retType) : 0;
+            UMLObject *pRetType = owningScope ? owningScope->findTemplate(retType) : nullptr;
             if (pRetType == nullptr) {
                 pRetType = pDoc->findUMLObject(retType, UMLObject::ot_UMLObject, owningScope);
-                if (pRetType == 0)
+                if (pRetType == nullptr)
                     return PS_Unknown_ReturnType;
             }
             desc.m_pReturnType = pRetType;

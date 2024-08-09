@@ -558,7 +558,7 @@ AssociationWidget* ToolBarState::associationAt(const QPointF& pos)
  */
 FloatingDashLineWidget* ToolBarState::floatingLineAt(const QPointF& pos)
 {
-    FloatingDashLineWidget* floatingline = nullptr;
+    FloatingDashLineWidget *floatingline = nullptr;
 
     foreach (UMLWidget* widget, m_pUMLScene->widgetList()) {
         uIgnoreZeroPointer(widget);

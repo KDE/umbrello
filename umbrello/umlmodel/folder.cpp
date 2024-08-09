@@ -160,7 +160,7 @@ UMLView *UMLFolder::findView(Uml::ID::Type id)
         }
     }
 
-    UMLView* v = nullptr;
+    UMLView *v = nullptr;
     UMLPackageList packages;
     appendPackages(packages);
     foreach (UMLPackage *o, packages) {
@@ -191,7 +191,7 @@ UMLView *UMLFolder::findView(Uml::DiagramType::Enum type, const QString &name, b
         }
     }
 
-    UMLView* v = nullptr;
+    UMLView *v = nullptr;
     if (searchAllScopes) {
         foreach (UMLObject* o, m_objects) {
             uIgnoreZeroPointer(o);

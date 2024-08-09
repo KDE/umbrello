@@ -17,7 +17,7 @@ class CPPCodeGenerationPolicyPage : public CodeGenerationPolicyPage
     Q_OBJECT
 public:
 
-    explicit CPPCodeGenerationPolicyPage (QWidget *parent = nullptr, const char *name = nullptr, CPPCodeGenerationPolicy * policy = nullptr);
+    explicit CPPCodeGenerationPolicyPage (QWidget *parent = nullptr, const char *name = nullptr, CPPCodeGenerationPolicy *policy = nullptr);
 
     virtual ~CPPCodeGenerationPolicyPage();
 

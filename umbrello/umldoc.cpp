@@ -461,7 +461,7 @@ bool UMLDoc::newDocument()
     UMLApp::app()->document()->setLoading(true);
 
     closeDocument();
-    UMLApp::app()->setCurrentView(0);
+    UMLApp::app()->setCurrentView(nullptr);
     setUrlUntitled();
     setResolution(qApp->desktop()->logicalDpiX());
     //see if we need to start with a new diagram
@@ -1629,7 +1629,7 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
         if (name.length() == 0) {
             KMessageBox::error(nullptr, i18n("That is an invalid name."), i18n("Invalid Name"));
         } else if (p->findChildObject(name) == nullptr
-                    || ((o->baseType() == UMLObject::ot_Operation) && KMessageBox::warningYesNo(0,
+                    || ((o->baseType() == UMLObject::ot_Operation) && KMessageBox::warningYesNo(nullptr,
                             i18n("The name you entered was not unique.\nIs this what you wanted?"),
                             i18n("Name Not Unique"), KGuiItem(i18n("Use Name")), KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes)) {
                 UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(o, name));
@@ -2802,7 +2802,7 @@ void UMLDoc::removeAllViews()
         m_root[i]->removeAllViews();
     }
 
-    UMLApp::app()->setCurrentView(0);
+    UMLApp::app()->setCurrentView(nullptr);
     emit sigDiagramChanged(Uml::DiagramType::Undefined);
     UMLApp::app()->setDiagramMenuItemsState(false);
 }

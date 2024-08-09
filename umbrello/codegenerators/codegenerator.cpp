@@ -521,7 +521,7 @@ bool CodeGenerator::openFile(QFile & file, const QString &fileName)
 
         file.setFileName(outputDirectory.absoluteFilePath(fileName));
         if(!file.open(QIODevice::WriteOnly)) {
-            KMessageBox::sorry(0, i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.fileName()), i18n("Cannot Open File"));
+            KMessageBox::sorry(nullptr, i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.fileName()), i18n("Cannot Open File"));
             return false;
         }
         return true;
@@ -583,7 +583,7 @@ QString CodeGenerator::findFileName(CodeDocument * codeDocument)
             for (QStringList::const_iterator dir(dirs.begin()); dir != end; ++dir) {
                 currentDir += QLatin1Char('/') + *dir;
                 if (! (pathDir.exists(currentDir) || pathDir.mkdir(currentDir))) {
-                    KMessageBox::error(0, i18n("Cannot create the folder:\n") +
+                    KMessageBox::error(nullptr, i18n("Cannot create the folder:\n") +
                                        pathDir.absolutePath() + i18n("\nPlease check the access rights"),
                                        i18n("Cannot Create Folder"));
                     return QString();

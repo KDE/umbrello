@@ -2289,7 +2289,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
         QString name = Model_Utils::uniqObjectName(objectType, package);
         UMLObject* object = Object_Factory::createUMLObject(objectType, name, package);
 
-        if (object == 0) {
+        if (object == nullptr) {
             // creation was cancelled by the user
             return;
         }

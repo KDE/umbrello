@@ -132,7 +132,7 @@ QString SimpleCodeGenerator::findFileName(UMLPackage* classifier, const QString 
                 if (! (pathDir.exists(currentDir)
                         || pathDir.mkdir(currentDir)))
                 {
-                    KMessageBox::error(0, i18n("Cannot create the folder:\n") +
+                    KMessageBox::error(nullptr, i18n("Cannot create the folder:\n") +
                                        pathDir.absolutePath() + i18n("\nPlease check the access rights"),
                                        i18n("Cannot Create Folder"));
                     return QString();

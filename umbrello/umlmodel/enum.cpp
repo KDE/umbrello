@@ -150,7 +150,7 @@ UMLObject* UMLEnum::addEnumLiteral(const QString &name, Uml::ID::Type id, const 
  * @param Log      Pointer to the IDChangeLog.
  * @return  True if the enumliteral was successfully added.
  */
-bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = 0*/)
+bool UMLEnum::addEnumLiteral(UMLEnumLiteral* literal, IDChangeLog* Log /* = nullptr*/)
 {
     QString name = (QString)literal->name();
     if (findChildObject(name) == nullptr) {

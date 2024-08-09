@@ -197,7 +197,7 @@ void StateDialog::setupGeneralPage()
  */
 void StateDialog::setupActivityPage()
 {
-    m_pActivityPage = new ActivityPage(0, m_pStateWidget);
+    m_pActivityPage = new ActivityPage(nullptr, m_pStateWidget);
     pageActivity = createPage(i18n("Activities"), i18n("Activities"),
                               Icon_Utils::it_Properties_Activities, m_pActivityPage);
 }

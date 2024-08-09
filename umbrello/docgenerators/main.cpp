@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
   const char *params[16 + 1];
   int nbparams = 0;
-  params[nbparams] = 0;
+  params[nbparams] = nullptr;
 
   KAboutData aboutData("umbodoc", 0, ki18n("Umbrello UML Modeller autonomous code generator"),
                         umbrelloVersion(), ki18n(description), KAboutData::License_GPL,

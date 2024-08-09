@@ -42,7 +42,7 @@ namespace Widget_Utils
      */
     UMLWidget* findWidget(Uml::ID::Type id,
                           const UMLWidgetList& widgets,
-                          const MessageWidgetList* messages /* = nullptr */)
+                          const MessageWidgetList *messages /* = nullptr */)
     {
         foreach (UMLWidget* obj, widgets) {
             if (obj->isObjectWidget()) {

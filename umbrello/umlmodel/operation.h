@@ -53,7 +53,7 @@ public:
 
     QString getUniqueParameterName() const;
 
-    virtual bool showPropertiesDialog(QWidget* parent = nullptr);
+    virtual bool showPropertiesDialog(QWidget *parent = nullptr);
 
     bool isConstructorOperation() const;
     bool isDestructorOperation() const;

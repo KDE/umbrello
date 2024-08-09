@@ -82,7 +82,7 @@ public:
 
     void setScene(UMLScene *scene);
 
-    virtual bool activate(IDChangeLog* changeLog = nullptr);
+    virtual bool activate(IDChangeLog *changeLog = nullptr);
 
     void setPenFromSettings(QPainter &p);
     void setPenFromSettings(QPainter *p);

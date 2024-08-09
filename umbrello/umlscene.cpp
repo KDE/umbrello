@@ -724,7 +724,7 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     }
 
     // next painting will most probably be to a different device (i.e. the screen)
-    forceUpdateWidgetFontMetrics(0);
+    forceUpdateWidgetFontMetrics(nullptr);
 }
 
 /**
@@ -937,7 +937,7 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
 
         if (Model_Utils::typeIsDiagram(lvtype)) {
             bool breakFlag = false;
-            UMLWidget* w = 0;
+            UMLWidget *w = nullptr;
             foreach(w, widgetList()) {
                 if (w->isNoteWidget() && w->onWidget(e->scenePos())) {
                     breakFlag = true;
@@ -2529,7 +2529,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         Uml::ID::Type otherID = other->id();
 
         bool breakFlag = false;
-        UMLWidget* pOtherWidget = nullptr;
+        UMLWidget *pOtherWidget = nullptr;
         foreach(pOtherWidget, widgetList()) {
             if (pOtherWidget->id() == otherID) {
                 breakFlag = true;
@@ -2620,7 +2620,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     Uml::ID::Type pkgID = parent->id();
 
     bool breakFlag = false;
-    UMLWidget* pWidget = 0;
+    UMLWidget *pWidget = nullptr;
     foreach(pWidget, widgetList()) {
         uIgnoreZeroPointer(pWidget);
         if (pWidget->id() == pkgID) {
@@ -3860,7 +3860,7 @@ void UMLScene::saveToXMI(QXmlStreamWriter& writer)
         //  ^  UMLApp::newDocument()
         //  ^  main()
         //
-        AssociationWidget * assoc = 0;
+        AssociationWidget * assoc = nullptr;
         foreach(assoc, associationList()) {
             assoc->saveToXMI(writer);
         }
@@ -4525,7 +4525,7 @@ void UMLScene::alignVerticalDistribute()
     qSort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerY);
 
     int i = 1;
-    UMLWidget* widgetPrev = 0;
+    UMLWidget *widgetPrev = nullptr;
     foreach(UMLWidget *widget, widgetList) {
         if (i == 1) {
             widgetPrev = widget;
@@ -4556,7 +4556,7 @@ void UMLScene::alignHorizontalDistribute()
     qSort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerX);
 
     int i = 1;
-    UMLWidget* widgetPrev = 0;
+    UMLWidget *widgetPrev = nullptr;
     foreach(UMLWidget *widget,  widgetList) {
         if (i == 1) {
             widgetPrev = widget;

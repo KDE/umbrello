@@ -409,7 +409,7 @@ void MultiPageDialogBase::applyFontPage(UMLWidget *widget)
  */
 KPageWidgetItem *MultiPageDialogBase::setupStylePage(WidgetBase *widget)
 {
-    m_pStylePage = new UMLWidgetStylePage(0, widget);
+    m_pStylePage = new UMLWidgetStylePage(nullptr, widget);
     return createPage(i18nc("widget style page", "Style"), i18n("Widget Style"),
                       Icon_Utils::it_Properties_Color, m_pStylePage);
 }

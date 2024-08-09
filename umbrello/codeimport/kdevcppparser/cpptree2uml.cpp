@@ -161,7 +161,7 @@ void CppTree2Uml::parseTypedef(TypedefAST* ast)
             typeId = typeSpec->name()->text();
 
         QList<InitDeclaratorAST*> l(declarators->initDeclaratorList());
-        InitDeclaratorAST* initDecl = nullptr;
+        InitDeclaratorAST *initDecl = nullptr;
         for (int i = 0; i < l.size(); ++i) {
             initDecl = l.at(i);
             if (initDecl==nullptr) break;

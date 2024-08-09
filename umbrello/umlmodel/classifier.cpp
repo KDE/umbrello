@@ -1044,7 +1044,7 @@ UMLTemplate* UMLClassifier::addTemplate(const QString &name, Uml::ID::Type id)
  * @param log           Pointer to the IDChangeLog.
  * @return              True if the template was successfully added.
  */
-bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = 0*/)
+bool UMLClassifier::addTemplate(UMLTemplate* newTemplate, IDChangeLog* log /* = nullptr*/)
 {
     QString name = newTemplate->name();
     if (findChildObject(name) == nullptr) {

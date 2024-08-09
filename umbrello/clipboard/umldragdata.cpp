@@ -78,7 +78,7 @@ UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems,
  */
 UMLDragData::UMLDragData(UMLObjectList& objects,
                          UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
-                         QPixmap& pngImage, UMLScene* scene, QWidget* dragSource /* = nullptr */)
+                         QPixmap& pngImage, UMLScene *scene, QWidget *dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip4(objects, widgets, associationDatas, pngImage, scene);
@@ -123,7 +123,7 @@ void UMLDragData::setUMLDataClip1(UMLObjectList& objects)
     stream.writeStartElement(QStringLiteral("umlobjects"));
 
     UMLObjectListIt object_it(objects);
-    UMLObject* obj = nullptr;
+    UMLObject *obj = nullptr;
     while (object_it.hasNext()) {
         obj = object_it.next();
         obj->saveToXMI(stream);
@@ -146,7 +146,7 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLViewList& diagrams)
     stream.writeStartElement(QStringLiteral("umlobjects"));
 
     UMLObjectListIt object_it(objects);
-    UMLObject* obj = nullptr;
+    UMLObject *obj = nullptr;
     while (object_it.hasNext()) {
         obj = object_it.next();
         obj->saveToXMI(stream);
@@ -648,7 +648,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     QDomElement associationWidgetElement = associationWidgetNode.toElement();
     while (!associationWidgetElement.isNull()) {
         AssociationWidget* associationWidget = AssociationWidget::create(view->umlScene());
-        if (associationWidget->loadFromXMI(associationWidgetElement, widgets, 0))
+        if (associationWidget->loadFromXMI(associationWidgetElement, widgets, nullptr))
             associations.append(associationWidget);
         else {
             delete associationWidget;
@@ -740,14 +740,14 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
     if (element.isNull()) {
         return false;//return ok as it means there is no umlobjects
     }
-    UMLObject* pObject = nullptr;
+    UMLObject *pObject = nullptr;
     while (!element.isNull()) {
         pObject = nullptr;
         QString type = element.tagName();
         Uml::ID::Type elmId = Uml::ID::fromString(Model_Utils::getXmiId(element));
         QString stereotype = element.attribute(QStringLiteral("stereotype"));
 
-        bool objectExists = (doc->findObjectById(elmId) != 0);
+        bool objectExists = (doc->findObjectById(elmId) != nullptr);
 
         // This happens when pasting clip4 (widgets): pasting widgets must
         // not duplicate the UMLObjects, unless they don't exists (other
@@ -786,7 +786,7 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
         );
 
         // Determine the parent package of the pasted object
-        UMLPackage* newParent = nullptr;
+        UMLPackage *newParent = nullptr;
         if (oldParentId != Uml::ID::None) {
             Uml::ID::Type newParentId = doc->changeLog()->findNewID(oldParentId);
 

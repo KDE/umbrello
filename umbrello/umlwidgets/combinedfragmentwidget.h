@@ -63,7 +63,7 @@ public:
 
     virtual void cleanup();
 
-    virtual bool activate(IDChangeLog* ChangeLog = nullptr);
+    virtual bool activate(IDChangeLog *ChangeLog = nullptr);
 
     virtual QRectF boundingRect() const;
     virtual QPainterPath shape() const;

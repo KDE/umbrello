@@ -3109,7 +3109,7 @@ void Php5Writer::writeClass(UMLClassifier *c)
         foreach (UMLAssociation* a, compositions) {
             // see comment on Aggregation about multiplicity...
             UMLObject *o = a->getObject(Uml::RoleType::A);
-            if (o == 0) {
+            if (o == nullptr) {
                 logError0("Php5Writer::writeClass: composition role A object is NULL");
                 continue;
             }

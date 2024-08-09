@@ -252,20 +252,20 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
             return nullptr;
         }
         if (name.length() == 0) {
-            KMessageBox::error(0, i18n("That is an invalid name."),
+            KMessageBox::error(nullptr, i18n("That is an invalid name."),
                                i18n("Invalid Name"));
             continue;
         }
         if (type != UMLObject::ot_Datatype) {
             CodeGenerator *codegen = UMLApp::app()->generator();
-            if (codegen != 0 && codegen->isReservedKeyword(name)) {
-                KMessageBox::error(0, i18n("This is a reserved keyword for the language of the configured code generator."),
+            if (codegen != nullptr && codegen->isReservedKeyword(name)) {
+                KMessageBox::error(nullptr, i18n("This is a reserved keyword for the language of the configured code generator."),
                                    i18n("Reserved Keyword"));
                 continue;
             }
         }
         if (! doc->isUnique(name, parentPkg) && type != UMLObject::ot_Instance) {
-            KMessageBox::error(0, i18n("That name is already being used."),
+            KMessageBox::error(nullptr, i18n("That name is already being used."),
                                i18n("Not a Unique Name"));
             continue;
         }

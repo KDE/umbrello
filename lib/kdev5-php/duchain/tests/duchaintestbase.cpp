@@ -138,7 +138,7 @@ TopDUContext* DUChainTestBase::parse(const QByteArray& unit, DumpAreas dump,
 
     ParseSession session;
     session.setContents(unit);
-    StartAst* ast = nullptr;
+    StartAst *ast = nullptr;
     if (!session.parse(&ast)) {
         qDebug() << "Parse failed";
         return 0;

@@ -41,7 +41,7 @@ public:
     explicit UMLDragData(UMLListViewItemList& UMLListViewItems, QWidget *dragSource = nullptr);
 
     UMLDragData(UMLObjectList& Objects, UMLWidgetList& Widgets, AssociationWidgetList& Associations,
-            QPixmap& PngImage, UMLScene  *scene, QWidget* dragSource = nullptr);
+            QPixmap& PngImage, UMLScene  *scene, QWidget *dragSource = nullptr);
 
     UMLDragData(UMLObjectList& Objects, int, QWidget *dragSource = nullptr);
 
