@@ -2745,10 +2745,10 @@ void getFiles(QStringList& files, const QString& path, QStringList& filters)
 {
     QDir searchDir(path);
     if (searchDir.exists()) {
-        for (const QFileInfo &file: searchDir.entryList(filters, QDir::Files))
-            files.append(searchDir.absoluteFilePath(file.fileName()));
-        for (const QFileInfo &subDir: searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks))
-            getFiles(files, searchDir.absoluteFilePath(subDir.fileName()), filters);
+        for (const QString &file: searchDir.entryList(QDir::Files))
+            files.append(searchDir.absoluteFilePath(file));
+        for (const QString &subDir: searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks))
+            getFiles(files, searchDir.absoluteFilePath(subDir), filters);
     }
 }
 
