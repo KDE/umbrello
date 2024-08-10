@@ -1160,7 +1160,7 @@ void CppWriter::writeConstructorMethods(UMLClassifier * c, QTextStream &stream)
  */
 void CppWriter::writeDataTypes(UMLClassifier *c, Uml::Visibility::Enum permitScope, QTextStream &stream)
 {
-    foreach (UMLObject* o, c->containedObjects()) {
+    for (UMLObject* o : c->containedObjects()) {
         uIgnoreZeroPointer(o);
         if (o->visibility() != permitScope)
             continue;
@@ -1201,7 +1201,7 @@ void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod,
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList inputlist = c->getOpList();
-    foreach (UMLOperation* op, inputlist) {
+    for (UMLOperation* op : inputlist) {
         if (op->visibility() == permitScope) {
             oplist.append(op);
         }
@@ -1232,7 +1232,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
         UMLApp::app()->commonPolicy()->getAutoGenerateConstructors();
 
     // generate method decl for each operation given
-    foreach (UMLOperation* op, oplist) {
+    for (UMLOperation* op : oplist) {
         QString doc;  // buffer for documentation
         QString methodReturnType;
         UMLAttributeList atl = op->getParmList();  // method parameters
@@ -1335,7 +1335,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
  */
 void CppWriter::printAssociationIncludeDecl(UMLAssociationList list, Uml::ID::Type myId, QTextStream &stream)
 {
-    foreach (UMLAssociation *a, list) {
+    for (UMLAssociation *a : list) {
         UMLClassifier *current = nullptr;
         bool isFirstClass = true;
 
