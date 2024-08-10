@@ -239,7 +239,7 @@ bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString, QString>
 {
     QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
     QStringList fileNames = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello5/layouts/%1*.desktop").arg(diagramType));
-    foreach(const QString &fileName, fileNames) {
+    for(const QString &fileName : fileNames) {
         QFileInfo fi(fileName);
         QString baseName;
         if (fi.baseName().contains(QStringLiteral("-")))
@@ -271,7 +271,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     fileNames << QStringLiteral("default.desktop");
 
     QString configFileName;
-    foreach(const QString &fileName, fileNames) {
+    for(const QString &fileName : fileNames) {
         configFileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello5/layouts/%1").arg(fileName));
         if (!configFileName.isEmpty())
             break;
@@ -302,13 +302,13 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     m_nodeParameters.clear();
     m_dotParameters.clear();
 
-    foreach(const QString &key, attributes.keyList()) {
+    for(const QString &key : attributes.keyList()) {
         QString value = attributes.readEntry(key);
         if (!value.isEmpty())
             m_dotParameters[key] = value;
     }
 
-    foreach(const QString &key, layoutAttributes.keyList()) {
+    for(const QString &key : layoutAttributes.keyList()) {
         QString value = layoutAttributes.readEntry(key);
         if (!value.isEmpty()) {
             if (!m_dotParameters.contains(key))
@@ -318,12 +318,12 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
         }
     }
 
-    foreach(const QString &key, nodesAttributes.keyList()) {
+    for(const QString &key : nodesAttributes.keyList()) {
         QString value = nodesAttributes.readEntry(key);
         m_nodeParameters[key] = value;
     }
 
-    foreach(const QString &key, edgesAttributes.keyList()) {
+    for(const QString &key : edgesAttributes.keyList()) {
         QString value = edgesAttributes.readEntry(key);
         if (m_edgeParameters.contains(key)) {
             m_edgeParameters[key] += QLatin1Char(',') + value;
@@ -374,7 +374,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
     QString data;
     QTextStream out(&data);
 
-    foreach(UMLWidget *widget, scene->widgetList()) {
+    for(UMLWidget *widget : scene->widgetList()) {
         QStringList params;
 
         if (m_nodeParameters.contains(QStringLiteral("all")))
@@ -439,7 +439,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
             out << "\"" << id << "\""
                 << " [" << params.join(QStringLiteral(",")) << "];\n";
         // add associations for child items
-        foreach(QGraphicsItem *item, widget->childItems()) {
+        for(QGraphicsItem *item : widget->childItems()) {
             UMLWidget *w2 = dynamic_cast<UMLWidget *>(item);
             if (!w2) {
                 logWarn1("DotGenerator::createDotFile: child item of widget %1 is null", key);
@@ -467,7 +467,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
         }
     }
 
-    foreach(AssociationWidget *assoc, scene->associationList()) {
+    for(AssociationWidget *assoc : scene->associationList()) {
         QString type = Uml::AssociationType::toString(assoc->associationType()).toLower();
         QString key = QStringLiteral("type::") + type;
         bool swapId = false;
@@ -534,7 +534,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
     o << "# generated from " << m_configFileName << "\n";
     o << "digraph G {\n";
 
-    foreach(const QString &key, m_dotParameters.keys()) {
+    for(const QString &key : m_dotParameters.keys()) {
         o << "\t" << key << " [" << m_dotParameters[key] << "];\n";
     }
 
@@ -552,7 +552,7 @@ bool DotGenerator::createDotFile(UMLScene *scene, const QString &fileName, const
  */
 bool DotGenerator::findItem(QStringList &params, const QString &search)
 {
-    foreach(const QString &s, params) {
+    for(const QString &s : params) {
         if (s.startsWith(search))
             return true;
     }

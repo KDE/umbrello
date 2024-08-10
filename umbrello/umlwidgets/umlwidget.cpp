@@ -312,7 +312,7 @@ void UMLWidget::toForeground()
     QList<QGraphicsItem*> items = scene()->items(rect, Qt::IntersectsItemShape, Qt::DescendingOrder);
     logDebug2("UMLWidget %1 toForeground: items at rect = %2", name(), items.count());
     if (items.count() > 1) {
-        foreach(QGraphicsItem* i, items) {
+        for(QGraphicsItem *i : items) {
             UMLWidget* w = dynamic_cast<UMLWidget*>(i);
             if (w) {
                 logDebug2("- item=%1 with zValue=%2", w->name(), w->zValue());
@@ -492,7 +492,8 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     QPointF delta = event->scenePos() - event->lastScenePos();
 
     logDebug2("UMLWidget::mouseMoveEvent: diffX=%1 / diffY=%2", diffX, diffY);
-    foreach(UMLWidget* widget, umlScene()->selectedWidgets()) {
+    
+    for(UMLWidget *widget : umlScene()->selectedWidgets()) {
         if ((widget->parentItem() == nullptr) || (!widget->parentItem()->isSelected())) {
             widget->moveWidgetBy(diffX, diffY);
             widget->adjustUnselectedAssocs(delta.x(), delta.y());
@@ -501,7 +502,7 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }
 
     // Move any selected associations.
-    foreach(AssociationWidget* aw, m_scene->selectedAssocs()) {
+    for(AssociationWidget *aw : m_scene->selectedAssocs()) {
         if (aw->isSelected()) {
             aw->moveEntireAssoc(diffX, diffY);
         }
@@ -550,7 +551,7 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             if (selectionCount > 1) {
                 UMLApp::app()->beginMacro(i18n("Move widgets"));
             }
-            foreach (UMLWidget* widget, selectedWidgets) {
+            for(UMLWidget *widget : selectedWidgets) {
                 UMLApp::app()->executeCommand(new Uml::CmdMoveWidget(widget));
                 Widget_Utils::ensureNestedVisible(widget, umlScene()->widgetList());
             }
@@ -1327,11 +1328,11 @@ void UMLWidget::adjustAssocs(qreal dx, qreal dy)
         return;
     }
 
-    foreach(AssociationWidget* assocwidget, associationWidgetList()) {
+    for(AssociationWidget *assocwidget : associationWidgetList()) {
         assocwidget->saveIdealTextPositions();
     }
 
-    foreach(AssociationWidget* assocwidget, associationWidgetList()) {
+    for(AssociationWidget *assocwidget : associationWidgetList()) {
         assocwidget->widgetMoved(this, dx, dy);
     }
 }
@@ -1344,12 +1345,12 @@ void UMLWidget::adjustAssocs(qreal dx, qreal dy)
  */
 void UMLWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
 {
-    foreach(AssociationWidget* assocwidget, associationWidgetList()) {
+    for(AssociationWidget *assocwidget : associationWidgetList()) {
         if (!assocwidget->isSelected())
             assocwidget->saveIdealTextPositions();
     }
 
-    foreach(AssociationWidget* assocwidget, associationWidgetList()) {
+    for(AssociationWidget *assocwidget : associationWidgetList()) {
         if (!assocwidget->isSelected() &&
                (this == assocwidget->widgetForRole(Uml::RoleType::A) ||
                 this == assocwidget->widgetForRole(Uml::RoleType::B))) {
@@ -1846,7 +1847,7 @@ void UMLWidget::setSize(qreal width, qreal height)
     const QRectF newRect(rect().x(), rect().y(), width, height);
     logDebug3("UMLWidget::setSize(%1): setting w=%2, h=%3", name(), newRect.width(), newRect.height());
     setRect(newRect);
-    foreach(QGraphicsItem* child, childItems()) {
+    for(QGraphicsItem *child : childItems()) {
         UMLWidget* umlChild = static_cast<UMLWidget*>(child);
         umlChild->notifyParentResize();
     }

@@ -223,7 +223,7 @@ bool CodeDocument::insertTextBlock(TextBlock * newBlock, TextBlock * existingBlo
     if (index < 0)
     {
         // may be hiding in child hierarchical codeblock
-        foreach (TextBlock* tb, m_textblockVector)
+        for(TextBlock* tb: m_textblockVector)
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
             if (hb && hb->insertTextBlock(newBlock, existingBlock, after))
@@ -309,7 +309,7 @@ QString CodeDocument::toString () const
 
     // comments, import, package codeblocks go next
     TextBlockList * items = getTextBlockList();
-    foreach (TextBlock* c, *items)
+    for (TextBlock* c: *items)
     {
         if (c->getWriteOutText()) {
             QString str = c->toString();

@@ -104,7 +104,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType, UMLWidge
         break;
 
     case Uml::AssociationType::Realization:  // one connected to widget only (a or b)
-        foreach (AssociationWidget* assoc, list) {
+        for(AssociationWidget* assoc : list) {
             if (assoc->associationType() == Uml::AssociationType::Realization) {
                 logDebug2("allowAssociation(widget %1, assoc %2) : disallowing more "
                           "than one realization to object", widgetType, assocType);
@@ -236,7 +236,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
         break;
 
     case Uml::AssociationType::Generalization://can have many sub/super types but can't sup/sub each
-        foreach (AssociationWidget * assoc, list) {
+        for(AssociationWidget * assoc : list) {
             if((widgetA == assoc->widgetForRole(Uml::RoleType::A) ||
                         widgetA == assoc->widgetForRole(Uml::RoleType::B))
                     && assoc->associationType() == assocType)
@@ -246,7 +246,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
         break;
 
     case Uml::AssociationType::Realization: // can only connect to abstract (interface) classes
-        foreach(AssociationWidget * assoc, list) {
+        for(AssociationWidget * assoc : list) {
             if((widgetA == assoc->widgetForRole(Uml::RoleType::A) ||
                         widgetA == assoc->widgetForRole(Uml::RoleType::B))
                     && assoc->associationType() == Uml::AssociationType::Realization) {
@@ -312,7 +312,7 @@ bool AssocRules::allowAssociation(Uml::AssociationType::Enum assocType,
             // only Forks and Branches can have more than one "outgoing" transition
             if (actA != nullptr && actTypeA != ActivityWidget::Branch) {
                 AssociationWidgetList list = widgetA->associationWidgetList();
-                foreach (AssociationWidget* assoc, list) {
+                for(AssociationWidget* assoc : list) {
                     if (assoc->widgetForRole(Uml::RoleType::A) == widgetA) {
                         return false;
                     }

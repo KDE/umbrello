@@ -117,7 +117,7 @@ void UMLUniqueConstraintDialog::setupDialog()
     logDebug1("UMLUniqueConstraintDialog::setupDialog: UniqueConstraint parent=%1", ue->name());
     if (ue) {
        UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
-       foreach(UMLClassifierListItem* att, ual) {
+       for(UMLClassifierListItem* att : ual) {
            m_pEntityAttributeList.append(att->asUMLEntityAttribute());
            m_pAttributeCB->addItem(att->toString(Uml::SignatureType::SigNoVis));
        }
@@ -125,7 +125,7 @@ void UMLUniqueConstraintDialog::setupDialog()
 
     // Then we add the attributes in the constraint to the list box
     UMLEntityAttributeList eal = m_pUniqueConstraint->getEntityAttributeList();
-    foreach(UMLEntityAttribute* att, eal) {
+    for(UMLEntityAttribute* att : eal) {
 
         // add to local cache
         m_pConstraintAttributeList.append(att);
@@ -226,7 +226,7 @@ bool UMLUniqueConstraintDialog::apply()
     m_pUniqueConstraint->clearAttributeList();
 
     // fill it with contents of local cache
-    foreach(UMLEntityAttribute* att, m_pConstraintAttributeList) {
+    for(UMLEntityAttribute* att : m_pConstraintAttributeList) {
         m_pUniqueConstraint->addEntityAttribute(att);
     }
 

@@ -480,12 +480,12 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
 
     // check if class is an interface
     bool isInterface = true;
-    foreach(UMLOperation *op, klass->getOpList()) {
+    for(UMLOperation *op : klass->getOpList()) {
         if (!op->isDestructorOperation() && op->isAbstract() == false)
             isInterface = false;
     }
 
-    foreach(UMLAttribute *attr, klass->getAttributeList()) {
+    for(UMLAttribute *attr : klass->getAttributeList()) {
         if (!(attr->isStatic() && attr->getTypeName().contains(QStringLiteral("const"))))
             isInterface = false;
     }

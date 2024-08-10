@@ -84,9 +84,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent)
  */
 ListPopupMenu::~ListPopupMenu()
 {
-    foreach (QAction* action, m_actions) {
-        delete action;
-    }
+    qDeleteAll(m_actions);
     m_actions.clear();
     delete d;
 }
@@ -594,7 +592,7 @@ void ListPopupMenu::setActionEnabled(MenuType idx, bool value)
  */
 void ListPopupMenu::setupActionsData()
 {
-    foreach (QAction *action, m_actions) {
+    for(QAction *action : m_actions) {
         QMap<QString, QVariant> map = action->data().toMap();
         map[toString(dt_MenuPointer)] = qVariantFromValue(this);
         action->setData(QVariant(map));
@@ -630,7 +628,7 @@ QString ListPopupMenu::toString(DataType data)
 void ListPopupMenu::dumpActions(const QString &title)
 {
     qDebug().nospace() << title;
-    foreach(DebugMenu e, d->debugActions) {
+    for(DebugMenu e : d->debugActions) {
         if (!e.menu.isEmpty())
             qDebug().nospace() << "  " << e.menu;
         else

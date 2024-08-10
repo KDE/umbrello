@@ -432,7 +432,7 @@ void ContextBuilder::reportError(const QString& errorMsg, AstNode* node, IProble
 void ContextBuilder::reportError(const QString& errorMsg, QList< AstNode* > nodes, IProblem::Severity severity)
 {
     RangeInRevision range = RangeInRevision::invalid();
-    foreach ( AstNode* node, nodes ) {
+    for(AstNode *node : nodes ) {
         if ( !range.isValid() ) {
             range = m_editor->findRange(node);
         } else {

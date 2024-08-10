@@ -113,7 +113,7 @@ void remakeTagEditFields(const QString &stereoText,
         }
     }
     UMLStereotype  *stereo = nullptr;
-    foreach (UMLStereotype *st, UMLApp::app()->document()->stereotypes()) {
+    for(UMLStereotype *st : UMLApp::app()->document()->stereotypes()) {
         if (st->name() == stereoText) {
             stereo = st;
             break;
@@ -325,7 +325,7 @@ void insertStereotypesSorted(KComboBox *kcb, const QString& type)
     UMLDoc *umldoc = UMLApp::app()->document();
     QStringList types;
     types << QString();  // an empty stereotype is the default
-    foreach (UMLStereotype* ust, umldoc->stereotypes()) {
+    for(UMLStereotype* ust : umldoc->stereotypes()) {
         types << ust->name();
     }
     // add the given parameter

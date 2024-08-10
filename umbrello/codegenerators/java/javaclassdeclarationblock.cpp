@@ -100,7 +100,7 @@ void JavaClassDeclarationBlock::updateContent ()
     int i = 0;
     if (nrof_superclasses >0)
         startText.append(QStringLiteral(" extends "));
-    foreach (UMLClassifier* classifier, superclasses) {
+    for (UMLClassifier* classifier: superclasses) {
         startText.append(parentDoc->cleanName(classifier->name()));
         if(i != (nrof_superclasses-1))
             startText.append(QStringLiteral(", "));
@@ -117,7 +117,7 @@ void JavaClassDeclarationBlock::updateContent ()
         else
             startText.append(QStringLiteral(" implements "));
     }
-    foreach (UMLClassifier* classifier, superinterfaces) {
+    for (UMLClassifier* classifier: superinterfaces) {
         startText.append(parentDoc->cleanName(classifier->name()));
         if(i != (nrof_superinterfaces-1))
             startText.append(QStringLiteral(", "));

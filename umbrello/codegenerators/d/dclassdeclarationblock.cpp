@@ -102,7 +102,7 @@ void DClassDeclarationBlock::updateContent ()
     if (count > 0) startText += QStringLiteral(" : ");
 
     // (e) base classes
-    foreach (UMLClassifier* classifier, superclasses) {
+    for(UMLClassifier* classifier : superclasses) {
         startText += parentDoc->cleanName(classifier->name());
 
         count--;
@@ -111,7 +111,7 @@ void DClassDeclarationBlock::updateContent ()
     }
 
     // (f) interfaces
-    foreach (UMLClassifier* classifier, superinterfaces) {
+    for(UMLClassifier* classifier : superinterfaces) {
         startText += parentDoc->cleanName(classifier->name());
 
         count--;

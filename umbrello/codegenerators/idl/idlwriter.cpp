@@ -144,7 +144,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     UMLPackageList includes;
     findObjectsRelated(c, includes);
     if (includes.count()) {
-        foreach (UMLPackage* conc, includes) {
+        for(UMLPackage* conc : includes) {
             if (conc->isUMLDatatype())
                 continue;
             QString incName = findFileName(conc, QStringLiteral(".idl"));
@@ -158,7 +158,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     // we are embedded.
     UMLPackageList pkgList = c->packages();
 
-    foreach (UMLPackage* pkg,  pkgList) {
+    for(UMLPackage* pkg:  pkgList) {
         idl << indent() << "module " << pkg->name() << " {" << m_endl << m_endl;
         m_indentLevel++;
     }
@@ -176,7 +176,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
         uint i = 0;
         idl << indent() << "enum " << classname << " {" << m_endl;
         m_indentLevel++;
-        foreach (UMLClassifierListItem *lit, litList) {
+        for(UMLClassifierListItem *lit : litList) {
             QString enumLiteral = cleanName(lit->name());
             idl << indent() << enumLiteral;
             if (++i < (uint)litList.count())
@@ -210,7 +210,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             idl << indent() << "enum " << classname << " {" << m_endl;
             m_indentLevel++;
             uint i = 0;
-            foreach (UMLAttribute* at, atl) {
+            for(UMLAttribute* at : atl) {
                 QString enumLiteral = cleanName(at->name());
                 idl << indent() << enumLiteral;
                 if (++i < (uint)atl.count())
@@ -224,7 +224,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
 
             idl << indent() << "struct " << classname << " {" << m_endl;
             m_indentLevel++;
-            foreach (UMLAttribute* at, atl) {
+            for(UMLAttribute* at : atl) {
                 QString name = cleanName(at->name());
                 idl << indent() << at->getTypeName() << " " << name << ";" << m_endl;
                 // Initial value not possible in IDL.
@@ -232,7 +232,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             UMLAssociationList compositions = c->getCompositions();
             if (!compositions.isEmpty()) {
                 idl << indent() << "// Compositions." << m_endl;
-                foreach (UMLAssociation *a, compositions) {
+                for(UMLAssociation *a : compositions) {
                     QString memberType, memberName;
                     computeAssocTypeAndRole(a, c, memberType, memberName);
                     idl << indent() << memberType << " " << memberName << ";" << m_endl;
@@ -241,7 +241,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
             UMLAssociationList aggregations = c->getAggregations();
             if (!aggregations.isEmpty()) {
                 idl << indent() << "// Aggregations." << m_endl;
-                foreach (UMLAssociation *a, aggregations) {
+                for(UMLAssociation *a: aggregations) {
                     QString memberType, memberName;
                     computeAssocTypeAndRole(a, c, memberType, memberName);
                     idl << indent() << memberType << " " << memberName << ";" << m_endl;
@@ -258,12 +258,12 @@ void IDLWriter::writeClass(UMLClassifier *c)
                                 << ") {"  << m_endl << m_endl;
                 atl.pop_front();
                 m_indentLevel++;
-                foreach (UMLAttribute *at, atl) {
+                for(UMLAttribute *at : atl) {
                     QString attName = cleanName(at->name());
                     const QStringList& tags = at->tags();
                     if (tags.count()) {
                         const QString& caseVals = tags.front();
-                        foreach (QString caseVal, caseVals.split(QLatin1Char(' '))) {
+                        for(const QString& caseVal : caseVals.split(QLatin1Char(' '))) {
                             idl << indent() << "case " << caseVal << ":" << m_endl;
                         }
                     } else {
@@ -315,7 +315,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
     if (! superclasses.isEmpty()) {
         idl << " : ";
         int count = superclasses.count();
-        foreach(UMLClassifier* parent, superclasses) {
+        for(UMLClassifier* parent : superclasses) {
             count--;
             idl << parent->fullyQualifiedName(QStringLiteral("::"));
             if (count)
@@ -329,7 +329,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
 
     bool didComment = false;
     UMLAssociationList assocs = c->getAssociations();
-    foreach (UMLAssociation *a, assocs) {
+    for(UMLAssociation *a : assocs) {
         if (! assocTypeIsMappableToAttribute(a->getAssocType()))
             continue;
         QString multiplicity = a->getMultiplicity(Uml::RoleType::A);
@@ -350,7 +350,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
         UMLAttributeList atl = c->getAttributeList();
         if (forceSections() || atl.count()) {
             idl << indent() << "// Attributes:" << m_endl << m_endl;
-            foreach (UMLAttribute *at, atl) {
+            for(UMLAttribute *at : atl) {
                 QString attName = cleanName(at->name());
                 Uml::Visibility::Enum scope = at->visibility();
                 idl << indent();
@@ -378,20 +378,20 @@ void IDLWriter::writeClass(UMLClassifier *c)
     UMLOperationList opl(c->getOpList());
     UMLOperationList oppub;
 
-    foreach (UMLOperation* op, opl) {
+    for(UMLOperation* op : opl) {
           if (op->visibility() == Uml::Visibility::Public)
             oppub.append(op);
     }
     if (forceSections() || oppub.count()) {
         idl << indent() << "// Public methods:" << m_endl << m_endl;
-        foreach (UMLOperation* op, oppub)
+        for(UMLOperation* op : oppub)
             writeOperation(op, idl);
         idl << m_endl;
     }
 
     if (forceSections() || !assocs.isEmpty()) {
         idl << indent() << "// Associations:" << m_endl << m_endl;
-        foreach (UMLAssociation* a, assocs) {
+        for(UMLAssociation* a : assocs) {
             Uml::AssociationType::Enum at = a->getAssocType();
             if (! assocTypeIsMappableToAttribute(at))
                 continue;
@@ -444,7 +444,7 @@ void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comme
         idl << m_endl;
         m_indentLevel++;
         uint i = 0;
-        foreach (UMLAttribute *at, atl) {
+        for(UMLAttribute *at : atl) {
             idl << indent();
             if (is_comment)
                 idl << "// ";

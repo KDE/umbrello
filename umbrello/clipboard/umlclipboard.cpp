@@ -104,7 +104,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         // instance.
         fillObjectListForWidgets(m_WidgetList);
 
-        foreach (WidgetBase* widget, m_AssociationList) {
+        for(WidgetBase *widget : m_AssociationList) {
             if (widget->umlObject() != nullptr) {
                 m_ObjectList.append(widget->umlObject());
             }
@@ -124,7 +124,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         // on the ListView that correspond to a UseCase, Actor or Concept
         // in the Diagram
         if (m_type == clip2) {
-            foreach (UMLView* view, m_ViewList) {
+            for(UMLView* view : m_ViewList) {
                 UMLScene *scene = view->umlScene();
                 if (scene == nullptr) {
                     logError0("UMLClipboard::copy: currentView umlScene() is NULL");
@@ -133,7 +133,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
                 fillObjectListForWidgets(scene->widgetList());
 
                 AssociationWidgetList associations = scene->associationList();
-                foreach (AssociationWidget* association, associations) {
+                for(AssociationWidget* association : associations) {
                     if (association->umlObject() != nullptr) {
                         m_ObjectList.append(association->umlObject());
                     }
@@ -236,7 +236,7 @@ void UMLClipboard::addRelatedWidgets()
     UMLWidgetList relatedWidgets;
     UMLWidget   *pWA = nullptr, *pWB = nullptr;
 
-    foreach (UMLWidget* widget, m_WidgetList) {
+    for(UMLWidget* widget : m_WidgetList) {
         if (widget->isMessageWidget()) {
             MessageWidget * pMessage = widget->asMessageWidget();
             pWA = (UMLWidget*)pMessage->objectWidget(Uml::RoleType::A);
@@ -248,7 +248,7 @@ void UMLClipboard::addRelatedWidgets()
         }
     }
 
-    foreach(AssociationWidget *pAssoc, m_AssociationList) {
+    for(AssociationWidget *pAssoc : m_AssociationList) {
         pWA = pAssoc->widgetForRole(Uml::RoleType::A);
         pWB = pAssoc->widgetForRole(Uml::RoleType::B);
         if (!relatedWidgets.contains(pWA))
@@ -257,7 +257,7 @@ void UMLClipboard::addRelatedWidgets()
             relatedWidgets.append(pWB);
     }
 
-    foreach(UMLWidget *widget, relatedWidgets) {
+    for(UMLWidget *widget : relatedWidgets) {
         if (!m_WidgetList.contains(widget))
             m_WidgetList.append(widget);
     }
@@ -274,7 +274,7 @@ void UMLClipboard::fillObjectListForWidgets(const UMLWidgetList& widgets)
     // the packages and add them from the root package to the deeper levels
     UMLObjectList packages;
 
-    foreach (UMLWidget* widget, widgets) {
+    for(UMLWidget* widget : widgets) {
         UMLObject* widgetObject = widget->umlObject();
         if (widgetObject != nullptr) {
             packages.clear();
@@ -285,7 +285,7 @@ void UMLClipboard::fillObjectListForWidgets(const UMLWidgetList& widgets)
                 package = package->umlPackage();
             }
 
-            foreach (UMLObject* package, packages) {
+            for(UMLObject *package : packages) {
                 if (!m_ObjectList.contains(package)) {
                     m_ObjectList.append(package);
                 }
@@ -310,7 +310,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
     case clip4:
         break;
     case clip3:
-        foreach (UMLListViewItem* item, selectedItems) {
+        for(UMLListViewItem *item : selectedItems) {
             type = item->type();
             if (!Model_Utils::typeIsClassifierList(type)) {
                 m_ItemList.append(item);
@@ -320,7 +320,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
         break;
     case clip2:
     case clip1:
-        foreach (UMLListViewItem* item, selectedItems) {
+        for(UMLListViewItem *item : selectedItems) {
             type = item->type();
             if (!Model_Utils::typeIsClassifierList(type)) {
                 if (Model_Utils::typeIsCanvasWidget(type)) {
@@ -334,7 +334,7 @@ bool UMLClipboard::fillSelectionLists(UMLListViewItemList& selectedItems)
         }
         break;
     case clip5:
-        foreach (UMLListViewItem* item, selectedItems) {
+        for(UMLListViewItem *item : selectedItems) {
             type = item->type();
             if(Model_Utils::typeIsClassifierList(type)) {
                 m_ObjectList.append(item->umlObject());
@@ -360,7 +360,7 @@ void UMLClipboard::setCopyType(UMLListViewItemList& selectedItems)
     bool withObjects = false; //If the selection includes objects
     bool onlyAttsOps = false; //If the selection only includes Attributes and/or Operations
 
-    foreach (UMLListViewItem* item, selectedItems) {
+    for(UMLListViewItem *item : selectedItems) {
         checkItemForCopyType(item, withDiagrams, withObjects, onlyAttsOps);
     }
     if (onlyAttsOps) {
@@ -474,7 +474,7 @@ bool UMLClipboard::pasteClip2(const QMimeData* data)
     if (NoteWidget::s_pCurrentNote) {
         NoteWidget::s_pCurrentNote = nullptr;
     } else {
-        foreach (UMLView* pView, views) {
+        for(UMLView *pView : views) {
             if (!doc->addUMLView(pView)) {
                 return false;
             }
@@ -542,7 +542,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     }
      //make sure the file we are pasting into has the objects
      //we need if there are widgets to be pasted
-    foreach (UMLObject* obj, objects) {
+    for(UMLObject *obj : objects) {
         if(!doc->assignNewIDs(obj)) {
             return false;
         }
@@ -553,7 +553,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     bool objectAlreadyExists = false;
     currentScene->beginPartialWidgetPaste();
 
-    foreach (UMLWidget* widget, widgets) {
+    for(UMLWidget *widget : widgets) {
 
         Uml::ID::Type oldId = widget->id();
         Uml::ID::Type newId = idchanges->findNewID(oldId);
@@ -572,7 +572,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
     }
 
     //now paste the associations
-    foreach (AssociationWidget* assoc, assocs) {
+    for(AssociationWidget *assoc : assocs) {
         if (!currentScene->addAssociation(assoc, true)) {
             currentScene->endPartialWidgetPaste();
             return false;
@@ -581,7 +581,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
 
     currentScene->clearSelected();
     currentScene->selectWidgets(widgets);
-    foreach (AssociationWidget* assoc, assocs) {
+    for(AssociationWidget *assoc : assocs) {
         currentScene->selectWidgetsOfAssoc(assoc);
     }
 
@@ -631,7 +631,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
     if (objects.count())
         result = false;
 
-    foreach (UMLObject* obj, objects) {
+    for(UMLObject *obj : objects) {
         obj->setID(doc->assignNewID(obj->id()));
         switch(obj->baseType()) {
         case UMLObject::ot_Attribute :

@@ -24,7 +24,7 @@ int UMLListViewFinder::collect(Category category, const QString &text)
     Q_UNUSED(category);
     QList<QTreeWidgetItem*> items = UMLApp::app()->listView()->findItems(text, Qt::MatchContains | Qt::MatchRecursive);
     m_items.clear();
-    foreach(QTreeWidgetItem *item, items) {
+    for (QTreeWidgetItem *item: items) {
         UMLListViewItem *ui = dynamic_cast<UMLListViewItem *>(item);
         if (!ui)
             continue;

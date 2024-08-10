@@ -56,7 +56,7 @@ void createArgumentList(const NormalDeclarationCompletionItem& item, QString& re
         bool first = true;
         int num = 0;
 
-        foreach(Declaration* dec, parameters) {
+        for(Declaration* dec : parameters) {
             if (first)
                 first = false;
             else
@@ -158,7 +158,7 @@ QStringList getMethodTokens(QString text)
     while (!possibleTokens.isEmpty()) {
         bool foundAnything = false;
         text = text.trimmed();
-        foreach(const QString &token, possibleTokens) {
+        for(const QString &token : possibleTokens) {
             if (text.endsWith(token, Qt::CaseInsensitive)) {
                 tokens << token;
                 text = text.left(text.length() - token.length());

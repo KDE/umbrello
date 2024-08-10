@@ -269,7 +269,7 @@ void LexerTest::testNowdoc()
 void LexerTest::testCommonStringTokens()
 {
     // all these should have open_tag followed by constant encapsed string
-    foreach ( const QString& code, QStringList() << "<?php ''" << "<?php \"\"" << "<?php '" << "<?php \"" ) {
+    for( const QString& code : {QStringLiteral("<?php ''") << QStringLiteral("<?php \"\"") << QStringLiteral("<?php '") << QStringLiteral("<?php \"") }) {
         qDebug() << code;
         TokenStream* ts = tokenize(code, true);
 
@@ -513,7 +513,7 @@ TokenStream* LexerTest::tokenize(const QString& unit, bool debug, int initialSta
         tokens << t;
     }
     if (debug) {
-        foreach(const Parser::Token &t, tokens) {
+        for(const Parser::Token &t : tokens) {
             qint64 beginLine;
             qint64 beginColumn;
             tokenStream->startPosition(i, &beginLine, &beginColumn);

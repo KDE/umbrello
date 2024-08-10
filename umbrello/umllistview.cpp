@@ -639,8 +639,8 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
 
             if (Model_Utils::typeIsCanvasWidget(lvt)) {
                 UMLViewList views = m_doc->viewIterator();
-                foreach (UMLView *view, views) {
-                    foreach(UMLWidget *widget, view->umlScene()->widgetList()) {
+                for (UMLView *view :  views) {
+                    for (UMLWidget *widget :  view->umlScene()->widgetList()) {
                         if (object == widget->umlObject()) {
                             findResults.append(widget);
                         }
@@ -657,7 +657,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             if (findResults.size() > 1) {
                 QMenu menu(this);
                 int i = 0;
-                foreach(UMLWidget *w, findResults) {
+                for(UMLWidget  *w : findResults) {
                     QAction *action = menu.addAction(w->umlScene()->name() + QLatin1Char(':') + w->name());
                     action->setData(i++);
                 }
@@ -997,7 +997,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     if (mayHaveChildItems(type)) {
         UMLClassifier *c = object->asUMLClassifier();
         UMLClassifierListItemList cListItems = c->getFilteredList(UMLObject::ot_UMLObject);
-        foreach(UMLClassifierListItem *cli, cListItems)
+        for(UMLClassifierListItem  *cli : cListItems)
             childObjectAdded(cli, c);
     }
     if (m_doc->loading())
@@ -1242,7 +1242,7 @@ UMLDragData* UMLListView::getDragData()
     UMLListViewItemList itemsSelected = selectedItems();
 
     UMLListViewItemList  list;
-    foreach(UMLListViewItem* item, itemsSelected) {
+    for(UMLListViewItem *item : itemsSelected) {
         UMLListViewItem::ListViewType type = item->type();
         if (!Model_Utils::typeIsCanvasWidget(type) && !Model_Utils::typeIsDiagram(type)
                 && !Model_Utils::typeIsClassifierList(type)) {
@@ -1862,7 +1862,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                     newOp->setType(op->getType());
                     newOp->setVisibility(op->visibility());
                     UMLAttributeList parmList = op->getParmList();
-                    foreach(UMLAttribute* parm, parmList) {
+                    for(UMLAttribute *parm : parmList) {
                         UMLAttribute *newParm = new UMLAttribute(newParentClassifier,
                                 parm->name(),
                                 Uml::ID::None,
@@ -2224,7 +2224,7 @@ void UMLListView::slotCutSuccessful()
 void UMLListView::slotDeleteSelectedItems()
 {
     UMLListViewItemList itemsSelected = selectedItemsRoot();
-    foreach(UMLListViewItem *item, itemsSelected) {
+    for(UMLListViewItem  *item : itemsSelected) {
         deleteItem(item);
     }
 }
@@ -2312,7 +2312,7 @@ void UMLListView::addNewItem(UMLListViewItem *parentItem, UMLListViewItem::ListV
             clearSelection();
             instanceItem->setSelected(true);
             UMLObjectList& values = inst->subordinates();
-            foreach (UMLObject *child, values) {
+            for(UMLObject  *child : values) {
                 if (!child->isUMLInstanceAttribute())
                     continue;
                 connectNewObjectsSlots(child);

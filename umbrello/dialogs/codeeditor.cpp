@@ -332,7 +332,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
             TextBlockInfo * thisTbInfo = it.value();
             int firstLoc = m_textBlockList.indexOf(tblock);
 
-            foreach (ParaInfo * pi, thisTbInfo->m_paraList) {
+            for(ParaInfo * pi : thisTbInfo->m_paraList) {
                 int minPara = pi->start + firstLoc;
 
                 // only worth doing if in range of the whole representation
@@ -361,7 +361,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
 void CodeEditor::appendText(TextBlockList * items)
 {
     logDebug0("CodeEditor::appendText text block list");
-    foreach (TextBlock* tb, *items) {
+    for(TextBlock* tb : *items) {
         // types of things we may cast our text block into
         // This isnt efficient, and is a vote for recording
         // code block types in an enumerated list somewhere,
@@ -962,7 +962,7 @@ void CodeEditor::updateTextBlockFromText(TextBlock * block)
         // Assemble content from editiable paras
         if (info) {
             QList<ParaInfo*> list = info->m_paraList;
-            foreach (ParaInfo * item, list) {
+            for(ParaInfo * item : list) {
                 if (item->isEditable) {
                     int lastpara = item->start+pstart+item->size;
                     int endEdit = block->lastEditableLine();
@@ -1156,7 +1156,7 @@ bool CodeEditor::paraIsNotSingleLine(int para)
         int pstart = m_textBlockList.indexOf(tBlock);
         TextBlockInfo *info = m_tbInfoMap[tBlock];
         QList<ParaInfo*> list = info->m_paraList;
-        foreach (ParaInfo * item, list) {
+        for(ParaInfo  *item : list) {
             if ((pstart+item->start) <= para && (item->start+pstart+item->size) >= para)
                 if (item->size > 0)
                     return true;
@@ -1225,7 +1225,7 @@ bool CodeEditor::isParaEditable(int para)
             int pstart = m_textBlockList.indexOf(tBlock);
             int relativeLine = para - pstart;
             QList<ParaInfo*> list = info->m_paraList;
-            foreach (ParaInfo * item, list) {
+            for(ParaInfo  *item : list) {
                 if (item->start+pstart <= para && item->start+pstart+item->size >= para) {
                     if (item->isEditable && hasEditableRange) {
                         if (relativeLine >= editStart && relativeLine <= (item->size + editEnd))
@@ -1261,7 +1261,7 @@ void CodeEditor::changeTextBlockHighlighting(TextBlock * tBlock, bool selected)
         }
         QList<ParaInfo*> list = info->m_paraList;
         int pstart = m_textBlockList.indexOf(tBlock);
-        foreach (ParaInfo * item, list) {
+        for(ParaInfo  *item : list) {
             for (int p=(item->start+pstart); p<=(item->start+pstart+item->size); ++p) {
                 if (selected) {
                     if (info->isClickable) {
@@ -1349,7 +1349,7 @@ void CodeEditor::contractSelectedParagraph(int paraToRemove)
             TextBlockInfo *info = m_tbInfoMap[tBlock];
             QList<ParaInfo*> list = info->m_paraList;
             bool lowerStartPosition = false;
-            foreach (ParaInfo * item, list) {
+            for(ParaInfo  *item : list) {
                 if (lowerStartPosition) {
                     item->start -= 1;
                 }
@@ -1384,7 +1384,7 @@ void CodeEditor::expandSelectedParagraph(int priorPara)
 
         // now update the paragraph information
         bool upStartPosition = false;
-        foreach (ParaInfo * item, list) {
+        for(ParaInfo  *item : list) {
             // AFTER we get a match, then following para's need to have start position upped too
             if (upStartPosition)
                 item->start += 1;

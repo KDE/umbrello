@@ -2980,7 +2980,7 @@ QLineF::IntersectType AssociationWidget::intersect(const QRectF &rect, const QLi
     lines << QLineF(rect.topRight(), rect.bottomRight());
     lines << QLineF(rect.bottomRight(), rect.bottomLeft());
     lines << QLineF(rect.bottomLeft(), rect.topLeft());
-    foreach (const QLineF& rectLine, lines) {
+    for(const QLineF& rectLine: lines) {
         QLineF::IntersectType type = rectLine.intersect(line, intersectionPoint);
         if (type == QLineF::BoundedIntersection) {
             return type;
@@ -3096,9 +3096,9 @@ bool AssociationWidget::setStartAndEndPoint(AssociationWidget *assocwidget, UMLW
  */
 void AssociationWidget::updateAssociations(UMLWidget *pWidget, AssociationWidgetList list)
 {
-    foreach (AssociationWidget* assocwidget, list) {
+    for(AssociationWidget *assocwidget : list) {
         setStartAndEndPoint(assocwidget, pWidget);
-    } // foreach
+    }
 }
 
 /**

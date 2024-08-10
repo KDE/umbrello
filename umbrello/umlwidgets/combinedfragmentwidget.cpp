@@ -383,7 +383,7 @@ void CombinedFragmentWidget::removeDashLine(FloatingDashLineWidget *line)
  */
 void CombinedFragmentWidget::cleanup()
 {
-  foreach (FloatingDashLineWidget* w, m_dashLines)
+  for(FloatingDashLineWidget* w : m_dashLines)
   {
     if (!w->isSelected()) {
       // no need to make this undoable, since the dashlines will be

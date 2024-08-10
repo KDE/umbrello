@@ -51,7 +51,7 @@ void ExpressionEvaluationResult::setDeclarations( QList< Declaration* > declarat
     ENSURE_CHAIN_READ_LOCKED
     QList<DeclarationPointer> decs;
     decs.reserve(declarations.size());
-    foreach(Declaration* dec, declarations) {
+    for(Declaration* dec : declarations) {
         decs << DeclarationPointer(dec);
     }
     setDeclarations(decs);
@@ -69,7 +69,7 @@ void ExpressionEvaluationResult::setDeclarations(QList<DeclarationPointer> decla
     }
     m_allDeclarationIds.clear();
     DUChainReadLocker lock(DUChain::lock());
-    foreach(const DeclarationPointer& dec, m_allDeclarations) {
+    for(const DeclarationPointer& dec : m_allDeclarations) {
         m_allDeclarationIds << dec->id();
         ifDebug(qCDebug(DUCHAIN) << dec->toString();)
     }

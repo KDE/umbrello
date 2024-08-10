@@ -337,7 +337,7 @@ void CppWriter::writeSourceFile(UMLClassifier *c, QFile &file)
 void CppWriter::writeIncludes(UMLClassifier *c, QTextStream &stream)
 {
     UMLClassifierList superclasses = c->getSuperClasses();
-    foreach (UMLClassifier* classifier, superclasses) {
+    for(UMLClassifier* classifier : superclasses) {
         QString headerName = findFileName(classifier, QStringLiteral(".h"));
         if (!headerName.isEmpty()) {
             stream << "#include \"" << headerName << "\"" << m_endl;
@@ -373,7 +373,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
         writeBlankLine(cpp);
     }
 
-    foreach (UMLClassifier* classifier, c->getSuperClasses()) {
+    for(UMLClassifier* classifier : c->getSuperClasses()) {
         if (classifier->package()!=c->package() && !classifier->package().isEmpty()) {
             cpp << "using " << cleanName(classifier->package()) << "::" << cleanName(classifier->name()) << ";" << m_endl;
         }
@@ -406,7 +406,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
         UMLClassifierListItemList litList = c->getFilteredList(UMLObject::ot_EnumLiteral);
         uint i = 0;
         cpp << "enum " << className_ << " {" << m_endl;
-        foreach (UMLClassifierListItem* lit, litList) {
+        for(UMLClassifierListItem* lit : litList) {
             UMLEnumLiteral *el = static_cast<UMLEnumLiteral *>(lit);
             QString enumLiteral = cleanName(lit->name());
             cpp << indent() << enumLiteral;
@@ -444,7 +444,7 @@ void CppWriter::writeClassDecl(UMLClassifier *c, QTextStream &cpp)
     if (numOfSuperClasses > 0)
         cpp << " : ";
     uint i = 0;
-    foreach (UMLClassifier* superClass, c->getSuperClasses()) {
+    for(UMLClassifier* superClass : c->getSuperClasses()) {
         i++;
         if (superClass->isAbstract() || superClass->isInterface())
             cpp << "virtual ";
@@ -540,7 +540,7 @@ void CppWriter::writeAttributeDecls (UMLClassifier *c, Uml::Visibility::Enum vis
         // write attrib declarations now
         // bool isFirstAttrib = true;
         QString documentation;
-        foreach (UMLAttribute* at, list) {
+        for(UMLAttribute* at : list) {
 
             //                  bool noPriorDocExists = documentation.isEmpty();
             documentation = at->doc();
@@ -615,7 +615,7 @@ void CppWriter::writeAttributeMethods(UMLAttributeList attribs,
     if (attribs.count() == 0)
         return;
 
-    foreach (UMLAttribute* at, attribs) {
+    for(UMLAttribute* at : attribs) {
         QString varName = getAttributeVariableName(at);
         QString methodBaseName = getAttributeMethodBaseName(cleanName(at->name()));
 
@@ -694,7 +694,7 @@ void CppWriter::writeAssociationDecls(UMLAssociationList associations, Uml::Visi
     if (forceSections() || !associations.isEmpty())
     {
         bool printRoleA = false, printRoleB = false;
-        foreach (UMLAssociation *a, associations)
+        for(UMLAssociation *a : associations)
         {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.

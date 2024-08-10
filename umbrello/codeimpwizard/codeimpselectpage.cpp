@@ -149,7 +149,7 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
 {
     bool found = false;
     QString filename = path.fileName();
-    foreach (QString extension, m_fileExtensions) { // krazy:exclude=foreach
+    for(QString& extension: m_fileExtensions) {
         extension.remove(QLatin1Char('*'));
         if (filename.endsWith(extension)) {
             found = true;
@@ -158,38 +158,6 @@ bool CodeImpSelectPage::matchFilter(const QFileInfo& path)
     }
     return found;
 }
-
-#if 0    // :TODO: still in use?
-/**
- * Recursively get all the sources files that matches the filters from the given path.
- * @param path      path to the parent directory
- * @param filters   file extensions of the wanted files
- */
-void CodeImpSelectPage::files(const QString& path, QStringList& filters)
-{
-    //uDebug() << "files from path " << path;
-    QDir searchDir(path);
-    if (searchDir.exists()) {
-        QString indent = QString();
-        foreach (const QFileInfo &file, searchDir.entryInfoList(filters, QDir::Files)) {
-            if (matchFilter(file)) {
-                m_fileList.append(file);
-                logDebug1("CodeImpSelectPage::files: file = %1", file.absoluteFilePath());
-            }
-        }
-        if (ui_subdirCheckBox->isChecked()) {
-            foreach (const QFileInfo &subDir, searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks)) {
-                m_fileList.append(subDir);
-                //uDebug() << "directory = " << subDir.fileName();
-                files(searchDir.absoluteFilePath(subDir.fileName()), filters);
-            }
-        }
-    }
-    else {
-        logDebug1("CodeImpSelectPage::files: searchDir does not exist: %1", searchDir.path());
-    }
-}
-#endif
 
 /**
  * Slot for the stateChanged event of the subdirectory check box.
@@ -349,7 +317,7 @@ QList<QFileInfo> CodeImpSelectPage::selectedFiles()
     QFileSystemModel* model = (QFileSystemModel*)ui_treeView->model();
     QModelIndexList list = ui_treeView->selectionModel()->selectedIndexes();
     int row = -1;
-    foreach (const QModelIndex &idx, list) {
+    for(const QModelIndex &idx: list) {
         if (idx.row() != row && idx.column() == 0) {
             QFileInfo fileInfo = model->fileInfo(idx);
             if (fileInfo.isFile() && matchFilter(fileInfo)) {

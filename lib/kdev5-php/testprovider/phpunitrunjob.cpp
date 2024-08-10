@@ -46,7 +46,7 @@ KJob* createTestJob(QString launchModeId, QStringList arguments )
     Q_ASSERT(type && mode);
 
     KDevelop::ILauncher* launcher = nullptr;
-    foreach (KDevelop::ILauncher *l, type->launchers())
+    for(KDevelop::ILauncher  *l : type->launchers())
     {
         //qCDebug(TESTPROVIDER) << "available launcher" << l << l->id() << l->supportedModes();
         if (l->supportedModes().contains(mode->id())) {
@@ -58,7 +58,7 @@ KJob* createTestJob(QString launchModeId, QStringList arguments )
 
     KDevelop::ILaunchConfiguration* ilaunch = nullptr;
     QList<KDevelop::ILaunchConfiguration*> launchConfigurations = KDevelop::ICore::self()->runController()->launchConfigurations();
-    foreach (KDevelop::ILaunchConfiguration *l, launchConfigurations) {
+    for(KDevelop::ILaunchConfiguration  *l : launchConfigurations) {
         if (l->type() == type && l->config().readEntry("ConfiguredByPhpUnit", false)) {
             ilaunch = l;
             break;
@@ -136,7 +136,7 @@ void PhpUnitRunJob::processFinished(KJob* job)
         m_result.suiteResult = KDevelop::TestResult::Failed;
     } else if (job->error() == 0) {
         m_result.suiteResult = KDevelop::TestResult::Passed;
-        foreach (KDevelop::TestResult::TestCaseResult result, m_result.testCaseResults)
+        for(KDevelop::TestResult::TestCaseResult result: m_result.testCaseResults)
         {
             if (result == KDevelop::TestResult::Failed)
             {
@@ -169,7 +169,7 @@ void PhpUnitRunJob::rowsInserted(const QModelIndex &parent, int startRow, int en
             qCDebug(TESTPROVIDER) << "Got result in " << line << " for " << testCase;
             if (m_cases.contains(testCase, Qt::CaseInsensitive))
             {
-                foreach (const QString& realCaseName, m_cases)
+                for(const QString& realCaseName: m_cases)
                 {
                     if (QString::compare(testCase, realCaseName, Qt::CaseInsensitive) == 0)
                     {

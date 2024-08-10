@@ -408,7 +408,7 @@ UMLObject* createUMLObjectHierarchy(UMLObject::ObjectType type, const QString &n
     if (name.contains(scopeSeparator)) {
         QStringList components =  name.split(scopeSeparator);
         objectName = components.takeLast();
-        foreach(const QString scopeName, components) {
+        for(const QString scopeName : components) {
             o = parent->findObject(scopeName);
             if (o && (o->isUMLPackage() || o->isUMLClassifier())) {
                 parent = o->asUMLPackage();

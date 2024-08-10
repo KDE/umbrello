@@ -134,7 +134,7 @@ bool Import_Argo::loadFromZArgoFile(QIODevice &file, UMLPackage *parentPkg)
 
     const KArchiveDirectory *directory = zipFile.directory();
     bool result = true;
-    foreach(const QString &name, directory->entries()) {
+    for(const QString &name : directory->entries()) {
         const KArchiveEntry *entry = directory->entry(name);
         if (entry->isFile()) {
             const KArchiveFile *file = static_cast<const KArchiveFile*>(entry);

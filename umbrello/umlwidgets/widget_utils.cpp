@@ -44,7 +44,7 @@ namespace Widget_Utils
                           const UMLWidgetList& widgets,
                           const MessageWidgetList *messages /* = nullptr */)
     {
-        foreach (UMLWidget* obj, widgets) {
+        for(UMLWidget *obj : widgets) {
             if (obj->isObjectWidget()) {
                 if (obj->localID() == id)
                     return obj;
@@ -425,7 +425,7 @@ namespace Widget_Utils
 
         stream.writeStartElement(QStringLiteral("stops"));
 
-        foreach (const QGradientStop& stop, gradient->stops()) {
+        for(const QGradientStop& stop : gradient->stops()) {
             stream.writeStartElement(QStringLiteral("stop"));
             stream.writeAttribute(QStringLiteral("position"), QString::number(stop.first));
             stream.writeAttribute(QStringLiteral("color"), stop.second.name());
@@ -1050,7 +1050,7 @@ namespace Widget_Utils
      */
     void ensureNestedVisible(UMLWidget *self, UMLWidgetList widgetList)
     {
-        foreach (UMLWidget* other, widgetList) {
+        for(UMLWidget *other : widgetList) {
             if (other == self)
                 continue;
             if (other->isLocatedIn(self)) {

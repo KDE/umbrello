@@ -237,7 +237,7 @@ QSizeF StateWidget::minimumSize() const
 
                 QStringList::ConstIterator end(m_Activities.end());
                 for(QStringList::ConstIterator it(m_Activities.begin()); it != end; ++it) {
-                    int w = fm.width(*it);
+                    int w = fm.horizontalAdvance(*it);
                     if(w > textWidth)
                         textWidth = w;
                 }//end for

@@ -32,20 +32,20 @@ QString UMLAppPrivate::findWelcomeFile()
         langList.append(name);
 
     // from custom install
-    foreach(const QString &lang, langList) {
+    for(const QString &lang : langList) {
         dirList.append(QCoreApplication::applicationDirPath() + QString(QStringLiteral("/../share/doc/HTML/%1/umbrello/apphelp")).arg(lang));
     }
     dirList.append(QCoreApplication::applicationDirPath() + QStringLiteral("/../share/doc/HTML/en/umbrello/apphelp"));
 
     QStringList locations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
     // from real installation
-    foreach(const QString &location, locations) {
-        foreach(const QString &lang, langList) {
+    for(const QString &location : locations) {
+        for (const QString &lang :  langList) {
             dirList.append(QString(QStringLiteral("%1/doc/HTML/%2/umbrello/apphelp")).arg(location).arg(lang));
         }
         dirList.append(QString(QStringLiteral("%1/doc/HTML/en/umbrello/apphelp")).arg(location));
     }
-    foreach(const QString &dir, dirList) {
+    for(const QString &dir : dirList) {
         QString filePath = dir + QStringLiteral("/index.cache.bz2");
         QFileInfo fi(filePath);
         if (fi.exists()) {
@@ -109,7 +109,7 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
     // replace help:/ urls in html file to be able to find css files and images from kde help system
     QString path;
     QStringList locations = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
-    foreach(const QString &l, locations) {
+    for(const QString &l : locations) {
         QString a = QString(QStringLiteral("%1/doc/HTML/en/")).arg(l);
         QFileInfo fi(a);
         if (fi.exists()) {

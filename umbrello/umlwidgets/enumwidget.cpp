@@ -139,9 +139,9 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 
     QFontMetrics fontMetrics(font);
     const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
-    UMLClassifierListItem* enumLiteral = 0;
+
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
-    foreach (enumLiteral, list) {
+    for(UMLClassifierListItem *enumLiteral: list) {
         QString text = enumLiteral->toString();
         painter->setPen(textColor());
         painter->drawText(ENUM_MARGIN, y,
@@ -249,9 +249,8 @@ QSizeF EnumWidget::minimumSize() const
 
     const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EnumLiteral);
-    UMLClassifierListItem* listItem = 0;
-    foreach (listItem, list) {
-        int w = fm.width(listItem->toString());
+    for(UMLClassifierListItem *listItem: list) {
+        int w = fm.horizontalAdvance(listItem->toString());
         width = w > width?w:width;
     }
 
