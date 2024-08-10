@@ -27,17 +27,17 @@
 
 void TestUMLObject::test_copyInto()
 {
-    UMLPackage parent("Test Parent");
-    UMLObject a("Test A");
+    UMLPackage parent(QStringLiteral("Test Parent"));
+    UMLObject a(QStringLiteral("Test A"));
     a.setUMLPackage(&parent);
-    UMLObject b("Test B");
+    UMLObject b(QStringLiteral("Test B"));
     b.setUMLPackage(&parent);
     b.copyInto(&a);
     QCOMPARE(a, b);
-    UMLClassifier c("Test Classifier");
-    UMLOperation op(&c, "Test Parent");
-    UMLAttribute at(&op, "Attribute");
-    UMLAttribute at2(&op,"Attribute 2");
+    UMLClassifier c(QStringLiteral("Test Classifier"));
+    UMLOperation op(&c, QStringLiteral("Test Parent"));
+    UMLAttribute at(&op, QStringLiteral("Attribute"));
+    UMLAttribute at2(&op,QStringLiteral("Attribute 2"));
     at2.copyInto(&at);
     QCOMPARE(at, at2);
     QCOMPARE(at2.umlParent(), at.umlParent());
@@ -45,8 +45,8 @@ void TestUMLObject::test_copyInto()
 
 void TestUMLObject::test_clone()
 {
-    UMLPackage parent("Test Parent");
-    UMLObject a("Test A");
+    UMLPackage parent(QStringLiteral("Test Parent"));
+    UMLObject a(QStringLiteral("Test A"));
     a.setUMLPackage(&parent);
     UMLObject &b = *a.clone();
     QCOMPARE(a, b);
@@ -54,8 +54,8 @@ void TestUMLObject::test_clone()
 
 void TestUMLObject::test_doc()
 {
-    UMLPackage parent("Test Parent");
-    UMLObject a("Test A");
+    UMLPackage parent(QStringLiteral("Test Parent"));
+    UMLObject a(QStringLiteral("Test A"));
     QCOMPARE(a.hasDoc(), false);
     a.setDoc(QStringLiteral("new doc"));
     QCOMPARE(a.hasDoc(), true);
@@ -64,13 +64,13 @@ void TestUMLObject::test_doc()
 
 void TestUMLObject::test_equal()
 {
-    UMLPackage parent("Test Parent");
-    UMLObject a("Test A", Uml::ID::Reserved);
+    UMLPackage parent(QStringLiteral("Test Parent"));
+    UMLObject a(QStringLiteral("Test A"), Uml::ID::Reserved);
     a.setUMLPackage(&parent);
     UMLObject b(a);
-    UMLObject c("Test A", Uml::ID::Reserved);
+    UMLObject c(QStringLiteral("Test A"), Uml::ID::Reserved);
     c.setUMLPackage(&parent);
-    UMLObject d("Test B", Uml::ID::None);
+    UMLObject d(QStringLiteral("Test B"), Uml::ID::None);
     QCOMPARE(a, b);
     QCOMPARE(a, c);
     QCOMPARE(b, c);
@@ -79,13 +79,13 @@ void TestUMLObject::test_equal()
 
 void TestUMLObject::test_fullyQualifiedName()
 {
-    UMLObject* a = new UMLObject("Test A");
+    UMLObject* a = new UMLObject(QStringLiteral("Test A"));
     cleanupOnExit(a);
     QCOMPARE(a->fullyQualifiedName(), QStringLiteral("Test A"));
 
-    UMLPackage* topParent = new UMLPackage("Top Parent");
+    UMLPackage* topParent = new UMLPackage(QStringLiteral("Top Parent"));
     cleanupOnExit(topParent);
-    UMLPackage* parent = new UMLPackage("Test Parent");
+    UMLPackage* parent = new UMLPackage(QStringLiteral("Test Parent"));
     cleanupOnExit(parent);
     parent->setUMLPackage(topParent);
     a->setUMLPackage(parent);
@@ -100,7 +100,7 @@ void TestUMLObject::test_fullyQualifiedName()
 
 void TestUMLObject::test_isAbstract()
 {
-    UMLObject a("Test A");
+    UMLObject a(QStringLiteral("Test A"));
     QCOMPARE(a.isAbstract(), false);
     a.setAbstract(true);
     QCOMPARE(a.isAbstract(), true);
@@ -108,7 +108,7 @@ void TestUMLObject::test_isAbstract()
 
 void TestUMLObject::test_isStatic()
 {
-    UMLObject a("Test A");
+    UMLObject a(QStringLiteral("Test A"));
     QCOMPARE(a.isStatic(), false);
     a.setStatic(true);
     QCOMPARE(a.isStatic(), true);
@@ -118,10 +118,10 @@ typedef TestUML<UMLObject, const QString &> TESTUMLObject;
 
 void TestUMLObject::test_resolveRef()
 {
-    UMLPackage parent("Test Parent");
-    UMLStereotype *stereotype = UMLApp::app()->document()->createStereotype("test");
+    UMLPackage parent(QStringLiteral("Test Parent"));
+    UMLStereotype *stereotype = UMLApp::app()->document()->createStereotype(QStringLiteral("test"));
 
-    UMLObject a("Test A");
+    UMLObject a(QStringLiteral("Test A"));
     // no resolve
     a.setUMLPackage(&parent);
     QCOMPARE(a.resolveRef(), true);
@@ -136,8 +136,8 @@ void TestUMLObject::test_resolveRef()
     QCOMPARE(a.resolveRef(), true);
 
     // unknown stereotype
-    TESTUMLObject b("Test B");
-    UMLStereotype stereotype2("test");
+    TESTUMLObject b(QStringLiteral("Test B"));
+    UMLStereotype stereotype2(QStringLiteral("test"));
     b.setUMLPackage(&parent);
     b.setSecondaryId(Uml::ID::toString(stereotype2.id()));
     QCOMPARE(b.resolveRef(), true);
@@ -147,15 +147,15 @@ void TestUMLObject::test_resolveRef()
 
 void TestUMLObject::test_saveAndLoad()
 {
-    UMLPackage parent("Test Parent");
-    UMLObject a("Test A");
+    UMLPackage parent(QStringLiteral("Test Parent"));
+    UMLObject a(QStringLiteral("Test A"));
     a.setUMLPackage(&parent);
-    a.setStereotypeCmd("test");
+    a.setStereotypeCmd(QStringLiteral("test"));
 
     // save
     QString xml;
     QXmlStreamWriter writer(&xml);
-    a.save1(writer, "test");
+    a.save1(writer, QStringLiteral("test"));
     writer.writeEndElement();
 
     // convert XML string to QDomElement
@@ -174,7 +174,7 @@ void TestUMLObject::test_saveAndLoad()
 
 void TestUMLObject::test_setBaseType()
 {
-    UMLObject a("Test A");
+    UMLObject a(QStringLiteral("Test A"));
     QCOMPARE(a.baseType(), UMLObject::ot_UMLObject);
     a.setBaseType(UMLObject::ot_Class);
     QCOMPARE(a.baseType(), UMLObject::ot_Class);
@@ -182,7 +182,7 @@ void TestUMLObject::test_setBaseType()
 
 void TestUMLObject::test_setStereotype()
 {
-    UMLObject a("Test A");
+    UMLObject a(QStringLiteral("Test A"));
     QCOMPARE(a.stereotype(), QStringLiteral(""));
     a.setStereotypeCmd(QStringLiteral("test"));
     QCOMPARE(a.stereotype(), QStringLiteral("test"));
@@ -190,8 +190,8 @@ void TestUMLObject::test_setStereotype()
 
 void TestUMLObject::test_setUMLPackage()
 {
-    UMLPackage parent("Test Parent");
-    UMLObject a("Test A");
+    UMLPackage parent(QStringLiteral("Test Parent"));
+    UMLObject a(QStringLiteral("Test A"));
     QCOMPARE(a.umlPackage(), (UMLPackage*)0);
     a.setUMLPackage(&parent);
     QCOMPARE(a.umlPackage(), &parent);
@@ -200,7 +200,7 @@ void TestUMLObject::test_setUMLPackage()
 
 void TestUMLObject::test_setVisibility()
 {
-    UMLObject a("Test A");
+    UMLObject a(QStringLiteral("Test A"));
     QVERIFY(a.visibility() == Uml::Visibility::Public);
     a.setVisibilityCmd(Uml::Visibility::Protected);
     QVERIFY(a.visibility() == Uml::Visibility::Protected);
@@ -223,14 +223,14 @@ void TestUMLObject::test_dynamic_cast()
     QScopedPointer<UMLObject> a1(new UMLClassifier);
     const UMLClassifier *b = a1->asUMLClassifier();
     QVERIFY(b);
-    UMLObject *a2 = 0;
+    UMLObject *a2 = nullptr;
     b = a2->asUMLClassifier();
     QVERIFY(!b);
 }
 
 void TestUMLObject::test_isUMLXXX()
 {
-    UMLObject a("Test A");
+    UMLObject a(QStringLiteral("Test A"));
     QVERIFY(a.isUMLObject());
     a.setBaseType(UMLObject::ObjectType::ot_Actor);
     QVERIFY(a.isUMLActor());

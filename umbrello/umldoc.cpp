@@ -64,7 +64,7 @@
 #include <QMimeDatabase>
 #include <QPainter>
 #include <QPrinter>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTemporaryDir>
 #include <QTemporaryFile>
 #include <QTextStream>
@@ -763,10 +763,10 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
         // now add this file to the archive, but without the extension
         QString tmpQString = url.fileName();
         if (fileFormat == QStringLiteral("tgz")) {
-            tmpQString.remove(QRegExp(QStringLiteral("\\.tgz$")));
+            tmpQString.remove(QRegularExpression(QStringLiteral("\\.tgz$")));
         }
         else {
-            tmpQString.remove(QRegExp(QStringLiteral("\\.tar\\.bz2$")));
+            tmpQString.remove(QRegularExpression(QStringLiteral("\\.tar\\.bz2$")));
         }
         archive->addLocalFile(tmp_xmi_file.fileName(), tmpQString);
 
@@ -2095,10 +2095,11 @@ short UMLDoc::encoding(QIODevice & file)
     while (node.isComment() || node.isProcessingInstruction()) {
         if (node.isProcessingInstruction()) {
             const QDomProcessingInstruction& pi = node.toProcessingInstruction();
-            QRegExp rx(QStringLiteral("\\bencoding=['\"]([^'\"]+)['\"]"));
-            const int pos = rx.indexIn(pi.data());
+            QRegularExpression rx(QStringLiteral("\\bencoding=['\"]([^'\"]+)['\"]"));
+            const int pos = pi.data().indexOf(rx);
             if (pos >= 0) {
-                const QString& encData = rx.cap(1);
+                QRegularExpressionMatch rm = rx.match(pi.data());
+                const QString& encData = rm.captured(1);
                 if (QString::compare(encData, QStringLiteral("UTF-8"), Qt::CaseInsensitive) == 0) {
                     enc = ENC_UNICODE;
                 } else if (QString::compare(encData, QStringLiteral("windows-1252"), Qt::CaseInsensitive) == 0) {
@@ -3456,7 +3457,7 @@ bool UMLDoc::tagEq (const QString& inTag, const QString& inPattern)
 {
     QString tag = inTag;
     QString pattern = inPattern;
-    tag.remove(QRegExp(QStringLiteral("^\\w+:")));  // remove leading "UML:" or other
+    tag.remove(QRegularExpression(QStringLiteral("^\\w+:")));  // remove leading "UML:" or other
     int patSections = pattern.count(QLatin1Char('.')) + 1;
     QString tagEnd = tag.section(QLatin1Char('.'), -patSections);
     return (tagEnd.toLower() == pattern.toLower());

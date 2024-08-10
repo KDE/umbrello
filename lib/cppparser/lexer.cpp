@@ -11,7 +11,7 @@
 
 #include <KLocalizedString>
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QMap>
 #include <QList>
 
@@ -985,7 +985,7 @@ void Lexer::nextToken(Token& tk, bool stopOnNewline)
 #if defined(KDEVELOP_BGPARSER)
                     qthread_yield();
 #endif
-                    insertCurrent(QString(" ") + (*pos).second + QString(" "));
+                    insertCurrent(QStringLiteral(" ") + (*pos).second + QStringLiteral(" "));
                 }
             } else if ( /*qt_rx.exactMatch(ide) ||*/
                 ide.str().endsWith(QLatin1String("EXPORT")) ||
@@ -1356,7 +1356,7 @@ void Lexer::processInclude()
         QChar ch = currentChar();
         if (ch == '"' || ch == '<') {
             nextChar();
-            QChar ch2 = ch == QChar('"') ? QChar('"') : QChar('>');
+            QChar ch2 = ch == QLatin1Char('"') ? QLatin1Char('"') : QLatin1Char('>');
 
             int startWord = currentPosition();
             if (startWord < 0)

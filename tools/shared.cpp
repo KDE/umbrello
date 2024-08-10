@@ -13,6 +13,7 @@
 #include <QTextStream>
 #include <QXmlStreamReader>
 #include <QtDebug>
+#include <QRegularExpression>
 
 QDebug operator <<(QDebug out, const QXmlStreamAttribute &a)
 {
@@ -34,10 +35,10 @@ using namespace std;
  */
 QStringList XMILanguagesAttributes()
 {
-    return QStringList() << "comment" << "documentation"
-                         << "label" << "name"
-                         << "pretext" << "posttext" << "text"
-                         << "statename" << "activityname" << "instancename";
+    return QStringList() << QStringLiteral("comment") << QStringLiteral("documentation")
+                         << QStringLiteral("label") << QStringLiteral("name")
+                         << QStringLiteral("pretext") << QStringLiteral("posttext") << QStringLiteral("text")
+                         << QStringLiteral("statename") << QStringLiteral("activityname") << QStringLiteral("instancename");
 }
 
 /**
@@ -51,7 +52,7 @@ QStringList XMILanguagesAttributes()
  */
 bool extractAttributesFromXMI(const char *fileName, const QStringList &attributes, POMap &result)
 {
-    QFile file(fileName);
+    QFile file( QLatin1String((char*)fileName) );
     QXmlStreamReader xmlReader;
 
     if(!file.open(QIODevice::ReadOnly))
@@ -71,7 +72,7 @@ bool extractAttributesFromXMI(const char *fileName, const QStringList &attribute
             if (value.isEmpty())
                 continue;
 
-            QString tagName = xmlReader.name().toString() + ':' + attributeName;
+            QString tagName = xmlReader.name().toString() + QLatin1Char(':') + attributeName;
             QString key = value;
             if (result.contains(key)) {
                 result[key].lineNumbers.append(xmlReader.lineNumber());
@@ -94,58 +95,58 @@ bool extractAttributesFromXMI(const char *fileName, const QStringList &attribute
 
 QString fromGetTextString(QString s)
 {
-    s.replace("\\n", "\n");
-    s.replace("\\\"", "\"");
+    s.replace(QStringLiteral("\\n"), QStringLiteral("\n"));
+    s.replace(QStringLiteral("\\\""), QStringLiteral("\""));
     return s;
 }
 
 QString toXMLCharacterEntities(QString s)
 {
-    s.replace("\\n", "&#xa");
-    s.replace("\\\"", "&qout;");
-    s.replace('&', "&amp;");
-    s.replace('<', "&lt;");
-    s.replace('>', "&gt;");
+    s.replace(QStringLiteral("\\n"), QStringLiteral("&#xa"));
+    s.replace(QStringLiteral("\\\""), QStringLiteral("&qout;"));
+    s.replace(QLatin1Char('&'), QStringLiteral("&amp;"));
+    s.replace(QLatin1Char('<'), QStringLiteral("&lt;"));
+    s.replace(QLatin1Char('>'), QStringLiteral("&gt;"));
     return s;
 }
 
 QString escape(QString s)
 {
-    s.replace(QRegExp("\\\\"), "\\\\");
-    s.replace(QRegExp("\""), "\\\"");
+    s.replace(QRegularExpression(QStringLiteral("\\\\")), QStringLiteral("\\\\"));
+    s.replace(QRegularExpression(QStringLiteral("\"")), QStringLiteral("\\\""));
     return s;
 }
 
 QString toGetTextString(const QString &message)
 {
-    QStringList list = message.split('\n');
+    QStringList list = message.split(QLatin1Char('\n'));
     QString line;
     QString result;
 
     if (list.count() == 1) {
         line = list.first();
         if (line.isEmpty())
-            result += " \"\"\n";
+            result += QStringLiteral(" \"\"\n");
         else
-            result +=" \"" + escape(line) + "\"\n";
+            result += QStringLiteral(" \"") + escape(line) + QStringLiteral("\"\n");
     } else {
-        result += " \"\"\n";
+        result += QStringLiteral(" \"\"\n");
         QStringList::ConstIterator last = list.constEnd();
         if (!list.isEmpty())
             --last;
         for (QStringList::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it) {
             line = *it;
             if (!line.isEmpty()) {
-                result += "      \"" + escape(line);
+                result += QStringLiteral("      \"") + escape(line);
                 if (it == last)
-                    result += "\"\n";
+                    result += QStringLiteral("\"\n");
                 else
-                    result += "\\n\"\n";
+                    result += QStringLiteral("\\n\"\n");
             } else {
-                result += "      \"";
+                result += QStringLiteral("      \"");
                 if (it != last)
-                    result += "\\n";
-                result += "\"\n";
+                    result += QStringLiteral("\\n");
+                result += QStringLiteral("\"\n");
             }
         }
     }
@@ -187,13 +188,13 @@ bool fetchPoFile(const QString &fileName, TranslationMap &map)
                 map[fromGetTextString(key)] = fromGetTextString(value);
         } else if (multiLineID) {
             QString s = line.trimmed();
-            if (s.isEmpty() || s[0] != '\"')
+            if (s.isEmpty() || s[0] != QLatin1Char('\"'))
                 multiLineID = false;
             else
                 key += s.mid(1,s.length()-1);
         } else if (multiLineValue) {
             QString s = line.trimmed();
-            if (s.isEmpty() || s[0] != '\"') {
+            if (s.isEmpty() || s[0] != QLatin1Char('\"')) {
                 multiLineValue = false;
                 multiLineID = false;
                 map[fromGetTextString(key)] = fromGetTextString(value);
@@ -208,7 +209,7 @@ bool fetchPoFile(const QString &fileName, TranslationMap &map)
 bool applyTranslationToXMIFile(const char *fileName, const QStringList &attributes, TranslationMap &translations)
 {
 
-    QFile file(fileName);
+    QFile file(QLatin1String((char*)fileName));
     if (!file.open(QIODevice::ReadOnly))
         return false;
     QXmlStreamReader reader(&file);

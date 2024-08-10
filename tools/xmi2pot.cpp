@@ -41,7 +41,7 @@ int main( int argc, char **argv )
     cout << "msgstr \"\"\n";
     cout << "\"Project-Id-Version: PACKAGE VERSION\\n\"\n";
     cout << "\"Report-Msgid-Bugs-To: https://bugs.kde.org\\n\"\n";
-    cout << "\"POT-Creation-Date: " << now.toString("yyyy-MM-dd hh:mm").toUtf8().data() << "+0000\\n\"\n";
+    cout << "\"POT-Creation-Date: " << now.toString(QStringLiteral("yyyy-MM-dd hh:mm")).toUtf8().data() << "+0000\\n\"\n";
     cout << "\"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\\n\"\n";
     cout << "\"Last-Translator: FULL NAME <EMAIL@ADDRESS>\\n\"\n";
     cout << "\"Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\\n\"\n";
@@ -50,11 +50,11 @@ int main( int argc, char **argv )
     cout << "\"Content-Transfer-Encoding: 8bit\\n\"\n";
     cout << "\n";
 
-    const QString fname = QFileInfo(argv[1]).fileName();
+    const QString fname = QFileInfo(QLatin1String(argv[1])).fileName();
 
     for (POMap::ConstIterator it = map.constBegin(); it != map.constEnd(); ++it)
     {
-        cout << "#. Tag: " << (*it).tagNames.join(" ").toUtf8().data() << endl;
+        cout << "#. Tag: " << (*it).tagNames.join(QStringLiteral(" ")).toUtf8().data() << endl;
         cout << "#: ";
         for (QList<int>::ConstIterator it2 =
                  (*it).lineNumbers.constBegin(); it2 != (*it).lineNumbers.constEnd(); ++it2) {

@@ -110,7 +110,7 @@ DeclarationPointer ExpressionVisitor::processVariable(VariableIdentifierAst* var
             usingDeclaration(variable, ret);
         }
     }
-    ifDebug(qCDebug(DUCHAIN) << "found declaration:" << (ret ? ret->toString() : QString("no declaration found"));)
+    ifDebug(qCDebug(DUCHAIN) << "found declaration:" << (ret ? ret->toString() : QStringLiteral("no declaration found"));)
     return ret;
 }
 
@@ -341,7 +341,7 @@ void ExpressionVisitor::visitFunctionCall(FunctionCallAst* node)
             //global function call foo();
             const QualifiedIdentifier id = identifierForNamespace(node->stringFunctionNameOrClass, m_editor);
             DeclarationPointer dec = findDeclarationImport(FunctionDeclarationType, id);
-            ifDebug(qCDebug(DUCHAIN) << "function call of" << (dec ? dec->toString() : QString("function not found"));)
+            ifDebug(qCDebug(DUCHAIN) << "function call of" << (dec ? dec->toString() : QStringLiteral("function not found"));)
             m_result.setDeclaration(dec);
             usingDeclaration(node->stringFunctionNameOrClass->namespaceNameSequence->back()->element, dec);
             buildNamespaceUses(node->stringFunctionNameOrClass, id);
@@ -464,7 +464,7 @@ void ExpressionVisitor::visitScalar(ScalarAst *node)
 
     if (!m_inDefine && node->commonScalar && node->commonScalar->scalarType == ScalarTypeString) {
         QString str = m_editor->parseSession()->symbol(node->commonScalar);
-        QRegExp exp("^['\"]([A-Za-z0-9_]+)['\"]$");
+        QRegularExpression exp("^['\"]([A-Za-z0-9_]+)['\"]$");
         if (exp.exactMatch(str)) {
             //that *could* be a class name
             QualifiedIdentifier id(exp.cap(1).toLower());
@@ -550,7 +550,7 @@ void ExpressionVisitor::visitEncapsVar(EncapsVarAst *node)
 void ExpressionVisitor::visitVariableProperty(VariablePropertyAst *node)
 {
     ifDebug(qCDebug(DUCHAIN) << "node:" << m_editor->parseSession()->symbol(node)
-        << (node->isFunctionCall != -1 ? QString("is function call") : QString("is no function call"));)
+        << (node->isFunctionCall != -1 ? QStringLiteral("is function call") : QStringLiteral("is no function call"));)
     if (node->objectProperty && node->objectProperty->objectDimList) {
         //handle $foo->bar() and $foo->baz, $foo is m_result.type()
 

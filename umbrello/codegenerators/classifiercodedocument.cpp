@@ -11,7 +11,7 @@
 // local includes
 #include "association.h"
 #include "attribute.h"
-#include "debug_utils.h"
+
 #include "operation.h"
 #include "classifierlistitem.h"
 #include "classifier.h"
@@ -25,7 +25,7 @@
 
 // qt includes
 #include <QList>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QXmlStreamWriter>
 
 /**
@@ -139,8 +139,8 @@ bool ClassifierCodeDocument::hasObjectVectorClassFields() const
             }
             QString multi = role->multiplicity();
             if (
-                multi.contains(QRegExp(QStringLiteral("[23456789\\*]"))) ||
-                multi.contains(QRegExp(QStringLiteral("1\\d")))
+                multi.contains(QRegularExpression(QStringLiteral("[23456789\\*]"))) ||
+                multi.contains(QRegularExpression(QStringLiteral("1\\d")))
            )
                 return true;
         }

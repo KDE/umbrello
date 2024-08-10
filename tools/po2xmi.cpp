@@ -26,7 +26,7 @@ int main( int argc, char **argv )
    }
 
    TranslationMap translationMap;
-   if (!fetchPoFile(argv[2], translationMap)) {
+   if (!fetchPoFile(QLatin1String(argv[2]), translationMap)) {
        cerr << "failed to fetch po file: '" << argv[2] << "'" << endl;
        exit(2);
    }

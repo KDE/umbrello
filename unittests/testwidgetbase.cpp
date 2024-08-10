@@ -14,7 +14,7 @@
 
 void TestWidgetBase::test_setSelected()
 {
-    UMLFolder folder("folder");
+    UMLFolder folder(QStringLiteral("folder"));
     UMLView view(&folder);
     UMLScene scene(&folder, &view);
     WidgetBase widget1(&scene, WidgetBase::wt_UMLWidget);
@@ -32,7 +32,7 @@ void TestWidgetBase::test_setSelected()
 
 void TestWidgetBase::test_clearSelected()
 {
-    UMLFolder folder("folder");
+    UMLFolder folder(QStringLiteral("folder"));
     UMLView view(&folder);
     UMLScene scene(&folder, &view);
     UMLWidget widget1(&scene, WidgetBase::wt_Text, nullptr);

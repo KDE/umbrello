@@ -17,7 +17,7 @@ typedef TestWidget<PreconditionWidget, ObjectWidget*> TestPreconditionWidgetClas
 
 void TestPreconditionWidget::test_saveAndLoad()
 {
-    UMLFolder folder("testfolder");
+    UMLFolder folder(QStringLiteral("testfolder"));
     UMLScene scene(&folder);
     UMLObject o(nullptr);
     ObjectWidget ow(&scene, &o);

@@ -21,7 +21,7 @@
 
 // qt includes
 #include <QMessageBox>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QString>
 #include <QStringList>
 #include <QTextStream>
@@ -150,7 +150,7 @@ bool checkClosing(QStringList& tokens)
  */
 bool isImmediateValue(QString s)
 {
-    return s.contains(QRegExp(QStringLiteral("^[\\d\\-\"]")));
+    return s.contains(QRegularExpression(QStringLiteral("^[\\d\\-\"]")));
 }
 
 /**
@@ -314,7 +314,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
         QStringList tokens = scan(line);
         QString stringOrNodeOpener = shift(tokens);
         QString name;
-        if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegExp(QStringLiteral("^[A-Za-z]")))) {
+        if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegularExpression(QStringLiteral("^[A-Za-z]")))) {
             logError2("%1 unexpected line %2", loc(), line);
             delete node;
             return nullptr;
@@ -430,7 +430,7 @@ UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */)
     linum = 0;
     while (!(line = stream.readLine()).isNull()) {
         linum++;
-        if (line.contains(QRegExp(QStringLiteral("^\\s*\\(object Petal")))) {
+        if (line.contains(QRegularExpression(QStringLiteral("^\\s*\\(object Petal")))) {
             bool finish = false;
             // Nested loop determines character set to use
             while (!(line = stream.readLine()).isNull()) {
@@ -439,10 +439,10 @@ UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */)
                     finish = true;
                     line = line.replace(QStringLiteral(")"), QString());
                 }
-                QStringList a = line.trimmed().split(QRegExp(QStringLiteral("\\s+")));
+                QStringList a = line.trimmed().split(QRegularExpression(QStringLiteral("\\s+")));
                 if (a.size() == 2 && a[0] == QStringLiteral("charSet")) {
                     const QString& charSet = a[1];
-                    if (!charSet.contains(QRegExp(QStringLiteral("^\\d+$")))) {
+                    if (!charSet.contains(QRegularExpression(QStringLiteral("^\\d+$")))) {
                         logWarn2("%1 Unimplemented charSet %2", loc(), charSet);
                         if (finish)
                             break;
@@ -498,7 +498,7 @@ UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */)
             if (line.isNull())
                 break;
         } else {
-            QRegExp objectRx(QStringLiteral("^\\s*\\(object "));
+            QRegularExpression objectRx(QStringLiteral("^\\s*\\(object "));
             if (line.contains(objectRx)) {
                 nClosures = 0;
                 QStringList initialArgs = scan(line);

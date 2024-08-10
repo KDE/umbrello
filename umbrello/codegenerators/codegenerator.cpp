@@ -36,7 +36,7 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <QPointer>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 #include <QXmlStreamWriter>
 
@@ -536,7 +536,7 @@ bool CodeGenerator::openFile(QFile & file, const QString &fileName)
 QString CodeGenerator::cleanName(const QString &name)
 {
     QString retval = name;
-    retval.replace(QRegExp(QStringLiteral("\\W+")), QStringLiteral("_"));
+    retval.replace(QRegularExpression(QStringLiteral("\\W+")), QStringLiteral("_"));
     return retval;
 }
 
@@ -557,7 +557,7 @@ QString CodeGenerator::findFileName(CodeDocument * codeDocument)
     // if path is given add this as a directory to the file name
     QString name;
     if (!path.isEmpty()) {
-        path.replace(QRegExp(QStringLiteral("::")), QStringLiteral("/")); // Simple hack!
+        path.replace(QRegularExpression(QStringLiteral("::")), QStringLiteral("/")); // Simple hack!
         name = path + QLatin1Char('/') + codeDocument->getFileName();
         path = QLatin1Char('/') + path;
     }
@@ -566,7 +566,7 @@ QString CodeGenerator::findFileName(CodeDocument * codeDocument)
     }
 
     // Convert all "::" to "/" : Platform-specific path separator
-    name.replace(QRegExp(QStringLiteral("::")), QStringLiteral("/")); // Simple hack!
+    name.replace(QRegularExpression(QStringLiteral("::")), QStringLiteral("/")); // Simple hack!
 
     // if a path name exists check the existence of the path directory
     if (!path.isEmpty()) {
@@ -593,7 +593,7 @@ QString CodeGenerator::findFileName(CodeDocument * codeDocument)
     }
 
     name = name.simplified();
-    name.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    name.replace(QRegularExpression(QStringLiteral(" ")), QStringLiteral("_"));
 
     return overwritableName(name, codeDocument->getFileExtension());
 }
@@ -703,7 +703,7 @@ QString CodeGenerator::formatDoc(const QString &text, const QString &linePrefix,
     QStringList lines = text.split(endLine);
     for (QStringList::ConstIterator lit = lines.constBegin(); lit != lines.constEnd(); ++lit) {
         QString input = *lit;
-        input.remove(QRegExp(QStringLiteral("\\s+$")));
+        input.remove(QRegularExpression(QStringLiteral("\\s+$")));
         if (input.length() < lineWidth) {
             output += linePrefix + input + endLine;
             continue;
@@ -740,7 +740,7 @@ QString CodeGenerator::formatFullDocBlock(const QString &text, const QString &bl
     int lineIndex = 0;
     for (QStringList::ConstIterator lit = lines.constBegin(); lit != lines.constEnd(); ++lit) {
         QString input = *lit;
-        input.remove(QRegExp(QStringLiteral("\\s+$")));
+        input.remove(QRegularExpression(QStringLiteral("\\s+$")));
         if (input.length() < lineWidth) {
             if (lineIndex == 0) {
                 output += blockHeader;

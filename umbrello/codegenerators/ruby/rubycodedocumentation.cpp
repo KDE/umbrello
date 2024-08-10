@@ -14,7 +14,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 RubyCodeDocumentation::RubyCodeDocumentation(RubyClassifierCodeDocument * doc, const QString & text)
   : CodeComment((CodeDocument*) doc, text)
@@ -96,13 +96,13 @@ QString RubyCodeDocumentation::unformatText(const QString & text, const QString 
     QString mytext = TextBlock::unformatText(text, indent);
     CodeGenerationPolicy *p = UMLApp::app()->commonPolicy();
     // remove leading or trailing comment stuff
-    mytext.remove(QRegExp(QLatin1Char('^') + indent));
+    mytext.remove(QRegularExpression(QLatin1Char('^') + indent));
     if (p->getCommentStyle() == CodeGenerationPolicy::MultiLine)
     {
-        mytext.remove(QRegExp(QStringLiteral("^=begin\\s*(rdoc)?\\s*\n?")));
-        mytext.remove(QRegExp(QStringLiteral("^=end\\s*\n?$")));
+        mytext.remove(QRegularExpression(QStringLiteral("^=begin\\s*(rdoc)?\\s*\n?")));
+        mytext.remove(QRegularExpression(QStringLiteral("^=end\\s*\n?$")));
     } else
-        mytext.remove(QRegExp(QStringLiteral("^#\\s*")));
+        mytext.remove(QRegularExpression(QStringLiteral("^#\\s*")));
 
     return mytext;
 }

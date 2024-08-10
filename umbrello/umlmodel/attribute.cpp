@@ -324,7 +324,7 @@ bool UMLAttribute::load1(QDomElement & element)
                 bool isPrimitive = (xmiType.isEmpty() ?
                                     href.contains(QStringLiteral("PrimitiveType")) :
                                     xmiType.contains(QStringLiteral("PrimitiveType")));
-                if (isPrimitive && href.contains(QRegExp(QStringLiteral("#[A-Za-z][a-z]+$")))) {
+                if (isPrimitive && href.contains(QRegularExpression(QStringLiteral("#[A-Za-z][a-z]+$")))) {
                     // Example from OMG XMI:
                     //   <type xmi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20090901/UML.xmi#Boolean"/>
                     // Example from MagicDraw:

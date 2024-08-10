@@ -20,7 +20,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QXmlStreamWriter>
 
 /**
@@ -336,8 +336,8 @@ int CodeClassField::minimumListOccurances()
         // ush. IF we had a multiplicity object, this would be much easier.
         if (!multi.isEmpty())
         {
-            QString lowerBoundString = multi.remove(QRegExp(QStringLiteral("\\.\\.\\d+$")));
-            if(!lowerBoundString.isEmpty() &&lowerBoundString.contains(QRegExp(QStringLiteral("^\\d+$"))))
+            QString lowerBoundString = multi.remove(QRegularExpression(QStringLiteral("\\.\\.\\d+$")));
+            if(!lowerBoundString.isEmpty() &&lowerBoundString.contains(QRegularExpression(QStringLiteral("^\\d+$"))))
                 return lowerBoundString.toInt();
         }
 
@@ -364,8 +364,8 @@ int CodeClassField::maximumListOccurances()
         // ush. IF we had a multiplicity object, this would be much easier.
         if (!multi.isEmpty())
         {
-            QString upperBoundString = multi.section(QRegExp(QStringLiteral("(\\.\\.)")), 1);
-            if (!upperBoundString.isEmpty() && upperBoundString.contains(QRegExp(QStringLiteral("^\\d+$"))))
+            QString upperBoundString = multi.section(QRegularExpression(QStringLiteral("(\\.\\.)")), 1);
+            if (!upperBoundString.isEmpty() && upperBoundString.contains(QRegularExpression(QStringLiteral("^\\d+$"))))
                 return upperBoundString.toInt();
             else
                 return -1; // unbounded
@@ -627,8 +627,8 @@ bool CodeClassField::fieldIsSingleValue ()
 
     QString multi = role->multiplicity();
 
-    if(multi.isEmpty() || multi.contains(QRegExp(QStringLiteral("^(0|1)$")))
-            || multi.contains(QRegExp(QStringLiteral("^0\\.\\.1$"))))
+    if(multi.isEmpty() || multi.contains(QRegularExpression(QStringLiteral("^(0|1)$")))
+            || multi.contains(QRegularExpression(QStringLiteral("^0\\.\\.1$"))))
         return true;
 
     return false;

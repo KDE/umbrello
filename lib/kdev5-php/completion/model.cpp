@@ -76,7 +76,7 @@ bool CodeCompletionModel::shouldAbortCompletion(View* view, const Range &range, 
         return true; //Always abort when the completion-range has been left
     //Do not abort completions when the text has been empty already before and a newline has been entered
 
-    static const QRegExp allowedText("^\\$?(\\w*)");
+    static const QRegularExpression allowedText("^\\$?(\\w*)");
     return !allowedText.exactMatch(currentCompletion);
 }
 

@@ -33,10 +33,10 @@ void TestPythonWriter::test_language()
 void TestPythonWriter::test_writeClass()
 {
     PythonWriterTest* py = new PythonWriterTest();
-    UMLClassifier* c = new UMLClassifier("Customer", "12345678");
+    UMLClassifier* c = new UMLClassifier(QStringLiteral("Customer"), "12345678");
     UMLAttribute* attr;
-    attr = c->createAttribute("name_");
-    attr = c->createAttribute("address_");
+    attr = c->createAttribute(QStringLiteral("name_"));
+    attr = c->createAttribute(QStringLiteral("address_"));
     c->addAttribute(attr);
 
     py->writeClass(c);

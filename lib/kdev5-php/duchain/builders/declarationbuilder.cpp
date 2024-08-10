@@ -1047,7 +1047,7 @@ void DeclarationBuilder::declareVariable(DUContext* parentCtx, AbstractType::Ptr
     VariableDeclaration *dec = openDefinition<VariableDeclaration>(identifier, newRange);
     dec->setKind(Declaration::Instance);
     if (!m_lastTopStatementComment.isEmpty()) {
-        QRegExp rx("(\\*|///)\\s*@superglobal");
+        QRegularExpression rx("(\\*|///)\\s*@superglobal");
         if (rx.indexIn(m_lastTopStatementComment) != -1) {
             dec->setSuperglobal(true);
         }

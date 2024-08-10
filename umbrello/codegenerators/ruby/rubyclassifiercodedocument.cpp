@@ -22,7 +22,7 @@
 DEBUG_REGISTER(RubyClassifierCodeDocument)
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 /**
  * Constructor.
@@ -71,10 +71,10 @@ QString RubyClassifierCodeDocument::getPath() const
     path = path.simplified();
 
     // Replace all blanks with underscore
-    path.replace(QRegExp(QStringLiteral(" ")), QStringLiteral("_"));
+    path.replace(QRegularExpression(QStringLiteral(" ")), QStringLiteral("_"));
 
-    path.replace(QRegExp(QStringLiteral("\\.")),QStringLiteral("/"));
-    path.replace(QRegExp(QStringLiteral("::")), QStringLiteral("/"));
+    path.replace(QRegularExpression(QStringLiteral("\\.")),QStringLiteral("/"));
+    path.replace(QRegularExpression(QStringLiteral("::")), QStringLiteral("/"));
 
     path = path.toLower();
 

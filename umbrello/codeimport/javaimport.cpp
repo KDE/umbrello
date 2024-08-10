@@ -23,7 +23,7 @@
 
 // qt includes
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStringList>
 #include <QTextStream>
 
@@ -377,7 +377,7 @@ bool JavaImport::parseStmt()
             }
             while (1) {
                 const QString arg = m_source[++start];
-                if (! arg.contains(QRegExp(QStringLiteral("^[A-Za-z_]")))) {
+                if (! arg.contains(QRegularExpression(QStringLiteral("^[A-Za-z_]")))) {
                     logDebug2("JavaImport::parseStmt(%1): cannot handle template syntax (%2)",
                               name, arg);
                     break;
@@ -540,7 +540,7 @@ bool JavaImport::parseStmt()
     // (of a member of class or interface, or return type
     // of an operation.) Up next is the name of the attribute
     // or operation.
-    if (! keyword.contains(QRegExp(QStringLiteral("^\\w")))) {
+    if (! keyword.contains(QRegularExpression(QStringLiteral("^\\w")))) {
         if (m_klass) {
             logError4("JavaImport::parseStmt: ignoring %1 at index %2 of %3 in %4",
                       keyword, m_srcIndex, m_source.count(), m_klass->name());
@@ -567,7 +567,7 @@ bool JavaImport::parseStmt()
     } else {
         nextToken = advance();
     }
-    if (name.contains(QRegExp(QStringLiteral("\\W")))) {
+    if (name.contains(QRegularExpression(QStringLiteral("\\W")))) {
         logError1("JavaImport::parseStmt: expecting name in %1", name);
         return false;
     }

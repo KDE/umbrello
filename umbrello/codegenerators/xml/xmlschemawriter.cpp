@@ -17,7 +17,7 @@
 #include <KMessageBox>
 
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 /**
@@ -87,8 +87,8 @@ void XMLSchemaWriter::writeClass(UMLClassifier *c)
     // 1. create the header
     QString headerText = getHeadingFile(QStringLiteral(".xsd"));
     if (!headerText.isEmpty()) {
-        headerText.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-        headerText.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
+        headerText.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
+        headerText.replace(QRegularExpression(QStringLiteral("%filepath%")), file.fileName());
     }
     if (!headerText.isEmpty())
         xs << headerText << m_endl;
@@ -557,7 +557,7 @@ void XMLSchemaWriter::writeComment(const QString &comment, QTextStream &xs)
     // need to resolve for using with MAC/WinDoze eventually I assume
     QString indnt = indent();
     xs << indnt << "<!-- ";
-    if (comment.contains(QRegExp(QStringLiteral("\n")))) {
+    if (comment.contains(QRegularExpression(QStringLiteral("\n")))) {
         xs << m_endl;
         QStringList lines = comment.split(QLatin1Char('\n'));
         for (int i= 0; i < lines.count(); i++)
@@ -701,7 +701,7 @@ void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &
     }
     else
     {
-        QStringList values = multi.split(QRegExp(QStringLiteral("[^\\d{1,}|\\*]")));
+        QStringList values = multi.split(QRegularExpression(QStringLiteral("[^\\d{1,}|\\*]")));
 
         // could use some improvement here.. for sequences like "0..1, 3..5, 10" we
         // don't capture the whole "richness" of the multi. Instead we translate it
@@ -710,10 +710,10 @@ void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &
         {
             // populate both with the actual value as long as our value isnt an asterix
             // In that case, use special value (from above)
-            if (values[0].contains(QRegExp(QStringLiteral("\\d{1,}"))))
+            if (values[0].contains(QRegularExpression(QStringLiteral("\\d{1,}"))))
                 minOccurs = values[0]; // use first number in sequence
 
-            if (values[values.count()-1].contains(QRegExp(QStringLiteral("\\d{1,}"))))
+            if (values[values.count()-1].contains(QRegularExpression(QStringLiteral("\\d{1,}"))))
                 maxOccurs = values[values.count()-1]; // use only last number in sequence
         }
     }
@@ -775,8 +775,8 @@ void XMLSchemaWriter::writeAssociationRoleDecl(UMLClassifier *c, const QString &
  */
 QString XMLSchemaWriter::fixTypeName(const QString& string)
 {
-    //  string.replace(QRegExp("^string$"), schemaNamespaceTag + ":string");
-    //  string.replace(QRegExp("^bool$"), schemaNamespaceTag + ":boolean");
+    //  string.replace(QRegularExpression(QStringLiteral("^string$"), schemaNamespaceTag + ":string"));
+    //  string.replace(QRegularExpression(QStringLiteral("^bool$"), schemaNamespaceTag + ":boolean"));
     return schemaNamespaceTag + QLatin1Char(':') + string;
 }
 

@@ -98,9 +98,9 @@ QVariant PhpDocsModel::data(const QModelIndex& index, int role) const
             QString ret = dec->toString();
             if ( dec->isFunctionDeclaration() ) {
                 // remove function arguments
-                ret = ret.replace(QRegExp("\\(.+\\)"), QStringLiteral("()"));
+                ret = ret.replace(QRegularExpression(QStringLiteral("\\(.+\\)")), QStringLiteral("()"));
                 // remove return type
-                ret = ret.remove(QRegExp("^[^ ]+ "));
+                ret = ret.remove(QRegularExpression(QStringLiteral("^[^ ]+ ")));
             }
             return ret;
         }

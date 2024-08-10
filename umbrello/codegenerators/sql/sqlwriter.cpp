@@ -27,7 +27,7 @@
 
 #include <QFile>
 #include <QList>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 static const char *reserved_words[] = {
@@ -218,8 +218,8 @@ void SQLWriter::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(QStringLiteral(".sql"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), file.fileName());
         sql << str << m_endl;
     }
 

@@ -8,7 +8,7 @@
 #include "ast.h"
 #include "debug_utils.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStringList>
 
 #include <KLocalizedString>
@@ -64,7 +64,7 @@ QString typeSpecToString(TypeSpecifierAST* typeSpec)  /// @todo remove
     if (!typeSpec)
         return QString();
 
-    return typeSpec->text().replace(QRegExp(QLatin1String(" :: ")), QLatin1String("::"));
+    return typeSpec->text().replace(QRegularExpression(QLatin1String(" :: ")), QLatin1String("::"));
 }
 
 QString declaratorToString(DeclaratorAST* declarator, const QString& scope, bool skipPtrOp)

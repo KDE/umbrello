@@ -111,23 +111,23 @@ void TestBasicTypes::test_DomDocument_english()
     QString localeValue;
     localeValue.replace(QLatin1Char('.'), _default.decimalPoint());
 
-    QDomDocument doc("test");
-    QDomElement root = doc.createElement("test");
+    QDomDocument doc(QStringLiteral("test"));
+    QDomElement root = doc.createElement(QStringLiteral("test"));
     doc.appendChild(root);
-    root.setAttribute("a", fVar);
+    root.setAttribute(QStringLiteral("a"), fVar);
     QString xml = doc.toString();
     QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
 
     // caused by bug in Qt xml
-    root.setAttribute("a", dVar);
+    root.setAttribute(QStringLiteral("a"), dVar);
     xml = doc.toString();
     QVERIFY2(xml.contains(localeValue), xml.toLatin1().constData());
 
-    root.setAttribute("a", QString::number(fVar));
+    root.setAttribute(QStringLiteral("a"), QString::number(fVar));
     xml = doc.toString();
     QVERIFY(xml.contains(refValue));
 
-    root.setAttribute("a", QString::number(dVar));
+    root.setAttribute(QStringLiteral("a"), QString::number(dVar));
     xml = doc.toString();
     QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
     QLocale::setDefault(_default);
@@ -146,24 +146,24 @@ void TestBasicTypes::test_DomDocument_non_english()
     QString localeValue;
     localeValue.replace(QLatin1Char('.'), _default.decimalPoint());
 
-    QDomDocument doc("test");
-    QDomElement root = doc.createElement("test");
+    QDomDocument doc(QStringLiteral("test"));
+    QDomElement root = doc.createElement(QStringLiteral("test"));
     doc.appendChild(root);
 
-    root.setAttribute("a", fVar);
+    root.setAttribute(QStringLiteral("a"), fVar);
     QString xml = doc.toString();
     QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
 
     // caused by bug in Qt xml
-    root.setAttribute("a", dVar);
+    root.setAttribute(QStringLiteral("a"), dVar);
     xml = doc.toString();
     QVERIFY2(xml.contains(localeValue), xml.toLatin1().constData());
 
-    root.setAttribute("a", QString::number(fVar));
+    root.setAttribute(QStringLiteral("a"), QString::number(fVar));
     xml = doc.toString();
     QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
 
-    root.setAttribute("a", QString::number(dVar));
+    root.setAttribute(QStringLiteral("a"), QString::number(dVar));
     xml = doc.toString();
     QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
     QLocale::setDefault(_default);
@@ -172,15 +172,15 @@ void TestBasicTypes::test_DomDocument_non_english()
 void TestBasicTypes::test_ModelType_toString()
 {
     Uml::ModelType::Enum model0 = Uml::ModelType::Logical;
-    QCOMPARE(Uml::ModelType::toString(model0), QString("Logical"));
+    QCOMPARE(Uml::ModelType::toString(model0), QStringLiteral("Logical"));
     Uml::ModelType::Enum model1 = Uml::ModelType::UseCase;
-    QCOMPARE(Uml::ModelType::toString(model1), QString("UseCase"));
+    QCOMPARE(Uml::ModelType::toString(model1), QStringLiteral("UseCase"));
     Uml::ModelType::Enum model2(Uml::ModelType::Component);
-    QCOMPARE(Uml::ModelType::toString(model2), QString("Component"));
+    QCOMPARE(Uml::ModelType::toString(model2), QStringLiteral("Component"));
     Uml::ModelType::Enum model3(Uml::ModelType::Deployment);
-    QCOMPARE(Uml::ModelType::toString(model3), QString("Deployment"));
+    QCOMPARE(Uml::ModelType::toString(model3), QStringLiteral("Deployment"));
     Uml::ModelType::Enum model4(Uml::ModelType::EntityRelationship);
-    QCOMPARE(Uml::ModelType::toString(model4), QString("EntityRelationship"));
+    QCOMPARE(Uml::ModelType::toString(model4), QStringLiteral("EntityRelationship"));
 }
 
 void TestBasicTypes::test_ModelType_fromString()
@@ -188,19 +188,19 @@ void TestBasicTypes::test_ModelType_fromString()
     QString modelStr;
     Uml::ModelType::Enum model;
 
-    modelStr = "Logical";
+    modelStr = QStringLiteral("Logical");
     model = Uml::ModelType::fromString(modelStr);
     QVERIFY(model == Uml::ModelType::Logical);
-    modelStr = "UseCase";
+    modelStr = QStringLiteral("UseCase");
     model = Uml::ModelType::fromString(modelStr);
     QVERIFY(model == Uml::ModelType::UseCase);
-    modelStr = "Component";
+    modelStr = QStringLiteral("Component");
     model = Uml::ModelType::fromString(modelStr);
     QVERIFY(model == Uml::ModelType::Component);
-    modelStr = "Deployment";
+    modelStr = QStringLiteral("Deployment");
     model = Uml::ModelType::fromString(modelStr);
     QVERIFY(model == Uml::ModelType::Deployment);
-    modelStr = "EntityRelationship";
+    modelStr = QStringLiteral("EntityRelationship");
     model = Uml::ModelType::fromString(modelStr);
     QVERIFY(model == Uml::ModelType::EntityRelationship);
 }
@@ -226,39 +226,39 @@ void TestBasicTypes::test_ModelType_forLoop()
 void TestBasicTypes::test_Visibility_toString()
 {
     Uml::Visibility::Enum visibility1 = Uml::Visibility::Public;
-    QCOMPARE(Uml::Visibility::toString(visibility1), QString("public"));
-    QCOMPARE(Uml::Visibility::toString(visibility1, true), QString("+"));
+    QCOMPARE(Uml::Visibility::toString(visibility1), QStringLiteral("public"));
+    QCOMPARE(Uml::Visibility::toString(visibility1, true), QStringLiteral("+"));
     Uml::Visibility::Enum visibility2 = Uml::Visibility::Private;
-    QCOMPARE(Uml::Visibility::toString(visibility2), QString("private"));
-    QCOMPARE(Uml::Visibility::toString(visibility2, true), QString("-"));
+    QCOMPARE(Uml::Visibility::toString(visibility2), QStringLiteral("private"));
+    QCOMPARE(Uml::Visibility::toString(visibility2, true), QStringLiteral("-"));
     Uml::Visibility::Enum visibility3(Uml::Visibility::Protected);
-    QCOMPARE(Uml::Visibility::toString(visibility3), QString("protected"));
-    QCOMPARE(Uml::Visibility::toString(visibility3, true), QString("#"));
+    QCOMPARE(Uml::Visibility::toString(visibility3), QStringLiteral("protected"));
+    QCOMPARE(Uml::Visibility::toString(visibility3, true), QStringLiteral("#"));
     Uml::Visibility::Enum visibility4(Uml::Visibility::Implementation);
-    QCOMPARE(Uml::Visibility::toString(visibility4), QString("implementation"));
-    QCOMPARE(Uml::Visibility::toString(visibility4, true), QString("~"));
+    QCOMPARE(Uml::Visibility::toString(visibility4), QStringLiteral("implementation"));
+    QCOMPARE(Uml::Visibility::toString(visibility4, true), QStringLiteral("~"));
 }
 
 void TestBasicTypes::test_Visibility_fromString()
 {
     Uml::Visibility::Enum visibility;
-    visibility = Uml::Visibility::fromString("public");
+    visibility = Uml::Visibility::fromString(QStringLiteral("public"));
     QVERIFY(visibility == Uml::Visibility::Public);
-    visibility = Uml::Visibility::fromString("+");
+    visibility = Uml::Visibility::fromString(QStringLiteral("+"));
     QVERIFY(visibility == Uml::Visibility::Public);
-    visibility = Uml::Visibility::fromString("protected");
+    visibility = Uml::Visibility::fromString(QStringLiteral("protected"));
     QVERIFY(visibility == Uml::Visibility::Protected);
-    visibility = Uml::Visibility::fromString("#");
+    visibility = Uml::Visibility::fromString(QStringLiteral("#"));
     QVERIFY(visibility == Uml::Visibility::Protected);
-    visibility = Uml::Visibility::fromString("private");
+    visibility = Uml::Visibility::fromString(QStringLiteral("private"));
     QVERIFY(visibility == Uml::Visibility::Private);
-    visibility = Uml::Visibility::fromString("-");
+    visibility = Uml::Visibility::fromString(QStringLiteral("-"));
     QVERIFY(visibility == Uml::Visibility::Private);
-    visibility = Uml::Visibility::fromString("signals");
+    visibility = Uml::Visibility::fromString(QStringLiteral("signals"));
     QVERIFY(visibility == Uml::Visibility::Protected);
-    visibility = Uml::Visibility::fromString("class");
+    visibility = Uml::Visibility::fromString(QStringLiteral("class"));
     QVERIFY(visibility == Uml::Visibility::Private);
-    visibility = Uml::Visibility::fromString("anything else");
+    visibility = Uml::Visibility::fromString(QStringLiteral("anything else"));
     QVERIFY(visibility == Uml::Visibility::Public);
 }
 
@@ -267,49 +267,49 @@ void TestBasicTypes::test_Visibility_fromString()
 void TestBasicTypes::test_DiagramType_toString()
 {
     Uml::DiagramType::Enum diagram0(Uml::DiagramType::Undefined);
-    QCOMPARE(Uml::DiagramType::toString(diagram0), QString("Undefined"));
+    QCOMPARE(Uml::DiagramType::toString(diagram0), QStringLiteral("Undefined"));
     Uml::DiagramType::Enum diagram1(Uml::DiagramType::Class);
-    QCOMPARE(Uml::DiagramType::toString(diagram1), QString("Class"));
+    QCOMPARE(Uml::DiagramType::toString(diagram1), QStringLiteral("Class"));
     Uml::DiagramType::Enum diagram2(Uml::DiagramType::UseCase);
-    QCOMPARE(Uml::DiagramType::toString(diagram2), QString("UseCase"));
+    QCOMPARE(Uml::DiagramType::toString(diagram2), QStringLiteral("UseCase"));
     Uml::DiagramType::Enum diagram3(Uml::DiagramType::Sequence);
-    QCOMPARE(Uml::DiagramType::toString(diagram3), QString("Sequence"));
+    QCOMPARE(Uml::DiagramType::toString(diagram3), QStringLiteral("Sequence"));
     Uml::DiagramType::Enum diagram4(Uml::DiagramType::Collaboration);
-    QCOMPARE(Uml::DiagramType::toString(diagram4), QString("Collaboration"));
+    QCOMPARE(Uml::DiagramType::toString(diagram4), QStringLiteral("Collaboration"));
     Uml::DiagramType::Enum diagram5(Uml::DiagramType::State);
-    QCOMPARE(Uml::DiagramType::toString(diagram5), QString("State"));
+    QCOMPARE(Uml::DiagramType::toString(diagram5), QStringLiteral("State"));
     Uml::DiagramType::Enum diagram6(Uml::DiagramType::Activity);
-    QCOMPARE(Uml::DiagramType::toString(diagram6), QString("Activity"));
+    QCOMPARE(Uml::DiagramType::toString(diagram6), QStringLiteral("Activity"));
     Uml::DiagramType::Enum diagram7(Uml::DiagramType::Component);
-    QCOMPARE(Uml::DiagramType::toString(diagram7), QString("Component"));
+    QCOMPARE(Uml::DiagramType::toString(diagram7), QStringLiteral("Component"));
     Uml::DiagramType::Enum diagram8(Uml::DiagramType::Deployment);
-    QCOMPARE(Uml::DiagramType::toString(diagram8), QString("Deployment"));
+    QCOMPARE(Uml::DiagramType::toString(diagram8), QStringLiteral("Deployment"));
     Uml::DiagramType::Enum diagram9(Uml::DiagramType::EntityRelationship);
-    QCOMPARE(Uml::DiagramType::toString(diagram9), QString("EntityRelationship"));
+    QCOMPARE(Uml::DiagramType::toString(diagram9), QStringLiteral("EntityRelationship"));
 }
 
 void TestBasicTypes::test_DiagramType_fromString()
 {
     Uml::DiagramType::Enum diagram;
-    diagram = Uml::DiagramType::fromString("Undefined");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Undefined"));
     QVERIFY(diagram == Uml::DiagramType::Undefined);
-    diagram = Uml::DiagramType::fromString("Class");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Class"));
     QVERIFY(diagram == Uml::DiagramType::Class);
-    diagram = Uml::DiagramType::fromString("UseCase");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("UseCase"));
     QVERIFY(diagram == Uml::DiagramType::UseCase);
-    diagram = Uml::DiagramType::fromString("Sequence");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Sequence"));
     QVERIFY(diagram == Uml::DiagramType::Sequence);
-    diagram = Uml::DiagramType::fromString("Collaboration");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Collaboration"));
     QVERIFY(diagram == Uml::DiagramType::Collaboration);
-    diagram = Uml::DiagramType::fromString("State");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("State"));
     QVERIFY(diagram == Uml::DiagramType::State);
-    diagram = Uml::DiagramType::fromString("Activity");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Activity"));
     QVERIFY(diagram == Uml::DiagramType::Activity);
-    diagram = Uml::DiagramType::fromString("Component");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Component"));
     QVERIFY(diagram == Uml::DiagramType::Component);
-    diagram = Uml::DiagramType::fromString("Deployment");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Deployment"));
     QVERIFY(diagram == Uml::DiagramType::Deployment);
-    diagram = Uml::DiagramType::fromString("EntityRelationship");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("EntityRelationship"));
     QVERIFY(diagram == Uml::DiagramType::EntityRelationship);
 }
 

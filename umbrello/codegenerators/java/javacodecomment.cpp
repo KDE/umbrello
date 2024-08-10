@@ -7,7 +7,7 @@
 
 #include "javacodecomment.h"
 
-#include <QRegExp>
+#include <QRegularExpression>
 
 JavaCodeComment::JavaCodeComment (CodeDocument * doc, const QString & text)
         : CodeComment (doc, text)
@@ -33,7 +33,7 @@ QString JavaCodeComment::unformatText (const QString & text, const QString & ind
     QString mytext = TextBlock::unformatText(text, indent);
 
     // now leading slashes
-    mytext.remove(QRegExp(QStringLiteral("^\\/\\/\\s*")));
+    mytext.remove(QRegularExpression(QStringLiteral("^\\/\\/\\s*")));
     return mytext;
 }
 

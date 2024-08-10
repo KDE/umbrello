@@ -122,11 +122,12 @@ QString formatComment(const QString &comment)
 
     QStringList lines = comment.split(QLatin1Char('\n'));
     QString& first = lines.first();
-    QRegExp wordex(QStringLiteral("\\w"));
+    QRegularExpression wordex(QStringLiteral("\\w"));
     if (first.startsWith(QStringLiteral("/*"))) {
-        int wordpos = wordex.indexIn(first);
-        if (wordpos != -1)
-            first = first.mid(wordpos);  // remove comment start
+        QRegularExpressionMatch match = wordex.match(first);
+
+        if (match.hasMatch())
+            first = first.mid(match.capturedStart());  // remove comment start
         else
             lines.pop_front();  // nothing interesting on this line
     }
@@ -146,8 +147,8 @@ QString formatComment(const QString &comment)
 
     QStringList::Iterator end(lines.end());
     for (QStringList::Iterator lit(lines.begin()); lit != end; ++lit) {
-        (*lit).remove(QRegExp(QStringLiteral("^\\s+")));
-        (*lit).remove(QRegExp(QStringLiteral("^\\*+\\s?")));
+        (*lit).remove(QRegularExpression(QStringLiteral("^\\s+")));
+        (*lit).remove(QRegularExpression(QStringLiteral("^\\*+\\s?")));
     }
     return lines.join(QStringLiteral("\n"));
 }
@@ -232,27 +233,27 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     if (o == nullptr) {
         // Strip possible adornments and look again.
         bool isConst = false;
-        if (name.contains(QRegExp(QStringLiteral("^const ")))) {
-            name.remove(QRegExp(QStringLiteral("^const\\s+")));
+        if (name.contains(QRegularExpression(QStringLiteral("^const ")))) {
+            name.remove(QRegularExpression(QStringLiteral("^const\\s+")));
             isConst = true;
         }
-        if (name.contains(QRegExp(QStringLiteral("\\bconst\\b")))) {
+        if (name.contains(QRegularExpression(QStringLiteral("\\bconst\\b")))) {
             // Here, we lose info of the exact placement of the `const` qualifier.
             // I argue that we are looking at a level of C++ detail that UML was not
             // designed for.  Feel free to disagree and implement this :)
-            name.remove(QRegExp(QStringLiteral("\\s+const\\b")));
-            name.remove(QRegExp(QStringLiteral("\\bconst\\s+")));
+            name.remove(QRegularExpression(QStringLiteral("\\s+const\\b")));
+            name.remove(QRegularExpression(QStringLiteral("\\bconst\\s+")));
             isConst = true;
         }
-        const bool isVolatile = name.contains(QRegExp(QStringLiteral("^volatile ")));
-        name.remove(QRegExp(QStringLiteral("^volatile\\s+")));
-        const bool isMutable = name.contains(QRegExp(QStringLiteral("^mutable ")));
-        name.remove(QRegExp(QStringLiteral("^mutable\\s+")));
+        const bool isVolatile = name.contains(QRegularExpression(QStringLiteral("^volatile ")));
+        name.remove(QRegularExpression(QStringLiteral("^volatile\\s+")));
+        const bool isMutable = name.contains(QRegularExpression(QStringLiteral("^mutable ")));
+        name.remove(QRegularExpression(QStringLiteral("^mutable\\s+")));
         QString typeName(name);
-        bool isAdorned = typeName.contains(QRegExp(QStringLiteral("[^\\w:\\. ]")));
+        bool isAdorned = typeName.contains(QRegularExpression(QStringLiteral("[^\\w:\\. ]")));
         const bool isPointer = typeName.contains(QLatin1Char('*'));
         const bool isRef = typeName.contains(QLatin1Char('&'));
-        typeName.remove(QRegExp(QStringLiteral("[^\\w:\\. ].*$")));
+        typeName.remove(QRegularExpression(QStringLiteral("[^\\w:\\. ].*$")));
         typeName = typeName.simplified();
         checkStdString(typeName);
         UMLObject *origType = umldoc->findUMLObject(typeName, UMLObject::ot_UMLObject, parentPkg);
@@ -360,13 +361,14 @@ UMLObject *createUMLObject(UMLObject::ObjectType type,
     }
     if (gRelatedClassifier == nullptr || gRelatedClassifier == o)
         return o;
-    QRegExp templateInstantiation(QStringLiteral("^[\\w:\\.]+\\s*<(.*)>"));
-    int pos = templateInstantiation.indexIn(name);
-    if (pos == -1)
+    QRegularExpression templateInstantiation(QStringLiteral("^[\\w:\\.]+\\s*<(.*)>"));
+    QRegularExpressionMatch match = templateInstantiation.match(name);
+
+    if (!match.hasMatch())
         return o;
     // Create dependencies on template parameters.
-    QString caption = templateInstantiation.cap(1);
-    const QStringList params = caption.split(QRegExp(QStringLiteral("[^\\w:\\.]+")));
+    QString caption = match.captured();
+    const QStringList params = caption.split(QRegularExpression(QStringLiteral("[^\\w:\\.]+")));
     if (!params.count())
         return o;
     QStringList::ConstIterator end(params.end());

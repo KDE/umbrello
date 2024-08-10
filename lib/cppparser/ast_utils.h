@@ -12,7 +12,6 @@
 class AST;
 class DeclaratorAST;
 class TypeSpecifierAST;
-class QStringList;
 
 namespace KTextEditor
 {

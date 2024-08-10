@@ -92,7 +92,7 @@ QList<DeclarationId> ExpressionEvaluationResult::allDeclarationIds() const
 
 void ExpressionEvaluationResult::setType(AbstractType::Ptr type)
 {
-    ifDebug(qCDebug(DUCHAIN) << "setting type" << (type ? type->toString() : QString("no type"));)
+    ifDebug(qCDebug(DUCHAIN) << "setting type" << (type ? type->toString() : QStringLiteral("no type"));)
 
     m_type = type;
 }

@@ -25,7 +25,7 @@
 #include <QPaintEngine>
 #include <QProcess>
 #include <QRectF>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QString>
 #include <QTemporaryFile>
@@ -290,13 +290,13 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     logDebug1("DotGenerator::readConfigFile reading config file %1", configFileName);
     m_configFileName = configFileName;
     KDesktopFile desktopFile(configFileName);
-    KConfigGroup edgesAttributes(&desktopFile,"X-UMBRELLO-Dot-Edges");
-    KConfigGroup nodesAttributes(&desktopFile,"X-UMBRELLO-Dot-Nodes");
-    KConfigGroup attributes(&desktopFile,"X-UMBRELLO-Dot-Attributes");
+    KConfigGroup edgesAttributes(&desktopFile,QStringLiteral("X-UMBRELLO-Dot-Edges"));
+    KConfigGroup nodesAttributes(&desktopFile,QStringLiteral("X-UMBRELLO-Dot-Nodes"));
+    KConfigGroup attributes(&desktopFile,QStringLiteral("X-UMBRELLO-Dot-Attributes"));
     QString layoutType = Uml::LayoutType::toString(Settings::optionState().generalState.layoutType);
     KConfigGroup layoutAttributes(&desktopFile,QString(QStringLiteral("X-UMBRELLO-Dot-Attributes-%1")).arg(layoutType));
     // settings are not needed by dotgenerator
-    KConfigGroup settings(&desktopFile,"X-UMBRELLO-Dot-Settings");
+    KConfigGroup settings(&desktopFile,QStringLiteral("X-UMBRELLO-Dot-Settings"));
 
     m_edgeParameters.clear();
     m_nodeParameters.clear();
@@ -582,8 +582,9 @@ int DotGenerator::generatorVersion() const
     p.start(generatorFullPath(), args);
     p.waitForFinished();
     QString out(QLatin1String(p.readAllStandardError()));
-    QRegExp rx(QStringLiteral("\\((.*)\\."));
-    QString version = rx.indexIn(out) != -1 ? rx.cap(1) : QString();
+    QRegularExpression rx(QStringLiteral("\\((.*)\\."));
+    QRegularExpressionMatch rm = rx.match(out);
+    QString version = out.indexOf(rx) != -1 ? rm.captured(1) : QString();
     return version.toInt(nullptr);
 }
 

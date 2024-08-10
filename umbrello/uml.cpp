@@ -82,7 +82,7 @@
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QPushButton>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QScrollBar>
 #include <QSlider>
 #include <QStatusBar>
@@ -1071,13 +1071,13 @@ UMLListView* UMLApp::listView() const
 void UMLApp::saveOptions()
 {
     // The Toolbar settings will be handled by the respective classes (KToolBar)
-    KConfigGroup cg(m_config, "toolbar");
+    KConfigGroup cg(m_config, QStringLiteral("toolbar"));
     toolBar(QStringLiteral("mainToolBar"))->saveSettings(cg);
-    KConfigGroup workBarConfig(m_config, "workbar");
+    KConfigGroup workBarConfig(m_config, QStringLiteral("workbar"));
     m_toolsbar->saveSettings(workBarConfig);
-    fileOpenRecent->saveEntries(m_config->group("Recent Files"));
+    fileOpenRecent->saveEntries(m_config->group(QStringLiteral("Recent Files")));
 
-    KConfigGroup shortcutConfig(m_config, "Shortcuts");
+    KConfigGroup shortcutConfig(m_config, QStringLiteral("Shortcuts"));
     actionCollection()->writeSettings(&shortcutConfig, false);
 
     UmbrelloSettings::setGeometry(size());
@@ -1114,7 +1114,7 @@ void UMLApp::readOptions()
 {
     // bar status settings
     KToolBar *mainToolBar = toolBar(QStringLiteral("mainToolBar"));
-    mainToolBar->applySettings(m_config->group("toolbar"));
+    mainToolBar->applySettings(m_config->group(QStringLiteral("toolbar")));
 
     // Add the Undo/Redo actions:
     // In KDE4 this was somehow done automatically but in KF5,
@@ -1133,8 +1133,8 @@ void UMLApp::readOptions()
     mainToolBar->addAction(editRedo);
 
     // do config for work toolbar
-    m_toolsbar->applySettings(m_config->group("workbar"));
-    fileOpenRecent->loadEntries(m_config->group("Recent Files"));
+    m_toolsbar->applySettings(m_config->group(QStringLiteral("workbar")));
+    fileOpenRecent->loadEntries(m_config->group(QStringLiteral("Recent Files")));
     setImageMimeType(UmbrelloSettings::imageMimeType());
     QSize size = UmbrelloSettings::geometry();
     if (size.width() == -1 && size.height() == -1)
@@ -1142,7 +1142,7 @@ void UMLApp::readOptions()
     resize(size);
     enableUndo(Settings::optionState().generalState.undo);
 
-    KConfigGroup shortCutConfig(m_config, "Shortcuts");
+    KConfigGroup shortCutConfig(m_config, QStringLiteral("Shortcuts"));
     actionCollection()->readSettings(&shortCutConfig);
     m_toolsbar->setupActions();
 }

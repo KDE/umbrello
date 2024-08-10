@@ -194,7 +194,7 @@ const QString indentString(KTextEditor::Document *document)
 }
 
 QString getIndentation( const QString &line ) {
-    return line.left(line.indexOf(QRegExp("\\S"), 0));
+    return line.left(line.indexOf(QRegularExpression(QStringLiteral("\\S")), 0));
 }
 
 }

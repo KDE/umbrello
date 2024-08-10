@@ -27,7 +27,7 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 CPPSourceCodeDocument::CPPSourceCodeDocument (UMLClassifier * classifier)
         : ClassifierCodeDocument (classifier)

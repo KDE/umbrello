@@ -276,7 +276,7 @@ void TestCompletion::methodCall()
 
         QString ret;
         createArgumentList(*item2, ret, 0);
-        QCOMPARE(ret, QString("(A $a, null $b = null)"));
+        QCOMPARE(ret, QStringLiteral("(A $a, null $b = null)"));
     }
     {
         PhpCompletionTester tester(top, QStringLiteral("blah; $i->foo(new A(), "));
@@ -543,7 +543,7 @@ void TestCompletion::nameClassMember()
     CompletionTreeItemPointer itm = searchDeclaration(tester.items, top->childContexts().first()->localDeclarations().first());
     QVERIFY(itm);
     QCOMPARE(itm->data(model->index(0, Php::CodeCompletionModel::Name), Qt::DisplayRole, model).toString(),
-             QString("abc"));
+             QStringLiteral("abc"));
 
     //don't delete model as its constructor does bad things (quit the current thread - we don't want that in test)
     //TODO find better solution that doesn't leak
@@ -1055,7 +1055,7 @@ void TestCompletion::afterFunctionArg()
         qDebug() << code;
         PhpCompletionTester tester(top, code);
         QCOMPARE(tester.names.size(), 1);
-        QCOMPARE(tester.names.first(), QString("b"));
+        QCOMPARE(tester.names.first(), QStringLiteral("b"));
     }
 }
 
@@ -1196,7 +1196,7 @@ void TestCompletion::ctorCall()
 
         QString ret;
         createArgumentList(*item2, ret, 0);
-        QCOMPARE(ret, QString("(string $bar)"));
+        QCOMPARE(ret, QStringLiteral("(string $bar)"));
     }
     {
         PhpCompletionTester tester(top, QStringLiteral("new B("));
@@ -1211,7 +1211,7 @@ void TestCompletion::ctorCall()
 
         QString ret;
         createArgumentList(*item2, ret, 0);
-        QCOMPARE(ret, QString("(bool $asdf)"));
+        QCOMPARE(ret, QStringLiteral("(bool $asdf)"));
     }
 }
 
@@ -1251,7 +1251,7 @@ void TestCompletion::funcCallInConditional()
 
         QString ret;
         createArgumentList(*item2, ret, 0);
-        QCOMPARE(ret, QString("(mixed $a, int $b = 1)"));
+        QCOMPARE(ret, QStringLiteral("(mixed $a, int $b = 1)"));
     }
 }
 

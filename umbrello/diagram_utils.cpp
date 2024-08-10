@@ -26,7 +26,7 @@
 #include <QListWidget>
 #include <QMap>
 #include <QMimeData>
-#include <QRegExp>
+#include <QRegularExpression>
 
 // Currently this file is not using debug statements. Activate this line when inserting them:
 DEBUG_REGISTER_DISABLED(Diagram_Utils)
@@ -42,7 +42,7 @@ SequenceLineFormat detectSequenceLineFormat(const QStringList &lines)
 {
     QStringList l = lines;
     while(l.size() > 0) {
-        QStringList cols = l.takeFirst().split(QRegExp(QStringLiteral("\\s+")),QString::SkipEmptyParts);
+        QStringList cols = l.takeFirst().split(QRegularExpression(QStringLiteral("\\s+")),Qt::SkipEmptyParts);
         if (cols.size() < 1)
             continue;
 
@@ -85,7 +85,7 @@ bool parseSequenceLine(const QString &s, QString &sequence, QString &package, QS
 {
     QString identifier;
     QString module;
-    QStringList cols = s.split(QRegExp(QStringLiteral("\\s+")),QString::SkipEmptyParts);
+    QStringList cols = s.split(QRegularExpression(QStringLiteral("\\s+")),Qt::SkipEmptyParts);
     if (cols.size() < 1) {
         error = QStringLiteral("could not parse");
         return false;

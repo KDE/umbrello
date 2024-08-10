@@ -36,7 +36,7 @@
 #include <KLocalizedString>
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStringList>
 
 DEBUG_REGISTER(Model_Utils)
@@ -81,21 +81,21 @@ QString normalize(QString type)
     QString str = type.simplified();
     int pos;
     // Remove space between word and non word
-    QRegExp word_nonword(QStringLiteral("\\w \\W"));
+    QRegularExpression word_nonword(QStringLiteral("\\w \\W"));
     pos = 0;
-    while ((pos = word_nonword.indexIn(str, pos)) != -1) {
+    while ((pos = str.indexOf(word_nonword, pos)) != -1) {
         str.remove(++pos, 1);
     }
     // Remove space between non word and word
-    QRegExp nonword_word(QStringLiteral("\\W \\w"));
+    QRegularExpression nonword_word(QStringLiteral("\\W \\w"));
     pos = 0;
-    while ((pos = nonword_word.indexIn(str, pos)) != -1) {
+    while ((pos = str.indexOf(nonword_word, pos)) != -1) {
         str.remove(++pos, 1);
     }
     // Remove space between non word and non word
-    QRegExp nonword_nonword(QStringLiteral("\\W \\W"));
+    QRegularExpression nonword_nonword(QStringLiteral("\\W \\W"));
     pos = 0;
-    while ((pos = nonword_nonword.indexIn(str, pos)) != -1) {
+    while ((pos = str.indexOf(nonword_nonword, pos)) != -1) {
         str.remove(++pos, 1);
     }
     return str;
@@ -963,11 +963,12 @@ Uml::ModelType::Enum guessContainer(UMLObject *o)
  */
 int stringToDirection(QString input, Uml::ParameterDirection::Enum & result)
 {
-    QRegExp dirx(QStringLiteral("^(in|out|inout)"));
-    int pos = dirx.indexIn(input);
+    QRegularExpression dirx(QStringLiteral("^(in|out|inout)"));
+    int pos = input.indexOf(dirx);
     if (pos == -1)
         return 0;
-    const QString dirStr = dirx.capturedTexts().first();
+    QRegularExpressionMatch dirxmatch = dirx.match(input);
+    const QString dirStr = dirxmatch.capturedTexts().first();
     int dirLen = dirStr.length();
     if (input.length() > dirLen && !input[dirLen].isSpace())
         return 0;       // no match after all.
@@ -998,7 +999,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
     if (t.isEmpty())
         return PS_Empty;
 
-    QStringList nameAndType = t.split(QRegExp(QStringLiteral("\\s*:\\s*")));
+    QStringList nameAndType = t.split(QRegularExpression(QStringLiteral("\\s*:\\s*")));
     if (nameAndType.count() == 2) {
         UMLObject *pType = nullptr;
         if (nameAndType[1] != QStringLiteral("class")) {
@@ -1046,12 +1047,13 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
     }
     QString name = a.left(colonPos).trimmed();
     if (vis) {
-        QRegExp mnemonicVis(QStringLiteral("^([\\+\\#\\-\\~] *)"));
-        int pos = mnemonicVis.indexIn(name);
+        QRegularExpression mnemonicVis(QStringLiteral("^([\\+\\#\\-\\~] *)"));
+        int pos = name.indexOf(mnemonicVis);
         if (pos == -1) {
             *vis = Uml::Visibility::Private;  // default value
         } else {
-            QString caption = mnemonicVis.cap(1);
+            QRegularExpressionMatch regMat = mnemonicVis.match(name);
+            QString caption = regMat.captured(1);
             QString strVis = caption.left(1);
             if (strVis == QStringLiteral("+"))
                 *vis = Uml::Visibility::Public;
@@ -1080,7 +1082,7 @@ Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningS
         nmTp = NameAndType(name, nullptr, pd);
         return PS_OK;
     }
-    QStringList typeAndInitialValue = a.split(QRegExp(QStringLiteral("\\s*=\\s*")));
+    QStringList typeAndInitialValue = a.split(QRegularExpression(QStringLiteral("\\s*=\\s*")));
     const QString &type = typeAndInitialValue[0];
     UMLObject *pType = pDoc->findUMLObject(type, UMLObject::ot_UMLObject, owningScope);
     if (pType == nullptr) {
@@ -1112,27 +1114,29 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
     m = m.simplified();
     if (m.isEmpty())
         return PS_Empty;
-    if (m.contains(QRegExp(QStringLiteral("operator *()")))) {
+    if (m.contains(QRegularExpression(QStringLiteral("operator *()")))) {
         // C++ special case: two sets of parentheses
         desc.m_name = QStringLiteral("operator()");
-        m.remove(QRegExp(QStringLiteral("operator *()")));
+        m.remove(QRegularExpression(QStringLiteral("operator *()")));
     } else {
         /**
          * The search pattern includes everything up to the opening parenthesis
          * because UML also permits non programming-language oriented designs
          * using narrative names, for example "check water temperature".
          */
-        QRegExp beginningUpToOpenParenth(QStringLiteral("^([^\\(]+)"));
-        int pos = beginningUpToOpenParenth.indexIn(m);
+        QRegularExpression beginningUpToOpenParenth(QStringLiteral("^([^\\(]+)"));
+        int pos = m.indexOf(beginningUpToOpenParenth);
         if (pos == -1)
             return PS_Illegal_MethodName;
-        desc.m_name = beginningUpToOpenParenth.cap(1);
+        QRegularExpressionMatch regMat = beginningUpToOpenParenth.match(m);
+        desc.m_name = regMat.captured(1);
     }
     desc.m_pReturnType = nullptr;
-    QRegExp pat = QRegExp(QStringLiteral("\\) *:(.*)$"));
-    int pos = pat.indexIn(m);
+    QRegularExpression pat = QRegularExpression(QStringLiteral("\\) *:(.*)$"));
+    int pos = m.indexOf(pat);
     if (pos != -1) {  // return type is optional
-        QString retType = pat.cap(1);
+        QRegularExpressionMatch regMat = pat.match(m);
+        QString retType = regMat.captured(1);
         retType = retType.trimmed();
         if (retType != QStringLiteral("void")) {
             UMLObject *pRetType = owningScope ? owningScope->findTemplate(retType) : nullptr;
@@ -1145,17 +1149,18 @@ Parse_Status parseOperation(QString m, OpDescriptor& desc, UMLClassifier *owning
         }
     }
     // Remove possible empty parentheses ()
-    m.remove(QRegExp(QStringLiteral("\\s*\\(\\s*\\)")));
+    m.remove(QRegularExpression(QStringLiteral("\\s*\\(\\s*\\)")));
     desc.m_args.clear();
-    pat = QRegExp(QStringLiteral("\\((.*)\\)"));
-    pos = pat.indexIn(m);
+    pat = QRegularExpression(QStringLiteral("\\((.*)\\)"));
+    pos = m.indexOf(pat);
     if (pos == -1)  // argument list is optional
         return PS_OK;
-    QString arglist = pat.cap(1);
+    QRegularExpressionMatch patMat = pat.match(m);
+    QString arglist = patMat.captured(1);
     arglist = arglist.trimmed();
     if (arglist.isEmpty())
         return PS_OK;
-    const QStringList args = arglist.split(QRegExp(QStringLiteral("\\s*, \\s*")));
+    const QStringList args = arglist.split(QRegularExpression(QStringLiteral("\\s*, \\s*")));
     for (QStringList::ConstIterator lit = args.begin(); lit != args.end(); ++lit) {
         NameAndType nmTp;
         Parse_Status ps = parseAttribute(*lit, nmTp, owningScope);

@@ -39,7 +39,7 @@ void getFiles(QStringList& files, const QString& path, QStringList& filters);
  */
 bool showGUI(const QCommandLineParser *args)
 {
-    if (args->values("export").size() > 0 || args->isSet("export-formats")) {
+    if (args->values(QStringLiteral("export")).size() > 0 || args->isSet(QStringLiteral("export-formats"))) {
         return false;
     }
     return true;
@@ -113,36 +113,37 @@ int main(int argc, char *argv[])
     KCrash::initialize();
     KLocalizedString::setApplicationDomain("umbrello");
     Q_INIT_RESOURCE(ui);
-    KAboutData aboutData("umbrello",                                   // componentName
+    
+    KAboutData aboutData(QStringLiteral("umbrello"),                                   // componentName
                          i18n("Umbrello UML Modeller"),                // displayName
-                         umbrelloVersion(),                            // version
+                         QLatin1String(umbrelloVersion().data()),                            // version
                          i18n("Umbrello – Visual development environment for software, "
                               "based on the industry standard Unified Modelling Language (UML).<br/>"
                               "See also <a href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."),
                          KAboutLicense::GPL,                           // licenseType
                          i18n("Copyright © 2001 Paul Hensgen,\nCopyright © 2002-2022 Umbrello UML Modeller Authors"),
                          QString(),                                  // otherText
-                         "https://apps.kde.org/umbrello");                  // homePageAddress
+                         QStringLiteral("https://apps.kde.org/umbrello"));                  // homePageAddress
 
-    aboutData.addAuthor(QStringLiteral("Paul Hensgen"), i18n("Author of initial version."), "phensgen@users.sourceforge.net");
-    aboutData.addAuthor(i18n("Umbrello UML Modeller Authors"), QString(), "umbrello-devel@kde.org");
+    aboutData.addAuthor(QStringLiteral("Paul Hensgen"), i18n("Author of initial version."), QStringLiteral("phensgen@users.sourceforge.net"));
+    aboutData.addAuthor(i18n("Umbrello UML Modeller Authors"), QString(), QStringLiteral("umbrello-devel@kde.org"));
 
     // authors with more than 200 commits: git shortlog -seu | sort -g
     aboutData.addCredit(QStringLiteral("Oliver Kellogg"),
                         i18n("Bug fixing, porting work, code cleanup, new features."),
-                        "okellogg@users.sourceforge.net");
+                        QStringLiteral("okellogg@users.sourceforge.net"));
     aboutData.addCredit(QStringLiteral("Ralf Habacker"),
                         i18n("Bug fixing, porting work, code cleanup, new features."),
-                        "ralf.habacker@freenet.de");
+                        QStringLiteral("ralf.habacker@freenet.de"));
     aboutData.addCredit(QStringLiteral("Andi Fischer"),
                         i18n("Porting work, code cleanup, new features."),
-                        "andi.fischer@hispeed.ch");
+                        QStringLiteral("andi.fischer@hispeed.ch"));
     aboutData.addCredit(QStringLiteral("Jonathan Riddell"),
                         i18n("Current maintainer."),
-                        "jr@jriddell.org");
+                        QStringLiteral("jr@jriddell.org"));
     aboutData.addCredit(QStringLiteral("Brian Thomas"),
                         i18n("A lot of work for C++ and Java code generation. Codeeditor."),
-                        "thomas@mail630.gsfc.nasa.gov");
+                        QStringLiteral("thomas@mail630.gsfc.nasa.gov"));
 
     KAboutData::setApplicationData(aboutData);
     QCommandLineParser parser;
@@ -177,11 +178,11 @@ int main(int argc, char *argv[])
         kRestoreMainWindows< UMLApp >();
     } else {
         const QCommandLineParser *parsedArgs = &parser;
-        if (parsedArgs->isSet("export-formats")) {
-            foreach(const QString& type, UMLViewImageExporterModel::supportedImageTypes())
+        if (parsedArgs->isSet(QStringLiteral("export-formats"))) {
+            for(const QString& type : UMLViewImageExporterModel::supportedImageTypes())
                 fprintf(stdout, "%s\n", qPrintable(type));
             return 0;
-        } else if (parsedArgs->isSet("languages")) {
+        } else if (parsedArgs->isSet(QStringLiteral("languages"))) {
             for (int i = 0; i <= Uml::ProgrammingLanguage::Reserved; i++) {
                 Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(i);
                 fprintf(stdout, "%s\n", qPrintable(Uml::ProgrammingLanguage::toString(pl)));
@@ -198,9 +199,9 @@ int main(int argc, char *argv[])
         }
 
         Uml::ProgrammingLanguage::Enum lang = Uml::ProgrammingLanguage::Reserved;
-        if (parsedArgs->isSet("set-language")) {
+        if (parsedArgs->isSet(QStringLiteral("set-language"))) {
             QString value;
-            value = parsedArgs->value("set-language");
+            value = parsedArgs->value(QStringLiteral("set-language"));
             // special cases: C++, C#
             if (value == QStringLiteral("C++")) {
                 lang = Uml::ProgrammingLanguage::Cpp;
@@ -220,19 +221,19 @@ int main(int argc, char *argv[])
 
         QStringList args;
         args = parsedArgs->positionalArguments();
-        if (parsedArgs->isSet("import-files") && args.count() > 0) {
+        if (parsedArgs->isSet(QStringLiteral("import-files")) && args.count() > 0) {
             uml->newDocument();
             if (lang != Uml::ProgrammingLanguage::Reserved)
                 uml->setActiveLanguage(lang);
             uml->importFiles(args);
         }
-        else if (parsedArgs->isSet("import-directory")) {
+        else if (parsedArgs->isSet(QStringLiteral("import-directory"))) {
             uml->newDocument();
             if (lang != Uml::ProgrammingLanguage::Reserved)
                 uml->setActiveLanguage(lang);
             QStringList filter = Uml::ProgrammingLanguage::toExtensions(uml->activeLanguage());
             QString dir;
-            dir = parsedArgs->value("import-directory");
+            dir = parsedArgs->value(QStringLiteral("import-directory"));
             QStringList listFile;
             getFiles(listFile, dir, filter);
             uml->importFiles(listFile, dir);
@@ -242,15 +243,15 @@ int main(int argc, char *argv[])
         }
 
         // Handle diagram export related options
-        if (parsedArgs->isSet("export")) {
+        if (parsedArgs->isSet(QStringLiteral("export"))) {
             QString extension;
             QUrl directory;
-            extension = parsedArgs->value("export");
-            if (parsedArgs->isSet("directory")) {
-                QString dirValue = parsedArgs->value("directory");
+            extension = parsedArgs->value(QStringLiteral("export"));
+            if (parsedArgs->isSet(QStringLiteral("directory"))) {
+                QString dirValue = parsedArgs->value(QStringLiteral("directory"));
                 directory = QUrl::fromUserInput(dirValue, QDir::currentPath());
             }
-            bool useFolders = parsedArgs->isSet("use-folders");
+            bool useFolders = parsedArgs->isSet(QStringLiteral("use-folders"));
             exportAllViews(extension, directory, useFolders);
         }
     }

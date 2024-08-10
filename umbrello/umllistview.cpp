@@ -73,7 +73,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QPointer>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QPoint>
 #include <QRect>
 #include <QToolTip>
@@ -530,7 +530,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             QPointer<QFileDialog> fileDialog = new QFileDialog(this, i18n("Externalize Folder"), rootDir, QStringLiteral("*.xml"));
             // set a sensible default filename
             QString defaultFilename = current->text(0).toLower();
-            defaultFilename.replace(QRegExp(QStringLiteral("\\W+")), QStringLiteral("_"));
+            defaultFilename.replace(QRegularExpression(QStringLiteral("\\W+")), QStringLiteral("_"));
             defaultFilename.append(QStringLiteral(".xml"));  // default extension
             fileDialog->selectFile(defaultFilename);
             QList<QUrl> selURL;
@@ -572,7 +572,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             modelFolder->setFolderFile(fileName);
             // Recompute text of the folder
             QString folderText = current->text(0);
-            folderText.remove(QRegExp(QStringLiteral("\\s*\\(.*$")));
+            folderText.remove(QRegularExpression(QStringLiteral("\\s*\\(.*$")));
             folderText.append(QStringLiteral(" (") + fileName + QLatin1Char(')'));
             current->setText(folderText);
             break;
@@ -589,7 +589,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
             modelFolder->setFolderFile(QString());
             // Recompute text of the folder
             QString folderText = current->text(0);
-            folderText.remove(QRegExp(QStringLiteral("\\s*\\(.*$")));
+            folderText.remove(QRegularExpression(QStringLiteral("\\s*\\(.*$")));
             current->setText(folderText);
             break;
         }

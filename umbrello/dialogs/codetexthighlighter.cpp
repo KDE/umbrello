@@ -8,6 +8,8 @@
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+#include <QRegularExpression>
+
 #include "codetexthighlighter.h"
 
 #include "codegenerator.h"
@@ -29,37 +31,37 @@ CodeTextHighlighter::CodeTextHighlighter(QTextDocument *parent)
 
     QStringList keywordPatterns = keywords();
     for (const QString &pattern : keywordPatterns) {
-        rule.pattern = QRegExp(pattern);
+        rule.pattern = QRegularExpression(pattern);
         rule.format = m_keywordFormat;
         m_highlightingRules.append(rule);
     }
 
     m_classFormat.setFontWeight(QFont::Bold);
     m_classFormat.setForeground(Qt::darkMagenta);
-    rule.pattern = QRegExp(QString::fromLatin1("\\bQ[A-Za-z]+\\b"));
+    rule.pattern = QRegularExpression(QString::fromLatin1("\\bQ[A-Za-z]+\\b"));
     rule.format = m_classFormat;
     m_highlightingRules.append(rule);
 
     m_singleLineCommentFormat.setForeground(Qt::red);
-    rule.pattern = QRegExp(QString::fromLatin1("//[^\n]*"));
+    rule.pattern = QRegularExpression(QString::fromLatin1("//[^\n]*"));
     rule.format = m_singleLineCommentFormat;
     m_highlightingRules.append(rule);
 
     m_multiLineCommentFormat.setForeground(Qt::red);
 
     m_quotationFormat.setForeground(Qt::darkGreen);
-    rule.pattern = QRegExp(QString::fromLatin1("\".*\""));
+    rule.pattern = QRegularExpression(QString::fromLatin1("\".*\""));
     rule.format = m_quotationFormat;
     m_highlightingRules.append(rule);
 
     m_functionFormat.setFontItalic(true);
     m_functionFormat.setForeground(Qt::blue);
-    rule.pattern = QRegExp(QString::fromLatin1("\\b[A-Za-z0-9_]+(?=\\()"));
+    rule.pattern = QRegularExpression(QString::fromLatin1("\\b[A-Za-z0-9_]+(?=\\()"));
     rule.format = m_functionFormat;
     m_highlightingRules.append(rule);
 
-    m_commentStartExpression = QRegExp(QString::fromLatin1("/\\*"));
-    m_commentEndExpression = QRegExp(QString::fromLatin1("\\*/"));
+    m_commentStartExpression = QRegularExpression(QString::fromLatin1("/\\*"));
+    m_commentEndExpression = QRegularExpression(QString::fromLatin1("\\*/"));
 }
 
 /**
@@ -69,32 +71,36 @@ CodeTextHighlighter::CodeTextHighlighter(QTextDocument *parent)
 void CodeTextHighlighter::highlightBlock(const QString &text)
 {
     for(const HighlightingRule &rule : m_highlightingRules) {
-        QRegExp expression(rule.pattern);
-        int index = expression.indexIn(text);
-        while (index >= 0) {
-            int length = expression.matchedLength();
-            setFormat(index, length, rule.format);
-            index = expression.indexIn(text, index + length);
+        QRegularExpression expression(rule.pattern);
+        const QRegularExpressionMatch match = expression.match(text);
+        if (!match.hasMatch()) {
+            continue;
+        }
+
+        for (int i = 0; i <= match.lastCapturedIndex(); i++) {
+            setFormat(match.capturedStart(i), match.capturedLength(i), rule.format);
         }
     }
     setCurrentBlockState(0);
 
     int startIndex = 0;
     if (previousBlockState() != 1)
-        startIndex = m_commentStartExpression.indexIn(text);
+        startIndex = text.indexOf(m_commentStartExpression);
 
     while (startIndex >= 0) {
-        int endIndex = m_commentEndExpression.indexIn(text, startIndex);
+        QRegularExpressionMatch m = m_commentEndExpression.match(text);
+        
+        int endIndex = m.capturedStart();
         int commentLength;
         if (endIndex == -1) {
             setCurrentBlockState(1);
             commentLength = text.length() - startIndex;
         } else {
             commentLength = endIndex - startIndex
-                            + m_commentEndExpression.matchedLength();
+                            + m.capturedLength();
         }
         setFormat(startIndex, commentLength, m_multiLineCommentFormat);
-        startIndex = m_commentStartExpression.indexIn(text, startIndex + commentLength);
+        startIndex = text.indexOf(m_commentStartExpression, startIndex + commentLength);
     }
 }
 

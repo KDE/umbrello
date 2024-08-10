@@ -37,13 +37,13 @@ void TestListPopupMenu::test_createWidgetsSingleSelect()
         WidgetBase::WidgetType type = static_cast<WidgetBase::WidgetType>(i);
         WidgetBase *widget = nullptr;
         if (type == WidgetBase::wt_Entity) {
-            widget = new EntityWidget(&scene, new UMLEntity("entity"));
+            widget = new EntityWidget(&scene, new UMLEntity(QStringLiteral("entity")));
         } else if (type == WidgetBase::wt_Category) {
-            widget = new CategoryWidget(&scene, new UMLCategory("category"));
+            widget = new CategoryWidget(&scene, new UMLCategory(QStringLiteral("category")));
         } else if (type == WidgetBase::wt_Class) {
-            widget = new ClassifierWidget(&scene, new UMLClassifier("classifier"));
+            widget = new ClassifierWidget(&scene, new UMLClassifier(QStringLiteral("classifier")));
         } else if (type == WidgetBase::wt_Interface) {
-            widget = new ClassifierWidget(&scene, new UMLClassifier("instance"));
+            widget = new ClassifierWidget(&scene, new UMLClassifier(QStringLiteral("instance")));
             widget->setBaseType(type);
         } else
             widget = new WidgetBase(&scene, type);
@@ -62,13 +62,13 @@ void TestListPopupMenu::test_createWidgetsMultiSelect()
         WidgetBase::WidgetType type = static_cast<WidgetBase::WidgetType>(i);
         WidgetBase *widget = nullptr;
         if (type == WidgetBase::wt_Entity) {
-            widget = new EntityWidget(&scene, new UMLEntity("entity"));
+            widget = new EntityWidget(&scene, new UMLEntity(QStringLiteral("entity")));
         } else if (type == WidgetBase::wt_Category) {
-            widget = new CategoryWidget(&scene, new UMLCategory("category"));
+            widget = new CategoryWidget(&scene, new UMLCategory(QStringLiteral("category")));
         } else if (type == WidgetBase::wt_Class) {
-            widget = new ClassifierWidget(&scene, new UMLClassifier("classifier"));
+            widget = new ClassifierWidget(&scene, new UMLClassifier(QStringLiteral("classifier")));
         } else if (type == WidgetBase::wt_Interface) {
-            widget = new ClassifierWidget(&scene, new UMLClassifier("instance"));
+            widget = new ClassifierWidget(&scene, new UMLClassifier(QStringLiteral("instance")));
             widget->setBaseType(type);
         } else
             widget = new WidgetBase(&scene, type);

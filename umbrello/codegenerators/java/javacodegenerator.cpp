@@ -20,7 +20,7 @@
 #include <KMessageBox>
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 static const char *reserved_words[] = {
     "abstract",
@@ -287,7 +287,7 @@ QString JavaCodeGenerator::getListFieldClassName()
  */
 QString JavaCodeGenerator::fixTypeName(const QString &string)
 {
-    if (string.isEmpty() || string.contains(QRegExp(QStringLiteral("^\\s+$"))))
+    if (string.isEmpty() || string.contains(QRegularExpression(QStringLiteral("^\\s+$"))))
         return QStringLiteral("void");
     if (string == QStringLiteral("string"))
         return QStringLiteral("String");

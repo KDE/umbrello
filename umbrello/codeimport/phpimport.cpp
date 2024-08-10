@@ -476,7 +476,7 @@ public:
             {
                 tokenString = m_content.mid(begin, 10);
                 tokenString += " ...";
-                tokenString += QString("%1 more").arg(end-begin-20);
+                tokenString += QStringLiteral("%1 more").arg(end-begin-20);
                 tokenString += "... ";
                 tokenString += m_content.mid(end-10, 10);
             }
@@ -640,6 +640,7 @@ private:
         }
         if (!m_session.problems().isEmpty()) {
             qout << endl << "problems encountered during parsing:" << endl;
+            qout << QLatin1Char('\n') << "problems encountered during parsing:" << endl;
             for (KDevelop::ProblemPointer p: m_session.problems()) {
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(p->finalLocation().start().line()+1)

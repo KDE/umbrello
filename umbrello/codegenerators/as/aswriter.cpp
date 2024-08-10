@@ -15,7 +15,7 @@
 #include "umldoc.h"
 #include "uml.h"  // Only needed for logWarn
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 static const char *reserved_words[] = {
@@ -507,8 +507,8 @@ void ASWriter::writeClass(UMLClassifier *c)
     str = getHeadingFile(QStringLiteral(".as"));
     if (!str.isEmpty())
     {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName + QStringLiteral(".as"));
-        str.replace(QRegExp(QStringLiteral("%filepath%")), fileas.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName + QStringLiteral(".as"));
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), fileas.fileName());
         as << str << m_endl;
     }
 

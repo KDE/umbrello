@@ -156,7 +156,7 @@ void PhpUnitRunJob::processFinished(KJob* job)
 void PhpUnitRunJob::rowsInserted(const QModelIndex &parent, int startRow, int endRow)
 {
     Q_ASSERT(m_outputJob);
-    static QRegExp testResultLineExp = QRegExp("\\[([x\\s])\\]");
+    static QRegularExpression testResultLineExp = QRegularExpression(QStringLiteral("\\[([x\\s])\\]"));
     for (int row = startRow; row <= endRow; ++row)
     {
         QString line = m_outputJob->model()->data(m_outputJob->model()->index(row, 0, parent), Qt::DisplayRole).toString();

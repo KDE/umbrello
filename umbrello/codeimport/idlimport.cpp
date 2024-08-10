@@ -24,7 +24,7 @@
 
 // qt includes
 #include <QProcess>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QStringList>
 
@@ -71,7 +71,7 @@ IDLImport::IDLImport(CodeImpThread* thread) : NativeImportBase(QStringLiteral("/
         m_preProcessorArguments = arguments;
     }
     else {
-        log("Error: Cannot find any of the supported preprocessors (gcc, Microsoft Visual Studio 2010)");
+        log(QStringLiteral("Error: Cannot find any of the supported preprocessors (gcc, Microsoft Visual Studio 2010)"));
         m_enabled = false;
     }
     m_preProcessorChecked = true;
@@ -140,14 +140,14 @@ bool IDLImport::parseFile(const QString& filename)
 {
     if (filename.contains(QLatin1Char('/'))) {
         QString path = filename;
-        path.remove(QRegExp(QStringLiteral("/[^/]+$")));
+        path.remove(QRegularExpression(QStringLiteral("/[^/]+$")));
         logDebug1("IDLImport::parseFile adding path %1", path);
         Import_Utils::addIncludePath(path);
     }
     const QStringList includePaths = Import_Utils::includePathList();
 
     if (m_preProcessor.isEmpty()) { 
-        log("Error: no preprocessor installed, could not import file");
+        log(QStringLiteral("Error: no preprocessor installed, could not import file"));
         return false;
     }
     QStringList arguments(m_preProcessorArguments);
@@ -162,12 +162,12 @@ bool IDLImport::parseFile(const QString& filename)
     logDebug2("importIDL::parseFile: %1 %2", m_preProcessor, arguments.join(QStringLiteral(" ")));
     p.start(m_preProcessor, arguments);
     if (!p.waitForStarted()) {
-        log("Error: could not run preprocessor");
+        log(QStringLiteral("Error: could not run preprocessor"));
         return false;
     }
 
     if (!p.waitForFinished()) {
-        log("Error: could not run preprocessor");
+        log(QStringLiteral("Error: could not run preprocessor"));
         return false;
     }
     int exitCode = p.exitCode();
@@ -222,7 +222,7 @@ bool IDLImport::skipStructure()
  * Returns true if the given text is a valid IDL scoped name.
  */
 bool IDLImport::isValidScopedName(QString text) {
-    QRegExp validScopedName(QStringLiteral("^[A-Za-z_:][A-Za-z0-9_:]*$"));
+    QRegularExpression validScopedName(QStringLiteral("^[A-Za-z_:][A-Za-z0-9_:]*$"));
     return text.contains(validScopedName);
 }
 
@@ -559,13 +559,13 @@ bool IDLImport::parseStmt()
     // (of a member of struct or valuetype, or return type
     // of an operation.) Up next is the name of the attribute
     // or operation.
-    if (! keyword.contains(QRegExp(QStringLiteral("^\\w")))) {
+    if (! keyword.contains(QRegularExpression(QStringLiteral("^\\w")))) {
         log(QStringLiteral("Error: importIDL: ignoring ") + keyword);
         return false;
     }
     QString typeName = joinTypename();
     QString name = advance();
-    if (name.contains(QRegExp(QStringLiteral("\\W")))) {
+    if (name.contains(QRegularExpression(QStringLiteral("\\W")))) {
         log(QStringLiteral("Error: importIDL: expecting name in ") + name);
         return false;
     }
@@ -623,7 +623,7 @@ bool IDLImport::parseStmt()
                 pStereo->getAttributeDefs().append(tagDef);
             }
             attr->setUMLStereotype(pStereo);
-            const QString caseLabels = m_unionCases.join(QChar(' '));
+            const QString caseLabels = m_unionCases.join(QLatin1Char(' '));
             attr->tags().append(caseLabels);
             m_unionCases.clear();
         } else if (m_isUnionDefault) {

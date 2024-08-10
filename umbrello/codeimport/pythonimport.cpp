@@ -21,7 +21,7 @@
 #include "umlpackagelist.h"
 
 // qt includes
-#include <QRegExp>
+#include <QRegularExpression>
 
 DEBUG_REGISTER(PythonImport)
 
@@ -76,14 +76,14 @@ bool PythonImport::preprocess(QString& line)
         if (pos == 0)
             return true;
         line = line.left(pos);
-        line.remove(QRegExp(QStringLiteral("\\s+$")));
+        line.remove(QRegularExpression(QStringLiteral("\\s+$")));
     }
     // Transform changes in indentation into braces a la C++/Java/Perl/...
-    pos = line.indexOf(QRegExp(QStringLiteral("\\S")));
+    pos = line.indexOf(QRegularExpression(QStringLiteral("\\S")));
     if (pos == -1)
         return true;
     bool isContinuation = false;
-    int leadingWhite = line.left(pos).count(QRegExp(QStringLiteral("\\s")));
+    int leadingWhite = line.left(pos).count(QRegularExpression(QStringLiteral("\\s")));
     if (leadingWhite > m_srcIndent[m_srcIndentIndex]) {
         if (m_srcIndex == 0) {
             logError0("PythonImport::preprocess internal error");
@@ -109,7 +109,7 @@ bool PythonImport::preprocess(QString& line)
     }
 
     if (line.endsWith(QLatin1Char(':'))) {
-        line.replace(QRegExp(QStringLiteral(":$")), QStringLiteral("{"));
+        line.replace(QRegularExpression(QStringLiteral(":$")), QStringLiteral("{"));
         m_braceWasOpened = true;
     } else {
         m_braceWasOpened = false;
@@ -239,16 +239,16 @@ QString PythonImport::skipBody(Uml::PrimitiveTypes::Enum *foundReturn)
                     QString next = lookAhead();
                     if (next == QStringLiteral("False") || next == QStringLiteral("True")) {
                         *foundReturn = Uml::PrimitiveTypes::Boolean;
-                    } else if (next.contains(QRegExp("^-?\\d+$"))) {
+                    } else if (next.contains(QRegularExpression(QStringLiteral("^-?\\d+$")))) {
                         *foundReturn = Uml::PrimitiveTypes::Integer;
-                    } else if (next.contains(QRegExp("^-?\\d+\\."))) {
+                    } else if (next.contains(QRegularExpression(QStringLiteral("^-?\\d+\\.")))) {
                         *foundReturn = Uml::PrimitiveTypes::Real;
                     } else if (next != QStringLiteral("None")) {
                         *foundReturn = Uml::PrimitiveTypes::String;
                     }
                 }
-            } else if (body.contains(QRegExp(QStringLiteral("\\w$"))) &&
-                       token.contains(QRegExp(QStringLiteral("^\\w")))) {
+            } else if (body.contains(QRegularExpression(QStringLiteral("\\w$"))) &&
+                       token.contains(QRegularExpression(QStringLiteral("^\\w")))) {
                 body += QLatin1Char(' ');
             }
             body += token;
@@ -294,10 +294,10 @@ bool PythonImport::parseInitializer(const QString &_keyword, QString &type, QStr
     } else if (keyword == QStringLiteral("True") || keyword == QStringLiteral("False")) {
         type = QStringLiteral("bool");
         value = keyword;
-    } else if (keyword.contains(QRegExp(QStringLiteral("-?\\d+\\.\\d*")))) {
+    } else if (keyword.contains(QRegularExpression(QStringLiteral("-?\\d+\\.\\d*")))) {
         type = QStringLiteral("float");
         value = keyword;
-    } else if (keyword.contains(QRegExp(QStringLiteral("-?\\d+")))) {
+    } else if (keyword.contains(QRegularExpression(QStringLiteral("-?\\d+")))) {
         type = QStringLiteral("int");
         value = keyword;
     } else if (keyword.toLower() == QStringLiteral("none")) {

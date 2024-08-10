@@ -31,7 +31,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QList>
-#include <QRegExp>
+#include <QRegularExpression>
 
 DEBUG_REGISTER(CppTree2Uml)
 
@@ -115,7 +115,7 @@ void CppTree2Uml::parseNamespace(NamespaceAST* ast)
         QFileInfo fileInfo(m_fileName);
         QString shortFileName = fileInfo.baseName();
 
-        nsName.sprintf("(%s_%d)", shortFileName.toLocal8Bit().constData(), m_anon++);
+        nsName = QStringLiteral("(%s_%d)").arg(shortFileName).arg(m_anon++);
     } else {
         nsName = ast->namespaceName()->text();
     }
@@ -412,7 +412,7 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
     } else if (!ast->name()){
         QFileInfo fileInfo(m_fileName);
         QString shortFileName = fileInfo.baseName();
-        className.sprintf("(%s_%d)", shortFileName.toLocal8Bit().constData(), m_anon++);
+        className.asprintf("(%s_%d)", shortFileName.toLocal8Bit().constData(), m_anon++);
     } else {
         className = ast->name()->unqualifiedName()->text().trimmed();
     }
@@ -534,7 +534,7 @@ void CppTree2Uml::parseElaboratedTypeSpecifier(ElaboratedTypeSpecifierAST* typeS
     if (m_thread) {
         m_thread->emitMessageToLog(QString(), QStringLiteral("forward declaration of ") + text);
     }
-    text.remove(QRegExp(QStringLiteral("^class\\s+")));
+    text.remove(QRegularExpression(QStringLiteral("^class\\s+")));
     UMLObject *o = Import_Utils::createUMLObject(UMLObject::ot_Class, text, m_currentNamespace[m_nsCnt]);
     flushTemplateParams(o->asUMLClassifier());
 }

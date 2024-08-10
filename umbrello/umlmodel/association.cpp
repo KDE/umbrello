@@ -24,7 +24,7 @@
 
 // qt includes
 #include <QPointer>
-#include <QRegExp>
+#include <QRegularExpression>
 
 using namespace Uml;
 

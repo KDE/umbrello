@@ -12,6 +12,7 @@
 #define CODETEXTHIGHLIGHTER_H
 
 #include <QHash>
+#include <QRegularExpression>
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
 
@@ -32,13 +33,13 @@ private:
 
     struct HighlightingRule
     {
-        QRegExp pattern;
+        QRegularExpression pattern;
         QTextCharFormat format;
     };
     QVector<HighlightingRule> m_highlightingRules;
 
-    QRegExp m_commentStartExpression;
-    QRegExp m_commentEndExpression;
+    QRegularExpression m_commentStartExpression;
+    QRegularExpression m_commentEndExpression;
 
     QTextCharFormat m_keywordFormat;
     QTextCharFormat m_classFormat;

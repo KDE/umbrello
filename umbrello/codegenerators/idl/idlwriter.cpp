@@ -21,7 +21,7 @@
 #include <KMessageBox>
 
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 IDLWriter::IDLWriter() : SimpleCodeGenerator(false)
@@ -35,8 +35,8 @@ IDLWriter::~IDLWriter()
 bool IDLWriter::isOOClass(UMLClassifier *c)
 {
     QString stype = c->stereotype();
-    QRegExp nonOO(QStringLiteral("(Constant|Enum|Struct|Union|Sequence|Array|Typedef)$"),
-                  Qt::CaseInsensitive);
+    QRegularExpression nonOO(QStringLiteral("(Constant|Enum|Struct|Union|Sequence|Array|Typedef)$"),
+                  QRegularExpression::PatternOption::CaseInsensitiveOption);
     if (stype.contains(nonOO))
         return false;
 
@@ -135,8 +135,8 @@ void IDLWriter::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(QStringLiteral(".idl"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), file.fileName());
         idl << str << m_endl;
     }
 

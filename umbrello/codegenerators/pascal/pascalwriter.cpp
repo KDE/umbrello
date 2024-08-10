@@ -23,7 +23,7 @@
 #include <KMessageBox>
 
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 
 const QString PascalWriter::defaultPackageSuffix = QStringLiteral("_Holder");
@@ -166,9 +166,9 @@ void PascalWriter::writeClass(UMLClassifier *c)
     QString str;
     str = getHeadingFile(QStringLiteral(".pas"));
     if (!str.isEmpty()) {
-        str.replace(QRegExp(QStringLiteral("%filename%")), fileName);
-        str.replace(QRegExp(QStringLiteral("%filepath%")), file.fileName());
-        pas << str << endl;
+        str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
+        str.replace(QRegularExpression(QStringLiteral("%filepath%")), file.fileName());
+        pas << str << Qt::endl;
     }
 
     QString unit = qualifiedName(c);
@@ -249,7 +249,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     // Write class Documentation if non-empty or if force option set.
     if (forceDoc() || !c->doc().isEmpty()) {
         pas << "//" << m_endl;
-        pas << "// class " << classname << endl;
+        pas << "// class " << classname << Qt::endl;
         pas << formatDoc(c->doc(), QStringLiteral("// "));
         pas << m_endl;
     }
