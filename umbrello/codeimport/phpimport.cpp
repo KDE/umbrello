@@ -640,7 +640,7 @@ private:
         }
         if (!m_session.problems().isEmpty()) {
             qout << endl << "problems encountered during parsing:" << endl;
-            foreach(KDevelop::ProblemPointer p, m_session.problems()) {
+            for (KDevelop::ProblemPointer p: m_session.problems()) {
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(p->finalLocation().start().line()+1)
                         .arg(p->finalLocation().start().column())
