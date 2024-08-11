@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-09 01:47+0000\n"
+"POT-Creation-Date: 2024-08-11 01:50+0000\n"
 "PO-Revision-Date: 2006-09-30 17:38+0200\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -162,7 +162,7 @@ msgstr "Уни-Асоцијација"
 msgid "Anchor"
 msgstr "Сидро"
 
-#: basictypes.cpp:356 menus/listpopupmenu.cpp:262 worktoolbar.cpp:372
+#: basictypes.cpp:356 menus/listpopupmenu.cpp:260 worktoolbar.cpp:372
 #, fuzzy, kde-format
 msgid "State Transition"
 msgstr "Пренос на состојба"
@@ -173,7 +173,7 @@ msgstr "Пренос на состојба"
 msgid "Activity"
 msgstr "Активност"
 
-#: basictypes.cpp:360 menus/listpopupmenu.cpp:186 worktoolbar.cpp:383
+#: basictypes.cpp:360 menus/listpopupmenu.cpp:184 worktoolbar.cpp:383
 #, kde-format
 msgid "Exception"
 msgstr ""
@@ -1640,7 +1640,7 @@ msgstr "Име на класата"
 #: dialogs/pages/associationgeneralpage.cpp:78
 #: dialogs/parameterpropertiesdialog.cpp:61 dialogs/statedialog.cpp:44
 #: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:38
-#: menus/listpopupmenu.cpp:243 refactoring/refactoringassistant.cpp:459
+#: menus/listpopupmenu.cpp:241 refactoring/refactoringassistant.cpp:459
 #, fuzzy, kde-format
 msgid "Properties"
 msgstr "&Својства"
@@ -1662,7 +1662,7 @@ msgid "Final activity"
 msgstr "Иницијална активност"
 
 #. i18n("Attribute...")); break;
-#: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:155
+#: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:153
 #: worktoolbar.cpp:347
 #, kde-format
 msgid "Branch/Merge"
@@ -1917,7 +1917,7 @@ msgstr ""
 #: dialogs/codeeditor.cpp:755 dialogs/pages/classoptionspage.cpp:144
 #: dialogs/pages/classoptionspage.cpp:217
 #: dialogs/pages/classoptionspage.cpp:239
-#: dialogs/pages/classoptionspage.cpp:326 menus/listpopupmenu.cpp:257
+#: dialogs/pages/classoptionspage.cpp:326 menus/listpopupmenu.cpp:255
 #: menus/widgetbasepopupmenu.cpp:74 menus/widgetbasepopupmenu.cpp:112
 #: menus/widgetbasepopupmenu.cpp:117 menus/widgetbasepopupmenu.cpp:125
 #: menus/widgetbasepopupmenu.cpp:132 menus/widgetbasepopupmenu.cpp:139
@@ -1946,17 +1946,17 @@ msgstr ""
 msgid "Insert Code Block After"
 msgstr ""
 
-#: dialogs/codeeditor.cpp:790 menus/listpopupmenu.cpp:169
+#: dialogs/codeeditor.cpp:790 menus/listpopupmenu.cpp:167
 #, kde-format
 msgid "Copy"
 msgstr ""
 
-#: dialogs/codeeditor.cpp:795 menus/listpopupmenu.cpp:237
+#: dialogs/codeeditor.cpp:795 menus/listpopupmenu.cpp:235
 #, fuzzy, kde-format
 msgid "Paste"
 msgstr "Приватно"
 
-#: dialogs/codeeditor.cpp:800 menus/listpopupmenu.cpp:170
+#: dialogs/codeeditor.cpp:800 menus/listpopupmenu.cpp:168
 #, kde-format
 msgid "Cut"
 msgstr ""
@@ -2178,7 +2178,7 @@ msgid "&All diagrams"
 msgstr "Сите диј&аграми"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:156
+#: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:154
 #: umlwidgets/widgetbase.cpp:1245 worktoolbar.cpp:386
 #, kde-format
 msgid "Category"
@@ -2198,22 +2198,22 @@ msgid "Package"
 msgstr "Пакет"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryInterface)
-#: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:206
-#: menus/listpopupmenu.cpp:207 umlwidgets/widgetbase.cpp:1272
+#: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:204
+#: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1272
 #: worktoolbar.cpp:356
 #, kde-format
 msgid "Interface"
 msgstr "Интерфејс"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryOperation)
-#: dialogs/finddialog.ui:110 menus/listpopupmenu.cpp:234
+#: dialogs/finddialog.ui:110 menus/listpopupmenu.cpp:232
 #, kde-format
 msgid "Operation"
 msgstr "Операција"
 
 #. i18n("Artifact...")); break;
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAttribute)
-#: dialogs/finddialog.ui:117 menus/listpopupmenu.cpp:153
+#: dialogs/finddialog.ui:117 menus/listpopupmenu.cpp:151
 #, kde-format
 msgid "Attribute"
 msgstr "Атрибут"
@@ -2425,7 +2425,7 @@ msgstr "Ја копира избраната секција на таблата 
 msgid "New Activity..."
 msgstr "Нова активност..."
 
-#: dialogs/pages/activitypage.cpp:101 menus/listpopupmenu.cpp:173
+#: dialogs/pages/activitypage.cpp:101 menus/listpopupmenu.cpp:171
 #: refactoring/refactoringassistant.cpp:460
 #, fuzzy, kde-format
 msgid "Delete"
@@ -2848,22 +2848,22 @@ msgstr "Разрешувам референци до објекти..."
 msgid "Enable C++11 standard (experimental)"
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:269
+#: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:267
 #, kde-format
 msgid "Unique Constraint..."
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:69 menus/listpopupmenu.cpp:242
+#: dialogs/pages/constraintlistpage.cpp:69 menus/listpopupmenu.cpp:240
 #, kde-format
 msgid "Primary Key Constraint..."
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:73 menus/listpopupmenu.cpp:195
+#: dialogs/pages/constraintlistpage.cpp:73 menus/listpopupmenu.cpp:193
 #, kde-format
 msgid "Foreign Key Constraint..."
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:77 menus/listpopupmenu.cpp:159
+#: dialogs/pages/constraintlistpage.cpp:77 menus/listpopupmenu.cpp:157
 #, fuzzy, kde-format
 #| msgid "N&ew Attribute..."
 msgid "Check Constraint..."
@@ -3148,7 +3148,7 @@ msgid "Class operation:"
 msgstr "Класна операција:"
 
 #: dialogs/pages/selectoperationpage.cpp:80
-#: dialogs/selectoperationdialog.cpp:83 menus/listpopupmenu.cpp:225
+#: dialogs/selectoperationdialog.cpp:83 menus/listpopupmenu.cpp:223
 #: menus/widgetbasepopupmenu.cpp:507
 #, kde-format
 msgid "New Operation..."
@@ -4349,7 +4349,7 @@ msgstr "(c) 2001 Paul Hensgen, (c) 2002-2006 авторите на Umbrello UML 
 msgid "Gael de Chalendar (aka Kleag)"
 msgstr ""
 
-#: docgenerators/main.cpp:51 main.cpp:128
+#: docgenerators/main.cpp:51 main.cpp:129
 #, fuzzy, kde-format
 msgid "Umbrello UML Modeller Authors"
 msgstr "Автори на Umbrello UML Моделар"
@@ -4414,12 +4414,12 @@ msgstr ""
 msgid "Apply layout"
 msgstr "&Автоматски распоред..."
 
-#: main.cpp:117
+#: main.cpp:118
 #, fuzzy, kde-format
 msgid "Umbrello UML Modeller"
 msgstr "Umbrello UML моделар"
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
@@ -4427,7 +4427,7 @@ msgid ""
 "\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 msgstr ""
 
-#: main.cpp:123
+#: main.cpp:124
 #, fuzzy, kde-format
 #| msgid "(c) 2001 Paul Hensgen, (c) 2002-2006 Umbrello UML Modeller Authors"
 msgid ""
@@ -4435,65 +4435,65 @@ msgid ""
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
 msgstr "(c) 2001 Paul Hensgen, (c) 2002-2006 авторите на Umbrello UML Modeller"
 
-#: main.cpp:127
+#: main.cpp:128
 #, kde-format
 msgid "Author of initial version."
 msgstr ""
 
-#: main.cpp:132 main.cpp:135
+#: main.cpp:133 main.cpp:136
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr ""
 
-#: main.cpp:138
+#: main.cpp:139
 #, kde-format
 msgid "Porting work, code cleanup, new features."
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:142
 #, fuzzy, kde-format
 #| msgid "&Current diagram"
 msgid "Current maintainer."
 msgstr "&Тековен дијаграм"
 
-#: main.cpp:144
+#: main.cpp:145
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "Датотека за отворање"
 
-#: main.cpp:153
+#: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "Ги изнесува дијаграмите со наставка „extension“ и напушта"
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr ""
 
-#: main.cpp:157
+#: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "локалната папка за зачувување на изнесените дијаграми"
 
-#: main.cpp:159
+#: main.cpp:160
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "import files"
 msgstr "Изнесување на погледот..."
 
-#: main.cpp:161
+#: main.cpp:162
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "list supported languages"
 msgstr "Сите датотеки"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4502,12 +4502,12 @@ msgstr ""
 "ја задржува структурата на стебло што се користи за зачувување на прегледите "
 "во документот во одредишната папка"
 
-#: main.cpp:165
+#: main.cpp:166
 #, fuzzy, kde-format
 msgid "import files from directory <dir>"
 msgstr "Внеси класи..."
 
-#: main.cpp:167
+#: main.cpp:168
 #, fuzzy, kde-format
 #| msgid "Active &Language"
 msgid "set language"
@@ -4581,517 +4581,517 @@ msgstr ""
 msgid "Orthogonal"
 msgstr ""
 
-#: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:227
+#: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:225
 #, kde-format
 msgid "New Template..."
 msgstr "Нов образец..."
 
-#: menus/listpopupmenu.cpp:145
+#: menus/listpopupmenu.cpp:143
 #, fuzzy, kde-format
 #| msgid "Enter name:"
 msgid "Accept Signal"
 msgstr "Внесете име:"
 
-#: menus/listpopupmenu.cpp:146
+#: menus/listpopupmenu.cpp:144
 #, fuzzy, kde-format
 #| msgid "Enter new text:"
 msgid "Accept Time Event"
 msgstr "Внесете нов текст:"
 
-#: menus/listpopupmenu.cpp:147 menus/listpopupmenu.cpp:220
+#: menus/listpopupmenu.cpp:145 menus/listpopupmenu.cpp:218
 #, kde-format
 msgid "Activity..."
 msgstr "Активност..."
 
-#: menus/listpopupmenu.cpp:148 worktoolbar.cpp:373
+#: menus/listpopupmenu.cpp:146 worktoolbar.cpp:373
 #, fuzzy, kde-format
 msgid "Activity Transition"
 msgstr "Пренос на активност"
 
-#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1233
+#: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1233
 #: worktoolbar.cpp:335
 #, kde-format
 msgid "Actor"
 msgstr "Актер"
 
 #. i18n("Actor...")); break;
-#: menus/listpopupmenu.cpp:151 umlwidgets/widgetbase.cpp:1236
+#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1236
 #: worktoolbar.cpp:355
 #, kde-format
 msgid "Artifact"
 msgstr "Артифакт"
 
 #. i18n("Category...")); break;
-#: menus/listpopupmenu.cpp:158 menus/widgetbasepopupmenu.cpp:557
+#: menus/listpopupmenu.cpp:156 menus/widgetbasepopupmenu.cpp:557
 #, kde-format
 msgid "Change Font..."
 msgstr "Измени фонт..."
 
-#: menus/listpopupmenu.cpp:160
+#: menus/listpopupmenu.cpp:158
 #, fuzzy, kde-format
 #| msgid "Choice"
 msgid "Choice"
 msgstr "Избор"
 
-#: menus/listpopupmenu.cpp:161
+#: menus/listpopupmenu.cpp:159
 #, fuzzy, kde-format
 #| msgid "Class..."
 msgctxt "new class menu item"
 msgid "Class..."
 msgstr "Класа..."
 
-#: menus/listpopupmenu.cpp:162
+#: menus/listpopupmenu.cpp:160
 #, fuzzy, kde-format
 #| msgid "Duplicate"
 msgctxt "duplicate action"
 msgid "Duplicate"
 msgstr "Дуплицирај"
 
-#: menus/listpopupmenu.cpp:163
+#: menus/listpopupmenu.cpp:161
 #, kde-format
 msgid "Collapse All"
 msgstr "Спушти ги сите"
 
-#: menus/listpopupmenu.cpp:164
+#: menus/listpopupmenu.cpp:162
 #, fuzzy, kde-format
 #| msgid "Malformed argument"
 msgctxt "add new combined state"
 msgid "Combined state..."
 msgstr "Погрешно формиран аргумент"
 
-#: menus/listpopupmenu.cpp:165 umlwidgets/widgetbase.cpp:1251
+#: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1251
 #: worktoolbar.cpp:353
 #, kde-format
 msgid "Component"
 msgstr "Компонента"
 
-#: menus/listpopupmenu.cpp:168 menus/listpopupmenu.cpp:175
-#: menus/listpopupmenu.cpp:183 menus/listpopupmenu.cpp:213
-#: menus/listpopupmenu.cpp:273 menus/listpopupmenu.cpp:369
+#: menus/listpopupmenu.cpp:166 menus/listpopupmenu.cpp:173
+#: menus/listpopupmenu.cpp:181 menus/listpopupmenu.cpp:211
+#: menus/listpopupmenu.cpp:271 menus/listpopupmenu.cpp:367
 #: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:82
 #, kde-format
 msgid "Folder"
 msgstr "Папка"
 
-#: menus/listpopupmenu.cpp:171
+#: menus/listpopupmenu.cpp:169
 #, kde-format
 msgid "Datatype..."
 msgstr "Податочен тип..."
 
-#: menus/listpopupmenu.cpp:172 worktoolbar.cpp:362
+#: menus/listpopupmenu.cpp:170 worktoolbar.cpp:362
 #, kde-format
 msgid "Deep History"
 msgstr "Долга историја"
 
-#: menus/listpopupmenu.cpp:176
+#: menus/listpopupmenu.cpp:174
 #, fuzzy, kde-format
 #| msgid "Malformed argument"
 msgid "Edit combined state"
 msgstr "Погрешно формиран аргумент"
 
-#: menus/listpopupmenu.cpp:177 worktoolbar.cpp:376
+#: menus/listpopupmenu.cpp:175 worktoolbar.cpp:376
 #, kde-format
 msgid "End Activity"
 msgstr "Крајна активност"
 
-#: menus/listpopupmenu.cpp:178 worktoolbar.cpp:346
+#: menus/listpopupmenu.cpp:176 worktoolbar.cpp:346
 #, kde-format
 msgid "End State"
 msgstr "Крајна состојба"
 
-#: menus/listpopupmenu.cpp:179 umlwidgets/widgetbase.cpp:1260
+#: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1260
 #: worktoolbar.cpp:361
 #, kde-format
 msgid "Entity"
 msgstr "Ентитет"
 
 #. i18n("Entity...")); break;
-#: menus/listpopupmenu.cpp:181
+#: menus/listpopupmenu.cpp:179
 #, kde-format
 msgid "Entity Attribute..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:184
+#: menus/listpopupmenu.cpp:182
 #, kde-format
 msgid "Enum..."
 msgstr "Енумерација..."
 
-#: menus/listpopupmenu.cpp:185
+#: menus/listpopupmenu.cpp:183
 #, kde-format
 msgid "Enum Literal..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:187
+#: menus/listpopupmenu.cpp:185
 #, kde-format
 msgid "Expand All"
 msgstr "Рашири ги сите"
 
-#: menus/listpopupmenu.cpp:188
+#: menus/listpopupmenu.cpp:186
 #, kde-format
 msgid "Export as Picture..."
 msgstr "Изнеси како слика..."
 
-#: menus/listpopupmenu.cpp:189
+#: menus/listpopupmenu.cpp:187
 #, kde-format
 msgid "Externalize Folder..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:190 menus/widgetbasepopupmenu.cpp:535
+#: menus/listpopupmenu.cpp:188 menus/widgetbasepopupmenu.cpp:535
 #, kde-format
 msgid "Fill Color..."
 msgstr "Боја на исполнување"
 
-#: menus/listpopupmenu.cpp:191 worktoolbar.cpp:377
+#: menus/listpopupmenu.cpp:189 worktoolbar.cpp:377
 #, fuzzy, kde-format
 #| msgid "Initial Activity"
 msgid "Final Activity"
 msgstr "Иницијална активност"
 
-#: menus/listpopupmenu.cpp:192
+#: menus/listpopupmenu.cpp:190
 #, kde-format
 msgid "Flip Horizontal"
 msgstr "Преврти хоризонтално"
 
-#: menus/listpopupmenu.cpp:193
+#: menus/listpopupmenu.cpp:191
 #, kde-format
 msgid "Flip Vertical"
 msgstr "Преврти вертикално"
 
-#: menus/listpopupmenu.cpp:194
+#: menus/listpopupmenu.cpp:192
 #, kde-format
 msgid "Text Line..."
 msgstr "Текстуална линија"
 
-#: menus/listpopupmenu.cpp:196 menus/listpopupmenu.cpp:260 worktoolbar.cpp:365
+#: menus/listpopupmenu.cpp:194 menus/listpopupmenu.cpp:258 worktoolbar.cpp:365
 #, kde-format
 msgid "Fork"
 msgstr "Раздели"
 
-#: menus/listpopupmenu.cpp:197
+#: menus/listpopupmenu.cpp:195
 #, fuzzy, kde-format
 #| msgid "state diagram"
 msgid "Go to state diagram"
 msgstr "Дијаграм на состојби"
 
-#: menus/listpopupmenu.cpp:198
+#: menus/listpopupmenu.cpp:196
 #, fuzzy, kde-format
 #| msgid "Show destruction"
 msgid "Hide destruction box"
 msgstr "Прикажи уништување"
 
-#: menus/listpopupmenu.cpp:199
+#: menus/listpopupmenu.cpp:197
 #, fuzzy, kde-format
 #| msgid "Import Classes..."
 msgid "Import File(s)..."
 msgstr "Внеси класи..."
 
-#: menus/listpopupmenu.cpp:200 uml.cpp:386
+#: menus/listpopupmenu.cpp:198 uml.cpp:386
 #, fuzzy, kde-format
 msgid "Import from Directory..."
 msgstr "Внеси класи..."
 
-#: menus/listpopupmenu.cpp:201
+#: menus/listpopupmenu.cpp:199
 #, fuzzy, kde-format
 #| msgid "Closing file..."
 msgid "from file..."
 msgstr "Ја затворам датотеката..."
 
-#: menus/listpopupmenu.cpp:202 worktoolbar.cpp:380
+#: menus/listpopupmenu.cpp:200 worktoolbar.cpp:380
 #, kde-format
 msgid "Initial Activity"
 msgstr "Иницијална активност"
 
-#: menus/listpopupmenu.cpp:203 worktoolbar.cpp:344
+#: menus/listpopupmenu.cpp:201 worktoolbar.cpp:344
 #, kde-format
 msgid "Initial State"
 msgstr "Иницијална состојба"
 
-#: menus/listpopupmenu.cpp:204
+#: menus/listpopupmenu.cpp:202
 #, fuzzy, kde-format
 #| msgid "Instance name:"
 msgctxt "new instance menu item"
 msgid "Instance..."
 msgstr "Име на инстанца:"
 
-#: menus/listpopupmenu.cpp:205 menus/listpopupmenu.cpp:221
-#: menus/listpopupmenu.cpp:224
+#: menus/listpopupmenu.cpp:203 menus/listpopupmenu.cpp:219
+#: menus/listpopupmenu.cpp:222
 #, kde-format
 msgid "New Attribute..."
 msgstr "Нов атрибут..."
 
-#: menus/listpopupmenu.cpp:208
+#: menus/listpopupmenu.cpp:206
 #, fuzzy, kde-format
 #| msgid "Add Base Interface"
 msgid "Provided interface"
 msgstr "Додај основен интерфејс"
 
-#: menus/listpopupmenu.cpp:209
+#: menus/listpopupmenu.cpp:207
 #, fuzzy, kde-format
 #| msgid "User Interface"
 msgid "Required interface"
 msgstr "Кориснички интерфејс"
 
-#: menus/listpopupmenu.cpp:210
+#: menus/listpopupmenu.cpp:208
 #, kde-format
 msgid "Internalize Folder"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:211 worktoolbar.cpp:367
+#: menus/listpopupmenu.cpp:209 worktoolbar.cpp:367
 #, fuzzy, kde-format
 msgid "Junction"
 msgstr "Клучка"
 
-#: menus/listpopupmenu.cpp:212 menus/widgetbasepopupmenu.cpp:534
+#: menus/listpopupmenu.cpp:210 menus/widgetbasepopupmenu.cpp:534
 #, kde-format
 msgid "Line Color..."
 msgstr "Боја на линија..."
 
-#: menus/listpopupmenu.cpp:214 worktoolbar.cpp:324 worktoolbar.cpp:382
+#: menus/listpopupmenu.cpp:212 worktoolbar.cpp:324 worktoolbar.cpp:382
 #, kde-format
 msgid "Asynchronous Message"
 msgstr "Асинхрона порака"
 
-#: menus/listpopupmenu.cpp:215
+#: menus/listpopupmenu.cpp:213
 #, fuzzy, kde-format
 msgid "Creation Message"
 msgstr "Колаборациска само-порака"
 
-#: menus/listpopupmenu.cpp:216
+#: menus/listpopupmenu.cpp:214
 #, fuzzy, kde-format
 #| msgid "Message"
 msgid "Destroy Message"
 msgstr "Порака"
 
-#: menus/listpopupmenu.cpp:217 worktoolbar.cpp:325
+#: menus/listpopupmenu.cpp:215 worktoolbar.cpp:325
 #, fuzzy, kde-format
 #| msgid "Message"
 msgid "Found Message"
 msgstr "Порака"
 
-#: menus/listpopupmenu.cpp:218 worktoolbar.cpp:326
+#: menus/listpopupmenu.cpp:216 worktoolbar.cpp:326
 #, fuzzy, kde-format
 #| msgid "Message"
 msgid "Lost Message"
 msgstr "Порака"
 
-#: menus/listpopupmenu.cpp:219 worktoolbar.cpp:323 worktoolbar.cpp:381
+#: menus/listpopupmenu.cpp:217 worktoolbar.cpp:323 worktoolbar.cpp:381
 #, kde-format
 msgid "Synchronous Message"
 msgstr "Синхронa порака"
 
-#: menus/listpopupmenu.cpp:222
+#: menus/listpopupmenu.cpp:220
 #, kde-format
 msgid "New Entity Attribute..."
 msgstr "Нов атрибут на ентитетот..."
 
-#: menus/listpopupmenu.cpp:223
+#: menus/listpopupmenu.cpp:221
 #, kde-format
 msgid "New Literal..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:226
+#: menus/listpopupmenu.cpp:224
 #, kde-format
 msgid "New Parameter..."
 msgstr "Нов параметар..."
 
-#: menus/listpopupmenu.cpp:228 umlwidgets/widgetbase.cpp:1278
+#: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1278
 #: worktoolbar.cpp:354
 #, kde-format
 msgid "Node"
 msgstr "Јазол"
 
 #. i18n("Node...")); break;
-#: menus/listpopupmenu.cpp:230
+#: menus/listpopupmenu.cpp:228
 #, fuzzy, kde-format
 #| msgid "Node..."
 msgid "Note..."
 msgstr "Јазол..."
 
-#: menus/listpopupmenu.cpp:231
+#: menus/listpopupmenu.cpp:229
 #, kde-format
 msgid "Object..."
 msgstr "Објект..."
 
-#: menus/listpopupmenu.cpp:232 worktoolbar.cpp:384
+#: menus/listpopupmenu.cpp:230 worktoolbar.cpp:384
 #, fuzzy, kde-format
 #| msgid "Object"
 msgid "Object Node"
 msgstr "Објект"
 
-#: menus/listpopupmenu.cpp:233
+#: menus/listpopupmenu.cpp:231
 #, fuzzy, kde-format
 #| msgid "Open File"
 msgid "Open file"
 msgstr "Отвори датотека"
 
 #. i18n("Operation...")); break;
-#: menus/listpopupmenu.cpp:236
+#: menus/listpopupmenu.cpp:234
 #, kde-format
 msgid "Package..."
 msgstr "Пакет..."
 
-#: menus/listpopupmenu.cpp:238 umlwidgets/widgetbase.cpp:1293
+#: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1293
 #: worktoolbar.cpp:378
 #, kde-format
 msgid "Pin"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:239 umlwidgets/widgetbase.cpp:1296
+#: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1296
 #: worktoolbar.cpp:379
 #, kde-format
 msgid "Port"
 msgstr ""
 
 #. i18n("Port...")); break;
-#: menus/listpopupmenu.cpp:241
+#: menus/listpopupmenu.cpp:239
 #, fuzzy, kde-format
 #| msgid "condition expected"
 msgid "Pre Post Condition"
 msgstr "очекуван услов"
 
-#: menus/listpopupmenu.cpp:244
+#: menus/listpopupmenu.cpp:242
 #, fuzzy, kde-format
 msgid "Redo"
 msgstr "Подготвен."
 
-#: menus/listpopupmenu.cpp:245 umlwidgets/widgetbase.cpp:1302
+#: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1302
 #: worktoolbar.cpp:345
 #, fuzzy, kde-format
 msgid "Region"
 msgstr "Подготвен."
 
-#: menus/listpopupmenu.cpp:246
+#: menus/listpopupmenu.cpp:244
 #, kde-format
 msgid "Remove"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:247
+#: menus/listpopupmenu.cpp:245
 #, fuzzy, kde-format
 #| msgid "state diagram"
 msgid "Remove state diagram"
 msgstr "Дијаграм на состојби"
 
-#: menus/listpopupmenu.cpp:248 menus/umllistviewpopupmenu.cpp:277
+#: menus/listpopupmenu.cpp:246 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
 msgid "Rename..."
 msgstr "Преименувај..."
 
-#: menus/listpopupmenu.cpp:249
+#: menus/listpopupmenu.cpp:247
 #, kde-format
 msgid "Rename Object..."
 msgstr "Преименувај објект"
 
-#: menus/listpopupmenu.cpp:250
+#: menus/listpopupmenu.cpp:248
 #, fuzzy, kde-format
 #| msgid "Malformed argument"
 msgid "Return to combined state"
 msgstr "Погрешно формиран аргумент"
 
-#: menus/listpopupmenu.cpp:251
+#: menus/listpopupmenu.cpp:249
 #, fuzzy, kde-format
 #| msgid "Rename Class..."
 msgid "Return to class"
 msgstr "Преименувај класа"
 
-#: menus/listpopupmenu.cpp:252
+#: menus/listpopupmenu.cpp:250
 #, kde-format
 msgid "Reset Label Positions"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:253
+#: menus/listpopupmenu.cpp:251
 #, kde-format
 msgid "Resize"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:254
+#: menus/listpopupmenu.cpp:252
 #, fuzzy, kde-format
 #| msgid "state diagram"
 msgid "Select state diagram"
 msgstr "Дијаграм на состојби"
 
-#: menus/listpopupmenu.cpp:255
+#: menus/listpopupmenu.cpp:253
 #, fuzzy, kde-format
 #| msgid "Enter name:"
 msgid "Send Signal"
 msgstr "Внесете име:"
 
-#: menus/listpopupmenu.cpp:256 worktoolbar.cpp:363
+#: menus/listpopupmenu.cpp:254 worktoolbar.cpp:363
 #, kde-format
 msgid "Shallow History"
 msgstr "Кратка историја"
 
-#: menus/listpopupmenu.cpp:258
+#: menus/listpopupmenu.cpp:256
 #, fuzzy, kde-format
 #| msgid "Show destruction"
 msgid "Show destruction box"
 msgstr "Прикажи уништување"
 
-#: menus/listpopupmenu.cpp:259
+#: menus/listpopupmenu.cpp:257
 #, fuzzy, kde-format
 #| msgid "State..."
 msgctxt "add new state"
 msgid "State..."
 msgstr "Состојба..."
 
-#: menus/listpopupmenu.cpp:261
+#: menus/listpopupmenu.cpp:259
 #, fuzzy, kde-format
 msgid "Join"
 msgstr "Спои"
 
-#: menus/listpopupmenu.cpp:264 worktoolbar.cpp:366
+#: menus/listpopupmenu.cpp:262 worktoolbar.cpp:366
 #, kde-format
 msgid "Subsystem"
 msgstr "Подсистем"
 
 #. i18n("Subsystem...")); break;
-#: menus/listpopupmenu.cpp:266
+#: menus/listpopupmenu.cpp:264
 #, kde-format
 msgid "Template"
 msgstr "Образец"
 
 #. i18n("Template...")); break;
-#: menus/listpopupmenu.cpp:268
+#: menus/listpopupmenu.cpp:266
 #, kde-format
 msgid "Undo"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:270 worktoolbar.cpp:342
+#: menus/listpopupmenu.cpp:268 worktoolbar.cpp:342
 #, kde-format
 msgid "Use Case"
 msgstr "Сценарио на употреба"
 
-#: menus/listpopupmenu.cpp:351
+#: menus/listpopupmenu.cpp:349
 #, fuzzy, kde-format
 #| msgid "New"
 msgctxt "new container menu"
 msgid "New"
 msgstr "Нов"
 
-#: menus/listpopupmenu.cpp:502
+#: menus/listpopupmenu.cpp:500
 #, fuzzy, kde-format
 #| msgid "New"
 msgctxt "new sub menu"
 msgid "New"
 msgstr "Нов"
 
-#: menus/listpopupmenu.cpp:513
+#: menus/listpopupmenu.cpp:511
 #, fuzzy, kde-format
 #| msgid "Note"
 msgctxt "category type sub menu"
 msgid "Category Type"
 msgstr "Забелешка"
 
-#: menus/listpopupmenu.cpp:514
+#: menus/listpopupmenu.cpp:512
 #, kde-format
 msgid "Disjoint(Specialisation)"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:515
+#: menus/listpopupmenu.cpp:513
 #, kde-format
 msgid "Overlapping(Specialisation)"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:516
+#: menus/listpopupmenu.cpp:514
 #, fuzzy, kde-format
 msgid "Union"
 msgstr "Клучка"
@@ -6202,39 +6202,39 @@ msgstr "Внесете го новото име на моделот:"
 msgid "Enter the new name of the UML object"
 msgstr "Внесете го новото име на моделот:"
 
-#: model_utils.cpp:1201
+#: model_utils.cpp:1206
 #, kde-format
 msgid "OK"
 msgstr ""
 
-#: model_utils.cpp:1201
+#: model_utils.cpp:1206
 #, fuzzy, kde-format
 #| msgid "Empty"
 msgctxt "parse status"
 msgid "Empty"
 msgstr "Празно"
 
-#: model_utils.cpp:1201
+#: model_utils.cpp:1206
 #, kde-format
 msgid "Malformed argument"
 msgstr "Погрешно формиран аргумент"
 
-#: model_utils.cpp:1202
+#: model_utils.cpp:1207
 #, kde-format
 msgid "Unknown argument type"
 msgstr "Непознат тип на аргумент"
 
-#: model_utils.cpp:1202
+#: model_utils.cpp:1207
 #, kde-format
 msgid "Illegal method name"
 msgstr "Нелегално име на метод"
 
-#: model_utils.cpp:1203
+#: model_utils.cpp:1208
 #, fuzzy, kde-format
 msgid "Unknown return type"
 msgstr "Непознат повратен тип"
 
-#: model_utils.cpp:1203
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Unspecified error"
 msgstr "Неодредена грешка"
@@ -7983,7 +7983,7 @@ msgid "Opening file..."
 msgstr "Отворам датотека..."
 
 #: uml.cpp:1088 uml.cpp:1159 uml.cpp:1323 umldoc.cpp:349 umldoc.cpp:372
-#: umldoc.cpp:3277
+#: umldoc.cpp:3278
 #, kde-format
 msgid "Untitled"
 msgstr ""
@@ -8190,7 +8190,7 @@ msgstr "Стереотип"
 msgid "Welcome"
 msgstr ""
 
-#: umldoc.cpp:92 umldoc.cpp:2224 umldoc.cpp:2252 umldoc.cpp:2335
+#: umldoc.cpp:92 umldoc.cpp:2225 umldoc.cpp:2253 umldoc.cpp:2336
 #, kde-format
 msgid "UML Model"
 msgstr "UML-Модел"
@@ -8409,32 +8409,32 @@ msgstr "Користи име"
 msgid "Enter New Name"
 msgstr "Внеси ново име"
 
-#: umldoc.cpp:2182
+#: umldoc.cpp:2183
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2346
+#: umldoc.cpp:2347
 #, kde-format
 msgid "Setting up the document..."
 msgstr "Го поставувам документот..."
 
-#: umldoc.cpp:2375
+#: umldoc.cpp:2376
 #, kde-format
 msgid "Resolving object references..."
 msgstr "Разрешувам референци до објекти..."
 
-#: umldoc.cpp:2483
+#: umldoc.cpp:2484
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "Вчитувам UML-елементи..."
 
-#: umldoc.cpp:2745
+#: umldoc.cpp:2746
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "Вчитувам дијаграми..."
 
-#: umldoc.cpp:3279
+#: umldoc.cpp:3280
 #, fuzzy, kde-format
 msgid "/autosave%1"
 msgstr "/автоматско зачувување%1"
@@ -8587,7 +8587,7 @@ msgstr "Датотечната папка %1 не постои."
 msgid "The folderfile %1 cannot be opened."
 msgstr "Датотечната папка %1 неможе да се отвори."
 
-#: umlmodel/operation.cpp:291
+#: umlmodel/operation.cpp:290
 #, kde-format
 msgid "new_parameter"
 msgstr "нов_параметар"
@@ -9085,28 +9085,28 @@ msgid ""
 "axis. Right button click to cancel move."
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:551
+#: umlwidgets/umlwidget.cpp:552
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Move widgets"
 msgstr "Креирај папка"
 
-#: umlwidgets/umlwidget.cpp:794
+#: umlwidgets/umlwidget.cpp:795
 #, kde-format
 msgid "Rename Object"
 msgstr "Преименување на објект"
 
-#: umlwidgets/umlwidget.cpp:795
+#: umlwidgets/umlwidget.cpp:796
 #, kde-format
 msgid "Enter object name:"
 msgstr "Внесете ново име на објектот:"
 
-#: umlwidgets/umlwidget.cpp:1547
+#: umlwidgets/umlwidget.cpp:1548
 #, kde-format
 msgid "Hold shift or control to move in X axis."
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:1548
+#: umlwidgets/umlwidget.cpp:1549
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
 msgstr ""

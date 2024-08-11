@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-09 01:47+0000\n"
+"POT-Creation-Date: 2024-08-11 01:50+0000\n"
 "PO-Revision-Date: 2021-05-26 00:37+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -157,7 +157,7 @@ msgstr "단일 연결"
 msgid "Anchor"
 msgstr "엥커"
 
-#: basictypes.cpp:356 menus/listpopupmenu.cpp:262 worktoolbar.cpp:372
+#: basictypes.cpp:356 menus/listpopupmenu.cpp:260 worktoolbar.cpp:372
 #, kde-format
 msgid "State Transition"
 msgstr "상태 전환"
@@ -168,7 +168,7 @@ msgstr "상태 전환"
 msgid "Activity"
 msgstr "작업"
 
-#: basictypes.cpp:360 menus/listpopupmenu.cpp:186 worktoolbar.cpp:383
+#: basictypes.cpp:360 menus/listpopupmenu.cpp:184 worktoolbar.cpp:383
 #, kde-format
 msgid "Exception"
 msgstr ""
@@ -1568,7 +1568,7 @@ msgstr ""
 #: dialogs/pages/associationgeneralpage.cpp:78
 #: dialogs/parameterpropertiesdialog.cpp:61 dialogs/statedialog.cpp:44
 #: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:38
-#: menus/listpopupmenu.cpp:243 refactoring/refactoringassistant.cpp:459
+#: menus/listpopupmenu.cpp:241 refactoring/refactoringassistant.cpp:459
 #, kde-format
 msgid "Properties"
 msgstr "속성(&P)"
@@ -1589,7 +1589,7 @@ msgid "Final activity"
 msgstr ""
 
 #. i18n("Attribute...")); break;
-#: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:155
+#: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:153
 #: worktoolbar.cpp:347
 #, kde-format
 msgid "Branch/Merge"
@@ -1831,7 +1831,7 @@ msgstr ""
 #: dialogs/codeeditor.cpp:755 dialogs/pages/classoptionspage.cpp:144
 #: dialogs/pages/classoptionspage.cpp:217
 #: dialogs/pages/classoptionspage.cpp:239
-#: dialogs/pages/classoptionspage.cpp:326 menus/listpopupmenu.cpp:257
+#: dialogs/pages/classoptionspage.cpp:326 menus/listpopupmenu.cpp:255
 #: menus/widgetbasepopupmenu.cpp:74 menus/widgetbasepopupmenu.cpp:112
 #: menus/widgetbasepopupmenu.cpp:117 menus/widgetbasepopupmenu.cpp:125
 #: menus/widgetbasepopupmenu.cpp:132 menus/widgetbasepopupmenu.cpp:139
@@ -1860,17 +1860,17 @@ msgstr ""
 msgid "Insert Code Block After"
 msgstr ""
 
-#: dialogs/codeeditor.cpp:790 menus/listpopupmenu.cpp:169
+#: dialogs/codeeditor.cpp:790 menus/listpopupmenu.cpp:167
 #, kde-format
 msgid "Copy"
 msgstr ""
 
-#: dialogs/codeeditor.cpp:795 menus/listpopupmenu.cpp:237
+#: dialogs/codeeditor.cpp:795 menus/listpopupmenu.cpp:235
 #, kde-format
 msgid "Paste"
 msgstr ""
 
-#: dialogs/codeeditor.cpp:800 menus/listpopupmenu.cpp:170
+#: dialogs/codeeditor.cpp:800 menus/listpopupmenu.cpp:168
 #, kde-format
 msgid "Cut"
 msgstr ""
@@ -2086,7 +2086,7 @@ msgid "&All diagrams"
 msgstr "모든 다이어그램(&A)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:156
+#: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:154
 #: umlwidgets/widgetbase.cpp:1245 worktoolbar.cpp:386
 #, kde-format
 msgid "Category"
@@ -2106,22 +2106,22 @@ msgid "Package"
 msgstr "패키지"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryInterface)
-#: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:206
-#: menus/listpopupmenu.cpp:207 umlwidgets/widgetbase.cpp:1272
+#: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:204
+#: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1272
 #: worktoolbar.cpp:356
 #, kde-format
 msgid "Interface"
 msgstr "인터페이스"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryOperation)
-#: dialogs/finddialog.ui:110 menus/listpopupmenu.cpp:234
+#: dialogs/finddialog.ui:110 menus/listpopupmenu.cpp:232
 #, kde-format
 msgid "Operation"
 msgstr "작용"
 
 #. i18n("Artifact...")); break;
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAttribute)
-#: dialogs/finddialog.ui:117 menus/listpopupmenu.cpp:153
+#: dialogs/finddialog.ui:117 menus/listpopupmenu.cpp:151
 #, kde-format
 msgid "Attribute"
 msgstr "속성"
@@ -2316,7 +2316,7 @@ msgstr ""
 msgid "New Activity..."
 msgstr "새로운 작업..."
 
-#: dialogs/pages/activitypage.cpp:101 menus/listpopupmenu.cpp:173
+#: dialogs/pages/activitypage.cpp:101 menus/listpopupmenu.cpp:171
 #: refactoring/refactoringassistant.cpp:460
 #, kde-format
 msgid "Delete"
@@ -2724,22 +2724,22 @@ msgstr ""
 msgid "Enable C++11 standard (experimental)"
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:269
+#: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:267
 #, kde-format
 msgid "Unique Constraint..."
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:69 menus/listpopupmenu.cpp:242
+#: dialogs/pages/constraintlistpage.cpp:69 menus/listpopupmenu.cpp:240
 #, kde-format
 msgid "Primary Key Constraint..."
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:73 menus/listpopupmenu.cpp:195
+#: dialogs/pages/constraintlistpage.cpp:73 menus/listpopupmenu.cpp:193
 #, kde-format
 msgid "Foreign Key Constraint..."
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:77 menus/listpopupmenu.cpp:159
+#: dialogs/pages/constraintlistpage.cpp:77 menus/listpopupmenu.cpp:157
 #, kde-format
 msgid "Check Constraint..."
 msgstr ""
@@ -3001,7 +3001,7 @@ msgid "Class operation:"
 msgstr "클래스 작용:"
 
 #: dialogs/pages/selectoperationpage.cpp:80
-#: dialogs/selectoperationdialog.cpp:83 menus/listpopupmenu.cpp:225
+#: dialogs/selectoperationdialog.cpp:83 menus/listpopupmenu.cpp:223
 #: menus/widgetbasepopupmenu.cpp:507
 #, kde-format
 msgid "New Operation..."
@@ -4127,7 +4127,7 @@ msgstr "Umbrello UML 모델러 제작자"
 msgid "Gael de Chalendar (aka Kleag)"
 msgstr ""
 
-#: docgenerators/main.cpp:51 main.cpp:128
+#: docgenerators/main.cpp:51 main.cpp:129
 #, kde-format
 msgid "Umbrello UML Modeller Authors"
 msgstr "Umbrello UML 모델러 제작자"
@@ -4189,12 +4189,12 @@ msgstr ""
 msgid "Apply layout"
 msgstr ""
 
-#: main.cpp:117
+#: main.cpp:118
 #, kde-format
 msgid "Umbrello UML Modeller"
 msgstr "Umbrello UML 모델러"
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
@@ -4202,7 +4202,7 @@ msgid ""
 "\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 msgstr ""
 
-#: main.cpp:123
+#: main.cpp:124
 #, fuzzy, kde-format
 #| msgid "Umbrello UML Modeller Authors"
 msgid ""
@@ -4210,76 +4210,76 @@ msgid ""
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
 msgstr "Umbrello UML 모델러 제작자"
 
-#: main.cpp:127
+#: main.cpp:128
 #, kde-format
 msgid "Author of initial version."
 msgstr ""
 
-#: main.cpp:132 main.cpp:135
+#: main.cpp:133 main.cpp:136
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr ""
 
-#: main.cpp:138
+#: main.cpp:139
 #, kde-format
 msgid "Porting work, code cleanup, new features."
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:142
 #, fuzzy, kde-format
 #| msgid "&Current diagram"
 msgid "Current maintainer."
 msgstr "현재 다이어그램(&C)"
 
-#: main.cpp:144
+#: main.cpp:145
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "열 파일"
 
-#: main.cpp:153
+#: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr ""
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr ""
 
-#: main.cpp:157
+#: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr ""
 
-#: main.cpp:159
+#: main.cpp:160
 #, fuzzy, kde-format
 #| msgid "Import Status"
 msgid "import files"
 msgstr "가져오기 상태"
 
-#: main.cpp:161
+#: main.cpp:162
 #, kde-format
 msgid "list supported languages"
 msgstr ""
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
 "target directory"
 msgstr ""
 
-#: main.cpp:165
+#: main.cpp:166
 #, kde-format
 msgid "import files from directory <dir>"
 msgstr ""
 
-#: main.cpp:167
+#: main.cpp:168
 #, fuzzy, kde-format
 #| msgid "Active &Language"
 msgid "set language"
@@ -4351,502 +4351,502 @@ msgstr ""
 msgid "Orthogonal"
 msgstr ""
 
-#: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:227
+#: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:225
 #, kde-format
 msgid "New Template..."
 msgstr "새 템플릿..."
 
-#: menus/listpopupmenu.cpp:145
+#: menus/listpopupmenu.cpp:143
 #, kde-format
 msgid "Accept Signal"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:146
+#: menus/listpopupmenu.cpp:144
 #, kde-format
 msgid "Accept Time Event"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:147 menus/listpopupmenu.cpp:220
+#: menus/listpopupmenu.cpp:145 menus/listpopupmenu.cpp:218
 #, kde-format
 msgid "Activity..."
 msgstr "작업..."
 
-#: menus/listpopupmenu.cpp:148 worktoolbar.cpp:373
+#: menus/listpopupmenu.cpp:146 worktoolbar.cpp:373
 #, kde-format
 msgid "Activity Transition"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1233
+#: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1233
 #: worktoolbar.cpp:335
 #, kde-format
 msgid "Actor"
 msgstr "실행기"
 
 #. i18n("Actor...")); break;
-#: menus/listpopupmenu.cpp:151 umlwidgets/widgetbase.cpp:1236
+#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1236
 #: worktoolbar.cpp:355
 #, kde-format
 msgid "Artifact"
 msgstr "인공물"
 
 #. i18n("Category...")); break;
-#: menus/listpopupmenu.cpp:158 menus/widgetbasepopupmenu.cpp:557
+#: menus/listpopupmenu.cpp:156 menus/widgetbasepopupmenu.cpp:557
 #, kde-format
 msgid "Change Font..."
 msgstr "글꼴 변경..."
 
-#: menus/listpopupmenu.cpp:160
+#: menus/listpopupmenu.cpp:158
 #, kde-format
 msgid "Choice"
 msgstr "Choice"
 
-#: menus/listpopupmenu.cpp:161
+#: menus/listpopupmenu.cpp:159
 #, kde-format
 msgctxt "new class menu item"
 msgid "Class..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:162
+#: menus/listpopupmenu.cpp:160
 #, kde-format
 msgctxt "duplicate action"
 msgid "Duplicate"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:163
+#: menus/listpopupmenu.cpp:161
 #, kde-format
 msgid "Collapse All"
 msgstr "모두 접기"
 
-#: menus/listpopupmenu.cpp:164
+#: menus/listpopupmenu.cpp:162
 #, fuzzy, kde-format
 #| msgid "new state"
 msgctxt "add new combined state"
 msgid "Combined state..."
 msgstr "새 상태"
 
-#: menus/listpopupmenu.cpp:165 umlwidgets/widgetbase.cpp:1251
+#: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1251
 #: worktoolbar.cpp:353
 #, kde-format
 msgid "Component"
 msgstr "요소"
 
-#: menus/listpopupmenu.cpp:168 menus/listpopupmenu.cpp:175
-#: menus/listpopupmenu.cpp:183 menus/listpopupmenu.cpp:213
-#: menus/listpopupmenu.cpp:273 menus/listpopupmenu.cpp:369
+#: menus/listpopupmenu.cpp:166 menus/listpopupmenu.cpp:173
+#: menus/listpopupmenu.cpp:181 menus/listpopupmenu.cpp:211
+#: menus/listpopupmenu.cpp:271 menus/listpopupmenu.cpp:367
 #: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:82
 #, kde-format
 msgid "Folder"
 msgstr "디렉터리"
 
-#: menus/listpopupmenu.cpp:171
+#: menus/listpopupmenu.cpp:169
 #, kde-format
 msgid "Datatype..."
 msgstr "데이타형..."
 
-#: menus/listpopupmenu.cpp:172 worktoolbar.cpp:362
+#: menus/listpopupmenu.cpp:170 worktoolbar.cpp:362
 #, kde-format
 msgid "Deep History"
 msgstr "Deep History"
 
-#: menus/listpopupmenu.cpp:176
+#: menus/listpopupmenu.cpp:174
 #, fuzzy, kde-format
 #| msgid "new state"
 msgid "Edit combined state"
 msgstr "새 상태"
 
-#: menus/listpopupmenu.cpp:177 worktoolbar.cpp:376
+#: menus/listpopupmenu.cpp:175 worktoolbar.cpp:376
 #, kde-format
 msgid "End Activity"
 msgstr "종료 작업"
 
-#: menus/listpopupmenu.cpp:178 worktoolbar.cpp:346
+#: menus/listpopupmenu.cpp:176 worktoolbar.cpp:346
 #, kde-format
 msgid "End State"
 msgstr "종료 상태"
 
-#: menus/listpopupmenu.cpp:179 umlwidgets/widgetbase.cpp:1260
+#: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1260
 #: worktoolbar.cpp:361
 #, kde-format
 msgid "Entity"
 msgstr ""
 
 #. i18n("Entity...")); break;
-#: menus/listpopupmenu.cpp:181
+#: menus/listpopupmenu.cpp:179
 #, kde-format
 msgid "Entity Attribute..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:184
+#: menus/listpopupmenu.cpp:182
 #, kde-format
 msgid "Enum..."
 msgstr "Enum..."
 
-#: menus/listpopupmenu.cpp:185
+#: menus/listpopupmenu.cpp:183
 #, kde-format
 msgid "Enum Literal..."
 msgstr "Enum 문자..."
 
-#: menus/listpopupmenu.cpp:187
+#: menus/listpopupmenu.cpp:185
 #, kde-format
 msgid "Expand All"
 msgstr "모두 펴기"
 
-#: menus/listpopupmenu.cpp:188
+#: menus/listpopupmenu.cpp:186
 #, kde-format
 msgid "Export as Picture..."
 msgstr "그림으로 내보내기..."
 
-#: menus/listpopupmenu.cpp:189
+#: menus/listpopupmenu.cpp:187
 #, kde-format
 msgid "Externalize Folder..."
 msgstr "Externalise Folder..."
 
-#: menus/listpopupmenu.cpp:190 menus/widgetbasepopupmenu.cpp:535
+#: menus/listpopupmenu.cpp:188 menus/widgetbasepopupmenu.cpp:535
 #, kde-format
 msgid "Fill Color..."
 msgstr "채우기 색상..."
 
-#: menus/listpopupmenu.cpp:191 worktoolbar.cpp:377
+#: menus/listpopupmenu.cpp:189 worktoolbar.cpp:377
 #, kde-format
 msgid "Final Activity"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:192
+#: menus/listpopupmenu.cpp:190
 #, kde-format
 msgid "Flip Horizontal"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:193
+#: menus/listpopupmenu.cpp:191
 #, kde-format
 msgid "Flip Vertical"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:194
+#: menus/listpopupmenu.cpp:192
 #, kde-format
 msgid "Text Line..."
 msgstr "본문 줄..."
 
-#: menus/listpopupmenu.cpp:196 menus/listpopupmenu.cpp:260 worktoolbar.cpp:365
+#: menus/listpopupmenu.cpp:194 menus/listpopupmenu.cpp:258 worktoolbar.cpp:365
 #, kde-format
 msgid "Fork"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:197
+#: menus/listpopupmenu.cpp:195
 #, fuzzy, kde-format
 #| msgid "state diagram"
 msgid "Go to state diagram"
 msgstr "상태 다이어그램"
 
-#: menus/listpopupmenu.cpp:198
+#: menus/listpopupmenu.cpp:196
 #, fuzzy, kde-format
 #| msgid "Show destruction"
 msgid "Hide destruction box"
 msgstr "파괴자 보기"
 
-#: menus/listpopupmenu.cpp:199
+#: menus/listpopupmenu.cpp:197
 #, kde-format
 msgid "Import File(s)..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:200 uml.cpp:386
+#: menus/listpopupmenu.cpp:198 uml.cpp:386
 #, kde-format
 msgid "Import from Directory..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:201
+#: menus/listpopupmenu.cpp:199
 #, fuzzy, kde-format
 #| msgid "Closing file..."
 msgid "from file..."
 msgstr "파일 닫는 중..."
 
-#: menus/listpopupmenu.cpp:202 worktoolbar.cpp:380
+#: menus/listpopupmenu.cpp:200 worktoolbar.cpp:380
 #, kde-format
 msgid "Initial Activity"
 msgstr "초기화 작업"
 
-#: menus/listpopupmenu.cpp:203 worktoolbar.cpp:344
+#: menus/listpopupmenu.cpp:201 worktoolbar.cpp:344
 #, kde-format
 msgid "Initial State"
 msgstr "초기화 상태"
 
-#: menus/listpopupmenu.cpp:204
+#: menus/listpopupmenu.cpp:202
 #, fuzzy, kde-format
 #| msgid "Instance name:"
 msgctxt "new instance menu item"
 msgid "Instance..."
 msgstr "인스턴스 이름:"
 
-#: menus/listpopupmenu.cpp:205 menus/listpopupmenu.cpp:221
-#: menus/listpopupmenu.cpp:224
+#: menus/listpopupmenu.cpp:203 menus/listpopupmenu.cpp:219
+#: menus/listpopupmenu.cpp:222
 #, kde-format
 msgid "New Attribute..."
 msgstr "새 속성.."
 
-#: menus/listpopupmenu.cpp:208
+#: menus/listpopupmenu.cpp:206
 #, fuzzy, kde-format
 #| msgid "Add Derived Interface"
 msgid "Provided interface"
 msgstr "유도된 인터페이스 추가"
 
-#: menus/listpopupmenu.cpp:209
+#: menus/listpopupmenu.cpp:207
 #, fuzzy, kde-format
 #| msgid "User Interface"
 msgid "Required interface"
 msgstr "사용자 인터페이스"
 
-#: menus/listpopupmenu.cpp:210
+#: menus/listpopupmenu.cpp:208
 #, kde-format
 msgid "Internalize Folder"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:211 worktoolbar.cpp:367
+#: menus/listpopupmenu.cpp:209 worktoolbar.cpp:367
 #, kde-format
 msgid "Junction"
 msgstr "Junction"
 
-#: menus/listpopupmenu.cpp:212 menus/widgetbasepopupmenu.cpp:534
+#: menus/listpopupmenu.cpp:210 menus/widgetbasepopupmenu.cpp:534
 #, kde-format
 msgid "Line Color..."
 msgstr "선 색상..."
 
-#: menus/listpopupmenu.cpp:214 worktoolbar.cpp:324 worktoolbar.cpp:382
+#: menus/listpopupmenu.cpp:212 worktoolbar.cpp:324 worktoolbar.cpp:382
 #, kde-format
 msgid "Asynchronous Message"
 msgstr "비동기화 메시지"
 
-#: menus/listpopupmenu.cpp:215
+#: menus/listpopupmenu.cpp:213
 #, fuzzy, kde-format
 #| msgid "Synchronous Message"
 msgid "Creation Message"
 msgstr "동기화된 메시지"
 
-#: menus/listpopupmenu.cpp:216
+#: menus/listpopupmenu.cpp:214
 #, fuzzy, kde-format
 #| msgid "Synchronous Message"
 msgid "Destroy Message"
 msgstr "동기화된 메시지"
 
-#: menus/listpopupmenu.cpp:217 worktoolbar.cpp:325
+#: menus/listpopupmenu.cpp:215 worktoolbar.cpp:325
 #, kde-format
 msgid "Found Message"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:218 worktoolbar.cpp:326
+#: menus/listpopupmenu.cpp:216 worktoolbar.cpp:326
 #, kde-format
 msgid "Lost Message"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:219 worktoolbar.cpp:323 worktoolbar.cpp:381
+#: menus/listpopupmenu.cpp:217 worktoolbar.cpp:323 worktoolbar.cpp:381
 #, kde-format
 msgid "Synchronous Message"
 msgstr "동기화된 메시지"
 
-#: menus/listpopupmenu.cpp:222
+#: menus/listpopupmenu.cpp:220
 #, kde-format
 msgid "New Entity Attribute..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:223
+#: menus/listpopupmenu.cpp:221
 #, kde-format
 msgid "New Literal..."
 msgstr "새 문자..."
 
-#: menus/listpopupmenu.cpp:226
+#: menus/listpopupmenu.cpp:224
 #, kde-format
 msgid "New Parameter..."
 msgstr "새 파라메터..."
 
-#: menus/listpopupmenu.cpp:228 umlwidgets/widgetbase.cpp:1278
+#: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1278
 #: worktoolbar.cpp:354
 #, kde-format
 msgid "Node"
 msgstr "노드"
 
 #. i18n("Node...")); break;
-#: menus/listpopupmenu.cpp:230
+#: menus/listpopupmenu.cpp:228
 #, fuzzy, kde-format
 #| msgid "Node..."
 msgid "Note..."
 msgstr "노드..."
 
-#: menus/listpopupmenu.cpp:231
+#: menus/listpopupmenu.cpp:229
 #, kde-format
 msgid "Object..."
 msgstr "객체..."
 
-#: menus/listpopupmenu.cpp:232 worktoolbar.cpp:384
+#: menus/listpopupmenu.cpp:230 worktoolbar.cpp:384
 #, kde-format
 msgid "Object Node"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:233
+#: menus/listpopupmenu.cpp:231
 #, fuzzy, kde-format
 #| msgid "Open File"
 msgid "Open file"
 msgstr "파일 열기"
 
 #. i18n("Operation...")); break;
-#: menus/listpopupmenu.cpp:236
+#: menus/listpopupmenu.cpp:234
 #, kde-format
 msgid "Package..."
 msgstr "패키지..."
 
-#: menus/listpopupmenu.cpp:238 umlwidgets/widgetbase.cpp:1293
+#: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1293
 #: worktoolbar.cpp:378
 #, kde-format
 msgid "Pin"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:239 umlwidgets/widgetbase.cpp:1296
+#: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1296
 #: worktoolbar.cpp:379
 #, kde-format
 msgid "Port"
 msgstr ""
 
 #. i18n("Port...")); break;
-#: menus/listpopupmenu.cpp:241
+#: menus/listpopupmenu.cpp:239
 #, kde-format
 msgid "Pre Post Condition"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:244
+#: menus/listpopupmenu.cpp:242
 #, kde-format
 msgid "Redo"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:245 umlwidgets/widgetbase.cpp:1302
+#: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1302
 #: worktoolbar.cpp:345
 #, kde-format
 msgid "Region"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:246
+#: menus/listpopupmenu.cpp:244
 #, kde-format
 msgid "Remove"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:247
+#: menus/listpopupmenu.cpp:245
 #, fuzzy, kde-format
 #| msgid "state diagram"
 msgid "Remove state diagram"
 msgstr "상태 다이어그램"
 
-#: menus/listpopupmenu.cpp:248 menus/umllistviewpopupmenu.cpp:277
+#: menus/listpopupmenu.cpp:246 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
 msgid "Rename..."
 msgstr "이름 바꾸기..."
 
-#: menus/listpopupmenu.cpp:249
+#: menus/listpopupmenu.cpp:247
 #, kde-format
 msgid "Rename Object..."
 msgstr "객체 이름 바꾸기..."
 
-#: menus/listpopupmenu.cpp:250
+#: menus/listpopupmenu.cpp:248
 #, fuzzy, kde-format
 #| msgid "new state"
 msgid "Return to combined state"
 msgstr "새 상태"
 
-#: menus/listpopupmenu.cpp:251
+#: menus/listpopupmenu.cpp:249
 #, fuzzy, kde-format
 #| msgid "Rename Class..."
 msgid "Return to class"
 msgstr "클래스 이름 바꾸기..."
 
-#: menus/listpopupmenu.cpp:252
+#: menus/listpopupmenu.cpp:250
 #, kde-format
 msgid "Reset Label Positions"
 msgstr "레이블 위치 초기회"
 
-#: menus/listpopupmenu.cpp:253
+#: menus/listpopupmenu.cpp:251
 #, kde-format
 msgid "Resize"
 msgstr "크기 조정"
 
-#: menus/listpopupmenu.cpp:254
+#: menus/listpopupmenu.cpp:252
 #, fuzzy, kde-format
 #| msgid "state diagram"
 msgid "Select state diagram"
 msgstr "상태 다이어그램"
 
-#: menus/listpopupmenu.cpp:255
+#: menus/listpopupmenu.cpp:253
 #, kde-format
 msgid "Send Signal"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:256 worktoolbar.cpp:363
+#: menus/listpopupmenu.cpp:254 worktoolbar.cpp:363
 #, kde-format
 msgid "Shallow History"
 msgstr "Shallow History"
 
-#: menus/listpopupmenu.cpp:258
+#: menus/listpopupmenu.cpp:256
 #, fuzzy, kde-format
 #| msgid "Show destruction"
 msgid "Show destruction box"
 msgstr "파괴자 보기"
 
-#: menus/listpopupmenu.cpp:259
+#: menus/listpopupmenu.cpp:257
 #, kde-format
 msgctxt "add new state"
 msgid "State..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:261
+#: menus/listpopupmenu.cpp:259
 #, kde-format
 msgid "Join"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:264 worktoolbar.cpp:366
+#: menus/listpopupmenu.cpp:262 worktoolbar.cpp:366
 #, kde-format
 msgid "Subsystem"
 msgstr ""
 
 #. i18n("Subsystem...")); break;
-#: menus/listpopupmenu.cpp:266
+#: menus/listpopupmenu.cpp:264
 #, kde-format
 msgid "Template"
 msgstr ""
 
 #. i18n("Template...")); break;
-#: menus/listpopupmenu.cpp:268
+#: menus/listpopupmenu.cpp:266
 #, kde-format
 msgid "Undo"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:270 worktoolbar.cpp:342
+#: menus/listpopupmenu.cpp:268 worktoolbar.cpp:342
 #, kde-format
 msgid "Use Case"
 msgstr "조건 사용"
 
-#: menus/listpopupmenu.cpp:351
+#: menus/listpopupmenu.cpp:349
 #, kde-format
 msgctxt "new container menu"
 msgid "New"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:502
+#: menus/listpopupmenu.cpp:500
 #, kde-format
 msgctxt "new sub menu"
 msgid "New"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:513
+#: menus/listpopupmenu.cpp:511
 #, kde-format
 msgctxt "category type sub menu"
 msgid "Category Type"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:514
+#: menus/listpopupmenu.cpp:512
 #, kde-format
 msgid "Disjoint(Specialisation)"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:515
+#: menus/listpopupmenu.cpp:513
 #, kde-format
 msgid "Overlapping(Specialisation)"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:516
+#: menus/listpopupmenu.cpp:514
 #, kde-format
 msgid "Union"
 msgstr ""
@@ -5941,38 +5941,38 @@ msgstr "새로운 상태의 이름을 입력하십시오:"
 msgid "Enter the new name of the UML object"
 msgstr "작업의 새로운 이름을 입력하십시오:"
 
-#: model_utils.cpp:1201
+#: model_utils.cpp:1206
 #, kde-format
 msgid "OK"
 msgstr ""
 
-#: model_utils.cpp:1201
+#: model_utils.cpp:1206
 #, kde-format
 msgctxt "parse status"
 msgid "Empty"
 msgstr ""
 
-#: model_utils.cpp:1201
+#: model_utils.cpp:1206
 #, kde-format
 msgid "Malformed argument"
 msgstr "올바르지 않은 인수"
 
-#: model_utils.cpp:1202
+#: model_utils.cpp:1207
 #, kde-format
 msgid "Unknown argument type"
 msgstr "알 수 없는 인수형"
 
-#: model_utils.cpp:1202
+#: model_utils.cpp:1207
 #, kde-format
 msgid "Illegal method name"
 msgstr "적합하지 않은 메소드 이름"
 
-#: model_utils.cpp:1203
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Unknown return type"
 msgstr "알 수 없는 반환형식"
 
-#: model_utils.cpp:1203
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Unspecified error"
 msgstr "알 수 없는 오류"
@@ -7589,7 +7589,7 @@ msgid "Opening file..."
 msgstr "파일 여는 중..."
 
 #: uml.cpp:1088 uml.cpp:1159 uml.cpp:1323 umldoc.cpp:349 umldoc.cpp:372
-#: umldoc.cpp:3277
+#: umldoc.cpp:3278
 #, kde-format
 msgid "Untitled"
 msgstr ""
@@ -7777,7 +7777,7 @@ msgstr "스테레오형"
 msgid "Welcome"
 msgstr ""
 
-#: umldoc.cpp:92 umldoc.cpp:2224 umldoc.cpp:2252 umldoc.cpp:2335
+#: umldoc.cpp:92 umldoc.cpp:2225 umldoc.cpp:2253 umldoc.cpp:2336
 #, kde-format
 msgid "UML Model"
 msgstr ""
@@ -7990,32 +7990,32 @@ msgstr ""
 msgid "Enter New Name"
 msgstr ""
 
-#: umldoc.cpp:2182
+#: umldoc.cpp:2183
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2346
+#: umldoc.cpp:2347
 #, kde-format
 msgid "Setting up the document..."
 msgstr "문서 설정..."
 
-#: umldoc.cpp:2375
+#: umldoc.cpp:2376
 #, kde-format
 msgid "Resolving object references..."
 msgstr "객체 관계 분석중 ..."
 
-#: umldoc.cpp:2483
+#: umldoc.cpp:2484
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "UML 요소 불러오는 중..."
 
-#: umldoc.cpp:2745
+#: umldoc.cpp:2746
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "다이어그램 불러오는 중..."
 
-#: umldoc.cpp:3279
+#: umldoc.cpp:3280
 #, kde-format
 msgid "/autosave%1"
 msgstr "/자동저장%1"
@@ -8158,7 +8158,7 @@ msgstr "폴더파일 %1이(가) 없습니다."
 msgid "The folderfile %1 cannot be opened."
 msgstr ""
 
-#: umlmodel/operation.cpp:291
+#: umlmodel/operation.cpp:290
 #, kde-format
 msgid "new_parameter"
 msgstr "new_parameter"
@@ -8617,27 +8617,27 @@ msgid ""
 "axis. Right button click to cancel move."
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:551
+#: umlwidgets/umlwidget.cpp:552
 #, kde-format
 msgid "Move widgets"
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:794
+#: umlwidgets/umlwidget.cpp:795
 #, kde-format
 msgid "Rename Object"
 msgstr "객체이름 바꾸기"
 
-#: umlwidgets/umlwidget.cpp:795
+#: umlwidgets/umlwidget.cpp:796
 #, kde-format
 msgid "Enter object name:"
 msgstr "객체 이름 입력:"
 
-#: umlwidgets/umlwidget.cpp:1547
+#: umlwidgets/umlwidget.cpp:1548
 #, kde-format
 msgid "Hold shift or control to move in X axis."
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:1548
+#: umlwidgets/umlwidget.cpp:1549
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
 msgstr ""

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ../cy/messages//kdesdk/umbrello.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-09 01:47+0000\n"
+"POT-Creation-Date: 2024-08-11 01:50+0000\n"
 "PO-Revision-Date: 2004-09-20 15:44+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandrakesoft.com>\n"
 "Language-Team: cy <LL@li.org>\n"
@@ -159,7 +159,7 @@ msgstr ""
 msgid "Anchor"
 msgstr ""
 
-#: basictypes.cpp:356 menus/listpopupmenu.cpp:262 worktoolbar.cpp:372
+#: basictypes.cpp:356 menus/listpopupmenu.cpp:260 worktoolbar.cpp:372
 #, kde-format
 msgid "State Transition"
 msgstr ""
@@ -170,7 +170,7 @@ msgstr ""
 msgid "Activity"
 msgstr ""
 
-#: basictypes.cpp:360 menus/listpopupmenu.cpp:186 worktoolbar.cpp:383
+#: basictypes.cpp:360 menus/listpopupmenu.cpp:184 worktoolbar.cpp:383
 #, kde-format
 msgid "Exception"
 msgstr ""
@@ -1620,7 +1620,7 @@ msgstr "Dosbarth"
 #: dialogs/pages/associationgeneralpage.cpp:78
 #: dialogs/parameterpropertiesdialog.cpp:61 dialogs/statedialog.cpp:44
 #: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:38
-#: menus/listpopupmenu.cpp:243 refactoring/refactoringassistant.cpp:459
+#: menus/listpopupmenu.cpp:241 refactoring/refactoringassistant.cpp:459
 #, fuzzy, kde-format
 msgid "Properties"
 msgstr "&Priodweddau"
@@ -1642,7 +1642,7 @@ msgid "Final activity"
 msgstr "Ail-enwi"
 
 #. i18n("Attribute...")); break;
-#: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:155
+#: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:153
 #: worktoolbar.cpp:347
 #, kde-format
 msgid "Branch/Merge"
@@ -1903,7 +1903,7 @@ msgstr ""
 #: dialogs/codeeditor.cpp:755 dialogs/pages/classoptionspage.cpp:144
 #: dialogs/pages/classoptionspage.cpp:217
 #: dialogs/pages/classoptionspage.cpp:239
-#: dialogs/pages/classoptionspage.cpp:326 menus/listpopupmenu.cpp:257
+#: dialogs/pages/classoptionspage.cpp:326 menus/listpopupmenu.cpp:255
 #: menus/widgetbasepopupmenu.cpp:74 menus/widgetbasepopupmenu.cpp:112
 #: menus/widgetbasepopupmenu.cpp:117 menus/widgetbasepopupmenu.cpp:125
 #: menus/widgetbasepopupmenu.cpp:132 menus/widgetbasepopupmenu.cpp:139
@@ -1932,17 +1932,17 @@ msgstr ""
 msgid "Insert Code Block After"
 msgstr ""
 
-#: dialogs/codeeditor.cpp:790 menus/listpopupmenu.cpp:169
+#: dialogs/codeeditor.cpp:790 menus/listpopupmenu.cpp:167
 #, kde-format
 msgid "Copy"
 msgstr ""
 
-#: dialogs/codeeditor.cpp:795 menus/listpopupmenu.cpp:237
+#: dialogs/codeeditor.cpp:795 menus/listpopupmenu.cpp:235
 #, fuzzy, kde-format
 msgid "Paste"
 msgstr "Preivat"
 
-#: dialogs/codeeditor.cpp:800 menus/listpopupmenu.cpp:170
+#: dialogs/codeeditor.cpp:800 menus/listpopupmenu.cpp:168
 #, kde-format
 msgid "Cut"
 msgstr ""
@@ -2157,7 +2157,7 @@ msgid "&All diagrams"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:156
+#: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:154
 #: umlwidgets/widgetbase.cpp:1245 worktoolbar.cpp:386
 #, kde-format
 msgid "Category"
@@ -2177,22 +2177,22 @@ msgid "Package"
 msgstr "Pecyn"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryInterface)
-#: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:206
-#: menus/listpopupmenu.cpp:207 umlwidgets/widgetbase.cpp:1272
+#: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:204
+#: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1272
 #: worktoolbar.cpp:356
 #, kde-format
 msgid "Interface"
 msgstr "Rhyngwyneb"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryOperation)
-#: dialogs/finddialog.ui:110 menus/listpopupmenu.cpp:234
+#: dialogs/finddialog.ui:110 menus/listpopupmenu.cpp:232
 #, kde-format
 msgid "Operation"
 msgstr "Gweithrediad"
 
 #. i18n("Artifact...")); break;
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAttribute)
-#: dialogs/finddialog.ui:117 menus/listpopupmenu.cpp:153
+#: dialogs/finddialog.ui:117 menus/listpopupmenu.cpp:151
 #, kde-format
 msgid "Attribute"
 msgstr "Priodoleddau"
@@ -2400,7 +2400,7 @@ msgstr "Copïo'r adran dewisiedig i'r gludfwrdd"
 msgid "New Activity..."
 msgstr "Priodoleddau ..."
 
-#: dialogs/pages/activitypage.cpp:101 menus/listpopupmenu.cpp:173
+#: dialogs/pages/activitypage.cpp:101 menus/listpopupmenu.cpp:171
 #: refactoring/refactoringassistant.cpp:460
 #, fuzzy, kde-format
 msgid "Delete"
@@ -2817,22 +2817,22 @@ msgstr ""
 msgid "Enable C++11 standard (experimental)"
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:269
+#: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:267
 #, kde-format
 msgid "Unique Constraint..."
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:69 menus/listpopupmenu.cpp:242
+#: dialogs/pages/constraintlistpage.cpp:69 menus/listpopupmenu.cpp:240
 #, kde-format
 msgid "Primary Key Constraint..."
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:73 menus/listpopupmenu.cpp:195
+#: dialogs/pages/constraintlistpage.cpp:73 menus/listpopupmenu.cpp:193
 #, kde-format
 msgid "Foreign Key Constraint..."
 msgstr ""
 
-#: dialogs/pages/constraintlistpage.cpp:77 menus/listpopupmenu.cpp:159
+#: dialogs/pages/constraintlistpage.cpp:77 menus/listpopupmenu.cpp:157
 #, fuzzy, kde-format
 msgid "Check Constraint..."
 msgstr "Priodoleddau ..."
@@ -3100,7 +3100,7 @@ msgid "Class operation:"
 msgstr "Gweithrediad"
 
 #: dialogs/pages/selectoperationpage.cpp:80
-#: dialogs/selectoperationdialog.cpp:83 menus/listpopupmenu.cpp:225
+#: dialogs/selectoperationdialog.cpp:83 menus/listpopupmenu.cpp:223
 #: menus/widgetbasepopupmenu.cpp:507
 #, kde-format
 msgid "New Operation..."
@@ -4292,7 +4292,7 @@ msgstr ""
 msgid "Gael de Chalendar (aka Kleag)"
 msgstr ""
 
-#: docgenerators/main.cpp:51 main.cpp:128
+#: docgenerators/main.cpp:51 main.cpp:129
 #, kde-format
 msgid "Umbrello UML Modeller Authors"
 msgstr ""
@@ -4356,12 +4356,12 @@ msgstr ""
 msgid "Apply layout"
 msgstr "Hunangadw"
 
-#: main.cpp:117
+#: main.cpp:118
 #, kde-format
 msgid "Umbrello UML Modeller"
 msgstr ""
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
@@ -4369,83 +4369,83 @@ msgid ""
 "\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 msgstr ""
 
-#: main.cpp:123
+#: main.cpp:124
 #, kde-format
 msgid ""
 "Copyright © 2001 Paul Hensgen,\n"
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
 msgstr ""
 
-#: main.cpp:127
+#: main.cpp:128
 #, kde-format
 msgid "Author of initial version."
 msgstr ""
 
-#: main.cpp:132 main.cpp:135
+#: main.cpp:133 main.cpp:136
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr ""
 
-#: main.cpp:138
+#: main.cpp:139
 #, kde-format
 msgid "Porting work, code cleanup, new features."
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:142
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Current maintainer."
 msgstr "Creu Plygell"
 
-#: main.cpp:144
+#: main.cpp:145
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "Ffeil i agor"
 
-#: main.cpp:153
+#: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr ""
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr ""
 
-#: main.cpp:157
+#: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr ""
 
-#: main.cpp:159
+#: main.cpp:160
 #, fuzzy, kde-format
 msgid "import files"
 msgstr "Terfynu..."
 
-#: main.cpp:161
+#: main.cpp:162
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "list supported languages"
 msgstr "Pob Ffeil"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
 "target directory"
 msgstr ""
 
-#: main.cpp:165
+#: main.cpp:166
 #, fuzzy, kde-format
 msgid "import files from directory <dir>"
 msgstr "Dosbarth ..."
 
-#: main.cpp:167
+#: main.cpp:168
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "set language"
@@ -4518,509 +4518,509 @@ msgstr ""
 msgid "Orthogonal"
 msgstr ""
 
-#: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:227
+#: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:225
 #, kde-format
 msgid "New Template..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:145
+#: menus/listpopupmenu.cpp:143
 #, fuzzy, kde-format
 #| msgid "Enter name:"
 msgid "Accept Signal"
 msgstr "Rhowch enw:"
 
-#: menus/listpopupmenu.cpp:146
+#: menus/listpopupmenu.cpp:144
 #, fuzzy, kde-format
 msgid "Accept Time Event"
 msgstr "Rhowch enw:"
 
-#: menus/listpopupmenu.cpp:147 menus/listpopupmenu.cpp:220
+#: menus/listpopupmenu.cpp:145 menus/listpopupmenu.cpp:218
 #, kde-format
 msgid "Activity..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:148 worktoolbar.cpp:373
+#: menus/listpopupmenu.cpp:146 worktoolbar.cpp:373
 #, kde-format
 msgid "Activity Transition"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1233
+#: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1233
 #: worktoolbar.cpp:335
 #, kde-format
 msgid "Actor"
 msgstr ""
 
 #. i18n("Actor...")); break;
-#: menus/listpopupmenu.cpp:151 umlwidgets/widgetbase.cpp:1236
+#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1236
 #: worktoolbar.cpp:355
 #, kde-format
 msgid "Artifact"
 msgstr ""
 
 #. i18n("Category...")); break;
-#: menus/listpopupmenu.cpp:158 menus/widgetbasepopupmenu.cpp:557
+#: menus/listpopupmenu.cpp:156 menus/widgetbasepopupmenu.cpp:557
 #, kde-format
 msgid "Change Font..."
 msgstr "Newid Wynebfath..."
 
-#: menus/listpopupmenu.cpp:160
+#: menus/listpopupmenu.cpp:158
 #, kde-format
 msgid "Choice"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:161
+#: menus/listpopupmenu.cpp:159
 #, fuzzy, kde-format
 #| msgid "Class..."
 msgctxt "new class menu item"
 msgid "Class..."
 msgstr "Dosbarth ..."
 
-#: menus/listpopupmenu.cpp:162
+#: menus/listpopupmenu.cpp:160
 #, fuzzy, kde-format
 #| msgid "Duplicate"
 msgctxt "duplicate action"
 msgid "Duplicate"
 msgstr "Dyblyg"
 
-#: menus/listpopupmenu.cpp:163
+#: menus/listpopupmenu.cpp:161
 #, kde-format
 msgid "Collapse All"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:164
+#: menus/listpopupmenu.cpp:162
 #, fuzzy, kde-format
 msgctxt "add new combined state"
 msgid "Combined state..."
 msgstr "Rhowch enw:"
 
-#: menus/listpopupmenu.cpp:165 umlwidgets/widgetbase.cpp:1251
+#: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1251
 #: worktoolbar.cpp:353
 #, kde-format
 msgid "Component"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:168 menus/listpopupmenu.cpp:175
-#: menus/listpopupmenu.cpp:183 menus/listpopupmenu.cpp:213
-#: menus/listpopupmenu.cpp:273 menus/listpopupmenu.cpp:369
+#: menus/listpopupmenu.cpp:166 menus/listpopupmenu.cpp:173
+#: menus/listpopupmenu.cpp:181 menus/listpopupmenu.cpp:211
+#: menus/listpopupmenu.cpp:271 menus/listpopupmenu.cpp:367
 #: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:82
 #, kde-format
 msgid "Folder"
 msgstr "Plygell"
 
-#: menus/listpopupmenu.cpp:171
+#: menus/listpopupmenu.cpp:169
 #, kde-format
 msgid "Datatype..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:172 worktoolbar.cpp:362
+#: menus/listpopupmenu.cpp:170 worktoolbar.cpp:362
 #, kde-format
 msgid "Deep History"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:176
+#: menus/listpopupmenu.cpp:174
 #, fuzzy, kde-format
 msgid "Edit combined state"
 msgstr "Rhowch enw:"
 
-#: menus/listpopupmenu.cpp:177 worktoolbar.cpp:376
+#: menus/listpopupmenu.cpp:175 worktoolbar.cpp:376
 #, kde-format
 msgid "End Activity"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:178 worktoolbar.cpp:346
+#: menus/listpopupmenu.cpp:176 worktoolbar.cpp:346
 #, kde-format
 msgid "End State"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:179 umlwidgets/widgetbase.cpp:1260
+#: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1260
 #: worktoolbar.cpp:361
 #, kde-format
 msgid "Entity"
 msgstr ""
 
 #. i18n("Entity...")); break;
-#: menus/listpopupmenu.cpp:181
+#: menus/listpopupmenu.cpp:179
 #, fuzzy, kde-format
 msgid "Entity Attribute..."
 msgstr "Priodoleddau ..."
 
-#: menus/listpopupmenu.cpp:184
+#: menus/listpopupmenu.cpp:182
 #, kde-format
 msgid "Enum..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:185
+#: menus/listpopupmenu.cpp:183
 #, kde-format
 msgid "Enum Literal..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:187
+#: menus/listpopupmenu.cpp:185
 #, kde-format
 msgid "Expand All"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:188
+#: menus/listpopupmenu.cpp:186
 #, kde-format
 msgid "Export as Picture..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:189
+#: menus/listpopupmenu.cpp:187
 #, kde-format
 msgid "Externalize Folder..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:190 menus/widgetbasepopupmenu.cpp:535
+#: menus/listpopupmenu.cpp:188 menus/widgetbasepopupmenu.cpp:535
 #, kde-format
 msgid "Fill Color..."
 msgstr "Lliw Llenwad ..."
 
-#: menus/listpopupmenu.cpp:191 worktoolbar.cpp:377
+#: menus/listpopupmenu.cpp:189 worktoolbar.cpp:377
 #, kde-format
 msgid "Final Activity"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:192
+#: menus/listpopupmenu.cpp:190
 #, kde-format
 msgid "Flip Horizontal"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:193
+#: menus/listpopupmenu.cpp:191
 #, kde-format
 msgid "Flip Vertical"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:194
+#: menus/listpopupmenu.cpp:192
 #, kde-format
 msgid "Text Line..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:196 menus/listpopupmenu.cpp:260 worktoolbar.cpp:365
+#: menus/listpopupmenu.cpp:194 menus/listpopupmenu.cpp:258 worktoolbar.cpp:365
 #, fuzzy, kde-format
 msgid "Fork"
 msgstr "Plygell"
 
-#: menus/listpopupmenu.cpp:197
+#: menus/listpopupmenu.cpp:195
 #, fuzzy, kde-format
 msgid "Go to state diagram"
 msgstr "Rhowch enw:"
 
-#: menus/listpopupmenu.cpp:198
+#: menus/listpopupmenu.cpp:196
 #, kde-format
 msgid "Hide destruction box"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:199
+#: menus/listpopupmenu.cpp:197
 #, fuzzy, kde-format
 msgid "Import File(s)..."
 msgstr "Dosbarth ..."
 
-#: menus/listpopupmenu.cpp:200 uml.cpp:386
+#: menus/listpopupmenu.cpp:198 uml.cpp:386
 #, fuzzy, kde-format
 msgid "Import from Directory..."
 msgstr "Dosbarth ..."
 
-#: menus/listpopupmenu.cpp:201
+#: menus/listpopupmenu.cpp:199
 #, fuzzy, kde-format
 #| msgid "Closing file..."
 msgid "from file..."
 msgstr "Yn cau ffeil..."
 
-#: menus/listpopupmenu.cpp:202 worktoolbar.cpp:380
+#: menus/listpopupmenu.cpp:200 worktoolbar.cpp:380
 #, kde-format
 msgid "Initial Activity"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:203 worktoolbar.cpp:344
+#: menus/listpopupmenu.cpp:201 worktoolbar.cpp:344
 #, kde-format
 msgid "Initial State"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:204
+#: menus/listpopupmenu.cpp:202
 #, fuzzy, kde-format
 #| msgid "Enter name:"
 msgctxt "new instance menu item"
 msgid "Instance..."
 msgstr "Rhowch enw:"
 
-#: menus/listpopupmenu.cpp:205 menus/listpopupmenu.cpp:221
-#: menus/listpopupmenu.cpp:224
+#: menus/listpopupmenu.cpp:203 menus/listpopupmenu.cpp:219
+#: menus/listpopupmenu.cpp:222
 #, kde-format
 msgid "New Attribute..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:208
+#: menus/listpopupmenu.cpp:206
 #, fuzzy, kde-format
 #| msgid "Interface"
 msgid "Provided interface"
 msgstr "Rhyngwyneb"
 
-#: menus/listpopupmenu.cpp:209
+#: menus/listpopupmenu.cpp:207
 #, fuzzy, kde-format
 #| msgid "Interface"
 msgid "Required interface"
 msgstr "Rhyngwyneb"
 
-#: menus/listpopupmenu.cpp:210
+#: menus/listpopupmenu.cpp:208
 #, fuzzy, kde-format
 msgid "Internalize Folder"
 msgstr "Gwall Mewnol"
 
-#: menus/listpopupmenu.cpp:211 worktoolbar.cpp:367
+#: menus/listpopupmenu.cpp:209 worktoolbar.cpp:367
 #, kde-format
 msgid "Junction"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:212 menus/widgetbasepopupmenu.cpp:534
+#: menus/listpopupmenu.cpp:210 menus/widgetbasepopupmenu.cpp:534
 #, kde-format
 msgid "Line Color..."
 msgstr "Lliw y llinell..."
 
-#: menus/listpopupmenu.cpp:214 worktoolbar.cpp:324 worktoolbar.cpp:382
+#: menus/listpopupmenu.cpp:212 worktoolbar.cpp:324 worktoolbar.cpp:382
 #, kde-format
 msgid "Asynchronous Message"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:215
+#: menus/listpopupmenu.cpp:213
 #, fuzzy, kde-format
 #| msgid "Message"
 msgid "Creation Message"
 msgstr "Neges"
 
-#: menus/listpopupmenu.cpp:216
+#: menus/listpopupmenu.cpp:214
 #, fuzzy, kde-format
 #| msgid "Message"
 msgid "Destroy Message"
 msgstr "Neges"
 
-#: menus/listpopupmenu.cpp:217 worktoolbar.cpp:325
+#: menus/listpopupmenu.cpp:215 worktoolbar.cpp:325
 #, fuzzy, kde-format
 #| msgid "Message"
 msgid "Found Message"
 msgstr "Neges"
 
-#: menus/listpopupmenu.cpp:218 worktoolbar.cpp:326
+#: menus/listpopupmenu.cpp:216 worktoolbar.cpp:326
 #, fuzzy, kde-format
 #| msgid "Message"
 msgid "Lost Message"
 msgstr "Neges"
 
-#: menus/listpopupmenu.cpp:219 worktoolbar.cpp:323 worktoolbar.cpp:381
+#: menus/listpopupmenu.cpp:217 worktoolbar.cpp:323 worktoolbar.cpp:381
 #, kde-format
 msgid "Synchronous Message"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:222
+#: menus/listpopupmenu.cpp:220
 #, fuzzy, kde-format
 msgid "New Entity Attribute..."
 msgstr "Priodoleddau ..."
 
-#: menus/listpopupmenu.cpp:223
+#: menus/listpopupmenu.cpp:221
 #, kde-format
 msgid "New Literal..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:226
+#: menus/listpopupmenu.cpp:224
 #, kde-format
 msgid "New Parameter..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:228 umlwidgets/widgetbase.cpp:1278
+#: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1278
 #: worktoolbar.cpp:354
 #, kde-format
 msgid "Node"
 msgstr "Nôd"
 
 #. i18n("Node...")); break;
-#: menus/listpopupmenu.cpp:230
+#: menus/listpopupmenu.cpp:228
 #, fuzzy, kde-format
 #| msgid "Node..."
 msgid "Note..."
 msgstr "Nôd ..."
 
-#: menus/listpopupmenu.cpp:231
+#: menus/listpopupmenu.cpp:229
 #, kde-format
 msgid "Object..."
 msgstr "Gwrthrych ..."
 
-#: menus/listpopupmenu.cpp:232 worktoolbar.cpp:384
+#: menus/listpopupmenu.cpp:230 worktoolbar.cpp:384
 #, fuzzy, kde-format
 #| msgid "Object"
 msgid "Object Node"
 msgstr "Gwrthrych"
 
-#: menus/listpopupmenu.cpp:233
+#: menus/listpopupmenu.cpp:231
 #, fuzzy, kde-format
 #| msgid "Open File"
 msgid "Open file"
 msgstr "Agor Ffeil"
 
 #. i18n("Operation...")); break;
-#: menus/listpopupmenu.cpp:236
+#: menus/listpopupmenu.cpp:234
 #, kde-format
 msgid "Package..."
 msgstr "Pecyn ..."
 
-#: menus/listpopupmenu.cpp:238 umlwidgets/widgetbase.cpp:1293
+#: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1293
 #: worktoolbar.cpp:378
 #, kde-format
 msgid "Pin"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:239 umlwidgets/widgetbase.cpp:1296
+#: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1296
 #: worktoolbar.cpp:379
 #, kde-format
 msgid "Port"
 msgstr ""
 
 #. i18n("Port...")); break;
-#: menus/listpopupmenu.cpp:241
+#: menus/listpopupmenu.cpp:239
 #, fuzzy, kde-format
 msgid "Pre Post Condition"
 msgstr "Rhowch enw:"
 
-#: menus/listpopupmenu.cpp:244
+#: menus/listpopupmenu.cpp:242
 #, fuzzy, kde-format
 msgid "Redo"
 msgstr "Parod."
 
-#: menus/listpopupmenu.cpp:245 umlwidgets/widgetbase.cpp:1302
+#: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1302
 #: worktoolbar.cpp:345
 #, fuzzy, kde-format
 msgid "Region"
 msgstr "Parod."
 
-#: menus/listpopupmenu.cpp:246
+#: menus/listpopupmenu.cpp:244
 #, kde-format
 msgid "Remove"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:247
+#: menus/listpopupmenu.cpp:245
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Remove state diagram"
 msgstr "Creu Plygell"
 
-#: menus/listpopupmenu.cpp:248 menus/umllistviewpopupmenu.cpp:277
+#: menus/listpopupmenu.cpp:246 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
 msgid "Rename..."
 msgstr "Ail-enwi..."
 
-#: menus/listpopupmenu.cpp:249
+#: menus/listpopupmenu.cpp:247
 #, kde-format
 msgid "Rename Object..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:250
+#: menus/listpopupmenu.cpp:248
 #, fuzzy, kde-format
 msgid "Return to combined state"
 msgstr "Rhowch enw:"
 
-#: menus/listpopupmenu.cpp:251
+#: menus/listpopupmenu.cpp:249
 #, fuzzy, kde-format
 #| msgid "Rename"
 msgid "Return to class"
 msgstr "Ail-enwi"
 
-#: menus/listpopupmenu.cpp:252
+#: menus/listpopupmenu.cpp:250
 #, kde-format
 msgid "Reset Label Positions"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:253
+#: menus/listpopupmenu.cpp:251
 #, kde-format
 msgid "Resize"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:254
+#: menus/listpopupmenu.cpp:252
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Select state diagram"
 msgstr "Creu Plygell"
 
-#: menus/listpopupmenu.cpp:255
+#: menus/listpopupmenu.cpp:253
 #, fuzzy, kde-format
 #| msgid "Enter name:"
 msgid "Send Signal"
 msgstr "Rhowch enw:"
 
-#: menus/listpopupmenu.cpp:256 worktoolbar.cpp:363
+#: menus/listpopupmenu.cpp:254 worktoolbar.cpp:363
 #, kde-format
 msgid "Shallow History"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:258
+#: menus/listpopupmenu.cpp:256
 #, fuzzy, kde-format
 #| msgid "Operations"
 msgid "Show destruction box"
 msgstr "Gweithrediadau"
 
-#: menus/listpopupmenu.cpp:259
+#: menus/listpopupmenu.cpp:257
 #, fuzzy, kde-format
 #| msgid "State..."
 msgctxt "add new state"
 msgid "State..."
 msgstr "Cyflwr ..."
 
-#: menus/listpopupmenu.cpp:261
+#: menus/listpopupmenu.cpp:259
 #, fuzzy, kde-format
 #| msgid "Join"
 msgid "Join"
 msgstr "Uniad"
 
-#: menus/listpopupmenu.cpp:264 worktoolbar.cpp:366
+#: menus/listpopupmenu.cpp:262 worktoolbar.cpp:366
 #, kde-format
 msgid "Subsystem"
 msgstr ""
 
 #. i18n("Subsystem...")); break;
-#: menus/listpopupmenu.cpp:266
+#: menus/listpopupmenu.cpp:264
 #, kde-format
 msgid "Template"
 msgstr "Patrymlun"
 
 #. i18n("Template...")); break;
-#: menus/listpopupmenu.cpp:268
+#: menus/listpopupmenu.cpp:266
 #, kde-format
 msgid "Undo"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:270 worktoolbar.cpp:342
+#: menus/listpopupmenu.cpp:268 worktoolbar.cpp:342
 #, kde-format
 msgid "Use Case"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:351
+#: menus/listpopupmenu.cpp:349
 #, fuzzy, kde-format
 #| msgid "New"
 msgctxt "new container menu"
 msgid "New"
 msgstr "Newydd"
 
-#: menus/listpopupmenu.cpp:502
+#: menus/listpopupmenu.cpp:500
 #, fuzzy, kde-format
 #| msgid "New"
 msgctxt "new sub menu"
 msgid "New"
 msgstr "Newydd"
 
-#: menus/listpopupmenu.cpp:513
+#: menus/listpopupmenu.cpp:511
 #, fuzzy, kde-format
 #| msgid "Note"
 msgctxt "category type sub menu"
 msgid "Category Type"
 msgstr "Noder"
 
-#: menus/listpopupmenu.cpp:514
+#: menus/listpopupmenu.cpp:512
 #, kde-format
 msgid "Disjoint(Specialisation)"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:515
+#: menus/listpopupmenu.cpp:513
 #, kde-format
 msgid "Overlapping(Specialisation)"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:516
+#: menus/listpopupmenu.cpp:514
 #, kde-format
 msgid "Union"
 msgstr ""
@@ -6095,39 +6095,39 @@ msgstr "Rhowch enw:"
 msgid "Enter the new name of the UML object"
 msgstr "Rhowch enw:"
 
-#: model_utils.cpp:1201
+#: model_utils.cpp:1206
 #, kde-format
 msgid "OK"
 msgstr ""
 
-#: model_utils.cpp:1201
+#: model_utils.cpp:1206
 #, fuzzy, kde-format
 #| msgid "Empty"
 msgctxt "parse status"
 msgid "Empty"
 msgstr "Gwag"
 
-#: model_utils.cpp:1201
+#: model_utils.cpp:1206
 #, kde-format
 msgid "Malformed argument"
 msgstr ""
 
-#: model_utils.cpp:1202
+#: model_utils.cpp:1207
 #, kde-format
 msgid "Unknown argument type"
 msgstr ""
 
-#: model_utils.cpp:1202
+#: model_utils.cpp:1207
 #, kde-format
 msgid "Illegal method name"
 msgstr ""
 
-#: model_utils.cpp:1203
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Unknown return type"
 msgstr ""
 
-#: model_utils.cpp:1203
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Unspecified error"
 msgstr ""
@@ -7831,7 +7831,7 @@ msgid "Opening file..."
 msgstr "Agor ffeil..."
 
 #: uml.cpp:1088 uml.cpp:1159 uml.cpp:1323 umldoc.cpp:349 umldoc.cpp:372
-#: umldoc.cpp:3277
+#: umldoc.cpp:3278
 #, kde-format
 msgid "Untitled"
 msgstr ""
@@ -8009,7 +8009,7 @@ msgstr "Dangos nodweddion"
 msgid "Welcome"
 msgstr ""
 
-#: umldoc.cpp:92 umldoc.cpp:2224 umldoc.cpp:2252 umldoc.cpp:2335
+#: umldoc.cpp:92 umldoc.cpp:2225 umldoc.cpp:2253 umldoc.cpp:2336
 #, kde-format
 msgid "UML Model"
 msgstr ""
@@ -8224,32 +8224,32 @@ msgstr "Enw"
 msgid "Enter New Name"
 msgstr "Rhowch enw:"
 
-#: umldoc.cpp:2182
+#: umldoc.cpp:2183
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2346
+#: umldoc.cpp:2347
 #, kde-format
 msgid "Setting up the document..."
 msgstr ""
 
-#: umldoc.cpp:2375
+#: umldoc.cpp:2376
 #, kde-format
 msgid "Resolving object references..."
 msgstr ""
 
-#: umldoc.cpp:2483
+#: umldoc.cpp:2484
 #, kde-format
 msgid "Loading UML elements..."
 msgstr ""
 
-#: umldoc.cpp:2745
+#: umldoc.cpp:2746
 #, kde-format
 msgid "Loading diagrams..."
 msgstr ""
 
-#: umldoc.cpp:3279
+#: umldoc.cpp:3280
 #, kde-format
 msgid "/autosave%1"
 msgstr ""
@@ -8391,7 +8391,7 @@ msgstr ""
 msgid "The folderfile %1 cannot be opened."
 msgstr ""
 
-#: umlmodel/operation.cpp:291
+#: umlmodel/operation.cpp:290
 #, kde-format
 msgid "new_parameter"
 msgstr ""
@@ -8869,28 +8869,28 @@ msgid ""
 "axis. Right button click to cancel move."
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:551
+#: umlwidgets/umlwidget.cpp:552
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Move widgets"
 msgstr "Creu Plygell"
 
-#: umlwidgets/umlwidget.cpp:794
+#: umlwidgets/umlwidget.cpp:795
 #, kde-format
 msgid "Rename Object"
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:795
+#: umlwidgets/umlwidget.cpp:796
 #, kde-format
 msgid "Enter object name:"
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:1547
+#: umlwidgets/umlwidget.cpp:1548
 #, kde-format
 msgid "Hold shift or control to move in X axis."
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:1548
+#: umlwidgets/umlwidget.cpp:1549
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
 msgstr ""
