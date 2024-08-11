@@ -337,8 +337,8 @@ void ClassGeneralPage::apply()
         if(m_pObject->baseType() != UMLObject::ot_Instance) {
             UMLObject *o = m_pUmldoc->findUMLObject(name);
             if (o && m_pObject != o) {
-                 KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
-                                    i18n("Name is Not Unique"), 0);
+                 KMessageBox::information(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
+                                    i18n("Name is Not Unique"), QString(), KMessageBox::Options(0));
                  m_nameWidget->reset();
             } else {
                  m_pObject->setName(name);
@@ -375,8 +375,8 @@ void ClassGeneralPage::apply()
         }
         UMLObject * old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
-            KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
-                               i18n("Name is Not Unique"), 0);
+            KMessageBox::information(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
+                               i18n("Name is Not Unique"), QString(), KMessageBox::Options(0));
             m_nameWidget->reset();
         } else {
             o->setName(name);
@@ -393,8 +393,8 @@ void ClassGeneralPage::apply()
 
         UMLObject* old = m_pUmldoc->findUMLObject(name);
         if (old && o != old) {
-            KMessageBox::sorry(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
-                               i18n("Name is Not Unique"), 0);
+            KMessageBox::information(this, i18n("The name you have chosen\nis already being used.\nThe name has been reset."),
+                               i18n("Name is Not Unique"), QString(), KMessageBox::Options(0));
             m_nameWidget->reset();
         } else {
             o->setName(name);

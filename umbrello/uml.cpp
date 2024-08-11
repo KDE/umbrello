@@ -648,15 +648,16 @@ void UMLApp::initActions()
     QAction* moveTabLeft = actionCollection()->addAction(QStringLiteral("move_tab_left"));
     moveTabLeft->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Next : Icon_Utils::it_Go_Previous));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
+    
     moveTabLeft->setShortcut(QApplication::layoutDirection() ?
-                 QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
+                 QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Right) : QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Left));
     connect(moveTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotMoveTabLeft()));
 
     QAction* moveTabRight = actionCollection()->addAction(QStringLiteral("move_tab_right"));
     moveTabRight->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Previous : Icon_Utils::it_Go_Next));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
-                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right));
+                  QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Left) : QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Right));
     connect(moveTabRight, SIGNAL(triggered(bool)), this, SLOT(slotMoveTabRight()));
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
@@ -664,13 +665,13 @@ void UMLApp::initActions()
     QAction* changeTabLeft = actionCollection()->addAction(QStringLiteral("previous_tab"));
     changeTabLeft->setText(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString);
     changeTabLeft->setShortcut(QApplication::layoutDirection() ?
-                   QKeySequence(Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::SHIFT+Qt::Key_Left));
+                   QKeySequence(Qt::SHIFT | Qt::Key_Right) : QKeySequence(Qt::SHIFT | Qt::Key_Left));
     connect(changeTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotChangeTabLeft()));
 
     QAction* changeTabRight = actionCollection()->addAction(QStringLiteral("next_tab"));
     changeTabRight->setText(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString);
     changeTabRight->setShortcut(QApplication::layoutDirection() ?
-                    QKeySequence(Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::SHIFT+Qt::Key_Right));
+                    QKeySequence(Qt::SHIFT | Qt::Key_Left) : QKeySequence(Qt::SHIFT | Qt::Key_Right));
     connect(changeTabRight, SIGNAL(triggered(bool)), this, SLOT(slotChangeTabRight()));
 
 // @todo Check if this should be ported
@@ -1622,7 +1623,7 @@ void UMLApp::slotEditPaste()
     UMLClipboard clipboard;
     setCursor(Qt::WaitCursor);
     if (!clipboard.paste(data)) {
-        KMessageBox::sorry(this, i18n("Umbrello could not paste the clipboard contents.  "
+        KMessageBox::information(this, i18n("Umbrello could not paste the clipboard contents.  "
                                        "The objects in the clipboard may be of the wrong "
                                        "type to be pasted here."), i18n("Paste Error"));
     }
@@ -2249,10 +2250,10 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
                 dialog = nullptr;
             } else {
                 // shouldn't happen..
-                KMessageBox::sorry(nullptr, i18n("Cannot view code until you generate some first."), i18n("Cannot View Code"));
+                KMessageBox::information(nullptr, i18n("Cannot view code until you generate some first."), i18n("Cannot View Code"));
             }
         } else {
-            KMessageBox::sorry(nullptr, i18n("Cannot view code from simple code writer."), i18n("Cannot View Code"));
+            KMessageBox::information(nullptr, i18n("Cannot view code from simple code writer."), i18n("Cannot View Code"));
         }
     } else {
         uWarning() << "No CodeGenerator or UMLClassifier given!";
