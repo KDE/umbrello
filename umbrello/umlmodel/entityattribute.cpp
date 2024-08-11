@@ -15,7 +15,6 @@
 #include "object_factory.h"
 
 // qt includes
-#include <QRegularExpression>
 
 DEBUG_REGISTER(UMLEntityAttribute)
 

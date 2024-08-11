@@ -25,7 +25,6 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegularExpression>
 
 /**
  * Constructor.

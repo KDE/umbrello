@@ -15,7 +15,6 @@
 #include <QFileDialog>
 #include <QLabel>
 #include <QListWidget>
-#include <QRegularExpression>
 
 /**
  * Constructor.

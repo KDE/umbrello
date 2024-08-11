@@ -11,7 +11,6 @@
 
 #include <KLocalizedString>
 
-#include <QRegularExpression>
 #include <QMap>
 #include <QList>
 

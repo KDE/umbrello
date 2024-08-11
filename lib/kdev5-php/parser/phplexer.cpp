@@ -12,7 +12,6 @@
 
 #include <QString>
 #include <QStringList>
-#include <QRegularExpression>
 #include <QDebug>
 
 #include "parserdebug.h"

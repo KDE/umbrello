@@ -28,7 +28,6 @@
 
 // qt includes
 #include <QProcess>
-#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QStringList>
 

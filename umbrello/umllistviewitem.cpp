@@ -36,7 +36,7 @@
 // qt includes
 #include <QDrag>
 #include <QFile>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTextStream>
 #include <QXmlStreamWriter>
 

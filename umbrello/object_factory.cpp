@@ -48,7 +48,6 @@
 
 // qt includes
 #include <QApplication>
-#include <QRegularExpression>
 #include <QStringList>
 
 DEBUG_REGISTER(Object_Factory)

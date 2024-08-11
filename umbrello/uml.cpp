@@ -82,7 +82,6 @@
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QPushButton>
-#include <QRegularExpression>
 #include <QScrollBar>
 #include <QSlider>
 #include <QStatusBar>
