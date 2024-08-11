@@ -314,7 +314,7 @@ public:
 };
 
 
-#define PARSER_DEBUG_METHOD DEBUG() << __func__ << " token=" << m_lexer->lookAhead(0).text() << endl
+#define PARSER_DEBUG_METHOD DEBUG() << __func__ << " token=" << m_lexer->lookAhead(0).text() << "\n"
 
 class Parser : public QObject
 {
