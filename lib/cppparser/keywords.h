@@ -3,10 +3,6 @@
 // [erbsland] replacement for old hash table
 //
 #define INSERT(x, y) keywords.insert(x, y)
-// KDE Keywords
-INSERT("K_DCOP",           Token_K_DCOP);
-INSERT("k_dcop",           Token_k_dcop);
-INSERT("k_dcop_signals",   Token_k_dcop_signals);
 
 // Qt Keywords
 INSERT("Q_OBJECT",         Token_Q_OBJECT);
