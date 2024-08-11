@@ -795,7 +795,7 @@ void CppWriter::writeAssociationMethods (UMLAssociationList associations,
 {
     if (forceSections() || !associations.isEmpty())
     {
-        foreach (UMLAssociation *a, associations)
+        for (UMLAssociation *a : associations)
         {
 
             // insert the methods to access the role of the other
@@ -1080,7 +1080,7 @@ void CppWriter::writeInitAttributeMethod(UMLClassifier * c, QTextStream &stream)
     m_indentLevel++;
     // first, initiation of fields derived from attributes
     UMLAttributeList atl = c->getAttributeList();
-    foreach (UMLAttribute* at, atl) {
+    for (UMLAttribute* at : atl) {
         if (!at->getInitialValue().isEmpty()) {
             QString varName = getAttributeVariableName(at);
             stream << indent() << varName << " = " << at->getInitialValue() << ";" << m_endl;

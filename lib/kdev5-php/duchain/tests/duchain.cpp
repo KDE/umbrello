@@ -1369,7 +1369,7 @@ void TestDUChain::foreachLoop()
     QCOMPARE(top->localDeclarations().at(1)->abstractType().cast<IntegralType>()->dataType(), static_cast<uint>(IntegralType::TypeMixed));
     QCOMPARE(top->localDeclarations().at(2)->qualifiedIdentifier(), QualifiedIdentifier("c"));
     QVERIFY(top->localDeclarations().at(2)->abstractType().cast<StructureType>());
-    QCOMPARE(top->localDeclarations().at(2)->abstractType().cast<StructureType>()->qualifiedIdentifier().toString(), QString("stdclass"));
+    QCOMPARE(top->localDeclarations().at(2)->abstractType().cast<StructureType>()->qualifiedIdentifier().toString(), QStringLiteral("stdclass"));
     }
 }
 
