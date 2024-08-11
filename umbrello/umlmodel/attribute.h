@@ -60,7 +60,7 @@ public:
 
     virtual UMLClassifierList getTemplateParams();
 
-signals:
+Q_SIGNALS:
 
     void attributeChanged();
 

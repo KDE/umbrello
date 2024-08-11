@@ -28,9 +28,7 @@ public:
     PinWidget(UMLScene* scene, UMLWidget* owner, Uml::ID::Type id = Uml::ID::None);
     virtual ~PinWidget();
 
-    // int getMinY();
-
-public slots:
+public Q_SLOTS:
     void slotMenuSelection(QAction* action);
 
 // private:

@@ -61,10 +61,7 @@ protected:
 
     virtual void setAttributesFromObject (TextBlock * obj);
 
-private:
-
-public slots:
-
+public Q_SLOTS:
     void syncToParent ();
 
 };

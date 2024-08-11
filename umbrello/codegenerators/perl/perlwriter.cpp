@@ -373,7 +373,7 @@ void PerlWriter::writeClass(UMLClassifier *c)
       if (! existing->exists()) {
         existing->setPath(curDir);
         if (! existing->mkdir(newDir)) {
-          emit codeGenerated(c, false);
+          Q_EMIT codeGenerated(c, false);
           return;
         }
       }
@@ -382,14 +382,14 @@ void PerlWriter::writeClass(UMLClassifier *c)
     fileName = fragment + QStringLiteral(".pm");
   }
   if (fileName.isEmpty()) {
-    emit codeGenerated(c, false);
+    Q_EMIT codeGenerated(c, false);
     return;
   }
   QString oldDir = pol->getOutputDirectory().absolutePath();
   pol->setOutputDirectory(curDir);
   QFile fileperl;
   if (!openFile(fileperl, fileName)) {
-    emit codeGenerated(c, false);
+    Q_EMIT codeGenerated(c, false);
     return;
   }
   QTextStream perl(&fileperl);
@@ -487,8 +487,8 @@ void PerlWriter::writeClass(UMLClassifier *c)
 
   //close files and notify we are done
   fileperl.close();
-  emit codeGenerated(c, true);
-  emit showGeneratedFile(fileperl.fileName());
+  Q_EMIT codeGenerated(c, true);
+  Q_EMIT showGeneratedFile(fileperl.fileName());
 }
 
 /**

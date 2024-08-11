@@ -53,7 +53,7 @@ public:
 
     virtual UMLClassifierListItem* makeChildObject(const QString& xmiTag);
 
-signals:
+Q_SIGNALS:
     void enumLiteralAdded(UMLClassifierListItem*);
     void enumLiteralRemoved(UMLClassifierListItem*);
 

@@ -169,13 +169,13 @@ void CSharpWriter::writeClass(UMLClassifier *c)
     //find an appropriate name for our file
     QString fileName = findFileName(c, QStringLiteral(".cs"));
     if (fileName.isEmpty()) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
     QFile filecs;
     if (!openFile(filecs, fileName)) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
     QTextStream cs(&filecs);
@@ -325,8 +325,8 @@ void CSharpWriter::writeClass(UMLClassifier *c)
 
     //close files and notfiy we are done
     filecs.close();
-    emit codeGenerated(c, true);
-    emit showGeneratedFile(filecs.fileName());
+    Q_EMIT codeGenerated(c, true);
+    Q_EMIT showGeneratedFile(filecs.fileName());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

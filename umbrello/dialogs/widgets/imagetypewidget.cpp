@@ -53,5 +53,5 @@ QString ImageTypeWidget::currentType()
  */
 void ImageTypeWidget::slotCurrentIndexChanged(const QString &index)
 {
-    emit currentIndexChanged(index);
+    Q_EMIT currentIndexChanged(index);
 }

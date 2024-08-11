@@ -87,7 +87,7 @@ void Docbook2XhtmlGeneratorJob::run()
   xsltCleanupGlobals();
   xmlCleanupParser();
 
-  emit xhtmlGenerated(tmpXhtml.fileName());
+  Q_EMIT xhtmlGenerated(tmpXhtml.fileName());
 }
 
 

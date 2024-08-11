@@ -27,7 +27,7 @@ protected:
 
     CodeGenPolicyExt * m_parentPolicy;
 
-public slots:
+public Q_SLOTS:
 
     virtual void apply();
 

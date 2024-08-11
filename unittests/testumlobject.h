@@ -12,7 +12,7 @@
 class TestUMLObject : public TestBase
 {
     Q_OBJECT
-private slots:
+private Q_SLOTS:
     void test_copyInto();
     void test_clone();
     void test_doc();

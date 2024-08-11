@@ -28,7 +28,7 @@ public:
 protected:
     virtual bool doKill();
 
-private slots:
+private Q_SLOTS:
     void processFinished(KJob* job);
     void rowsInserted(const QModelIndex &parent, int startRow, int endRow);
 

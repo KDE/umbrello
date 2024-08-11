@@ -45,7 +45,7 @@ public:
     ObjectWidget *objectWidget() const;
     void setObjectWidget(ObjectWidget *objectWidget);
 
-public slots:
+public Q_SLOTS:
     void slotMenuSelection(QAction* action);
     void slotWidgetMoved(Uml::ID::Type id);
 

@@ -96,7 +96,7 @@ protected:
 
     bool m_bSigWaiting;
 
-protected slots:
+protected Q_SLOTS:
 
     void slotActivateItem(QListWidgetItem* item);
 

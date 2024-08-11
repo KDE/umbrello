@@ -27,9 +27,9 @@ class BirdViewDockWidget : public QDockWidget
 {
     Q_OBJECT
 public:
-    explicit BirdViewDockWidget(const QString& title, QWidget *parent = nullptr, Qt::WindowFlags flags = 0);
+    explicit BirdViewDockWidget(const QString& title, QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags(0));
 
-signals:
+Q_SIGNALS:
     void sizeChanged(const QSize& size);
 
 protected:
@@ -56,10 +56,10 @@ public:
 
     void setSlotsEnabled(bool enabled);
 
-signals:
+Q_SIGNALS:
     void viewPositionChanged(QPointF delta);
 
-public slots:
+public Q_SLOTS:
     void slotViewChanged();
 
 protected:
@@ -68,7 +68,7 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *event);
     virtual void keyPressEvent(QKeyEvent *event);
 
-private slots:
+private Q_SLOTS:
     void slotDockSizeChanged(const QSize &size);
     void slotDestroyed(QObject *object);
 

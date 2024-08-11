@@ -166,13 +166,13 @@ QVariant ObjectsModel::data(const QModelIndex & index, int role) const
 
 void ObjectsModel::emitDataChanged(const QModelIndex &index)
 {
-    emit dataChanged(index, index);
+    Q_EMIT dataChanged(index, index);
 }
 
 void ObjectsModel::emitDataChanged(int index)
 {
     QModelIndex mi = createIndex(index,0);
-    emit dataChanged(mi, mi);
+    Q_EMIT dataChanged(mi, mi);
 }
 
 void ObjectsModel::emitDataChanged(UMLObject *o)

@@ -15,7 +15,7 @@
 class TestUMLCanvasObject: public TestBase
 {
     Q_OBJECT
-private slots:
+private Q_SLOTS:
     void test_addAssociationEnd();
     void test_getAssociations();
     void test_removeAllAssociationEnds();

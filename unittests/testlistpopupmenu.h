@@ -13,7 +13,7 @@ class TestListPopupMenu : public TestBase
 {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     void test_createWidgetsSingleSelect();
     void test_createWidgetsMultiSelect();
     void test_createAssociationWidget();

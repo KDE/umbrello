@@ -236,7 +236,7 @@ void CodeImpSelectPage::treeClicked(const QModelIndex& index)
             s_recentPath = fileInfo.filePath();
         }
         updateSelectionCounter();
-        emit selectionChanged();
+        Q_EMIT selectionChanged();
     }
     else {
         logWarn0("CodeImpSelectPage::treeClicked: Index not valid!");
@@ -269,7 +269,7 @@ bool CodeImpSelectPage::validatePage()
 void CodeImpSelectPage::languageChanged(int id)
 {
     Q_UNUSED(id);
-    emit languageChanged();
+    Q_EMIT languageChanged();
 }
 
 /**

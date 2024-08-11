@@ -117,7 +117,7 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
         qApp->processEvents();
     }
 
-    emit finished(m_pStatus);
+    Q_EMIT finished(m_pStatus);
 }
 
 void DocbookGenerator::threadFinished()

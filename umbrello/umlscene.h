@@ -423,7 +423,7 @@ private:
                                          UMLForeignKeyConstraint* fkConstraint,
                                          UMLWidget* widget);
 
-public slots:
+public Q_SLOTS:
     void slotToolBarChanged(int c);
     void slotObjectCreated(UMLObject * o);
     void slotObjectRemoved(UMLObject * o);
@@ -441,7 +441,7 @@ public slots:
     void alignVerticalDistribute();
     void alignHorizontalDistribute();
 
-signals:
+Q_SIGNALS:
     void sigResetToolBar();
 
     void sigFillColorChanged(Uml::ID::Type);

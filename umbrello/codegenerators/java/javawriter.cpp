@@ -68,14 +68,14 @@ void JavaWriter::writeClass(UMLClassifier *c)
     //find an appropriate name for our file
     fileName = findFileName(c, QStringLiteral(".java"));
     if (fileName.isEmpty()) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
     // check that we may open that file for writing
     QFile file;
     if (!openFile(file, fileName)) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
@@ -258,7 +258,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     java << "}" << m_endl; // end class
 
     file.close();
-    emit codeGenerated(c, true);
+    Q_EMIT codeGenerated(c, true);
 }
 
 /**

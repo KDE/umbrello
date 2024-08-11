@@ -109,14 +109,14 @@ void DWriter::writeClass(UMLClassifier *c)
     //find an appropriate name for our file
     fileName = findFileName(c, QStringLiteral(".d"));
     if (fileName.isEmpty()) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
     // check that we may open that file for writing
     QFile file;
     if (!openFile(file, fileName)) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
@@ -274,7 +274,7 @@ void DWriter::writeClass(UMLClassifier *c)
     d << "}" << m_endl; // end class
 
     file.close();
-    emit codeGenerated(c, true);
+    Q_EMIT codeGenerated(c, true);
 }
 
 void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)

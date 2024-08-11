@@ -68,7 +68,7 @@ public:
     virtual QRectF boundingRect() const;
     virtual QPainterPath shape() const;
 
-public slots:
+public Q_SLOTS:
     void slotMenuSelection(QAction* action);
 
 

@@ -18,7 +18,7 @@ class TestExpressionParser : public DUChainTestBase
 public:
     TestExpressionParser();
 
-private slots:
+private Q_SLOTS:
     void newClass();
     void newSelf();
     void newStatic();

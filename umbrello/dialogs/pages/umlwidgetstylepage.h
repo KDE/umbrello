@@ -37,7 +37,7 @@ public:
 
     void apply();
 
-public slots:
+public Q_SLOTS:
 
     void slotTextButtonClicked();
     void slotLineButtonClicked();

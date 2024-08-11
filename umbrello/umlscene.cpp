@@ -501,7 +501,7 @@ const QColor& UMLScene::fillColor() const
 void UMLScene::setFillColor(const QColor &color)
 {
     m_Options.uiState.fillColor = color;
-    emit sigFillColorChanged(ID());
+    Q_EMIT sigFillColorChanged(ID());
 }
 
 /**
@@ -520,7 +520,7 @@ const QColor& UMLScene::lineColor() const
 void UMLScene::setLineColor(const QColor &color)
 {
     m_Options.uiState.lineColor = color;
-    emit sigLineColorChanged(ID());
+    Q_EMIT sigLineColorChanged(ID());
 }
 
 /**
@@ -539,7 +539,7 @@ uint UMLScene::lineWidth() const
 void UMLScene::setLineWidth(uint width)
 {
     m_Options.uiState.lineWidth = width;
-    emit sigLineWidthChanged(ID());
+    Q_EMIT sigLineWidthChanged(ID());
 }
 
 /**
@@ -558,7 +558,7 @@ const QColor& UMLScene::textColor() const
 void UMLScene::setTextColor(const QColor& color)
 {
     m_Options.uiState.textColor = color;
-    emit sigTextColorChanged(ID());
+    Q_EMIT sigTextColorChanged(ID());
 }
 
 /**
@@ -1334,7 +1334,7 @@ void UMLScene::removeWidgetCmd(UMLWidget * o)
     if (!o)
         return;
 
-    emit sigWidgetRemoved(o);
+    Q_EMIT sigWidgetRemoved(o);
 
     removeAssociations(o);
 
@@ -2275,7 +2275,7 @@ void UMLScene::removeWidgetCmd(AssociationWidget* pAssoc)
     if (!pAssoc)
         return;
 
-    emit sigAssociationRemoved(pAssoc);
+    Q_EMIT sigAssociationRemoved(pAssoc);
 
     pAssoc->cleanup();
     removeItem(pAssoc);
@@ -2983,7 +2983,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
  */
 void UMLScene::resetToolbar()
 {
-    emit sigResetToolBar();
+    Q_EMIT sigResetToolBar();
 }
 
 void UMLScene::triggerToolbarButton(WorkToolBar::ToolBar_Buttons button)
@@ -3587,7 +3587,7 @@ bool UMLScene::snapToGrid() const
 void UMLScene::setSnapToGrid(bool bSnap)
 {
     m_bUseSnapToGrid = bSnap;
-    emit sigSnapToGridToggled(snapToGrid());
+    Q_EMIT sigSnapToGridToggled(snapToGrid());
 }
 
 /**
@@ -3605,7 +3605,7 @@ void UMLScene::setSnapComponentSizeToGrid(bool bSnap)
 {
     m_bUseSnapComponentSizeToGrid = bSnap;
     updateComponentSizes();
-    emit sigSnapComponentSizeToGridToggled(snapComponentSizeToGrid());
+    Q_EMIT sigSnapComponentSizeToGridToggled(snapComponentSizeToGrid());
 }
 
 /**
@@ -3682,7 +3682,7 @@ bool UMLScene::isSnapGridVisible() const
 void UMLScene::setSnapGridVisible(bool bShow)
 {
     m_layoutGrid->setVisible(bShow);
-    emit sigShowGridToggled(bShow);
+    Q_EMIT sigShowGridToggled(bShow);
 }
 
 /**

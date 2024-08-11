@@ -110,12 +110,12 @@ void TclWriter::writeClass(UMLClassifier * c)
     // find an appropriate name for our file
     fileName_ = findFileName(c, QStringLiteral(".tcl"));
     if (fileName_.isEmpty()) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
 
     if (!openFile(fileh, fileName_)) {
-        emit codeGenerated(c, false);
+        Q_EMIT codeGenerated(c, false);
         return;
     }
     // preparations
@@ -141,18 +141,18 @@ void TclWriter::writeClass(UMLClassifier * c)
     }
     if (need_impl) {
         if (!openFile(filetcl, fileName_ + QStringLiteral("body"))) {
-            emit codeGenerated(c, false);
+            Q_EMIT codeGenerated(c, false);
             return;
         }
         // write Source file
         writeSourceFile(c, filetcl);
         filetcl.close();
     }
-    // emit done code
-    emit codeGenerated(c, true);
-    emit showGeneratedFile(fileh.fileName());
+    // Q_EMIT done code
+    Q_EMIT codeGenerated(c, true);
+    Q_EMIT showGeneratedFile(fileh.fileName());
     if (need_impl) {
-        emit showGeneratedFile(filetcl.fileName());
+        Q_EMIT showGeneratedFile(filetcl.fileName());
     }
 }
 

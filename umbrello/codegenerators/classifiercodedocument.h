@@ -112,7 +112,7 @@ private:
 
     void init(UMLClassifier *classifier);
 
-public slots:
+public Q_SLOTS:
 
     void addAttributeClassField(UMLClassifierListItem *at, bool syncToParentIfAdded = true);
     void addAssociationClassField(UMLAssociation *assoc, bool syncToParentIfAdded = true);

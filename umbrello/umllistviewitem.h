@@ -155,7 +155,7 @@ public:
     bool isOpen() const { return isExpanded(); }
     void setOpen(bool state);
 
-public slots:
+public Q_SLOTS:
     void slotEditFinished(const QString &newText);
 
 protected:

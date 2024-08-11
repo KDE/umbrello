@@ -69,7 +69,7 @@ private:
     LinkWidget       *m_widget;
     bool              m_enableAutoIncrement;
 
-public slots:
+public Q_SLOTS:
     void slotAutoIncrementChecked(bool state);
     void slotNewOperation();
     void slotIndexChanged(int index);

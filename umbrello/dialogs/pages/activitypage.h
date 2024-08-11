@@ -55,7 +55,7 @@ protected:
     QPushButton* m_pDeleteActivityButton;
     QPushButton* m_pRenameButton;
 
-public slots:
+public Q_SLOTS:
 
     void slotMenuSelection(QAction* action);
     void slotClicked(QListWidgetItem* item);

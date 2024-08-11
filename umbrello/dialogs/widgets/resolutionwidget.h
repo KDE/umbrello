@@ -20,7 +20,7 @@ public:
     explicit ResolutionWidget(QWidget *parent = nullptr);
     float currentResolution();
 
-private slots:
+private Q_SLOTS:
     void slotTextChanged(const QString &text);
 
 private:

@@ -25,7 +25,7 @@ protected:
 
     CPPCodeGenerationForm * form;
 
-public slots:
+public Q_SLOTS:
 
     void apply();
 

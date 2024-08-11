@@ -15,7 +15,7 @@
 class TEST_classifier: public TestBase
 {
     Q_OBJECT
-private slots:
+private Q_SLOTS:
     void test_equal();
     void test_copyInto();
     void test_clone();

@@ -32,7 +32,7 @@ public:
     void clear();
     int collect(UMLFinder::Filter filter, UMLFinder::Category category, const QString & text);
 
-public slots:
+public Q_SLOTS:
     bool displayNext();
     bool displayPrevious();
 

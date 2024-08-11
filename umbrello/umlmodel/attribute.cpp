@@ -77,7 +77,7 @@ UMLAttribute::~UMLAttribute()
 void UMLAttribute::setName(const QString &name)
 {
     m_name = name;
-    emit attributeChanged();
+    Q_EMIT attributeChanged();
     UMLObject::emitModified();
 }
 
@@ -88,7 +88,7 @@ void UMLAttribute::setName(const QString &name)
 void UMLAttribute::setVisibility(Uml::Visibility::Enum s)
 {
     m_visibility = s;
-    emit attributeChanged();
+    Q_EMIT attributeChanged();
     UMLObject::emitModified();
 }
 

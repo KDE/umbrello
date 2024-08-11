@@ -84,7 +84,7 @@ protected:
     DocumentationWidget*  m_docWidget;
     VisibilityEnumWidget* m_visibilityEnumWidget;
 
-public slots:
+public Q_SLOTS:
     void slotParmRightButtonPressed(const QPoint &p);
     void slotParmDoubleClick(QListWidgetItem *item);
     void slotMenuSelection(QAction* action);

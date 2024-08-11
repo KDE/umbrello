@@ -45,8 +45,7 @@ protected:
 private:
 
     UMLRoleProperties * m_pRoleProps;
-
-public slots:
+public Q_SLOTS:
 };
 
 #endif

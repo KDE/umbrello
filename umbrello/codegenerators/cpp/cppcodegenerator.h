@@ -59,18 +59,14 @@ public:
     void initFromParentDocument();
 
 protected:
-
     CPPMakefileCodeDocument * newMakefileCodeDocument ();
-
     CPPHeaderCodeDocument * findHeaderCodeDocumentByClassifier (UMLClassifier * classifier);
 
 private:
-
     bool             m_createMakefile;
     CodeDocumentList m_headercodedocumentVector;  //< a separate list for recording the header documents
 
-public slots:
-
+public Q_SLOTS:
     virtual void checkAddUMLObject (UMLObject * obj);
     virtual void checkRemoveUMLObject (UMLObject * obj);
 

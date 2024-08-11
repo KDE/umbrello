@@ -382,7 +382,7 @@ void UMLObject::emitModified()
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     if (!umldoc->loading() && !umldoc->closing())
-        emit modified();
+        Q_EMIT modified();
 }
 
 /**

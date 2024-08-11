@@ -29,7 +29,7 @@ private:
                                    const KDevelop::CursorInRevision& cursor,
                                    QStringList forbiddenIdentifiers);
 
-private slots:
+private Q_SLOTS:
     void publicObjectCompletion();
     void publicStaticObjectCompletion();
     void protectedObjectCompletion();

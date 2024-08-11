@@ -106,7 +106,7 @@ public:
 
     bool openFileInEditor(const QUrl &file, int startCursor=0, int endCursor=0);
 
-public slots:
+public Q_SLOTS:
     void slotLogWindowItemDoubleClicked(QListWidgetItem *item)
     {
         QStringList columns = item->text().split(QChar::fromLatin1(':'));

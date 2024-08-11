@@ -29,7 +29,7 @@ public:
 protected:
     void showEvent(QShowEvent *event);
 
-private slots:
+private Q_SLOTS:
     void slotFilterButtonClicked(int button);
 };
 

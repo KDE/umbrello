@@ -224,8 +224,8 @@ void CodeGenOptionsPage::apply()
         // Emit in THIS order. The first signal triggers any sub-class to do its apply
         // slot, THEN, once we are all updated, we may sync the parent generator's code
         // documents.
-        emit applyClicked();
-        emit syncCodeDocumentsToParent();
+        Q_EMIT applyClicked();
+        Q_EMIT syncCodeDocumentsToParent();
     }
 }
 
@@ -290,7 +290,7 @@ bool CodeGenOptionsPage::save()
 void CodeGenOptionsPage::activeLanguageChanged(int id)
 {
     Q_UNUSED(id);
-    emit languageChanged();
+    Q_EMIT languageChanged();
 }
 
 /**

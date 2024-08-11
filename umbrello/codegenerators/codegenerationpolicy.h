@@ -108,7 +108,7 @@ public:
     void setCommentStyle(CommentStyle new_var);
     CommentStyle getCommentStyle();
 
-signals:
+Q_SIGNALS:
 
     void modifiedCodeContent();
 

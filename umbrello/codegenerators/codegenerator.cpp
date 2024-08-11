@@ -355,10 +355,10 @@ void CodeGenerator::writeListedCodeDocsToFile(CodeDocumentList * docs)
             QFile file;
             if (openFile(file, filename)) {
                 QTextStream stream(&file);
-                stream << (*it)->toString() << endl;
+                stream << (*it)->toString() << '\n';
                 file.close();
                 codeGenSuccess = true; // we wrote the code - OK
-                emit showGeneratedFile(file.fileName());
+                Q_EMIT showGeneratedFile(file.fileName());
             }
             else {
                 logWarn1("Cannot open file %1 for writing", file.fileName());
@@ -367,7 +367,7 @@ void CodeGenerator::writeListedCodeDocsToFile(CodeDocumentList * docs)
         }
 
         if (cdoc) {
-            emit codeGenerated(cdoc->getParentClassifier(), codeGenSuccess);
+            Q_EMIT codeGenerated(cdoc->getParentClassifier(), codeGenSuccess);
         }
     }
 }

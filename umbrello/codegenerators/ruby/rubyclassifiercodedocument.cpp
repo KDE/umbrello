@@ -19,7 +19,7 @@
 #include "rubycodeoperation.h"
 #include "uml.h"
 
-DEBUG_REGISTER(RubyClassifierCodeDocument)
+DEBUG_REGISTER_DISABLED(RubyClassifierCodeDocument)
 
 // qt includes
 #include <QRegularExpression>

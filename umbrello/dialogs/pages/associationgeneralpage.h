@@ -37,7 +37,6 @@ class AssociationGeneralPage : public DialogPageBase
 public:
     AssociationGeneralPage(QWidget *parent, AssociationWidget *a);
     ~AssociationGeneralPage();
-
     void apply();
 
 private:
@@ -59,7 +58,7 @@ private:
 
     void constructWidget();
 
-public slots:
+public Q_SLOTS:
     void slotStereoCheckboxChanged(int state);
 
 };

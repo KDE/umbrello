@@ -27,9 +27,9 @@ public:
 private:
     Settings::CodeViewerState m_options;
 
-protected slots:
+protected Q_SLOTS:
 
-signals:
+Q_SIGNALS:
     void applyClicked();
 
 };

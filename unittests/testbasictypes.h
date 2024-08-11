@@ -12,7 +12,7 @@
 class TestBasicTypes : public QObject
 {
     Q_OBJECT
-private slots:
+private Q_SLOTS:
     void test_dynamic_cast();
     void test_QString_english();
     void test_QString_non_english();

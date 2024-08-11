@@ -30,7 +30,7 @@ public:
 private:
     static void moveSelectedItems(QListWidget* fromList, QListWidget* toList);
 
-protected slots:
+protected Q_SLOTS:
     void selectClass();
     void deselectClass();
 

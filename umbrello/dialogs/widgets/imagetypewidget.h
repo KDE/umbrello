@@ -27,10 +27,10 @@ private:
     QLabel *m_label;
     KComboBox* m_comboBox;  ///< The image type selected.
 
-signals:
+Q_SIGNALS:
     void currentIndexChanged(const QString &index);
 
-private slots:
+private Q_SLOTS:
     void slotCurrentIndexChanged(const QString &index);
 };
 

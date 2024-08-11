@@ -33,7 +33,6 @@ public:
     virtual void updateContent () = 0;
 
 protected:
-
     virtual void release ();
 
     virtual void setAttributesOnNode (QXmlStreamWriter& writer);
@@ -41,13 +40,11 @@ protected:
     virtual void setAttributesFromObject (TextBlock * obj);
 
 private:
-
     void initFields (UMLObject * parent);
 
     UMLObject * m_parentObject;
 
-public slots:
-
+public Q_SLOTS:
     virtual void syncToParent ();
 
 };

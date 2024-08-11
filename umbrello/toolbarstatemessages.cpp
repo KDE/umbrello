@@ -346,6 +346,6 @@ void ToolBarStateMessages::setupMessageWidget(MessageWidget *message, bool showO
         message->setTextPosition();
     }
     UMLApp::app()->executeCommand(new Uml::CmdCreateWidget(message));
-    emit finished();
+    Q_EMIT finished();
 }
 

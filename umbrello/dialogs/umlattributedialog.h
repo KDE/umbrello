@@ -55,7 +55,7 @@ protected:
     VisibilityEnumWidget *m_visibilityEnumWidget;
     DocumentationWidget *m_docWidget;
 
-public slots:
+public Q_SLOTS:
     void slotNameChanged(const QString &);
     void slotStereoTextChanged(const QString &);
 };

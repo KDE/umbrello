@@ -338,12 +338,12 @@ private:
     typedef QMap<UMLFolder*, QList<QDomNode>> DiagramsMap;
     DiagramsMap m_diagramsToLoad;
 
-public slots:
+public Q_SLOTS:
     void slotRemoveUMLObject(UMLObject*o);
     void slotAutoSave();
     void slotDiagramPopupMenu(QWidget* umlview, const QPoint& point);
 
-signals:
+Q_SIGNALS:
     void sigDiagramCreated(Uml::ID::Type id);
     void sigDiagramRemoved(Uml::ID::Type id);
     void sigDiagramRenamed(Uml::ID::Type t);

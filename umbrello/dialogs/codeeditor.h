@@ -141,14 +141,14 @@ private:
 
     static bool isNonBlank(const QString &str);
 
-public slots:
+public Q_SLOTS:
     void insertParagraph(const QString & text, int para);
     void removeParagraph(int para);
     void changeHighlighting(int signal);
     void changeShowHidden(int signal);
     void slotRedrawText();
 
-protected slots:
+protected Q_SLOTS:
     void slotCursorPositionChanged();
     void slotCopyTextBlock();
     void slotCutTextBlock();
@@ -158,7 +158,7 @@ protected slots:
     void slotInsertCodeBlockAfterSelected();
     void slotInsertCodeBlockBeforeSelected();
 
-signals:
+Q_SIGNALS:
     // void sigNewLinePressed();
     // void sigBackspacePressed();
 

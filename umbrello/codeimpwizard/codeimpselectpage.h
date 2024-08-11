@@ -43,12 +43,12 @@ private:
     void setupFileExtEdit();
     void setupToolTips();
 
-protected slots:
+protected Q_SLOTS:
     void languageChanged(int id);
     void treeClicked(const QModelIndex& index);
     void treeEntered(const QModelIndex& index);
 
-private slots:
+private Q_SLOTS:
     void changeLanguage();
     void subdirStateChanged(int state);
     void fileExtChanged();
@@ -56,7 +56,7 @@ private slots:
     void deselectAll();
     void updateSelectionCounter();
 
-signals:
+Q_SIGNALS:
     void applyClicked();
     void languageChanged();
     void syncCodeDocumentsToParent();

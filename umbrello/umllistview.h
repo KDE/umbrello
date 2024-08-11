@@ -136,7 +136,7 @@ protected:
 
     void addAtContainer(UMLListViewItem *item, UMLListViewItem *parent);
 
-public slots:
+public Q_SLOTS:
     void slotDiagramCreated(Uml::ID::Type id);
     void slotDiagramRenamed(Uml::ID::Type id);
     void slotDiagramRemoved(Uml::ID::Type id);
@@ -160,7 +160,7 @@ public slots:
     void slotCutSuccessful();
     void slotDeleteSelectedItems();
 
-protected slots:
+protected Q_SLOTS:
     void slotItemSelectionChanged();
     void slotExpanded(QTreeWidgetItem* item);
     void slotCollapsed(QTreeWidgetItem* item);

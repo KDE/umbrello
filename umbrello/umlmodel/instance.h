@@ -58,7 +58,7 @@ protected:
     virtual bool resolveRef();
     bool showPropertiesDialog(QWidget *parent);
 
-public slots:
+public Q_SLOTS:
     void attributeAdded(UMLClassifierListItem*);
     void attributeRemoved(UMLClassifierListItem*);
 };

@@ -166,7 +166,7 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
         logDebug1("UMLOperation::removeParm: Error removing parm %1", a->name());
 
     if (emitModifiedSignal)
-        emit modified();
+        Q_EMIT modified();
 }
 
 /**

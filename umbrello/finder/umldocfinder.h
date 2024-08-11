@@ -25,7 +25,7 @@ public:
     virtual ~UMLDocFinder();
     virtual int collect(Category category, const QString &text);
 
-public slots:
+public Q_SLOTS:
     virtual Result displayNext();
     virtual Result displayPrevious();
 protected:

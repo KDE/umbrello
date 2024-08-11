@@ -29,7 +29,7 @@ public:
                                     PhpDocsPlugin* provider, QWidget* parent = nullptr);
     ~PhpDocumentationWidget();
 
-private slots:
+private Q_SLOTS:
     /// used to inject some custom CSS to alter the remote php.net site
     void documentLoaded();
     void linkClicked(const QUrl& url);

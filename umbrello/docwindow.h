@@ -40,11 +40,11 @@ public:
     bool isTyping() const;
     void setFocus();
 
-public slots:
+public Q_SLOTS:
     void slotAssociationRemoved(AssociationWidget* association);
     void slotWidgetRemoved(UMLWidget* widget);
 
-private slots:
+private Q_SLOTS:
     void slotTextChanged();
     void slotFocusEnabledChanged(int state);
 

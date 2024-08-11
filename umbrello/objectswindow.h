@@ -19,12 +19,12 @@ public:
     explicit ObjectsWindow(const QString &title, QWidget  *parent = nullptr);
     ~ObjectsWindow();
 
-signals:
+Q_SIGNALS:
 
-public slots:
+public Q_SLOTS:
     void modified();
 
-protected slots:
+protected Q_SLOTS:
     void slotObjectsDoubleClicked(QModelIndex index);
     void slotObjectsClicked(QModelIndex index);
 

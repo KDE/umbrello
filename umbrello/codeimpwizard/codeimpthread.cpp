@@ -42,29 +42,29 @@ void CodeImpThread::run()
     QString fileName = m_file.absoluteFilePath();
 
     if (classImporter) {
-        emit messageToLog(m_file.fileName(), QStringLiteral("start import..."));
-        emit messageToWiz(m_file.fileName(), QStringLiteral("started"));
-        emit messageToApp(i18n("Importing file: %1", fileName));
+        Q_EMIT messageToLog(m_file.fileName(), QStringLiteral("start import..."));
+        Q_EMIT messageToWiz(m_file.fileName(), QStringLiteral("started"));
+        Q_EMIT messageToApp(i18n("Importing file: %1", fileName));
         // FIXME: ClassImport still uses umldoc->writeToStatusBar for log writing
 
         if (!classImporter->importFile(fileName)) {
-            emit messageToApp(i18nc("show failed on status bar", "Failed."));
-            emit messageToWiz(m_file.fileName(), QString());
-            emit messageToLog(m_file.fileName(), QStringLiteral("...import failed"));
-            emit finished(false);
+            Q_EMIT messageToApp(i18nc("show failed on status bar", "Failed."));
+            Q_EMIT messageToWiz(m_file.fileName(), QString());
+            Q_EMIT messageToLog(m_file.fileName(), QStringLiteral("...import failed"));
+            Q_EMIT finished(false);
         }
         else {
-            emit messageToApp(i18nc("show Ready on status bar", "Ready."));
-            emit messageToWiz(m_file.fileName(), QStringLiteral("finished"));
-            emit messageToLog(m_file.fileName(), QStringLiteral("...import finished"));
-            emit finished(true);
+            Q_EMIT messageToApp(i18nc("show Ready on status bar", "Ready."));
+            Q_EMIT messageToWiz(m_file.fileName(), QStringLiteral("finished"));
+            Q_EMIT messageToLog(m_file.fileName(), QStringLiteral("...import finished"));
+            Q_EMIT finished(true);
         }
         delete classImporter;
     }
     else {
-        emit messageToWiz(m_file.fileName(), QStringLiteral("aborted"));
-        emit messageToApp(i18n("No code importer for file: %1", fileName));
-        emit aborted();
+        Q_EMIT messageToWiz(m_file.fileName(), QStringLiteral("aborted"));
+        Q_EMIT messageToApp(i18n("No code importer for file: %1", fileName));
+        Q_EMIT aborted();
     }
 }
 
@@ -77,7 +77,7 @@ int CodeImpThread::emitAskQuestion(const QString& question)
 {
     int buttonCode = 0;
     //QMutexLocker locker(&m_mutex);
-    emit askQuestion(question, buttonCode);
+    Q_EMIT askQuestion(question, buttonCode);
     //m_waitCondition.wait(&m_mutex);
     return buttonCode;
 }
@@ -90,9 +90,9 @@ int CodeImpThread::emitAskQuestion(const QString& question)
 void CodeImpThread::emitMessageToLog(const QString& file, const QString& text)
 {
     if (file.isEmpty()) {
-        emit messageToLog(m_file.fileName(), text);
+        Q_EMIT messageToLog(m_file.fileName(), text);
     } else {
-        emit messageToLog(file, text);
+        Q_EMIT messageToLog(file, text);
     }
 }
 

@@ -55,7 +55,6 @@ public:
     virtual void updateContent () = 0;
 
 protected:
-
     virtual void release ();
 
     void setStartMethodText (const QString &value);
@@ -76,12 +75,10 @@ protected:
     virtual void setAttributesFromObject (TextBlock * obj);
 
 private:
-
     QString m_startMethod;
     QString m_endMethod;
 
-public slots:
-
+public Q_SLOTS:
     virtual void syncToParent();
 };
 
