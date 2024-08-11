@@ -70,7 +70,7 @@ AssociationLine::~AssociationLine()
  */
 QPointF AssociationLine::point(int index) const
 {
-    if ((index < 0) | (index >= m_points.size())) {
+    if ((index < 0) || (index >= m_points.size())) {
         logWarn2("AssociationLine::point: Index %1 out of range [0..%2]",
                  index, m_points.size() - 1);
         return QPointF(-1.0, -1.0);

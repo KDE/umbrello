@@ -76,7 +76,7 @@ bool XhtmlGenerator::generateXhtmlForProjectInto(const QUrl& destDir)
 {
     logDebug0("XhtmlGenerator::generateXhtmlForProjectInto: First convert to docbook");
     m_destDir = destDir;
-//    KUrl url(QString("file://")+m_tmpDir.name());
+//    KUrl url(QStringLiteral("file://")+m_tmpDir.name());
     DocbookGenerator* docbookGenerator = new DocbookGenerator;
     docbookGenerator->generateDocbookForProjectInto(destDir);
 

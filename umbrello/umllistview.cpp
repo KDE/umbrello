@@ -2952,10 +2952,10 @@ QDebug operator<<(QDebug out, const UMLListView& view)
         for(int indx = 0;  indx < header->childCount(); ++indx) {
             UMLListViewItem* item = static_cast<UMLListViewItem*>(header->child(indx));
             if (item) {
-                out << indx << " - " << *item << endl;
+                out << indx << " - " << *item << '\n';
             }
             else {
-                out << indx << " - " << "<null>" << endl;
+                out << indx << " - " << "<null>" << '\n';
             }
         }
     }

@@ -531,7 +531,7 @@ UMLPackage* handleControlledUnit(PetalNode *node, const QString& name,
         } else {
             envVarName = file_name.mid(1, firstSlash - 1);
         }
-        QByteArray envVarBA = qgetenv(envVarName.toLatin1());
+        QByteArray envVarBA = qgetenv(envVarName.toLatin1().data());
         if (envVarBA.isNull() || envVarBA.isEmpty()) {
             logError3("handleControlledUnit(%1): cannot process file_name %2 because env var %3 is not set",
                       name, file_name, envVarName);

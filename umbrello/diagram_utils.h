@@ -12,7 +12,6 @@
 
 class UMLScene;
 class QMimeData;
-class QStringList;
 
 /**
  * Utilities for diagrams

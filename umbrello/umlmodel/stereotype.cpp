@@ -231,8 +231,8 @@ int UMLStereotype::refCount() const
  */
 QString UMLStereotype::name(bool includeAdornments) const
 {
-    if (includeAdornments)
+    if (includeAdornments) {
         return QString::fromUtf8("«") + UMLObject::name() + QString::fromUtf8("»");
-    else
-        return UMLObject::name();
+    }
+    return UMLObject::name();
 }

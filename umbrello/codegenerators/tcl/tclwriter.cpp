@@ -148,7 +148,7 @@ void TclWriter::writeClass(UMLClassifier * c)
         writeSourceFile(c, filetcl);
         filetcl.close();
     }
-    // Q_EMIT done code
+    // emit done code
     Q_EMIT codeGenerated(c, true);
     Q_EMIT showGeneratedFile(fileh.fileName());
     if (need_impl) {

@@ -151,7 +151,7 @@ void SettingsDialog::setupAutoLayoutPage()
 void SettingsDialog::slotApply()
 {
     applyPage(currentPage());
-    //do no emit signal applyClicked in the slot slotApply->infinite loop
+    //do not emit signal applyClicked in the slot slotApply->infinite loop
     //emit applyClicked();
 }
 

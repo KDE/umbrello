@@ -67,7 +67,7 @@ void Docbook2XhtmlGeneratorJob::run()
   logDebug1("Docbook2XhtmlGeneratorJob::run: Parsing stylesheet %1", xsltFileName);
   cur = xsltParseStylesheetFile((const xmlChar *)xsltFileName.toLatin1().constData());
   logDebug1("Docbook2XhtmlGeneratorJob::run: Parsing file %1", m_docbookUrl.path());
-  doc = xmlParseFile((const char*)(m_docbookUrl.path().toUtf8()));
+  doc = xmlParseFile((const char*)(m_docbookUrl.path().toUtf8().constData()));
   logDebug0("Docbook2XhtmlGeneratorJob::run: Applying stylesheet");
   res = xsltApplyStylesheet(cur, doc, params);
 

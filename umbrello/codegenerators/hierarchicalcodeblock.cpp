@@ -360,10 +360,11 @@ QString  HierarchicalCodeBlock::childTextBlocksToString() const
 TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag (const QString &tag)
 {
     ClassifierCodeDocument * cdoc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
-    if(cdoc)
+    if(cdoc) {
         return cdoc->findCodeClassFieldTextBlockByTag(tag);
-    else
-        logError0("HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?");
+    }
+
+    logError0("HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?");
 
     // if we get here, we failed.
     return nullptr;
