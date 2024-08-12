@@ -134,7 +134,7 @@ TopDUContext* DUChainTestBase::parse(const QByteArray& unit, DumpAreas dump,
                                      QUrl url, TopDUContext* update)
 {
     if (dump)
-        qDebug() << "==== Beginning new test case...:" << endl << unit;
+        qDebug() << "==== Beginning new test case...:" << QLatin1Char('\n') << unit;
 
     ParseSession session;
     session.setContents(unit);

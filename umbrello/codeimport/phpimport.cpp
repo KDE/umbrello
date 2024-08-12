@@ -621,10 +621,10 @@ private:
         }
         m_ast = 0;
         if (!m_session.parse(&m_ast)) {
-            qerr << "no AST tree could be generated" << endl;
+            qerr << "no AST tree could be generated" << QLatin1Char('\n');
             result = false;
         } else {
-            qout << "AST tree successfully generated" << endl;
+            qout << "AST tree successfully generated" << QLatin1Char('\n');
             if (m_printAst) {
                 DebugVisitorT debugVisitor(m_session.tokenStream(), m_session.contents());
                 debugVisitor.visitStart(m_ast);
@@ -639,9 +639,8 @@ private:
             includeFileVisitor.visitStart(m_ast);
         }
         if (!m_session.problems().isEmpty()) {
-            qout << endl << "problems encountered during parsing:" << endl;
-            qout << QLatin1Char('\n') << "problems encountered during parsing:" << endl;
-            for (KDevelop::ProblemPointer p: m_session.problems()) {
+            qout << QLatin1Char('\n') << "problems encountered during parsing:" << QLatin1Char('\n');
+            for(KDevelop::ProblemPointer p: m_session.problems()) {
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(p->finalLocation().start().line()+1)
                         .arg(p->finalLocation().start().column())
@@ -649,7 +648,7 @@ private:
                 UMLApp::app()->log(item);
             }
         } else {
-            qout << "no problems encountered during parsing" << endl;
+            qout << "no problems encountered during parsing" << QLatin1Char('\n');
         }
         return result;
     }

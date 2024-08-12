@@ -63,14 +63,14 @@ Plugin::init()
     // initialize this plugin first - then load other plugins
     ret = onInit();
     if(!ret) {
-        kError() << "failed to initialize " << instanceName() << endl;
+        kError() << "failed to initialize " << instanceName() ;
     }
 
     // configure on load plugins
     if(ret) {
         ret = configure();
         if(!ret) {
-            kError() << "failed configuration " << instanceName() << endl;
+            kError() << "failed configuration " << instanceName() ;
         }
     }
 
@@ -88,7 +88,7 @@ Plugin::shutdown()
     // shutdown this plugin
     ret = onShutdown();
     if(!ret) {
-        kError() << "failed to shutdown " << instanceName() << endl;
+        kError() << "failed to shutdown " << instanceName() ;
     }
 
     return true;
