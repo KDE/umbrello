@@ -161,7 +161,7 @@ bool UMLEntityAttributeDialog::apply()
     QString name = m_pNameLE->text();
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid entity attribute name."),
-                           i18n("Entity Attribute Name Invalid"), 0);
+                           i18n("Entity Attribute Name Invalid"), KMessageBox::Options(0));
         m_pNameLE->setText(m_pEntityAttribute->name());
         return false;
     }
@@ -169,7 +169,7 @@ bool UMLEntityAttributeDialog::apply()
     UMLObject *o = pConcept ? pConcept->findChildObject(name) : nullptr;
     if (o && o != m_pEntityAttribute) {
         KMessageBox::error(this, i18n("The entity attribute name you have chosen is already being used in this operation."),
-                           i18n("Entity Attribute Name Not Unique"), 0);
+                           i18n("Entity Attribute Name Not Unique"), KMessageBox::Option(0));
         m_pNameLE->setText(m_pEntityAttribute->name());
         return false;
     }

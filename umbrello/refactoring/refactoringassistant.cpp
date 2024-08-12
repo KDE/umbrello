@@ -821,7 +821,7 @@ DEBUG() << "acceptProposedAction";  //:TODO:fischer
             QString msg = i18n("An operation with that signature already exists in %1.\n", newClassifier->name())
                           +
                           i18n("Choose a different name or parameter list.");
-            KMessageBox::error(this, msg, i18n("Operation Name Invalid"), 0);
+            KMessageBox::error(this, msg, i18n("Operation Name Invalid"));
             return;
         }
         UMLOperation* newOp = op->clone()->asUMLOperation();
@@ -842,7 +842,7 @@ DEBUG() << "acceptProposedAction";  //:TODO:fischer
             QString msg = i18n("An attribute with that name already exists in %1.\n", newClassifier->name())
                           +
                           i18n("Choose a different name.");
-            KMessageBox::error(this, msg, i18n("Attribute Name Invalid"), 0);
+            KMessageBox::error(this, msg, i18n("Attribute Name Invalid"));
             return;
         }
         UMLAttribute* newAtt = att->clone()->asUMLAttribute();

@@ -277,8 +277,8 @@ void UMLOperationDialog::slotNewParameter()
             m_pParmsLW->addItem(newAttribute->toString(Uml::SignatureType::SigNoVis));
             m_doc->setModified(true);
         } else {
-            KMessageBox::sorry(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
-                               i18n("Parameter Name Not Unique"), 0);
+            KMessageBox::information(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
+                               i18n("Parameter Name Not Unique"));
             delete newAttribute;
         }
     } else {
@@ -325,7 +325,7 @@ void UMLOperationDialog::slotParameterProperties()
         pAtt = m_operation->findParm(newName); // search whether a parameter with this name already exists
         if(pAtt && pAtt != pOldAtt) {
             KMessageBox::error(this, i18n("The parameter name you have chosen is already being used in this operation."),
-                               i18n("Parameter Name Not Unique"), 0);
+                               i18n("Parameter Name Not Unique"), KMessageBox::Option(0));
             namingConflict = true;
         }
 
@@ -410,7 +410,7 @@ bool UMLOperationDialog::apply()
     QString name = m_pNameLE->text();
     if(name.length() == 0) {
         KMessageBox::error(this, i18n("You have entered an invalid operation name."),
-                           i18n("Operation Name Invalid"), 0);
+                           i18n("Operation Name Invalid"), KMessageBox::Option(0));
         m_pNameLE->setText(m_operation->name());
         return false;
     }
@@ -422,7 +422,7 @@ bool UMLOperationDialog::apply()
         QString msg = i18n("An operation with that signature already exists in %1.\n", classifier->name())
                       +
                       i18n("Choose a different name or parameter list.");
-        KMessageBox::error(this, msg, i18n("Operation Name Invalid"), 0);
+        KMessageBox::error(this, msg, i18n("Operation Name Invalid"), KMessageBox::Option(0));
         return false;
     }
     m_operation->setName(name);

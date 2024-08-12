@@ -82,7 +82,7 @@ bool UMLEnumLiteralDialog::apply()
     QString name = m_pNameLE->text();
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid attribute name."),
-                           i18n("Attribute Name Invalid"), 0);
+                           i18n("Attribute Name Invalid"), KMessageBox::Option(0));
         m_pNameLE->setText(m_pEnumLiteral->name());
         return false;
     }
@@ -95,7 +95,7 @@ bool UMLEnumLiteralDialog::apply()
     UMLObject *o = pConcept->findChildObject(name);
     if (o && o != m_pEnumLiteral) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
-                           i18n("Attribute Name Not Unique"), 0);
+                           i18n("Attribute Name Not Unique"), KMessageBox::Option(0));
         m_pNameLE->setText(m_pEnumLiteral->name());
         return false;
     }
