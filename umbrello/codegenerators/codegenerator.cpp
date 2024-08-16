@@ -521,7 +521,7 @@ bool CodeGenerator::openFile(QFile & file, const QString &fileName)
 
         file.setFileName(outputDirectory.absoluteFilePath(fileName));
         if(!file.open(QIODevice::WriteOnly)) {
-            KMessageBox::sorry(nullptr, i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.fileName()), i18n("Cannot Open File"));
+            KMessageBox::information(nullptr, i18n("Cannot open file %1 for writing. Please make sure the folder exists and you have permissions to write to it.", file.fileName()), i18n("Cannot Open File"));
             return false;
         }
         return true;
