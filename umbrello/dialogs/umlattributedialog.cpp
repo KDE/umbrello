@@ -66,7 +66,7 @@ void UMLAttributeDialog::setupDialog()
 
     m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
     m_pValuesLayout = new QGridLayout(m_pValuesGB);
-    m_pValuesLayout->setMargin(margin);
+    m_pValuesLayout->setContentsMargins(margin, margin, margin, margin);
     m_pValuesLayout->setSpacing(10);
 
     m_datatypeWidget = new UMLDatatypeWidget(m_pAttribute->asUMLClassifierListItem());

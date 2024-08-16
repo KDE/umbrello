@@ -24,7 +24,7 @@
 #include "object_factory.h"
 
 #include <KLocalizedString>
-#include <ktextedit.h>
+#include <QTextEdit>
 
 #include <QApplication>
 #include <QDialogButtonBox>
@@ -145,7 +145,7 @@ void ClassifierListPage::setupListGroup(int margin)
     //top group box, contains a vertical layout with list box above and buttons below
     m_pItemListGB = new QGroupBox(typeName, this);
     QVBoxLayout* listVBoxLayout = new QVBoxLayout(m_pItemListGB);
-    listVBoxLayout->setMargin(margin);
+    listVBoxLayout->setContentsMargins(margin, margin, margin, margin);
     listVBoxLayout->setSpacing(10);
 
     //horizontal box contains the list box and the move up/down buttons
@@ -221,9 +221,9 @@ void ClassifierListPage::setupDocumentationGroup(int margin)
     m_docGB = new QGroupBox(i18n("Documentation"), this);
     QVBoxLayout* docLayout = new QVBoxLayout(m_docGB);
     docLayout->setSpacing(10);
-    docLayout->setMargin(margin);
+    docLayout->setContentsMargins(margin, margin, margin, margin);
     if (m_itemType == UMLObject::ot_Operation) {
-        m_docTE = new KTextEdit();
+        m_docTE = new QTextEdit();
         m_pCodeTE = new CodeTextEdit();
         QTabWidget* tabWidget = new QTabWidget();
         tabWidget->addTab(m_docTE, i18n("Comment"));
@@ -231,7 +231,7 @@ void ClassifierListPage::setupDocumentationGroup(int margin)
         docLayout->addWidget(tabWidget);
     }
     else {
-        m_docTE = new KTextEdit();
+        m_docTE = new QTextEdit();
         docLayout->addWidget(m_docTE);
     }
 }

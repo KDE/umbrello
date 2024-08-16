@@ -55,7 +55,7 @@ void UMLTemplateDialog::setupDialog()
 
     m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
     QGridLayout* valuesLayout = new QGridLayout(m_pValuesGB);
-    valuesLayout->setMargin(margin);
+    valuesLayout->setContentsMargins(margin, margin, margin, margin);;
     valuesLayout->setSpacing(10);
 
     m_datatypeWidget = new UMLDatatypeWidget(m_pTemplate);

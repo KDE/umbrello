@@ -104,7 +104,7 @@ void UMLWidgetStylePage::init()
     m_pColorGB = new QGroupBox(i18nc("title of color group", "Color"), this);
     topLayout->addWidget(m_pColorGB);
     QGridLayout * colorLayout = new QGridLayout(m_pColorGB);
-    colorLayout->setMargin(margin);
+    colorLayout->setContentsMargins(margin, margin, margin, margin);
 
     m_pTextColorL = new QLabel(i18nc("text color", "&Text:"), m_pColorGB);
     colorLayout->addWidget(m_pTextColorL, row, 0);
@@ -174,7 +174,7 @@ void UMLWidgetStylePage::init()
     m_pStyleGB = new QGroupBox(i18nc("title of width group", "Width"), this);
     topLayout->addWidget(m_pStyleGB);
     QGridLayout *styleLayout = new QGridLayout(m_pStyleGB);
-    styleLayout->setMargin(margin);
+    styleLayout->setContentsMargins(margin, margin, margin, margin);
 
     m_lineWidthL = new QLabel(i18nc("line width", "Line &width:"), m_pStyleGB);
     styleLayout->addWidget(m_lineWidthL, ++row, 0);
@@ -197,7 +197,7 @@ void UMLWidgetStylePage::init()
 
         QGroupBox *boxMisc = new QGroupBox(i18nc("miscellaneous group box", "Miscellaneous"), this);
         QGridLayout *layoutAssocs = new QGridLayout(boxMisc);
-        layoutAssocs->setMargin(margin);
+        layoutAssocs->setContentsMargins(margin, margin, margin, margin);
         topLayout->addWidget(boxMisc);
 
         m_layoutTypeW = new SelectLayoutTypeWidget(i18n("Layout of the line:"), aw->associationLine().layout(), boxMisc);

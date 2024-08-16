@@ -90,7 +90,7 @@ void VisibilityEnumWidget::init(const QString &title)
     m_box = new QGroupBox(title, this);
     QHBoxLayout* boxlayout = new QHBoxLayout(m_box);
     int margin = fontMetrics().height();
-    boxlayout->setMargin(margin);
+    boxlayout->setContentsMargins(margin, margin, margin, margin);
     QList<Uml::Visibility::Enum> orders;
     orders << Uml::Visibility::Public << Uml::Visibility::Protected << Uml::Visibility::Private << Uml::Visibility::Implementation;
 

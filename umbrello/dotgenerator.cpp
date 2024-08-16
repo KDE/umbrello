@@ -45,7 +45,7 @@ QString dotType(WidgetBase *widget)
 class DotPaintEngine : public QPaintEngine
 {
 public:
-    DotPaintEngine(PaintEngineFeatures caps = 0) { Q_UNUSED(caps) }
+    DotPaintEngine(PaintEngineFeatures caps = QPaintEngine::PrimitiveTransform) { Q_UNUSED(caps) }
     virtual ~DotPaintEngine() {}
     virtual bool begin (QPaintDevice * pdev)
     {

@@ -23,7 +23,7 @@
 #include <QLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <ktextedit.h>
+#include <QTextEdit>
 
 // qt includes
 #include <QHBoxLayout>
@@ -80,7 +80,7 @@ void AssociationGeneralPage::constructWidget()
 
     m_pNameAndTypeLayout = new QGridLayout(nameAndTypeGB);
     m_pNameAndTypeLayout->setSpacing(6);
-    m_pNameAndTypeLayout->setMargin(margin);
+    m_pNameAndTypeLayout->setContentsMargins(margin, margin, margin, margin);;
 
     // Association name
     m_pAssocNameL = new QLabel(i18nc("name of association widget", "Name:"));

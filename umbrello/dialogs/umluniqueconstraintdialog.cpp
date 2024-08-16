@@ -88,7 +88,7 @@ void UMLUniqueConstraintDialog::setupDialog()
     mainLayout->addWidget(m_pAttributeListGB);
 
     QVBoxLayout* listVBoxLayout = new QVBoxLayout(m_pAttributeListGB);
-    listVBoxLayout->setMargin(margin);
+    listVBoxLayout->setContentsMargins(margin, margin, margin, margin);
     listVBoxLayout->setSpacing (10);
 
     m_pAttributeListLW = new QListWidget(m_pAttributeListGB);

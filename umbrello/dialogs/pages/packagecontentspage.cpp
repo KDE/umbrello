@@ -42,7 +42,7 @@ PackageContentsPage::PackageContentsPage(QWidget *parent, UMLPackage *pkg)
 
     QHBoxLayout * layout = new QHBoxLayout(m_contentGB);
     layout->setSpacing(10);
-    layout->setMargin(margin);
+    layout->setContentsMargins(margin, margin, margin, margin);
 
     m_contentLW = new QListWidget(m_contentGB);
     m_contentLW->setContextMenuPolicy(Qt::CustomContextMenu);

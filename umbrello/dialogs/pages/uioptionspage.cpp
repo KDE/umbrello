@@ -8,6 +8,7 @@
 
 //// local includes
 #include "optionstate.h"
+#include "dialog_utils.h"
 #include "umbrellosettings.h"
 // #include "dialog_utils.h"
 #include "selectlayouttypewidget.h"
@@ -50,11 +51,12 @@ UIOptionsPage::~UIOptionsPage()
  */
 void UIOptionsPage::setupPage()
 {
+    int margin = fontMetrics().height();
     QVBoxLayout* uiPageLayout = new QVBoxLayout(this);
     QGroupBox *box = new QGroupBox(i18nc("General options", "General"), this);
     QGridLayout * otherLayout = new QGridLayout(box);
-    //otherLayout->setSpacing(Dialog_Utils::spacingHint());
-    otherLayout->setMargin(fontMetrics().height());
+    otherLayout->setSpacing(Dialog_Utils::spacingHint());
+    otherLayout->setContentsMargins(margin, margin, margin, margin);
     uiPageLayout->addWidget(box);
 
     m_rightToLeftUI = new QCheckBox(i18n("Right to left user interface"), box);
@@ -63,7 +65,7 @@ void UIOptionsPage::setupPage()
 
     QGroupBox *boxAssocs = new QGroupBox(i18nc("Association options", "Associations"), this);
     QGridLayout *layoutAssocs = new QGridLayout(boxAssocs);
-    layoutAssocs->setMargin(fontMetrics().height());
+    layoutAssocs->setContentsMargins(margin, margin, margin, margin);
     uiPageLayout->addWidget(boxAssocs);
 
     m_layoutTypeW = new SelectLayoutTypeWidget(i18n("Create new association lines as:"), Settings::optionState().generalState.layoutType, boxAssocs);
@@ -71,8 +73,8 @@ void UIOptionsPage::setupPage()
 
     m_colorGB = new QGroupBox(i18nc("color group box", "Color"), this);
     QGridLayout * colorLayout = new QGridLayout(m_colorGB);
-    //colorLayout->setSpacing(spacingHint());
-    colorLayout->setMargin(fontMetrics().height());
+    colorLayout->setSpacing(Dialog_Utils::spacingHint());
+    colorLayout->setContentsMargins(margin, margin, margin, margin);
     uiPageLayout->addWidget(m_colorGB);
 
     uiPageLayout->addItem(new QSpacerItem(0, 20, QSizePolicy::Minimum, QSizePolicy::Expanding));

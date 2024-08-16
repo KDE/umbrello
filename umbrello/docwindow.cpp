@@ -18,7 +18,7 @@
 #include "umlwidget.h"
 
 // kde includes
-#include <ktextedit.h>
+#include <QTextEdit>
 #include <KLocalizedString>
 
 // qt includes
@@ -90,14 +90,14 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     statusLayout->addWidget(box, 0, 5, 1, 1);
     m_modifiedWidget = new ModifiedWidget(this);
     statusLayout->addWidget(m_modifiedWidget, 0, 6, 1, 1);
-    m_docTE = new KTextEdit(this);
+    m_docTE = new QTextEdit(this);
     m_docTE->setText(QString());
     setFocusProxy(m_docTE);
     //m_docTE->setWordWrapMode(QTextEdit::WidgetWidth);
     QVBoxLayout* docLayout = new QVBoxLayout(this);
     docLayout->addLayout(statusLayout);
     docLayout->addWidget(m_docTE);
-    docLayout->setMargin(0);
+    docLayout->setContentsMargins({});
 
     connect(m_docTE, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
 }

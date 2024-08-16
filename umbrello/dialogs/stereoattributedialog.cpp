@@ -59,7 +59,7 @@ void StereoAttributeDialog::setupDialog()
     m_pValuesGB = new QGroupBox(i18n("Stereotype Attributes for ") + m_pStereotype->name(true),
                                 frame);
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
-    valuesLayout->setMargin(margin);
+    valuesLayout->setContentsMargins(margin, margin, margin, margin);
     valuesLayout->setSpacing(10);
 
     /*

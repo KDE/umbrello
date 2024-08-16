@@ -11,7 +11,7 @@
 #include "umlobject.h"
 #include "umlwidget.h"
 
-#include <KTextEdit>
+#include <QTextEdit>
 #include <KLocalizedString>
 
 #include <QGroupBox>
@@ -82,10 +82,10 @@ void DocumentationWidget::apply()
 void DocumentationWidget::init(const QString &text)
 {
     QHBoxLayout *l = new QHBoxLayout;
-    l->setMargin(0);
+    l->setContentsMargins({});
     m_box = new QGroupBox;
     m_box->setTitle(i18n("Documentation"));
-    m_editField = new KTextEdit(m_box);
+    m_editField = new QTextEdit(m_box);
     m_editField->setLineWrapMode(QTextEdit::WidgetWidth);
     m_editField->setWordWrapMode(QTextOption::WordWrap);
     m_editField->setText(text);
@@ -102,7 +102,8 @@ void DocumentationWidget::init(const QString &text)
     } else {
         layout->addWidget(m_editField);
     }
-    layout->setMargin(fontMetrics().height());
+    int margin = fontMetrics().height();
+    layout->setContentsMargins(margin, margin, margin, margin);
     l->addWidget(m_box);
     setLayout(l);
 }

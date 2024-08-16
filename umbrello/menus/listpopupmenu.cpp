@@ -594,7 +594,7 @@ void ListPopupMenu::setupActionsData()
 {
     for(QAction *action : m_actions) {
         QMap<QString, QVariant> map = action->data().toMap();
-        map[toString(dt_MenuPointer)] = qVariantFromValue(this);
+        map[toString(dt_MenuPointer)] = QVariant::fromValue(this);
         action->setData(QVariant(map));
     }
 

@@ -112,7 +112,7 @@ void StateDialog::applyPage(KPageWidgetItem*item)
 void StateDialog::setupGeneralPage()
 {
     StateWidget::StateType type = m_pStateWidget->stateType();
-
+    int margin = fontMetrics().height();
     QWidget* page = new QWidget();
     QVBoxLayout* topLayout = new QVBoxLayout();
     page->setLayout(topLayout);
@@ -125,7 +125,7 @@ void StateDialog::setupGeneralPage()
 
     QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
     generalLayout->setSpacing(Dialog_Utils::spacingHint());
-    generalLayout->setMargin(fontMetrics().height());
+    generalLayout->setContentsMargins(margin, margin, margin, margin);
 
     QString typeStr;
     switch (type) {

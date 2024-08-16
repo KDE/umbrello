@@ -34,7 +34,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
 {
     Settings::OptionState &optionState = Settings::optionState();
     int spacingHint = Dialog_Utils::spacingHint();
-
+    int margin = fontMetrics().height();
     QVBoxLayout *topLayout = new QVBoxLayout(this);
 
     // Set up undo setting
@@ -43,7 +43,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
 
     QGridLayout * miscLayout = new QGridLayout(m_GeneralWidgets.miscGB);
     miscLayout->setSpacing(spacingHint);
-    miscLayout->setMargin(fontMetrics().height());
+    miscLayout->setContentsMargins(margin, margin, margin, margin);
 
     m_GeneralWidgets.undoCB = new QCheckBox(i18n("Enable undo"), m_GeneralWidgets.miscGB);
     m_GeneralWidgets.undoCB->setChecked(optionState.generalState.undo);
@@ -68,10 +68,10 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     //setup autosave settings
     m_GeneralWidgets.autosaveGB = new QGroupBox(i18n("Autosave"));
     topLayout->addWidget(m_GeneralWidgets.autosaveGB);
-
+    
     QGridLayout * autosaveLayout = new QGridLayout(m_GeneralWidgets.autosaveGB);
     autosaveLayout->setSpacing(spacingHint);
-    autosaveLayout->setMargin(fontMetrics().height());
+    autosaveLayout->setContentsMargins(margin, margin, margin, margin);
 
     m_GeneralWidgets.autosaveCB = new QCheckBox(i18n("E&nable autosave"), m_GeneralWidgets.autosaveGB);
     m_GeneralWidgets.autosaveCB->setChecked(optionState.generalState.autosave);
@@ -106,8 +106,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     topLayout->addWidget(m_GeneralWidgets.startupGB);
 
     QGridLayout * startupLayout = new QGridLayout(m_GeneralWidgets.startupGB);
-    startupLayout->setSpacing(spacingHint);
-    startupLayout->setMargin(fontMetrics().height());
+    startupLayout->setSpacing(Dialog_Utils::spacingHint());
 
     m_GeneralWidgets.loadlastCB = new QCheckBox(i18n("&Load last project"), m_GeneralWidgets.startupGB);
     m_GeneralWidgets.loadlastCB->setChecked(optionState.generalState.loadlast);

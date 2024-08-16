@@ -89,7 +89,7 @@ void UMLOperationDialog::setupDialog()
     m_pGenLayout->setColumnStretch(3, 1);
     m_pGenLayout->addItem(new QSpacerItem(200, 0), 0, 1);
     m_pGenLayout->addItem(new QSpacerItem(200, 0), 0, 3);
-    m_pGenLayout->setMargin(margin);
+    m_pGenLayout->setContentsMargins(margin, margin, margin, margin);
     m_pGenLayout->setSpacing(10);
 
     Dialog_Utils::makeLabeledEditField(m_pGenLayout, 0,
@@ -137,7 +137,7 @@ void UMLOperationDialog::setupDialog()
 
     m_pParmsGB = new QGroupBox(i18n("Parameters"), frame);
     QVBoxLayout* parmsLayout = new QVBoxLayout(m_pParmsGB);
-    parmsLayout->setMargin(margin);
+    parmsLayout->setContentsMargins(margin, margin, margin, margin);
     parmsLayout->setSpacing(10);
 
     // horizontal box contains the list box and the move up/down buttons

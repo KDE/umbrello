@@ -11,7 +11,10 @@
 #include "codeviewerstate.h"
 #include "textblocklist.h"
 
-#include <ktextedit.h>
+#include <QTextEdit>
+#include <KTextEditor/Document>
+#include <KTextEditor/Editor>
+#include <KTextEditor/View>
 
 #include <QList>
 #include <QString>
@@ -28,21 +31,14 @@ class QLabel;
 class TextBlock;
 class UMLObject;
 
-class ParaInfo
+struct ParaInfo
 {
-public:
-    int start; // this is a relative offset from the beginning of the tblock
-    int size;         ///< number of characters
-    int end;          ///< end line number
+    int start = 0; // this is a relative offset from the beginning of the tblock
+    int size = 0;         ///< number of characters
+    int end = 0;          ///< end line number
     QColor fgcolor;
     QColor bgcolor;
-    bool isEditable;
-
-    ParaInfo ()
-      : start(0),
-        size(0),
-        end(0),
-        isEditable(false) { }
+    bool isEditable = false;
 };
 
 
@@ -63,7 +59,7 @@ public:
 };
 
 
-class CodeEditor : public KTextEdit
+class CodeEditor : public QTextEdit
 {
     Q_OBJECT
 public:

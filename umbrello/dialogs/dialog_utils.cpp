@@ -352,7 +352,7 @@ void insertStereotypesSorted(KComboBox *kcb, const QString& type)
  */
 int spacingHint()
 {
-    return QApplication::style()->pixelMetric(QStyle::PM_DefaultLayoutSpacing);
+    return QApplication::style()->pixelMetric(QStyle::QStyle::PM_LayoutVerticalSpacing);
 }
 
 }  // end namespace Dialog_Utils

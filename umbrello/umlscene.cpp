@@ -694,8 +694,8 @@ void UMLScene::print(QPrinter *pPrinter, QPainter & pPainter)
     forceUpdateWidgetFontMetrics(&pPainter);
 
     QRectF source = diagramRect();
-    QRect paper = pPrinter->paperRect();
-    QRect page = pPrinter->pageRect();
+    QRect paper = pPrinter->paperRect(QPrinter::Millimeter).toRect();
+    QRect page = pPrinter->pageRect(QPrinter::Millimeter).toRect();
 
     // use the painter font metrics, not the screen fm!
     QFontMetrics fm = pPainter.fontMetrics();
@@ -4522,7 +4522,7 @@ void UMLScene::alignVerticalDistribute()
     qreal heightsSum = WidgetList_Utils::getHeightsSum(widgetList);
     qreal distance = int(((biggestY - smallestY) - heightsSum) / (widgetList.count() - 1.0) + 0.5);
 
-    qSort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerY);
+    std::sort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerY);
 
     int i = 1;
     UMLWidget *widgetPrev = nullptr;
@@ -4553,7 +4553,7 @@ void UMLScene::alignHorizontalDistribute()
     qreal widthsSum = WidgetList_Utils::getWidthsSum(widgetList);
     qreal distance = int(((biggestX - smallestX) - widthsSum) / (widgetList.count() - 1.0) + 0.5);
 
-    qSort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerX);
+    std::sort(widgetList.begin(), widgetList.end(), Widget_Utils::hasSmallerX);
 
     int i = 1;
     UMLWidget *widgetPrev = nullptr;

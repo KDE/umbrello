@@ -46,6 +46,7 @@
 #include <QMouseEvent>
 #include <QPointer>
 #include <QRegularExpression>
+#include <QTextBlock>
 
 DEBUG_REGISTER(CodeEditor)
 
@@ -53,7 +54,7 @@ DEBUG_REGISTER(CodeEditor)
  * Constructor.
  */
 CodeEditor::CodeEditor(const QString & text, CodeViewerDialog * parent, CodeDocument * doc)
-  : KTextEdit(text, parent)
+  : QTextEdit(text, parent)
 {
     init(parent, doc);
 }
@@ -62,7 +63,7 @@ CodeEditor::CodeEditor(const QString & text, CodeViewerDialog * parent, CodeDocu
  * Constructor.
  */
 CodeEditor::CodeEditor(CodeViewerDialog * parent, CodeDocument * doc)
-  : KTextEdit(parent)
+  : QTextEdit(parent)
 {
     init(parent, doc);
 }
@@ -144,7 +145,7 @@ bool CodeEditor::close()
         updateTextBlockFromText (m_lastTextBlockToBeEdited);
         m_lastTextBlockToBeEdited = nullptr;
     }
-    return KTextEdit::close();
+    return QTextEdit::close();
 }
 
 /**
@@ -201,7 +202,7 @@ void CodeEditor::keyPressEvent(QKeyEvent * e)
     if ((e->key() == 10) || (e->key() == 13) || (e->text() == QString::fromLatin1("\r\n"))) {
         m_newLinePressed = true;
     }
-    KTextEdit::keyPressEvent(e);
+    QTextEdit::keyPressEvent(e);
 }
 
 /**
@@ -267,7 +268,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
                 }
             }
         }
-        KTextEdit::append(text); // put actual text in. Use insert instead of append so history is preserved?
+        QTextEdit::append(text); // put actual text in. Use insert instead of append so history is preserved?
     }
     else {
         isInsert = true;
