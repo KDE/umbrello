@@ -437,7 +437,14 @@ void UMLDoc::closeDocument()
         if (stereotypes().count() > 0) {
             for(UMLStereotype *s : stereotypes()) {
                 m_stereotypesModel->removeStereotype(s);
-                delete s;
+                //delete s;
+                // This may crash when selecting File -> Close with following stacktrace:
+                // #5  UMLDoc::closeDocument (this=0x2053620) at umbrello/umldoc.cpp:440
+                // #6  UMLDoc::newDocument (this=0x2053620) at umbrello/umldoc.cpp:463
+                // #7  UMLApp::slotFileNew (this=0x1aab900) at umbrello/uml.cpp:1239
+                // #8  UMLApp::slotFileClose (this=0x1aab900) at umbrello/uml.cpp:1395
+                // #9  UMLApp::qt_static_metacall (_o=0x1aab900, _c=QMetaObject::InvokeMetaMethod, _id=8, _a=0x7ffeb9ad1f10)
+                //     at build/umbrello/libumbrello_autogen/EWIEGA46WW/moc_uml.cpp:490
             }
             m_stereoList.clear();
         }
