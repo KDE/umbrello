@@ -76,6 +76,9 @@ CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
             SIGNAL(itemClicked(QListWidgetItem*)), this,
             SLOT(generalOptionsListWidgetClicked(QListWidgetItem*)));
 
+    connect(ui_browseListButton, &QPushButton::clicked, this, &CPPCodeGenerationForm::browseClicked);
+    connect(ui_browseStringButton, &QPushButton::clicked, this, &CPPCodeGenerationForm::browseClicked);
+
     /*
      Commenting this out due to runtime error,
      QObject::connect: No such slot CPPCodeGenerationForm::editClassMemberPrefixDoubleClicked(QListWidgetItem*)
