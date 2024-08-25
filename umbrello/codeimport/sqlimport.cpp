@@ -12,6 +12,7 @@
 #include "attribute.h"
 #include "checkconstraint.h"
 #include "classifier.h"
+#define DBG_SRC QStringLiteral("SqlImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "folder.h"
