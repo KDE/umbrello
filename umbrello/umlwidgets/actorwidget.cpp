@@ -94,7 +94,7 @@ QSizeF ActorWidget::minimumSize() const
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    const int textWidth = fm.width(name());
+    const int textWidth = fm.horizontalAdvance(name());
     bool drawStereotype = umlObject() && !umlObject()->stereotype().isEmpty();
     int width = textWidth > A_WIDTH ? textWidth : A_WIDTH;
     int height = A_HEIGHT + (drawStereotype ? 2 * fontHeight : fontHeight) + A_MARGIN;
