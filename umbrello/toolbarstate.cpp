@@ -18,7 +18,6 @@
 #include "widget_utils.h"
 
 // qt includes
-#include <QMatrix> // need for inverseWorldMatrix.map
 #include <QScrollBar>
 
 DEBUG_REGISTER(ToolBarState)
