@@ -87,6 +87,7 @@ void CodeTextHighlighter::highlightBlock(const QString &text)
     if (previousBlockState() != 1)
         startIndex = text.indexOf(m_commentStartExpression);
 
+// TODO: Move this to KSyntaxHighlight
     while (startIndex >= 0) {
         QRegularExpressionMatch m = m_commentEndExpression.match(text);
         
