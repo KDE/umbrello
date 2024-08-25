@@ -103,9 +103,9 @@ void BirdView::slotDockSizeChanged(const QSize& size)
     if (scaleW < scaleH) {
         scale = scaleW;
     }
-    QMatrix wm;
+    QTransform wm;
     wm.scale(scale, scale);
-    m_birdView->setMatrix(wm);
+    m_birdView->setTransform(wm);
 #if VERBOSE_DBG_OUT
     DEBUG() << "setting the size to the scene: " << itemsRect
                    << " / to the frame: " << frameRect
