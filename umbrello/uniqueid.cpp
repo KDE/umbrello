@@ -20,7 +20,7 @@ Uml::ID::Type m_uniqueID;
  */
 Uml::ID::Type gen()
 {
-    m_uniqueID = std::string('u' + KRandom::randomString(12).toLatin1());
+    m_uniqueID = 'u' + KRandom::randomString(12).toStdString();
     return m_uniqueID;
 }
 
