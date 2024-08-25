@@ -18,7 +18,8 @@
 #include <kjobwidgets.h>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <kio/job.h>
+#include <KIO/Job>
+#include <KIO/FileCopyJob>
 
 #include <QApplication>
 #include <QFile>
