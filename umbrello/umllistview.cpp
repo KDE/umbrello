@@ -954,6 +954,8 @@ void UMLListView::slotObjectCreated(UMLObject* object)
 
     UMLListViewItem* newItem = findUMLObject(object);
 
+    logDebug1("UMLListView::slotObjectCreated: object=%1", object->name());
+
     if (newItem) {
         logDebug3("UMLListView::slotObjectCreated %1, type=%2, id=%3: item already exists",
                   object->name(), newItem->type(), Uml::ID::toString(object->id()));
@@ -2918,7 +2920,7 @@ void UMLListView::commitData(QWidget *editor)
         return;
     }
 
-    QString newText = editor->property(n).toString();
+    QString newText = editor->property(n.data()).toString();
 
     UMLListViewItem *item = dynamic_cast<UMLListViewItem *>(currentItem());
     if (!item) {
