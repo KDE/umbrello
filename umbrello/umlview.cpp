@@ -58,7 +58,7 @@ UMLScene* UMLView::umlScene() const
  */
 qreal UMLView::zoom() const
 {
-    return matrix().m11()*100.0;
+    return transform().m11()*100.0;
 }
 
 /**
@@ -73,9 +73,9 @@ void UMLView::setZoom(qreal zoom)
     }
 
     logDebug1("UMLView::setZoom %1", zoom);
-    QMatrix wm;
+    QTransform wm;
     wm.scale(zoom / 100.0, zoom / 100.0);
-    setMatrix(wm);
+    setTransform(wm);
 }
 
 /**
@@ -91,14 +91,14 @@ bool UMLView::showPropertiesDialog(QWidget *parent)
 
 void UMLView::zoomIn()
 {
-    QMatrix wm = matrix();
+    QTransform wm = transform();
     wm.scale(1.5, 1.5); // adjust zooming step here
     setZoom(wm.m11()*100.0);
 }
 
 void UMLView::zoomOut()
 {
-    QMatrix wm = matrix();
+    QTransform wm = transform();
     wm.scale(2.0 / 3.0, 2.0 / 3.0); //adjust zooming step here
     setZoom(wm.m11()*100.0);
 }
@@ -118,7 +118,7 @@ void UMLView::show()
 void UMLView::wheelEvent(QWheelEvent* event)
 {
     // get the position of the mouse before scaling, in scene coords
-    QPointF pointBeforeScale(mapToScene(event->pos()));
+    QPointF pointBeforeScale(mapToScene(event->position().toPoint()));
 
     // scale the view ie. do the zoom
     double scaleFactor = 1.15;
@@ -139,7 +139,7 @@ void UMLView::wheelEvent(QWheelEvent* event)
     }
 
     // get the position after scaling, in scene coords
-    QPointF pointAfterScale(mapToScene(event->pos()));
+    QPointF pointAfterScale(mapToScene(event->position().toPoint()));
 
     // get the offset of how the screen moved
     QPointF offset = pointBeforeScale - pointAfterScale;
