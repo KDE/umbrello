@@ -172,7 +172,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
             font.setUnderline(false);
         }
         painter->drawText(ENTITY_MARGIN, y,
-                   fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
+                   fontMetrics.horizontalAdvance(text), fontHeight, Qt::AlignVCenter, text);
         painter->setFont(font);
         y+=fontHeight;
     }

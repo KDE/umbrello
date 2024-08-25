@@ -195,7 +195,7 @@ QSizeF CombinedFragmentWidget::minimumSize() const
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    const int textWidth = fm.width(name());
+    const int textWidth = fm.horizontalAdvance(name());
     height = fontHeight;
     width = textWidth + 60 > defaultWidth ? textWidth + 60: defaultWidth;
     if (m_CombinedFragment == Loop)
@@ -503,7 +503,7 @@ QPainterPath CombinedFragmentWidget::shape() const
     qreal lw = m_labelWidth + r;
     qreal lh = labelHeight + r;
     if (m_CombinedFragment == Alt) {
-        const int textWidth = fm.width(name() + QStringLiteral("[]"));
+        const int textWidth = fm.horizontalAdvance(name() + QStringLiteral("[]"));
         lh += fontHeight;
         if (lw < textWidth)
             lw = textWidth + r;

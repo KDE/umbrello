@@ -199,7 +199,7 @@ QSizeF ObjectWidget::minimumSize() const
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
     const int fontHeight  = fm.lineSpacing();
     const QString t = m_instanceName + QStringLiteral(" : ") + name();
-    const int textWidth = fm.width(t);
+    const int textWidth = fm.horizontalAdvance(t);
     if (m_drawAsActor) {
         width = textWidth > A_WIDTH?textWidth:A_WIDTH;
         height = A_HEIGHT + fontHeight + A_MARGIN;

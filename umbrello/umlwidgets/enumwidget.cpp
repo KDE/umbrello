@@ -145,7 +145,7 @@ void EnumWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         QString text = enumLiteral->toString();
         painter->setPen(textColor());
         painter->drawText(ENUM_MARGIN, y,
-                   fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
+                   fontMetrics.horizontalAdvance(text), fontHeight, Qt::AlignVCenter, text);
         y+=fontHeight;
     }
 

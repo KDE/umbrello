@@ -114,8 +114,8 @@ QSizeF ObjectNodeWidget::minimumSize() const
     if (m_objectNodeType == Buffer) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width(Widget_Utils::adornStereo(QStringLiteral("centralBuffer")));
-        const int namewidth = fm.width(name());
+        const int textWidth = fm.horizontalAdvance(Widget_Utils::adornStereo(QStringLiteral("centralBuffer")));
+        const int namewidth = fm.horizontalAdvance(name());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
         width = namewidth > widthtmp ? namewidth : widthtmp;
@@ -125,8 +125,8 @@ QSizeF ObjectNodeWidget::minimumSize() const
     } else if (m_objectNodeType == Data) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width(Widget_Utils::adornStereo(QStringLiteral("datastore")));
-        const int namewidth = fm.width(name());
+        const int textWidth = fm.horizontalAdvance(Widget_Utils::adornStereo(QStringLiteral("datastore")));
+        const int namewidth = fm.horizontalAdvance(name());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
         width = namewidth > widthtmp ? namewidth : widthtmp;
@@ -136,8 +136,8 @@ QSizeF ObjectNodeWidget::minimumSize() const
     } else if (m_objectNodeType == Flow) {
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
-        const int textWidth = fm.width(QLatin1Char('[') + state() + QLatin1Char(']'));
-        const int namewidth = fm.width(name());
+        const int textWidth = fm.horizontalAdvance(QLatin1Char('[') + state() + QLatin1Char(']'));
+        const int namewidth = fm.horizontalAdvance(name());
         height = fontHeight * 2;
         widthtmp = textWidth > OBJECTNODE_WIDTH ? textWidth : OBJECTNODE_WIDTH;
         width = namewidth > widthtmp ? namewidth : widthtmp;

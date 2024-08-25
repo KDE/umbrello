@@ -117,11 +117,11 @@ QSizeF PackageWidget::minimumSize() const
 
     int lines = 1;
 
-    int width = fm.width(m_umlObject->name());
+    int width = fm.horizontalAdvance(m_umlObject->name());
 
     int tempWidth = 0;
     if (!m_umlObject->stereotype().isEmpty()) {
-        tempWidth = fm.width(m_umlObject->stereotype(true));
+        tempWidth = fm.horizontalAdvance(m_umlObject->stereotype(true));
         lines = 2;
     }
     if (tempWidth > width)

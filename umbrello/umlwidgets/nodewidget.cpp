@@ -124,11 +124,11 @@ QSizeF NodeWidget::minimumSize() const
         name = UMLWidget::instanceName() + QStringLiteral(" : ") + name;
     }
 
-    int width = fm.width(name) + 2 * defaultMargin;
+    int width = fm.horizontalAdvance(name) + 2 * defaultMargin;
 
     int tempWidth = 0;
     if (!m_umlObject->stereotype().isEmpty()) {
-        tempWidth = fm.width(m_umlObject->stereotype(true));
+        tempWidth = fm.horizontalAdvance(m_umlObject->stereotype(true));
     }
     if (tempWidth > width)
         width = tempWidth;

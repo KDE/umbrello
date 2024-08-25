@@ -345,7 +345,7 @@ QSizeF SignalWidget::minimumSize() const
     int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const int fontHeight  = fm.lineSpacing();
-    int textWidth = fm.width(name());
+    int textWidth = fm.horizontalAdvance(name());
 
     if (m_signalType == Accept)
          textWidth = int((float)textWidth * 1.3f);

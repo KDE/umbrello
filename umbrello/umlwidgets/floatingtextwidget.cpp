@@ -178,7 +178,7 @@ QSizeF FloatingTextWidget::minimumSize() const
 {
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     int h = fm.lineSpacing();
-    int w = fm.width(displayText());
+    int w = fm.horizontalAdvance(displayText());
     return QSizeF(w + 8, h + 4);  // give a small margin
 }
 

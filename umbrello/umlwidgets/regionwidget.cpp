@@ -56,7 +56,7 @@ void RegionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     pen.setColor(Qt::red);
     pen.setStyle(Qt::DashLine);
     painter->setPen(pen);
-    painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
+    painter->drawRoundedRect(0, 0, w, h, (h * 60) / w, 60);
 
     UMLWidget::paint(painter, option, widget);
 }
@@ -69,7 +69,7 @@ QSizeF RegionWidget::minimumSize() const
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    int textWidth = fm.width(name());
+    int textWidth = fm.horizontalAdvance(name());
 
     height  = fontHeight;
     width   = textWidth > REGION_WIDTH?textWidth:REGION_WIDTH;
