@@ -34,9 +34,8 @@
 #include <QRect>
 #include <QSvgGenerator>
 #include <QTemporaryFile>
-
-// system includes
-#include <cmath>
+#include <KIO/FileCopyJob>
+#include <KIO/StatJob>
 
 DEBUG_REGISTER(UMLViewImageExporterModel)
 
@@ -311,7 +310,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const QUrl &url) const
     QStringList dirs = url.adjusted(QUrl::RemoveFilename).path().split(QDir::separator(), QString::SkipEmptyParts);
     for (QStringList::ConstIterator it = dirs.constBegin() ; it != dirs.constEnd(); ++it) {
         directory.setPath(directory.path() + QLatin1Char('/') + *it);
-        KIO::StatJob *statJob = KIO::stat(directory, KIO::StatJob::SourceSide, 0);
+        KIO::StatJob *statJob = KIO::stat(directory, KIO::StatJob::SourceSide, KIO::StatDetails(0));
         KJobWidgets::setWindow(statJob, UMLApp::app());
         statJob->exec();
         if (statJob->error()) {
