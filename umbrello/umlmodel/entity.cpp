@@ -667,9 +667,8 @@ UMLClassifierListItemList UMLEntity::getFilteredList(UMLObject::ObjectType ot) c
         }
 
         return rcList;
-    } else {
-        return UMLClassifier::getFilteredList(ot);
     }
+    return UMLClassifier::getFilteredList(ot);
 }
 
 /**
