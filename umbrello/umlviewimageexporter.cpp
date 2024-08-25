@@ -27,6 +27,7 @@
 #include <QPointer>
 #include <QString>
 #include <QStringList>
+#include <kio/statjob.h>
 
 DEBUG_REGISTER_DISABLED(UMLViewImageExporter)
 
@@ -99,7 +100,7 @@ bool UMLViewImageExporter::prepareExport()
         }
 
         // check if the file exists
-        KIO::StatJob *job = KIO::stat(m_imageURL, KIO::StatJob::SourceSide, 0);
+        KIO::StatJob *job = KIO::stat(m_imageURL, KIO::StatJob::SourceSide, KIO::StatDetails(0));
         KJobWidgets::setWindow(job, UMLApp::app());
         job->exec();
         bool result = !job->error();
