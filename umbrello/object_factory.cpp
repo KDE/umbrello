@@ -163,8 +163,8 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
                      name, UMLObject::toString(type));
             return nullptr;
     }
-    logDebug1("Object_Factory::createUMLObject: undoable=%d", undoable);
     if (!undoable) {
+        logDebug1("Object_Factory::createNewUMLObject: undoable=%1", undoable);
         o->setUMLPackage(parentPkg);
         UMLApp::app()->document()->signalUMLObjectCreated(o);
         qApp->processEvents();
