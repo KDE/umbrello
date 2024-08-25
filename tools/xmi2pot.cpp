@@ -54,7 +54,7 @@ int main( int argc, char **argv )
 
     for (POMap::ConstIterator it = map.constBegin(); it != map.constEnd(); ++it)
     {
-        cout << "#. Tag: " << (*it).tagNames.join(QStringLiteral(" ")).toUtf8().data() << endl;
+        cout << "#. Tag: " << (*it).tagNames.join(QStringLiteral(" ")).toUtf8().data() << '\n';
         cout << "#: ";
         for (QList<int>::ConstIterator it2 =
                  (*it).lineNumbers.constBegin(); it2 != (*it).lineNumbers.constEnd(); ++it2) {
@@ -65,7 +65,7 @@ int main( int argc, char **argv )
         }
         cout << "\n";
         cout << "#, no-c-format\n";
-        cout << "msgid" << toGetTextString((*it).value).toUtf8().data();
+        cout << "msgid" << toGetTextString((*it).value).toUtf8().data() << '\n';
         cout << "msgstr \"\"\n";
         cout << "\n";
     }
