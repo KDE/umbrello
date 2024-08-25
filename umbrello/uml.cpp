@@ -63,7 +63,6 @@
 #include <kcursor.h>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <ktip.h>
 #include <kactionmenu.h>
 #include <kxmlguifactory.h>
 

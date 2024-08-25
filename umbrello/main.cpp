@@ -21,7 +21,6 @@
 
 #include <KLocalizedString>
 #include <kcrash.h>
-#include <ktip.h>
 #include <QUrl>
 
 #include <stdio.h>
