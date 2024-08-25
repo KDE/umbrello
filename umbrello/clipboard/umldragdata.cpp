@@ -225,7 +225,7 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects,
     setData(QStringLiteral("application/x-uml-clip4"), xmiClip.toUtf8());
 
     QImage img = pngImage.toImage();
-    int l_size = img.byteCount();
+    int l_size = img.sizeInBytes();
     QByteArray clipdata;
     clipdata.resize(l_size);
     QDataStream clipstream(&clipdata, QIODevice::WriteOnly);
