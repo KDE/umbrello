@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-17 01:46+0000\n"
+"POT-Creation-Date: 2024-08-26 02:00+0000\n"
 "PO-Revision-Date: 2024-05-30 22:41+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -83,22 +83,22 @@ msgstr "Objektdiagramo"
 msgid "No Diagram"
 msgstr "Neniu Diagramo"
 
-#: basictypes.cpp:325 worktoolbar.cpp:340
+#: basictypes.cpp:325 worktoolbar.cpp:343
 #, kde-format
 msgid "Generalization"
 msgstr "Ĝeneraligo"
 
-#: basictypes.cpp:327 worktoolbar.cpp:337
+#: basictypes.cpp:327 worktoolbar.cpp:340
 #, kde-format
 msgid "Aggregation"
 msgstr "Agrego"
 
-#: basictypes.cpp:329 worktoolbar.cpp:336
+#: basictypes.cpp:329 worktoolbar.cpp:339
 #, kde-format
 msgid "Dependency"
 msgstr "Dependeco"
 
-#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1239 worktoolbar.cpp:329
+#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1239 worktoolbar.cpp:332
 #, kde-format
 msgid "Association"
 msgstr "Asocio"
@@ -133,12 +133,12 @@ msgstr "Kunlabora Mem-Mesaĝo"
 msgid "Sequence Self Message"
 msgstr "Sekvenca Mem-Mesaĝo"
 
-#: basictypes.cpp:345 worktoolbar.cpp:330
+#: basictypes.cpp:345 worktoolbar.cpp:333
 #, kde-format
 msgid "Containment"
 msgstr "Enteno"
 
-#: basictypes.cpp:347 worktoolbar.cpp:341
+#: basictypes.cpp:347 worktoolbar.cpp:344
 #, kde-format
 msgid "Composition"
 msgstr "Kunmetaĵo"
@@ -153,38 +153,38 @@ msgstr "Realigo"
 msgid "Uni Association"
 msgstr "Unudirekta Asocio"
 
-#: basictypes.cpp:353 worktoolbar.cpp:331
+#: basictypes.cpp:353 worktoolbar.cpp:334
 #, kde-format
 msgid "Anchor"
 msgstr "Ankro"
 
-#: basictypes.cpp:355 menus/listpopupmenu.cpp:260 worktoolbar.cpp:372
+#: basictypes.cpp:355 menus/listpopupmenu.cpp:260 worktoolbar.cpp:375
 #, kde-format
 msgid "State Transition"
 msgstr "Statotransiro"
 
 #: basictypes.cpp:357 dialogs/activitydialog.cpp:139
-#: umlwidgets/widgetbase.cpp:1230 worktoolbar.cpp:374
+#: umlwidgets/widgetbase.cpp:1230 worktoolbar.cpp:377
 #, kde-format
 msgid "Activity"
 msgstr "Aktiveco"
 
-#: basictypes.cpp:359 menus/listpopupmenu.cpp:184 worktoolbar.cpp:383
+#: basictypes.cpp:359 menus/listpopupmenu.cpp:184 worktoolbar.cpp:386
 #, kde-format
 msgid "Exception"
 msgstr "Escepto"
 
-#: basictypes.cpp:361 worktoolbar.cpp:387
+#: basictypes.cpp:361 worktoolbar.cpp:390
 #, kde-format
 msgid "Category to Parent"
 msgstr "Kategorio al Parenco"
 
-#: basictypes.cpp:363 worktoolbar.cpp:388
+#: basictypes.cpp:363 worktoolbar.cpp:391
 #, kde-format
 msgid "Child to Category"
 msgstr "Ido al Kategorio"
 
-#: basictypes.cpp:365 worktoolbar.cpp:338
+#: basictypes.cpp:365 worktoolbar.cpp:341
 #, kde-format
 msgid "Relationship"
 msgstr "Rilato"
@@ -208,7 +208,7 @@ msgstr ""
 "Alemnaŭ unu el la elementoj en la tondujo ne povis esti regluata ĉar samnoma "
 "elemento jam ekzistas.  Ajn ceteraj elementoj estis regluataj."
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1628
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1627
 #, kde-format
 msgid "Paste Error"
 msgstr "Eraro dum Regluado"
@@ -429,7 +429,7 @@ msgstr "<p align=\"center\">Kodgenerado por C++</p>"
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
 #: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:132
-#: umllistview.cpp:1446
+#: umllistview.cpp:1448
 #, kde-format
 msgid "General"
 msgstr "Ĝenerale"
@@ -715,7 +715,7 @@ msgstr "Dokumentaro"
 msgid "Style:"
 msgstr "Stilo:"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, ui_selectCommentStyle)
+#. i18n: ectx: property (text), item, widget (QComboBox, ui_selectCommentStyle)
 #. i18n: ectx: property (text), item, widget (KComboBox, m_SelectCommentStyle)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:569
 #: codegenerators/d/dcodegenerationformbase.ui:290
@@ -724,7 +724,7 @@ msgstr "Stilo:"
 msgid "Slash-Slash (//)"
 msgstr "Oblikvo-oblikvo (//)"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, ui_selectCommentStyle)
+#. i18n: ectx: property (text), item, widget (QComboBox, ui_selectCommentStyle)
 #. i18n: ectx: property (text), item, widget (KComboBox, m_SelectCommentStyle)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:574
 #: codegenerators/d/dcodegenerationformbase.ui:295
@@ -1326,7 +1326,7 @@ msgstr "Stato"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1441 umlwidgets/widgetbase.cpp:1254
+#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1254
 #, kde-format
 msgid "Class"
 msgstr "Klaso"
@@ -1604,7 +1604,7 @@ msgstr "Fina aktiveco"
 
 #. i18n("Attribute...")); break;
 #: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:153
-#: worktoolbar.cpp:347
+#: worktoolbar.cpp:350
 #, kde-format
 msgid "Branch/Merge"
 msgstr "Branĉi/Kunfandiĝi"
@@ -1684,7 +1684,7 @@ msgstr "Ĝenerala"
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
 #: dialogs/multipagedialogbase.cpp:299 dialogs/multipagedialogbase.cpp:313
 #: dialogs/multipagedialogbase.cpp:323 dialogs/settingsdialog.cpp:107
-#: dialogs/umlforeignkeyconstraintdialog.cpp:204 dialogs/umlviewdialog.cpp:88
+#: dialogs/umlforeignkeyconstraintdialog.cpp:205 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgid "General Settings"
 msgstr "Ĝenerala Agordo"
@@ -2005,7 +2005,7 @@ msgid "Delete Diagram?"
 msgstr "Forigi Diagramon?"
 
 #: dialogs/dialog_utils.cpp:232 dialogs/pages/classifierlistpage.cpp:208
-#: dialogs/umlforeignkeyconstraintdialog.cpp:320
+#: dialogs/umlforeignkeyconstraintdialog.cpp:321
 #: dialogs/umloperationdialog.cpp:164 dialogs/umluniqueconstraintdialog.cpp:110
 #, kde-format
 msgid "&Delete"
@@ -2104,7 +2104,7 @@ msgstr "Ĉiuj di&agramoj"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:154
-#: umlwidgets/widgetbase.cpp:1245 worktoolbar.cpp:386
+#: umlwidgets/widgetbase.cpp:1245 worktoolbar.cpp:389
 #, kde-format
 msgid "Category"
 msgstr "Kategorio"
@@ -2117,7 +2117,7 @@ msgstr "Ĉiuj"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100
-#: umlwidgets/widgetbase.cpp:1290 worktoolbar.cpp:352
+#: umlwidgets/widgetbase.cpp:1290 worktoolbar.cpp:355
 #, kde-format
 msgid "Package"
 msgstr "Pako"
@@ -2125,7 +2125,7 @@ msgstr "Pako"
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryInterface)
 #: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:204
 #: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1272
-#: worktoolbar.cpp:356
+#: worktoolbar.cpp:359
 #, kde-format
 msgid "Interface"
 msgstr "Interfaco"
@@ -2164,7 +2164,7 @@ msgstr "Ĝenerale"
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
 #: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:292
-#: umllistview.cpp:1445
+#: umllistview.cpp:1447
 #, kde-format
 msgid "Font"
 msgstr "Tiparo"
@@ -2269,7 +2269,7 @@ msgstr "&Objektfluo"
 msgid "Destination File Already Exists"
 msgstr "Celdosiero Jam Ekzistas"
 
-#: dialogs/overwritedialog.cpp:28 umlviewimageexporter.cpp:109
+#: dialogs/overwritedialog.cpp:28 umlviewimageexporter.cpp:110
 #, kde-format
 msgid "&Overwrite"
 msgstr "&Superskribi"
@@ -2594,7 +2594,7 @@ msgid "N&ew Instance Attribute..."
 msgstr "N&ova Instanc-Atributo..."
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
-#: uml.cpp:588
+#: uml.cpp:587
 #, kde-format
 msgid "&Properties"
 msgstr "&Trajtoj"
@@ -2612,7 +2612,7 @@ msgid "Source Code"
 msgstr "Fontkodo"
 
 #: dialogs/pages/classoptionspage.cpp:152
-#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:543
+#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:542
 #, kde-format
 msgid "&Documentation"
 msgstr "&Dokumentaro"
@@ -3294,7 +3294,7 @@ msgstr "Diagramo"
 msgid "Umbrello Setup"
 msgstr "Agordo de Umbrello"
 
-#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1447
+#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1449
 #, kde-format
 msgid "User Interface"
 msgstr "Uzant-interfaco"
@@ -3321,7 +3321,7 @@ msgstr "Klaso"
 msgid "Class Settings"
 msgstr "Agordo de Klaso"
 
-#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1442
+#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1444
 #, kde-format
 msgid "Code Importer"
 msgstr "Kodimportilo"
@@ -3331,7 +3331,7 @@ msgstr "Kodimportilo"
 msgid "Code Import Settings"
 msgstr "Agordo de Kodimportilo"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1443
+#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1445
 #, kde-format
 msgid "Code Generation"
 msgstr "Kodgenerado"
@@ -3341,7 +3341,7 @@ msgstr "Kodgenerado"
 msgid "Code Generation Settings"
 msgstr "Agordo de Kodgenerado"
 
-#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1444
+#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1446
 #, kde-format
 msgid "Code Viewer"
 msgstr "Kodmontrilo"
@@ -3351,7 +3351,7 @@ msgstr "Kodmontrilo"
 msgid "Code Viewer Settings"
 msgstr "Agordo de Kodmontrilo"
 
-#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1440
+#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1442
 #, kde-format
 msgid "Auto Layout"
 msgstr "Aŭtomata Aranĝado"
@@ -3625,103 +3625,103 @@ msgstr "&Valoro:"
 msgid "Foreign Key Setup"
 msgstr "Agordo de Ekstera Ŝlosilo"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:204
+#: dialogs/umlforeignkeyconstraintdialog.cpp:205
 #, kde-format
 msgctxt "general page title"
 msgid "General"
 msgstr "Ĝenerala"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:207
+#: dialogs/umlforeignkeyconstraintdialog.cpp:208
 #, kde-format
 msgctxt "general group title"
 msgid "General"
 msgstr "Ĝenerala"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:215
+#: dialogs/umlforeignkeyconstraintdialog.cpp:216
 #, kde-format
 msgctxt "label for entering name"
 msgid "Name"
 msgstr "Nomo"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:218
+#: dialogs/umlforeignkeyconstraintdialog.cpp:219
 #, kde-format
 msgid "Referenced Entity"
 msgstr "Referencita Ento"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:224
+#: dialogs/umlforeignkeyconstraintdialog.cpp:225
 #, kde-format
 msgid "Actions"
 msgstr "Agoj"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:231
+#: dialogs/umlforeignkeyconstraintdialog.cpp:232
 #, kde-format
 msgid "On Update"
 msgstr "Je Ĝisdatigo"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:237
+#: dialogs/umlforeignkeyconstraintdialog.cpp:238
 #, kde-format
 msgid "On Delete"
 msgstr "Je Forigo"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:269
+#: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "No Action"
 msgstr "Neniu ago"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:269
+#: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "Restrict"
 msgstr "Limigi"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:269
+#: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "Cascade"
 msgstr "Kaskadi"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:269
+#: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "Set Null"
 msgstr "Meti nulon"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:270
+#: dialogs/umlforeignkeyconstraintdialog.cpp:271
 #, kde-format
 msgid "Set Default"
 msgstr "Meti aprioron"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:291
+#: dialogs/umlforeignkeyconstraintdialog.cpp:292
 #, kde-format
 msgid "Columns"
 msgstr "Kolumnoj"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:298
+#: dialogs/umlforeignkeyconstraintdialog.cpp:299
 #, kde-format
 msgctxt "column header local"
 msgid "Local"
 msgstr "Loka"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:298
+#: dialogs/umlforeignkeyconstraintdialog.cpp:299
 #, kde-format
 msgctxt "column header referenced"
 msgid "Referenced"
 msgstr "Referencita"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:305
+#: dialogs/umlforeignkeyconstraintdialog.cpp:306
 #, kde-format
 msgid "Local Column"
 msgstr "Loka Kolumno"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:311
+#: dialogs/umlforeignkeyconstraintdialog.cpp:312
 #, kde-format
 msgid "Referenced Column"
 msgstr "Referencita Kolumno"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:318
+#: dialogs/umlforeignkeyconstraintdialog.cpp:319
 #: dialogs/umluniqueconstraintdialog.cpp:108
 #, kde-format
 msgid "&Add"
 msgstr "&Aldoni"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:393
+#: dialogs/umlforeignkeyconstraintdialog.cpp:394
 #, kde-format
 msgid ""
 "You are attempting to change the Referenced Entity of this ForeignKey "
@@ -4083,27 +4083,27 @@ msgstr "Videblo de Rolo B"
 msgid "Exporting to XHTML..."
 msgstr "Eksportanta al XHTML..."
 
-#: docgenerators/docbookgenerator.cpp:78 umlviewimageexporterall.cpp:95
+#: docgenerators/docbookgenerator.cpp:79 umlviewimageexporterall.cpp:95
 #, kde-format
 msgid "Exporting all views..."
 msgstr "Eksportanta ĉiujn bildojn..."
 
-#: docgenerators/docbookgenerator.cpp:84 umlviewimageexporterall.cpp:101
+#: docgenerators/docbookgenerator.cpp:85 umlviewimageexporterall.cpp:101
 #, kde-format
 msgid "Some errors happened when exporting the images:"
 msgstr "Iuj eraroj okazis dum la eksportado de la bildoj:"
 
-#: docgenerators/docbookgenerator.cpp:88
+#: docgenerators/docbookgenerator.cpp:89
 #, kde-format
 msgid "Generating Docbook..."
 msgstr "Generanta Docbook..."
 
-#: docgenerators/docbookgenerator.cpp:108
+#: docgenerators/docbookgenerator.cpp:109
 #, kde-format
 msgid "Docbook Generation Complete..."
 msgstr "Docbook-generado finiĝis..."
 
-#: docgenerators/docbookgenerator.cpp:111
+#: docgenerators/docbookgenerator.cpp:112
 #, kde-format
 msgid "Docbook Generation Failed..."
 msgstr "Docbook-generado malsukcesis..."
@@ -4132,7 +4132,7 @@ msgstr ""
 msgid "Gael de Chalendar (aka Kleag)"
 msgstr "Gael de Chalendar (alinome Kleag)"
 
-#: docgenerators/main.cpp:51 main.cpp:129
+#: docgenerators/main.cpp:51 main.cpp:128
 #, kde-format
 msgid "Umbrello UML Modeller Authors"
 msgstr "Aŭtoroj de Umbrello UML Modeller"
@@ -4196,12 +4196,12 @@ msgstr "Aktivigi redaktadon de dokumentado post fokusa ŝanĝo."
 msgid "Apply layout"
 msgstr "Apliki aranĝon"
 
-#: main.cpp:118
+#: main.cpp:117
 #, kde-format
 msgid "Umbrello UML Modeller"
 msgstr "Umbrello UML Modeller"
 
-#: main.cpp:120
+#: main.cpp:119
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
@@ -4212,7 +4212,7 @@ msgstr ""
 "Unuiĝinta Modelada Lingvo (UML).<br/>Vidu ankaŭ <a href=\"http://www.omg.org/"
 "spec/\">http://www.omg.org/spec/</a>."
 
-#: main.cpp:124
+#: main.cpp:123
 #, kde-format
 msgid ""
 "Copyright © 2001 Paul Hensgen,\n"
@@ -4221,62 +4221,62 @@ msgstr ""
 "Kopirajto © 2001 Paul Hensgen,\n"
 "Kopirajto © 2002-2022 Aŭtoroj de Umbrello UML Modeller"
 
-#: main.cpp:128
+#: main.cpp:127
 #, kde-format
 msgid "Author of initial version."
 msgstr "Aŭtoro de komenca versio."
 
-#: main.cpp:133 main.cpp:136
+#: main.cpp:132 main.cpp:135
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
 msgstr "Riparado de cimoj, portlaboro, koda purigado, novaj funkcioj."
 
-#: main.cpp:139
+#: main.cpp:138
 #, kde-format
 msgid "Porting work, code cleanup, new features."
 msgstr "Portlaboro, koda purigado, novaj funkcioj."
 
-#: main.cpp:142
+#: main.cpp:141
 #, kde-format
 msgid "Current maintainer."
 msgstr "Aktuala prizorganto."
 
-#: main.cpp:145
+#: main.cpp:144
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr "Multe da laboro pri C++a kaj Ĝava kodgenero. Kodredaktilo."
 
-#: main.cpp:153
+#: main.cpp:152
 #, kde-format
 msgid "File to open"
 msgstr "Dosiero malfermenda"
 
-#: main.cpp:154
+#: main.cpp:153
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "eksporti diagramojn al sufikso kaj eliri"
 
-#: main.cpp:156
+#: main.cpp:155
 #, kde-format
 msgid "list available export extensions"
 msgstr "listigi disponeblajn eksport-etendaĵojn"
 
-#: main.cpp:158
+#: main.cpp:157
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "la loka dosierujo por la savado de la eksportitaj bildoj"
 
-#: main.cpp:160
+#: main.cpp:159
 #, kde-format
 msgid "import files"
 msgstr "importi dosierojn"
 
-#: main.cpp:162
+#: main.cpp:161
 #, kde-format
 msgid "list supported languages"
 msgstr "listigi subtenatajn programlingvojn"
 
-#: main.cpp:164
+#: main.cpp:163
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4285,12 +4285,12 @@ msgstr ""
 "reteni la arbostrukturon uzata por la storado de la diagramoj en la "
 "dokumento de la celdosierujo"
 
-#: main.cpp:166
+#: main.cpp:165
 #, kde-format
 msgid "import files from directory <dir>"
 msgstr "importi dosierojn de dosierujo <dir>"
 
-#: main.cpp:168
+#: main.cpp:167
 #, kde-format
 msgid "set language"
 msgstr "meti programlingvon"
@@ -4381,20 +4381,20 @@ msgstr "Akcepti Tempan Eventon"
 msgid "Activity..."
 msgstr "Aktiveco..."
 
-#: menus/listpopupmenu.cpp:146 worktoolbar.cpp:373
+#: menus/listpopupmenu.cpp:146 worktoolbar.cpp:376
 #, kde-format
 msgid "Activity Transition"
 msgstr "Aktivecotransiro"
 
 #: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1233
-#: worktoolbar.cpp:335
+#: worktoolbar.cpp:338
 #, kde-format
 msgid "Actor"
 msgstr "Aktoro"
 
 #. i18n("Actor...")); break;
 #: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1236
-#: worktoolbar.cpp:355
+#: worktoolbar.cpp:358
 #, kde-format
 msgid "Artifact"
 msgstr "Artefaraĵo"
@@ -4434,7 +4434,7 @@ msgid "Combined state..."
 msgstr "Kombinita stato..."
 
 #: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1251
-#: worktoolbar.cpp:353
+#: worktoolbar.cpp:356
 #, kde-format
 msgid "Component"
 msgstr "Komponanto"
@@ -4452,7 +4452,7 @@ msgstr "Dosierujo"
 msgid "Datatype..."
 msgstr "Datumtipo..."
 
-#: menus/listpopupmenu.cpp:170 worktoolbar.cpp:362
+#: menus/listpopupmenu.cpp:170 worktoolbar.cpp:365
 #, kde-format
 msgid "Deep History"
 msgstr "Profunda Historio"
@@ -4462,18 +4462,18 @@ msgstr "Profunda Historio"
 msgid "Edit combined state"
 msgstr "Redakti kombinan staton"
 
-#: menus/listpopupmenu.cpp:175 worktoolbar.cpp:376
+#: menus/listpopupmenu.cpp:175 worktoolbar.cpp:379
 #, kde-format
 msgid "End Activity"
 msgstr "Fina Aktiveco"
 
-#: menus/listpopupmenu.cpp:176 worktoolbar.cpp:346
+#: menus/listpopupmenu.cpp:176 worktoolbar.cpp:349
 #, kde-format
 msgid "End State"
 msgstr "Fina Stato"
 
 #: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1260
-#: worktoolbar.cpp:361
+#: worktoolbar.cpp:364
 #, kde-format
 msgid "Entity"
 msgstr "Ento"
@@ -4514,7 +4514,7 @@ msgstr "Eksterigi Dosierujon..."
 msgid "Fill Color..."
 msgstr "Pleniga Koloro..."
 
-#: menus/listpopupmenu.cpp:189 worktoolbar.cpp:377
+#: menus/listpopupmenu.cpp:189 worktoolbar.cpp:380
 #, kde-format
 msgid "Final Activity"
 msgstr "Fina Aktiveco"
@@ -4534,7 +4534,7 @@ msgstr "Vertikaligi"
 msgid "Text Line..."
 msgstr "Tekstlinio..."
 
-#: menus/listpopupmenu.cpp:194 menus/listpopupmenu.cpp:258 worktoolbar.cpp:365
+#: menus/listpopupmenu.cpp:194 menus/listpopupmenu.cpp:258 worktoolbar.cpp:368
 #, kde-format
 msgid "Fork"
 msgstr "Disiĝi"
@@ -4554,7 +4554,7 @@ msgstr "Kaŝi malkonstruan skatolon"
 msgid "Import File(s)..."
 msgstr "Importi Dosiero(j)n..."
 
-#: menus/listpopupmenu.cpp:198 uml.cpp:385
+#: menus/listpopupmenu.cpp:198 uml.cpp:384
 #, kde-format
 msgid "Import from Directory..."
 msgstr "Importi de Dosierujo..."
@@ -4564,12 +4564,12 @@ msgstr "Importi de Dosierujo..."
 msgid "from file..."
 msgstr "de dosiero..."
 
-#: menus/listpopupmenu.cpp:200 worktoolbar.cpp:380
+#: menus/listpopupmenu.cpp:200 worktoolbar.cpp:383
 #, kde-format
 msgid "Initial Activity"
 msgstr "Komenca Aktiveco"
 
-#: menus/listpopupmenu.cpp:201 worktoolbar.cpp:344
+#: menus/listpopupmenu.cpp:201 worktoolbar.cpp:347
 #, kde-format
 msgid "Initial State"
 msgstr "Komenca Stato"
@@ -4601,7 +4601,7 @@ msgstr "Postulata interfaco"
 msgid "Internalize Folder"
 msgstr "Internigi Dosierujon"
 
-#: menus/listpopupmenu.cpp:209 worktoolbar.cpp:367
+#: menus/listpopupmenu.cpp:209 worktoolbar.cpp:370
 #, kde-format
 msgid "Junction"
 msgstr "Kuniĝo"
@@ -4611,7 +4611,7 @@ msgstr "Kuniĝo"
 msgid "Line Color..."
 msgstr "Linia Koloro..."
 
-#: menus/listpopupmenu.cpp:212 worktoolbar.cpp:324 worktoolbar.cpp:382
+#: menus/listpopupmenu.cpp:212 worktoolbar.cpp:327 worktoolbar.cpp:385
 #, kde-format
 msgid "Asynchronous Message"
 msgstr "Nesinkrona Mesaĝo"
@@ -4626,17 +4626,17 @@ msgstr "Kreada Mesaĝo"
 msgid "Destroy Message"
 msgstr "Malkonstrua Mesaĝo"
 
-#: menus/listpopupmenu.cpp:215 worktoolbar.cpp:325
+#: menus/listpopupmenu.cpp:215 worktoolbar.cpp:328
 #, kde-format
 msgid "Found Message"
 msgstr "Trovita Mesaĝo"
 
-#: menus/listpopupmenu.cpp:216 worktoolbar.cpp:326
+#: menus/listpopupmenu.cpp:216 worktoolbar.cpp:329
 #, kde-format
 msgid "Lost Message"
 msgstr "Perdita Mesaĝo"
 
-#: menus/listpopupmenu.cpp:217 worktoolbar.cpp:323 worktoolbar.cpp:381
+#: menus/listpopupmenu.cpp:217 worktoolbar.cpp:326 worktoolbar.cpp:384
 #, kde-format
 msgid "Synchronous Message"
 msgstr "Sinkrona Mesaĝo"
@@ -4657,7 +4657,7 @@ msgid "New Parameter..."
 msgstr "Nova Parametro..."
 
 #: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1278
-#: worktoolbar.cpp:354
+#: worktoolbar.cpp:357
 #, kde-format
 msgid "Node"
 msgstr "Nodo"
@@ -4673,7 +4673,7 @@ msgstr "Noto..."
 msgid "Object..."
 msgstr "Objekto..."
 
-#: menus/listpopupmenu.cpp:230 worktoolbar.cpp:384
+#: menus/listpopupmenu.cpp:230 worktoolbar.cpp:387
 #, kde-format
 msgid "Object Node"
 msgstr "Objektnodo"
@@ -4690,13 +4690,13 @@ msgid "Package..."
 msgstr "Pako..."
 
 #: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1293
-#: worktoolbar.cpp:378
+#: worktoolbar.cpp:381
 #, kde-format
 msgid "Pin"
 msgstr "Pinglo"
 
 #: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1296
-#: worktoolbar.cpp:379
+#: worktoolbar.cpp:382
 #, kde-format
 msgid "Port"
 msgstr "Pordo"
@@ -4713,7 +4713,7 @@ msgid "Redo"
 msgstr "Refari"
 
 #: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1302
-#: worktoolbar.cpp:345
+#: worktoolbar.cpp:348
 #, kde-format
 msgid "Region"
 msgstr "Regiono"
@@ -4768,7 +4768,7 @@ msgstr "Elekti statodiagramon"
 msgid "Send Signal"
 msgstr "Sendi Signalon"
 
-#: menus/listpopupmenu.cpp:254 worktoolbar.cpp:363
+#: menus/listpopupmenu.cpp:254 worktoolbar.cpp:366
 #, kde-format
 msgid "Shallow History"
 msgstr "Malprofunda Historio"
@@ -4789,7 +4789,7 @@ msgstr "Stato..."
 msgid "Join"
 msgstr "Kuniĝo"
 
-#: menus/listpopupmenu.cpp:262 worktoolbar.cpp:366
+#: menus/listpopupmenu.cpp:262 worktoolbar.cpp:369
 #, kde-format
 msgid "Subsystem"
 msgstr "Subsistemo"
@@ -4806,7 +4806,7 @@ msgstr "Ŝablono"
 msgid "Undo"
 msgstr "Malfari"
 
-#: menus/listpopupmenu.cpp:268 worktoolbar.cpp:342
+#: menus/listpopupmenu.cpp:268 worktoolbar.cpp:345
 #, kde-format
 msgid "Use Case"
 msgstr "Uzkazo"
@@ -5053,42 +5053,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "Vicigi"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:607
+#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:606
 #, kde-format
 msgid "Align Right"
 msgstr "Vicigi Dekstre"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:612
+#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:611
 #, kde-format
 msgid "Align Left"
 msgstr "Vicigi Maldekstre"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:617
+#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:616
 #, kde-format
 msgid "Align Top"
 msgstr "Vicigi Supre"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:622
+#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:621
 #, kde-format
 msgid "Align Bottom"
 msgstr "Vicigi Malsupre"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:627
+#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:626
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr "Vicigi Vertikal-Centre"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:632
+#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:631
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr "Vicigi Horizontal-Centre"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:637
+#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:636
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr "Vicigi Vertikal-Distribue"
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:642
+#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:641
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr "Vicigi Horizontal-Distribue"
@@ -7139,198 +7139,198 @@ msgstr "Aktiva Program&lingvo"
 msgid "&Settings"
 msgstr "&Agordo"
 
-#: uml.cpp:361
+#: uml.cpp:360
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr "&Eksporti modelon al DocBook"
 
-#: uml.cpp:365
+#: uml.cpp:364
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr "&Eksporti modelon al XHTML"
 
-#: uml.cpp:369
+#: uml.cpp:368
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "&Nova Klas-Sorĉisto..."
 
-#: uml.cpp:373
+#: uml.cpp:372
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "&Almeti normajn datumtipojn por la Aktiva Programlingvo"
 
-#: uml.cpp:380
+#: uml.cpp:379
 #, kde-format
 msgid "Code &Importing Wizard..."
 msgstr "Kod&importa Sorĉisto..."
 
-#: uml.cpp:390
+#: uml.cpp:389
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "&Kodgenera Sorĉisto..."
 
-#: uml.cpp:395
+#: uml.cpp:394
 #, kde-format
 msgid "&Generate All Code"
 msgstr "&Generi Tutan Kodon"
 
-#: uml.cpp:442
+#: uml.cpp:441
 #, kde-format
 msgid "Creates a new document"
 msgstr "Kreas novan dokumenton"
 
-#: uml.cpp:443
+#: uml.cpp:442
 #, kde-format
 msgid "Opens an existing document"
 msgstr "Malfermas ekzistantan dokumenton"
 
-#: uml.cpp:444
+#: uml.cpp:443
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "Malfermas lastatempe uzatan dokumenton"
 
-#: uml.cpp:445
+#: uml.cpp:444
 #, kde-format
 msgid "Saves the document"
 msgstr "Savas la dokumenton"
 
-#: uml.cpp:446
+#: uml.cpp:445
 #, kde-format
 msgid "Saves the document as..."
 msgstr "Savas la dokumenton kiel..."
 
-#: uml.cpp:447
+#: uml.cpp:446
 #, kde-format
 msgid "Closes the document"
 msgstr "Fermas la dokumenton"
 
-#: uml.cpp:448
+#: uml.cpp:447
 #, kde-format
 msgid "Prints out the document"
 msgstr "Elprintas la dokumenton"
 
-#: uml.cpp:449
+#: uml.cpp:448
 #, kde-format
 msgid "Print Preview of the document"
 msgstr "Elprintas Antaŭrigardon de la dokumento"
 
-#: uml.cpp:450
+#: uml.cpp:449
 #, kde-format
 msgid "Quits the application"
 msgstr "Forlasas la aplikaĵon"
 
-#: uml.cpp:451
+#: uml.cpp:450
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr "Eksportas la modelon al formato docbookk"
 
-#: uml.cpp:452
+#: uml.cpp:451
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr "Eksportas la modelon al formato XHTML"
 
-#: uml.cpp:453
+#: uml.cpp:452
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "Eltondas la elektitan sekcion kaj metas ĝin en la tondujon"
 
-#: uml.cpp:454
+#: uml.cpp:453
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "Kopias la elektitan sekcion al la tondujo"
 
-#: uml.cpp:455
+#: uml.cpp:454
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr "Regluas la enhavon de la tondujo"
 
-#: uml.cpp:456
+#: uml.cpp:455
 #, kde-format
 msgid "Undo last action"
 msgstr "Malfari lastan agon"
 
-#: uml.cpp:457
+#: uml.cpp:456
 #, kde-format
 msgid "Redo last undone action"
 msgstr "Refari la lastan malfaritan agon"
 
-#: uml.cpp:459
+#: uml.cpp:458
 #, kde-format
 msgid "Set the default program preferences"
 msgstr "Agordas la aŭtomatajn programpreferojn"
 
-#: uml.cpp:463
+#: uml.cpp:462
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "Forigi &Selektaĵon"
 
-#: uml.cpp:474
+#: uml.cpp:473
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "&Klasdiagramo..."
 
-#: uml.cpp:481
+#: uml.cpp:480
 #, kde-format
 msgid "&Object Diagram..."
 msgstr "&Objektdiagramo..."
 
-#: uml.cpp:488
+#: uml.cpp:487
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "&Sekvencdiagramo..."
 
-#: uml.cpp:494
+#: uml.cpp:493
 #, kde-format
 msgid "C&ommunication Diagram..."
 msgstr "Kunlab&ordiagramo..."
 
-#: uml.cpp:500
+#: uml.cpp:499
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr "&Uzkazdiagramo..."
 
-#: uml.cpp:506
+#: uml.cpp:505
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "S&tatodiagramo..."
 
-#: uml.cpp:512
+#: uml.cpp:511
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "&Aktivecdiagramo..."
 
-#: uml.cpp:518
+#: uml.cpp:517
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "Ko&mponantdiagramo..."
 
-#: uml.cpp:524
+#: uml.cpp:523
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr "Stern&diagramo..."
 
-#: uml.cpp:530
+#: uml.cpp:529
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "&Ento-Rilato Diagramo..."
 
-#: uml.cpp:535 uml.cpp:954
+#: uml.cpp:534 uml.cpp:953
 #, kde-format
 msgid "&Tree View"
 msgstr "Arboperspek&tivo"
 
-#: uml.cpp:539
+#: uml.cpp:538
 #, kde-format
 msgid "&Debugging"
 msgstr "Sen&cimigo"
 
-#: uml.cpp:547
+#: uml.cpp:546
 #, kde-format
 msgid "&Logging"
 msgstr "Protoko&lado"
 
-#: uml.cpp:551
+#: uml.cpp:550
 #, kde-format
 msgid "&Command history"
 msgstr "Ko&mandohistorio"
@@ -7339,135 +7339,135 @@ msgstr "Ko&mandohistorio"
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:555 uml.cpp:1011
+#: uml.cpp:554 uml.cpp:1010
 #, kde-format
 msgid "&Bird's eye view"
 msgstr "&Bird-okula perspektivo"
 
-#: uml.cpp:560
+#: uml.cpp:559
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "&Viŝi Diagramon"
 
-#: uml.cpp:564
+#: uml.cpp:563
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "Vi&cigi al Krado"
 
-#: uml.cpp:568
+#: uml.cpp:567
 #, kde-format
 msgid "S&how Grid"
 msgstr "&Montri Kradon"
 
-#: uml.cpp:573
+#: uml.cpp:572
 #, kde-format
 msgid "&Delete Diagram"
 msgstr "Forigi &Diagramon"
 
-#: uml.cpp:578
+#: uml.cpp:577
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "&Eksporti kiel Bildo..."
 
-#: uml.cpp:583
+#: uml.cpp:582
 #, kde-format
 msgid "Export &Diagrams as Pictures..."
 msgstr "Eksporti &Diagramojn kiel Bildoj..."
 
-#: uml.cpp:603
+#: uml.cpp:602
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "Z&omi al 100%"
 
-#: uml.cpp:646
+#: uml.cpp:645
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "&Movi Langeton Maldekstren"
 
-#: uml.cpp:647
+#: uml.cpp:646
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "&Movi Langeton Dekstren"
 
-#: uml.cpp:663
+#: uml.cpp:662
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr "Selekti Diagramon Maldekstran"
 
-#: uml.cpp:664
+#: uml.cpp:663
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr "Selekti Diagramon Dekstran"
 
-#: uml.cpp:794
+#: uml.cpp:793
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr " &%1%"
 
-#: uml.cpp:844
+#: uml.cpp:843
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Preta"
 
-#: uml.cpp:852 uml.cpp:865
+#: uml.cpp:851 uml.cpp:864
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: uml.cpp:857
+#: uml.cpp:856
 #, kde-format
 msgid "Fit"
 msgstr "Adapti"
 
-#: uml.cpp:908
+#: uml.cpp:907
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "Diagrama Ilpanelo"
 
-#: uml.cpp:965
+#: uml.cpp:964
 #, kde-format
 msgid "Doc&umentation"
 msgstr "Dok&umentaro"
 
-#: uml.cpp:976
+#: uml.cpp:975
 #, kde-format
 msgid "Co&mmand history"
 msgstr "Ko&mandohistorio"
 
-#: uml.cpp:992
+#: uml.cpp:991
 #, kde-format
 msgid "&Debug"
 msgstr "&Sencimigi"
 
-#: uml.cpp:999
+#: uml.cpp:998
 #, kde-format
 msgid "&Log"
 msgstr "Protoko&li"
 
-#: uml.cpp:1037 uml.cpp:1254 uml.cpp:1292
+#: uml.cpp:1036 uml.cpp:1253 uml.cpp:1291
 #, kde-format
 msgid "Opening file..."
 msgstr "Malfermanta dosieron..."
 
-#: uml.cpp:1088 uml.cpp:1159 uml.cpp:1323 umldoc.cpp:349 umldoc.cpp:372
+#: uml.cpp:1087 uml.cpp:1158 uml.cpp:1322 umldoc.cpp:349 umldoc.cpp:372
 #: umldoc.cpp:3285
 #, kde-format
 msgid "Untitled"
 msgstr "Sentitola"
 
-#: uml.cpp:1236
+#: uml.cpp:1235
 #, kde-format
 msgid "Creating new document..."
 msgstr "Kreanta novan dokumenton..."
 
-#: uml.cpp:1261
+#: uml.cpp:1260
 #, kde-format
 msgid "Open File"
 msgstr "Malfermanta Dosieron"
 
-#: uml.cpp:1262
+#: uml.cpp:1261
 #, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7488,22 +7488,22 @@ msgstr ""
 "*.mdl|Rose modeldosieroj (*.mdl)\n"
 "*.zargo|Komprimitaj Argo-dosieroj(*.zargo)\n"
 
-#: uml.cpp:1322
+#: uml.cpp:1321
 #, kde-format
 msgid "Saving file..."
 msgstr "Savanta dosieron..."
 
-#: uml.cpp:1339
+#: uml.cpp:1338
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Savanta dosieron kun nova dosiernomo..."
 
-#: uml.cpp:1344 umlviewimageexporter.cpp:171
+#: uml.cpp:1343 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Konservi kiel"
 
-#: uml.cpp:1345
+#: uml.cpp:1344
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7513,7 +7513,7 @@ msgstr ""
 "tgz);;*.xmi.tar.bz2 | Bzip2-komprimita XMI-dosiero (*.xmi.tar.bz2);;* | Ĉiuj "
 "Dosieroj (*)"
 
-#: uml.cpp:1363
+#: uml.cpp:1362
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7522,67 +7522,67 @@ msgstr ""
 "La dosiero %1 ekzistas.\n"
 "Ĉu vi volas superskribi ĝin?"
 
-#: uml.cpp:1364
+#: uml.cpp:1363
 #, kde-format
 msgid "Warning"
 msgstr "Averto"
 
-#: uml.cpp:1364
+#: uml.cpp:1363
 #, kde-format
 msgid "Overwrite"
 msgstr "Superskribi"
 
-#: uml.cpp:1390
+#: uml.cpp:1389
 #, kde-format
 msgid "Closing file..."
 msgstr "Fermanta dosieron..."
 
-#: uml.cpp:1401
+#: uml.cpp:1400
 #, kde-format
 msgid "No search term entered"
 msgstr "Neniu serĉtermino enigita"
 
-#: uml.cpp:1407
+#: uml.cpp:1406
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "'%1': %2 trovata"
 
-#: uml.cpp:1463
+#: uml.cpp:1462
 #, kde-format
 msgid "Print Preview..."
 msgstr "Printa Antaŭrigardo..."
 
-#: uml.cpp:1490
+#: uml.cpp:1489
 #, kde-format
 msgid "Printing..."
 msgstr "Presado..."
 
-#: uml.cpp:1496
+#: uml.cpp:1495
 #, kde-format
 msgid "Print %1"
 msgstr "Presi %1"
 
-#: uml.cpp:1515
+#: uml.cpp:1514
 #, kde-format
 msgid "Exiting..."
 msgstr "Eliĝanta..."
 
-#: uml.cpp:1586
+#: uml.cpp:1585
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Eltondanta elekton..."
 
-#: uml.cpp:1609
+#: uml.cpp:1608
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Kopianta elekton al tondujo..."
 
-#: uml.cpp:1621
+#: uml.cpp:1620
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Enmetanta tondujan enhavon..."
 
-#: uml.cpp:1626
+#: uml.cpp:1625
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7591,38 +7591,38 @@ msgstr ""
 "Umbrello ne povis reglui la tondujan enhavon.  La objektoj en la tondujo "
 "povus esti de maltaŭga tipo por ĉi regluado."
 
-#: uml.cpp:1652 umlviewimageexporter.cpp:79 umlviewimageexporterall.cpp:103
+#: uml.cpp:1651 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Preta."
 
-#: uml.cpp:2253
+#: uml.cpp:2252
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "Maleblas inspekti fontkodon dum kiam vi ankoraŭ ne generis ĝin"
 
-#: uml.cpp:2253 uml.cpp:2256
+#: uml.cpp:2252 uml.cpp:2255
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Kodmontrado Neebla"
 
-#: uml.cpp:2256
+#: uml.cpp:2255
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Ne eblas inspekti kodon uzante simplan generilon"
 
-#: uml.cpp:2732
+#: uml.cpp:2731
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Elekti dosiero(j)n por importado:"
 
-#: uml.cpp:2761
+#: uml.cpp:2760
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Elekti dosierujon por importado:"
 
-#: uml.cpp:3281
+#: uml.cpp:3280
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Generado de XHTML malsukcesis."
@@ -7912,7 +7912,7 @@ msgstr ""
 msgid "File Exists"
 msgstr "Dosiero Jam Ekzistas"
 
-#: umllistview.cpp:568 umlviewimageexportermodel.cpp:269
+#: umllistview.cpp:568 umlviewimageexportermodel.cpp:268
 #, kde-format
 msgid "There was a problem saving file: %1"
 msgstr "Problemo dum la savado de la dosiero: %1"
@@ -7927,47 +7927,47 @@ msgstr "Enigi Modelnomon"
 msgid "Enter the new name of the model:"
 msgstr "Enigu la novan nomon de la modelo:"
 
-#: umllistview.cpp:1418
+#: umllistview.cpp:1420
 #, kde-format
 msgid "Views"
 msgstr "Perspektivoj"
 
-#: umllistview.cpp:1436
+#: umllistview.cpp:1438
 #, kde-format
 msgid "Settings"
 msgstr "Agordo"
 
-#: umllistview.cpp:2453
+#: umllistview.cpp:2455
 #, kde-format
 msgid "Loading listview..."
 msgstr "Ŝarganta Listoperspektivon..."
 
-#: umllistview.cpp:2822
+#: umllistview.cpp:2824
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr "La klaso devas esti malplenigata antaŭ ĝia forigo."
 
-#: umllistview.cpp:2823
+#: umllistview.cpp:2825
 #, kde-format
 msgid "Class Not Empty"
 msgstr "Klaso Ne Malplena"
 
-#: umllistview.cpp:2827
+#: umllistview.cpp:2829
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr "La pako devas esti malplenigata antaŭ ĝia forigo."
 
-#: umllistview.cpp:2828
+#: umllistview.cpp:2830
 #, kde-format
 msgid "Package Not Empty"
 msgstr "Pako Ne Malplena"
 
-#: umllistview.cpp:2832
+#: umllistview.cpp:2834
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "La dosierujo devas esti malplena antaŭ ĝia forigo."
 
-#: umllistview.cpp:2833
+#: umllistview.cpp:2835
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "Dosierujo Ne Malplena"
@@ -8195,17 +8195,17 @@ msgstr "Enigu la novan nomon de la diagramo:"
 msgid "Failed to import from file."
 msgstr "Malsukcesis importo el dosiero."
 
-#: umlviewimageexporter.cpp:72
+#: umlviewimageexporter.cpp:73
 #, kde-format
 msgid "Exporting view..."
 msgstr "Eksportanta diagramon..."
 
-#: umlviewimageexporter.cpp:77
+#: umlviewimageexporter.cpp:78
 #, kde-format
 msgid "An error happened when exporting the image:\n"
 msgstr "Eraro okazis dum la eksportado de la bildo:\n"
 
-#: umlviewimageexporter.cpp:108
+#: umlviewimageexporter.cpp:109
 #, kde-format
 msgid ""
 "The selected file %1 exists.\n"
@@ -8214,22 +8214,22 @@ msgstr ""
 "La selektita dosiero %1 jam ekzistas.\n"
 "Ĉu vi volas superskribi ĝin?"
 
-#: umlviewimageexporter.cpp:109
+#: umlviewimageexporter.cpp:110
 #, kde-format
 msgid "File Already Exists"
 msgstr "Dosiero Jam Ekzistas"
 
-#: umlviewimageexportermodel.cpp:238
+#: umlviewimageexportermodel.cpp:237
 #, kde-format
 msgid "Empty scene"
 msgstr "Malplena sceno"
 
-#: umlviewimageexportermodel.cpp:243
+#: umlviewimageexportermodel.cpp:242
 #, kde-format
 msgid "Cannot create directory: %1"
 msgstr "Ne eblas krei dosierujon: %1"
 
-#: umlviewimageexportermodel.cpp:260
+#: umlviewimageexportermodel.cpp:259
 #, kde-format
 msgid "A problem occurred while saving diagram in %1"
 msgstr "Problemo okazis dum la savado de la diagramo en %1"
@@ -8359,7 +8359,7 @@ msgid "Enter operation name:"
 msgstr "Enigi operacian nomon:"
 
 #: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1299
-#: worktoolbar.cpp:328
+#: worktoolbar.cpp:331
 #, kde-format
 msgid "Precondition"
 msgstr "Antaŭkondiĉo"
@@ -8984,7 +8984,7 @@ msgstr "Enigu la novan nomon de la uml fenestraĵo:"
 msgid "Enter the new name of the widget:"
 msgstr "Enigu la novan nomon de la fenestraĵo:"
 
-#: umlwidgets/widgetbase.cpp:1242 worktoolbar.cpp:334
+#: umlwidgets/widgetbase.cpp:1242 worktoolbar.cpp:337
 #, kde-format
 msgid "Box"
 msgstr "Skatolo"
@@ -8994,12 +8994,12 @@ msgstr "Skatolo"
 msgid "CombinedFragment"
 msgstr "KombinitaFragmento"
 
-#: umlwidgets/widgetbase.cpp:1257 worktoolbar.cpp:359
+#: umlwidgets/widgetbase.cpp:1257 worktoolbar.cpp:362
 #, kde-format
 msgid "Datatype"
 msgstr "Datumtipo"
 
-#: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:360
+#: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:363
 #, kde-format
 msgid "Enum"
 msgstr "Enum"
@@ -9019,12 +9019,12 @@ msgstr "DisiĝoKuniĝo"
 msgid "Message"
 msgstr "Mesaĝo"
 
-#: umlwidgets/widgetbase.cpp:1281 worktoolbar.cpp:333
+#: umlwidgets/widgetbase.cpp:1281 worktoolbar.cpp:336
 #, kde-format
 msgid "Note"
 msgstr "Noto"
 
-#: umlwidgets/widgetbase.cpp:1284 worktoolbar.cpp:320
+#: umlwidgets/widgetbase.cpp:1284 worktoolbar.cpp:323
 #, kde-format
 msgid "Object"
 msgstr "Objekto"
@@ -9054,103 +9054,103 @@ msgstr "Teksto"
 msgid "UseCase"
 msgstr "UzKazo"
 
-#: umlwidgets/widgetbase.cpp:1317 worktoolbar.cpp:389
+#: umlwidgets/widgetbase.cpp:1317 worktoolbar.cpp:392
 #, kde-format
 msgid "Instance"
 msgstr "Instanco"
 
-#: worktoolbar.cpp:319
+#: worktoolbar.cpp:322
 #, kde-format
 msgctxt "selection arrow"
 msgid "Select"
 msgstr "Selekti"
 
-#: worktoolbar.cpp:321
+#: worktoolbar.cpp:324
 #, kde-format
 msgid "Creation"
 msgstr "Kreo"
 
-#: worktoolbar.cpp:322
+#: worktoolbar.cpp:325
 #, kde-format
 msgid "Destroy"
 msgstr "Malkreo"
 
-#: worktoolbar.cpp:327
+#: worktoolbar.cpp:330
 #, kde-format
 msgid "Combined Fragment"
 msgstr "Kombinita Fragmento"
 
-#: worktoolbar.cpp:332
+#: worktoolbar.cpp:335
 #, kde-format
 msgid "Label"
 msgstr "Etikedo"
 
-#: worktoolbar.cpp:339
+#: worktoolbar.cpp:342
 #, kde-format
 msgid "Directional Association"
 msgstr "Direktita Asocio"
 
-#: worktoolbar.cpp:343
+#: worktoolbar.cpp:346
 #, kde-format
 msgctxt "UML class"
 msgid "Class"
 msgstr "Klaso"
 
-#: worktoolbar.cpp:348
+#: worktoolbar.cpp:351
 #, kde-format
 msgid "Send signal"
 msgstr "Sendi signalon"
 
-#: worktoolbar.cpp:349
+#: worktoolbar.cpp:352
 #, kde-format
 msgid "Accept signal"
 msgstr "Akcepti signalon"
 
-#: worktoolbar.cpp:350
+#: worktoolbar.cpp:353
 #, kde-format
 msgid "Accept time event"
 msgstr "Akcepti tempan eventon"
 
-#: worktoolbar.cpp:351
+#: worktoolbar.cpp:354
 #, kde-format
 msgid "Fork/Join"
 msgstr "Disiĝi/Kuniĝi"
 
-#: worktoolbar.cpp:357
+#: worktoolbar.cpp:360
 #, kde-format
 msgid "Interface Provider"
 msgstr "Interfacprovizanto"
 
-#: worktoolbar.cpp:358
+#: worktoolbar.cpp:361
 #, kde-format
 msgid "Interface required"
 msgstr "Interfaco"
 
-#: worktoolbar.cpp:364
+#: worktoolbar.cpp:367
 #, kde-format
 msgctxt "join states"
 msgid "Join"
 msgstr "Kuniĝi"
 
-#: worktoolbar.cpp:368
+#: worktoolbar.cpp:371
 #, kde-format
 msgctxt "state choice"
 msgid "Choice"
 msgstr "Elekto"
 
 #. i18n("Choice"),                  Icon_Utils::it_Choice_Round,            SLOT(slotChoice()) },          //NotYetImplemented
-#: worktoolbar.cpp:371
+#: worktoolbar.cpp:374
 #, kde-format
 msgid "And Line"
 msgstr "\"And\" Linio"
 
-#: worktoolbar.cpp:375
+#: worktoolbar.cpp:378
 #, kde-format
 msgctxt "state diagram"
 msgid "State"
 msgstr "Stato"
 
-#: worktoolbar.cpp:385
+#: worktoolbar.cpp:388
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "Antaŭa/Posta kondiĉo"
