@@ -100,7 +100,7 @@ void PreconditionWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem
         const QString precondition_value = QStringLiteral("{ ") + name() + QStringLiteral(" }");
         //int middleX = w / 2;
         int textStartY = (h / 2) - (fontHeight / 2);
-        painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
+        painter->drawRoundedRect(0, 0, w, h, (h * 60) / w, 60);
         painter->setPen(textColor());
         painter->setFont(UMLWidget::font());
         painter->drawText(PRECONDITION_MARGIN, textStartY,
@@ -118,7 +118,7 @@ QSizeF PreconditionWidget::minimumSize() const
     int width = 10, height = 10;
     const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
     const int fontHeight  = fm.lineSpacing();
-    const int textWidth = fm.width(name()) + 25;
+    const int textWidth = fm.horizontalAdvance(name()) + 25;
     height = fontHeight;
     width = textWidth > PRECONDITION_WIDTH ? textWidth : PRECONDITION_WIDTH;
     height = height > PRECONDITION_HEIGHT ? height : PRECONDITION_HEIGHT;

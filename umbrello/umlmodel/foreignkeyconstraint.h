@@ -32,7 +32,7 @@ public:
 
     /**
      * Update/Delete Action: Action to be taken on Update or Delete of a referenced attribute
-     * is either, No Action, Restrict, Cascade, Set NULL, Set Default.
+     * is either, No Action, Restrict, Cascade, Set nullptr, Set Default.
      */
     enum UpdateDeleteAction { uda_NoAction = 0,
                               uda_Restrict,
@@ -60,7 +60,7 @@ public:
 
     void saveToXMI(QXmlStreamWriter& writer);
 
-    virtual bool showPropertiesDialog(QWidget* parent = 0);
+    virtual bool showPropertiesDialog(QWidget *parent = nullptr);
 
     bool addEntityAttributePair(UMLEntityAttribute* pAttr, UMLEntityAttribute* rAttr);
 

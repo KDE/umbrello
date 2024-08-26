@@ -36,7 +36,7 @@ bool IDLWriter::isOOClass(UMLClassifier *c)
 {
     QString stype = c->stereotype();
     QRegularExpression nonOO(QStringLiteral("(Constant|Enum|Struct|Union|Sequence|Array|Typedef)$"),
-                  Qt::CaseInsensitive);
+                  QRegularExpression::PatternOption::CaseInsensitiveOption);
     if (stype.contains(nonOO))
         return false;
 
@@ -263,7 +263,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
                     const QStringList& tags = at->tags();
                     if (tags.count()) {
                         const QString& caseVals = tags.front();
-                        for(QString caseVal: caseVals.split(QLatin1Char(' '))) {
+                        for(const QString& caseVal : caseVals.split(QLatin1Char(' '))) {
                             idl << indent() << "case " << caseVal << ":" << m_endl;
                         }
                     } else {

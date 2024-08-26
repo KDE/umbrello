@@ -97,7 +97,7 @@ private:
 
 
 Driver::Driver()
-    : depresolv(0), lexer(0), m_lexerCache(this), m_dependenceDepth(0), m_maxDependenceDepth(20)
+    : depresolv(0), lexer(nullptr), m_lexerCache(this), m_dependenceDepth(0), m_maxDependenceDepth(20)
 {
     m_sourceProvider = new DefaultSourceProvider();
 }
@@ -253,13 +253,13 @@ ParsedFilePointer Driver::takeTranslationUnit(const QString& fileName)
 {
     QMap<QString, ParsedFilePointer>::const_iterator it = m_parsedUnits.constFind(fileName);
     ParsedFilePointer unit(*it);
-    m_parsedUnits[ fileName ] = 0;
+    m_parsedUnits[ fileName ] = nullptr;
     return unit;
 }
 
 void Driver::takeTranslationUnit(const ParsedFile& file)
 {
-    m_parsedUnits[ file.fileName() ] = 0;
+    m_parsedUnits[ file.fileName() ] = nullptr;
 }
 
 ParsedFilePointer Driver::translationUnit(const QString& fileName) const
@@ -297,7 +297,7 @@ public:
 
         if (m_force && it != m_driver->m_parsedUnits.end()) {
             m_driver->takeTranslationUnit(m_absoluteFilePath);
-        } else if (it != m_driver->m_parsedUnits.end() && *it != (ParsedFilePointer)0) {
+        } else if (it != m_driver->m_parsedUnits.end() && *it != (ParsedFilePointer)nullptr) {
             // file already processed
             return ;
         }
@@ -336,7 +336,7 @@ public:
         m_driver->m_currentMasterFileName = m_absoluteFilePath;
 
         CachedLexedFilePointer lf = m_driver->m_currentLexerCache; //Set the lexer-cache to zero, so the problems registered through addProblem go directly into the file
-        m_driver->m_currentLexerCache = 0;
+        m_driver->m_currentLexerCache = nullptr;
 
         Parser parser(m_driver, m_driver->lexer);
         m_driver->setupParser(&parser);
@@ -981,7 +981,7 @@ const MacroSet& ParsedFile::usedMacros() const
 }
 
 ParsedFile::ParsedFile(const QString& fileName, const QDateTime& timeStamp)
-  : m_translationUnit(0),
+  : m_translationUnit(nullptr),
     m_skippedLines(0),
     m_fileName(fileName),
     m_timeStamp(timeStamp)
@@ -990,7 +990,7 @@ ParsedFile::ParsedFile(const QString& fileName, const QDateTime& timeStamp)
 }
 
 ParsedFile::ParsedFile(const QByteArray& array)
-  : m_translationUnit(0),
+  : m_translationUnit(nullptr),
     m_skippedLines(0)
 {
     QByteArray a(array);

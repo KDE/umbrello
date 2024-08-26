@@ -56,7 +56,7 @@ void ComponentWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     Q_UNUSED(widget);
 
     const UMLComponent *umlcomp = m_umlObject->asUMLComponent();
-    if (umlcomp == 0)
+    if (umlcomp == nullptr)
         return;
     setPenFromSettings(painter);
     QPen origPen = painter->pen();
@@ -205,11 +205,11 @@ QSizeF ComponentWidget::minimumSize() const
         name = UMLWidget::instanceName() + QStringLiteral(" : ") + name;
     }
 
-    int width = fm.width(name);
+    int width = fm.horizontalAdvance(name);
 
     int stereoWidth = 0;
     if (!m_umlObject->stereotype().isEmpty()) {
-        stereoWidth = fm.width(m_umlObject->stereotype(true));
+        stereoWidth = fm.horizontalAdvance(m_umlObject->stereotype(true));
     }
     if (stereoWidth > width)
         width = stereoWidth;

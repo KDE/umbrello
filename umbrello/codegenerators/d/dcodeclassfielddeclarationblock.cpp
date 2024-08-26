@@ -89,7 +89,7 @@ void DCodeClassFieldDeclarationBlock::updateContent()
         const UMLRole * role = cf->getParentObject()->asUMLRole();
 
         // Check for dynamic casting failure!
-        if (role == 0)
+        if (role == nullptr)
         {
             logError0("role: invalid dynamic cast");
             return;

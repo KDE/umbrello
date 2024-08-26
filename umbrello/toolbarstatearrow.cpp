@@ -218,7 +218,7 @@ void ToolBarStateArrow::changeTool()
  */
 void ToolBarStateArrow::setCurrentWidget(UMLWidget* widget)
 {
-    if (widget != 0 && currentWidget() != 0) {
+    if (widget != nullptr && currentWidget() != nullptr) {
         return;
     }
 

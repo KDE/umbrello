@@ -25,7 +25,6 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegularExpression>
 
 /**
  * Constructor.
@@ -39,17 +38,17 @@ CPPHeaderCodeDocument::CPPHeaderCodeDocument(UMLClassifier* classifier)
                              // CodeGenFactory::newCodeClassField(this)
                              // but "this" is still in construction at that time.
 
-    m_classDeclCodeBlock = 0;
-    m_publicBlock = 0;
-    m_protectedBlock = 0;
-    m_privateBlock = 0;
-    m_namespaceBlock = 0;
-    m_pubConstructorBlock = 0;
-    m_protConstructorBlock = 0;
-    m_privConstructorBlock = 0;
-    m_pubOperationsBlock = 0;
-    m_privOperationsBlock = 0;
-    m_protOperationsBlock = 0;
+    m_classDeclCodeBlock = nullptr;
+    m_publicBlock = nullptr;
+    m_protectedBlock = nullptr;
+    m_privateBlock = nullptr;
+    m_namespaceBlock = nullptr;
+    m_pubConstructorBlock = nullptr;
+    m_protConstructorBlock = nullptr;
+    m_privConstructorBlock = nullptr;
+    m_pubOperationsBlock = nullptr;
+    m_privOperationsBlock = nullptr;
+    m_protOperationsBlock = nullptr;
 
     // this will call updateContent() as well as other things that sync our document.
     //synchronize();
@@ -216,47 +215,47 @@ void CPPHeaderCodeDocument::resetTextBlocks()
     // all special pointers need to be zero'd out.
     if (m_classDeclCodeBlock) {
         delete m_classDeclCodeBlock;
-        m_classDeclCodeBlock = 0;
+        m_classDeclCodeBlock = nullptr;
     }
     if (m_publicBlock) {
         delete m_publicBlock;
-        m_publicBlock = 0;
+        m_publicBlock = nullptr;
     }
     if (m_protectedBlock) {
         delete m_protectedBlock;
-        m_protectedBlock = 0;
+        m_protectedBlock = nullptr;
     }
     if (m_privateBlock) {
         delete m_privateBlock;
-        m_privateBlock = 0;
+        m_privateBlock = nullptr;
     }
     if (m_namespaceBlock) {
         delete m_namespaceBlock;
-        m_namespaceBlock = 0;
+        m_namespaceBlock = nullptr;
     }
     if (m_pubConstructorBlock) {
         delete m_pubConstructorBlock;
-        m_pubConstructorBlock = 0;
+        m_pubConstructorBlock = nullptr;
     }
     if (m_protConstructorBlock) {
         delete m_protConstructorBlock;
-        m_protConstructorBlock = 0;
+        m_protConstructorBlock = nullptr;
     }
     if (m_privConstructorBlock) {
         delete m_privConstructorBlock;
-        m_privConstructorBlock = 0;
+        m_privConstructorBlock = nullptr;
     }
     if (m_pubOperationsBlock) {
         delete m_pubOperationsBlock;
-        m_pubOperationsBlock = 0;
+        m_pubOperationsBlock = nullptr;
     }
     if (m_privOperationsBlock) {
         delete m_privOperationsBlock;
-        m_privOperationsBlock = 0;
+        m_privOperationsBlock = nullptr;
     }
     if (m_protOperationsBlock) {
         delete m_protOperationsBlock;
-        m_protOperationsBlock = 0;
+        m_protOperationsBlock = nullptr;
     }
 
     // now do the traditional release of child text blocks
@@ -272,7 +271,7 @@ void CPPHeaderCodeDocument::resetTextBlocks()
  */
 bool CPPHeaderCodeDocument::addCodeOperation(CodeOperation* op)
 {
-    if (op == 0) {
+    if (op == nullptr) {
         logWarn0("CPPHeaderCodeDocument::addCodeOperation: CodeOperation is null!");
         return false;
     }
@@ -282,26 +281,26 @@ bool CPPHeaderCodeDocument::addCodeOperation(CodeOperation* op)
         switch (scope) {
         default:
         case Uml::Visibility::Public:
-            return (m_pubOperationsBlock == 0 ? false : m_pubOperationsBlock->addTextBlock(op));
+            return (m_pubOperationsBlock == nullptr ? false : m_pubOperationsBlock->addTextBlock(op));
             break;
         case Uml::Visibility::Protected:
-            return (m_protOperationsBlock == 0 ? false : m_protOperationsBlock->addTextBlock(op));
+            return (m_protOperationsBlock == nullptr ? false : m_protOperationsBlock->addTextBlock(op));
             break;
         case Uml::Visibility::Private:
-            return (m_privOperationsBlock == 0 ? false : m_privOperationsBlock->addTextBlock(op));
+            return (m_privOperationsBlock == nullptr ? false : m_privOperationsBlock->addTextBlock(op));
             break;
         }
     } else {
         switch (scope) {
         default:
         case Uml::Visibility::Public:
-            return (m_pubConstructorBlock == 0 ? false : m_pubConstructorBlock->addTextBlock(op));
+            return (m_pubConstructorBlock == nullptr ? false : m_pubConstructorBlock->addTextBlock(op));
             break;
         case Uml::Visibility::Protected:
-            return (m_protConstructorBlock == 0 ? false : m_protConstructorBlock->addTextBlock(op));
+            return (m_protConstructorBlock == nullptr ? false : m_protConstructorBlock->addTextBlock(op));
             break;
         case Uml::Visibility::Private:
-            return (m_privConstructorBlock == 0 ? false : m_privConstructorBlock->addTextBlock(op));
+            return (m_privConstructorBlock == nullptr ? false : m_privConstructorBlock->addTextBlock(op));
             break;
         }
     }
@@ -333,7 +332,7 @@ void CPPHeaderCodeDocument::updateContent()
 {
     // Gather info on the various fields and parent objects of this class...
     UMLClassifier * c = getParentClassifier();
-    Q_ASSERT(c != 0);
+    Q_ASSERT(c != nullptr);
     CodeGenPolicyExt *pe = UMLApp::app()->policyExt();
     CPPCodeGenerationPolicy * policy = dynamic_cast<CPPCodeGenerationPolicy*>(pe);
 
@@ -456,13 +455,12 @@ void CPPHeaderCodeDocument::updateContent()
     if(hasNamespace) {
         UMLPackageList pkgList = c->packages();
         QString pkgs;
-        UMLPackage *pkg;
-        for(pkg: pkgList) {
+        for(UMLPackage *pkg: pkgList) {
             pkgs += QStringLiteral("namespace ") + CodeGenerator::cleanName(pkg->name()) + QStringLiteral(" { ");
         }
         m_namespaceBlock->setStartText(pkgs);
         QString closingBraces;
-        for(pkg: pkgList) {
+        for(UMLPackage *pkg: pkgList) {
             closingBraces += QStringLiteral("} ");
         }
         m_namespaceBlock->setEndText(closingBraces);
@@ -520,17 +518,17 @@ void CPPHeaderCodeDocument::updateContent()
 
     // declare public, protected and private methods, attributes (fields).
     // set the start text ONLY if this is the first time we created the objects.
-    bool createdPublicBlock = m_publicBlock == 0 ? true : false;
+    bool createdPublicBlock = m_publicBlock == nullptr ? true : false;
     m_publicBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QStringLiteral("publicBlock"),QStringLiteral("Public stuff"), 0);
     if (createdPublicBlock)
         m_publicBlock->setStartText(QStringLiteral("public:"));
 
-    bool createdProtBlock = m_protectedBlock == 0 ? true : false;
+    bool createdProtBlock = m_protectedBlock == nullptr ? true : false;
     m_protectedBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QStringLiteral("protectedBlock"),QStringLiteral("Protected stuff"), 0);
     if(createdProtBlock)
         m_protectedBlock->setStartText(QStringLiteral("protected:"));
 
-    bool createdPrivBlock = m_privateBlock == 0 ? true : false;
+    bool createdPrivBlock = m_privateBlock == nullptr ? true : false;
     m_privateBlock = myClassDeclCodeBlock->getHierarchicalCodeBlock(QStringLiteral("privateBlock"),QStringLiteral("Private stuff"), 0);
     if(createdPrivBlock)
         m_privateBlock->setStartText(QStringLiteral("private:"));

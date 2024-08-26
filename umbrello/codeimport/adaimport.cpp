@@ -22,7 +22,7 @@
 // qt includes
 #include <QRegularExpression>
 
-DEBUG_REGISTER(AdaImport)
+DEBUG_REGISTER_DISABLED(AdaImport)
 
 /**
  * Constructor.

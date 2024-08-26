@@ -19,7 +19,6 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegularExpression>
 
 RubyCodeClassField::RubyCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role)
         : CodeClassField(parentDoc, role)

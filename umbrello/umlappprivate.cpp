@@ -4,13 +4,14 @@
 */
 
 #include "umlappprivate.h"
+#include <KCompressionDevice>
+#include <KTextEditor/Editor>
 
 #define DBG_SRC QStringLiteral("UMLAppPrivate")
 #include "debug_utils.h"
 
-#include <KFilterDev>
 
-DEBUG_REGISTER(UMLAppPrivate)
+DEBUG_REGISTER_DISABLED(UMLAppPrivate)
 
 /**
  * Find welcome.html file for displaying in the welcome window.
@@ -69,15 +70,15 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
 {
     QString html;
     if (file.endsWith(QStringLiteral(".cache.bz2"))) {
-        QIODevice *d =  KFilterDev::deviceForFile(file);
-        if (!d->open(QIODevice::ReadOnly)) {
+        KCompressionDevice d(file);
+        
+        if (!d.open(QIODevice::ReadOnly)) {
             uError() << "could not open archive " << file;
             return QString();
         }
-        QByteArray data = d->readAll();
+        QByteArray data = d.readAll();
         html = QString::fromUtf8(data);
-        d->close();
-        delete d;
+        d.close();
     } else {
         QFile f(file);
         if (!f.open(QIODevice::ReadOnly))
@@ -143,20 +144,18 @@ bool UMLAppPrivate::openFileInEditor(const QUrl &file, int startCursor, int endC
     }
 
     if (document) {
-        editorWindow->setWidget(0);
+        editorWindow->setWidget(nullptr);
         delete view;
         delete document;
     }
-    document = editor->createDocument(0);
+    document = editor->createDocument(nullptr);
     view = document->createView(parent);
     view->document()->openUrl(file);
     view->document()->setReadWrite(false);
     if (startCursor != endCursor)
         view->setCursorPosition(KTextEditor::Cursor(startCursor, endCursor));
-    KTextEditor::ConfigInterface *iface = qobject_cast<KTextEditor::ConfigInterface*>(view);
-    if(iface)
-        iface->setConfigValue(QString::fromLatin1("line-numbers"), true);
 
+    view->configValue(QStringLiteral("line-numbers")).setValue(true);
     editorWindow->setWidget(view);
     editorWindow->setVisible(true);
     return true;

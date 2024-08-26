@@ -21,7 +21,7 @@
 // qt includes
 #include <QApplication>
 
-DEBUG_REGISTER(UMLAttribute)
+DEBUG_REGISTER_DISABLED(UMLAttribute)
 
 /**
  * Sets up an attribute.
@@ -149,7 +149,7 @@ QString UMLAttribute::toString(Uml::SignatureType::Enum sig, bool withStereotype
             owningObject = owningObject->umlParent();
         }
         const UMLClassifier *ownParent = owningObject->asUMLClassifier();
-        if (ownParent == 0) {
+        if (ownParent == nullptr) {
             logError2("UMLAttribute::toString(%1): parent %2 is not a UMLClassifier",
                       name(), owningObject->name());
             return QString();
@@ -197,7 +197,7 @@ QString UMLAttribute::getFullyQualifiedName(const QString& separator,
         owningObject = owningObject->umlParent();
     }
     UMLClassifier *ownParent = owningObject->asUMLClassifier();
-    if (ownParent == 0) {
+    if (ownParent == nullptr) {
         logError2("UMLAttribute::getFullyQualifiedName(%1): parent %2 is not a UMLClassifier",
                   name(), owningObject->name());
         return QString();
@@ -270,7 +270,7 @@ void UMLAttribute::saveToXMI(QXmlStreamWriter& writer)
     } else {
         UMLObject::save1(writer, QStringLiteral("Attribute"));
     }
-    if (m_pSecondary == 0) {
+    if (m_pSecondary == nullptr) {
         logDebug2("UMLAttribute::saveToXMI(%1) : m_pSecondary is null, m_SecondaryId is '%2'",
                   name(), m_SecondaryId);
     } else {
@@ -416,10 +416,10 @@ void UMLAttribute::setTemplateParams(const QString& templateParam, UMLClassifier
             if (!param.isEmpty()) {
                 UMLDoc *pDoc = UMLApp::app()->document();
                 UMLObject* obj = pDoc->findUMLObject(param);
-                if (obj == 0) {
+                if (obj == nullptr) {
                     obj = pDoc->findUMLObject(param.remove(QLatin1Char(' ')));
                 }
-                if (obj != 0) {
+                if (obj != nullptr) {
                     //We want to list only the params that already exist in this document
                     //If the param doesn't already exist, we couldn't draw an association anyway
                     UMLClassifier* tmpClassifier = obj->asUMLClassifier();

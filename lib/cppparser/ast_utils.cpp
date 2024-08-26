@@ -99,7 +99,7 @@ QString declaratorToString(DeclaratorAST* declarator, const QString& scope, bool
         text += QLatin1Char('(');
 
         ParameterDeclarationListAST* l = declarator->parameterDeclarationClause()->parameterDeclarationList();
-        if (l != 0) {
+        if (l != nullptr) {
             QList<ParameterDeclarationAST*> params = l->parameterList();
             for (int i = 0; i < params.size(); ++i) {
                 QString type = typeSpecToString(params.at(i)->typeSpec());
@@ -115,13 +115,13 @@ QString declaratorToString(DeclaratorAST* declarator, const QString& scope, bool
 
         text += QLatin1Char(')');
 
-        if (declarator->constant() != 0)
+        if (declarator->constant() != nullptr)
             text += QLatin1String(" const");
 
-        if (declarator->override_() != 0)
+        if (declarator->override_() != nullptr)
             text += QLatin1String(" override");
 
-        if (declarator->final_() != 0)
+        if (declarator->final_() != nullptr)
             text += QLatin1String(" final");
     }
 

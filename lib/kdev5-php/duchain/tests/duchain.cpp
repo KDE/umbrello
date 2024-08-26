@@ -2288,9 +2288,9 @@ void TestDUChain::lateClassMembers()
 
 void TestDUChain::list()
 {
-    Q_FOREACH ( const QString& code, QStringList() << "<?php list($i, $j, $k) = array(1,2,3);"
-                                                 << "<?php $a = array(1,2,3); list($i,$j,$k) = $a;"
-                                                 << "<?php function t() { return array(1,2,3); } list($i,$j,$k) = t();" )
+    for( const QString& code : {QStringLiteral("<?php list($i, $j, $k) = array(1,2,3);")
+                                                 , QStringLiteral("<?php $a = array(1,2,3); list($i,$j,$k) = $a;")
+                                                 ,QStringLiteral("<?php function t() { return array(1,2,3); } list($i,$j,$k) = t();")})
     {
         //               0         1         2         3         4         5         6         7
         //               01234567890123456789012345678901234567890123456789012345678901234567890123456789
@@ -2298,7 +2298,7 @@ void TestDUChain::list()
         DUChainReleaser releaseTop(top);
         DUChainWriteLocker lock(DUChain::lock());
 
-        for(const QString& identifier: QStringList() << "i" << "j" << "k" ) {
+        for( const QString& identifier : {QStringLiteral("i") << QStringLiteral("j") << QStringLiteral("k")}) {
             qDebug() << "searching for declaration of " << identifier;
             QList<Declaration*> decs = top->findDeclarations(Identifier(identifier));
             QCOMPARE(decs.size(), 1);

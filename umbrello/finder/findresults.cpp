@@ -72,7 +72,7 @@ bool FindResults::displayNext()
         finder = &m_sceneFinder.first();
     else if (m_docFinder.size() > 0)
         finder = &m_docFinder.first();
-    if (finder == 0)
+    if (finder == nullptr)
         return false;
     UMLFinder::Result result = finder->displayNext();
     if (result == UMLFinder::Empty)
@@ -99,7 +99,7 @@ bool FindResults::displayPrevious()
         finder = &m_sceneFinder.first();
     else if (m_docFinder.size() > 0)
         finder = &m_docFinder.first();
-    if (finder == 0)
+    if (finder == nullptr)
         return false;
     UMLFinder::Result result = finder->displayPrevious();
     if (result == UMLFinder::Empty)

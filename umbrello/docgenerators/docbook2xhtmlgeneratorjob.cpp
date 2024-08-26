@@ -31,7 +31,7 @@
 #include <QTextStream>
 #include <QUrl>
 
-DEBUG_REGISTER(Docbook2XhtmlGeneratorJob)
+DEBUG_REGISTER_DISABLED(Docbook2XhtmlGeneratorJob)
 
 extern int xmlLoadExtDtdDefaultValue;
 
@@ -49,12 +49,12 @@ Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(QUrl& docBookUrl, QObject* 
 void Docbook2XhtmlGeneratorJob::run()
 {
   UMLDoc* umlDoc = UMLApp::app()->document();
-  xsltStylesheetPtr cur = 0;
+  xsltStylesheetPtr cur = nullptr;
   xmlDocPtr doc, res;
 
   const char *params[16 + 1];
   int nbparams = 0;
-  params[nbparams] = 0;
+  params[nbparams] = nullptr;
 
   umlDoc->writeToStatusBar(i18n("Exporting to XHTML..."));
   QString xsltFileName = XhtmlGenerator::customXslFile();
@@ -67,7 +67,7 @@ void Docbook2XhtmlGeneratorJob::run()
   logDebug1("Docbook2XhtmlGeneratorJob::run: Parsing stylesheet %1", xsltFileName);
   cur = xsltParseStylesheetFile((const xmlChar *)xsltFileName.toLatin1().constData());
   logDebug1("Docbook2XhtmlGeneratorJob::run: Parsing file %1", m_docbookUrl.path());
-  doc = xmlParseFile((const char*)(m_docbookUrl.path().toUtf8()));
+  doc = xmlParseFile((const char*)(m_docbookUrl.path().toUtf8().constData()));
   logDebug0("Docbook2XhtmlGeneratorJob::run: Applying stylesheet");
   res = xsltApplyStylesheet(cur, doc, params);
 

@@ -39,11 +39,11 @@ AssociationLine::AssociationLine(AssociationWidget *association)
     m_associationWidget(association),
     m_activePointIndex(-1),
     m_activeSegmentIndex(-1),
-    m_startSymbol(0),
-    m_endSymbol(0),
-    m_subsetSymbol(0),
-    m_collaborationLineItem(0),
-    m_collaborationLineHead(0),
+    m_startSymbol(nullptr),
+    m_endSymbol(nullptr),
+    m_subsetSymbol(nullptr),
+    m_collaborationLineItem(nullptr),
+    m_collaborationLineHead(nullptr),
     m_layout(Settings::optionState().generalState.layoutType),
     m_autoLayoutSpline(true)
 {
@@ -70,7 +70,7 @@ AssociationLine::~AssociationLine()
  */
 QPointF AssociationLine::point(int index) const
 {
-    if ((index < 0) | (index >= m_points.size())) {
+    if ((index < 0) || (index >= m_points.size())) {
         logWarn2("AssociationLine::point: Index %1 out of range [0..%2]",
                  index, m_points.size() - 1);
         return QPointF(-1.0, -1.0);
@@ -601,7 +601,7 @@ void AssociationLine::setStartSymbol(Symbol::SymbolType symbolType)
     Q_ASSERT(symbolType != Symbol::Count);
     if (symbolType == Symbol::None) {
         delete m_startSymbol;
-        m_startSymbol = 0;
+        m_startSymbol = nullptr;
         return;
     }
 
@@ -625,7 +625,7 @@ void AssociationLine::setEndSymbol(Symbol::SymbolType symbolType)
     Q_ASSERT(symbolType != Symbol::Count);
     if (symbolType == Symbol::None) {
         delete m_endSymbol;
-        m_endSymbol = 0;
+        m_endSymbol = nullptr;
         return;
     }
 
@@ -656,7 +656,7 @@ void AssociationLine::createSubsetSymbol()
 void AssociationLine::removeSubsetSymbol()
 {
     delete m_subsetSymbol;
-    m_subsetSymbol = 0;
+    m_subsetSymbol = nullptr;
 }
 
 /**
@@ -687,10 +687,10 @@ void AssociationLine::createCollaborationLine()
 void AssociationLine::removeCollaborationLine()
 {
     delete m_collaborationLineItem;
-    m_collaborationLineItem = 0;
+    m_collaborationLineItem = nullptr;
 
     delete m_collaborationLineHead;
-    m_collaborationLineHead = 0;
+    m_collaborationLineHead = nullptr;
 }
 
 /**

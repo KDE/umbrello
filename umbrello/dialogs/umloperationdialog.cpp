@@ -46,22 +46,22 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
-DEBUG_REGISTER(UMLOperationDialog)
+DEBUG_REGISTER_DISABLED(UMLOperationDialog)
 
 /**
  * Constructor.
  */
 UMLOperationDialog::UMLOperationDialog(QWidget * parent, UMLOperation * pOperation)
   : SinglePageDialogBase(parent),
-    m_pOverrideCB(0)
+    m_pOverrideCB(nullptr)
 {
     setCaption(i18n("Operation Properties"));
     m_operation = pOperation;
     m_doc = UMLApp::app()->document();
-    m_menu = 0;
+    m_menu = nullptr;
     for (int i = 0; i < N_STEREOATTRS; i++) {
-        m_pTagL [i] = 0;
-        m_pTagLE[i] = 0;
+        m_pTagL [i] = nullptr;
+        m_pTagLE[i] = nullptr;
     }
     setupDialog();
 }
@@ -89,7 +89,7 @@ void UMLOperationDialog::setupDialog()
     m_pGenLayout->setColumnStretch(3, 1);
     m_pGenLayout->addItem(new QSpacerItem(200, 0), 0, 1);
     m_pGenLayout->addItem(new QSpacerItem(200, 0), 0, 3);
-    m_pGenLayout->setMargin(margin);
+    m_pGenLayout->setContentsMargins(margin, margin, margin, margin);
     m_pGenLayout->setSpacing(10);
 
     Dialog_Utils::makeLabeledEditField(m_pGenLayout, 0,
@@ -137,7 +137,7 @@ void UMLOperationDialog::setupDialog()
 
     m_pParmsGB = new QGroupBox(i18n("Parameters"), frame);
     QVBoxLayout* parmsLayout = new QVBoxLayout(m_pParmsGB);
-    parmsLayout->setMargin(margin);
+    parmsLayout->setContentsMargins(margin, margin, margin, margin);
     parmsLayout->setSpacing(10);
 
     // horizontal box contains the list box and the move up/down buttons
@@ -229,7 +229,7 @@ void UMLOperationDialog::slotParmRightButtonPressed(const QPoint &p)
         m_menu->hide();
         disconnect(m_menu, SIGNAL(triggered(QAction*)), this, SLOT(slotMenuSelection(QAction*)));
         delete m_menu;
-        m_menu = 0;
+        m_menu = nullptr;
     }
     DialogsPopupMenu popup(this, type);
     QAction *triggered = popup.exec(m_pParmsLW->mapToGlobal(p));
@@ -278,7 +278,7 @@ void UMLOperationDialog::slotNewParameter()
             m_doc->setModified(true);
         } else {
             KMessageBox::information(this, i18n("The parameter name you have chosen\nis already being used in this operation."),
-                               i18n("Parameter Name Not Unique"), 0);
+                               i18n("Parameter Name Not Unique"));
             delete newAttribute;
         }
     } else {
@@ -325,7 +325,7 @@ void UMLOperationDialog::slotParameterProperties()
         pAtt = m_operation->findParm(newName); // search whether a parameter with this name already exists
         if(pAtt && pAtt != pOldAtt) {
             KMessageBox::error(this, i18n("The parameter name you have chosen is already being used in this operation."),
-                               i18n("Parameter Name Not Unique"), 0);
+                               i18n("Parameter Name Not Unique"), KMessageBox::Option(0));
             namingConflict = true;
         }
 
@@ -410,19 +410,19 @@ bool UMLOperationDialog::apply()
     QString name = m_pNameLE->text();
     if(name.length() == 0) {
         KMessageBox::error(this, i18n("You have entered an invalid operation name."),
-                           i18n("Operation Name Invalid"), 0);
+                           i18n("Operation Name Invalid"), KMessageBox::Option(0));
         m_pNameLE->setText(m_operation->name());
         return false;
     }
 
     UMLClassifier *classifier = m_operation->umlParent()->asUMLClassifier();
-    if(classifier != 0 &&
+    if(classifier != nullptr &&
             classifier->checkOperationSignature(name, m_operation->getParmList(), m_operation))
     {
         QString msg = i18n("An operation with that signature already exists in %1.\n", classifier->name())
                       +
                       i18n("Choose a different name or parameter list.");
-        KMessageBox::error(this, msg, i18n("Operation Name Invalid"), 0);
+        KMessageBox::error(this, msg, i18n("Operation Name Invalid"), KMessageBox::Option(0));
         return false;
     }
     m_operation->setName(name);

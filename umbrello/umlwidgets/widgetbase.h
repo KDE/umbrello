@@ -232,7 +232,7 @@ public:
 
     virtual UMLWidget* onWidget(const QPointF &p);
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     bool isActivityWidget()         const { return baseType() == wt_Activity; }
     bool isActorWidget()            const { return baseType() == wt_Actor; }
@@ -331,7 +331,7 @@ public:
     const UMLWidget*              asUMLWidget()              const;
 
     static bool widgetHasUMLObject(WidgetBase::WidgetType type);
-    virtual bool activate(IDChangeLog *changeLog = 0);
+    virtual bool activate(IDChangeLog *changeLog = nullptr);
 
 public Q_SLOTS:
     virtual void slotMenuSelection(QAction *trigger);
@@ -350,7 +350,7 @@ protected:
 
     /**
      * This ID is only used when the widget does not have a
-     * corresponding UMLObject (i.e. the m_umlObject pointer is NULL.)
+     * corresponding UMLObject (i.e. the m_umlObject pointer is nullptr.)
      * For UMLObjects, the ID from the UMLObject is used.
      */
     Uml::ID::Type m_nId;

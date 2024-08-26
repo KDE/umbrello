@@ -49,7 +49,7 @@ namespace Dialog_Utils {
 QLineEdit* makeLabeledEditField(QGridLayout* layout,    int row,
                                 QLabel*     &label,     const QString& labelText,
                                 QLineEdit*  &editField, const QString& editFieldText /* = QString() */,
-                                int columnOffset / *= nullptr */)
+                                int columnOffset /* = 0 */)
 {
     label = new QLabel(labelText);
     layout->addWidget(label, row, columnOffset);
@@ -71,7 +71,7 @@ void makeTagEditFields(UMLObject *o, QGridLayout *genLayout,
                        int row /* = 1 */)
 {
     UMLStereotype *stereo = o->umlStereotype();
-    if (stereo == 0)
+    if (stereo == nullptr)
         return;
     const UMLStereotype::AttributeDefs& attrDefs = stereo->getAttributeDefs();
     const QStringList& tags = o->tags();
@@ -108,8 +108,8 @@ void remakeTagEditFields(const QString &stereoText,
         if (pTagLabel[i]) {
             delete pTagLabel [i];
             delete pTagLineEdit[i];
-            pTagLabel [i] = 0;
-            pTagLineEdit[i] = 0;
+            pTagLabel [i] = nullptr;
+            pTagLineEdit[i] = nullptr;
         }
     }
     UMLStereotype  *stereo = nullptr;
@@ -119,7 +119,7 @@ void remakeTagEditFields(const QString &stereoText,
             break;
         }
     }
-    if (stereo == 0)
+    if (stereo == nullptr)
         return;
     const UMLStereotype::AttributeDefs& attrDefs = stereo->getAttributeDefs();
     for (int i = 0; i < attrDefs.size() && i < N_STEREOATTRS; i++) {
@@ -141,13 +141,13 @@ void updateTagsFromEditFields(UMLObject * o,
                               QLineEdit *pTagLineEdit[N_STEREOATTRS])
 {
     UMLStereotype *stereo = o->umlStereotype();
-    if (stereo == 0)
+    if (stereo == nullptr)
         return;
     const UMLStereotype::AttributeDefs& attrDefs = stereo->getAttributeDefs();
     QStringList& tags = o->tags();
     tags.clear();
     for (int i = 0; i < attrDefs.size() && i < N_STEREOATTRS; i++) {
-        if (pTagLineEdit[i] == 0) {
+        if (pTagLineEdit[i] == nullptr) {
             logError3("updateTagsFromEditFields(%1): %2 pTagLineEdit[%3] is null",
                       o->name(), stereo->name(true), i);
             break;
@@ -176,7 +176,7 @@ void askNameForWidget(UMLWidget * &targetWidget, const QString& dialogTitle,
     }
     else {
         delete targetWidget;
-        targetWidget = 0;
+        targetWidget = nullptr;
     }
 }
 
@@ -352,7 +352,7 @@ void insertStereotypesSorted(KComboBox *kcb, const QString& type)
  */
 int spacingHint()
 {
-    return QApplication::style()->pixelMetric(QStyle::PM_DefaultLayoutSpacing);
+    return QApplication::style()->pixelMetric(QStyle::QStyle::PM_LayoutVerticalSpacing);
 }
 
 }  // end namespace Dialog_Utils

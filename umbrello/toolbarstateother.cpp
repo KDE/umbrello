@@ -265,7 +265,7 @@ bool ToolBarStateOther::newWidget()
     }
 
     // Return false if we didn't find a suitable widget.
-    if (umlWidget == 0) {
+    if (umlWidget == nullptr) {
         return false;
     }
 
@@ -336,7 +336,7 @@ bool ToolBarStateOther::newWidget()
     }
 
     // Create the widget. Some setup functions can remove the widget.
-    if (umlWidget != 0) {
+    if (umlWidget != nullptr) {
         m_pUMLScene->setupNewWidget(umlWidget);
     }
 

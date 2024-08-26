@@ -104,6 +104,7 @@ void CodeImpThread::emitMessageToLog(const QString& file, const QString& text)
 void CodeImpThread::questionAsked(const QString& question, int& answer)
 {
     //QMutexLocker locker(&m_mutex);
-    answer = KMessageBox::questionYesNo(0, question, QStringLiteral("Question code import:")); // @todo i18n
+    answer = KMessageBox::questionTwoActionsWId(0, question, QStringLiteral("Question code import:"), KStandardGuiItem::ok(), KStandardGuiItem::cancel(), QString(), KMessageBox::Options(0)); // @todo i18n
     //m_waitCondition.wakeOne();
 }
+

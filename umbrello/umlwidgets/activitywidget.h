@@ -58,7 +58,7 @@ public:
     void setPostconditionText(const QString&);
 
     virtual bool showPropertiesDialog();
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
     virtual void moveWidgetBy(qreal diffX, qreal diffY);
 
     virtual bool loadFromXMI(QDomElement & qElement);

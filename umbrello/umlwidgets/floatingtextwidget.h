@@ -73,7 +73,7 @@ public:
 
     UMLWidget* onWidget(const QPointF& p);
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     virtual void saveToXMI(QXmlStreamWriter& writer);
     virtual bool loadFromXMI(QDomElement& qElement);

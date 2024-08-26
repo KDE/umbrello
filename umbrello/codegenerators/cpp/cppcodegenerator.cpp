@@ -22,7 +22,6 @@
 #include <kconfig.h>
 
 // qt includes
-#include <QRegularExpression>
 
 const bool CPPCodeGenerator::DEFAULT_BUILD_MAKEFILE = false;
 

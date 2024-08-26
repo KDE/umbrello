@@ -14,8 +14,8 @@
 //-----------------------------------------------------------------------------
 void TestUMLCanvasObject::test_addAssociationEnd()
 {
-    UMLCanvasObject c1("Test A");
-    UMLCanvasObject c2("Test B");
+    UMLCanvasObject c1(QStringLiteral("Test A"));
+    UMLCanvasObject c2(QStringLiteral("Test B"));
     UMLAssociation a(Uml::AssociationType::Generalization, &c1, &c2);
     c1.addAssociationEnd(&a);
     c2.addAssociationEnd(&a);
@@ -29,8 +29,8 @@ void TestUMLCanvasObject::test_addAssociationEnd()
 
 void TestUMLCanvasObject::test_getAssociations()
 {
-    UMLCanvasObject c1("Test A");
-    UMLCanvasObject c2("Test B");
+    UMLCanvasObject c1(QStringLiteral("Test A"));
+    UMLCanvasObject c2(QStringLiteral("Test B"));
     UMLAssociation a(Uml::AssociationType::Generalization, &c1, &c2);
     c1.addAssociationEnd(&a);
     c2.addAssociationEnd(&a);
@@ -44,8 +44,8 @@ void TestUMLCanvasObject::test_getAssociations()
 
 void TestUMLCanvasObject::test_removeAllAssociationEnds()
 {
-    UMLCanvasObject c1("Test A");
-    UMLCanvasObject c2("Test B");
+    UMLCanvasObject c1(QStringLiteral("Test A"));
+    UMLCanvasObject c2(QStringLiteral("Test B"));
     UMLAssociation a(Uml::AssociationType::Generalization, &c1, &c2);
     c1.addAssociationEnd(&a);
     UMLAssociation b(Uml::AssociationType::Association, &c1, &c2);
@@ -57,8 +57,8 @@ void TestUMLCanvasObject::test_removeAllAssociationEnds()
 
 void TestUMLCanvasObject::test_getSuperClasses()
 {
-    UMLCanvasObject o1("Test Sup o");
-    UMLCanvasObject o2("Test Super o");
+    UMLCanvasObject o1(QStringLiteral("Test Sup o"));
+    UMLCanvasObject o2(QStringLiteral("Test Super o"));
     UMLAssociation a1(Uml::AssociationType::Generalization, &o1, &o2);
     o1.addAssociationEnd(&a1);
     o2.addAssociationEnd(&a1);
@@ -67,8 +67,8 @@ void TestUMLCanvasObject::test_getSuperClasses()
     QCOMPARE(o2.getSuperClasses().size(), 0);
     QCOMPARE(o2.getSubClasses().size(), 0);
 
-    UMLClassifier c1("Test Sup c");
-    UMLClassifier c2("Test Super c");
+    UMLClassifier c1(QStringLiteral("Test Sup c"));
+    UMLClassifier c2(QStringLiteral("Test Super c"));
     UMLAssociation a2(Uml::AssociationType::Generalization, &c1, &c2);
     c1.addAssociationEnd(&a2);
     c2.addAssociationEnd(&a2);
@@ -89,8 +89,8 @@ void TestUMLCanvasObject::test_getSuperClasses()
 
 void TestUMLCanvasObject::test_getRealizations()
 {
-    UMLClassifier c1("Test A");
-    UMLClassifier c2("Test B");
+    UMLClassifier c1(QStringLiteral("Test A"));
+    UMLClassifier c2(QStringLiteral("Test B"));
     UMLAssociation a1(Uml::AssociationType::Realization, &c1, &c2);
     UMLAssociation a2(Uml::AssociationType::Association, &c1, &c2);
     c1.addAssociationEnd(&a1);
@@ -106,8 +106,8 @@ void TestUMLCanvasObject::test_getRealizations()
 
 void TestUMLCanvasObject::test_getAggregations()
 {
-    UMLClassifier c1("Test A");
-    UMLClassifier c2("Test B");
+    UMLClassifier c1(QStringLiteral("Test A"));
+    UMLClassifier c2(QStringLiteral("Test B"));
     UMLAssociation a1(Uml::AssociationType::Aggregation, &c1, &c2);
     c1.addAssociationEnd(&a1);
     c2.addAssociationEnd(&a1);
@@ -123,8 +123,8 @@ void TestUMLCanvasObject::test_getAggregations()
 
 void TestUMLCanvasObject::test_getCompositions()
 {
-    UMLClassifier c1("Test A");
-    UMLClassifier c2("Test B");
+    UMLClassifier c1(QStringLiteral("Test A"));
+    UMLClassifier c2(QStringLiteral("Test B"));
     UMLAssociation a1(Uml::AssociationType::Composition, &c1, &c2);
     c1.addAssociationEnd(&a1);
     c2.addAssociationEnd(&a1);
@@ -140,8 +140,8 @@ void TestUMLCanvasObject::test_getCompositions()
 
 void TestUMLCanvasObject::test_getRelationships()
 {
-    UMLClassifier c1("Test A");
-    UMLClassifier c2("Test B");
+    UMLClassifier c1(QStringLiteral("Test A"));
+    UMLClassifier c2(QStringLiteral("Test B"));
     UMLAssociation a1(Uml::AssociationType::Relationship, &c1, &c2);
     c1.addAssociationEnd(&a1);
     c2.addAssociationEnd(&a1);

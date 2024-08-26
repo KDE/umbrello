@@ -53,7 +53,7 @@ void OwnedCodeBlock::release ()
     if (m_parentObject) {
         m_parentObject->disconnect(this);
     }
-    m_parentObject = 0;
+    m_parentObject = nullptr;
 }
 
 /**

@@ -41,6 +41,10 @@ public:
 
     bool isValid(QString& msg);
 
+public Q_SLOTS:
+    void slotClicked();
+    void slotActivated(int index);
+
 private:
     bool isSelected(int index);
 
@@ -60,9 +64,6 @@ private:
 
     enum FilterType{Current = 0, All, Select, Type};
 
-public Q_SLOTS:
-    void slotClicked();
-    void slotActivated(int index);
 };
 
 #endif

@@ -63,14 +63,13 @@
 #include <kcursor.h>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <ktip.h>
 #include <kactionmenu.h>
 #include <kxmlguifactory.h>
 
 // qt includes
 #include <QApplication>
 #include <QClipboard>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QDockWidget>
 #include <QDialogButtonBox>
 #include <QFileDialog>
@@ -82,7 +81,6 @@
 #include <QPrintDialog>
 #include <QPrintPreviewDialog>
 #include <QPushButton>
-#include <QRegularExpression>
 #include <QScrollBar>
 #include <QSlider>
 #include <QStatusBar>
@@ -96,7 +94,8 @@
 
 #include <cmath>
 
-DEBUG_REGISTER(UMLApp)
+DEBUG_REGISTER_DISABLED(UMLApp)
+
 
 /** Static pointer, holding the last created instance. */
 UMLApp* UMLApp::s_instance;
@@ -114,7 +113,7 @@ bool UMLApp::s_shuttingDown = false;
  * @todo This is an ugly _HACK_ to allow to compile umbrello.
  *       All the menu stuff should be ported to KDE4 (using actions)
  *
- * @param name  The name of the menu to search for (name, not text)
+ * @param name  The name of the menu to search for (name :  not text)
  */
 QMenu* UMLApp::findMenu(const QString& name)
 {
@@ -123,7 +122,7 @@ QMenu* UMLApp::findMenu(const QString& name)
         return dynamic_cast<QMenu*>(widget);
     }
     logDebug1("UMLApp::findMenu factory()->container(%1) returns NULL", name);
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -131,80 +130,80 @@ QMenu* UMLApp::findMenu(const QString& name)
  */
 UMLApp::UMLApp(QWidget* parent)
   : KXmlGuiWindow(parent),
-    m_d(0),                // setup()
-    m_langSelect(0),
-    m_zoomSelect(0),
+    m_d(nullptr),                // setup()
+    m_langSelect(nullptr),
+    m_zoomSelect(nullptr),
     m_activeLanguage(Uml::ProgrammingLanguage::Reserved),
-    m_codegen(0),
+    m_codegen(nullptr),
     m_commoncodegenpolicy(new CodeGenerationPolicy()),
-    m_policyext(0),
+    m_policyext(nullptr),
     m_config(KSharedConfig::openConfig()),
-    m_view(0),
-    m_doc(0),              // setup()
-    m_listView(0),
-    m_mainDock(0),
-    m_listDock(0),
-    m_debugDock(0),
-    m_documentationDock(0),
-    m_cmdHistoryDock(0),
-    m_propertyDock(0),
-    m_logDock(0),
-    m_birdViewDock(0),
-    m_docWindow(0),
-    m_birdView(0),
-    m_pQUndoView(0),
-    m_refactoringAssist(0),
-    fileOpenRecent(0),
-    printPreview(0),
-    filePrint(0),
-    editCut(0),
-    editCopy(0),
-    editPaste(0),
-    editUndo(0),
-    editRedo(0),
-    viewShowTree(0),
-    viewShowDebug(0),
-    viewShowDoc(0),
-    viewShowLog(0),
-    viewShowCmdHistory(0),
-    viewShowBirdView(0),
-    newDiagram(0),
-    viewClearDiagram(0),
-    viewSnapToGrid(0),
-    viewShowGrid(0),
-    viewExportImage(0),
-    viewProperties(0),
-    zoom100Action(0),
-    deleteSelectedWidget(0),
-    deleteDiagram(0),
-    m_newSessionButton(0),
-    m_toolsbar(0),
-    m_clipTimer(0),
-    m_copyTimer(0),
+    m_view(nullptr),
+    m_doc(nullptr),              // setup()
+    m_listView(nullptr),
+    m_mainDock(nullptr),
+    m_listDock(nullptr),
+    m_debugDock(nullptr),
+    m_documentationDock(nullptr),
+    m_cmdHistoryDock(nullptr),
+    m_propertyDock(nullptr),
+    m_logDock(nullptr),
+    m_birdViewDock(nullptr),
+    m_docWindow(nullptr),
+    m_birdView(nullptr),
+    m_pQUndoView(nullptr),
+    m_refactoringAssist(nullptr),
+    fileOpenRecent(nullptr),
+    printPreview(nullptr),
+    filePrint(nullptr),
+    editCut(nullptr),
+    editCopy(nullptr),
+    editPaste(nullptr),
+    editUndo(nullptr),
+    editRedo(nullptr),
+    viewShowTree(nullptr),
+    viewShowDebug(nullptr),
+    viewShowDoc(nullptr),
+    viewShowLog(nullptr),
+    viewShowCmdHistory(nullptr),
+    viewShowBirdView(nullptr),
+    newDiagram(nullptr),
+    viewClearDiagram(nullptr),
+    viewSnapToGrid(nullptr),
+    viewShowGrid(nullptr),
+    viewExportImage(nullptr),
+    viewProperties(nullptr),
+    zoom100Action(nullptr),
+    deleteSelectedWidget(nullptr),
+    deleteDiagram(nullptr),
+    m_newSessionButton(nullptr),
+    m_toolsbar(nullptr),
+    m_clipTimer(nullptr),
+    m_copyTimer(nullptr),
     m_loading(false),
-    m_viewStack(0),
-    m_tabWidget(0),
-    m_layout(0),
+    m_viewStack(nullptr),
+    m_tabWidget(nullptr),
+    m_layout(nullptr),
     m_imageMimeType(QString()),
-    m_settingsDialog(0),
-    m_imageExporterAll(0),  // setup()
-    m_zoomValueLbl(0),
-    m_defaultZoomWdg(0),
-    m_pZoomOutPB(0),
-    m_pZoomInPB(0),
-    m_pZoomFitSBTB(0),
-    m_pZoomFullSBTB(0),
-    m_pZoomSlider(0),
-    m_statusBarMessage(0),
-    m_xhtmlGenerator(0),
-    m_pUndoStack(0),        // setup()
+    m_settingsDialog(nullptr),
+    m_imageExporterAll(nullptr),  // setup()
+    m_zoomValueLbl(nullptr),
+    m_defaultZoomWdg(nullptr),
+    m_pZoomOutPB(nullptr),
+    m_pZoomInPB(nullptr),
+    m_pZoomFitSBTB(nullptr),
+    m_pZoomFullSBTB(nullptr),
+    m_pZoomSlider(nullptr),
+    m_statusBarMessage(nullptr),
+    m_xhtmlGenerator(nullptr),
+    m_pUndoStack(nullptr),        // setup()
     m_undoEnabled(true),
     m_hasBegunMacro(false),
-    m_printSettings(0),
-    m_printer(0)            // setup()
+    m_printSettings(nullptr),
+    m_printer(nullptr)            // setup()
 {
     for (int i = 0; i <= (int)Uml::ProgrammingLanguage::Reserved; i++)
-        m_langAct[i] = 0;
+        m_langAct[i] = nullptr;
 }
 
 /**
@@ -253,14 +252,14 @@ void UMLApp::setup()
     m_langSelect = findMenu(QStringLiteral("active_lang_menu"));
     //in case langSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
-    if (m_langSelect == 0) {
+    if (m_langSelect == nullptr) {
         m_langSelect = new QMenu(QStringLiteral("active_lang_menu"), this);
     }
 
     m_zoomSelect = findMenu(QStringLiteral("zoom_menu"));
     //in case zoomSelect hasn't been initialized we create the Popup menu.
     //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
-    if (m_zoomSelect == 0) {
+    if (m_zoomSelect == nullptr) {
         m_zoomSelect = new QMenu(QStringLiteral("zoom_menu"), this);
     }
 
@@ -292,7 +291,7 @@ UMLApp::~UMLApp()
     delete m_printer;
     delete m_policyext;
     delete m_pUndoStack;
-    m_pUndoStack = 0;
+    m_pUndoStack = nullptr;
     delete m_refactoringAssist;
     delete m_xhtmlGenerator;
     delete m_listView;
@@ -346,8 +345,8 @@ void UMLApp::initActions()
     editUndo->setPriority(QAction::LowPriority);   // icon only
     editRedo->setPriority(QAction::LowPriority);   // icon only
 
-    disconnect(m_pUndoStack, SIGNAL(undoTextChanged(QString)), editUndo, 0);
-    disconnect(m_pUndoStack, SIGNAL(redoTextChanged(QString)), editRedo, 0);
+    disconnect(m_pUndoStack, SIGNAL(undoTextChanged(QString)), editUndo, nullptr);
+    disconnect(m_pUndoStack, SIGNAL(redoTextChanged(QString)), editRedo, nullptr);
 
     editCut = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
     editCopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
@@ -649,15 +648,16 @@ void UMLApp::initActions()
     QAction* moveTabLeft = actionCollection()->addAction(QStringLiteral("move_tab_left"));
     moveTabLeft->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Next : Icon_Utils::it_Go_Previous));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
+    
     moveTabLeft->setShortcut(QApplication::layoutDirection() ?
-                 QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left));
+                 QKeySequence(Qt::CTRL | Qt::SHIFT + Qt::Key_Right) : QKeySequence(Qt::CTRL | Qt::SHIFT + Qt::Key_Left));
     connect(moveTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotMoveTabLeft()));
 
     QAction* moveTabRight = actionCollection()->addAction(QStringLiteral("move_tab_right"));
     moveTabRight->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Previous : Icon_Utils::it_Go_Next));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
     moveTabRight->setShortcut(QApplication::layoutDirection() ?
-                  QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Left) : QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::Key_Right));
+                  QKeySequence(Qt::CTRL | Qt::SHIFT + Qt::Key_Left) : QKeySequence(Qt::CTRL | Qt::SHIFT + Qt::Key_Right));
     connect(moveTabRight, SIGNAL(triggered(bool)), this, SLOT(slotMoveTabRight()));
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
@@ -903,14 +903,14 @@ void UMLApp::initStatusBar()
 void UMLApp::initView()
 {
     setCaption(m_doc->url().fileName(), false);
-    m_view = 0;
+    m_view = nullptr;
     m_toolsbar = new WorkToolBar(this);
     m_toolsbar->setWindowTitle(i18n("Diagram Toolbar"));
     addToolBar(Qt::TopToolBarArea, m_toolsbar);
 
 //     m_mainDock = new QDockWidget(this);
 //     addDockWidget (Qt::RightDockWidgetArea, m_mainDock);
-    m_newSessionButton = 0;
+    m_newSessionButton = nullptr;
 
     // Prepare Stacked Diagram Representation
     m_viewStack = new QStackedWidget(this);
@@ -934,7 +934,7 @@ void UMLApp::initView()
     m_newSessionButton->installEventFilter(this);
 
     m_layout = new QVBoxLayout;
-    m_layout->setMargin(0);
+    m_layout->setContentsMargins({});
     if (Settings::optionState().generalState.tabdiagrams) {
         // Tabbed Diagram Representation
         m_layout->addWidget(m_tabWidget);
@@ -1071,13 +1071,13 @@ UMLListView* UMLApp::listView() const
 void UMLApp::saveOptions()
 {
     // The Toolbar settings will be handled by the respective classes (KToolBar)
-    KConfigGroup cg(m_config, "toolbar");
+    KConfigGroup cg(m_config, QStringLiteral("toolbar"));
     toolBar(QStringLiteral("mainToolBar"))->saveSettings(cg);
-    KConfigGroup workBarConfig(m_config, "workbar");
+    KConfigGroup workBarConfig(m_config, QStringLiteral("workbar"));
     m_toolsbar->saveSettings(workBarConfig);
-    fileOpenRecent->saveEntries(m_config->group("Recent Files"));
+    fileOpenRecent->saveEntries(m_config->group(QStringLiteral("Recent Files")));
 
-    KConfigGroup shortcutConfig(m_config, "Shortcuts");
+    KConfigGroup shortcutConfig(m_config, QStringLiteral("Shortcuts"));
     actionCollection()->writeSettings(&shortcutConfig, false);
 
     UmbrelloSettings::setGeometry(size());
@@ -1114,7 +1114,7 @@ void UMLApp::readOptions()
 {
     // bar status settings
     KToolBar *mainToolBar = toolBar(QStringLiteral("mainToolBar"));
-    mainToolBar->applySettings(m_config->group("toolbar"));
+    mainToolBar->applySettings(m_config->group(QStringLiteral("toolbar")));
 
     // Add the Undo/Redo actions:
     // In KDE4 this was somehow done automatically but in KF5,
@@ -1133,16 +1133,16 @@ void UMLApp::readOptions()
     mainToolBar->addAction(editRedo);
 
     // do config for work toolbar
-    m_toolsbar->applySettings(m_config->group("workbar"));
-    fileOpenRecent->loadEntries(m_config->group("Recent Files"));
+    m_toolsbar->applySettings(m_config->group(QStringLiteral("workbar")));
+    fileOpenRecent->loadEntries(m_config->group(QStringLiteral("Recent Files")));
     setImageMimeType(UmbrelloSettings::imageMimeType());
     QSize size = UmbrelloSettings::geometry();
     if (size.width() == -1 && size.height() == -1)
-        size = QApplication::desktop()->screenGeometry().size();
+        size = QApplication::primaryScreen()->geometry().size();
     resize(size);
     enableUndo(Settings::optionState().generalState.undo);
 
-    KConfigGroup shortCutConfig(m_config, "Shortcuts");
+    KConfigGroup shortCutConfig(m_config, QStringLiteral("Shortcuts"));
     actionCollection()->readSettings(&shortCutConfig);
     m_toolsbar->setupActions();
 }
@@ -1434,7 +1434,7 @@ bool UMLApp::slotPrintSettings()
     if (m_printSettings) {
         delete m_printSettings;
     }
-    m_printSettings = new DiagramPrintPage(0, m_doc);
+    m_printSettings = new DiagramPrintPage(nullptr, m_doc);
     QPointer<QDialog> dlg = new QDialog();
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(m_printSettings);
@@ -1449,7 +1449,7 @@ bool UMLApp::slotPrintSettings()
     bool result = dlg->exec() == QDialog::Accepted;
     // keep settings
     layout->removeWidget(m_printSettings);
-    m_printSettings->setParent(0);
+    m_printSettings->setParent(nullptr);
 
     delete dlg;
     return result;
@@ -1470,7 +1470,7 @@ void UMLApp::slotPrintPreview()
     preview->exec();
     delete preview;
     delete m_printSettings;
-    m_printSettings = 0;
+    m_printSettings = nullptr;
     resetStatusMsg();
 }
 
@@ -1498,7 +1498,7 @@ void UMLApp::slotFilePrint()
         m_doc->print(m_printer, m_printSettings);
     }
     delete m_printSettings;
-    m_printSettings = 0;
+    m_printSettings = nullptr;
     delete printDialog;
     resetStatusMsg();
 }
@@ -2039,7 +2039,7 @@ void UMLApp::slotPrefs(MultiPageDialogBase::PageType page)
        }
 
        delete m_settingsDialog;
-       m_settingsDialog = 0;
+       m_settingsDialog = nullptr;
 }
 
 /**
@@ -2205,7 +2205,7 @@ bool UMLApp::editCutCopy(bool bFromView)
         listView()->setStartedCopy(true);
     }
 
-    if ((clipdata = clipboard.copy(bFromView)) != 0) {
+    if ((clipdata = clipboard.copy(bFromView)) != nullptr) {
         QClipboard* clip = QApplication::clipboard();
         clip->setMimeData(clipdata);//the global clipboard takes ownership of the clipdata memory
         connect(clip, SIGNAL(dataChanged()), this, SLOT(slotClipDataChanged()));
@@ -2247,13 +2247,13 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
                 dialog->exec();
                 optionState.codeViewerState = dialog->state();
                 delete dialog;
-                dialog = 0;
+                dialog = nullptr;
             } else {
                 // shouldn't happen..
-                KMessageBox::information(0, i18n("Cannot view code until you generate some first."), i18n("Cannot View Code"));
+                KMessageBox::information(nullptr, i18n("Cannot view code until you generate some first."), i18n("Cannot View Code"));
             }
         } else {
-            KMessageBox::information(0, i18n("Cannot view code from simple code writer."), i18n("Cannot View Code"));
+            KMessageBox::information(nullptr, i18n("Cannot view code from simple code writer."), i18n("Cannot View Code"));
         }
     } else {
         uWarning() << "No CodeGenerator or UMLClassifier given!";
@@ -2268,7 +2268,7 @@ void UMLApp::viewCodeDocument(UMLClassifier* classifier)
 void UMLApp::refactor(UMLClassifier* classifier)
 {
     if (!m_refactoringAssist) {
-        m_refactoringAssist = new RefactoringAssistant(m_doc, 0, 0,
+        m_refactoringAssist = new RefactoringAssistant(m_doc, nullptr, nullptr,
                                                        QStringLiteral("refactoring_assistant"));
     }
     m_refactoringAssist->refactor(classifier);
@@ -2327,7 +2327,7 @@ CodeGenerator *UMLApp::setGenerator(Uml::ProgrammingLanguage::Enum pl)
             m_doc->removeUMLObject(*it);
         }
         delete m_codegen;  // ATTENTION! remove all refs to it or its policy first
-        m_codegen = 0;
+        m_codegen = nullptr;
     }
     m_activeLanguage = pl;
     if (pl != Uml::ProgrammingLanguage::Reserved) {
@@ -2385,7 +2385,7 @@ void UMLApp::slotGenerateAllCode()
  */
 void UMLApp::slotExecGenerationWizard()
 {
-    QPointer<CodeGenerationWizard> wizard = new CodeGenerationWizard(0 /*classList*/);
+    QPointer<CodeGenerationWizard> wizard = new CodeGenerationWizard(nullptr /*classList*/);
     wizard->exec();
     delete wizard;
 }
@@ -2624,7 +2624,7 @@ void UMLApp::slotCurrentViewExportImage()
 void UMLApp::slotViewsExportImages()
 {
     //delete m_printSettings;
-    m_printSettings = new DiagramPrintPage(0, m_doc);
+    m_printSettings = new DiagramPrintPage(nullptr, m_doc);
 
     DiagramSelectionDialog dlg(m_printSettings);
     if (dlg.exec() == QDialog::Accepted)
@@ -2745,10 +2745,10 @@ void getFiles(QStringList& files, const QString& path, QStringList& filters)
 {
     QDir searchDir(path);
     if (searchDir.exists()) {
-        for(const QFileInfo &file, searchDir.entryList(filters: QDir::Files))
-            files.append(searchDir.absoluteFilePath(file.fileName()));
-        for(const QFileInfo &subDir: searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks))
-            getFiles(files, searchDir.absoluteFilePath(subDir.fileName()), filters);
+        for (const QString &file: searchDir.entryList(QDir::Files))
+            files.append(searchDir.absoluteFilePath(file));
+        for (const QString &subDir: searchDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks))
+            getFiles(files, searchDir.absoluteFilePath(subDir), filters);
     }
 }
 
@@ -2842,16 +2842,16 @@ void UMLApp::slotDeleteSelected()
     // which prevents routing DEL key through the regular
     // key press event handler
     QWidget *f = focusWidget();
-    if (f == m_listView) {
+    if (f == m_listView || currentView()) {
         QWidgetAction *o = static_cast<QWidgetAction *>(sender());
         if (o && o->objectName() == QStringLiteral("delete_selected")) {
             m_listView->slotDeleteSelectedItems();
         }
         return;
     }
-    if (currentView()) {
-        currentView()->umlScene()->deleteSelection();
-    }
+    // if (currentView()) {
+    //     currentView()->umlScene()->deleteSelection();
+    // }
     else {
         uWarning() << " trying to delete widgets when there is no current view (see bug 59774)";
     }
@@ -2899,7 +2899,7 @@ void UMLApp::initGenerator()
 {
     if (m_codegen) {
         delete m_codegen;
-        m_codegen = 0;
+        m_codegen = nullptr;
     }
     Uml::ProgrammingLanguage::Enum defLanguage = defaultLanguage();
     setActiveLanguage(defLanguage);
@@ -2964,7 +2964,7 @@ void UMLApp::handleCursorKeyReleaseEvent(QKeyEvent* e)
 {
     // in case we have selected something in the diagram, move it by one pixel
     // to the direction pointed by the cursor key
-    if (m_view == 0 || !m_view->umlScene()->selectedCount() || e->modifiers() != Qt::AltModifier) {
+    if (m_view == nullptr || !m_view->umlScene()->selectedCount() || e->modifiers() != Qt::AltModifier) {
         e->ignore();
         return;
     }
@@ -3086,7 +3086,7 @@ void UMLApp::slotBirdViewChanged(const QPointF& delta)
 void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
 {
     m_view = view;
-    if (view == 0) {
+    if (view == nullptr) {
         DEBUG() << "view is NULL";
         docWindow()->reset();
         return;
@@ -3189,7 +3189,7 @@ void UMLApp::slotChangeTabLeft()
         prevView = views.begin()[viewIndex -1 ];
     }
 
-    if ((currView = prevView) != 0) {
+    if ((currView = prevView) != nullptr) {
         setCurrentView(currView);
     }
     else {
@@ -3282,7 +3282,7 @@ void UMLApp::slotXhtmlDocGenerationFinished(bool status)
   }
 
   delete m_xhtmlGenerator;
-  m_xhtmlGenerator = 0;
+  m_xhtmlGenerator = nullptr;
 }
 
 /**
@@ -3382,7 +3382,7 @@ void UMLApp::executeCommand(QUndoCommand* cmd)
     if (!m_pUndoStack)
         return;
 
-    if (cmd == 0)
+    if (cmd == nullptr)
         return;
     if (isUndoEnabled()) {
         m_pUndoStack->push(cmd);

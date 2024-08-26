@@ -12,6 +12,9 @@
 #include "textblocklist.h"
 
 #include <QTextEdit>
+#include <KTextEditor/Document>
+#include <KTextEditor/Editor>
+#include <KTextEditor/View>
 
 #include <QList>
 #include <QString>
@@ -48,7 +51,7 @@ public:
     bool isClickable;
     bool isCodeAccessorMethod;
 
-    TextBlockInfo () { m_parent = 0; isClickable = false; isCodeAccessorMethod = false; }
+    TextBlockInfo () { m_parent = nullptr; isClickable = false; isCodeAccessorMethod = false; }
     void setParent(UMLObject  *p = nullptr) { m_parent = p; }
     UMLObject * parent() { return m_parent; }
     void setDisplayName(const QString& name) { m_displayName = name; }

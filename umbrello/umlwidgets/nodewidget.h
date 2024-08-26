@@ -26,7 +26,7 @@ public:
     NodeWidget(UMLScene * scene, UMLNode *n);
     virtual ~NodeWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     void saveToXMI(QXmlStreamWriter& writer);
 

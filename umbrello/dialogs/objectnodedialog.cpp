@@ -126,6 +126,7 @@ void ObjectNodeDialog::setupGeneralPage()
     types << i18n("Central Buffer") << i18n("Data Store") << i18n("ObjectFlow");
     ObjectNodeWidget::ObjectNodeType type = m_pObjectNodeWidget->objectNodeType();
 
+    int margin = fontMetrics().height();
     QWidget *page = new QWidget();
     QVBoxLayout *topLayout = new QVBoxLayout(page);
     pageItemGeneral = createPage(i18n("General"), i18n("General Properties"),
@@ -136,7 +137,7 @@ void ObjectNodeDialog::setupGeneralPage()
 
     QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
     generalLayout->setSpacing(Dialog_Utils::spacingHint());
-    generalLayout->setMargin(fontMetrics().height());
+    generalLayout->setContentsMargins(margin, margin, margin, margin);
 
     QString objType;
     if (type < types.count()) {

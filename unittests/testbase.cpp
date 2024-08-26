@@ -35,9 +35,7 @@ void TestBase::initTestCase()
 
 void TestBase::cleanupTestCase()
 {
-    for(QObject  *p : m_objectsToDelete) {
-        delete p;
-    }
+    qDeleteAll(m_objectsToDelete);
     delete UMLApp::app();
 }
 

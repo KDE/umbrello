@@ -60,7 +60,7 @@ ObjectWidget::ObjectWidget(UMLScene * scene, UMLObject *o)
         m_pLine = new SeqLineWidget( m_scene, this );
         m_pLine->setStartPoint(x() + width() / 2, y() + height());
     } else {
-        m_pLine = 0;
+        m_pLine = nullptr;
     }
 }
 
@@ -172,7 +172,7 @@ void ObjectWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_Properties:
         showPropertiesDialog();
         updateGeometry();
-        moveEvent(0);
+        moveEvent(nullptr);
         update();
         break;
 
@@ -199,7 +199,7 @@ QSizeF ObjectWidget::minimumSize() const
     const QFontMetrics &fm = getFontMetrics(FT_UNDERLINE);
     const int fontHeight  = fm.lineSpacing();
     const QString t = m_instanceName + QStringLiteral(" : ") + name();
-    const int textWidth = fm.width(t);
+    const int textWidth = fm.horizontalAdvance(t);
     if (m_drawAsActor) {
         width = textWidth > A_WIDTH?textWidth:A_WIDTH;
         height = A_HEIGHT + fontHeight + A_MARGIN;
@@ -247,7 +247,7 @@ bool ObjectWidget::activate(IDChangeLog *ChangeLog /*= nullptr*/)
         return false;
     if (m_showDestruction && m_pLine)
         m_pLine->setupDestructionBox();
-    moveEvent(0);
+    moveEvent(nullptr);
     return true;
 }
 
@@ -260,7 +260,7 @@ bool ObjectWidget::activate(IDChangeLog *ChangeLog /*= nullptr*/)
 void ObjectWidget::setX(qreal x)
 {
     UMLWidget::setX(x);
-    moveEvent(0);
+    moveEvent(nullptr);
 }
 
 /**
@@ -273,7 +273,7 @@ void ObjectWidget::setY(qreal y)
 {
     UMLWidget::setY(y);
     if (!UMLApp::app()->document()->loading())
-        moveEvent(0);
+        moveEvent(nullptr);
 }
 
 /**
@@ -320,7 +320,7 @@ void ObjectWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     if (m_inResizeArea) {
         DEBUG() << "resizing...";
         resize(me);
-        moveEvent(0);
+        moveEvent(nullptr);
         return;
     }
 
@@ -370,7 +370,7 @@ void ObjectWidget::cleanup()
     if(m_pLine) {
         m_pLine->cleanup();
         delete m_pLine;
-        m_pLine = 0;
+        m_pLine = nullptr;
     }
 }
 

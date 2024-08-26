@@ -19,10 +19,10 @@
 
 // kde includes
 #include <kaboutdata.h>
-#include <kcmdlineargs.h>
+#include <QCommandLineParser>
 #include <kconfig.h>
 #include <KLocalizedString>
-#include <ktip.h>
+#include <KF5/KConfigWidgets/ktip.h>
 #include <kwin.h>
 
 #include "version.h"
@@ -36,37 +36,46 @@ static const char description[] =
 
 int main(int argc, char *argv[])
 {
-  xsltStylesheetPtr cur = 0;
+  xsltStylesheetPtr cur = nullptr;
   xmlDocPtr doc, res;
 
   const char *params[16 + 1];
   int nbparams = 0;
-  params[nbparams] = 0;
+  params[nbparams] = nullptr;
 
-  KAboutData aboutData("umbodoc", 0, ki18n("Umbrello UML Modeller autonomous code generator"),
-                        umbrelloVersion(), ki18n(description), KAboutData::License_GPL,
-                        ki18n("(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller Authors"), KLocalizedString(),
-                        "https://apps.kde.org/umbrello");
-  aboutData.addAuthor(ki18n("Gael de Chalendar (aka Kleag)"),KLocalizedString(), "kleag@free.fr");
-  aboutData.addAuthor(ki18n("Umbrello UML Modeller Authors"), KLocalizedString(), "umbrello-devel@kde.org");
-  KCmdLineArgs::init(argc, argv, &aboutData);
+  QCoreApplication app(argc, argv);
 
-  KCmdLineOptions options;
-  options.add("+[File]", ki18n("File to transform"));
-  options.add("xslt <url>", ki18n("The XSLT file to use"));
-  KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
+  KAboutData aboutData(QStringLiteral("umbodoc"), ki18n("Umbrello UML Modeller autonomous code generator").toString(),
+                        QLatin1String(umbrelloVersion()), ki18n(description).toString(), KAboutLicense::LicenseKey::GPL,
+                        ki18n("(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller Authors").toString(), KLocalizedString().toString(),
+                        QStringLiteral("https://apps.kde.org/umbrello"));
+  aboutData.addAuthor(ki18n("Gael de Chalendar (aka Kleag)").toString(), KLocalizedString().toString(), QStringLiteral("kleag@free.fr"));
+  aboutData.addAuthor(ki18n("Umbrello UML Modeller Authors").toString(), KLocalizedString().toString(), QStringLiteral("umbrello-devel@kde.org"));
 
-  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+  // KCmdLineArgs::init(argc, argv, &aboutData);
+  QCommandLineParser parser;
+  parser.addPositionalArgument(QStringLiteral("xslt"), QCoreApplication::translate("main", "The XSLT file to use."));
+  
+  // KCmdLineOptions options;
+  // options.add("+[File]", ki18n("File to transform"));
+  // options.add("xslt <url>", ki18n("The XSLT file to use"));
+  // KCmdLineArgs::addCmdLineOptions(options); // Add our own options.
 
-  QCStringList xsltOpt = args->getOptionList("xslt");
-  if (xsltOpt.size() > 0)
+  // KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+
+  parser.process(app);
+
+  const QStringList args = parser.positionalArguments();
+  
+  
+  if (parser.isSet(QStringLiteral("xslt")))
   {
-    QString xsltFile(xsltOpt.last());
+    QString xsltFile = parser.value(QStringLiteral("xslt"));
 
     xmlSubstituteEntitiesDefault(1);
     xmlLoadExtDtdDefaultValue = 1;
-    cur = xsltParseStylesheetFile((const xmlChar *)xsltFile.latin1());
-    doc = xmlParseFile(args->url(0).url().latin1());
+    cur = xsltParseStylesheetFile((const xmlChar *)xsltFile.toStdString().c_str());
+    doc = xmlParseFile(args.first().toStdString().c_str());
     res = xsltApplyStylesheet(cur, doc, params);
     xsltSaveResultToFile(stdout, res, cur);
 

@@ -34,7 +34,7 @@
 #include <QLayout>
 #include <QVBoxLayout>
 
-DEBUG_REGISTER(AssociationGeneralPage)
+DEBUG_REGISTER_DISABLED(AssociationGeneralPage)
 
 /**
  *  Sets up the AssociationGeneralPage.
@@ -44,13 +44,13 @@ DEBUG_REGISTER(AssociationGeneralPage)
  */
 AssociationGeneralPage::AssociationGeneralPage (QWidget *parent, AssociationWidget *assoc)
   : DialogPageBase(parent),
-    m_pAssocNameL(0),
-    m_pAssocNameLE(0),
-    m_pAssocNameComB(0),
-    m_pStereoChkB(0),
-    m_pTypeCB(0),
+    m_pAssocNameL(nullptr),
+    m_pAssocNameLE(nullptr),
+    m_pAssocNameComB(nullptr),
+    m_pStereoChkB(nullptr),
+    m_pTypeCB(nullptr),
     m_pAssociationWidget(assoc),
-    m_pWidget(0)
+    m_pWidget(nullptr)
 {
     constructWidget();
 }
@@ -80,7 +80,7 @@ void AssociationGeneralPage::constructWidget()
 
     m_pNameAndTypeLayout = new QGridLayout(nameAndTypeGB);
     m_pNameAndTypeLayout->setSpacing(6);
-    m_pNameAndTypeLayout->setMargin(margin);
+    m_pNameAndTypeLayout->setContentsMargins(margin, margin, margin, margin);;
 
     // Association name
     m_pAssocNameL = new QLabel(i18nc("name of association widget", "Name:"));
@@ -106,7 +106,7 @@ void AssociationGeneralPage::constructWidget()
     if (umlAssoc) {
         // stereotype checkbox
         m_pStereoChkB = new QCheckBox(i18n("Stereotype"), nameAndTypeGB);
-        m_pStereoChkB->setChecked(umlAssoc->umlStereotype() != 0);
+        m_pStereoChkB->setChecked(umlAssoc->umlStereotype() != nullptr);
         connect(m_pStereoChkB, SIGNAL(stateChanged(int)), this, SLOT(slotStereoCheckboxChanged(int)));
         m_pNameAndTypeLayout->addWidget(m_pStereoChkB, 0, 2);
     }

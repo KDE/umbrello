@@ -37,7 +37,6 @@ class AssociationGeneralPage : public DialogPageBase
 public:
     AssociationGeneralPage(QWidget *parent, AssociationWidget *a);
     ~AssociationGeneralPage();
-
     void apply();
 
 private:

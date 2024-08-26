@@ -177,7 +177,7 @@ static const char *reserved_words[] = {
     "volatile",
     "wait",
     "while",
-    0
+    nullptr
 };
 
 /**

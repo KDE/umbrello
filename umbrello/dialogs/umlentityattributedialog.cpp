@@ -61,7 +61,7 @@ void UMLEntityAttributeDialog::setupDialog()
 
     m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
     QGridLayout * valuesLayout = new QGridLayout(m_pValuesGB);
-    valuesLayout->setMargin(margin);
+    valuesLayout->setContentsMargins(0, margin, 0, 0);
     valuesLayout->setSpacing(10);
 
     m_datatypeWidget = new UMLDatatypeWidget(m_pEntityAttribute);
@@ -109,7 +109,7 @@ void UMLEntityAttributeDialog::setupDialog()
 
     m_pScopeGB = new QGroupBox(i18n("Indexing"), frame);
     QHBoxLayout* scopeLayout = new QHBoxLayout(m_pScopeGB);
-    scopeLayout->setMargin(margin);
+    scopeLayout->setContentsMargins(margin, margin, margin, margin);;
 
     m_pNoneRB = new QRadioButton(i18n("&Not Indexed"), m_pScopeGB);
     scopeLayout->addWidget(m_pNoneRB);
@@ -161,15 +161,15 @@ bool UMLEntityAttributeDialog::apply()
     QString name = m_pNameLE->text();
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid entity attribute name."),
-                           i18n("Entity Attribute Name Invalid"), 0);
+                           i18n("Entity Attribute Name Invalid"), KMessageBox::Options(0));
         m_pNameLE->setText(m_pEntityAttribute->name());
         return false;
     }
     const UMLClassifier * pConcept = m_pEntityAttribute->umlParent()->asUMLClassifier();
-    UMLObject *o = pConcept ? pConcept->findChildObject(name) : 0;
+    UMLObject *o = pConcept ? pConcept->findChildObject(name) : nullptr;
     if (o && o != m_pEntityAttribute) {
         KMessageBox::error(this, i18n("The entity attribute name you have chosen is already being used in this operation."),
-                           i18n("Entity Attribute Name Not Unique"), 0);
+                           i18n("Entity Attribute Name Not Unique"), KMessageBox::Option(0));
         m_pNameLE->setText(m_pEntityAttribute->name());
         return false;
     }

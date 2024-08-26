@@ -422,13 +422,13 @@ void UMLListViewPopupMenu::insertSubmodelAction()
         return;
     }
     UMLObject *o = Model_Utils::treeViewGetCurrentObject();
-    if (o == 0) {
+    if (o == nullptr) {
         logError0("UMLListViewPopupMenu::insertSubmodelAction: "
                   "Model_Utils::treeViewGetCurrentObject() returns NULL");
         return;
     }
     const UMLFolder *f = o->asUMLFolder();
-    if (f == 0) {
+    if (f == nullptr) {
         logError1("UMLListViewPopupMenu::insertSubmodelAction: %1 is not a Folder", o->name());
         return;
     }

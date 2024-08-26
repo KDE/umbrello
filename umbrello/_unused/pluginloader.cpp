@@ -19,7 +19,7 @@
 using namespace Umbrello;
 
 // static data
-PluginLoader  *PluginLoader::_instance = nullptr;
+PluginLoader *PluginLoader::_instance = 0;
 
 PluginLoader::PluginLoader() :
         _plugins(),

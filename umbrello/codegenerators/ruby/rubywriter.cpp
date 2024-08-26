@@ -89,12 +89,11 @@ void RubyWriter::writeClass(UMLClassifier *c)
     }
 
     // write inheritances out
-    UMLClassifier *classifier;
 
     h <<  "class " << cppToRubyType(className_) << (superclasses.count() > 0 ? QStringLiteral(" < ") : QString());
 
     int i = 0;
-    for(classifier: superclasses) {
+    for(UMLClassifier *classifier: superclasses) {
         if (i == 0) {
             h << cppToRubyType(classifier->name()) << m_endl;
         } else {
@@ -277,14 +276,15 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
             docStr.replace(QStringLiteral(" m_"), QStringLiteral(" "));
             docStr.replace(QRegularExpression(QStringLiteral("\\s[npb](?=[A-Z])")), QStringLiteral(" "));
             QRegularExpression re_params(QStringLiteral("@param (\\w)(\\w*)"));
-            int pos = re_params.indexIn(docStr);
+            QRegularExpressionMatch re_mat = re_params.match(docStr);
+            int pos = docStr.indexOf(re_params);
             while (pos != -1) {
-                docStr.replace(re_params.cap(0),
-                                QString(QStringLiteral("@param _")) + re_params.cap(1).toLower() + re_params.cap(2) + QLatin1Char('_'));
-                commentedParams.append(re_params.cap(1).toLower() + re_params.cap(2));
+                docStr.replace(re_mat.captured(0),
+                                QString(QStringLiteral("@param _")) + re_mat.captured(1).toLower() + re_mat.captured(2) + QLatin1Char('_'));
+                commentedParams.append(re_mat.captured(1).toLower() + re_mat.captured(2));
 
-                pos += re_params.matchedLength() + 3;
-                pos = re_params.indexIn(docStr, pos);
+                pos += re_mat.capturedLength() + 3;
+                pos = docStr.indexOf(docStr, pos);
             }
 
             docStr.replace(QLatin1Char('\n'), QString(QStringLiteral("\n")) + m_indentation + QStringLiteral("# "));
@@ -313,12 +313,13 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
             // three spaces, '#   ', to line up with the list item.
             pos = docStr.indexOf(QStringLiteral("# *"));
             QRegularExpression re_linestart(QStringLiteral("# (?!\\*)"));
-            pos = re_linestart.indexIn(docStr, pos);
+            QRegularExpressionMatch re_ls_mat = re_linestart.match(docStr);
+            pos = docStr.indexOf(re_linestart, pos);
             while (pos > 0) {
                 docStr.insert(pos + 1, QStringLiteral("  "));
 
-                pos += re_linestart.matchedLength() + 2;
-                pos = re_linestart.indexIn(docStr, pos);
+                pos += re_ls_mat.capturedLength() + 2;
+                pos = docStr.indexOf(re_linestart, pos);
             }
 
             h << m_indentation << "# " <<  docStr << m_endl;
@@ -374,8 +375,7 @@ void RubyWriter::writeAttributeMethods(UMLAttributeList attribs,
     if (attribs.count() == 0 || visibility == Uml::Visibility::Private)
         return;
 
-    UMLAttribute *at;
-    for(at:  attribs)
+    for(UMLAttribute *at:  attribs)
     {
         QString varName = cppToRubyName(cleanName(at->name()));
 

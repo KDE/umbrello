@@ -15,7 +15,6 @@
 #include <QFileDialog>
 #include <QLabel>
 #include <QListWidget>
-#include <QRegularExpression>
 
 /**
  * Constructor.
@@ -76,6 +75,9 @@ CPPCodeGenerationForm::CPPCodeGenerationForm(QWidget *parent, const char *name)
     connect(ui_generalOptionsListWidget,
             SIGNAL(itemClicked(QListWidgetItem*)), this,
             SLOT(generalOptionsListWidgetClicked(QListWidgetItem*)));
+
+    connect(ui_browseListButton, &QPushButton::clicked, this, &CPPCodeGenerationForm::browseClicked);
+    connect(ui_browseStringButton, &QPushButton::clicked, this, &CPPCodeGenerationForm::browseClicked);
 
     /*
      Commenting this out due to runtime error,

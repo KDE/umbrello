@@ -20,7 +20,7 @@
 #include <QHBoxLayout>
 #include <QListWidgetItem>
 
-DEBUG_REGISTER(ClassAssociationsPage)
+DEBUG_REGISTER_DISABLED(ClassAssociationsPage)
 
 /**
  *  Constructs an instance of AssocPage.
@@ -44,7 +44,7 @@ ClassAssociationsPage::ClassAssociationsPage(QWidget *parent, UMLScene *s, UMLOb
 
     QHBoxLayout * layout = new QHBoxLayout(m_pAssocGB);
     layout->setSpacing(10);
-    layout->setMargin(margin);
+    layout->setContentsMargins(margin, margin, margin, margin);
 
     m_pAssocLW = new QListWidget(m_pAssocGB);
     m_pAssocLW->setContextMenuPolicy(Qt::CustomContextMenu);

@@ -18,7 +18,7 @@
 #include <QIcon>
 #include <QFile>
 
-DEBUG_REGISTER(Icon_Utils)
+DEBUG_REGISTER_DISABLED(Icon_Utils)
 
 namespace Icon_Utils {
 
@@ -35,7 +35,7 @@ QPixmap SmallIcon(IconType type)
     if (QFile::exists(ICON_PREFIX + icon + QStringLiteral(".png")))
         return QPixmap(ICON_PREFIX + icon);
     else
-        return SmallIcon(icon);
+        return DesktopIcon(type);
 }
 
 /**
@@ -49,7 +49,7 @@ QPixmap BarIcon(IconType type)
     if (QFile::exists(ICON_PREFIX + icon + QStringLiteral(".png")))
         return QPixmap(ICON_PREFIX + icon);
     else
-        return BarIcon(icon);
+        return DesktopIcon(type);
 }
 
 /**
@@ -63,7 +63,7 @@ QPixmap MainBarIcon(IconType type)
     if (QFile::exists(ICON_PREFIX + icon + QStringLiteral(".png")))
         return QPixmap(ICON_PREFIX + icon);
     else
-        return MainBarIcon(icon);
+        return DesktopIcon(type);
 }
 
 /**
@@ -77,7 +77,7 @@ QPixmap UserIcon(IconType type)
     if (QFile::exists(ICON_PREFIX + icon + QStringLiteral(".png")))
         return QPixmap(ICON_PREFIX + icon);
     else
-        return UserIcon(icon);
+        return DesktopIcon(type);
 }
 
 /**
@@ -88,10 +88,10 @@ QPixmap UserIcon(IconType type)
 QPixmap DesktopIcon(IconType type)
 {
     QString icon = toString(type);
-    if (QFile::exists(ICON_PREFIX + icon + QStringLiteral(".png")))
-        return QPixmap(ICON_PREFIX + icon);
+    if (KIconLoader().hasIcon(icon))
+        return KIconLoader().loadIcon(icon, KIconLoader::Group::Desktop);
     else
-        return DesktopIcon(icon);
+        return QPixmap(QSize(22,22));
 }
 
 /**
@@ -107,7 +107,7 @@ QCursor Cursor(IconType type)
     if (QFile::exists(ICON_PREFIX + icon + QStringLiteral(".png")))
         return QCursor(QPixmap(ICON_PREFIX + icon), 9, 9);
     else
-        return QCursor(UserIcon(icon), 9, 9);
+        return QCursor(UserIcon(type), 9, 9);
 }
 
 /**

@@ -41,11 +41,11 @@ public:
 
     Uml::RoleType::Enum role() const;
 
-    UMLObject* clone() const { return 0; }
+    UMLObject* clone() const { return nullptr; }
 
     void saveToXMI(QXmlStreamWriter& writer);
 
-    virtual bool showPropertiesDialog(QWidget *parent = 0);
+    virtual bool showPropertiesDialog(QWidget *parent = nullptr);
 
 protected:
 

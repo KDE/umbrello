@@ -74,7 +74,7 @@ static QPainterPath s_path;
 #endif
 
 // Currently this file is not using debug statements. Activate this line when inserting them:
-//DEBUG_REGISTER(LayoutGenerator)
+//DEBUG_REGISTER_DISABLED(LayoutGenerator)
 
 /**
  * constructor

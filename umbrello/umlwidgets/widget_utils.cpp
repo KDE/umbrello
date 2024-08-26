@@ -27,7 +27,7 @@
 // c++ include
 #include <cmath>
 
-DEBUG_REGISTER(Widget_Utils)
+DEBUG_REGISTER_DISABLED(Widget_Utils)
 
 namespace Widget_Utils
 {
@@ -59,7 +59,7 @@ namespace Widget_Utils
                     return obj;
             }
         }
-        return 0;
+        return nullptr;
     }
 
     /**

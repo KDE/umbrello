@@ -168,6 +168,7 @@ set(libcodegenerator_SRCS
     codegenerators/xml/xmlschemawriter.cpp
 )
 
+
 ki18n_wrap_ui(  libcodegenerator_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/cpp/cppcodegenerationformbase.ui
     ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/d/dcodegenerationformbase.ui
@@ -257,6 +258,7 @@ set(libdialogs_SRCS
     dialogs/widgets/umlstereotypewidget.cpp
     dialogs/widgets/visibilityenumwidget.cpp
 )
+
 
 ki18n_wrap_ui(  libdialogs_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/dialogs/codeviewerdialogbase.ui
@@ -513,6 +515,8 @@ set(LIB_BUILD_MODE STATIC)
 
 list(APPEND libumbrello_SRCS icons.qrc ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc)
 add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
+
+
 set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
 target_link_libraries(libumbrello
     Qt6::Widgets
@@ -545,13 +549,16 @@ ecm_add_app_icon(umbrello_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/64-apps-umbrello.png
     ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/128-apps-umbrello.png
 )
+
+
 add_executable(umbrello ${umbrello_SRCS})
 target_link_libraries(umbrello
     libumbrello
     KF6::Crash
     KF6::WindowSystem
+    Qt::Core5Compat
 )
-set_target_properties(umbrello PROPERTIES OUTPUT_NAME umbrello5)
+set_target_properties(umbrello PROPERTIES OUTPUT_NAME umbrello6)
 
 target_compile_definitions(libumbrello PRIVATE -DQT_NO_CAST_TO_ASCII -DQT_NO_CAST_FROM_ASCII)
 
@@ -570,7 +577,7 @@ install(FILES org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFOD
 
 install( DIRECTORY
     layouts
-    DESTINATION ${UMBRELLO_DATA_INSTALL_DIR}
+    DESTINATION ${UMBRELLO_KDE_INSTALL_DATAROOTDIR}
     PATTERN .svn EXCLUDE )
 
 add_subdirectory( pics )

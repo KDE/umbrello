@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.16.0 FATAL_ERROR)
 
 project(umbrello)
 
+set (CMAKE_VERBOSE_MAKEFILE ON)
+
 if(POLICY CMP0028)
     cmake_policy(SET CMP0028 OLD)
 endif()
@@ -25,9 +27,9 @@ set(UMBRELLO_VERSION_PATCH ${RELEASE_SERVICE_VERSION_MICRO})
 
 option(BUILD_APIDOC "Create api documentation" ON)
 
-option(BUILD_ICONS "Create icons from svg source" OFF)
+option(BUILD_ICONS "Create icons from svg source" ON)
 
-option(BUILD_CURSOR_ICONS "Create cursor icons from svg source" OFF)
+option(BUILD_CURSOR_ICONS "Create cursor icons from svg source" ON)
 
 option(BUILD_ICONS_INTO_SIZE_RELATED_DIRS "place icons into separate directories (for debugging purpose)" OFF)
 
@@ -43,6 +45,8 @@ include(Macros)
 
 set(CMAKE_AUTORCC ON)
 
+# set(CMAKE_BUILD_PARALLEL_LEVEL 12)
+
 if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -fno-delete-null-pointer-checks")
     # TODO: after removing kdelibs4support this could also be removed
@@ -54,9 +58,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
 # KF6 only
 set(QT_MIN_VERSION "6.5.0")
-set(KF6_DEP_VERSION "5.240.0")
+set(KF6_DEP_VERSION "6.2.0")
 set(QT_MAJOR_VERSION "6")
-set(KDEV_MIN_VERSION 6)
+set(KDEV_MIN_VERSION "5.13")
 set(KDEV_SOURCE_DIR lib/kdev5-php)
 
 set(APP_SUFFIX 6)
@@ -77,7 +81,6 @@ include(ECMOptionalAddSubdirectory)
 include(ECMAddAppIcon)
 include(ECMAddTests)
 
-
 set(KDEV_COMPONENTS KDev::Interfaces KDev::Language KDev::Shell)
 if(NOT QTQCHDIR)
     set(QTQCHDIR ${KDE_INSTALL_QTQCHDIR})
@@ -93,6 +96,7 @@ find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS
     Widgets
     Xml
     WebEngineWidgets
+    Core5Compat
 )
 
 # search packages used by KDE
@@ -112,6 +116,8 @@ find_package(KF6 REQUIRED COMPONENTS
     XmlGui
 )
 
+find_package(KF6TextEditor)
+
 if(CMAKE_COMPILER_IS_GNUCXX)
     string(REPLACE "-Wsuggest-override" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 endif()
@@ -120,7 +126,8 @@ if(BUILD_PHP_IMPORT)
     find_package(KDevelop-PG-Qt)
     find_package(KDevPlatform ${KDEV_MIN_VERSION} COMPONENTS ${KDEV_COMPONENTS})
 endif()
-if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
+
+if(KDEVPGQT_FOUND AND DEFINED KDEV_PLUGIN_VERSION)
     message(STATUS "requirements available - enable building php code import")
     include_directories(
         ${KDEVPGQT_INCLUDE_DIR}
@@ -130,8 +137,10 @@ if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
     add_definitions(
         -DENABLE_PHP_IMPORT
     )
+    message(STATUS "ok1")
     add_subdirectory(lib/kdevplatform)
     find_package(KDevPHP)
+    message(STATUS "ok1")
     if(NOT KDevPHP_FOUND)
         set(NO_INSTALL 1)
         set(BUILD_PARSER_ONLY 1)
@@ -145,12 +154,13 @@ if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
         )
         add_subdirectory(${KDEV_SOURCE_DIR})
     endif()
+    message(STATUS "ok1")
 else()
     set(BUILD_PHP_IMPORT 0)
 endif()
 
-set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello${APP_SUFFIX})
-
+set(DOCBUNDLEDIR ${KDE_INSTALL_DATAROOTDIR}${DATAROOTDIR}/doc/HTML)
+set(UMBRELLO_KDE_INSTALL_DATAROOTDIR ${KDE_INSTALL_DATAROOTDIR}/umbrello${APP_SUFFIX})
 # ki18n_install(po)
 # kdoctools_install(po)
 
@@ -246,7 +256,7 @@ add_unstable_feature(OBJECT_DIAGRAM) # see https://bugs.kde.org/show_bug.cgi?id=
 find_package(Doxygen OPTIONAL_COMPONENTS dot)
 if(DOXYGEN_FOUND AND BUILD_APIDOC)
     message(STATUS "found doxygen package")
-    find_program(QHELPGENERATOR_EXECUTABLE NAMES qhelpgenerator qhelpgenerator-qt5)
+    find_program(QHELPGENERATOR_EXECUTABLE NAMES qhelpgenerator)
     message(STATUS "found qhelpgenerator ${QHELPGENERATOR_EXECUTABLE}")
     set(DOXYGEN_ABBREVIATE_BRIEF "The $name class" "The $name widget")
     set(DOXYGEN_CALL_GRAPH YES)
@@ -284,7 +294,7 @@ if(DOXYGEN_FOUND AND BUILD_APIDOC)
         COMMENT "generating api doc"
     )
 
-    install(DIRECTORY ${CMAKE_BINARY_DIR}/apidoc DESTINATION ${UMBRELLO_DATA_INSTALL_DIR})
+    install(DIRECTORY ${CMAKE_BINARY_DIR}/apidoc DESTINATION ${UMBRELLO_KDE_INSTALL_DATAROOTDIR})
 endif()
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)

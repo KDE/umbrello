@@ -49,7 +49,7 @@ UMLPackageWidget::UMLPackageWidget(UMLObject *o, QWidget *parent) :
 
     UMLPackage* folderLogicalView =
             UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical)->asUMLPackage();
-    if (parentPackage == 0 ||
+    if (parentPackage == nullptr ||
          parentPackage == folderLogicalView) {
         m_editField->setEditText(QString());
     }
@@ -85,7 +85,7 @@ void UMLPackageWidget::apply()
     UMLObject *newPackage = nullptr;
 
     if (!packageName.isEmpty()) {
-        if ((newPackage = UMLApp::app()->document()->findUMLObject(packageName, UMLObject::ot_Package)) == 0) {
+        if ((newPackage = UMLApp::app()->document()->findUMLObject(packageName, UMLObject::ot_Package)) == nullptr) {
             newPackage = Import_Utils::createUMLObject(UMLObject::ot_Package, packageName);
         }
     } else {

@@ -23,7 +23,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
-DEBUG_REGISTER(ToolBarStateMessages)
+DEBUG_REGISTER_DISABLED(ToolBarStateMessages)
 
 /**
  * Creates a new ToolBarStateMessages.
@@ -32,8 +32,8 @@ DEBUG_REGISTER(ToolBarStateMessages)
  */
 ToolBarStateMessages::ToolBarStateMessages(UMLScene *umlScene)
   : ToolBarStatePool(umlScene),
-    m_firstObject(0),
-    m_messageLine(0),
+    m_firstObject(nullptr),
+    m_messageLine(nullptr),
     m_isObjectWidgetLine(false),
     xclick(0),
     yclick(0)
@@ -323,11 +323,11 @@ Uml::SequenceMessage::Enum ToolBarStateMessages::getMessageType()
  */
 void ToolBarStateMessages::cleanMessage()
 {
-    m_firstObject = 0;
+    m_firstObject = nullptr;
 
     if (m_messageLine) {
         delete m_messageLine;
-        m_messageLine = 0;
+        m_messageLine = nullptr;
     }
 }
 

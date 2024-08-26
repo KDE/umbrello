@@ -37,8 +37,10 @@
 #include <QPushButton>
 #include <QTreeWidget>
 #include <QVBoxLayout>
+#include <KF6/KWidgetsAddons/kmessagebox.h>
+#include <KF6/KWidgetsAddons/kstandardguiitem.h>
 
-DEBUG_REGISTER(UMLForeignKeyConstraintDialog)
+DEBUG_REGISTER_DISABLED(UMLForeignKeyConstraintDialog)
 
 /**
  *  Sets up the UMLForeignKeyConstraintDialog
@@ -157,7 +159,7 @@ bool UMLForeignKeyConstraintDialog::apply()
 
     UMLEntity* ue = uo->asUMLEntity();
 
-    if (ue == 0) {
+    if (ue == nullptr) {
         logDebug1("UMLForeignKeyConstraintDialog::apply: Could not find UML Entity with name %1",
                   entityName);
         return false;
@@ -200,6 +202,7 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     QWidget* page = new QWidget();
     QVBoxLayout* topLayout = new QVBoxLayout();
     page->setLayout(topLayout);
+    int margin = fontMetrics().height();
 
     pageGeneral = createPage(i18nc("general page title", "General"), i18n("General Settings"),
                              Icon_Utils::it_Properties_General, page);
@@ -209,7 +212,7 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
 
     QGridLayout* generalLayout = new QGridLayout(m_GeneralWidgets.generalGB);
     generalLayout->setSpacing(Dialog_Utils::spacingHint());
-    generalLayout->setMargin(fontMetrics().height());
+    generalLayout->setContentsMargins(margin, margin, margin, margin);
 
     Dialog_Utils::makeLabeledEditField(generalLayout, 0,
                                        m_GeneralWidgets.nameL, i18nc("label for entering name", "Name"),
@@ -225,8 +228,8 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     topLayout->addWidget(m_GeneralWidgets.actionGB);
 
     QGridLayout* actionLayout = new QGridLayout(m_GeneralWidgets.actionGB);
-    generalLayout->setSpacing(Dialog_Utils::spacingHint());
-    generalLayout->setMargin(fontMetrics().height());
+    actionLayout->setSpacing(Dialog_Utils::spacingHint());
+    actionLayout->setContentsMargins(margin, margin, margin, margin);
 
     m_GeneralWidgets.onUpdateL = new QLabel(i18n("On Update"));
     actionLayout->addWidget(m_GeneralWidgets.onUpdateL, 0, 0);
@@ -255,7 +258,7 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     UMLEntity* referencedEntity = m_pForeignKeyConstraint->getReferencedEntity();
 
     int index;
-    if (referencedEntity != 0) {
+    if (referencedEntity != nullptr) {
         index = m_GeneralWidgets.referencedEntityCB->findText(referencedEntity->name());
         if (index != -1)
             m_GeneralWidgets.referencedEntityCB->setCurrentIndex(index);
@@ -390,9 +393,9 @@ void UMLForeignKeyConstraintDialog::slotReferencedEntityChanged(int index)
     }
 
     if (!m_pAttributeMapList.empty()) {
-        int result = KMessageBox::questionYesNo(this, i18n("You are attempting to change the Referenced Entity of this ForeignKey Constraint. Any unapplied changes to the mappings between local and referenced entities will be lost. Are you sure you want to continue ?"));
+        int result = QMessageBox::question(this, i18n("Change the reference?"), i18n("You are attempting to change the Referenced Entity of this ForeignKey Constraint. Any unapplied changes to the mappings between local and referenced entities will be lost. Are you sure you want to continue ?"));
 
-        if (result != KMessageBox::Yes) {
+        if (result != KStandardGuiItem::Ok) {
             // revert back to old index
             m_GeneralWidgets.referencedEntityCB->setCurrentIndex(m_pReferencedEntityIndex);
             return;
@@ -462,7 +465,7 @@ void UMLForeignKeyConstraintDialog::slotResetWidgetState()
     }
 
     // get index of selected Attribute in List Box
-    if (m_ColumnWidgets.mappingTW->currentItem() == 0) {
+    if (m_ColumnWidgets.mappingTW->currentItem() == nullptr) {
         m_ColumnWidgets.removePB->setEnabled(false);
     }
 }

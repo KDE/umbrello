@@ -21,7 +21,7 @@
 
 #include <QFile>
 #include <QRegularExpression>
-#include <QTextCodec>
+#include <QStringConverter>
 #include <QTextStream>
 
 static const char *reserved_words[] = {
@@ -159,7 +159,7 @@ static const char *reserved_words[] = {
     "yield",
     "ZeroDivisionError",
     "zip",
-    0
+    nullptr
 };
 
 PythonWriter::PythonWriter() : m_bNeedPass(true)
@@ -209,7 +209,6 @@ void PythonWriter::writeClass(UMLClassifier *c)
         return;
     }
     QTextStream h(&fileh);
-    h.setCodec("UTF-8");
 
     //////////////////////////////
     //Start generating the code!!
@@ -468,9 +467,10 @@ QString PythonWriter::fixTypeName(const QString &string)
         return QStringLiteral("str");
     }
     QRegularExpression re(QStringLiteral("^vector<(.*)>$"));
-    if (re.indexIn(string) >= 0) {
+    QRegularExpressionMatch reMat = re.match(string);
+    if (string.indexOf(re) >= 0) {
         const QString listOf(QStringLiteral("List[%1]"));
-        return listOf.arg(fixTypeName(re.cap(1)));
+        return listOf.arg(fixTypeName(reMat.captured(1)));
     }
     return string;
 }
@@ -479,7 +479,7 @@ QString PythonWriter::findIncludeFromType(const QString &string)
 {
     const QString fixedTypeName = fixTypeName(string);
     QRegularExpression re(QStringLiteral("^(Any|Dict|List|Tuple)\\["));
-    if (re.indexIn(fixedTypeName) >= 0) {
+    if (fixedTypeName.indexOf(re) >= 0) {
         return QStringLiteral("typing");
     }
     return string;

@@ -12,6 +12,7 @@
 #define CODETEXTHIGHLIGHTER_H
 
 #include <QHash>
+#include <QRegularExpression>
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
 

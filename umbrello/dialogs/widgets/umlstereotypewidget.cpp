@@ -43,7 +43,7 @@ void UMLStereotypeWidget::setEditable(bool state)
 void UMLStereotypeWidget::apply()
 {
     if (m_editField->currentText().isEmpty()) {
-        m_object->setUMLStereotype(0);
+        m_object->setUMLStereotype(nullptr);
         return;
     }
 
@@ -82,7 +82,7 @@ void UMLStereotypeWidget::insertItems(UMLStereotype *type)
 
     m_editField->clear();
     m_editField->addItem(QStringLiteral(""), QVariant(0));
-    for(const QString &key: types.keys()) { // krazy:exclude=foreach
+    for(const QString &key : types.keys()) {
         m_editField->addItem(key, QVariant::fromValue((types[key])));
     }
 

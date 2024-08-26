@@ -17,9 +17,9 @@ const bool IS_NOT_IMPL = false;
 class CppWriterTest : public CppWriter
 {
 public:
-    QString findFileName(UMLPackage* concept, const QString &ext)
+    QString findFileName(UMLPackage* classifier, const QString &ext)
     {
-       return CppWriter::findFileName(concept,ext);
+       return CppWriter::findFileName(classifier, ext);
     }
 };
 
@@ -33,14 +33,14 @@ void TestCppWriter::test_language()
 void TestCppWriter::test_writeClass()
 {
     CppWriterTest* cpp = new CppWriterTest();
-    UMLClassifier* c = new UMLClassifier("Customer", "12345678");
+    UMLClassifier* c = new UMLClassifier(QStringLiteral("Customer"), "12345678");
     UMLAttribute* attr;
-    attr = c->createAttribute("name_");
-    attr = c->createAttribute("address_");
+    attr = c->createAttribute(QStringLiteral("name_"));
+    attr = c->createAttribute(QStringLiteral("address_"));
     c->addAttribute(attr);
     UMLOperation* op;
-    op = c->createOperation("getName");
-    op = c->createOperation("getAddress");
+    op = c->createOperation(QStringLiteral("getName"));
+    op = c->createOperation(QStringLiteral("getAddress"));
     c->addOperation(op);
 
     cpp->writeClass(c);

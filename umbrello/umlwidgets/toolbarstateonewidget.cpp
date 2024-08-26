@@ -43,7 +43,7 @@
  */
 ToolBarStateOneWidget::ToolBarStateOneWidget(UMLScene *umlScene)
   : ToolBarStatePool(umlScene),
-    m_firstObject(0),
+    m_firstObject(nullptr),
     m_isObjectWidgetLine(false)
 {
 }
@@ -125,10 +125,10 @@ void ToolBarStateOneWidget::mouseReleaseWidget()
     WidgetBase::WidgetType type = widgetType();
 
     if (type == WidgetBase::wt_Precondition) {
-        m_firstObject = 0;
+        m_firstObject = nullptr;
     }
     if (type == WidgetBase::wt_Pin || type == WidgetBase::wt_Port) {
-        m_firstObject = 0;
+        m_firstObject = nullptr;
     }
 
     if (m_pMouseEvent->button() != Qt::LeftButton) {

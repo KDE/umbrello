@@ -19,9 +19,9 @@
 // kde includes
 #include <KActionCollection>
 #include <KToggleAction>
-
 #include <KTextEditor/Document>
 #include <KTextEditor/Editor>
+#include <KTextEditor/View>
 #include <KTextEditor/View>
 
 // qt includes
@@ -32,6 +32,7 @@
 #include <QListWidget>
 #include <QObject>
 #include <QWebEngineView>
+#include <QWebEnginePage>
 
 class QWidget;
 
@@ -67,17 +68,17 @@ public:
     explicit UMLAppPrivate(UMLApp *_parent)
       : parent(_parent),
         findDialog(_parent),
-        viewDiagramsWindow(0),
-        viewObjectsWindow(0),
-        viewStereotypesWindow(0),
-        viewWelcomeWindow(0),
-        diagramsWindow(0),
-        objectsWindow(0),
-        stereotypesWindow(0),
-        welcomeWindow(0),
-        editorWindow(0),
-        view(0),
-        document(0)
+        viewDiagramsWindow(nullptr),
+        viewObjectsWindow(nullptr),
+        viewStereotypesWindow(nullptr),
+        viewWelcomeWindow(nullptr),
+        diagramsWindow(nullptr),
+        objectsWindow(nullptr),
+        stereotypesWindow(nullptr),
+        welcomeWindow(nullptr),
+        editorWindow(nullptr),
+        view(nullptr),
+        document(nullptr)
     {
         /* TODO: On the call to KTextEditor::Editor::instance() Valgrind reports
            "Conditional jump or move depends on uninitialised value(s)".
@@ -153,6 +154,9 @@ public Q_SLOTS:
         welcomeWindow->setObjectName(QStringLiteral("WelcomeDock"));
 
         auto *view = new QWebEngineView();
+        // setLinkDelegationPolicy not available in QWebEngine
+        // view->page()->setLinkDelegationPolicy(QWebEnginePage::DelegateAllLinks);
+        view->setContextMenuPolicy(Qt::NoContextMenu);
         connect(view, SIGNAL(linkClicked(const QUrl)), this, SLOT(slotWelcomeWindowLinkClicked(const QUrl)));
         view->setHtml(html);
         view->show();
@@ -173,7 +177,7 @@ public Q_SLOTS:
         QStringList list = url.toString().split(QLatin1Char('-'));
         list.removeLast();
         QString key;
-        for(const QString s: list) {
+        for(const QString &s: list) {
             QString a = s;
             a[0] = a[0].toUpper();
             key.append(a);

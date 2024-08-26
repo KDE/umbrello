@@ -32,7 +32,7 @@ B* asB(A* p)
 
 A* getPointer()
 {
-    return 0;
+    return nullptr;
 }
 
 void TestBasicTypes::test_dynamic_cast()
@@ -43,7 +43,7 @@ void TestBasicTypes::test_dynamic_cast()
     QScopedPointer<A> a2(new B);
     B* b2 = dynamic_cast<B*> (a2.data());
     QVERIFY(b2);
-    QScopedPointer<A> a3((B*)0);
+    QScopedPointer<A> a3((B*)nullptr);
     B* b3 = dynamic_cast<B*> (a3.data());
     QVERIFY(!b3);
     B* b4 = dynamic_cast<B*> (getPointer());
@@ -111,23 +111,23 @@ void TestBasicTypes::test_DomDocument_english()
     QString localeValue;
     localeValue.replace(QLatin1Char('.'), _default.decimalPoint());
 
-    QDomDocument doc("test");
-    QDomElement root = doc.createElement("test");
+    QDomDocument doc(QStringLiteral("test"));
+    QDomElement root = doc.createElement(QStringLiteral("test"));
     doc.appendChild(root);
-    root.setAttribute("a", fVar);
+    root.setAttribute(QStringLiteral("a"), fVar);
     QString xml = doc.toString();
     QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
 
     // caused by bug in Qt xml
-    root.setAttribute("a", dVar);
+    root.setAttribute(QStringLiteral("a"), dVar);
     xml = doc.toString();
     QVERIFY2(xml.contains(localeValue), xml.toLatin1().constData());
 
-    root.setAttribute("a", QString::number(fVar));
+    root.setAttribute(QStringLiteral("a"), QString::number(fVar));
     xml = doc.toString();
     QVERIFY(xml.contains(refValue));
 
-    root.setAttribute("a", QString::number(dVar));
+    root.setAttribute(QStringLiteral("a"), QString::number(dVar));
     xml = doc.toString();
     QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
     QLocale::setDefault(_default);
@@ -146,24 +146,24 @@ void TestBasicTypes::test_DomDocument_non_english()
     QString localeValue;
     localeValue.replace(QLatin1Char('.'), _default.decimalPoint());
 
-    QDomDocument doc("test");
-    QDomElement root = doc.createElement("test");
+    QDomDocument doc(QStringLiteral("test"));
+    QDomElement root = doc.createElement(QStringLiteral("test"));
     doc.appendChild(root);
 
-    root.setAttribute("a", fVar);
+    root.setAttribute(QStringLiteral("a"), fVar);
     QString xml = doc.toString();
     QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
 
     // caused by bug in Qt xml
-    root.setAttribute("a", dVar);
+    root.setAttribute(QStringLiteral("a"), dVar);
     xml = doc.toString();
     QVERIFY2(xml.contains(localeValue), xml.toLatin1().constData());
 
-    root.setAttribute("a", QString::number(fVar));
+    root.setAttribute(QStringLiteral("a"), QString::number(fVar));
     xml = doc.toString();
     QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
 
-    root.setAttribute("a", QString::number(dVar));
+    root.setAttribute(QStringLiteral("a"), QString::number(dVar));
     xml = doc.toString();
     QVERIFY2(xml.contains(refValue), xml.toLatin1().constData());
     QLocale::setDefault(_default);
@@ -188,19 +188,19 @@ void TestBasicTypes::test_ModelType_fromString()
     QString modelStr;
     Uml::ModelType::Enum model;
 
-    modelStr = "Logical";
+    modelStr = QStringLiteral("Logical");
     model = Uml::ModelType::fromString(modelStr);
     QVERIFY(model == Uml::ModelType::Logical);
-    modelStr = "UseCase";
+    modelStr = QStringLiteral("UseCase");
     model = Uml::ModelType::fromString(modelStr);
     QVERIFY(model == Uml::ModelType::UseCase);
-    modelStr = "Component";
+    modelStr = QStringLiteral("Component");
     model = Uml::ModelType::fromString(modelStr);
     QVERIFY(model == Uml::ModelType::Component);
-    modelStr = "Deployment";
+    modelStr = QStringLiteral("Deployment");
     model = Uml::ModelType::fromString(modelStr);
     QVERIFY(model == Uml::ModelType::Deployment);
-    modelStr = "EntityRelationship";
+    modelStr = QStringLiteral("EntityRelationship");
     model = Uml::ModelType::fromString(modelStr);
     QVERIFY(model == Uml::ModelType::EntityRelationship);
 }
@@ -242,23 +242,23 @@ void TestBasicTypes::test_Visibility_toString()
 void TestBasicTypes::test_Visibility_fromString()
 {
     Uml::Visibility::Enum visibility;
-    visibility = Uml::Visibility::fromString("public");
+    visibility = Uml::Visibility::fromString(QStringLiteral("public"));
     QVERIFY(visibility == Uml::Visibility::Public);
-    visibility = Uml::Visibility::fromString("+");
+    visibility = Uml::Visibility::fromString(QStringLiteral("+"));
     QVERIFY(visibility == Uml::Visibility::Public);
-    visibility = Uml::Visibility::fromString("protected");
+    visibility = Uml::Visibility::fromString(QStringLiteral("protected"));
     QVERIFY(visibility == Uml::Visibility::Protected);
-    visibility = Uml::Visibility::fromString("#");
+    visibility = Uml::Visibility::fromString(QStringLiteral("#"));
     QVERIFY(visibility == Uml::Visibility::Protected);
-    visibility = Uml::Visibility::fromString("private");
+    visibility = Uml::Visibility::fromString(QStringLiteral("private"));
     QVERIFY(visibility == Uml::Visibility::Private);
-    visibility = Uml::Visibility::fromString("-");
+    visibility = Uml::Visibility::fromString(QStringLiteral("-"));
     QVERIFY(visibility == Uml::Visibility::Private);
-    visibility = Uml::Visibility::fromString("signals");
+    visibility = Uml::Visibility::fromString(QStringLiteral("signals"));
     QVERIFY(visibility == Uml::Visibility::Protected);
-    visibility = Uml::Visibility::fromString("class");
+    visibility = Uml::Visibility::fromString(QStringLiteral("class"));
     QVERIFY(visibility == Uml::Visibility::Private);
-    visibility = Uml::Visibility::fromString("anything else");
+    visibility = Uml::Visibility::fromString(QStringLiteral("anything else"));
     QVERIFY(visibility == Uml::Visibility::Public);
 }
 
@@ -291,25 +291,25 @@ void TestBasicTypes::test_DiagramType_toString()
 void TestBasicTypes::test_DiagramType_fromString()
 {
     Uml::DiagramType::Enum diagram;
-    diagram = Uml::DiagramType::fromString("Undefined");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Undefined"));
     QVERIFY(diagram == Uml::DiagramType::Undefined);
-    diagram = Uml::DiagramType::fromString("Class");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Class"));
     QVERIFY(diagram == Uml::DiagramType::Class);
-    diagram = Uml::DiagramType::fromString("UseCase");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("UseCase"));
     QVERIFY(diagram == Uml::DiagramType::UseCase);
-    diagram = Uml::DiagramType::fromString("Sequence");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Sequence"));
     QVERIFY(diagram == Uml::DiagramType::Sequence);
-    diagram = Uml::DiagramType::fromString("Collaboration");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Collaboration"));
     QVERIFY(diagram == Uml::DiagramType::Collaboration);
-    diagram = Uml::DiagramType::fromString("State");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("State"));
     QVERIFY(diagram == Uml::DiagramType::State);
-    diagram = Uml::DiagramType::fromString("Activity");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Activity"));
     QVERIFY(diagram == Uml::DiagramType::Activity);
-    diagram = Uml::DiagramType::fromString("Component");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Component"));
     QVERIFY(diagram == Uml::DiagramType::Component);
-    diagram = Uml::DiagramType::fromString("Deployment");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("Deployment"));
     QVERIFY(diagram == Uml::DiagramType::Deployment);
-    diagram = Uml::DiagramType::fromString("EntityRelationship");
+    diagram = Uml::DiagramType::fromString(QStringLiteral("EntityRelationship"));
     QVERIFY(diagram == Uml::DiagramType::EntityRelationship);
 }
 

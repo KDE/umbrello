@@ -37,7 +37,7 @@ namespace Import_Utils {
                                     const QString &comment);
 
     UMLObject *createArtifact(const QString& name,
-                              UMLFolder *parentPkg = NULL,
+                              UMLFolder *parentPkg = nullptr,
                               const QString &comment = QString());
 
     void checkStdString(QString& typeName);

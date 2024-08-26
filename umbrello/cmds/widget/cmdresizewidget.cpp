@@ -17,7 +17,7 @@ namespace Uml
     CmdResizeWidget::CmdResizeWidget(UMLWidget *widget)
       : CmdBaseWidgetCommand(widget)
     {
-        Q_ASSERT(widget != 0);
+        Q_ASSERT(widget != nullptr);
         setText(i18n("Resize widget : %1", widget->name()));
 
         m_size = QSizeF(widget->width(), widget->height());

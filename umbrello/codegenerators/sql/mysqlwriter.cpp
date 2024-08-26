@@ -121,7 +121,7 @@ void MySQLWriter::printAutoIncrements(QTextStream& sql, const UMLEntityAttribute
        }
     }
 
-    if (autoIncrementEntAtt == 0) {
+    if (autoIncrementEntAtt == nullptr) {
         return;
     }
 

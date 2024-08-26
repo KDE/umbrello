@@ -15,6 +15,11 @@
 
 class UMLView;
 
+#ifndef OPAQUE_UMLView
+  #define OPAQUE_UMLView
+  Q_DECLARE_OPAQUE_POINTER(UMLView*)
+#endif
+  
 Q_DECLARE_METATYPE(UMLView*);
 
 class DiagramsModel : public QAbstractTableModel

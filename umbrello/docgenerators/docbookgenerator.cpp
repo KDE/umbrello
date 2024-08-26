@@ -18,14 +18,15 @@
 #include <kjobwidgets.h>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <kio/job.h>
+#include <KIO/Job>
+#include <KIO/FileCopyJob>
 
 #include <QApplication>
 #include <QFile>
 #include <QRegularExpression>
 #include <QTextStream>
 
-DEBUG_REGISTER(DocbookGenerator)
+DEBUG_REGISTER_DISABLED(DocbookGenerator)
 
 /**
  * Constructor.
@@ -35,7 +36,7 @@ DocbookGenerator::DocbookGenerator()
   umlDoc = UMLApp::app()->document();
   m_pStatus = true;
   m_pThreadFinished = false;
-  docbookGeneratorJob = 0;
+  docbookGeneratorJob = nullptr;
 }
 
 /**
@@ -124,7 +125,7 @@ void DocbookGenerator::threadFinished()
 {
     m_pThreadFinished = true;
     delete docbookGeneratorJob;
-    docbookGeneratorJob = 0;
+    docbookGeneratorJob = nullptr;
 }
 
 /**

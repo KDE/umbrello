@@ -18,7 +18,7 @@ ToolBarStateFactory::ToolBarStateFactory()
 {
     for (int i = 0; i < NR_OF_TOOLBAR_STATES; ++i)
     {
-        m_states[i] = 0;
+        m_states[i] = nullptr;
     }
 }
 
@@ -36,7 +36,7 @@ ToolBarState* ToolBarStateFactory::getState(const WorkToolBar::ToolBar_Buttons &
 {
     int key = getKey(toolbarButton);
 
-    if (m_states[key] == 0)
+    if (m_states[key] == nullptr)
     {
         switch (key)
         {

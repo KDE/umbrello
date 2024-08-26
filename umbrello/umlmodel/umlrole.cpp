@@ -17,9 +17,8 @@
 
 // qt includes
 #include <QPointer>
-#include <QRegularExpression>
 
-DEBUG_REGISTER(UMLRole)
+DEBUG_REGISTER_DISABLED(UMLRole)
 
 /**
  * Sets up an association.

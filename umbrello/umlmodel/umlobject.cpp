@@ -75,7 +75,7 @@ UMLObject::UMLObject(UMLObject* parent, const QString& name, ID::Type id)
  *                 then a new ID will be assigned internally.
  */
 UMLObject::UMLObject(const QString& name, ID::Type id)
-  : QObject(0),
+  : QObject(nullptr),
     m_nId(id),
     m_name(name),
     m_d(new UMLObjectPrivate)
@@ -106,7 +106,7 @@ UMLObject::UMLObject(UMLObject * parent)
 UMLObject::~UMLObject()
 {
     // unref stereotype
-    setUMLStereotype(0);
+    setUMLStereotype(nullptr);
     if (m_pSecondary && m_pSecondary->baseType() == ot_Stereotype) {
         UMLStereotype* stereotype = m_pSecondary->asUMLStereotype();
         if (stereotype)
@@ -124,12 +124,12 @@ void UMLObject::init()
     setObjectName(QStringLiteral("UMLObject"));
     m_BaseType = ot_UMLObject;
     m_visibility = Uml::Visibility::Public;
-    m_pStereotype = 0;
+    m_pStereotype = nullptr;
     m_Doc.clear();
     m_bAbstract = false;
     m_bStatic = false;
     m_bCreationWasSignalled = false;
-    m_pSecondary = 0;
+    m_pSecondary = nullptr;
 }
 
 /**
@@ -531,7 +531,7 @@ void UMLObject::setStereotype(const QString &name)
 void UMLObject::setStereotypeCmd(const QString& name)
 {
     if (name.isEmpty()) {
-        setUMLStereotype(0);
+        setUMLStereotype(nullptr);
         return;
     }
     UMLDoc *pDoc = UMLApp::app()->document();
@@ -554,7 +554,7 @@ UMLStereotype * UMLObject::umlStereotype() const
  */
 QString UMLObject::stereotype(bool includeAdornments /* = false */) const
 {
-    if (m_pStereotype == 0)
+    if (m_pStereotype == nullptr)
         return QString();
     return m_pStereotype->name(includeAdornments);
 }
@@ -603,7 +603,7 @@ UMLPackageList UMLObject::packages(bool includeRoot) const
 {
     UMLPackageList pkgList;
     UMLPackage* pkg = umlPackage();
-    while (pkg != 0) {
+    while (pkg != nullptr) {
         pkgList.prepend(pkg);
         pkg = pkg->umlPackage();
     }
@@ -624,7 +624,7 @@ bool UMLObject::setUMLPackage(UMLPackage *pPkg)
         return false;
     }
 
-    if (pPkg == 0) {
+    if (pPkg == nullptr) {
         // Allow setting to NULL for stereotypes
         setParent(pPkg);
         return true;
@@ -755,13 +755,13 @@ bool UMLObject::resolveRef()
     // the type is the xmi.id of a UMLClassifier.
     if (! m_SecondaryId.isEmpty()) {
         m_pSecondary = pDoc->findObjectById(Uml::ID::fromString(m_SecondaryId));
-        if (m_pSecondary != 0) {
+        if (m_pSecondary != nullptr) {
             if (m_pSecondary->baseType() == ot_Stereotype) {
                 if (m_pStereotype)
                     m_pStereotype->decrRefCount();
                 m_pStereotype = m_pSecondary->asUMLStereotype();
                 m_pStereotype->incrRefCount();
-                m_pSecondary = 0;
+                m_pSecondary = nullptr;
             }
             m_SecondaryId = QString();
             maybeSignalObjectCreated();
@@ -828,8 +828,8 @@ bool UMLObject::resolveRef()
         if (Model_Utils::isCommonDataType(m_SecondaryId))
             ot = ot_Datatype;
     }
-    m_pSecondary = Object_Factory::createUMLObject(ot, m_SecondaryId, 0);
-    if (m_pSecondary == 0)
+    m_pSecondary = Object_Factory::createUMLObject(ot, m_SecondaryId, nullptr);
+    if (m_pSecondary == nullptr)
         return false;
     m_SecondaryId = QString();
     maybeSignalObjectCreated();
@@ -920,7 +920,7 @@ void UMLObject::save1(QXmlStreamWriter& writer, const QString& type, const QStri
         QString visibility = Uml::Visibility::toString(m_visibility, false);
         writer.writeAttribute(QStringLiteral("visibility"), visibility);
     }
-    if (m_pStereotype != 0)
+    if (m_pStereotype != nullptr)
         writer.writeAttribute(QStringLiteral("stereotype"), Uml::ID::toString(m_pStereotype->id()));
     if (m_bStatic)
         writer.writeAttribute(QStringLiteral("ownerScope"), QStringLiteral("classifier"));
@@ -938,7 +938,7 @@ void UMLObject::save1end(QXmlStreamWriter& writer)
 {
     // Save optional stereotype attributes
     if (m_TaggedValues.count()) {
-        if (m_pStereotype == 0) {
+        if (m_pStereotype == nullptr) {
             logError1("UMLObject::save1end(%1) TaggedValues are set but pStereotype is null : clearing TaggedValues",
                       m_name);
             m_TaggedValues.clear();
@@ -1027,7 +1027,7 @@ bool UMLObject::loadStereotype(QDomElement & element)
 bool UMLObject::loadFromXMI(QDomElement & element)
 {
     UMLDoc* umldoc = UMLApp::app()->document();
-    if (umldoc == 0) {
+    if (umldoc == nullptr) {
         logError0("UMLObject::loadFromXMI: umldoc is NULL");
         return false;
     }

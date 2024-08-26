@@ -21,7 +21,7 @@
 #include <QRegularExpression>
 #include <QXmlStreamWriter>
 
-DEBUG_REGISTER(JavaANTCodeDocument)
+DEBUG_REGISTER_DISABLED(JavaANTCodeDocument)
 
 JavaANTCodeDocument::JavaANTCodeDocument ()
 {

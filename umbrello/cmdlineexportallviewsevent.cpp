@@ -18,7 +18,7 @@
 #include <QCloseEvent>
 #include <QStringList>
 
-DEBUG_REGISTER(CmdLineExportAllViewsEvent)
+DEBUG_REGISTER_DISABLED(CmdLineExportAllViewsEvent)
 
 const QEvent::Type CmdLineExportAllViewsEvent::type_ =
     (QEvent::Type)QEvent::registerEventType(QEvent::User + 1);

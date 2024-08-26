@@ -12,7 +12,6 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegularExpression>
 
 /**
  * Sets up a constraint.

@@ -29,7 +29,7 @@
 #include <QTimer>
 #include <QScrollBar>
 
-DEBUG_REGISTER(CodeImpStatusPage)
+DEBUG_REGISTER_DISABLED(CodeImpStatusPage)
 
 /**
  * Constructor.

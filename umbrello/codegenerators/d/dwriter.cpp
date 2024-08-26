@@ -760,7 +760,7 @@ QStringList DWriter::defaultDatatypes() const
 
 bool DWriter::compareDMethod(UMLOperation *op1, UMLOperation *op2)
 {
-    if (op1 == 0 || op2 == 0)
+    if (op1 == nullptr || op2 == nullptr)
         return false;
     if (op1 == op2)
         return true;
@@ -914,7 +914,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
                    + ((j < i-1) ? QStringLiteral(", ") : QString());
             doc += QStringLiteral("@param ") + atName + QLatin1Char(' ') + at->doc() + m_endl;
         }
-        doc = doc.remove(doc.size() - 1, 1);  // remove last endl of comment
+        doc = doc.remove(doc.size() - 1, 1);  // remove last '\n' of comment
         str += QLatin1Char(')');
 
         // method only gets a body IF it is not abstract

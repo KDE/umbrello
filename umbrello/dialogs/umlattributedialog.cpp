@@ -43,8 +43,8 @@ UMLAttributeDialog::UMLAttributeDialog(QWidget * pParent, UMLAttribute * pAttrib
     setCaption(i18n("Attribute Properties"));
     m_pAttribute = pAttribute;
     for (int i = 0; i < N_STEREOATTRS; i++) {
-        m_pTagL [i] = 0;
-        m_pTagLE[i] = 0;
+        m_pTagL [i] = nullptr;
+        m_pTagLE[i] = nullptr;
     }
     setupDialog();
 }
@@ -66,7 +66,7 @@ void UMLAttributeDialog::setupDialog()
 
     m_pValuesGB = new QGroupBox(i18n("General Properties"), frame);
     m_pValuesLayout = new QGridLayout(m_pValuesGB);
-    m_pValuesLayout->setMargin(margin);
+    m_pValuesLayout->setContentsMargins(margin, margin, margin, margin);
     m_pValuesLayout->setSpacing(10);
 
     m_datatypeWidget = new UMLDatatypeWidget(m_pAttribute->asUMLClassifierListItem());
@@ -121,15 +121,15 @@ bool UMLAttributeDialog::apply()
     QString name = m_pNameLE->text();
     if (name.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid attribute name."),
-                           i18n("Attribute Name Invalid"), 0);
+                           i18n("Attribute Name Invalid"), KMessageBox::Options(0));
         m_pNameLE->setText(m_pAttribute->name());
         return false;
     }
     const UMLClassifier * pConcept = m_pAttribute->umlParent()->asUMLClassifier();
-    UMLObject *o = pConcept ? pConcept->findChildObject(name) : 0;
+    UMLObject *o = pConcept ? pConcept->findChildObject(name) : nullptr;
     if (o && o != m_pAttribute) {
         KMessageBox::error(this, i18n("The attribute name you have chosen is already being used in this operation."),
-                           i18n("Attribute Name Not Unique"), 0);
+                           i18n("Attribute Name Not Unique"), KMessageBox::Options(0));
         m_pNameLE->setText(m_pAttribute->name());
         return false;
     }

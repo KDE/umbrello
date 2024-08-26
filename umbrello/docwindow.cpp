@@ -67,11 +67,11 @@ public:
  */
 DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
   : QWidget(parent),
-    m_pUMLObject(0),
-    m_pUMLScene(0),
+    m_pUMLObject(nullptr),
+    m_pUMLScene(nullptr),
     m_pUMLDoc(doc),
-    m_pUMLWidget(0),
-    m_pAssocWidget(0),
+    m_pUMLWidget(nullptr),
+    m_pAssocWidget(nullptr),
     m_Showing(st_Project),
     m_focusEnabled(false)
 {
@@ -90,14 +90,14 @@ DocWindow::DocWindow(UMLDoc * doc, QWidget *parent)
     statusLayout->addWidget(box, 0, 5, 1, 1);
     m_modifiedWidget = new ModifiedWidget(this);
     statusLayout->addWidget(m_modifiedWidget, 0, 6, 1, 1);
-    m_docTE = new KTextEdit(this);
+    m_docTE = new QTextEdit(this);
     m_docTE->setText(QString());
     setFocusProxy(m_docTE);
     //m_docTE->setWordWrapMode(QTextEdit::WidgetWidth);
     QVBoxLayout* docLayout = new QVBoxLayout(this);
     docLayout->addLayout(statusLayout);
     docLayout->addWidget(m_docTE);
-    docLayout->setMargin(0);
+    docLayout->setContentsMargins({});
 
     connect(m_docTE, SIGNAL(textChanged()), this, SLOT(slotTextChanged()));
 }
@@ -304,10 +304,10 @@ void DocWindow::updateDocumentation(bool clear, bool startup)
  */
 void DocWindow::reset()
 {
-    m_pUMLScene = 0;
-    m_pUMLObject = 0;
-    m_pUMLWidget = 0;
-    m_pAssocWidget = 0;
+    m_pUMLScene = nullptr;
+    m_pUMLObject = nullptr;
+    m_pUMLWidget = nullptr;
+    m_pAssocWidget = nullptr;
     m_Showing = st_Project;
     m_docTE->setText(m_pUMLDoc->documentation());
     updateLabel(m_pUMLDoc->name());

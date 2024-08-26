@@ -90,7 +90,7 @@ DeclarationPointer ExpressionVisitor::processVariable(VariableIdentifierAst* var
     }
     if (!ret) {
         //look for a superglobal variable
-        for(Declaration *dec, m_currentContext->topContext()->findDeclarations(identifier : position)) {
+        for(Declaration* dec : m_currentContext->topContext()->findDeclarations(identifier, position)) {
             VariableDeclaration* varDec = dynamic_cast<VariableDeclaration*>(dec);
             if (varDec && varDec->isSuperglobal()) {
                 ret = dec;

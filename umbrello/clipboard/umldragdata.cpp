@@ -37,7 +37,7 @@
 #include <QTextStream>
 #include <QXmlStreamWriter>
 
-DEBUG_REGISTER(UMLDragData)
+DEBUG_REGISTER_DISABLED(UMLDragData)
 
 /**
  *  Constructor.
@@ -225,7 +225,7 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects,
     setData(QStringLiteral("application/x-uml-clip4"), xmiClip.toUtf8());
 
     QImage img = pngImage.toImage();
-    int l_size = img.byteCount();
+    int l_size = img.sizeInBytes();
     QByteArray clipdata;
     clipdata.resize(l_size);
     QDataStream clipstream(&clipdata, QIODevice::WriteOnly);
@@ -331,7 +331,7 @@ bool UMLDragData::decodeClip2(const QMimeData* mimeData, UMLObjectList& objects,
 
     // Load UMLObjects
     QDomNode objectsNode = xmiClipNode.firstChild();
-    if (NoteWidget::s_pCurrentNote == 0) {
+    if (NoteWidget::s_pCurrentNote == nullptr) {
         if (!UMLDragData::decodeObjects(objectsNode, objects, true)) {
             return false;
         }
@@ -648,7 +648,7 @@ bool UMLDragData::decodeClip4(const QMimeData* mimeData, UMLObjectList& objects,
     QDomElement associationWidgetElement = associationWidgetNode.toElement();
     while (!associationWidgetElement.isNull()) {
         AssociationWidget* associationWidget = AssociationWidget::create(view->umlScene());
-        if (associationWidget->loadFromXMI(associationWidgetElement, widgets, 0))
+        if (associationWidget->loadFromXMI(associationWidgetElement, widgets, nullptr))
             associations.append(associationWidget);
         else {
             delete associationWidget;
@@ -742,12 +742,12 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
     }
     UMLObject *pObject = nullptr;
     while (!element.isNull()) {
-        pObject = 0;
+        pObject = nullptr;
         QString type = element.tagName();
         Uml::ID::Type elmId = Uml::ID::fromString(Model_Utils::getXmiId(element));
         QString stereotype = element.attribute(QStringLiteral("stereotype"));
 
-        bool objectExists = (doc->findObjectById(elmId) != 0);
+        bool objectExists = (doc->findObjectById(elmId) != nullptr);
 
         // This happens when pasting clip4 (widgets): pasting widgets must
         // not duplicate the UMLObjects, unless they don't exists (other
@@ -799,7 +799,7 @@ bool UMLDragData::decodeObjects(QDomNode& objectsNode, UMLObjectList& objects, b
             newParent = doc->findObjectById(newParentId)->asUMLPackage();
         }
 
-        if (newParent == 0) {
+        if (newParent == nullptr) {
             // Package is not in this clip, determine the parent based
             // on the selected tree view item
             newParent = Model_Utils::treeViewGetPackageFromCurrent();
@@ -860,10 +860,10 @@ bool UMLDragData::decodeViews(QDomNode& umlviewsNode, UMLViewList& diagrams)
         QString type = diagramElement.attribute(QStringLiteral("type"), QStringLiteral("0"));
         Uml::DiagramType::Enum dt = Uml::DiagramType::fromInt(type.toInt());
         UMLListViewItem *parent = listView->findFolderForDiagram(dt);
-        if (parent == 0)
+        if (parent == nullptr)
             return false;
         UMLObject *po = parent->umlObject();
-        if (po == 0 || po->baseType() != UMLObject::ot_Folder) {
+        if (po == nullptr || po->baseType() != UMLObject::ot_Folder) {
             logError0("UMLDragData::decodeViews: Bad parent for view.");
             return false;
         }

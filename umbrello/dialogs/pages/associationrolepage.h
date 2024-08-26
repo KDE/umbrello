@@ -47,7 +47,6 @@ private:
     VisibilityEnumWidget *m_visibilityWidgetB;
 
     void constructWidget();
-
 public Q_SLOTS:
 //    /**
 //     *  When the draw as actor check box is toggled, the draw

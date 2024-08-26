@@ -82,7 +82,7 @@ public:
 
     void setScene(UMLScene *scene);
 
-    virtual bool activate(IDChangeLog* changeLog = 0);
+    virtual bool activate(IDChangeLog *changeLog = nullptr);
 
     void setPenFromSettings(QPainter &p);
     void setPenFromSettings(QPainter *p);
@@ -175,6 +175,8 @@ public:
     virtual void adjustAssocs(qreal dx, qreal dy);
     virtual void adjustUnselectedAssocs(qreal dx, qreal dy);
 
+    bool isMoved() const;
+    
     bool isActivated() const;
     void setActivated(bool active = true);
 
@@ -233,7 +235,7 @@ public:
     void setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm);
     void setupFontType(QFont &font, UMLWidget::FontType fontType);
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
 public Q_SLOTS:
     virtual void updateWidget();

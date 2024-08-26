@@ -108,7 +108,7 @@ bool StereotypesModel::removeStereotype(UMLStereotype *stereotype)
                 break;
             }
         }
-        if (stFound == 0)
+        if (stFound == nullptr)
             return false;
         stereotype = stFound;
     }

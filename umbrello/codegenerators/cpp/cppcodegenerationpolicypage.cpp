@@ -20,7 +20,7 @@
 #include <QCheckBox>
 #include <QLabel>
 
-DEBUG_REGISTER(CPPCodeGenerationPolicyPage)
+DEBUG_REGISTER_DISABLED(CPPCodeGenerationPolicyPage)
 
 CPPCodeGenerationPolicyPage::CPPCodeGenerationPolicyPage(QWidget *parent, const char *name, CPPCodeGenerationPolicy * policy)
   : CodeGenerationPolicyPage(parent, name, policy)

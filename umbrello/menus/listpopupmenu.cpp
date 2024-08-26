@@ -84,9 +84,7 @@ ListPopupMenu::ListPopupMenu(QWidget *parent)
  */
 ListPopupMenu::~ListPopupMenu()
 {
-    for(QAction *action : m_actions) {
-        delete action;
-    }
+    qDeleteAll(m_actions);
     m_actions.clear();
     delete d;
 }
@@ -140,7 +138,7 @@ void ListPopupMenu::insert(const MenuType m, QMenu* menu)
     // Preprocessor macro for List Popup Menu Insert Bar Icon
 #define LPMIBI(IT, TXT) m_actions[m] = menu->addAction(Icon_Utils::BarIcon(Icon_Utils::IT), TXT)
     DEBUG_AddAction(m);
-    Q_ASSERT(menu != 0);
+    Q_ASSERT(menu != nullptr);
     switch (m) {
     case mt_Accept_Signal:              LPMISI(it_Accept_Signal,         i18n("Accept Signal")); break;
     case mt_Accept_Time_Event:          LPMISI(it_Accept_TimeEvent,      i18n("Accept Time Event")); break;
@@ -490,7 +488,7 @@ ListPopupMenu* ListPopupMenu::menuFromAction(QAction *action)
             return qvariant_cast<ListPopupMenu*>(value);
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -525,7 +523,7 @@ void ListPopupMenu::insertSubMenuCategoryType(UMLCategory* category)
  */
 QAction* ListPopupMenu::getAction(MenuType idx)
 {
-    return m_actions.value(idx, 0);
+    return m_actions.value(idx, nullptr);
 }
 
 // /**
@@ -596,7 +594,7 @@ void ListPopupMenu::setupActionsData()
 {
     for(QAction  *action : m_actions) {
         QMap<QString, QVariant> map = action->data().toMap();
-        map[toString(dt_MenuPointer)] = qVariantFromValue(this);
+        map[toString(dt_MenuPointer)] = QVariant::fromValue(this);
         action->setData(QVariant(map));
     }
 

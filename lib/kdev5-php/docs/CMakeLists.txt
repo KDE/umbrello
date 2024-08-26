@@ -39,6 +39,7 @@ target_link_libraries( kcm_kdevphpdocs
     KF6::KIOWidgets
     KF6::I18n
     KF6::KCMUtils
+    Qt6::Core
 )
 
 configure_file(kcm_kdevphpdocs.desktop.cmake ${CMAKE_CURRENT_BINARY_DIR}/kcm_kdevphpdocs.desktop)

@@ -205,7 +205,7 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &s
     QString name(QStringLiteral("client"));
     UMLObject *left = umldoc->findUMLObject(name, UMLObject::ot_Class);
     if (!left ) {
-        left = new UMLObject(0, name);
+        left = new UMLObject(nullptr, name);
         left->setBaseType(UMLObject::ot_Class);
     }
 
@@ -355,8 +355,8 @@ bool importClassGraph(const QStringList &lines, UMLScene *scene, const QString &
             } else if (l[1] == QStringLiteral("-|>")) {
                 type = Uml::AssociationType::Generalization;
             }
-            QPointer<UMLWidget> w1 = 0;
-            QPointer<UMLWidget> w2 = 0;
+            QPointer<UMLWidget> w1 = nullptr;
+            QPointer<UMLWidget> w2 = nullptr;
             bool error = false;
             if (swapObjects) {
                 w1 = widgetList[l[2]];
@@ -503,7 +503,6 @@ bool importGraph(const QString &fileName, UMLScene *scene)
 
     QStringList lines;
     QTextStream in(&file);
-    in.setCodec("UTF-8");
     while (!in.atEnd()) {
         lines.append(in.readLine());
     }

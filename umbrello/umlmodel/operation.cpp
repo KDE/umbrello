@@ -25,7 +25,7 @@
 // qt includes
 #include <QRegularExpression>
 
-DEBUG_REGISTER(UMLOperation)
+DEBUG_REGISTER_DISABLED(UMLOperation)
 
 /**
  * Constructs a UMLOperation.
@@ -104,7 +104,7 @@ void UMLOperation::setType(UMLObject* type)
  */
 void UMLOperation::moveParmLeft(UMLAttribute * a)
 {
-    if (a == 0) {
+    if (a == nullptr) {
         logDebug0("UMLOperation::moveParmLeft called on NULL attribute");
         return;
     }
@@ -128,7 +128,7 @@ void UMLOperation::moveParmLeft(UMLAttribute * a)
  */
 void UMLOperation::moveParmRight(UMLAttribute * a)
 {
-    if (a == 0) {
+    if (a == nullptr) {
         logDebug0("UMLOperation::moveParmRight called on NULL attribute");
         return;
     }
@@ -156,7 +156,7 @@ void UMLOperation::moveParmRight(UMLAttribute * a)
  */
 void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true */)
 {
-    if (a == 0) {
+    if (a == nullptr) {
         logDebug0("UMLOperation::removeParm called on NULL attribute");
         return;
     }
@@ -187,12 +187,11 @@ UMLAttributeList UMLOperation::getParmList() const
  */
 UMLAttribute* UMLOperation::findParm(const QString &name) const
 {
-    UMLAttribute  *obj= nullptr;
-    for(obj: m_args) {
+    for(UMLAttribute *obj: m_args) {
         if (obj->name() == name)
             return obj;
     }
-    return 0;
+    return (UMLAttribute*)nullptr;
 }
 
 /**
@@ -541,7 +540,7 @@ void UMLOperation::saveToXMI(QXmlStreamWriter& writer)
         writer.writeAttribute(QStringLiteral("isVirtual"), QStringLiteral("true"));
     if (m_bInline)
         writer.writeAttribute(QStringLiteral("isInline"), QStringLiteral("true"));
-    if (m_pSecondary == 0 && m_args.isEmpty()) {
+    if (m_pSecondary == nullptr && m_args.isEmpty()) {
         writer.writeEndElement();  // UML:Operation
         return;
     }
@@ -685,7 +684,7 @@ bool UMLOperation::load1(QDomElement & element)
                     }
                 }
                 // Use deferred xmi.id resolution.
-                m_pSecondary = 0;
+                m_pSecondary = nullptr;
             } else {
                 UMLAttribute * pAtt = new UMLAttribute(this);
                 if(!pAtt->loadFromXMI(attElement)) {

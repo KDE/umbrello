@@ -26,7 +26,7 @@
 #include <QMenu>
 #include <QPoint>
 
-DEBUG_REGISTER(RefactoringAssistant)
+DEBUG_REGISTER_DISABLED(RefactoringAssistant)
 
 /**
  * Constructor.
@@ -83,7 +83,7 @@ void RefactoringAssistant::refactor(UMLClassifier *obj)
     DEBUG() << "called for " << m_umlObject->name();
 
     m_alreadySeen.clear();
-    addClassifier(obj, 0, true, true, true);
+    addClassifier(obj, nullptr, true, true, true);
     QTreeWidgetItem *item = topLevelItem(0);
     item->setExpanded(true);
     for (int i = 0; i < item->childCount(); ++i) {
@@ -99,13 +99,13 @@ void RefactoringAssistant::refactor(UMLClassifier *obj)
 UMLObject* RefactoringAssistant::findUMLObject(const QTreeWidgetItem *item)
 {
     if (!item) {
-        return 0;
+        return nullptr;
     }
     QTreeWidgetItem *i = const_cast<QTreeWidgetItem*>(item);
     if (m_umlObjectMap.find(i) == m_umlObjectMap.end()) {
         logWarn1("RefactoringAssistant::findUMLObject: Item with text %1 not found in uml map",
                  item->text(0));
-        return 0;
+        return nullptr;
     }
     return m_umlObjectMap[i];
 }
@@ -126,7 +126,7 @@ QTreeWidgetItem* RefactoringAssistant::findListViewItem(const UMLObject *obj)
     }
     logWarn1("RefactoringAssistant::findUMLObject: Object id %1 does not have an item in the tree",
              Uml::ID::toString(obj->id()));
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -326,7 +326,7 @@ void RefactoringAssistant::editProperties()
  */
 void RefactoringAssistant::editProperties(UMLObject *obj)
 {
-    QDialog *dia(0);
+    QDialog *dia(nullptr);
     UMLObject::ObjectType t = obj->baseType();
     if (t == UMLObject::ot_Class || t == UMLObject::ot_Interface) {
         ClassPropertiesDialog *dialog = new ClassPropertiesDialog(this, obj, true);
@@ -821,7 +821,7 @@ DEBUG() << "acceptProposedAction";  //:TODO:fischer
             QString msg = i18n("An operation with that signature already exists in %1.\n", newClassifier->name())
                           +
                           i18n("Choose a different name or parameter list.");
-            KMessageBox::error(this, msg, i18n("Operation Name Invalid"), 0);
+            KMessageBox::error(this, msg, i18n("Operation Name Invalid"));
             return;
         }
         UMLOperation* newOp = op->clone()->asUMLOperation();
@@ -842,7 +842,7 @@ DEBUG() << "acceptProposedAction";  //:TODO:fischer
             QString msg = i18n("An attribute with that name already exists in %1.\n", newClassifier->name())
                           +
                           i18n("Choose a different name.");
-            KMessageBox::error(this, msg, i18n("Attribute Name Invalid"), 0);
+            KMessageBox::error(this, msg, i18n("Attribute Name Invalid"));
             return;
         }
         UMLAttribute* newAtt = att->clone()->asUMLAttribute();

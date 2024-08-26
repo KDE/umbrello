@@ -14,7 +14,7 @@
 #include <QFileInfo>
 #include <QCoreApplication>
 
-DEBUG_REGISTER(File_Utils)
+DEBUG_REGISTER_DISABLED(File_Utils)
 
 namespace File_Utils {
 

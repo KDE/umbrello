@@ -26,7 +26,7 @@
 #include <QStringList>
 #include <QTextStream>
 
-DEBUG_REGISTER(CsValaImportBase)
+DEBUG_REGISTER_DISABLED(CsValaImportBase)
 
 QStringList CsValaImportBase::s_filesAlreadyParsed;
 int CsValaImportBase::s_parseDepth = 0;
@@ -258,7 +258,7 @@ UMLObject* CsValaImportBase::resolveClass(const QString& className)
             } // if file exists
         } // if import matches
     } //foreach import
-    return 0; // no match
+    return nullptr; // no match
 }
 
 /**
@@ -369,7 +369,7 @@ bool CsValaImportBase::parseStmt()
 
     QString typeName = joinTypename(keyword);
     // At this point we need a class.
-    if (m_klass == 0) {
+    if (m_klass == nullptr) {
         logError1("CsValaImportBase::parseStmt: no class set for %1", typeName);
         return false;
     }
@@ -657,18 +657,18 @@ bool CsValaImportBase::parseEnumDeclaration()
     UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, currentScope(), m_comment);
     UMLEnum *enumType = ns->asUMLEnum();
-    if (enumType == 0)
+    if (enumType == nullptr)
         enumType = Import_Utils::remapUMLEnum(ns, currentScope());
     skipStmt(QStringLiteral("{"));
     while (m_srcIndex < m_source.count() - 1 && advance() != QStringLiteral("}")) {
         QString next = advance();
         if (next == QStringLiteral("=")) {
             next = advance();
-            if (enumType != 0)
+            if (enumType != nullptr)
                 Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex - 2], QString(), m_source[m_srcIndex]);
             next = advance();
         } else {
-            if (enumType != 0)
+            if (enumType != nullptr)
                 Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex - 1]);
         }
         if (next == QStringLiteral("{") || next == QStringLiteral("(")) {

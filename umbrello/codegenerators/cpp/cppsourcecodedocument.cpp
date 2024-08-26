@@ -27,15 +27,14 @@
 #include "uml.h"
 
 // qt includes
-#include <QRegularExpression>
 
 CPPSourceCodeDocument::CPPSourceCodeDocument (UMLClassifier * classifier)
         : ClassifierCodeDocument (classifier)
 {
     setFileExtension(QStringLiteral(".cpp"));
 
-    m_methodsBlock = 0;
-    m_constructorBlock = 0;
+    m_methodsBlock = nullptr;
+    m_constructorBlock = nullptr;
 
     /* We cannot call any virtual initialization functions here because
        the object is still under construction and the C++ dispatch table
@@ -68,8 +67,8 @@ bool CPPSourceCodeDocument::addCodeOperation (CodeOperation * op)
 void CPPSourceCodeDocument::resetTextBlocks()
 {
     // all special pointers need to be zero'd out.
-    m_methodsBlock = 0;
-    m_constructorBlock = 0;
+    m_methodsBlock = nullptr;
+    m_constructorBlock = nullptr;
 
     // now do the traditional release of child text blocks
     ClassifierCodeDocument::resetTextBlocks();

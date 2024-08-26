@@ -134,12 +134,12 @@ void DocbookGeneratorJob::run()
     umlDoc->saveToXMI(file); // save the xmi stuff to it
     file.close();
 
-    xsltStylesheetPtr cur = 0;
+    xsltStylesheetPtr cur = nullptr;
     xmlDocPtr doc, res;
 
     const char *params[16 + 1];
     int nbparams = 0;
-    params[nbparams] = 0;
+    params[nbparams] = nullptr;
 
     // use public xml catalogs
     xmlLoadCatalogs(File_Utils::xmlCatalogFilePath().toLocal8Bit().constData());
@@ -163,20 +163,20 @@ void DocbookGeneratorJob::run()
     xmlLoadExtDtdDefaultValue = 1;
     QByteArray byteArrXslFnam = xsltFile.toLatin1();
     cur = xsltParseStylesheetFile((const xmlChar*)byteArrXslFnam.constData());
-    if (cur == 0) {
+    if (cur == nullptr) {
         logError1("DocbookGeneratorJob::run: There was a problem parsing stylesheet %1", xsltFile);
         return;
     }
     QString strFnam = file.fileName();
     QByteArray byteArrFnam = strFnam.toLatin1();  // toLocal8Bit();
     doc = xmlParseFile(byteArrFnam.constData());
-    if (doc == 0) {
+    if (doc == nullptr) {
         logError1("DocbookGeneratorJob::run: There was a problem parsing file %1", file.fileName());
         xsltFreeStylesheet(cur);
         return;
     }
     res = xsltApplyStylesheet(cur, doc, params);
-    if (res == 0) {
+    if (res == nullptr) {
         logError2("DocbookGeneratorJob::run: There was a problem applying stylesheet %1 to %2",
                   xsltFile, file.fileName());
         xmlFreeDoc(doc);

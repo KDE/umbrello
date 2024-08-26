@@ -221,7 +221,7 @@ void Tracer::registerClass(const char  *name, bool state, const char * filePath 
     if (filePath)
         client.filePath = strdup(filePath);
     else
-        client.filePath = 0;
+        client.filePath = nullptr;
     n_clients++;
 }
 

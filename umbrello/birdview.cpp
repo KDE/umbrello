@@ -65,7 +65,7 @@ BirdView::BirdView(QDockWidget *parent, UMLView* view)
 BirdView::~BirdView()
 {
     disconnect(m_view, SIGNAL(destroyed(QObject*)), this, SLOT(slotDestroyed(QObject*)));
-    setParent(0);
+    setParent(nullptr);
     delete m_protectFrame;
     delete m_birdView;
 }
@@ -76,8 +76,8 @@ BirdView::~BirdView()
 void BirdView::slotDestroyed(QObject *object)
 {
     if (m_view == object) {
-        m_birdView->setScene(0);
-        m_view = 0;
+        m_birdView->setScene(nullptr);
+        m_view = nullptr;
     }
 }
 
@@ -103,9 +103,9 @@ void BirdView::slotDockSizeChanged(const QSize& size)
     if (scaleW < scaleH) {
         scale = scaleW;
     }
-    QMatrix wm;
+    QTransform wm;
     wm.scale(scale, scale);
-    m_birdView->setMatrix(wm);
+    m_birdView->setTransform(wm);
 #if VERBOSE_DBG_OUT
     DEBUG() << "setting the size to the scene: " << itemsRect
                    << " / to the frame: " << frameRect

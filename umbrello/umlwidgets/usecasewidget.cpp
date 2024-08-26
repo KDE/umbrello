@@ -99,7 +99,7 @@ QSizeF UseCaseWidget::minimumSize() const
     const UMLWidget::FontType ft = (m_umlObject->isAbstract() ? FT_BOLD_ITALIC : FT_BOLD);
     const QFontMetrics &fm = UMLWidget::getFontMetrics(ft);
     const int fontHeight = fm.lineSpacing();
-    const int textWidth = fm.width(name());
+    const int textWidth = fm.horizontalAdvance(name());
     bool drawStereotype = umlObject() && !umlObject()->stereotype().isEmpty();
     int width = (textWidth / 3) > UC_WIDTH ? textWidth / 3 : UC_WIDTH;
     int height = UC_HEIGHT + (drawStereotype ? 2 * fontHeight : fontHeight) + UC_MARGIN;

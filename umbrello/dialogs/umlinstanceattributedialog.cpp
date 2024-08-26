@@ -38,7 +38,7 @@ bool UMLInstanceAttributeDialog::apply()
     QString value = ui->valueLE->text();
     if (value.isEmpty()) {
         KMessageBox::error(this, i18n("You have entered an invalid attribute value."),
-                           i18n("Value Invalid"), 0);
+                           i18n("Value Invalid"));
         return false;
     }
     m_pInstanceAttr->setValue(value);

@@ -116,12 +116,12 @@ QString AdaWriter::packageName(UMLPackage *p)
     QString retval;
 
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
-        umlPkg = 0;
+        umlPkg = nullptr;
 
     const UMLClassifier *c = p->asUMLClassifier();
-    if (umlPkg == 0) {
+    if (umlPkg == nullptr) {
         retval = className;
-        if (c == 0 || !isOOClass(c))
+        if (c == nullptr || !isOOClass(c))
             retval.append(defaultPackageSuffix);
     } else {
         retval = umlPkg->fullyQualifiedName(QStringLiteral("."));
@@ -142,7 +142,7 @@ void AdaWriter::computeAssocTypeAndRole(UMLClassifier *c,
                                         QString& typeName, QString& roleName)
 {
     UMLClassifier* assocEnd = a->getObject(Uml::RoleType::B)->asUMLClassifier();
-    if (assocEnd == 0)
+    if (assocEnd == nullptr)
         return;
     const Uml::AssociationType::Enum assocType = a->getAssocType();
     if (assocType != Uml::AssociationType::Aggregation && assocType != Uml::AssociationType::Composition)
@@ -181,7 +181,7 @@ void AdaWriter::declareClass(UMLClassifier *c, QTextStream &ada)
                 break;
             }
         }
-        if (firstSuperClass == 0)
+        if (firstSuperClass == nullptr)
             firstSuperClass = superclasses.first();
     }
     const QString name = className(c);
@@ -283,7 +283,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
                 } else {
                     // Check whether it's a data type.
                     UMLClassifier *typeObj = t->getType();
-                    if (typeObj == 0) {
+                    if (typeObj == nullptr) {
                         logError1("template_param %1: typeObj is NULL", typeName);
                         ada << indent() << "type " << formalName << " is new " << typeName
                             << " with private;  -- CHECK: codegen error"

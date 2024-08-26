@@ -67,7 +67,6 @@ private:
     void initFields(ClassifierCodeDocument* doc, UMLObject* obj);
 
 public Q_SLOTS:
-
     void syncToParent();
 
 };

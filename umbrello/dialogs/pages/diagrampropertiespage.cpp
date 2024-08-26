@@ -70,7 +70,7 @@ bool DiagramPropertiesPage::checkUniqueDiagramName()
     QString newName = ui_diagramName->text();
     if (newName.length() == 0) {
         KMessageBox::information(this, i18n("The name you have entered is invalid."),
-                           i18n("Invalid Name"), 0);
+                           i18n("Invalid Name"), QString(), KMessageBox::Options(0));
         ui_diagramName->setText(m_scene->name());
         return false;
     }
@@ -80,7 +80,7 @@ bool DiagramPropertiesPage::checkUniqueDiagramName()
         UMLView* view = doc->findView(m_scene->type(), newName);
         if (view) {
             KMessageBox::information(this, i18n("The name you have entered is not unique."),
-                               i18n("Name Not Unique"), 0);
+                               i18n("Name Not Unique"), QString(), KMessageBox::Options(0));
             ui_diagramName->setText(m_scene->name());
         }
         else {

@@ -35,7 +35,7 @@ CodeGenOptionsPage::CodeGenOptionsPage(QWidget *parent)
 
     setupUi(this);
 
-    m_pCodePolicyPage = 0;
+    m_pCodePolicyPage = nullptr;
     m_parentPolicy = UMLApp::app()->commonPolicy();
     CodeGenerator* gen = UMLApp::app()->generator();
 
@@ -173,7 +173,7 @@ void CodeGenOptionsPage::updateCodeGenerationPolicyTab()
         m_pCodePolicyPage->disconnect();
 
         delete m_pCodePolicyPage;
-        m_pCodePolicyPage = 0;
+        m_pCodePolicyPage = nullptr;
     }
 
     Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromInt(ui_SelectLanguageBox->currentIndex());
@@ -182,10 +182,10 @@ void CodeGenOptionsPage::updateCodeGenerationPolicyTab()
         policyExt = CodeGenFactory::newCodeGenPolicyExt(pl);
 
     if (policyExt) {
-        m_pCodePolicyPage = policyExt->createPage(0, "codelangpolicypage");
+        m_pCodePolicyPage = policyExt->createPage(nullptr, "codelangpolicypage");
     }
     else {
-        m_pCodePolicyPage = new DefaultCodeGenPolicyPage(0, "codelangpolicypage");
+        m_pCodePolicyPage = new DefaultCodeGenPolicyPage(nullptr, "codelangpolicypage");
     }
 
     ui_tabWidgetMain->insertTab(2, m_pCodePolicyPage, i18n("Language Options"));
@@ -262,9 +262,9 @@ bool CodeGenOptionsPage::save()
         }
     }
     else {
-        if (KMessageBox::questionYesNo(this,
+        if (KMessageBox::questionTwoActions(this,
                         i18n("The folder %1 does not exist. Do you want to create it now?", info.filePath()),
-                        i18n("Output Folder Does Not Exist"), KGuiItem(i18n("Create Folder")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes)
+                        i18n("Output Folder Does Not Exist"), KGuiItem(i18n("Create Folder")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Ok)
         {
             QDir dir;
             if (!dir.mkdir(info.filePath())) {

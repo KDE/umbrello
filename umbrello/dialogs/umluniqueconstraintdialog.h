@@ -53,7 +53,6 @@ private:
     // local cache
     UMLEntityAttributeList m_pEntityAttributeList;
     UMLEntityAttributeList m_pConstraintAttributeList;
-
 public Q_SLOTS:
     void slotResetWidgetState();
     void slotAddAttribute();

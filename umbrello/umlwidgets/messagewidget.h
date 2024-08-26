@@ -103,7 +103,7 @@ public:
 
     void calculateWidget();
 
-    virtual bool activate(IDChangeLog * Log = 0);
+    virtual bool activate(IDChangeLog *Log = nullptr);
     void resolveObjectWidget(IDChangeLog* log);
 
     void calculateDimensions();
@@ -114,7 +114,7 @@ public:
     void calculateDimensionsLost();
     void calculateDimensionsFound();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     void setTextPosition();
 

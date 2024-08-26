@@ -36,12 +36,12 @@
  */
 AssociationRolePage::AssociationRolePage (QWidget *parent, AssociationWidget *assoc)
   : DialogPageBase(parent),
-    m_pRoleALE(0),
-    m_pRoleBLE(0),
-    m_pMultiACB(0),
-    m_pMultiBCB(0),
+    m_pRoleALE(nullptr),
+    m_pRoleBLE(nullptr),
+    m_pMultiACB(nullptr),
+    m_pMultiBCB(nullptr),
     m_pAssociationWidget(assoc),
-    m_pWidget(0)
+    m_pWidget(nullptr)
 {
     constructWidget();
 }
@@ -87,11 +87,10 @@ void AssociationRolePage::constructWidget()
 
     QGridLayout * propsALayout = new QGridLayout(propsAGB);
     propsALayout->setSpacing(6);
-    propsALayout->setMargin(margin);
 
     QGridLayout * propsBLayout = new QGridLayout(propsBGB);
     propsBLayout->setSpacing(6);
-    propsBLayout->setMargin(margin);
+    propsBLayout->setContentsMargins(margin, margin, margin, margin);;
 
     QStringList multiplicities;
     multiplicities << QString()
@@ -129,7 +128,7 @@ void AssociationRolePage::constructWidget()
 
     // Changeability A
     QHBoxLayout * changeALayout = new QHBoxLayout(changeABG);
-    changeALayout->setMargin(margin);
+    changeALayout->setContentsMargins(margin, margin, margin, margin);;
 
     m_ChangeableARB = new QRadioButton(i18nc("changeability for A is changeable", "Changeable"), changeABG);
     changeALayout->addWidget(m_ChangeableARB);
@@ -178,7 +177,7 @@ void AssociationRolePage::constructWidget()
 
     // Changeability B
     QHBoxLayout * changeBLayout = new QHBoxLayout(changeBBG);
-    changeBLayout->setMargin(margin);
+    changeBLayout->setContentsMargins(margin, margin, margin, margin);;
 
     m_ChangeableBRB = new QRadioButton(i18nc("changeability for B is changeable", "Changeable"), changeBBG);
     changeBLayout->addWidget(m_ChangeableBRB);
@@ -206,8 +205,8 @@ void AssociationRolePage::constructWidget()
 
     // Document A
     QHBoxLayout * docALayout = new QHBoxLayout(docAGB);
-    docALayout->setMargin(margin);
-    m_docA = new KTextEdit(docAGB);
+    docALayout->setContentsMargins(margin, margin, margin, margin);;
+    m_docA = new QTextEdit(docAGB);
     docALayout->addWidget(m_docA);
     m_docA-> setText(m_pAssociationWidget->roleDocumentation(Uml::RoleType::A));
     // m_docA->setText("<<not implemented yet>>");
@@ -216,8 +215,8 @@ void AssociationRolePage::constructWidget()
 
     // Document B
     QHBoxLayout * docBLayout = new QHBoxLayout(docBGB);
-    docBLayout->setMargin(margin);
-    m_docB = new KTextEdit(docBGB);
+    docBLayout->setContentsMargins(margin, margin, margin, margin);;
+    m_docB = new QTextEdit(docBGB);
     docBLayout->addWidget(m_docB);
     m_docB->setText(m_pAssociationWidget->roleDocumentation(Uml::RoleType::B));
     // m_docB->setEnabled(false);

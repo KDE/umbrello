@@ -36,7 +36,7 @@ class UMLOperation;
  * UMLAssociation. The UMLAssociation can be retrieved using the getAssociation
  * method.
  * A pure widget association does not have a corresponding UMLAssociation.
- * The getAssociation method returns NULL in this case.
+ * The getAssociation method returns nullptr in this case.
  *
  * @author Gustavo Madrigal
  * @author Gopala Krishna
@@ -140,7 +140,7 @@ public:
     const AssociationLine& associationLine() const;
     AssociationLine& associationLine();
 
-    virtual bool activate(IDChangeLog *changeLog = 0);
+    virtual bool activate(IDChangeLog *changeLog = nullptr);
     virtual QRectF boundingRect() const;
     virtual QPainterPath shape() const;
 
@@ -192,6 +192,8 @@ public:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+// 
+    bool isMoved() const;
 
     virtual void setSelected(bool _select);
 
@@ -252,6 +254,12 @@ private:
     bool linePathStartsAt(const UMLWidget* widget) const;
     bool linePathEndsAt  (const UMLWidget* widget) const;
 
+    bool m_start_attached;   ///< flag which is true if the start point has been moved away from widget A
+    
+    bool m_end_attached;   ///< flag which is true if the start point has been moved away from widget B
+    
+    bool m_moved;   ///< flag which is true if the mouseMoveEvent was called, but the mouseReleaseEvent not yet
+    
     bool m_activated;   ///< flag which is true if the activate method has been called for this class instance
 
     /**

@@ -20,7 +20,7 @@ class UMLClassifierListItem;
  * the attributes of the classifier (see UMLCanvasObject::m_List).
  * Conversely, in Umbrello a standalone instance cannot have attributes.
  * UMLObject::m_pSecondary is used for storing the reference to the
- * classifier. In case of a standalone instance, m_pSecondary is NULL.
+ * classifier. In case of a standalone instance, m_pSecondary is nullptr.
  * UMLObject::m_name is used for storing the instance name.
  * The notation for an instance is
  *   instanceName : classifierName

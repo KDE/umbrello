@@ -271,6 +271,7 @@ public:
     void toggleSnapToGrid();
     void toggleSnapComponentSizeToGrid();
     void toggleShowGrid();
+    void enableCreation();
 
     void fileLoaded();
 
@@ -381,7 +382,7 @@ protected:
 #if !(QT_DEPRECATED_SINCE(5, 0))
     inline QGraphicsItem *itemAt(const QPointF &position) const {
         QList<QGraphicsItem *> itemsAtPoint = items(position);
-        return itemsAtPoint.isEmpty() ? 0 : itemsAtPoint.first();
+        return itemsAtPoint.isEmpty() ? nullptr : itemsAtPoint.first();
     }
 #endif
 

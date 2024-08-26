@@ -48,10 +48,9 @@
 
 // qt includes
 #include <QApplication>
-#include <QRegularExpression>
 #include <QStringList>
 
-DEBUG_REGISTER(Object_Factory)
+DEBUG_REGISTER_DISABLED(Object_Factory)
 
 namespace Object_Factory {
 
@@ -93,11 +92,11 @@ bool assignUniqueIdOnCreation()
 UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
                               UMLPackage *parentPkg, bool undoable /* = true */)
 {
-    if (parentPkg == 0) {
+    if (parentPkg == nullptr) {
         logError1("Object_Factory::createNewUMLObject(%1): parentPkg is NULL", name);
-        return 0;
+        return nullptr;
     }
-    QPointer<UMLObject> o = 0;
+    QPointer<UMLObject> o = nullptr;
     switch (type) {
         case UMLObject::ot_Actor:
             o = new UMLActor(name, g_predefinedId);
@@ -162,10 +161,10 @@ UMLObject* createNewUMLObject(UMLObject::ObjectType type, const QString &name,
         default:
             logWarn2("Object_Factory::createNewUMLObject(%1) error unknown type: %2",
                      name, UMLObject::toString(type));
-            return 0;
+            return nullptr;
     }
-
     if (!undoable) {
+        logDebug1("Object_Factory::createNewUMLObject: undoable=%1", undoable);
         o->setUMLPackage(parentPkg);
         UMLApp::app()->document()->signalUMLObjectCreated(o);
         qApp->processEvents();
@@ -211,7 +210,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
                            bool solicitNewName /* = true */)
 {
     UMLDoc *doc = UMLApp::app()->document();
-    if (parentPkg == 0) {
+    if (parentPkg == nullptr) {
         if (type == UMLObject::ot_Datatype) {
             parentPkg = doc->datatypeFolder();
         } else {
@@ -223,7 +222,7 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
     }
     if (!n.isEmpty()) {
         UMLObject *o = doc->findUMLObject(n, type, parentPkg);
-        if (o == 0) {
+        if (o == nullptr) {
             o = createNewUMLObject(type, n, parentPkg);
             return o;
         }
@@ -249,23 +248,23 @@ UMLObject* createUMLObject(UMLObject::ObjectType type, const QString &n,
     while (bValidNameEntered == false) {
         bool ok = Dialog_Utils::askNewName(type, name);
         if (!ok) {
-            return 0;
+            return nullptr;
         }
         if (name.length() == 0) {
-            KMessageBox::error(0, i18n("That is an invalid name."),
+            KMessageBox::error(nullptr, i18n("That is an invalid name."),
                                i18n("Invalid Name"));
             continue;
         }
         if (type != UMLObject::ot_Datatype) {
             CodeGenerator *codegen = UMLApp::app()->generator();
-            if (codegen != 0 && codegen->isReservedKeyword(name)) {
-                KMessageBox::error(0, i18n("This is a reserved keyword for the language of the configured code generator."),
+            if (codegen != nullptr && codegen->isReservedKeyword(name)) {
+                KMessageBox::error(nullptr, i18n("This is a reserved keyword for the language of the configured code generator."),
                                    i18n("Reserved Keyword"));
                 continue;
             }
         }
         if (! doc->isUnique(name, parentPkg) && type != UMLObject::ot_Instance) {
-            KMessageBox::error(0, i18n("That name is already being used."),
+            KMessageBox::error(nullptr, i18n("That name is already being used."),
                                i18n("Not a Unique Name"));
             continue;
         }
@@ -396,7 +395,7 @@ UMLObject* makeObjectFromXMI(const QString& xmiTag,
             if (stereo && stereo->name() == QStringLiteral("folder"))
                 pObject = new UMLFolder();
         }
-        if (pObject == 0)
+        if (pObject == nullptr)
             pObject = new UMLPackage();
     } else if (UMLDoc::tagEq(xmiTag, QStringLiteral("Component"))) {
         pObject = new UMLComponent();

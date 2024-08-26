@@ -53,6 +53,7 @@ set(LIBS
     libumbrello
 )
 
+message(STATUS "LIBS ${LIBS} INTERFACE_QT_MAJOR_VERSION=${INTERFACE_QT_MAJOR_VERSION}")
 ecm_add_test(
     testbasictypes.cpp
     LINK_LIBRARIES ${LIBS}

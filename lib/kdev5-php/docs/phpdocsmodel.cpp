@@ -64,7 +64,7 @@ void PhpDocsModel::fillModel(const ReferencedTopDUContext& top)
 
     qCDebug(DOCS) << "filling model";
     typedef QPair<Declaration*, int> DeclDepthPair;
-    Q_FOREACH ( DeclDepthPair declpair, top->allDeclarations(top->range().end, top) ) {
+    for( DeclDepthPair declpair : top->allDeclarations(top->range().end, top) ) {
         if ( declpair.first->abstractType() && declpair.first->abstractType()->modifiers() & AbstractType::ConstModifier ) {
             // filter global constants, since they are hard to find in the documentation
             continue;
@@ -98,7 +98,7 @@ QVariant PhpDocsModel::data(const QModelIndex& index, int role) const
             QString ret = dec->toString();
             if ( dec->isFunctionDeclaration() ) {
                 // remove function arguments
-                ret = ret.replace(QRegularExpression(QStringLiteral("\\(.+\\)"), QStringLiteral("()")));
+                ret = ret.replace(QRegularExpression(QStringLiteral("\\(.+\\)")), QStringLiteral("()"));
                 // remove return type
                 ret = ret.remove(QRegularExpression(QStringLiteral("^[^ ]+ ")));
             }

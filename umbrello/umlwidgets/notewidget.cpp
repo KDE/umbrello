@@ -167,7 +167,7 @@ void NoteWidget::setDiagramLink(Uml::ID::Type viewID)
 {
     UMLDoc *umldoc = UMLApp::app()->document();
     UMLView *view = umldoc->findView(viewID);
-    if (view == 0) {
+    if (view == nullptr) {
         logError1("NoteWidget::setDiagramLink: no view found for viewID %1",
                   Uml::ID::toString(viewID));
         return;
@@ -202,7 +202,7 @@ bool NoteWidget::setDiagramLink(const QString &diagramName)
         if (view)
             break;
     }
-    if (view == 0 || view->umlScene() == 0) {
+    if (view == nullptr || view->umlScene() == nullptr) {
         m_diagramLink = Uml::ID::None;
         return false;
     }
@@ -230,7 +230,7 @@ void NoteWidget::askForNoteType(UMLWidget* &targetWidget)
     } else {
         targetWidget->cleanup();
         delete targetWidget;
-        targetWidget = 0;
+        targetWidget = nullptr;
     }
 }
 
@@ -328,15 +328,15 @@ QSizeF NoteWidget::calculateSize(bool withExtensions /* = true */) const
     const int textWidth = size.width();
     const int textHeight = size.height();
     if (m_noteType == PreCondition) {
-        const int widthtemp = fm.width(Widget_Utils::adornStereo(QStringLiteral("precondition")));
+        const int widthtemp = fm.horizontalAdvance(Widget_Utils::adornStereo(QStringLiteral("precondition")));
         width = textWidth > widthtemp ? textWidth : widthtemp;
     }
     else if (m_noteType == PostCondition) {
-        const int widthtemp = fm.width(Widget_Utils::adornStereo(QStringLiteral("postcondition")));
+        const int widthtemp = fm.horizontalAdvance(Widget_Utils::adornStereo(QStringLiteral("postcondition")));
         width = textWidth > widthtemp ? textWidth : widthtemp;
     }
     else if (m_noteType == Transformation) {
-        const int widthtemp = fm.width(Widget_Utils::adornStereo(QStringLiteral("transformation")));
+        const int widthtemp = fm.horizontalAdvance(Widget_Utils::adornStereo(QStringLiteral("transformation")));
         width = textWidth > widthtemp ? textWidth : widthtemp;
     }
 
@@ -355,7 +355,7 @@ QSizeF NoteWidget::calculateSize(bool withExtensions /* = true */) const
  */
 void NoteWidget::paintText(QPainter *painter)
 {
-    if (painter == 0) {
+    if (painter == nullptr) {
         return;
     }
 
@@ -387,7 +387,7 @@ void NoteWidget::paintText(QPainter *painter)
         // not all text can be drawn
         QStringList lines = text.split(QLatin1Char('\n'));
         for(const QString& line: lines) {
-            int lineWidth = fm.width(line);
+            int lineWidth = fm.horizontalAdvance(line);
             if (lineWidth < width) {
                 // line is small enough - draw it
                 painter->drawText(textX, textY,
@@ -398,7 +398,7 @@ void NoteWidget::paintText(QPainter *painter)
                 // draw a smaller line
                 for(int len = line.length(); len > 0; --len) {
                     QString smallerLine = line.left(len);
-                    int smallerLineWidth = fm.width(smallerLine);
+                    int smallerLineWidth = fm.horizontalAdvance(smallerLine);
                     if (smallerLineWidth < width) {
                         // line is small enough - draw it
                         painter->drawText(textX, textY,
@@ -422,7 +422,7 @@ void NoteWidget::paintText(QPainter *painter)
  */
 void NoteWidget::paintTextWordWrap(QPainter *painter)
 {
-    if (painter == 0) {
+    if (painter == nullptr) {
         return;
     }
     QString text = documentation();
@@ -460,7 +460,7 @@ void NoteWidget::paintTextWordWrap(QPainter *painter)
         if (c == returnChar || c.isSpace()) {
             // new word delimiter found -> it is time to decide on word wrap
             testCombineLine = fullLine + QLatin1Char(' ') + word;
-            int textWidth = fm.width(testCombineLine);
+            int textWidth = fm.horizontalAdvance(testCombineLine);
             if (textX + textWidth > width) {
                 // combination of "fullLine" and "word" doesn't fit into one line ->
                 // print "fullLine" in current line, update write position to next line

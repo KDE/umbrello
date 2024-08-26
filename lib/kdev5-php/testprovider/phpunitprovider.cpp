@@ -158,7 +158,7 @@ void PhpUnitProvider::processTestCaseDeclaration(Declaration* d)
     }
 
     uint steps = 100;
-    for(Declaration *inheriter, DUChainUtils::getInheriters(d : steps))
+    for(Declaration* inheriter : DUChainUtils::getInheriters(d, steps))
     {
         processTestCaseDeclaration(inheriter);
     }

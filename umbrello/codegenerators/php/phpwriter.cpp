@@ -2971,7 +2971,7 @@ static const char *reserved_words[] = {
     "zip_entry_read",
     "zip_open",
     "zip_read",
-    0
+    nullptr
 };
 
 PhpWriter::PhpWriter()

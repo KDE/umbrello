@@ -79,7 +79,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             int textStartY = (h / 2) - (fontHeight / 2);
             const int count = m_Activities.count();
             if (count == 0) {
-                painter->drawRoundRect(0, 0, w, h, (h*40)/w, (w*40)/h);
+                painter->drawRoundedRect(0, 0, w, h, (h*40)/w, (w*40)/h);
                 painter->setPen(textColor());
                 QFont font = UMLWidget::font();
                 font.setBold(false);
@@ -89,7 +89,7 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
                            Qt::AlignCenter, name());
                 setPenFromSettings(painter);
             } else {
-                painter->drawRoundRect(0, 0, w, h, (h*40)/w, (w*40)/h);
+                painter->drawRoundedRect(0, 0, w, h, (h*40)/w, (w*40)/h);
                 textStartY = STATE_MARGIN;
                 painter->setPen(textColor());
                 QFont font = UMLWidget::font();
@@ -199,12 +199,12 @@ void StateWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
             painter->drawText(STATE_MARGIN, 0, w - STATE_MARGIN * 2, fontHeight,
                               Qt::AlignCenter, name());
             if (!linkedDiagram()) {
-                m_size = QSizeF(fm.width(name()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN);
+                m_size = QSizeF(fm.horizontalAdvance(name()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN);
             } else {
                 DiagramProxyWidget::setClientRect(rect().adjusted(STATE_MARGIN, fontHeight + STATE_MARGIN, - STATE_MARGIN, -STATE_MARGIN));
                 DiagramProxyWidget::paint(painter, option, widget);
                 QSizeF size = DiagramProxyWidget::sceneRect().size();
-                m_size = QSizeF(qMax<qreal>(fm.width(linkedDiagram()->name()), size.width()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN + size.height());
+                m_size = QSizeF(qMax<qreal>(fm.horizontalAdvance(linkedDiagram()->name()), size.width()) + STATE_MARGIN * 2, fm.lineSpacing() + STATE_MARGIN + size.height());
                 setSize(m_size);
             }
             setPenFromSettings(painter);
@@ -229,7 +229,7 @@ QSizeF StateWidget::minimumSize() const
         {
             const QFontMetrics &fm = getFontMetrics(FT_BOLD);
             const int fontHeight  = fm.lineSpacing();
-            int textWidth = fm.width(name());
+            int textWidth = fm.horizontalAdvance(name());
             const int count = m_Activities.count();
             height = fontHeight;
             if(count > 0) {
@@ -237,7 +237,7 @@ QSizeF StateWidget::minimumSize() const
 
                 QStringList::ConstIterator end(m_Activities.end());
                 for(QStringList::ConstIterator it(m_Activities.begin()); it != end; ++it) {
-                    int w = fm.width(*it);
+                    int w = fm.horizontalAdvance(*it);
                     if(w > textWidth)
                         textWidth = w;
                 }//end for

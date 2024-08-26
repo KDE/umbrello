@@ -15,14 +15,14 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 
-DEBUG_REGISTER(SinglePageDialogBase)
+DEBUG_REGISTER_DISABLED(SinglePageDialogBase)
 
 /**
  * Constructor
  */
 SinglePageDialogBase::SinglePageDialogBase(QWidget *parent, bool withApplyButton, bool withSearchButton)
   : QDialog(parent),
-    m_mainWidget(0)
+    m_mainWidget(nullptr)
 {
     setModal(true);
     QDialogButtonBox::StandardButtons buttons = QDialogButtonBox::Ok | QDialogButtonBox::Cancel;
@@ -89,14 +89,14 @@ void SinglePageDialogBase::setMainWidget(QWidget *widget)
     m_mainWidget = widget;
     if (m_mainWidget && m_mainWidget->layout()) {
         // Avoid double-margin problem
-        m_mainWidget ->layout()->setMargin(0);
+        m_mainWidget ->layout()->setContentsMargins({});
     }
 
     delete layout();
     if (!m_mainWidget)
         return;
     QVBoxLayout* vlayout = new QVBoxLayout(this);
-    vlayout->setMargin(0);
+    vlayout->setContentsMargins({});
     vlayout->addWidget(m_mainWidget);
     QHBoxLayout* hlayout = new QHBoxLayout;
     hlayout->addWidget(m_buttonBox);

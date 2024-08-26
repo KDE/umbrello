@@ -34,11 +34,12 @@ public:
     virtual ~UMLView();
 
     UMLScene* umlScene() const;
+    void enableSceneCreation();
 
     qreal zoom() const ;
     void setZoom(qreal zoom);
 
-    virtual bool showPropertiesDialog(QWidget *parent = 0);
+    virtual bool showPropertiesDialog(QWidget *parent = nullptr);
 
 public Q_SLOTS:
     void zoomIn();

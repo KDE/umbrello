@@ -31,7 +31,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-DEBUG_REGISTER(UMLUniqueConstraintDialog)
+DEBUG_REGISTER_DISABLED(UMLUniqueConstraintDialog)
 
 /**
  *  Sets up the UMLUniqueConstraintDialog.
@@ -88,7 +88,7 @@ void UMLUniqueConstraintDialog::setupDialog()
     mainLayout->addWidget(m_pAttributeListGB);
 
     QVBoxLayout* listVBoxLayout = new QVBoxLayout(m_pAttributeListGB);
-    listVBoxLayout->setMargin(margin);
+    listVBoxLayout->setContentsMargins(margin, margin, margin, margin);
     listVBoxLayout->setSpacing (10);
 
     m_pAttributeListLW = new QListWidget(m_pAttributeListGB);
@@ -217,7 +217,7 @@ bool UMLUniqueConstraintDialog::apply()
     QString name = m_pNameLE->text();
     if (name.length() == 0) {
         KMessageBox::error(this, i18n("You have entered an invalid constraint name."),
-                           i18n("Constraint Name Invalid"), 0);
+                           i18n("Constraint Name Invalid"));
         m_pNameLE->setText(m_pUniqueConstraint->name());
         return false;
     }

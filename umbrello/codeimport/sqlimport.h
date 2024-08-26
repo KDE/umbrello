@@ -8,7 +8,6 @@
 #define SQLIMPORT_H
 
 #include "nativeimportbase.h"
-#include <QObject>
 
 class UMLEntity;
 class UMLObject;
@@ -20,8 +19,7 @@ class UMLObject;
 
  * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
-class SQLImport : public QObject, public NativeImportBase {
-    Q_OBJECT
+class SQLImport : public NativeImportBase {
 public:
     explicit SQLImport(CodeImpThread *thread = nullptr);
     virtual ~SQLImport();

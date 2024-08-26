@@ -42,7 +42,7 @@ SignalWidget::SignalWidget(UMLScene *scene, SignalType signalType, Uml::ID::Type
     m_oldY(0)
 {
     m_signalType = signalType;
-    m_pName = 0;
+    m_pName = nullptr;
     if (signalType == SignalWidget::Time) {
         m_pName = new FloatingTextWidget(scene, Uml::TextRole::Floating, QString());
         scene->setupNewWidget(m_pName);
@@ -239,7 +239,7 @@ void SignalWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* me)
     UMLWidget::mouseMoveEvent(me);
     int diffX = m_oldX - x();
     int diffY = m_oldY - y();
-    if (m_pName!=0) {
+    if (m_pName!=nullptr) {
         m_pName->setX(m_pName->x() - diffX);
         m_pName->setY(m_pName->y() - diffY);
     }
@@ -263,7 +263,7 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
 
         if (textId != Uml::ID::None) {
             UMLWidget *flotext = m_scene -> findWidget(textId);
-            if (flotext != 0) {
+            if (flotext != nullptr) {
             // This only happens when loading files produced by
             // umbrello-1.3-beta2.
                 m_pName = static_cast<FloatingTextWidget*>(flotext);
@@ -284,7 +284,7 @@ bool SignalWidget::loadFromXMI(QDomElement & qElement)
             if(! m_pName->loadFromXMI(element)) {
                 // Most likely cause: The FloatingTextWidget is empty.
                 delete m_pName;
-                m_pName = 0;
+                m_pName = nullptr;
             }
             else
                 connect(m_pName, SIGNAL(destroyed()), this, SLOT(slotTextDestroyed()));
@@ -345,7 +345,7 @@ QSizeF SignalWidget::minimumSize() const
     int width = SIGNAL_WIDTH, height = SIGNAL_HEIGHT;
     const QFontMetrics &fm = getFontMetrics(FT_BOLD);
     const int fontHeight  = fm.lineSpacing();
-    int textWidth = fm.width(name());
+    int textWidth = fm.horizontalAdvance(name());
 
     if (m_signalType == Accept)
          textWidth = int((float)textWidth * 1.3f);
@@ -366,6 +366,6 @@ QSizeF SignalWidget::minimumSize() const
  */
 void SignalWidget::slotTextDestroyed()
 {
-    m_pName = 0;
+    m_pName = nullptr;
 }
 

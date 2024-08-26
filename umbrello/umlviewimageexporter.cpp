@@ -27,6 +27,7 @@
 #include <QPointer>
 #include <QString>
 #include <QStringList>
+#include <kio/statjob.h>
 
 DEBUG_REGISTER_DISABLED(UMLViewImageExporter)
 
@@ -99,12 +100,12 @@ bool UMLViewImageExporter::prepareExport()
         }
 
         // check if the file exists
-        KIO::StatJob *job = KIO::stat(m_imageURL, KIO::StatJob::SourceSide, 0);
+        KIO::StatJob *job = KIO::stat(m_imageURL, KIO::StatJob::SourceSide, KIO::StatDetails(0));
         KJobWidgets::setWindow(job, UMLApp::app());
         job->exec();
         bool result = !job->error();
         if (result) {
-            int wantSave = KMessageBox::warningContinueCancel(0,
+            int wantSave = KMessageBox::warningContinueCancel(nullptr,
                                 i18n("The selected file %1 exists.\nDo you want to overwrite it?", m_imageURL.url(QUrl::PreferLocalFile)),
                                 i18n("File Already Exists"), KGuiItem(i18n("&Overwrite")));
             if (wantSave == KMessageBox::Continue) {

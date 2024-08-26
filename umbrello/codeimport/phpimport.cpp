@@ -52,7 +52,7 @@ QTextStream qin(stdin);
 #include <language/editor/documentrange.h>
 #include <tests/testcore.h>
 
-DEBUG_REGISTER(PHPImport)
+DEBUG_REGISTER_DISABLED(PHPImport)
 
 namespace Php {
 
@@ -621,10 +621,10 @@ private:
         }
         m_ast = 0;
         if (!m_session.parse(&m_ast)) {
-            qerr << "no AST tree could be generated" ;
+            qerr << "no AST tree could be generated" << QLatin1Char('\n');
             result = false;
         } else {
-            qout << "AST tree successfully generated" ;
+            qout << "AST tree successfully generated" << QLatin1Char('\n');
             if (m_printAst) {
                 DebugVisitorT debugVisitor(m_session.tokenStream(), m_session.contents());
                 debugVisitor.visitStart(m_ast);
@@ -639,7 +639,7 @@ private:
             includeFileVisitor.visitStart(m_ast);
         }
         if (!m_session.problems().isEmpty()) {
-            qout << QLatin1Char('\n')<< "problems encountered during parsing:" ;
+            qout << QLatin1Char('\n') << "problems encountered during parsing:" << QLatin1Char('\n');
             for(KDevelop::ProblemPointer p: m_session.problems()) {
                 QString item = QString::fromLatin1("%1:%2:%3: %4: %5")
                         .arg(fileName).arg(p->finalLocation().start().line()+1)
@@ -648,7 +648,7 @@ private:
                 UMLApp::app()->log(item);
             }
         } else {
-            qout << "no problems encountered during parsing" ;
+            qout << "no problems encountered during parsing" << QLatin1Char('\n');
         }
         return result;
     }

@@ -4,7 +4,7 @@
     SPDX-FileCopyrightText: 2016 Ralf Habacker <ralf.habacker@freenet.de>
 
 */
-#include <QCoreApplication>
+#include <QApplication> 
 #include <QtSvg>
 #include <QPainter>
 #include <QImage>

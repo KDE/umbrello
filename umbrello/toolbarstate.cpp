@@ -18,10 +18,9 @@
 #include "widget_utils.h"
 
 // qt includes
-#include <QMatrix> // need for inverseWorldMatrix.map
 #include <QScrollBar>
 
-DEBUG_REGISTER(ToolBarState)
+DEBUG_REGISTER_DISABLED(ToolBarState)
 
 /**
  * Destroys this ToolBarState.
@@ -40,9 +39,9 @@ void ToolBarState::init()
 {
     if (m_pUMLScene->activeView())
         m_pUMLScene->activeView()->viewport()->setMouseTracking(false);
-    m_pMouseEvent = 0;
-    m_currentWidget = 0;
-    m_currentAssociation = 0;
+    m_pMouseEvent = nullptr;
+    m_currentWidget = nullptr;
+    m_currentAssociation = nullptr;
 
     connect(m_pUMLScene, SIGNAL(sigAssociationRemoved(AssociationWidget*)),
             this, SLOT(slotAssociationRemoved(AssociationWidget*)));
@@ -119,11 +118,11 @@ void ToolBarState::mouseRelease(QGraphicsSceneMouseEvent* ome)
     if (currentWidget()) {
         logDebug0("ToolBarState::mouseRelease calling mouseReleaseWidget");
         mouseReleaseWidget();
-        setCurrentWidget(0);
+        setCurrentWidget(nullptr);
     } else if (currentAssociation()) {
         logDebug0("ToolBarState::mouseRelease calling mouseReleaseAssociation");
         mouseReleaseAssociation();
-        setCurrentAssociation(0);
+        setCurrentAssociation(nullptr);
     } else {
         logDebug0("ToolBarState::mouseRelease calling mouseReleaseEmpty");
         mouseReleaseEmpty();
@@ -156,11 +155,11 @@ void ToolBarState::mouseDoubleClick(QGraphicsSceneMouseEvent* ome)
     if (currentWidget) {
         setCurrentWidget(currentWidget);
         mouseDoubleClickWidget();
-        setCurrentWidget(0);
+        setCurrentWidget(nullptr);
     } else if (currentAssociation) {
         setCurrentAssociation(currentAssociation);
         mouseDoubleClickAssociation();
-        setCurrentAssociation(0);
+        setCurrentAssociation(nullptr);
     } else {
         mouseDoubleClickEmpty();
     }
@@ -233,20 +232,20 @@ void ToolBarState::mouseMove(QGraphicsSceneMouseEvent* ome)
 void ToolBarState::slotAssociationRemoved(AssociationWidget* association)
 {
     if (association == currentAssociation()) {
-        setCurrentAssociation(0);
+        setCurrentAssociation(nullptr);
     }
 }
 
 /**
  * A widget was removed from the UMLScene.
  * If the widget removed was the current widget, the current widget is set
- * to 0.
+ * to nullptr.
  * It can be extended in subclasses if needed.
  */
 void ToolBarState::slotWidgetRemoved(UMLWidget* widget)
 {
     if (widget == currentWidget()) {
-        setCurrentWidget(0);
+        setCurrentWidget(nullptr);
     }
 }
 
@@ -261,7 +260,7 @@ void ToolBarState::slotWidgetRemoved(UMLWidget* widget)
 ToolBarState::ToolBarState(UMLScene *umlScene)
   : QObject(umlScene),
     m_pUMLScene(umlScene),
-    m_pMouseEvent(0)
+    m_pMouseEvent(nullptr)
 {
     init();
 }
@@ -528,7 +527,7 @@ MessageWidget* ToolBarState::messageAt(const QPointF& pos)
             return message;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -546,7 +545,7 @@ AssociationWidget* ToolBarState::associationAt(const QPointF& pos)
             return association;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /**

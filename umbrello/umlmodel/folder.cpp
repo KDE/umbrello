@@ -26,7 +26,7 @@
 #include <QFile>
 #include <QXmlStreamWriter>
 
-DEBUG_REGISTER(UMLFolder)
+DEBUG_REGISTER_DISABLED(UMLFolder)
 
 /**
  * Sets up a Folder.
@@ -373,7 +373,6 @@ void UMLFolder::saveToXMI(QXmlStreamWriter& writer)
 
     // Write the external file.
     QXmlStreamWriter xfWriter(&file);
-    xfWriter.setCodec("UTF-8");
     xfWriter.setAutoFormatting(true);
     xfWriter.setAutoFormattingIndent(2);
     xfWriter.writeStartDocument();
@@ -448,11 +447,11 @@ bool UMLFolder::loadFolderFile(const QString& path)
 {
     QFile file(path);
     if (!file.exists()) {
-        KMessageBox::error(0, i18n("The folderfile %1 does not exist.", path), i18n("Load Error"));
+        KMessageBox::error(nullptr, i18n("The folderfile %1 does not exist.", path), i18n("Load Error"));
         return false;
     }
     if (!file.open(QIODevice::ReadOnly)) {
-        KMessageBox::error(0, i18n("The folderfile %1 cannot be opened.", path), i18n("Load Error"));
+        KMessageBox::error(nullptr, i18n("The folderfile %1 cannot be opened.", path), i18n("Load Error"));
         return false;
     }
     QTextStream stream(&file);
@@ -555,7 +554,7 @@ bool UMLFolder::load1(QDomElement& element)
             }
         }
         // Avoid duplicate creation of datatype
-        if (pObject == 0 && this == umldoc->datatypeFolder()) {
+        if (pObject == nullptr && this == umldoc->datatypeFolder()) {
             QString name = tempElement.attribute(QStringLiteral("name"));
             for(UMLObject  *o : m_objects) {
                 uIgnoreZeroPointer(o);
@@ -570,7 +569,7 @@ bool UMLFolder::load1(QDomElement& element)
                 }
             }
         }
-        if (pObject == 0) {
+        if (pObject == nullptr) {
             QString stereoID = tempElement.attribute(QStringLiteral("stereotype"));
             pObject = Object_Factory::makeObjectFromXMI(type, stereoID);
             if (!pObject) {

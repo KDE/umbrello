@@ -492,8 +492,9 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     QPointF delta = event->scenePos() - event->lastScenePos();
 
     logDebug2("UMLWidget::mouseMoveEvent: diffX=%1 / diffY=%2", diffX, diffY);
+    
     for(UMLWidget *widget : umlScene()->selectedWidgets()) {
-        if ((widget->parentItem() == 0) || (!widget->parentItem()->isSelected())) {
+        if ((widget->parentItem() == nullptr) || (!widget->parentItem()->isSelected())) {
             widget->moveWidgetBy(diffX, diffY);
             widget->adjustUnselectedAssocs(delta.x(), delta.y());
             widget->slotSnapToGrid();
@@ -744,7 +745,7 @@ void UMLWidget::init()
     connect(m_scene, SIGNAL(sigTextColorChanged(Uml::ID::Type)), this, SLOT(slotTextColorChanged(Uml::ID::Type)));
     connect(m_scene, SIGNAL(sigLineWidthChanged(Uml::ID::Type)), this, SLOT(slotLineWidthChanged(Uml::ID::Type)));
 
-    m_umlObject = 0;
+    m_umlObject = nullptr;
 
     m_oldPos = QPointF();
     m_pressOffset = QPointF();
@@ -797,7 +798,7 @@ void UMLWidget::slotMenuSelection(QAction *trigger)
         if (ok) {
             m_instanceName = name;
             updateGeometry();
-            moveEvent(0);
+            moveEvent(nullptr);
             update();
             UMLApp::app()->document()->setModified(true);
         }
@@ -1253,6 +1254,16 @@ bool UMLWidget::activate(IDChangeLog* changeLog)
 }
 
 /**
+ * Returns true if the MouseMoveEvent method has been called for this instance, and the mouseReleaseEvent has not been called yet
+ *
+ * @return The activate status.
+ */
+bool UMLWidget::isMoved() const
+{
+    return m_moved;
+}
+
+/**
  * Returns true if the Activate method has been called for this instance
  *
  * @return The activate status.
@@ -1287,7 +1298,7 @@ void UMLWidget::addAssoc(AssociationWidget* pAssoc)
  */
 AssociationWidgetList &UMLWidget::associationWidgetList() const
 {
-    m_Assocs.removeAll(0);
+    m_Assocs.removeAll(nullptr);
     return m_Assocs;
 }
 
@@ -1321,7 +1332,7 @@ void UMLWidget::adjustAssocs(qreal dx, qreal dy)
     //   as file is only partly loaded -> reposition
     //   could be misguided)
     /// @todo avoid trigger of this event during load
-    if (m_doc->loading() || (qFuzzyIsNull(dx) && qFuzzyIsNull(dy))) {
+    if (m_doc->loading()) { //|| (qFuzzyIsNull(dx) && qFuzzyIsNull(dy))) {
         // don't recalculate the assocs during load of XMI
         // -> return immediately without action
         return;
@@ -1570,7 +1581,9 @@ void UMLWidget::resize(QGraphicsSceneMouseEvent *me)
 
     constrain(newW, newH);
     resizeWidget(newW, newH);
+    
     DEBUG() << "event=" << me->scenePos() << "/ pos=" << pos() << " / newW=" << newW << " / newH=" << newH;
+    
     QPointF delta = me->scenePos() - me->lastScenePos();
     adjustAssocs(delta.x(), delta.y());
 }
@@ -2057,7 +2070,7 @@ void UMLWidget::setFontMetrics(UMLWidget::FontType fontType, QFontMetrics fm)
 void UMLWidget::setFont(const QFont &font)
 {
     QFont newFont = font;
-    forceUpdateFontMetrics(newFont, 0);
+    forceUpdateFontMetrics(newFont, nullptr);
 
     if (m_font != newFont) {
         UMLApp::app()->executeCommand(new CmdChangeFont(this, font));
@@ -2072,7 +2085,7 @@ void UMLWidget::setFont(const QFont &font)
 void UMLWidget::setFontCmd(const QFont &font)
 {
     WidgetBase::setFont(font);
-    forceUpdateFontMetrics(0);
+    forceUpdateFontMetrics(nullptr);
     if (m_doc->loading())
         return;
     update();
@@ -2095,14 +2108,14 @@ void UMLWidget::forceUpdateFontMetrics(QPainter *painter)
  */
 void UMLWidget::forceUpdateFontMetrics(QFont& font, QPainter *painter)
 {
-    if (painter == 0) {
+    if (painter == nullptr) {
         for (int i = (int)FT_INVALID - 1; i >= 0; --i) {
-            if (m_pFontMetrics[(UMLWidget::FontType)i] != 0)
+            if (m_pFontMetrics[(UMLWidget::FontType)i] != nullptr)
                 setDefaultFontMetrics(font, (UMLWidget::FontType)i);
         }
     } else {
         for (int i2 = (int)FT_INVALID - 1; i2 >= 0; --i2) {
-            if (m_pFontMetrics[(UMLWidget::FontType)i2] != 0)
+            if (m_pFontMetrics[(UMLWidget::FontType)i2] != nullptr)
                 setDefaultFontMetrics(font, (UMLWidget::FontType)i2, *painter);
         }
     }
@@ -2135,10 +2148,10 @@ void UMLWidget::setShowStereotype(Uml::ShowStereoType::Enum flag)
  */
 QString UMLWidget::tags() const
 {
-    if (m_umlObject == 0)
+    if (m_umlObject == nullptr)
         return QString();
     UMLStereotype *s = m_umlObject->umlStereotype();
-    if (s == 0)
+    if (s == nullptr)
         return QString();
     UMLStereotype::AttributeDefs adefs = s->getAttributeDefs();
     if (adefs.isEmpty())
@@ -2239,7 +2252,7 @@ bool UMLWidget::loadFromXMI(QDomElement & qElement)
     bool usesRelativeCoords = (baseType() == wt_Pin || baseType() == wt_Port);
     if (!usesRelativeCoords && baseType() == wt_Text) {
         UMLWidget *parent = dynamic_cast<UMLWidget*>(parentItem());
-        usesRelativeCoords = (parent != 0);
+        usesRelativeCoords = (parent != nullptr);
     }
     if (applyOffsetCorrection && !usesRelativeCoords) {
         fixedX += umlScene()->fixX();  // bug 449622

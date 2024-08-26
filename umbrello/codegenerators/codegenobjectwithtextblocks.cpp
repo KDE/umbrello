@@ -124,7 +124,7 @@ TextBlock * CodeGenObjectWithTextBlocks::findTextBlockByTag(const QString &tag)
     if (m_textBlockTagMap.contains(tag)) {
         return m_textBlockTagMap[tag];
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -248,7 +248,7 @@ CodeComment * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeComment (const Q
         codeComment->setTag(tag);
         if (!addTextBlock(codeComment)) {
             delete codeComment;
-            return 0; // hmm. total failure.., was there a preexisting comment with this tag?? lets return null
+            return nullptr; // hmm. total failure.., was there a preexisting comment with this tag?? lets return null
         }
     }
 
@@ -288,7 +288,7 @@ CodeBlockWithComments * CodeGenObjectWithTextBlocks::addOrUpdateTaggedCodeBlockW
         codeBlock->setTag(tag);
         if (!addTextBlock(codeBlock)) {
             delete codeBlock;
-            return 0; // hmm. total failure.., was there a preexisting codeblock with this tag?? lets return null
+            return nullptr; // hmm. total failure.., was there a preexisting codeblock with this tag?? lets return null
         }
     }
 

@@ -12,14 +12,17 @@ FindDialog::FindDialog(QWidget *parent) :
     QFrame * frame = new QFrame(this);
     setMainWidget(frame);
     setupUi(mainWidget());
-    connect(ui_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
+    connect(ui_buttonGroup, &QButtonGroup::buttonClicked, [this](QAbstractButton *button)
+          {
+            slotFilterButtonClicked(ui_buttonGroup->id(button));
+          });
     ui_treeView->setChecked(true);
     ui_categoryAll->setChecked(true);
 }
 
 FindDialog::~FindDialog()
 {
-    disconnect(ui_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
+    disconnect(ui_buttonGroup, SIGNAL(buttonClicked(QAbstractButton *)), this, SLOT(slotFilterButtonClicked(QAbstractButton)));
 }
 
 /**

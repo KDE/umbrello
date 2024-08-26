@@ -8,6 +8,8 @@
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+#include <QRegularExpression>
+
 #include "codetexthighlighter.h"
 
 #include "codegenerator.h"
@@ -28,7 +30,7 @@ CodeTextHighlighter::CodeTextHighlighter(QTextDocument *parent)
     m_keywordFormat.setFontWeight(QFont::Bold);
 
     QStringList keywordPatterns = keywords();
-    Q_FOREACH (const QString &pattern, keywordPatterns) {
+    for (const QString &pattern : keywordPatterns) {
         rule.pattern = QRegularExpression(pattern);
         rule.format = m_keywordFormat;
         m_highlightingRules.append(rule);
@@ -83,21 +85,27 @@ void CodeTextHighlighter::highlightBlock(const QString &text)
 
     int startIndex = 0;
     if (previousBlockState() != 1)
-        startIndex = m_commentStartExpression.indexIn(text);
+        startIndex = text.indexOf(m_commentStartExpression);
+
+// TODO: Move this to KSyntaxHighlight
+#if 0
 
     while (startIndex >= 0) {
-        int endIndex = m_commentEndExpression.indexIn(text, startIndex);
+        QRegularExpressionMatch m = m_commentEndExpression.match(text);
+        
+        int endIndex = m.capturedStart();
         int commentLength;
         if (endIndex == -1) {
             setCurrentBlockState(1);
             commentLength = text.length() - startIndex;
         } else {
             commentLength = endIndex - startIndex
-                            + m_commentEndExpression.matchedLength();
+                            + m.capturedLength();
         }
         setFormat(startIndex, commentLength, m_multiLineCommentFormat);
-        startIndex = m_commentStartExpression.indexIn(text, startIndex + commentLength);
+        startIndex = text.indexOf(m_commentStartExpression, startIndex + commentLength);
     }
+#endif
 }
 
 /**

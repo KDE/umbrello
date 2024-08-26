@@ -37,7 +37,7 @@ Q_DECLARE_LOGGING_CATEGORY(UMBRELLO)
  * To register classes independent from related object instantiation time
  * one of the macros
  *
- *         DEBUG_REGISTER(className)
+ *         DEBUG_REGISTER_DISABLED(className)
  *         DEBUG_REGISTER_DISABLED(className)
  *
  * should be placed in the implementation part of a class before the
@@ -114,16 +114,10 @@ private:
 #define DEBUG_N(latin1str)  if (Tracer::instance()->logToConsole() || Tracer::instance()->isEnabled(latin1str)) uDebug()
 #define DEBUG()       DEBUG_N(DBG_SRC)
 #define IS_DEBUG_ENABLED() Tracer::instance()->isEnabled(DBG_SRC)
-#define DEBUG_REGISTER(src)          \
-        class src##Tracer { \
-          public:           \
-            src##Tracer() { Tracer::registerClass(#src, true, __FILE__); } \
-        };                  \
-        static src##Tracer src##TracerGlobal;
 #define DEBUG_REGISTER_DISABLED(src) \
         class src##Tracer { \
           public:           \
-            src##Tracer() { Tracer::registerClass(#src, false, __FILE__); } \
+            src##Tracer() { Tracer::registerClass(#src, true, __FILE__); } \
         };                  \
         static src##Tracer src##TracerGlobal;
 

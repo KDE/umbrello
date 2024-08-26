@@ -82,12 +82,12 @@ QString PascalWriter::qualifiedName(UMLPackage *p, bool withType, bool byValue)
     QString retval;
 
     if (umlPkg == UMLApp::app()->document()->rootFolder(Uml::ModelType::Logical))
-        umlPkg = 0;
+        umlPkg = nullptr;
 
     const UMLClassifier *c = p->asUMLClassifier();
-    if (umlPkg == 0) {
+    if (umlPkg == nullptr) {
         retval = className;
-        if (c == 0 || !isOOClass(c))
+        if (c == nullptr || !isOOClass(c))
             retval.append(defaultPackageSuffix);
     } else {
         retval = umlPkg->fullyQualifiedName(QStringLiteral("."));
@@ -123,7 +123,7 @@ void PascalWriter::computeAssocTypeAndRole
         }
     }
     const UMLClassifier* c = a->getObject(Uml::RoleType::A)->asUMLClassifier();
-    if (c == 0)
+    if (c == nullptr)
         return;
     typeName = cleanName(c->name());
     if (! a->getMultiplicity(Uml::RoleType::A).isEmpty())
@@ -168,7 +168,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     if (!str.isEmpty()) {
         str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
         str.replace(QRegularExpression(QStringLiteral("%filepath%")), file.fileName());
-        pas << str << endl;
+        pas << str << Qt::endl;
     }
 
     QString unit = qualifiedName(c);
@@ -249,7 +249,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     // Write class Documentation if non-empty or if force option set.
     if (forceDoc() || !c->doc().isEmpty()) {
         pas << "//" << m_endl;
-        pas << "// class " << classname << endl;
+        pas << "// class " << classname << Qt::endl;
         pas << formatDoc(c->doc(), QStringLiteral("// "));
         pas << m_endl;
     }

@@ -71,12 +71,11 @@ Only the folders made by the user are created in the base directory (Logical vie
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
+   <header>KUrlRequester</header>
   </customwidget>
  </customwidgets>
  <includes>
-  <include location="local">kurlrequester.h</include>
-  <include location="local">klineedit.h</include>
+  <include location="global">KUrlRequester</include>
  </includes>
  <resources/>
  <connections/>

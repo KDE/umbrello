@@ -46,14 +46,15 @@
 #include <QMouseEvent>
 #include <QPointer>
 #include <QRegularExpression>
+#include <QTextBlock>
 
-DEBUG_REGISTER(CodeEditor)
+DEBUG_REGISTER_DISABLED(CodeEditor)
 
 /**
  * Constructor.
  */
 CodeEditor::CodeEditor(const QString & text, CodeViewerDialog * parent, CodeDocument * doc)
-  : KTextEdit(text, parent)
+  : QTextEdit(text, parent)
 {
     init(parent, doc);
 }
@@ -62,7 +63,7 @@ CodeEditor::CodeEditor(const QString & text, CodeViewerDialog * parent, CodeDocu
  * Constructor.
  */
 CodeEditor::CodeEditor(CodeViewerDialog * parent, CodeDocument * doc)
-  : KTextEdit(parent)
+  : QTextEdit(parent)
 {
     init(parent, doc);
 }
@@ -79,7 +80,7 @@ CodeEditor::~CodeEditor()
  */
 void CodeEditor::clearText()
 {
-    m_selectedTextBlock = 0;
+    m_selectedTextBlock = nullptr;
 
     // now call super-class
     clear();
@@ -142,9 +143,9 @@ bool CodeEditor::close()
     // capture last code block, if it exists
     if (m_lastTextBlockToBeEdited) {
         updateTextBlockFromText (m_lastTextBlockToBeEdited);
-        m_lastTextBlockToBeEdited = 0;
+        m_lastTextBlockToBeEdited = nullptr;
     }
-    return KTextEdit::close();
+    return QTextEdit::close();
 }
 
 /**
@@ -201,7 +202,7 @@ void CodeEditor::keyPressEvent(QKeyEvent * e)
     if ((e->key() == 10) || (e->key() == 13) || (e->text() == QString::fromLatin1("\r\n"))) {
         m_newLinePressed = true;
     }
-    KTextEdit::keyPressEvent(e);
+    QTextEdit::keyPressEvent(e);
 }
 
 /**
@@ -223,7 +224,7 @@ void CodeEditor::loadFromDocument()
     if (isNonBlank(header)) {
         logDebug1("CodeEditor::loadFromDocument header for document: %1", header);
         insertText(header, m_parentDoc->getHeader(), false, state().fontColor,
-               state().nonEditBlockColor, 0, componentName);
+               state().nonEditBlockColor, nullptr, componentName);
     }
 
     // now all the text blocks in the document
@@ -267,7 +268,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
                 }
             }
         }
-        KTextEdit::append(text); // put actual text in. Use insert instead of append so history is preserved?
+        QTextEdit::append(text); // put actual text in. Use insert instead of append so history is preserved?
     }
     else {
         isInsert = true;
@@ -430,13 +431,13 @@ void CodeEditor::appendText(CodeBlockWithComments * cb)
     QColor bgcolor = state().editBlockColor;
     QString componentName = QString::fromLatin1("CodeBlock");
 
-    appendText(cb->getComment(), cb, 0, componentName);
+    appendText(cb->getComment(), cb, nullptr, componentName);
 
     if (!cb->getWriteOutText() && m_showHiddenBlocks)
         bgcolor = state().hiddenColor;
 
     if (isNonBlank(body))
-        insertText(body, cb, true, state().fontColor, bgcolor, 0);
+        insertText(body, cb, true, state().fontColor, bgcolor, nullptr);
 }
 
 /**
@@ -696,7 +697,7 @@ void CodeEditor::slotInsertCodeBlockBeforeSelected()
     QString body = newBlock->formatMultiLineText(newBlock->getText(), newBlock->getIndentationString(), QString::fromLatin1("\n"));
 
     insertText(body, newBlock, true, state().fontColor,
-           state().editBlockColor, 0, QString::fromLatin1("CodeBlock"), location);
+           state().editBlockColor, nullptr, QString::fromLatin1("CodeBlock"), location);
 }
 
 /**
@@ -719,7 +720,7 @@ void CodeEditor::slotInsertCodeBlockAfterSelected()
     QString body = newBlock->formatMultiLineText(newBlock->getText(), newBlock->getIndentationString(), QString::fromLatin1("\n"));
 
     insertText(body, newBlock, true, state().fontColor,
-           state().editBlockColor, 0, QString::fromLatin1("CodeBlock"), location);
+           state().editBlockColor, nullptr, QString::fromLatin1("CodeBlock"), location);
 }
 
 /**
@@ -841,7 +842,7 @@ void CodeEditor::slotCopyTextBlock()
         m_textBlockToPaste = CodeGenFactory::newCodeComment(m_parentDoc);
     else {
         logError0("CodeEditor cannot copy selected block of unknown type");
-        m_textBlockToPaste = 0;
+        m_textBlockToPaste = nullptr;
         return; // error!
     }
     m_textBlockToPaste->setAttributesFromObject(m_selectedTextBlock);
@@ -862,13 +863,13 @@ void CodeEditor::slotCutTextBlock()
         // we don't want to lose them
         if (m_lastTextBlockToBeEdited && m_lastTextBlockToBeEdited == (CodeBlock*) m_selectedTextBlock) {
             updateTextBlockFromText (m_lastTextBlockToBeEdited);
-            m_lastTextBlockToBeEdited = 0;
+            m_lastTextBlockToBeEdited = nullptr;
         }
 
         m_parentDoc->removeTextBlock(m_selectedTextBlock);
         rebuildView(m_lastPara);
         // removeTextBlock(m_selectedTextBlock);
-        m_selectedTextBlock = 0;
+        m_selectedTextBlock = nullptr;
     }
 }
 
@@ -879,7 +880,7 @@ void CodeEditor::slotPasteTextBlock()
 {
     if (m_textBlockToPaste) {
         m_parentDoc->insertTextBlock(m_textBlockToPaste, m_selectedTextBlock);
-        m_textBlockToPaste = 0;
+        m_textBlockToPaste = nullptr;
         rebuildView(m_lastPara);
     }
 }
@@ -916,9 +917,9 @@ void CodeEditor::init(CodeViewerDialog * parentDialog, CodeDocument * parentDoc)
 
     m_newLinePressed = false;
     m_backspacePressed = false;
-    m_textBlockToPaste = 0;
-    m_selectedTextBlock = 0;
-    m_lastTextBlockToBeEdited = 0;
+    m_textBlockToPaste = nullptr;
+    m_selectedTextBlock = nullptr;
+    m_lastTextBlockToBeEdited = nullptr;
 
     setFont(state().font);
 
@@ -1129,13 +1130,13 @@ void CodeEditor::slotCursorPositionChanged()
         if (m_lastTextBlockToBeEdited && (m_lastTextBlockToBeEdited != m_textBlockList.at(para) || !editPara))
         {
             updateTextBlockFromText (m_lastTextBlockToBeEdited);
-            m_lastTextBlockToBeEdited = 0;
+            m_lastTextBlockToBeEdited = nullptr;
         }
 
         if (editPara)
             m_lastTextBlockToBeEdited = m_textBlockList.at(para);
         else
-            m_lastTextBlockToBeEdited = 0;
+            m_lastTextBlockToBeEdited = nullptr;
     }
 
     m_lastPara = para;
@@ -1188,7 +1189,7 @@ TextBlock* CodeEditor::findTextBlockAt(int characterPos)
             }
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -1454,7 +1455,7 @@ void CodeEditor::contentsMouseMoveEvent(QMouseEvent * e)
 
         if (m_lastTextBlockToBeEdited) {
             updateTextBlockFromText (m_lastTextBlockToBeEdited);
-            m_lastTextBlockToBeEdited = 0;
+            m_lastTextBlockToBeEdited = nullptr;
         }
     }
 

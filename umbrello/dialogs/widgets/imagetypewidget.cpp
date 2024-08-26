@@ -35,7 +35,7 @@ ImageTypeWidget::ImageTypeWidget(const QStringList &imageTypes, const QString &_
     layout->addWidget(m_comboBox, 2);
     m_comboBox->setEditable(false);
     m_label->setBuddy(m_comboBox);
-    connect(m_comboBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(slotCurrentIndexChanged(QString)));
+    connect(m_comboBox, SIGNAL(currentTextChanged(QString)), this, SLOT(slotCurrentIndexChanged(QString)));
     setLayout(layout);
 }
 

@@ -25,8 +25,9 @@
 #include <QString>
 #include <QStringList>
 #include <QTextStream>
+#include <QtCore5Compat/QTextCodec>
 
-DEBUG_REGISTER(Import_Rose)
+DEBUG_REGISTER_DISABLED(Import_Rose)
 
 namespace Import_Rose {
 
@@ -287,7 +288,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
     methodName(QStringLiteral("readAttributes"));
     if (initialArgs.count() == 0) {
         logError1("%1 initialArgs is empty", loc());
-        return 0;
+        return nullptr;
     }
     PetalNode::NodeType nt;
     QString type = shift(initialArgs);
@@ -297,7 +298,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
         nt = PetalNode::nt_list;
     else {
         logError2("%1 unknown node type %2", loc(), type);
-        return 0;
+        return nullptr;
     }
     PetalNode *node = new PetalNode(nt);
     bool seenClosing = checkClosing(initialArgs);
@@ -317,7 +318,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
         if (nt == PetalNode::nt_object && !stringOrNodeOpener.contains(QRegularExpression(QStringLiteral("^[A-Za-z]")))) {
             logError2("%1 unexpected line %2", loc(), line);
             delete node;
-            return 0;
+            return nullptr;
         }
         PetalNode::StringOrNode value;
         if (nt == PetalNode::nt_object) {
@@ -357,9 +358,9 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
                 value.string = extractValue(tokens, stream);
             } else {
                 value.node = readAttributes(tokens, stream);
-                if (value.node == 0) {
+                if (value.node == nullptr) {
                     delete node;
-                    return 0;
+                    return nullptr;
                 }
             }
             PetalNode::NameValue attr(name, value);
@@ -400,7 +401,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
     return node;
 }
 
-#define SETCODEC(str)  stream.setCodec(str); break
+#define SETCODEC(num)  stream.setEncoding(num); break
 
 /**
  * Parse a file into the PetalNode internal tree representation
@@ -413,7 +414,7 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
 UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */) 
 {
     methodName(QStringLiteral("loadFromMDL"));
-    if (parentPkg == 0) {
+    if (parentPkg == nullptr) {
         QString fName = file.fileName();
         int lastSlash = fName.lastIndexOf(QLatin1Char('/'));
         if (lastSlash > 0) {
@@ -421,7 +422,8 @@ UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */)
         }
     }
     QTextStream stream(&file);
-    stream.setCodec("ISO 8859-1");
+    
+    stream.setEncoding(QStringConverter::Latin1);
     QString line;
     PetalNode  *root = nullptr;
     uint nClosures_sav = nClosures;
@@ -453,41 +455,43 @@ UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */)
                         case 0:         // ASCII
                             ;
                         case 1:    // Default
-                            SETCODEC("System");
+                            SETCODEC(QStringConverter::System);
                         case 2:    // Symbol
                             ; // @todo     SETCODEC("what");
-                        case 77:   // Mac
-                            SETCODEC("macintosh");
-                        case 128:  // ShiftJIS (Japanese)
-                            SETCODEC("Shift_JIS");
-                        case 129:  // Hangul (Korean)
-                            SETCODEC("EUC-KR");
-                        case 130:  // Johab (Korean)
-                            SETCODEC("EUC-KR");
-                        case 134:  // GB2312 (Chinese)
-                            SETCODEC("GB18030");  // "Don't use GB2312 here" (Ralf H.)
-                        case 136:  // ChineseBig5
-                            SETCODEC("Big5");
-                        case 161:  // Greek
-                            SETCODEC("windows-1253");
-                        case 162:  // Turkish
-                            SETCODEC("windows-1254");
-                        case 163:  // Vietnamese
-                            SETCODEC("windows-1258");
-                        case 177:  // Hebrew
-                            SETCODEC("windows-1255");
-                        case 178:  // Arabic
-                            SETCODEC("windows-1256");
-                        case 186:  // Baltic
-                            SETCODEC("windows-1257");
-                        case 204:  // Russian
-                            SETCODEC("windows-1251");
-                        case 222:  // Thai
-                            SETCODEC("TIS-620");
-                        case 238:  // EastEurope
-                            SETCODEC("windows-1250");
-                        case 255:  // OEM (extended ASCII)
-                            SETCODEC("windows-1252");
+                    // TODO: QStringConverter will probably offer more codecs in future
+                    // https://bugreports.qt.io/browse/QTBUG-86437?focusedCommentId=592478&page=com.atlassian.jira.plugin.system.issuetabpanels%3Acomment-tabpanel
+                        // case 77:   // Mac
+                        //     SETCODEC("macintosh");
+                        // case 128:  // ShiftJIS (Japanese)
+                        //     SETCODEC("Shift_JIS");
+                        // case 129:  // Hangul (Korean)
+                        //     SETCODEC("EUC-KR");
+                        // case 130:  // Johab (Korean)
+                        //     SETCODEC("EUC-KR");
+                        // case 134:  // GB2312 (Chinese)
+                        //     SETCODEC("GB18030");  // "Don't use GB2312 here" (Ralf H.)
+                        // case 136:  // ChineseBig5
+                        //     SETCODEC("Big5");
+                        // case 161:  // Greek
+                        //     SETCODEC("windows-1253");
+                        // case 162:  // Turkish
+                        //     SETCODEC("windows-1254");
+                        // case 163:  // Vietnamese
+                        //     SETCODEC("windows-1258");
+                        // case 177:  // Hebrew
+                        //     SETCODEC("windows-1255");
+                        // case 178:  // Arabic
+                        //     SETCODEC("windows-1256");
+                        // case 186:  // Baltic
+                        //     SETCODEC("windows-1257");
+                        // case 204:  // Russian
+                        //     SETCODEC("windows-1251");
+                        // case 222:  // Thai
+                        //     SETCODEC("TIS-620");
+                        // case 238:  // EastEurope
+                        //     SETCODEC("windows-1250");
+                        // case 255:  // OEM (extended ASCII)
+                        //     SETCODEC("windows-1252");
                         default:
                             logWarn2("%1 Unimplemented charSet number %2", loc(), charSetNum);
                     }
@@ -511,8 +515,8 @@ UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */)
     file.close();
     nClosures = nClosures_sav;
     linum = linum_sav;
-    if (root == 0)
-        return 0;
+    if (root == nullptr)
+        return nullptr;
 
     if (progLang != UMLApp::app()->activeLanguage()) {
         logDebug1("loadFromMDL: Setting active language to %1",
@@ -529,7 +533,7 @@ UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */)
     if (root->name() != QStringLiteral("Design")) {
         logError1("%1 expecting root name Design", loc());
         delete root;
-        return 0;
+        return nullptr;
     }
     Import_Utils::assignUniqueIdOnCreation(false);
     UMLDoc *umldoc = UMLApp::app()->document();

@@ -409,8 +409,9 @@ QString CodeClassField::fixInitialStringDeclValue(const QString& val, const QStr
 void CodeClassField::synchronize ()
 {
     updateContent();
-    for(CodeAccessorMethod  *method : m_methodVector)
+    for(CodeAccessorMethod *method : m_methodVector) {
         method->syncToParent();
+    }
 
     if(m_declCodeBlock)
         m_declCodeBlock->syncToParent();
@@ -520,8 +521,9 @@ void CodeClassField::updateContent()
     // all here? -b.t.
     if (parentIsAttribute())
     {
-        for(CodeAccessorMethod  *method : m_methodVector)
+        for(CodeAccessorMethod *method : m_methodVector) {
             method->setWriteOutText(m_writeOutMethods);
+        }
         return;
     }
     const UMLRole * role = getParentObject()->asUMLRole();
@@ -639,7 +641,7 @@ void CodeClassField::initFields(bool inConstructor)
 {
     m_writeOutMethods = false;
     m_listClassName.clear();
-    m_declCodeBlock = 0;
+    m_declCodeBlock = nullptr;
 
     // m_methodMap = new QMap<CodeAccessorMethod::AccessorType, CodeAccessorMethod *>;
 

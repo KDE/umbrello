@@ -16,7 +16,7 @@
 #include "umluniqueconstraintdialog.h"
 #include "object_factory.h"
 
-DEBUG_REGISTER(UMLUniqueConstraint)
+DEBUG_REGISTER_DISABLED(UMLUniqueConstraint)
 
 /**
  * Sets up a constraint.
@@ -203,7 +203,7 @@ bool UMLUniqueConstraint::load1(QDomElement & element)
             UMLObject* obj = parentEnt->findChildObject(attName);
 
             UMLEntityAttribute* entAtt = obj->asUMLEntityAttribute();
-            if (entAtt == 0)
+            if (entAtt == nullptr)
                 continue;
 
             m_EntityAttributeList.append(entAtt);
@@ -254,13 +254,13 @@ bool UMLUniqueConstraint::addEntityAttribute(UMLEntityAttribute* attr)
         return false;
 
     }
-    if (owningParent == 0) {
+    if (owningParent == nullptr) {
         logError1("UMLUniqueConstraint::addEntityAttribute(%1) : parent is not a UMLEntity",
                   name());
         return false;
     }
 
-    if (owningParent->findChildObjectById(attr->id()) == 0) {
+    if (owningParent->findChildObjectById(attr->id()) == nullptr) {
         logError3("UMLUniqueConstraint::addEntityAttribute(%1) parent %2 does not contain attribute %3",
                   name(), owningParent->name(), attr->name());
         return false;
@@ -282,7 +282,7 @@ bool UMLUniqueConstraint::removeEntityAttribute(UMLEntityAttribute* attr)
 {
     const UMLEntity *owningParent = umlParent()->asUMLEntity();
 
-    if (owningParent == 0) {
+    if (owningParent == nullptr) {
         logError1("UMLUniqueConstraint::removeEntityAttribute(%1) : parent is not a UMLEntity", name());
         return false;
     }

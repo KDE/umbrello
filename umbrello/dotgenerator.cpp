@@ -31,7 +31,7 @@
 #include <QTemporaryFile>
 #include <QTextStream>
 
-DEBUG_REGISTER(DotGenerator)
+DEBUG_REGISTER_DISABLED(DotGenerator)
 
 QString dotType(WidgetBase *widget)
 {
@@ -45,7 +45,7 @@ QString dotType(WidgetBase *widget)
 class DotPaintEngine : public QPaintEngine
 {
 public:
-    DotPaintEngine(PaintEngineFeatures caps = 0) { Q_UNUSED(caps) }
+    DotPaintEngine(PaintEngineFeatures caps = QPaintEngine::PrimitiveTransform) { Q_UNUSED(caps) }
     virtual ~DotPaintEngine() {}
     virtual bool begin (QPaintDevice * pdev)
     {
@@ -290,13 +290,13 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
     logDebug1("DotGenerator::readConfigFile reading config file %1", configFileName);
     m_configFileName = configFileName;
     KDesktopFile desktopFile(configFileName);
-    KConfigGroup edgesAttributes(&desktopFile,"X-UMBRELLO-Dot-Edges");
-    KConfigGroup nodesAttributes(&desktopFile,"X-UMBRELLO-Dot-Nodes");
-    KConfigGroup attributes(&desktopFile,"X-UMBRELLO-Dot-Attributes");
+    KConfigGroup edgesAttributes(&desktopFile,QStringLiteral("X-UMBRELLO-Dot-Edges"));
+    KConfigGroup nodesAttributes(&desktopFile,QStringLiteral("X-UMBRELLO-Dot-Nodes"));
+    KConfigGroup attributes(&desktopFile,QStringLiteral("X-UMBRELLO-Dot-Attributes"));
     QString layoutType = Uml::LayoutType::toString(Settings::optionState().generalState.layoutType);
     KConfigGroup layoutAttributes(&desktopFile,QString(QStringLiteral("X-UMBRELLO-Dot-Attributes-%1")).arg(layoutType));
     // settings are not needed by dotgenerator
-    KConfigGroup settings(&desktopFile,"X-UMBRELLO-Dot-Settings");
+    KConfigGroup settings(&desktopFile,QStringLiteral("X-UMBRELLO-Dot-Settings"));
 
     m_edgeParameters.clear();
     m_nodeParameters.clear();
@@ -583,8 +583,9 @@ int DotGenerator::generatorVersion() const
     p.waitForFinished();
     QString out(QLatin1String(p.readAllStandardError()));
     QRegularExpression rx(QStringLiteral("\\((.*)\\."));
-    QString version = rx.indexIn(out) != -1 ? rx.cap(1) : QString();
-    return version.toInt(0);
+    QRegularExpressionMatch rm = rx.match(out);
+    QString version = out.indexOf(rx) != -1 ? rm.captured(1) : QString();
+    return version.toInt(nullptr);
 }
 
 #if 0

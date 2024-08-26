@@ -14,7 +14,7 @@
 // kde includes
 #include <KLocalizedString>
 
-DEBUG_REGISTER(CmdSetTxt)
+DEBUG_REGISTER_DISABLED(CmdSetTxt)
 
 namespace Uml
 {

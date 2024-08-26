@@ -168,11 +168,11 @@ static const char *reserved_words[] = {
     "whenever",
     "where",
     "with",
-    0
+    nullptr
 };
 
 SQLWriter::SQLWriter()
-    : m_pEntity(0)
+    : m_pEntity(nullptr)
 {
 }
 

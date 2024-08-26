@@ -24,7 +24,7 @@
 #include <QContextMenuEvent>
 #include <QtDebug>
 
-DEBUG_REGISTER(StereotypesWindow)
+DEBUG_REGISTER_DISABLED(StereotypesWindow)
 
 StereotypesWindow::StereotypesWindow(const QString &title, QWidget *parent)
   : QDockWidget(title, parent)

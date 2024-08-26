@@ -58,7 +58,7 @@
 #include "usecase.h"
 #include "usecasewidget.h"
 
-DEBUG_REGISTER(Widget_Factory)
+DEBUG_REGISTER_DISABLED(Widget_Factory)
 
 namespace Widget_Factory {
 
@@ -178,12 +178,12 @@ UMLWidget *createWidget(UMLScene *scene, UMLObject *o)
 
 bool validateObjType(UMLObject::ObjectType expected, UMLObject* &o, Uml::ID::Type id)
 {
-    if (o == 0) {
+    if (o == nullptr) {
         logDebug1("Widget_Factory::validateObjType: creating new object of type %1",
                   expected);
         QString artificialName = QStringLiteral("LOST_") + Uml::ID::toString(id);
-        o = Object_Factory::createUMLObject(expected, artificialName, 0, false);
-        if (o == 0)
+        o = Object_Factory::createUMLObject(expected, artificialName, nullptr, false);
+        if (o == nullptr)
             return false;
         o->setID(id);
         UMLPackage *parentPkg = o->umlPackage();
@@ -225,7 +225,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == QStringLiteral("forkjoin")) {
         widget = new ForkJoinWidget(scene, Qt::Vertical, Uml::ID::Reserved);
     } else if (tag == QStringLiteral("preconditionwidget")) {
-        widget = new PreconditionWidget(scene, 0, Uml::ID::Reserved);
+        widget = new PreconditionWidget(scene, nullptr, Uml::ID::Reserved);
     } else if (tag == QStringLiteral("combinedFragmentwidget")) {
         widget = new CombinedFragmentWidget(scene, CombinedFragmentWidget::Ref, Uml::ID::Reserved);
     } else if (tag == QStringLiteral("signalwidget")) {
@@ -237,7 +237,7 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
     } else if (tag == QStringLiteral("regionwidget")) {
         widget = new RegionWidget(scene, Uml::ID::Reserved);
     } else if (tag == QStringLiteral("pinwidget")) {
-        widget = new PinWidget(scene, 0, Uml::ID::Reserved);
+        widget = new PinWidget(scene, nullptr, Uml::ID::Reserved);
     }
     else
     {
@@ -247,11 +247,11 @@ UMLWidget* makeWidgetFromXMI(const QString& tag,
         Uml::ID::Type id = Uml::ID::fromString(idStr);
         UMLDoc *umldoc = UMLApp::app()->document();
         UMLObject *o = umldoc->findObjectById(id);
-        if (o == 0) {
+        if (o == nullptr) {
             logError1("Widget_Factory::makeWidgetFromXMI: cannot find object with id %1",
                       Uml::ID::toString(id));
             delete widget;
-            return 0;
+            return nullptr;
         }
 
         if (tag == QStringLiteral("actorwidget") || tag == QStringLiteral("UML:ActorWidget")) {

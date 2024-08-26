@@ -152,9 +152,9 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 
     QFontMetrics fontMetrics(font);
     const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
-    UMLClassifierListItem *entityattribute = nullptr;
+    
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
-    for(entityattribute: list) {
+    for(UMLClassifierListItem *entityattribute: list) {
         QString text = entityattribute->name();
         painter->setPen(textColor());
         const UMLEntityAttribute* umlEA = entityattribute->asUMLEntityAttribute();
@@ -172,7 +172,7 @@ void EntityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
             font.setUnderline(false);
         }
         painter->drawText(ENTITY_MARGIN, y,
-                   fontMetrics.width(text), fontHeight, Qt::AlignVCenter, text);
+                   fontMetrics.horizontalAdvance(text), fontHeight, Qt::AlignVCenter, text);
         painter->setFont(font);
         y+=fontHeight;
     }

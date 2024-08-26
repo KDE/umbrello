@@ -11,7 +11,7 @@
 // local includes
 #include "association.h"
 #include "attribute.h"
-#include "debug_utils.h"
+
 #include "operation.h"
 #include "classifierlistitem.h"
 #include "classifier.h"
@@ -305,7 +305,7 @@ QList<const CodeOperation*> ClassifierCodeDocument::getCodeOperations () const
 void ClassifierCodeDocument::addOperation (UMLClassifierListItem * o)
 {
     UMLOperation *op = o->asUMLOperation();
-    if (op == 0) {
+    if (op == nullptr) {
         logError0("arg is not a UMLOperation");
         return;
     }
@@ -714,17 +714,6 @@ void ClassifierCodeDocument::loadClassFieldsFromXMI(QDomElement & elem)
  */
 void ClassifierCodeDocument::saveToXMI(QXmlStreamWriter& writer)
 {
-#if 0
-    // avoid the creation of primitive data type
-    QString strType;
-    if (getParentClassifier()->getBaseType() == Uml::ot_Datatype) {
-        strType = getParentClassifier()->getName();
-        // lets get the default code generator to check if it is a primitive data type
-        // there's a reason to create files for int/boolean and so ?
-        if (getParentGenerator()->isReservedKeyword(strType))
-           return;
-    }
-#endif
     writer.writeStartElement(QStringLiteral("classifiercodedocument"));
 
     setAttributesOnNode(writer);
@@ -782,12 +771,15 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
             return decl;
         // well, if not in the decl block, then in the methods perhaps?
         CodeAccessorMethodList mlist = cf->getMethodList();
-        for(CodeAccessorMethod  *m : mlist)
-            if(m->getTag() == tag)
+        for(CodeAccessorMethod *m : mlist) {
+            if(m->getTag() == tag) {
                 return m;
     }
+        }
+    }
+
     // if we get here, we failed.
-    return (TextBlock*) 0;
+    return nullptr;
 }
 
 

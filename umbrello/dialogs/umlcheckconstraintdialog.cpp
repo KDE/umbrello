@@ -61,7 +61,7 @@ void UMLCheckConstraintDialog::setupDialog()
     m_pCheckConditionL = new QLabel(i18n("Check Condition :"), frame);
     checkConditionLayout->addWidget(m_pCheckConditionL);
 
-    m_pCheckConditionTE = new KTextEdit(frame);
+    m_pCheckConditionTE = new QTextEdit(frame);
     checkConditionLayout->addWidget(m_pCheckConditionTE);
 
     // set text of text edit

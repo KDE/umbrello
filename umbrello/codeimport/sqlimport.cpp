@@ -12,6 +12,7 @@
 #include "attribute.h"
 #include "checkconstraint.h"
 #include "classifier.h"
+#define DBG_SRC QStringLiteral("SqlImport")
 #include "debug_utils.h"
 #include "enum.h"
 #include "folder.h"
@@ -28,13 +29,12 @@
 
 // qt includes
 #include <QProcess>
-#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QStringList>
 
 #include <stdio.h>
 
-DEBUG_REGISTER(SQLImport)
+DEBUG_REGISTER_DISABLED(SQLImport)
 
 /**
  * Constructor.
@@ -587,7 +587,7 @@ bool SQLImport::parseCreateDefinition(QString &token, UMLEntity *entity)
         logDebug2("SQLImport::parseCreateDefinition: field %1 type %2", fieldName, fieldType.at(0));
         if (entity && !fieldName.isEmpty()) {
             UMLObject *type = addDatatype(fieldType);
-            UMLEntityAttribute *a = new UMLEntityAttribute(0, fieldName,
+            UMLEntityAttribute *a = new UMLEntityAttribute(nullptr, fieldName,
                     Uml::ID::None,
                     Uml::Visibility::Public,
                     type);
@@ -853,7 +853,7 @@ UMLObject *SQLImport::addDatatype(const QStringList &type)
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Enum, parent, type.at(0));
         datatype = Import_Utils::createUMLObject(UMLObject::ot_Enum, name, parent);
         UMLEnum *enumType = datatype->asUMLEnum();
-        if (enumType == 0)
+        if (enumType == nullptr)
             enumType = Import_Utils::remapUMLEnum(datatype, currentScope());
         if (enumType) {
             for (int i = 2; i < type.size(); i++) {

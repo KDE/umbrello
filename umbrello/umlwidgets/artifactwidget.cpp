@@ -114,7 +114,7 @@ QSize ArtifactWidget::calculateIconSize() const
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
 
-    int width = fm.width(m_umlObject->name());
+    int width = fm.horizontalAdvance(m_umlObject->name());
 
     width = width<50 ? 50 : width;
 
@@ -131,11 +131,11 @@ QSize ArtifactWidget::calculateNormalSize() const
     const QFontMetrics &fm = getFontMetrics(FT_BOLD_ITALIC);
     const int fontHeight  = fm.lineSpacing();
 
-    int width = fm.width(m_umlObject->name());
+    int width = fm.horizontalAdvance(m_umlObject->name());
 
     int tempWidth = 0;
     if(!m_umlObject->stereotype().isEmpty()) {
-        tempWidth = fm.width(m_umlObject->stereotype(true));
+        tempWidth = fm.horizontalAdvance(m_umlObject->stereotype(true));
     }
     width = tempWidth>width ? tempWidth : width;
     width += ARTIFACT_MARGIN * 2;

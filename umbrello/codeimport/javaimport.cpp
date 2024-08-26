@@ -27,7 +27,7 @@
 #include <QStringList>
 #include <QTextStream>
 
-DEBUG_REGISTER(JavaImport)
+DEBUG_REGISTER_DISABLED(JavaImport)
 
 QStringList JavaImport::s_filesAlreadyParsed;
 int JavaImport::s_parseDepth = 0;
@@ -206,7 +206,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
     // in case the path does not fit into the package hierarchy 
     // we cannot check the imports 
     if (dirsInPackageCount >= file.size())
-        return 0; 
+        return nullptr;
 
     for (int count=0; count < dirsInPackageCount; ++count) {
         // pop off one by one the directories, until only the source root remains
@@ -275,7 +275,7 @@ UMLObject* JavaImport::resolveClass (const QString& className)
             } // if file exists
         } // if import matches
     } //foreach import
-    return 0; // no match
+    return nullptr; // no match
 }
 
 /**
@@ -437,11 +437,11 @@ bool JavaImport::parseStmt()
         UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Enum,
                         name, currentScope(), m_comment);
         UMLEnum *enumType = ns->asUMLEnum();
-        if (enumType == 0)
+        if (enumType == nullptr)
             enumType = Import_Utils::remapUMLEnum(ns, currentScope());
         skipStmt(QStringLiteral("{"));
         while (m_srcIndex < srcLength - 1 && advance() != QStringLiteral("}")) {
-            if (enumType != 0)
+            if (enumType != nullptr)
                 Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex]);
             QString next = advance();
             if (next == QStringLiteral("{") || next == QStringLiteral("(")) {
@@ -553,7 +553,7 @@ bool JavaImport::parseStmt()
     QString typeName = m_source[m_srcIndex];
     typeName = joinTypename(typeName);
     // At this point we need a class.
-    if (m_klass == 0) {
+    if (m_klass == nullptr) {
         logError1("JavaImport::parseStmt: no class set for %1", typeName);
         return false;
     }

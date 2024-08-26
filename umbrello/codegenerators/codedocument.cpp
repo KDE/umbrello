@@ -25,7 +25,7 @@
  */
 CodeDocument::CodeDocument () : CodeGenObjectWithTextBlocks(this),
     m_lastTagIndex(0), m_filename(QString()), m_fileExtension(QString()),
-    m_ID(QString()), m_pathName(QString()), m_package(0), m_writeOutCode(true)
+    m_ID(QString()), m_pathName(QString()), m_package(nullptr), m_writeOutCode(true)
 {
     setHeader(new CodeComment(this));
     //  m_dialog = new CodeDocumentDialog();
@@ -396,7 +396,7 @@ void CodeDocument::setAttributesFromNode (QDomElement & root)
             UMLObject *o = umldoc->findUMLObject(pkgStr);
             m_package = o->asUMLPackage();
         }
-        if (m_package == 0) {
+        if (m_package == nullptr) {
             UMLObject *o = umldoc->findObjectById(Uml::ID::fromString(pkgStr));
             m_package = o->asUMLPackage();
         }
@@ -506,7 +506,7 @@ TextBlock * CodeDocument::findTextBlockByTag(const QString &tag, bool descendInt
         if (m_childTextBlockTagMap.contains(tag))
             return m_childTextBlockTagMap[tag];
 
-    return 0;
+    return nullptr;
 }
 
 /**
@@ -516,7 +516,7 @@ TextBlock * CodeDocument::findTextBlockByTag(const QString &tag, bool descendInt
 TextBlock * CodeDocument::findCodeClassFieldTextBlockByTag (const QString &tag)
 {
     logWarn1("Called findCodeClassFieldMethodByTag(%1) for a regular CodeDocument", tag);
-    return 0;
+    return nullptr;
 }
 
 QDebug operator<<(QDebug os, const CodeDocument& obj)

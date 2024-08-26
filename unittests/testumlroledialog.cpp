@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     UMLStereotype object;
     UMLAssociation assoc;
     UMLRole role(&assoc, &object, Uml::RoleType::A);
-    QPointer<UMLRoleDialog> dlg = new UMLRoleDialog(0, &role);
+    QPointer<UMLRoleDialog> dlg = new UMLRoleDialog(nullptr, &role);
     int result = dlg->exec();
     delete dlg;
     return result;

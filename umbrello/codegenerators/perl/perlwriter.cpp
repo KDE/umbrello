@@ -261,7 +261,7 @@ static const char *reserved_words[] = {
     "while",
     "write",
     "xor",
-    0
+    nullptr
 };
 
 PerlWriter::PerlWriter()
@@ -364,10 +364,11 @@ void PerlWriter::writeClass(UMLClassifier *c)
     QString fragment = fileName;
     QDir* existing = new QDir (curDir);
     QRegularExpression regEx(QStringLiteral("(.*)(::)"));
-    regEx.setMinimal(true);
-    while (regEx.indexIn(fragment) > -1) {
-      newDir = regEx.cap(1);
-      fragment.remove(0, (regEx.pos(2) + 2)); // get round strange minimal matching bug
+    QRegularExpressionMatch regMat = regEx.match(fragment);
+    
+    while (fragment.indexOf(regEx) > -1) {
+      newDir = regMat.captured(1);
+      fragment.remove(0, (regMat.capturedStart(2) + 2)); // get round strange minimal matching bug
       existing->setPath(curDir + QLatin1Char('/') + newDir);
       if (! existing->exists()) {
         existing->setPath(curDir);

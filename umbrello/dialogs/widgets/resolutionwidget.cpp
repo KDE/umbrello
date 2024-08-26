@@ -12,9 +12,36 @@
 
 // qt includes
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
+#include <QWindow>
 #include <QHBoxLayout>
 #include <QLabel>
+
+
+static QWindow *windowFromWidget(const QWidget *widget)
+{
+    QWindow *windowHandle = widget->windowHandle();
+    if (windowHandle) {
+        return windowHandle;
+    }
+
+    const QWidget *nativeParent = widget->nativeParentWidget();
+    if (nativeParent) {
+        return nativeParent->windowHandle();
+    }
+
+    return nullptr;
+}
+
+static QScreen *screenFromWidget(const QWidget *widget)
+{
+    const QWindow *windowHandle = windowFromWidget(widget);
+    if (windowHandle && windowHandle->screen()) {
+        return windowHandle->screen();
+    }
+
+    return QGuiApplication::primaryScreen();
+}
 
 /**
  * Constructor
@@ -66,7 +93,7 @@ QStringList ResolutionWidget::resolutions()
     result << QStringLiteral("600");
     result << QStringLiteral("1200");
 
-    QString currentResolution = QString::number(qApp->desktop()->logicalDpiX());
+    QString currentResolution = QString::number(this->screen()->physicalDotsPerInchX());
     if (!result.contains(currentResolution))
         result << currentResolution;
     std::sort(result.begin(), result.end(), numberLessThan);

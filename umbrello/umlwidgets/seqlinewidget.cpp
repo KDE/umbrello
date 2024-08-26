@@ -121,9 +121,9 @@ void SeqLineWidget::cleanupDestructionBox()
 {
     if (m_DestructionBox.line1) {
         delete m_DestructionBox.line1;
-        m_DestructionBox.line1 = 0;
+        m_DestructionBox.line1 = nullptr;
         delete m_DestructionBox.line2;
-        m_DestructionBox.line2 = 0;
+        m_DestructionBox.line2 = nullptr;
     }
 }
 

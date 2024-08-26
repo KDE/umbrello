@@ -1249,7 +1249,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
                     //TODO: use the token stream here as well
                     //TODO: always add __construct, __destruct and maby other magic functions
                     // get all visible declarations and add inherited to the completion items
-                    Q_FOREACH(DeclarationDepthPair decl, ctx->allDeclarations(ctx->range().end, m_duContext->topContext(), false)) {
+                    for(DeclarationDepthPair decl : ctx->allDeclarations(ctx->range().end, m_duContext->topContext(), false)) {
                         ClassMemberDeclaration *member = dynamic_cast<ClassMemberDeclaration*>(decl.first);
                         ClassFunctionDeclaration *classFunc = dynamic_cast<ClassFunctionDeclaration*>(decl.first);
                         if (member) {
@@ -1541,7 +1541,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
                     if ( !decl->isFunctionDeclaration() ) {
                         if ( ClassDeclaration* classDec = dynamic_cast<ClassDeclaration*>(decl) ) {
                             // search for ctor
-                            decl = 0;
+                            decl = nullptr;
                             for(Declaration *dec : classDec->internalContext()->findDeclarations(Identifier("__construct")) ) {
                                 if ( dec->isFunctionDeclaration() ) {
                                     decl = dec;

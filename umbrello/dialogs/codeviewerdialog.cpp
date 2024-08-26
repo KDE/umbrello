@@ -22,7 +22,7 @@
 #include <QPushButton>
 #include <QDialogButtonBox>
 
-DEBUG_REGISTER(CodeViewerDialog)
+DEBUG_REGISTER_DISABLED(CodeViewerDialog)
 
 CodeViewerDialog::CodeViewerDialog (QWidget* parent, CodeDocument * doc,
                                      Settings::CodeViewerState state)
@@ -43,12 +43,10 @@ CodeViewerDialog::~CodeViewerDialog()
 void CodeViewerDialog::initGUI()
 {
     setFont(state().font);
-
+    int margin = fontMetrics().height();
     ui_highlightCheckBox->setChecked(state().blocksAreHighlighted);
     ui_showHiddenCodeCB->setChecked (state().showHiddenBlocks);
-
-    int margin = fontMetrics().height();
-    CodeViewerDialogBase::gridLayout->setMargin(margin);
+    CodeViewerDialogBase::gridLayout->setContentsMargins(margin, margin, margin, margin);
 }
 
 /**
@@ -57,8 +55,8 @@ void CodeViewerDialog::initGUI()
 void CodeViewerDialog::addCodeDocument(CodeDocument * doc)
 {
     CodeEditor * page = new CodeEditor(this, doc);
-    QString name = doc->getFileName();
-    QString ext = doc->getFileExtension();
+    const QString name = doc->getFileName();
+    const QString ext = doc->getFileExtension();
     logDebug2("CodeViewerDialog::addCodeDocument: name=%1 / ext=%2", name, ext);
     ui_tabWidget->addTab(page, (name + (ext.isEmpty() ? QString() : ext)));
 

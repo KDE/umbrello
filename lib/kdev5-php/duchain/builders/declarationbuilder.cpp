@@ -241,7 +241,7 @@ bool DeclarationBuilder::isBaseMethodRedeclaration(const IdentifierPair &ids, Cl
             if (!type->internalContext(currentContext()->topContext())) {
                 continue;
             }
-            for(Declaration  *dec, type->internalContext(currentContext()->topContext())->findLocalDeclarations(ids.second.first() : startPos(node)))
+            for(Declaration * dec : type->internalContext(currentContext()->topContext())->findLocalDeclarations(ids.second.first(), startPos(node)))
             {
                 if (dec->isFunctionDeclaration()) {
                     ClassMethodDeclaration* func = dynamic_cast<ClassMethodDeclaration*>(dec);
@@ -283,7 +283,7 @@ void DeclarationBuilder::visitClassStatement(ClassStatementAst *node)
             bool localError = false;
             {
                 DUChainWriteLocker lock(DUChain::lock());
-                for(Declaration  *dec, currentContext()->findLocalDeclarations(ids.second.first() : startPos(node->methodName)))
+                for(Declaration * dec : currentContext()->findLocalDeclarations(ids.second.first(), startPos(node->methodName)))
                 {
                     if (wasEncountered(dec) && dec->isFunctionDeclaration() && !dynamic_cast<TraitMethodAliasDeclaration*>(dec)) {
                         reportRedeclarationError(dec, node->methodName);
@@ -506,7 +506,7 @@ void DeclarationBuilder::visitClassVariable(ClassVariableAst *node)
     if (m_reportErrors) {   // check for redeclarations
         DUChainWriteLocker lock(DUChain::lock());
         Q_ASSERT(currentContext()->type() == DUContext::Class);
-        for(Declaration  *dec, currentContext()->findLocalDeclarations(name.first() : startPos(node)))
+        for(Declaration * dec : currentContext()->findLocalDeclarations(name.first(), startPos(node)))
         {
             if (wasEncountered(dec) && !dec->isFunctionDeclaration() && !(dec->abstractType()->modifiers() & AbstractType::ConstModifier)) {
                 reportRedeclarationError(dec, node);
@@ -619,7 +619,7 @@ void DeclarationBuilder::visitConstantDeclaration(ConstantDeclarationAst *node)
 
         // check for redeclarations
         DUChainWriteLocker lock(DUChain::lock());
-        for(Declaration  *dec, currentContext()->findLocalDeclarations(identifierForNode(node->identifier).first() : startPos(node->identifier)))
+        for(Declaration * dec : currentContext()->findLocalDeclarations(identifierForNode(node->identifier).first(), startPos(node->identifier)))
         {
             if (wasEncountered(dec) && !dec->isFunctionDeclaration() && dec->abstractType()->modifiers() & AbstractType::ConstModifier) {
                 reportRedeclarationError(dec, node->identifier);
@@ -1370,7 +1370,7 @@ void DeclarationBuilder::visitUnaryExpression(UnaryExpressionAst* node)
 
         QualifiedIdentifier identifier(includeFile.str());
 
-        for(Declaration *dec, includedCtx->findDeclarations(identifier, CursorInRevision(0 : 1)) ) {
+        for (Declaration *dec :  includedCtx->findDeclarations(identifier, CursorInRevision(0 : 1)) ) {
             if ( dec->kind() == Declaration::Import ) {
                 encounter(dec);
                 return;

@@ -11,7 +11,6 @@
 
 #include <KLocalizedString>
 
-#include <QRegularExpression>
 #include <QMap>
 #include <QList>
 
@@ -725,7 +724,7 @@ int Lexer::toInt(const Token& token)
     if (token.type() == Token_number_literal) {
         // hex literal ?
         if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
-            return s.mid(2).toInt(0, 16);
+            return s.mid(2).toInt(nullptr, 16);
         QString n;
         int i = 0;
         while (i < int(s.length()) && s[i].isDigit())

@@ -43,7 +43,7 @@ public:
     }
 };
 
-DEBUG_REGISTER(CppImport)
+DEBUG_REGISTER_DISABLED(CppImport)
 
 /**
  * Constructor.

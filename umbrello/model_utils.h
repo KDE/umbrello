@@ -113,7 +113,7 @@ struct NameAndType {  ///< Data structure filled by parseAttribute().
     UMLObject *m_type;
     Uml::ParameterDirection::Enum m_direction;
     QString m_initialValue;
-    NameAndType() : m_type(0), m_direction(Uml::ParameterDirection::In) {}
+    NameAndType() : m_type(nullptr), m_direction(Uml::ParameterDirection::In) {}
     NameAndType(QString name, UMLObject *type,
                 Uml::ParameterDirection::Enum direction = Uml::ParameterDirection::In,
                 QString initialValue = QString())

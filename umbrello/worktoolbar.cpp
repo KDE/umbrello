@@ -277,7 +277,7 @@ void WorkToolBar::slotResetToolBar()
     Q_EMIT sigButtonChanged(m_CurrentButtonID);
 
     UMLView* view = UMLApp::app()->currentView();
-    if (view != 0) {
+    if (view != nullptr) {
         view->setCursor(defaultCursor());
     }
 }

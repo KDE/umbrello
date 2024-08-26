@@ -93,7 +93,7 @@ namespace CodeGenFactory
 CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl)
 {
     if (pl == Uml::ProgrammingLanguage::Reserved)
-        return 0;
+        return nullptr;
     CodeGenerator *obj = nullptr;
     Settings::OptionState optionState = Settings::optionState();
     switch (pl) {
@@ -190,7 +190,7 @@ CodeDocument * newClassifierCodeDocument(UMLClassifier * c)
 {
     Settings::OptionState optionState = Settings::optionState();
     if (!optionState.generalState.newcodegen) {
-        return 0;
+        return nullptr;
     }
     ClassifierCodeDocument  *retval = nullptr;
     switch (UMLApp::app()->activeLanguage()) {
@@ -449,11 +449,11 @@ CodeGenPolicyExt* newCodeGenPolicyExt(Uml::ProgrammingLanguage::Enum pl)
               return new RubyCodeGenerationPolicy();
               break;
           default:
-              return 0;
+              return nullptr;
         }
     }
 
-    return 0;
+    return nullptr;
 }
 
 }  // end namespace CodeGenFactory

@@ -47,7 +47,7 @@ public:
                                     Uml::ID::Type id = Uml::ID::None);
     virtual ~CombinedFragmentWidget();
 
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 
     CombinedFragmentType combinedFragmentType() const;
     CombinedFragmentType combinedFragmentType(const QString& combinedfragmentType) const;
@@ -63,7 +63,7 @@ public:
 
     virtual void cleanup();
 
-    virtual bool activate(IDChangeLog* ChangeLog = 0);
+    virtual bool activate(IDChangeLog *ChangeLog = nullptr);
 
     virtual QRectF boundingRect() const;
     virtual QPainterPath shape() const;

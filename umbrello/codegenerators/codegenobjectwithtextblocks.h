@@ -48,7 +48,7 @@ public:
 
     virtual CodeBlockWithComments * getCodeBlockWithComments(const QString &tag, const QString &comment, int indentLevel);
 
-    CodeComment  *addOrUpdateTaggedCodeComment(const QString &tag = QString(), const QString &text = QString(), int indentationLevel = nullptr);
+    CodeComment * addOrUpdateTaggedCodeComment(const QString &tag = QString(), const QString &text = QString(), int indentationLevel = 0);
 
     CodeBlockWithComments * addOrUpdateTaggedCodeBlockWithComments
                              (const QString &tag, const QString &text, const QString &ctext,

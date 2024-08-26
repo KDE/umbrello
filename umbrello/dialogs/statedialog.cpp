@@ -36,10 +36,10 @@
  */
 StateDialog::StateDialog(QWidget * parent, StateWidget * pWidget)
   : MultiPageDialogBase(parent),
-    m_pActivityPage(0),
+    m_pActivityPage(nullptr),
     m_pStateWidget(pWidget),
     m_bChangesMade(false),
-    pageActivity(0)
+    pageActivity(nullptr)
 {
     setCaption(i18n("Properties"));
     setupPages();
@@ -112,7 +112,7 @@ void StateDialog::applyPage(KPageWidgetItem*item)
 void StateDialog::setupGeneralPage()
 {
     StateWidget::StateType type = m_pStateWidget->stateType();
-
+    int margin = fontMetrics().height();
     QWidget* page = new QWidget();
     QVBoxLayout* topLayout = new QVBoxLayout();
     page->setLayout(topLayout);
@@ -125,7 +125,7 @@ void StateDialog::setupGeneralPage()
 
     QGridLayout * generalLayout = new QGridLayout(m_GenPageWidgets.generalGB);
     generalLayout->setSpacing(Dialog_Utils::spacingHint());
-    generalLayout->setMargin(fontMetrics().height());
+    generalLayout->setContentsMargins(margin, margin, margin, margin);
 
     QString typeStr;
     switch (type) {
@@ -197,7 +197,7 @@ void StateDialog::setupGeneralPage()
  */
 void StateDialog::setupActivityPage()
 {
-    m_pActivityPage = new ActivityPage(0, m_pStateWidget);
+    m_pActivityPage = new ActivityPage(nullptr, m_pStateWidget);
     pageActivity = createPage(i18n("Activities"), i18n("Activities"),
                               Icon_Utils::it_Properties_Activities, m_pActivityPage);
 }

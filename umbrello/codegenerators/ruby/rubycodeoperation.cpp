@@ -56,7 +56,7 @@ void RubyCodeOperation::updateMethodDeclaration()
     // Skip destructors, and operator methods which
     // can't be defined in ruby
     if (methodName.startsWith(QLatin1Char('~'))
-         || QRegularExpression(QStringLiteral("operator\\s*(=|--|\\+\\+|!=)$")).exactMatch(methodName))
+         || QRegularExpression(QStringLiteral("operator\\s*(=|--|\\+\\+|!=)$")).match(methodName).hasMatch())
     {
         getComment()->setText(QString());
         return;
@@ -114,7 +114,7 @@ void RubyCodeOperation::updateMethodDeclaration()
                 comment += (QLatin1Char(' ') + currentAtt->doc().replace(QRegularExpression(QStringLiteral("[\\n\\r]+[\\t ]*")), endLine + QStringLiteral("  ")));
             }
             // add a returns statement too
-            if (!returnType.isEmpty() && !QRegularExpression(QStringLiteral("^void\\s*$")).exactMatch(returnType))
+            if (!returnType.isEmpty() && !QRegularExpression(QStringLiteral("^void\\s*$")).match(returnType).hasMatch())
                 comment += endLine + QStringLiteral("* _returns_ ") + returnType + QLatin1Char(' ');
             getComment()->setText(comment);
         }
@@ -125,14 +125,16 @@ void RubyCodeOperation::updateMethodDeclaration()
         comment.replace(QStringLiteral(" m_"), QStringLiteral(" "));
         comment.replace(QRegularExpression(QStringLiteral("\\s[npb](?=[A-Z])")), QStringLiteral(" "));
         QRegularExpression re_params(QStringLiteral("@param (\\w)(\\w*)"));
-        int pos = re_params.indexIn(comment);
+        QRegularExpressionMatch re_mat = re_params.match(comment);
+        int pos = comment.indexOf(re_params);
         while (pos != -1) {
-            comment.replace(re_params.cap(0),
-                            QString(QStringLiteral("@param _")) + re_params.cap(1).toLower() + re_params.cap(2) + QLatin1Char('_'));
-            commentedParams.append(re_params.cap(1).toLower() + re_params.cap(2));
 
-            pos += re_params.matchedLength() + 3;
-            pos = re_params.indexIn(comment, pos);
+            comment.replace(re_mat.captured(0),
+                            QString(QStringLiteral("@param _")) + re_mat.captured(1).toLower() + re_mat.captured(2) + QLatin1Char('_'));
+            commentedParams.append(re_mat.captured(1).toLower() + re_mat.captured(2));
+
+            pos += re_mat.capturedLength() + 3;
+            pos = comment.indexOf(re_params, pos);
         }
 
         UMLAttributeList parameters = o->getParmList();
@@ -175,7 +177,7 @@ void RubyCodeOperation::updateMethodDeclaration()
 
         QString typeStr = RubyCodeGenerator::cppToRubyType(o->getTypeName());
         if (!typeStr.isEmpty()
-                && !QRegularExpression(QStringLiteral("^void\\s*$")).exactMatch(typeStr)
+                && !QRegularExpression(QStringLiteral("^void\\s*$")).match(typeStr).hasMatch()
                 && comment.contains(QStringLiteral("_returns_")) == 0)
         {
             comment += endLine + QStringLiteral("* _returns_ ") + typeStr;
@@ -199,7 +201,7 @@ int RubyCodeOperation::lastEditableLine()
     ClassifierCodeDocument * doc = dynamic_cast<ClassifierCodeDocument*>(getParentDocument());
 
     // Check for dynamic casting failure
-    if (doc == 0)
+    if (doc == nullptr)
     {
         logError0("RubyCodeOperation::lastEditableLine doc: invalid dynamic cast");
         return -1;
