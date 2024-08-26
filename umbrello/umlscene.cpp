@@ -134,25 +134,25 @@ public:
         UMLWidgetList ports;
         UMLWidgetList components;
 
-        for(UMLWidget  *w : p->widgetList()) {
+        for(UMLWidget *w : p->widgetList()) {
             if (w->isPortWidget())
                 ports.append(w);
             else if (w->isComponentWidget())
                 components.append(w);
         }
 
-        for(UMLWidget  *cw : components) {
+        for(UMLWidget *cw : components) {
             const UMLComponent *c = cw->umlObject()->asUMLComponent();
             if (!c)
                 continue;
             // iterate through related ports for this component widget
-            for(UMLObject  *o : c->containedObjects()) {
+            for(UMLObject *o : c->containedObjects()) {
                 UMLPort *up = o->asUMLPort();
                 if (!up)
                     continue;
                 Uml::ID::Type id = o->id();
                 bool found = false;
-                for(UMLWidget  *p : ports) {
+                for(UMLWidget *p : ports) {
                     if (p->id() == id) {
                         found = true;
                         break;
@@ -170,7 +170,7 @@ public:
      */
     void fixPortPositions()
     {
-        for(UMLWidget  *w : p->widgetList()) {
+        for(UMLWidget *w : p->widgetList()) {
             if (w->isPortWidget()) {
                 QGraphicsItem *g = w->parentItem();
                 ComponentWidget *c = dynamic_cast<ComponentWidget*>(g);
@@ -206,7 +206,7 @@ public:
         logDebug2("UMLScenePrivate::removeDuplicatedFloatingTextInstances checking diagram %1 id %2",
                   pName, Uml::ID::toString(p->ID()));
 
-        for(UMLWidget  *w : p->widgetList()) {
+        for(UMLWidget *w : p->widgetList()) {
             if (!w->isTextWidget())
                 continue;
             if (w->parentItem())
@@ -214,8 +214,8 @@ public:
             else
                 labelsWithoutParents.append(w);
         }
-        for(UMLWidget  *w : labelsWithoutParents) {
-            for(UMLWidget  *wp : labelsWithParent) {
+        for(UMLWidget *w : labelsWithoutParents) {
+           for(UMLWidget *wp : labelsWithParent) {
                 if (w->id() == wp->id() &&
                         w->localID() == wp->localID() &&
                         w->name() == wp->name()) {
@@ -403,7 +403,7 @@ QString UMLScene::autoIncrementSequenceValue()
 {
     int sequenceNumber = 0;
     if (isSequenceDiagram()) {
-        for(MessageWidget *message : messageList()) {
+        for(MessageWidget* message : messageList()) {
             bool ok;
             int value = message->sequenceNumber().toInt(&ok);
             if (ok && value > sequenceNumber)
@@ -411,7 +411,7 @@ QString UMLScene::autoIncrementSequenceValue()
         }
     }
     else if (isCollaborationDiagram()) {
-        for(AssociationWidget *assoc : associationList()) {
+        for(AssociationWidget* assoc : associationList()) {
             bool ok;
             int value = assoc->sequenceNumber().toInt(&ok);
             if (ok && value > sequenceNumber)
@@ -606,7 +606,7 @@ void UMLScene::setOptionState(const Settings::OptionState& options)
 AssociationWidgetList UMLScene::associationList() const
 {
     AssociationWidgetList result;
-    for(QGraphicsItem  *item : items()) {
+    for(QGraphicsItem *item : items()) {
         AssociationWidget *w = dynamic_cast<AssociationWidget*>(item);
         if (w)
             result.append(w);
@@ -620,7 +620,7 @@ AssociationWidgetList UMLScene::associationList() const
 UMLWidgetList UMLScene::widgetList() const
 {
     UMLWidgetList result;
-    for(QGraphicsItem  *item : items()) {
+    for(QGraphicsItem *item : items()) {
         UMLWidget *w = dynamic_cast<UMLWidget*>(item);
         if (w && !w->isMessageWidget() && !w->isAssociationWidget())
             result.append(w);
@@ -648,7 +648,7 @@ void UMLScene::addWidgetCmd(AssociationWidget* widget)
 MessageWidgetList UMLScene::messageList() const
 {
     MessageWidgetList result;
-    for(QGraphicsItem  *item : items()) {
+    for(QGraphicsItem *item : items()) {
         MessageWidget *w = dynamic_cast<MessageWidget*>(item);
         if (w)
             result.append(w);
@@ -860,7 +860,7 @@ void UMLScene::slotObjectRemoved(UMLObject * o)
     m_bPaste = false;
     Uml::ID::Type id = o->id();
 
-    for(UMLWidget *obj : widgetList()) {
+    for(UMLWidget* obj : widgetList()) {
         if (obj->id() != id)
             continue;
         removeWidget(obj);
@@ -1099,7 +1099,7 @@ UMLWidget* UMLScene::getFirstMultiSelectedWidget() const
  */
 UMLWidget* UMLScene::widgetAt(const QPointF& p)
 {
-    for(QGraphicsItem  *item : items(p)) {
+    for(QGraphicsItem *item : items(p)) {
         UMLWidget *w = dynamic_cast<UMLWidget*>(item);
         if (w)
             return w;
@@ -1130,7 +1130,7 @@ AssociationWidget* UMLScene::associationAt(const QPointF& p)
  */
 MessageWidget* UMLScene::messageAt(const QPointF& p)
 {
-    for(MessageWidget  *message : messageList()) {
+    for(MessageWidget *message : messageList()) {
         if (message->onWidget(p)) {
             return message;
         }
@@ -1148,7 +1148,7 @@ void UMLScene::checkMessages(ObjectWidget * w)
         return;
     }
 
-    for(MessageWidget  *obj : messageList()) {
+    for(MessageWidget *obj : messageList()) {
         if (obj->hasObjectWidget(w)) {
             removeWidgetCmd(obj);
         }
@@ -1164,7 +1164,7 @@ void UMLScene::checkMessages(ObjectWidget * w)
  */
 UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
 {
-    for(UMLWidget  *obj : widgetList()) {
+    for(UMLWidget *obj : widgetList()) {
         if (!obj)
             continue;
         UMLWidget* w = obj->widgetWithID(id);
@@ -1172,7 +1172,7 @@ UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
             return w;
     }
 
-    for(UMLWidget  *obj : messageList()) {
+    for(UMLWidget *obj : messageList()) {
         // CHECK: Should MessageWidget reimplement widgetWithID() ?
         //       If yes then we should use obj->widgetWithID(id) here too.
         if (id == obj->id())
@@ -1191,7 +1191,7 @@ UMLWidget* UMLScene::widgetOnDiagram(Uml::ID::Type id)
  */
 UMLWidget* UMLScene::widgetOnDiagram(WidgetBase::WidgetType type)
 {
-    for(UMLWidget  *widget : widgetList()) {
+    for(UMLWidget *widget : widgetList()) {
         if (!widget)
             continue;
         if (widget->baseType() == type)
@@ -1434,7 +1434,7 @@ UMLWidgetList UMLScene::selectedWidgets() const
     QList<QGraphicsItem *> items = selectedItems();
 
     UMLWidgetList widgets;
-    for(QGraphicsItem  *item : items) {
+    for(QGraphicsItem *item : items) {
         UMLWidget *w = dynamic_cast<UMLWidget*>(item);
         if (w)
             widgets.append(w);
@@ -1451,7 +1451,7 @@ AssociationWidgetList UMLScene::selectedAssociationWidgets() const
     QList<QGraphicsItem *> items = selectedItems();
 
     AssociationWidgetList widgets;
-    for(QGraphicsItem  *item : items) {
+    for(QGraphicsItem *item : items) {
         AssociationWidget *w = dynamic_cast<AssociationWidget*>(item);
         if (w)
             widgets.append(w);
@@ -1468,7 +1468,7 @@ UMLWidgetList UMLScene::selectedMessageWidgets() const
     QList<QGraphicsItem *> items = selectedItems();
 
     UMLWidgetList widgets;
-    for(QGraphicsItem  *item : items) {
+    for(QGraphicsItem *item : items) {
         MessageWidget *w = dynamic_cast<MessageWidget*>(item);
         if (w) {
             widgets.append(w);
@@ -1487,7 +1487,7 @@ UMLWidgetList UMLScene::selectedMessageWidgets() const
 void UMLScene::clearSelected()
 {
     QList<QGraphicsItem *> items = selectedItems();
-    for(QGraphicsItem  *item : items) {
+    for(QGraphicsItem *item : items) {
         WidgetBase *wb = dynamic_cast<WidgetBase*>(item);
         if (wb) {
             wb->setSelected(false);
@@ -1507,7 +1507,7 @@ void UMLScene::clearSelected()
 void UMLScene::moveSelectedBy(qreal dX, qreal dY)
 {
     // logDebug1("UMLScene::moveSelectedBy: m_selectedList count=%1", m_selectedList.count());
-    for(UMLWidget  *w : selectedWidgets()) {
+    for(UMLWidget *w : selectedWidgets()) {
         w->moveByLocal(dX, dY);
     }
 }
@@ -1553,11 +1553,11 @@ void UMLScene::selectionSetLineColor(const QColor &color)
 {
     UMLApp::app()->beginMacro(i18n("Change line color"));
 
-    for(UMLWidget  *temp : selectedWidgets()) {
+    for(UMLWidget *temp : selectedWidgets()) {
         temp->setLineColor(color);
     }
     AssociationWidgetList assoclist = selectedAssocs();
-    for(AssociationWidget  *aw : assoclist) {
+    for(AssociationWidget *aw : assoclist) {
         aw->setLineColor(color);
     }
 
@@ -1576,7 +1576,7 @@ void UMLScene::selectionSetLineWidth(uint width)
         temp->setUsesDiagramLineWidth(false);
     }
     AssociationWidgetList assoclist = selectedAssocs();
-    for(AssociationWidget  *aw : assoclist) {
+    for(AssociationWidget *aw : assoclist) {
         aw->setLineWidth(width);
         aw->setUsesDiagramLineWidth(false);
     }
@@ -1606,7 +1606,7 @@ void UMLScene::selectionSetVisualProperty(ClassifierWidget::VisualProperty prope
 {
     UMLApp::app()->beginMacro(i18n("Change visual property"));
 
-    for(UMLWidget  *temp : selectedWidgets()) {
+    for(UMLWidget *temp : selectedWidgets()) {
         ClassifierWidget *cw = temp->asClassifierWidget();
         cw->setVisualProperty(property, value);
     }
@@ -1706,7 +1706,7 @@ void UMLScene::resizeSelection()
 
     if (selectedCount() == 0)
         return;
-    for(UMLWidget  *w : selectedWidgets()) {
+    for(UMLWidget *w : selectedWidgets()) {
         w->resize();
     }
     m_doc->setModified();
@@ -1840,7 +1840,7 @@ void UMLScene::selectWidgets(qreal px, qreal py, qreal qx, qreal qy)
     selectAssociations(true);
 
     // Automatically select all messages if two object widgets are selected
-    for(MessageWidget  *w : messageList()) {
+    for(MessageWidget *w : messageList()) {
         if (w->objectWidget(Uml::RoleType::A) &&
             w->objectWidget(Uml::RoleType::B) &&
             w->objectWidget(Uml::RoleType::A)->isSelected() &&
@@ -2410,7 +2410,7 @@ void UMLScene::updateContainment(UMLCanvasObject *self)
         return;
     // See if the object has a widget representation in this view.
     // While we're at it, also see if the new parent has a widget here.
-    UMLWidget   *selfWidget = nullptr, *newParentWidget = nullptr;
+    UMLWidget *selfWidget = nullptr, *newParentWidget = nullptr;
     UMLPackage *newParent = self->umlPackage();
     for(UMLWidget *w : widgetList()) {
         UMLObject *o = w->umlObject();
@@ -2502,7 +2502,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
 
     Uml::ID::Type myID = umlObj->id();
     for(UMLAssociation *assoc : umlAssocs) {
-        UMLCanvasObject  *other = nullptr;
+        UMLCanvasObject *other = nullptr;
         UMLObject *roleAObj = assoc->getObject(Uml::RoleType::A);
         if (roleAObj == nullptr) {
             logDebug1("UMLScene::createAutoAssociations: roleA object is NULL at UMLAssoc %1",
@@ -2598,7 +2598,7 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
             uIgnoreZeroPointer(obj);
             // if the containedObject has a widget representation on this view then
             Uml::ID::Type id = obj->id();
-            for(UMLWidget  *w : widgetList()) {
+            for(UMLWidget *w : widgetList()) {
                 uIgnoreZeroPointer(w);
                 if (w->id() != id)
                     continue;
@@ -2949,7 +2949,7 @@ void UMLScene::copyAsImage(QPixmap*& pix)
     //get each type of associations
     //This needs to be reimplemented to increase the rectangle
     //if a part of any association is not included
-    for(AssociationWidget  *a : associationList()) {
+    for(AssociationWidget *a : associationList()) {
         if (! a->isSelected())
             continue;
         const FloatingTextWidget* multiA = a->multiplicityWidget(Uml::RoleType::A);
@@ -3745,7 +3745,7 @@ void UMLScene::fileLoaded()
 void UMLScene::updateComponentSizes()
 {
     // update sizes of all components
-    for(UMLWidget  *obj : widgetList()) {
+    for(UMLWidget *obj : widgetList()) {
         uIgnoreZeroPointer(obj);
         obj->updateGeometry();
     }
@@ -3762,7 +3762,7 @@ void UMLScene::updateComponentSizes()
  */
 void UMLScene::forceUpdateWidgetFontMetrics(QPainter * painter)
 {
-    for(UMLWidget  *obj : widgetList()) {
+    for(UMLWidget *obj : widgetList()) {
         uIgnoreZeroPointer(obj);
         obj->forceUpdateFontMetrics(painter);
     }
@@ -3837,7 +3837,7 @@ void UMLScene::saveToXMI(QXmlStreamWriter& writer)
 
     //now save all the widgets
     writer.writeStartElement(QStringLiteral("widgets"));
-    for(UMLWidget  *widget : widgetList()) {
+    for(UMLWidget *widget : widgetList()) {
         uIgnoreZeroPointer(widget);
         // do not save floating text widgets having a parent widget; they are saved as part of the parent
         if (widget->isTextWidget() && widget->parentItem())
@@ -3855,7 +3855,7 @@ void UMLScene::saveToXMI(QXmlStreamWriter& writer)
     writer.writeEndElement();            // widgets
     //now save the message widgets
     writer.writeStartElement(QStringLiteral("messages"));
-    for(UMLWidget *widget : messageList()) {
+    for(UMLWidget* widget : messageList()) {
         widget->saveToXMI(writer);
     }
     writer.writeEndElement();            // messages
@@ -3873,7 +3873,7 @@ void UMLScene::saveToXMI(QXmlStreamWriter& writer)
         //  ^  UMLApp::newDocument()
         //  ^  main()
         //
-        AssociationWidget  *assoc = nullptr;
+        AssociationWidget * assoc = nullptr;
         for(AssociationWidget  *assoc: associationList()) {
             assoc->saveToXMI(writer);
         }
@@ -4408,7 +4408,7 @@ void UMLScene::alignLeft()
 
     qreal smallestX = WidgetList_Utils::getSmallestX(widgetList);
 
-    for(UMLWidget  *widget : widgetList) {
+    for(UMLWidget *widget : widgetList) {
         widget->setX(smallestX);
         widget->adjustAssocs(widget->x(), widget->y());
     }
@@ -4425,7 +4425,7 @@ void UMLScene::alignRight()
         return;
     qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
 
-    for(UMLWidget  *widget : widgetList) {
+    for(UMLWidget *widget : widgetList) {
         widget->setX(biggestX - widget->width());
         widget->adjustAssocs(widget->x(), widget->y());
     }
@@ -4443,7 +4443,7 @@ void UMLScene::alignTop()
 
     qreal smallestY = WidgetList_Utils::getSmallestY(widgetList);
 
-    for(UMLWidget  *widget : widgetList) {
+    for(UMLWidget *widget : widgetList) {
         widget->setY(smallestY);
         widget->adjustAssocs(widget->x(), widget->y());
     }
@@ -4460,7 +4460,7 @@ void UMLScene::alignBottom()
         return;
     qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
 
-    for(UMLWidget  *widget : widgetList) {
+    for(UMLWidget *widget : widgetList) {
         widget->setY(biggestY - widget->height());
         widget->adjustAssocs(widget->x(), widget->y());
     }
@@ -4480,7 +4480,7 @@ void UMLScene::alignVerticalMiddle()
     qreal biggestY = WidgetList_Utils::getBiggestY(widgetList);
     qreal middle = int((biggestY - smallestY) / 2) + smallestY;
 
-    for(UMLWidget  *widget : widgetList) {
+    for(UMLWidget *widget : widgetList) {
         widget->setY(middle - widget->height() / 2);
         widget->adjustAssocs(widget->x(), widget->y());
     }
@@ -4508,14 +4508,14 @@ void UMLScene::alignHorizontalMiddle()
     qreal biggestX = WidgetList_Utils::getBiggestX(widgetList);
     qreal middle = int((biggestX - smallestX) / 2) + smallestX;
 
-    for(UMLWidget  *widget : widgetList) {
+    for(UMLWidget *widget : widgetList) {
         widget->setX(middle - widget->width() / 2);
         widget->adjustAssocs(widget->x(), widget->y());
     }
 
     AssociationWidgetList assocList = selectedAssocs();
     if (!assocList.isEmpty()) {
-        for(AssociationWidget  *widget : assocList) {
+        for(AssociationWidget *widget : assocList) {
             widget->setXEntireAssoc(middle);
         }
     }
@@ -4541,7 +4541,7 @@ void UMLScene::alignVerticalDistribute()
 
     int i = 1;
     UMLWidget *widgetPrev = nullptr;
-    for(UMLWidget  *widget : widgetList) {
+    for(UMLWidget *widget : widgetList) {
         if (i == 1) {
             widgetPrev = widget;
         } else {
@@ -4572,7 +4572,7 @@ void UMLScene::alignHorizontalDistribute()
 
     int i = 1;
     UMLWidget *widgetPrev = nullptr;
-    for(UMLWidget  *widget :  widgetList) {
+    for(UMLWidget *widget :  widgetList) {
         if (i == 1) {
             widgetPrev = widget;
         } else {

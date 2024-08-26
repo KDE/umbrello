@@ -72,7 +72,7 @@ void UMLStereotypeWidget::insertItems(UMLStereotype *type)
     UMLDoc *umldoc = UMLApp::app()->document();
     QMap<QString, UMLStereotype*> types;
 
-    for(UMLStereotype *ust : umldoc->stereotypes()) {
+    for(UMLStereotype* ust : umldoc->stereotypes()) {
         types[ust->name()] = ust;
     }
     // add the given parameter

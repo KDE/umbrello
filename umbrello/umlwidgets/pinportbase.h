@@ -56,7 +56,7 @@ public Q_SLOTS:
     virtual void slotMenuSelection(QAction* action);
 
 protected:
-    void init(UMLWidget  *owner = nullptr);
+    void init(UMLWidget *owner = nullptr);
     bool activate(IDChangeLog *changeLog = nullptr);
 
 private:

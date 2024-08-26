@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-28 02:07+0000\n"
+"POT-Creation-Date: 2024-08-26 02:00+0000\n"
 "PO-Revision-Date: 2023-01-02 08:51+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -31,173 +31,173 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "ivanpetrouchtchak@yahoo.com,yurchor@ukr.net"
 
-#: basictypes.cpp:190
+#: basictypes.cpp:189
 #, kde-format
 msgid "Class Diagram"
 msgstr "Діаграма класу"
 
-#: basictypes.cpp:192
+#: basictypes.cpp:191
 #, kde-format
 msgid "Use Case Diagram"
 msgstr "Діаграма випадків використання"
 
-#: basictypes.cpp:194
+#: basictypes.cpp:193
 #, kde-format
 msgid "Sequence Diagram"
 msgstr "Діаграма послідовностей"
 
-#: basictypes.cpp:196
+#: basictypes.cpp:195
 #, kde-format
 msgid "Collaboration Diagram"
 msgstr "Діаграма співпраці"
 
-#: basictypes.cpp:198
+#: basictypes.cpp:197
 #, kde-format
 msgid "State Diagram"
 msgstr "Діаграма станів"
 
-#: basictypes.cpp:200
+#: basictypes.cpp:199
 #, kde-format
 msgid "Activity Diagram"
 msgstr "Діаграма діяльності"
 
-#: basictypes.cpp:202
+#: basictypes.cpp:201
 #, kde-format
 msgid "Component Diagram"
 msgstr "Діаграма компонентів"
 
-#: basictypes.cpp:204
+#: basictypes.cpp:203
 #, kde-format
 msgid "Deployment Diagram"
 msgstr "Діаграма впровадження"
 
-#: basictypes.cpp:206
+#: basictypes.cpp:205
 #, kde-format
 msgid "Entity Relationship Diagram"
 msgstr "Діаграма взаємозв'язків сутностей"
 
-#: basictypes.cpp:208
+#: basictypes.cpp:207
 #, kde-format
 msgid "Object Diagram"
 msgstr "Діаграма об'єктів"
 
-#: basictypes.cpp:210
+#: basictypes.cpp:209
 #, kde-format
 msgid "No Diagram"
 msgstr "Немає діаграми"
 
-#: basictypes.cpp:326 worktoolbar.cpp:340
+#: basictypes.cpp:325 worktoolbar.cpp:343
 #, kde-format
 msgid "Generalization"
 msgstr "Узагальнення"
 
-#: basictypes.cpp:328 worktoolbar.cpp:337
+#: basictypes.cpp:327 worktoolbar.cpp:340
 #, kde-format
 msgid "Aggregation"
 msgstr "Агрегація"
 
-#: basictypes.cpp:330 worktoolbar.cpp:336
+#: basictypes.cpp:329 worktoolbar.cpp:339
 #, kde-format
 msgid "Dependency"
 msgstr "Залежність"
 
-#: basictypes.cpp:332 umlwidgets/widgetbase.cpp:1239 worktoolbar.cpp:329
+#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1239 worktoolbar.cpp:332
 #, kde-format
 msgid "Association"
 msgstr "Асоціація"
 
-#: basictypes.cpp:334
+#: basictypes.cpp:333
 #, kde-format
 msgid "Self Association"
 msgstr "Самоасоціація"
 
-#: basictypes.cpp:336
+#: basictypes.cpp:335
 #, kde-format
 msgid "Collaboration Asynchronous Message"
 msgstr "Асинхронне повідомлення співпраці"
 
-#: basictypes.cpp:338
+#: basictypes.cpp:337
 #, kde-format
 msgid "Collaboration Synchronous Message"
 msgstr "Синхронне повідомлення співпраці"
 
-#: basictypes.cpp:340
+#: basictypes.cpp:339
 #, kde-format
 msgid "Sequence Message"
 msgstr "Повідомлення послідовності"
 
-#: basictypes.cpp:342
+#: basictypes.cpp:341
 #, kde-format
 msgid "Collaboration Self Message"
 msgstr "Самоповідомлення співпраці"
 
-#: basictypes.cpp:344
+#: basictypes.cpp:343
 #, kde-format
 msgid "Sequence Self Message"
 msgstr "Самоповідомлення послідовності"
 
-#: basictypes.cpp:346 worktoolbar.cpp:330
+#: basictypes.cpp:345 worktoolbar.cpp:333
 #, kde-format
 msgid "Containment"
 msgstr "Включення"
 
-#: basictypes.cpp:348 worktoolbar.cpp:341
+#: basictypes.cpp:347 worktoolbar.cpp:344
 #, kde-format
 msgid "Composition"
 msgstr "Композиція"
 
-#: basictypes.cpp:350
+#: basictypes.cpp:349
 #, kde-format
 msgid "Realization"
 msgstr "Реалізація"
 
-#: basictypes.cpp:352
+#: basictypes.cpp:351
 #, kde-format
 msgid "Uni Association"
 msgstr "Однобічна асоціація"
 
-#: basictypes.cpp:354 worktoolbar.cpp:331
+#: basictypes.cpp:353 worktoolbar.cpp:334
 #, kde-format
 msgid "Anchor"
 msgstr "Якір"
 
-#: basictypes.cpp:356 menus/listpopupmenu.cpp:262 worktoolbar.cpp:372
+#: basictypes.cpp:355 menus/listpopupmenu.cpp:260 worktoolbar.cpp:375
 #, kde-format
 msgid "State Transition"
 msgstr "Перехід стану"
 
-#: basictypes.cpp:358 dialogs/activitydialog.cpp:139
-#: umlwidgets/widgetbase.cpp:1230 worktoolbar.cpp:374
+#: basictypes.cpp:357 dialogs/activitydialog.cpp:139
+#: umlwidgets/widgetbase.cpp:1230 worktoolbar.cpp:377
 #, kde-format
 msgid "Activity"
 msgstr "Діяльність"
 
-#: basictypes.cpp:360 menus/listpopupmenu.cpp:186 worktoolbar.cpp:383
+#: basictypes.cpp:359 menus/listpopupmenu.cpp:184 worktoolbar.cpp:386
 #, kde-format
 msgid "Exception"
 msgstr "Виключення"
 
-#: basictypes.cpp:362 worktoolbar.cpp:387
+#: basictypes.cpp:361 worktoolbar.cpp:390
 #, kde-format
 msgid "Category to Parent"
 msgstr "Категорія щодо предка"
 
-#: basictypes.cpp:364 worktoolbar.cpp:388
+#: basictypes.cpp:363 worktoolbar.cpp:391
 #, kde-format
 msgid "Child to Category"
 msgstr "Нащадок щодо категорії"
 
-#: basictypes.cpp:366 worktoolbar.cpp:338
+#: basictypes.cpp:365 worktoolbar.cpp:341
 #, kde-format
 msgid "Relationship"
 msgstr "Взаємозв'язок"
 
-#: basictypes.cpp:368
+#: basictypes.cpp:367
 #, kde-format
 msgid "Unknown"
 msgstr "Невідомо"
 
-#: basictypes.cpp:370
+#: basictypes.cpp:369
 #, kde-format
 msgid "? AssociationType ?"
 msgstr "? ТипАсоціації ?"
@@ -212,7 +212,7 @@ msgstr ""
 "оскільки вже існує елемент з такою ж назвою. Всі інші елементи було "
 "вставлено."
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1628
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1627
 #, kde-format
 msgid "Paste Error"
 msgstr "Помилка вставлення"
@@ -242,7 +242,7 @@ msgstr "Встановити стереотип: з %1 до %2"
 msgid "Change visibility : %1"
 msgstr "Змінити видимість: %1"
 
-#: cmds/generic/cmdcreateumlobject.cpp:28 object_factory.cpp:179
+#: cmds/generic/cmdcreateumlobject.cpp:28 object_factory.cpp:178
 #, kde-format
 msgid "Create UML object : %1"
 msgstr "Створення об'єкта UML: %1"
@@ -368,58 +368,58 @@ msgstr ""
 msgid "Cannot Create Folder"
 msgstr "Не вдається створити теку"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:33
+#: codegenerators/cpp/cppcodegenerationform.cpp:32
 #, kde-format
 msgid "Package is a namespace"
 msgstr "Пакунок є простором назв"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:37
+#: codegenerators/cpp/cppcodegenerationform.cpp:36
 #, kde-format
 msgid "Virtual destructors"
 msgstr "Віртуальні деструктори"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:41
+#: codegenerators/cpp/cppcodegenerationform.cpp:40
 #, kde-format
 msgid "Generate empty constructors"
 msgstr "Створювати порожні конструктори"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:45
+#: codegenerators/cpp/cppcodegenerationform.cpp:44
 #, kde-format
 msgid "Generate accessor methods"
 msgstr "Створювати методи доступу"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:49
+#: codegenerators/cpp/cppcodegenerationform.cpp:48
 #, kde-format
 msgid "Operations are inline"
 msgstr "Вбудовані дії"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:53
+#: codegenerators/cpp/cppcodegenerationform.cpp:52
 #, kde-format
 msgid "Accessors are inline"
 msgstr "Вбудовані методи доступу"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:57
+#: codegenerators/cpp/cppcodegenerationform.cpp:56
 #, kde-format
 msgid "Accessors are public"
 msgstr "Публічні методи доступу"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:61
+#: codegenerators/cpp/cppcodegenerationform.cpp:60
 #, kde-format
 msgid "Create getters with 'get' prefix"
 msgstr "Створити методи читання із префіксом «get»"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:65
+#: codegenerators/cpp/cppcodegenerationform.cpp:64
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor method names"
 msgstr "Вилучати префікс «[a-zA-Z]_» із назв методів доступу"
 
 #. i18n: ectx: label, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
-#: codegenerators/cpp/cppcodegenerationform.cpp:69 umbrello.kcfg:543
+#: codegenerators/cpp/cppcodegenerationform.cpp:68 umbrello.kcfg:543
 #, kde-format
 msgid "Accessor methods start with capital letters"
 msgstr "Назви методів доступу починаються із великих літер"
 
-#: codegenerators/cpp/cppcodegenerationform.cpp:73
+#: codegenerators/cpp/cppcodegenerationform.cpp:72
 #, kde-format
 msgid "Use '\\' as documentation tag instead of '@'"
 msgstr "Використовувати мітку документації «\\» замість «@»"
@@ -432,8 +432,8 @@ msgstr "<p align=\"center\">Створення коду C++</p>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
-#: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:131
-#: umllistview.cpp:1446
+#: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:132
+#: umllistview.cpp:1448
 #, kde-format
 msgid "General"
 msgstr "Загальне"
@@ -719,7 +719,7 @@ msgstr "Документація"
 msgid "Style:"
 msgstr "Стиль:"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, ui_selectCommentStyle)
+#. i18n: ectx: property (text), item, widget (QComboBox, ui_selectCommentStyle)
 #. i18n: ectx: property (text), item, widget (KComboBox, m_SelectCommentStyle)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:569
 #: codegenerators/d/dcodegenerationformbase.ui:290
@@ -728,7 +728,7 @@ msgstr "Стиль:"
 msgid "Slash-Slash (//)"
 msgstr "Подвійна похила риска (//)"
 
-#. i18n: ectx: property (text), item, widget (KComboBox, ui_selectCommentStyle)
+#. i18n: ectx: property (text), item, widget (QComboBox, ui_selectCommentStyle)
 #. i18n: ectx: property (text), item, widget (KComboBox, m_SelectCommentStyle)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:574
 #: codegenerators/d/dcodegenerationformbase.ui:295
@@ -1332,7 +1332,7 @@ msgstr "Стан"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1441 umlwidgets/widgetbase.cpp:1254
+#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1254
 #, kde-format
 msgid "Class"
 msgstr "Клас"
@@ -1590,7 +1590,7 @@ msgstr "Назва класу"
 #: dialogs/pages/associationgeneralpage.cpp:78
 #: dialogs/parameterpropertiesdialog.cpp:61 dialogs/statedialog.cpp:44
 #: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:38
-#: menus/listpopupmenu.cpp:243 refactoring/refactoringassistant.cpp:459
+#: menus/listpopupmenu.cpp:241 refactoring/refactoringassistant.cpp:459
 #, kde-format
 msgid "Properties"
 msgstr "Властивості"
@@ -1611,8 +1611,8 @@ msgid "Final activity"
 msgstr "Остаточна діяльність"
 
 #. i18n("Attribute...")); break;
-#: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:155
-#: worktoolbar.cpp:347
+#: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:153
+#: worktoolbar.cpp:350
 #, kde-format
 msgid "Branch/Merge"
 msgstr "Гілка/об'єднати"
@@ -1628,7 +1628,7 @@ msgid "Parameter activity"
 msgstr "Параметр діяльності"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: dialogs/activitydialog.cpp:146 dialogs/objectnodedialog.cpp:131
+#: dialogs/activitydialog.cpp:146 dialogs/objectnodedialog.cpp:132
 #: dialogs/statedialog.cpp:120 dialogs/umlattributedialog.cpp:67
 #: dialogs/umlentityattributedialog.cpp:62 dialogs/umlenumliteraldialog.cpp:51
 #: dialogs/umlinstanceattributedialog.ui:17 dialogs/umloperationdialog.cpp:86
@@ -1692,7 +1692,7 @@ msgstr "Загальні"
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
 #: dialogs/multipagedialogbase.cpp:299 dialogs/multipagedialogbase.cpp:313
 #: dialogs/multipagedialogbase.cpp:323 dialogs/settingsdialog.cpp:107
-#: dialogs/umlforeignkeyconstraintdialog.cpp:204 dialogs/umlviewdialog.cpp:88
+#: dialogs/umlforeignkeyconstraintdialog.cpp:205 dialogs/umlviewdialog.cpp:88
 #, kde-format
 msgid "General Settings"
 msgstr "Загальні параметри"
@@ -1843,17 +1843,17 @@ msgstr "Операції класу"
 msgid "Add operations to the new class."
 msgstr "Додати дії до нового класу."
 
-#: dialogs/codeeditor.cpp:749 menus/widgetbasepopupmenu.cpp:118
+#: dialogs/codeeditor.cpp:750 menus/widgetbasepopupmenu.cpp:118
 #: menus/widgetbasepopupmenu.cpp:126 menus/widgetbasepopupmenu.cpp:133
 #: menus/widgetbasepopupmenu.cpp:140 menus/widgetbasepopupmenu.cpp:146
 #, kde-format
 msgid "Hide"
 msgstr "Сховати"
 
-#: dialogs/codeeditor.cpp:755 dialogs/pages/classoptionspage.cpp:144
+#: dialogs/codeeditor.cpp:756 dialogs/pages/classoptionspage.cpp:144
 #: dialogs/pages/classoptionspage.cpp:217
 #: dialogs/pages/classoptionspage.cpp:239
-#: dialogs/pages/classoptionspage.cpp:326 menus/listpopupmenu.cpp:257
+#: dialogs/pages/classoptionspage.cpp:326 menus/listpopupmenu.cpp:255
 #: menus/widgetbasepopupmenu.cpp:74 menus/widgetbasepopupmenu.cpp:112
 #: menus/widgetbasepopupmenu.cpp:117 menus/widgetbasepopupmenu.cpp:125
 #: menus/widgetbasepopupmenu.cpp:132 menus/widgetbasepopupmenu.cpp:139
@@ -1862,42 +1862,42 @@ msgstr "Сховати"
 msgid "Show"
 msgstr "Показати"
 
-#: dialogs/codeeditor.cpp:764
+#: dialogs/codeeditor.cpp:765
 #, kde-format
 msgid "Hide Comment"
 msgstr "Сховати коментар"
 
-#: dialogs/codeeditor.cpp:770
+#: dialogs/codeeditor.cpp:771
 #, kde-format
 msgid "Show Comment"
 msgstr "Показати коментар"
 
-#: dialogs/codeeditor.cpp:778
+#: dialogs/codeeditor.cpp:779
 #, kde-format
 msgid "Insert Code Block Before"
 msgstr "Вставити блок коду попереду"
 
-#: dialogs/codeeditor.cpp:783
+#: dialogs/codeeditor.cpp:784
 #, kde-format
 msgid "Insert Code Block After"
 msgstr "Вставити блок коду після"
 
-#: dialogs/codeeditor.cpp:790 menus/listpopupmenu.cpp:169
+#: dialogs/codeeditor.cpp:791 menus/listpopupmenu.cpp:167
 #, kde-format
 msgid "Copy"
 msgstr "Копіювати"
 
-#: dialogs/codeeditor.cpp:795 menus/listpopupmenu.cpp:237
+#: dialogs/codeeditor.cpp:796 menus/listpopupmenu.cpp:235
 #, kde-format
 msgid "Paste"
 msgstr "Вставити"
 
-#: dialogs/codeeditor.cpp:800 menus/listpopupmenu.cpp:170
+#: dialogs/codeeditor.cpp:801 menus/listpopupmenu.cpp:168
 #, kde-format
 msgid "Cut"
 msgstr "Вирізати"
 
-#: dialogs/codeviewerdialog.cpp:97
+#: dialogs/codeviewerdialog.cpp:95
 #, kde-format
 msgid "Code Viewer - %1"
 msgstr "Переглядач коду — %1"
@@ -2015,7 +2015,7 @@ msgid "Delete Diagram?"
 msgstr "Вилучити діаграму?"
 
 #: dialogs/dialog_utils.cpp:232 dialogs/pages/classifierlistpage.cpp:208
-#: dialogs/umlforeignkeyconstraintdialog.cpp:320
+#: dialogs/umlforeignkeyconstraintdialog.cpp:321
 #: dialogs/umloperationdialog.cpp:164 dialogs/umluniqueconstraintdialog.cpp:110
 #, kde-format
 msgid "&Delete"
@@ -2113,8 +2113,8 @@ msgid "&All diagrams"
 msgstr "&Всі діаграми"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:156
-#: umlwidgets/widgetbase.cpp:1245 worktoolbar.cpp:386
+#: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:154
+#: umlwidgets/widgetbase.cpp:1245 worktoolbar.cpp:389
 #, kde-format
 msgid "Category"
 msgstr "Категорія"
@@ -2127,28 +2127,28 @@ msgstr "Усі"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100
-#: umlwidgets/widgetbase.cpp:1290 worktoolbar.cpp:352
+#: umlwidgets/widgetbase.cpp:1290 worktoolbar.cpp:355
 #, kde-format
 msgid "Package"
 msgstr "Пакунок"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryInterface)
-#: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:206
-#: menus/listpopupmenu.cpp:207 umlwidgets/widgetbase.cpp:1272
-#: worktoolbar.cpp:356
+#: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:204
+#: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1272
+#: worktoolbar.cpp:359
 #, kde-format
 msgid "Interface"
 msgstr "Інтерфейс"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryOperation)
-#: dialogs/finddialog.ui:110 menus/listpopupmenu.cpp:234
+#: dialogs/finddialog.ui:110 menus/listpopupmenu.cpp:232
 #, kde-format
 msgid "Operation"
 msgstr "Дія"
 
 #. i18n("Artifact...")); break;
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAttribute)
-#: dialogs/finddialog.ui:117 menus/listpopupmenu.cpp:153
+#: dialogs/finddialog.ui:117 menus/listpopupmenu.cpp:151
 #, kde-format
 msgid "Attribute"
 msgstr "Атрибут"
@@ -2174,7 +2174,7 @@ msgstr "Загальні"
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
 #: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:292
-#: umllistview.cpp:1445
+#: umllistview.cpp:1447
 #, kde-format
 msgid "Font"
 msgstr "Шрифт"
@@ -2237,39 +2237,39 @@ msgstr "Сховище даних"
 msgid "ObjectFlow"
 msgstr "Потік об'єктів"
 
-#: dialogs/objectnodedialog.cpp:134
+#: dialogs/objectnodedialog.cpp:135
 #, kde-format
 msgctxt "properties group title"
 msgid "Properties"
 msgstr "Властивості"
 
-#: dialogs/objectnodedialog.cpp:149
+#: dialogs/objectnodedialog.cpp:150
 #, kde-format
 msgid "Object Node type:"
 msgstr "Тип вузла об'єкта:"
 
-#: dialogs/objectnodedialog.cpp:154
+#: dialogs/objectnodedialog.cpp:155
 #, kde-format
 msgid "Object Node name:"
 msgstr "Назва вузла об'єкта:"
 
-#: dialogs/objectnodedialog.cpp:158
+#: dialogs/objectnodedialog.cpp:159
 #, kde-format
 msgctxt "enter state label"
 msgid "State :"
 msgstr "Стан :"
 
-#: dialogs/objectnodedialog.cpp:163
+#: dialogs/objectnodedialog.cpp:164
 #, kde-format
 msgid "&Central Buffer"
 msgstr "&Центральний буфер"
 
-#: dialogs/objectnodedialog.cpp:166
+#: dialogs/objectnodedialog.cpp:167
 #, kde-format
 msgid "&Data Store "
 msgstr "Сховище &даних"
 
-#: dialogs/objectnodedialog.cpp:169
+#: dialogs/objectnodedialog.cpp:170
 #, kde-format
 msgid "&Object Flow"
 msgstr "Потік &об'єктів"
@@ -2279,7 +2279,7 @@ msgstr "Потік &об'єктів"
 msgid "Destination File Already Exists"
 msgstr "Файл цілі вже існує"
 
-#: dialogs/overwritedialog.cpp:28 umlviewimageexporter.cpp:109
+#: dialogs/overwritedialog.cpp:28 umlviewimageexporter.cpp:110
 #, kde-format
 msgid "&Overwrite"
 msgstr "&Перезаписати"
@@ -2342,7 +2342,7 @@ msgstr "Пересунути вибраний елемент на дно"
 msgid "New Activity..."
 msgstr "Нова діяльність…"
 
-#: dialogs/pages/activitypage.cpp:101 menus/listpopupmenu.cpp:173
+#: dialogs/pages/activitypage.cpp:101 menus/listpopupmenu.cpp:171
 #: refactoring/refactoringassistant.cpp:460
 #, kde-format
 msgid "Delete"
@@ -2391,52 +2391,52 @@ msgid "Role B Changeability"
 msgstr "Можливість зміни ролі B"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelRoleName)
-#: dialogs/pages/associationrolepage.cpp:109
-#: dialogs/pages/associationrolepage.cpp:158
+#: dialogs/pages/associationrolepage.cpp:108
+#: dialogs/pages/associationrolepage.cpp:157
 #: dialogs/pages/umlrolepropertiesbase.ui:36
 #, kde-format
 msgid "Rolename:"
 msgstr "Назва ролі:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelMultiplicity)
-#: dialogs/pages/associationrolepage.cpp:114
-#: dialogs/pages/associationrolepage.cpp:163
+#: dialogs/pages/associationrolepage.cpp:113
+#: dialogs/pages/associationrolepage.cpp:162
 #: dialogs/pages/umlrolepropertiesbase.ui:49
 #, kde-format
 msgid "Multiplicity:"
 msgstr "Численність:"
 
-#: dialogs/pages/associationrolepage.cpp:134
+#: dialogs/pages/associationrolepage.cpp:133
 #, kde-format
 msgctxt "changeability for A is changeable"
 msgid "Changeable"
 msgstr "Можна змінювати"
 
-#: dialogs/pages/associationrolepage.cpp:137
+#: dialogs/pages/associationrolepage.cpp:136
 #, kde-format
 msgctxt "changeability for A is frozen"
 msgid "Frozen"
 msgstr "Заморожено"
 
-#: dialogs/pages/associationrolepage.cpp:140
+#: dialogs/pages/associationrolepage.cpp:139
 #, kde-format
 msgctxt "changeability for A is add only"
 msgid "Add only"
 msgstr "Лише для додавання"
 
-#: dialogs/pages/associationrolepage.cpp:183
+#: dialogs/pages/associationrolepage.cpp:182
 #, kde-format
 msgctxt "changeability for B is changeable"
 msgid "Changeable"
 msgstr "Можна змінювати"
 
-#: dialogs/pages/associationrolepage.cpp:186
+#: dialogs/pages/associationrolepage.cpp:185
 #, kde-format
 msgctxt "changeability for B is frozen"
 msgid "Frozen"
 msgstr "Заморожено"
 
-#: dialogs/pages/associationrolepage.cpp:189
+#: dialogs/pages/associationrolepage.cpp:188
 #, kde-format
 msgctxt "changeability for B is add only"
 msgid "Add only"
@@ -2606,7 +2606,7 @@ msgid "N&ew Instance Attribute..."
 msgstr "Н&овий атрибут екземпляра…"
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
-#: uml.cpp:589
+#: uml.cpp:587
 #, kde-format
 msgid "&Properties"
 msgstr "&Властивості"
@@ -2624,7 +2624,7 @@ msgid "Source Code"
 msgstr "Джерельний код"
 
 #: dialogs/pages/classoptionspage.cpp:152
-#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:544
+#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:542
 #, kde-format
 msgid "&Documentation"
 msgstr "&Документація"
@@ -2757,22 +2757,22 @@ msgstr "Розв'язувати залежності (зменшує швидк�
 msgid "Enable C++11 standard (experimental)"
 msgstr "Увімкнути стандарт C++11 (експериментальна можливість)"
 
-#: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:269
+#: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:267
 #, kde-format
 msgid "Unique Constraint..."
 msgstr "Обмеження унікальності…"
 
-#: dialogs/pages/constraintlistpage.cpp:69 menus/listpopupmenu.cpp:242
+#: dialogs/pages/constraintlistpage.cpp:69 menus/listpopupmenu.cpp:240
 #, kde-format
 msgid "Primary Key Constraint..."
 msgstr "Обмеження головного ключа…"
 
-#: dialogs/pages/constraintlistpage.cpp:73 menus/listpopupmenu.cpp:195
+#: dialogs/pages/constraintlistpage.cpp:73 menus/listpopupmenu.cpp:193
 #, kde-format
 msgid "Foreign Key Constraint..."
 msgstr "Обмеження стороннього ключа…"
 
-#: dialogs/pages/constraintlistpage.cpp:77 menus/listpopupmenu.cpp:159
+#: dialogs/pages/constraintlistpage.cpp:77 menus/listpopupmenu.cpp:157
 #, kde-format
 msgid "Check Constraint..."
 msgstr "Обмеження перевірки…"
@@ -2813,8 +2813,8 @@ msgstr "Не вибрано діаграму."
 msgid "The name you have entered is invalid."
 msgstr "Ви ввели некоректну назву."
 
-#: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:256
-#: umldoc.cpp:1502 umldoc.cpp:1566 umldoc.cpp:1595 umldoc.cpp:1630
+#: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
+#: umldoc.cpp:1509 umldoc.cpp:1573 umldoc.cpp:1602 umldoc.cpp:1637
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:178
@@ -2827,7 +2827,7 @@ msgstr "Некоректна назва"
 msgid "The name you have entered is not unique."
 msgstr "Введено неунікальну назву."
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1634
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1641
 #, kde-format
 msgid "Name Not Unique"
 msgstr "Назва не є унікальною"
@@ -2998,17 +2998,17 @@ msgstr ""
 msgid "Startup"
 msgstr "Запуск"
 
-#: dialogs/pages/generaloptionpage.cpp:112
+#: dialogs/pages/generaloptionpage.cpp:111
 #, kde-format
 msgid "&Load last project"
 msgstr "&Завантажити останній проєкт"
 
-#: dialogs/pages/generaloptionpage.cpp:116
+#: dialogs/pages/generaloptionpage.cpp:115
 #, kde-format
 msgid "Start new project with:"
 msgstr "Починати новий проєкт з:"
 
-#: dialogs/pages/generaloptionpage.cpp:133
+#: dialogs/pages/generaloptionpage.cpp:132
 #, kde-format
 msgid "Default Language :"
 msgstr "Типова мова:"
@@ -3019,104 +3019,104 @@ msgid "Contained Items"
 msgstr "Вміщені елементи"
 
 #: dialogs/pages/selectoperationpage.cpp:58
-#: dialogs/selectoperationdialog.cpp:55 dialogs/selectoperationdialog.cpp:62
+#: dialogs/selectoperationdialog.cpp:58 dialogs/selectoperationdialog.cpp:65
 #, kde-format
 msgid "Select Operation"
 msgstr "Виберіть дію"
 
 #: dialogs/pages/selectoperationpage.cpp:64
-#: dialogs/selectoperationdialog.cpp:67
+#: dialogs/selectoperationdialog.cpp:70
 #, kde-format
 msgid "Sequence number:"
 msgstr "Порядковий номер:"
 
 #: dialogs/pages/selectoperationpage.cpp:67
-#: dialogs/selectoperationdialog.cpp:70
+#: dialogs/selectoperationdialog.cpp:73
 #, kde-format
 msgid "Auto increment:"
 msgstr "Автозбільшення:"
 
 #: dialogs/pages/selectoperationpage.cpp:72
-#: dialogs/selectoperationdialog.cpp:75
+#: dialogs/selectoperationdialog.cpp:78
 #, kde-format
 msgid "Class operation:"
 msgstr "Дія класу:"
 
 #: dialogs/pages/selectoperationpage.cpp:80
-#: dialogs/selectoperationdialog.cpp:83 menus/listpopupmenu.cpp:225
+#: dialogs/selectoperationdialog.cpp:86 menus/listpopupmenu.cpp:223
 #: menus/widgetbasepopupmenu.cpp:507
 #, kde-format
 msgid "New Operation..."
 msgstr "Нова дія…"
 
 #: dialogs/pages/selectoperationpage.cpp:84
-#: dialogs/selectoperationdialog.cpp:87
+#: dialogs/selectoperationdialog.cpp:90
 #, kde-format
 msgid "Custom operation:"
 msgstr "Нетипова дія:"
 
-#: dialogs/pages/uioptionspage.cpp:54
+#: dialogs/pages/uioptionspage.cpp:56
 #, kde-format
 msgctxt "General options"
 msgid "General"
 msgstr "Загальне"
 
 #. i18n: ectx: label, entry (rightToLeftUI), group (UI Options)
-#: dialogs/pages/uioptionspage.cpp:60 umbrello.kcfg:187
+#: dialogs/pages/uioptionspage.cpp:62 umbrello.kcfg:187
 #, kde-format
 msgid "Right to left user interface"
 msgstr "Інтерфейс користувача справа ліворуч"
 
-#: dialogs/pages/uioptionspage.cpp:64
+#: dialogs/pages/uioptionspage.cpp:66
 #, kde-format
 msgctxt "Association options"
 msgid "Associations"
 msgstr "Асоціації"
 
-#: dialogs/pages/uioptionspage.cpp:69
+#: dialogs/pages/uioptionspage.cpp:71
 #, kde-format
 msgid "Create new association lines as:"
 msgstr "Створювати лінії зв'язку як:"
 
-#: dialogs/pages/uioptionspage.cpp:72
+#: dialogs/pages/uioptionspage.cpp:74
 #, kde-format
 msgctxt "color group box"
 msgid "Color"
 msgstr "Колір"
 
-#: dialogs/pages/uioptionspage.cpp:80
+#: dialogs/pages/uioptionspage.cpp:82
 #, kde-format
 msgid "Custom text color"
 msgstr "Нетиповий колір тексту"
 
-#: dialogs/pages/uioptionspage.cpp:87
+#: dialogs/pages/uioptionspage.cpp:89
 #, kde-format
 msgid "Custom line color"
 msgstr "Нетиповий колір ліній"
 
 #. i18n("D&efault Color"), m_colorGB);
 #. colorLayout->addWidget(m_lineDefaultB, 0, 2);
-#: dialogs/pages/uioptionspage.cpp:97
+#: dialogs/pages/uioptionspage.cpp:99
 #, kde-format
 msgid "Custom fill color"
 msgstr "Нетиповий колір заповнення"
 
-#: dialogs/pages/uioptionspage.cpp:103
+#: dialogs/pages/uioptionspage.cpp:105
 #, kde-format
 msgid "Custom grid color"
 msgstr "Нетиповий колір ґратки"
 
-#: dialogs/pages/uioptionspage.cpp:109
+#: dialogs/pages/uioptionspage.cpp:111
 #, kde-format
 msgid "Custom background color"
 msgstr "Нетиповий колір тла"
 
-#: dialogs/pages/uioptionspage.cpp:115
+#: dialogs/pages/uioptionspage.cpp:117
 #, kde-format
 msgid "Custom line width"
 msgstr "Нетипова товщина ліній"
 
-#: dialogs/pages/uioptionspage.cpp:125
+#: dialogs/pages/uioptionspage.cpp:127
 #, kde-format
 msgid "&Use fill color"
 msgstr "В&живати колір заповнення"
@@ -3306,7 +3306,7 @@ msgstr "Діаграма"
 msgid "Umbrello Setup"
 msgstr "Налаштування Umbrello"
 
-#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1447
+#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1449
 #, kde-format
 msgid "User Interface"
 msgstr "Інтерфейс користувача"
@@ -3333,7 +3333,7 @@ msgstr "Клас"
 msgid "Class Settings"
 msgstr "Параметри класу"
 
-#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1442
+#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1444
 #, kde-format
 msgid "Code Importer"
 msgstr "Імпортування коду"
@@ -3343,7 +3343,7 @@ msgstr "Імпортування коду"
 msgid "Code Import Settings"
 msgstr "Параметри імпортування коду"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1443
+#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1445
 #, kde-format
 msgid "Code Generation"
 msgstr "Створення коду"
@@ -3353,7 +3353,7 @@ msgstr "Створення коду"
 msgid "Code Generation Settings"
 msgstr "Параметри створення коду"
 
-#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1444
+#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1446
 #, kde-format
 msgid "Code Viewer"
 msgstr "Перегляд коду"
@@ -3363,7 +3363,7 @@ msgstr "Перегляд коду"
 msgid "Code Viewer Settings"
 msgstr "Параметри перегляду коду"
 
-#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1440
+#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1442
 #, kde-format
 msgid "Auto Layout"
 msgstr "Автокомпонування"
@@ -3636,103 +3636,103 @@ msgstr "Зн&ачення:"
 msgid "Foreign Key Setup"
 msgstr "Налаштування стороннього ключа"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:204
+#: dialogs/umlforeignkeyconstraintdialog.cpp:205
 #, kde-format
 msgctxt "general page title"
 msgid "General"
 msgstr "Загальна"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:207
+#: dialogs/umlforeignkeyconstraintdialog.cpp:208
 #, kde-format
 msgctxt "general group title"
 msgid "General"
 msgstr "Загальна"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:215
+#: dialogs/umlforeignkeyconstraintdialog.cpp:216
 #, kde-format
 msgctxt "label for entering name"
 msgid "Name"
 msgstr "Назва"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:218
+#: dialogs/umlforeignkeyconstraintdialog.cpp:219
 #, kde-format
 msgid "Referenced Entity"
 msgstr "Сутність, на яку посилаються"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:224
+#: dialogs/umlforeignkeyconstraintdialog.cpp:225
 #, kde-format
 msgid "Actions"
 msgstr "Дії"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:231
+#: dialogs/umlforeignkeyconstraintdialog.cpp:232
 #, kde-format
 msgid "On Update"
 msgstr "При оновленні"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:237
+#: dialogs/umlforeignkeyconstraintdialog.cpp:238
 #, kde-format
 msgid "On Delete"
 msgstr "При вилученні"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:269
+#: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "No Action"
 msgstr "Без дій"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:269
+#: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "Restrict"
 msgstr "Обмежити"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:269
+#: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "Cascade"
 msgstr "Каскадом"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:269
+#: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "Set Null"
 msgstr "Встановити нуль"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:270
+#: dialogs/umlforeignkeyconstraintdialog.cpp:271
 #, kde-format
 msgid "Set Default"
 msgstr "Зробити типовим"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:291
+#: dialogs/umlforeignkeyconstraintdialog.cpp:292
 #, kde-format
 msgid "Columns"
 msgstr "Стовпчики"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:298
+#: dialogs/umlforeignkeyconstraintdialog.cpp:299
 #, kde-format
 msgctxt "column header local"
 msgid "Local"
 msgstr "Локальний"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:298
+#: dialogs/umlforeignkeyconstraintdialog.cpp:299
 #, kde-format
 msgctxt "column header referenced"
 msgid "Referenced"
 msgstr "Посилаються"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:305
+#: dialogs/umlforeignkeyconstraintdialog.cpp:306
 #, kde-format
 msgid "Local Column"
 msgstr "Стовпчик локальних"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:311
+#: dialogs/umlforeignkeyconstraintdialog.cpp:312
 #, kde-format
 msgid "Referenced Column"
 msgstr "Стовпчик посилань"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:318
+#: dialogs/umlforeignkeyconstraintdialog.cpp:319
 #: dialogs/umluniqueconstraintdialog.cpp:108
 #, kde-format
 msgid "&Add"
 msgstr "&Додати"
 
-#: dialogs/umlforeignkeyconstraintdialog.cpp:393
+#: dialogs/umlforeignkeyconstraintdialog.cpp:394
 #, kde-format
 msgid ""
 "You are attempting to change the Referenced Entity of this ForeignKey "
@@ -4096,27 +4096,27 @@ msgstr "Видимість ролі B"
 msgid "Exporting to XHTML..."
 msgstr "Експорт до XHTML…"
 
-#: docgenerators/docbookgenerator.cpp:78 umlviewimageexporterall.cpp:95
+#: docgenerators/docbookgenerator.cpp:79 umlviewimageexporterall.cpp:95
 #, kde-format
 msgid "Exporting all views..."
 msgstr "Експортування всіх переглядів…"
 
-#: docgenerators/docbookgenerator.cpp:84 umlviewimageexporterall.cpp:101
+#: docgenerators/docbookgenerator.cpp:85 umlviewimageexporterall.cpp:101
 #, kde-format
 msgid "Some errors happened when exporting the images:"
 msgstr "Під час експорту зображень сталося кілька помилок:"
 
-#: docgenerators/docbookgenerator.cpp:88
+#: docgenerators/docbookgenerator.cpp:89
 #, kde-format
 msgid "Generating Docbook..."
 msgstr "Створення Docbook…"
 
-#: docgenerators/docbookgenerator.cpp:108
+#: docgenerators/docbookgenerator.cpp:109
 #, kde-format
 msgid "Docbook Generation Complete..."
 msgstr "Створення Docbook завершено…"
 
-#: docgenerators/docbookgenerator.cpp:111
+#: docgenerators/docbookgenerator.cpp:112
 #, kde-format
 msgid "Docbook Generation Failed..."
 msgstr "Створення Docbook зазнало невдачі…"
@@ -4374,485 +4374,485 @@ msgstr "Сплайн"
 msgid "Orthogonal"
 msgstr "Під прямим кутом"
 
-#: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:227
+#: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:225
 #, kde-format
 msgid "New Template..."
 msgstr "Новий шаблон…"
 
-#: menus/listpopupmenu.cpp:145
+#: menus/listpopupmenu.cpp:143
 #, kde-format
 msgid "Accept Signal"
 msgstr "Прийняти сигнал"
 
-#: menus/listpopupmenu.cpp:146
+#: menus/listpopupmenu.cpp:144
 #, kde-format
 msgid "Accept Time Event"
 msgstr "Прийняти часову подію"
 
-#: menus/listpopupmenu.cpp:147 menus/listpopupmenu.cpp:220
+#: menus/listpopupmenu.cpp:145 menus/listpopupmenu.cpp:218
 #, kde-format
 msgid "Activity..."
 msgstr "Діяльність…"
 
-#: menus/listpopupmenu.cpp:148 worktoolbar.cpp:373
+#: menus/listpopupmenu.cpp:146 worktoolbar.cpp:376
 #, kde-format
 msgid "Activity Transition"
 msgstr "Перехід діяльності"
 
-#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1233
-#: worktoolbar.cpp:335
+#: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1233
+#: worktoolbar.cpp:338
 #, kde-format
 msgid "Actor"
 msgstr "Актор"
 
 #. i18n("Actor...")); break;
-#: menus/listpopupmenu.cpp:151 umlwidgets/widgetbase.cpp:1236
-#: worktoolbar.cpp:355
+#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1236
+#: worktoolbar.cpp:358
 #, kde-format
 msgid "Artifact"
 msgstr "Артефакт"
 
 #. i18n("Category...")); break;
-#: menus/listpopupmenu.cpp:158 menus/widgetbasepopupmenu.cpp:557
+#: menus/listpopupmenu.cpp:156 menus/widgetbasepopupmenu.cpp:557
 #, kde-format
 msgid "Change Font..."
 msgstr "Змінити шрифт…"
 
-#: menus/listpopupmenu.cpp:160
+#: menus/listpopupmenu.cpp:158
 #, kde-format
 msgid "Choice"
 msgstr "Вибір"
 
-#: menus/listpopupmenu.cpp:161
+#: menus/listpopupmenu.cpp:159
 #, kde-format
 msgctxt "new class menu item"
 msgid "Class..."
 msgstr "Клас…"
 
-#: menus/listpopupmenu.cpp:162
+#: menus/listpopupmenu.cpp:160
 #, kde-format
 msgctxt "duplicate action"
 msgid "Duplicate"
 msgstr "Здублювати"
 
-#: menus/listpopupmenu.cpp:163
+#: menus/listpopupmenu.cpp:161
 #, kde-format
 msgid "Collapse All"
 msgstr "Згорнути всі"
 
-#: menus/listpopupmenu.cpp:164
+#: menus/listpopupmenu.cpp:162
 #, kde-format
 msgctxt "add new combined state"
 msgid "Combined state..."
 msgstr "Комбінований стан…"
 
-#: menus/listpopupmenu.cpp:165 umlwidgets/widgetbase.cpp:1251
-#: worktoolbar.cpp:353
+#: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1251
+#: worktoolbar.cpp:356
 #, kde-format
 msgid "Component"
 msgstr "Компонент"
 
-#: menus/listpopupmenu.cpp:168 menus/listpopupmenu.cpp:175
-#: menus/listpopupmenu.cpp:183 menus/listpopupmenu.cpp:213
-#: menus/listpopupmenu.cpp:273 menus/listpopupmenu.cpp:369
+#: menus/listpopupmenu.cpp:166 menus/listpopupmenu.cpp:173
+#: menus/listpopupmenu.cpp:181 menus/listpopupmenu.cpp:211
+#: menus/listpopupmenu.cpp:271 menus/listpopupmenu.cpp:367
 #: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:82
 #, kde-format
 msgid "Folder"
 msgstr "Тека"
 
-#: menus/listpopupmenu.cpp:171
+#: menus/listpopupmenu.cpp:169
 #, kde-format
 msgid "Datatype..."
 msgstr "Тип даних…"
 
-#: menus/listpopupmenu.cpp:172 worktoolbar.cpp:362
+#: menus/listpopupmenu.cpp:170 worktoolbar.cpp:365
 #, kde-format
 msgid "Deep History"
 msgstr "Глибока історія"
 
-#: menus/listpopupmenu.cpp:176
+#: menus/listpopupmenu.cpp:174
 #, kde-format
 msgid "Edit combined state"
 msgstr "Редагувати комбінований стан"
 
-#: menus/listpopupmenu.cpp:177 worktoolbar.cpp:376
+#: menus/listpopupmenu.cpp:175 worktoolbar.cpp:379
 #, kde-format
 msgid "End Activity"
 msgstr "Кінцева діяльність"
 
-#: menus/listpopupmenu.cpp:178 worktoolbar.cpp:346
+#: menus/listpopupmenu.cpp:176 worktoolbar.cpp:349
 #, kde-format
 msgid "End State"
 msgstr "Кінцевий стан"
 
-#: menus/listpopupmenu.cpp:179 umlwidgets/widgetbase.cpp:1260
-#: worktoolbar.cpp:361
+#: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1260
+#: worktoolbar.cpp:364
 #, kde-format
 msgid "Entity"
 msgstr "Сутність"
 
 #. i18n("Entity...")); break;
-#: menus/listpopupmenu.cpp:181
+#: menus/listpopupmenu.cpp:179
 #, kde-format
 msgid "Entity Attribute..."
 msgstr "Атрибут сутності…"
 
-#: menus/listpopupmenu.cpp:184
+#: menus/listpopupmenu.cpp:182
 #, kde-format
 msgid "Enum..."
 msgstr "Перелік…"
 
-#: menus/listpopupmenu.cpp:185
+#: menus/listpopupmenu.cpp:183
 #, kde-format
 msgid "Enum Literal..."
 msgstr "Літерал переліку…"
 
-#: menus/listpopupmenu.cpp:187
+#: menus/listpopupmenu.cpp:185
 #, kde-format
 msgid "Expand All"
 msgstr "Розгорнути всі"
 
-#: menus/listpopupmenu.cpp:188
+#: menus/listpopupmenu.cpp:186
 #, kde-format
 msgid "Export as Picture..."
 msgstr "Експортувати як зображення…"
 
-#: menus/listpopupmenu.cpp:189
+#: menus/listpopupmenu.cpp:187
 #, kde-format
 msgid "Externalize Folder..."
 msgstr "До зовнішньої теки…"
 
-#: menus/listpopupmenu.cpp:190 menus/widgetbasepopupmenu.cpp:535
+#: menus/listpopupmenu.cpp:188 menus/widgetbasepopupmenu.cpp:535
 #, kde-format
 msgid "Fill Color..."
 msgstr "Колір заповнення…"
 
-#: menus/listpopupmenu.cpp:191 worktoolbar.cpp:377
+#: menus/listpopupmenu.cpp:189 worktoolbar.cpp:380
 #, kde-format
 msgid "Final Activity"
 msgstr "Остаточна діяльність"
 
-#: menus/listpopupmenu.cpp:192
+#: menus/listpopupmenu.cpp:190
 #, kde-format
 msgid "Flip Horizontal"
 msgstr "Перевернути горизонтально"
 
-#: menus/listpopupmenu.cpp:193
+#: menus/listpopupmenu.cpp:191
 #, kde-format
 msgid "Flip Vertical"
 msgstr "Перевернути вертикально"
 
-#: menus/listpopupmenu.cpp:194
+#: menus/listpopupmenu.cpp:192
 #, kde-format
 msgid "Text Line..."
 msgstr "Текстовий рядок…"
 
-#: menus/listpopupmenu.cpp:196 menus/listpopupmenu.cpp:260 worktoolbar.cpp:365
+#: menus/listpopupmenu.cpp:194 menus/listpopupmenu.cpp:258 worktoolbar.cpp:368
 #, kde-format
 msgid "Fork"
 msgstr "Розділити"
 
-#: menus/listpopupmenu.cpp:197
+#: menus/listpopupmenu.cpp:195
 #, kde-format
 msgid "Go to state diagram"
 msgstr "Перейти до діаграми станів"
 
-#: menus/listpopupmenu.cpp:198
+#: menus/listpopupmenu.cpp:196
 #, kde-format
 msgid "Hide destruction box"
 msgstr "Приховати панель знищення"
 
-#: menus/listpopupmenu.cpp:199
+#: menus/listpopupmenu.cpp:197
 #, kde-format
 msgid "Import File(s)..."
 msgstr "Імпортувати файли…"
 
-#: menus/listpopupmenu.cpp:200 uml.cpp:386
+#: menus/listpopupmenu.cpp:198 uml.cpp:384
 #, kde-format
 msgid "Import from Directory..."
 msgstr "Імпортувати з каталогу…"
 
-#: menus/listpopupmenu.cpp:201
+#: menus/listpopupmenu.cpp:199
 #, kde-format
 msgid "from file..."
 msgstr "з файла…"
 
-#: menus/listpopupmenu.cpp:202 worktoolbar.cpp:380
+#: menus/listpopupmenu.cpp:200 worktoolbar.cpp:383
 #, kde-format
 msgid "Initial Activity"
 msgstr "Початкова діяльність"
 
-#: menus/listpopupmenu.cpp:203 worktoolbar.cpp:344
+#: menus/listpopupmenu.cpp:201 worktoolbar.cpp:347
 #, kde-format
 msgid "Initial State"
 msgstr "Початковий стан"
 
-#: menus/listpopupmenu.cpp:204
+#: menus/listpopupmenu.cpp:202
 #, kde-format
 msgctxt "new instance menu item"
 msgid "Instance..."
 msgstr "Екземпляр…"
 
-#: menus/listpopupmenu.cpp:205 menus/listpopupmenu.cpp:221
-#: menus/listpopupmenu.cpp:224
+#: menus/listpopupmenu.cpp:203 menus/listpopupmenu.cpp:219
+#: menus/listpopupmenu.cpp:222
 #, kde-format
 msgid "New Attribute..."
 msgstr "Новий атрибут…"
 
-#: menus/listpopupmenu.cpp:208
+#: menus/listpopupmenu.cpp:206
 #, kde-format
 msgid "Provided interface"
 msgstr "Наданий інтерфейс"
 
-#: menus/listpopupmenu.cpp:209
+#: menus/listpopupmenu.cpp:207
 #, kde-format
 msgid "Required interface"
 msgstr "Потрібний інтерфейс"
 
-#: menus/listpopupmenu.cpp:210
+#: menus/listpopupmenu.cpp:208
 #, kde-format
 msgid "Internalize Folder"
 msgstr "До внутрішньої теки…"
 
-#: menus/listpopupmenu.cpp:211 worktoolbar.cpp:367
+#: menus/listpopupmenu.cpp:209 worktoolbar.cpp:370
 #, kde-format
 msgid "Junction"
 msgstr "Сполучення"
 
-#: menus/listpopupmenu.cpp:212 menus/widgetbasepopupmenu.cpp:534
+#: menus/listpopupmenu.cpp:210 menus/widgetbasepopupmenu.cpp:534
 #, kde-format
 msgid "Line Color..."
 msgstr "Колір лінії…"
 
-#: menus/listpopupmenu.cpp:214 worktoolbar.cpp:324 worktoolbar.cpp:382
+#: menus/listpopupmenu.cpp:212 worktoolbar.cpp:327 worktoolbar.cpp:385
 #, kde-format
 msgid "Asynchronous Message"
 msgstr "Асинхронне повідомлення"
 
-#: menus/listpopupmenu.cpp:215
+#: menus/listpopupmenu.cpp:213
 #, kde-format
 msgid "Creation Message"
 msgstr "Повідомлення щодо створення"
 
-#: menus/listpopupmenu.cpp:216
+#: menus/listpopupmenu.cpp:214
 #, kde-format
 msgid "Destroy Message"
 msgstr "Повідомлення щодо знищення"
 
-#: menus/listpopupmenu.cpp:217 worktoolbar.cpp:325
+#: menus/listpopupmenu.cpp:215 worktoolbar.cpp:328
 #, kde-format
 msgid "Found Message"
 msgstr "Знайдене повідомлення"
 
-#: menus/listpopupmenu.cpp:218 worktoolbar.cpp:326
+#: menus/listpopupmenu.cpp:216 worktoolbar.cpp:329
 #, kde-format
 msgid "Lost Message"
 msgstr "Втрачене повідомлення"
 
-#: menus/listpopupmenu.cpp:219 worktoolbar.cpp:323 worktoolbar.cpp:381
+#: menus/listpopupmenu.cpp:217 worktoolbar.cpp:326 worktoolbar.cpp:384
 #, kde-format
 msgid "Synchronous Message"
 msgstr "Синхронне повідомлення"
 
-#: menus/listpopupmenu.cpp:222
+#: menus/listpopupmenu.cpp:220
 #, kde-format
 msgid "New Entity Attribute..."
 msgstr "Новий атрибут сутності…"
 
-#: menus/listpopupmenu.cpp:223
+#: menus/listpopupmenu.cpp:221
 #, kde-format
 msgid "New Literal..."
 msgstr "Новий літерал…"
 
-#: menus/listpopupmenu.cpp:226
+#: menus/listpopupmenu.cpp:224
 #, kde-format
 msgid "New Parameter..."
 msgstr "Новий параметр…"
 
-#: menus/listpopupmenu.cpp:228 umlwidgets/widgetbase.cpp:1278
-#: worktoolbar.cpp:354
+#: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1278
+#: worktoolbar.cpp:357
 #, kde-format
 msgid "Node"
 msgstr "Вузол"
 
 #. i18n("Node...")); break;
-#: menus/listpopupmenu.cpp:230
+#: menus/listpopupmenu.cpp:228
 #, kde-format
 msgid "Note..."
 msgstr "Нотатка…"
 
-#: menus/listpopupmenu.cpp:231
+#: menus/listpopupmenu.cpp:229
 #, kde-format
 msgid "Object..."
 msgstr "Об'єкт…"
 
-#: menus/listpopupmenu.cpp:232 worktoolbar.cpp:384
+#: menus/listpopupmenu.cpp:230 worktoolbar.cpp:387
 #, kde-format
 msgid "Object Node"
 msgstr "Вузол об'єкта"
 
-#: menus/listpopupmenu.cpp:233
+#: menus/listpopupmenu.cpp:231
 #, kde-format
 msgid "Open file"
 msgstr "Відкрити файл"
 
 #. i18n("Operation...")); break;
-#: menus/listpopupmenu.cpp:236
+#: menus/listpopupmenu.cpp:234
 #, kde-format
 msgid "Package..."
 msgstr "Пакунок…"
 
-#: menus/listpopupmenu.cpp:238 umlwidgets/widgetbase.cpp:1293
-#: worktoolbar.cpp:378
+#: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1293
+#: worktoolbar.cpp:381
 #, kde-format
 msgid "Pin"
 msgstr "Булавка"
 
-#: menus/listpopupmenu.cpp:239 umlwidgets/widgetbase.cpp:1296
-#: worktoolbar.cpp:379
+#: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1296
+#: worktoolbar.cpp:382
 #, kde-format
 msgid "Port"
 msgstr "Порт"
 
 #. i18n("Port...")); break;
-#: menus/listpopupmenu.cpp:241
+#: menus/listpopupmenu.cpp:239
 #, kde-format
 msgid "Pre Post Condition"
 msgstr "Перед/Після- умова"
 
-#: menus/listpopupmenu.cpp:244
+#: menus/listpopupmenu.cpp:242
 #, kde-format
 msgid "Redo"
 msgstr "Повторити"
 
-#: menus/listpopupmenu.cpp:245 umlwidgets/widgetbase.cpp:1302
-#: worktoolbar.cpp:345
+#: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1302
+#: worktoolbar.cpp:348
 #, kde-format
 msgid "Region"
 msgstr "Область"
 
-#: menus/listpopupmenu.cpp:246
+#: menus/listpopupmenu.cpp:244
 #, kde-format
 msgid "Remove"
 msgstr "Вилучити"
 
-#: menus/listpopupmenu.cpp:247
+#: menus/listpopupmenu.cpp:245
 #, kde-format
 msgid "Remove state diagram"
 msgstr "Вилучити діаграму станів"
 
-#: menus/listpopupmenu.cpp:248 menus/umllistviewpopupmenu.cpp:277
+#: menus/listpopupmenu.cpp:246 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
 msgid "Rename..."
 msgstr "Перейменувати…"
 
-#: menus/listpopupmenu.cpp:249
+#: menus/listpopupmenu.cpp:247
 #, kde-format
 msgid "Rename Object..."
 msgstr "Перейменувати об'єкт…"
 
-#: menus/listpopupmenu.cpp:250
+#: menus/listpopupmenu.cpp:248
 #, kde-format
 msgid "Return to combined state"
 msgstr "Повернутися до комбінованого стану"
 
-#: menus/listpopupmenu.cpp:251
+#: menus/listpopupmenu.cpp:249
 #, kde-format
 msgid "Return to class"
 msgstr "Повернутися до класу"
 
-#: menus/listpopupmenu.cpp:252
+#: menus/listpopupmenu.cpp:250
 #, kde-format
 msgid "Reset Label Positions"
 msgstr "Скинути позиції надписів"
 
-#: menus/listpopupmenu.cpp:253
+#: menus/listpopupmenu.cpp:251
 #, kde-format
 msgid "Resize"
 msgstr "Змінити розмір"
 
-#: menus/listpopupmenu.cpp:254
+#: menus/listpopupmenu.cpp:252
 #, kde-format
 msgid "Select state diagram"
 msgstr "Вибір діаграми станів"
 
-#: menus/listpopupmenu.cpp:255
+#: menus/listpopupmenu.cpp:253
 #, kde-format
 msgid "Send Signal"
 msgstr "Надіслати сигнал"
 
-#: menus/listpopupmenu.cpp:256 worktoolbar.cpp:363
+#: menus/listpopupmenu.cpp:254 worktoolbar.cpp:366
 #, kde-format
 msgid "Shallow History"
 msgstr "Мілка історія"
 
-#: menus/listpopupmenu.cpp:258
+#: menus/listpopupmenu.cpp:256
 #, kde-format
 msgid "Show destruction box"
 msgstr "Показати панель знищення"
 
-#: menus/listpopupmenu.cpp:259
+#: menus/listpopupmenu.cpp:257
 #, kde-format
 msgctxt "add new state"
 msgid "State..."
 msgstr "Стан…"
 
-#: menus/listpopupmenu.cpp:261
+#: menus/listpopupmenu.cpp:259
 #, kde-format
 msgid "Join"
 msgstr "Зв'язок"
 
-#: menus/listpopupmenu.cpp:264 worktoolbar.cpp:366
+#: menus/listpopupmenu.cpp:262 worktoolbar.cpp:369
 #, kde-format
 msgid "Subsystem"
 msgstr "Підсистема"
 
 #. i18n("Subsystem...")); break;
-#: menus/listpopupmenu.cpp:266
+#: menus/listpopupmenu.cpp:264
 #, kde-format
 msgid "Template"
 msgstr "Шаблон"
 
 #. i18n("Template...")); break;
-#: menus/listpopupmenu.cpp:268
+#: menus/listpopupmenu.cpp:266
 #, kde-format
 msgid "Undo"
 msgstr "Вернути"
 
-#: menus/listpopupmenu.cpp:270 worktoolbar.cpp:342
+#: menus/listpopupmenu.cpp:268 worktoolbar.cpp:345
 #, kde-format
 msgid "Use Case"
 msgstr "Випадок використання"
 
-#: menus/listpopupmenu.cpp:351
+#: menus/listpopupmenu.cpp:349
 #, kde-format
 msgctxt "new container menu"
 msgid "New"
 msgstr "Створити"
 
-#: menus/listpopupmenu.cpp:502
+#: menus/listpopupmenu.cpp:500
 #, kde-format
 msgctxt "new sub menu"
 msgid "New"
 msgstr "Створити"
 
-#: menus/listpopupmenu.cpp:513
+#: menus/listpopupmenu.cpp:511
 #, kde-format
 msgctxt "category type sub menu"
 msgid "Category Type"
 msgstr "Тип категорії"
 
-#: menus/listpopupmenu.cpp:514
+#: menus/listpopupmenu.cpp:512
 #, kde-format
 msgid "Disjoint(Specialisation)"
 msgstr "Несумісні(Спеціалізація)"
 
-#: menus/listpopupmenu.cpp:515
+#: menus/listpopupmenu.cpp:513
 #, kde-format
 msgid "Overlapping(Specialisation)"
 msgstr "Перекриті(Спеціалізація)"
 
-#: menus/listpopupmenu.cpp:516
+#: menus/listpopupmenu.cpp:514
 #, kde-format
 msgid "Union"
 msgstr "Об'єднання"
@@ -5066,42 +5066,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "Вирівнювання"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:608
+#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:606
 #, kde-format
 msgid "Align Right"
 msgstr "Вирівняти по правому краю"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:613
+#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:611
 #, kde-format
 msgid "Align Left"
 msgstr "Вирівнювати по лівому краю"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:618
+#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:616
 #, kde-format
 msgid "Align Top"
 msgstr "Вирівняти по верхньому краю"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:623
+#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:621
 #, kde-format
 msgid "Align Bottom"
 msgstr "Вирівняти по нижньому краю"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:628
+#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:626
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr "Вирівняти вертикально по середині"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:633
+#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:631
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr "Вирівняти горизонтально по середині"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:638
+#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:636
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr "Вирівняти з розподіленням вертикально"
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:643
+#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:641
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr "Вирівняти з розподіленням горизонтально"
@@ -5826,38 +5826,38 @@ msgstr "Введіть нову назву випадку використанн
 msgid "Enter the new name of the UML object"
 msgstr "Введіть нову назву об'єкта UML:"
 
-#: model_utils.cpp:1201
+#: model_utils.cpp:1206
 #, kde-format
 msgid "OK"
 msgstr "Гаразд"
 
-#: model_utils.cpp:1201
+#: model_utils.cpp:1206
 #, kde-format
 msgctxt "parse status"
 msgid "Empty"
 msgstr "Порожній"
 
-#: model_utils.cpp:1201
+#: model_utils.cpp:1206
 #, kde-format
 msgid "Malformed argument"
 msgstr "Спотворений аргумент"
 
-#: model_utils.cpp:1202
+#: model_utils.cpp:1207
 #, kde-format
 msgid "Unknown argument type"
 msgstr "Невідомий тип аргументу"
 
-#: model_utils.cpp:1202
+#: model_utils.cpp:1207
 #, kde-format
 msgid "Illegal method name"
 msgstr "Недозволена назва метода"
 
-#: model_utils.cpp:1203
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Unknown return type"
 msgstr "Невідомий тип повернення значення"
 
-#: model_utils.cpp:1203
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Unspecified error"
 msgstr "Невизначена помилка"
@@ -5903,7 +5903,7 @@ msgstr "Вказівник"
 msgid "Usage"
 msgstr "Використання"
 
-#: object_factory.cpp:255 umldoc.cpp:1595 umldoc.cpp:1630
+#: object_factory.cpp:254 umldoc.cpp:1602 umldoc.cpp:1637
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:177
@@ -5911,18 +5911,18 @@ msgstr "Використання"
 msgid "That is an invalid name."
 msgstr "Ця назва не є правильною."
 
-#: object_factory.cpp:262
+#: object_factory.cpp:261
 #, kde-format
 msgid ""
 "This is a reserved keyword for the language of the configured code generator."
 msgstr "Це зарезервоване ключове слово мови налаштованого створювача коду."
 
-#: object_factory.cpp:263
+#: object_factory.cpp:262
 #, kde-format
 msgid "Reserved Keyword"
 msgstr "Зарезервоване ключове слово"
 
-#: object_factory.cpp:268 umldoc.cpp:1601 umldoc.cpp:1639
+#: object_factory.cpp:267 umldoc.cpp:1608 umldoc.cpp:1646
 #: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
@@ -5930,8 +5930,8 @@ msgstr "Зарезервоване ключове слово"
 msgid "That name is already being used."
 msgstr "Цю назву вже було використано."
 
-#: object_factory.cpp:269 umldoc.cpp:1504 umldoc.cpp:1573 umldoc.cpp:1601
-#: umldoc.cpp:1639 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
+#: object_factory.cpp:268 umldoc.cpp:1511 umldoc.cpp:1580 umldoc.cpp:1608
+#: umldoc.cpp:1646 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
@@ -7158,198 +7158,198 @@ msgstr "Активна &мова"
 msgid "&Settings"
 msgstr "П&араметри"
 
-#: uml.cpp:362
+#: uml.cpp:360
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr "&Експортувати модель до DocBook"
 
-#: uml.cpp:366
+#: uml.cpp:364
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr "&Експортувати модель до XHTML"
 
-#: uml.cpp:370
+#: uml.cpp:368
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "&Майстер нових класів…"
 
-#: uml.cpp:374
+#: uml.cpp:372
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "&Додати типові типи даних для активної мови"
 
-#: uml.cpp:381
+#: uml.cpp:379
 #, kde-format
 msgid "Code &Importing Wizard..."
 msgstr "Майстер і&мпортування коду…"
 
-#: uml.cpp:391
+#: uml.cpp:389
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "&Майстер створення коду…"
 
-#: uml.cpp:396
+#: uml.cpp:394
 #, kde-format
 msgid "&Generate All Code"
 msgstr "&Створити весь код"
 
-#: uml.cpp:443
+#: uml.cpp:441
 #, kde-format
 msgid "Creates a new document"
 msgstr "Створює новий документ"
 
-#: uml.cpp:444
+#: uml.cpp:442
 #, kde-format
 msgid "Opens an existing document"
 msgstr "Відкриває існуючий документ"
 
-#: uml.cpp:445
+#: uml.cpp:443
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "Відкриває недавно використаний файл"
 
-#: uml.cpp:446
+#: uml.cpp:444
 #, kde-format
 msgid "Saves the document"
 msgstr "Зберігає документ"
 
-#: uml.cpp:447
+#: uml.cpp:445
 #, kde-format
 msgid "Saves the document as..."
 msgstr "Зберігає документ як…"
 
-#: uml.cpp:448
+#: uml.cpp:446
 #, kde-format
 msgid "Closes the document"
 msgstr "Закриває документ"
 
-#: uml.cpp:449
+#: uml.cpp:447
 #, kde-format
 msgid "Prints out the document"
 msgstr "Друкує документ"
 
-#: uml.cpp:450
+#: uml.cpp:448
 #, kde-format
 msgid "Print Preview of the document"
 msgstr "Попередній перегляд надрукованого документа"
 
-#: uml.cpp:451
+#: uml.cpp:449
 #, kde-format
 msgid "Quits the application"
 msgstr "Закриває програму"
 
-#: uml.cpp:452
+#: uml.cpp:450
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr "Експортує модель у формат docbook"
 
-#: uml.cpp:453
+#: uml.cpp:451
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr "Експортує модель у формат XHTML"
 
-#: uml.cpp:454
+#: uml.cpp:452
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "Вирізає вибране і кладе його у кишеню"
 
-#: uml.cpp:455
+#: uml.cpp:453
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "Копіює вибране до кишені"
 
-#: uml.cpp:456
+#: uml.cpp:454
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr "Вставляє вміст кишені"
 
-#: uml.cpp:457
+#: uml.cpp:455
 #, kde-format
 msgid "Undo last action"
 msgstr "Скасувати останню дію"
 
-#: uml.cpp:458
+#: uml.cpp:456
 #, kde-format
 msgid "Redo last undone action"
 msgstr "Повернути результат останньої скасованої дії"
 
-#: uml.cpp:460
+#: uml.cpp:458
 #, kde-format
 msgid "Set the default program preferences"
 msgstr "Встановити типові параметри програми"
 
-#: uml.cpp:464
+#: uml.cpp:462
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "Вилучити ви&браний"
 
-#: uml.cpp:475
+#: uml.cpp:473
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "Діаграма &класів…"
 
-#: uml.cpp:482
+#: uml.cpp:480
 #, kde-format
 msgid "&Object Diagram..."
 msgstr "Діаграма о&б'єктів…"
 
-#: uml.cpp:489
+#: uml.cpp:487
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "Діаграма &послідовностей…"
 
-#: uml.cpp:495
+#: uml.cpp:493
 #, kde-format
 msgid "C&ommunication Diagram..."
 msgstr "Діаграма &обміну даними…"
 
-#: uml.cpp:501
+#: uml.cpp:499
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr "Діаграма &випадків використання…"
 
-#: uml.cpp:507
+#: uml.cpp:505
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "Діаграма с&танів…"
 
-#: uml.cpp:513
+#: uml.cpp:511
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "Діаграма &активності…"
 
-#: uml.cpp:519
+#: uml.cpp:517
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "Діаграма ко&мпонентів…"
 
-#: uml.cpp:525
+#: uml.cpp:523
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr "Діаграма вп&ровадження…"
 
-#: uml.cpp:531
+#: uml.cpp:529
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "Діа&грама взаємозв'язків сутностей…"
 
-#: uml.cpp:536 uml.cpp:954
+#: uml.cpp:534 uml.cpp:953
 #, kde-format
 msgid "&Tree View"
 msgstr "Перегляд &дерева"
 
-#: uml.cpp:540
+#: uml.cpp:538
 #, kde-format
 msgid "&Debugging"
 msgstr "Діа&гностика"
 
-#: uml.cpp:548
+#: uml.cpp:546
 #, kde-format
 msgid "&Logging"
 msgstr "&Журналювання"
 
-#: uml.cpp:552
+#: uml.cpp:550
 #, kde-format
 msgid "&Command history"
 msgstr "&Журнал команд"
@@ -7358,135 +7358,135 @@ msgstr "&Журнал команд"
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:556 uml.cpp:1011
+#: uml.cpp:554 uml.cpp:1010
 #, kde-format
 msgid "&Bird's eye view"
 msgstr "&Загальний перегляд"
 
-#: uml.cpp:561
+#: uml.cpp:559
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "О&чистити діаграму"
 
-#: uml.cpp:565
+#: uml.cpp:563
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "Чіплятися до &ґратки"
 
-#: uml.cpp:569
+#: uml.cpp:567
 #, kde-format
 msgid "S&how Grid"
 msgstr "&Показувати ґратку"
 
-#: uml.cpp:574
+#: uml.cpp:572
 #, kde-format
 msgid "&Delete Diagram"
 msgstr "Ви&лучити діаграму"
 
-#: uml.cpp:579
+#: uml.cpp:577
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "&Експортувати як зображення…"
 
-#: uml.cpp:584
+#: uml.cpp:582
 #, kde-format
 msgid "Export &Diagrams as Pictures..."
 msgstr "Експортувати &діаграми як зображення…"
 
-#: uml.cpp:604
+#: uml.cpp:602
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "Мас&штабувати до 100%"
 
-#: uml.cpp:647
+#: uml.cpp:645
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "Пере&сунути вкладку ліворуч"
 
-#: uml.cpp:648
+#: uml.cpp:646
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "Пере&сунути вкладку праворуч"
 
-#: uml.cpp:663
+#: uml.cpp:662
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr "Діаграма вибору ліворуч"
 
-#: uml.cpp:664
+#: uml.cpp:663
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr "Діаграма вибору праворуч"
 
-#: uml.cpp:794
+#: uml.cpp:793
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr " &%1%"
 
-#: uml.cpp:844
+#: uml.cpp:843
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Готово"
 
-#: uml.cpp:852 uml.cpp:865
+#: uml.cpp:851 uml.cpp:864
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: uml.cpp:857
+#: uml.cpp:856
 #, kde-format
 msgid "Fit"
 msgstr "Оптимально"
 
-#: uml.cpp:908
+#: uml.cpp:907
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "Пенал діаграм"
 
-#: uml.cpp:965
+#: uml.cpp:964
 #, kde-format
 msgid "Doc&umentation"
 msgstr "Док&ументація"
 
-#: uml.cpp:976
+#: uml.cpp:975
 #, kde-format
 msgid "Co&mmand history"
 msgstr "Журнал ко&манд"
 
-#: uml.cpp:992
+#: uml.cpp:991
 #, kde-format
 msgid "&Debug"
 msgstr "Діа&гностика"
 
-#: uml.cpp:999
+#: uml.cpp:998
 #, kde-format
 msgid "&Log"
 msgstr "&Журнал"
 
-#: uml.cpp:1037 uml.cpp:1254 uml.cpp:1292
+#: uml.cpp:1036 uml.cpp:1253 uml.cpp:1291
 #, kde-format
 msgid "Opening file..."
 msgstr "Відкривається файл…"
 
-#: uml.cpp:1088 uml.cpp:1159 uml.cpp:1323 umldoc.cpp:349 umldoc.cpp:372
-#: umldoc.cpp:3277
+#: uml.cpp:1087 uml.cpp:1158 uml.cpp:1322 umldoc.cpp:349 umldoc.cpp:372
+#: umldoc.cpp:3285
 #, kde-format
 msgid "Untitled"
 msgstr "Без назви"
 
-#: uml.cpp:1236
+#: uml.cpp:1235
 #, kde-format
 msgid "Creating new document..."
 msgstr "Створення нового документа…"
 
-#: uml.cpp:1261
+#: uml.cpp:1260
 #, kde-format
 msgid "Open File"
 msgstr "Відкрити файл"
 
-#: uml.cpp:1262
+#: uml.cpp:1261
 #, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7507,22 +7507,22 @@ msgstr ""
 "*.mdl|файли моделей Rose (*.mdl)\n"
 "*.zargo|стиснені файли argo (*.zargo)\n"
 
-#: uml.cpp:1322
+#: uml.cpp:1321
 #, kde-format
 msgid "Saving file..."
 msgstr "Збереження файла…"
 
-#: uml.cpp:1339
+#: uml.cpp:1338
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Файл зберігається з новою назвою…"
 
-#: uml.cpp:1344 umlviewimageexporter.cpp:171
+#: uml.cpp:1343 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Зберегти як"
 
-#: uml.cpp:1345
+#: uml.cpp:1344
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7531,7 +7531,7 @@ msgstr ""
 "*.xmi | файл XMI (*.xmi);;*.xmi.tgz | стиснений Gzip файл XMI (*.xmi.tgz);;*."
 "xmi.tar.bz2 | стиснений Bzip2 файл XMI (*.xmi.tar.bz2);;* | усі файли (*)"
 
-#: uml.cpp:1363
+#: uml.cpp:1362
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7540,67 +7540,67 @@ msgstr ""
 "Файл %1 існує.\n"
 "Хочете його перезаписати?"
 
-#: uml.cpp:1364
+#: uml.cpp:1363
 #, kde-format
 msgid "Warning"
 msgstr "Попередження"
 
-#: uml.cpp:1364
+#: uml.cpp:1363
 #, kde-format
 msgid "Overwrite"
 msgstr "Перезаписати"
 
-#: uml.cpp:1390
+#: uml.cpp:1389
 #, kde-format
 msgid "Closing file..."
 msgstr "Закриття файла…"
 
-#: uml.cpp:1401
+#: uml.cpp:1400
 #, kde-format
 msgid "No search term entered"
 msgstr "Не вказано ключа пошуку"
 
-#: uml.cpp:1407
+#: uml.cpp:1406
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "«%1»: знайдено %2"
 
-#: uml.cpp:1463
+#: uml.cpp:1462
 #, kde-format
 msgid "Print Preview..."
 msgstr "Перегляд друку…"
 
-#: uml.cpp:1490
+#: uml.cpp:1489
 #, kde-format
 msgid "Printing..."
 msgstr "Друк…"
 
-#: uml.cpp:1496
+#: uml.cpp:1495
 #, kde-format
 msgid "Print %1"
 msgstr "Друкувати %1"
 
-#: uml.cpp:1515
+#: uml.cpp:1514
 #, kde-format
 msgid "Exiting..."
 msgstr "Вихід…"
 
-#: uml.cpp:1586
+#: uml.cpp:1585
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Вирізання вибраного…"
 
-#: uml.cpp:1609
+#: uml.cpp:1608
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Копіювання вибраного в кишеню…"
 
-#: uml.cpp:1621
+#: uml.cpp:1620
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Вставлення вмісту кишені…"
 
-#: uml.cpp:1626
+#: uml.cpp:1625
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7609,38 +7609,38 @@ msgstr ""
 "Програма Umbrello не змогла вставити вміст кишені. Можливо, об'єкти в кишені "
 "мають невідповідний формат, і їх не можна тут вставити."
 
-#: uml.cpp:1652 umlviewimageexporter.cpp:79 umlviewimageexporterall.cpp:103
+#: uml.cpp:1651 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Готово."
 
-#: uml.cpp:2253
+#: uml.cpp:2252
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "Для перегляд коду його потрібно спочатку створити."
 
-#: uml.cpp:2253 uml.cpp:2256
+#: uml.cpp:2252 uml.cpp:2255
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Помилка перегляду коду"
 
-#: uml.cpp:2256
+#: uml.cpp:2255
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Переглянути код з простого записувача коду неможливо."
 
-#: uml.cpp:2732
+#: uml.cpp:2731
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Виберіть файли для імпортування:"
 
-#: uml.cpp:2761
+#: uml.cpp:2760
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Виберіть каталог для імпортування:"
 
-#: uml.cpp:3281
+#: uml.cpp:3280
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Створення XHTML зазнало невдачі ."
@@ -7660,7 +7660,7 @@ msgstr "С&тереотипи"
 msgid "Welcome"
 msgstr "Вітаємо"
 
-#: umldoc.cpp:92 umldoc.cpp:2224 umldoc.cpp:2252 umldoc.cpp:2335
+#: umldoc.cpp:92 umldoc.cpp:2232 umldoc.cpp:2260 umldoc.cpp:2343
 #, kde-format
 msgid "UML Model"
 msgstr "UML-модель"
@@ -7710,149 +7710,149 @@ msgctxt "warning message"
 msgid "Warning"
 msgstr "Попередження"
 
-#: umldoc.cpp:528
+#: umldoc.cpp:535
 #, kde-format
 msgid "The file <%1> does not exist."
 msgstr "Файла <%1> не існує."
 
-#: umldoc.cpp:528 umldoc.cpp:549 umldoc.cpp:588 umldoc.cpp:600 umldoc.cpp:614
-#: umldoc.cpp:627 umldoc.cpp:639 umldoc.cpp:677 umlmodel/folder.cpp:451
+#: umldoc.cpp:535 umldoc.cpp:556 umldoc.cpp:595 umldoc.cpp:607 umldoc.cpp:621
+#: umldoc.cpp:634 umldoc.cpp:646 umldoc.cpp:684 umlmodel/folder.cpp:451
 #: umlmodel/folder.cpp:455
 #, kde-format
 msgid "Load Error"
 msgstr "Помилка завантаження"
 
-#: umldoc.cpp:549
+#: umldoc.cpp:556
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "Схоже, файл %1 пошкоджено."
 
-#: umldoc.cpp:587 umldoc.cpp:599 umldoc.cpp:626
+#: umldoc.cpp:594 umldoc.cpp:606 umldoc.cpp:633
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "Не знайдено файла XMI в стисненому файлі %1."
 
-#: umldoc.cpp:613
+#: umldoc.cpp:620
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "Помилка завантаження розпакованого файла: %1"
 
-#: umldoc.cpp:638 umldoc.cpp:674
+#: umldoc.cpp:645 umldoc.cpp:681
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "Помилка завантаження файла: %1"
 
-#: umldoc.cpp:676
+#: umldoc.cpp:683
 #, kde-format
 msgid "Reason: %1"
 msgstr "Причина: %1"
 
-#: umldoc.cpp:746 umldoc.cpp:757 umldoc.cpp:775 umldoc.cpp:816 umldoc.cpp:843
+#: umldoc.cpp:753 umldoc.cpp:764 umldoc.cpp:782 umldoc.cpp:823 umldoc.cpp:850
 #, kde-format
 msgid "There was a problem saving: %1"
 msgstr "Під час спроби збереження виникла проблема: %1"
 
-#: umldoc.cpp:746 umldoc.cpp:757 umldoc.cpp:775 umldoc.cpp:816 umldoc.cpp:843
-#: umldoc.cpp:850 umllistview.cpp:569
+#: umldoc.cpp:753 umldoc.cpp:764 umldoc.cpp:782 umldoc.cpp:823 umldoc.cpp:850
+#: umldoc.cpp:857 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
 msgstr "Помилка збереження"
 
-#: umldoc.cpp:850
+#: umldoc.cpp:857
 #, kde-format
 msgid "There was a problem uploading: %1"
 msgstr "Під час вивантаження виникла проблема: %1"
 
-#: umldoc.cpp:1401
+#: umldoc.cpp:1408
 #, kde-format
 msgid "use case diagram"
 msgstr "Діаграма випадків використання"
 
-#: umldoc.cpp:1404
+#: umldoc.cpp:1411
 #, kde-format
 msgid "class diagram"
 msgstr "діаграма класів"
 
-#: umldoc.cpp:1407
+#: umldoc.cpp:1414
 #, kde-format
 msgid "sequence diagram"
 msgstr "діаграма послідовності"
 
-#: umldoc.cpp:1410
+#: umldoc.cpp:1417
 #, kde-format
 msgid "communication diagram"
 msgstr "діаграма обміну даними"
 
-#: umldoc.cpp:1413
+#: umldoc.cpp:1420
 #, kde-format
 msgid "object diagram"
 msgstr "діаграма об'єктів"
 
-#: umldoc.cpp:1416
+#: umldoc.cpp:1423
 #, kde-format
 msgid "state diagram"
 msgstr "діаграма станів"
 
-#: umldoc.cpp:1419
+#: umldoc.cpp:1426
 #, kde-format
 msgid "activity diagram"
 msgstr "діаграма діяльності"
 
-#: umldoc.cpp:1422
+#: umldoc.cpp:1429
 #, kde-format
 msgid "component diagram"
 msgstr "діаграма компонентів"
 
-#: umldoc.cpp:1425
+#: umldoc.cpp:1432
 #, kde-format
 msgid "deployment diagram"
 msgstr "діаграма впровадження"
 
-#: umldoc.cpp:1428
+#: umldoc.cpp:1435
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "Діаграма взаємозв'язків сутностей"
 
-#: umldoc.cpp:1498
+#: umldoc.cpp:1505
 #, kde-format
 msgctxt "diagram name"
 msgid "Name"
 msgstr "Назва"
 
-#: umldoc.cpp:1498 umldoc.cpp:1560 umldoc.cpp:1589 umldoc.cpp:1624
+#: umldoc.cpp:1505 umldoc.cpp:1567 umldoc.cpp:1596 umldoc.cpp:1631
 #, kde-format
 msgid "Enter name:"
 msgstr "Введіть назву:"
 
-#: umldoc.cpp:1502 umldoc.cpp:1566
+#: umldoc.cpp:1509 umldoc.cpp:1573
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "Ця назва діаграми не є коректною."
 
-#: umldoc.cpp:1504 umldoc.cpp:1573
+#: umldoc.cpp:1511 umldoc.cpp:1580
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "Вже існує діаграма з такою назвою."
 
-#: umldoc.cpp:1559
+#: umldoc.cpp:1566
 #, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "Назва"
 
-#: umldoc.cpp:1588
+#: umldoc.cpp:1595
 #, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "Назва"
 
-#: umldoc.cpp:1623
+#: umldoc.cpp:1630
 #, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "Назва"
 
-#: umldoc.cpp:1633
+#: umldoc.cpp:1640
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
@@ -7861,42 +7861,42 @@ msgstr ""
 "Назва, яку ви ввели, не є унікальною.\n"
 "Ви бажали саме цього?"
 
-#: umldoc.cpp:1634
+#: umldoc.cpp:1641
 #, kde-format
 msgid "Use Name"
 msgstr "Використовувати назву"
 
-#: umldoc.cpp:1634
+#: umldoc.cpp:1641
 #, kde-format
 msgid "Enter New Name"
 msgstr "Введіть нову назву"
 
-#: umldoc.cpp:2182
+#: umldoc.cpp:2190
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr "Непідтримувана версія файла XMI: %1"
 
-#: umldoc.cpp:2346
+#: umldoc.cpp:2354
 #, kde-format
 msgid "Setting up the document..."
 msgstr "Побудова документа…"
 
-#: umldoc.cpp:2375
+#: umldoc.cpp:2383
 #, kde-format
 msgid "Resolving object references..."
 msgstr "Розбирання посилань на об'єкти…"
 
-#: umldoc.cpp:2483
+#: umldoc.cpp:2491
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "Завантаження елементів UML…"
 
-#: umldoc.cpp:2745
+#: umldoc.cpp:2753
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "Завантаження діаграм…"
 
-#: umldoc.cpp:3279
+#: umldoc.cpp:3287
 #, kde-format
 msgid "/autosave%1"
 msgstr "/автозбереження%1"
@@ -7930,7 +7930,7 @@ msgstr ""
 msgid "File Exists"
 msgstr "Файл існує"
 
-#: umllistview.cpp:568 umlviewimageexportermodel.cpp:270
+#: umllistview.cpp:568 umlviewimageexportermodel.cpp:268
 #, kde-format
 msgid "There was a problem saving file: %1"
 msgstr "Помилка збереження файла: %1"
@@ -7945,47 +7945,47 @@ msgstr "Введіть назву моделі"
 msgid "Enter the new name of the model:"
 msgstr "Введіть нову назву моделі:"
 
-#: umllistview.cpp:1418
+#: umllistview.cpp:1420
 #, kde-format
 msgid "Views"
 msgstr "Перегляди"
 
-#: umllistview.cpp:1436
+#: umllistview.cpp:1438
 #, kde-format
 msgid "Settings"
 msgstr "Параметри"
 
-#: umllistview.cpp:2452
+#: umllistview.cpp:2455
 #, kde-format
 msgid "Loading listview..."
 msgstr "Завантаження списку…"
 
-#: umllistview.cpp:2821
+#: umllistview.cpp:2824
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr "Слід спорожнити клас, перш ніж вилучати його."
 
-#: umllistview.cpp:2822
+#: umllistview.cpp:2825
 #, kde-format
 msgid "Class Not Empty"
 msgstr "Клас не є порожнім"
 
-#: umllistview.cpp:2826
+#: umllistview.cpp:2829
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr "Слід спорожнити пакунок, перш ніж вилучати його."
 
-#: umllistview.cpp:2827
+#: umllistview.cpp:2830
 #, kde-format
 msgid "Package Not Empty"
 msgstr "Пакунок не є порожнім"
 
-#: umllistview.cpp:2831
+#: umllistview.cpp:2834
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "Слід спорожнити теку, перш ніж вилучати її."
 
-#: umllistview.cpp:2832
+#: umllistview.cpp:2835
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "Тека не порожня"
@@ -8039,7 +8039,7 @@ msgstr "Файл теки %1 не існує."
 msgid "The folderfile %1 cannot be opened."
 msgstr "Файл теки %1 неможливо відкрити."
 
-#: umlmodel/operation.cpp:291
+#: umlmodel/operation.cpp:290
 #, kde-format
 msgid "new_parameter"
 msgstr "new_parameter"
@@ -8216,17 +8216,17 @@ msgstr "Введіть нову назву діаграми:"
 msgid "Failed to import from file."
 msgstr "Не вдалося імпортувати дані з файла."
 
-#: umlviewimageexporter.cpp:72
+#: umlviewimageexporter.cpp:73
 #, kde-format
 msgid "Exporting view..."
 msgstr "Експортування перегляду…"
 
-#: umlviewimageexporter.cpp:77
+#: umlviewimageexporter.cpp:78
 #, kde-format
 msgid "An error happened when exporting the image:\n"
 msgstr "Під час експорту зображення сталася помилка:\n"
 
-#: umlviewimageexporter.cpp:108
+#: umlviewimageexporter.cpp:109
 #, kde-format
 msgid ""
 "The selected file %1 exists.\n"
@@ -8235,22 +8235,22 @@ msgstr ""
 "Вибраний файл %1 існує.\n"
 "Хочете його перезаписати?"
 
-#: umlviewimageexporter.cpp:109
+#: umlviewimageexporter.cpp:110
 #, kde-format
 msgid "File Already Exists"
 msgstr "Файл вже існує"
 
-#: umlviewimageexportermodel.cpp:239
+#: umlviewimageexportermodel.cpp:237
 #, kde-format
 msgid "Empty scene"
 msgstr "Порожня сцена"
 
-#: umlviewimageexportermodel.cpp:244
+#: umlviewimageexportermodel.cpp:242
 #, kde-format
 msgid "Cannot create directory: %1"
 msgstr "Не вдається створити каталог: %1"
 
-#: umlviewimageexportermodel.cpp:261
+#: umlviewimageexportermodel.cpp:259
 #, kde-format
 msgid "A problem occurred while saving diagram in %1"
 msgstr "Сталася проблема під час збереження діаграми в %1"
@@ -8382,7 +8382,7 @@ msgid "Enter operation name:"
 msgstr "Введіть назву дії:"
 
 #: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1299
-#: worktoolbar.cpp:328
+#: worktoolbar.cpp:331
 #, kde-format
 msgid "Precondition"
 msgstr "Передумова"
@@ -8503,27 +8503,27 @@ msgstr ""
 "Натисніть і тримайте клавішу shift і control, щоб пересувати по осі Y. "
 "Клацніть правою кнопкою мишки, щоб скасувати пересування."
 
-#: umlwidgets/umlwidget.cpp:551
+#: umlwidgets/umlwidget.cpp:552
 #, kde-format
 msgid "Move widgets"
 msgstr "Пересунути віджети"
 
-#: umlwidgets/umlwidget.cpp:794
+#: umlwidgets/umlwidget.cpp:795
 #, kde-format
 msgid "Rename Object"
 msgstr "Перейменувати об'єкт"
 
-#: umlwidgets/umlwidget.cpp:795
+#: umlwidgets/umlwidget.cpp:796
 #, kde-format
 msgid "Enter object name:"
 msgstr "Введіть назву класу:"
 
-#: umlwidgets/umlwidget.cpp:1547
+#: umlwidgets/umlwidget.cpp:1548
 #, kde-format
 msgid "Hold shift or control to move in X axis."
 msgstr "Натисніть Shift або Ctrl, щоб пересунути за віссю X."
 
-#: umlwidgets/umlwidget.cpp:1548
+#: umlwidgets/umlwidget.cpp:1549
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
 msgstr "Натисніть Shift або Ctrl, щоб пересунути за віссю Y."
@@ -9008,7 +9008,7 @@ msgstr "Введіть нову назву віджета UML:"
 msgid "Enter the new name of the widget:"
 msgstr "Введіть нову назву віджета:"
 
-#: umlwidgets/widgetbase.cpp:1242 worktoolbar.cpp:334
+#: umlwidgets/widgetbase.cpp:1242 worktoolbar.cpp:337
 #, kde-format
 msgid "Box"
 msgstr "Блок"
@@ -9018,12 +9018,12 @@ msgstr "Блок"
 msgid "CombinedFragment"
 msgstr "Комбінований фрагмент"
 
-#: umlwidgets/widgetbase.cpp:1257 worktoolbar.cpp:359
+#: umlwidgets/widgetbase.cpp:1257 worktoolbar.cpp:362
 #, kde-format
 msgid "Datatype"
 msgstr "Тип даних"
 
-#: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:360
+#: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:363
 #, kde-format
 msgid "Enum"
 msgstr "Перелік"
@@ -9043,12 +9043,12 @@ msgstr "Розділити/з'єднати"
 msgid "Message"
 msgstr "Повідомлення"
 
-#: umlwidgets/widgetbase.cpp:1281 worktoolbar.cpp:333
+#: umlwidgets/widgetbase.cpp:1281 worktoolbar.cpp:336
 #, kde-format
 msgid "Note"
 msgstr "Примітка"
 
-#: umlwidgets/widgetbase.cpp:1284 worktoolbar.cpp:320
+#: umlwidgets/widgetbase.cpp:1284 worktoolbar.cpp:323
 #, kde-format
 msgid "Object"
 msgstr "Об'єкт"
@@ -9078,103 +9078,103 @@ msgstr "Текст"
 msgid "UseCase"
 msgstr "Випадок використання"
 
-#: umlwidgets/widgetbase.cpp:1317 worktoolbar.cpp:389
+#: umlwidgets/widgetbase.cpp:1317 worktoolbar.cpp:392
 #, kde-format
 msgid "Instance"
 msgstr "Екземпляр"
 
-#: worktoolbar.cpp:319
+#: worktoolbar.cpp:322
 #, kde-format
 msgctxt "selection arrow"
 msgid "Select"
 msgstr "Вибрати"
 
-#: worktoolbar.cpp:321
+#: worktoolbar.cpp:324
 #, kde-format
 msgid "Creation"
 msgstr "Створення"
 
-#: worktoolbar.cpp:322
+#: worktoolbar.cpp:325
 #, kde-format
 msgid "Destroy"
 msgstr "Знищити"
 
-#: worktoolbar.cpp:327
+#: worktoolbar.cpp:330
 #, kde-format
 msgid "Combined Fragment"
 msgstr "Комбінований фрагмент"
 
-#: worktoolbar.cpp:332
+#: worktoolbar.cpp:335
 #, kde-format
 msgid "Label"
 msgstr "Надпис"
 
-#: worktoolbar.cpp:339
+#: worktoolbar.cpp:342
 #, kde-format
 msgid "Directional Association"
 msgstr "Пряма асоціація"
 
-#: worktoolbar.cpp:343
+#: worktoolbar.cpp:346
 #, kde-format
 msgctxt "UML class"
 msgid "Class"
 msgstr "Клас"
 
-#: worktoolbar.cpp:348
+#: worktoolbar.cpp:351
 #, kde-format
 msgid "Send signal"
 msgstr "Надіслати сигнал"
 
-#: worktoolbar.cpp:349
+#: worktoolbar.cpp:352
 #, kde-format
 msgid "Accept signal"
 msgstr "Прийняти сигнал"
 
-#: worktoolbar.cpp:350
+#: worktoolbar.cpp:353
 #, kde-format
 msgid "Accept time event"
 msgstr "Прийняти часову подію"
 
-#: worktoolbar.cpp:351
+#: worktoolbar.cpp:354
 #, kde-format
 msgid "Fork/Join"
 msgstr "Розділити/з'єднати"
 
-#: worktoolbar.cpp:357
+#: worktoolbar.cpp:360
 #, kde-format
 msgid "Interface Provider"
 msgstr "Надавач інтерфейсу"
 
-#: worktoolbar.cpp:358
+#: worktoolbar.cpp:361
 #, kde-format
 msgid "Interface required"
 msgstr "Потрібний інтерфейс"
 
-#: worktoolbar.cpp:364
+#: worktoolbar.cpp:367
 #, kde-format
 msgctxt "join states"
 msgid "Join"
 msgstr "З'єднати"
 
-#: worktoolbar.cpp:368
+#: worktoolbar.cpp:371
 #, kde-format
 msgctxt "state choice"
 msgid "Choice"
 msgstr "Вибір"
 
 #. i18n("Choice"),                  Icon_Utils::it_Choice_Round,            SLOT(slotChoice()) },          //NotYetImplemented
-#: worktoolbar.cpp:371
+#: worktoolbar.cpp:374
 #, kde-format
 msgid "And Line"
 msgstr "Лінія «І»"
 
-#: worktoolbar.cpp:375
+#: worktoolbar.cpp:378
 #, kde-format
 msgctxt "state diagram"
 msgid "State"
 msgstr "Стани"
 
-#: worktoolbar.cpp:385
+#: worktoolbar.cpp:388
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "Перед/Після- умова"

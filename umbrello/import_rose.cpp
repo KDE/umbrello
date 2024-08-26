@@ -425,7 +425,7 @@ UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */)
     
     stream.setEncoding(QStringConverter::Latin1);
     QString line;
-    PetalNode  *root = nullptr;
+    PetalNode *root = nullptr;
     uint nClosures_sav = nClosures;
     uint linum_sav = linum;
     nClosures = 0;

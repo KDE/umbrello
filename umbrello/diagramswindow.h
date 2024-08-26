@@ -15,7 +15,7 @@ class DiagramsWindow : public QDockWidget
 {
     Q_OBJECT
 public:
-    explicit DiagramsWindow(const QString &title, QWidget  *parent = nullptr);
+    explicit DiagramsWindow(const QString &title, QWidget *parent = nullptr);
     ~DiagramsWindow();
 
 Q_SIGNALS:

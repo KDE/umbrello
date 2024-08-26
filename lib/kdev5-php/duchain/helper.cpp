@@ -99,14 +99,14 @@ DeclarationPointer findDeclarationImportHelper(DUContext* currentContext, const 
     } else if (declarationType == ClassDeclarationType && id == parentQId) {
         //there can be just one Class-Context imported
         DUChainReadLocker lock;
-        DUContext *classCtx = nullptr;
+        DUContext* classCtx = nullptr;
         if (currentContext->type() == DUContext::Class) {
             classCtx = currentContext;
         } else if (currentContext->parentContext() && currentContext->parentContext()->type() == DUContext::Class) {
             classCtx = currentContext->parentContext();
         }
         if (classCtx) {
-            for(const DUContext::Import &i: classCtx->importedParentContexts()) {
+            for(const DUContext::Import &i : classCtx->importedParentContexts()) {
                 DUContext* ctx = i.context(classCtx->topContext());
                 if (ctx && ctx->type() == DUContext::Class) {
                     return DeclarationPointer(ctx->owner());
@@ -128,7 +128,7 @@ DeclarationPointer findDeclarationImportHelper(DUContext* currentContext, const 
             foundDeclarations = currentContext->topContext()->findDeclarations(identifierWithNamespace(id, currentContext));
         }
 
-        for(Declaration  *declaration : foundDeclarations) {
+        for(Declaration *declaration : foundDeclarations) {
             if (isMatch(declaration, declarationType)) {
                 return DeclarationPointer(declaration);
             }
@@ -207,7 +207,7 @@ DeclarationPointer findDeclarationInPST(DUContext* currentContext, QualifiedIden
         /*
         if (ICore::self() && !ICore::self()->projectController()->projects().isEmpty()) {
             bool loadedProjectContainsUrl = false;
-            for(IProject  *project : ICore::self()->projectController()->projects()) {
+            for(IProject *project : ICore::self()->projectController()->projects()) {
                 if (project->fileSet().contains(top->url())) {
                     loadedProjectContainsUrl = true;
                     break;
@@ -302,7 +302,7 @@ static IndexedString findIncludeFile(const QString &includePath, const IndexedSt
     // in the first round look for a project that is a parent of the current document
     // in the next round look for any project
     for (int i = 0; i < 2; ++i) {
-        for(IProject *project : ICore::self()->projectController()->projects()) {
+        for(IProject* project : ICore::self()->projectController()->projects()) {
             if ( !i && !project->path().isParentOf(currentPath)) {
                 continue;
             }

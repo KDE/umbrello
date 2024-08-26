@@ -58,7 +58,7 @@ public:
     UMLAttribute* addAttribute(const QString &name, Uml::ID::Type id = Uml::ID::None);
     UMLAttribute* addAttribute(const QString &name, UMLObject *type, Uml::Visibility::Enum scope);
 
-    bool addAttribute(UMLAttribute *att, IDChangeLog* log = nullptr,
+    bool addAttribute(UMLAttribute *att, IDChangeLog *log = nullptr,
                       int position = -1);
 
     int removeAttribute(UMLAttribute *att);
@@ -88,7 +88,7 @@ public:
 
     UMLTemplate* addTemplate(const QString &name, Uml::ID::Type id = Uml::ID::None);
 
-    bool addTemplate(UMLTemplate *newTemplate, IDChangeLog* log = nullptr);
+    bool addTemplate(UMLTemplate *newTemplate, IDChangeLog *log = nullptr);
     bool addTemplate(UMLTemplate* templt, int position);
 
     int removeTemplate(UMLTemplate* umltemplate);

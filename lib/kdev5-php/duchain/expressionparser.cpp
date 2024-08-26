@@ -38,12 +38,12 @@ ExpressionEvaluationResult ExpressionParser::evaluateType(const QByteArray& expr
                                                           const CursorInRevision &offset)
 {
     if (m_debug)
-        qCDebug(DUCHAIN) << "==== .Evaluating ..:" << QLatin1Char('\n')<< expression;
+        qCDebug(DUCHAIN) << "==== .Evaluating ..:" << QLatin1Char('\n') << expression;
 
     ParseSession* session = new ParseSession();
     session->setContents(expression);
     Parser* parser = session->createParser(Parser::DefaultState);
-    ExprAst *ast = nullptr;
+    ExprAst* ast = nullptr;
     if (!parser->parseExpr(&ast)) {
         qCDebug(DUCHAIN) << "Failed to parse \"" << expression << "\"";
         delete session;

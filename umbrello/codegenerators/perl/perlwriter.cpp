@@ -285,7 +285,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   QString AV = QChar(QLatin1Char('@'));
   QString SV = QChar(QLatin1Char('$'));
   QString HV = QChar(QLatin1Char('%'));
-  for(UMLPackage *conc : includes) {
+  for (UMLPackage* conc  :  includes) {
     if (conc->isUMLDatatype())
         continue;
     QString neatName = cleanName(conc->name());
@@ -309,7 +309,7 @@ bool PerlWriter::GetUseStatements(UMLClassifier *c, QString &Ret,
   if (superclasses.count()) {
     Ret += m_endl;
     Ret += QStringLiteral("use base qw(");
-    for(UMLClassifier  *obj : superclasses) {
+    for(UMLClassifier *obj : superclasses) {
       QString packageName =  obj->package(QStringLiteral("."));
       packageName.replace(QRegularExpression(QStringLiteral("\\.")), QStringLiteral("::"));
 
@@ -516,7 +516,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)
     //sort operations by scope first and see if there are abstract methods
     //keep this for documentation only!
     UMLOperationList opl(c->getOpList());
-    for(UMLOperation  *op : opl) {
+    for(UMLOperation *op : opl) {
         switch(op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -564,7 +564,7 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)
         perl << "_init sets all " << classname << " attributes to their default values unless already set" << m_endl << m_endl << "=cut" << m_endl << m_endl;
         perl << "sub _init {" << m_endl << m_indentation << "my $self = shift;" << m_endl << m_endl;
 
-        for(UMLAttribute  *at : atl) {
+        for(UMLAttribute *at : atl) {
             if (!at->getInitialValue().isEmpty())
                 perl << m_indentation << "defined $self->{" << cleanName(at->name()) << "}"
                 << " or $self->{" << cleanName(at->name()) << "} = "
@@ -586,11 +586,11 @@ void PerlWriter::writeOperations(UMLClassifier *c, QTextStream &perl)
 void PerlWriter::writeOperations(const QString &classname, UMLOperationList &opList, QTextStream &perl)
 {
     Q_UNUSED(classname);
-    for(UMLOperation *op : opList) {
+    for(UMLOperation* op : opList) {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->doc().isEmpty();
-        for(UMLAttribute *at : atl)
+        for(UMLAttribute* at : atl)
             writeDoc |= !at->doc().isEmpty();
 
         if (writeDoc)  //write method documentation
@@ -600,7 +600,7 @@ void PerlWriter::writeOperations(const QString &classname, UMLOperationList &opL
 
             perl << "   Parameters :" << m_endl ;
           //write parameter documentation
-          for(UMLAttribute *at : atl) {
+          for(UMLAttribute* at : atl) {
             if (forceDoc() || !at->doc().isEmpty()) {
               perl << "      "
                    << cleanName(at->name()) << " : "
@@ -624,7 +624,7 @@ void PerlWriter::writeOperations(const QString &classname, UMLOperationList &opL
 
         bool bStartPrinted = false;
         //write parameters
-        for(UMLAttribute *at : atl) {
+        for(UMLAttribute* at : atl) {
           if (!bStartPrinted) {
               bStartPrinted = true;
               perl << "," << m_endl;
@@ -658,7 +658,7 @@ void PerlWriter::writeAttributes(UMLClassifier *c, QTextStream &perl)
     //sort attributes by scope and see if they have a default value
     UMLAttributeList atl = c->getAttributeList();
 
-    for(UMLAttribute *at : atl) {
+    for(UMLAttribute* at : atl) {
         if (!at->getInitialValue().isEmpty())
             atdefval.append(at);
         switch(at->visibility()) {
@@ -699,7 +699,7 @@ void PerlWriter::writeAttributes(UMLAttributeList &atList, QTextStream &perl)
 {
     perl << m_endl << "=head1 PUBLIC ATTRIBUTES" << m_endl << m_endl;
     perl << "=pod "  << m_endl << m_endl ;
-    for(UMLAttribute  *at : atList) {
+    for(UMLAttribute *at : atList) {
         if (forceDoc() || !at->doc().isEmpty())
         {
             perl  << "=head3 " << cleanName(at->name()) << m_endl << m_endl ;

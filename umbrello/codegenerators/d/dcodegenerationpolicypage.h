@@ -31,7 +31,7 @@ class DCodeGenerationPolicyPage : public CodeGenerationPolicyPage
     Q_OBJECT
 public:
 
-    explicit DCodeGenerationPolicyPage(QWidget    *parent= nullptr, const char *name= nullptr, DCodeGenerationPolicy * policy = nullptr);
+    explicit DCodeGenerationPolicyPage(QWidget    *parent= nullptr, const char *name= nullptr, DCodeGenerationPolicy *policy = nullptr);
     virtual ~DCodeGenerationPolicyPage();
 
 protected:

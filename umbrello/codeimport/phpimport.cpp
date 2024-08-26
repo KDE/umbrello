@@ -212,7 +212,7 @@ public:
         }
 
         m_nsCnt = 0;
-        for(const QString &nsName: nsNames) {
+        for(const QString &nsName : nsNames) {
             UMLPackage *parentPackage = m_currentNamespace[m_nsCnt];
             UMLObject *o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Package, parentPackage);
             if (!o)
@@ -241,7 +241,7 @@ public:
         }
 
         m_nsCnt = 0;
-        for(const QString &nsName: nsNames) {
+        for(const QString &nsName : nsNames) {
             UMLPackage *parentPackage = m_currentNamespace[m_nsCnt];
             UMLObject *o = UMLApp::app()->document()->findUMLObject(nsName, UMLObject::ot_Package, parentPackage);
             if (!o)

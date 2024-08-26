@@ -299,8 +299,8 @@ bool SelectOperationDialog::apply()
         if (st == Model_Utils::PS_OK) {
             UMLClassifierList selfAndAncestors = m_classifier->findSuperClassConcepts();
             selfAndAncestors.prepend(m_classifier);
-            UMLOperation  *op = nullptr;
-            for(UMLClassifier  *cl : selfAndAncestors) {
+            UMLOperation *op = nullptr;
+            for(UMLClassifier *cl : selfAndAncestors) {
                 op = cl->findOperation(od.m_name, od.m_args);
                 if (op) {
                     break;

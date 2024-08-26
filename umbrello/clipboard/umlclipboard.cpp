@@ -124,7 +124,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
         // on the ListView that correspond to a UseCase, Actor or Concept
         // in the Diagram
         if (m_type == clip2) {
-            for(UMLView *view : m_ViewList) {
+            for(UMLView* view : m_ViewList) {
                 UMLScene *scene = view->umlScene();
                 if (scene == nullptr) {
                     logError0("UMLClipboard::copy: currentView umlScene() is NULL");
@@ -133,7 +133,7 @@ QMimeData* UMLClipboard::copy(bool fromView/*=false*/)
                 fillObjectListForWidgets(scene->widgetList());
 
                 AssociationWidgetList associations = scene->associationList();
-                for(AssociationWidget *association : associations) {
+                for(AssociationWidget* association : associations) {
                     if (association->umlObject() != nullptr) {
                         m_ObjectList.append(association->umlObject());
                     }
@@ -236,7 +236,7 @@ void UMLClipboard::addRelatedWidgets()
     UMLWidgetList relatedWidgets;
     UMLWidget   *pWA = nullptr, *pWB = nullptr;
 
-    for(UMLWidget *widget : m_WidgetList) {
+    for(UMLWidget* widget : m_WidgetList) {
         if (widget->isMessageWidget()) {
             MessageWidget * pMessage = widget->asMessageWidget();
             pWA = (UMLWidget*)pMessage->objectWidget(Uml::RoleType::A);
@@ -248,7 +248,7 @@ void UMLClipboard::addRelatedWidgets()
         }
     }
 
-    for(AssociationWidget  *pAssoc : m_AssociationList) {
+    for(AssociationWidget *pAssoc : m_AssociationList) {
         pWA = pAssoc->widgetForRole(Uml::RoleType::A);
         pWB = pAssoc->widgetForRole(Uml::RoleType::B);
         if (!relatedWidgets.contains(pWA))
@@ -257,7 +257,7 @@ void UMLClipboard::addRelatedWidgets()
             relatedWidgets.append(pWB);
     }
 
-    for(UMLWidget  *widget : relatedWidgets) {
+    for(UMLWidget *widget : relatedWidgets) {
         if (!m_WidgetList.contains(widget))
             m_WidgetList.append(widget);
     }
@@ -274,7 +274,7 @@ void UMLClipboard::fillObjectListForWidgets(const UMLWidgetList& widgets)
     // the packages and add them from the root package to the deeper levels
     UMLObjectList packages;
 
-    for(UMLWidget *widget : widgets) {
+    for(UMLWidget* widget : widgets) {
         UMLObject* widgetObject = widget->umlObject();
         if (widgetObject != nullptr) {
             packages.clear();

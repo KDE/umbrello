@@ -437,9 +437,16 @@ void UMLDoc::closeDocument()
 
         // Remove any stereotypes.
         if (stereotypes().count() > 0) {
-            for(UMLStereotype  *s : stereotypes()) {
+            for(UMLStereotype *s : stereotypes()) {
                 m_stereotypesModel->removeStereotype(s);
-                delete s;
+                //delete s;
+                // This may crash when selecting File -> Close with following stacktrace:
+                // #5  UMLDoc::closeDocument (this=0x2053620) at umbrello/umldoc.cpp:440
+                // #6  UMLDoc::newDocument (this=0x2053620) at umbrello/umldoc.cpp:463
+                // #7  UMLApp::slotFileNew (this=0x1aab900) at umbrello/uml.cpp:1239
+                // #8  UMLApp::slotFileClose (this=0x1aab900) at umbrello/uml.cpp:1395
+                // #9  UMLApp::qt_static_metacall (_o=0x1aab900, _c=QMetaObject::InvokeMetaMethod, _id=8, _a=0x7ffeb9ad1f10)
+                //     at build/umbrello/libumbrello_autogen/EWIEGA46WW/moc_uml.cpp:490
             }
             m_stereoList.clear();
         }
@@ -1186,7 +1193,7 @@ UMLStereotype* UMLDoc::createStereotype(const QString &name)
  */
 UMLStereotype* UMLDoc::findStereotype(const QString &name) const
 {
-    for(UMLStereotype  *s : m_stereoList) {
+    for(UMLStereotype *s : m_stereoList) {
         if (s->name() == name) {
             return s;
         }
@@ -1215,7 +1222,7 @@ UMLStereotype* UMLDoc::findOrCreateStereotype(const QString &name)
  */
 UMLStereotype * UMLDoc::findStereotypeById(Uml::ID::Type id) const
 {
-    for(UMLStereotype  *s : m_stereoList) {
+    for(UMLStereotype *s : m_stereoList) {
         if (s->id() == id)
             return s;
     }
@@ -1307,7 +1314,7 @@ UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType::Enum assocType,
         bool *swap) const
 {
     UMLAssociationList assocs = associations();
-    UMLAssociation  *ret = nullptr;
+    UMLAssociation *ret = nullptr;
     for(UMLAssociation *a : assocs) {
         if (a->getAssocType() != assocType) {
             continue;
@@ -1320,7 +1327,7 @@ UMLAssociation * UMLDoc::findAssociation(Uml::AssociationType::Enum assocType,
         }
     }
     if (swap) {
-         *swap = (ret != nullptr);
+        *swap = (ret != nullptr);
     }
     return ret;
 }
@@ -1827,7 +1834,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                 // should not remove elements from m_objectList while it is
                 // being iterated over.
                 UMLAssociationList assocsToRemove;
-                for(UMLObject  *obj : rootObjects) {
+                for(UMLObject *obj : rootObjects) {
                     uIgnoreZeroPointer(obj);
                     if (obj->baseType() == UMLObject::ot_Association) {
                         UMLAssociation *assoc = obj->asUMLAssociation();
@@ -1836,7 +1843,7 @@ void UMLDoc::removeUMLObject(UMLObject* umlobject, bool deleteObject)
                         }
                     }
                 }
-                for(UMLAssociation  *a : assocsToRemove) {
+                for(UMLAssociation *a : assocsToRemove) {
                     removeAssociation(a, false);
                 }
             }
@@ -2011,7 +2018,7 @@ void UMLDoc::saveToXMI(QIODevice& file)
     // There is a bug causing duplication of the same stereotype in m_stereoList.
     // As a workaround, we use a string list to memorize which stereotype has been saved.
     QStringList stereoNames;
-    for(UMLStereotype  *s : m_stereoList) {
+    for(UMLStereotype *s : m_stereoList) {
         QString stName = s->name();
         if (!stereoNames.contains(stName)) {
             s->saveToXMI(writer);
@@ -2353,7 +2360,7 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     qApp->processEvents();  // give UI events a chance
     activateAllViews();
 
-    UMLView  *viewToBeSet = nullptr;
+    UMLView *viewToBeSet = nullptr;
     if (m_nViewID != Uml::ID::None) {
         viewToBeSet = findView(m_nViewID);
     }
@@ -2403,7 +2410,7 @@ bool UMLDoc::loadDiagrams1()
     DiagramsMap::const_iterator i;
     for (i = m_diagramsToLoad.constBegin(); i != m_diagramsToLoad.constEnd(); i++) {
         UMLFolder *f = i.key();
-        for(QDomNode node: i.value())
+        for(QDomNode node : i.value())
             if (!f->loadDiagramsFromXMI1(node))
                 result = false;
     }
@@ -2900,7 +2907,7 @@ UMLClassifierList UMLDoc::datatypes(bool includeInactive /* = false */) const
 {
     UMLObjectList objects = m_datatypeRoot->containedObjects(includeInactive);
     UMLClassifierList datatypeList;
-    for(UMLObject  *obj : objects) {
+    for(UMLObject *obj : objects) {
         uIgnoreZeroPointer(obj);
         if (obj->isUMLDatatype()) {
             datatypeList.append(obj->asUMLClassifier());
@@ -2920,7 +2927,7 @@ UMLDatatype * UMLDoc::findDatatype(QString name, bool includeInactive /* = false
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     name = Model_Utils::normalize(name);
-    for(UMLClassifier  *c : datatypes(includeInactive)) {
+    for(UMLClassifier *c : datatypes(includeInactive)) {
         UMLDatatype *type = dynamic_cast<UMLDatatype*>(c);
         if (!type)
             continue;
@@ -2945,7 +2952,7 @@ UMLAssociationList UMLDoc::associations() const
     for (int i = 0; i < Uml::ModelType::N_MODELTYPES; ++i) {
         UMLAssociationList assocs = m_root[i]->getAssociations();
 
-        for(UMLAssociation *a : assocs) {
+        for(UMLAssociation* a : assocs) {
             associationList.append(a);
         }
     }
@@ -3002,7 +3009,7 @@ UMLViewList UMLDoc::viewIterator() const
 UMLViewList UMLDoc::views(Uml::DiagramType::Enum type) const
 {
     UMLViewList result;
-    for(UMLView  *v : viewIterator()) {
+    for(UMLView *v : viewIterator()) {
         if (type == Uml::DiagramType::Undefined || v->umlScene()->type() == type)
             result.append(v);
     }
@@ -3056,13 +3063,13 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
     if (obj->baseType() == UMLObject::ot_Class) {
         UMLClassifier *c = obj->asUMLClassifier();
         UMLClassifierListItemList attributes = c->getFilteredList(UMLObject::ot_Attribute);
-        for(UMLObject *listItem :  attributes) {
+        for(UMLObject* listItem: attributes) {
             result = assignNewID(listItem->id());
             listItem->setID(result);
         }
 
         UMLClassifierListItemList templates = c->getFilteredList(UMLObject::ot_Template);
-        for(UMLObject *listItem : templates) {
+        for(UMLObject* listItem : templates) {
             result = assignNewID(listItem->id());
             listItem->setID(result);
         }
@@ -3389,7 +3396,7 @@ void UMLDoc::removeDatatype(const QString &name)
     UMLObjectList datatypes = m_datatypeRoot->containedObjects();
     // We don't use Model_Utils::findUMLObject because that function considers
     // case sensitivity of the active language, which we don't want here.
-    for(UMLObject  *obj : datatypes) {
+    for(UMLObject *obj : datatypes) {
         uIgnoreZeroPointer(obj);
         if (obj->name() == name) {
             removeUMLObject(obj);

@@ -178,7 +178,7 @@ void RubyWriter::writeOperations(UMLClassifier *c, QTextStream &h)
 
     //sort operations by scope first and see if there are abstract methods
     UMLOperationList opl(c->getOpList());
-    for(UMLOperation  *op : opl) {
+    for(UMLOperation *op : opl) {
         switch(op->visibility()) {
         case Uml::Visibility::Public:
             oppub.append(op);
@@ -290,7 +290,7 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
             docStr.replace(QLatin1Char('\n'), QString(QStringLiteral("\n")) + m_indentation + QStringLiteral("# "));
 
             // Write parameter documentation
-            for(UMLAttribute *at : atl) {
+            for(UMLAttribute* at : atl) {
                 // Only write an individual @param entry if one hasn't been found already
                 // in the main doc comment
                 if (commentedParams.contains(cppToRubyName(at->name())) == 0) {

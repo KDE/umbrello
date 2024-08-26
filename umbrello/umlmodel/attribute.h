@@ -27,7 +27,7 @@ public:
     UMLAttribute(UMLObject *parent, const QString& name,
                  Uml::ID::Type id = Uml::ID::None,
                  Uml::Visibility::Enum s = Uml::Visibility::Private,
-                 UMLObject  *type = nullptr, const QString& iv = QString());
+                 UMLObject *type = nullptr, const QString& iv = QString());
     explicit UMLAttribute(UMLObject *parent);
 
     bool operator==(const UMLAttribute &rhs) const;

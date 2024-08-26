@@ -76,7 +76,7 @@ QSizeF EntityWidget::calculateSize(bool withExtensions /* = true */) const
 
     const UMLClassifier *classifier = m_umlObject->asUMLClassifier();
     UMLClassifierListItemList list = classifier->getFilteredList(UMLObject::ot_EntityAttribute);
-    for(UMLClassifierListItem *entityattribute : list) {
+    for(UMLClassifierListItem* entityattribute : list) {
         QString text = entityattribute->name();
         UMLEntityAttribute* umlEA = entityattribute->asUMLEntityAttribute();
         if (showAttributeSignature()) {

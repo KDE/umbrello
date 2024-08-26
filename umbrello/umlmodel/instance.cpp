@@ -75,7 +75,7 @@ void UMLInstance::setClassifierCmd(UMLClassifier *classifier, bool emitSignal /*
     m_pSecondary = classifier;
     if (classifier) {
         UMLClassifierListItemList attrDefs = classifier->getFilteredList(UMLObject::ot_Attribute);
-        for(UMLClassifierListItem  *item : attrDefs) {
+        for(UMLClassifierListItem *item : attrDefs) {
             uIgnoreZeroPointer(item);
             UMLAttribute *umla = item->asUMLAttribute();
             if (umla) {
@@ -108,7 +108,7 @@ void UMLInstance::saveToXMI(QXmlStreamWriter& writer)
     if (m_pSecondary) {
         writer.writeAttribute(QStringLiteral("classifier"), Uml::ID::toString(m_pSecondary->id()));
         //save attributes
-        for(UMLObject  *pObject : subordinates()) {
+        for(UMLObject *pObject : subordinates()) {
             pObject->saveToXMI(writer);
         }
     }

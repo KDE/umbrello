@@ -333,7 +333,7 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
             TextBlockInfo * thisTbInfo = it.value();
             int firstLoc = m_textBlockList.indexOf(tblock);
 
-            for(ParaInfo  *pi : thisTbInfo->m_paraList) {
+            for(ParaInfo * pi : thisTbInfo->m_paraList) {
                 int minPara = pi->start + firstLoc;
 
                 // only worth doing if in range of the whole representation
@@ -362,17 +362,17 @@ void CodeEditor::insertText(const QString & text, TextBlock * parent,
 void CodeEditor::appendText(TextBlockList * items)
 {
     logDebug0("CodeEditor::appendText text block list");
-    for(TextBlock *tb : *items) {
+    for(TextBlock* tb : *items) {
         // types of things we may cast our text block into
         // This isnt efficient, and is a vote for recording
         // code block types in an enumerated list somewhere,
         // as well as a generic attribute "blockType" we could
         // quickly access, rather than casting. -b.t.
-        HierarchicalCodeBlock  *hb = nullptr;
-        CodeMethodBlock  *mb = nullptr;
-        CodeClassFieldDeclarationBlock  *db = nullptr;
-        CodeBlockWithComments  *cb = nullptr;
-        // CodeComment  *cm = nullptr;
+        HierarchicalCodeBlock *hb = nullptr;
+        CodeMethodBlock *mb = nullptr;
+        CodeClassFieldDeclarationBlock *db = nullptr;
+        CodeBlockWithComments *cb = nullptr;
+        // CodeComment *cm = nullptr;
         if ((hb = dynamic_cast<HierarchicalCodeBlock *>(tb)))
             appendText(hb);
         else if ((mb = dynamic_cast<CodeMethodBlock*>(tb)))
@@ -963,7 +963,7 @@ void CodeEditor::updateTextBlockFromText(TextBlock * block)
         // Assemble content from editiable paras
         if (info) {
             QList<ParaInfo*> list = info->m_paraList;
-            for(ParaInfo  *item : list) {
+            for(ParaInfo * item : list) {
                 if (item->isEditable) {
                     int lastpara = item->start+pstart+item->size;
                     int endEdit = block->lastEditableLine();

@@ -79,7 +79,7 @@ void DWriter::writeModuleImports(UMLClassifier *c, QTextStream &d)
     //only import classes in a different package as this class
     UMLPackageList imports;
     findObjectsRelated(c, imports);
-    for(UMLPackage *con : imports) {
+    for(UMLPackage* con : imports) {
         if (con->isUMLDatatype())
             continue;
         QString pkg = con->package();
@@ -155,7 +155,7 @@ void DWriter::writeClass(UMLClassifier *c)
 
     if (!isInterface) {
         UMLAttributeList atl = c->getAttributeList();
-        for(UMLAttribute *at : atl) {
+        for(UMLAttribute* at : atl) {
             switch(at->visibility())
             {
                 case Uml::Visibility::Public:
@@ -350,7 +350,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
         d << " : ";
 
         // (f) base classes
-        for(UMLClassifier *classifier : superclasses) {
+        for(UMLClassifier* classifier : superclasses) {
             d << cleanName(classifier->name());
 
             count--;
@@ -359,7 +359,7 @@ void DWriter::writeClassDecl(UMLClassifier *c, QTextStream &d)
         }
 
         // (g) interfaces
-        for(UMLClassifier *classifier : superinterfaces) {
+        for(UMLClassifier* classifier : superinterfaces) {
             d << cleanName(classifier->name());
 
             count--;
@@ -380,7 +380,7 @@ void DWriter::writeAttributeDecl(Uml::Visibility::Enum visibility, UMLAttributeL
 
     writeProtectionMod(visibility, d);
 
-    for(UMLAttribute *at : atlist) {
+    for(UMLAttribute* at : atlist) {
         // documentation
         if (!at->doc().isEmpty()) {
             writeComment(at->doc(), m_indentation, d, true);
@@ -425,7 +425,7 @@ void DWriter::writeAttributeMethods(UMLAttributeList &atpub, Uml::Visibility::En
 
     writeProtectionMod(visibility, d);
 
-    for(UMLAttribute *at : atpub) {
+    for(UMLAttribute* at : atpub) {
         QString fieldName = cleanName(at->name());
         writeSingleAttributeAccessorMethods(
             at->getTypeName(), QStringLiteral("m_") + fieldName, fieldName, at->doc(),
@@ -488,7 +488,7 @@ void DWriter::writeAssociationDecls(UMLAssociationList associations, Uml::ID::Ty
     if (forceSections() || !associations.isEmpty())
     {
         bool printRoleA = false, printRoleB = false;
-        for(UMLAssociation  *a : associations) {
+        for(UMLAssociation *a : associations) {
             // it may seem counter intuitive, but you want to insert the role of the
             // *other* class into *this* class.
             if (a->getObjectId(Uml::RoleType::A) == id)
@@ -559,7 +559,7 @@ void DWriter::writeAssociationRoleDecl(QString fieldClassName,
 void DWriter::writeAssociationMethods (UMLAssociationList associations, UMLClassifier *thisClass, QTextStream &d)
 {
     if (forceSections() || !associations.isEmpty()) {
-        for(UMLAssociation  *a : associations) {
+        for(UMLAssociation *a : associations) {
             // insert the methods to access the role of the other
             // class in the code of this one
             if (a->getObjectId(Uml::RoleType::A) == thisClass->id()) {
@@ -782,7 +782,7 @@ bool DWriter::compareDMethod(UMLOperation *op1, UMLOperation *op2)
 
 bool DWriter::dMethodInList(UMLOperation *umlOp, UMLOperationList &opl)
 {
-    for(UMLOperation *op : opl) {
+    for(UMLOperation* op : opl) {
         if (DWriter::compareDMethod(op, umlOp)) {
             return true;
         }
@@ -794,10 +794,10 @@ void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &
 {
     UMLClassifierList superClasses = c->findSuperClassConcepts();
 
-    for(UMLClassifier *classifier : superClasses) {
+    for(UMLClassifier* classifier : superClasses) {
         getSuperImplementedOperations(classifier, yetImplementedOpList, toBeImplementedOpList, (classifier->isInterface() && noClassInPath));
         UMLOperationList opl = classifier->getOpList();
-        for(UMLOperation *op : opl) {
+        for(UMLOperation* op : opl) {
             if (classifier->isInterface() && noClassInPath) {
                 if (!DWriter::dMethodInList(op, toBeImplementedOpList))
                     toBeImplementedOpList.append(op);
@@ -817,7 +817,7 @@ void DWriter::getInterfacesOperationsToBeImplemented(UMLClassifier *c, UMLOperat
     UMLOperationList toBeImplementedOpList;
 
     getSuperImplementedOperations(c, yetImplementedOpList, toBeImplementedOpList);
-    for(UMLOperation *op : toBeImplementedOpList) {
+    for(UMLOperation* op : toBeImplementedOpList) {
         if (! DWriter::dMethodInList(op, yetImplementedOpList) && ! DWriter::dMethodInList(op, opList))
             opList.append(op);
     }
@@ -833,7 +833,7 @@ void DWriter::writeOperations(UMLClassifier *c, QTextStream &d)
     if (! c->isInterface()) {
         getInterfacesOperationsToBeImplemented(c, opl);
     }
-    for(UMLOperation *op : opl) {
+    for(UMLOperation* op : opl) {
         switch(op->visibility()) {
           case Uml::Visibility::Public:
             oppub.append(op);
@@ -884,7 +884,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
     QString str;
 
     // generate method decl for each operation given
-    for(UMLOperation *op : oplist) {
+    for(UMLOperation* op : oplist) {
         QString doc;
         // write documentation
 

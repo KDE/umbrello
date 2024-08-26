@@ -227,7 +227,7 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype
     if (last) {
         s.append(QStringLiteral("("));
         int i = 0;
-        for(UMLAttribute  *param : m_args) {
+        for(UMLAttribute *param : m_args) {
             i++;
             s.append(param->toString(Uml::SignatureType::SigNoVis, withStereotype));
             if (i < last)
@@ -353,7 +353,7 @@ bool UMLOperation::resolveRef()
 {
     bool overallSuccess = UMLObject::resolveRef();
     // See remark on iteration style in UMLClassifier::resolveRef()
-    for(UMLAttribute *pAtt : m_args) {
+    for(UMLAttribute* pAtt : m_args) {
         if (! pAtt->resolveRef())
             overallSuccess = false;
     }
@@ -570,7 +570,7 @@ void UMLOperation::saveToXMI(QXmlStreamWriter& writer)
     }
 
     //save each attribute here, type different
-    for(UMLAttribute *pAtt : m_args) {
+    for(UMLAttribute* pAtt : m_args) {
         pAtt->UMLObject::save1(writer, QStringLiteral("Parameter"), QStringLiteral("ownedParameter"));
         UMLClassifier *attrType = pAtt->getType();
         if (attrType) {

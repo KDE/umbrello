@@ -522,7 +522,7 @@ void ToolBarState::setMouseEvent(QGraphicsSceneMouseEvent* ome, const QEvent::Ty
  */
 MessageWidget* ToolBarState::messageAt(const QPointF& pos)
 {
-    for(MessageWidget *message : m_pUMLScene->messageList()) {
+    for(MessageWidget* message : m_pUMLScene->messageList()) {
         if (message->isVisible() && message->onWidget(pos)) {
             return message;
         }
@@ -540,7 +540,7 @@ MessageWidget* ToolBarState::messageAt(const QPointF& pos)
  */
 AssociationWidget* ToolBarState::associationAt(const QPointF& pos)
 {
-    for(AssociationWidget *association : m_pUMLScene->associationList()) {
+    for(AssociationWidget* association : m_pUMLScene->associationList()) {
         if (association->onAssociation(pos)) {
             return association;
         }
@@ -559,7 +559,7 @@ FloatingDashLineWidget* ToolBarState::floatingLineAt(const QPointF& pos)
 {
     FloatingDashLineWidget *floatingline = nullptr;
 
-    for(UMLWidget *widget : m_pUMLScene->widgetList()) {
+    for(UMLWidget* widget : m_pUMLScene->widgetList()) {
         uIgnoreZeroPointer(widget);
         if (widget->isFloatingDashLineWidget()){
             if (widget->asFloatingDashLineWidget()->onLine(pos)) {

@@ -132,7 +132,7 @@ void UMLStereotype::saveToXMI(QXmlStreamWriter& writer)
         if (! Settings::optionState().generalState.uml2) {
             writer.writeStartElement(QStringLiteral("UML:Stereotype.feature"));
         }
-        for(AttributeDef ad: m_attrDefs) {
+        for(AttributeDef ad : m_attrDefs) {
             const QString tag = (Settings::optionState().generalState.uml2 ?
                                  QStringLiteral("ownedAttribute") : QStringLiteral("UML:Attribute"));
             writer.writeStartElement(tag);
@@ -234,5 +234,5 @@ QString UMLStereotype::name(bool includeAdornments) const
     if (includeAdornments) {
         return QString::fromUtf8("«") + UMLObject::name() + QString::fromUtf8("»");
     }
-        return UMLObject::name();
+    return UMLObject::name();
 }

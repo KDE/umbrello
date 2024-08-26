@@ -66,7 +66,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     UMLAttributeList list = getParentOperation()->getParmList();
     int nrofParam = list.count();
     int paramNum = 0;
-    for(UMLAttribute *parm : list) {
+    for(UMLAttribute* parm : list) {
         QString rType = parm->getTypeName();
         QString paramName = parm->name();
         paramStr += rType + QLatin1Char(' ') + paramName;

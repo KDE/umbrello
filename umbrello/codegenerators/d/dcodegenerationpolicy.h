@@ -34,7 +34,7 @@ public:
     virtual void setDefaults(CodeGenPolicyExt * defaults, bool emitUpdateSignal = true);
     virtual void setDefaults(bool emitUpdateSignal = true);
 
-    CodeGenerationPolicyPage   *createPage (QWidget *parent = nullptr, const char * name = nullptr);
+    CodeGenerationPolicyPage   *createPage (QWidget *parent = nullptr, const char *name = nullptr);
 
 protected:
 

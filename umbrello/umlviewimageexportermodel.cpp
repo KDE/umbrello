@@ -36,7 +36,6 @@
 #include <KIO/FileCopyJob>
 #include <KIO/StatJob>
 
-
 DEBUG_REGISTER_DISABLED(UMLViewImageExporterModel)
 
 QStringList *UMLViewImageExporterModel::s_supportedImageTypesList;
@@ -54,7 +53,7 @@ QStringList UMLViewImageExporterModel::supportedImageTypes()
         s_supportedImageTypesList = new QStringList();
         // QT supported formats
         QList<QByteArray> qImageFormats = QImageWriter::supportedImageFormats();
-        for(const QByteArray& it: qImageFormats) {
+        for(const QByteArray& it : qImageFormats) {
             const QString format = QString::fromLatin1(it.toLower());
             if (!s_supportedImageTypesList->contains(format))
                 *s_supportedImageTypesList << format;
@@ -202,7 +201,7 @@ QStringList UMLViewImageExporterModel::exportViews(const UMLViewList &views, con
     // contains all the error messages returned by exportView calls
     QStringList errors;
 
-    for(UMLView  *view : views) {
+    for(UMLView *view : views) {
         QUrl url = QUrl::fromLocalFile(directory.path() + QLatin1Char('/') +
                  getDiagramFileName(view->umlScene(), imageType, useFolders));
 

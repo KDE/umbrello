@@ -68,7 +68,7 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     //setup autosave settings
     m_GeneralWidgets.autosaveGB = new QGroupBox(i18n("Autosave"));
     topLayout->addWidget(m_GeneralWidgets.autosaveGB);
-
+    
     QGridLayout * autosaveLayout = new QGridLayout(m_GeneralWidgets.autosaveGB);
     autosaveLayout->setSpacing(spacingHint);
     autosaveLayout->setContentsMargins(margin, margin, margin, margin);

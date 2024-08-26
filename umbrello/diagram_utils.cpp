@@ -215,23 +215,23 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &s
     scene->addWidgetCmd(leftWidget);
     objectsMap[name] = leftWidget;
 
-    ObjectWidget  *rightWidget = nullptr;
+    ObjectWidget *rightWidget = nullptr;
     ObjectWidget *mostRightWidget = leftWidget;
-    MessageWidget  *messageWidget = nullptr;
+    MessageWidget *messageWidget = nullptr;
     // for further processing
     MessageWidgetList messages;
 
     QStringList l;
     SequenceLineFormat format = detectSequenceLineFormat(lines);
     if (format == GDB || format == QtCreatorGDB)
-        for(const QString &s: lines)
+        for(const QString &s : lines)
             l.push_front(s);
     else
         l = lines;
 
     // for each line
     int index = 1;
-    for(const QString &line: l) {
+    for(const QString &line : l) {
         QString stackframe, package, method, error;
 
         if (!parseSequenceLine(line, stackframe, package, method, error)) {
@@ -286,13 +286,13 @@ bool importSequences(const QStringList &lines, UMLScene *scene, const QString &s
         return false;
 
     // adjust vertical position
-    for(MessageWidget  *w : messages) {
+    for(MessageWidget *w : messages) {
         w->setY(w->y() + 20);
     }
 
     // adjust heights starting from the last message
     MessageWidget *previous = messages.takeFirst();
-    for(MessageWidget  *w : messages) {
+    for(MessageWidget *w : messages) {
         w->setSize(w->width(), previous->y() - w->y() + previous->height() + 5);
         // adjust vertical line length of object widgets
         w->objectWidget(Uml::RoleType::A)->slotMessageMoved();
@@ -306,8 +306,8 @@ bool importClassGraph(const QStringList &lines, UMLScene *scene, const QString &
 {
     UMLDoc *umldoc = UMLApp::app()->document();
 
-    UMLWidget  *lastWidget = nullptr;
-    UMLClassifier  *c = nullptr;
+    UMLWidget *lastWidget = nullptr;
+    UMLClassifier *c = nullptr;
     QString methodIdentifier(QStringLiteral("()"));
     QMap<QString, QPointer<UMLWidget>> widgetList;
     int lineNumber = 0;

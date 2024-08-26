@@ -148,7 +148,7 @@ public:
             return -1;
         } else {
             uint pos = 1;
-            for(Parser::TokenType type: list ) {
+            for( Parser::TokenType type : list ) {
                 if ( skipWhitespace && m_stream.at( m_pos - pos).kind == Parser::Token_WHITESPACE ) {
                     ++pos;
                 }
@@ -361,7 +361,7 @@ CodeCompletionContext::CodeCompletionContext(KDevelop::DUContextPointer context,
             if ( m_memberAccessOperation == InterfaceChoose ) {
                 ifDebug(qCDebug(COMPLETION) << "in implementation list";)
                 m_memberAccessOperation = InterfaceChoose;
-                for(qint64 pos: identifierPositions ) {
+                for( qint64 pos : identifierPositions ) {
                     forbidIdentifier(lastToken.stringAt(pos));
                 }
             } else {
@@ -1042,7 +1042,7 @@ QList<DUContext*> CodeCompletionContext::memberAccessContainers() const
     } else {
         types << expressionTarget;
     }
-    for(const AbstractType::Ptr &type: types) {
+    for(const AbstractType::Ptr &type : types) {
         const IdentifiedType* idType = dynamic_cast<const IdentifiedType*>(type.data());
         Declaration *declaration = nullptr;
         if (idType) {
@@ -1117,7 +1117,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
                 break;
             }
             auto folder = item->folder();
-            for(ProjectFileItem *subFile : folder->fileList() ) {
+            for( ProjectFileItem* subFile : folder->fileList() ) {
                 if ( abort ) {
                     break;
                 }
@@ -1135,7 +1135,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
                 }
                 items << CompletionTreeItemPointer(new IncludeFileItem(item));
             }
-            for(ProjectFolderItem *subFolder : folder->folderList() ) {
+            for( ProjectFolderItem* subFolder : folder->folderList() ) {
                 if ( abort ) {
                     break;
                 }
@@ -1333,7 +1333,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
             qCDebug(COMPLETION) << "could not find namespace:" << m_namespace.toString();
             return items;
         }
-        for(Declaration *dec : ctx->localDeclarations()) {
+        for(Declaration* dec : ctx->localDeclarations()) {
             if (!isValidCompletionItem(dec)) {
                 continue;
             } else {
@@ -1356,12 +1356,12 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
                 currentClass = dynamic_cast<ClassDeclaration*>(m_duContext->parentContext()->owner());
             }
 
-            for(DUContext *ctx : containers) {
+            for(DUContext* ctx : containers) {
                 ClassDeclaration* accessedClass = dynamic_cast<ClassDeclaration*>(ctx->owner());
                 if (abort)
                     return items;
 
-                for(DeclarationDepthPair decl: ctx->allDeclarations(
+                for(DeclarationDepthPair decl : ctx->allDeclarations(
                                                             ctx->range().end, m_duContext->topContext(), false))
                 {
                     //If we have StaticMemberAccess, which means A::Bla, show only static members,
@@ -1458,8 +1458,8 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
                     );
         }
 
-        for(QSet<IndexedString> urlSets: completionFiles()) {
-            for(const IndexedString &url: urlSets) {
+        for(QSet<IndexedString> urlSets : completionFiles()) {
+            for(const IndexedString &url : urlSets) {
                 if (url == m_duContext->url()) {
                     continue;
                 }
@@ -1469,13 +1469,13 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
                 for (uint i = 0; i < count; ++i) {
                     CodeModelItem::Kind k = foundItems[i].kind;
                     if (((k & CodeModelItem::Function) || (k & CodeModelItem::Variable)) && !(k & CodeModelItem::ClassMember)) {
-                        for(const ParsingEnvironmentFilePointer &env: DUChain::self()->allEnvironmentFiles(url)) {
+                        for(const ParsingEnvironmentFilePointer &env : DUChain::self()->allEnvironmentFiles(url)) {
                             if (env->language() != phpLangString) continue;
                             TopDUContext* top = env->topContext();
                             if(!top) continue;
                             if (m_duContext->imports(top)) continue;
                             QList<Declaration*> decls = top->findDeclarations(foundItems[i].id);
-                            for(Declaration *decl : decls) {
+                            for(Declaration* decl : decls) {
                                 if (abort) return items;
                                 // we don't want to have class methods/properties, just normal functions
                                 // and other global stuff
@@ -1501,8 +1501,8 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
             }
         }
 
-        for(QSet<IndexedString> urlSets: completionFiles()) {
-            for(const IndexedString &url: urlSets) {
+        for(QSet<IndexedString> urlSets : completionFiles()) {
+            for(const IndexedString &url : urlSets) {
                 uint count = 0;
                 const CompletionCodeModelItem *foundItems = nullptr;
                 CompletionCodeModel::self().items(url, count, foundItems);
@@ -1513,7 +1513,7 @@ QList<CompletionTreeItemPointer> CodeCompletionContext::completionItems(bool& ab
                     }
                     auto files = DUChain::self()->allEnvironmentFiles(url);
                     items.reserve(files.size());
-                    for(const ParsingEnvironmentFilePointer &env: files) {
+                    for(const ParsingEnvironmentFilePointer &env : files) {
                         Q_ASSERT(env->language() == phpLangString);
                         items << CompletionTreeItemPointer ( new CodeModelCompletionItem(env, foundItems[i]));
                     }

@@ -49,7 +49,7 @@ CodeClassField::CodeClassField (ClassifierCodeDocument * doc, UMLAttribute * att
 CodeClassField::~CodeClassField ()
 {
     // remove methods from parent document
-    for(CodeAccessorMethod  *m : m_methodVector)
+    for(CodeAccessorMethod *m : m_methodVector)
     {
         getParentDocument()->removeTextBlock(m);
         m->forceRelease();
@@ -247,7 +247,7 @@ void CodeClassField::setAttributesOnNode (QXmlStreamWriter& writer)
     m_declCodeBlock->saveToXMI(writer);
 
     // now record the tags on our accessormethods
-    for(CodeAccessorMethod  *method : m_methodVector)
+    for(CodeAccessorMethod *method : m_methodVector)
     {
         method->saveToXMI(writer);
     }
@@ -428,7 +428,7 @@ CodeAccessorMethod * CodeClassField::findMethodByType (CodeAccessorMethod::Acces
         // argh. this wont work because "accessorType' doesn't inherit from QObject.
         if(m_methodMap->contains(type))
                 return ((*m_methodMap)[type]);
-        CodeAccessorMethod  *obj = nullptr;
+        CodeAccessorMethod *obj = nullptr;
     */
     if(role_id > 1 || role_id < 0)
     {
@@ -533,7 +533,7 @@ void CodeClassField::updateContent()
     bool isSingleValue = fieldIsSingleValue();
     bool isEmptyRole = role->name().isEmpty() ? true : false;
 
-    for(CodeAccessorMethod  *method : m_methodVector)
+    for(CodeAccessorMethod *method : m_methodVector)
     {
 
         CodeAccessorMethod::AccessorType type = method->getType();

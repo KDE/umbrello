@@ -202,7 +202,7 @@ void UseBuilder::visitUnaryExpression( UnaryExpressionAst* node )
         QualifiedIdentifier identifier(includeFile.str());
 
         DUChainWriteLocker lock(DUChain::lock());
-        for(Declaration *dec : currentContext()->topContext()->findDeclarations(identifier) ) {
+        for( Declaration* dec : currentContext()->topContext()->findDeclarations(identifier) ) {
             if ( dec->kind() == Declaration::Import ) {
                 newUse(node->includeExpression, DeclarationPointer(dec));
                 return;

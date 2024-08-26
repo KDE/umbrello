@@ -224,7 +224,7 @@ void SelectOperationPage::setupOperationsList()
     if (list.count() > 0)
         m_pOpCB->insertItem(0, QString());
     std::sort(list.begin(), list.end(), caseInsensitiveLessThan);
-    for(UMLOperation *obj : list) {
+    for(UMLOperation * obj : list) {
         QString s = obj->toString(Uml::SignatureType::SigNoVis);
         m_pOpCB->insertItem(list.count(), s);
         m_pOpCB->completionObject()->addItem(s);
@@ -304,8 +304,8 @@ bool SelectOperationPage::apply()
         if (st == Model_Utils::PS_OK) {
             UMLClassifierList selfAndAncestors = m_classifier->findSuperClassConcepts();
             selfAndAncestors.prepend(m_classifier);
-            UMLOperation  *op = nullptr;
-            for(UMLClassifier  *cl : selfAndAncestors) {
+            UMLOperation *op = nullptr;
+            for(UMLClassifier *cl : selfAndAncestors) {
                 op = cl->findOperation(od.m_name, od.m_args);
                 if (op) {
                     break;

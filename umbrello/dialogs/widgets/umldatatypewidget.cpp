@@ -164,7 +164,7 @@ bool UMLDatatypeWidget::applyEntityAttribute()
     QString typeName = Model_Utils::normalize(m_editField->currentText());
     UMLDoc *pDoc = UMLApp::app()->document();
     UMLClassifierList dataTypes = pDoc->datatypes();
-    for(UMLClassifier *dat : dataTypes) {
+    for(UMLClassifier* dat : dataTypes) {
         if (typeName == dat->name()) {
             m_entityAttribute->setType(dat);
             return true;

@@ -387,7 +387,7 @@ UMLObject* findUMLObjectRecursive(const UMLObjectList& inList,
                                   const QString& name,
                                   UMLObject::ObjectType type /* = ot_UMLObject */)
 {
-    for(UMLObject  *obj : inList) {
+    for(UMLObject *obj : inList) {
         if (obj->name() == name && type == obj->baseType())
             return obj;
         const UMLPackage *pkg = obj->asUMLPackage();
@@ -1001,7 +1001,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
 
     QStringList nameAndType = t.split(QRegularExpression(QStringLiteral("\\s*:\\s*")));
     if (nameAndType.count() == 2) {
-        UMLObject  *pType = nullptr;
+        UMLObject *pType = nullptr;
         if (nameAndType[1] != QStringLiteral("class")) {
             pType = pDoc->findUMLObject(nameAndType[1], UMLObject::ot_UMLObject, owningScope);
             if (pType == nullptr)
@@ -1032,7 +1032,7 @@ Parse_Status parseTemplate(QString t, NameAndType& nmTp, UMLClassifier *owningSc
  * @return      Error status of the parse, PS_OK for success.
  */
 Parse_Status parseAttribute(QString a, NameAndType& nmTp, UMLClassifier *owningScope,
-                            Uml::Visibility::Enum  *vis /* = nullptr */)
+                            Uml::Visibility::Enum *vis /* = nullptr */)
 {
     UMLDoc *pDoc = UMLApp::app()->document();
 

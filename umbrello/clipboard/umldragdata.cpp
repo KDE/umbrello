@@ -42,7 +42,7 @@ DEBUG_REGISTER_DISABLED(UMLDragData)
 /**
  *  Constructor.
  */
-UMLDragData::UMLDragData(UMLObjectList& objects, QWidget *dragSource /* = nullptr */)
+UMLDragData::UMLDragData(UMLObjectList& objects, QWidget* dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip1(objects);
@@ -53,7 +53,7 @@ UMLDragData::UMLDragData(UMLObjectList& objects, QWidget *dragSource /* = nullpt
  * from the ListView to be copied, Mime type =
  * "application/x-uml-clip2
  */
-UMLDragData::UMLDragData(UMLObjectList& objects, UMLViewList& diagrams, QWidget *dragSource /* = nullptr */)
+UMLDragData::UMLDragData(UMLObjectList& objects, UMLViewList& diagrams, QWidget* dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip2(objects, diagrams);
@@ -63,7 +63,7 @@ UMLDragData::UMLDragData(UMLObjectList& objects, UMLViewList& diagrams, QWidget 
  *  Constructor.
  */
 UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems,
-                         QWidget *dragSource /* = nullptr */)
+                         QWidget* dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip3(umlListViewItems);
@@ -78,7 +78,7 @@ UMLDragData::UMLDragData(UMLListViewItemList& umlListViewItems,
  */
 UMLDragData::UMLDragData(UMLObjectList& objects,
                          UMLWidgetList& widgets, AssociationWidgetList& associationDatas,
-                         QPixmap& pngImage, UMLScene *scene, QWidget* dragSource /* = nullptr */)
+                         QPixmap& pngImage, UMLScene *scene, QWidget *dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip4(objects, widgets, associationDatas, pngImage, scene);
@@ -90,7 +90,7 @@ UMLDragData::UMLDragData(UMLObjectList& objects,
  * "application/x-uml-clip5
  */
 UMLDragData::UMLDragData(UMLObjectList& objects, int,
-                         QWidget *dragSource /* = nullptr */)
+                         QWidget* dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
     setUMLDataClip5(objects);
@@ -99,7 +99,7 @@ UMLDragData::UMLDragData(UMLObjectList& objects, int,
 /**
  *  Constructor.
  */
-UMLDragData::UMLDragData(QWidget *dragSource /* = nullptr */)
+UMLDragData::UMLDragData(QWidget* dragSource /* = nullptr */)
 {
     Q_UNUSED(dragSource);
 }
@@ -155,7 +155,7 @@ void UMLDragData::setUMLDataClip2(UMLObjectList& objects, UMLViewList& diagrams)
     stream.writeEndElement();  // umlobjects
     stream.writeStartElement(QStringLiteral("umlviews"));
 
-    for(UMLView *view : diagrams) {
+    for(UMLView* view : diagrams) {
         view->umlScene()->saveToXMI(stream);
     }
 
@@ -175,7 +175,7 @@ void UMLDragData::setUMLDataClip3(UMLListViewItemList& umlListViewItems)
     stream.writeStartElement(QStringLiteral("xmiclip"));
     stream.writeStartElement(QStringLiteral("umllistviewitems"));
 
-    for(UMLListViewItem *item : umlListViewItems) {
+    for(UMLListViewItem* item : umlListViewItems) {
         item->saveToXMI(stream);
     }
 
@@ -202,21 +202,21 @@ void UMLDragData::setUMLDataClip4(UMLObjectList& objects,
     stream.writeAttribute(QStringLiteral("diagramid"), Uml::ID::toString(scene->ID()));
     stream.writeStartElement(QStringLiteral("umlobjects"));
 
-    for(UMLObject *obj : objects) {
+    for(UMLObject* obj : objects) {
         obj->saveToXMI(stream);
     }
 
     stream.writeEndElement();  // umlobjects
     stream.writeStartElement(QStringLiteral("widgets"));
 
-    for(UMLWidget *widget : widgets) {
+    for(UMLWidget* widget : widgets) {
         widget->saveToXMI(stream);
     }
 
     stream.writeEndElement();  // widgets
     stream.writeStartElement(QStringLiteral("associations"));
 
-    for(AssociationWidget *association : associations) {
+    for(AssociationWidget* association : associations) {
         association->saveToXMI(stream);
     }
 
@@ -245,7 +245,7 @@ void UMLDragData::setUMLDataClip5(UMLObjectList& objects)
     stream.writeStartElement(QStringLiteral("xmiclip"));
     stream.writeStartElement(QStringLiteral("umlobjects"));
 
-    for(UMLObject *obj : objects) {
+    for(UMLObject* obj : objects) {
         obj->saveToXMI(stream);
     }
 

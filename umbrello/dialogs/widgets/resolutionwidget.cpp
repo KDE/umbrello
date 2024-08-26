@@ -52,7 +52,7 @@ ResolutionWidget::ResolutionWidget(QWidget *parent) :
 {
     m_editField->clear();
     m_editField->addItem(QStringLiteral("default"), QVariant(0.0));
-    for(const QString &key: resolutions()) {
+    for(const QString &key : resolutions()) {
         m_editField->addItem(key, QVariant(key.toFloat()));
     }
     connect(m_editField, SIGNAL(editTextChanged(QString)), this, SLOT(slotTextChanged(QString)));

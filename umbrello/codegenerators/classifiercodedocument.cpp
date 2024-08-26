@@ -289,7 +289,7 @@ QList<const CodeOperation*> ClassifierCodeDocument::getCodeOperations () const
     QList<const CodeOperation*> list;
 
     TextBlockList * tlist = getTextBlockList();
-    for(TextBlock *tb : *tlist)
+    for (TextBlock* tb : *tlist)
     {
         const CodeOperation * cop = dynamic_cast<const CodeOperation*>(tb);
         if (cop) {
@@ -361,7 +361,7 @@ void ClassifierCodeDocument::addCodeClassFieldMethods(CodeClassFieldList &list)
     {
         CodeClassField * field = *it;
         CodeAccessorMethodList list = field->getMethodList();
-        for(CodeAccessorMethod  *method : list)
+        for(CodeAccessorMethod *method : list)
         {
             /*
                 QString tag = method->getTag();
@@ -506,7 +506,7 @@ void ClassifierCodeDocument::syncClassFields()
 void ClassifierCodeDocument::updateOperations()
 {
     UMLOperationList opList(getParentClassifier()->getOpList());
-    for(UMLOperation  *op : opList) {
+    for (UMLOperation *op : opList) {
         QString tag = CodeOperation::findTag(op);
         CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));
         bool createdNew = false;
@@ -545,7 +545,7 @@ void ClassifierCodeDocument::initCodeClassFields()
     // first, do the code classifields that arise from attributes
     if (parentIsClass()) {
         UMLAttributeList alist = c->getAttributeList();
-        for(UMLAttribute  *at : alist) {
+        for(UMLAttribute * at : alist) {
             CodeClassField * field = CodeGenFactory::newCodeClassField(this, at);
             addCodeClassField(field);
         }
@@ -570,7 +570,7 @@ void ClassifierCodeDocument::initCodeClassFields()
  */
 void ClassifierCodeDocument::updateAssociationClassFields (UMLAssociationList &assocList)
 {
-    for(UMLAssociation  *a : assocList)
+    for(UMLAssociation * a : assocList)
         addAssociationClassField(a, false); // syncToParent later
 }
 
@@ -774,7 +774,7 @@ TextBlock * ClassifierCodeDocument::findCodeClassFieldTextBlockByTag (const QStr
         for(CodeAccessorMethod *m : mlist) {
             if(m->getTag() == tag) {
                 return m;
-    }
+            }
         }
     }
 

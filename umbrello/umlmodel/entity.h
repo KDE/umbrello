@@ -48,7 +48,7 @@ public:
     UMLCheckConstraint* createCheckConstraint(const QString &name = QString());
 
     UMLObject* addEntityAttribute(const QString &name, Uml::ID::Type id = Uml::ID::None);
-    bool addEntityAttribute(UMLEntityAttribute *att, IDChangeLog* log = nullptr);
+    bool addEntityAttribute(UMLEntityAttribute *att, IDChangeLog *log = nullptr);
     bool addEntityAttribute(UMLEntityAttribute* att, int position);
 
     int removeEntityAttribute(UMLClassifierListItem* att);

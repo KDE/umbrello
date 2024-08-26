@@ -34,13 +34,13 @@ int UMLSceneFinder::collect(Category category, const QString &text)
         return 0;
 
     UMLScene *scene = view->umlScene();
-    for(UMLWidget *w : scene->widgetList()) {
+    for(UMLWidget* w: scene->widgetList()) {
         if (!includeObject(category, w->umlObject()))
             continue;
         if (w->name().contains(text, Qt::CaseInsensitive))
             m_items.append(w->id());
     }
-    for(MessageWidget *w : scene->messageList()) {
+    for(MessageWidget* w: scene->messageList()) {
         if (w->umlObject() && !includeObject(category, w->umlObject()))
             continue;
         if (w->name().contains(text, Qt::CaseInsensitive))

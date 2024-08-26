@@ -147,7 +147,7 @@ void ComponentWidget::adjustAssocs(qreal dx, qreal dy)
     }
     UMLWidget::adjustAssocs(dx, dy);
     const UMLPackage *comp = m_umlObject->asUMLPackage();
-    for(UMLObject  *o : comp->containedObjects()) {
+    for(UMLObject *o: comp->containedObjects()) {
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Port)
             continue;
@@ -169,7 +169,7 @@ void ComponentWidget::adjustUnselectedAssocs(qreal dx, qreal dy)
     }
     UMLWidget::adjustUnselectedAssocs(dx, dy);
     const UMLPackage *comp = m_umlObject->asUMLPackage();
-    for(UMLObject  *o : comp->containedObjects()) {
+    for(UMLObject *o : comp->containedObjects()) {
         uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Port)
             continue;

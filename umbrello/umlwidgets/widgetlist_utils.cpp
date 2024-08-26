@@ -26,7 +26,7 @@ qreal getSmallestX(const UMLWidgetList &widgetList)
     qreal smallestX = 0;
 
     int i = 1;
-    for(UMLWidget  *widget :  widgetList) {
+    for(UMLWidget *widget : widgetList) {
         if (i == 1) {
             smallestX = widget->x();
         } else {
@@ -52,7 +52,7 @@ qreal getSmallestY(const UMLWidgetList &widgetList)
     qreal smallestY = 0;
 
     int i = 1;
-    for(UMLWidget  *widget :  widgetList) {
+    for(UMLWidget *widget : widgetList) {
         if (i == 1) {
             smallestY = widget->y();
         } else {
@@ -78,7 +78,7 @@ qreal getBiggestX(const UMLWidgetList &widgetList)
     qreal biggestX = 0;
 
     int i = 1;
-    for(UMLWidget  *widget : widgetList) {
+    for(UMLWidget *widget : widgetList) {
         if (i == 1) {
             biggestX = widget->x();
             biggestX += widget->width();
@@ -105,7 +105,7 @@ qreal getBiggestY(const UMLWidgetList &widgetList)
     qreal biggestY = 0;
 
     int i = 1;
-    for(UMLWidget  *widget : widgetList) {
+    for(UMLWidget *widget : widgetList) {
         if (i == 1) {
             biggestY = widget->y();
             biggestY += widget->height();
@@ -127,7 +127,7 @@ qreal getHeightsSum(const UMLWidgetList &widgetList)
 {
     qreal heightsSum = 0;
 
-    for(UMLWidget  *widget : widgetList) {
+    for(UMLWidget *widget : widgetList) {
         heightsSum += widget->height();
     }
 
@@ -142,7 +142,7 @@ qreal getWidthsSum(const UMLWidgetList &widgetList)
 {
     qreal widthsSum = 0;
 
-    for(UMLWidget  *widget : widgetList) {
+    for(UMLWidget *widget : widgetList) {
         widthsSum += widget->width();
     }
 

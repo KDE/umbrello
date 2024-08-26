@@ -592,7 +592,7 @@ void ListPopupMenu::setActionEnabled(MenuType idx, bool value)
  */
 void ListPopupMenu::setupActionsData()
 {
-    for(QAction  *action : m_actions) {
+    for(QAction *action : m_actions) {
         QMap<QString, QVariant> map = action->data().toMap();
         map[toString(dt_MenuPointer)] = QVariant::fromValue(this);
         action->setData(QVariant(map));
@@ -628,7 +628,7 @@ QString ListPopupMenu::toString(DataType data)
 void ListPopupMenu::dumpActions(const QString &title)
 {
     qDebug().nospace() << title;
-    for(DebugMenu e: d->debugActions) {
+    for(DebugMenu e : d->debugActions) {
         if (!e.menu.isEmpty())
             qDebug().nospace() << "  " << e.menu;
         else

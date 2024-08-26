@@ -422,7 +422,7 @@ void TestDUChain::returnTypeViaMember()
     QCOMPARE(bDec->logicalInternalContext(top)->localDeclarations().size(), 4);
 
     typedef QPair<QString, QString> idPair;
-    for(const idPair & pair: QList< idPair >()
+    for( const idPair & pair : QList< idPair >()
                                         << qMakePair(QStringLiteral("fb1"), QStringLiteral("astatic"))
                                         << qMakePair(QStringLiteral("fb2"), QStringLiteral("anormal")) )
     {
@@ -2343,7 +2343,7 @@ void TestDUChain::findFunctionArgs()
     QVERIFY(funcDec->internalContext()->imports(funcDec->internalFunctionContext()));
 
     QList<Declaration*> decs;
-    for(Declaration *arg : funcDec->internalFunctionContext()->localDeclarations() ) {
+    for( Declaration* arg : funcDec->internalFunctionContext()->localDeclarations() ) {
         decs = funcDec->internalContext()->findDeclarations(arg->identifier());
         QCOMPARE(decs.size(), 1);
         decs = funcDec->internalContext()->findDeclarations(arg->qualifiedIdentifier());
@@ -2488,7 +2488,7 @@ void TestDUChain::namespacesNoCurly()
     DUChainWriteLocker lock;
 
     QCOMPARE(top->problems().count(), 0);
-    for(ProblemPointer p: top->problems()) {
+    for(ProblemPointer p : top->problems()) {
         qDebug() << p->description() << p->explanation() << p->finalLocation();
     }
     QCOMPARE(top->childContexts().size(), 2);
@@ -2643,7 +2643,7 @@ void TestDUChain::errorRecovery()
     DUChainReleaser releaseTop(top);
     DUChainWriteLocker lock;
 
-    for(const TestUse& use: usesMap ) {
+    for( const TestUse& use : usesMap ) {
         QList< Declaration* > decs = top->findDeclarations(use.id);
         QCOMPARE(decs.count(), 1);
         Declaration* dec = decs.first();

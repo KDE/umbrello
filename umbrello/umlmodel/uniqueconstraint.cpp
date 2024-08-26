@@ -77,7 +77,7 @@ void UMLUniqueConstraint::copyInto(UMLObject *lhs) const
     // Copy all datamembers
     target->m_EntityAttributeList.clear();
     bool valid = true;
-    for(UMLEntityAttribute *attr : m_EntityAttributeList) {
+    for(UMLEntityAttribute* attr : m_EntityAttributeList) {
        if (!valid)
            break;
        valid = target->addEntityAttribute(attr);
@@ -124,7 +124,7 @@ QString UMLUniqueConstraint::toString(Uml::SignatureType::Enum sig,
         }
 
         bool first = true;
-        for(UMLEntityAttribute *att : m_EntityAttributeList) {
+        for(UMLEntityAttribute* att : m_EntityAttributeList) {
             if (first) {
                first = false;
             } else
@@ -158,7 +158,7 @@ void UMLUniqueConstraint::saveToXMI(QXmlStreamWriter& writer)
         writer.writeAttribute(QStringLiteral("isPrimary"), QStringLiteral("0"));
     }
 
-    for(UMLEntityAttribute *att : m_EntityAttributeList) {
+    for(UMLEntityAttribute* att : m_EntityAttributeList) {
         att->saveToXMI(writer);
     }
 

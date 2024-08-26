@@ -69,7 +69,7 @@ void PhpUnitProvider::updateReady(const IndexedString& document, const Reference
 
         qCDebug(TESTPROVIDER) << "Found declaration" << declarations.first()->toString();
 
-        for(const ReferencedTopDUContext& context: m_pendingContexts) {
+        for(const ReferencedTopDUContext& context : m_pendingContexts) {
             processContext(context);
         }
     } else {
@@ -101,7 +101,7 @@ void PhpUnitProvider::processContext(ReferencedTopDUContext referencedContext)
 
     qCDebug(TESTPROVIDER) << "Number of declarations" << context->localDeclarations().size();
 
-    for(Declaration *declaration : context->localDeclarations())
+    for(Declaration* declaration : context->localDeclarations())
     {
         ClassDeclaration* classDeclaration = dynamic_cast<ClassDeclaration*>(declaration);
         if (!classDeclaration || classDeclaration->isAbstract() || !classDeclaration->internalContext())
@@ -136,7 +136,7 @@ void PhpUnitProvider::processTestCaseDeclaration(Declaration* d)
 
     if (!classDeclaration->isAbstract())
     {
-        for(Declaration *member : classDeclaration->internalContext()->localDeclarations())
+        for(Declaration* member : classDeclaration->internalContext()->localDeclarations())
         {
             qCDebug(TESTPROVIDER) << "Trying test case declaration" << member;
             if (member->isFunctionDeclaration() && member->identifier().toString().startsWith(QLatin1String("test")))

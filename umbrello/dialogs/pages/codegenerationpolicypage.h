@@ -17,7 +17,7 @@ class CodeGenerationPolicyPage : public DialogPageBase
 {
     Q_OBJECT
 public:
-    explicit CodeGenerationPolicyPage (QWidget    *parent= nullptr, const char *name= nullptr, CodeGenPolicyExt * policy = nullptr);
+    explicit CodeGenerationPolicyPage (QWidget *parent = nullptr, const char *name=nullptr, CodeGenPolicyExt *policy = nullptr);
 
     virtual ~CodeGenerationPolicyPage();
 

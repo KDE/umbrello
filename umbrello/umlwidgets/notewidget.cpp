@@ -386,7 +386,7 @@ void NoteWidget::paintText(QPainter *painter)
     else {
         // not all text can be drawn
         QStringList lines = text.split(QLatin1Char('\n'));
-        for(const QString& line: lines) {
+        for(const QString& line : lines) {
             int lineWidth = fm.horizontalAdvance(line);
             if (lineWidth < width) {
                 // line is small enough - draw it

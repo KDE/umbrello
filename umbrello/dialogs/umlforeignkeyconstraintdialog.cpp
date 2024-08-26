@@ -137,7 +137,7 @@ void UMLForeignKeyConstraintDialog::slotDeletePair()
     m_ColumnWidgets.localColumnCB->addItem((pair.first)->toString(Uml::SignatureType::SigNoVis));
     m_ColumnWidgets.referencedColumnCB->addItem((pair.second)->toString(Uml::SignatureType::SigNoVis));
 
-    for(const EntityAttributePair& p: m_pAttributeMapList) {
+    for(const EntityAttributePair& p : m_pAttributeMapList) {
         logDebug4("UMLForeignKeyConstraintDialog::slotDeletePair: AttributeMapList %1 %2 / %3 %4",
                   p.first->name(), p.first->baseType(), p.second->name(), p.second->baseType());
     }
@@ -178,7 +178,7 @@ bool UMLForeignKeyConstraintDialog::apply()
     m_pForeignKeyConstraint->clearMappings();
 
     // add all mappings  present in local cache
-    for(const EntityAttributePair& pair: m_pAttributeMapList) {
+    for(const EntityAttributePair& pair : m_pAttributeMapList) {
         if (!m_pForeignKeyConstraint->addEntityAttributePair(pair.first, pair.second)) {
             return false;
         }
@@ -251,7 +251,7 @@ void UMLForeignKeyConstraintDialog::setupGeneralPage()
     // reference entity combo box
     UMLEntityList entList = m_doc->entities();
 
-    for(UMLEntity *ent : entList) {
+    for(UMLEntity* ent : entList) {
         m_GeneralWidgets.referencedEntityCB->addItem(ent->name());
     }
 
@@ -424,7 +424,7 @@ void UMLForeignKeyConstraintDialog::refillReferencedAttributeCB()
 
     if (ue) {
         UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
-        for(UMLClassifierListItem *att : ual) {
+        for(UMLClassifierListItem* att : ual) {
             m_pReferencedAttributeList.append(att->asUMLEntityAttribute());
             m_ColumnWidgets.referencedColumnCB->addItem(att->toString(Uml::SignatureType::SigNoVis));
         }
@@ -440,7 +440,7 @@ void UMLForeignKeyConstraintDialog::refillLocalAttributeCB()
 
     if (ue) {
         UMLClassifierListItemList ual = ue->getFilteredList(UMLObject::ot_EntityAttribute);
-        for(UMLClassifierListItem *att : ual) {
+        for(UMLClassifierListItem* att : ual) {
             m_pLocalAttributeList.append(att->asUMLEntityAttribute());
             m_ColumnWidgets.localColumnCB->addItem(att->toString(Uml::SignatureType::SigNoVis));
         }

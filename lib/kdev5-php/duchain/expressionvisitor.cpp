@@ -74,7 +74,7 @@ DeclarationPointer ExpressionVisitor::processVariable(VariableIdentifierAst* var
         ///TODO: why doesn't m_currentContext->findDeclarations() work?
         ///      evaluate if the stuff below is fast enough (faster?) than findDeclarations()
         ///see r1028306
-        for(const DUContext::Import &import: m_currentContext->importedParentContexts() ) {
+        for(const DUContext::Import &import : m_currentContext->importedParentContexts() ) {
             if ( !import.isDirect() || import.position > position ) {
                 continue;
             }
@@ -253,7 +253,7 @@ void ExpressionVisitor::visitClosure(ClosureAst* node)
         DUChainWriteLocker lock;
         forever {
             DeclarationPointer found;
-            for(Declaration *dec : m_currentContext->findDeclarations(identifierForNode(it->element->variable))) {
+            for(Declaration* dec : m_currentContext->findDeclarations(identifierForNode(it->element->variable))) {
                 if (dec->kind() == Declaration::Instance) {
                     found = dec;
                     break;

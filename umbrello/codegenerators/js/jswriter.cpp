@@ -73,7 +73,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     //write includes
     UMLPackageList includes;
     findObjectsRelated(c, includes);
-    for(UMLPackage *conc :  includes) {
+    for (UMLPackage* conc :   includes) {
         QString headerName = findFileName(conc, QStringLiteral(".js"));
         if (!headerName.isEmpty())
         {
@@ -106,7 +106,7 @@ void JSWriter::writeClass(UMLClassifier *c)
     js << m_endl;
 
     UMLClassifierList superclasses = c->getSuperClasses();
-    for(UMLClassifier  *obj : superclasses) {
+    for (UMLClassifier *obj :  superclasses) {
         js << classname << ".prototype = new " << cleanName(obj->name()) << " ();" << m_endl;
     }
 
@@ -122,7 +122,7 @@ void JSWriter::writeClass(UMLClassifier *c)
         js << " */" << m_endl;
         js << classname << ".prototype._init = function ()" << m_endl;
         js << "{" << m_endl;
-        for(UMLAttribute  *at : atl) {
+        for (UMLAttribute *at :  atl) {
             if (forceDoc() || !at->doc().isEmpty())
             {
                 js << m_indentation << "/**" << m_endl
@@ -184,7 +184,7 @@ void JSWriter::writeClass(UMLClassifier *c)
  */
 void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocList, QTextStream &js)
 {
-    for(UMLAssociation  *a : assocList) {
+    for (UMLAssociation *a :  assocList) {
         // association side
         Uml::RoleType::Enum role = (a->getObject(Uml::RoleType::A)->name() == classname ? Uml::RoleType::B : Uml::RoleType::A);
 
@@ -232,19 +232,19 @@ void JSWriter::writeAssociation(QString& classname, UMLAssociationList& assocLis
  */
 void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTextStream &js)
 {
-    for(UMLOperation *op :  *opList)
+    for (UMLOperation* op :   *opList)
     {
         UMLAttributeList atl = op->getParmList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->doc().isEmpty();
-        for(UMLAttribute *at : atl)
+        for (UMLAttribute* at :  atl)
             writeDoc |= !at->doc().isEmpty();
 
         if (writeDoc)  //write method documentation
         {
             js << "/**" << m_endl << formatDoc(op->doc(), QStringLiteral(" * "));
 
-            for(UMLAttribute *at : atl)  //write parameter documentation
+            for (UMLAttribute* at :  atl)  //write parameter documentation
             {
                 if (forceDoc() || !at->doc().isEmpty())
                 {
@@ -259,7 +259,7 @@ void JSWriter::writeOperations(QString classname, UMLOperationList *opList, QTex
 
         int i = atl.count();
         int j=0;
-        for(UMLAttribute *at : atl) {
+        for (UMLAttribute* at :  atl) {
             js << cleanName(at->name())
                << (!(at->getInitialValue().isEmpty()) ? QStringLiteral(" = ") + at->getInitialValue() : QString())
                << ((j < i-1) ? QStringLiteral(", ") : QString());

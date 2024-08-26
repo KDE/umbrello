@@ -71,7 +71,7 @@ public:
 
     bool logToConsole();
 
-    static void registerClass(const char  *name, bool state=true, const char * filePath= nullptr);
+    static void registerClass(const char * name, bool state=true, const char *filePath = nullptr);
 
 protected:
     void update(const QString &name);

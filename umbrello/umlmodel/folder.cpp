@@ -105,7 +105,7 @@ void UMLFolder::removeView(UMLView *view)
 void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
 {
     if (includeNested) {
-        for(UMLObject *o : m_objects) {
+        for(UMLObject* o : m_objects) {
             uIgnoreZeroPointer(o);
             if (o->baseType() == UMLObject::ot_Folder) {
                 UMLFolder *f = o->asUMLFolder();
@@ -113,7 +113,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
             }
         }
     }
-    for(UMLView *v : m_diagrams) {
+    for(UMLView* v : m_diagrams) {
         viewList.append(v);
     }
 }
@@ -125,7 +125,7 @@ void UMLFolder::appendViews(UMLViewList& viewList, bool includeNested)
  */
 void UMLFolder::activateViews()
 {
-    for(UMLObject *o : m_objects) {
+    for(UMLObject* o : m_objects) {
         uIgnoreZeroPointer(o);
         if (o->baseType() == UMLObject::ot_Folder) {
             UMLFolder *f = o->asUMLFolder();
@@ -133,7 +133,7 @@ void UMLFolder::activateViews()
         }
     }
 
-    for(UMLView *v : m_diagrams) {
+    for(UMLView* v : m_diagrams) {
         UMLScene *scene = v->umlScene();
         scene->activateAfterLoad();
         uDebug() << "UMLFolder::activateViews: " << scene->name() << " sceneRect = " << scene->sceneRect();
@@ -154,7 +154,7 @@ void UMLFolder::activateViews()
  */
 UMLView *UMLFolder::findView(Uml::ID::Type id)
 {
-    for(UMLView *v : m_diagrams) {
+    for(UMLView* v : m_diagrams) {
         if (v && v->umlScene() && v->umlScene()->ID() == id) {
             return v;
         }
@@ -163,7 +163,7 @@ UMLView *UMLFolder::findView(Uml::ID::Type id)
     UMLView *v = nullptr;
     UMLPackageList packages;
     appendPackages(packages);
-    for(UMLPackage  *o : packages) {
+    for(UMLPackage *o : packages) {
         if (o->baseType() != UMLObject::ot_Folder) {
             continue;
         }
@@ -278,7 +278,7 @@ void UMLFolder::saveContents(QXmlStreamWriter& writer)
         obj->saveToXMI (writer);
     }
     // Save associations if any.
-    for(UMLObject  *obj : subordinates()) {
+    for(UMLObject *obj : subordinates()) {
         obj->saveToXMI (writer);
     }
     if (! Settings::optionState().generalState.uml2) {
@@ -556,7 +556,7 @@ bool UMLFolder::load1(QDomElement& element)
         // Avoid duplicate creation of datatype
         if (pObject == nullptr && this == umldoc->datatypeFolder()) {
             QString name = tempElement.attribute(QStringLiteral("name"));
-            for(UMLObject  *o : m_objects) {
+            for(UMLObject *o : m_objects) {
                 uIgnoreZeroPointer(o);
                 if (o->name() == name) {
                     UMLDatatype *dt = o->asUMLDatatype();

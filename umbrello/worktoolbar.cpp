@@ -229,7 +229,8 @@ void WorkToolBar::buttonChanged(int b)
         // Arrow Button gets activated, but the toolBarState of the Views may be different
         Q_EMIT sigButtonChanged(m_CurrentButtonID);
 
-        view->setCursor(currentCursor());
+        if (view)
+            view->setCursor(currentCursor());
         return;
     }
 
@@ -239,14 +240,16 @@ void WorkToolBar::buttonChanged(int b)
         m_actions[tbb_Arrow]->toggle();
         m_CurrentButtonID = tbb_Arrow;
         Q_EMIT sigButtonChanged(m_CurrentButtonID);
-        view->setCursor(currentCursor());
+        if (view)
+            view->setCursor(currentCursor());
         return;
     }
     m_map[m_Type] = m_CurrentButtonID;
     m_actions[m_CurrentButtonID]->toggle();
     m_CurrentButtonID = tbb;
     Q_EMIT sigButtonChanged(m_CurrentButtonID);
-    view->setCursor(currentCursor());
+    if (view)
+        view->setCursor(currentCursor());
 }
 
 /**
@@ -484,7 +487,7 @@ void WorkToolBar::slotSubsystem()                { buttonChanged(tbb_SubSystem);
  */
 void WorkToolBar::setupActions()
 {
-    for(QAction  *action : m_actions) {
+    for(QAction *action : m_actions) {
         if (!action->shortcut().isEmpty()) {
             action->setToolTip(action->text() + QStringLiteral("\t[") +
                                action->shortcut().toString() + QStringLiteral("]"));

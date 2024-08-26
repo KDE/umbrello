@@ -639,8 +639,8 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
 
             if (Model_Utils::typeIsCanvasWidget(lvt)) {
                 UMLViewList views = m_doc->viewIterator();
-                for(UMLView  *view : views) {
-                    for(UMLWidget  *widget : view->umlScene()->widgetList()) {
+                for (UMLView *view :  views) {
+                    for (UMLWidget *widget :  view->umlScene()->widgetList()) {
                         if (object == widget->umlObject()) {
                             findResults.append(widget);
                         }
@@ -652,7 +652,7 @@ void UMLListView::slotMenuSelection(QAction* action, const QPoint &position)
                 break;
             }
 
-            UMLWidget  *selectedResult = nullptr;
+            UMLWidget *selectedResult = nullptr;
 
             if (findResults.size() > 1) {
                 QMenu menu(this);
@@ -955,7 +955,7 @@ void UMLListView::slotObjectCreated(UMLObject* object)
     UMLListViewItem* newItem = findUMLObject(object);
 
     logDebug1("UMLListView::slotObjectCreated: object=%1", object->name());
-    
+
     if (newItem) {
         logDebug3("UMLListView::slotObjectCreated %1, type=%2, id=%3: item already exists",
                   object->name(), newItem->type(), Uml::ID::toString(object->id()));

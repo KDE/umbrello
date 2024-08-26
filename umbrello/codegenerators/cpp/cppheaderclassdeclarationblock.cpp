@@ -108,7 +108,7 @@ void CPPHeaderClassDeclarationBlock::updateContent ()
     int i = 0;
     if(nrof_superclasses >0)
         startText.append(QStringLiteral(" : "));
-    for(UMLClassifier *classifier : superclasses) {
+    for(UMLClassifier* classifier : superclasses) {
         startText.append(Uml::Visibility::toString(classifier->visibility()) + QLatin1Char(' ') +
             CodeGenerator::cleanName(classifier->name()));
         if(i != (nrof_superclasses-1))

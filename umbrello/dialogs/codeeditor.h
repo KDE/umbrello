@@ -63,8 +63,8 @@ class CodeEditor : public QTextEdit
 {
     Q_OBJECT
 public:
-    explicit CodeEditor(const QString & text, CodeViewerDialog   *parent = nullptr, CodeDocument * doc = nullptr);
-    explicit CodeEditor(CodeViewerDialog   *parent = nullptr, CodeDocument * doc = nullptr);
+    explicit CodeEditor(const QString & text, CodeViewerDialog   *parent = nullptr, CodeDocument *doc = nullptr);
+    explicit CodeEditor(CodeViewerDialog   *parent = nullptr, CodeDocument *doc = nullptr);
     ~CodeEditor();
 
     Settings::CodeViewerState state();
@@ -77,7 +77,7 @@ protected:
     void appendText(CodeClassFieldDeclarationBlock * db);
     void appendText(TextBlockList * items);
     void appendText(CodeMethodBlock * mb);
-    void appendText(CodeComment  *comment, TextBlock * parent, UMLObject * umlObj = nullptr, const QString & compName = QString());
+    void appendText(CodeComment  *comment, TextBlock * parent, UMLObject *umlObj = nullptr, const QString & compName = QString());
     void appendText(CodeBlockWithComments * cb);
 
     void rebuildView(int startCursorPos);

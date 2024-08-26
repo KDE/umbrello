@@ -989,8 +989,8 @@ bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, c
     for(int i = 0; i < fieldNames.size(); i++) {
         const QString &fieldA = fieldNames.at(i);
         const QString &fieldB = referencedFields.at(i);
-        UMLEntityAttribute  *aA = nullptr;
-        UMLEntityAttribute  *aB = nullptr;
+        UMLEntityAttribute *aA = nullptr;
+        UMLEntityAttribute *aB = nullptr;
         for(UMLEntityAttribute  *a : entityA->getEntityAttributes()) {
             if (a->name() == fieldA) {
                 aA = a;

@@ -97,7 +97,7 @@ bool ClassImport::importFiles(const QStringList& fileNames)
     bool result = true;
     umldoc->setLoading(true);
     umldoc->setImporting(true);
-    for(const QString& fileName: fileNames) {
+    for(const QString& fileName : fileNames) {
         umldoc->writeToStatusBar(i18n("Importing file: %1 Progress: %2/%3",
                                  fileName, processedFilesCount, fileNames.size()));
         if (!importFile(fileName))

@@ -141,7 +141,7 @@ bool CppImport::parseFile(const QString& fileName)
     if (ms_seenFiles.indexOf(fileName) != -1)
         return true;
     bool result = ms_driver->parseFile(fileName);
-    for(const Problem &problem: ms_driver->problems(fileName)) {
+    for(const Problem &problem : ms_driver->problems(fileName)) {
         QString level;
         if (problem.level() == Problem::Level_Error)
             level = QStringLiteral("error");

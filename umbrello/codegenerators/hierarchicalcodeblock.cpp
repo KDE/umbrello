@@ -122,7 +122,7 @@ bool HierarchicalCodeBlock::insertTextBlock(TextBlock * newBlock, TextBlock * ex
     if (index < 0)
     {
         // may be hiding in child hierarchical codeblock
-        for(TextBlock *tb : m_textblockVector)
+        for(TextBlock* tb : m_textblockVector)
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
             if (hb && hb->insertTextBlock(newBlock, existingBlock, after))
@@ -173,7 +173,7 @@ bool HierarchicalCodeBlock::removeTextBlock (TextBlock * remove_object)
     }
     else {
         // may be hiding in child hierarchical codeblock
-        for(TextBlock *tb : m_textblockVector)
+        for(TextBlock* tb : m_textblockVector)
         {
             HierarchicalCodeBlock * hb = dynamic_cast<HierarchicalCodeBlock*>(tb);
             if (hb && hb->removeTextBlock(remove_object))
@@ -218,7 +218,7 @@ void HierarchicalCodeBlock::addCodeClassFieldMethods(CodeClassFieldList &list)
     {
         CodeClassField * field = *it;
         CodeAccessorMethodList list = field->getMethodList();
-        for(CodeAccessorMethod  *method : list)
+        for(CodeAccessorMethod *method : list)
         {
             QString tag = method->getTag();
             if (tag.isEmpty())
@@ -345,7 +345,7 @@ QString  HierarchicalCodeBlock::childTextBlocksToString() const
 {
     TextBlockList* list = getTextBlockList();
     QString retString;
-    for(TextBlock *block : *list)
+    for (TextBlock* block : *list)
     {
         QString blockValue = block->toString();
         if (!blockValue.isEmpty())
@@ -364,7 +364,7 @@ TextBlock * HierarchicalCodeBlock::findCodeClassFieldTextBlockByTag (const QStri
         return cdoc->findCodeClassFieldTextBlockByTag(tag);
     }
 
-        logError0("HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?");
+    logError0("HierarchicalCodeBlock: findCodeClassFieldTextBlockByTag() finds NO parent document! Badly constructed textblock?");
 
     // if we get here, we failed.
     return nullptr;

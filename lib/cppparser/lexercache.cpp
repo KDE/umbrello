@@ -210,7 +210,9 @@ QList<Problem>  CachedLexedFile::problems() const
 //The parameter should be a CachedLexedFile that was lexed AFTER the content of this file
 void CachedLexedFile::merge(const CachedLexedFile& file)
 {
-    DEBUG() << fileName().str() << ": merging " << file.fileName().str() << QLatin1Char('\n')<< "defined in this: " << m_definedMacroNames.print().c_str() << QLatin1Char('\n')<< "defined macros in other: " << file.m_definedMacroNames.print().c_str() ;;
+    DEBUG() << fileName().str() << ": merging " << file.fileName().str() << QLatin1Char('\n')
+            << "defined in this: " << m_definedMacroNames.print().c_str() << QLatin1Char('\n')
+            << "defined macros in other: " << file.m_definedMacroNames.print().c_str();
 
     HashedStringSet tempStrings = file.m_strings;
     tempStrings -= m_definedMacroNames;

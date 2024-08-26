@@ -40,7 +40,7 @@ public:
                               Uml::ID::Type id = Uml::ID::None,
                               const QString& value = QString());
 
-    bool addEnumLiteral(UMLEnumLiteral *literal, IDChangeLog* Log = nullptr);
+    bool addEnumLiteral(UMLEnumLiteral *literal, IDChangeLog *Log = nullptr);
     bool addEnumLiteral(UMLEnumLiteral* literal, int position);
 
     int removeEnumLiteral(UMLEnumLiteral* literal);

@@ -425,7 +425,7 @@ namespace Widget_Utils
 
         stream.writeStartElement(QStringLiteral("stops"));
 
-        for(const QGradientStop& stop: gradient->stops()) {
+        for(const QGradientStop& stop : gradient->stops()) {
             stream.writeStartElement(QStringLiteral("stop"));
             stream.writeAttribute(QStringLiteral("position"), QString::number(stop.first));
             stream.writeAttribute(QStringLiteral("color"), stop.second.name());
