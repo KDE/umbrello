@@ -42,16 +42,16 @@ int main(int argc, char *argv[])
     }
 
     if (useTemplate) {
-        QSvgRenderer curserSvg(svgFile);
-        if (!curserSvg.isValid()) {
+        QSvgRenderer cursorSvg(svgFile);
+        if (!cursorSvg.isValid()) {
             std::cerr << "could not open svg file '" << qPrintable(svgFile) << std::endl;
             return -2;
         }
         if (verbose)
-            std::cerr << curserSvg.defaultSize().width() << "x" << curserSvg.defaultSize().height()  << std::endl;
+            std::cerr << cursorSvg.defaultSize().width() << "x" << cursorSvg.defaultSize().height()  << std::endl;
 
         QSvgRenderer templateSvg(templateFile);
-        if (!curserSvg.isValid()) {
+        if (!cursorSvg.isValid()) {
             std::cerr << "could not open template file '" << qPrintable(templateFile) << std::endl;
             return -3;
         }
@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
         QImage image2(21, 21, QImage::Format_ARGB32);
         image2.fill(qRgba(0, 0, 0, 0));
         painter2.begin(&image2);
-        curserSvg.render(&painter2);
+        cursorSvg.render(&painter2);
         painter2.end();
 
         QImage image(width, height, QImage::Format_ARGB32);
