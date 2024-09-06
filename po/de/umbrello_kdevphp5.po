@@ -4,7 +4,7 @@
 # Gerhard Stengel <gstengel@gmx.net>, 2010, 2012.
 msgid ""
 msgstr ""
-"Project-Id-Version: kdevphp\n"
+"Project-Id-Version: umbrello_kdevphp5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:39+0000\n"
 "PO-Revision-Date: 2021-05-10 06:16+0200\n"
