@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+ "dtd/kdedbx45.dtd" [
+ <!ENTITY umbrello "<application
+>Umbrello &UML; Modeller</application
+>">
+ <!ENTITY kappname "&umbrello;">
+ <!ENTITY UML "<acronym
+>UML</acronym
+>">
+ <!ENTITY % addindex "IGNORE">
+ <!ENTITY % Slovenian "INCLUDE"
+><!-- change language only here -->
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+
+<article id="Welcome" lang="&language;">
+<articleinfo>
+<title
+>Dobrodošli</title>
+</articleinfo>
+
+<para
+>Dobrodošli v &umbrello; &UML; orodje za diagrame, ki vam lahko pomaga pri procesu razvoja programske opreme. Zlasti med fazo analize in načrtovanja tega procesa vam bo &umbrello; pomagal do visokokakovostnega izdelka. &UML; se lahko uporablja tudi za dokumentiranje načrtov vaše programske opreme, da pomaga. am in vašim kolegom razvijalcem. </para>
+<para
+>Če želite začeti delati z UML, lahko ustvarite nov diagram iz ene od naslednjih vrst diagramov: </para>
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><ulink url="use-case-diagram"
+>Diagram primerov uporabe</ulink
+></emphasis
+> - prikažite akterje (ljudi ali druge uporabnike sistema), primere uporabe (scenarije, ko uporabljajo sistem) , in njihove odnose</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="class-diagram"
+>Diagram razreda</ulink
+></emphasis
+> - prikažite razrede in razmerja med njimi</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="sequence-diagram"
+>Diagram zaporedij</ulink
+></emphasis
+> – pokažite objekte in zaporedje klicev metod, ki jih napravijo drugim objektom.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="collaboration-diagram"
+>Diagram sodelovanja</ulink
+></emphasis
+> - prikažite predmete in njihov odnos, s poudarkom na objektih, ki sodelujejo pri izmenjavi sporočil</para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="state-diagram"
+>Diagram stanj</ulink
+></emphasis
+> - prikažite stanja, spremembe stanja in dogodke v objektu ali delu sistema</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="activity-diagram"
+>Diagram dejavnosti</ulink
+></emphasis
+> - prikažite dejavnosti in spremembe iz ene dejavnosti v drugo z dogodki, ki se zgodijo v nekem delu sistema</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="component-diagram"
+>Diagram komponent</ulink
+></emphasis
+> - pokažite komponente programiranja na visoki ravni (kot so KParts ali Java Beans).</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="deployment-diagram"
+>Diagram razmestitve</ulink
+></emphasis
+> – pokažite primerke komponent in njihove odnose.</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="entity-relationship-diagram"
+>Diagram razmerij med entitetami</ulink
+></emphasis
+> – prikažite podatke ter razmerja in omejitve med podatki.</para
+></listitem>
+
+</itemizedlist>
+</article>
