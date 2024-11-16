@@ -114,7 +114,7 @@
 <title
 >Diagrama de casos d'ús</title>
 <para
->El diagrama de casos d'ús descriu les relacions i les dependencies entre un grup de <emphasis
+>El diagrama de casos d'ús descriu les relacions i les dependències entre un grup de <emphasis
 >casos d'ús</emphasis
 > i els actors que participen en el procés.</para>
 <para
@@ -501,7 +501,7 @@
 >Diagrames de seqüències</title>
 
 <para
->Els diagrames de seqüències mostren els missatges d'intercanvi (&ead; les crides a mètodes) entre diversos objects en una situació especifica en un temps delimitat. Els objectes són instàncies de les classes. Els diagrames de seqüències posen un èmfasi especial en l'ordre i els temps en què s'han enviat els missatges als objectes.</para>
+>Els diagrames de seqüències mostren els missatges d'intercanvi (&ead; les crides a mètodes) entre diversos objectes en una situació específica en un temps delimitat. Els objectes són instàncies de les classes. Els diagrames de seqüències posen un èmfasi especial en l'ordre i els temps en què s'han enviat els missatges als objectes.</para>
 
 <para
 >En els diagrames de seqüències es representen a través de línies de traços verticals amb el nom de l'objecte en la part superior. L'eix del temps també és vertical, augmentant a mesura que baixa, per què els missatges s'envien des d'un objecte a un altre en la forma de fletxes amb l'operació i el nom del paràmetre. </para>
@@ -729,7 +729,7 @@
 </itemizedlist
 >   
 <para
->Les línies de text són útils per a afegir texts curts d'informació a un diagrama. És text lliure i no té significat per al propi model. </para
+>Les línies de text són útils per a afegir texts curts d'informació a un diagrama. És text lliure i no té significat per al model mateix. </para
 >           
 
 <para
