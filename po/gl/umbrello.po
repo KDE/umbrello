@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-26 02:00+0000\n"
-"PO-Revision-Date: 2024-12-08 15:50+0100\n"
+"PO-Revision-Date: 2024-12-17 18:25+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.08.3\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3415,12 +3415,14 @@ msgctxt "junction state in statechart"
 msgid "Junction"
 msgstr "Unión"
 
+# skip-rule: trasno-history_reverse
 #: dialogs/statedialog.cpp:151
 #, kde-format
 msgctxt "deep history state in statechart"
 msgid "DeepHistory"
 msgstr "Historial profundo"
 
+# skip-rule: trasno-history_reverse
 #: dialogs/statedialog.cpp:154
 #, kde-format
 msgctxt "shallow history state in statechart"
