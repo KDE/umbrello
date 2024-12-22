@@ -23,7 +23,7 @@
 </articleinfo>
 
 <para
->Bienvenido a &umbrello;, una herramienta de diagramas &UML; que puede ayudarle en el proceso de desarrollo de software. Especialmente durante las fases de análisis y de diseño de este proceso, &umbrello; le ayudará a obtener un producto de gran calidad. También puede usar &UML; para documentar sus diseños de software para que le sirva de ayuda a usted y a sus colegas de desarrollo. </para>
+>Bienvenido a &umbrello;, una herramienta de diagramas &UML; que puede ayudarle en el proceso de desarrollo de software. Especialmente durante las fases de análisis y de diseño de este proceso, &umbrello; le ayudará a obtener un producto de gran calidad. También puede usar &UML; para documentar sus diseños de software para que le sirvan de ayuda a usted y a sus colegas de desarrollo. </para>
 <para
 >Para empezar a trabajar con UML debe crear un nuevo diagrama a partir de uno de los siguientes tipos: </para>
 <itemizedlist>

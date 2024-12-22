@@ -30,12 +30,6 @@
 > del menú <guimenu
 >Diagrama</guimenu
 >. </para>
-<para
->Puede exportar múltiples diagramas a la vez usando la opción <guimenuitem
->Exportar diagramas como imágenes...</guimenuitem
-> del menú <guimenu
->Archivo</guimenu
->. Con ella también puede definir la resolución de la imagen para que no se muestre borrosa. </para>
 </sect2>
 <sect2 id="printing">
 <title
