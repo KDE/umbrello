@@ -240,7 +240,7 @@
 <para
 >La barra de herramientas de trabajo está ubicada por omisión en la parte superior de la ventana. Las herramientas disponibles en ella (es decir, los botones que contiene) cambian según el tipo de diagrama en el que esté trabajando en cada momento. El botón de la herramienta seleccionada estará activado en la barra de herramientas. Puede cambiar a la herramienta seleccionada pulsando la tecla &Esc;. </para>
 <para
->Tras seleccionar una herramienta de edición en la barra de herramientas de trabajo (por ejemplo, la herramienta para insertar clases), el puntero del ratón cambia a una cruz y usted podrá insertar elementos en el modelo con solo hacer clic en el diagrama. Tenga en cuenta que los elementos de &UML; deben tener un <emphasis
+>Tras seleccionar una herramienta de edición en la barra de herramientas de trabajo (por ejemplo, la herramienta para insertar clases), el puntero del ratón cambia a una cruz y podrá insertar elementos en el modelo con solo hacer clic en el diagrama. Tenga en cuenta que los elementos de &UML; deben tener un <emphasis
 >nombre único</emphasis
 >. Así, si tiene una clase llamada «ClaseA» en un diagrama y usa la herramienta para insertar una clase en otro diagrama, no podrá usar el nombre «ClaseA» para la nueva clase. Si se supone que ambas clases son elementos diferentes, debe darle un nombre único a cada una. Si está intentando añadir el <emphasis
 >mismo</emphasis
