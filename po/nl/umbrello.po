@@ -13,7 +13,7 @@
 # Jaap Woldringh <jjh.woldringh@planet.nl>, 2007.
 # Antoon Tolboom <atolboo@casema.nl>, 2008.
 # Kristof Bal <kristof.bal@gmail.com>, 2009.
-# Freek de Kruijf <freekdekruijf@kde.nl>, 2009.
+# SPDX-FileCopyrightText: 2009, 2025 Freek de Kruijf <freekdekruijf@kde.nl>
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2010, 2011, 2012.
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 msgid ""
@@ -21,14 +21,14 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-26 02:00+0000\n"
-"PO-Revision-Date: 2023-01-13 10:38+0100\n"
+"PO-Revision-Date: 2025-01-27 14:52+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 24.12.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -3348,7 +3348,7 @@ msgstr "Klasse-instellingen"
 #: dialogs/settingsdialog.cpp:123 umllistview.cpp:1444
 #, kde-format
 msgid "Code Importer"
-msgstr "Importeur van code"
+msgstr "Importprogramma van code"
 
 #: dialogs/settingsdialog.cpp:123
 #, kde-format
