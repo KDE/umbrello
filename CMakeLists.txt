@@ -179,7 +179,6 @@ message(STATUS "Using umbrello version ${UMBRELLO_VERSION_STRING}")
 add_definitions(-DUMBRELLO_VERSION_STRING="${UMBRELLO_VERSION_STRING}")
 add_definitions(-DAPPLICATIONS_VERSION_STRING="${APPLICATIONS_VERSION_STRING}")
 
-message(STATUS "Using automoc4 version ${AUTOMOC4_VERSION}")
 message(STATUS "Using cmake version ${CMAKE_VERSION}")
 
 find_package(LibXslt)
