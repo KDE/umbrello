@@ -229,7 +229,7 @@ msgstr "Crea un diagrama de %1: %2"
 #: cmds/cmdhandlerename.cpp:22
 #, kde-format
 msgid "Change text : %1 to %2"
-msgstr "Canvia al text: %1 a %2"
+msgstr "Canvia en el text: %1 a %2"
 
 #: cmds/cmdremovediagram.cpp:33
 #, kde-format
