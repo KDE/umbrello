@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 3.16.0 FATAL_ERROR)
 
 project(umbrello)
 
-if(POLICY CMP0028)
-    cmake_policy(SET CMP0028 OLD)
-endif()
-
 if(POLICY CMP0057)
     cmake_policy(SET CMP0057 NEW)
 endif()
