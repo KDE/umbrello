@@ -1,7 +1,7 @@
 # translation of umbrello.po to galician
 # translation of umbrello.po to
 #
-# SPDX-FileCopyrightText: 2024 Adrián Chaves (Gallaecio)
+# SPDX-FileCopyrightText: 2024, 2025 Adrián Chaves (Gallaecio)
 # mvillarino <mvillarino@users.sourceforge.net>, 2007, 2008, 2009.
 # Marce Villarino <mvillarino@kde-espana.es>, 2009, 2010, 2013, 2014.
 # Adrian Chaves Fernandez <adriyetichaves@gmail.com>, 2013, 2015, 2016, 2017.
@@ -10,15 +10,15 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-26 02:00+0000\n"
-"PO-Revision-Date: 2024-12-17 18:25+0100\n"
-"Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
+"PO-Revision-Date: 2025-03-02 09:39+0100\n"
+"Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 24.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2934,7 +2934,7 @@ msgstr "Activar o desfacer"
 #: dialogs/pages/generaloptionpage.cpp:52
 #, kde-format
 msgid "Use tabbed diagrams"
-msgstr "Usar diagramas con lapelas"
+msgstr "Usar diagramas con separadores"
 
 #: dialogs/pages/generaloptionpage.cpp:56
 #, kde-format
@@ -6125,13 +6125,14 @@ msgstr "A funcionalidade de desfacer actívase cando isto é certo."
 #: umbrello.kcfg:27
 #, kde-format
 msgid "Tabbed Diagrams"
-msgstr "Diagramas con lapelas"
+msgstr "Diagramas con separadores"
 
 #. i18n: ectx: whatsthis, entry (tabdiagrams), group (General Options)
 #: umbrello.kcfg:28
 #, kde-format
 msgid "Enables/Disables Tabbed View of Diagrams in the view area"
-msgstr "Activa ou desactiva a vista con lapelas dos diagramas na zona de vista"
+msgstr ""
+"Activa ou desactiva a vista con separadores dos diagramas na zona de vista."
 
 #. i18n: ectx: label, entry (newcodegen), group (General Options)
 #: umbrello.kcfg:32
@@ -7767,7 +7768,7 @@ msgstr "Erro ao gardar"
 #: umldoc.cpp:857
 #, kde-format
 msgid "There was a problem uploading: %1"
-msgstr "Houbo un problema ao enviar: %1"
+msgstr "Houbo un problema ao subir: %1"
 
 #: umldoc.cpp:1408
 #, kde-format
