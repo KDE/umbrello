@@ -145,6 +145,7 @@ int main(int argc, char *argv[])
                         QStringLiteral("thomas@mail630.gsfc.nasa.gov"));
 
     KAboutData::setApplicationData(aboutData);
+    QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("umbrello")));
     QCommandLineParser parser;
     //PORTING SCRIPT: adapt aboutdata variable if necessary
     aboutData.setupCommandLine(&parser);
