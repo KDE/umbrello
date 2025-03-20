@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 02:00+0000\n"
+"POT-Creation-Date: 2025-03-20 02:01+0000\n"
 "PO-Revision-Date: 2006-09-30 17:38+0200\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -4461,39 +4461,39 @@ msgstr "&Тековен дијаграм"
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "Датотека за отворање"
 
-#: main.cpp:153
+#: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "Ги изнесува дијаграмите со наставка „extension“ и напушта"
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr ""
 
-#: main.cpp:157
+#: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "локалната папка за зачувување на изнесените дијаграми"
 
-#: main.cpp:159
+#: main.cpp:160
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "import files"
 msgstr "Изнесување на погледот..."
 
-#: main.cpp:161
+#: main.cpp:162
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "list supported languages"
 msgstr "Сите датотеки"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4502,12 +4502,12 @@ msgstr ""
 "ја задржува структурата на стебло што се користи за зачувување на прегледите "
 "во документот во одредишната папка"
 
-#: main.cpp:165
+#: main.cpp:166
 #, fuzzy, kde-format
 msgid "import files from directory <dir>"
 msgstr "Внеси класи..."
 
-#: main.cpp:167
+#: main.cpp:168
 #, fuzzy, kde-format
 #| msgid "Active &Language"
 msgid "set language"

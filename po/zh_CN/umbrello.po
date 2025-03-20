@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 02:00+0000\n"
+"POT-Creation-Date: 2025-03-20 02:01+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -4206,49 +4206,49 @@ msgstr "当前维护者."
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr "大量C++和Java代码生成工作。代码编写人员。"
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "要打开的文件"
 
-#: main.cpp:153
+#: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "将图表导出为扩展并退出"
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr "列出可用的导出扩展"
 
-#: main.cpp:157
+#: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "要保存导出的图表的本地目录"
 
-#: main.cpp:159
+#: main.cpp:160
 #, kde-format
 msgid "import files"
 msgstr "导入文件"
 
-#: main.cpp:161
+#: main.cpp:162
 #, kde-format
 msgid "list supported languages"
 msgstr "列出支持的语言"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
 "target directory"
 msgstr "在目标目录中保持文档视图的树状结构"
 
-#: main.cpp:165
+#: main.cpp:166
 #, kde-format
 msgid "import files from directory <dir>"
 msgstr "从目录 <dir> 导入文件"
 
-#: main.cpp:167
+#: main.cpp:168
 #, kde-format
 msgid "set language"
 msgstr ""

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 02:00+0000\n"
+"POT-Creation-Date: 2025-03-20 02:01+0000\n"
 "PO-Revision-Date: 2020-08-17 20:55+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -4270,37 +4270,37 @@ msgstr "Egungo mantentzailea."
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr "C++ eta Java kodea sortzeko lan handia. Kode editorea."
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "Irekitzeko fitxategia"
 
-#: main.cpp:153
+#: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "esportatu diagramak luzapenera eta irten"
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr ""
 
-#: main.cpp:157
+#: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "esportatuko diagrama gordeko den direktorio lokala"
 
-#: main.cpp:159
+#: main.cpp:160
 #, kde-format
 msgid "import files"
 msgstr "inportatu fitxategiak"
 
-#: main.cpp:161
+#: main.cpp:162
 #, kde-format
 msgid "list supported languages"
 msgstr "zerrendatu onartzen diren lengoaiak"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4309,12 +4309,12 @@ msgstr ""
 "mantendu ikuspegiak dokumentuan gordetzeko erabiltzen ari den zuhaitz "
 "egitura helburuko direktorioan"
 
-#: main.cpp:165
+#: main.cpp:166
 #, kde-format
 msgid "import files from directory <dir>"
 msgstr "Inportatu <dir> direktorioko fitxategiak"
 
-#: main.cpp:167
+#: main.cpp:168
 #, fuzzy, kde-format
 #| msgid "set active language"
 msgid "set language"

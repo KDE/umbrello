@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 02:00+0000\n"
+"POT-Creation-Date: 2025-03-20 02:01+0000\n"
 "PO-Revision-Date: 2025-03-02 09:39+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -4261,37 +4261,37 @@ msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 "Un gran traballo para a xeración de código de C++ e Java. Editor de código."
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "O ficheiro para abrir."
 
-#: main.cpp:153
+#: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "Exportar os diagramas coa extensión e saír."
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr "Listar as extensión de exportación dispoñíbeis."
 
-#: main.cpp:157
+#: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "O cartafol local onde gardar os diagramas exportados."
 
-#: main.cpp:159
+#: main.cpp:160
 #, kde-format
 msgid "import files"
 msgstr "Importar os ficheiros."
 
-#: main.cpp:161
+#: main.cpp:162
 #, kde-format
 msgid "list supported languages"
 msgstr "Listar os idiomas admitidos."
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4300,12 +4300,12 @@ msgstr ""
 "Manter a estrutura en árbore usada para gardar as vistas no documento no "
 "cartafol de destino."
 
-#: main.cpp:165
+#: main.cpp:166
 #, kde-format
 msgid "import files from directory <dir>"
 msgstr "Importar os ficheiros do cartafol <dir>."
 
-#: main.cpp:167
+#: main.cpp:168
 #, kde-format
 msgid "set language"
 msgstr "Definir o idioma"

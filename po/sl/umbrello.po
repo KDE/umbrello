@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 02:00+0000\n"
+"POT-Creation-Date: 2025-03-20 02:01+0000\n"
 "PO-Revision-Date: 2023-01-02 20:49+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -4258,37 +4258,37 @@ msgstr "Trenutni vzdrževalec."
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr "Veliko dela na ustvarjalniku kode za C++ in Javo. Urejevalnik kode."
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "Datoteka za odprtje"
 
-#: main.cpp:153
+#: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "izvozi diagrame v pripono in končaj"
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr "izpiši razpoložljive pripone izvoza"
 
-#: main.cpp:157
+#: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "krajevna mapa v katero želite shraniti izvožene diagrame"
 
-#: main.cpp:159
+#: main.cpp:160
 #, kde-format
 msgid "import files"
 msgstr "uvozi datoteke"
 
-#: main.cpp:161
+#: main.cpp:162
 #, kde-format
 msgid "list supported languages"
 msgstr "izpiši podprte jezike"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4297,12 +4297,12 @@ msgstr ""
 "ohrani drevesno strukturo uporabljeno za shranjevanje prikazov v dokumentu v "
 "ciljni mapi"
 
-#: main.cpp:165
+#: main.cpp:166
 #, kde-format
 msgid "import files from directory <dir>"
 msgstr "uvozi datoteke iz mape <dir>"
 
-#: main.cpp:167
+#: main.cpp:168
 #, kde-format
 msgid "set language"
 msgstr "nastavi jezik"

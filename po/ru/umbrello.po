@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 02:00+0000\n"
+"POT-Creation-Date: 2025-03-20 02:01+0000\n"
 "PO-Revision-Date: 2023-04-24 10:04+0300\n"
 "Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -4263,49 +4263,49 @@ msgstr "Текущий сопровождающий."
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr "Большая работа над генерацией кода C++ и Java. Редактор кода."
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "Открыть файл"
 
-#: main.cpp:153
+#: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "экспортировать диаграммы и выйти"
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr "список доступных расширений для экспорта"
 
-#: main.cpp:157
+#: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "локальный каталог для сохранения экспортируемых диаграмм"
 
-#: main.cpp:159
+#: main.cpp:160
 #, kde-format
 msgid "import files"
 msgstr "импортировать файлы"
 
-#: main.cpp:161
+#: main.cpp:162
 #, kde-format
 msgid "list supported languages"
 msgstr "список поддерживаемых языков"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
 "target directory"
 msgstr "сохранить структуру папок на диске "
 
-#: main.cpp:165
+#: main.cpp:166
 #, kde-format
 msgid "import files from directory <dir>"
 msgstr "импорт файлов из каталога <dir>"
 
-#: main.cpp:167
+#: main.cpp:168
 #, kde-format
 msgid "set language"
 msgstr "установить язык"

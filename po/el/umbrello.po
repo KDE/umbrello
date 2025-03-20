@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 02:00+0000\n"
+"POT-Creation-Date: 2025-03-20 02:01+0000\n"
 "PO-Revision-Date: 2023-07-29 17:38+0300\n"
 "Last-Translator: Theofilos Intzoglou <int.teo@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -4276,37 +4276,37 @@ msgstr "Τρέχον συντηρητής."
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "Αρχείο για άνοιγμα"
 
-#: main.cpp:153
+#: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "εξαγωγή διαγραμμάτων σε επέκταση και έξοδος"
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr "λίστα διαθέσιμων επεκτάσεων εξαγωγής"
 
-#: main.cpp:157
+#: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "ο τοπικός κατάλογος στον οποίο θα αποθηκευτούν τα διαγράμματα"
 
-#: main.cpp:159
+#: main.cpp:160
 #, kde-format
 msgid "import files"
 msgstr "εισαγωγή αρχείων"
 
-#: main.cpp:161
+#: main.cpp:162
 #, kde-format
 msgid "list supported languages"
 msgstr "λίστα υποστηριζόμενων γλωσσών"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4315,12 +4315,12 @@ msgstr ""
 "διατήρηση της δενδρικής δομής που χρησιμοποιείται για την αποθήκευση των "
 "προβολών στο έγγραφο στον κατάλογο προορισμού"
 
-#: main.cpp:165
+#: main.cpp:166
 #, kde-format
 msgid "import files from directory <dir>"
 msgstr "εισαγωγή αρχείων από κατάλογο <dir>"
 
-#: main.cpp:167
+#: main.cpp:168
 #, kde-format
 msgid "set language"
 msgstr "ορισμός γλώσσας"

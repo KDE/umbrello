@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 02:00+0000\n"
+"POT-Creation-Date: 2025-03-20 02:01+0000\n"
 "PO-Revision-Date: 2015-02-25 21:00+0100\n"
 "Last-Translator: Samir Ribić <megaribi@epn.ba>\n"
 "Language-Team:  <bs@li.org>\n"
@@ -4317,38 +4317,38 @@ msgstr "&Tekući dijagram"
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "Datoteka  za otvaranje"
 
-#: main.cpp:153
+#: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "izvezi dijagrame u nastavak i izađi"
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr "izlistaj dostupne eksport ekstenzije"
 
-#: main.cpp:157
+#: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "lokalna mapa u koju se snimaju izvezeni dijagrami"
 
-#: main.cpp:159
+#: main.cpp:160
 #, kde-format
 msgid "import files"
 msgstr "uvezi direktorije"
 
-#: main.cpp:161
+#: main.cpp:162
 #, fuzzy, kde-format
 #| msgid "All Supported Files"
 msgid "list supported languages"
 msgstr "Sve podržane datoteke"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
@@ -4357,13 +4357,13 @@ msgstr ""
 "drži u ciljnom direktoriju strukturu stabla koja se koristi za skladištenje "
 "prikaza u dokumentu"
 
-#: main.cpp:165
+#: main.cpp:166
 #, fuzzy, kde-format
 #| msgid "Import Project..."
 msgid "import files from directory <dir>"
 msgstr "Uvezi projekat..."
 
-#: main.cpp:167
+#: main.cpp:168
 #, fuzzy, kde-format
 #| msgid "Active &Language"
 msgid "set language"

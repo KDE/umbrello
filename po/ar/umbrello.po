@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 02:00+0000\n"
+"POT-Creation-Date: 2025-03-20 02:01+0000\n"
 "PO-Revision-Date: 2022-01-29 15:15+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -4182,49 +4182,49 @@ msgstr "المصين الحاليّ"
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "الملف المراد فتحه"
 
-#: main.cpp:153
+#: main.cpp:154
 #, fuzzy, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "تصدير إلى إمتداد و خروج"
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr ""
 
-#: main.cpp:157
+#: main.cpp:158
 #, fuzzy, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "محليّ دليل إلى حفظ بوصة"
 
-#: main.cpp:159
+#: main.cpp:160
 #, fuzzy, kde-format
 msgid "import files"
 msgstr "جاري التصدير اعرض."
 
-#: main.cpp:161
+#: main.cpp:162
 #, fuzzy, kde-format
 msgid "list supported languages"
 msgstr "كل الملفّات"
 
-#: main.cpp:163
+#: main.cpp:164
 #, fuzzy, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
 "target directory"
 msgstr "إبقاء شجرة بنية مُستخدَم إلى تخزين بوصة مستند بوصة هدف دليل"
 
-#: main.cpp:165
+#: main.cpp:166
 #, fuzzy, kde-format
 msgid "import files from directory <dir>"
 msgstr "استيراد مشروع."
 
-#: main.cpp:167
+#: main.cpp:168
 #, fuzzy, kde-format
 msgid "set language"
 msgstr "نشط اللغة"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 02:00+0000\n"
+"POT-Creation-Date: 2025-03-20 02:01+0000\n"
 "PO-Revision-Date: 2021-09-17 20:07+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -4314,52 +4314,52 @@ msgstr "मौज़ूदा आरेख (&C)"
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
 msgstr ""
 
-#: main.cpp:152
+#: main.cpp:153
 #, kde-format
 msgid "File to open"
 msgstr "फ़ाइल जिसे खोलना है"
 
-#: main.cpp:153
+#: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
 msgstr "डायग्राम को एक्सटेंशन में निर्यात कर बाहर हों"
 
-#: main.cpp:155
+#: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
 msgstr ""
 
-#: main.cpp:157
+#: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
 msgstr "स्थानीय डिरेक्ट्री जहाँ निर्यात किए गए डायग्राम सहेजे जाने हैं"
 
-#: main.cpp:159
+#: main.cpp:160
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "import files"
 msgstr "दृश्य निर्यात किया जा रहा है..."
 
-#: main.cpp:161
+#: main.cpp:162
 #, fuzzy, kde-format
 #| msgid "All Files"
 msgid "list supported languages"
 msgstr "सभी फ़ाइलें"
 
-#: main.cpp:163
+#: main.cpp:164
 #, kde-format
 msgid ""
 "keep the tree structure used to store the views in the document in the "
 "target directory"
 msgstr ""
 
-#: main.cpp:165
+#: main.cpp:166
 #, fuzzy, kde-format
 #| msgid "Import Project..."
 msgid "import files from directory <dir>"
 msgstr "परियोजना आयात करें..."
 
-#: main.cpp:167
+#: main.cpp:168
 #, fuzzy, kde-format
 #| msgid "Active &Language"
 msgid "set language"
