@@ -703,6 +703,8 @@ void UMLApp::slotZoomSliderMoved(int value)
  */
 void UMLApp::slotZoomFit()
 {
+    if (currentView() == nullptr)
+        return;
     QRectF items = currentView()->umlScene()->itemsBoundingRect();
     if (items.isNull()) {
         setZoom(100);
@@ -742,6 +744,8 @@ void UMLApp::slotZoom100()
  */
 void UMLApp::slotZoomOut()
 {
+    if (currentView() == nullptr)
+        return;
     setZoom(currentView()->zoom()-5);
 }
 
@@ -750,6 +754,8 @@ void UMLApp::slotZoomOut()
  */
 void UMLApp::slotZoomIn()
 {
+    if (currentView() == nullptr)
+        return;
     setZoom(currentView()->zoom()+5);
 }
 
@@ -761,6 +767,8 @@ void UMLApp::slotZoomIn()
  */
 void UMLApp::setZoom(int zoom, bool withView)
 {
+    if (currentView() == nullptr)
+        return;
     if (withView)
         currentView()->setZoom(zoom);
     bool oldState = m_pZoomSlider->blockSignals(true);
@@ -803,6 +811,8 @@ QAction* UMLApp::createZoomAction(int zoom, int currentZoom)
  */
 void UMLApp::setupZoomMenu()
 {
+    if (currentView() == nullptr)
+        return;
     m_zoomSelect->clear();
 
     int currentZoom = currentView()->zoom();
