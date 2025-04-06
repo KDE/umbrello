@@ -703,6 +703,8 @@ void UMLApp::slotZoomSliderMoved(int value)
  */
 void UMLApp::slotZoomFit()
 {
+    if (currentView() == nullptr)
+        return;
     QRectF items = currentView()->umlScene()->itemsBoundingRect();
     if (items.isNull()) {
         setZoom(100);
@@ -742,6 +744,8 @@ void UMLApp::slotZoom100()
  */
 void UMLApp::slotZoomOut()
 {
+    if (currentView() == nullptr)
+        return;
     setZoom(currentView()->zoom()-5);
 }
 
@@ -750,6 +754,8 @@ void UMLApp::slotZoomOut()
  */
 void UMLApp::slotZoomIn()
 {
+    if (currentView() == nullptr)
+        return;
     setZoom(currentView()->zoom()+5);
 }
 
@@ -761,6 +767,8 @@ void UMLApp::slotZoomIn()
  */
 void UMLApp::setZoom(int zoom, bool withView)
 {
+    if (currentView() == nullptr)
+        return;
     if (withView)
         currentView()->setZoom(zoom);
     bool oldState = m_pZoomSlider->blockSignals(true);
@@ -803,6 +811,8 @@ QAction* UMLApp::createZoomAction(int zoom, int currentZoom)
  */
 void UMLApp::setupZoomMenu()
 {
+    if (currentView() == nullptr)
+        return;
     m_zoomSelect->clear();
 
     int currentZoom = currentView()->zoom();
@@ -1747,6 +1757,8 @@ void UMLApp::slotEntityRelationshipDiagram()
  */
 void UMLApp::slotAlignLeft()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->alignLeft();
 }
 
@@ -1755,6 +1767,8 @@ void UMLApp::slotAlignLeft()
  */
 void UMLApp::slotAlignRight()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->alignRight();
 }
 
@@ -1763,6 +1777,8 @@ void UMLApp::slotAlignRight()
  */
 void UMLApp::slotAlignTop()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->alignTop();
 }
 
@@ -1771,6 +1787,8 @@ void UMLApp::slotAlignTop()
  */
 void UMLApp::slotAlignBottom()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->alignBottom();
 }
 
@@ -1779,6 +1797,8 @@ void UMLApp::slotAlignBottom()
  */
 void UMLApp::slotAlignVerticalMiddle()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->alignVerticalMiddle();
 }
 
@@ -1787,6 +1807,8 @@ void UMLApp::slotAlignVerticalMiddle()
  */
 void UMLApp::slotAlignHorizontalMiddle()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->alignHorizontalMiddle();
 }
 
@@ -1795,6 +1817,8 @@ void UMLApp::slotAlignHorizontalMiddle()
  */
 void UMLApp::slotAlignVerticalDistribute()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->alignVerticalDistribute();
 }
 
@@ -1803,6 +1827,8 @@ void UMLApp::slotAlignVerticalDistribute()
  */
 void UMLApp::slotAlignHorizontalDistribute()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->alignHorizontalDistribute();
 }
 
@@ -2588,6 +2614,8 @@ void UMLApp::slotShowBirdView(bool state)
  */
 void UMLApp::slotCurrentViewClearDiagram()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->clearDiagram();
 }
 
@@ -2596,6 +2624,8 @@ void UMLApp::slotCurrentViewClearDiagram()
  */
 void UMLApp::slotCurrentViewToggleSnapToGrid()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->toggleSnapToGrid();
     viewSnapToGrid->setChecked(currentView()->umlScene()->snapToGrid());
 }
@@ -2605,6 +2635,8 @@ void UMLApp::slotCurrentViewToggleSnapToGrid()
  */
 void UMLApp::slotCurrentViewToggleShowGrid()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->toggleShowGrid();
     viewShowGrid->setChecked(currentView()->umlScene()->isSnapGridVisible());
 }
@@ -2614,6 +2646,8 @@ void UMLApp::slotCurrentViewToggleShowGrid()
  */
 void UMLApp::slotCurrentViewExportImage()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->getImageExporter()->exportView();
 }
 
@@ -2635,6 +2669,8 @@ void UMLApp::slotViewsExportImages()
  */
 void UMLApp::slotCurrentProperties()
 {
+    if (currentView() == nullptr)
+        return;
     UMLWidgetList items = currentView()->umlScene()->selectedWidgets();
     if (items.count() == 0)
         currentView()->showPropertiesDialog();
@@ -2829,6 +2865,8 @@ void UMLApp::slotShowGridToggled(bool gridOn)
  */
 void UMLApp::slotSelectAll()
 {
+    if (currentView() == nullptr)
+        return;
     currentView()->umlScene()->selectAll();
 }
 
@@ -2861,6 +2899,8 @@ void UMLApp::slotDeleteSelected()
  */
 void UMLApp::slotDeleteDiagram()
 {
+    if (currentView() == nullptr)
+        return;
     m_doc->removeDiagram(currentView()->umlScene()->ID());
 }
 
