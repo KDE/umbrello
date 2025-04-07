@@ -1,0 +1,28 @@
+#!/bin/bash
+# @author Ralf Habacker
+# @brief lint xmi fils and extract missing dtd elements/attributes from xmllint error messages
+#
+
+# fails also on piped failure
+set -euo pipefail
+
+# enable trace
+set -x
+
+trap "cat out.log" ERR
+
+# determine root dir
+r=$(realpath $0)
+r=$(dirname $r)
+r=$(dirname $r)
+
+if test -n "$1"; then
+    dir="$1"
+else
+    dir="$r/models/diagrams/"
+fi
+
+find $dir -name '*.xmi' -print | xargs -n 1 xmllint --dtdvalid $r/doc/xml/uml-1.4-umbrello.dtd --noout  2> out.log;  $r/tools/xmllint2dtd out.log
+
+result=$?
+exit $result
