@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-26 02:00+0000\n"
+"POT-Creation-Date: 2025-04-07 03:42+0000\n"
 "PO-Revision-Date: 2015-12-29 16:00+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
@@ -213,7 +213,7 @@ msgid ""
 "item of the same name already exists.  Any other items have been pasted."
 msgstr ""
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1627
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1637
 #, kde-format
 msgid "Paste Error"
 msgstr "Įterpimo klaida"
@@ -7436,7 +7436,7 @@ msgstr ""
 msgid "&Entity Relationship Diagram..."
 msgstr ""
 
-#: uml.cpp:534 uml.cpp:953
+#: uml.cpp:534 uml.cpp:963
 #, kde-format
 msgid "&Tree View"
 msgstr "Rody&ti medį"
@@ -7460,7 +7460,7 @@ msgstr ""
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:554 uml.cpp:1010
+#: uml.cpp:554 uml.cpp:1020
 #, kde-format
 msgid "&Bird's eye view"
 msgstr ""
@@ -7520,76 +7520,76 @@ msgstr ""
 msgid "Select Diagram on Right"
 msgstr ""
 
-#: uml.cpp:793
+#: uml.cpp:801
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:843
+#: uml.cpp:853
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Pasiruošęs"
 
-#: uml.cpp:851 uml.cpp:864
+#: uml.cpp:861 uml.cpp:874
 #, kde-format
 msgid "100%"
 msgstr ""
 
-#: uml.cpp:856
+#: uml.cpp:866
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Fit"
 msgstr "Filtras"
 
-#: uml.cpp:907
+#: uml.cpp:917
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr ""
 
-#: uml.cpp:964
+#: uml.cpp:974
 #, kde-format
 msgid "Doc&umentation"
 msgstr "Dokumentacija"
 
-#: uml.cpp:975
+#: uml.cpp:985
 #, kde-format
 msgid "Co&mmand history"
 msgstr ""
 
-#: uml.cpp:991
+#: uml.cpp:1001
 #, kde-format
 msgid "&Debug"
 msgstr "&Derinti"
 
-#: uml.cpp:998
+#: uml.cpp:1008
 #, kde-format
 msgid "&Log"
 msgstr "Žur&nalai"
 
-#: uml.cpp:1036 uml.cpp:1253 uml.cpp:1291
+#: uml.cpp:1046 uml.cpp:1263 uml.cpp:1301
 #, kde-format
 msgid "Opening file..."
 msgstr "Atidaromas failas..."
 
-#: uml.cpp:1087 uml.cpp:1158 uml.cpp:1322 umldoc.cpp:349 umldoc.cpp:372
+#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:349 umldoc.cpp:372
 #: umldoc.cpp:3285
 #, kde-format
 msgid "Untitled"
 msgstr "Be pavadinimo"
 
-#: uml.cpp:1235
+#: uml.cpp:1245
 #, kde-format
 msgid "Creating new document..."
 msgstr "Sukuriamas naujas dokumentas..."
 
-#: uml.cpp:1260
+#: uml.cpp:1270
 #, kde-format
 msgid "Open File"
 msgstr "Atverti failą"
 
-#: uml.cpp:1261
+#: uml.cpp:1271
 #, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7602,134 +7602,134 @@ msgid ""
 "*.zargo|Compressed argo Files(*.zargo)\n"
 msgstr ""
 
-#: uml.cpp:1321
+#: uml.cpp:1331
 #, kde-format
 msgid "Saving file..."
 msgstr "Išsaugojamas failas..."
 
-#: uml.cpp:1338
+#: uml.cpp:1348
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Išsaugojamas failas nauju vardu..."
 
-#: uml.cpp:1343 umlviewimageexporter.cpp:172
+#: uml.cpp:1353 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Įrašyti kaip"
 
-#: uml.cpp:1344
+#: uml.cpp:1354
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
 "*.xmi.tar.bz2 | Bzip2 Compressed XMI File (*.xmi.tar.bz2);;* | All Files (*)"
 msgstr ""
 
-#: uml.cpp:1362
+#: uml.cpp:1372
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
 "Do you wish to overwrite it?"
 msgstr ""
 
-#: uml.cpp:1363
+#: uml.cpp:1373
 #, kde-format
 msgid "Warning"
 msgstr "Dėmesio"
 
-#: uml.cpp:1363
+#: uml.cpp:1373
 #, kde-format
 msgid "Overwrite"
 msgstr "Perrašyti"
 
-#: uml.cpp:1389
+#: uml.cpp:1399
 #, kde-format
 msgid "Closing file..."
 msgstr "Failas uždaromas..."
 
-#: uml.cpp:1400
+#: uml.cpp:1410
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: uml.cpp:1406
+#: uml.cpp:1416
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: uml.cpp:1462
+#: uml.cpp:1472
 #, kde-format
 msgid "Print Preview..."
 msgstr "Spausdinimo peržiūra..."
 
-#: uml.cpp:1489
+#: uml.cpp:1499
 #, kde-format
 msgid "Printing..."
 msgstr "Spausdinama..."
 
-#: uml.cpp:1495
+#: uml.cpp:1505
 #, kde-format
 msgid "Print %1"
 msgstr "Spausdinti %1"
 
-#: uml.cpp:1514
+#: uml.cpp:1524
 #, kde-format
 msgid "Exiting..."
 msgstr "Išeinama..."
 
-#: uml.cpp:1585
+#: uml.cpp:1595
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Iškerpamas žymėjimas..."
 
-#: uml.cpp:1608
+#: uml.cpp:1618
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Kopijuojama pažymėtą vietą į talpyklę..."
 
-#: uml.cpp:1620
+#: uml.cpp:1630
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Įterpiamas talpyklės turinys..."
 
-#: uml.cpp:1625
+#: uml.cpp:1635
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
 "clipboard may be of the wrong type to be pasted here."
 msgstr ""
 
-#: uml.cpp:1651 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: uml.cpp:1661 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Pasirengęs."
 
-#: uml.cpp:2252
+#: uml.cpp:2278
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr ""
 
-#: uml.cpp:2252 uml.cpp:2255
+#: uml.cpp:2278 uml.cpp:2281
 #, kde-format
 msgid "Cannot View Code"
 msgstr ""
 
-#: uml.cpp:2255
+#: uml.cpp:2281
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr ""
 
-#: uml.cpp:2731
+#: uml.cpp:2767
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr ""
 
-#: uml.cpp:2760
+#: uml.cpp:2796
 #, kde-format
 msgid "Select directory to import:"
 msgstr ""
 
-#: uml.cpp:3280
+#: uml.cpp:3320
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""
