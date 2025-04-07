@@ -121,7 +121,7 @@
 <!-- to the metamodel(s) in the header                               -->
 <!-- _______________________________________________________________ -->
 
-<!ELEMENT XMI.extensions ANY>
+<!ELEMENT XMI.extensions (ANY | %XMI.extensions.umbrello;)>
 <!ATTLIST XMI.extensions
             xmi.extender CDATA #REQUIRED>
 

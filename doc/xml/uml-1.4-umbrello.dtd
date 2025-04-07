@@ -7,8 +7,6 @@
 
 <!-- Umbrello specific elements -->
 
-<!ELEMENT XMI.extensions (docsettings*, diagrams*, listview*, codegeneration*)>
-
 <!-- umbrello specific read only -->
 <!ENTITY % UML.EnumerationLiteral.umbrello '
     UML:EnumerationLiteral
@@ -16,6 +14,10 @@
 
 <!ENTITY % UML.Namespace.ownedElement.umbrello '
     UML:Port
+'>
+
+<!ENTITY % XMI.extensions.umbrello '
+    (docsettings*, diagrams*, listview*, codegeneration*)
 '>
 
 <!-- Umbrello specific attributes -->
