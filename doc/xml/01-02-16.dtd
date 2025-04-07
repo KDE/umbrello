@@ -382,7 +382,7 @@
    UML:SynchState|UML:StubState|UML:Transition|UML:Guard|UML:Message|
    UML:Interaction|UML:InteractionInstanceSet|UML:CollaborationInstanceSet|
    UML:Entity|
-   UML:Partition)*>
+   UML:Partition|%UML.Namespace.ownedElement.umbrello;)*>
 <!ENTITY % UML.NamespaceFeatures '%UML.ModelElementFeatures; |
    UML:Namespace.ownedElement'>
 <!ENTITY % UML.NamespaceAtts '%UML.ModelElementAtts;'>
@@ -698,7 +698,7 @@
    deploymentLocation IDREFS #IMPLIED
    implementation IDREFS #IMPLIED'>
 <!ELEMENT UML:Component (%UML.ComponentFeatures;)*>
-<!ATTLIST UML:Component %UML.ComponentAtts;>
+<!ATTLIST UML:Component %UML.ComponentAtts; %UML.ComponentAtts.umbrello;>
 
 <!-- ========= UML:Node ========= -->
 <!ELEMENT UML:Node.deployedComponent (UML:Component)*>
@@ -887,7 +887,7 @@
 <!ENTITY % UML.ArtifactFeatures '%UML.ClassifierFeatures;'>
 <!ENTITY % UML.ArtifactAtts '%UML.ClassifierAtts;'>
 <!ELEMENT UML:Artifact (%UML.ArtifactFeatures;)*>
-<!ATTLIST UML:Artifact %UML.ArtifactAtts;>
+<!ATTLIST UML:Artifact %UML.ArtifactAtts; %UML.ArtifactAtts.umbrello;>
 
 <!-- ========= UML:TemplateArgument ========= -->
 <!ELEMENT UML:TemplateArgument.modelElement (UML:ModelElement)*>

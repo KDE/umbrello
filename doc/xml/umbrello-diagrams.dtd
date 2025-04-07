@@ -78,6 +78,20 @@
 <!ELEMENT widgets ANY >
 <!ATTLIST widgets
 >
+<!ELEMENT Port ANY >
+<!ATTLIST Port
+          comment CDATA #IMPLIED
+          drawas CDATA #IMPLIED
+          isAbstract CDATA #IMPLIED
+          isLeaf CDATA #IMPLIED
+          isRoot CDATA #IMPLIED
+          isSpecification CDATA #IMPLIED
+          name CDATA #IMPLIED
+          namespace CDATA #IMPLIED
+          showdocumentation CDATA #IMPLIED
+          visibility CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+>
 
 <!-- widgets -->
 
@@ -202,6 +216,7 @@
 <!ATTLIST interfacewidget
           %UMLWidgetAtts;
           %ClassifierWidgetAtts;
+          showdocumentation CDATA #IMPLIED
 >
 <!ELEMENT preconditionwidget ANY >
 <!ATTLIST preconditionwidget
@@ -257,6 +272,27 @@
 <!ATTLIST pinwidget
           %UMLWidgetAtts;
           widgetaid CDATA #IMPLIED
+>
+<!ELEMENT portwidget ANY >
+<!ATTLIST portwidget
+          autoresize CDATA #IMPLIED
+          fillcolor CDATA #IMPLIED
+          font CDATA #IMPLIED
+          height CDATA #IMPLIED
+          isinstance CDATA #IMPLIED
+          linecolor CDATA #IMPLIED
+          linewidth CDATA #IMPLIED
+          localid CDATA #IMPLIED
+          showstereotype CDATA #IMPLIED
+          textcolor CDATA #IMPLIED
+          usefillcolor CDATA #IMPLIED
+          usesdiagramfillcolor CDATA #IMPLIED
+          usesdiagramusefillcolor CDATA #IMPLIED
+          widgetaid CDATA #IMPLIED
+          width CDATA #IMPLIED
+          x CDATA #IMPLIED
+          xmi.id CDATA #IMPLIED
+          y CDATA #IMPLIED
 >
 <!ELEMENT signalwidget ANY >
 <!ATTLIST signalwidget
