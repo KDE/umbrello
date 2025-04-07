@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-20 02:01+0000\n"
+"POT-Creation-Date: 2025-04-07 02:07+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -207,7 +207,7 @@ msgstr ""
 "至少有一个剪贴板内的项目无法被粘贴，因为里面有已经存在的同名项目。其他项目已"
 "粘贴完成。"
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1627
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1637
 #, kde-format
 msgid "Paste Error"
 msgstr "粘贴出错"
@@ -7270,7 +7270,7 @@ msgstr "部署图(&D)..."
 msgid "&Entity Relationship Diagram..."
 msgstr "实体关系图(&E)..."
 
-#: uml.cpp:534 uml.cpp:953
+#: uml.cpp:534 uml.cpp:963
 #, kde-format
 msgid "&Tree View"
 msgstr "树形视图(&T)"
@@ -7294,7 +7294,7 @@ msgstr "命令历史(&C)"
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:554 uml.cpp:1010
+#: uml.cpp:554 uml.cpp:1020
 #, kde-format
 msgid "&Bird's eye view"
 msgstr "鸟瞰图(&B)"
@@ -7354,75 +7354,75 @@ msgstr "选择左侧的图表"
 msgid "Select Diagram on Right"
 msgstr "选择右侧的图表"
 
-#: uml.cpp:793
+#: uml.cpp:801
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr " &%1%"
 
-#: uml.cpp:843
+#: uml.cpp:853
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "就绪"
 
-#: uml.cpp:851 uml.cpp:864
+#: uml.cpp:861 uml.cpp:874
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: uml.cpp:856
+#: uml.cpp:866
 #, kde-format
 msgid "Fit"
 msgstr "自适应"
 
-#: uml.cpp:907
+#: uml.cpp:917
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "图表工具栏"
 
-#: uml.cpp:964
+#: uml.cpp:974
 #, kde-format
 msgid "Doc&umentation"
 msgstr "文档(&U)"
 
-#: uml.cpp:975
+#: uml.cpp:985
 #, kde-format
 msgid "Co&mmand history"
 msgstr "命令历史(&M)"
 
-#: uml.cpp:991
+#: uml.cpp:1001
 #, kde-format
 msgid "&Debug"
 msgstr "调试(&D)"
 
-#: uml.cpp:998
+#: uml.cpp:1008
 #, kde-format
 msgid "&Log"
 msgstr "日志(&L)"
 
-#: uml.cpp:1036 uml.cpp:1253 uml.cpp:1291
+#: uml.cpp:1046 uml.cpp:1263 uml.cpp:1301
 #, kde-format
 msgid "Opening file..."
 msgstr "正在打开文件..."
 
-#: uml.cpp:1087 uml.cpp:1158 uml.cpp:1322 umldoc.cpp:349 umldoc.cpp:372
+#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:349 umldoc.cpp:372
 #: umldoc.cpp:3285
 #, kde-format
 msgid "Untitled"
 msgstr "无标题"
 
-#: uml.cpp:1235
+#: uml.cpp:1245
 #, kde-format
 msgid "Creating new document..."
 msgstr "正在创建新文档..."
 
-#: uml.cpp:1260
+#: uml.cpp:1270
 #, kde-format
 msgid "Open File"
 msgstr "打开文件"
 
-#: uml.cpp:1261
+#: uml.cpp:1271
 #, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7435,22 +7435,22 @@ msgid ""
 "*.zargo|Compressed argo Files(*.zargo)\n"
 msgstr ""
 
-#: uml.cpp:1321
+#: uml.cpp:1331
 #, kde-format
 msgid "Saving file..."
 msgstr "正在保存文件..."
 
-#: uml.cpp:1338
+#: uml.cpp:1348
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "正在用新文件名保存文件..."
 
-#: uml.cpp:1343 umlviewimageexporter.cpp:172
+#: uml.cpp:1353 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "另存为"
 
-#: uml.cpp:1344
+#: uml.cpp:1354
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7461,7 +7461,7 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 压缩的 XMI 文件\n"
 "*|所有文件"
 
-#: uml.cpp:1362
+#: uml.cpp:1372
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7470,105 +7470,105 @@ msgstr ""
 "文件 %1 已存在。\n"
 "要覆盖吗？"
 
-#: uml.cpp:1363
+#: uml.cpp:1373
 #, kde-format
 msgid "Warning"
 msgstr "警告"
 
-#: uml.cpp:1363
+#: uml.cpp:1373
 #, kde-format
 msgid "Overwrite"
 msgstr "覆盖"
 
-#: uml.cpp:1389
+#: uml.cpp:1399
 #, kde-format
 msgid "Closing file..."
 msgstr "正在关闭文件..."
 
-#: uml.cpp:1400
+#: uml.cpp:1410
 #, kde-format
 msgid "No search term entered"
 msgstr "未输入搜索短语"
 
-#: uml.cpp:1406
+#: uml.cpp:1416
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "“%1”：找到 %2 项"
 
-#: uml.cpp:1462
+#: uml.cpp:1472
 #, kde-format
 msgid "Print Preview..."
 msgstr "打印预览..."
 
-#: uml.cpp:1489
+#: uml.cpp:1499
 #, kde-format
 msgid "Printing..."
 msgstr "正在打印..."
 
-#: uml.cpp:1495
+#: uml.cpp:1505
 #, kde-format
 msgid "Print %1"
 msgstr "打印 %1"
 
-#: uml.cpp:1514
+#: uml.cpp:1524
 #, kde-format
 msgid "Exiting..."
 msgstr "正在退出..."
 
-#: uml.cpp:1585
+#: uml.cpp:1595
 #, kde-format
 msgid "Cutting selection..."
 msgstr "正在剪切所选项..."
 
-#: uml.cpp:1608
+#: uml.cpp:1618
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "正在复制所选项到剪贴板..."
 
-#: uml.cpp:1620
+#: uml.cpp:1630
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "正在插入剪贴板内容..."
 
-#: uml.cpp:1625
+#: uml.cpp:1635
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
 "clipboard may be of the wrong type to be pasted here."
 msgstr "Umbrello 无法粘贴剪贴板内容。剪贴板中的对象的类型可能不正确。"
 
-#: uml.cpp:1651 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: uml.cpp:1661 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "就绪。"
 
-#: uml.cpp:2252
+#: uml.cpp:2278
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "生成代码后才能查看。"
 
-#: uml.cpp:2252 uml.cpp:2255
+#: uml.cpp:2278 uml.cpp:2281
 #, kde-format
 msgid "Cannot View Code"
 msgstr "无法查看代码"
 
-#: uml.cpp:2255
+#: uml.cpp:2281
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "无法查看简单代码书写器中的代码。"
 
-#: uml.cpp:2731
+#: uml.cpp:2767
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "选择要导入的文件："
 
-#: uml.cpp:2760
+#: uml.cpp:2796
 #, kde-format
 msgid "Select directory to import:"
 msgstr "选择要导入的文件："
 
-#: uml.cpp:3280
+#: uml.cpp:3320
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML 生成失败。"

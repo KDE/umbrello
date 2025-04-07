@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-20 02:01+0000\n"
+"POT-Creation-Date: 2025-04-07 02:07+0000\n"
 "PO-Revision-Date: 2011-12-15 07:28+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -211,7 +211,7 @@ msgstr ""
 "Tominnst een Element in de Twischenaflaag lett sik nich infögen, wiel dat al "
 "en Element mit den sülven Naam gifft. All anner Elementen wöörn inföögt."
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1627
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1637
 #, kde-format
 msgid "Paste Error"
 msgstr "Inföög-Fehler"
@@ -7634,7 +7634,7 @@ msgstr "&Insetten-Diagramm..."
 msgid "&Entity Relationship Diagram..."
 msgstr "&Eenheitenbetog-Diagramm..."
 
-#: uml.cpp:534 uml.cpp:953
+#: uml.cpp:534 uml.cpp:963
 #, kde-format
 msgid "&Tree View"
 msgstr "&Boomansicht"
@@ -7659,7 +7659,7 @@ msgstr "Befehlen-&Vörgeschicht"
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:554 uml.cpp:1010
+#: uml.cpp:554 uml.cpp:1020
 #, kde-format
 msgid "&Bird's eye view"
 msgstr ""
@@ -7721,76 +7721,76 @@ msgstr "Diagramm linkerhand utsöken"
 msgid "Select Diagram on Right"
 msgstr "Diagramm rechterhand utsöken"
 
-#: uml.cpp:793
+#: uml.cpp:801
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:843
+#: uml.cpp:853
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Praat"
 
-#: uml.cpp:851 uml.cpp:864
+#: uml.cpp:861 uml.cpp:874
 #, kde-format
 msgid "100%"
 msgstr ""
 
-#: uml.cpp:856
+#: uml.cpp:866
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Fit"
 msgstr "Filter"
 
-#: uml.cpp:907
+#: uml.cpp:917
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "Diagramm-Warktüüchbalken"
 
-#: uml.cpp:964
+#: uml.cpp:974
 #, kde-format
 msgid "Doc&umentation"
 msgstr "Do&kmentatschoon"
 
-#: uml.cpp:975
+#: uml.cpp:985
 #, kde-format
 msgid "Co&mmand history"
 msgstr "Befehlen-&Vörgeschicht"
 
-#: uml.cpp:991
+#: uml.cpp:1001
 #, kde-format
 msgid "&Debug"
 msgstr ""
 
-#: uml.cpp:998
+#: uml.cpp:1008
 #, kde-format
 msgid "&Log"
 msgstr ""
 
-#: uml.cpp:1036 uml.cpp:1253 uml.cpp:1291
+#: uml.cpp:1046 uml.cpp:1263 uml.cpp:1301
 #, kde-format
 msgid "Opening file..."
 msgstr "Datei warrt opmaakt..."
 
-#: uml.cpp:1087 uml.cpp:1158 uml.cpp:1322 umldoc.cpp:349 umldoc.cpp:372
+#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:349 umldoc.cpp:372
 #: umldoc.cpp:3285
 #, kde-format
 msgid "Untitled"
 msgstr "ahn Naam"
 
-#: uml.cpp:1235
+#: uml.cpp:1245
 #, kde-format
 msgid "Creating new document..."
 msgstr "Nieg Dokment warrt opstellt..."
 
-#: uml.cpp:1260
+#: uml.cpp:1270
 #, kde-format
 msgid "Open File"
 msgstr "Datei opmaken"
 
-#: uml.cpp:1261
+#: uml.cpp:1271
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi."
@@ -7816,22 +7816,22 @@ msgstr ""
 "*.xmi.tar.bz2|mit \"bzip2\" komprimeert XMI-Dateien (*.xmi.tar.bz2)\n"
 "*.mdl|\"Rose model\"-Dateien"
 
-#: uml.cpp:1321
+#: uml.cpp:1331
 #, kde-format
 msgid "Saving file..."
 msgstr "Datei warrt sekert..."
 
-#: uml.cpp:1338
+#: uml.cpp:1348
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Datei warrt mit nieg Dateinaam sekert..."
 
-#: uml.cpp:1343 umlviewimageexporter.cpp:172
+#: uml.cpp:1353 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Sekern as"
 
-#: uml.cpp:1344
+#: uml.cpp:1354
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -7847,7 +7847,7 @@ msgstr ""
 "*.xmi.tar.bz2|Mit \"bzip2\" komprimeert XMI-Datei\n"
 "*|All Dateien"
 
-#: uml.cpp:1362
+#: uml.cpp:1372
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7856,67 +7856,67 @@ msgstr ""
 "De Datei \"%1\" gifft dat al.\n"
 "Wullt Du ehr överschrieven?"
 
-#: uml.cpp:1363
+#: uml.cpp:1373
 #, kde-format
 msgid "Warning"
 msgstr "Wohrschoen"
 
-#: uml.cpp:1363
+#: uml.cpp:1373
 #, kde-format
 msgid "Overwrite"
 msgstr "Överschrieven"
 
-#: uml.cpp:1389
+#: uml.cpp:1399
 #, kde-format
 msgid "Closing file..."
 msgstr "Datei warrt tomaakt..."
 
-#: uml.cpp:1400
+#: uml.cpp:1410
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: uml.cpp:1406
+#: uml.cpp:1416
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: uml.cpp:1462
+#: uml.cpp:1472
 #, kde-format
 msgid "Print Preview..."
 msgstr "Druckvöransicht..."
 
-#: uml.cpp:1489
+#: uml.cpp:1499
 #, kde-format
 msgid "Printing..."
 msgstr "An't Drucken..."
 
-#: uml.cpp:1495
+#: uml.cpp:1505
 #, kde-format
 msgid "Print %1"
 msgstr "\"%1\" drucken"
 
-#: uml.cpp:1514
+#: uml.cpp:1524
 #, kde-format
 msgid "Exiting..."
 msgstr "An't Beennen..."
 
-#: uml.cpp:1585
+#: uml.cpp:1595
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Köör warrt knippt..."
 
-#: uml.cpp:1608
+#: uml.cpp:1618
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Köör warrt na de Twischenaflaag kopeert..."
 
-#: uml.cpp:1620
+#: uml.cpp:1630
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Twischenaflaag-Inholt warrt inföögt..."
 
-#: uml.cpp:1625
+#: uml.cpp:1635
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7926,40 +7926,40 @@ msgstr ""
 "de Twischenaflaag hebbt villicht den falschen Typ för't Infögen an disse "
 "Steed."
 
-#: uml.cpp:1651 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: uml.cpp:1661 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Fardig."
 
-#: uml.cpp:2252
+#: uml.cpp:2278
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "Kode lett sik nich ankieken, ehr Du em nich opstellt hest."
 
-#: uml.cpp:2252 uml.cpp:2255
+#: uml.cpp:2278 uml.cpp:2281
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Kode lett sik nich wiesen"
 
-#: uml.cpp:2255
+#: uml.cpp:2281
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Kode vun eenfach Kodeopsteller lett sik nich ankieken."
 
-#: uml.cpp:2731
+#: uml.cpp:2767
 #, fuzzy, kde-format
 #| msgid "Select Code to Import"
 msgid "Select file(s) to import:"
 msgstr "Kode för't Importeren utsöken"
 
-#: uml.cpp:2760
+#: uml.cpp:2796
 #, fuzzy, kde-format
 #| msgid "Select Code to Import"
 msgid "Select directory to import:"
 msgstr "Kode för't Importeren utsöken"
 
-#: uml.cpp:3280
+#: uml.cpp:3320
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML-Opstellen is fehlslaan."

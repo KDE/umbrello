@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-20 02:01+0000\n"
+"POT-Creation-Date: 2025-04-07 02:07+0000\n"
 "PO-Revision-Date: 2021-01-18 19:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -215,7 +215,7 @@ msgstr ""
 "குறைந்தப்பட்சம் சித்திரப்பலகையில் ஒரு வகையாகவது ஒட்ட முடியவில்லை ஏனென்றால் அந்த வகையின் "
 "பெயர் ஏற்கனவே உள்ளது. எந்த ஒரு வகையும் ஒட்டவும்."
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1627
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1637
 #, kde-format
 msgid "Paste Error"
 msgstr "பிழையை ஒட்டு"
@@ -7727,7 +7727,7 @@ msgstr "ஓர்வரிசை வரைப்படம் "
 msgid "&Entity Relationship Diagram..."
 msgstr "கூட்டுமுயற்சி வரைப்படம்"
 
-#: uml.cpp:534 uml.cpp:953
+#: uml.cpp:534 uml.cpp:963
 #, kde-format
 msgid "&Tree View"
 msgstr "மரமாக காட்டு"
@@ -7751,7 +7751,7 @@ msgstr ""
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:554 uml.cpp:1010
+#: uml.cpp:554 uml.cpp:1020
 #, kde-format
 msgid "&Bird's eye view"
 msgstr ""
@@ -7812,78 +7812,78 @@ msgstr "&வரைபடத்தை தேர்ந்தெடு"
 msgid "Select Diagram on Right"
 msgstr "&வரைபடத்தை தேர்ந்தெடு"
 
-#: uml.cpp:793
+#: uml.cpp:801
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:843
+#: uml.cpp:853
 #, fuzzy, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "தயார்"
 
-#: uml.cpp:851 uml.cpp:864
+#: uml.cpp:861 uml.cpp:874
 #, fuzzy, kde-format
 #| msgid "&100%"
 msgid "100%"
 msgstr " &100 %"
 
-#: uml.cpp:856
+#: uml.cpp:866
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Fit"
 msgstr "வடிகட்டி"
 
-#: uml.cpp:907
+#: uml.cpp:917
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "வரைப்படக் கருவிப்பட்டி"
 
-#: uml.cpp:964
+#: uml.cpp:974
 #, fuzzy, kde-format
 #| msgid "Documentation"
 msgid "Doc&umentation"
 msgstr "ஆவணமாக்கம் "
 
-#: uml.cpp:975
+#: uml.cpp:985
 #, kde-format
 msgid "Co&mmand history"
 msgstr ""
 
-#: uml.cpp:991
+#: uml.cpp:1001
 #, kde-format
 msgid "&Debug"
 msgstr ""
 
-#: uml.cpp:998
+#: uml.cpp:1008
 #, kde-format
 msgid "&Log"
 msgstr ""
 
-#: uml.cpp:1036 uml.cpp:1253 uml.cpp:1291
+#: uml.cpp:1046 uml.cpp:1263 uml.cpp:1301
 #, kde-format
 msgid "Opening file..."
 msgstr "கோப்பினைத் திறக்கையில் "
 
-#: uml.cpp:1087 uml.cpp:1158 uml.cpp:1322 umldoc.cpp:349 umldoc.cpp:372
+#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:349 umldoc.cpp:372
 #: umldoc.cpp:3285
 #, kde-format
 msgid "Untitled"
 msgstr "தலைப்பில்லாதது"
 
-#: uml.cpp:1235
+#: uml.cpp:1245
 #, kde-format
 msgid "Creating new document..."
 msgstr "புதிய ஆவணத்தை உருவாக்குதல்"
 
-#: uml.cpp:1260
+#: uml.cpp:1270
 #, kde-format
 msgid "Open File"
 msgstr "கோப்பினை திற"
 
-#: uml.cpp:1261
+#: uml.cpp:1271
 #, fuzzy, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7901,22 +7901,22 @@ msgstr ""
 "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
 "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)"
 
-#: uml.cpp:1321
+#: uml.cpp:1331
 #, kde-format
 msgid "Saving file..."
 msgstr "கோப்பினை சேமிக்கிறது"
 
-#: uml.cpp:1338
+#: uml.cpp:1348
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "கோப்பினை புது கோப்பு பெயருடன் சேமிக்கிறது"
 
-#: uml.cpp:1343 umlviewimageexporter.cpp:172
+#: uml.cpp:1353 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr ""
 
-#: uml.cpp:1344
+#: uml.cpp:1354
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -7932,7 +7932,7 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 Compressed XMI File\n"
 "*|All Files"
 
-#: uml.cpp:1362
+#: uml.cpp:1372
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7941,67 +7941,67 @@ msgstr ""
 "%1 கோப்பு ஏற்கனவே உள்ளது \n"
 "அதன் மேல் எழுத வேண்டுமா?"
 
-#: uml.cpp:1363
+#: uml.cpp:1373
 #, fuzzy, kde-format
 msgid "Warning"
 msgstr "சரம்"
 
-#: uml.cpp:1363
+#: uml.cpp:1373
 #, fuzzy, kde-format
 msgid "Overwrite"
 msgstr "மேலெழுது"
 
-#: uml.cpp:1389
+#: uml.cpp:1399
 #, kde-format
 msgid "Closing file..."
 msgstr "கோப்பினை மூடியது."
 
-#: uml.cpp:1400
+#: uml.cpp:1410
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: uml.cpp:1406
+#: uml.cpp:1416
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: uml.cpp:1462
+#: uml.cpp:1472
 #, fuzzy, kde-format
 msgid "Print Preview..."
 msgstr "வெளியேறுகிறது"
 
-#: uml.cpp:1489
+#: uml.cpp:1499
 #, kde-format
 msgid "Printing..."
 msgstr "அச்சில்..."
 
-#: uml.cpp:1495
+#: uml.cpp:1505
 #, kde-format
 msgid "Print %1"
 msgstr "அச்சிடு %1"
 
-#: uml.cpp:1514
+#: uml.cpp:1524
 #, kde-format
 msgid "Exiting..."
 msgstr "வெளியேறுகிறது"
 
-#: uml.cpp:1585
+#: uml.cpp:1595
 #, kde-format
 msgid "Cutting selection..."
 msgstr "தேர்வுகளை கத்தரிக்கிறது"
 
-#: uml.cpp:1608
+#: uml.cpp:1618
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "இடைநிலைப் பலகையில் தேர்வுகளை நகலெடு "
 
-#: uml.cpp:1620
+#: uml.cpp:1630
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "இடைநிலைப் பலகை உள்ளடக்கங்களை உள்ளிடுகிறது"
 
-#: uml.cpp:1625
+#: uml.cpp:1635
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -8010,39 +8010,39 @@ msgstr ""
 "இடைநிலைப் பலகை உள்ளடக்கங்களை அம்பர்லொவால் ஒட்டமுடியவில்லை. இடைநிலைப் பலகையில் உள்ள "
 "பொருட்கள் ஒட்டப்படவேண்டிய வகையைச் சார்ந்திருக்காது "
 
-#: uml.cpp:1651 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: uml.cpp:1661 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, fuzzy, kde-format
 #| msgid "Ready."
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "தயார்"
 
-#: uml.cpp:2252
+#: uml.cpp:2278
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "உங்கள் சில உருவாக்கத்தைக் காணயிலாது."
 
-#: uml.cpp:2252 uml.cpp:2255
+#: uml.cpp:2278 uml.cpp:2281
 #, kde-format
 msgid "Cannot View Code"
 msgstr "தற்போதைய காட்சி குறியீடு"
 
-#: uml.cpp:2255
+#: uml.cpp:2281
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "எளிய குறிமுறை எழுதியின் குறிமுறைக் காண முடியவில்லை."
 
-#: uml.cpp:2731
+#: uml.cpp:2767
 #, fuzzy, kde-format
 msgid "Select file(s) to import:"
 msgstr "ஏற்றுமதி செய்ய வேண்டிய வகுப்புகளை தேர்வு செய்"
 
-#: uml.cpp:2760
+#: uml.cpp:2796
 #, fuzzy, kde-format
 msgid "Select directory to import:"
 msgstr "ஏற்றுமதி செய்ய வேண்டிய வகுப்புகளை தேர்வு செய்"
 
-#: uml.cpp:3280
+#: uml.cpp:3320
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""

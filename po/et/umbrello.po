@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-20 02:01+0000\n"
+"POT-Creation-Date: 2025-04-07 02:07+0000\n"
 "PO-Revision-Date: 2020-05-02 10:38+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -209,7 +209,7 @@ msgstr ""
 "Vähemalt ühte lõikepuhvris olevat elementi pole võimalik asetada, sest "
 "samanimeline element on juba olemas. Kõik teised elemendid asetati."
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1627
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1637
 #, kde-format
 msgid "Paste Error"
 msgstr "Tõrge asetamisel"
@@ -7355,7 +7355,7 @@ msgstr "&Evitusskeem..."
 msgid "&Entity Relationship Diagram..."
 msgstr "&Olem-seos skeem..."
 
-#: uml.cpp:534 uml.cpp:953
+#: uml.cpp:534 uml.cpp:963
 #, kde-format
 msgid "&Tree View"
 msgstr "&Puuvaade"
@@ -7379,7 +7379,7 @@ msgstr "Käsk&ude ajalugu"
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:554 uml.cpp:1010
+#: uml.cpp:554 uml.cpp:1020
 #, kde-format
 msgid "&Bird's eye view"
 msgstr "Ülevaa&de"
@@ -7439,75 +7439,75 @@ msgstr "Vali skeem vasakul"
 msgid "Select Diagram on Right"
 msgstr "Vali skeem paremal"
 
-#: uml.cpp:793
+#: uml.cpp:801
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr " &%1%"
 
-#: uml.cpp:843
+#: uml.cpp:853
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Valmis"
 
-#: uml.cpp:851 uml.cpp:864
+#: uml.cpp:861 uml.cpp:874
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: uml.cpp:856
+#: uml.cpp:866
 #, kde-format
 msgid "Fit"
 msgstr "Mahutamine"
 
-#: uml.cpp:907
+#: uml.cpp:917
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "Skeemiriba"
 
-#: uml.cpp:964
+#: uml.cpp:974
 #, kde-format
 msgid "Doc&umentation"
 msgstr "Do&kumentatsioon"
 
-#: uml.cpp:975
+#: uml.cpp:985
 #, kde-format
 msgid "Co&mmand history"
 msgstr "Käsk&ude ajalugu"
 
-#: uml.cpp:991
+#: uml.cpp:1001
 #, kde-format
 msgid "&Debug"
 msgstr "Silu&mine"
 
-#: uml.cpp:998
+#: uml.cpp:1008
 #, kde-format
 msgid "&Log"
 msgstr "Lo&gimine"
 
-#: uml.cpp:1036 uml.cpp:1253 uml.cpp:1291
+#: uml.cpp:1046 uml.cpp:1263 uml.cpp:1301
 #, kde-format
 msgid "Opening file..."
 msgstr "Faili avamine..."
 
-#: uml.cpp:1087 uml.cpp:1158 uml.cpp:1322 umldoc.cpp:349 umldoc.cpp:372
+#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:349 umldoc.cpp:372
 #: umldoc.cpp:3285
 #, kde-format
 msgid "Untitled"
 msgstr "Nimetu"
 
-#: uml.cpp:1235
+#: uml.cpp:1245
 #, kde-format
 msgid "Creating new document..."
 msgstr "Uue dokumendi loomine..."
 
-#: uml.cpp:1260
+#: uml.cpp:1270
 #, kde-format
 msgid "Open File"
 msgstr "Faili avamine"
 
-#: uml.cpp:1261
+#: uml.cpp:1271
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *."
@@ -7535,22 +7535,22 @@ msgstr ""
 "*.mdl|Rose mudeli failid\n"
 "*.zargo|Tihendatud argo-failid (*.zargo)\n"
 
-#: uml.cpp:1321
+#: uml.cpp:1331
 #, kde-format
 msgid "Saving file..."
 msgstr "Faili salvestamine..."
 
-#: uml.cpp:1338
+#: uml.cpp:1348
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Faili salvestamine uue nimega..."
 
-#: uml.cpp:1343 umlviewimageexporter.cpp:172
+#: uml.cpp:1353 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Salvestamine"
 
-#: uml.cpp:1344
+#: uml.cpp:1354
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7560,7 +7560,7 @@ msgstr ""
 "*.xmi.tar.bz2 | Bzip2-tihendusega XMI-fail (*.xmi.tar.bz2);;* | Kõik failid "
 "(*)"
 
-#: uml.cpp:1362
+#: uml.cpp:1372
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7569,67 +7569,67 @@ msgstr ""
 "Fail %1 on juba olemas.\n"
 "Kas sa soovid seda üle kirjutada?"
 
-#: uml.cpp:1363
+#: uml.cpp:1373
 #, kde-format
 msgid "Warning"
 msgstr "Hoiatus"
 
-#: uml.cpp:1363
+#: uml.cpp:1373
 #, kde-format
 msgid "Overwrite"
 msgstr "Kirjuta üle"
 
-#: uml.cpp:1389
+#: uml.cpp:1399
 #, kde-format
 msgid "Closing file..."
 msgstr "Faili sulgemine..."
 
-#: uml.cpp:1400
+#: uml.cpp:1410
 #, kde-format
 msgid "No search term entered"
 msgstr "Otsingumõistet pole antud"
 
-#: uml.cpp:1406
+#: uml.cpp:1416
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "'%1': %2 leitud"
 
-#: uml.cpp:1462
+#: uml.cpp:1472
 #, kde-format
 msgid "Print Preview..."
 msgstr "Trükkimise eelvaatlus..."
 
-#: uml.cpp:1489
+#: uml.cpp:1499
 #, kde-format
 msgid "Printing..."
 msgstr "Trükkimine..."
 
-#: uml.cpp:1495
+#: uml.cpp:1505
 #, kde-format
 msgid "Print %1"
 msgstr "Trüki %1"
 
-#: uml.cpp:1514
+#: uml.cpp:1524
 #, kde-format
 msgid "Exiting..."
 msgstr "Väljumine..."
 
-#: uml.cpp:1585
+#: uml.cpp:1595
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Valiku lõikamine..."
 
-#: uml.cpp:1608
+#: uml.cpp:1618
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Valiku kopeerimine lõikepuhvrisse..."
 
-#: uml.cpp:1620
+#: uml.cpp:1630
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Lõikepuhvri sisu asetamine..."
 
-#: uml.cpp:1625
+#: uml.cpp:1635
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7638,38 +7638,38 @@ msgstr ""
 "Lõikepuhvri sisu asetamine nurjus. Võib-olla on lõikepuhvris olevad objektid "
 "sobimatut tüüpi."
 
-#: uml.cpp:1651 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: uml.cpp:1661 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Valmis."
 
-#: uml.cpp:2252
+#: uml.cpp:2278
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "Koodi pole võimalik näidata enne selle genereerimist."
 
-#: uml.cpp:2252 uml.cpp:2255
+#: uml.cpp:2278 uml.cpp:2281
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Koodi näitamine nurjus"
 
-#: uml.cpp:2255
+#: uml.cpp:2281
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Lihtsa koodikirjutaja koodi pole võimalik näidata."
 
-#: uml.cpp:2731
+#: uml.cpp:2767
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Imporditavad failid:"
 
-#: uml.cpp:2760
+#: uml.cpp:2796
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Imporditav kataloog:"
 
-#: uml.cpp:3280
+#: uml.cpp:3320
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML-i genereerimine nurjus."

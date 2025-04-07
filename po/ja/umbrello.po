@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-03-20 02:01+0000\n"
+"POT-Creation-Date: 2025-04-07 02:07+0000\n"
 "PO-Revision-Date: 2008-11-05 23:34+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -221,7 +221,7 @@ msgstr ""
 "つを貼り付けることができませんでした。他のアイテムは既に貼り付けられていま"
 "す。"
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1627
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1637
 #, kde-format
 msgid "Paste Error"
 msgstr "貼り付けエラー"
@@ -7734,7 +7734,7 @@ msgstr "配置図(&D)..."
 msgid "&Entity Relationship Diagram..."
 msgstr "エンティティ関係図(&E)..."
 
-#: uml.cpp:534 uml.cpp:953
+#: uml.cpp:534 uml.cpp:963
 #, kde-format
 msgid "&Tree View"
 msgstr "ツリー表示(&T)"
@@ -7759,7 +7759,7 @@ msgstr "コマンド履歴(&M)"
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:554 uml.cpp:1010
+#: uml.cpp:554 uml.cpp:1020
 #, kde-format
 msgid "&Bird's eye view"
 msgstr ""
@@ -7821,76 +7821,76 @@ msgstr "左の図を選択"
 msgid "Select Diagram on Right"
 msgstr "右の図を選択"
 
-#: uml.cpp:793
+#: uml.cpp:801
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:843
+#: uml.cpp:853
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "準備完了"
 
-#: uml.cpp:851 uml.cpp:864
+#: uml.cpp:861 uml.cpp:874
 #, kde-format
 msgid "100%"
 msgstr ""
 
-#: uml.cpp:856
+#: uml.cpp:866
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Fit"
 msgstr "フィルタ"
 
-#: uml.cpp:907
+#: uml.cpp:917
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "図に関するツールバー"
 
-#: uml.cpp:964
+#: uml.cpp:974
 #, kde-format
 msgid "Doc&umentation"
 msgstr "ドキュメンテーション(&U)"
 
-#: uml.cpp:975
+#: uml.cpp:985
 #, kde-format
 msgid "Co&mmand history"
 msgstr "コマンド履歴(&M)"
 
-#: uml.cpp:991
+#: uml.cpp:1001
 #, kde-format
 msgid "&Debug"
 msgstr ""
 
-#: uml.cpp:998
+#: uml.cpp:1008
 #, kde-format
 msgid "&Log"
 msgstr ""
 
-#: uml.cpp:1036 uml.cpp:1253 uml.cpp:1291
+#: uml.cpp:1046 uml.cpp:1263 uml.cpp:1301
 #, kde-format
 msgid "Opening file..."
 msgstr "ファイルを開いています..."
 
-#: uml.cpp:1087 uml.cpp:1158 uml.cpp:1322 umldoc.cpp:349 umldoc.cpp:372
+#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:349 umldoc.cpp:372
 #: umldoc.cpp:3285
 #, kde-format
 msgid "Untitled"
 msgstr "名前なし"
 
-#: uml.cpp:1235
+#: uml.cpp:1245
 #, kde-format
 msgid "Creating new document..."
 msgstr "新しい文書を作成しています..."
 
-#: uml.cpp:1260
+#: uml.cpp:1270
 #, kde-format
 msgid "Open File"
 msgstr "ファイルを開く"
 
-#: uml.cpp:1261
+#: uml.cpp:1271
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi."
@@ -7916,23 +7916,23 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 圧縮 XMI ファイル (*.xmi.tar.bz2)\n"
 "*.mdl|Rose モデルファイル"
 
-#: uml.cpp:1321
+#: uml.cpp:1331
 #, kde-format
 msgid "Saving file..."
 msgstr "ファイルを保存しています..."
 
 # skip-rule: filename
-#: uml.cpp:1338
+#: uml.cpp:1348
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "新しい名前でファイルを保存しています..."
 
-#: uml.cpp:1343 umlviewimageexporter.cpp:172
+#: uml.cpp:1353 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "名前を付けて保存"
 
-#: uml.cpp:1344
+#: uml.cpp:1354
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -7948,7 +7948,7 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 圧縮された XMI ファイル\n"
 "*|すべてのファイル"
 
-#: uml.cpp:1362
+#: uml.cpp:1372
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7957,68 +7957,68 @@ msgstr ""
 "ファイル ‘%1’ は存在します。\n"
 "上書きしますか？"
 
-#: uml.cpp:1363
+#: uml.cpp:1373
 #, kde-format
 msgid "Warning"
 msgstr "警告"
 
-#: uml.cpp:1363
+#: uml.cpp:1373
 #, kde-format
 msgid "Overwrite"
 msgstr "上書き"
 
-#: uml.cpp:1389
+#: uml.cpp:1399
 #, kde-format
 msgid "Closing file..."
 msgstr "ファイルを閉じています..."
 
-#: uml.cpp:1400
+#: uml.cpp:1410
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: uml.cpp:1406
+#: uml.cpp:1416
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: uml.cpp:1462
+#: uml.cpp:1472
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "Print Preview..."
 msgstr "ビューをエクスポート..."
 
-#: uml.cpp:1489
+#: uml.cpp:1499
 #, kde-format
 msgid "Printing..."
 msgstr "印刷中..."
 
-#: uml.cpp:1495
+#: uml.cpp:1505
 #, kde-format
 msgid "Print %1"
 msgstr "“%1” を印刷"
 
-#: uml.cpp:1514
+#: uml.cpp:1524
 #, kde-format
 msgid "Exiting..."
 msgstr "終了中..."
 
-#: uml.cpp:1585
+#: uml.cpp:1595
 #, kde-format
 msgid "Cutting selection..."
 msgstr "選択範囲を切り取り中..."
 
-#: uml.cpp:1608
+#: uml.cpp:1618
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "選択内容をクリップボードにコピー中..."
 
-#: uml.cpp:1620
+#: uml.cpp:1630
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "クリップボードの内容を挿入中..."
 
-#: uml.cpp:1625
+#: uml.cpp:1635
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -8027,39 +8027,39 @@ msgstr ""
 "Umbrello はクリップボードの内容を貼り付けることができませんでした。クリップ"
 "ボードの内容はおそらくここに貼り付けるタイプではないのでしょう。"
 
-#: uml.cpp:1651 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: uml.cpp:1661 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "準備完了。"
 
-#: uml.cpp:2252
+#: uml.cpp:2278
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "いくつかコードを生成した後にのみ、コードを見ることができます。"
 
-#: uml.cpp:2252 uml.cpp:2255
+#: uml.cpp:2278 uml.cpp:2281
 #, kde-format
 msgid "Cannot View Code"
 msgstr "コードを表示できません"
 
-#: uml.cpp:2255
+#: uml.cpp:2281
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "シンプルコードライターでコードを表示できません"
 
-#: uml.cpp:2731
+#: uml.cpp:2767
 #, fuzzy, kde-format
 #| msgid "Select the object node type"
 msgid "Select file(s) to import:"
 msgstr "オブジェクトノードのタイプを選択"
 
-#: uml.cpp:2760
+#: uml.cpp:2796
 #, kde-format
 msgid "Select directory to import:"
 msgstr ""
 
-#: uml.cpp:3280
+#: uml.cpp:3320
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML の生成に失敗しました。"
