@@ -105,6 +105,8 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
     html.replace(QStringLiteral("<div id=\"footer\""), QStringLiteral("<!-- <div id=\"footer\""));
     html.replace(QStringLiteral("</div></body>"), QStringLiteral("--> </div></body>"));
 #endif
+    // use default background and text color in dark theme
+    html.replace(QLatin1String("<body bgcolor=\"white\" text=\"black\""), QLatin1String(""));
 #else
     // replace help:/ urls in html file to be able to find css files and images from kde help system
     QString path;
