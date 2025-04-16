@@ -5,11 +5,29 @@
 <!ENTITY % UmbrelloMisc SYSTEM "umbrello-misc.dtd" >
 %UmbrelloMisc;
 
-<!ELEMENT XMI.extensions (docsettings*, diagrams*, listview*, codegeneration*)>
+<!-- Umbrello specific elements -->
 
 <!-- umbrello specific read only -->
 <!ENTITY % UML.EnumerationLiteral.umbrello '
     UML:EnumerationLiteral
+'>
+
+<!ENTITY % UML.Namespace.ownedElement.umbrello '
+    UML:Port
+'>
+
+<!ENTITY % XMI.extensions.umbrello '
+    (docsettings*, diagrams*, listview*, codegeneration*)
+'>
+
+<!-- Umbrello specific attributes -->
+
+<!ENTITY % UML.ArtifactAtts.umbrello '
+    drawas CDATA #IMPLIED
+'>
+
+<!ENTITY % UML.ComponentAtts.umbrello '
+    executable CDATA #IMPLIED
 '>
 
 <!-- UML 1.4 and 2.x do not specify enumeration literal values -->

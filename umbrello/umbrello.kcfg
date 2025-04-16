@@ -178,6 +178,11 @@
          <whatsthis>The Color of the diagram background</whatsthis>
          <default>white</default>
        </entry>
+       <entry name="useBackgroundColor" type="Bool">
+         <label>Use background color</label>
+         <whatsthis>Enables/Disables the usage of a custom background color</whatsthis>
+         <default>false</default>
+       </entry>
        <entry name="gridDotColor" type="Color">
          <label>Grid Dot Color</label>
          <whatsthis>The Color of the grid dots</whatsthis>

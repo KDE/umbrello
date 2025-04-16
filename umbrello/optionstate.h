@@ -85,6 +85,7 @@ public:
     QColor textColor;
     QFont  font;
     QColor backgroundColor;
+    bool   useBackgroundColor;
     QColor gridDotColor;
 };
 
