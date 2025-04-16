@@ -110,6 +110,7 @@ void UIOptionsPage::setupPage()
 
     m_bgColorCB = new QCheckBox(i18n("Custom background color"), m_colorGB);
     colorLayout->addWidget(m_bgColorCB, 4, 0);
+    m_bgColorCB->setChecked(m_options->uiState.useBackgroundColor);
 
     m_bgColorB = new KColorButton(m_options->uiState.backgroundColor, m_colorGB);
     colorLayout->addWidget(m_bgColorB, 4, 1);
@@ -176,6 +177,7 @@ void UIOptionsPage::apply()
     m_options->uiState.lineColor = m_lineColorB->color();
     m_options->uiState.lineWidth = m_lineWidthB->value();
     m_options->uiState.backgroundColor = m_bgColorB->color();
+    m_options->uiState.useBackgroundColor = m_bgColorCB->isChecked();
     m_options->uiState.gridDotColor = m_gridColorB->color();
     m_options->generalState.layoutType = m_layoutTypeW->currentLayout();
     UmbrelloSettings::setRightToLeftUI(m_rightToLeftUI->isChecked());

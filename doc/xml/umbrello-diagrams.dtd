@@ -63,6 +63,7 @@
           snapy CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           type CDATA #IMPLIED
+          usebackgroundcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           xmi.id CDATA #IMPLIED
           zoom CDATA #IMPLIED

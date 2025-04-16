@@ -147,6 +147,7 @@ namespace Settings {
         textColor = UmbrelloSettings::textColor();
         font =  UmbrelloSettings::uiFont();
         backgroundColor = UmbrelloSettings::backgroundColor();
+        useBackgroundColor = UmbrelloSettings::useBackgroundColor();
         gridDotColor = UmbrelloSettings::gridDotColor();
     }
 
@@ -159,6 +160,7 @@ namespace Settings {
         UmbrelloSettings::setTextColor(textColor);
         UmbrelloSettings::setUiFont(font);
         UmbrelloSettings::setBackgroundColor(backgroundColor);
+        UmbrelloSettings::setUseBackgroundColor(useBackgroundColor);
         UmbrelloSettings::setGridDotColor(gridDotColor);
     }
 
@@ -169,6 +171,7 @@ namespace Settings {
     void UIState::saveToXMI(QXmlStreamWriter& writer)
     {
         writer.writeAttribute(QStringLiteral("backgroundcolor"),  backgroundColor.name());
+        writer.writeAttribute(QStringLiteral("usebackgroundcolor"),  QString::number(useBackgroundColor));
         writer.writeAttribute(QStringLiteral("fillcolor"),        fillColor.name());
         writer.writeAttribute(QStringLiteral("font"),             font.toString());
         writer.writeAttribute(QStringLiteral("griddotcolor"),     gridDotColor.name());
@@ -209,6 +212,10 @@ namespace Settings {
         QString textColor = element.attribute(QStringLiteral("textcolor"));
         if (!textColor.isEmpty())
             this->textColor = QColor(textColor);
+
+        QString usebackgroundcolor = element.attribute(QStringLiteral("usebackgroundcolor"), QStringLiteral("0"));
+        this->useBackgroundColor = (bool)usebackgroundcolor.toInt();
+
         QString usefillcolor = element.attribute(QStringLiteral("usefillcolor"), QStringLiteral("0"));
         this->useFillColor = (bool)usefillcolor.toInt();
 

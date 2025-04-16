@@ -596,7 +596,8 @@ Settings::OptionState& UMLScene::optionState()
 void UMLScene::setOptionState(const Settings::OptionState& options)
 {
     m_Options = options;
-    setBackgroundBrush(options.uiState.backgroundColor);
+    if (options.uiState.useBackgroundColor)
+        setBackgroundBrush(options.uiState.backgroundColor);
     setGridDotColor(options.uiState.gridDotColor);
 }
 
@@ -3884,7 +3885,8 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     QString localid = qElement.attribute(QStringLiteral("localid"), QStringLiteral("0"));
     // option state
     m_Options.loadFromXMI(qElement);
-    setBackgroundBrush(m_Options.uiState.backgroundColor);
+    if (options.uiState.useBackgroundColor)
+        setBackgroundBrush(m_Options.uiState.backgroundColor);
     setGridDotColor(m_Options.uiState.gridDotColor);
     //misc
     QString showgrid = qElement.attribute(QStringLiteral("showgrid"), QStringLiteral("0"));
