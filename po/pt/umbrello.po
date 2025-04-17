@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-07 03:42+0000\n"
+"POT-Creation-Date: 2025-04-17 03:21+0000\n"
 "PO-Revision-Date: 2023-01-06 03:12+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -443,7 +443,7 @@ msgid "Remove prefix '[a-zA-Z]_' from accessor method names"
 msgstr "Remover o prefixo '[a-zA-Z]_' dos nomes dos métodos de acesso"
 
 #. i18n: ectx: label, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
-#: codegenerators/cpp/cppcodegenerationform.cpp:68 umbrello.kcfg:543
+#: codegenerators/cpp/cppcodegenerationform.cpp:68 umbrello.kcfg:548
 #, kde-format
 msgid "Accessor methods start with capital letters"
 msgstr "Os métodos de acesso começam por maiúsculas"
@@ -469,7 +469,7 @@ msgstr "Geral"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: label, entry (classMemberPrefix), group (CPP Code Generation)
-#: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:473
+#: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:478
 #, kde-format
 msgid "Class member prefix"
 msgstr "Prefixo dos membros da classe"
@@ -1071,7 +1071,7 @@ msgstr "Es&colher..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxOverwritePolicy)
 #. i18n: ectx: label, entry (overwritePolicy), group (Code Generation)
-#: codegenwizard/codegenoptionspage.ui:136 umbrello.kcfg:455
+#: codegenwizard/codegenoptionspage.ui:136 umbrello.kcfg:460
 #, kde-format
 msgid "Overwrite Policy"
 msgstr "Política de Sobreposição"
@@ -2198,7 +2198,7 @@ msgstr "Geral"
 
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
-#: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:292
+#: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:297
 #: umllistview.cpp:1447
 #, kde-format
 msgid "Font"
@@ -3087,7 +3087,7 @@ msgid "General"
 msgstr "Geral"
 
 #. i18n: ectx: label, entry (rightToLeftUI), group (UI Options)
-#: dialogs/pages/uioptionspage.cpp:62 umbrello.kcfg:187
+#: dialogs/pages/uioptionspage.cpp:62 umbrello.kcfg:192
 #, kde-format
 msgid "Right to left user interface"
 msgstr "Interface da direita para a esquerda"
@@ -3136,12 +3136,12 @@ msgstr "Cor da grelha personalizada"
 msgid "Custom background color"
 msgstr "Cor de fundo personalizada"
 
-#: dialogs/pages/uioptionspage.cpp:117
+#: dialogs/pages/uioptionspage.cpp:118
 #, kde-format
 msgid "Custom line width"
 msgstr "Espessura da linha personalizada"
 
-#: dialogs/pages/uioptionspage.cpp:127
+#: dialogs/pages/uioptionspage.cpp:128
 #, kde-format
 msgid "&Use fill color"
 msgstr "&Usar a cor de preenchimento"
@@ -6366,765 +6366,779 @@ msgstr "Cor de Fundo"
 msgid "The Color of the diagram background"
 msgstr "A cor do fundo do diagrama"
 
-#. i18n: ectx: label, entry (gridDotColor), group (UI Options)
+#. i18n: ectx: label, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:182
+#, fuzzy, kde-format
+#| msgid "Custom background color"
+msgid "Use background color"
+msgstr "Cor de fundo personalizada"
+
+#. i18n: ectx: whatsthis, entry (useBackgroundColor), group (UI Options)
+#: umbrello.kcfg:183
+#, fuzzy, kde-format
+#| msgid "Enables/Disables usage of fill color"
+msgid "Enables/Disables the usage of a custom background color"
+msgstr "Activa/desactiva a utilização de uma cor de preenchimento"
+
+#. i18n: ectx: label, entry (gridDotColor), group (UI Options)
+#: umbrello.kcfg:187
 #, kde-format
 msgid "Grid Dot Color"
 msgstr "Cor dos Pontos da Grelha"
 
 #. i18n: ectx: whatsthis, entry (gridDotColor), group (UI Options)
-#: umbrello.kcfg:183
+#: umbrello.kcfg:188
 #, kde-format
 msgid "The Color of the grid dots"
 msgstr "A cor dos pontos da grelha"
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
-#: umbrello.kcfg:188
+#: umbrello.kcfg:193
 #, kde-format
 msgid "Enable/disable user interface direction from right to left"
 msgstr "Activar/desactivar a direcção da interface da direita para a esquerda"
 
 #. i18n: ectx: label, entry (showVisibility), group (Class Options)
-#: umbrello.kcfg:194
+#: umbrello.kcfg:199
 #, kde-format
 msgid "Show Visibility"
 msgstr "Mostrar a Visibilidade"
 
 #. i18n: ectx: whatsthis, entry (showVisibility), group (Class Options)
-#: umbrello.kcfg:195
+#: umbrello.kcfg:200
 #, kde-format
 msgid "Show the Visibility of the Attributes ( eg: private, public, protected)"
 msgstr ""
 "Mostrar a visibilidade dos atributos (p.ex.: privado, público, protegido)"
 
 #. i18n: ectx: label, entry (showAtts), group (Class Options)
-#: umbrello.kcfg:199
+#: umbrello.kcfg:204
 #, kde-format
 msgid "Show Attributes"
 msgstr "Mostrar os Atributos"
 
 #. i18n: ectx: whatsthis, entry (showAtts), group (Class Options)
-#: umbrello.kcfg:200
+#: umbrello.kcfg:205
 #, kde-format
 msgid "Show attributes of the class"
 msgstr "Mostrar os atributos da classe"
 
 #. i18n: ectx: label, entry (showOps), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showOps), group (Class Options)
-#: umbrello.kcfg:204 umbrello.kcfg:205
+#: umbrello.kcfg:209 umbrello.kcfg:210
 #, kde-format
 msgid "Show Operations"
 msgstr "Mostrar as Operações"
 
 #. i18n: ectx: label, entry (showPackage), group (Class Options)
-#: umbrello.kcfg:209
+#: umbrello.kcfg:214
 #, kde-format
 msgid "Show Package"
 msgstr "Mostrar o Pacote"
 
 #. i18n: ectx: whatsthis, entry (showPackage), group (Class Options)
-#: umbrello.kcfg:210
+#: umbrello.kcfg:215
 #, kde-format
 msgid "Enables/Disables showing of packages"
 msgstr "Activa/desactiva a apresentação dos pacotes"
 
 #. i18n: ectx: label, entry (showStereoType), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showStereoType), group (Class Options)
-#: umbrello.kcfg:214 umbrello.kcfg:215
+#: umbrello.kcfg:219 umbrello.kcfg:220
 #, kde-format
 msgid "Show Stereotypes"
 msgstr "Mostrar os Estereótipos"
 
 #. i18n: ectx: label, entry (showAttribAssocs), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showAttribAssocs), group (Class Options)
-#: umbrello.kcfg:224 umbrello.kcfg:225
+#: umbrello.kcfg:229 umbrello.kcfg:230
 #, kde-format
 msgid "Show Attribute Associations"
 msgstr "Mostrar as Associações dos Atributos"
 
 #. i18n: ectx: label, entry (showPublicOnly), group (Class Options)
-#: umbrello.kcfg:229
+#: umbrello.kcfg:234
 #, kde-format
 msgid "Show Public Only"
 msgstr "Mostrar Apenas os Públicos"
 
 #. i18n: ectx: whatsthis, entry (showPublicOnly), group (Class Options)
-#: umbrello.kcfg:230
+#: umbrello.kcfg:235
 #, kde-format
 msgid "Enables/Disables showing of public attributes/methods"
 msgstr "Activa/desactiva a apresentação dos atributos/métodos públicos"
 
 #. i18n: ectx: label, entry (showAttSig), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showAttSig), group (Class Options)
-#: umbrello.kcfg:234 umbrello.kcfg:235
+#: umbrello.kcfg:239 umbrello.kcfg:240
 #, kde-format
 msgid "Show Attribute Signature"
 msgstr "Mostrar a Assinatura dos Atributos"
 
 #. i18n: ectx: label, entry (showOpSig), group (Class Options)
-#: umbrello.kcfg:239
+#: umbrello.kcfg:244
 #, kde-format
 msgid "Show Operation Signature"
 msgstr "Mostrar a Assinatura das Operações"
 
 #. i18n: ectx: whatsthis, entry (showOpSig), group (Class Options)
-#: umbrello.kcfg:240
+#: umbrello.kcfg:245
 #, kde-format
 msgid "Show operation signature"
 msgstr "Mostrar a assinatura das operações"
 
 #. i18n: ectx: label, entry (defaultAttributeScope), group (Class Options)
 #. i18n: ectx: whatsthis, entry (defaultAttributeScope), group (Class Options)
-#: umbrello.kcfg:244 umbrello.kcfg:245
+#: umbrello.kcfg:249 umbrello.kcfg:250
 #, kde-format
 msgid "Default Attribute Scope"
 msgstr "Âmbito por Omissão dos Atributos"
 
 #. i18n: ectx: label, entry (defaultOperationScope), group (Class Options)
 #. i18n: ectx: whatsthis, entry (defaultOperationScope), group (Class Options)
-#: umbrello.kcfg:256 umbrello.kcfg:257
+#: umbrello.kcfg:261 umbrello.kcfg:262
 #, kde-format
 msgid "Default Operation Scope"
 msgstr "Âmbito por Omissão das Operações"
 
 #. i18n: ectx: label, entry (height), group (Code Viewer Options)
-#: umbrello.kcfg:270
+#: umbrello.kcfg:275
 #, kde-format
 msgid "Height"
 msgstr "Altura"
 
 #. i18n: ectx: whatsthis, entry (height), group (Code Viewer Options)
-#: umbrello.kcfg:271
+#: umbrello.kcfg:276
 #, kde-format
 msgid "Height of the code viewer"
 msgstr "A altura do visualizador de código"
 
 #. i18n: ectx: label, entry (width), group (Code Viewer Options)
-#: umbrello.kcfg:276
+#: umbrello.kcfg:281
 #, kde-format
 msgid "Width"
 msgstr "Largura"
 
 #. i18n: ectx: whatsthis, entry (width), group (Code Viewer Options)
-#: umbrello.kcfg:277
+#: umbrello.kcfg:282
 #, kde-format
 msgid "Width of the Code Viewer"
 msgstr "Largura do Visualizador de Código"
 
 #. i18n: ectx: label, entry (showHiddenBlocks), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (showHiddenBlocks), group (Code Viewer Options)
-#: umbrello.kcfg:282 umbrello.kcfg:283
+#: umbrello.kcfg:287 umbrello.kcfg:288
 #, kde-format
 msgid "Show Hidden Blocks"
 msgstr "Mostrar os Blocos Escondidos"
 
 #. i18n: ectx: label, entry (blocksAreHighlighted), group (Code Viewer Options)
-#: umbrello.kcfg:287
+#: umbrello.kcfg:292
 #, kde-format
 msgid "Highlight Blocks"
 msgstr "Realçar os Blocos"
 
 #. i18n: ectx: whatsthis, entry (blocksAreHighlighted), group (Code Viewer Options)
-#: umbrello.kcfg:288
+#: umbrello.kcfg:293
 #, kde-format
 msgid "Enables/Disables Highlighting of blocks"
 msgstr "Activa/desactiva o realce dos blocos"
 
 #. i18n: ectx: whatsthis, entry (codeViewerFont), group (Code Viewer Options)
-#: umbrello.kcfg:293
+#: umbrello.kcfg:298
 #, kde-format
 msgid "Font to be used in the Code Viewer"
 msgstr "O tipo de letra a usar no Visualizador de Código"
 
 #. i18n: ectx: label, entry (paperColor), group (Code Viewer Options)
-#: umbrello.kcfg:297
+#: umbrello.kcfg:302
 #, kde-format
 msgid "Paper Color"
 msgstr "Cor do Papel"
 
 #. i18n: ectx: whatsthis, entry (paperColor), group (Code Viewer Options)
-#: umbrello.kcfg:298
+#: umbrello.kcfg:303
 #, kde-format
 msgid "Color of the Paper"
 msgstr "Cor do Papel"
 
 #. i18n: ectx: label, entry (fontColor), group (Code Viewer Options)
-#: umbrello.kcfg:302
+#: umbrello.kcfg:307
 #, kde-format
 msgid "Font Color"
 msgstr "Cor de Letra"
 
 #. i18n: ectx: whatsthis, entry (fontColor), group (Code Viewer Options)
-#: umbrello.kcfg:303
+#: umbrello.kcfg:308
 #, kde-format
 msgid "Color of the Font"
 msgstr "Cor do Texto"
 
 #. i18n: ectx: label, entry (selectedColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (selectedColor), group (Code Viewer Options)
-#: umbrello.kcfg:307 umbrello.kcfg:308
+#: umbrello.kcfg:312 umbrello.kcfg:313
 #, kde-format
 msgid "Selected Color"
 msgstr "Cor Seleccionada"
 
 #. i18n: ectx: label, entry (editBlockColor), group (Code Viewer Options)
-#: umbrello.kcfg:312
+#: umbrello.kcfg:317
 #, kde-format
 msgctxt "Color of the Edit Block"
 msgid "Edit Block Color"
 msgstr "Cor do Bloco de Edição"
 
 #. i18n: ectx: whatsthis, entry (editBlockColor), group (Code Viewer Options)
-#: umbrello.kcfg:313
+#: umbrello.kcfg:318
 #, kde-format
 msgid "Color of the Edit Block"
 msgstr "Cor do Bloco de Edição"
 
 #. i18n: ectx: label, entry (nonEditBlockColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (nonEditBlockColor), group (Code Viewer Options)
-#: umbrello.kcfg:317 umbrello.kcfg:318
+#: umbrello.kcfg:322 umbrello.kcfg:323
 #, kde-format
 msgid "Non Edit Block Color"
 msgstr "Cor do Bloco Não-Editável"
 
 #. i18n: ectx: label, entry (umlObjectColor), group (Code Viewer Options)
-#: umbrello.kcfg:322
+#: umbrello.kcfg:327
 #, kde-format
 msgid "UML Object Color"
 msgstr "Cor do Objecto de UML"
 
 #. i18n: ectx: whatsthis, entry (umlObjectColor), group (Code Viewer Options)
-#: umbrello.kcfg:323
+#: umbrello.kcfg:328
 #, kde-format
 msgid "Color of the UML Object"
 msgstr "Cor do Objecto UML"
 
 #. i18n: ectx: label, entry (hiddenColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (hiddenColor), group (Code Viewer Options)
-#: umbrello.kcfg:327 umbrello.kcfg:328
+#: umbrello.kcfg:332 umbrello.kcfg:333
 #, kde-format
 msgid "Hidden Color"
 msgstr "Cor dos Escondidos"
 
 #. i18n: ectx: label, entry (createArtifacts), group (Code Importer)
-#: umbrello.kcfg:334
+#: umbrello.kcfg:339
 #, kde-format
 msgid "Create Artifacts for imported files"
 msgstr "Criar artefactos para os ficheiros importados"
 
 #. i18n: ectx: whatsthis, entry (createArtifacts), group (Code Importer)
-#: umbrello.kcfg:335
+#: umbrello.kcfg:340
 #, kde-format
 msgid "Create an artifact in the component view for each imported file"
 msgstr "Criar um artefacto na área de componentes para cada ficheiro importado"
 
 #. i18n: ectx: label, entry (resolveDependencies), group (Code Importer)
-#: umbrello.kcfg:339
+#: umbrello.kcfg:344
 #, kde-format
 msgid "Resolve dependencies"
 msgstr "Resolver as dependências"
 
 #. i18n: ectx: whatsthis, entry (resolveDependencies), group (Code Importer)
-#: umbrello.kcfg:340
+#: umbrello.kcfg:345
 #, kde-format
 msgid "Resolve dependencies when importing file"
 msgstr "Resolver as dependências ao importar um ficheiro"
 
 #. i18n: ectx: label, entry (supportCPP11), group (Code Importer)
-#: umbrello.kcfg:344
+#: umbrello.kcfg:349
 #, kde-format
 msgid "Support C++11 standard"
 msgstr "Suportar a norma C++11"
 
 #. i18n: ectx: whatsthis, entry (supportCPP11), group (Code Importer)
-#: umbrello.kcfg:345
+#: umbrello.kcfg:350
 #, kde-format
 msgid "Support C++11 standard on code import"
 msgstr "Suportar a norma C++11 na importação do código"
 
 #. i18n: ectx: label, entry (autoGenEmptyConstructors), group (Code Generation)
-#: umbrello.kcfg:351
+#: umbrello.kcfg:356
 #, kde-format
 msgid "Auto Generate Empty Constructors"
 msgstr "Gerar Automaticamente os Construtores Vazios"
 
 #. i18n: ectx: whatsthis, entry (autoGenEmptyConstructors), group (Code Generation)
-#: umbrello.kcfg:352
+#: umbrello.kcfg:357
 #, kde-format
 msgid "Enables/Disables Auto Generation of Empty Constructors"
 msgstr "Activa/Desactiva a geração automática de construtores vazios"
 
 #. i18n: ectx: label, entry (commentStyle), group (Code Generation)
-#: umbrello.kcfg:356
+#: umbrello.kcfg:361
 #, kde-format
 msgid "Comment Style"
 msgstr "Estilo dos Comentários"
 
 #. i18n: ectx: whatsthis, entry (commentStyle), group (Code Generation)
-#: umbrello.kcfg:357
+#: umbrello.kcfg:362
 #, kde-format
 msgid "Sets the Style of Comments to be used"
 msgstr "Define o estilo de comentários a usar"
 
 #. i18n: ectx: label, entry (defaultAssocFieldScope), group (Code Generation)
-#: umbrello.kcfg:365
+#: umbrello.kcfg:370
 #, kde-format
 msgid "Default Association Field Scope"
 msgstr "Âmbito por Omissão dos Campos de Associação"
 
 #. i18n: ectx: whatsthis, entry (defaultAssocFieldScope), group (Code Generation)
-#: umbrello.kcfg:366
+#: umbrello.kcfg:371
 #, kde-format
 msgid "Sets the default Association field scope"
 msgstr "Define o âmbito por omissão dos campos de associação"
 
 #. i18n: ectx: label, entry (defaultAttributeAccessorScope), group (Code Generation)
-#: umbrello.kcfg:377
+#: umbrello.kcfg:382
 #, kde-format
 msgid "Default Attribute Accessor Scope"
 msgstr "Âmbito por Omissão dos Acessores de Atributos"
 
 #. i18n: ectx: whatsthis, entry (defaultAttributeAccessorScope), group (Code Generation)
-#: umbrello.kcfg:378
+#: umbrello.kcfg:383
 #, kde-format
 msgid "Sets the default attribute accessor scope"
 msgstr "Define o âmbito por omissão dos acessores de atributos"
 
 #. i18n: ectx: label, entry (forceDoc), group (Code Generation)
-#: umbrello.kcfg:389
+#: umbrello.kcfg:394
 #, kde-format
 msgid "Force Documentation"
 msgstr "Forçar a Documentação"
 
 #. i18n: ectx: whatsthis, entry (forceDoc), group (Code Generation)
-#: umbrello.kcfg:390
+#: umbrello.kcfg:395
 #, kde-format
 msgid "Enables/Disables Verbose Documentation"
 msgstr "Activa/Desactiva a Documentação Extensa"
 
 #. i18n: ectx: label, entry (writeSectionComments), group (Code Generation)
-#: umbrello.kcfg:394
+#: umbrello.kcfg:399
 #, kde-format
 msgid "Section Comment Policy"
 msgstr "Política de Comentários das Secções"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
-#: umbrello.kcfg:395
+#: umbrello.kcfg:400
 #, kde-format
 msgid "Whether section comments shall be written"
 msgstr "Se devem ser criados comentários das secções"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
-#: umbrello.kcfg:404
+#: umbrello.kcfg:409
 #, kde-format
 msgid "Headings Directory"
 msgstr "Pasta de Cabeçalhos"
 
 #. i18n: ectx: whatsthis, entry (headingsDirectory), group (Code Generation)
-#: umbrello.kcfg:405
+#: umbrello.kcfg:410
 #, kde-format
 msgid "The Path in which the headings are stored"
 msgstr "O local em que os cabeçalhos são guardados"
 
 #. i18n: ectx: label, entry (includeHeadings), group (Code Generation)
-#: umbrello.kcfg:409
+#: umbrello.kcfg:414
 #, kde-format
 msgid "Include headings"
 msgstr "Incluir os cabeçalhos"
 
 #. i18n: ectx: whatsthis, entry (includeHeadings), group (Code Generation)
-#: umbrello.kcfg:410
+#: umbrello.kcfg:415
 #, kde-format
 msgid "Enables/Disables inclusion of headings"
 msgstr "Activa/desactiva a inclusão de cabeçalhos"
 
 #. i18n: ectx: label, entry (indentationAmount), group (Code Generation)
-#: umbrello.kcfg:414
+#: umbrello.kcfg:419
 #, kde-format
 msgid "Indentation Amount"
 msgstr "Tamanho da Indentação"
 
 #. i18n: ectx: whatsthis, entry (indentationAmount), group (Code Generation)
-#: umbrello.kcfg:415
+#: umbrello.kcfg:420
 #, kde-format
 msgid "The amount of indentation"
 msgstr "A quantidade de indentação"
 
 #. i18n: ectx: label, entry (indentationType), group (Code Generation)
-#: umbrello.kcfg:420
+#: umbrello.kcfg:425
 #, kde-format
 msgid "Indentation Type"
 msgstr "Tipo de Indentação"
 
 #. i18n: ectx: whatsthis, entry (indentationType), group (Code Generation)
-#: umbrello.kcfg:421
+#: umbrello.kcfg:426
 #, kde-format
 msgid "The Type of Indentation"
 msgstr "O tipo de indentação"
 
 #. i18n: ectx: label, entry (lineEndingType), group (Code Generation)
-#: umbrello.kcfg:430
+#: umbrello.kcfg:435
 #, kde-format
 msgid "Line Ending Type"
 msgstr "Estilo de Fim de Linha"
 
 #. i18n: ectx: whatsthis, entry (lineEndingType), group (Code Generation)
-#: umbrello.kcfg:431
+#: umbrello.kcfg:436
 #, kde-format
 msgid "The type of line ending ( or new line type )"
 msgstr "O tipo de fim de linha (ou tipo de linhas novas)"
 
 #. i18n: ectx: label, entry (modnamePolicy), group (Code Generation)
 #. i18n: ectx: whatsthis, entry (modnamePolicy), group (Code Generation)
-#: umbrello.kcfg:440 umbrello.kcfg:441
+#: umbrello.kcfg:445 umbrello.kcfg:446
 #, kde-format
 msgid "Modifier Name Policy"
 msgstr "Política do Nome do Modificador"
 
 #. i18n: ectx: label, entry (outputDirectory), group (Code Generation)
-#: umbrello.kcfg:450
+#: umbrello.kcfg:455
 #, kde-format
 msgid "Output Directory"
 msgstr "Pasta de Saída"
 
 #. i18n: ectx: whatsthis, entry (outputDirectory), group (Code Generation)
-#: umbrello.kcfg:451
+#: umbrello.kcfg:456
 #, kde-format
 msgid "The directory to which the code has to be outputted"
 msgstr "A pasta onde deverá ser guardado o código gerado"
 
 #. i18n: ectx: whatsthis, entry (overwritePolicy), group (Code Generation)
-#: umbrello.kcfg:456
+#: umbrello.kcfg:461
 #, kde-format
 msgid "The policy to be followed when there are name conflicts"
 msgstr "A  política a seguir quando existirem conflitos de nomes"
 
 #. i18n: ectx: label, entry (autoGenAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:468
+#: umbrello.kcfg:473
 #, kde-format
 msgid "Auto Generate Accessors"
 msgstr "Gerar Automaticamente os Acessores"
 
 #. i18n: ectx: whatsthis, entry (autoGenAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:469
+#: umbrello.kcfg:474
 #, kde-format
 msgid "Enables/Disables auto generation of accessors"
 msgstr "Activa/desactiva a geração automática de acessores"
 
 #. i18n: ectx: whatsthis, entry (classMemberPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:474
+#: umbrello.kcfg:479
 #, kde-format
 msgid "The prefix for class members"
 msgstr "O prefixo dos membros da classe"
 
 #. i18n: ectx: label, entry (inlineAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:478
+#: umbrello.kcfg:483
 #, kde-format
 msgid "Inline Accessors"
 msgstr "Acessores Incorporados"
 
 #. i18n: ectx: whatsthis, entry (inlineAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:479
+#: umbrello.kcfg:484
 #, kde-format
 msgid "Enables/Disables Inline accessors"
 msgstr "Activa/Desactiva os acessores incorporados"
 
 #. i18n: ectx: label, entry (inlineOps), group (CPP Code Generation)
-#: umbrello.kcfg:483
+#: umbrello.kcfg:488
 #, kde-format
 msgid "Inline operations"
 msgstr "Operações incorporadas"
 
 #. i18n: ectx: whatsthis, entry (inlineOps), group (CPP Code Generation)
-#: umbrello.kcfg:484
+#: umbrello.kcfg:489
 #, kde-format
 msgid "Enables/Disables Inline Operations"
 msgstr "Activa/desactiva as operações incorporadas"
 
 #. i18n: ectx: label, entry (packageIsNamespace), group (CPP Code Generation)
-#: umbrello.kcfg:488
+#: umbrello.kcfg:493
 #, kde-format
 msgid "Package is namespace"
 msgstr "O pacote é um espaço de nomes"
 
 #. i18n: ectx: whatsthis, entry (packageIsNamespace), group (CPP Code Generation)
-#: umbrello.kcfg:489
+#: umbrello.kcfg:494
 #, kde-format
 msgid "Enables/Disables treating a package as a namespace"
 msgstr "Activa/desactiva o tratamento de um pacote como um espaço de nomes"
 
 #. i18n: ectx: label, entry (publicAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:493
+#: umbrello.kcfg:498
 #, kde-format
 msgid "Public Accessors"
 msgstr "Acessores Públicos"
 
 #. i18n: ectx: whatsthis, entry (publicAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:494
+#: umbrello.kcfg:499
 #, kde-format
 msgid "Enables/Disables public accessors"
 msgstr "Activa/desactiva os acessores públicos"
 
 #. i18n: ectx: label, entry (stringClassName), group (CPP Code Generation)
-#: umbrello.kcfg:498
+#: umbrello.kcfg:503
 #, kde-format
 msgid "String Class Name"
 msgstr "Nome da Classe 'String'"
 
 #. i18n: ectx: whatsthis, entry (stringClassName), group (CPP Code Generation)
-#: umbrello.kcfg:499
+#: umbrello.kcfg:504
 #, kde-format
 msgid "The name of the string class"
 msgstr "O nome da classe 'string' (cadeias de caracteres)"
 
 #. i18n: ectx: label, entry (stringClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:503
+#: umbrello.kcfg:508
 #, kde-format
 msgid "String Class Name Include"
 msgstr "Inclusão do Nome da Classe 'String'"
 
 #. i18n: ectx: whatsthis, entry (stringClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:504
+#: umbrello.kcfg:509
 #, kde-format
 msgid "The name of the string class to be included"
 msgstr "O nome da classe 'string' a incluir"
 
 #. i18n: ectx: label, entry (stringIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:508
+#: umbrello.kcfg:513
 #, kde-format
 msgid "String Include is Global"
 msgstr "A Inclusão do 'String' é Global"
 
 #. i18n: ectx: whatsthis, entry (stringIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:509
+#: umbrello.kcfg:514
 #, kde-format
 msgid "Enables/Disables global inclusion of string"
 msgstr "Activa/desactiva a inclusão global do 'string'"
 
 #. i18n: ectx: label, entry (vectorClassName), group (CPP Code Generation)
-#: umbrello.kcfg:513
+#: umbrello.kcfg:518
 #, kde-format
 msgid "Vector Class Name"
 msgstr "Nome da Classe Vector"
 
 #. i18n: ectx: whatsthis, entry (vectorClassName), group (CPP Code Generation)
-#: umbrello.kcfg:514
+#: umbrello.kcfg:519
 #, kde-format
 msgid "The name of the vector class"
 msgstr "O nome da classe 'vector' (lista)"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:518
+#: umbrello.kcfg:523
 #, kde-format
 msgid "Vector Class Name Include"
 msgstr "Inclusão do Nome da Classe Vector"
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:519
+#: umbrello.kcfg:524
 #, kde-format
 msgid "The name of the vector class to be included"
 msgstr "O nome da classe 'vector' a incluir"
 
 #. i18n: ectx: label, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:523
+#: umbrello.kcfg:528
 #, kde-format
 msgid "Vector include is global"
 msgstr "A Inclusão do Vector é Global"
 
 #. i18n: ectx: whatsthis, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:524
+#: umbrello.kcfg:529
 #, kde-format
 msgid "Enables/Disables global inclusion of vector class"
 msgstr "Activa/desactiva a inclusão global da classe 'vector'"
 
 #. i18n: ectx: label, entry (virtualDestructors), group (CPP Code Generation)
-#: umbrello.kcfg:528
+#: umbrello.kcfg:533
 #, kde-format
 msgid "Virtual Destructors"
 msgstr "Destrutores Virtuais"
 
 #. i18n: ectx: whatsthis, entry (virtualDestructors), group (CPP Code Generation)
-#: umbrello.kcfg:529
+#: umbrello.kcfg:534
 #, kde-format
 msgid "Enables/Disables virtual destructors"
 msgstr "Activa/desactiva os destrutores virtuais"
 
 #. i18n: ectx: label, entry (getterWithGetPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:533
+#: umbrello.kcfg:538
 #, kde-format
 msgid "Getters with 'get' prefix"
 msgstr "Métodos de leitura com prefixo 'get'"
 
 #. i18n: ectx: whatsthis, entry (getterWithGetPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:534
+#: umbrello.kcfg:539
 #, kde-format
 msgid "If enabled, create getters with 'get' prefix"
 msgstr "Se estiver activo, cria os métodos de leitura com o prefixo 'get'"
 
 #. i18n: ectx: label, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
-#: umbrello.kcfg:538
+#: umbrello.kcfg:543
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor methods"
 msgstr "Remover o prefixo '[a-zA-Z]_' dos métodos de acesso"
 
 #. i18n: ectx: whatsthis, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
-#: umbrello.kcfg:539
+#: umbrello.kcfg:544
 #, kde-format
 msgid "If enabled, remove prefix '[a-zA-Z]_' from accessor methods"
 msgstr "Se estiver activo, remove o prefixo '[a-zA-Z]_' dos métodos de acesso"
 
 #. i18n: ectx: whatsthis, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
-#: umbrello.kcfg:544
+#: umbrello.kcfg:549
 #, kde-format
 msgid "If enabled, accessor methods start with capital letters"
 msgstr "Se estiver activo, os métodos de acesso começam com letras maiúsculas"
 
 #. i18n: ectx: label, entry (docToolTag), group (CPP Code Generation)
-#: umbrello.kcfg:548
+#: umbrello.kcfg:553
 #, kde-format
 msgid "Documentation tags"
 msgstr "Marcas de documentação"
 
 #. i18n: ectx: whatsthis, entry (docToolTag), group (CPP Code Generation)
-#: umbrello.kcfg:549
+#: umbrello.kcfg:554
 #, kde-format
 msgid "The tag used for generating doxygen documentation (\\\\, @)"
 msgstr "A marca usada para gerar a documentação do Doxygen (\\\\, @)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:555
+#: umbrello.kcfg:560
 #, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "Gerar Automaticamente os Acessores dos Atributos ( D ) "
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:556
+#: umbrello.kcfg:561
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors ( D )"
 msgstr ""
 "Activa/desactiva a geração automática dos acessores dos atributos ( D ) "
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:560
+#: umbrello.kcfg:565
 #, kde-format
 msgid "Auto Generate Assoc Accessors ( D )"
 msgstr "Gerar Automaticamente os Acessores das Associações ( D )"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:561
+#: umbrello.kcfg:566
 #, kde-format
 msgid "Enables/Disables auto generation of association accessors ( D )"
 msgstr ""
 "Activa/desactiva a geração automática dos acessores das associações ( D )"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
-#: umbrello.kcfg:565
+#: umbrello.kcfg:570
 #, kde-format
 msgid "Build ANT Document (D)"
 msgstr "Gerar o Documento do Ant (D) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
-#: umbrello.kcfg:566
+#: umbrello.kcfg:571
 #, kde-format
 msgid "Enables/Disables building of ANT Document (D)"
 msgstr "Activa/desactiva a criação do documento do Ant (D) "
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:572
+#: umbrello.kcfg:577
 #, kde-format
 msgid "Auto Generate Attribute Accessors (Java)"
 msgstr "Gerar Automaticamente os Acessores dos Atributos (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:573
+#: umbrello.kcfg:578
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Java)"
 msgstr ""
 "Activa/desactiva a geração automática dos acessores dos atributos (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:577
+#: umbrello.kcfg:582
 #, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "Gerar Automaticamente os Acessores das Associações (Java) "
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:578
+#: umbrello.kcfg:583
 #, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr ""
 "Activa/desactiva a geração automática dos acessores das associações (Java) "
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
-#: umbrello.kcfg:582
+#: umbrello.kcfg:587
 #, kde-format
 msgid "Build ANT Document (Java)"
 msgstr "Criar o Documento do ANT (Java) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
-#: umbrello.kcfg:583
+#: umbrello.kcfg:588
 #, kde-format
 msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "Activa/desactiva a criação do documento do ANT (Java) "
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:589
+#: umbrello.kcfg:594
 #, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr "Gerar Automaticamente os Acessores dos Atributos (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:590
+#: umbrello.kcfg:595
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Ruby)"
 msgstr ""
 "Activa/desactiva a geração automática dos acessores dos atributos (Ruby)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:594
+#: umbrello.kcfg:599
 #, kde-format
 msgid "Auto Generate Assoc Accessors (Ruby)"
 msgstr "Gerar Automaticamente os Acessores das Associações (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:595
+#: umbrello.kcfg:600
 #, kde-format
 msgid "Enables/Disables auto generation of association accessors (Ruby)"
 msgstr ""
 "Activa/desactiva a geração automática dos acessores das associações (Ruby)"
 
 #. i18n: ectx: label, entry (autoDotPath), group (Auto Layout)
-#: umbrello.kcfg:601
+#: umbrello.kcfg:606
 #, kde-format
 msgid "Automatic Dot Path"
 msgstr "Localização Automática do 'Dot'"
 
 #. i18n: ectx: whatsthis, entry (autoDotPath), group (Auto Layout)
-#: umbrello.kcfg:602
+#: umbrello.kcfg:607
 #, kde-format
 msgid "determine automatically the path of dot executable"
 msgstr "definir automaticamente a localização do executável 'dot'"
 
 #. i18n: ectx: label, entry (dotPath), group (Auto Layout)
-#: umbrello.kcfg:606
+#: umbrello.kcfg:611
 #, kde-format
 msgid "Dot Path"
 msgstr "Localização do Dot"
 
 #. i18n: ectx: whatsthis, entry (dotPath), group (Auto Layout)
-#: umbrello.kcfg:607
+#: umbrello.kcfg:612
 #, kde-format
 msgid "set path to dot executable (optional)"
 msgstr "definir a localização do executável 'dot' (opcional)"
 
 #. i18n: ectx: label, entry (showExportLayout), group (Auto Layout)
-#: umbrello.kcfg:611
+#: umbrello.kcfg:616
 #, kde-format
 msgid "Show Export Layout"
 msgstr "Mostrar a Disposição da Exportação"
 
 #. i18n: ectx: whatsthis, entry (showExportLayout), group (Auto Layout)
-#: umbrello.kcfg:612
+#: umbrello.kcfg:617
 #, kde-format
 msgid "show export layout"
 msgstr "mostrar a disposição da exportação"
@@ -8186,67 +8200,67 @@ msgstr "&Nome do caso de utilização:"
 msgid "Instance name:"
 msgstr "Nome da instância:"
 
-#: umlscene.cpp:719
+#: umlscene.cpp:720
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Diagrama: %2 Página %1"
 
-#: umlscene.cpp:1520
+#: umlscene.cpp:1521
 #, kde-format
 msgid "Use fill color"
 msgstr "Usar a cor de preenchimento"
 
-#: umlscene.cpp:1522
+#: umlscene.cpp:1523
 #, kde-format
 msgid "No fill color"
 msgstr "Sem cor de preenchimento"
 
-#: umlscene.cpp:1537
+#: umlscene.cpp:1538
 #, kde-format
 msgid "Change font"
 msgstr "Mudar o tipo de letra"
 
-#: umlscene.cpp:1551
+#: umlscene.cpp:1552
 #, kde-format
 msgid "Change line color"
 msgstr "Mudar a cor da linha"
 
-#: umlscene.cpp:1569
+#: umlscene.cpp:1570
 #, kde-format
 msgid "Change line width"
 msgstr "Mudar a espessura da linha"
 
-#: umlscene.cpp:1589
+#: umlscene.cpp:1590
 #, kde-format
 msgid "Change fill color"
 msgstr "Mudar a cor de preenchimento"
 
-#: umlscene.cpp:1604
+#: umlscene.cpp:1605
 #, kde-format
 msgid "Change visual property"
 msgstr "Mudar a propriedade visual"
 
-#: umlscene.cpp:1655
+#: umlscene.cpp:1656
 #, kde-format
 msgid "Delete widgets"
 msgstr "Remover os itens"
 
-#: umlscene.cpp:1701
+#: umlscene.cpp:1702
 #, kde-format
 msgid "Resize widgets"
 msgstr "Dimensionar os itens"
 
-#: umlscene.cpp:3354
+#: umlscene.cpp:3355
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Indicar o Nome do Diagrama"
 
-#: umlscene.cpp:3355
+#: umlscene.cpp:3356
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Insira o novo nome do diagrama:"
 
-#: umlscene.cpp:3371
+#: umlscene.cpp:3372
 #, kde-format
 msgid "Failed to import from file."
 msgstr "Não foi possível importar do ficheiro."
