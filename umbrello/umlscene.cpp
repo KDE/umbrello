@@ -937,15 +937,14 @@ void UMLScene::dropEvent(QGraphicsSceneDragDropEvent *e)
         Uml::ID::Type id = (*it)->id;
 
         if (Model_Utils::typeIsDiagram(lvtype)) {
-            bool breakFlag = false;
             UMLWidget *w = nullptr;
-            for(UMLWidget *w: widgetList()) {
-                if (w->isNoteWidget() && w->onWidget(e->scenePos())) {
-                    breakFlag = true;
+            for (UMLWidget *wTmp: widgetList()) {
+                if (wTmp->isNoteWidget() && wTmp->onWidget(e->scenePos())) {
+                    w = wTmp;
                     break;
                 }
             }
-            if (breakFlag) {
+            if (w) {
                 NoteWidget *note = static_cast<NoteWidget*>(w);
                 note->setDiagramLink(id);
             }
@@ -2529,15 +2528,15 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
         }
         Uml::ID::Type otherID = other->id();
 
-        bool breakFlag = false;
         UMLWidget *pOtherWidget = nullptr;
-        for(UMLWidget *pOtherWidget: widgetList()) {
-            if (pOtherWidget->id() == otherID) {
-                breakFlag = true;
+        for (UMLWidget *p: widgetList()) {
+            uIgnoreZeroPointer(p);
+            if (p->id() == otherID) {
+                pOtherWidget = p;
                 break;
             }
         }
-        if (!breakFlag)
+        if (!pOtherWidget)
             continue;
         // Both objects are represented in this view:
         // Assign widget roles as indicated by the UMLAssociation.
@@ -2620,16 +2619,15 @@ void UMLScene::createAutoAssociations(UMLWidget * widget)
     // if the parentPackage has a widget representation on this view then
     Uml::ID::Type pkgID = parent->id();
 
-    bool breakFlag = false;
     UMLWidget *pWidget = nullptr;
-    for(UMLWidget *pWidget: widgetList()) {
-        uIgnoreZeroPointer(pWidget);
-        if (pWidget->id() == pkgID) {
-            breakFlag = true;
+    for (UMLWidget *p: widgetList()) {
+        uIgnoreZeroPointer(p);
+        if (p->id() == pkgID) {
+            pWidget = p;
             break;
         }
     }
-    if (!breakFlag || widget->isLocatedIn(pWidget))
+    if (!pWidget || widget->isLocatedIn(pWidget))
         return;
     // create the containment AssocWidget
     AssociationWidget *a = AssociationWidget::create(this, pWidget, Uml::AssociationType::Containment, widget);
@@ -3861,7 +3859,6 @@ void UMLScene::saveToXMI(QXmlStreamWriter& writer)
         //  ^  UMLApp::newDocument()
         //  ^  main()
         //
-        AssociationWidget * assoc = nullptr;
         for(AssociationWidget  *assoc: associationList()) {
             assoc->saveToXMI(writer);
         }
