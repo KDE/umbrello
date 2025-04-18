@@ -6280,17 +6280,15 @@ msgstr "图表背景的颜色"
 
 #. i18n: ectx: label, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:182
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Use background color"
-msgstr "背景颜色"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:183
-#, fuzzy, kde-format
-#| msgid "Enables/Disables usage of fill color"
+#, kde-format
 msgid "Enables/Disables the usage of a custom background color"
-msgstr "启用/禁用填充颜色的使用"
+msgstr ""
 
 #. i18n: ectx: label, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:187
