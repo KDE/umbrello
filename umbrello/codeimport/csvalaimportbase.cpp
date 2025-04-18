@@ -191,6 +191,12 @@ UMLObject* CsValaImportBase::resolveClass(const QString& className)
     baseClassName.remove(QLatin1Char('['));
     baseClassName.remove(QLatin1Char(']'));
 
+    // remove template class name so that the class itself can be resolved
+    int index = baseClassName.indexOf(QLatin1Char('<'));
+    if (index != -1) {
+        baseClassName = baseClassName.remove(index, baseClassName.size()-index);
+    }
+
     // java has a few implicit imports.  Most relevant for this is the
     // current package, which is in the same directory as the current file
     // being parsed
@@ -218,6 +224,11 @@ UMLObject* CsValaImportBase::resolveClass(const QString& className)
     QStringList package = m_currentPackage.split(QLatin1Char('.'));
     int dirsInPackageCount = package.size();
 
+    // in case the path does not fit into the package hierarchy 
+    // we cannot check the imports 
+    if (dirsInPackageCount >= file.size())
+        return nullptr;
+
     for (int count = 0; count < dirsInPackageCount; ++count) {
         // pop off one by one the directories, until only the source root remains
         file.pop_back();
@@ -244,7 +255,31 @@ UMLObject* CsValaImportBase::resolveClass(const QString& className)
                 for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
                     QString name = (*it);
                     UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
-                                    name, parent);
+                                                                  name, parent,
+                                                                  QString(), QString(),
+                                                                  true, false);
+                    current = ns->asUMLPackage();
+                    parent = current;
+                } // for
+                if (isArray) {
+                    // we have imported the type. For arrays we want to return
+                    // the array type
+                    return Import_Utils::createUMLObject(UMLObject::ot_Class, className, current,
+                                                         QString(), QString(), true, false);
+                }
+                // now that we have the right package, the class should be findable
+                return findObject(baseClassName, current);
+            // imported class is specified but seems to be external
+            } else if (import.endsWith(baseClassName)) {
+                // we need to set the package for the class that will be resolved
+                // start at the root package
+                UMLPackage  *parent = nullptr;
+                UMLPackage  *current = nullptr;
+
+                for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
+                    QString name = (*it);
+                    UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
+                                                                   name, parent);
                     current = ns->asUMLPackage();
                     parent = current;
                 } // for
@@ -254,7 +289,8 @@ UMLObject* CsValaImportBase::resolveClass(const QString& className)
                     return Import_Utils::createUMLObject(UMLObject::ot_Class, className, current);
                 }
                 // now that we have the right package, the class should be findable
-                return findObject(baseClassName, current);
+                return Import_Utils::createUMLObject(UMLObject::ot_Class,
+                                                              baseClassName, current);
             } // if file exists
         } // if import matches
     } //foreach import
@@ -277,6 +313,11 @@ bool CsValaImportBase::parseFile(const QString& filename)
     s_parseDepth++;
     // in the case of self referencing types, we can avoid parsing the
     // file twice by adding it to the list
+    if (s_filesAlreadyParsed.contains(filename)) {
+        s_parseDepth--;
+        return true;
+    }
+
     s_filesAlreadyParsed.append(filename);
     NativeImportBase::parseFile(filename);
     s_parseDepth--;
@@ -554,10 +595,23 @@ bool CsValaImportBase::parseGlobalAttributes()
  */
 bool CsValaImportBase::parseNamespaceMemberDeclarations()
 {
-    QString m_currentNamespace = advance();
-    log(QStringLiteral("namespace ") + m_currentNamespace);
-    // move past {
-    skipStmt(QStringLiteral("{"));
+    m_currentPackage = advance();
+    const QString& qualifiedName = m_currentPackage;
+    const QStringList names = qualifiedName.split(QLatin1Char('.'));
+    for (QStringList::ConstIterator it = names.begin(); it != names.end(); ++it) {
+        QString name = (*it);
+        log(QLatin1String("namespace ") + name);
+        UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
+                                        name, currentScope(), m_comment, QString(), true);
+        pushScope(ns->asUMLPackage());
+    }
+    log(QStringLiteral("namespace ") + m_currentPackage);
+    const QString& next = advance();
+    if (next != QStringLiteral("{") && next != QStringLiteral(";")) {
+        logError2("parseNamespaceMemberDeclarations(%1): Expecting ';' or '{', found %2",
+                  m_currentPackage, next);
+        return false;
+    }
     return true;
 }
 
