@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-17 03:21+0000\n"
-"PO-Revision-Date: 2023-01-02 20:49+0100\n"
+"PO-Revision-Date: 2025-04-17 07:06+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.6\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6335,17 +6335,15 @@ msgstr "Barva ozadja diagrama"
 
 #. i18n: ectx: label, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:182
-#, fuzzy, kde-format
-#| msgid "Custom background color"
+#, kde-format
 msgid "Use background color"
-msgstr "Barva ozadja po meri"
+msgstr "Uporabi barvo ozadja"
 
 #. i18n: ectx: whatsthis, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:183
-#, fuzzy, kde-format
-#| msgid "Enables/Disables usage of fill color"
+#, kde-format
 msgid "Enables/Disables the usage of a custom background color"
-msgstr "Preklopi uporabo barve polnila"
+msgstr "Omogoči/onemogoči uporabo barve ozadja po meri"
 
 #. i18n: ectx: label, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:187
