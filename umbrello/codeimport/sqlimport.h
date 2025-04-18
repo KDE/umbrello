@@ -89,6 +89,8 @@ protected:
     bool addUniqueConstraint(UMLEntity *entity, const QString &name, const QStringList &fields);
     bool addForeignConstraint(UMLEntity *entityA, const QString &name, const QStringList &fieldNames,
                               const QString &referencedTable, const QStringList &referencedFields);
+
+    static bool equiv(const QString &word, const QString &stringlit);
 };
 
 #endif

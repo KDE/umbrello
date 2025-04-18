@@ -132,7 +132,7 @@ QString SQLImport::parseIdentifier(QString &token)
 QStringList SQLImport::parseIdentifierList(QString &token)
 {
     QStringList values;
-    if (token.toLower() == QStringLiteral("(")) {
+    if (token == QStringLiteral("(")) {
         for (token = advance(); token != QStringLiteral(")");) {
             if (token == QStringLiteral(",")) {
                 token = advance();
@@ -168,23 +168,23 @@ QStringList SQLImport::parseFieldType(QString &token)
         type += token;
         type += advance();
         token = advance();
-        if (token.toLower() == QStringLiteral("precision")) {
+        if (equiv(token, QStringLiteral("precision"))) {
             type += token;
             token = advance();
         }
     }
 
-    if (type.toLower() == QStringLiteral("enum")) {
+    if (equiv(type, QStringLiteral("enum"))) {
         QStringList values = parseIdentifierList(token);
         return QStringList() << type << QString() << values;
     }
 
-    if (token.toLower() == QStringLiteral("varying")) {
+    if (equiv(token, QStringLiteral("varying"))) {
         type += QStringLiteral(" ") + token;
         token = advance(); // '('
     }
     // (number) | (number,number)
-    if (token.toLower() == QStringLiteral("(")) {
+    if (token == QStringLiteral("(")) {
         typeLength = advance(); // value
         token = advance();
         if (token == QStringLiteral(",")) {
@@ -193,7 +193,7 @@ QStringList SQLImport::parseFieldType(QString &token)
             token = advance();
         }
         token = advance();
-    } else if (token.toLower() == QStringLiteral("precision")) {
+    } else if (equiv(token, QStringLiteral("precision"))) {
         type += QStringLiteral(" ") + token;
         token = advance();
     }
@@ -211,7 +211,7 @@ QStringList SQLImport::parseFieldType(QString &token)
         token = advance();
         type += QStringLiteral(" ") + token;
         token = advance();
-    } else if (token.toLower() == QStringLiteral("unsigned")) { // mysql
+    } else if (equiv(token, QStringLiteral("unsigned"))) { // mysql
         token = advance();
     }
     return QStringList() << type << typeLength;
@@ -291,12 +291,12 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
 {
     ColumnConstraints constraints;
 
-    while (token != QStringLiteral(",") && token != QStringLiteral(")") && token.toLower() != QStringLiteral("comment")) {
+    while (token != QStringLiteral(",") && token != QStringLiteral(")") && !equiv(token, QStringLiteral("comment"))) {
         const int origIndex = m_srcIndex;
 
-        if (token.toLower() == QStringLiteral("character")) { // mysql
+        if (equiv(token, QStringLiteral("character"))) { // mysql
             token = advance(); // set
-            if (token.toLower() == QStringLiteral("set")) {
+            if (equiv(token, QStringLiteral("set"))) {
                 constraints.characterSet = advance(); // <value>
                 token = advance();
             }
@@ -306,55 +306,55 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
             }
         }
 
-        if (token.toLower() == QStringLiteral("collate")) { // mysql
+        if (equiv(token, QStringLiteral("collate"))) { // mysql
             constraints.collate = advance();
             token = advance();
         }
 
         // [ CONSTRAINT constraint_name ]
-        if (token.toLower() == QStringLiteral("constraint")) {
+        if (equiv(token, QStringLiteral("constraint"))) {
             constraints.constraintName = advance();
             token = advance();
         }
 
         // NOT NULL
-        if (token.toLower() == QStringLiteral("not")) {
+        if (equiv(token, QStringLiteral("not"))) {
             token = advance();
-            if (token.toLower() == QStringLiteral("null")) {
+            if (equiv(token, QStringLiteral("null"))) {
                 constraints.notNullConstraint = true;
                 token = advance();
             }
         }
 
         // NULL
-        if (token.toLower() == QStringLiteral("null")) {
+        if (equiv(token, QStringLiteral("null"))) {
             constraints.notNullConstraint = false;
             token = advance();
         }
 
         // CHECK ( expression )
-        if (token.toLower() == QStringLiteral("check")) {
+        if (equiv(token, QStringLiteral("check"))) {
             skipStmt(QStringLiteral(")"));
             token = advance();
         }
 
         // DEFAULT default_expr
-        if (token.toLower() == QStringLiteral("default")) {
+        if (equiv(token, QStringLiteral("default"))) {
             token = advance();
             constraints.defaultValue = parseDefaultExpression(token);
         }
 
         // UNIQUE index_parameters
-        if (token.toLower() == QStringLiteral("unique")) {
+        if (equiv(token, QStringLiteral("unique"))) {
             constraints.uniqueKey = true;
             token = advance();
             // WITH ( storage_parameter [= value] [, ... ] )
-            if (token.toLower() == QStringLiteral("with")) {
+            if (equiv(token, QStringLiteral("with"))) {
                 skipStmt(QStringLiteral(")"));
                 token = advance();
             }
             // USING INDEX TABLESPACE tablespace
-            if (token.toLower() == QStringLiteral("using")) {
+            if (equiv(token, QStringLiteral("using"))) {
                 token = advance();
                 token = advance();
                 token = advance();
@@ -363,18 +363,18 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
         }
 
         // PRIMARY KEY index_parameters
-        if (token.toLower() == QStringLiteral("primary")) {
+        if (equiv(token, QStringLiteral("primary"))) {
             token = advance();
-            if (token.toLower() == QStringLiteral("key")) {
+            if (equiv(token, QStringLiteral("key"))) {
                 constraints.primaryKey = true;
                 token = advance();
                 // WITH ( storage_parameter [= value] [, ... ] )
-                if (token.toLower() == QStringLiteral("with")) {
+                if (equiv(token, QStringLiteral("with"))) {
                     skipStmt(QStringLiteral(")"));
                     token = advance();
                 }
                 // USING INDEX TABLESPACE tablespace
-                if (token.toLower() == QStringLiteral("using")) {
+                if (equiv(token, QStringLiteral("using"))) {
                     token = advance();  // INDEX
                     token = advance();  // TABLESPACE
                     token = advance();  // tablespace
@@ -384,7 +384,7 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
         }
 
         // REFERENCES reftable [ ( refcolumn ) ]
-        if (token.toLower() == QStringLiteral("references")) {
+        if (equiv(token, QStringLiteral("references"))) {
             token = advance();
             token = advance();
             if (token == QStringLiteral("(")) {
@@ -393,20 +393,20 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
             }
 
             // [ MATCH FULL | MATCH PARTIAL | MATCH SIMPLE ]
-            if (token.toLower() == QStringLiteral("match")) {
+            if (equiv(token, QStringLiteral("match"))) {
                 token = advance();
                 token = advance();
             }
 
             // [ ON DELETE action ]
-            if (token.toLower() == QStringLiteral("on")) {
+            if (equiv(token, QStringLiteral("on"))) {
                 token = advance();
                 token = advance();
                 token = advance();
             }
 
             // [ ON UPDATE action ]
-            if (token.toLower() == QStringLiteral("on")) {
+            if (equiv(token, QStringLiteral("on"))) {
                 token = advance();
                 token = advance();
                 token = advance();
@@ -414,21 +414,21 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
         }
 
         // [ DEFERRABLE | NOT DEFERRABLE ]
-        if (token.toLower() == QStringLiteral("deferrable")) {
+        if (equiv(token, QStringLiteral("deferrable"))) {
             token = advance();
         }
-        else if (token.toLower() == QStringLiteral("not")) {
+        else if (equiv(token, QStringLiteral("not"))) {
             token = advance();
             token = advance();
         }
 
         // [ INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
-        if (token.toLower() == QStringLiteral("initially")) {
+        if (equiv(token, QStringLiteral("initially"))) {
             token = advance();
             token = advance();
         }
 
-        if (token.toLower() == QStringLiteral("auto_increment")) { // mysql
+        if (equiv(token, QStringLiteral("auto_increment"))) { // mysql
             constraints.autoIncrement = true;
             token = advance();
         }
@@ -438,7 +438,7 @@ SQLImport::ColumnConstraints SQLImport::parseColumnConstraints(QString &token)
             token = advance();
         }
     }
-    if (token.toLower() == QStringLiteral("comment")) {
+    if (equiv(token, QStringLiteral("comment"))) {
         while (token != QStringLiteral(",") && token != QStringLiteral(")")) {
             token = advance();
         }
@@ -472,13 +472,13 @@ SQLImport::TableConstraints SQLImport::parseTableConstraints(QString &token)
 {
     TableConstraints constraints;
 
-    if (token.toLower() == QStringLiteral("constraint")) {
+    if (equiv(token, QStringLiteral("constraint"))) {
         constraints.constraintName = advance();
         token = advance();
     }
 
     // CHECK ( expression )
-    if (token.toLower() == QStringLiteral("check")) {
+    if (equiv(token, QStringLiteral("check"))) {
         token = advance();
         if (token == QStringLiteral("(")) {
             int index = m_srcIndex;
@@ -491,7 +491,7 @@ SQLImport::TableConstraints SQLImport::parseTableConstraints(QString &token)
     }
 
     // PRIMARY KEY (`uid`, `pid`),
-    if (token.toLower() == QStringLiteral("primary")) {
+    if (equiv(token, QStringLiteral("primary"))) {
         token = advance(); // key
         token = advance(); // (
         constraints.primaryKey = true;
@@ -499,7 +499,7 @@ SQLImport::TableConstraints SQLImport::parseTableConstraints(QString &token)
     }
 
     // UNIQUE KEY `entry_identifier` (`entry_namespace`,`entry_key`)
-    else if (token.toLower() == QStringLiteral("unique")) {
+    else if (equiv(token, QStringLiteral("unique"))) {
         token = advance();
         token = advance();
         constraints.uniqueKeys = true;
@@ -508,7 +508,7 @@ SQLImport::TableConstraints SQLImport::parseTableConstraints(QString &token)
     }
 
     // KEY `t3ver_oid` (`t3ver_oid`,`t3ver_wsid`) // mysql
-    else if (token.toLower() == QStringLiteral("key")) {
+    else if (equiv(token, QStringLiteral("key"))) {
         if (m_source[m_srcIndex+4] == QStringLiteral("(") ) {
             token = advance();
             constraints.uniqueKeys = true;
@@ -660,7 +660,7 @@ bool SQLImport::parseCreateTable(QString &token)
                    tableName, folder, m_comment);
     UMLEntity *entity = o->asUMLEntity();
     m_comment.clear();
-    if (token.toLower() == QStringLiteral("as")) {
+    if (equiv(token, QStringLiteral("as"))) {
         skipStmt(QStringLiteral(";"));
         return false;
     } else if (token == QStringLiteral("(")) {
@@ -669,7 +669,7 @@ bool SQLImport::parseCreateTable(QString &token)
         skipStmt(QStringLiteral(";"));
         return false;
     }
-    if (token.toLower() == QStringLiteral("inherits")) {
+    if (equiv(token, QStringLiteral("inherits"))) {
         token = advance(); // (
         const QString &baseTable = advance();
         token = advance(); // )
@@ -698,7 +698,7 @@ bool SQLImport::parseCreateTable(QString &token)
  */
 bool SQLImport::parseAlterTable(QString &token)
 {
-    if (token.toLower() == QStringLiteral("only"))
+    if (equiv(token, QStringLiteral("only")))
         token = advance();
 
     QString tableName = token;
@@ -713,14 +713,14 @@ bool SQLImport::parseAlterTable(QString &token)
         token = advance();
     }
 
-    if (token.toLower() == QStringLiteral("add")) {
+    if (equiv(token, QStringLiteral("add"))) {
         token = advance();
-        if (token.toLower() == QStringLiteral("constraint")) {
+        if (equiv(token, QStringLiteral("constraint"))) {
             const QString &constraintName = advance();
             token = advance();
             UMLFolder *folder = UMLApp::app()->document()->rootFolder(Uml::ModelType::EntityRelationship);
             UMLObject *o = UMLApp::app()->document()->findUMLObject(tableName, UMLObject::ot_Entity, folder);
-            if (token.toLower() == QStringLiteral("primary")) {
+            if (equiv(token, QStringLiteral("primary"))) {
                 token = advance(); // key
                 token = advance();
                 const QStringList &fieldNames = parseIdentifierList(token);
@@ -732,7 +732,7 @@ bool SQLImport::parseAlterTable(QString &token)
                     ; // reporter error
                 }
             }
-            else if (token.toLower() == QStringLiteral("unique")) {
+            else if (equiv(token, QStringLiteral("unique"))) {
                 token = advance();
                 const QStringList &fieldNames = parseIdentifierList(token);
                 if (!o) {
@@ -744,7 +744,7 @@ bool SQLImport::parseAlterTable(QString &token)
                 }
             }
             // FOREIGN KEY (<NAME>) REFERENCES <TABLE> (<FIELD>)
-            else if (token.toLower() == QStringLiteral("foreign")) {
+            else if (equiv(token, QStringLiteral("foreign"))) {
                 token = advance(); // key
                 token = advance();
                 const QStringList &localFieldNames = parseIdentifierList(token);
@@ -753,13 +753,13 @@ bool SQLImport::parseAlterTable(QString &token)
                 const QStringList &referencedFieldNames = parseIdentifierList(token);
                 // ON DELETE SET NULL DEFERRABLE INITIALLY DEFERRED;
                 // use parseColumnConstraint()
-                if (token.toLower() == QStringLiteral("on")) {
+                if (equiv(token, QStringLiteral("on"))) {
                     token = advance();
                     token = advance(); // delete/update
-                    if (token.toLower() == QStringLiteral("cascade"))
+                    if (equiv(token, QStringLiteral("cascade")))
                         token = advance();
                 }
-                else if (token.toLower() == QStringLiteral("match")) {
+                else if (equiv(token, QStringLiteral("match"))) {
                     token = advance();
                     token = advance(); // full
                 }
@@ -785,33 +785,33 @@ bool SQLImport::parseAlterTable(QString &token)
 bool SQLImport::parseStmt()
 {
     const QString& keyword = m_source[m_srcIndex];
-    if (keyword.toLower() == QStringLiteral("set")) {
+    if (equiv(keyword, QStringLiteral("set"))) {
         skipStmt(QStringLiteral(";"));
         return true;
     }
     // CREATE [ [ GLOBAL | LOCAL ] { TEMPORARY | TEMP } | UNLOGGED ] TABLE [ IF NOT EXISTS ]
-    else if (keyword.toLower() == QStringLiteral("create")) {
+    else if (equiv(keyword, QStringLiteral("create"))) {
         QString type = advance();
         // [ GLOBAL | LOCAL ]
-        if (type.toLower() == QStringLiteral("global"))
+        if (equiv(type, QStringLiteral("global")))
             type = advance();
-        else if (type.toLower() == QStringLiteral("local"))
+        else if (equiv(type, QStringLiteral("local")))
             type = advance();
 
         // [ { TEMPORARY | TEMP } | UNLOGGED ]
-        if (type.toLower() == QStringLiteral("temp"))
+        if (equiv(type, QStringLiteral("temp")))
             type = advance();
-        else if (type.toLower() == QStringLiteral("temporary"))
+        else if (equiv(type, QStringLiteral("temporary")))
             type = advance();
 
-        if (type.toLower() == QStringLiteral("unlogged"))
+        if (equiv(type, QStringLiteral("unlogged")))
             type = advance();
 
         // TABLE
-        if (type.toLower() == QStringLiteral("table")) {
+        if (equiv(type, QStringLiteral("table"))) {
             QString token = advance();
             // [ IF NOT EXISTS ]
-            if (token.toLower() == QStringLiteral("if")) {
+            if (equiv(token, QStringLiteral("if"))) {
                 token = advance();
                 token = advance();
                 token = advance();
@@ -821,9 +821,9 @@ bool SQLImport::parseStmt()
             skipStmt(QStringLiteral(";"));
             return true;
         }
-    } else if (keyword.toLower() == QStringLiteral("alter")) {
+    } else if (equiv(keyword, QStringLiteral("alter"))) {
         QString type = advance();
-        if (type.toLower() == QStringLiteral("table")) {
+        if (equiv(type, QStringLiteral("table"))) {
             QString token = advance();
             return parseAlterTable(token);
         } else if (m_source[m_srcIndex] != QStringLiteral(";")) {
@@ -849,7 +849,7 @@ UMLObject *SQLImport::addDatatype(const QStringList &type)
 {
     UMLObject  *datatype = nullptr;
     UMLPackage *parent = UMLApp::app()->document()->datatypeFolder();
-    if (type.at(0).toLower() == QStringLiteral("enum")) {
+    if (equiv(type.at(0), QStringLiteral("enum"))) {
         QString name = Model_Utils::uniqObjectName(UMLObject::ot_Enum, parent, type.at(0));
         datatype = Import_Utils::createUMLObject(UMLObject::ot_Enum, name, parent);
         UMLEnum *enumType = datatype->asUMLEnum();
@@ -1009,4 +1009,8 @@ bool SQLImport::addForeignConstraint(UMLEntity *entityA, const QString &_name, c
         fc->addEntityAttributePair(aA, aB);
     }
     return entityA->addConstraint(fc);
+}
+
+bool SQLImport::equiv(const QString &word, const QString &stringlit) {
+    return word.compare(stringlit, Qt::CaseInsensitive) == 0;
 }
