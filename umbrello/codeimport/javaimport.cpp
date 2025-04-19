@@ -29,18 +29,13 @@
 
 DEBUG_REGISTER(JavaImport)
 
-QStringList JavaImport::s_filesAlreadyParsed;
-int JavaImport::s_parseDepth = 0;
-
 /**
  * Constructor.
  */
 JavaImport::JavaImport(CodeImpThread* thread)
-  : NativeImportBase(QStringLiteral("//"), thread),
-    m_defaultCurrentAccess(Uml::Visibility::Public)
+  : JavaCsValaImportBase(thread)
 {
-    setMultiLineComment(QStringLiteral("/*"), QStringLiteral("*/"));
-    initVars();
+    m_language = Uml::ProgrammingLanguage::Java;
 }
 
 /**
@@ -50,71 +45,9 @@ JavaImport::~JavaImport()
 {
 }
 
-/**
- * Reimplement operation from NativeImportBase.
- */
-void JavaImport::initVars()
+QString JavaImport::fileExtension()
 {
-    m_isStatic = false;
-}
-
-/**
- * Figure out if the type is really an array or template of the given typeName.
- * Catenate possible template arguments/array dimensions to the end of the type name.
- * @param typeName   the type name
- * @return the type name with the additional information
- */
-QString JavaImport::joinTypename(const QString& typeName)
-{
-    QString typeNameRet(typeName);
-    if (m_srcIndex + 1 < m_source.size()) {
-        if (m_source[m_srcIndex + 1] == QStringLiteral("<") ||
-            m_source[m_srcIndex + 1] == QStringLiteral("[")) {
-            int start = ++m_srcIndex;
-            if (! skipToClosing(m_source[start][0]))
-                return typeNameRet;
-            for (int i = start; i <= m_srcIndex; ++i) {
-                typeNameRet += m_source[i];
-            }
-        }
-    }
-    // to handle multidimensional arrays, call recursively
-    if ((m_srcIndex + 1 < m_source.size()) && (m_source[m_srcIndex + 1] == QStringLiteral("["))) {
-        typeNameRet = joinTypename(typeNameRet);
-    }
-    return typeNameRet;
-}
-
-/**
- * Implement abstract operation from NativeImportBase.
- * @param word   whitespace delimited item
- */
-void JavaImport::fillSource(const QString& word)
-{
-    QString w(word);
-    /* In Java, method varargs are represented by three dots following the
-       type name.  For portability to other C family languages, we replace
-       the "..." by "[]".
-     */
-    if (w.contains(QStringLiteral("..."))) {
-        w.replace(QStringLiteral("..."), QStringLiteral("[]"));
-    }
-    QString lexeme;
-    const uint len = w.length();
-    for (uint i = 0; i < len; ++i) {
-        const QChar& c = w[i];
-        if (c.isLetterOrNumber() || c == QLatin1Char('_') || c == QLatin1Char('.')) {
-            lexeme += c;
-        } else {
-            if (!lexeme.isEmpty()) {
-                m_source.append(lexeme);
-                lexeme.clear();
-            }
-            m_source.append(QString(c));
-        }
-    }
-    if (!lexeme.isEmpty())
-        m_source.append(lexeme);
+    return QStringLiteral(".java");
 }
 
 /**
@@ -135,179 +68,6 @@ void JavaImport::spawnImport(const QString& file)
           s_filesAlreadyParsed.append(file);
           importer.importFiles(fileList);
     }
-}
-
-/**
- * Returns the UML Object if found, or null otherwise.
- * @param name        name of the uml object
- * @param parentPkg   parent package
- * @return null or the uml objecct
- */
-UMLObject* JavaImport::findObject(const QString& name, UMLPackage *parentPkg)
-{
-    UMLDoc *umldoc = UMLApp::app()->document();
-    UMLObject * o = umldoc->findUMLObject(name, UMLObject::ot_UMLObject, parentPkg);
-    return o;
-}
-
-/**
- * Try to resolve the specified class the current class depends on.
- * @param className  the name of the class
- */
-UMLObject* JavaImport::resolveClass (const QString& className)
-{
-    logDebug1("importJava trying to resolve %1", className);
-    // keep track if we are dealing with an array
-    //
-    bool isArray = className.contains(QLatin1Char('['));
-    // remove any [] so that the class itself can be resolved
-    //
-    QString baseClassName = className;
-    baseClassName.remove(QLatin1Char('['));
-    baseClassName.remove(QLatin1Char(']'));
-
-    // remove template class name so that the class itself can be resolved
-    int index = baseClassName.indexOf(QLatin1Char('<'));
-    if (index != -1) {
-        baseClassName = baseClassName.remove(index, baseClassName.size()-index);
-    }
-
-    // java has a few implicit imports.  Most relevant for this is the
-    // current package, which is in the same directory as the current file
-    // being parsed
-    //
-    QStringList file = m_currentFileName.split(QLatin1Char('/'));
-    // remove the filename.  This leaves the full path to the containing
-    // dir which should also include the package hierarchy
-    //
-    file.pop_back();
-
-    // the file we're looking for might be in the same directory as the
-    // current class
-    //
-    QString myDir = file.join(QStringLiteral("/"));
-    QString myFile = myDir + QLatin1Char('/') + baseClassName + QStringLiteral(".java");
-    if (QFile::exists(myFile)) {
-        spawnImport(myFile);
-        if (isArray) {
-            // we have imported the type. For arrays we want to return
-            // the array type
-            return Import_Utils::createUMLObject(UMLObject::ot_Class, className, currentScope());
-        }
-        return findObject(baseClassName, currentScope());
-    }
-
-    // the class we want is not in the same package as the one being imported.
-    // use the imports to find the one we want.
-    //
-    QStringList package = m_currentPackage.split(QLatin1Char('.'));
-    int dirsInPackageCount = package.size();
-
-    // in case the path does not fit into the package hierarchy 
-    // we cannot check the imports 
-    if (dirsInPackageCount >= file.size())
-        return nullptr;
-
-    for (int count=0; count < dirsInPackageCount; ++count) {
-        // pop off one by one the directories, until only the source root remains
-        //
-        file.pop_back();
-    }
-    // this is now the root of any further source imports
-    QString sourceRoot = file.join(QStringLiteral("/")) + QLatin1Char('/');
-
-    for (QStringList::Iterator pathIt = m_imports.begin();
-                                   pathIt != m_imports.end(); ++pathIt) {
-        QString import = (*pathIt);
-        QStringList split = import.split(QLatin1Char('.'));
-        split.pop_back(); // remove the * or the classname
-        if (import.endsWith(QLatin1Char('*')) || import.endsWith(baseClassName)) {
-            // check if the file we want is in this imported package
-            // convert the org.test type package into a filename
-            //
-            QString aFile = sourceRoot + split.join(QStringLiteral("/")) + QLatin1Char('/') + baseClassName + QStringLiteral(".java");
-            if (QFile::exists(aFile)) {
-                spawnImport(aFile);
-                // we need to set the package for the class that will be resolved
-                // start at the root package
-                UMLPackage  *parent = nullptr;
-                UMLPackage  *current = nullptr;
-
-                for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
-                    QString name = (*it);
-                    UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
-                                                                  name, parent,
-                                                                  QString(), QString(),
-                                                                  true, false);
-                    current = ns->asUMLPackage();
-                    parent = current;
-                } // for
-                if (isArray) {
-                    // we have imported the type. For arrays we want to return
-                    // the array type
-                    return Import_Utils::createUMLObject(UMLObject::ot_Class, className, current,
-                                                         QString(), QString(), true, false);
-                }
-                // now that we have the right package, the class should be findable
-                return findObject(baseClassName, current);
-            // imported class is specified but seems to be external
-            } else if (import.endsWith(baseClassName)) {
-                // we need to set the package for the class that will be resolved
-                // start at the root package
-                UMLPackage  *parent = nullptr;
-                UMLPackage  *current = nullptr;
-
-                for (QStringList::Iterator it = split.begin(); it != split.end(); ++it) {
-                    QString name = (*it);
-                    UMLObject *ns = Import_Utils::createUMLObject(UMLObject::ot_Package,
-                                                                  name, parent);
-                    current = ns->asUMLPackage();
-                    parent = current;
-                } // for
-                if (isArray) {
-                    // we have imported the type. For arrays we want to return
-                    // the array type
-                    return Import_Utils::createUMLObject(UMLObject::ot_Class, className, current);
-                }
-                // now that we have the right package, the class should be findable
-                return Import_Utils::createUMLObject(UMLObject::ot_Class,
-                                                              baseClassName, current);
-            } // if file exists
-        } // if import matches
-    } //foreach import
-    return nullptr; // no match
-}
-
-/**
- * Keep track of the current file being parsed and reset the list of imports.
- * @param filename   the name of the file being parsed
- */
-bool JavaImport::parseFile(const QString& filename)
-{
-    m_currentFileName = filename;
-    m_imports.clear();
-    // default visibility is Impl, unless we are an interface, then it is
-    // public for member vars and methods
-    m_defaultCurrentAccess = Uml::Visibility::Implementation;
-    m_currentAccess = m_defaultCurrentAccess;
-    s_parseDepth++;
-    // in the case of self referencing types, we can avoid parsing the
-    // file twice by adding it to the list
-    if (s_filesAlreadyParsed.contains(filename)) {
-        s_parseDepth--;
-        return true;
-    }
-
-    s_filesAlreadyParsed.append(filename);
-    NativeImportBase::parseFile(filename);
-    s_parseDepth--;
-    if (s_parseDepth <= 0) {
-        // if the user decides to clear things out and reparse, we need
-        // to honor the request, so reset things for next time.
-        s_filesAlreadyParsed.clear();
-        s_parseDepth = 0;
-    }
-    return true;
 }
 
 /**

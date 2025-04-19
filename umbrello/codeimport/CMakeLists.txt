@@ -18,6 +18,7 @@ set(libcodeimport_SRCS
     csvalaimportbase.cpp
     idlimport.cpp
     import_utils.cpp
+    javacsvalaimportbase.cpp
     javaimport.cpp
     nativeimportbase.cpp
     pascalimport.cpp

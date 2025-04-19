@@ -20,6 +20,9 @@ public:
     virtual ~CSharpImport();
     QString fileExtension();
     void fillSource(const QString& word);
+
+protected:
+    void spawnImport(const QString& file);
 };
 
 #endif

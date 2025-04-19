@@ -20,6 +20,8 @@ public:
     virtual ~ValaImport();
     QString fileExtension();
 
+protected:
+    void spawnImport(const QString& file);
 };
 
 #endif // VALAIMPORT_H

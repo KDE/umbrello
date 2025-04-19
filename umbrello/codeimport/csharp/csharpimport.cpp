@@ -6,6 +6,8 @@
 // own header
 #include "csharpimport.h"
 
+#include <QFile>
+
 /**
  * Constructor.
  */
@@ -64,6 +66,25 @@ void CSharpImport::fillSource(const QString& word)
     for (size_t i = 0; i < sizeof(dotNet2CSharp) / sizeof(char*); i += 2) {
         if (last == QLatin1String(dotNet2CSharp[i]))
             last = QLatin1String(dotNet2CSharp[i + 1]);
+    }
+}
+
+/**
+ * Spawn off an import of the specified file.
+ * @param file   the specified file
+ */
+void CSharpImport::spawnImport(const QString& file)
+{
+    // if the file is being parsed, don't bother
+    if (s_filesAlreadyParsed.contains(file)) {
+        return;
+    }
+    if (QFile::exists(file)) {
+        CSharpImport importer;
+        QStringList fileList;
+        fileList.append(file);
+        s_filesAlreadyParsed.append(file);
+        importer.importFiles(fileList);
     }
 }
 
