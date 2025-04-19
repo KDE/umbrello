@@ -33,7 +33,7 @@ private:
     bool parseUsingDirectives();
     bool parseGlobalAttributes();
     bool parseNamespaceDeclaration();
-    bool parseAttributes();
+    bool parseAnnotation();
 
     // type-declaration
     bool parseClassDeclaration(const QString& keyword);

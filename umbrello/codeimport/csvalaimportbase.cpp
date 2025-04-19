@@ -65,7 +65,7 @@ bool CsValaImportBase::parseStmt()
     }
 
     if (keyword == QStringLiteral("[")) {
-        return parseAttributes();  //:TODO: more than one
+        return parseAnnotation();
     }
 
     while (isClassModifier(keyword)) {
@@ -334,11 +334,14 @@ bool CsValaImportBase::parseNamespaceDeclaration()
  * Parsing attributes.
  * @return   success status of parsing
  */
-bool CsValaImportBase::parseAttributes()
+bool CsValaImportBase::parseAnnotation()
 {
-    QString attribute = advance();
-    log(QStringLiteral("attribute ") + attribute);
-    skipStmt(QStringLiteral("]"));
+    QString token, annotation;
+    while ((token = advance()) != "]" && !token.isEmpty()) {
+        annotation.append(token);
+    }
+    log(QStringLiteral("attribute ") + annotation);
+    m_comment.append(QStringLiteral("\n") + annotation);
     return true;
 }
 
@@ -428,18 +431,26 @@ bool CsValaImportBase::parseEnumDeclaration()
     UMLEnum *enumType = ns->asUMLEnum();
     if (enumType == nullptr)
         enumType = Import_Utils::remapUMLEnum(ns, currentScope());
+    if (!enumType) {
+       logError1("CsValaImportBase::parseEnumDeclaration: error on creating %1", name);
+       skipStmt(QStringLiteral("}"));
+       return false;
+    }
     skipStmt(QStringLiteral("{"));
     while (m_srcIndex < m_source.count() - 1 && advance() != QStringLiteral("}")) {
+        if (m_source[m_srcIndex] == QStringLiteral("[")) {
+            parseAnnotation();
+            continue;
+        }
+        QString enumValue = m_source[m_srcIndex];
+        QString representation;
         QString next = advance();
         if (next == QStringLiteral("=")) {
+            representation = advance();
             next = advance();
-            if (enumType != nullptr)
-                Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex - 2], QString(), m_source[m_srcIndex]);
-            next = advance();
-        } else {
-            if (enumType != nullptr)
-                Import_Utils::addEnumLiteral(enumType, m_source[m_srcIndex - 1]);
         }
+        Import_Utils::addEnumLiteral(enumType, enumValue, m_comment, representation);
+        m_comment.clear();
         if (next == QStringLiteral("{") || next == QStringLiteral("(")) {
             if (! skipToClosing(next[0]))
                 return false;
