@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-17 01:55+0000\n"
+"POT-Creation-Date: 2025-04-19 01:57+0000\n"
 "PO-Revision-Date: 2006-09-30 17:38+0200\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -8721,70 +8721,70 @@ msgstr "Име на инстанца:"
 msgid "Diagram: %2 Page %1"
 msgstr "Дијаграм: %2 страница %1"
 
-#: umlscene.cpp:1521
+#: umlscene.cpp:1520
 #, fuzzy, kde-format
 #| msgid "&Use fill color"
 msgid "Use fill color"
 msgstr "Користи боја на исполн&ување"
 
-#: umlscene.cpp:1523
+#: umlscene.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Fill Color..."
 msgid "No fill color"
 msgstr "Боја на исполнување"
 
-#: umlscene.cpp:1538
+#: umlscene.cpp:1537
 #, fuzzy, kde-format
 #| msgid "Change Font..."
 msgid "Change font"
 msgstr "Измени фонт..."
 
-#: umlscene.cpp:1552
+#: umlscene.cpp:1551
 #, fuzzy, kde-format
 #| msgid "Change into Class"
 msgid "Change line color"
 msgstr "Измени во класа"
 
-#: umlscene.cpp:1570
+#: umlscene.cpp:1569
 #, fuzzy, kde-format
 #| msgid "Line width:"
 msgid "Change line width"
 msgstr "Дебелина на линија:"
 
-#: umlscene.cpp:1590
+#: umlscene.cpp:1589
 #, fuzzy, kde-format
 #| msgid "Use Fill Color"
 msgid "Change fill color"
 msgstr "Користи боја на исполнување"
 
-#: umlscene.cpp:1605
+#: umlscene.cpp:1604
 #, fuzzy, kde-format
 #| msgid "Role Properties"
 msgid "Change visual property"
 msgstr "Својства на улогата"
 
-#: umlscene.cpp:1656
+#: umlscene.cpp:1655
 #, fuzzy, kde-format
 msgid "Delete widgets"
 msgstr "Избери"
 
-#: umlscene.cpp:1702
+#: umlscene.cpp:1701
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Resize widgets"
 msgstr "Креирај папка"
 
-#: umlscene.cpp:3355
+#: umlscene.cpp:3353
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Внесете име на дијаграм"
 
-#: umlscene.cpp:3356
+#: umlscene.cpp:3354
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Внесете ново име на дијаграмот:"
 
-#: umlscene.cpp:3372
+#: umlscene.cpp:3370
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

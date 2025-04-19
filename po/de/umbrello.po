@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-17 01:55+0000\n"
+"POT-Creation-Date: 2025-04-19 01:57+0000\n"
 "PO-Revision-Date: 2023-04-16 13:43+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -8206,62 +8206,62 @@ msgstr "Instanzname:"
 msgid "Diagram: %2 Page %1"
 msgstr "Diagramm: %2 Seite %1"
 
-#: umlscene.cpp:1521
+#: umlscene.cpp:1520
 #, kde-format
 msgid "Use fill color"
 msgstr "Füllfarbe verwenden"
 
-#: umlscene.cpp:1523
+#: umlscene.cpp:1522
 #, kde-format
 msgid "No fill color"
 msgstr "Keine Füllfarbe"
 
-#: umlscene.cpp:1538
+#: umlscene.cpp:1537
 #, kde-format
 msgid "Change font"
 msgstr "Schriftart ändern"
 
-#: umlscene.cpp:1552
+#: umlscene.cpp:1551
 #, kde-format
 msgid "Change line color"
 msgstr "Linienfarbe ändern"
 
-#: umlscene.cpp:1570
+#: umlscene.cpp:1569
 #, kde-format
 msgid "Change line width"
 msgstr "Linienstärke ändern"
 
-#: umlscene.cpp:1590
+#: umlscene.cpp:1589
 #, kde-format
 msgid "Change fill color"
 msgstr "Füllfarbe ändern"
 
-#: umlscene.cpp:1605
+#: umlscene.cpp:1604
 #, kde-format
 msgid "Change visual property"
 msgstr "Sichtbarkeitseigenschaften ändern"
 
-#: umlscene.cpp:1656
+#: umlscene.cpp:1655
 #, kde-format
 msgid "Delete widgets"
 msgstr "Elemente löschen"
 
-#: umlscene.cpp:1702
+#: umlscene.cpp:1701
 #, kde-format
 msgid "Resize widgets"
 msgstr "Größe der Elemente ändern"
 
-#: umlscene.cpp:3355
+#: umlscene.cpp:3353
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Diagrammnamen eingeben"
 
-#: umlscene.cpp:3356
+#: umlscene.cpp:3354
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Geben Sie den neuen Namen des Diagramms ein:"
 
-#: umlscene.cpp:3372
+#: umlscene.cpp:3370
 #, kde-format
 msgid "Failed to import from file."
 msgstr "Der Import aus der Datei ist fehlgeschlagen."

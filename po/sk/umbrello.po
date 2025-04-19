@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-17 01:55+0000\n"
+"POT-Creation-Date: 2025-04-19 01:57+0000\n"
 "PO-Revision-Date: 2022-04-07 18:18+0200\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -8338,62 +8338,62 @@ msgstr "Názov inštancie:"
 msgid "Diagram: %2 Page %1"
 msgstr "Diagram: %2 Strana %1"
 
-#: umlscene.cpp:1521
+#: umlscene.cpp:1520
 #, kde-format
 msgid "Use fill color"
 msgstr "Použiť farbu výplne"
 
-#: umlscene.cpp:1523
+#: umlscene.cpp:1522
 #, kde-format
 msgid "No fill color"
 msgstr "Žiadna farba výplne"
 
-#: umlscene.cpp:1538
+#: umlscene.cpp:1537
 #, kde-format
 msgid "Change font"
 msgstr "Zmeniť písmo"
 
-#: umlscene.cpp:1552
+#: umlscene.cpp:1551
 #, kde-format
 msgid "Change line color"
 msgstr "Zmeniť farbu čiary"
 
-#: umlscene.cpp:1570
+#: umlscene.cpp:1569
 #, kde-format
 msgid "Change line width"
 msgstr "Zmeniť šírku čiary"
 
-#: umlscene.cpp:1590
+#: umlscene.cpp:1589
 #, kde-format
 msgid "Change fill color"
 msgstr "Zmeniť farbu výplne"
 
-#: umlscene.cpp:1605
+#: umlscene.cpp:1604
 #, kde-format
 msgid "Change visual property"
 msgstr "Zmeniť vizuálnu vlastnosť"
 
-#: umlscene.cpp:1656
+#: umlscene.cpp:1655
 #, kde-format
 msgid "Delete widgets"
 msgstr "Vymazať widgety"
 
-#: umlscene.cpp:1702
+#: umlscene.cpp:1701
 #, kde-format
 msgid "Resize widgets"
 msgstr "Zmeniť veľkosť widgetov"
 
-#: umlscene.cpp:3355
+#: umlscene.cpp:3353
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Zadajte názov diagramu"
 
-#: umlscene.cpp:3356
+#: umlscene.cpp:3354
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Zadajte nový názov diagramu:"
 
-#: umlscene.cpp:3372
+#: umlscene.cpp:3370
 #, kde-format
 msgid "Failed to import from file."
 msgstr "Zlyhalo importovanie zo súboru."
