@@ -18,7 +18,7 @@ class JavaImport : public JavaCsValaImportBase
 {
 public:
     explicit JavaImport(CodeImpThread *thread = nullptr);
-    virtual ~JavaImport() {}
+    virtual ~JavaImport();
     QString fileExtension();
 
 protected:
