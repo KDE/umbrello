@@ -7,21 +7,21 @@
 # Serdar Soytetir <tulliana@gmail.com>, 2008, 2009, 2012.
 # H. İbrahim Güngör <ibrahim@pardus.org.tr>, 2011.
 # Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2017, 2019.
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-19 01:57+0000\n"
-"PO-Revision-Date: 2024-09-23 15:28+0300\n"
-"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"PO-Revision-Date: 2025-04-21 11:17+0300\n"
+"Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6331,17 +6331,16 @@ msgstr "Diyagram arka planının rengi"
 
 #. i18n: ectx: label, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:182
-#, fuzzy, kde-format
-#| msgid "Custom background color"
+#, kde-format
 msgid "Use background color"
-msgstr "Özel arka plan rengi"
+msgstr "Arka plan rengi kullan"
 
 #. i18n: ectx: whatsthis, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:183
-#, fuzzy, kde-format
-#| msgid "Enables/Disables usage of fill color"
+#, kde-format
 msgid "Enables/Disables the usage of a custom background color"
-msgstr "Dolgu renginin kullanımını etkinleştirir/devre dışı bırakır"
+msgstr ""
+"Özel bir arka plan renginin kullanımını etkinleştirir/devre dışı bırakır"
 
 #. i18n: ectx: label, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:187
