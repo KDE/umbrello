@@ -6284,10 +6284,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:182
-#, fuzzy, kde-format
-#| msgid "Custom background color"
+#, kde-format
 msgid "Use background color"
-msgstr "Vlastní barva pozadí"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:183
