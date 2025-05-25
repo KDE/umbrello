@@ -935,7 +935,7 @@ msgid ""
 "Please set the appropriate permissions or choose another folder."
 msgstr ""
 "La carpeta d'eixida ja existix, però no s'hi pot escriure.\n"
-"Establiu-hi els permisos apropiats o escolliu-ne una altra."
+"Establiu-hi els permisos apropiats o trieu-ne una altra."
 
 #: codegenwizard/codegenoptionspage.cpp:254
 #, kde-format
@@ -945,12 +945,12 @@ msgstr "S'ha produït un error en escriure a la carpeta d'eixida"
 #: codegenwizard/codegenoptionspage.cpp:259
 #, kde-format
 msgid "%1 does not seem to be a folder. Please choose a valid folder."
-msgstr "%1 no pareix tractar-se d'una carpeta. Escolliu-ne una de vàlida."
+msgstr "%1 no pareix tractar-se d'una carpeta. Trieu-ne una de vàlida."
 
 #: codegenwizard/codegenoptionspage.cpp:260
 #, kde-format
 msgid "Please Choose Valid Folder"
-msgstr "Escolliu una carpeta vàlida"
+msgstr "Trieu una carpeta vàlida"
 
 #: codegenwizard/codegenoptionspage.cpp:266
 #, kde-format
@@ -8527,8 +8527,8 @@ msgid ""
 "axis. Right button click to cancel move."
 msgstr ""
 "Manteniu premuda «Majúscules» o «Control» per a moure en l'eix X. Manteniu "
-"premudes ambdues tecles per a moure en l'eix Y. Feu clic amb el botó dret "
-"per a cancel·lar l'acció de moure."
+"premudes ambdues tecles per a moure en l'eix Y. Cliqueu amb el botó dret per "
+"a cancel·lar l'acció de moure."
 
 #: umlwidgets/umlwidget.cpp:552
 #, kde-format
