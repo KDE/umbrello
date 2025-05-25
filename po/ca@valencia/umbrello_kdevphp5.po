@@ -84,7 +84,7 @@ msgstr ""
 "s'utilitzarà remotament la <a href=\"http://php.net\"><span style=\" text-"
 "decoration: underline; color:#0000ff;\">documentació de PHP</span></a> en "
 "línia. De manera alternativa, podreu establir la ubicació a una còpia local "
-"de la documentació en l'idioma que escolliu. Assegureu-vos que heu baixat el "
+"de la documentació en l'idioma que trieu. Assegureu-vos que heu baixat el "
 "paquet <span style=\" font-style:italic;\">«Many HTML files»</span>.</p></"
 "body></html>"
 
