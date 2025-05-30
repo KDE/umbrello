@@ -232,7 +232,7 @@ void UMLFolder::removeAllViews()
         f->removeAllViews();
     }
 
-    for(UMLView *v : m_diagrams) {
+    for(UMLView *v : UMLViewList(m_diagrams)) {
         // TODO ------------------ check this code - bad: calling back to UMLDoc::removeView()
         v->umlScene()->removeAllAssociations(); // note : It may not be apparent, but when we remove all associations
         // from a view, it also causes any UMLAssociations that lack parent
