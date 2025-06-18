@@ -1,15 +1,15 @@
-# translation of kdevphp.po to Spanish
-# Copyright (C) YEAR This_file_is_part_of_KDE
-# This file is distributed under the same license as the PACKAGE package.
+# Spanish translations for umbrello_kdevphp5.po package.
+# Copyright (C) 2009-2025 This file is copyright:
+# This file is distributed under the same license as the umbrello package.
 #
-# Eloy Cuadra <ecuadra@eloihr.net>, 2009, 2010, 2012, 2013, 2014, 2015, 2016, 2017, 2019.
-# Javier Viñal <fjvinal@gmail.com>, 2013.
+# SPDX-FileCopyrightText: 2009, 2010, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2025 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2013 Javier Viñal <fjvinal@gmail.com>
 msgid ""
 msgstr ""
-"Project-Id-Version: kdevphp\n"
+"Project-Id-Version: umbrello_kdevphp5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:39+0000\n"
-"PO-Revision-Date: 2019-11-26 20:28+0100\n"
+"PO-Revision-Date: 2025-06-17 19:51+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -135,7 +135,7 @@ msgstr ""
 #: docs/phpdocumentationwidget.cpp:56
 #, kde-format
 msgid "...loading documentation..."
-msgstr "cargando documentación..."
+msgstr "cargando documentación…"
 
 #: duchain/builders/contextbuilder.cpp:397
 #, kde-format
@@ -401,53 +401,3 @@ msgstr "Los permisos del archivo impiden abrirlo para lectura."
 #, kde-format
 msgid "PHPUnit"
 msgstr "PHPUnit"
-
-#~ msgid ""
-#~ "A class constant must not be called 'class'; it is reserved for class "
-#~ "name fetching"
-#~ msgstr ""
-#~ "Una constante de clase no se debe llamar «class»; está reservado para "
-#~ "obtener nombres de clases"
-
-#~ msgid "Cannot use 'abstract' as method modifier"
-#~ msgstr "No se puede usar «abstract» como modificador de método"
-
-#~ msgid "Variadic parameter cannot have a default value"
-#~ msgstr "Los parámetros variádicos no pueden tener un valor por omisión."
-
-#~ msgid "Only the last parameter can be variadic."
-#~ msgstr "Solo el último parámetro puede ser variádico."
-
-#~ msgid "Cannot use positional argument after argument unpacking"
-#~ msgstr ""
-#~ "No se puede usar un argumento posicional tras desempaquetar los argumentos"
-
-#~ msgid "empty (not inside a trait)"
-#~ msgstr "vacío (no está dentro de un rasgo)"
-
-#~ msgid "Use of "
-#~ msgstr "Uso de "
-
-#~ msgid " from "
-#~ msgstr " desde "
-
-#~ msgid "PHP Support"
-#~ msgstr "Implementación de PHP"
-
-#~ msgid "Support for PHP Language"
-#~ msgstr "Implementación del lenguaje PHP"
-
-#~ msgid "Milian Wolff"
-#~ msgstr "Milian Wolff"
-
-#~ msgid "Author"
-#~ msgstr "Autor"
-
-#~ msgid "Niko Sams"
-#~ msgstr "Niko Sams"
-
-#~ msgid "Finds and runs PHPUnit tests"
-#~ msgstr "Encuentra y ejecuta pruebas PHPUnit"
-
-#~ msgid "Traits cannot have static properties."
-#~ msgstr "Los «traits» no pueden tener propiedades estáticas."

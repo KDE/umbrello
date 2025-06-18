@@ -1,5 +1,6 @@
 # Spanish translations for umbrello.po package.
-# Copyright (C) 2003-2025 Free Software Foundation, Inc.
+# Copyright (C) 2003-2025 This file is copyright:
+# This file is distributed under the same license as the umbrello package.
 #
 # SPDX-FileCopyrightText: 2003 Revilla Rodríguez <yo@miguelrevilla.com>
 # SPDX-FileCopyrightText: 2004 Marcos Fouces Lago <mfouces@yahoo.es>
@@ -13,7 +14,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-19 01:57+0000\n"
-"PO-Revision-Date: 2025-04-17 11:54+0100\n"
+"PO-Revision-Date: 2025-06-17 19:51+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
