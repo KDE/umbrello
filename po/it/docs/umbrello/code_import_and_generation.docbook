@@ -15,7 +15,7 @@
 >riempire gli spazi vuoti</quote
 > fornendo la funzionalità delle operazioni delle tue classi. </para>
 <para
->&umbrello; 2 ha supporto per la generazione di codice ActionScript, Ada, C++, D, IDL, &Java;, JavaScript, MySQL e Pascal. </para>
+>&umbrello; 2 ha supporto per la generazione di codice ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala, e XMLSchema. </para>
 <sect2 id="generate-code">
 <title
 >Generare il codice</title>
@@ -132,7 +132,7 @@
 <title
 >Importazione di codice</title>
 <para
->&umbrello; può importare codice sorgente dai tuoi progetti esistenti per aiutarti a costruire un modello del tuo sistema. &umbrello; 2 supporta codice sorgente in ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL e Pascal. </para>
+>&umbrello; può importare codice sorgente dai tuoi progetti esistenti per aiutarti a costruire un modello del tuo sistema. &umbrello; 2 supporta codice sorgente in ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP, e Vala. </para>
 <para
 >Per importare classi nel tuo modello, seleziona la voce <guimenuitem
 >Assistente di importazione del codice</guimenuitem
