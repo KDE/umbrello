@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2025-07-05 03:22+0000\n"
 "PO-Revision-Date: 2023-07-24 22:16+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -42,51 +42,6 @@ msgstr "구현"
 msgid "From %1"
 msgstr "%1에서"
 
-#. i18n: ectx: property (title), widget (QGroupBox, PhpDoc)
-#: docs/phpdocsconfig.ui:20
-#, kde-format
-msgid "PHP Manual Integration"
-msgstr "PHP 문서 통합"
-
-#. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
-#: docs/phpdocsconfig.ui:36
-#, kde-format
-msgid ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
-"weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online <a "
-"href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
-"#0000ff;\">PHP documentation</span></a> is used remotely. Alternatively you "
-"can set the location to a local copy of the documentation in the language of "
-"your choice. Make sure you downloaded the <span style=\" font-style:italic;"
-"\">\"Many HTML files\"</span> package.</p></body></html>"
-msgstr ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
-"weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">기본값으로 온라인 <a href="
-"\"http://php.net\"><span style=\" text-decoration: underline; color:#0000ff;"
-"\">PHP 문서</span></a>를 원격으로 사용합니다. 또한 지정한 언어로 번역된 로컬 "
-"복사본을 사용할 수도 있습니다. <span style=\" font-style:italic;\">\"여러 "
-"HTML 파일\"</span> 패키지를 다운로드했는지 확인하십시오.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, PhpDocLocationLabel)
-#: docs/phpdocsconfig.ui:57
-#, kde-format
-msgid "Location:"
-msgstr "위치:"
-
 #: docs/phpdocsmodel.cpp:96
 #, kde-format
 msgid "<lost declaration>"
@@ -96,36 +51,6 @@ msgstr "<선언 잃어버림>"
 #, kde-format
 msgid "PHP Documentation"
 msgstr "PHP 문서"
-
-#. i18n: ectx: label, entry (phpDocLocation), group (PHP Documentation)
-#: docs/phpdocssettings.kcfg:10
-#, kde-format
-msgid "Specifies the location of the PHP documentation to use."
-msgstr "사용할 PHP 문서 위치를 지정합니다."
-
-#. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
-#: docs/phpdocssettings.kcfg:13
-#, kde-format
-msgid ""
-"The location of the PHP documentation to use. You can either use a remote\n"
-"                 location like https://php.net or a local directory which "
-"contains the\n"
-"                 PHP documentation in HTML format with many files."
-msgstr ""
-"사용할 PHP 문서 위치입니다. 원격 위치를 지정하려면 \n"
-"                 https://php.net과 같은 웹 주소를 입력할 수 있으며, 로컬 디렉"
-"터리를 지정하려면\n"
-"                 HTML 형식 PHP 문서가 있는 디렉터리를 지정하십시오."
-
-#. i18n: ectx: whatsthis, entry (phpDocLocation), group (PHP Documentation)
-#: docs/phpdocssettings.kcfg:15
-#, kde-format
-msgid ""
-"Make sure local copies are downloaded in HTML format with many files.\n"
-"        "
-msgstr ""
-"로컬 디렉터리에 있는 문서는 여러 파일로 나뉜 HTML 문서여야 합니다.\n"
-"        "
 
 #: docs/phpdocumentationwidget.cpp:56
 #, kde-format
@@ -388,6 +313,66 @@ msgstr "파일 읽기 권한이 없습니다."
 #, kde-format
 msgid "PHPUnit"
 msgstr "PHPUnit"
+
+#~ msgid "PHP Manual Integration"
+#~ msgstr "PHP 문서 통합"
+
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; "
+#~ "font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online "
+#~ "<a href=\"http://php.net\"><span style=\" text-decoration: underline; "
+#~ "color:#0000ff;\">PHP documentation</span></a> is used remotely. "
+#~ "Alternatively you can set the location to a local copy of the "
+#~ "documentation in the language of your choice. Make sure you downloaded "
+#~ "the <span style=\" font-style:italic;\">\"Many HTML files\"</span> "
+#~ "package.</p></body></html>"
+#~ msgstr ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; "
+#~ "font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">기본값으로 온라인 <a "
+#~ "href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
+#~ "#0000ff;\">PHP 문서</span></a>를 원격으로 사용합니다. 또한 지정한 언어로 "
+#~ "번역된 로컬 복사본을 사용할 수도 있습니다. <span style=\" font-style:"
+#~ "italic;\">\"여러 HTML 파일\"</span> 패키지를 다운로드했는지 확인하십시오."
+#~ "</p></body></html>"
+
+#~ msgid "Location:"
+#~ msgstr "위치:"
+
+#~ msgid "Specifies the location of the PHP documentation to use."
+#~ msgstr "사용할 PHP 문서 위치를 지정합니다."
+
+#~ msgid ""
+#~ "The location of the PHP documentation to use. You can either use a "
+#~ "remote\n"
+#~ "                 location like https://php.net or a local directory which "
+#~ "contains the\n"
+#~ "                 PHP documentation in HTML format with many files."
+#~ msgstr ""
+#~ "사용할 PHP 문서 위치입니다. 원격 위치를 지정하려면 \n"
+#~ "                 https://php.net과 같은 웹 주소를 입력할 수 있으며, 로컬 "
+#~ "디렉터리를 지정하려면\n"
+#~ "                 HTML 형식 PHP 문서가 있는 디렉터리를 지정하십시오."
+
+#~ msgid ""
+#~ "Make sure local copies are downloaded in HTML format with many files.\n"
+#~ "        "
+#~ msgstr ""
+#~ "로컬 디렉터리에 있는 문서는 여러 파일로 나뉜 HTML 문서여야 합니다.\n"
+#~ "        "
 
 #~ msgid "Milian Wolff"
 #~ msgstr "Milian Wolff"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdevphp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:39+0000\n"
+"POT-Creation-Date: 2025-07-05 03:22+0000\n"
 "PO-Revision-Date: 2019-11-30 15:21+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -43,52 +43,6 @@ msgstr "Implementera"
 msgid "From %1"
 msgstr "Från %1"
 
-#. i18n: ectx: property (title), widget (QGroupBox, PhpDoc)
-#: docs/phpdocsconfig.ui:20
-#, kde-format
-msgid "PHP Manual Integration"
-msgstr "Integrering av PHP-handbok"
-
-#. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
-#: docs/phpdocsconfig.ui:36
-#, kde-format
-msgid ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
-"weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online <a "
-"href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
-"#0000ff;\">PHP documentation</span></a> is used remotely. Alternatively you "
-"can set the location to a local copy of the documentation in the language of "
-"your choice. Make sure you downloaded the <span style=\" font-style:italic;"
-"\">\"Many HTML files\"</span> package.</p></body></html>"
-msgstr ""
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-"REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
-"\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
-"weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">Normalt används <a href="
-"\"http://php.net\"><span style=\" text-decoration: underline; color:#0000ff;"
-"\">PHP-dokumentationen</span></a> på nätet direkt. Som alternativ går det "
-"att ställa in platsen till en lokal kopia av dokumentationen på valfritt "
-"språk. Försäkra dig om att du laddar ner paketet <span style=\" font-style:"
-"italic;\">\"Many HTML files\"</span>.</p></body></html>"
-
-#. i18n: ectx: property (text), widget (QLabel, PhpDocLocationLabel)
-#: docs/phpdocsconfig.ui:57
-#, kde-format
-msgid "Location:"
-msgstr "Plats:"
-
 #: docs/phpdocsmodel.cpp:96
 #, kde-format
 msgid "<lost declaration>"
@@ -98,35 +52,6 @@ msgstr "<förlorad deklaration>"
 #, kde-format
 msgid "PHP Documentation"
 msgstr "PHP-dokumentation"
-
-#. i18n: ectx: label, entry (phpDocLocation), group (PHP Documentation)
-#: docs/phpdocssettings.kcfg:10
-#, kde-format
-msgid "Specifies the location of the PHP documentation to use."
-msgstr "Anger plats för PHP-dokumentationen att använda."
-
-#. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
-#: docs/phpdocssettings.kcfg:13
-#, kde-format
-msgid ""
-"The location of the PHP documentation to use. You can either use a remote\n"
-"                 location like https://php.net or a local directory which "
-"contains the\n"
-"                 PHP documentation in HTML format with many files."
-msgstr ""
-"Platsen för PHP-dokumentationen att använda. Du kan antingen använda\n"
-"en nätplats som https://php.net eller en lokal katalog som innehåller\n"
-"PHP-dokumentationen i HTML-format som flera filer."
-
-#. i18n: ectx: whatsthis, entry (phpDocLocation), group (PHP Documentation)
-#: docs/phpdocssettings.kcfg:15
-#, kde-format
-msgid ""
-"Make sure local copies are downloaded in HTML format with many files.\n"
-"        "
-msgstr ""
-"Försäkra dig om att lokala kopior laddas ner med HTML-format i flera filer.\n"
-"        "
 
 #: docs/phpdocumentationwidget.cpp:56
 #, kde-format
@@ -393,6 +318,66 @@ msgstr "Filens rättigheter förhindrar att öppna den för läsning."
 #, kde-format
 msgid "PHPUnit"
 msgstr "PHPUnit"
+
+#~ msgid "PHP Manual Integration"
+#~ msgstr "Integrering av PHP-handbok"
+
+#~ msgid ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; "
+#~ "font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online "
+#~ "<a href=\"http://php.net\"><span style=\" text-decoration: underline; "
+#~ "color:#0000ff;\">PHP documentation</span></a> is used remotely. "
+#~ "Alternatively you can set the location to a local copy of the "
+#~ "documentation in the language of your choice. Make sure you downloaded "
+#~ "the <span style=\" font-style:italic;\">\"Many HTML files\"</span> "
+#~ "package.</p></body></html>"
+#~ msgstr ""
+#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+#~ "REC-html40/strict.dtd\">\n"
+#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
+#~ "css\">\n"
+#~ "p, li { white-space: pre-wrap; }\n"
+#~ "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; "
+#~ "font-weight:400; font-style:normal;\">\n"
+#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Normalt används <a href="
+#~ "\"http://php.net\"><span style=\" text-decoration: underline; color:"
+#~ "#0000ff;\">PHP-dokumentationen</span></a> på nätet direkt. Som alternativ "
+#~ "går det att ställa in platsen till en lokal kopia av dokumentationen på "
+#~ "valfritt språk. Försäkra dig om att du laddar ner paketet <span style=\" "
+#~ "font-style:italic;\">\"Many HTML files\"</span>.</p></body></html>"
+
+#~ msgid "Location:"
+#~ msgstr "Plats:"
+
+#~ msgid "Specifies the location of the PHP documentation to use."
+#~ msgstr "Anger plats för PHP-dokumentationen att använda."
+
+#~ msgid ""
+#~ "The location of the PHP documentation to use. You can either use a "
+#~ "remote\n"
+#~ "                 location like https://php.net or a local directory which "
+#~ "contains the\n"
+#~ "                 PHP documentation in HTML format with many files."
+#~ msgstr ""
+#~ "Platsen för PHP-dokumentationen att använda. Du kan antingen använda\n"
+#~ "en nätplats som https://php.net eller en lokal katalog som innehåller\n"
+#~ "PHP-dokumentationen i HTML-format som flera filer."
+
+#~ msgid ""
+#~ "Make sure local copies are downloaded in HTML format with many files.\n"
+#~ "        "
+#~ msgstr ""
+#~ "Försäkra dig om att lokala kopior laddas ner med HTML-format i flera "
+#~ "filer.\n"
+#~ "        "
 
 #~ msgid ""
 #~ "A class constant must not be called 'class'; it is reserved for class "
