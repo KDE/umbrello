@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdevphp\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-05 03:22+0000\n"
+"POT-Creation-Date: 2025-07-05 05:55+0000\n"
 "PO-Revision-Date: 2019-11-26 20:28+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -44,6 +44,53 @@ msgstr "Implementar"
 msgid "From %1"
 msgstr "Desde %1"
 
+#. i18n: ectx: property (title), widget (QGroupBox, PhpDoc)
+#: docs/phpdocsconfig.ui:20
+#, kde-format
+msgid "PHP Manual Integration"
+msgstr "Integración del manual de PHP"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
+#: docs/phpdocsconfig.ui:36
+#, kde-format
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online <a "
+"href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
+"#0000ff;\">PHP documentation</span></a> is used remotely. Alternatively you "
+"can set the location to a local copy of the documentation in the language of "
+"your choice. Make sure you downloaded the <span style=\" font-style:italic;"
+"\">\"Many HTML files\"</span> package.</p></body></html>"
+msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">Por omisión, la <a href="
+"\"http://php.net\"><span style=\" text-decoration: underline; color:#0000ff;"
+"\">documentación de PHP</span></a> en línea se usa de forma remota. De modo "
+"alternativo, puede indicar la ubicación de una copia local de la "
+"documentación en el idioma que prefiera. Asegúrese de que ha descargado el "
+"paquete de <span style=\" font-style:italic;\">«Muchos archivos en formato "
+"HTML»</span>.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocLocationLabel)
+#: docs/phpdocsconfig.ui:57
+#, kde-format
+msgid "Location:"
+msgstr "Ubicación:"
+
 #: docs/phpdocsmodel.cpp:96
 #, kde-format
 msgid "<lost declaration>"
@@ -53,6 +100,37 @@ msgstr "<declaración perdida>"
 #, kde-format
 msgid "PHP Documentation"
 msgstr "Documentación de PHP"
+
+#. i18n: ectx: label, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:10
+#, kde-format
+msgid "Specifies the location of the PHP documentation to use."
+msgstr "Especifica la ubicación de la documentación PHP a usar."
+
+#. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:13
+#, kde-format
+msgid ""
+"The location of the PHP documentation to use. You can either use a remote\n"
+"                 location like https://php.net or a local directory which "
+"contains the\n"
+"                 PHP documentation in HTML format with many files."
+msgstr ""
+"La ubicación de la documentación PHP a usar. Puede usar tanto una ubicación\n"
+"                 remota (como https://php.net) como un directorio local que "
+"contenga la\n"
+"                 documentación PHP en formato HTML con numerosos archivos."
+
+#. i18n: ectx: whatsthis, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:15
+#, kde-format
+msgid ""
+"Make sure local copies are downloaded in HTML format with many files.\n"
+"        "
+msgstr ""
+"Asegúrese de que las copias locales se descargan en formato HTML con muchos "
+"archivos.\n"
+"        "
 
 #: docs/phpdocumentationwidget.cpp:56
 #, kde-format
@@ -323,69 +401,6 @@ msgstr "Los permisos del archivo impiden abrirlo para lectura."
 #, kde-format
 msgid "PHPUnit"
 msgstr "PHPUnit"
-
-#~ msgid "PHP Manual Integration"
-#~ msgstr "Integración del manual de PHP"
-
-#~ msgid ""
-#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#~ "REC-html40/strict.dtd\">\n"
-#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#~ "css\">\n"
-#~ "p, li { white-space: pre-wrap; }\n"
-#~ "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; "
-#~ "font-weight:400; font-style:normal;\">\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online "
-#~ "<a href=\"http://php.net\"><span style=\" text-decoration: underline; "
-#~ "color:#0000ff;\">PHP documentation</span></a> is used remotely. "
-#~ "Alternatively you can set the location to a local copy of the "
-#~ "documentation in the language of your choice. Make sure you downloaded "
-#~ "the <span style=\" font-style:italic;\">\"Many HTML files\"</span> "
-#~ "package.</p></body></html>"
-#~ msgstr ""
-#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#~ "REC-html40/strict.dtd\">\n"
-#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#~ "css\">\n"
-#~ "p, li { white-space: pre-wrap; }\n"
-#~ "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; "
-#~ "font-weight:400; font-style:normal;\">\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">Por omisión, la <a href="
-#~ "\"http://php.net\"><span style=\" text-decoration: underline; color:"
-#~ "#0000ff;\">documentación de PHP</span></a> en línea se usa de forma "
-#~ "remota. De modo alternativo, puede indicar la ubicación de una copia "
-#~ "local de la documentación en el idioma que prefiera. Asegúrese de que ha "
-#~ "descargado el paquete de <span style=\" font-style:italic;\">«Muchos "
-#~ "archivos en formato HTML»</span>.</p></body></html>"
-
-#~ msgid "Location:"
-#~ msgstr "Ubicación:"
-
-#~ msgid "Specifies the location of the PHP documentation to use."
-#~ msgstr "Especifica la ubicación de la documentación PHP a usar."
-
-#~ msgid ""
-#~ "The location of the PHP documentation to use. You can either use a "
-#~ "remote\n"
-#~ "                 location like https://php.net or a local directory which "
-#~ "contains the\n"
-#~ "                 PHP documentation in HTML format with many files."
-#~ msgstr ""
-#~ "La ubicación de la documentación PHP a usar. Puede usar tanto una "
-#~ "ubicación\n"
-#~ "                 remota (como https://php.net) como un directorio local "
-#~ "que contenga la\n"
-#~ "                 documentación PHP en formato HTML con numerosos archivos."
-
-#~ msgid ""
-#~ "Make sure local copies are downloaded in HTML format with many files.\n"
-#~ "        "
-#~ msgstr ""
-#~ "Asegúrese de que las copias locales se descargan en formato HTML con "
-#~ "muchos archivos.\n"
-#~ "        "
 
 #~ msgid ""
 #~ "A class constant must not be called 'class'; it is reserved for class "

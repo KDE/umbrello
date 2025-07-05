@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-07-05 03:22+0000\n"
+"POT-Creation-Date: 2025-07-05 05:55+0000\n"
 "PO-Revision-Date: 2023-01-03 07:19+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -43,6 +43,52 @@ msgstr "იმლემენტაცია"
 msgid "From %1"
 msgstr "%1-დან"
 
+#. i18n: ectx: property (title), widget (QGroupBox, PhpDoc)
+#: docs/phpdocsconfig.ui:20
+#, kde-format
+msgid "PHP Manual Integration"
+msgstr "PHP-ის სახელმძღვანელოს ინტეგრაცია"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
+#: docs/phpdocsconfig.ui:36
+#, kde-format
+msgid ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online <a "
+"href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
+"#0000ff;\">PHP documentation</span></a> is used remotely. Alternatively you "
+"can set the location to a local copy of the documentation in the language of "
+"your choice. Make sure you downloaded the <span style=\" font-style:italic;"
+"\">\"Many HTML files\"</span> package.</p></body></html>"
+msgstr ""
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
+"REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css"
+"\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
+"weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
+"right:0px; -qt-block-indent:0; text-indent:0px;\">ნაგულისხმებად <a href="
+"\"https://php.net\"><span style=\" text-decoration: underline; color:#0000ff;"
+"\">PHP -ის ონლაინ</span></a> ონლაინ დოკუმენტაცია გამოიყენება. ასევე "
+"შეგიძლიათ დააყენოთ მდებარეობა, სადაც დოკუმენტაციის ლოკალური ასლი გაგაჩნიათ. "
+"დარწმუნდით, რომ გადმოწერეთ <span style=\" font-style:italic;\">\"Many HTML "
+"files\"</span> პაკეტი.</p></body></html>"
+
+#. i18n: ectx: property (text), widget (QLabel, PhpDocLocationLabel)
+#: docs/phpdocsconfig.ui:57
+#, kde-format
+msgid "Location:"
+msgstr "მდებარეობა:"
+
 #: docs/phpdocsmodel.cpp:96
 #, kde-format
 msgid "<lost declaration>"
@@ -52,6 +98,37 @@ msgstr "<lost declaration>"
 #, kde-format
 msgid "PHP Documentation"
 msgstr "PHP-ის დოკუმენტაცია"
+
+#. i18n: ectx: label, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:10
+#, kde-format
+msgid "Specifies the location of the PHP documentation to use."
+msgstr "მიუთითეთ PHP-ის დოკუმენტაციის მდებარეობა."
+
+#. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:13
+#, kde-format
+msgid ""
+"The location of the PHP documentation to use. You can either use a remote\n"
+"                 location like https://php.net or a local directory which "
+"contains the\n"
+"                 PHP documentation in HTML format with many files."
+msgstr ""
+"PHP-ის დოკუმენტაციის მდებარეობა. შეგიძლიათ გამოიყენოთ დაშორებული მდებარეობა\n"
+"                     მაგალითად https://php.net ან ლოკალური საქაღალდე, "
+"რომელიც\n"
+"                     PHP-ის დოკუმენტაციას HTML ფორმატში შეიცავს, ბევრი "
+"ფაილით."
+
+#. i18n: ectx: whatsthis, entry (phpDocLocation), group (PHP Documentation)
+#: docs/phpdocssettings.kcfg:15
+#, kde-format
+msgid ""
+"Make sure local copies are downloaded in HTML format with many files.\n"
+"        "
+msgstr ""
+"დარწმუნდით, რომ ლოკალური ასლები HTML ფორმატშია, ბევრი ფაილით.\n"
+"           "
 
 #: docs/phpdocumentationwidget.cpp:56
 #, kde-format
@@ -322,65 +399,3 @@ msgstr "წვდომების არქონის გამო ფაი
 #, kde-format
 msgid "PHPUnit"
 msgstr "PHPUnit"
-
-#~ msgid "PHP Manual Integration"
-#~ msgstr "PHP-ის სახელმძღვანელოს ინტეგრაცია"
-
-#~ msgid ""
-#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#~ "REC-html40/strict.dtd\">\n"
-#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#~ "css\">\n"
-#~ "p, li { white-space: pre-wrap; }\n"
-#~ "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; "
-#~ "font-weight:400; font-style:normal;\">\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">By default the online "
-#~ "<a href=\"http://php.net\"><span style=\" text-decoration: underline; "
-#~ "color:#0000ff;\">PHP documentation</span></a> is used remotely. "
-#~ "Alternatively you can set the location to a local copy of the "
-#~ "documentation in the language of your choice. Make sure you downloaded "
-#~ "the <span style=\" font-style:italic;\">\"Many HTML files\"</span> "
-#~ "package.</p></body></html>"
-#~ msgstr ""
-#~ "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/"
-#~ "REC-html40/strict.dtd\">\n"
-#~ "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/"
-#~ "css\">\n"
-#~ "p, li { white-space: pre-wrap; }\n"
-#~ "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; "
-#~ "font-weight:400; font-style:normal;\">\n"
-#~ "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-#~ "right:0px; -qt-block-indent:0; text-indent:0px;\">ნაგულისხმებად <a href="
-#~ "\"https://php.net\"><span style=\" text-decoration: underline; color:"
-#~ "#0000ff;\">PHP -ის ონლაინ</span></a> ონლაინ დოკუმენტაცია გამოიყენება. "
-#~ "ასევე შეგიძლიათ დააყენოთ მდებარეობა, სადაც დოკუმენტაციის ლოკალური ასლი "
-#~ "გაგაჩნიათ. დარწმუნდით, რომ გადმოწერეთ <span style=\" font-style:italic;\">"
-#~ "\"Many HTML files\"</span> პაკეტი.</p></body></html>"
-
-#~ msgid "Location:"
-#~ msgstr "მდებარეობა:"
-
-#~ msgid "Specifies the location of the PHP documentation to use."
-#~ msgstr "მიუთითეთ PHP-ის დოკუმენტაციის მდებარეობა."
-
-#~ msgid ""
-#~ "The location of the PHP documentation to use. You can either use a "
-#~ "remote\n"
-#~ "                 location like https://php.net or a local directory which "
-#~ "contains the\n"
-#~ "                 PHP documentation in HTML format with many files."
-#~ msgstr ""
-#~ "PHP-ის დოკუმენტაციის მდებარეობა. შეგიძლიათ გამოიყენოთ დაშორებული "
-#~ "მდებარეობა\n"
-#~ "                     მაგალითად https://php.net ან ლოკალური საქაღალდე, "
-#~ "რომელიც\n"
-#~ "                     PHP-ის დოკუმენტაციას HTML ფორმატში შეიცავს, ბევრი "
-#~ "ფაილით."
-
-#~ msgid ""
-#~ "Make sure local copies are downloaded in HTML format with many files.\n"
-#~ "        "
-#~ msgstr ""
-#~ "დარწმუნდით, რომ ლოკალური ასლები HTML ფორმატშია, ბევრი ფაილით.\n"
-#~ "           "
