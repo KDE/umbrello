@@ -698,9 +698,9 @@
         </screenshot>
     </para>
     <para
->Permite la personalización del visor de código. La sección <guilabel
->Tipo de letra solicitado</guilabel
-> permite seleccionar el tipo de letra, su estilo y su tamaño. Debajo de las opciones se muestra una representación de su selección. </para>
+>Allows customization of the Code Viewer. The <guilabel
+>Requested Font</guilabel
+> section allows the selection of the font, font style, and font size. A representation of you choices is shown below the choices. </para>
     <para
 >En la sección <guilabel
 >Colores</guilabel

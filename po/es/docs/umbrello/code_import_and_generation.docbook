@@ -13,7 +13,7 @@
 <para
 >&umbrello; puede generar código fuente para diversos lenguajes de programación basándose en su modelo &UML; para ayudarle a empezar la implementación de su proyecto. El código generado consiste en las declaraciones de las clases junto con sus métodos y atributos, de modo que pueda «rellenar los huecos» para proporcionar la funcionalidad de las operaciones de sus clases. </para>
 <para
->&umbrello; 2 permite la generación de código para ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala y XMLSchema. </para>
+>&umbrello; 2 comes with code generation support for ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL and Pascal. </para>
 <sect2 id="generate-code">
 <title
 >Generación de código</title>
@@ -106,7 +106,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guimenuitem
->Configurar &umbrello;...</guimenuitem
+>Configurar &umbrello;…</guimenuitem
 ></menuchoice
 > </para>
 <para
@@ -124,10 +124,10 @@
 <title
 >Importación de código</title>
 <para
->&umbrello; puede importar código fuente de proyectos existentes para ayudarle a construir un modelo de sus sistemas. &umbrello; 2 permite usar código fuente de ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP y Vala. </para>
+>&umbrello; can import source code from your existing projects to help you build Model of your systems. &umbrello; 2 supports ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, and Pascal source code. </para>
 <para
 >Para importar clases en un modelo, seleccione la entrada <guimenuitem
->Asistente de importación de código...</guimenuitem
+>Asistente de importación de código…</guimenuitem
 > en el menú <guimenu
 >Código</guimenu
 >. En el diálogo de archivos, seleccione los archivos que contengan declaraciones de clases y pulse <guibutton
