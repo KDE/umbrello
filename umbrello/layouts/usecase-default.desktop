@@ -1,7 +1,9 @@
 Desktop Entry]
 Type=Service
 Name=UseCase Default Layout
+Name[nl]=Standaard indeling van gebruiksgeval
 Comment=Usecase Default Layout
+Comment[nl]=Standaard indeling van gebruiksgeval
 
 [X-UMBRELLO-Dot-Nodes]
 type::usecase=shape=ellipse

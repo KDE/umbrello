@@ -1,7 +1,9 @@
 [Desktop Entry]
 Type=Service
 Name=Vertical Layout
+Name[nl]=Verticale indeling
 Comment=Layout which renders vertical
+Comment[nl]=Indeling die zich verticaal laat weergeven
 
 [X-UMBRELLO-Dot-Nodes]
 # FIXME: graphviz dot not have appropriate node shape yet

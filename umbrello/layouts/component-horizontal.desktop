@@ -1,7 +1,9 @@
 [Desktop Entry]
 Type=Service
 Name=Horizontal Layout
+Name[nl]=Horizontale indeling
 Comment=Layout which renders horizontal
+Comment[nl]=Indeling die zich horizontaal laat weergeven
 
 [X-UMBRELLO-Dot-Nodes]
 type::artifact=shape=box

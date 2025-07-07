@@ -2,8 +2,11 @@
 Type=Service
 Exec=blubb
 Comment=Finds and runs PHPUnit tests.
+Comment[nl]=Testen van PHPUnit vinden en uitvoeren.
 Name=PHPUnit Integration
+Name[nl]=Integratie van PHPUnit
 GenericName=PHPUnit Integration
+GenericName[nl]=Integratie van PHPUnit
 Icon=php
 ServiceTypes=KDevelop/Plugin
 X-KDE-Library=kdevplatform/@KDEV_PLUGIN_VERSION@/kdevphpunitprovider

@@ -1,7 +1,9 @@
 [Desktop Entry]
 Type=Service
 Name=Export Layout
+Name[nl]=Indeling exporteren
 Comment=Export Layout for Class Diagrams
+Comment[nl]=Indeling voor klassediagrammen exporteren
 
 [X-UMBRELLO-Dot-Nodes]
 type::note=shape=note

@@ -1,6 +1,8 @@
 # KDE Config File
 [General]
 Name=Simple PHP Application
+Name[nl]=Eenvoudige PHP-toepassing
 Category=PHP
 Comment=Generate filestructure to start a PHP application
+Comment[nl]=Bestandsstructuur genereren om een PHP-toepassing te beginnen
 ShowFilesAfterGeneration=%{APPNAME}.php

@@ -11,3 +11,4 @@ X-KDE-CfgDlgHierarchy=DOCUMENTATION
 X-KDE-Weight=150
 
 Name=PHP Documentation
+Name[nl]=PHP-documentatie
