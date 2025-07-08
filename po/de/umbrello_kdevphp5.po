@@ -1,22 +1,20 @@
-# Burkhard Lück <lueck@hube-lueck.de>, 2009, 2012, 2013, 2014, 2015, 2017, 2018, 2019, 2020.
+# Burkhard Lück <lueck@hube-lueck.de>, 2009, 2012, 2013, 2014, 2015, 2017, 2021.
 # Rolf Eike Beer <kde@opensource.sf-tec.de>, 2009.
-# Frederik Schwarzer <schwarzer@kde.org>, 2010, 2015, 2016, 2022, 2023.
+# Frederik Schwarzer <schwarzer@kde.org>, 2010, 2015, 2016, 2020.
 # Gerhard Stengel <gstengel@gmx.net>, 2010, 2012.
-# Frank Steinmetzger <dev-kde@felsenfleischer.de>, 2023.
 msgid ""
 msgstr ""
-"Project-Id-Version: kdevphp\n"
+"Project-Id-Version: umbrello_kdevphp5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:39+0000\n"
-"PO-Revision-Date: 2023-03-17 21:06+0100\n"
-"Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
+"PO-Revision-Date: 2021-05-10 06:16+0200\n"
+"Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -47,7 +45,7 @@ msgstr "Von %1"
 #: docs/phpdocsconfig.ui:20
 #, kde-format
 msgid "PHP Manual Integration"
-msgstr "Integration des PHP-Handbuchs"
+msgstr "PHP-Handbuch-Integration"
 
 #. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
 #: docs/phpdocsconfig.ui:36
