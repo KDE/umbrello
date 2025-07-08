@@ -26,13 +26,13 @@
 >Exportar a una imagen</title>
 <para
 >También puede exportar un diagrama completo como una imagen. Lo único que tiene que hacer es seleccionar el diagrama que desee exportar y usar la opción <guimenuitem
->Exportar como imagen...</guimenuitem
+>Exportar como imagen…</guimenuitem
 > del menú <guimenu
 >Diagrama</guimenu
 >. </para>
 <para
 >Puede exportar múltiples diagramas a la vez usando la opción <guimenuitem
->Exportar diagramas como imágenes...</guimenuitem
+>Exportar diagramas como imágenes…</guimenuitem
 > del menú <guimenu
 >Archivo</guimenu
 >. Con ella también puede definir la resolución de la imagen para que no se muestre borrosa. </para>

@@ -106,7 +106,7 @@
 ><guimenu
 >Preferencias</guimenu
 ><guimenuitem
->Configurar &umbrello;...</guimenuitem
+>Configurar &umbrello;…</guimenuitem
 ></menuchoice
 > </para>
 <para
@@ -127,7 +127,7 @@
 >&umbrello; puede importar código fuente de proyectos existentes para ayudarle a construir un modelo de sus sistemas. &umbrello; 2 permite usar código fuente de ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP y Vala. </para>
 <para
 >Para importar clases en un modelo, seleccione la entrada <guimenuitem
->Asistente de importación de código...</guimenuitem
+>Asistente de importación de código…</guimenuitem
 > en el menú <guimenu
 >Código</guimenu
 >. En el diálogo de archivos, seleccione los archivos que contengan declaraciones de clases y pulse <guibutton
