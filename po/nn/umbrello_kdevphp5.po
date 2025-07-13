@@ -1,4 +1,4 @@
-# Translation of kdevphp to Norwegian Nynorsk
+# Translation of umbrello_kdevphp5 to Norwegian Nynorsk
 #
 # Karl Ove Hufthammer <karl@huftis.org>, 2020.
 msgid ""
