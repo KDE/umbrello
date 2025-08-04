@@ -52,3 +52,5 @@ maintainer/work
 
 build
 .vscode
+tmp/
+ci-*/
