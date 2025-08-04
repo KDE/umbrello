@@ -6,13 +6,14 @@
 
 #include "resolutionwidget.h"
 
+// app includes
+#include "dialog_utils.h"
+
 // kde includes
 #include <KComboBox>
 #include <KLocalizedString>
 
 // qt includes
-#include <QApplication>
-#include <QDesktopWidget>
 #include <QHBoxLayout>
 #include <QLabel>
 
@@ -66,7 +67,7 @@ QStringList ResolutionWidget::resolutions()
     result << QStringLiteral("600");
     result << QStringLiteral("1200");
 
-    QString currentResolution = QString::number(qApp->desktop()->logicalDpiX());
+    QString currentResolution = QString::number(Dialog_Utils::logicalDpiXForWidget());
     if (!result.contains(currentResolution))
         result << currentResolution;
     std::sort(result.begin(), result.end(), numberLessThan);

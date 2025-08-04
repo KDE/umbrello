@@ -5,6 +5,7 @@
 
 // own header
 #include "umlviewimageexportermodel.h"
+#include "dialog_utils.h"
 
 // application specific includes
 #define DBG_SRC QStringLiteral("UMLViewImageExporterModel")
@@ -24,7 +25,6 @@
 
 // include files for Qt
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QDir>
 #include <QImage>
 #include <QImageWriter>
@@ -410,7 +410,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
         rect = QRectF(0,0, 10, 10);
     }
 
-    QPageSize paperSize(rect.size() * 25.4f / qApp->desktop()->logicalDpiX(), QPageSize::Millimeter);
+    QPageSize paperSize(rect.size() * 25.4f / Dialog_Utils::logicalDpiXForWidget(), QPageSize::Millimeter);
 
     QPrinter printer(QPrinter::ScreenResolution);
     printer.setOutputFileName(fileName);
@@ -419,7 +419,7 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
     printer.setPageSize(paperSize);
     QMarginsF margins(paperSize.size(QPageSize::Millimeter).width() * border, paperSize.size(QPageSize::Millimeter).height() * border, 0, 0);
     printer.setPageMargins(margins);
-    printer.setResolution(qApp->desktop()->logicalDpiX());
+    printer.setResolution(Dialog_Utils::logicalDpiXForWidget());
     printer.setPageOrientation(paperSize.size(QPageSize::Millimeter).width() < paperSize.size(QPageSize::Millimeter).height() ? QPageLayout::Landscape : QPageLayout::Portrait);
 
     // do not call printer.setup(); because we want no user
@@ -466,7 +466,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     QSvgGenerator generator;
     generator.setFileName(fileName);
     generator.setSize(rect.toRect().size());
-    generator.setResolution(qApp->desktop()->logicalDpiX());
+    generator.setResolution(Dialog_Utils::logicalDpiXForWidget());
     generator.setViewBox(QRect(0, 0, rect.width(), rect.height()));
     QPainter painter(&generator);
 
@@ -516,8 +516,8 @@ bool UMLViewImageExporterModel::exportViewToPixmap(UMLScene* scene, const QStrin
         rect = QRectF(0,0, 10, 10);
     }
 
-    float scale = !qFuzzyIsNull(m_resolution) ? m_resolution / qApp->desktop()->logicalDpiX()
-                                              : 72.0f / qApp->desktop()->logicalDpiX();
+    float scale = !qFuzzyIsNull(m_resolution) ? m_resolution / Dialog_Utils::logicalDpiXForWidget()
+                                              : 72.0f / Dialog_Utils::logicalDpiXForWidget();
     QSizeF size = rect.size() * scale;
     QPixmap diagram(size.toSize());
     scene->getDiagram(diagram, rect);

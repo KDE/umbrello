@@ -8,6 +8,7 @@
 
 // app includes
 #include "birdview.h"
+#include "dialog_utils.h"
 #include "umlappprivate.h"
 #include "umldoc.h"
 #include "umllistview.h"
@@ -69,7 +70,6 @@
 // qt includes
 #include <QApplication>
 #include <QClipboard>
-#include <QDesktopWidget>
 #include <QDockWidget>
 #include <QDialogButtonBox>
 #include <QFileDialog>
@@ -1147,7 +1147,7 @@ void UMLApp::readOptions()
     setImageMimeType(UmbrelloSettings::imageMimeType());
     QSize size = UmbrelloSettings::geometry();
     if (size.width() == -1 && size.height() == -1)
-        size = QApplication::desktop()->screenGeometry().size();
+        size = Dialog_Utils::screenSizeForWidget();
     resize(size);
     enableUndo(Settings::optionState().generalState.undo);
 

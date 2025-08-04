@@ -22,11 +22,16 @@
 #include <kcombobox.h>
 
 // qt includes
+#include <QApplication>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <QDesktopWidget>
+#endif
 #include <QGridLayout>
 #include <QLabel>
 #include <QLineEdit>
-#include <QApplication>
+#include <QScreen>
 #include <QStyle>
+#include <QWindow>
 
 DefineDontAskAgainItem(allItem, "all", i18n("Enable all messages"));
 DefineDontAskAgainItem(askDeleteAssociationItem, "delete-association", i18n("Enable 'delete association' related messages"));
@@ -353,6 +358,46 @@ void insertStereotypesSorted(KComboBox *kcb, const QString& type)
 int spacingHint()
 {
     return QApplication::style()->pixelMetric(QStyle::QStyle::PM_LayoutVerticalSpacing);
+}
+
+qreal logicalDpiXForWidget(const QWidget *widget)
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    QScreen *screen = nullptr;
+    if (widget) {
+        screen = widget->screen();
+    }
+    if (!screen) {
+        screen = QGuiApplication::primaryScreen();
+    }
+    return screen ? screen->logicalDotsPerInchX() : 96.0;  // fallback DPI
+#else
+    Q_UNUSED(widget);
+    return qApp->desktop()->logicalDpiX();
+#endif
+}
+
+QSize screenSizeForWidget(QWidget* widget)
+{
+    if (widget) {
+        if (QWindow *window = widget->windowHandle()) {
+            if (QScreen *screen = window->screen()) {
+                return screen->geometry().size();
+            }
+        } else {
+            // fallback: map to screen manually
+            if (QScreen *screen = QGuiApplication::screenAt(widget->mapToGlobal(QPoint(0, 0)))) {
+                return screen->geometry().size();
+            }
+        }
+    }
+
+    // fallback: use primary screen
+    if (QScreen *screen = QGuiApplication::primaryScreen()) {
+        return screen->geometry().size();
+    }
+
+    return QSize();
 }
 
 }  // end namespace Dialog_Utils

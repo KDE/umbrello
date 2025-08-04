@@ -65,6 +65,9 @@ bool askDeleteAssociation();
 bool askDeleteDiagram(const QString &name = QString());
 
 int spacingHint();
+
+qreal logicalDpiXForWidget(const QWidget *widget = nullptr);
+QSize screenSizeForWidget(QWidget* widget = nullptr);
 }
 
 #endif

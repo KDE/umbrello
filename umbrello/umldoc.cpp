@@ -56,7 +56,6 @@
 #include <QApplication>
 #include <QBuffer>
 #include <QDateTime>
-#include <QDesktopWidget>
 #include <QDir>
 #include <QDomDocument>
 #include <QDomElement>
@@ -470,7 +469,7 @@ bool UMLDoc::newDocument()
     closeDocument();
     UMLApp::app()->setCurrentView(nullptr);
     setUrlUntitled();
-    setResolution(qApp->desktop()->logicalDpiX());
+    setResolution(Dialog_Utils::logicalDpiXForWidget());
     //see if we need to start with a new diagram
     Settings::OptionState optionState = Settings::optionState();
     Uml::DiagramType::Enum dt = optionState.generalState.diagram;
@@ -1896,7 +1895,7 @@ void UMLDoc::setResolution(qreal resolution)
 {
     m_resolution = resolution;
     if (!qFuzzyIsNull(resolution)) {
-        const int logicalDpiX = qApp->desktop()->logicalDpiX();
+        const qreal logicalDpiX = Dialog_Utils::logicalDpiXForWidget();
         logDebug3("UMLDoc::setResolution screen dpi: %1, file dpi: %2, scale: %3",
                   logicalDpiX, resolution, logicalDpiX / resolution);
     }
@@ -1921,7 +1920,7 @@ qreal UMLDoc::dpiScale() const
 {
 #ifdef ENABLE_XMIRESOLUTION
     if (!qFuzzyIsNull(resolution()))
-        return (qreal)qApp->desktop()->logicalDpiX() / resolution();
+        return (qreal)Dialog_Utils::logicalDpiXForWidget() / resolution();
     else
 #endif
         return 1.0;
