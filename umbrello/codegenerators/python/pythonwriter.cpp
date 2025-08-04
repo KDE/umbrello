@@ -20,7 +20,6 @@
 
 #include <QFile>
 #include <QRegularExpression>
-#include <QTextCodec>
 #include <QTextStream>
 
 static const char *reserved_words[] = {
@@ -208,7 +207,9 @@ void PythonWriter::writeClass(UMLClassifier *c)
         return;
     }
     QTextStream h(&fileh);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     h.setCodec("UTF-8");
+#endif
 
     //////////////////////////////
     //Start generating the code!!

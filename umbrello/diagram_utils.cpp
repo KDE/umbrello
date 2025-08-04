@@ -503,7 +503,9 @@ bool importGraph(const QString &fileName, UMLScene *scene)
 
     QStringList lines;
     QTextStream in(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     in.setCodec("UTF-8");
+#endif
     while (!in.atEnd()) {
         lines.append(in.readLine());
     }

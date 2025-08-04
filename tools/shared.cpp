@@ -169,7 +169,9 @@ bool fetchPoFile(const QString &fileName, TranslationMap &map)
         return false;
 
     QTextStream in(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     in.setCodec("UTF-8");
+#endif
     QString key, value;
     bool multiLineID = false;
     bool multiLineValue = false;
@@ -219,8 +221,9 @@ bool applyTranslationToXMIFile(const char *fileName, const QStringList &attribut
     QXmlStreamWriter writer(&outFile);
     writer.setAutoFormatting (true);
     writer.setAutoFormattingIndent(1);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     writer.setCodec(reader.documentEncoding().toLatin1().constData());
-
+#endif
     while (!reader.atEnd())
     {
         QXmlStreamReader::TokenType type = reader.readNext();

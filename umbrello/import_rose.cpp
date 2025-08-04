@@ -12,6 +12,7 @@
 #include "folder.h"
 #define DBG_SRC QStringLiteral("Import_Rose")
 #include "debug_utils.h"
+#include "encodinghelper.h"
 #include "import_utils.h"
 #include "petalnode.h"
 #include "petaltree2uml.h"
@@ -400,7 +401,6 @@ PetalNode *readAttributes(QStringList initialArgs, QTextStream& stream)
     return node;
 }
 
-#define SETCODEC(str)  stream.setCodec(str); break
 
 /**
  * Parse a file into the PetalNode internal tree representation
@@ -421,7 +421,7 @@ UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */)
         }
     }
     QTextStream stream(&file);
-    stream.setCodec("ISO 8859-1");
+    EncodingHelper::setEncoding(stream, QStringLiteral("ISO 8859-1"));
     QString line;
     PetalNode *root = nullptr;
     uint nClosures_sav = nClosures;
@@ -448,48 +448,8 @@ UMLPackage *loadFromMDL(QFile& file, UMLPackage *parentPkg /* = nullptr */)
                             break;
                         continue;
                     }
-                    const int charSetNum = charSet.toInt();
-                    switch (charSetNum) {
-                        case 0:         // ASCII
-                            ;
-                        case 1:    // Default
-                            SETCODEC("System");
-                        case 2:    // Symbol
-                            ; // @todo     SETCODEC("what");
-                        case 77:   // Mac
-                            SETCODEC("macintosh");
-                        case 128:  // ShiftJIS (Japanese)
-                            SETCODEC("Shift_JIS");
-                        case 129:  // Hangul (Korean)
-                            SETCODEC("EUC-KR");
-                        case 130:  // Johab (Korean)
-                            SETCODEC("EUC-KR");
-                        case 134:  // GB2312 (Chinese)
-                            SETCODEC("GB18030");  // "Don't use GB2312 here" (Ralf H.)
-                        case 136:  // ChineseBig5
-                            SETCODEC("Big5");
-                        case 161:  // Greek
-                            SETCODEC("windows-1253");
-                        case 162:  // Turkish
-                            SETCODEC("windows-1254");
-                        case 163:  // Vietnamese
-                            SETCODEC("windows-1258");
-                        case 177:  // Hebrew
-                            SETCODEC("windows-1255");
-                        case 178:  // Arabic
-                            SETCODEC("windows-1256");
-                        case 186:  // Baltic
-                            SETCODEC("windows-1257");
-                        case 204:  // Russian
-                            SETCODEC("windows-1251");
-                        case 222:  // Thai
-                            SETCODEC("TIS-620");
-                        case 238:  // EastEurope
-                            SETCODEC("windows-1250");
-                        case 255:  // OEM (extended ASCII)
-                            SETCODEC("windows-1252");
-                        default:
-                            logWarn2("%1 Unimplemented charSet number %2", loc(), charSetNum);
+                    if (!EncodingHelper::setEncodingByCharsetNum(stream, charSet.toInt())) {
+                        logWarn2("%1 Unimplemented charSet number %2", loc(), charSet);
                     }
                 }
                 if (finish)

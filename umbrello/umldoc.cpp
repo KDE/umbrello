@@ -41,6 +41,7 @@
 #include "umlscene.h"
 #include "version.h"
 #include "worktoolbar.h"
+#include "encodinghelper.h"
 #include "models/diagramsmodel.h"
 #include "models/objectsmodel.h"
 #include "models/stereotypesmodel.h"
@@ -1945,7 +1946,6 @@ Uml::ID::Type UMLDoc::modelID() const
 void UMLDoc::saveToXMI(QIODevice& file)
 {
     QXmlStreamWriter writer(&file);
-    writer.setCodec("UTF-8");
     writer.setAutoFormatting(true);
     if (Settings::optionState().generalState.uml2)
         writer.setAutoFormattingIndent(2);
@@ -2084,7 +2084,9 @@ void UMLDoc::saveToXMI(QIODevice& file)
 short UMLDoc::encoding(QIODevice & file)
 {
     QTextStream stream(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     stream.setCodec("UTF-8");
+#endif
     QString data = stream.readAll();
     QString error;
     int line;
@@ -2148,9 +2150,9 @@ bool UMLDoc::loadFromXMI(QIODevice & file, short encode)
     }
     QTextStream stream(&file);
     if (encode == ENC_UNICODE) {
-        stream.setCodec("UTF-8");
+        EncodingHelper::setEncoding(stream, QStringLiteral("UTF-8"));
     } else if (encode == ENC_WINDOWS) {
-        stream.setCodec("windows-1252");
+        EncodingHelper::setEncoding(stream, QStringLiteral("windows-1252"));
     }
 
     QString data = stream.readAll();

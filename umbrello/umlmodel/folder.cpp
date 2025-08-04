@@ -373,7 +373,6 @@ void UMLFolder::saveToXMI(QXmlStreamWriter& writer)
 
     // Write the external file.
     QXmlStreamWriter xfWriter(&file);
-    xfWriter.setCodec("UTF-8");
     xfWriter.setAutoFormatting(true);
     xfWriter.setAutoFormattingIndent(2);
     xfWriter.writeStartDocument();
