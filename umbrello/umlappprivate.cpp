@@ -6,9 +6,8 @@
 #include "umlappprivate.h"
 
 #define DBG_SRC QStringLiteral("UMLAppPrivate")
+#include "compressionhelper.h"
 #include "debug_utils.h"
-
-#include <KFilterDev>
 
 DEBUG_REGISTER(UMLAppPrivate)
 
@@ -69,7 +68,7 @@ QString UMLAppPrivate::readWelcomeFile(const QString &file)
 {
     QString html;
     if (file.endsWith(QStringLiteral(".cache.bz2"))) {
-        QIODevice *d =  KFilterDev::deviceForFile(file);
+        QIODevice *d =  CompressionHelper::deviceForFile(file);
         if (!d->open(QIODevice::ReadOnly)) {
             uError() << "could not open archive " << file;
             return QString();

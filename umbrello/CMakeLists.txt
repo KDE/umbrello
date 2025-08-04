@@ -442,6 +442,7 @@ set(umbrellobase_SRCS
     birdview.cpp
     codeviewerstate.cpp
     cmdlineexportallviewsevent.cpp
+    compressionhelper.h
     diagramswindow.cpp
     diagram_utils.cpp
     encodinghelper.h
