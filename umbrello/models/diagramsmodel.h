@@ -15,8 +15,6 @@
 
 class UMLView;
 
-Q_DECLARE_METATYPE(UMLView*);
-
 class DiagramsModel : public QAbstractTableModel
 {
     Q_OBJECT

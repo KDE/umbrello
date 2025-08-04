@@ -36,6 +36,8 @@ protected:
     QString m_name;
 };
 
+Q_DECLARE_METATYPE(DontAskAgainItem*)
+
 #define DefineDontAskAgainItem(name,key,_text) \
 class DontAskAgainItem##name : public DontAskAgainItem \
 { \

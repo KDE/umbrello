@@ -18,8 +18,6 @@
 #include <QLabel>
 #include <QWidget>
 
-Q_DECLARE_METATYPE(UMLStereotype*);
-
 UMLStereotypeWidget::UMLStereotypeWidget(UMLObject *object, QWidget *parent)
   : ComboBoxWidgetBase(i18n("Stereotype &name:"), QString(), parent)
   , m_object(object)

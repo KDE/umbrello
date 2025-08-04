@@ -13,8 +13,6 @@
 #include <QAbstractTableModel>
 #include "stereotype.h"
 
-Q_DECLARE_METATYPE(UMLStereotype*);
-
 class StereotypesModel : public QAbstractTableModel
 {
     Q_OBJECT

@@ -16,8 +16,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
-Q_DECLARE_METATYPE(DontAskAgainItem*)
-
 DontAskAgainItem::DontAskAgainItem(const QString &name)
   : m_name(name)
 {

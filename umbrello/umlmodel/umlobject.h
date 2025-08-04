@@ -332,4 +332,6 @@ protected:
     friend class ObjectsModel;
 };
 
+Q_DECLARE_METATYPE(UMLObject*);
+
 #endif

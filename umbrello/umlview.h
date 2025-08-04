@@ -54,4 +54,6 @@ protected:
     virtual void resizeEvent(QResizeEvent *event);
 };
 
+Q_DECLARE_METATYPE(UMLView*);
+
 #endif // UMLVIEW_H

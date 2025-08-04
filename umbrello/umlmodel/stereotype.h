@@ -84,4 +84,6 @@ protected:
 
 };
 
+Q_DECLARE_METATYPE(UMLStereotype*);
+
 #endif
