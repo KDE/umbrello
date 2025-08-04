@@ -67,6 +67,11 @@ if(NOT QTQCHDIR)
     set(QTQCHDIR ${KDE_INSTALL_QTQCHDIR})
 endif()
 
+# setup output directory for builds
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib) # .lib and .a
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib) # .so and .dylib
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin) # .exe and .dll
+
 # search packages used by Qt
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS
     Core
