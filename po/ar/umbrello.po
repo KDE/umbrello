@@ -1323,7 +1323,7 @@ msgstr ""
 #: codegenwizard/codegenstatuspage.ui:78 codeimpwizard/codeimpstatuspage.ui:143
 #, kde-format
 msgid "Clear"
-msgstr "امسح"
+msgstr "امحُ"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonExport)
 #: codegenwizard/codegenstatuspage.ui:91 codeimpwizard/codeimpstatuspage.ui:156
@@ -4908,7 +4908,7 @@ msgstr "انقل لأسفل"
 #, kde-format
 msgctxt "clear note"
 msgid "Clear"
-msgstr "امسح"
+msgstr "امحُ"
 
 #: menus/widgetbasepopupmenu.cpp:332 menus/widgetbasepopupmenu.cpp:442
 #: menus/widgetbasepopupmenu.cpp:471 menus/widgetbasepopupmenu.cpp:514
@@ -4940,7 +4940,7 @@ msgstr "غيّر كائن نقطة اتّصال الاسم."
 #, kde-format
 msgctxt "clear precondition"
 msgid "Clear"
-msgstr "امسح"
+msgstr "امحُ"
 
 #: menus/widgetbasepopupmenu.cpp:461
 #, fuzzy, kde-format
@@ -4951,7 +4951,7 @@ msgstr "إضافة تفاعل من يطبّق عليه العملية الريا
 #, kde-format
 msgctxt "clear combined fragment"
 msgid "Clear"
-msgstr "امسح"
+msgstr "امحُ"
 
 #: menus/widgetbasepopupmenu.cpp:481 menus/widgetbasepopupmenu.cpp:484
 #, fuzzy, kde-format
@@ -7226,7 +7226,7 @@ msgstr "ضبط افتراضي برنامج تفضيلات"
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
-msgstr "امسح ال&محدد"
+msgstr "امحُ ال&محدد"
 
 #: uml.cpp:473
 #, kde-format
