@@ -42,11 +42,20 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 
-set(APP_SUFFIX 5)
-set(LIB_PREFIX Qt5::)
-set(KF5_MIN_VERSION "5.2.0")
+set(KF6_MIN_VERSION 6.1)
+set(KF5_MIN_VERSION 5.2.0)
+set(QT6_MIN_VERSION 6.7)
+set(QT5_MIN_VERSION 5.1.2)
+
+# adds option BUILD_WITH_QT6
+include(QtVersionOption)
+message(STATUS "Building with Qt${QT_MAJOR_VERSION}")
+set(KDE_COMPILERSETTINGS_LEVEL ${KDE${QT_MAJOR_VERSION}_MIN_LEVEL})
+
+set(APP_SUFFIX ${QT_MAJOR_VERSION})
+set(LIB_PREFIX Qt${QT_MAJOR_VERSION}::)
 # we need some parts of the ECM CMake helpers
-find_package(ECM ${KF5_MIN_VERSION} NO_MODULE REQUIRED)
+find_package(ECM ${KF${QT_MAJOR_VERSION}_MIN_VERSION} NO_MODULE REQUIRED)
 
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
@@ -59,7 +68,6 @@ include(ECMSetupVersion)
 include(ECMOptionalAddSubdirectory)
 include(ECMAddAppIcon)
 include(ECMAddTests)
-set(QT_MIN_VERSION "5.2.0")
 set(KDEV_MIN_VERSION 5.1.2)
 set(KDEV_SOURCE_DIR lib/kdev5-php)
 set(KDEV_COMPONENTS KDev::Interfaces KDev::Language KDev::Shell)
@@ -73,7 +81,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib) # .so and .dylib
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin) # .exe and .dll
 
 # search packages used by Qt
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS
+find_package(Qt${QT_MAJOR_VERSION} ${QT${QT_MAJOR_VERSION}_MIN_VERSION} REQUIRED COMPONENTS
     Core
     Gui
     PrintSupport
@@ -84,7 +92,7 @@ find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS
 )
 
 # search packages used by KDE
-find_package(KF5 REQUIRED COMPONENTS
+find_package(KF${QT_MAJOR_VERSION} REQUIRED COMPONENTS
     Archive
     Completion
     Config
@@ -105,7 +113,12 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 if(BUILD_PHP_IMPORT)
-    find_package(KDevelop-PG-Qt)
+    if(BUILD_WITH_QT6)
+        set(_name KDevelopPGQt)
+    else()
+        set(_name KDevelop-PG-Qt)
+    endif()
+    find_package(${_name})
     find_package(KDevPlatform ${KDEV_MIN_VERSION} COMPONENTS ${KDEV_COMPONENTS})
 endif()
 if(KDEVPGQT_FOUND AND KDEVPLATFORM_FOUND)
@@ -143,7 +156,7 @@ ki18n_install(po)
 kdoctools_install(po)
 
 if(POLICY CMP0071)
-  cmake_policy(SET CMP0071 OLD)
+  cmake_policy(SET CMP0071 NEW)
 endif()
 
 # use some compile flags
@@ -231,7 +244,7 @@ add_unstable_feature(OBJECT_DIAGRAM) # see https://bugs.kde.org/show_bug.cgi?id=
 find_package(Doxygen OPTIONAL_COMPONENTS dot)
 if(DOXYGEN_FOUND AND BUILD_APIDOC)
     message(STATUS "found doxygen package")
-    find_program(QHELPGENERATOR_EXECUTABLE NAMES qhelpgenerator qhelpgenerator-qt5)
+    find_program(QHELPGENERATOR_EXECUTABLE NAMES qhelpgenerator qhelpgenerator-qt${QT_MAJOR_VERSION})
     message(STATUS "found qhelpgenerator ${QHELPGENERATOR_EXECUTABLE}")
     set(DOXYGEN_ABBREVIATE_BRIEF "The $name class" "The $name widget")
     set(DOXYGEN_CALL_GRAPH YES)

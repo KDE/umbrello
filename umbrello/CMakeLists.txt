@@ -244,6 +244,7 @@ set(libdialogs_SRCS
     dialogs/pages/umlroleproperties.cpp
     dialogs/pages/umlwidgetstylepage.cpp
     dialogs/widgets/comboboxwidgetbase.cpp
+    dialogs/widgets/defaultvaluewidget.cpp
     dialogs/widgets/documentationwidget.cpp
     dialogs/widgets/imagetypewidget.cpp
     dialogs/widgets/resolutionwidget.cpp
@@ -251,7 +252,7 @@ set(libdialogs_SRCS
     dialogs/widgets/selectlayouttypewidget.cpp
     dialogs/widgets/umlartifacttypewidget.cpp
     dialogs/widgets/umldatatypewidget.cpp
-    dialogs/widgets/defaultvaluewidget.cpp
+    dialogs/widgets/umlmessagebox.h
     dialogs/widgets/umlobjectnamewidget.cpp
     dialogs/widgets/umlpackagewidget.cpp
     dialogs/widgets/umlstereotypewidget.cpp
@@ -515,23 +516,24 @@ list(APPEND libumbrello_SRCS icons.qrc ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc)
 add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
 set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
 target_link_libraries(libumbrello
-    Qt5::Widgets
-    Qt5::Xml
-    Qt5::PrintSupport
-    Qt5::Svg
-    KF5::Archive
-    KF5::Completion
-    KF5::CoreAddons
-    KF5::I18n
-    KF5::IconThemes
-    KF5::KIOCore
-    KF5::TextEditor
-    KF5::WidgetsAddons
-    KF5::XmlGui
-    KF5::Crash
+    Qt${QT_MAJOR_VERSION}::Widgets
+    Qt${QT_MAJOR_VERSION}::Xml
+    Qt${QT_MAJOR_VERSION}::PrintSupport
+    Qt${QT_MAJOR_VERSION}::Svg
+    KF${QT_MAJOR_VERSION}::Archive
+    KF${QT_MAJOR_VERSION}::Completion
+    KF${QT_MAJOR_VERSION}::CoreAddons
+    KF${QT_MAJOR_VERSION}::I18n
+    KF${QT_MAJOR_VERSION}::IconThemes
+    KF${QT_MAJOR_VERSION}::KIOCore
+    KF${QT_MAJOR_VERSION}::TextEditor
+    KF${QT_MAJOR_VERSION}::WidgetsAddons
+    KF${QT_MAJOR_VERSION}::XmlGui
+    KF${QT_MAJOR_VERSION}::Crash
     ${LIBXSLT_LIBRARIES}
     ${LIBXML2_LIBRARIES}
     codeimport
+    $<$<BOOL:${BUILD_WITH_QT6}>:KF6::KIOWidgets>
 )
 ecm_add_app_icon(umbrello_SRCS
     ICONS
@@ -545,10 +547,10 @@ ecm_add_app_icon(umbrello_SRCS
 add_executable(umbrello ${umbrello_SRCS})
 target_link_libraries(umbrello
     libumbrello
-    KF5::Crash
-    KF5::WindowSystem
+    KF${QT_MAJOR_VERSION}::Crash
+    KF${QT_MAJOR_VERSION}::WindowSystem
 )
-set_target_properties(umbrello PROPERTIES OUTPUT_NAME umbrello5)
+set_target_properties(umbrello PROPERTIES OUTPUT_NAME umbrello${QT_MAJOR_VERSION})
 
 target_compile_definitions(libumbrello PRIVATE -DQT_NO_CAST_TO_ASCII -DQT_NO_CAST_FROM_ASCII)
 
@@ -560,9 +562,9 @@ install(TARGETS umbrello ${INSTALL_TARGETS_DEFAULT_ARGS} )
 ########### install files #############
 
 file(READ org.kde.umbrello.desktop UMBRELLO_DESKTOP_OUT)
-string(REPLACE "Exec=umbrello" "Exec=umbrello5" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP_OUT}")
+string(REPLACE "Exec=umbrello" "Exec=umbrello${QT_MAJOR_VERSION}" UMBRELLO_DESKTOP_OUT "${UMBRELLO_DESKTOP_OUT}")
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.desktop "${UMBRELLO_DESKTOP_OUT}")
-install( PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.desktop DESTINATION  ${XDG_APPS_INSTALL_DIR})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.kde.umbrello.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES org.kde.umbrello.appdata.xml  DESTINATION  ${KDE_INSTALL_METAINFODIR})
 
 install( DIRECTORY

@@ -46,11 +46,11 @@ include_directories(
 )
 
 set(LIBS
-    Qt5::Xml
-    Qt5::Test
-    Qt5::Widgets
-    KF5::I18n
-    KF5::Crash
+    Qt${QT_MAJOR_VERSION}::Xml
+    Qt${QT_MAJOR_VERSION}::Test
+    Qt${QT_MAJOR_VERSION}::Widgets
+    KF${QT_MAJOR_VERSION}::I18n
+    KF${QT_MAJOR_VERSION}::Crash
     ${LIBXML2_LIBRARIES}
     ${LIBXSLT_LIBRARIES}
     libumbrello
