@@ -14,7 +14,7 @@
 
 class RubyClassifierCodeDocument;
 
-class RubyCodeOperation : virtual public CodeOperation
+class RubyCodeOperation : public CodeOperation
 {
     Q_OBJECT
 public:

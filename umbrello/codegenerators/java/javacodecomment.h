@@ -18,7 +18,7 @@
  * these are simply started with double slash sequence and no terminating
  * characters
  */
-class JavaCodeComment : virtual public CodeComment
+class JavaCodeComment : public CodeComment
 {
 public:
 

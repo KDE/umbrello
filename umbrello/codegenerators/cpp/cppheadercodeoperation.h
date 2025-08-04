@@ -14,7 +14,7 @@
 
 class CPPHeaderCodeDocument;
 
-class CPPHeaderCodeOperation : virtual public CodeOperation
+class CPPHeaderCodeOperation : public CodeOperation
 {
     Q_OBJECT
 public:

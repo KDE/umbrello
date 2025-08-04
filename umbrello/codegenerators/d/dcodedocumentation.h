@@ -20,7 +20,7 @@ class CodeDocument;
  * The syntax follows the D Style Guide (@see http://www.digitalmars.com/d/dstyle.html).
  * Choice between single line and multiline comments is based on the common policy.
  */
-class DCodeDocumentation : virtual public CodeComment
+class DCodeDocumentation : public CodeComment
 {
 public:
 

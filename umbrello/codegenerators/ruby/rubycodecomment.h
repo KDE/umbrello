@@ -19,7 +19,7 @@
  * characters, or delimited by '=begin' and '=end' tags at the
  * start of lines
  */
-class RubyCodeComment : virtual public CodeComment
+class RubyCodeComment : public CodeComment
 {
 public:
     /**

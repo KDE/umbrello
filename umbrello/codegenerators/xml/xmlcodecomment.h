@@ -18,7 +18,7 @@ class CodeDocument;
  * class XMLCodeDocumentation
  * A XML (code) comment.
  */
-class XMLCodeComment: virtual public CodeComment
+class XMLCodeComment: public CodeComment
 {
 public:
 

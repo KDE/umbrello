@@ -21,7 +21,7 @@ class RubyClassifierCodeDocument;
  * characters
  */
 
-class RubyCodeDocumentation : virtual public CodeComment
+class RubyCodeDocumentation : public CodeComment
 {
 public:
 

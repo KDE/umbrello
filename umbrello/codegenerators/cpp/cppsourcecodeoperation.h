@@ -14,7 +14,7 @@
 
 class CPPSourceCodeDocument;
 
-class CPPSourceCodeOperation : virtual public CodeOperation
+class CPPSourceCodeOperation : public CodeOperation
 {
     Q_OBJECT
 public:

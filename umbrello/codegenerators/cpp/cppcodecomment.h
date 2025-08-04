@@ -17,7 +17,7 @@
  * these are simply started with double slash sequence and no terminating
  * characters.
  */
-class CPPCodeComment : virtual public CodeComment
+class CPPCodeComment : public CodeComment
 {
 public:
 

@@ -14,7 +14,7 @@
 
 class DClassifierCodeDocument;
 
-class DCodeOperation : virtual public CodeOperation
+class DCodeOperation : public CodeOperation
 {
     Q_OBJECT
 public:

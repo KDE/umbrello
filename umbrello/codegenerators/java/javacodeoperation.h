@@ -14,7 +14,7 @@
 
 class JavaClassifierCodeDocument;
 
-class JavaCodeOperation : virtual public CodeOperation
+class JavaCodeOperation : public CodeOperation
 {
     Q_OBJECT
 public:

@@ -20,7 +20,7 @@ class CodeDocument;
  * these are simply started with double slash sequence and no terminating
  * characters
  */
-class CPPCodeDocumentation : virtual public CodeComment
+class CPPCodeDocumentation : public CodeComment
 {
 public:
 

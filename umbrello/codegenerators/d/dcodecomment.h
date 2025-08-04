@@ -18,7 +18,7 @@
   * The syntax follows the D Style Guide (@see http://www.digitalmars.com/d/dstyle.html).
   * Single line comments begin with // and multiline comments use the longer form.
   */
-class DCodeComment : virtual public CodeComment
+class DCodeComment : public CodeComment
 {
 public:
 

@@ -20,7 +20,7 @@ class JavaClassifierCodeDocument;
  * these are simply started with double slash sequence and no terminating
  * characters
  */
-class JavaCodeDocumentation : virtual public CodeComment
+class JavaCodeDocumentation : public CodeComment
 {
 public:
 
