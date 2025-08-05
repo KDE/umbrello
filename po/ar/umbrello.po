@@ -1,14 +1,14 @@
 # translation of umbrello.po to
+# SPDX-FileCopyrightText: 2022, 2025 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 # Ahmad M. Zawawi <azawawi@emirates.net.ae>, 2004.
 # محمد سعد  Mohamed SAAD <metehyi@free.fr>, 2006.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-04-19 01:57+0000\n"
-"PO-Revision-Date: 2022-01-29 15:15+0400\n"
+"PO-Revision-Date: 2025-08-04 18:49+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1946,7 +1947,7 @@ msgstr "<p align=\"right\"> قابل للتحرير نص</p>"
 #: dialogs/dialog_utils.cpp:31
 #, kde-format
 msgid "Enable all messages"
-msgstr "فعّل كلّ الرّسائل"
+msgstr "مكّن كلّ الرّسائل"
 
 #: dialogs/dialog_utils.cpp:32
 #, kde-format
@@ -2951,7 +2952,7 @@ msgstr ""
 #: dialogs/pages/generaloptionpage.cpp:132
 #, kde-format
 msgid "Default Language :"
-msgstr "اللغة الافتراضيّة:"
+msgstr "اللغة المبدئيّة:"
 
 #: dialogs/pages/packagecontentspage.cpp:40
 #, fuzzy, kde-format
@@ -4273,7 +4274,7 @@ msgstr "انتقِ العملية."
 #, kde-format
 msgctxt "Layout menu"
 msgid "Layout"
-msgstr "التّخطيط"
+msgstr "التخطيط"
 
 #: menus/associationwidgetpopupmenu.cpp:95
 #, kde-format
@@ -4919,7 +4920,7 @@ msgstr "غيّر النص…"
 #: menus/widgetbasepopupmenu.cpp:334 menus/widgetbasepopupmenu.cpp:585
 #, kde-format
 msgid "Auto resize"
-msgstr "تحجيم آلي"
+msgstr "تحجيم آليّ"
 
 #: menus/widgetbasepopupmenu.cpp:367
 #, fuzzy, kde-format
@@ -6109,7 +6110,7 @@ msgstr "جديد عملية"
 #: umbrello.kcfg:55
 #, kde-format
 msgid "Auto Save"
-msgstr "حفظ تلقائي"
+msgstr "حفظ آليّ"
 
 #. i18n: ectx: whatsthis, entry (autosave), group (General Options)
 #: umbrello.kcfg:56
