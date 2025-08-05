@@ -408,6 +408,7 @@ bool UMLEntity::resolveRef()
 {
     bool success = UMLClassifier::resolveRef();
     for(UMLObject *obj : subordinates()) {
+        uIgnoreZeroPointer(obj);
         if (obj->resolveRef()) {
             UMLClassifierListItem *cli = obj->asUMLClassifierListItem();
             if (!cli)

@@ -543,6 +543,7 @@ bool UMLClipboard::pasteClip4(const QMimeData* data)
      //make sure the file we are pasting into has the objects
      //we need if there are widgets to be pasted
     for(UMLObject *obj : objects) {
+        uIgnoreZeroPointer(obj);
         if(!doc->assignNewIDs(obj)) {
             return false;
         }
@@ -632,6 +633,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
         result = false;
 
     for(UMLObject *obj : objects) {
+        uIgnoreZeroPointer(obj);
         obj->setID(doc->assignNewID(obj->id()));
         switch(obj->baseType()) {
         case UMLObject::ot_Attribute :

@@ -647,6 +647,7 @@ void UMLClassifier::copyInto(UMLObject *lhs) const
     // CHECK: association property m_pClassAssoc is not copied
     subordinates().copyInto(&(target->subordinates()));
     for(UMLObject *o : target->subordinates()) {
+        uIgnoreZeroPointer(o);
         o->setUMLParent(target);
     }
 }

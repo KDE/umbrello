@@ -58,6 +58,7 @@ UMLAssociationList UMLCanvasObject::getSpecificAssocs(Uml::AssociationType::Enum
 {
     UMLAssociationList list;
     for(UMLObject *o : subordinates()) {
+        uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association)
             continue;
         UMLAssociation *a = o->asUMLAssociation();
@@ -125,6 +126,7 @@ int UMLCanvasObject::removeAssociationEnd(UMLAssociation * assoc)
 void UMLCanvasObject::removeAllAssociationEnds()
 {
     for(UMLObject *o : subordinates()) {
+        uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association) {
             continue;
         }
@@ -238,6 +240,7 @@ UMLObject * UMLCanvasObject::findChildObject(const QString &n, UMLObject::Object
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     for(UMLObject *obj : subordinates()) {
+        uIgnoreZeroPointer(obj);
         if (t != UMLObject::ot_UMLObject && obj->baseType() != t)
             continue;
         if (caseSensitive) {
@@ -261,6 +264,7 @@ UMLObject* UMLCanvasObject::findChildObjectById(Uml::ID::Type id, bool considerA
 {
     Q_UNUSED(considerAncestors);
     for(UMLObject *o : subordinates()) {
+        uIgnoreZeroPointer(o);
         if (o->id() == id)
             return o;
     }
@@ -314,6 +318,7 @@ int UMLCanvasObject::associations() const
 {
     int count = 0;
     for(UMLObject *obj : subordinates()) {
+        uIgnoreZeroPointer(obj);
         if (obj->baseType() == UMLObject::ot_Association)
             count++;
     }
@@ -329,6 +334,7 @@ UMLAssociationList UMLCanvasObject::getAssociations() const
 {
     UMLAssociationList assocs;
     for(UMLObject *o : subordinates()) {
+        uIgnoreZeroPointer(o);
         if (o->baseType() != UMLObject::ot_Association)
             continue;
         UMLAssociation *assoc = o->asUMLAssociation();
@@ -442,6 +448,7 @@ bool UMLCanvasObject::resolveRef()
 {
     bool overallSuccess = UMLObject::resolveRef();
     for(UMLObject *obj : subordinates()) {
+        uIgnoreZeroPointer(obj);
         if (! obj->resolveRef()) {
             subordinates().removeAll(obj);
             overallSuccess = false;

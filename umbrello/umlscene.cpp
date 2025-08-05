@@ -146,6 +146,7 @@ public:
                 continue;
             // iterate through related ports for this component widget
             for(UMLObject *o : c->containedObjects()) {
+                uIgnoreZeroPointer(o);
                 UMLPort *up = o->asUMLPort();
                 if (!up)
                     continue;

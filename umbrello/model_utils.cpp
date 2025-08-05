@@ -388,6 +388,7 @@ UMLObject* findUMLObjectRecursive(const UMLObjectList& inList,
                                   UMLObject::ObjectType type /* = ot_UMLObject */)
 {
     for(UMLObject *obj : inList) {
+        uIgnoreZeroPointer(obj);
         if (obj->name() == name && type == obj->baseType())
             return obj;
         const UMLPackage *pkg = obj->asUMLPackage();

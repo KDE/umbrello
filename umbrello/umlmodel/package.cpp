@@ -86,6 +86,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
     Uml::ID::Type AId = assoc->getObjectId(Uml::RoleType::A);
     Uml::ID::Type BId = assoc->getObjectId(Uml::RoleType::B);
     for(UMLObject *o : m_objects) {
+        uIgnoreZeroPointer(o);
         UMLCanvasObject *c = o->asUMLCanvasObject();
         if (c == nullptr)
             continue;
@@ -110,6 +111,7 @@ void UMLPackage::addAssocToConcepts(UMLAssociation* assoc)
 void UMLPackage::removeAssocFromConcepts(UMLAssociation *assoc)
 {
     for(UMLObject *o : m_objects) {
+        uIgnoreZeroPointer(o);
         UMLCanvasObject *c = o->asUMLCanvasObject();
         if (c) {
             if (c->hasAssociation(assoc))
@@ -296,6 +298,7 @@ UMLObject * UMLPackage::findObject(const QString &name) const
 {
     const bool caseSensitive = UMLApp::app()->activeLanguageIsCaseSensitive();
     for(UMLObject *obj : m_objects) {
+        uIgnoreZeroPointer(obj);
         if (!obj)
             continue;
         if (caseSensitive) {
@@ -453,6 +456,7 @@ void UMLPackage::saveToXMI(QXmlStreamWriter& writer)
     }
     // save associations
     for(UMLObject *obj: subordinates()) {
+        uIgnoreZeroPointer(obj);
         obj->saveToXMI (writer);
     }
     if (! Settings::optionState().generalState.uml2) {
