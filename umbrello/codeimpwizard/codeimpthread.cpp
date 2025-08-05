@@ -8,10 +8,10 @@
 
 // app includes
 #include "classimport.h"
+#include "umlmessagebox.h"
 
 // kde includes
 #include <KLocalizedString>
-#include <KMessageBox>
 
 /**
  * Constructor.
@@ -104,6 +104,6 @@ void CodeImpThread::emitMessageToLog(const QString& file, const QString& text)
 void CodeImpThread::questionAsked(const QString& question, int& answer)
 {
     //QMutexLocker locker(&m_mutex);
-    answer = KMessageBox::questionYesNo(0, question, QStringLiteral("Question code import:")); // @todo i18n
+    answer = UmlMessageBox::questionYesNo(nullptr, question, QStringLiteral("Question code import:")); // @todo i18n
     //m_waitCondition.wakeOne();
 }

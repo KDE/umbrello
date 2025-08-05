@@ -15,9 +15,9 @@
 #include "codegenerators/codegenpolicyext.h"
 #include "defaultcodegenpolicypage.h"
 #include "uml.h"
+#include "umlmessagebox.h"
 
 // kde includes
-#include <KMessageBox>
 #include <KLocalizedString>
 
 // qt includes
@@ -262,9 +262,9 @@ bool CodeGenOptionsPage::save()
         }
     }
     else {
-        if (KMessageBox::questionYesNo(this,
+        if (UmlMessageBox::questionYesNo(this,
                         i18n("The folder %1 does not exist. Do you want to create it now?", info.filePath()),
-                        i18n("Output Folder Does Not Exist"), KGuiItem(i18n("Create Folder")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes)
+                        i18n("Output Folder Does Not Exist"), KGuiItem(i18n("Create Folder")), KGuiItem(i18n("Do Not Create"))) == UmlMessageBox::Yes)
         {
             QDir dir;
             if (!dir.mkdir(info.filePath())) {

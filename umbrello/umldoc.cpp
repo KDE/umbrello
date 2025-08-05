@@ -38,6 +38,7 @@
 #include "umllistviewpopupmenu.h"
 #include "cmds.h"
 #include "diagramprintpage.h"
+#include "umlmessagebox.h"
 #include "umlscene.h"
 #include "version.h"
 #include "worktoolbar.h"
@@ -364,12 +365,12 @@ bool UMLDoc::saveModified()
     }
 
     UMLApp *win = UMLApp::app();
-    int want_save = KMessageBox::warningYesNoCancel(win,
+    int want_save = UmlMessageBox::warningYesNoCancel(win,
                                      i18n("The current file has been modified.\nDo you want to save it?"),
                                      i18nc("warning message", "Warning"),
                                      KStandardGuiItem::save(), KStandardGuiItem::discard());
     switch(want_save) {
-    case KMessageBox::Yes:
+    case UmlMessageBox::Yes:
         if (m_doc_url.fileName() == i18n("Untitled")) {
             if (win->slotFileSaveAs()) {
                 closeDocument();
@@ -384,13 +385,13 @@ bool UMLDoc::saveModified()
         }
         break;
 
-    case KMessageBox::No:
+    case UmlMessageBox::No:
         setModified(false);
         closeDocument();
         completed=true;
         break;
 
-    case KMessageBox::Cancel:
+    case UmlMessageBox::Cancel:
         completed=false;
         break;
 
@@ -1657,9 +1658,9 @@ void UMLDoc::renameChildUMLObject(UMLObject *o)
         if (name.length() == 0) {
             KMessageBox::error(nullptr, i18n("That is an invalid name."), i18n("Invalid Name"));
         } else if (p->findChildObject(name) == nullptr
-                    || ((o->baseType() == UMLObject::ot_Operation) && KMessageBox::warningYesNo(nullptr,
+                    || ((o->baseType() == UMLObject::ot_Operation) && UmlMessageBox::warningYesNo(nullptr,
                             i18n("The name you entered was not unique.\nIs this what you wanted?"),
-                            i18n("Name Not Unique"), KGuiItem(i18n("Use Name")), KGuiItem(i18n("Enter New Name"))) == KMessageBox::Yes)) {
+                            i18n("Name Not Unique"), KGuiItem(i18n("Use Name")), KGuiItem(i18n("Enter New Name"))) == UmlMessageBox::Yes)) {
                 UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(o, name));
                 setModified(true);
                 break;
