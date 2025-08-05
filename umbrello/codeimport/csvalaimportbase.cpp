@@ -337,7 +337,7 @@ bool CsValaImportBase::parseNamespaceDeclaration()
 bool CsValaImportBase::parseAnnotation()
 {
     QString token, annotation;
-    while ((token = advance()) != "]" && !token.isEmpty()) {
+    while ((token = advance()) != QStringLiteral("]") && !token.isEmpty()) {
         annotation.append(token);
     }
     log(QStringLiteral("attribute ") + annotation);
