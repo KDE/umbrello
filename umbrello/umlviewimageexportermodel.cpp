@@ -307,7 +307,7 @@ bool UMLViewImageExporterModel::prepareDirectory(const QUrl &url) const
     directory.setPath(QString());
 
     // creates the directory and any needed parent directories
-    QStringList dirs = url.adjusted(QUrl::RemoveFilename).path().split(QDir::separator(), QString::SkipEmptyParts);
+    QStringList dirs = url.adjusted(QUrl::RemoveFilename).path().split(QDir::separator(), Qt::SkipEmptyParts);
     for (QStringList::ConstIterator it = dirs.constBegin() ; it != dirs.constEnd(); ++it) {
         directory.setPath(directory.path() + QLatin1Char('/') + *it);
         KIO::StatJob *statJob = KIO::stat(directory, KIO::StatJob::SourceSide, KIO::StatDetails(0));
@@ -410,16 +410,17 @@ bool UMLViewImageExporterModel::exportViewToEps(UMLScene* scene, const QString &
         rect = QRectF(0,0, 10, 10);
     }
 
-    QSizeF paperSize(rect.size() * 25.4f / qApp->desktop()->logicalDpiX());
+    QPageSize paperSize(rect.size() * 25.4f / Dialog_Utils::logicalDpiXForWidget(), QPageSize::Millimeter);
 
     QPrinter printer(QPrinter::ScreenResolution);
     printer.setOutputFileName(fileName);
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setColorMode(QPrinter::Color);
-    printer.setPaperSize(paperSize, QPrinter::Millimeter);
-    printer.setPageMargins(paperSize.width() * border, paperSize.height() * border, 0, 0, QPrinter::Millimeter);
-    printer.setResolution(qApp->desktop()->logicalDpiX());
-    printer.setOrientation(paperSize.width() < paperSize.height() ? QPrinter::Landscape : QPrinter::Portrait);
+    printer.setPageSize(paperSize);
+    QMarginsF margins(paperSize.size(QPageSize::Millimeter).width() * border, paperSize.size(QPageSize::Millimeter).height() * border, 0, 0);
+    printer.setPageMargins(margins);
+    printer.setResolution(Dialog_Utils::logicalDpiXForWidget());
+    printer.setPageOrientation(paperSize.size(QPageSize::Millimeter).width() < paperSize.size(QPageSize::Millimeter).height() ? QPageLayout::Landscape : QPageLayout::Portrait);
 
     // do not call printer.setup(); because we want no user
     // interaction here
@@ -465,7 +466,7 @@ bool UMLViewImageExporterModel::exportViewToSvg(UMLScene* scene, const QString &
     QSvgGenerator generator;
     generator.setFileName(fileName);
     generator.setSize(rect.toRect().size());
-    generator.setResolution(qApp->desktop()->logicalDpiX());
+    generator.setResolution(Dialog_Utils::logicalDpiXForWidget());
     generator.setViewBox(QRect(0, 0, rect.width(), rect.height()));
     QPainter painter(&generator);
 

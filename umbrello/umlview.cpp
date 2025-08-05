@@ -122,7 +122,7 @@ void UMLView::wheelEvent(QWheelEvent* event)
 
     // scale the view ie. do the zoom
     double scaleFactor = 1.15;
-    if (event->delta() > 0) {
+    if (event->angleDelta().y() > 0) {
         // zoom in
         if (zoom() < 500) {
             setZoom(zoom() * scaleFactor);
@@ -186,7 +186,7 @@ void UMLView::hideEvent(QHideEvent* he)
  */
 void UMLView::mousePressEvent(QMouseEvent* event)
 {
-    if (event->button() == Qt::MidButton) {
+    if (event->button() == Qt::MiddleButton) {
         setDragMode(QGraphicsView::ScrollHandDrag);
         setInteractive(false);
         QMouseEvent fake(event->type(), event->pos(), Qt::LeftButton, Qt::LeftButton, event->modifiers());
@@ -200,7 +200,7 @@ void UMLView::mousePressEvent(QMouseEvent* event)
  */
 void UMLView::mouseReleaseEvent(QMouseEvent* event)
 {
-    if (event->button() == Qt::MidButton) {
+    if (event->button() == Qt::MiddleButton) {
         QMouseEvent fake(event->type(), event->pos(), Qt::LeftButton, Qt::LeftButton, event->modifiers());
         QGraphicsView::mouseReleaseEvent(&fake);
         setInteractive(true);

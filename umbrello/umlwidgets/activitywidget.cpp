@@ -194,7 +194,9 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
-            painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
+            qreal xRatio = qreal((h * 60.0) / w) / 100.0;
+            qreal yRatio = 0.6;
+            painter->drawRoundedRect(QRectF(0, 0, w, h), xRatio, yRatio, Qt::RelativeSize);
             painter->setPen(textColor());
             painter->setFont(UMLWidget::font());
             painter->drawText(ACTIVITY_MARGIN, textStartY,
@@ -259,7 +261,9 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
-            painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
+            qreal xRatio = qreal((h * 60.0) / w) / 100.0;
+            qreal yRatio = 0.6;
+            painter->drawRoundedRect(QRectF(0, 0, w, h), xRatio, yRatio, Qt::RelativeSize);
             painter->setPen(textColor());
             painter->setFont(UMLWidget::font());
             painter->drawText(ACTIVITY_MARGIN, textStartY,
@@ -286,7 +290,9 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
             QString preCond = Widget_Utils::adornStereo(QStringLiteral("precondition")) + preconditionText();
             QString postCond = Widget_Utils::adornStereo(QStringLiteral("postcondition")) + postconditionText();
             //int textStartY = (h / 2) - (fontHeight / 2);
-            painter->drawRoundRect(0, 0, w, h, (h * 60) / w, 60);
+            qreal xRatio = qreal((h * 60.0) / w) / 100.0;
+            qreal yRatio = 0.6;
+            painter->drawRoundedRect(QRectF(0, 0, w, h), xRatio, yRatio, Qt::RelativeSize);
             painter->setPen(textColor());
             painter->setFont(UMLWidget::font());
             painter->drawText(ACTIVITY_MARGIN, fontHeight + 10,
@@ -398,7 +404,7 @@ QSizeF ActivityWidget::minimumSize() const
         const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
         const int fontHeight  = fm.lineSpacing();
 
-        int textWidth = fm.width(name());
+        int textWidth = fm.horizontalAdvance(name());
         int height = fontHeight;
         height = height > ACTIVITY_HEIGHT ? height : ACTIVITY_HEIGHT;
         height += ACTIVITY_MARGIN * 2;
@@ -413,7 +419,7 @@ QSizeF ActivityWidget::minimumSize() const
             maxSize = name().length() > postconditionText().length() ? name() : postconditionText();
             maxSize = maxSize.length() > preconditionText().length() ? maxSize : preconditionText();
 
-            textWidth = fm.width(maxSize);
+            textWidth = fm.horizontalAdvance(name());
             textWidth = textWidth + 50;
             height += 100;
         }

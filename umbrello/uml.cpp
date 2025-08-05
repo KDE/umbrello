@@ -943,7 +943,7 @@ void UMLApp::initView()
     m_newSessionButton->installEventFilter(this);
 
     m_layout = new QVBoxLayout;
-    m_layout->setMargin(0);
+    m_layout->setContentsMargins(0, 0, 0, 0);
     if (Settings::optionState().generalState.tabdiagrams) {
         // Tabbed Diagram Representation
         m_layout->addWidget(m_tabWidget);
