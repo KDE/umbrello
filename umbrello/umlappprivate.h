@@ -19,7 +19,9 @@
 // kde includes
 #include <KActionCollection>
 #include <KToggleAction>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <ktexteditor/configinterface.h>
+#endif
 #include <ktexteditor/document.h>
 #include <ktexteditor/editor.h>
 #include <ktexteditor/view.h>

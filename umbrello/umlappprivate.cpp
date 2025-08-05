@@ -155,7 +155,11 @@ bool UMLAppPrivate::openFileInEditor(const QUrl &file, int startCursor, int endC
     view->document()->setReadWrite(false);
     if (startCursor != endCursor)
         view->setCursorPosition(KTextEditor::Cursor(startCursor, endCursor));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     KTextEditor::ConfigInterface *iface = qobject_cast<KTextEditor::ConfigInterface*>(view);
+#else
+    KTextEditor::View *iface = view;
+#endif
     if(iface)
         iface->setConfigValue(QString::fromLatin1("line-numbers"), true);
 
