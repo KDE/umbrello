@@ -91,9 +91,9 @@ template <class T, typename N>
 class TestUML : public T
 {
 public:
-    TestUML<T,N>() : T() {}
-    TestUML<T,N>(N name) : T(name) {}
-    TestUML<T,N>(N p1, UMLObject *p2, UMLObject *p3) : T(p1, p2, p3) {}
+    TestUML() : T() {}
+    TestUML(N name) : T(name) {}
+    TestUML(N p1, UMLObject *p2, UMLObject *p3) : T(p1, p2, p3) {}
     QString testSave1();
     bool testLoad1(const QString& xml);
     void testDump(const QString &title = QString());
@@ -150,7 +150,7 @@ template <class T, typename N>
 class TestWidget : public T
 {
 public:
-    TestWidget<T,N>(UMLScene *scene, N w) : T(scene, w) {}
+    TestWidget(UMLScene *scene, N w) : T(scene, w) {}
     QString testSave1();
     bool testLoad1(const QString& xml);
     void testDump(const QString &title = QString());
