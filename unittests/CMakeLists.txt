@@ -1,5 +1,8 @@
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 set(SRC_PATH ../umbrello)
+include(ECMAddTests)
+
+set(ENVIRONMENT ENVIRONMENT LANG=C.UTF-8)
 
 include_directories(
       ${LIBXML2_INCLUDE_DIR}
@@ -57,6 +60,7 @@ ecm_add_test(
     testbasictypes.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testbasictypes
+    ${ENVIRONMENT}
 )
 
 ecm_add_test(
@@ -64,6 +68,7 @@ ecm_add_test(
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testumlobject
+    ${ENVIRONMENT}
 )
 
 ecm_add_test(
@@ -71,6 +76,7 @@ ecm_add_test(
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testassociation
+    ${ENVIRONMENT}
 )
 
 ecm_add_test(
@@ -78,6 +84,7 @@ ecm_add_test(
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testclassifier
+    ${ENVIRONMENT}
 )
 
 ecm_add_test(
@@ -85,6 +92,7 @@ ecm_add_test(
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testpackage
+    ${ENVIRONMENT}
 )
 
 ecm_add_test(
@@ -92,6 +100,7 @@ ecm_add_test(
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testcppwriter
+    ${ENVIRONMENT}
 )
 
 ecm_add_test(
@@ -99,6 +108,7 @@ ecm_add_test(
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testpythonwriter
+    ${ENVIRONMENT}
 )
 
 ecm_add_test(
@@ -106,6 +116,7 @@ ecm_add_test(
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testoptionstate
+    ${ENVIRONMENT}
 )
 
 ecm_add_test(
@@ -113,6 +124,7 @@ ecm_add_test(
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testumlcanvasobject
+    ${ENVIRONMENT}
 )
 
 ecm_add_test(
@@ -120,6 +132,7 @@ ecm_add_test(
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testpreconditionwidget
+    ${ENVIRONMENT}
 )
 
 ecm_add_test(
@@ -127,6 +140,7 @@ ecm_add_test(
     testbase.cpp
     LINK_LIBRARIES ${LIBS}
     TEST_NAME testwidgetbase
+    ${ENVIRONMENT}
 )
 
 set(testumlroledialog_SRCS

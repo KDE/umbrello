@@ -11,6 +11,9 @@
 #include "umlrole.h"
 #include "umlroledialog.h"
 
+// KDE includes
+#include <KLocalizedString>
+
 // qt includes
 #include <QApplication>
 #include <QtDebug>
@@ -18,6 +21,7 @@
 int main(int argc, char **argv)
 {
     QApplication a(argc, argv);
+    KLocalizedString::setApplicationDomain("umbrello");
     UMLApp app;
     app.setup();
 

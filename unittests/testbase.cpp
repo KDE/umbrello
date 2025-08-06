@@ -11,14 +11,16 @@
 #include "uml.h"
 #include "umldoc.h"
 
+// KDE includes
+#include <KLocalizedString>
+
 // qt includes
 #include <QApplication>
+#include <QTemporaryDir>
 
 #if !defined(QT_GUI_LIB)
 #error umbrello unittests require QT_GUI_LIB to be present
 #endif
-
-#include <QTemporaryDir>
 
 TestBase::TestBase(QObject *parent)
   : QObject(parent)
@@ -27,6 +29,8 @@ TestBase::TestBase(QObject *parent)
 
 void TestBase::initTestCase()
 {
+    KLocalizedString::setApplicationDomain("umbrello");
+
     QWidget *w = new QWidget;
     UMLApp *app = new UMLApp(w);
     app->setup();
