@@ -460,7 +460,7 @@ void UMLApp::initActions()
     deleteSelectedWidget = actionCollection()->addAction(QStringLiteral("delete_selected"));
     deleteSelectedWidget->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Delete));
     deleteSelectedWidget->setText(i18nc("delete selected widget", "Delete &Selected"));
-    deleteSelectedWidget->setShortcut(QKeySequence(Qt::Key_Delete));
+    actionCollection()->setDefaultShortcut(deleteSelectedWidget, QKeySequence(Qt::Key_Delete));
     connect(deleteSelectedWidget, SIGNAL(triggered(bool)), this, SLOT(slotDeleteSelected()));
 
     // The different views
@@ -648,29 +648,29 @@ void UMLApp::initActions()
     moveTabLeft->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Next : Icon_Utils::it_Go_Previous));
     moveTabLeft->setText(QApplication::layoutDirection() ? moveTabRightString : moveTabLeftString);
     
-    moveTabLeft->setShortcut(QApplication::layoutDirection() ?
-                 QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Right) : QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Left));
+    actionCollection()->setDefaultShortcut(moveTabLeft, QKeySequence(QApplication::layoutDirection() ?
+                 QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Right) : QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Left)));
     connect(moveTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotMoveTabLeft()));
 
     QAction* moveTabRight = actionCollection()->addAction(QStringLiteral("move_tab_right"));
     moveTabRight->setIcon(Icon_Utils::SmallIcon(QApplication::layoutDirection() ? Icon_Utils::it_Go_Previous : Icon_Utils::it_Go_Next));
     moveTabRight->setText(QApplication::layoutDirection() ? moveTabLeftString : moveTabRightString);
-    moveTabRight->setShortcut(QApplication::layoutDirection() ?
-                  QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Left) : QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Right));
+    actionCollection()->setDefaultShortcut(moveTabRight, QKeySequence(QApplication::layoutDirection() ?
+                  QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Left) : QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Right)));
     connect(moveTabRight, SIGNAL(triggered(bool)), this, SLOT(slotMoveTabRight()));
 
     QString selectTabLeftString = i18n("Select Diagram on Left");
     QString selectTabRightString = i18n("Select Diagram on Right");
     QAction* changeTabLeft = actionCollection()->addAction(QStringLiteral("previous_tab"));
     changeTabLeft->setText(QApplication::layoutDirection() ? selectTabRightString : selectTabLeftString);
-    changeTabLeft->setShortcut(QApplication::layoutDirection() ?
-                   QKeySequence(Qt::SHIFT | Qt::Key_Right) : QKeySequence(Qt::SHIFT | Qt::Key_Left));
+    actionCollection()->setDefaultShortcut(changeTabLeft, QKeySequence(QApplication::layoutDirection() ?
+                   QKeySequence(Qt::SHIFT | Qt::Key_Right) : QKeySequence(Qt::SHIFT | Qt::Key_Left)));
     connect(changeTabLeft, SIGNAL(triggered(bool)), this, SLOT(slotChangeTabLeft()));
 
     QAction* changeTabRight = actionCollection()->addAction(QStringLiteral("next_tab"));
     changeTabRight->setText(QApplication::layoutDirection() ? selectTabLeftString : selectTabRightString);
-    changeTabRight->setShortcut(QApplication::layoutDirection() ?
-                    QKeySequence(Qt::SHIFT | Qt::Key_Left) : QKeySequence(Qt::SHIFT | Qt::Key_Right));
+    actionCollection()->setDefaultShortcut(changeTabRight, QKeySequence(QApplication::layoutDirection() ?
+                    QKeySequence(Qt::SHIFT | Qt::Key_Left) : QKeySequence(Qt::SHIFT | Qt::Key_Right)));
     connect(changeTabRight, SIGNAL(triggered(bool)), this, SLOT(slotChangeTabRight()));
 
 // @todo Check if this should be ported
