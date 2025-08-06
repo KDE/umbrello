@@ -20,7 +20,6 @@
 #include "umltemplatelist.h"
 
 #include <KLocalizedString>
-#include <KMessageBox>
 
 #include <QFile>
 #include <QRegularExpression>

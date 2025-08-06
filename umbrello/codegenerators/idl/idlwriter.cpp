@@ -18,8 +18,6 @@
 #include "attribute.h"
 #include "operation.h"
 
-#include <KMessageBox>
-
 #include <QFile>
 #include <QRegularExpression>
 #include <QTextStream>

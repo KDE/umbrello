@@ -20,7 +20,6 @@
 // kde includes
 #include <kfontchooser.h>
 #include <KLocalizedString>
-#include <KMessageBox>
 
 // qt includes
 #include <QFrame>

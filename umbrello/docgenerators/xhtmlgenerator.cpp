@@ -17,7 +17,6 @@
 
 #include <kjobwidgets.h>
 #include <KLocalizedString>
-#include <KMessageBox>
 #include <kio/job.h>
 
 #include <QApplication>

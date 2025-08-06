@@ -25,7 +25,6 @@
 
 // kde includes
 #include <typeinfo>
-#include <KMessageBox>
 
 DEBUG_REGISTER(AssocRules)
 

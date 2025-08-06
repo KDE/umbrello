@@ -22,7 +22,6 @@
 #include <kcombobox.h>
 #include <QLineEdit>
 #include <KLocalizedString>
-#include <KMessageBox>
 #include <QTextEdit>
 
 // qt includes

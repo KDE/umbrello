@@ -19,7 +19,6 @@
 
 //kde includes
 #include <KLocalizedString>
-#include <KMessageBox>
 
 DEBUG_REGISTER(UMLInstance)
 

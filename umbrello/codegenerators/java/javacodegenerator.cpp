@@ -17,7 +17,6 @@
 // kde includes
 #include <kconfig.h>
 #include <KLocalizedString>
-#include <KMessageBox>
 
 // qt includes
 #include <QRegularExpression>

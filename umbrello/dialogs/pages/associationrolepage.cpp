@@ -18,7 +18,6 @@
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <KLocalizedString>
-#include <KMessageBox>
 #include <QTextEdit>
 
 // qt includes

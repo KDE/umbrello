@@ -17,7 +17,6 @@
 
 // kde includes
 #include <KLocalizedString>
-#include <KMessageBox>
 
 // qt includes
 #include <QFrame>

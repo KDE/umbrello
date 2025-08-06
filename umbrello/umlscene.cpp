@@ -75,7 +75,6 @@
 #include "widgetlist_utils.h"
 
 //kde include files
-#include <KMessageBox>
 #include <kcursor.h>
 #include <KLocalizedString>
 

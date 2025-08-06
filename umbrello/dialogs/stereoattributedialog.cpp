@@ -19,7 +19,6 @@
 #include <kcombobox.h>
 #include <kcompletion.h>
 #include <KLocalizedString>
-#include <KMessageBox>
 
 // qt includes
 #include <QGridLayout>

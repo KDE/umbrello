@@ -17,7 +17,6 @@
 #include "uml.h"  // Only needed for log{Warn,Error}
 
 #include <KLocalizedString>
-#include <KMessageBox>
 
 #include <QFile>
 #include <QRegularExpression>

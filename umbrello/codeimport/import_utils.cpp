@@ -25,7 +25,6 @@
 #include "umlobject.h"
 
 // kde includes
-#include <KMessageBox>
 #include <KLocalizedString>
 
 // qt includes

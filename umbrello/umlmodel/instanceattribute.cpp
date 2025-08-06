@@ -20,7 +20,6 @@
 
 //kde includes
 #include <KLocalizedString>
-#include <KMessageBox>
 
 /**
  * Constructor
