@@ -2,7 +2,11 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 set(SRC_PATH ../umbrello)
 include(ECMAddTests)
 
-set(ENVIRONMENT ENVIRONMENT LANG=C.UTF-8)
+set(ENVIRONMENT
+    ENVIRONMENT
+        LANG=C.UTF-8
+        QT_LOGGING_RULES=umbrello.debug=false
+)
 
 include_directories(
       ${LIBXML2_INCLUDE_DIR}
