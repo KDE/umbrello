@@ -22,6 +22,16 @@
 #error umbrello unittests require QT_GUI_LIB to be present
 #endif
 
+static QtMessageHandler defaultHandler = nullptr;
+
+void customMessageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    if (type == QtWarningMsg && msg.contains(QStringLiteral("The window title does not contain a '[*]' placeholder"))) {
+        return;
+    }
+    defaultHandler(type, context, msg);
+}
+
 TestBase::TestBase(QObject *parent)
   : QObject(parent)
 {
@@ -30,6 +40,10 @@ TestBase::TestBase(QObject *parent)
 void TestBase::initTestCase()
 {
     KLocalizedString::setApplicationDomain("umbrello");
+
+    // hide Qt warning
+    // QWARN  : ... QWidget::setWindowModified: The window title does not contain a '[*]' placeholder
+    defaultHandler = qInstallMessageHandler(customMessageHandler);
 
     QWidget *w = new QWidget;
     UMLApp *app = new UMLApp(w);
