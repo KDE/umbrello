@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 02:04+0000\n"
+"POT-Creation-Date: 2025-08-07 19:49+0000\n"
 "PO-Revision-Date: 2008-11-05 23:34+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -2142,7 +2142,7 @@ msgstr ""
 msgid "Use &folders"
 msgstr "フォルダを使う(&F)"
 
-#: dialogs/finddialog.cpp:11
+#: dialogs/finddialog.cpp:17
 #, kde-format
 msgid "Find"
 msgstr ""

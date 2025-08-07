@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 02:04+0000\n"
+"POT-Creation-Date: 2025-08-07 19:49+0000\n"
 "PO-Revision-Date: 2015-02-25 21:00+0100\n"
 "Last-Translator: Samir Ribić <megaribi@epn.ba>\n"
 "Language-Team:  <bs@li.org>\n"
@@ -2084,7 +2084,7 @@ msgstr ""
 msgid "Use &folders"
 msgstr "Koristi &mape"
 
-#: dialogs/finddialog.cpp:11
+#: dialogs/finddialog.cpp:17
 #, kde-format
 msgid "Find"
 msgstr "Pronađi"

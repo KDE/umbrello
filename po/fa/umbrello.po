@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 02:04+0000\n"
+"POT-Creation-Date: 2025-08-07 19:49+0000\n"
 "PO-Revision-Date: 2014-07-19 17:56+0430\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <kde-i18n-fa@kde.org>\n"
@@ -2138,7 +2138,7 @@ msgstr ""
 msgid "Use &folders"
 msgstr "استفاده از &پوشه‌ها‌"
 
-#: dialogs/finddialog.cpp:11
+#: dialogs/finddialog.cpp:17
 #, kde-format
 msgid "Find"
 msgstr ""

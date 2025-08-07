@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 02:04+0000\n"
+"POT-Creation-Date: 2025-08-07 19:49+0000\n"
 "PO-Revision-Date: 2025-04-17 13:00+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -2083,7 +2083,7 @@ msgstr ""
 msgid "Use &folders"
 msgstr "Використовувати &теки"
 
-#: dialogs/finddialog.cpp:11
+#: dialogs/finddialog.cpp:17
 #, kde-format
 msgid "Find"
 msgstr "Пошук"
