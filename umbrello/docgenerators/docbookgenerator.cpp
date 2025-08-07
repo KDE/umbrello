@@ -15,11 +15,11 @@
 #include "umldoc.h"
 #include "umlviewimageexportermodel.h"
 
-#include <kjobwidgets.h>
+#include <KIO/CopyJob>
+#include <KIO/Job>
+#include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KIO/Job>
-#include <KIO/FileCopyJob>
 
 #include <QApplication>
 #include <QFile>
@@ -102,7 +102,11 @@ void DocbookGenerator::slotDocbookGenerationFinished(const QString& tmpFileName)
     QString fileName = url.fileName();
     fileName.replace(QRegularExpression(QStringLiteral(".xmi$")), QStringLiteral(".docbook"));
     url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    KIO::Job* job = KIO::copy(QUrl::fromLocalFile(tmpFileName), url, KIO::Overwrite | KIO::HideProgressInfo);
+#else
     KIO::Job* job = KIO::file_copy(QUrl::fromLocalFile(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
+#endif
     KJobWidgets::setWindow(job, (QWidget*)UMLApp::app());
     job->exec();
     if (!job->error()) {

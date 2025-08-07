@@ -18,9 +18,11 @@
 #include "umlview.h"
 
 // kde include files
+#include <KIO/CopyJob>
 #include <KIO/Job>
-#include <KJobWidgets>
 #include <KIO/MkdirJob>
+#include <KIO/StatJob>
+#include <KJobWidgets>
 #include <KLocalizedString>
 
 // include files for Qt
@@ -34,8 +36,6 @@
 #include <QRect>
 #include <QSvgGenerator>
 #include <QTemporaryFile>
-#include <KIO/FileCopyJob>
-#include <KIO/StatJob>
 
 DEBUG_REGISTER(UMLViewImageExporterModel)
 
@@ -261,7 +261,11 @@ QString UMLViewImageExporterModel::exportView(UMLScene* scene, const QString &im
 
     // if the file wasn't local, upload the temp file to the target
     if (!url.isLocalFile()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        KIO::Job* job = KIO::copy(QUrl::fromLocalFile(tmpFile.fileName()), url);
+#else
         KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tmpFile.fileName()), url);
+#endif
         KJobWidgets::setWindow(job, UMLApp::app());
         job->exec();
         if (job->error()) {

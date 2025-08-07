@@ -15,9 +15,10 @@
 #include "umlviewimageexportermodel.h"
 #include "docbookgenerator.h"
 
-#include <kjobwidgets.h>
+#include <KIO/CopyJob>
+#include <KIO/Job>
+#include <KJobWidgets>
 #include <KLocalizedString>
-#include <kio/job.h>
 
 #include <QApplication>
 #include <QFile>
@@ -123,7 +124,11 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     QString fileName = url.fileName();
     fileName.replace(QRegularExpression(QStringLiteral(".xmi$")), QStringLiteral(".html"));
     url.setPath(m_destDir.path() + QLatin1Char('/') + fileName);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    KIO::Job* htmlCopyJob = KIO::copy(QUrl::fromLocalFile(tmpFileName), url, KIO::Overwrite | KIO::HideProgressInfo);
+#else
     KIO::Job* htmlCopyJob = KIO::file_copy(QUrl::fromLocalFile(tmpFileName), url, -1, KIO::Overwrite | KIO::HideProgressInfo);
+#endif
     KJobWidgets::setWindow(htmlCopyJob, (QWidget*)UMLApp::app());
     htmlCopyJob->exec();
     if (!htmlCopyJob->error()) {
@@ -142,7 +147,11 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
 
     QUrl cssUrl = m_destDir;
     cssUrl.setPath(cssUrl.path() + QLatin1Char('/') + cssBaseName);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    KIO::Job* cssJob = KIO::copy(QUrl::fromLocalFile(cssFileName), cssUrl, KIO::Overwrite | KIO::HideProgressInfo);
+#else
     KIO::Job* cssJob = KIO::file_copy(QUrl::fromLocalFile(cssFileName), cssUrl, -1, KIO::Overwrite | KIO::HideProgressInfo);
+#endif
     KJobWidgets::setWindow(cssJob, (QWidget*)UMLApp::app());
     cssJob->exec();
     if (!cssJob->error()) {

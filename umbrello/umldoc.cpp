@@ -47,7 +47,8 @@
 #include "models/stereotypesmodel.h"
 
 // kde includes
-#include <kio/job.h>
+#include <KIO/CopyJob>
+#include <KIO/Job>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -523,7 +524,11 @@ bool UMLDoc::openDocument(const QUrl& url, const char *format /* = nullptr */)
     tmpfile.open();
     QUrl dest(QUrl::fromLocalFile(tmpfile.fileName()));
     logDebug2("UMLDoc::openDocument: copy from %1 to %2", url.path(), dest.path());
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    KIO::Job* job = KIO::copy(url, dest, KIO::Overwrite);
+#else
     KIO::FileCopyJob *job = KIO::file_copy(url, dest, -1, KIO::Overwrite);
+#endif
     KJobWidgets::setWindow(job, UMLApp::app());
     job->exec();
     QFile file(tmpfile.fileName());
@@ -788,7 +793,11 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
 
         // now we have to check, if we have to upload the file
         if (!url.isLocalFile()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            KIO::Job* job = KIO::copy(QUrl::fromLocalFile(tmp_tgz_file.fileName()), m_doc_url);
+#else
             KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tmp_tgz_file.fileName()), m_doc_url);
+#endif
             KJobWidgets::setWindow(job, UMLApp::app());
             job->exec();
             uploaded = !job->error();
@@ -828,7 +837,11 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
 
         // if it is a remote file, we have to upload the tmp file
         if (!url.isLocalFile()) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            KIO::Job* job = KIO::copy(QUrl::fromLocalFile(tmpfile.fileName()), m_doc_url);
+#else
             KIO::FileCopyJob *job = KIO::file_copy(QUrl::fromLocalFile(tmpfile.fileName()), m_doc_url);
+#endif
             KJobWidgets::setWindow(job, UMLApp::app());
             job->exec();
             uploaded = !job->error();
@@ -839,9 +852,17 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
             // now remove the original file
 #ifdef Q_OS_WIN
             tmpfile.setAutoRemove(true);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            KIO::Job* job = KIO::copy(QUrl::fromLocalFile(tmpfile.fileName()), url, KIO::Overwrite);
+#else
             KIO::FileCopyJob* fcj = KIO::file_copy(QUrl::fromLocalFile(tmpfile.fileName()), url, -1, KIO::Overwrite);
+#endif
+#else
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+            KIO::Job* fcj = KIO::move(QUrl::fromLocalFile(tmpfile.fileName()), url, KIO::Overwrite);
 #else
             KIO::FileCopyJob* fcj = KIO::file_move(QUrl::fromLocalFile(tmpfile.fileName()), url, -1, KIO::Overwrite);
+#endif
 #endif
             KJobWidgets::setWindow(fcj, (QWidget*)UMLApp::app());
             fcj->exec();
