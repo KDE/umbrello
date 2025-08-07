@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 01:57+0000\n"
+"POT-Creation-Date: 2025-08-07 02:04+0000\n"
 "PO-Revision-Date: 2025-08-05 12:41+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -693,8 +693,8 @@ msgstr "إستعمل متابعة لـ الفئات بوصة رمز:"
 #: codegenerators/d/dcodegenerationformbase.ui:261
 #: codegenerators/java/javacodegenerationformbase.ui:261
 #: codegenerators/ruby/rubycodegenerationformbase.ui:52
+#: dialogs/pages/associationrolepage.cpp:84
 #: dialogs/pages/associationrolepage.cpp:85
-#: dialogs/pages/associationrolepage.cpp:86
 #: dialogs/pages/classifierlistpage.cpp:221
 #: dialogs/pages/diagrampropertiespage.ui:322
 #: dialogs/pages/umlrolepropertiesbase.ui:140
@@ -894,7 +894,7 @@ msgstr "بدء نهاية بداية، بدء end"
 msgid "Auto-Generated Methods"
 msgstr "تلقائي أنشئ Methods"
 
-#: codegenwizard/codegenerationwizard.cpp:36
+#: codegenwizard/codegenerationwizard.cpp:35
 #, fuzzy, kde-format
 msgid "Code Generation Wizard"
 msgstr "الرّمز الجيل المساعد"
@@ -1355,7 +1355,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr "فشل"
 
-#: codeimpwizard/codeimportingwizard.cpp:35
+#: codeimpwizard/codeimportingwizard.cpp:34
 #, fuzzy, kde-format
 msgid "Code Importing Wizard"
 msgstr "الرّمز الجيل المساعد"
@@ -1563,9 +1563,9 @@ msgstr "الفئة الاسم"
 
 #: dialogs/activitydialog.cpp:37 dialogs/activitydialog.cpp:149
 #: dialogs/classpropertiesdialog.cpp:119 dialogs/objectnodedialog.cpp:39
-#: dialogs/pages/associationgeneralpage.cpp:78
+#: dialogs/pages/associationgeneralpage.cpp:77
 #: dialogs/parameterpropertiesdialog.cpp:61 dialogs/statedialog.cpp:44
-#: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:38
+#: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:37
 #: menus/listpopupmenu.cpp:241 refactoring/refactoringassistant.cpp:459
 #, kde-format
 msgid "Properties"
@@ -1654,7 +1654,7 @@ msgstr "ا&ستدعِ إجراء"
 msgid "&Parameter activity node"
 msgstr "إدخال النّشاط الاسم"
 
-#: dialogs/associationpropertiesdialog.cpp:39
+#: dialogs/associationpropertiesdialog.cpp:38
 #, fuzzy, kde-format
 msgid "Association Properties"
 msgstr "الجمعيّة خطأ"
@@ -1668,7 +1668,7 @@ msgstr "عامّ"
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
 #: dialogs/multipagedialogbase.cpp:299 dialogs/multipagedialogbase.cpp:313
 #: dialogs/multipagedialogbase.cpp:323 dialogs/settingsdialog.cpp:107
-#: dialogs/umlforeignkeyconstraintdialog.cpp:205 dialogs/umlviewdialog.cpp:88
+#: dialogs/umlforeignkeyconstraintdialog.cpp:205 dialogs/umlviewdialog.cpp:87
 #, kde-format
 msgid "General Settings"
 msgstr "الإعدادات العامة"
@@ -1993,7 +1993,7 @@ msgstr "احذف التخطيط?"
 msgid "&Delete"
 msgstr "ا&حذف"
 
-#: dialogs/dontaskagain.cpp:61
+#: dialogs/dontaskagain.cpp:59
 #, kde-format
 msgid "Notifications"
 msgstr "الإشعارات"
@@ -2317,90 +2317,90 @@ msgstr "احذف"
 msgid "Rename"
 msgstr "إعادة تسمية"
 
-#: dialogs/pages/associationgeneralpage.cpp:86
+#: dialogs/pages/associationgeneralpage.cpp:85
 #, kde-format
 msgctxt "name of association widget"
 msgid "Name:"
 msgstr "الاسم:"
 
-#: dialogs/pages/associationgeneralpage.cpp:108
+#: dialogs/pages/associationgeneralpage.cpp:107
 #: menus/widgetbasepopupmenu.cpp:102 menus/widgetbasepopupmenu.cpp:729
 #, kde-format
 msgid "Stereotype"
 msgstr "صورة نمطية"
 
-#: dialogs/pages/associationgeneralpage.cpp:117
+#: dialogs/pages/associationgeneralpage.cpp:116
 #, kde-format
 msgid "Type:"
 msgstr "النوع:"
 
-#: dialogs/pages/associationrolepage.cpp:61
+#: dialogs/pages/associationrolepage.cpp:60
 #, fuzzy, kde-format
 msgid "Role A Properties"
 msgstr "الدّور خصائص"
 
-#: dialogs/pages/associationrolepage.cpp:62
+#: dialogs/pages/associationrolepage.cpp:61
 #, fuzzy, kde-format
 msgid "Role B Properties"
 msgstr "الدّور خصائص"
 
-#: dialogs/pages/associationrolepage.cpp:79
+#: dialogs/pages/associationrolepage.cpp:78
 #, fuzzy, kde-format
 msgid "Role A Changeability"
 msgstr "الدّور التغير"
 
-#: dialogs/pages/associationrolepage.cpp:80
+#: dialogs/pages/associationrolepage.cpp:79
 #, fuzzy, kde-format
 msgid "Role B Changeability"
 msgstr "الدّور التغير"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelRoleName)
-#: dialogs/pages/associationrolepage.cpp:108
-#: dialogs/pages/associationrolepage.cpp:157
+#: dialogs/pages/associationrolepage.cpp:107
+#: dialogs/pages/associationrolepage.cpp:156
 #: dialogs/pages/umlrolepropertiesbase.ui:36
 #, kde-format
 msgid "Rolename:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelMultiplicity)
-#: dialogs/pages/associationrolepage.cpp:113
-#: dialogs/pages/associationrolepage.cpp:162
+#: dialogs/pages/associationrolepage.cpp:112
+#: dialogs/pages/associationrolepage.cpp:161
 #: dialogs/pages/umlrolepropertiesbase.ui:49
 #, kde-format
 msgid "Multiplicity:"
 msgstr "التعددية:"
 
-#: dialogs/pages/associationrolepage.cpp:133
+#: dialogs/pages/associationrolepage.cpp:132
 #, fuzzy, kde-format
 msgctxt "changeability for A is changeable"
 msgid "Changeable"
 msgstr "متغير"
 
-#: dialogs/pages/associationrolepage.cpp:136
+#: dialogs/pages/associationrolepage.cpp:135
 #, kde-format
 msgctxt "changeability for A is frozen"
 msgid "Frozen"
 msgstr "مجمّد"
 
-#: dialogs/pages/associationrolepage.cpp:139
+#: dialogs/pages/associationrolepage.cpp:138
 #, kde-format
 msgctxt "changeability for A is add only"
 msgid "Add only"
 msgstr "إضافة فقط"
 
-#: dialogs/pages/associationrolepage.cpp:182
+#: dialogs/pages/associationrolepage.cpp:181
 #, fuzzy, kde-format
 msgctxt "changeability for B is changeable"
 msgid "Changeable"
 msgstr "متغير"
 
-#: dialogs/pages/associationrolepage.cpp:185
+#: dialogs/pages/associationrolepage.cpp:184
 #, kde-format
 msgctxt "changeability for B is frozen"
 msgid "Frozen"
 msgstr "مجمّد"
 
-#: dialogs/pages/associationrolepage.cpp:188
+#: dialogs/pages/associationrolepage.cpp:187
 #, fuzzy, kde-format
 msgctxt "changeability for B is add only"
 msgid "Add only"
@@ -3255,7 +3255,7 @@ msgstr "واجهة المستخدم"
 msgid "User Interface Settings"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:107 dialogs/umlviewdialog.cpp:88
+#: dialogs/settingsdialog.cpp:107 dialogs/umlviewdialog.cpp:87
 #, kde-format
 msgctxt "general settings page"
 msgid "General"
@@ -3398,29 +3398,29 @@ msgstr "أدخل اسم:"
 msgid "Linked diagram:"
 msgstr "جاري التّحميل."
 
-#: dialogs/stereoattributedialog.cpp:39
+#: dialogs/stereoattributedialog.cpp:38
 #, fuzzy, kde-format
 msgid "Stereotype Properties"
 msgstr "الدّور خصائص"
 
-#: dialogs/stereoattributedialog.cpp:59
+#: dialogs/stereoattributedialog.cpp:58
 #, fuzzy, kde-format
 msgid "Stereotype Attributes for "
 msgstr "كيان الصّفة."
 
-#: dialogs/stereoattributedialog.cpp:75 dialogs/umlattributedialog.cpp:76
+#: dialogs/stereoattributedialog.cpp:74 dialogs/umlattributedialog.cpp:76
 #, kde-format
 msgctxt "attribute name"
 msgid "&Name:"
 msgstr "الا&سم:"
 
-#: dialogs/stereoattributedialog.cpp:78
+#: dialogs/stereoattributedialog.cpp:77
 #, kde-format
 msgctxt "attribute type"
 msgid "&Type:"
 msgstr "ال&نّوع:"
 
-#: dialogs/stereoattributedialog.cpp:88
+#: dialogs/stereoattributedialog.cpp:87
 #, kde-format
 msgctxt "default value"
 msgid "&Default:"
@@ -3844,24 +3844,24 @@ msgstr ""
 msgid "Constraint Name Invalid"
 msgstr ""
 
-#: dialogs/umlviewdialog.cpp:106
+#: dialogs/umlviewdialog.cpp:105
 #, kde-format
 msgctxt "classes display options page"
 msgid "Display"
 msgstr "العرض"
 
-#: dialogs/umlviewdialog.cpp:106
+#: dialogs/umlviewdialog.cpp:105
 #, kde-format
 msgid "Classes Display Options"
 msgstr ""
 
-#: dialogs/umlviewdialog.cpp:116
+#: dialogs/umlviewdialog.cpp:115
 #, kde-format
 msgctxt "diagram style page"
 msgid "Style"
 msgstr "النّمط"
 
-#: dialogs/umlviewdialog.cpp:116
+#: dialogs/umlviewdialog.cpp:115
 #, fuzzy, kde-format
 msgid "Diagram Style"
 msgstr "التخطيط الاسم"
@@ -3932,7 +3932,7 @@ msgstr "ال&نّوع:"
 msgid "Package path:"
 msgstr "الرزمة"
 
-#: dialogs/widgets/umlstereotypewidget.cpp:24 umlmodel/umlobject.cpp:1269
+#: dialogs/widgets/umlstereotypewidget.cpp:22 umlmodel/umlobject.cpp:1269
 #, fuzzy, kde-format
 msgid "Stereotype &name:"
 msgstr "القالب الجاهز"
@@ -4091,27 +4091,27 @@ msgstr "الملف المراد فتحه"
 msgid "The XSLT file to use"
 msgstr ""
 
-#: docgenerators/xhtmlgenerator.cpp:105
+#: docgenerators/xhtmlgenerator.cpp:104
 #, kde-format
 msgid "Generating XHTML..."
 msgstr ""
 
-#: docgenerators/xhtmlgenerator.cpp:131
+#: docgenerators/xhtmlgenerator.cpp:130
 #, fuzzy, kde-format
 msgid "XHTML Generation Complete..."
 msgstr "الجيل failed."
 
-#: docgenerators/xhtmlgenerator.cpp:137
+#: docgenerators/xhtmlgenerator.cpp:136
 #, fuzzy, kde-format
 msgid "Copying CSS..."
 msgstr "جاري إغلاق ملف..."
 
-#: docgenerators/xhtmlgenerator.cpp:150
+#: docgenerators/xhtmlgenerator.cpp:149
 #, kde-format
 msgid "Finished Copying CSS..."
 msgstr ""
 
-#: docgenerators/xhtmlgenerator.cpp:153
+#: docgenerators/xhtmlgenerator.cpp:152
 #, kde-format
 msgid "Failed Copying CSS..."
 msgstr ""
@@ -4377,7 +4377,7 @@ msgstr "المكون"
 #: menus/listpopupmenu.cpp:166 menus/listpopupmenu.cpp:173
 #: menus/listpopupmenu.cpp:181 menus/listpopupmenu.cpp:211
 #: menus/listpopupmenu.cpp:271 menus/listpopupmenu.cpp:367
-#: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:82
+#: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:80
 #, kde-format
 msgid "Folder"
 msgstr "المجلد"
@@ -5803,13 +5803,13 @@ msgstr "مجهول عودة نوع"
 msgid "Unspecified error"
 msgstr "خطأ غير محدد"
 
-#: models/diagramsmodel.cpp:52 models/objectsmodel.cpp:78
+#: models/diagramsmodel.cpp:52 models/objectsmodel.cpp:76
 #: models/stereotypesmodel.cpp:51 refactoring/refactoringassistant.cpp:48
 #, kde-format
 msgid "Name"
 msgstr "الاسم"
 
-#: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:80
+#: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:78
 #, kde-format
 msgid "Type"
 msgstr "النّوع"
@@ -5819,22 +5819,22 @@ msgstr "النّوع"
 msgid "Widgets/Associations"
 msgstr "الجمعيّة"
 
-#: models/objectsmodel.cpp:84
+#: models/objectsmodel.cpp:82
 #, kde-format
 msgid "ID"
 msgstr "المعرّف"
 
-#: models/objectsmodel.cpp:86
+#: models/objectsmodel.cpp:84
 #, kde-format
 msgid "Saved"
 msgstr "محفوظ"
 
-#: models/objectsmodel.cpp:88
+#: models/objectsmodel.cpp:86
 #, kde-format
 msgid "Parent"
 msgstr "والدان"
 
-#: models/objectsmodel.cpp:90
+#: models/objectsmodel.cpp:88
 #, kde-format
 msgid "Pointer"
 msgstr "المؤشر"
@@ -5945,7 +5945,7 @@ msgstr "خاطئ استخدام من."
 msgid "Association Error"
 msgstr "الجمعيّة خطأ"
 
-#: toolbarstatemessages.cpp:341
+#: toolbarstatemessages.cpp:340
 #, kde-format
 msgid "destroy"
 msgstr ""
@@ -8075,67 +8075,67 @@ msgstr "استخدام حالة خطاطة"
 msgid "Instance name:"
 msgstr "أدخل اسم:"
 
-#: umlscene.cpp:720
+#: umlscene.cpp:719
 #, fuzzy, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "التخطيط صفحة 1"
 
-#: umlscene.cpp:1520
+#: umlscene.cpp:1519
 #, fuzzy, kde-format
 msgid "Use fill color"
 msgstr "إستعمل ملأ اللون"
 
-#: umlscene.cpp:1522
+#: umlscene.cpp:1521
 #, fuzzy, kde-format
 msgid "No fill color"
 msgstr "ملأ اللون."
 
-#: umlscene.cpp:1537
+#: umlscene.cpp:1536
 #, fuzzy, kde-format
 msgid "Change font"
 msgstr "غيّر الخط."
 
-#: umlscene.cpp:1551
+#: umlscene.cpp:1550
 #, fuzzy, kde-format
 msgid "Change line color"
 msgstr "غيّر الفئة"
 
-#: umlscene.cpp:1569
+#: umlscene.cpp:1568
 #, fuzzy, kde-format
 msgid "Change line width"
 msgstr "خط العرض "
 
-#: umlscene.cpp:1589
+#: umlscene.cpp:1588
 #, fuzzy, kde-format
 msgid "Change fill color"
 msgstr "إستعمل ملأ اللون"
 
-#: umlscene.cpp:1604
+#: umlscene.cpp:1603
 #, fuzzy, kde-format
 msgid "Change visual property"
 msgstr "الدّور خصائص"
 
-#: umlscene.cpp:1655
+#: umlscene.cpp:1654
 #, fuzzy, kde-format
 msgid "Delete widgets"
 msgstr "احذف"
 
-#: umlscene.cpp:1701
+#: umlscene.cpp:1700
 #, kde-format
 msgid "Resize widgets"
 msgstr ""
 
-#: umlscene.cpp:3353
+#: umlscene.cpp:3352
 #, fuzzy, kde-format
 msgid "Enter Diagram Name"
 msgstr "إدخال التخطيط الاسم"
 
-#: umlscene.cpp:3354
+#: umlscene.cpp:3353
 #, fuzzy, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "إدخال جديد الاسم من خطاطة:"
 
-#: umlscene.cpp:3370
+#: umlscene.cpp:3369
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""
@@ -8419,7 +8419,7 @@ msgctxt "@info:tooltip of custom toolbar button"
 msgid "%1"
 msgstr "%"
 
-#: umlwidgets/umlwidget.cpp:464
+#: umlwidgets/umlwidget.cpp:463
 #, fuzzy, kde-format
 msgid ""
 "Hold shift or ctrl to move in X axis. Hold shift and control to move in Y "
@@ -8428,27 +8428,27 @@ msgstr ""
 "توقف shift أو إلى انقل بوصة س محور توقف shift و control إلى انقل بوصة ص محور "
 "يمين زر انقر إلى إلغاء انقل."
 
-#: umlwidgets/umlwidget.cpp:552
+#: umlwidgets/umlwidget.cpp:551
 #, kde-format
 msgid "Move widgets"
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:795
+#: umlwidgets/umlwidget.cpp:794
 #, fuzzy, kde-format
 msgid "Rename Object"
 msgstr "إعادة تسمية كائن"
 
-#: umlwidgets/umlwidget.cpp:796
+#: umlwidgets/umlwidget.cpp:795
 #, fuzzy, kde-format
 msgid "Enter object name:"
 msgstr "إدخال كائن الاسم:"
 
-#: umlwidgets/umlwidget.cpp:1548
+#: umlwidgets/umlwidget.cpp:1547
 #, kde-format
 msgid "Hold shift or control to move in X axis."
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:1549
+#: umlwidgets/umlwidget.cpp:1548
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
 msgstr ""

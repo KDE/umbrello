@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 01:57+0000\n"
+"POT-Creation-Date: 2025-08-07 02:04+0000\n"
 "PO-Revision-Date: 2015-02-25 21:00+0100\n"
 "Last-Translator: Samir Ribić <megaribi@epn.ba>\n"
 "Language-Team:  <bs@li.org>\n"
@@ -702,8 +702,8 @@ msgstr "Koristi sljedeće za klase u generisanom kôdu:"
 #: codegenerators/d/dcodegenerationformbase.ui:261
 #: codegenerators/java/javacodegenerationformbase.ui:261
 #: codegenerators/ruby/rubycodegenerationformbase.ui:52
+#: dialogs/pages/associationrolepage.cpp:84
 #: dialogs/pages/associationrolepage.cpp:85
-#: dialogs/pages/associationrolepage.cpp:86
 #: dialogs/pages/classifierlistpage.cpp:221
 #: dialogs/pages/diagrampropertiespage.ui:322
 #: dialogs/pages/umlrolepropertiesbase.ui:140
@@ -903,7 +903,7 @@ msgstr "Početak-Kraj (=begin  =end)"
 msgid "Auto-Generated Methods"
 msgstr "Automatski generisane metode"
 
-#: codegenwizard/codegenerationwizard.cpp:36
+#: codegenwizard/codegenerationwizard.cpp:35
 #, kde-format
 msgid "Code Generation Wizard"
 msgstr "Čarobnjak za generisanje kôda"
@@ -1380,7 +1380,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr "Neuspješno."
 
-#: codeimpwizard/codeimportingwizard.cpp:35
+#: codeimpwizard/codeimportingwizard.cpp:34
 #, kde-format
 msgid "Code Importing Wizard"
 msgstr "Čarobnjak za uvoz koda"
@@ -1587,9 +1587,9 @@ msgstr "Ime klase"
 
 #: dialogs/activitydialog.cpp:37 dialogs/activitydialog.cpp:149
 #: dialogs/classpropertiesdialog.cpp:119 dialogs/objectnodedialog.cpp:39
-#: dialogs/pages/associationgeneralpage.cpp:78
+#: dialogs/pages/associationgeneralpage.cpp:77
 #: dialogs/parameterpropertiesdialog.cpp:61 dialogs/statedialog.cpp:44
-#: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:38
+#: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:37
 #: menus/listpopupmenu.cpp:241 refactoring/refactoringassistant.cpp:459
 #, kde-format
 msgid "Properties"
@@ -1678,7 +1678,7 @@ msgstr "&Dozovi akciju "
 msgid "&Parameter activity node"
 msgstr "&Parametarski čvor aktivnosti"
 
-#: dialogs/associationpropertiesdialog.cpp:39
+#: dialogs/associationpropertiesdialog.cpp:38
 #, kde-format
 msgid "Association Properties"
 msgstr "Svojstva pridruživanja"
@@ -1692,7 +1692,7 @@ msgstr "Opšte"
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
 #: dialogs/multipagedialogbase.cpp:299 dialogs/multipagedialogbase.cpp:313
 #: dialogs/multipagedialogbase.cpp:323 dialogs/settingsdialog.cpp:107
-#: dialogs/umlforeignkeyconstraintdialog.cpp:205 dialogs/umlviewdialog.cpp:88
+#: dialogs/umlforeignkeyconstraintdialog.cpp:205 dialogs/umlviewdialog.cpp:87
 #, kde-format
 msgid "General Settings"
 msgstr "Opšte postavke"
@@ -2021,7 +2021,7 @@ msgstr "Da li da obrišem dijagram?"
 msgid "&Delete"
 msgstr "&Obriši"
 
-#: dialogs/dontaskagain.cpp:61
+#: dialogs/dontaskagain.cpp:59
 #, fuzzy, kde-format
 #| msgid "Associations"
 msgid "Notifications"
@@ -2358,90 +2358,90 @@ msgstr "Obriši"
 msgid "Rename"
 msgstr "Promijeni ime"
 
-#: dialogs/pages/associationgeneralpage.cpp:86
+#: dialogs/pages/associationgeneralpage.cpp:85
 #, kde-format
 msgctxt "name of association widget"
 msgid "Name:"
 msgstr "Naziv:"
 
-#: dialogs/pages/associationgeneralpage.cpp:108
+#: dialogs/pages/associationgeneralpage.cpp:107
 #: menus/widgetbasepopupmenu.cpp:102 menus/widgetbasepopupmenu.cpp:729
 #, kde-format
 msgid "Stereotype"
 msgstr "Stereotip"
 
-#: dialogs/pages/associationgeneralpage.cpp:117
+#: dialogs/pages/associationgeneralpage.cpp:116
 #, kde-format
 msgid "Type:"
 msgstr "Tip:"
 
-#: dialogs/pages/associationrolepage.cpp:61
+#: dialogs/pages/associationrolepage.cpp:60
 #, kde-format
 msgid "Role A Properties"
 msgstr "Svojstva uloge „A“"
 
-#: dialogs/pages/associationrolepage.cpp:62
+#: dialogs/pages/associationrolepage.cpp:61
 #, kde-format
 msgid "Role B Properties"
 msgstr "Svojstva uloge „B“"
 
-#: dialogs/pages/associationrolepage.cpp:79
+#: dialogs/pages/associationrolepage.cpp:78
 #, kde-format
 msgid "Role A Changeability"
 msgstr "Promjenljivost uloge „A“"
 
-#: dialogs/pages/associationrolepage.cpp:80
+#: dialogs/pages/associationrolepage.cpp:79
 #, kde-format
 msgid "Role B Changeability"
 msgstr "Promjenljivost uloge „B“"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelRoleName)
-#: dialogs/pages/associationrolepage.cpp:108
-#: dialogs/pages/associationrolepage.cpp:157
+#: dialogs/pages/associationrolepage.cpp:107
+#: dialogs/pages/associationrolepage.cpp:156
 #: dialogs/pages/umlrolepropertiesbase.ui:36
 #, kde-format
 msgid "Rolename:"
 msgstr "Ime uloge:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelMultiplicity)
-#: dialogs/pages/associationrolepage.cpp:113
-#: dialogs/pages/associationrolepage.cpp:162
+#: dialogs/pages/associationrolepage.cpp:112
+#: dialogs/pages/associationrolepage.cpp:161
 #: dialogs/pages/umlrolepropertiesbase.ui:49
 #, kde-format
 msgid "Multiplicity:"
 msgstr "Višestrukost:"
 
-#: dialogs/pages/associationrolepage.cpp:133
+#: dialogs/pages/associationrolepage.cpp:132
 #, kde-format
 msgctxt "changeability for A is changeable"
 msgid "Changeable"
 msgstr "Izmjenjiv"
 
-#: dialogs/pages/associationrolepage.cpp:136
+#: dialogs/pages/associationrolepage.cpp:135
 #, kde-format
 msgctxt "changeability for A is frozen"
 msgid "Frozen"
 msgstr "Zamrznut"
 
-#: dialogs/pages/associationrolepage.cpp:139
+#: dialogs/pages/associationrolepage.cpp:138
 #, kde-format
 msgctxt "changeability for A is add only"
 msgid "Add only"
 msgstr "Samo dodavanje"
 
-#: dialogs/pages/associationrolepage.cpp:182
+#: dialogs/pages/associationrolepage.cpp:181
 #, kde-format
 msgctxt "changeability for B is changeable"
 msgid "Changeable"
 msgstr "Izmjenjiv"
 
-#: dialogs/pages/associationrolepage.cpp:185
+#: dialogs/pages/associationrolepage.cpp:184
 #, kde-format
 msgctxt "changeability for B is frozen"
 msgid "Frozen"
 msgstr "Zamrznut"
 
-#: dialogs/pages/associationrolepage.cpp:188
+#: dialogs/pages/associationrolepage.cpp:187
 #, kde-format
 msgctxt "changeability for B is add only"
 msgid "Add only"
@@ -3347,7 +3347,7 @@ msgstr "Korisnički interfejs"
 msgid "User Interface Settings"
 msgstr "Postavke korisničkog interfejsa"
 
-#: dialogs/settingsdialog.cpp:107 dialogs/umlviewdialog.cpp:88
+#: dialogs/settingsdialog.cpp:107 dialogs/umlviewdialog.cpp:87
 #, kde-format
 msgctxt "general settings page"
 msgid "General"
@@ -3492,32 +3492,32 @@ msgstr "Ime stanja:"
 msgid "Linked diagram:"
 msgstr "Učitavam dijagrame..."
 
-#: dialogs/stereoattributedialog.cpp:39
+#: dialogs/stereoattributedialog.cpp:38
 #, fuzzy, kde-format
 #| msgid "Role Properties"
 msgid "Stereotype Properties"
 msgstr "Svojstva uloge"
 
-#: dialogs/stereoattributedialog.cpp:59
+#: dialogs/stereoattributedialog.cpp:58
 #, fuzzy, kde-format
 #| msgid "Entity Attributes"
 msgid "Stereotype Attributes for "
 msgstr "Atributi entiteta"
 
-#: dialogs/stereoattributedialog.cpp:75 dialogs/umlattributedialog.cpp:76
+#: dialogs/stereoattributedialog.cpp:74 dialogs/umlattributedialog.cpp:76
 #, kde-format
 msgctxt "attribute name"
 msgid "&Name:"
 msgstr "&Ime:"
 
-#: dialogs/stereoattributedialog.cpp:78
+#: dialogs/stereoattributedialog.cpp:77
 #, fuzzy, kde-format
 #| msgid "&Type:"
 msgctxt "attribute type"
 msgid "&Type:"
 msgstr "&Tip:"
 
-#: dialogs/stereoattributedialog.cpp:88
+#: dialogs/stereoattributedialog.cpp:87
 #, fuzzy, kde-format
 #| msgctxt "default line color button"
 #| msgid "&Default"
@@ -3967,24 +3967,24 @@ msgstr "Unijeli ste neispravno ime za ograničenje."
 msgid "Constraint Name Invalid"
 msgstr "Ime ograničenja neispravno"
 
-#: dialogs/umlviewdialog.cpp:106
+#: dialogs/umlviewdialog.cpp:105
 #, kde-format
 msgctxt "classes display options page"
 msgid "Display"
 msgstr "Prikaz"
 
-#: dialogs/umlviewdialog.cpp:106
+#: dialogs/umlviewdialog.cpp:105
 #, kde-format
 msgid "Classes Display Options"
 msgstr "Opcije za prikaz klasa"
 
-#: dialogs/umlviewdialog.cpp:116
+#: dialogs/umlviewdialog.cpp:115
 #, kde-format
 msgctxt "diagram style page"
 msgid "Style"
 msgstr "Stil"
 
-#: dialogs/umlviewdialog.cpp:116
+#: dialogs/umlviewdialog.cpp:115
 #, kde-format
 msgid "Diagram Style"
 msgstr "Stil dijagrama"
@@ -4059,7 +4059,7 @@ msgstr "&Tip:"
 msgid "Package path:"
 msgstr "Putanja do paketa:"
 
-#: dialogs/widgets/umlstereotypewidget.cpp:24 umlmodel/umlobject.cpp:1269
+#: dialogs/widgets/umlstereotypewidget.cpp:22 umlmodel/umlobject.cpp:1269
 #, kde-format
 msgid "Stereotype &name:"
 msgstr "Ime &stereotipa:"
@@ -4221,27 +4221,27 @@ msgstr "Datoteka  za transformisanje"
 msgid "The XSLT file to use"
 msgstr "XSLT datoteka koju treba upotrijebiti"
 
-#: docgenerators/xhtmlgenerator.cpp:105
+#: docgenerators/xhtmlgenerator.cpp:104
 #, kde-format
 msgid "Generating XHTML..."
 msgstr "Generisanje XHTML..."
 
-#: docgenerators/xhtmlgenerator.cpp:131
+#: docgenerators/xhtmlgenerator.cpp:130
 #, kde-format
 msgid "XHTML Generation Complete..."
 msgstr "XHTML generisanje završeno..."
 
-#: docgenerators/xhtmlgenerator.cpp:137
+#: docgenerators/xhtmlgenerator.cpp:136
 #, kde-format
 msgid "Copying CSS..."
 msgstr "Kopiranje CSS..."
 
-#: docgenerators/xhtmlgenerator.cpp:150
+#: docgenerators/xhtmlgenerator.cpp:149
 #, kde-format
 msgid "Finished Copying CSS..."
 msgstr "Završeno kopiranje CSS..."
 
-#: docgenerators/xhtmlgenerator.cpp:153
+#: docgenerators/xhtmlgenerator.cpp:152
 #, kde-format
 msgid "Failed Copying CSS..."
 msgstr "Kopiranje CSS nije uspjelo..."
@@ -4519,7 +4519,7 @@ msgstr "Komponenta"
 #: menus/listpopupmenu.cpp:166 menus/listpopupmenu.cpp:173
 #: menus/listpopupmenu.cpp:181 menus/listpopupmenu.cpp:211
 #: menus/listpopupmenu.cpp:271 menus/listpopupmenu.cpp:367
-#: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:82
+#: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:80
 #, kde-format
 msgid "Folder"
 msgstr "Mapa"
@@ -6074,13 +6074,13 @@ msgstr "Nepoznat povratni tip"
 msgid "Unspecified error"
 msgstr "Neodređena greška"
 
-#: models/diagramsmodel.cpp:52 models/objectsmodel.cpp:78
+#: models/diagramsmodel.cpp:52 models/objectsmodel.cpp:76
 #: models/stereotypesmodel.cpp:51 refactoring/refactoringassistant.cpp:48
 #, kde-format
 msgid "Name"
 msgstr "Ime"
 
-#: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:80
+#: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:78
 #, fuzzy, kde-format
 #| msgid "Type:"
 msgid "Type"
@@ -6092,23 +6092,23 @@ msgstr "Tip:"
 msgid "Widgets/Associations"
 msgstr "Pridruženja"
 
-#: models/objectsmodel.cpp:84
+#: models/objectsmodel.cpp:82
 #, kde-format
 msgid "ID"
 msgstr ""
 
-#: models/objectsmodel.cpp:86
+#: models/objectsmodel.cpp:84
 #, fuzzy, kde-format
 #| msgid "Save As"
 msgid "Saved"
 msgstr "Snimi kao"
 
-#: models/objectsmodel.cpp:88
+#: models/objectsmodel.cpp:86
 #, kde-format
 msgid "Parent"
 msgstr ""
 
-#: models/objectsmodel.cpp:90
+#: models/objectsmodel.cpp:88
 #, fuzzy, kde-format
 #| msgid "Add Point"
 msgid "Pointer"
@@ -6221,7 +6221,7 @@ msgstr "Neispravno korištenje pridruživanja."
 msgid "Association Error"
 msgstr "Greška pridruživanja"
 
-#: toolbarstatemessages.cpp:341
+#: toolbarstatemessages.cpp:340
 #, kde-format
 msgid "destroy"
 msgstr ""
@@ -8421,67 +8421,67 @@ msgstr "&Ime slučaja upotrebe:"
 msgid "Instance name:"
 msgstr "Ime primjerka:"
 
-#: umlscene.cpp:720
+#: umlscene.cpp:719
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Dijagram: %2 strana %1"
 
-#: umlscene.cpp:1520
+#: umlscene.cpp:1519
 #, kde-format
 msgid "Use fill color"
 msgstr "Koristi boju za popunjavanje"
 
-#: umlscene.cpp:1522
+#: umlscene.cpp:1521
 #, kde-format
 msgid "No fill color"
 msgstr "Nema boje za popunjavanje"
 
-#: umlscene.cpp:1537
+#: umlscene.cpp:1536
 #, kde-format
 msgid "Change font"
 msgstr "Promijeni font"
 
-#: umlscene.cpp:1551
+#: umlscene.cpp:1550
 #, kde-format
 msgid "Change line color"
 msgstr "Promijeni boju linije"
 
-#: umlscene.cpp:1569
+#: umlscene.cpp:1568
 #, kde-format
 msgid "Change line width"
 msgstr "Promjeni širinu linije"
 
-#: umlscene.cpp:1589
+#: umlscene.cpp:1588
 #, kde-format
 msgid "Change fill color"
 msgstr "Promijeni boju za popunjavanje"
 
-#: umlscene.cpp:1604
+#: umlscene.cpp:1603
 #, kde-format
 msgid "Change visual property"
 msgstr "Promijeni vizualna podešavanja"
 
-#: umlscene.cpp:1655
+#: umlscene.cpp:1654
 #, kde-format
 msgid "Delete widgets"
 msgstr "Obriši grafičke animacije"
 
-#: umlscene.cpp:1701
+#: umlscene.cpp:1700
 #, kde-format
 msgid "Resize widgets"
 msgstr "Promijeni veličinu grafičkim animacijama"
 
-#: umlscene.cpp:3353
+#: umlscene.cpp:3352
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Unesite ime dijagrama"
 
-#: umlscene.cpp:3354
+#: umlscene.cpp:3353
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Unesite novo ime za dijagram:"
 
-#: umlscene.cpp:3370
+#: umlscene.cpp:3369
 #, fuzzy, kde-format
 #| msgid "No code importer for file: %1"
 msgid "Failed to import from file."
@@ -8762,7 +8762,7 @@ msgctxt "@info:tooltip of custom toolbar button"
 msgid "%1"
 msgstr "%1"
 
-#: umlwidgets/umlwidget.cpp:464
+#: umlwidgets/umlwidget.cpp:463
 #, kde-format
 msgid ""
 "Hold shift or ctrl to move in X axis. Hold shift and control to move in Y "
@@ -8771,27 +8771,27 @@ msgstr ""
 "Držite Shift ili Ctrl za kretanje duž X-ose. Držite Shift i Ctrl za kretanje "
 "duž Y-ose. Desnim klikom se prekida kretanje."
 
-#: umlwidgets/umlwidget.cpp:552
+#: umlwidgets/umlwidget.cpp:551
 #, kde-format
 msgid "Move widgets"
 msgstr "Pomjeri grafičke animacije"
 
-#: umlwidgets/umlwidget.cpp:795
+#: umlwidgets/umlwidget.cpp:794
 #, kde-format
 msgid "Rename Object"
 msgstr "Promijeni ime objektu"
 
-#: umlwidgets/umlwidget.cpp:796
+#: umlwidgets/umlwidget.cpp:795
 #, kde-format
 msgid "Enter object name:"
 msgstr "Unesite ime objekta:"
 
-#: umlwidgets/umlwidget.cpp:1548
+#: umlwidgets/umlwidget.cpp:1547
 #, kde-format
 msgid "Hold shift or control to move in X axis."
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:1549
+#: umlwidgets/umlwidget.cpp:1548
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
 msgstr ""

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 01:57+0000\n"
+"POT-Creation-Date: 2025-08-07 02:04+0000\n"
 "PO-Revision-Date: 2025-05-30 20:53+0200\n"
 "Last-Translator: Alexander Yavorskiy <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -717,8 +717,8 @@ msgstr "Использовать следующие классы при гене
 #: codegenerators/d/dcodegenerationformbase.ui:261
 #: codegenerators/java/javacodegenerationformbase.ui:261
 #: codegenerators/ruby/rubycodegenerationformbase.ui:52
+#: dialogs/pages/associationrolepage.cpp:84
 #: dialogs/pages/associationrolepage.cpp:85
-#: dialogs/pages/associationrolepage.cpp:86
 #: dialogs/pages/classifierlistpage.cpp:221
 #: dialogs/pages/diagrampropertiespage.ui:322
 #: dialogs/pages/umlrolepropertiesbase.ui:140
@@ -918,7 +918,7 @@ msgstr "Начало-конец (=begin  =end)"
 msgid "Auto-Generated Methods"
 msgstr "Генерировать методы автоматически"
 
-#: codegenwizard/codegenerationwizard.cpp:36
+#: codegenwizard/codegenerationwizard.cpp:35
 #, kde-format
 msgid "Code Generation Wizard"
 msgstr "Мастер генерации кода"
@@ -1394,7 +1394,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr "Сбой."
 
-#: codeimpwizard/codeimportingwizard.cpp:35
+#: codeimpwizard/codeimportingwizard.cpp:34
 #, kde-format
 msgid "Code Importing Wizard"
 msgstr "Мастер импорта кода"
@@ -1602,9 +1602,9 @@ msgstr "Имя класса"
 
 #: dialogs/activitydialog.cpp:37 dialogs/activitydialog.cpp:149
 #: dialogs/classpropertiesdialog.cpp:119 dialogs/objectnodedialog.cpp:39
-#: dialogs/pages/associationgeneralpage.cpp:78
+#: dialogs/pages/associationgeneralpage.cpp:77
 #: dialogs/parameterpropertiesdialog.cpp:61 dialogs/statedialog.cpp:44
-#: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:38
+#: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:37
 #: menus/listpopupmenu.cpp:241 refactoring/refactoringassistant.cpp:459
 #, kde-format
 msgid "Properties"
@@ -1693,7 +1693,7 @@ msgstr "&Ссылка на действие "
 msgid "&Parameter activity node"
 msgstr "&Параметр узла деятельности"
 
-#: dialogs/associationpropertiesdialog.cpp:39
+#: dialogs/associationpropertiesdialog.cpp:38
 #, kde-format
 msgid "Association Properties"
 msgstr "Свойства ассоциации"
@@ -1707,7 +1707,7 @@ msgstr "Общие"
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
 #: dialogs/multipagedialogbase.cpp:299 dialogs/multipagedialogbase.cpp:313
 #: dialogs/multipagedialogbase.cpp:323 dialogs/settingsdialog.cpp:107
-#: dialogs/umlforeignkeyconstraintdialog.cpp:205 dialogs/umlviewdialog.cpp:88
+#: dialogs/umlforeignkeyconstraintdialog.cpp:205 dialogs/umlviewdialog.cpp:87
 #, kde-format
 msgid "General Settings"
 msgstr "Основные параметры"
@@ -2032,7 +2032,7 @@ msgstr "Удалить диаграмму?"
 msgid "&Delete"
 msgstr "&Удалить"
 
-#: dialogs/dontaskagain.cpp:61
+#: dialogs/dontaskagain.cpp:59
 #, kde-format
 msgid "Notifications"
 msgstr "Уведомления"
@@ -2364,90 +2364,90 @@ msgstr "Удалить"
 msgid "Rename"
 msgstr "Переименовать"
 
-#: dialogs/pages/associationgeneralpage.cpp:86
+#: dialogs/pages/associationgeneralpage.cpp:85
 #, kde-format
 msgctxt "name of association widget"
 msgid "Name:"
 msgstr "Имя:"
 
-#: dialogs/pages/associationgeneralpage.cpp:108
+#: dialogs/pages/associationgeneralpage.cpp:107
 #: menus/widgetbasepopupmenu.cpp:102 menus/widgetbasepopupmenu.cpp:729
 #, kde-format
 msgid "Stereotype"
 msgstr "Стереотип"
 
-#: dialogs/pages/associationgeneralpage.cpp:117
+#: dialogs/pages/associationgeneralpage.cpp:116
 #, kde-format
 msgid "Type:"
 msgstr "Тип:"
 
-#: dialogs/pages/associationrolepage.cpp:61
+#: dialogs/pages/associationrolepage.cpp:60
 #, kde-format
 msgid "Role A Properties"
 msgstr "Свойства роли A"
 
-#: dialogs/pages/associationrolepage.cpp:62
+#: dialogs/pages/associationrolepage.cpp:61
 #, kde-format
 msgid "Role B Properties"
 msgstr "Свойства роли B"
 
-#: dialogs/pages/associationrolepage.cpp:79
+#: dialogs/pages/associationrolepage.cpp:78
 #, kde-format
 msgid "Role A Changeability"
 msgstr "Возможность изменения роли A"
 
-#: dialogs/pages/associationrolepage.cpp:80
+#: dialogs/pages/associationrolepage.cpp:79
 #, kde-format
 msgid "Role B Changeability"
 msgstr "Возможность изменения роли B"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelRoleName)
-#: dialogs/pages/associationrolepage.cpp:108
-#: dialogs/pages/associationrolepage.cpp:157
+#: dialogs/pages/associationrolepage.cpp:107
+#: dialogs/pages/associationrolepage.cpp:156
 #: dialogs/pages/umlrolepropertiesbase.ui:36
 #, kde-format
 msgid "Rolename:"
 msgstr "Имя роли:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelMultiplicity)
-#: dialogs/pages/associationrolepage.cpp:113
-#: dialogs/pages/associationrolepage.cpp:162
+#: dialogs/pages/associationrolepage.cpp:112
+#: dialogs/pages/associationrolepage.cpp:161
 #: dialogs/pages/umlrolepropertiesbase.ui:49
 #, kde-format
 msgid "Multiplicity:"
 msgstr "Множественность:"
 
-#: dialogs/pages/associationrolepage.cpp:133
+#: dialogs/pages/associationrolepage.cpp:132
 #, kde-format
 msgctxt "changeability for A is changeable"
 msgid "Changeable"
 msgstr "Изменяемо"
 
-#: dialogs/pages/associationrolepage.cpp:136
+#: dialogs/pages/associationrolepage.cpp:135
 #, kde-format
 msgctxt "changeability for A is frozen"
 msgid "Frozen"
 msgstr "Блокировано"
 
-#: dialogs/pages/associationrolepage.cpp:139
+#: dialogs/pages/associationrolepage.cpp:138
 #, kde-format
 msgctxt "changeability for A is add only"
 msgid "Add only"
 msgstr "Только добавление"
 
-#: dialogs/pages/associationrolepage.cpp:182
+#: dialogs/pages/associationrolepage.cpp:181
 #, kde-format
 msgctxt "changeability for B is changeable"
 msgid "Changeable"
 msgstr "Изменяемо"
 
-#: dialogs/pages/associationrolepage.cpp:185
+#: dialogs/pages/associationrolepage.cpp:184
 #, kde-format
 msgctxt "changeability for B is frozen"
 msgid "Frozen"
 msgstr "Блокировано"
 
-#: dialogs/pages/associationrolepage.cpp:188
+#: dialogs/pages/associationrolepage.cpp:187
 #, kde-format
 msgctxt "changeability for B is add only"
 msgid "Add only"
@@ -3322,7 +3322,7 @@ msgstr "Интерфейс"
 msgid "User Interface Settings"
 msgstr "Интерфейс пользователя"
 
-#: dialogs/settingsdialog.cpp:107 dialogs/umlviewdialog.cpp:88
+#: dialogs/settingsdialog.cpp:107 dialogs/umlviewdialog.cpp:87
 #, kde-format
 msgctxt "general settings page"
 msgid "General"
@@ -3465,29 +3465,29 @@ msgstr "Имя состояния:"
 msgid "Linked diagram:"
 msgstr "Связанная диаграмма:"
 
-#: dialogs/stereoattributedialog.cpp:39
+#: dialogs/stereoattributedialog.cpp:38
 #, kde-format
 msgid "Stereotype Properties"
 msgstr "Свойства стереотипа"
 
-#: dialogs/stereoattributedialog.cpp:59
+#: dialogs/stereoattributedialog.cpp:58
 #, kde-format
 msgid "Stereotype Attributes for "
 msgstr "Атрибуты стереотипа"
 
-#: dialogs/stereoattributedialog.cpp:75 dialogs/umlattributedialog.cpp:76
+#: dialogs/stereoattributedialog.cpp:74 dialogs/umlattributedialog.cpp:76
 #, kde-format
 msgctxt "attribute name"
 msgid "&Name:"
 msgstr "&Имя:"
 
-#: dialogs/stereoattributedialog.cpp:78
+#: dialogs/stereoattributedialog.cpp:77
 #, kde-format
 msgctxt "attribute type"
 msgid "&Type:"
 msgstr "&Тип:"
 
-#: dialogs/stereoattributedialog.cpp:88
+#: dialogs/stereoattributedialog.cpp:87
 #, kde-format
 msgctxt "default value"
 msgid "&Default:"
@@ -3916,24 +3916,24 @@ msgstr "Недопустимое имя ограничения."
 msgid "Constraint Name Invalid"
 msgstr "Недопустимое имя ограничения"
 
-#: dialogs/umlviewdialog.cpp:106
+#: dialogs/umlviewdialog.cpp:105
 #, kde-format
 msgctxt "classes display options page"
 msgid "Display"
 msgstr "Отображение"
 
-#: dialogs/umlviewdialog.cpp:106
+#: dialogs/umlviewdialog.cpp:105
 #, kde-format
 msgid "Classes Display Options"
 msgstr "Параметры отображения классов"
 
-#: dialogs/umlviewdialog.cpp:116
+#: dialogs/umlviewdialog.cpp:115
 #, kde-format
 msgctxt "diagram style page"
 msgid "Style"
 msgstr "Стиль"
 
-#: dialogs/umlviewdialog.cpp:116
+#: dialogs/umlviewdialog.cpp:115
 #, kde-format
 msgid "Diagram Style"
 msgstr "Стиль диаграммы"
@@ -4004,7 +4004,7 @@ msgstr "&Тип:"
 msgid "Package path:"
 msgstr "Путь пакета:"
 
-#: dialogs/widgets/umlstereotypewidget.cpp:24 umlmodel/umlobject.cpp:1269
+#: dialogs/widgets/umlstereotypewidget.cpp:22 umlmodel/umlobject.cpp:1269
 #, kde-format
 msgid "Stereotype &name:"
 msgstr "&Имя стереотипа:"
@@ -4165,27 +4165,27 @@ msgstr "Файл для преобразования"
 msgid "The XSLT file to use"
 msgstr "Файл XSLT"
 
-#: docgenerators/xhtmlgenerator.cpp:105
+#: docgenerators/xhtmlgenerator.cpp:104
 #, kde-format
 msgid "Generating XHTML..."
 msgstr "Генерация XHTML..."
 
-#: docgenerators/xhtmlgenerator.cpp:131
+#: docgenerators/xhtmlgenerator.cpp:130
 #, kde-format
 msgid "XHTML Generation Complete..."
 msgstr "Генерация XHTML завершена..."
 
-#: docgenerators/xhtmlgenerator.cpp:137
+#: docgenerators/xhtmlgenerator.cpp:136
 #, kde-format
 msgid "Copying CSS..."
 msgstr "Копирование CSS..."
 
-#: docgenerators/xhtmlgenerator.cpp:150
+#: docgenerators/xhtmlgenerator.cpp:149
 #, kde-format
 msgid "Finished Copying CSS..."
 msgstr "Копирование CSS завершено..."
 
-#: docgenerators/xhtmlgenerator.cpp:153
+#: docgenerators/xhtmlgenerator.cpp:152
 #, kde-format
 msgid "Failed Copying CSS..."
 msgstr "Ошибка копирования CSS..."
@@ -4458,7 +4458,7 @@ msgstr "Компонент"
 #: menus/listpopupmenu.cpp:166 menus/listpopupmenu.cpp:173
 #: menus/listpopupmenu.cpp:181 menus/listpopupmenu.cpp:211
 #: menus/listpopupmenu.cpp:271 menus/listpopupmenu.cpp:367
-#: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:82
+#: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:80
 #, kde-format
 msgid "Folder"
 msgstr "Папка"
@@ -5865,13 +5865,13 @@ msgstr "Неизвестный тип возвращаемого значени�
 msgid "Unspecified error"
 msgstr "Неопределённая ошибка"
 
-#: models/diagramsmodel.cpp:52 models/objectsmodel.cpp:78
+#: models/diagramsmodel.cpp:52 models/objectsmodel.cpp:76
 #: models/stereotypesmodel.cpp:51 refactoring/refactoringassistant.cpp:48
 #, kde-format
 msgid "Name"
 msgstr "Имя"
 
-#: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:80
+#: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:78
 #, kde-format
 msgid "Type"
 msgstr "Тип"
@@ -5881,22 +5881,22 @@ msgstr "Тип"
 msgid "Widgets/Associations"
 msgstr "Виджеты/Ассоциации"
 
-#: models/objectsmodel.cpp:84
+#: models/objectsmodel.cpp:82
 #, kde-format
 msgid "ID"
 msgstr "ID"
 
-#: models/objectsmodel.cpp:86
+#: models/objectsmodel.cpp:84
 #, kde-format
 msgid "Saved"
 msgstr "Сохранено"
 
-#: models/objectsmodel.cpp:88
+#: models/objectsmodel.cpp:86
 #, kde-format
 msgid "Parent"
 msgstr "Родитель"
 
-#: models/objectsmodel.cpp:90
+#: models/objectsmodel.cpp:88
 #, kde-format
 msgid "Pointer"
 msgstr "Указатель"
@@ -6007,7 +6007,7 @@ msgstr "Недопустимое использование ассоциаций
 msgid "Association Error"
 msgstr "Ошибка ассоциации"
 
-#: toolbarstatemessages.cpp:341
+#: toolbarstatemessages.cpp:340
 #, kde-format
 msgid "destroy"
 msgstr "уничтожить"
@@ -8161,69 +8161,69 @@ msgstr "&Имя варианта использования:"
 msgid "Instance name:"
 msgstr "Имя экземпляра:"
 
-#: umlscene.cpp:720
+#: umlscene.cpp:719
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Диаграмма: %2 Страница %1"
 
-#: umlscene.cpp:1520
+#: umlscene.cpp:1519
 #, kde-format
 msgid "Use fill color"
 msgstr "Применить цвет заливки"
 
-#: umlscene.cpp:1522
+#: umlscene.cpp:1521
 #, kde-format
 msgid "No fill color"
 msgstr "Убрать заливку"
 
 # [https://bugs.kde.org/show_bug.cgi?id=265432] BUGME: use %1 instead of concatenation
-#: umlscene.cpp:1537
+#: umlscene.cpp:1536
 #, kde-format
 msgid "Change font"
 msgstr "Изменить шрифт"
 
-#: umlscene.cpp:1551
+#: umlscene.cpp:1550
 #, kde-format
 msgid "Change line color"
 msgstr "Изменить цвет линий"
 
-#: umlscene.cpp:1569
+#: umlscene.cpp:1568
 #, kde-format
 msgid "Change line width"
 msgstr "Изменить толщину линий"
 
-#: umlscene.cpp:1589
+#: umlscene.cpp:1588
 #, kde-format
 msgid "Change fill color"
 msgstr "Изменить цвет заливки"
 
-#: umlscene.cpp:1604
+#: umlscene.cpp:1603
 #, kde-format
 msgid "Change visual property"
 msgstr "Изменить визуальное свойство"
 
-#: umlscene.cpp:1655
+#: umlscene.cpp:1654
 #, kde-format
 msgid "Delete widgets"
 msgstr "Удалить виджеты"
 
 # [https://bugs.kde.org/show_bug.cgi?id=265432] BUGME: use %1 instead of concatenation
-#: umlscene.cpp:1701
+#: umlscene.cpp:1700
 #, kde-format
 msgid "Resize widgets"
 msgstr "Изменить размер виджетов"
 
-#: umlscene.cpp:3353
+#: umlscene.cpp:3352
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Введите имя диаграммы"
 
-#: umlscene.cpp:3354
+#: umlscene.cpp:3353
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Введите новое имя диаграммы:"
 
-#: umlscene.cpp:3370
+#: umlscene.cpp:3369
 #, kde-format
 msgid "Failed to import from file."
 msgstr "Не удалось выполнить импорт из файла."
@@ -8505,7 +8505,7 @@ msgctxt "@info:tooltip of custom toolbar button"
 msgid "%1"
 msgstr "%1"
 
-#: umlwidgets/umlwidget.cpp:464
+#: umlwidgets/umlwidget.cpp:463
 #, kde-format
 msgid ""
 "Hold shift or ctrl to move in X axis. Hold shift and control to move in Y "
@@ -8515,27 +8515,27 @@ msgstr ""
 "перемещения по оси Y. Щёлкните правой кнопкой мыши для отмены перемещения."
 
 # [https://bugs.kde.org/show_bug.cgi?id=265432] BUGME: use %1 instead of concatenation
-#: umlwidgets/umlwidget.cpp:552
+#: umlwidgets/umlwidget.cpp:551
 #, kde-format
 msgid "Move widgets"
 msgstr "Переместить виджеты"
 
-#: umlwidgets/umlwidget.cpp:795
+#: umlwidgets/umlwidget.cpp:794
 #, kde-format
 msgid "Rename Object"
 msgstr "Переименовать объект"
 
-#: umlwidgets/umlwidget.cpp:796
+#: umlwidgets/umlwidget.cpp:795
 #, kde-format
 msgid "Enter object name:"
 msgstr "Введите имя объекта:"
 
-#: umlwidgets/umlwidget.cpp:1548
+#: umlwidgets/umlwidget.cpp:1547
 #, kde-format
 msgid "Hold shift or control to move in X axis."
 msgstr "Удерживайте клавишу Shift или Ctrl для перемещения по оси X."
 
-#: umlwidgets/umlwidget.cpp:1549
+#: umlwidgets/umlwidget.cpp:1548
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
 msgstr "Удерживайте клавиши Shift и Ctrl для перемещения по оси Y."

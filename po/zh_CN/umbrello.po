@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 01:57+0000\n"
+"POT-Creation-Date: 2025-08-07 02:04+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -693,8 +693,8 @@ msgstr "使用以下类生成代码："
 #: codegenerators/d/dcodegenerationformbase.ui:261
 #: codegenerators/java/javacodegenerationformbase.ui:261
 #: codegenerators/ruby/rubycodegenerationformbase.ui:52
+#: dialogs/pages/associationrolepage.cpp:84
 #: dialogs/pages/associationrolepage.cpp:85
-#: dialogs/pages/associationrolepage.cpp:86
 #: dialogs/pages/classifierlistpage.cpp:221
 #: dialogs/pages/diagrampropertiespage.ui:322
 #: dialogs/pages/umlrolepropertiesbase.ui:140
@@ -894,7 +894,7 @@ msgstr "Begin-End(=begin  =end)"
 msgid "Auto-Generated Methods"
 msgstr "自动生成的方法"
 
-#: codegenwizard/codegenerationwizard.cpp:36
+#: codegenwizard/codegenerationwizard.cpp:35
 #, kde-format
 msgid "Code Generation Wizard"
 msgstr "代码生成向导"
@@ -1361,7 +1361,7 @@ msgctxt "failed to status bar"
 msgid "Failed."
 msgstr "失败。"
 
-#: codeimpwizard/codeimportingwizard.cpp:35
+#: codeimpwizard/codeimportingwizard.cpp:34
 #, kde-format
 msgid "Code Importing Wizard"
 msgstr "代码导入向导"
@@ -1566,9 +1566,9 @@ msgstr "类名称"
 
 #: dialogs/activitydialog.cpp:37 dialogs/activitydialog.cpp:149
 #: dialogs/classpropertiesdialog.cpp:119 dialogs/objectnodedialog.cpp:39
-#: dialogs/pages/associationgeneralpage.cpp:78
+#: dialogs/pages/associationgeneralpage.cpp:77
 #: dialogs/parameterpropertiesdialog.cpp:61 dialogs/statedialog.cpp:44
-#: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:38
+#: dialogs/statedialog.cpp:123 dialogs/umlviewdialog.cpp:37
 #: menus/listpopupmenu.cpp:241 refactoring/refactoringassistant.cpp:459
 #, kde-format
 msgid "Properties"
@@ -1657,7 +1657,7 @@ msgstr "调用操作(&I) "
 msgid "&Parameter activity node"
 msgstr "活动节点参数(&P)"
 
-#: dialogs/associationpropertiesdialog.cpp:39
+#: dialogs/associationpropertiesdialog.cpp:38
 #, kde-format
 msgid "Association Properties"
 msgstr "关联属性"
@@ -1671,7 +1671,7 @@ msgstr "常规"
 #: dialogs/classpropertiesdialog.cpp:245 dialogs/classpropertiesdialog.cpp:357
 #: dialogs/multipagedialogbase.cpp:299 dialogs/multipagedialogbase.cpp:313
 #: dialogs/multipagedialogbase.cpp:323 dialogs/settingsdialog.cpp:107
-#: dialogs/umlforeignkeyconstraintdialog.cpp:205 dialogs/umlviewdialog.cpp:88
+#: dialogs/umlforeignkeyconstraintdialog.cpp:205 dialogs/umlviewdialog.cpp:87
 #, kde-format
 msgid "General Settings"
 msgstr "常规设置"
@@ -1998,7 +1998,7 @@ msgstr "删除图表？"
 msgid "&Delete"
 msgstr "删除(&D)"
 
-#: dialogs/dontaskagain.cpp:61
+#: dialogs/dontaskagain.cpp:59
 #, kde-format
 msgid "Notifications"
 msgstr "通知"
@@ -2325,90 +2325,90 @@ msgstr "删除"
 msgid "Rename"
 msgstr "重命名"
 
-#: dialogs/pages/associationgeneralpage.cpp:86
+#: dialogs/pages/associationgeneralpage.cpp:85
 #, kde-format
 msgctxt "name of association widget"
 msgid "Name:"
 msgstr "名称："
 
-#: dialogs/pages/associationgeneralpage.cpp:108
+#: dialogs/pages/associationgeneralpage.cpp:107
 #: menus/widgetbasepopupmenu.cpp:102 menus/widgetbasepopupmenu.cpp:729
 #, kde-format
 msgid "Stereotype"
 msgstr "构造型"
 
-#: dialogs/pages/associationgeneralpage.cpp:117
+#: dialogs/pages/associationgeneralpage.cpp:116
 #, kde-format
 msgid "Type:"
 msgstr "类型："
 
-#: dialogs/pages/associationrolepage.cpp:61
+#: dialogs/pages/associationrolepage.cpp:60
 #, kde-format
 msgid "Role A Properties"
 msgstr "角色A属性"
 
-#: dialogs/pages/associationrolepage.cpp:62
+#: dialogs/pages/associationrolepage.cpp:61
 #, kde-format
 msgid "Role B Properties"
 msgstr "角色B属性"
 
-#: dialogs/pages/associationrolepage.cpp:79
+#: dialogs/pages/associationrolepage.cpp:78
 #, kde-format
 msgid "Role A Changeability"
 msgstr "角色A可变性"
 
-#: dialogs/pages/associationrolepage.cpp:80
+#: dialogs/pages/associationrolepage.cpp:79
 #, kde-format
 msgid "Role B Changeability"
 msgstr "角色B可变性"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelRoleName)
-#: dialogs/pages/associationrolepage.cpp:108
-#: dialogs/pages/associationrolepage.cpp:157
+#: dialogs/pages/associationrolepage.cpp:107
+#: dialogs/pages/associationrolepage.cpp:156
 #: dialogs/pages/umlrolepropertiesbase.ui:36
 #, kde-format
 msgid "Rolename:"
 msgstr "角色名称："
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelMultiplicity)
-#: dialogs/pages/associationrolepage.cpp:113
-#: dialogs/pages/associationrolepage.cpp:162
+#: dialogs/pages/associationrolepage.cpp:112
+#: dialogs/pages/associationrolepage.cpp:161
 #: dialogs/pages/umlrolepropertiesbase.ui:49
 #, kde-format
 msgid "Multiplicity:"
 msgstr "多重性："
 
-#: dialogs/pages/associationrolepage.cpp:133
+#: dialogs/pages/associationrolepage.cpp:132
 #, kde-format
 msgctxt "changeability for A is changeable"
 msgid "Changeable"
 msgstr "可变"
 
-#: dialogs/pages/associationrolepage.cpp:136
+#: dialogs/pages/associationrolepage.cpp:135
 #, kde-format
 msgctxt "changeability for A is frozen"
 msgid "Frozen"
 msgstr "冻结"
 
-#: dialogs/pages/associationrolepage.cpp:139
+#: dialogs/pages/associationrolepage.cpp:138
 #, kde-format
 msgctxt "changeability for A is add only"
 msgid "Add only"
 msgstr "仅能添加"
 
-#: dialogs/pages/associationrolepage.cpp:182
+#: dialogs/pages/associationrolepage.cpp:181
 #, kde-format
 msgctxt "changeability for B is changeable"
 msgid "Changeable"
 msgstr "可变"
 
-#: dialogs/pages/associationrolepage.cpp:185
+#: dialogs/pages/associationrolepage.cpp:184
 #, kde-format
 msgctxt "changeability for B is frozen"
 msgid "Frozen"
 msgstr "冻结"
 
-#: dialogs/pages/associationrolepage.cpp:188
+#: dialogs/pages/associationrolepage.cpp:187
 #, kde-format
 msgctxt "changeability for B is add only"
 msgid "Add only"
@@ -3270,7 +3270,7 @@ msgstr "用户界面"
 msgid "User Interface Settings"
 msgstr "用户界面设置"
 
-#: dialogs/settingsdialog.cpp:107 dialogs/umlviewdialog.cpp:88
+#: dialogs/settingsdialog.cpp:107 dialogs/umlviewdialog.cpp:87
 #, kde-format
 msgctxt "general settings page"
 msgid "General"
@@ -3413,29 +3413,29 @@ msgstr "状态名称："
 msgid "Linked diagram:"
 msgstr ""
 
-#: dialogs/stereoattributedialog.cpp:39
+#: dialogs/stereoattributedialog.cpp:38
 #, kde-format
 msgid "Stereotype Properties"
 msgstr ""
 
-#: dialogs/stereoattributedialog.cpp:59
+#: dialogs/stereoattributedialog.cpp:58
 #, kde-format
 msgid "Stereotype Attributes for "
 msgstr ""
 
-#: dialogs/stereoattributedialog.cpp:75 dialogs/umlattributedialog.cpp:76
+#: dialogs/stereoattributedialog.cpp:74 dialogs/umlattributedialog.cpp:76
 #, kde-format
 msgctxt "attribute name"
 msgid "&Name:"
 msgstr "文件名(&N)："
 
-#: dialogs/stereoattributedialog.cpp:78
+#: dialogs/stereoattributedialog.cpp:77
 #, kde-format
 msgctxt "attribute type"
 msgid "&Type:"
 msgstr ""
 
-#: dialogs/stereoattributedialog.cpp:88
+#: dialogs/stereoattributedialog.cpp:87
 #, kde-format
 msgctxt "default value"
 msgid "&Default:"
@@ -3863,24 +3863,24 @@ msgstr "您输入了无效的约束名称。"
 msgid "Constraint Name Invalid"
 msgstr "约束名称无效"
 
-#: dialogs/umlviewdialog.cpp:106
+#: dialogs/umlviewdialog.cpp:105
 #, kde-format
 msgctxt "classes display options page"
 msgid "Display"
 msgstr "显示"
 
-#: dialogs/umlviewdialog.cpp:106
+#: dialogs/umlviewdialog.cpp:105
 #, kde-format
 msgid "Classes Display Options"
 msgstr "类显示选项"
 
-#: dialogs/umlviewdialog.cpp:116
+#: dialogs/umlviewdialog.cpp:115
 #, kde-format
 msgctxt "diagram style page"
 msgid "Style"
 msgstr "样式"
 
-#: dialogs/umlviewdialog.cpp:116
+#: dialogs/umlviewdialog.cpp:115
 #, kde-format
 msgid "Diagram Style"
 msgstr "视图样式"
@@ -3951,7 +3951,7 @@ msgstr "类型(&T)："
 msgid "Package path:"
 msgstr "包路径："
 
-#: dialogs/widgets/umlstereotypewidget.cpp:24 umlmodel/umlobject.cpp:1269
+#: dialogs/widgets/umlstereotypewidget.cpp:22 umlmodel/umlobject.cpp:1269
 #, kde-format
 msgid "Stereotype &name:"
 msgstr "构造型名称(&N)："
@@ -4112,27 +4112,27 @@ msgstr "要转换的文件"
 msgid "The XSLT file to use"
 msgstr "要使用的 XSLT 文件"
 
-#: docgenerators/xhtmlgenerator.cpp:105
+#: docgenerators/xhtmlgenerator.cpp:104
 #, kde-format
 msgid "Generating XHTML..."
 msgstr "正在生成 XHTML..."
 
-#: docgenerators/xhtmlgenerator.cpp:131
+#: docgenerators/xhtmlgenerator.cpp:130
 #, kde-format
 msgid "XHTML Generation Complete..."
 msgstr "XHTML 生成完成..."
 
-#: docgenerators/xhtmlgenerator.cpp:137
+#: docgenerators/xhtmlgenerator.cpp:136
 #, kde-format
 msgid "Copying CSS..."
 msgstr "正在复制 CSS..."
 
-#: docgenerators/xhtmlgenerator.cpp:150
+#: docgenerators/xhtmlgenerator.cpp:149
 #, kde-format
 msgid "Finished Copying CSS..."
 msgstr "CSS 复制完成..."
 
-#: docgenerators/xhtmlgenerator.cpp:153
+#: docgenerators/xhtmlgenerator.cpp:152
 #, kde-format
 msgid "Failed Copying CSS..."
 msgstr "CSS 复制失败..."
@@ -4400,7 +4400,7 @@ msgstr "组件"
 #: menus/listpopupmenu.cpp:166 menus/listpopupmenu.cpp:173
 #: menus/listpopupmenu.cpp:181 menus/listpopupmenu.cpp:211
 #: menus/listpopupmenu.cpp:271 menus/listpopupmenu.cpp:367
-#: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:82
+#: models/diagramsmodel.cpp:56 models/objectsmodel.cpp:80
 #, kde-format
 msgid "Folder"
 msgstr "文件夹"
@@ -5807,13 +5807,13 @@ msgstr "未知的返回类型"
 msgid "Unspecified error"
 msgstr "未指定的错误"
 
-#: models/diagramsmodel.cpp:52 models/objectsmodel.cpp:78
+#: models/diagramsmodel.cpp:52 models/objectsmodel.cpp:76
 #: models/stereotypesmodel.cpp:51 refactoring/refactoringassistant.cpp:48
 #, kde-format
 msgid "Name"
 msgstr "名称"
 
-#: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:80
+#: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:78
 #, kde-format
 msgid "Type"
 msgstr "文件系统"
@@ -5823,22 +5823,22 @@ msgstr "文件系统"
 msgid "Widgets/Associations"
 msgstr "部件/关联"
 
-#: models/objectsmodel.cpp:84
+#: models/objectsmodel.cpp:82
 #, kde-format
 msgid "ID"
 msgstr "ID"
 
-#: models/objectsmodel.cpp:86
+#: models/objectsmodel.cpp:84
 #, kde-format
 msgid "Saved"
 msgstr "已保存"
 
-#: models/objectsmodel.cpp:88
+#: models/objectsmodel.cpp:86
 #, kde-format
 msgid "Parent"
 msgstr "总部"
 
-#: models/objectsmodel.cpp:90
+#: models/objectsmodel.cpp:88
 #, kde-format
 msgid "Pointer"
 msgstr "指针"
@@ -5949,7 +5949,7 @@ msgstr "关联的用法不正确。"
 msgid "Association Error"
 msgstr "关联出错"
 
-#: toolbarstatemessages.cpp:341
+#: toolbarstatemessages.cpp:340
 #, kde-format
 msgid "destroy"
 msgstr ""
@@ -8089,67 +8089,67 @@ msgstr "用例图名称(&N)："
 msgid "Instance name:"
 msgstr "实例名称："
 
-#: umlscene.cpp:720
+#: umlscene.cpp:719
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "图表：%2  页：%1"
 
-#: umlscene.cpp:1520
+#: umlscene.cpp:1519
 #, kde-format
 msgid "Use fill color"
 msgstr "使用填充色"
 
-#: umlscene.cpp:1522
+#: umlscene.cpp:1521
 #, kde-format
 msgid "No fill color"
 msgstr "无填充色"
 
-#: umlscene.cpp:1537
+#: umlscene.cpp:1536
 #, kde-format
 msgid "Change font"
 msgstr "更改字体"
 
-#: umlscene.cpp:1551
+#: umlscene.cpp:1550
 #, kde-format
 msgid "Change line color"
 msgstr "更改线条颜色"
 
-#: umlscene.cpp:1569
+#: umlscene.cpp:1568
 #, kde-format
 msgid "Change line width"
 msgstr "更改线条宽度："
 
-#: umlscene.cpp:1589
+#: umlscene.cpp:1588
 #, kde-format
 msgid "Change fill color"
 msgstr "更改填充色"
 
-#: umlscene.cpp:1604
+#: umlscene.cpp:1603
 #, kde-format
 msgid "Change visual property"
 msgstr "更改可见属性"
 
-#: umlscene.cpp:1655
+#: umlscene.cpp:1654
 #, kde-format
 msgid "Delete widgets"
 msgstr "删除部件"
 
-#: umlscene.cpp:1701
+#: umlscene.cpp:1700
 #, kde-format
 msgid "Resize widgets"
 msgstr "缩放部件"
 
-#: umlscene.cpp:3353
+#: umlscene.cpp:3352
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "输入图表名称"
 
-#: umlscene.cpp:3354
+#: umlscene.cpp:3353
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "输入图表的新名称："
 
-#: umlscene.cpp:3370
+#: umlscene.cpp:3369
 #, kde-format
 msgid "Failed to import from file."
 msgstr "从文件导入失败。"
@@ -8429,7 +8429,7 @@ msgctxt "@info:tooltip of custom toolbar button"
 msgid "%1"
 msgstr "%1"
 
-#: umlwidgets/umlwidget.cpp:464
+#: umlwidgets/umlwidget.cpp:463
 #, kde-format
 msgid ""
 "Hold shift or ctrl to move in X axis. Hold shift and control to move in Y "
@@ -8438,27 +8438,27 @@ msgstr ""
 "按住 Shift 或 Ctrl 可在 X 坐标轴上移动，按住 Shift 和 Ctrl 可在 Y 坐标轴上移"
 "动。右键点击则取消移动。"
 
-#: umlwidgets/umlwidget.cpp:552
+#: umlwidgets/umlwidget.cpp:551
 #, kde-format
 msgid "Move widgets"
 msgstr "移动部件"
 
-#: umlwidgets/umlwidget.cpp:795
+#: umlwidgets/umlwidget.cpp:794
 #, kde-format
 msgid "Rename Object"
 msgstr "重命名对象"
 
-#: umlwidgets/umlwidget.cpp:796
+#: umlwidgets/umlwidget.cpp:795
 #, kde-format
 msgid "Enter object name:"
 msgstr "输入对象名称："
 
-#: umlwidgets/umlwidget.cpp:1548
+#: umlwidgets/umlwidget.cpp:1547
 #, kde-format
 msgid "Hold shift or control to move in X axis."
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:1549
+#: umlwidgets/umlwidget.cpp:1548
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
 msgstr ""
