@@ -5,6 +5,12 @@
 
 #include "finddialog.h"
 
+enum ButtonID {
+    TreeView = -2,
+    CurrentDiagram = -3,
+    Diagrams = -4
+};
+
 FindDialog::FindDialog(QWidget *parent) :
     SinglePageDialogBase(parent, false, true)
 {
@@ -12,14 +18,17 @@ FindDialog::FindDialog(QWidget *parent) :
     QFrame * frame = new QFrame(this);
     setMainWidget(frame);
     setupUi(mainWidget());
-    connect(ui_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
+    ui_buttonGroup->setId(ui_treeView, TreeView);
+    ui_buttonGroup->setId(ui_CurrentDiagram, CurrentDiagram);
+    ui_buttonGroup->setId(ui_Diagrams, Diagrams);
+    connect(ui_buttonGroup, SIGNAL(idClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
     ui_treeView->setChecked(true);
     ui_categoryAll->setChecked(true);
 }
 
 FindDialog::~FindDialog()
 {
-    disconnect(ui_buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
+    disconnect(ui_buttonGroup, SIGNAL(idClicked(int)), this, SLOT(slotFilterButtonClicked(int)));
 }
 
 /**
@@ -69,13 +78,13 @@ UMLFinder::Category FindDialog::category() const
 
 /**
  * Handles filter radio button group click.
- * @param button (-2=Treeview,-3,-4)
+ * @param button (see enum ButtonID)
  */
 void FindDialog::slotFilterButtonClicked(int button)
 {
-    ui_categoryOperation->setEnabled(button == -2);
-    ui_categoryAttribute->setEnabled(button == -2);
-    if (button != -2)
+    ui_categoryOperation->setEnabled(button == TreeView);
+    ui_categoryAttribute->setEnabled(button == TreeView);
+    if (button != TreeView)
         ui_categoryAll->setChecked(true);
 }
 
