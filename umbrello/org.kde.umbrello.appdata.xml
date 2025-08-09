@@ -21,6 +21,7 @@
   <name xml:lang="fi">Umbrello</name>
   <name xml:lang="fr">Umbrello</name>
   <name xml:lang="gl">Umbrello</name>
+  <name xml:lang="he">Umbrello</name>
   <name xml:lang="hu">Umbrello</name>
   <name xml:lang="id">Umbrello</name>
   <name xml:lang="it">Umbrello</name>
@@ -54,6 +55,7 @@
   <summary xml:lang="fi">UML-mallinnusohjelma</summary>
   <summary xml:lang="fr">Modeleur UML</summary>
   <summary xml:lang="gl">Modelador de UML</summary>
+  <summary xml:lang="he">מתכנן דגמי UML</summary>
   <summary xml:lang="hu">UML modellező</summary>
   <summary xml:lang="id">Pemodel UML</summary>
   <summary xml:lang="it">Modellatore UML</summary>
@@ -124,6 +126,7 @@
     <p xml:lang="fi">Ominaisuuksia:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
+    <p xml:lang="he">יכולות:</p>
     <p xml:lang="hu">Szolgáltatások:</p>
     <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Funzionalità:</p>
@@ -158,6 +161,7 @@
       <li xml:lang="fi">Tukee XMI-tiedostomuotoa</li>
       <li xml:lang="fr">Formats pris en charge : XMI</li>
       <li xml:lang="gl">Formatos compatíbeis: XMI.</li>
+      <li xml:lang="he">תסדירים נתמכים: XMI</li>
       <li xml:lang="hu">Támogatott formátumok: XMI</li>
       <li xml:lang="id">Format yang didukung: XMI</li>
       <li xml:lang="it">Formati supportati: XMI</li>
@@ -231,6 +235,7 @@
       <caption xml:lang="fi">Näytetään luokkadiagrammi</caption>
       <caption xml:lang="fr">Affichage du diagramme de classe</caption>
       <caption xml:lang="gl">Mostra un diagrama de clases.</caption>
+      <caption xml:lang="he">הצגת תרשים מחלקות</caption>
       <caption xml:lang="hu">Osztálydiagram megjelenítése</caption>
       <caption xml:lang="id">Menampilkan diagram kelas</caption>
       <caption xml:lang="it">Mostrando il diagramma delle classi</caption>
