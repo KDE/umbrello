@@ -7,6 +7,19 @@ include:
       - /gitlab-templates/linux.yml
       - /gitlab-templates/flatpak.yml
 
+distro_kf5_leap:
+  stage: build
+  #when: manual
+  image: rhabacker/suse_leap_kf5_qt515
+  variables:
+    ci_parallel: "16"
+    ci_sudo: "yes"
+    ci_variant: "kf5"
+  before_script:
+    - ./tools/ci-install.sh
+  script:
+    - ./tools/ci-build.sh
+
 distro_kf6_tumbleweed:
   stage: build
   # don't stop pipeline if this job fails
