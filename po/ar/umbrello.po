@@ -4513,7 +4513,7 @@ msgstr "ابتدائي :: أوّلي :: أوّل :: حرف استهلالي :: �
 #, kde-format
 msgctxt "new instance menu item"
 msgid "Instance..."
-msgstr "مثيل…"
+msgstr "نسخة…"
 
 #: menus/listpopupmenu.cpp:203 menus/listpopupmenu.cpp:219
 #: menus/listpopupmenu.cpp:222
@@ -8521,7 +8521,7 @@ msgstr "الشوكة انضم"
 #: umlwidgets/widget_utils.cpp:838
 #, kde-format
 msgid "new instance"
-msgstr "سيرورة جديدة"
+msgstr "نسخة جديدة"
 
 #: umlwidgets/widget_utils.cpp:839
 #, fuzzy, kde-format
@@ -9009,7 +9009,7 @@ msgstr "إستعمل الحالة"
 #: umlwidgets/widgetbase.cpp:1317 worktoolbar.cpp:392
 #, kde-format
 msgid "Instance"
-msgstr "مثيل"
+msgstr "نسخة"
 
 #: worktoolbar.cpp:322
 #, kde-format
