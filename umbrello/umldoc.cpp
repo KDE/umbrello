@@ -461,6 +461,8 @@ void UMLDoc::closeDocument()
     // Otherwise the bird view used an invalidated view
     UMLApp::app()->deleteBirdView();
 
+    UMLApp::app()->enablePrint(false);
+
     m_bClosing = false;
 }
 
