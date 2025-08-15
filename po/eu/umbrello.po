@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 19:49+0000\n"
+"POT-Creation-Date: 2025-08-15 02:18+0000\n"
 "PO-Revision-Date: 2020-08-17 20:55+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -206,7 +206,7 @@ msgstr "Ezezaguna"
 msgid "? AssociationType ?"
 msgstr "? AsoziazioaMota ?"
 
-#: clipboard/umlclipboard.cpp:751
+#: clipboard/umlclipboard.cpp:753
 #, kde-format
 msgid ""
 "At least one of the items in the clipboard could not be pasted because an "
@@ -215,7 +215,7 @@ msgstr ""
 "Gutxienez arbeleko elementu bat ezin izan da itsatsi izen bereko elementu "
 "bat existitzen delako. Beste elementu guztiak ongi itsatsi dira."
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1637
+#: clipboard/umlclipboard.cpp:757 uml.cpp:1637
 #, kde-format
 msgid "Paste Error"
 msgstr "Errorea itsastean"
@@ -1806,7 +1806,7 @@ msgctxt "instance general settings page name"
 msgid "General"
 msgstr "Orokorra"
 
-#: dialogs/classwizard.cpp:39 model_utils.cpp:566
+#: dialogs/classwizard.cpp:39 model_utils.cpp:567
 #, kde-format
 msgid "new_class"
 msgstr "klase_berria"
@@ -1971,32 +1971,32 @@ msgstr "<p align=\"right\">Testu edita-ezina:</p>"
 msgid "<p align=\"right\">Editable text:</p>"
 msgstr "<p align=\"right\">Testu editagarria:</p>"
 
-#: dialogs/dialog_utils.cpp:31
+#: dialogs/dialog_utils.cpp:36
 #, kde-format
 msgid "Enable all messages"
 msgstr "Gaitu mezu guztiak"
 
-#: dialogs/dialog_utils.cpp:32
+#: dialogs/dialog_utils.cpp:37
 #, kde-format
 msgid "Enable 'delete association' related messages"
 msgstr "Gaitu «ezabatu asoziazioa»rekin lotura duten mezuak"
 
-#: dialogs/dialog_utils.cpp:33
+#: dialogs/dialog_utils.cpp:38
 #, kde-format
 msgid "Enable 'delete diagram' related messages"
 msgstr "Gaitu «ezabatu diagrama»rekin lotutako mezuak"
 
-#: dialogs/dialog_utils.cpp:210
+#: dialogs/dialog_utils.cpp:215
 #, kde-format
 msgid "You are about to delete an association. Do you really want to continue?"
 msgstr "Asoziazio bat ezabatzera zoaz. Benetan jarraitu nahi duzu?"
 
-#: dialogs/dialog_utils.cpp:211
+#: dialogs/dialog_utils.cpp:216
 #, kde-format
 msgid "Delete Association"
 msgstr "Ezabatu asoziazioa"
 
-#: dialogs/dialog_utils.cpp:225
+#: dialogs/dialog_utils.cpp:230
 #, kde-format
 msgid ""
 "You are about to delete the entire diagram.\n"
@@ -2005,17 +2005,17 @@ msgstr ""
 "Diagrama osoa ezabatzeko zorian zaude.\n"
 "Ziur al zaude?"
 
-#: dialogs/dialog_utils.cpp:226
+#: dialogs/dialog_utils.cpp:231
 #, kde-format
 msgid "Are you sure you want to delete diagram %1?"
 msgstr "Ziur zaude %1 diagrama ezabatu nahi duzula?"
 
-#: dialogs/dialog_utils.cpp:231
+#: dialogs/dialog_utils.cpp:236
 #, kde-format
 msgid "Delete Diagram?"
 msgstr "Diagrama ezabatu?"
 
-#: dialogs/dialog_utils.cpp:232 dialogs/pages/classifierlistpage.cpp:208
+#: dialogs/dialog_utils.cpp:237 dialogs/pages/classifierlistpage.cpp:208
 #: dialogs/umlforeignkeyconstraintdialog.cpp:321
 #: dialogs/umloperationdialog.cpp:164 dialogs/umluniqueconstraintdialog.cpp:110
 #, kde-format
@@ -2775,7 +2775,7 @@ msgstr "Atributu berria..."
 msgid "<p align=\"center\">No Options Available.</p>"
 msgstr "<p align=\"center\">Ez dago aukerarik eskuragarri.</p>"
 
-#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:120
+#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:122
 #, kde-format
 msgid "&Diagrams"
 msgstr "&Diagramak"
@@ -2807,10 +2807,10 @@ msgid "The name you have entered is invalid."
 msgstr "Sartu duzun izena ez da baliozkoa."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
-#: umldoc.cpp:1509 umldoc.cpp:1573 umldoc.cpp:1602 umldoc.cpp:1637
-#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
+#: umldoc.cpp:1531 umldoc.cpp:1595 umldoc.cpp:1624 umldoc.cpp:1659
+#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
-#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:178
+#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:180
 #, kde-format
 msgid "Invalid Name"
 msgstr "Izen baliogabea"
@@ -2820,7 +2820,7 @@ msgstr "Izen baliogabea"
 msgid "The name you have entered is not unique."
 msgstr "Sartu duzun izena ez da bakarra."
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1641
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1663
 #, kde-format
 msgid "Name Not Unique"
 msgstr "Izena ez da bakarra"
@@ -3952,12 +3952,12 @@ msgstr "Balio &lehenetsia:"
 msgid "&Image type:"
 msgstr "&Irudi mota:"
 
-#: dialogs/widgets/resolutionwidget.cpp:24
+#: dialogs/widgets/resolutionwidget.cpp:25
 #, kde-format
 msgid "&Resolution:"
 msgstr "Be&reizmena:"
 
-#: dialogs/widgets/resolutionwidget.cpp:24
+#: dialogs/widgets/resolutionwidget.cpp:25
 #, kde-format
 msgid "DPI"
 msgstr "DPI"
@@ -4002,6 +4002,19 @@ msgstr "Marraztu honela:"
 #, kde-format
 msgid "&Type:"
 msgstr "&Mota:"
+
+#: dialogs/widgets/umlmessagebox.h:27
+#, kde-format
+msgctxt "@action:button"
+msgid "Yes"
+msgstr ""
+
+#: dialogs/widgets/umlmessagebox.h:32
+#, fuzzy, kde-format
+#| msgid "Node"
+msgctxt "@action:button"
+msgid "No"
+msgstr "Nodoa"
 
 #: dialogs/widgets/umlpackagewidget.cpp:29
 #, kde-format
@@ -4120,12 +4133,12 @@ msgstr "Errore batzuk gertatu dira irudiak esportatzean:"
 msgid "Generating Docbook..."
 msgstr "DocBook sortzen..."
 
-#: docgenerators/docbookgenerator.cpp:109
+#: docgenerators/docbookgenerator.cpp:113
 #, kde-format
 msgid "Docbook Generation Complete..."
 msgstr "DocBook sorrera burutu da..."
 
-#: docgenerators/docbookgenerator.cpp:112
+#: docgenerators/docbookgenerator.cpp:116
 #, kde-format
 msgid "Docbook Generation Failed..."
 msgstr "DocBook sorrerak huts egin du..."
@@ -4172,27 +4185,27 @@ msgstr "Eraldatu beharreko fitxategia"
 msgid "The XSLT file to use"
 msgstr "Erabili beharreko XSLT fitxategia"
 
-#: docgenerators/xhtmlgenerator.cpp:104
+#: docgenerators/xhtmlgenerator.cpp:105
 #, kde-format
 msgid "Generating XHTML..."
 msgstr "XHTML sortzen..."
 
-#: docgenerators/xhtmlgenerator.cpp:130
+#: docgenerators/xhtmlgenerator.cpp:135
 #, kde-format
 msgid "XHTML Generation Complete..."
 msgstr "XHTML sorrera burutu da..."
 
-#: docgenerators/xhtmlgenerator.cpp:136
+#: docgenerators/xhtmlgenerator.cpp:141
 #, kde-format
 msgid "Copying CSS..."
 msgstr "CSS kopiatzen..."
 
-#: docgenerators/xhtmlgenerator.cpp:149
+#: docgenerators/xhtmlgenerator.cpp:158
 #, kde-format
 msgid "Finished Copying CSS..."
 msgstr "CSS kopiatzen amaitu du..."
 
-#: docgenerators/xhtmlgenerator.cpp:152
+#: docgenerators/xhtmlgenerator.cpp:161
 #, kde-format
 msgid "Failed Copying CSS..."
 msgstr "CSS kopiatzea huts egin du..."
@@ -5137,802 +5150,802 @@ msgstr "Lerrokatu bertikalki elkar banatuta"
 msgid "Align Horizontal Distribute"
 msgstr "Lerrokatu horizontalki elkar banatuta"
 
-#: model_utils.cpp:560
+#: model_utils.cpp:561
 #, kde-format
 msgid "new_actor"
 msgstr "aktore_berria"
 
-#: model_utils.cpp:561
+#: model_utils.cpp:562
 #, kde-format
 msgid "new_artifact"
 msgstr "objektu_konposatu_berria"
 
-#: model_utils.cpp:562 umlmodel/umlcanvasobject.cpp:186
+#: model_utils.cpp:563 umlmodel/umlcanvasobject.cpp:188
 #, kde-format
 msgid "new_association"
 msgstr "asoziazio_berria"
 
-#: model_utils.cpp:563 umlmodel/umlcanvasobject.cpp:189
+#: model_utils.cpp:564 umlmodel/umlcanvasobject.cpp:191
 #, kde-format
 msgid "new_attribute"
 msgstr "atributu_berria"
 
-#: model_utils.cpp:564
+#: model_utils.cpp:565
 #, kde-format
 msgid "new_category"
 msgstr "kategoria_berria"
 
-#: model_utils.cpp:565 umlmodel/umlcanvasobject.cpp:210
+#: model_utils.cpp:566 umlmodel/umlcanvasobject.cpp:212
 #, fuzzy, kde-format
 #| msgid "new_entity"
 msgid "new_check_constraint"
 msgstr "entitate_berria"
 
-#: model_utils.cpp:567
+#: model_utils.cpp:568
 #, kde-format
 msgid "new_component"
 msgstr "osagai_berria"
 
-#: model_utils.cpp:568
+#: model_utils.cpp:569
 #, kde-format
 msgid "new_datatype"
 msgstr "dato-mota_berria"
 
-#: model_utils.cpp:569
+#: model_utils.cpp:570
 #, kde-format
 msgid "new_entity"
 msgstr "entitate_berria"
 
-#: model_utils.cpp:570
+#: model_utils.cpp:571
 #, kde-format
 msgid "new_entity_attribute"
 msgstr "entitate_atributu_berria"
 
-#: model_utils.cpp:571
+#: model_utils.cpp:572
 #, kde-format
 msgid "new_entity_constraint"
 msgstr "entitate_murrizketa_berria"
 
-#: model_utils.cpp:572
+#: model_utils.cpp:573
 #, kde-format
 msgid "new_enum"
 msgstr "enumeraketa_berria"
 
-#: model_utils.cpp:573
+#: model_utils.cpp:574
 #, fuzzy, kde-format
 #| msgid "new_literal"
 msgid "new_enum_literal"
 msgstr "literal_berria"
 
-#: model_utils.cpp:574
+#: model_utils.cpp:575
 #, kde-format
 msgid "new_folder"
 msgstr "karpeta_berria"
 
-#: model_utils.cpp:575
+#: model_utils.cpp:576
 #, fuzzy, kde-format
 #| msgid "new_entity"
 msgid "new_foreign_key_constraint"
 msgstr "entitate_berria"
 
-#: model_utils.cpp:576
+#: model_utils.cpp:577
 #, fuzzy, kde-format
 #| msgid "new_interface"
 msgid "new_instance"
 msgstr "interfaze_berria"
 
-#: model_utils.cpp:577
+#: model_utils.cpp:578
 #, fuzzy, kde-format
 #| msgid "Entity Attributes"
 msgid "new_instance_attribute"
 msgstr "Entitatearen atributuak"
 
-#: model_utils.cpp:578
+#: model_utils.cpp:579
 #, kde-format
 msgid "new_interface"
 msgstr "interfaze_berria"
 
-#: model_utils.cpp:579
+#: model_utils.cpp:580
 #, kde-format
 msgid "new_node"
 msgstr "nodo_berria"
 
-#: model_utils.cpp:580 umlmodel/umlcanvasobject.cpp:195
+#: model_utils.cpp:581 umlmodel/umlcanvasobject.cpp:197
 #, kde-format
 msgid "new_operation"
 msgstr "eragiketa_berria"
 
-#: model_utils.cpp:581
+#: model_utils.cpp:582
 #, kde-format
 msgid "new_package"
 msgstr "pakete_berria"
 
-#: model_utils.cpp:582
+#: model_utils.cpp:583
 #, fuzzy, kde-format
 #| msgid "new_actor"
 msgid "new_port"
 msgstr "aktore_berria"
 
-#: model_utils.cpp:583
+#: model_utils.cpp:584
 #, fuzzy, kde-format
 msgid "new_role"
 msgstr "nodo_berria"
 
-#: model_utils.cpp:584
+#: model_utils.cpp:585
 #, kde-format
 msgid "new_stereotype"
 msgstr "estereotipo_berria"
 
-#: model_utils.cpp:585 umlmodel/umlcanvasobject.cpp:192
+#: model_utils.cpp:586 umlmodel/umlcanvasobject.cpp:194
 #, kde-format
 msgid "new_template"
 msgstr "txantiloi_berria"
 
-#: model_utils.cpp:586 umlmodel/umlcanvasobject.cpp:204
+#: model_utils.cpp:587 umlmodel/umlcanvasobject.cpp:206
 #, kde-format
 msgid "new_unique_constraint"
 msgstr ""
 
-#: model_utils.cpp:587
+#: model_utils.cpp:588
 #, fuzzy, kde-format
 #| msgid "new_use case"
 msgid "new_use_case"
 msgstr "erabilpen-kasu_berria"
 
-#: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
+#: model_utils.cpp:590 umlmodel/umlcanvasobject.cpp:215
 #, kde-format
 msgid "new_object"
 msgstr "objektu_berria"
 
-#: model_utils.cpp:609 umlwidgets/widget_utils.cpp:872
+#: model_utils.cpp:610 umlwidgets/widget_utils.cpp:872
 #, fuzzy, kde-format
 #| msgid "new_actor"
 msgid "New actor"
 msgstr "aktore_berria"
 
-#: model_utils.cpp:610 umlwidgets/widget_utils.cpp:873
+#: model_utils.cpp:611 umlwidgets/widget_utils.cpp:873
 #, fuzzy, kde-format
 #| msgid "new_artifact"
 msgid "New artifact"
 msgstr "objektu_konposatu_berria"
 
-#: model_utils.cpp:611 umlwidgets/widget_utils.cpp:874
+#: model_utils.cpp:612 umlwidgets/widget_utils.cpp:874
 #, kde-format
 msgid "New association"
 msgstr "Asoziazio berria"
 
-#: model_utils.cpp:612
+#: model_utils.cpp:613
 #, kde-format
 msgid "New attribute"
 msgstr "Atributu berria"
 
-#: model_utils.cpp:613 umlwidgets/widget_utils.cpp:876
+#: model_utils.cpp:614 umlwidgets/widget_utils.cpp:876
 #, kde-format
 msgid "New category"
 msgstr "Kategoria berria"
 
-#: model_utils.cpp:614
+#: model_utils.cpp:615
 #, fuzzy, kde-format
 #| msgid "new_entity"
 msgid "New check constraint"
 msgstr "entitate_berria"
 
-#: model_utils.cpp:615 umlwidgets/widget_utils.cpp:877
+#: model_utils.cpp:616 umlwidgets/widget_utils.cpp:877
 #, kde-format
 msgid "New class"
 msgstr "Klase berria"
 
-#: model_utils.cpp:616 umlwidgets/widget_utils.cpp:879
+#: model_utils.cpp:617 umlwidgets/widget_utils.cpp:879
 #, kde-format
 msgid "New component"
 msgstr "Osagai berria"
 
-#: model_utils.cpp:617 umlwidgets/widget_utils.cpp:880
+#: model_utils.cpp:618 umlwidgets/widget_utils.cpp:880
 #, kde-format
 msgid "New datatype"
 msgstr "datu-mota berria"
 
-#: model_utils.cpp:618 umlwidgets/widget_utils.cpp:881
+#: model_utils.cpp:619 umlwidgets/widget_utils.cpp:881
 #, kde-format
 msgid "New entity"
 msgstr "Entitate berria"
 
-#: model_utils.cpp:619
+#: model_utils.cpp:620
 #, kde-format
 msgid "New entity attribute"
 msgstr "Entitatearen atributu berria"
 
-#: model_utils.cpp:620
+#: model_utils.cpp:621
 #, kde-format
 msgid "New entity constraint"
 msgstr "Entitatearen murrizketa berria"
 
-#: model_utils.cpp:621 umlwidgets/widget_utils.cpp:882
+#: model_utils.cpp:622 umlwidgets/widget_utils.cpp:882
 #, fuzzy, kde-format
 #| msgid "new_enum"
 msgid "New enum"
 msgstr "enumeraketa_berria"
 
-#: model_utils.cpp:622
+#: model_utils.cpp:623
 #, fuzzy, kde-format
 #| msgid "N&ew Enum Literal..."
 msgid "New enum literal"
 msgstr "Enumeraketa literal berria..."
 
-#: model_utils.cpp:623
+#: model_utils.cpp:624
 #, kde-format
 msgid "New folder"
 msgstr "Karpeta berria"
 
-#: model_utils.cpp:624
+#: model_utils.cpp:625
 #, fuzzy, kde-format
 #| msgid "new_entity"
 msgid "New foreign key constraint"
 msgstr "entitate_berria"
 
-#: model_utils.cpp:625 umlwidgets/widget_utils.cpp:885
+#: model_utils.cpp:626 umlwidgets/widget_utils.cpp:885
 #, kde-format
 msgid "New instance"
 msgstr "Instantzia berria"
 
-#: model_utils.cpp:626
+#: model_utils.cpp:627
 #, fuzzy, kde-format
 #| msgid "N&ew Entity Attribute..."
 msgid "New instance attribute"
 msgstr "Entitate-atributu berria..."
 
-#: model_utils.cpp:627 umlwidgets/widget_utils.cpp:886
+#: model_utils.cpp:628 umlwidgets/widget_utils.cpp:886
 #, kde-format
 msgid "New interface"
 msgstr "Interfaze berria"
 
-#: model_utils.cpp:628 umlwidgets/widget_utils.cpp:888
+#: model_utils.cpp:629 umlwidgets/widget_utils.cpp:888
 #, kde-format
 msgid "New node"
 msgstr "Nodo berria"
 
-#: model_utils.cpp:629
+#: model_utils.cpp:630
 #, kde-format
 msgid "New operation"
 msgstr "Eragiketa berria"
 
-#: model_utils.cpp:630 umlwidgets/widget_utils.cpp:892
+#: model_utils.cpp:631 umlwidgets/widget_utils.cpp:892
 #, kde-format
 msgid "New package"
 msgstr "Pakete berria"
 
-#: model_utils.cpp:631 umlwidgets/widget_utils.cpp:894
+#: model_utils.cpp:632 umlwidgets/widget_utils.cpp:894
 #, fuzzy, kde-format
 #| msgid "new_actor"
 msgid "New port"
 msgstr "aktore_berria"
 
-#: model_utils.cpp:632
+#: model_utils.cpp:633
 #, fuzzy, kde-format
 #| msgid "Stereotype"
 msgid "New role"
 msgstr "Estereotipoa"
 
-#: model_utils.cpp:633
+#: model_utils.cpp:634
 #, kde-format
 msgid "New stereotype"
 msgstr "Estereotipo berria"
 
-#: model_utils.cpp:634
+#: model_utils.cpp:635
 #, kde-format
 msgid "New template"
 msgstr "Txantiloi berria"
 
-#: model_utils.cpp:635
+#: model_utils.cpp:636
 #, fuzzy, kde-format
 #| msgid "N&ew Attribute..."
 msgid "New unique constraint"
 msgstr "Atributu berria..."
 
-#: model_utils.cpp:636 umlwidgets/widget_utils.cpp:901
+#: model_utils.cpp:637 umlwidgets/widget_utils.cpp:901
 #, kde-format
 msgid "New use case"
 msgstr "erabilpen-kasu berria"
 
-#: model_utils.cpp:639
+#: model_utils.cpp:640
 #, kde-format
 msgid "New UML object"
 msgstr "UML objektu berria"
 
-#: model_utils.cpp:651 umlwidgets/widget_utils.cpp:918
+#: model_utils.cpp:652 umlwidgets/widget_utils.cpp:918
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new actor:"
 msgstr "Sartu egoera berriaren izena:"
 
-#: model_utils.cpp:652 umlwidgets/widget_utils.cpp:919
+#: model_utils.cpp:653 umlwidgets/widget_utils.cpp:919
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new artifact:"
 msgstr "Sartu egoera berriaren izena:"
 
-#: model_utils.cpp:653 umlwidgets/widget_utils.cpp:920
+#: model_utils.cpp:654 umlwidgets/widget_utils.cpp:920
 #, kde-format
 msgid "Enter the name of the new association:"
 msgstr "Sartu asoziazio berriaren izena:"
 
-#: model_utils.cpp:654
+#: model_utils.cpp:655
 #, kde-format
 msgid "Enter the name of the new attribute:"
 msgstr "Sartu atributu berriaren izena:"
 
-#: model_utils.cpp:655 umlwidgets/widget_utils.cpp:922
+#: model_utils.cpp:656 umlwidgets/widget_utils.cpp:922
 #, kde-format
 msgid "Enter the name of the new category:"
 msgstr "Sartu kategoria berriaren izena:"
 
-#: model_utils.cpp:656
+#: model_utils.cpp:657
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new check constraint:"
 msgstr "Sartu egoera berriaren izena:"
 
-#: model_utils.cpp:657 umlwidgets/widget_utils.cpp:923
+#: model_utils.cpp:658 umlwidgets/widget_utils.cpp:923
 #, kde-format
 msgid "Enter the name of the new class:"
 msgstr "Sartu klase berriaren izena:"
 
-#: model_utils.cpp:658 umlwidgets/widget_utils.cpp:925
+#: model_utils.cpp:659 umlwidgets/widget_utils.cpp:925
 #, kde-format
 msgid "Enter the name of the new component:"
 msgstr "Sartu osagai berriaren izena:"
 
-#: model_utils.cpp:659 umlwidgets/widget_utils.cpp:926
+#: model_utils.cpp:660 umlwidgets/widget_utils.cpp:926
 #, kde-format
 msgid "Enter the name of the new datatype:"
 msgstr "Sartu datu-mota berriaren izena:"
 
-#: model_utils.cpp:660 umlwidgets/widget_utils.cpp:927
+#: model_utils.cpp:661 umlwidgets/widget_utils.cpp:927
 #, kde-format
 msgid "Enter the name of the new entity:"
 msgstr "Sartu entitae berriaren izena:"
 
-#: model_utils.cpp:661
+#: model_utils.cpp:662
 #, kde-format
 msgid "Enter the name of the new entity attribute:"
 msgstr "Sartu entitate-atributu berriaren izena:"
 
-#: model_utils.cpp:662
+#: model_utils.cpp:663
 #, kde-format
 msgid "Enter the name of the new entity constraint:"
 msgstr "Sartu entitate-murrizketa berriaren izena:"
 
-#: model_utils.cpp:663 umlwidgets/widget_utils.cpp:928
+#: model_utils.cpp:664 umlwidgets/widget_utils.cpp:928
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new enum:"
 msgstr "Sartu egoera berriaren izena:"
 
-#: model_utils.cpp:664
+#: model_utils.cpp:665
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new enum literal:"
 msgstr "Sartu egoera berriaren izena:"
 
-#: model_utils.cpp:665
+#: model_utils.cpp:666
 #, kde-format
 msgid "Enter the name of the new folder:"
 msgstr "Sartu karpeta berriaren izena:"
 
-#: model_utils.cpp:666
+#: model_utils.cpp:667
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new foreign key constraint:"
 msgstr "Sartu egoera berriaren izena:"
 
-#: model_utils.cpp:667 umlwidgets/widget_utils.cpp:931
+#: model_utils.cpp:668 umlwidgets/widget_utils.cpp:931
 #, kde-format
 msgid "Enter the name of the new instance:"
 msgstr "Sartu instantzia berriaren izena:"
 
-#: model_utils.cpp:668
+#: model_utils.cpp:669
 #, kde-format
 msgid "Enter the name of the new instance attribute:"
 msgstr "Sartu instantzia-atributu berriaren izena:"
 
-#: model_utils.cpp:669 umlwidgets/widget_utils.cpp:932
+#: model_utils.cpp:670 umlwidgets/widget_utils.cpp:932
 #, kde-format
 msgid "Enter the name of the new interface:"
 msgstr "Sartu interfaze berriaren izena:"
 
-#: model_utils.cpp:670 umlwidgets/widget_utils.cpp:934
+#: model_utils.cpp:671 umlwidgets/widget_utils.cpp:934
 #, kde-format
 msgid "Enter the name of the new node:"
 msgstr "Sartu nodo berriaren izena:"
 
-#: model_utils.cpp:671
+#: model_utils.cpp:672
 #, kde-format
 msgid "Enter the name of the new operation:"
 msgstr "Sartu eragiketa berriaren izena:"
 
-#: model_utils.cpp:672 umlwidgets/widget_utils.cpp:938
+#: model_utils.cpp:673 umlwidgets/widget_utils.cpp:938
 #, kde-format
 msgid "Enter the name of the new package:"
 msgstr "Sartu pakete berriaren izena:"
 
-#: model_utils.cpp:673 umlwidgets/widget_utils.cpp:940
+#: model_utils.cpp:674 umlwidgets/widget_utils.cpp:940
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new port:"
 msgstr "Sartu egoera berriaren izena:"
 
-#: model_utils.cpp:674
+#: model_utils.cpp:675
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new role:"
 msgstr "Sartu egoera berriaren izena:"
 
-#: model_utils.cpp:675
+#: model_utils.cpp:676
 #, kde-format
 msgid "Enter the name of the new stereotype:"
 msgstr "Sartu estereotipo berriaren izena:"
 
-#: model_utils.cpp:676
+#: model_utils.cpp:677
 #, kde-format
 msgid "Enter the name of the new template:"
 msgstr "Sartu txantiloi berriaren izena:"
 
-#: model_utils.cpp:677
+#: model_utils.cpp:678
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new unique constraint:"
 msgstr "Sartu egoera berriaren izena:"
 
-#: model_utils.cpp:678 umlwidgets/widget_utils.cpp:947
+#: model_utils.cpp:679 umlwidgets/widget_utils.cpp:947
 #, kde-format
 msgid "Enter the name of the new use case:"
 msgstr "Sartu erabilpen-kasu berriaren izena:"
 
-#: model_utils.cpp:681
+#: model_utils.cpp:682
 #, kde-format
 msgid "Enter the name of the new UML object"
 msgstr "Sartu UML objektu berriaren izen berria:"
 
-#: model_utils.cpp:693 umlwidgets/widget_utils.cpp:963
+#: model_utils.cpp:694 umlwidgets/widget_utils.cpp:963
 #, fuzzy, kde-format
 #| msgid "Rename Object"
 msgid "Rename actor"
 msgstr "Berrizendatu objektua"
 
-#: model_utils.cpp:694 umlwidgets/widget_utils.cpp:964
+#: model_utils.cpp:695 umlwidgets/widget_utils.cpp:964
 #, fuzzy, kde-format
 #| msgid "new_artifact"
 msgid "Rename artifact"
 msgstr "objektu_konposatu_berria"
 
-#: model_utils.cpp:695 umlwidgets/widget_utils.cpp:965
+#: model_utils.cpp:696 umlwidgets/widget_utils.cpp:965
 #, kde-format
 msgid "Rename association"
 msgstr "Berrizendatu asoziazioa"
 
-#: model_utils.cpp:696
+#: model_utils.cpp:697
 #, kde-format
 msgid "Rename attribute"
 msgstr "Berrizendatu atributua"
 
-#: model_utils.cpp:697 umlwidgets/widget_utils.cpp:967
+#: model_utils.cpp:698 umlwidgets/widget_utils.cpp:967
 #, kde-format
 msgid "Rename category"
 msgstr "Berrizendatu kategoria"
 
-#: model_utils.cpp:698
+#: model_utils.cpp:699
 #, fuzzy, kde-format
 #| msgid "new_entity"
 msgid "Rename check constraint"
 msgstr "entitate_berria"
 
-#: model_utils.cpp:699 umlwidgets/widget_utils.cpp:968
+#: model_utils.cpp:700 umlwidgets/widget_utils.cpp:968
 #, kde-format
 msgid "Rename class"
 msgstr "Berrizendatu klasea"
 
-#: model_utils.cpp:700 umlwidgets/widget_utils.cpp:970
+#: model_utils.cpp:701 umlwidgets/widget_utils.cpp:970
 #, kde-format
 msgid "Rename component"
 msgstr "Berrizendatu osagaia"
 
-#: model_utils.cpp:701 umlwidgets/widget_utils.cpp:971
+#: model_utils.cpp:702 umlwidgets/widget_utils.cpp:971
 #, kde-format
 msgid "Rename datatype"
 msgstr "Berrizendatu datu-mota"
 
-#: model_utils.cpp:702 umlwidgets/widget_utils.cpp:972
+#: model_utils.cpp:703 umlwidgets/widget_utils.cpp:972
 #, kde-format
 msgid "Rename entity"
 msgstr "Berrizendatu entitatea"
 
-#: model_utils.cpp:703
+#: model_utils.cpp:704
 #, kde-format
 msgid "Rename entity attribute"
 msgstr "Berrizendatu entitate-atributua"
 
-#: model_utils.cpp:704
+#: model_utils.cpp:705
 #, kde-format
 msgid "Rename entity constraint"
 msgstr "Berrizendatu entitate-murrizketa"
 
-#: model_utils.cpp:705 umlwidgets/widget_utils.cpp:973
+#: model_utils.cpp:706 umlwidgets/widget_utils.cpp:973
 #, fuzzy, kde-format
 #| msgid "Rename"
 msgid "Rename enum"
 msgstr "Berrizendatu"
 
-#: model_utils.cpp:706
+#: model_utils.cpp:707
 #, fuzzy, kde-format
 #| msgid "Enum Literals"
 msgid "Rename enum literal"
 msgstr "Enumeraketa literalak"
 
-#: model_utils.cpp:707
+#: model_utils.cpp:708
 #, kde-format
 msgid "Rename folder"
 msgstr "Berrizendatu karpeta"
 
-#: model_utils.cpp:708
+#: model_utils.cpp:709
 #, fuzzy, kde-format
 #| msgid "new_entity"
 msgid "Rename foreign key constraint"
 msgstr "entitate_berria"
 
-#: model_utils.cpp:709 umlwidgets/widget_utils.cpp:976
+#: model_utils.cpp:710 umlwidgets/widget_utils.cpp:976
 #, kde-format
 msgid "Rename instance"
 msgstr "Berrizendatu instantzia"
 
-#: model_utils.cpp:710
+#: model_utils.cpp:711
 #, kde-format
 msgid "Rename instance attribute"
 msgstr "Berrizendatu instantzia-atributua"
 
-#: model_utils.cpp:711 umlwidgets/widget_utils.cpp:977
+#: model_utils.cpp:712 umlwidgets/widget_utils.cpp:977
 #, kde-format
 msgid "Rename interface"
 msgstr "Berrizendatu interfazea"
 
-#: model_utils.cpp:712 umlwidgets/widget_utils.cpp:979
+#: model_utils.cpp:713 umlwidgets/widget_utils.cpp:979
 #, kde-format
 msgid "Rename node"
 msgstr "Berrizendatu nodoa"
 
-#: model_utils.cpp:713
+#: model_utils.cpp:714
 #, kde-format
 msgid "Rename operation"
 msgstr "Berrizendatu eragiketa"
 
-#: model_utils.cpp:714 umlwidgets/widget_utils.cpp:983
+#: model_utils.cpp:715 umlwidgets/widget_utils.cpp:983
 #, kde-format
 msgid "Rename package"
 msgstr "Berrizendatu paketea"
 
-#: model_utils.cpp:715 umlwidgets/widget_utils.cpp:985
+#: model_utils.cpp:716 umlwidgets/widget_utils.cpp:985
 #, fuzzy, kde-format
 #| msgid "Rename"
 msgid "Rename port"
 msgstr "Berrizendatu"
 
-#: model_utils.cpp:716
+#: model_utils.cpp:717
 #, fuzzy, kde-format
 #| msgid "Rename"
 msgid "Rename role"
 msgstr "Berrizendatu"
 
-#: model_utils.cpp:717
+#: model_utils.cpp:718
 #, kde-format
 msgid "Rename stereotype"
 msgstr "Berrizendatu estereotipoa"
 
-#: model_utils.cpp:718
+#: model_utils.cpp:719
 #, kde-format
 msgid "Rename template"
 msgstr "Berrizendatu txantiloia"
 
-#: model_utils.cpp:719
+#: model_utils.cpp:720
 #, fuzzy, kde-format
 #| msgid "new_entity"
 msgid "Rename unique constraint"
 msgstr "entitate_berria"
 
-#: model_utils.cpp:720 umlwidgets/widget_utils.cpp:992
+#: model_utils.cpp:721 umlwidgets/widget_utils.cpp:992
 #, kde-format
 msgid "Rename use case"
 msgstr "Berrizendatu erabilpen-kasua"
 
-#: model_utils.cpp:723
+#: model_utils.cpp:724
 #, kde-format
 msgid "Rename UML object"
 msgstr "Berrizendatu UML objektua"
 
-#: model_utils.cpp:735 umlwidgets/widget_utils.cpp:1009
+#: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1009
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the actor:"
 msgstr "Sartu jardueraren izen berria"
 
-#: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1010
+#: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1010
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the artifact:"
 msgstr "Sartu jardueraren izen berria"
 
-#: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1011
+#: model_utils.cpp:738 umlwidgets/widget_utils.cpp:1011
 #, kde-format
 msgid "Enter the new name of the association:"
 msgstr "Sartu asoziazioaren izen berria:"
 
-#: model_utils.cpp:738
+#: model_utils.cpp:739
 #, kde-format
 msgid "Enter the new name of the attribute:"
 msgstr "Sartu atributuaren izen berria:"
 
-#: model_utils.cpp:739 umlwidgets/widget_utils.cpp:1013
+#: model_utils.cpp:740 umlwidgets/widget_utils.cpp:1013
 #, kde-format
 msgid "Enter the new name of the category:"
 msgstr "Sartu kategoriaren izena berria:"
 
-#: model_utils.cpp:740
+#: model_utils.cpp:741
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the check constraint:"
 msgstr "Sartu jardueraren izen berria"
 
-#: model_utils.cpp:741 umlwidgets/widget_utils.cpp:1014
+#: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1014
 #, kde-format
 msgid "Enter the new name of the class:"
 msgstr "Sartu klasearen izen berria:"
 
-#: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1016
+#: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1016
 #, kde-format
 msgid "Enter the new name of the component:"
 msgstr "Sartu osagaiaren izen berria:"
 
-#: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1017
+#: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1017
 #, kde-format
 msgid "Enter the new name of the datatype:"
 msgstr "Sartu datu-motaren izen berria:"
 
-#: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1018
+#: model_utils.cpp:745 umlwidgets/widget_utils.cpp:1018
 #, kde-format
 msgid "Enter the new name of the entity:"
 msgstr "Sartu entitatearen izen berria:"
 
-#: model_utils.cpp:745
+#: model_utils.cpp:746
 #, kde-format
 msgid "Enter the new name of the entity attribute:"
 msgstr "Sartu entitate-atributuaren izen berria:"
 
-#: model_utils.cpp:746
+#: model_utils.cpp:747
 #, kde-format
 msgid "Enter the new name of the entity constraint:"
 msgstr "Sartu entitate-murrizketaren izen berria:"
 
-#: model_utils.cpp:747 umlwidgets/widget_utils.cpp:1019
+#: model_utils.cpp:748 umlwidgets/widget_utils.cpp:1019
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the model:"
 msgid "Enter the new name of the enum:"
 msgstr "Sartu ereduaren izen berria:"
 
-#: model_utils.cpp:748
+#: model_utils.cpp:749
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the model:"
 msgid "Enter the new name of the enum literal:"
 msgstr "Sartu ereduaren izen berria:"
 
-#: model_utils.cpp:749
+#: model_utils.cpp:750
 #, kde-format
 msgid "Enter the new name of the folder:"
 msgstr "Sartu karpetaren izen berria:"
 
-#: model_utils.cpp:750
+#: model_utils.cpp:751
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the diagram:"
 msgid "Enter the new name of the foreign key constraint:"
 msgstr "Sartu diagrama berriaren izena:"
 
-#: model_utils.cpp:751 umlwidgets/widget_utils.cpp:1022
+#: model_utils.cpp:752 umlwidgets/widget_utils.cpp:1022
 #, kde-format
 msgid "Enter the new name of the instance:"
 msgstr "Sartu instantziaren izena berria:"
 
-#: model_utils.cpp:752
+#: model_utils.cpp:753
 #, kde-format
 msgid "Enter the new name of the instance attribute:"
 msgstr "Sartu instantzia-atributuaren izen berria:"
 
-#: model_utils.cpp:753 umlwidgets/widget_utils.cpp:1023
+#: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1023
 #, kde-format
 msgid "Enter the new name of the interface:"
 msgstr "Sartu interfazearen izen berria:"
 
-#: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1025
+#: model_utils.cpp:755 umlwidgets/widget_utils.cpp:1025
 #, kde-format
 msgid "Enter the new name of the node:"
 msgstr "Sartu nodoaren izen berria:"
 
-#: model_utils.cpp:755
+#: model_utils.cpp:756
 #, kde-format
 msgid "Enter the new name of the operation:"
 msgstr "Sartu eragiketaren izen berria:"
 
-#: model_utils.cpp:756 umlwidgets/widget_utils.cpp:1029
+#: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1029
 #, kde-format
 msgid "Enter the new name of the package:"
 msgstr "Sartu paketearen izen berria:"
 
-#: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1031
+#: model_utils.cpp:758 umlwidgets/widget_utils.cpp:1031
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the model:"
 msgid "Enter the new name of the port:"
 msgstr "Sartu ereduaren izen berria:"
 
-#: model_utils.cpp:758
+#: model_utils.cpp:759
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the model:"
 msgid "Enter the new name of the role:"
 msgstr "Sartu ereduaren izen berria:"
 
-#: model_utils.cpp:759
+#: model_utils.cpp:760
 #, kde-format
 msgid "Enter the new name of the stereotype:"
 msgstr "Sartu estereotipoaren izen berria:"
 
-#: model_utils.cpp:760
+#: model_utils.cpp:761
 #, kde-format
 msgid "Enter the new name of the template:"
 msgstr "Sartu txantiloiaren izen berria:"
 
-#: model_utils.cpp:761
+#: model_utils.cpp:762
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the new name of the unique constraint:"
 msgstr "Sartu egoera berriaren izena:"
 
-#: model_utils.cpp:762 umlwidgets/widget_utils.cpp:1038
+#: model_utils.cpp:763 umlwidgets/widget_utils.cpp:1038
 #, kde-format
 msgid "Enter the new name of the use case:"
 msgstr "Sartu erabilpen-kasuaren izen berria:"
 
-#: model_utils.cpp:765
+#: model_utils.cpp:766
 #, kde-format
 msgid "Enter the new name of the UML object"
 msgstr "Sartu UML objektuaren izen berria"
 
-#: model_utils.cpp:1206
+#: model_utils.cpp:1207
 #, kde-format
 msgid "OK"
 msgstr "Ados"
 
-#: model_utils.cpp:1206
+#: model_utils.cpp:1207
 #, kde-format
 msgctxt "parse status"
 msgid "Empty"
 msgstr "Hutsik"
 
-#: model_utils.cpp:1206
+#: model_utils.cpp:1207
 #, kde-format
 msgid "Malformed argument"
 msgstr "Gaizki osatutako argumentua"
 
-#: model_utils.cpp:1207
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Unknown argument type"
 msgstr "Argumentu mota ezezaguna"
 
-#: model_utils.cpp:1207
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Illegal method name"
 msgstr "Metodoaren izen ilegala"
 
-#: model_utils.cpp:1208
+#: model_utils.cpp:1209
 #, kde-format
 msgid "Unknown return type"
 msgstr "Itzulkin mota ezezaguna"
 
-#: model_utils.cpp:1208
+#: model_utils.cpp:1209
 #, kde-format
 msgid "Unspecified error"
 msgstr "Zehaztu gabeko errorea"
@@ -5978,10 +5991,10 @@ msgstr "Erakuslea"
 msgid "Usage"
 msgstr "Erabilera"
 
-#: object_factory.cpp:254 umldoc.cpp:1602 umldoc.cpp:1637
-#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
+#: object_factory.cpp:254 umldoc.cpp:1624 umldoc.cpp:1659
+#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
-#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:177
+#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:179
 #, kde-format
 msgid "That is an invalid name."
 msgstr "Baliogabako izena da."
@@ -5999,16 +6012,16 @@ msgstr ""
 msgid "Reserved Keyword"
 msgstr "Erreserbatutako hitz-gakoa"
 
-#: object_factory.cpp:267 umldoc.cpp:1608 umldoc.cpp:1646
-#: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
+#: object_factory.cpp:267 umldoc.cpp:1630 umldoc.cpp:1668
+#: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
 msgid "That name is already being used."
 msgstr "Izena dagoneko erabilita dago."
 
-#: object_factory.cpp:268 umldoc.cpp:1511 umldoc.cpp:1580 umldoc.cpp:1608
-#: umldoc.cpp:1646 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
+#: object_factory.cpp:268 umldoc.cpp:1533 umldoc.cpp:1602 umldoc.cpp:1630
+#: umldoc.cpp:1668 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
@@ -7651,8 +7664,8 @@ msgstr ""
 msgid "Opening file..."
 msgstr "Fitxategia irekitzen..."
 
-#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:349 umldoc.cpp:372
-#: umldoc.cpp:3285
+#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:351 umldoc.cpp:374
+#: umldoc.cpp:3308
 #, kde-format
 msgid "Untitled"
 msgstr ""
@@ -7842,58 +7855,58 @@ msgstr "Hautatu inportatzeko kodea"
 msgid "XHTML Generation failed ."
 msgstr ""
 
-#: umlappprivate.h:130
+#: umlappprivate.h:132
 #, fuzzy, kde-format
 #| msgid "Object"
 msgid "&UML Objects"
 msgstr "Objektua"
 
-#: umlappprivate.h:140
+#: umlappprivate.h:142
 #, kde-format
 msgid "&Stereotypes"
 msgstr "E&stereotipoak"
 
-#: umlappprivate.h:156
+#: umlappprivate.h:158
 #, kde-format
 msgid "Welcome"
 msgstr ""
 
-#: umldoc.cpp:92 umldoc.cpp:2232 umldoc.cpp:2260 umldoc.cpp:2343
+#: umldoc.cpp:94 umldoc.cpp:2255 umldoc.cpp:2283 umldoc.cpp:2366
 #, kde-format
 msgid "UML Model"
 msgstr "UML eredua"
 
-#: umldoc.cpp:130
+#: umldoc.cpp:132
 #, kde-format
 msgid "Logical View"
 msgstr "Ikuspegi logikoa"
 
-#: umldoc.cpp:131
+#: umldoc.cpp:133
 #, kde-format
 msgid "Use Case View"
 msgstr "Erabilpen-kasuen ikuspegia"
 
-#: umldoc.cpp:132
+#: umldoc.cpp:134
 #, kde-format
 msgid "Component View"
 msgstr "Osagaien ikuspegia"
 
-#: umldoc.cpp:133
+#: umldoc.cpp:135
 #, kde-format
 msgid "Deployment View"
 msgstr "Hedaketa ikuspegia"
 
-#: umldoc.cpp:134
+#: umldoc.cpp:136
 #, kde-format
 msgid "Entity Relationship Model"
 msgstr "Entitate-erlazioen eredua"
 
-#: umldoc.cpp:160
+#: umldoc.cpp:162
 #, kde-format
 msgid "Datatypes"
 msgstr "Datu-motak"
 
-#: umldoc.cpp:367
+#: umldoc.cpp:369
 #, kde-format
 msgid ""
 "The current file has been modified.\n"
@@ -7902,164 +7915,164 @@ msgstr ""
 "Uneko fitxategia aldatu da.\n"
 "Gorde nahi al duzu?"
 
-#: umldoc.cpp:368
+#: umldoc.cpp:370
 #, fuzzy, kde-format
 msgctxt "warning message"
 msgid "Warning"
 msgstr "string"
 
-#: umldoc.cpp:535
+#: umldoc.cpp:541
 #, fuzzy, kde-format
 #| msgid "The file %1 does not exist."
 msgid "The file <%1> does not exist."
 msgstr "%1 fitxategia ez da existitzen."
 
-#: umldoc.cpp:535 umldoc.cpp:556 umldoc.cpp:595 umldoc.cpp:607 umldoc.cpp:621
-#: umldoc.cpp:634 umldoc.cpp:646 umldoc.cpp:684 umlmodel/folder.cpp:451
-#: umlmodel/folder.cpp:455
+#: umldoc.cpp:541 umldoc.cpp:562 umldoc.cpp:601 umldoc.cpp:613 umldoc.cpp:627
+#: umldoc.cpp:640 umldoc.cpp:652 umldoc.cpp:690 umlmodel/folder.cpp:450
+#: umlmodel/folder.cpp:454
 #, kde-format
 msgid "Load Error"
 msgstr "Kargaketa errorea"
 
-#: umldoc.cpp:556
+#: umldoc.cpp:562
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "%1 fitxategia hondatuta dago."
 
-#: umldoc.cpp:594 umldoc.cpp:606 umldoc.cpp:633
+#: umldoc.cpp:600 umldoc.cpp:612 umldoc.cpp:639
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "Ez da XMI fitxategirik aurkitu %1 fitxategi konprimatuan."
 
-#: umldoc.cpp:620
+#: umldoc.cpp:626
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "Errore bat gertatu da erauzitako %1 fitxategia kargatzean"
 
-#: umldoc.cpp:645 umldoc.cpp:681
+#: umldoc.cpp:651 umldoc.cpp:687
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "Errorea %1 fitxategia kargatzean"
 
-#: umldoc.cpp:683
+#: umldoc.cpp:689
 #, kde-format
 msgid "Reason: %1"
 msgstr ""
 
-#: umldoc.cpp:753 umldoc.cpp:764 umldoc.cpp:782 umldoc.cpp:823 umldoc.cpp:850
+#: umldoc.cpp:759 umldoc.cpp:770 umldoc.cpp:788 umldoc.cpp:833 umldoc.cpp:872
 #, fuzzy, kde-format
 #| msgid "There was a problem saving file: %1"
 msgid "There was a problem saving: %1"
 msgstr "Errorea %1 fitxategia gordetzean"
 
-#: umldoc.cpp:753 umldoc.cpp:764 umldoc.cpp:782 umldoc.cpp:823 umldoc.cpp:850
-#: umldoc.cpp:857 umllistview.cpp:569
+#: umldoc.cpp:759 umldoc.cpp:770 umldoc.cpp:788 umldoc.cpp:833 umldoc.cpp:872
+#: umldoc.cpp:879 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
 msgstr "Errorea gordetzean"
 
-#: umldoc.cpp:857
+#: umldoc.cpp:879
 #, fuzzy, kde-format
 #| msgid "There was a problem uploading file: %1"
 msgid "There was a problem uploading: %1"
 msgstr "Errorea %1 fitxategia kargatzean"
 
-#: umldoc.cpp:1408
+#: umldoc.cpp:1430
 #, kde-format
 msgid "use case diagram"
 msgstr "erabilpen-kasuen diagrama"
 
-#: umldoc.cpp:1411
+#: umldoc.cpp:1433
 #, kde-format
 msgid "class diagram"
 msgstr "klaseen diagrama"
 
-#: umldoc.cpp:1414
+#: umldoc.cpp:1436
 #, kde-format
 msgid "sequence diagram"
 msgstr "sekuentzien diagrama"
 
-#: umldoc.cpp:1417
+#: umldoc.cpp:1439
 #, fuzzy, kde-format
 #| msgid "collaboration diagram"
 msgid "communication diagram"
 msgstr "lankidetzen diagrama"
 
-#: umldoc.cpp:1420
+#: umldoc.cpp:1442
 #, fuzzy, kde-format
 #| msgid "&Select diagrams"
 msgid "object diagram"
 msgstr "&Hautatu diagramak"
 
-#: umldoc.cpp:1423
+#: umldoc.cpp:1445
 #, kde-format
 msgid "state diagram"
 msgstr "egoeren diagrama"
 
-#: umldoc.cpp:1426
+#: umldoc.cpp:1448
 #, kde-format
 msgid "activity diagram"
 msgstr "jardueren diagrama"
 
-#: umldoc.cpp:1429
+#: umldoc.cpp:1451
 #, kde-format
 msgid "component diagram"
 msgstr "osagai diagrama"
 
-#: umldoc.cpp:1432
+#: umldoc.cpp:1454
 #, kde-format
 msgid "deployment diagram"
 msgstr "hedaketa ikuspegai"
 
-#: umldoc.cpp:1435
+#: umldoc.cpp:1457
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "entitate-erlazioen diagrama"
 
-#: umldoc.cpp:1505
+#: umldoc.cpp:1527
 #, fuzzy, kde-format
 #| msgid "Name"
 msgctxt "diagram name"
 msgid "Name"
 msgstr "Izena"
 
-#: umldoc.cpp:1505 umldoc.cpp:1567 umldoc.cpp:1596 umldoc.cpp:1631
+#: umldoc.cpp:1527 umldoc.cpp:1589 umldoc.cpp:1618 umldoc.cpp:1653
 #, kde-format
 msgid "Enter name:"
 msgstr "Sartu izena:"
 
-#: umldoc.cpp:1509 umldoc.cpp:1573
+#: umldoc.cpp:1531 umldoc.cpp:1595
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "Diagramaren izena baliogabea da."
 
-#: umldoc.cpp:1511 umldoc.cpp:1580
+#: umldoc.cpp:1533 umldoc.cpp:1602
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "Izen hori darabilen beste diagrama bat dago."
 
-#: umldoc.cpp:1566
+#: umldoc.cpp:1588
 #, fuzzy, kde-format
 #| msgid "Name"
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "Izena"
 
-#: umldoc.cpp:1595
+#: umldoc.cpp:1617
 #, fuzzy, kde-format
 #| msgid "Name"
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "Izena"
 
-#: umldoc.cpp:1630
+#: umldoc.cpp:1652
 #, fuzzy, kde-format
 #| msgid "Name"
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "Izena"
 
-#: umldoc.cpp:1640
+#: umldoc.cpp:1662
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
@@ -8068,42 +8081,42 @@ msgstr ""
 "Sartu duzun izena ez da bakarra.\n"
 "Hau da nahi zenuen izena?"
 
-#: umldoc.cpp:1641
+#: umldoc.cpp:1663
 #, kde-format
 msgid "Use Name"
 msgstr "Erabili izena"
 
-#: umldoc.cpp:1641
+#: umldoc.cpp:1663
 #, kde-format
 msgid "Enter New Name"
 msgstr "Sartu izen berria"
 
-#: umldoc.cpp:2190
+#: umldoc.cpp:2213
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2354
+#: umldoc.cpp:2377
 #, kde-format
 msgid "Setting up the document..."
 msgstr "Dokumentua konfiguratzen..."
 
-#: umldoc.cpp:2383
+#: umldoc.cpp:2406
 #, kde-format
 msgid "Resolving object references..."
 msgstr "Objektuen erreferentziak ebazten..."
 
-#: umldoc.cpp:2491
+#: umldoc.cpp:2514
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "UML elementuak kargatzen..."
 
-#: umldoc.cpp:2753
+#: umldoc.cpp:2776
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "Diagramak kargatzen..."
 
-#: umldoc.cpp:3287
+#: umldoc.cpp:3310
 #, kde-format
 msgid "/autosave%1"
 msgstr "/autogorde%1"
@@ -8137,7 +8150,7 @@ msgstr ""
 msgid "File Exists"
 msgstr "Fitxategia dagoeneko existitzen da"
 
-#: umllistview.cpp:568 umlviewimageexportermodel.cpp:268
+#: umllistview.cpp:568 umlviewimageexportermodel.cpp:272
 #, kde-format
 msgid "There was a problem saving file: %1"
 msgstr "Errorea %1 fitxategia gordetzean"
@@ -8245,12 +8258,12 @@ msgstr ""
 "Izen eta sinadura bereko eragiketa bat dagoeneko existitzen da. Ezin duzu "
 "berriro gehitu."
 
-#: umlmodel/folder.cpp:451
+#: umlmodel/folder.cpp:450
 #, kde-format
 msgid "The folderfile %1 does not exist."
 msgstr "%1 karpeta-fitxategia ez da existitzen."
 
-#: umlmodel/folder.cpp:455
+#: umlmodel/folder.cpp:454
 #, kde-format
 msgid "The folderfile %1 cannot be opened."
 msgstr "%1 karpeta-fitxategia hondatuta dago."
@@ -8260,14 +8273,14 @@ msgstr "%1 karpeta-fitxategia hondatuta dago."
 msgid "new_parameter"
 msgstr "parametro_berria"
 
-#: umlmodel/package.cpp:169
+#: umlmodel/package.cpp:171
 #, fuzzy, kde-format
 #| msgid "Name"
 msgctxt "object name"
 msgid "Name"
 msgstr "Izena"
 
-#: umlmodel/package.cpp:170
+#: umlmodel/package.cpp:172
 #, kde-format
 msgid ""
 "An object with the name %1\n"
@@ -8275,17 +8288,17 @@ msgid ""
 "Please enter a new name:"
 msgstr ""
 
-#: umlmodel/umlcanvasobject.cpp:198
+#: umlmodel/umlcanvasobject.cpp:200
 #, kde-format
 msgid "new_literal"
 msgstr "literal_berria"
 
-#: umlmodel/umlcanvasobject.cpp:201
+#: umlmodel/umlcanvasobject.cpp:203
 #, kde-format
 msgid "new_field"
 msgstr "eremu_berria"
 
-#: umlmodel/umlcanvasobject.cpp:207
+#: umlmodel/umlcanvasobject.cpp:209
 #, fuzzy, kde-format
 #| msgid "new_entity"
 msgid "new_fkey_constraint"
@@ -8370,75 +8383,75 @@ msgstr "Erabilpen-kasuaren ize&na:"
 msgid "Instance name:"
 msgstr "Instantziaren izena:"
 
-#: umlscene.cpp:719
+#: umlscene.cpp:720
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Diagrama: %2 Orria: %1"
 
-#: umlscene.cpp:1519
+#: umlscene.cpp:1520
 #, fuzzy, kde-format
 #| msgid "&Use fill color"
 msgid "Use fill color"
 msgstr "&Erabili betegarriaren kolorea"
 
-#: umlscene.cpp:1521
+#: umlscene.cpp:1522
 #, fuzzy, kde-format
 #| msgid "Fill Color..."
 msgid "No fill color"
 msgstr "Betegarriaren kolorea..."
 
-#: umlscene.cpp:1536
+#: umlscene.cpp:1537
 #, fuzzy, kde-format
 #| msgid "Change Font..."
 msgid "Change font"
 msgstr "Aldatu letra-tipoa..."
 
-#: umlscene.cpp:1550
+#: umlscene.cpp:1551
 #, fuzzy, kde-format
 #| msgid "Change into Class"
 msgid "Change line color"
 msgstr "Aldatu klasera"
 
-#: umlscene.cpp:1568
+#: umlscene.cpp:1569
 #, fuzzy, kde-format
 #| msgid "Line width:"
 msgid "Change line width"
 msgstr "Lerroaren zabalera:"
 
-#: umlscene.cpp:1588
+#: umlscene.cpp:1589
 #, fuzzy, kde-format
 #| msgid "Use Fill Color"
 msgid "Change fill color"
 msgstr "Erabili kolore betegarria"
 
-#: umlscene.cpp:1603
+#: umlscene.cpp:1604
 #, fuzzy, kde-format
 #| msgid "Role Properties"
 msgid "Change visual property"
 msgstr "Eginkizunaren propietateak"
 
-#: umlscene.cpp:1654
+#: umlscene.cpp:1655
 #, fuzzy, kde-format
 msgid "Delete widgets"
 msgstr "Hautatu"
 
-#: umlscene.cpp:1700
+#: umlscene.cpp:1701
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Resize widgets"
 msgstr "Sortu karpeta"
 
-#: umlscene.cpp:3352
+#: umlscene.cpp:3353
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Sartu diagramaren izena"
 
-#: umlscene.cpp:3353
+#: umlscene.cpp:3354
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Sartu diagrama berriaren izena:"
 
-#: umlscene.cpp:3369
+#: umlscene.cpp:3370
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

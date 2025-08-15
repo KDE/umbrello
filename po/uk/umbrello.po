@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 19:49+0000\n"
+"POT-Creation-Date: 2025-08-15 02:18+0000\n"
 "PO-Revision-Date: 2025-04-17 13:00+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -202,7 +202,7 @@ msgstr "Невідомо"
 msgid "? AssociationType ?"
 msgstr "? ТипАсоціації ?"
 
-#: clipboard/umlclipboard.cpp:751
+#: clipboard/umlclipboard.cpp:753
 #, kde-format
 msgid ""
 "At least one of the items in the clipboard could not be pasted because an "
@@ -212,7 +212,7 @@ msgstr ""
 "оскільки вже існує елемент з такою ж назвою. Всі інші елементи було "
 "вставлено."
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1637
+#: clipboard/umlclipboard.cpp:757 uml.cpp:1637
 #, kde-format
 msgid "Paste Error"
 msgstr "Помилка вставлення"
@@ -1803,7 +1803,7 @@ msgctxt "instance general settings page name"
 msgid "General"
 msgstr "Загальні"
 
-#: dialogs/classwizard.cpp:39 model_utils.cpp:566
+#: dialogs/classwizard.cpp:39 model_utils.cpp:567
 #, kde-format
 msgid "new_class"
 msgstr "new_class"
@@ -1968,34 +1968,34 @@ msgstr "<p align=\"right\">Незмінний текст:</p>"
 msgid "<p align=\"right\">Editable text:</p>"
 msgstr "<p align=\"right\">Змінний текст:</p>"
 
-#: dialogs/dialog_utils.cpp:31
+#: dialogs/dialog_utils.cpp:36
 #, kde-format
 msgid "Enable all messages"
 msgstr "Увімкнути всі повідомлення"
 
-#: dialogs/dialog_utils.cpp:32
+#: dialogs/dialog_utils.cpp:37
 #, kde-format
 msgid "Enable 'delete association' related messages"
 msgstr "Увімкнути повідомлення, які пов'язано із вилученням асоціацій"
 
-#: dialogs/dialog_utils.cpp:33
+#: dialogs/dialog_utils.cpp:38
 #, kde-format
 msgid "Enable 'delete diagram' related messages"
 msgstr "Увімкнути повідомлення, які пов'язано із вилученням діаграм"
 
-#: dialogs/dialog_utils.cpp:210
+#: dialogs/dialog_utils.cpp:215
 #, kde-format
 msgid "You are about to delete an association. Do you really want to continue?"
 msgstr ""
 "Ви маєте намір вилучити асоціацію. Ви справді хочете продовжити виконання "
 "цієї дії?"
 
-#: dialogs/dialog_utils.cpp:211
+#: dialogs/dialog_utils.cpp:216
 #, kde-format
 msgid "Delete Association"
 msgstr "Вилучення асоціації"
 
-#: dialogs/dialog_utils.cpp:225
+#: dialogs/dialog_utils.cpp:230
 #, kde-format
 msgid ""
 "You are about to delete the entire diagram.\n"
@@ -2004,17 +2004,17 @@ msgstr ""
 "Ви маєте намір вилучити всю діаграму.\n"
 "Ви впевнені?"
 
-#: dialogs/dialog_utils.cpp:226
+#: dialogs/dialog_utils.cpp:231
 #, kde-format
 msgid "Are you sure you want to delete diagram %1?"
 msgstr "Ви дійсно хочете вилучити діаграму %1?"
 
-#: dialogs/dialog_utils.cpp:231
+#: dialogs/dialog_utils.cpp:236
 #, kde-format
 msgid "Delete Diagram?"
 msgstr "Вилучити діаграму?"
 
-#: dialogs/dialog_utils.cpp:232 dialogs/pages/classifierlistpage.cpp:208
+#: dialogs/dialog_utils.cpp:237 dialogs/pages/classifierlistpage.cpp:208
 #: dialogs/umlforeignkeyconstraintdialog.cpp:321
 #: dialogs/umloperationdialog.cpp:164 dialogs/umluniqueconstraintdialog.cpp:110
 #, kde-format
@@ -2782,7 +2782,7 @@ msgstr "Обмеження перевірки…"
 msgid "<p align=\"center\">No Options Available.</p>"
 msgstr "<p align=\"center\">Немає наявних параметрів.</p>"
 
-#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:120
+#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:122
 #, kde-format
 msgid "&Diagrams"
 msgstr "&Діаграми"
@@ -2814,10 +2814,10 @@ msgid "The name you have entered is invalid."
 msgstr "Ви ввели некоректну назву."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
-#: umldoc.cpp:1509 umldoc.cpp:1573 umldoc.cpp:1602 umldoc.cpp:1637
-#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
+#: umldoc.cpp:1531 umldoc.cpp:1595 umldoc.cpp:1624 umldoc.cpp:1659
+#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
-#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:178
+#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:180
 #, kde-format
 msgid "Invalid Name"
 msgstr "Некоректна назва"
@@ -2827,7 +2827,7 @@ msgstr "Некоректна назва"
 msgid "The name you have entered is not unique."
 msgstr "Введено неунікальну назву."
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1641
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1663
 #, kde-format
 msgid "Name Not Unique"
 msgstr "Назва не є унікальною"
@@ -3943,12 +3943,12 @@ msgstr "&Типове значення:"
 msgid "&Image type:"
 msgstr "Тип зоб&раження:"
 
-#: dialogs/widgets/resolutionwidget.cpp:24
+#: dialogs/widgets/resolutionwidget.cpp:25
 #, kde-format
 msgid "&Resolution:"
 msgstr "&Роздільна здатність:"
 
-#: dialogs/widgets/resolutionwidget.cpp:24
+#: dialogs/widgets/resolutionwidget.cpp:25
 #, kde-format
 msgid "DPI"
 msgstr "т./д."
@@ -3993,6 +3993,19 @@ msgstr "Малювати як"
 #, kde-format
 msgid "&Type:"
 msgstr "&Тип:"
+
+#: dialogs/widgets/umlmessagebox.h:27
+#, kde-format
+msgctxt "@action:button"
+msgid "Yes"
+msgstr ""
+
+#: dialogs/widgets/umlmessagebox.h:32
+#, fuzzy, kde-format
+#| msgid "None"
+msgctxt "@action:button"
+msgid "No"
+msgstr "Немає"
 
 #: dialogs/widgets/umlpackagewidget.cpp:29
 #, kde-format
@@ -4111,12 +4124,12 @@ msgstr "Під час експорту зображень сталося кіл�
 msgid "Generating Docbook..."
 msgstr "Створення Docbook…"
 
-#: docgenerators/docbookgenerator.cpp:109
+#: docgenerators/docbookgenerator.cpp:113
 #, kde-format
 msgid "Docbook Generation Complete..."
 msgstr "Створення Docbook завершено…"
 
-#: docgenerators/docbookgenerator.cpp:112
+#: docgenerators/docbookgenerator.cpp:116
 #, kde-format
 msgid "Docbook Generation Failed..."
 msgstr "Створення Docbook зазнало невдачі…"
@@ -4160,27 +4173,27 @@ msgstr "Файл для перетворення"
 msgid "The XSLT file to use"
 msgstr "Використовувати XSLT файл"
 
-#: docgenerators/xhtmlgenerator.cpp:104
+#: docgenerators/xhtmlgenerator.cpp:105
 #, kde-format
 msgid "Generating XHTML..."
 msgstr "Створення XHTML…"
 
-#: docgenerators/xhtmlgenerator.cpp:130
+#: docgenerators/xhtmlgenerator.cpp:135
 #, kde-format
 msgid "XHTML Generation Complete..."
 msgstr "Створення XHTML завершено…"
 
-#: docgenerators/xhtmlgenerator.cpp:136
+#: docgenerators/xhtmlgenerator.cpp:141
 #, kde-format
 msgid "Copying CSS..."
 msgstr "Копіювання CSS…"
 
-#: docgenerators/xhtmlgenerator.cpp:149
+#: docgenerators/xhtmlgenerator.cpp:158
 #, kde-format
 msgid "Finished Copying CSS..."
 msgstr "Завершено копіювання CSS…"
 
-#: docgenerators/xhtmlgenerator.cpp:152
+#: docgenerators/xhtmlgenerator.cpp:161
 #, kde-format
 msgid "Failed Copying CSS..."
 msgstr "Не вдалося копіювати CSS…"
@@ -5106,758 +5119,758 @@ msgstr "Вирівняти з розподіленням вертикально"
 msgid "Align Horizontal Distribute"
 msgstr "Вирівняти з розподіленням горизонтально"
 
-#: model_utils.cpp:560
+#: model_utils.cpp:561
 #, kde-format
 msgid "new_actor"
 msgstr "new_actor"
 
-#: model_utils.cpp:561
+#: model_utils.cpp:562
 #, kde-format
 msgid "new_artifact"
 msgstr "new_artifact"
 
-#: model_utils.cpp:562 umlmodel/umlcanvasobject.cpp:186
+#: model_utils.cpp:563 umlmodel/umlcanvasobject.cpp:188
 #, kde-format
 msgid "new_association"
 msgstr "new_association"
 
-#: model_utils.cpp:563 umlmodel/umlcanvasobject.cpp:189
+#: model_utils.cpp:564 umlmodel/umlcanvasobject.cpp:191
 #, kde-format
 msgid "new_attribute"
 msgstr "new_attribute"
 
-#: model_utils.cpp:564
+#: model_utils.cpp:565
 #, kde-format
 msgid "new_category"
 msgstr "new_category"
 
-#: model_utils.cpp:565 umlmodel/umlcanvasobject.cpp:210
+#: model_utils.cpp:566 umlmodel/umlcanvasobject.cpp:212
 #, kde-format
 msgid "new_check_constraint"
 msgstr "new_check_constraint"
 
-#: model_utils.cpp:567
+#: model_utils.cpp:568
 #, kde-format
 msgid "new_component"
 msgstr "new_component"
 
-#: model_utils.cpp:568
+#: model_utils.cpp:569
 #, kde-format
 msgid "new_datatype"
 msgstr "new_datatype"
 
-#: model_utils.cpp:569
+#: model_utils.cpp:570
 #, kde-format
 msgid "new_entity"
 msgstr "new_entity"
 
-#: model_utils.cpp:570
+#: model_utils.cpp:571
 #, kde-format
 msgid "new_entity_attribute"
 msgstr "new_entity_attribute"
 
-#: model_utils.cpp:571
+#: model_utils.cpp:572
 #, kde-format
 msgid "new_entity_constraint"
 msgstr "new_entity_constraint"
 
-#: model_utils.cpp:572
+#: model_utils.cpp:573
 #, kde-format
 msgid "new_enum"
 msgstr "new_enum"
 
-#: model_utils.cpp:573
+#: model_utils.cpp:574
 #, kde-format
 msgid "new_enum_literal"
 msgstr "new_enum_literal"
 
-#: model_utils.cpp:574
+#: model_utils.cpp:575
 #, kde-format
 msgid "new_folder"
 msgstr "new_folder"
 
-#: model_utils.cpp:575
+#: model_utils.cpp:576
 #, kde-format
 msgid "new_foreign_key_constraint"
 msgstr "new_foreign_key_constraint"
 
-#: model_utils.cpp:576
+#: model_utils.cpp:577
 #, kde-format
 msgid "new_instance"
 msgstr "new_instance"
 
-#: model_utils.cpp:577
+#: model_utils.cpp:578
 #, kde-format
 msgid "new_instance_attribute"
 msgstr "new_instance_attribute"
 
-#: model_utils.cpp:578
+#: model_utils.cpp:579
 #, kde-format
 msgid "new_interface"
 msgstr "new_interface"
 
-#: model_utils.cpp:579
+#: model_utils.cpp:580
 #, kde-format
 msgid "new_node"
 msgstr "new_node"
 
-#: model_utils.cpp:580 umlmodel/umlcanvasobject.cpp:195
+#: model_utils.cpp:581 umlmodel/umlcanvasobject.cpp:197
 #, kde-format
 msgid "new_operation"
 msgstr "new_operation"
 
-#: model_utils.cpp:581
+#: model_utils.cpp:582
 #, kde-format
 msgid "new_package"
 msgstr "new_package"
 
-#: model_utils.cpp:582
+#: model_utils.cpp:583
 #, kde-format
 msgid "new_port"
 msgstr "new_port"
 
-#: model_utils.cpp:583
+#: model_utils.cpp:584
 #, kde-format
 msgid "new_role"
 msgstr "new_role"
 
-#: model_utils.cpp:584
+#: model_utils.cpp:585
 #, kde-format
 msgid "new_stereotype"
 msgstr "new_stereotype"
 
-#: model_utils.cpp:585 umlmodel/umlcanvasobject.cpp:192
+#: model_utils.cpp:586 umlmodel/umlcanvasobject.cpp:194
 #, kde-format
 msgid "new_template"
 msgstr "new_template"
 
-#: model_utils.cpp:586 umlmodel/umlcanvasobject.cpp:204
+#: model_utils.cpp:587 umlmodel/umlcanvasobject.cpp:206
 #, kde-format
 msgid "new_unique_constraint"
 msgstr "new_unique_constraint"
 
-#: model_utils.cpp:587
+#: model_utils.cpp:588
 #, kde-format
 msgid "new_use_case"
 msgstr "new_use_case"
 
-#: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
+#: model_utils.cpp:590 umlmodel/umlcanvasobject.cpp:215
 #, kde-format
 msgid "new_object"
 msgstr "new_object"
 
-#: model_utils.cpp:609 umlwidgets/widget_utils.cpp:872
+#: model_utils.cpp:610 umlwidgets/widget_utils.cpp:872
 #, kde-format
 msgid "New actor"
 msgstr "Новий актор"
 
-#: model_utils.cpp:610 umlwidgets/widget_utils.cpp:873
+#: model_utils.cpp:611 umlwidgets/widget_utils.cpp:873
 #, kde-format
 msgid "New artifact"
 msgstr "Новий артефакт"
 
-#: model_utils.cpp:611 umlwidgets/widget_utils.cpp:874
+#: model_utils.cpp:612 umlwidgets/widget_utils.cpp:874
 #, kde-format
 msgid "New association"
 msgstr "Нова прив'язка"
 
-#: model_utils.cpp:612
+#: model_utils.cpp:613
 #, kde-format
 msgid "New attribute"
 msgstr "Новий атрибут"
 
-#: model_utils.cpp:613 umlwidgets/widget_utils.cpp:876
+#: model_utils.cpp:614 umlwidgets/widget_utils.cpp:876
 #, kde-format
 msgid "New category"
 msgstr "Нова категорія"
 
-#: model_utils.cpp:614
+#: model_utils.cpp:615
 #, kde-format
 msgid "New check constraint"
 msgstr "Нове обмеження перевірки"
 
-#: model_utils.cpp:615 umlwidgets/widget_utils.cpp:877
+#: model_utils.cpp:616 umlwidgets/widget_utils.cpp:877
 #, kde-format
 msgid "New class"
 msgstr "Новий клас"
 
-#: model_utils.cpp:616 umlwidgets/widget_utils.cpp:879
+#: model_utils.cpp:617 umlwidgets/widget_utils.cpp:879
 #, kde-format
 msgid "New component"
 msgstr "Новий компонент"
 
-#: model_utils.cpp:617 umlwidgets/widget_utils.cpp:880
+#: model_utils.cpp:618 umlwidgets/widget_utils.cpp:880
 #, kde-format
 msgid "New datatype"
 msgstr "Новий тип даних"
 
-#: model_utils.cpp:618 umlwidgets/widget_utils.cpp:881
+#: model_utils.cpp:619 umlwidgets/widget_utils.cpp:881
 #, kde-format
 msgid "New entity"
 msgstr "Новий екземпляр"
 
-#: model_utils.cpp:619
+#: model_utils.cpp:620
 #, kde-format
 msgid "New entity attribute"
 msgstr "Новий атрибут сутності"
 
-#: model_utils.cpp:620
+#: model_utils.cpp:621
 #, kde-format
 msgid "New entity constraint"
 msgstr "Нове обмеження сутності"
 
-#: model_utils.cpp:621 umlwidgets/widget_utils.cpp:882
+#: model_utils.cpp:622 umlwidgets/widget_utils.cpp:882
 #, kde-format
 msgid "New enum"
 msgstr "Новий перелік"
 
-#: model_utils.cpp:622
+#: model_utils.cpp:623
 #, kde-format
 msgid "New enum literal"
 msgstr "Новий літерал переліку"
 
-#: model_utils.cpp:623
+#: model_utils.cpp:624
 #, kde-format
 msgid "New folder"
 msgstr "Нова тека"
 
-#: model_utils.cpp:624
+#: model_utils.cpp:625
 #, kde-format
 msgid "New foreign key constraint"
 msgstr "Нове обмеження стороннього ключа"
 
-#: model_utils.cpp:625 umlwidgets/widget_utils.cpp:885
+#: model_utils.cpp:626 umlwidgets/widget_utils.cpp:885
 #, kde-format
 msgid "New instance"
 msgstr "Новий екземпляр"
 
-#: model_utils.cpp:626
+#: model_utils.cpp:627
 #, kde-format
 msgid "New instance attribute"
 msgstr "Новий атрибут екземпляра"
 
-#: model_utils.cpp:627 umlwidgets/widget_utils.cpp:886
+#: model_utils.cpp:628 umlwidgets/widget_utils.cpp:886
 #, kde-format
 msgid "New interface"
 msgstr "Новий інтерфейс"
 
-#: model_utils.cpp:628 umlwidgets/widget_utils.cpp:888
+#: model_utils.cpp:629 umlwidgets/widget_utils.cpp:888
 #, kde-format
 msgid "New node"
 msgstr "Новий вузол"
 
-#: model_utils.cpp:629
+#: model_utils.cpp:630
 #, kde-format
 msgid "New operation"
 msgstr "Нова дія"
 
-#: model_utils.cpp:630 umlwidgets/widget_utils.cpp:892
+#: model_utils.cpp:631 umlwidgets/widget_utils.cpp:892
 #, kde-format
 msgid "New package"
 msgstr "Новий пакунок"
 
-#: model_utils.cpp:631 umlwidgets/widget_utils.cpp:894
+#: model_utils.cpp:632 umlwidgets/widget_utils.cpp:894
 #, kde-format
 msgid "New port"
 msgstr "Новий порт"
 
-#: model_utils.cpp:632
+#: model_utils.cpp:633
 #, kde-format
 msgid "New role"
 msgstr "Нова роль"
 
-#: model_utils.cpp:633
+#: model_utils.cpp:634
 #, kde-format
 msgid "New stereotype"
 msgstr "Новий стереотип"
 
-#: model_utils.cpp:634
+#: model_utils.cpp:635
 #, kde-format
 msgid "New template"
 msgstr "Новий шаблон"
 
-#: model_utils.cpp:635
+#: model_utils.cpp:636
 #, kde-format
 msgid "New unique constraint"
 msgstr "Нове унікальне обмеження"
 
-#: model_utils.cpp:636 umlwidgets/widget_utils.cpp:901
+#: model_utils.cpp:637 umlwidgets/widget_utils.cpp:901
 #, kde-format
 msgid "New use case"
 msgstr "Новий випадок використання"
 
-#: model_utils.cpp:639
+#: model_utils.cpp:640
 #, kde-format
 msgid "New UML object"
 msgstr "Новий об'єкт UML"
 
-#: model_utils.cpp:651 umlwidgets/widget_utils.cpp:918
+#: model_utils.cpp:652 umlwidgets/widget_utils.cpp:918
 #, kde-format
 msgid "Enter the name of the new actor:"
 msgstr "Введіть назву нового актора:"
 
-#: model_utils.cpp:652 umlwidgets/widget_utils.cpp:919
+#: model_utils.cpp:653 umlwidgets/widget_utils.cpp:919
 #, kde-format
 msgid "Enter the name of the new artifact:"
 msgstr "Введіть назву нового артефакту:"
 
-#: model_utils.cpp:653 umlwidgets/widget_utils.cpp:920
+#: model_utils.cpp:654 umlwidgets/widget_utils.cpp:920
 #, kde-format
 msgid "Enter the name of the new association:"
 msgstr "Введіть назву нової прив'язки:"
 
-#: model_utils.cpp:654
+#: model_utils.cpp:655
 #, kde-format
 msgid "Enter the name of the new attribute:"
 msgstr "Введіть назву нового атрибута:"
 
-#: model_utils.cpp:655 umlwidgets/widget_utils.cpp:922
+#: model_utils.cpp:656 umlwidgets/widget_utils.cpp:922
 #, kde-format
 msgid "Enter the name of the new category:"
 msgstr "Введіть назву нової категорії:"
 
-#: model_utils.cpp:656
+#: model_utils.cpp:657
 #, kde-format
 msgid "Enter the name of the new check constraint:"
 msgstr "Введіть назву нового обмеження перевірки:"
 
-#: model_utils.cpp:657 umlwidgets/widget_utils.cpp:923
+#: model_utils.cpp:658 umlwidgets/widget_utils.cpp:923
 #, kde-format
 msgid "Enter the name of the new class:"
 msgstr "Введіть назву нового класу:"
 
-#: model_utils.cpp:658 umlwidgets/widget_utils.cpp:925
+#: model_utils.cpp:659 umlwidgets/widget_utils.cpp:925
 #, kde-format
 msgid "Enter the name of the new component:"
 msgstr "Введіть назву нового компонента:"
 
-#: model_utils.cpp:659 umlwidgets/widget_utils.cpp:926
+#: model_utils.cpp:660 umlwidgets/widget_utils.cpp:926
 #, kde-format
 msgid "Enter the name of the new datatype:"
 msgstr "Введіть назву нового типу даних:"
 
-#: model_utils.cpp:660 umlwidgets/widget_utils.cpp:927
+#: model_utils.cpp:661 umlwidgets/widget_utils.cpp:927
 #, kde-format
 msgid "Enter the name of the new entity:"
 msgstr "Введіть назву нової елемента:"
 
-#: model_utils.cpp:661
+#: model_utils.cpp:662
 #, kde-format
 msgid "Enter the name of the new entity attribute:"
 msgstr "Введіть назву нового атрибута сутності:"
 
-#: model_utils.cpp:662
+#: model_utils.cpp:663
 #, kde-format
 msgid "Enter the name of the new entity constraint:"
 msgstr "Введіть назву нового обмеження сутності:"
 
-#: model_utils.cpp:663 umlwidgets/widget_utils.cpp:928
+#: model_utils.cpp:664 umlwidgets/widget_utils.cpp:928
 #, kde-format
 msgid "Enter the name of the new enum:"
 msgstr "Введіть назву нового переліку:"
 
-#: model_utils.cpp:664
+#: model_utils.cpp:665
 #, kde-format
 msgid "Enter the name of the new enum literal:"
 msgstr "Введіть назву нового літерала переліку:"
 
-#: model_utils.cpp:665
+#: model_utils.cpp:666
 #, kde-format
 msgid "Enter the name of the new folder:"
 msgstr "Введіть назву нової теки:"
 
-#: model_utils.cpp:666
+#: model_utils.cpp:667
 #, kde-format
 msgid "Enter the name of the new foreign key constraint:"
 msgstr "Введіть назву нового обмеження стороннього ключа:"
 
-#: model_utils.cpp:667 umlwidgets/widget_utils.cpp:931
+#: model_utils.cpp:668 umlwidgets/widget_utils.cpp:931
 #, kde-format
 msgid "Enter the name of the new instance:"
 msgstr "Введіть назву нового екземпляра:"
 
-#: model_utils.cpp:668
+#: model_utils.cpp:669
 #, kde-format
 msgid "Enter the name of the new instance attribute:"
 msgstr "Введіть назву нового атрибута екземпляра:"
 
-#: model_utils.cpp:669 umlwidgets/widget_utils.cpp:932
+#: model_utils.cpp:670 umlwidgets/widget_utils.cpp:932
 #, kde-format
 msgid "Enter the name of the new interface:"
 msgstr "Введіть назву нового інтерфейсу:"
 
-#: model_utils.cpp:670 umlwidgets/widget_utils.cpp:934
+#: model_utils.cpp:671 umlwidgets/widget_utils.cpp:934
 #, kde-format
 msgid "Enter the name of the new node:"
 msgstr "Введіть назву нового вузла:"
 
-#: model_utils.cpp:671
+#: model_utils.cpp:672
 #, kde-format
 msgid "Enter the name of the new operation:"
 msgstr "Введіть назву нової дії:"
 
-#: model_utils.cpp:672 umlwidgets/widget_utils.cpp:938
+#: model_utils.cpp:673 umlwidgets/widget_utils.cpp:938
 #, kde-format
 msgid "Enter the name of the new package:"
 msgstr "Введіть назву нового пакунка:"
 
-#: model_utils.cpp:673 umlwidgets/widget_utils.cpp:940
+#: model_utils.cpp:674 umlwidgets/widget_utils.cpp:940
 #, kde-format
 msgid "Enter the name of the new port:"
 msgstr "Введіть назву нового порту:"
 
-#: model_utils.cpp:674
+#: model_utils.cpp:675
 #, kde-format
 msgid "Enter the name of the new role:"
 msgstr "Введіть назву нової ролі:"
 
-#: model_utils.cpp:675
+#: model_utils.cpp:676
 #, kde-format
 msgid "Enter the name of the new stereotype:"
 msgstr "Введіть назву нового стереотипу:"
 
-#: model_utils.cpp:676
+#: model_utils.cpp:677
 #, kde-format
 msgid "Enter the name of the new template:"
 msgstr "Введіть назву нового шаблона:"
 
-#: model_utils.cpp:677
+#: model_utils.cpp:678
 #, kde-format
 msgid "Enter the name of the new unique constraint:"
 msgstr "Введіть назву нового унікального обмеження:"
 
-#: model_utils.cpp:678 umlwidgets/widget_utils.cpp:947
+#: model_utils.cpp:679 umlwidgets/widget_utils.cpp:947
 #, kde-format
 msgid "Enter the name of the new use case:"
 msgstr "Введіть назву нового випадку використання:"
 
-#: model_utils.cpp:681
+#: model_utils.cpp:682
 #, kde-format
 msgid "Enter the name of the new UML object"
 msgstr "Введіть назву нового об'єкта UML:"
 
-#: model_utils.cpp:693 umlwidgets/widget_utils.cpp:963
+#: model_utils.cpp:694 umlwidgets/widget_utils.cpp:963
 #, kde-format
 msgid "Rename actor"
 msgstr "Перейменувати актора"
 
-#: model_utils.cpp:694 umlwidgets/widget_utils.cpp:964
+#: model_utils.cpp:695 umlwidgets/widget_utils.cpp:964
 #, kde-format
 msgid "Rename artifact"
 msgstr "Перейменувати артефакт"
 
-#: model_utils.cpp:695 umlwidgets/widget_utils.cpp:965
+#: model_utils.cpp:696 umlwidgets/widget_utils.cpp:965
 #, kde-format
 msgid "Rename association"
 msgstr "Перейменувати прив'язку"
 
-#: model_utils.cpp:696
+#: model_utils.cpp:697
 #, kde-format
 msgid "Rename attribute"
 msgstr "Перейменувати атрибут"
 
-#: model_utils.cpp:697 umlwidgets/widget_utils.cpp:967
+#: model_utils.cpp:698 umlwidgets/widget_utils.cpp:967
 #, kde-format
 msgid "Rename category"
 msgstr "Перейменувати категорію"
 
-#: model_utils.cpp:698
+#: model_utils.cpp:699
 #, kde-format
 msgid "Rename check constraint"
 msgstr "Перейменувати обмеження перевірки"
 
-#: model_utils.cpp:699 umlwidgets/widget_utils.cpp:968
+#: model_utils.cpp:700 umlwidgets/widget_utils.cpp:968
 #, kde-format
 msgid "Rename class"
 msgstr "Перейменувати клас"
 
-#: model_utils.cpp:700 umlwidgets/widget_utils.cpp:970
+#: model_utils.cpp:701 umlwidgets/widget_utils.cpp:970
 #, kde-format
 msgid "Rename component"
 msgstr "Перейменувати компонент"
 
-#: model_utils.cpp:701 umlwidgets/widget_utils.cpp:971
+#: model_utils.cpp:702 umlwidgets/widget_utils.cpp:971
 #, kde-format
 msgid "Rename datatype"
 msgstr "Перейменувати тип даних"
 
-#: model_utils.cpp:702 umlwidgets/widget_utils.cpp:972
+#: model_utils.cpp:703 umlwidgets/widget_utils.cpp:972
 #, kde-format
 msgid "Rename entity"
 msgstr "Перейменувати сутність"
 
-#: model_utils.cpp:703
+#: model_utils.cpp:704
 #, kde-format
 msgid "Rename entity attribute"
 msgstr "Перейменувати атрибут сутності"
 
-#: model_utils.cpp:704
+#: model_utils.cpp:705
 #, kde-format
 msgid "Rename entity constraint"
 msgstr "Перейменувати обмеження сутності"
 
-#: model_utils.cpp:705 umlwidgets/widget_utils.cpp:973
+#: model_utils.cpp:706 umlwidgets/widget_utils.cpp:973
 #, kde-format
 msgid "Rename enum"
 msgstr "Перейменувати перелік"
 
-#: model_utils.cpp:706
+#: model_utils.cpp:707
 #, kde-format
 msgid "Rename enum literal"
 msgstr "Перейменувати елемент переліку"
 
-#: model_utils.cpp:707
+#: model_utils.cpp:708
 #, kde-format
 msgid "Rename folder"
 msgstr "Перейменувати теку"
 
-#: model_utils.cpp:708
+#: model_utils.cpp:709
 #, kde-format
 msgid "Rename foreign key constraint"
 msgstr "Перейменувати обмеження стороннього ключа"
 
-#: model_utils.cpp:709 umlwidgets/widget_utils.cpp:976
+#: model_utils.cpp:710 umlwidgets/widget_utils.cpp:976
 #, kde-format
 msgid "Rename instance"
 msgstr "Перейменувати екземпляр"
 
-#: model_utils.cpp:710
+#: model_utils.cpp:711
 #, kde-format
 msgid "Rename instance attribute"
 msgstr "Перейменувати атрибут екземпляра"
 
-#: model_utils.cpp:711 umlwidgets/widget_utils.cpp:977
+#: model_utils.cpp:712 umlwidgets/widget_utils.cpp:977
 #, kde-format
 msgid "Rename interface"
 msgstr "Перейменувати інтерфейс"
 
-#: model_utils.cpp:712 umlwidgets/widget_utils.cpp:979
+#: model_utils.cpp:713 umlwidgets/widget_utils.cpp:979
 #, kde-format
 msgid "Rename node"
 msgstr "Перейменувати вузол"
 
-#: model_utils.cpp:713
+#: model_utils.cpp:714
 #, kde-format
 msgid "Rename operation"
 msgstr "Перейменувати дію"
 
-#: model_utils.cpp:714 umlwidgets/widget_utils.cpp:983
+#: model_utils.cpp:715 umlwidgets/widget_utils.cpp:983
 #, kde-format
 msgid "Rename package"
 msgstr "Перейменувати пакунок"
 
-#: model_utils.cpp:715 umlwidgets/widget_utils.cpp:985
+#: model_utils.cpp:716 umlwidgets/widget_utils.cpp:985
 #, kde-format
 msgid "Rename port"
 msgstr "Перейменувати порт"
 
-#: model_utils.cpp:716
+#: model_utils.cpp:717
 #, kde-format
 msgid "Rename role"
 msgstr "Перейменувати роль"
 
-#: model_utils.cpp:717
+#: model_utils.cpp:718
 #, kde-format
 msgid "Rename stereotype"
 msgstr "Перейменувати стереотип"
 
-#: model_utils.cpp:718
+#: model_utils.cpp:719
 #, kde-format
 msgid "Rename template"
 msgstr "Перейменувати шаблон"
 
-#: model_utils.cpp:719
+#: model_utils.cpp:720
 #, kde-format
 msgid "Rename unique constraint"
 msgstr "Перейменувати унікальне обмеження"
 
-#: model_utils.cpp:720 umlwidgets/widget_utils.cpp:992
+#: model_utils.cpp:721 umlwidgets/widget_utils.cpp:992
 #, kde-format
 msgid "Rename use case"
 msgstr "Перейменувати випадок використання"
 
-#: model_utils.cpp:723
+#: model_utils.cpp:724
 #, kde-format
 msgid "Rename UML object"
 msgstr "Перейменувати об'єкт UML"
 
-#: model_utils.cpp:735 umlwidgets/widget_utils.cpp:1009
+#: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1009
 #, kde-format
 msgid "Enter the new name of the actor:"
 msgstr "Введіть нову назву актора:"
 
-#: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1010
+#: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1010
 #, kde-format
 msgid "Enter the new name of the artifact:"
 msgstr "Введіть нову назву артефакту:"
 
-#: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1011
+#: model_utils.cpp:738 umlwidgets/widget_utils.cpp:1011
 #, kde-format
 msgid "Enter the new name of the association:"
 msgstr "Введіть нову назву прив'язки:"
 
-#: model_utils.cpp:738
+#: model_utils.cpp:739
 #, kde-format
 msgid "Enter the new name of the attribute:"
 msgstr "Введіть нову назву атрибута:"
 
-#: model_utils.cpp:739 umlwidgets/widget_utils.cpp:1013
+#: model_utils.cpp:740 umlwidgets/widget_utils.cpp:1013
 #, kde-format
 msgid "Enter the new name of the category:"
 msgstr "Введіть нову назву категорії:"
 
-#: model_utils.cpp:740
+#: model_utils.cpp:741
 #, kde-format
 msgid "Enter the new name of the check constraint:"
 msgstr "Введіть нову назву обмеження перевірки:"
 
-#: model_utils.cpp:741 umlwidgets/widget_utils.cpp:1014
+#: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1014
 #, kde-format
 msgid "Enter the new name of the class:"
 msgstr "Введіть нову назву класу:"
 
-#: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1016
+#: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1016
 #, kde-format
 msgid "Enter the new name of the component:"
 msgstr "Введіть нову назву компонента:"
 
-#: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1017
+#: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1017
 #, kde-format
 msgid "Enter the new name of the datatype:"
 msgstr "Введіть нову назву типу даних:"
 
-#: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1018
+#: model_utils.cpp:745 umlwidgets/widget_utils.cpp:1018
 #, kde-format
 msgid "Enter the new name of the entity:"
 msgstr "Введіть нову назву сутності:"
 
-#: model_utils.cpp:745
+#: model_utils.cpp:746
 #, kde-format
 msgid "Enter the new name of the entity attribute:"
 msgstr "Введіть нову назву атрибута сутності:"
 
-#: model_utils.cpp:746
+#: model_utils.cpp:747
 #, kde-format
 msgid "Enter the new name of the entity constraint:"
 msgstr "Введіть нову назву обмеження сутності:"
 
-#: model_utils.cpp:747 umlwidgets/widget_utils.cpp:1019
+#: model_utils.cpp:748 umlwidgets/widget_utils.cpp:1019
 #, kde-format
 msgid "Enter the new name of the enum:"
 msgstr "Введіть нову назву переліку:"
 
-#: model_utils.cpp:748
+#: model_utils.cpp:749
 #, kde-format
 msgid "Enter the new name of the enum literal:"
 msgstr "Введіть нову назву літерала переліку:"
 
-#: model_utils.cpp:749
+#: model_utils.cpp:750
 #, kde-format
 msgid "Enter the new name of the folder:"
 msgstr "Введіть нову назву теки:"
 
-#: model_utils.cpp:750
+#: model_utils.cpp:751
 #, kde-format
 msgid "Enter the new name of the foreign key constraint:"
 msgstr "Введіть нову назву обмеження стороннього ключа:"
 
-#: model_utils.cpp:751 umlwidgets/widget_utils.cpp:1022
+#: model_utils.cpp:752 umlwidgets/widget_utils.cpp:1022
 #, kde-format
 msgid "Enter the new name of the instance:"
 msgstr "Введіть нову назву екземпляра:"
 
-#: model_utils.cpp:752
+#: model_utils.cpp:753
 #, kde-format
 msgid "Enter the new name of the instance attribute:"
 msgstr "Введіть назву нової атрибута екземпляра:"
 
-#: model_utils.cpp:753 umlwidgets/widget_utils.cpp:1023
+#: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1023
 #, kde-format
 msgid "Enter the new name of the interface:"
 msgstr "Введіть нову назву інтерфейсу:"
 
-#: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1025
+#: model_utils.cpp:755 umlwidgets/widget_utils.cpp:1025
 #, kde-format
 msgid "Enter the new name of the node:"
 msgstr "Введіть нову назву вузла:"
 
-#: model_utils.cpp:755
+#: model_utils.cpp:756
 #, kde-format
 msgid "Enter the new name of the operation:"
 msgstr "Введіть нову назву дії:"
 
-#: model_utils.cpp:756 umlwidgets/widget_utils.cpp:1029
+#: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1029
 #, kde-format
 msgid "Enter the new name of the package:"
 msgstr "Введіть нову назву пакунка:"
 
-#: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1031
+#: model_utils.cpp:758 umlwidgets/widget_utils.cpp:1031
 #, kde-format
 msgid "Enter the new name of the port:"
 msgstr "Введіть нову назву порту:"
 
-#: model_utils.cpp:758
+#: model_utils.cpp:759
 #, kde-format
 msgid "Enter the new name of the role:"
 msgstr "Введіть нову назву ролі:"
 
-#: model_utils.cpp:759
+#: model_utils.cpp:760
 #, kde-format
 msgid "Enter the new name of the stereotype:"
 msgstr "Введіть нову назву стереотипу:"
 
-#: model_utils.cpp:760
+#: model_utils.cpp:761
 #, kde-format
 msgid "Enter the new name of the template:"
 msgstr "Введіть нову назву шаблона:"
 
-#: model_utils.cpp:761
+#: model_utils.cpp:762
 #, kde-format
 msgid "Enter the new name of the unique constraint:"
 msgstr "Введіть нову назву унікального обмеження:"
 
-#: model_utils.cpp:762 umlwidgets/widget_utils.cpp:1038
+#: model_utils.cpp:763 umlwidgets/widget_utils.cpp:1038
 #, kde-format
 msgid "Enter the new name of the use case:"
 msgstr "Введіть нову назву випадку використання:"
 
-#: model_utils.cpp:765
+#: model_utils.cpp:766
 #, kde-format
 msgid "Enter the new name of the UML object"
 msgstr "Введіть нову назву об'єкта UML:"
 
-#: model_utils.cpp:1206
+#: model_utils.cpp:1207
 #, kde-format
 msgid "OK"
 msgstr "Гаразд"
 
-#: model_utils.cpp:1206
+#: model_utils.cpp:1207
 #, kde-format
 msgctxt "parse status"
 msgid "Empty"
 msgstr "Порожній"
 
-#: model_utils.cpp:1206
+#: model_utils.cpp:1207
 #, kde-format
 msgid "Malformed argument"
 msgstr "Спотворений аргумент"
 
-#: model_utils.cpp:1207
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Unknown argument type"
 msgstr "Невідомий тип аргументу"
 
-#: model_utils.cpp:1207
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Illegal method name"
 msgstr "Недозволена назва метода"
 
-#: model_utils.cpp:1208
+#: model_utils.cpp:1209
 #, kde-format
 msgid "Unknown return type"
 msgstr "Невідомий тип повернення значення"
 
-#: model_utils.cpp:1208
+#: model_utils.cpp:1209
 #, kde-format
 msgid "Unspecified error"
 msgstr "Невизначена помилка"
@@ -5903,10 +5916,10 @@ msgstr "Вказівник"
 msgid "Usage"
 msgstr "Використання"
 
-#: object_factory.cpp:254 umldoc.cpp:1602 umldoc.cpp:1637
-#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
+#: object_factory.cpp:254 umldoc.cpp:1624 umldoc.cpp:1659
+#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
-#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:177
+#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:179
 #, kde-format
 msgid "That is an invalid name."
 msgstr "Ця назва не є правильною."
@@ -5922,16 +5935,16 @@ msgstr "Це зарезервоване ключове слово мови на�
 msgid "Reserved Keyword"
 msgstr "Зарезервоване ключове слово"
 
-#: object_factory.cpp:267 umldoc.cpp:1608 umldoc.cpp:1646
-#: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
+#: object_factory.cpp:267 umldoc.cpp:1630 umldoc.cpp:1668
+#: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
 msgid "That name is already being used."
 msgstr "Цю назву вже було використано."
 
-#: object_factory.cpp:268 umldoc.cpp:1511 umldoc.cpp:1580 umldoc.cpp:1608
-#: umldoc.cpp:1646 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
+#: object_factory.cpp:268 umldoc.cpp:1533 umldoc.cpp:1602 umldoc.cpp:1630
+#: umldoc.cpp:1668 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
@@ -7482,8 +7495,8 @@ msgstr "&Журнал"
 msgid "Opening file..."
 msgstr "Відкривається файл…"
 
-#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:349 umldoc.cpp:372
-#: umldoc.cpp:3285
+#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:351 umldoc.cpp:374
+#: umldoc.cpp:3308
 #, kde-format
 msgid "Untitled"
 msgstr "Без назви"
@@ -7657,57 +7670,57 @@ msgstr "Виберіть каталог для імпортування:"
 msgid "XHTML Generation failed ."
 msgstr "Створення XHTML зазнало невдачі ."
 
-#: umlappprivate.h:130
+#: umlappprivate.h:132
 #, kde-format
 msgid "&UML Objects"
 msgstr "Об'&єкти UML"
 
-#: umlappprivate.h:140
+#: umlappprivate.h:142
 #, kde-format
 msgid "&Stereotypes"
 msgstr "С&тереотипи"
 
-#: umlappprivate.h:156
+#: umlappprivate.h:158
 #, kde-format
 msgid "Welcome"
 msgstr "Вітаємо"
 
-#: umldoc.cpp:92 umldoc.cpp:2232 umldoc.cpp:2260 umldoc.cpp:2343
+#: umldoc.cpp:94 umldoc.cpp:2255 umldoc.cpp:2283 umldoc.cpp:2366
 #, kde-format
 msgid "UML Model"
 msgstr "UML-модель"
 
-#: umldoc.cpp:130
+#: umldoc.cpp:132
 #, kde-format
 msgid "Logical View"
 msgstr "Логічний перегляд"
 
-#: umldoc.cpp:131
+#: umldoc.cpp:133
 #, kde-format
 msgid "Use Case View"
 msgstr "Перегляд випадків використання"
 
-#: umldoc.cpp:132
+#: umldoc.cpp:134
 #, kde-format
 msgid "Component View"
 msgstr "Перегляд компонентів"
 
-#: umldoc.cpp:133
+#: umldoc.cpp:135
 #, kde-format
 msgid "Deployment View"
 msgstr "Перегляд впровадження"
 
-#: umldoc.cpp:134
+#: umldoc.cpp:136
 #, kde-format
 msgid "Entity Relationship Model"
 msgstr "Модель взаємозв'язків сутностей"
 
-#: umldoc.cpp:160
+#: umldoc.cpp:162
 #, kde-format
 msgid "Datatypes"
 msgstr "Типи даних"
 
-#: umldoc.cpp:367
+#: umldoc.cpp:369
 #, kde-format
 msgid ""
 "The current file has been modified.\n"
@@ -7716,155 +7729,155 @@ msgstr ""
 "Поточний файл було змінено.\n"
 "Хочете зберегти?"
 
-#: umldoc.cpp:368
+#: umldoc.cpp:370
 #, kde-format
 msgctxt "warning message"
 msgid "Warning"
 msgstr "Попередження"
 
-#: umldoc.cpp:535
+#: umldoc.cpp:541
 #, kde-format
 msgid "The file <%1> does not exist."
 msgstr "Файла <%1> не існує."
 
-#: umldoc.cpp:535 umldoc.cpp:556 umldoc.cpp:595 umldoc.cpp:607 umldoc.cpp:621
-#: umldoc.cpp:634 umldoc.cpp:646 umldoc.cpp:684 umlmodel/folder.cpp:451
-#: umlmodel/folder.cpp:455
+#: umldoc.cpp:541 umldoc.cpp:562 umldoc.cpp:601 umldoc.cpp:613 umldoc.cpp:627
+#: umldoc.cpp:640 umldoc.cpp:652 umldoc.cpp:690 umlmodel/folder.cpp:450
+#: umlmodel/folder.cpp:454
 #, kde-format
 msgid "Load Error"
 msgstr "Помилка завантаження"
 
-#: umldoc.cpp:556
+#: umldoc.cpp:562
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "Схоже, файл %1 пошкоджено."
 
-#: umldoc.cpp:594 umldoc.cpp:606 umldoc.cpp:633
+#: umldoc.cpp:600 umldoc.cpp:612 umldoc.cpp:639
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "Не знайдено файла XMI в стисненому файлі %1."
 
-#: umldoc.cpp:620
+#: umldoc.cpp:626
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "Помилка завантаження розпакованого файла: %1"
 
-#: umldoc.cpp:645 umldoc.cpp:681
+#: umldoc.cpp:651 umldoc.cpp:687
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "Помилка завантаження файла: %1"
 
-#: umldoc.cpp:683
+#: umldoc.cpp:689
 #, kde-format
 msgid "Reason: %1"
 msgstr "Причина: %1"
 
-#: umldoc.cpp:753 umldoc.cpp:764 umldoc.cpp:782 umldoc.cpp:823 umldoc.cpp:850
+#: umldoc.cpp:759 umldoc.cpp:770 umldoc.cpp:788 umldoc.cpp:833 umldoc.cpp:872
 #, kde-format
 msgid "There was a problem saving: %1"
 msgstr "Під час спроби збереження виникла проблема: %1"
 
-#: umldoc.cpp:753 umldoc.cpp:764 umldoc.cpp:782 umldoc.cpp:823 umldoc.cpp:850
-#: umldoc.cpp:857 umllistview.cpp:569
+#: umldoc.cpp:759 umldoc.cpp:770 umldoc.cpp:788 umldoc.cpp:833 umldoc.cpp:872
+#: umldoc.cpp:879 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
 msgstr "Помилка збереження"
 
-#: umldoc.cpp:857
+#: umldoc.cpp:879
 #, kde-format
 msgid "There was a problem uploading: %1"
 msgstr "Під час вивантаження виникла проблема: %1"
 
-#: umldoc.cpp:1408
+#: umldoc.cpp:1430
 #, kde-format
 msgid "use case diagram"
 msgstr "Діаграма випадків використання"
 
-#: umldoc.cpp:1411
+#: umldoc.cpp:1433
 #, kde-format
 msgid "class diagram"
 msgstr "діаграма класів"
 
-#: umldoc.cpp:1414
+#: umldoc.cpp:1436
 #, kde-format
 msgid "sequence diagram"
 msgstr "діаграма послідовності"
 
-#: umldoc.cpp:1417
+#: umldoc.cpp:1439
 #, kde-format
 msgid "communication diagram"
 msgstr "діаграма обміну даними"
 
-#: umldoc.cpp:1420
+#: umldoc.cpp:1442
 #, kde-format
 msgid "object diagram"
 msgstr "діаграма об'єктів"
 
-#: umldoc.cpp:1423
+#: umldoc.cpp:1445
 #, kde-format
 msgid "state diagram"
 msgstr "діаграма станів"
 
-#: umldoc.cpp:1426
+#: umldoc.cpp:1448
 #, kde-format
 msgid "activity diagram"
 msgstr "діаграма діяльності"
 
-#: umldoc.cpp:1429
+#: umldoc.cpp:1451
 #, kde-format
 msgid "component diagram"
 msgstr "діаграма компонентів"
 
-#: umldoc.cpp:1432
+#: umldoc.cpp:1454
 #, kde-format
 msgid "deployment diagram"
 msgstr "діаграма впровадження"
 
-#: umldoc.cpp:1435
+#: umldoc.cpp:1457
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "Діаграма взаємозв'язків сутностей"
 
-#: umldoc.cpp:1505
+#: umldoc.cpp:1527
 #, kde-format
 msgctxt "diagram name"
 msgid "Name"
 msgstr "Назва"
 
-#: umldoc.cpp:1505 umldoc.cpp:1567 umldoc.cpp:1596 umldoc.cpp:1631
+#: umldoc.cpp:1527 umldoc.cpp:1589 umldoc.cpp:1618 umldoc.cpp:1653
 #, kde-format
 msgid "Enter name:"
 msgstr "Введіть назву:"
 
-#: umldoc.cpp:1509 umldoc.cpp:1573
+#: umldoc.cpp:1531 umldoc.cpp:1595
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "Ця назва діаграми не є коректною."
 
-#: umldoc.cpp:1511 umldoc.cpp:1580
+#: umldoc.cpp:1533 umldoc.cpp:1602
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "Вже існує діаграма з такою назвою."
 
-#: umldoc.cpp:1566
+#: umldoc.cpp:1588
 #, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "Назва"
 
-#: umldoc.cpp:1595
+#: umldoc.cpp:1617
 #, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "Назва"
 
-#: umldoc.cpp:1630
+#: umldoc.cpp:1652
 #, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "Назва"
 
-#: umldoc.cpp:1640
+#: umldoc.cpp:1662
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
@@ -7873,42 +7886,42 @@ msgstr ""
 "Назва, яку ви ввели, не є унікальною.\n"
 "Ви бажали саме цього?"
 
-#: umldoc.cpp:1641
+#: umldoc.cpp:1663
 #, kde-format
 msgid "Use Name"
 msgstr "Використовувати назву"
 
-#: umldoc.cpp:1641
+#: umldoc.cpp:1663
 #, kde-format
 msgid "Enter New Name"
 msgstr "Введіть нову назву"
 
-#: umldoc.cpp:2190
+#: umldoc.cpp:2213
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr "Непідтримувана версія файла XMI: %1"
 
-#: umldoc.cpp:2354
+#: umldoc.cpp:2377
 #, kde-format
 msgid "Setting up the document..."
 msgstr "Побудова документа…"
 
-#: umldoc.cpp:2383
+#: umldoc.cpp:2406
 #, kde-format
 msgid "Resolving object references..."
 msgstr "Розбирання посилань на об'єкти…"
 
-#: umldoc.cpp:2491
+#: umldoc.cpp:2514
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "Завантаження елементів UML…"
 
-#: umldoc.cpp:2753
+#: umldoc.cpp:2776
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "Завантаження діаграм…"
 
-#: umldoc.cpp:3287
+#: umldoc.cpp:3310
 #, kde-format
 msgid "/autosave%1"
 msgstr "/автозбереження%1"
@@ -7942,7 +7955,7 @@ msgstr ""
 msgid "File Exists"
 msgstr "Файл існує"
 
-#: umllistview.cpp:568 umlviewimageexportermodel.cpp:268
+#: umllistview.cpp:568 umlviewimageexportermodel.cpp:272
 #, kde-format
 msgid "There was a problem saving file: %1"
 msgstr "Помилка збереження файла: %1"
@@ -8041,12 +8054,12 @@ msgstr ""
 "Операція з такою ж назвою і підписом вже існує. Ви не можете додати її ще "
 "раз."
 
-#: umlmodel/folder.cpp:451
+#: umlmodel/folder.cpp:450
 #, kde-format
 msgid "The folderfile %1 does not exist."
 msgstr "Файл теки %1 не існує."
 
-#: umlmodel/folder.cpp:455
+#: umlmodel/folder.cpp:454
 #, kde-format
 msgid "The folderfile %1 cannot be opened."
 msgstr "Файл теки %1 неможливо відкрити."
@@ -8056,13 +8069,13 @@ msgstr "Файл теки %1 неможливо відкрити."
 msgid "new_parameter"
 msgstr "new_parameter"
 
-#: umlmodel/package.cpp:169
+#: umlmodel/package.cpp:171
 #, kde-format
 msgctxt "object name"
 msgid "Name"
 msgstr "Назва"
 
-#: umlmodel/package.cpp:170
+#: umlmodel/package.cpp:172
 #, kde-format
 msgid ""
 "An object with the name %1\n"
@@ -8073,17 +8086,17 @@ msgstr ""
 "вже існує у пакунку %2.\n"
 "Будь ласка, введіть іншу назву:"
 
-#: umlmodel/umlcanvasobject.cpp:198
+#: umlmodel/umlcanvasobject.cpp:200
 #, kde-format
 msgid "new_literal"
 msgstr "new_literal"
 
-#: umlmodel/umlcanvasobject.cpp:201
+#: umlmodel/umlcanvasobject.cpp:203
 #, kde-format
 msgid "new_field"
 msgstr "new_field"
 
-#: umlmodel/umlcanvasobject.cpp:207
+#: umlmodel/umlcanvasobject.cpp:209
 #, kde-format
 msgid "new_fkey_constraint"
 msgstr "new_fkey_constraint"
@@ -8163,67 +8176,67 @@ msgstr "&Назва випадку використання:"
 msgid "Instance name:"
 msgstr "Назва екземпляра:"
 
-#: umlscene.cpp:719
+#: umlscene.cpp:720
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Діаграма: %2 Сторінка %1"
 
-#: umlscene.cpp:1519
+#: umlscene.cpp:1520
 #, kde-format
 msgid "Use fill color"
 msgstr "Використовувати колір заповнення"
 
-#: umlscene.cpp:1521
+#: umlscene.cpp:1522
 #, kde-format
 msgid "No fill color"
 msgstr "Немає кольору заповнення"
 
-#: umlscene.cpp:1536
+#: umlscene.cpp:1537
 #, kde-format
 msgid "Change font"
 msgstr "Змінити шрифт"
 
-#: umlscene.cpp:1550
+#: umlscene.cpp:1551
 #, kde-format
 msgid "Change line color"
 msgstr "Змінити колір ліній"
 
-#: umlscene.cpp:1568
+#: umlscene.cpp:1569
 #, kde-format
 msgid "Change line width"
 msgstr "Змінити товщину лінії"
 
-#: umlscene.cpp:1588
+#: umlscene.cpp:1589
 #, kde-format
 msgid "Change fill color"
 msgstr "Змінити колір заповнення"
 
-#: umlscene.cpp:1603
+#: umlscene.cpp:1604
 #, kde-format
 msgid "Change visual property"
 msgstr "Змінити візуальну властивість"
 
-#: umlscene.cpp:1654
+#: umlscene.cpp:1655
 #, kde-format
 msgid "Delete widgets"
 msgstr "Вилучити віджети"
 
-#: umlscene.cpp:1700
+#: umlscene.cpp:1701
 #, kde-format
 msgid "Resize widgets"
 msgstr "Змінити розміри віджетів"
 
-#: umlscene.cpp:3352
+#: umlscene.cpp:3353
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Введіть назву діаграми"
 
-#: umlscene.cpp:3353
+#: umlscene.cpp:3354
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Введіть нову назву діаграми:"
 
-#: umlscene.cpp:3369
+#: umlscene.cpp:3370
 #, kde-format
 msgid "Failed to import from file."
 msgstr "Не вдалося імпортувати дані з файла."

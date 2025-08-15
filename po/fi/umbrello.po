@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-07 19:49+0000\n"
+"POT-Creation-Date: 2025-08-15 02:18+0000\n"
 "PO-Revision-Date: 2023-06-02 20:37+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -209,7 +209,7 @@ msgstr "Tuntematon"
 msgid "? AssociationType ?"
 msgstr "? YhteysTyyppi ?"
 
-#: clipboard/umlclipboard.cpp:751
+#: clipboard/umlclipboard.cpp:753
 #, kde-format
 msgid ""
 "At least one of the items in the clipboard could not be pasted because an "
@@ -218,7 +218,7 @@ msgstr ""
 "Ainakin yksi kohde on jäänyt tuomatta leikepöydältä, koska samanniminen "
 "kohde on jo olemassa. Kaikki muut on lisätty."
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1637
+#: clipboard/umlclipboard.cpp:757 uml.cpp:1637
 #, kde-format
 msgid "Paste Error"
 msgstr "Liittämisvirhe"
@@ -1808,7 +1808,7 @@ msgctxt "instance general settings page name"
 msgid "General"
 msgstr "Perusasetukset"
 
-#: dialogs/classwizard.cpp:39 model_utils.cpp:566
+#: dialogs/classwizard.cpp:39 model_utils.cpp:567
 #, kde-format
 msgid "new_class"
 msgstr "uusi_luokka"
@@ -1973,32 +1973,32 @@ msgstr "<p align=\"right\">Editoimaton teksti:</p>"
 msgid "<p align=\"right\">Editable text:</p>"
 msgstr "<p align=\"right\">Editoitava teksti:</p>"
 
-#: dialogs/dialog_utils.cpp:31
+#: dialogs/dialog_utils.cpp:36
 #, kde-format
 msgid "Enable all messages"
 msgstr "Ota käyttöön kaikki viestit"
 
-#: dialogs/dialog_utils.cpp:32
+#: dialogs/dialog_utils.cpp:37
 #, kde-format
 msgid "Enable 'delete association' related messages"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:33
+#: dialogs/dialog_utils.cpp:38
 #, kde-format
 msgid "Enable 'delete diagram' related messages"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:210
+#: dialogs/dialog_utils.cpp:215
 #, kde-format
 msgid "You are about to delete an association. Do you really want to continue?"
 msgstr ""
 
-#: dialogs/dialog_utils.cpp:211
+#: dialogs/dialog_utils.cpp:216
 #, kde-format
 msgid "Delete Association"
 msgstr "Poista yhteys"
 
-#: dialogs/dialog_utils.cpp:225
+#: dialogs/dialog_utils.cpp:230
 #, kde-format
 msgid ""
 "You are about to delete the entire diagram.\n"
@@ -2007,17 +2007,17 @@ msgstr ""
 "Olet poistamassa kaaviota.\n"
 "Oletko varma?"
 
-#: dialogs/dialog_utils.cpp:226
+#: dialogs/dialog_utils.cpp:231
 #, kde-format
 msgid "Are you sure you want to delete diagram %1?"
 msgstr "Haluatko varmasti poistaa kaavion %1?"
 
-#: dialogs/dialog_utils.cpp:231
+#: dialogs/dialog_utils.cpp:236
 #, kde-format
 msgid "Delete Diagram?"
 msgstr "Poista kaavio?"
 
-#: dialogs/dialog_utils.cpp:232 dialogs/pages/classifierlistpage.cpp:208
+#: dialogs/dialog_utils.cpp:237 dialogs/pages/classifierlistpage.cpp:208
 #: dialogs/umlforeignkeyconstraintdialog.cpp:321
 #: dialogs/umloperationdialog.cpp:164 dialogs/umluniqueconstraintdialog.cpp:110
 #, kde-format
@@ -2797,7 +2797,7 @@ msgstr "Tarkistusrajoite…"
 msgid "<p align=\"center\">No Options Available.</p>"
 msgstr "<p align=\"center\">Ei valintoja saatavilla.</p>"
 
-#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:120
+#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:122
 #, kde-format
 msgid "&Diagrams"
 msgstr "&Kaaviot"
@@ -2829,10 +2829,10 @@ msgid "The name you have entered is invalid."
 msgstr "Antamasi nimi on virheellinen."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
-#: umldoc.cpp:1509 umldoc.cpp:1573 umldoc.cpp:1602 umldoc.cpp:1637
-#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
+#: umldoc.cpp:1531 umldoc.cpp:1595 umldoc.cpp:1624 umldoc.cpp:1659
+#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
-#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:178
+#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:180
 #, kde-format
 msgid "Invalid Name"
 msgstr "Virheellinen nimi"
@@ -2842,7 +2842,7 @@ msgstr "Virheellinen nimi"
 msgid "The name you have entered is not unique."
 msgstr "Antamasi nimi on jo käytössä."
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1641
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1663
 #, kde-format
 msgid "Name Not Unique"
 msgstr "Nimi ei ole ainutkertainen."
@@ -3967,12 +3967,12 @@ msgstr "&Oletusarvo"
 msgid "&Image type:"
 msgstr "Kuvan tyypp&i:"
 
-#: dialogs/widgets/resolutionwidget.cpp:24
+#: dialogs/widgets/resolutionwidget.cpp:25
 #, kde-format
 msgid "&Resolution:"
 msgstr "&Tarkkuus:"
 
-#: dialogs/widgets/resolutionwidget.cpp:24
+#: dialogs/widgets/resolutionwidget.cpp:25
 #, kde-format
 msgid "DPI"
 msgstr "DPI"
@@ -4017,6 +4017,19 @@ msgstr "Piirrä"
 #, kde-format
 msgid "&Type:"
 msgstr "&Tyyppi:"
+
+#: dialogs/widgets/umlmessagebox.h:27
+#, kde-format
+msgctxt "@action:button"
+msgid "Yes"
+msgstr ""
+
+#: dialogs/widgets/umlmessagebox.h:32
+#, fuzzy, kde-format
+#| msgid "None"
+msgctxt "@action:button"
+msgid "No"
+msgstr "Ei mitään"
 
 #: dialogs/widgets/umlpackagewidget.cpp:29
 #, kde-format
@@ -4135,12 +4148,12 @@ msgstr "Joitakin virheitä tapahtui kuvien viennissä:"
 msgid "Generating Docbook..."
 msgstr "Luodaan Docbook-tiedostoa…"
 
-#: docgenerators/docbookgenerator.cpp:109
+#: docgenerators/docbookgenerator.cpp:113
 #, kde-format
 msgid "Docbook Generation Complete..."
 msgstr "Docbook-luonti valmis…"
 
-#: docgenerators/docbookgenerator.cpp:112
+#: docgenerators/docbookgenerator.cpp:116
 #, kde-format
 msgid "Docbook Generation Failed..."
 msgstr "Docbook-luonti epäonnistui…"
@@ -4184,27 +4197,27 @@ msgstr "Muunnettava tiedosto"
 msgid "The XSLT file to use"
 msgstr "Käytettävä XSLT-tiedosto"
 
-#: docgenerators/xhtmlgenerator.cpp:104
+#: docgenerators/xhtmlgenerator.cpp:105
 #, kde-format
 msgid "Generating XHTML..."
 msgstr "Luodaan XHTML:ää…"
 
-#: docgenerators/xhtmlgenerator.cpp:130
+#: docgenerators/xhtmlgenerator.cpp:135
 #, kde-format
 msgid "XHTML Generation Complete..."
 msgstr "XHTML-luonti valmis…"
 
-#: docgenerators/xhtmlgenerator.cpp:136
+#: docgenerators/xhtmlgenerator.cpp:141
 #, kde-format
 msgid "Copying CSS..."
 msgstr "Kopioidaan CSS:ää…"
 
-#: docgenerators/xhtmlgenerator.cpp:149
+#: docgenerators/xhtmlgenerator.cpp:158
 #, kde-format
 msgid "Finished Copying CSS..."
 msgstr "CSS:n kopiointi valmis…"
 
-#: docgenerators/xhtmlgenerator.cpp:152
+#: docgenerators/xhtmlgenerator.cpp:161
 #, kde-format
 msgid "Failed Copying CSS..."
 msgstr "CSS:n kopiointi epäonnistui…"
@@ -5144,849 +5157,849 @@ msgstr "Asettelu pystysuunnassa levittäen"
 msgid "Align Horizontal Distribute"
 msgstr "Asettelu vaakatasossa levittäen"
 
-#: model_utils.cpp:560
+#: model_utils.cpp:561
 #, kde-format
 msgid "new_actor"
 msgstr "uusi_toimija"
 
-#: model_utils.cpp:561
+#: model_utils.cpp:562
 #, kde-format
 msgid "new_artifact"
 msgstr "uusi_tuotos"
 
-#: model_utils.cpp:562 umlmodel/umlcanvasobject.cpp:186
+#: model_utils.cpp:563 umlmodel/umlcanvasobject.cpp:188
 #, kde-format
 msgid "new_association"
 msgstr "uusi_yhteys"
 
-#: model_utils.cpp:563 umlmodel/umlcanvasobject.cpp:189
+#: model_utils.cpp:564 umlmodel/umlcanvasobject.cpp:191
 #, kde-format
 msgid "new_attribute"
 msgstr "uusi_attribuutti"
 
-#: model_utils.cpp:564
+#: model_utils.cpp:565
 #, kde-format
 msgid "new_category"
 msgstr "uusi_luokka"
 
-#: model_utils.cpp:565 umlmodel/umlcanvasobject.cpp:210
+#: model_utils.cpp:566 umlmodel/umlcanvasobject.cpp:212
 #, kde-format
 msgid "new_check_constraint"
 msgstr "uusi_tarkistusrajoite"
 
-#: model_utils.cpp:567
+#: model_utils.cpp:568
 #, kde-format
 msgid "new_component"
 msgstr "uusi_komponentti"
 
-#: model_utils.cpp:568
+#: model_utils.cpp:569
 #, kde-format
 msgid "new_datatype"
 msgstr "uusi_tietotyyppi"
 
-#: model_utils.cpp:569
+#: model_utils.cpp:570
 #, kde-format
 msgid "new_entity"
 msgstr "uusi_käsite"
 
-#: model_utils.cpp:570
+#: model_utils.cpp:571
 #, fuzzy, kde-format
 #| msgid "new_attribute"
 msgid "new_entity_attribute"
 msgstr "uusi_attribuutti"
 
-#: model_utils.cpp:571
+#: model_utils.cpp:572
 #, fuzzy, kde-format
 #| msgid "new_fkey_constraint"
 msgid "new_entity_constraint"
 msgstr "uusi_viiteavainrajoite"
 
-#: model_utils.cpp:572
+#: model_utils.cpp:573
 #, kde-format
 msgid "new_enum"
 msgstr "uusi_luettelotyyppi"
 
-#: model_utils.cpp:573
+#: model_utils.cpp:574
 #, fuzzy, kde-format
 #| msgid "new_literal"
 msgid "new_enum_literal"
 msgstr "uusi_vakio"
 
-#: model_utils.cpp:574
+#: model_utils.cpp:575
 #, kde-format
 msgid "new_folder"
 msgstr "uusi_kansio"
 
-#: model_utils.cpp:575
+#: model_utils.cpp:576
 #, fuzzy, kde-format
 #| msgid "new_fkey_constraint"
 msgid "new_foreign_key_constraint"
 msgstr "uusi_viiteavainrajoite"
 
-#: model_utils.cpp:576
+#: model_utils.cpp:577
 #, fuzzy, kde-format
 #| msgid "new_interface"
 msgid "new_instance"
 msgstr "uusi_rajapinta"
 
-#: model_utils.cpp:577
+#: model_utils.cpp:578
 #, fuzzy, kde-format
 #| msgid "Entity Attributes"
 msgid "new_instance_attribute"
 msgstr "Käsitteen attribuutit"
 
-#: model_utils.cpp:578
+#: model_utils.cpp:579
 #, kde-format
 msgid "new_interface"
 msgstr "uusi_rajapinta"
 
-#: model_utils.cpp:579
+#: model_utils.cpp:580
 #, kde-format
 msgid "new_node"
 msgstr "uusi_paketti"
 
-#: model_utils.cpp:580 umlmodel/umlcanvasobject.cpp:195
+#: model_utils.cpp:581 umlmodel/umlcanvasobject.cpp:197
 #, kde-format
 msgid "new_operation"
 msgstr "uusi_toiminto"
 
-#: model_utils.cpp:581
+#: model_utils.cpp:582
 #, kde-format
 msgid "new_package"
 msgstr "uusi_pakkaus"
 
-#: model_utils.cpp:582
+#: model_utils.cpp:583
 #, kde-format
 msgid "new_port"
 msgstr "uusi_portti"
 
-#: model_utils.cpp:583
+#: model_utils.cpp:584
 #, fuzzy, kde-format
 #| msgid "new_folder"
 msgid "new_role"
 msgstr "uusi_kansio"
 
-#: model_utils.cpp:584
+#: model_utils.cpp:585
 #, fuzzy, kde-format
 #| msgid "Stereotype"
 msgid "new_stereotype"
 msgstr "Stereotyyppi"
 
-#: model_utils.cpp:585 umlmodel/umlcanvasobject.cpp:192
+#: model_utils.cpp:586 umlmodel/umlcanvasobject.cpp:194
 #, kde-format
 msgid "new_template"
 msgstr "uusi_malli"
 
-#: model_utils.cpp:586 umlmodel/umlcanvasobject.cpp:204
+#: model_utils.cpp:587 umlmodel/umlcanvasobject.cpp:206
 #, kde-format
 msgid "new_unique_constraint"
 msgstr "uusi_yksilöllisyysrajoite"
 
-#: model_utils.cpp:587
+#: model_utils.cpp:588
 #, fuzzy, kde-format
 #| msgid "new_usecase"
 msgid "new_use_case"
 msgstr "uusi_käyttötapaus"
 
-#: model_utils.cpp:589 umlmodel/umlcanvasobject.cpp:213
+#: model_utils.cpp:590 umlmodel/umlcanvasobject.cpp:215
 #, kde-format
 msgid "new_object"
 msgstr "uusi_kohde"
 
-#: model_utils.cpp:609 umlwidgets/widget_utils.cpp:872
+#: model_utils.cpp:610 umlwidgets/widget_utils.cpp:872
 #, fuzzy, kde-format
 #| msgid "new_actor"
 msgid "New actor"
 msgstr "uusi_toimija"
 
-#: model_utils.cpp:610 umlwidgets/widget_utils.cpp:873
+#: model_utils.cpp:611 umlwidgets/widget_utils.cpp:873
 #, fuzzy, kde-format
 #| msgid "new_artifact"
 msgid "New artifact"
 msgstr "uusi_tuotos"
 
-#: model_utils.cpp:611 umlwidgets/widget_utils.cpp:874
+#: model_utils.cpp:612 umlwidgets/widget_utils.cpp:874
 #, kde-format
 msgid "New association"
 msgstr "Uusi yhteys"
 
-#: model_utils.cpp:612
+#: model_utils.cpp:613
 #, kde-format
 msgid "New attribute"
 msgstr "Uusi määrite…"
 
-#: model_utils.cpp:613 umlwidgets/widget_utils.cpp:876
+#: model_utils.cpp:614 umlwidgets/widget_utils.cpp:876
 #, fuzzy, kde-format
 #| msgid "new_category"
 msgid "New category"
 msgstr "uusi_luokka"
 
-#: model_utils.cpp:614
+#: model_utils.cpp:615
 #, fuzzy, kde-format
 #| msgid "new_check_constraint"
 msgid "New check constraint"
 msgstr "uusi_tarkistusrajoite"
 
-#: model_utils.cpp:615 umlwidgets/widget_utils.cpp:877
+#: model_utils.cpp:616 umlwidgets/widget_utils.cpp:877
 #, kde-format
 msgid "New class"
 msgstr "Uusi luokka"
 
-#: model_utils.cpp:616 umlwidgets/widget_utils.cpp:879
+#: model_utils.cpp:617 umlwidgets/widget_utils.cpp:879
 #, fuzzy, kde-format
 #| msgid "new_component"
 msgid "New component"
 msgstr "uusi_komponentti"
 
-#: model_utils.cpp:617 umlwidgets/widget_utils.cpp:880
+#: model_utils.cpp:618 umlwidgets/widget_utils.cpp:880
 #, kde-format
 msgid "New datatype"
 msgstr "Uusi tietotyyppi"
 
-#: model_utils.cpp:618 umlwidgets/widget_utils.cpp:881
+#: model_utils.cpp:619 umlwidgets/widget_utils.cpp:881
 #, fuzzy, kde-format
 #| msgid "new_entity"
 msgid "New entity"
 msgstr "uusi_käsite"
 
-#: model_utils.cpp:619
+#: model_utils.cpp:620
 #, fuzzy, kde-format
 #| msgid "New Entity Attribute..."
 msgid "New entity attribute"
 msgstr "Uusi attribuutti…"
 
-#: model_utils.cpp:620
+#: model_utils.cpp:621
 #, fuzzy, kde-format
 #| msgid "Entity Constraints"
 msgid "New entity constraint"
 msgstr "Käsitteen rajoitteet"
 
-#: model_utils.cpp:621 umlwidgets/widget_utils.cpp:882
+#: model_utils.cpp:622 umlwidgets/widget_utils.cpp:882
 #, fuzzy, kde-format
 #| msgid "new_enum"
 msgid "New enum"
 msgstr "uusi_luettelotyyppi"
 
 # ”Uusi luetellun tyypi vakio...” ei mahdu käyttöliittymään ja on myös tarpeetonta toistoa.
-#: model_utils.cpp:622
+#: model_utils.cpp:623
 #, fuzzy, kde-format
 #| msgid "N&ew Enum Literal..."
 msgid "New enum literal"
 msgstr "Uusi &vakio…"
 
-#: model_utils.cpp:623
+#: model_utils.cpp:624
 #, kde-format
 msgid "New folder"
 msgstr "Uusi kansio"
 
-#: model_utils.cpp:624
+#: model_utils.cpp:625
 #, fuzzy, kde-format
 #| msgid "Foreign Key Constraint..."
 msgid "New foreign key constraint"
 msgstr "Viiteavainrajoite…"
 
-#: model_utils.cpp:625 umlwidgets/widget_utils.cpp:885
+#: model_utils.cpp:626 umlwidgets/widget_utils.cpp:885
 #, fuzzy, kde-format
 #| msgid "Instance name:"
 msgid "New instance"
 msgstr "Instanssin nimi:"
 
-#: model_utils.cpp:626
+#: model_utils.cpp:627
 #, fuzzy, kde-format
 #| msgid "N&ew Entity Attribute..."
 msgid "New instance attribute"
 msgstr "&Uusi attribuutti…"
 
-#: model_utils.cpp:627 umlwidgets/widget_utils.cpp:886
+#: model_utils.cpp:628 umlwidgets/widget_utils.cpp:886
 #, kde-format
 msgid "New interface"
 msgstr "Uusi rajapinta"
 
-#: model_utils.cpp:628 umlwidgets/widget_utils.cpp:888
+#: model_utils.cpp:629 umlwidgets/widget_utils.cpp:888
 #, kde-format
 msgid "New node"
 msgstr "Uusi solmu"
 
-#: model_utils.cpp:629
+#: model_utils.cpp:630
 #, kde-format
 msgid "New operation"
 msgstr "Uusi toiminto"
 
-#: model_utils.cpp:630 umlwidgets/widget_utils.cpp:892
+#: model_utils.cpp:631 umlwidgets/widget_utils.cpp:892
 #, kde-format
 msgid "New package"
 msgstr "Uusi pakkaus"
 
-#: model_utils.cpp:631 umlwidgets/widget_utils.cpp:894
+#: model_utils.cpp:632 umlwidgets/widget_utils.cpp:894
 #, kde-format
 msgid "New port"
 msgstr "Uusi portti"
 
-#: model_utils.cpp:632
+#: model_utils.cpp:633
 #, kde-format
 msgid "New role"
 msgstr "Uusi rooli"
 
-#: model_utils.cpp:633
+#: model_utils.cpp:634
 #, kde-format
 msgid "New stereotype"
 msgstr "Uusi stereotyyppi"
 
-#: model_utils.cpp:634
+#: model_utils.cpp:635
 #, kde-format
 msgid "New template"
 msgstr "Uusi malli "
 
-#: model_utils.cpp:635
+#: model_utils.cpp:636
 #, fuzzy, kde-format
 #| msgid "new_unique_constraint"
 msgid "New unique constraint"
 msgstr "uusi_yksilöllisyysrajoite"
 
-#: model_utils.cpp:636 umlwidgets/widget_utils.cpp:901
+#: model_utils.cpp:637 umlwidgets/widget_utils.cpp:901
 #, kde-format
 msgid "New use case"
 msgstr "Uusi käyttötapaus"
 
-#: model_utils.cpp:639
+#: model_utils.cpp:640
 #, kde-format
 msgid "New UML object"
 msgstr "Uusi UML-olio"
 
-#: model_utils.cpp:651 umlwidgets/widget_utils.cpp:918
+#: model_utils.cpp:652 umlwidgets/widget_utils.cpp:918
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new actor:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:652 umlwidgets/widget_utils.cpp:919
+#: model_utils.cpp:653 umlwidgets/widget_utils.cpp:919
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new artifact:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:653 umlwidgets/widget_utils.cpp:920
+#: model_utils.cpp:654 umlwidgets/widget_utils.cpp:920
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new association:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:654
+#: model_utils.cpp:655
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new attribute:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:655 umlwidgets/widget_utils.cpp:922
+#: model_utils.cpp:656 umlwidgets/widget_utils.cpp:922
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new category:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:656
+#: model_utils.cpp:657
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new check constraint:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:657 umlwidgets/widget_utils.cpp:923
+#: model_utils.cpp:658 umlwidgets/widget_utils.cpp:923
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new class:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:658 umlwidgets/widget_utils.cpp:925
+#: model_utils.cpp:659 umlwidgets/widget_utils.cpp:925
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new component:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:659 umlwidgets/widget_utils.cpp:926
+#: model_utils.cpp:660 umlwidgets/widget_utils.cpp:926
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new datatype:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:660 umlwidgets/widget_utils.cpp:927
+#: model_utils.cpp:661 umlwidgets/widget_utils.cpp:927
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new activity:"
 msgid "Enter the name of the new entity:"
 msgstr "Anna uuden aktiviteetin nimi"
 
-#: model_utils.cpp:661
+#: model_utils.cpp:662
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new entity attribute:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:662
+#: model_utils.cpp:663
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new entity constraint:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:663 umlwidgets/widget_utils.cpp:928
+#: model_utils.cpp:664 umlwidgets/widget_utils.cpp:928
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new enum:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:664
+#: model_utils.cpp:665
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new enum literal:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:665
+#: model_utils.cpp:666
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new folder:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:666
+#: model_utils.cpp:667
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new foreign key constraint:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:667 umlwidgets/widget_utils.cpp:931
+#: model_utils.cpp:668 umlwidgets/widget_utils.cpp:931
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new instance:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:668
+#: model_utils.cpp:669
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new instance attribute:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:669 umlwidgets/widget_utils.cpp:932
+#: model_utils.cpp:670 umlwidgets/widget_utils.cpp:932
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new interface:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:670 umlwidgets/widget_utils.cpp:934
+#: model_utils.cpp:671 umlwidgets/widget_utils.cpp:934
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new node:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:671
+#: model_utils.cpp:672
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new operation:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:672 umlwidgets/widget_utils.cpp:938
+#: model_utils.cpp:673 umlwidgets/widget_utils.cpp:938
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new package:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:673 umlwidgets/widget_utils.cpp:940
+#: model_utils.cpp:674 umlwidgets/widget_utils.cpp:940
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new port:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:674
+#: model_utils.cpp:675
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new role:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:675
+#: model_utils.cpp:676
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new stereotype:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:676
+#: model_utils.cpp:677
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new template:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:677
+#: model_utils.cpp:678
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new unique constraint:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:678 umlwidgets/widget_utils.cpp:947
+#: model_utils.cpp:679 umlwidgets/widget_utils.cpp:947
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the name of the new use case:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:681
+#: model_utils.cpp:682
 #, kde-format
 msgid "Enter the name of the new UML object"
 msgstr "Anna uuden UML-olion nimi"
 
-#: model_utils.cpp:693 umlwidgets/widget_utils.cpp:963
+#: model_utils.cpp:694 umlwidgets/widget_utils.cpp:963
 #, fuzzy, kde-format
 #| msgid "Rename Object"
 msgid "Rename actor"
 msgstr "Muuta objektin nimeä"
 
-#: model_utils.cpp:694 umlwidgets/widget_utils.cpp:964
+#: model_utils.cpp:695 umlwidgets/widget_utils.cpp:964
 #, fuzzy, kde-format
 #| msgid "new_artifact"
 msgid "Rename artifact"
 msgstr "uusi_tuotos"
 
-#: model_utils.cpp:695 umlwidgets/widget_utils.cpp:965
+#: model_utils.cpp:696 umlwidgets/widget_utils.cpp:965
 #, fuzzy, kde-format
 #| msgid "new_association"
 msgid "Rename association"
 msgstr "uusi_yhteys"
 
-#: model_utils.cpp:696
+#: model_utils.cpp:697
 #, fuzzy, kde-format
 #| msgid "new_attribute"
 msgid "Rename attribute"
 msgstr "uusi_attribuutti"
 
-#: model_utils.cpp:697 umlwidgets/widget_utils.cpp:967
+#: model_utils.cpp:698 umlwidgets/widget_utils.cpp:967
 #, fuzzy, kde-format
 #| msgid "new_category"
 msgid "Rename category"
 msgstr "uusi_luokka"
 
-#: model_utils.cpp:698
+#: model_utils.cpp:699
 #, fuzzy, kde-format
 #| msgid "new_check_constraint"
 msgid "Rename check constraint"
 msgstr "uusi_tarkistusrajoite"
 
-#: model_utils.cpp:699 umlwidgets/widget_utils.cpp:968
+#: model_utils.cpp:700 umlwidgets/widget_utils.cpp:968
 #, fuzzy, kde-format
 #| msgid "Rename Class..."
 msgid "Rename class"
 msgstr "Muuta luokan nimeä…"
 
-#: model_utils.cpp:700 umlwidgets/widget_utils.cpp:970
+#: model_utils.cpp:701 umlwidgets/widget_utils.cpp:970
 #, fuzzy, kde-format
 #| msgid "new_component"
 msgid "Rename component"
 msgstr "uusi_komponentti"
 
-#: model_utils.cpp:701 umlwidgets/widget_utils.cpp:971
+#: model_utils.cpp:702 umlwidgets/widget_utils.cpp:971
 #, fuzzy, kde-format
 #| msgid "new_datatype"
 msgid "Rename datatype"
 msgstr "uusi_tietotyyppi"
 
-#: model_utils.cpp:702 umlwidgets/widget_utils.cpp:972
+#: model_utils.cpp:703 umlwidgets/widget_utils.cpp:972
 #, fuzzy, kde-format
 #| msgid "Rename Activity"
 msgid "Rename entity"
 msgstr "Muuta aktiviteetin nimeä"
 
-#: model_utils.cpp:703
+#: model_utils.cpp:704
 #, fuzzy, kde-format
 #| msgid "Entity Attributes"
 msgid "Rename entity attribute"
 msgstr "Käsitteen attribuutit"
 
-#: model_utils.cpp:704
+#: model_utils.cpp:705
 #, fuzzy, kde-format
 #| msgid "Entity Constraints"
 msgid "Rename entity constraint"
 msgstr "Käsitteen rajoitteet"
 
-#: model_utils.cpp:705 umlwidgets/widget_utils.cpp:973
+#: model_utils.cpp:706 umlwidgets/widget_utils.cpp:973
 #, fuzzy, kde-format
 #| msgid "Rename"
 msgid "Rename enum"
 msgstr "Muuta nimeä"
 
-#: model_utils.cpp:706
+#: model_utils.cpp:707
 #, fuzzy, kde-format
 #| msgid "Enum Literals"
 msgid "Rename enum literal"
 msgstr "Luettelotyypin vakiot"
 
-#: model_utils.cpp:707
+#: model_utils.cpp:708
 #, kde-format
 msgid "Rename folder"
 msgstr "Muuta kansion nimeä"
 
-#: model_utils.cpp:708
+#: model_utils.cpp:709
 #, fuzzy, kde-format
 #| msgid "Foreign Key Constraint..."
 msgid "Rename foreign key constraint"
 msgstr "Viiteavainrajoite…"
 
-#: model_utils.cpp:709 umlwidgets/widget_utils.cpp:976
+#: model_utils.cpp:710 umlwidgets/widget_utils.cpp:976
 #, fuzzy, kde-format
 #| msgid "Rename canceled"
 msgid "Rename instance"
 msgstr "Nimen muuttaminen peruttiin"
 
-#: model_utils.cpp:710
+#: model_utils.cpp:711
 #, fuzzy, kde-format
 #| msgid "Entity Attributes"
 msgid "Rename instance attribute"
 msgstr "Käsitteen attribuutit"
 
-#: model_utils.cpp:711 umlwidgets/widget_utils.cpp:977
+#: model_utils.cpp:712 umlwidgets/widget_utils.cpp:977
 #, fuzzy, kde-format
 #| msgid "User Interface"
 msgid "Rename interface"
 msgstr "Käyttöliittymä"
 
-#: model_utils.cpp:712 umlwidgets/widget_utils.cpp:979
+#: model_utils.cpp:713 umlwidgets/widget_utils.cpp:979
 #, kde-format
 msgid "Rename node"
 msgstr "Muuta solmun nimeä"
 
-#: model_utils.cpp:713
+#: model_utils.cpp:714
 #, kde-format
 msgid "Rename operation"
 msgstr "Muuta toiminnon nimeä"
 
-#: model_utils.cpp:714 umlwidgets/widget_utils.cpp:983
+#: model_utils.cpp:715 umlwidgets/widget_utils.cpp:983
 #, kde-format
 msgid "Rename package"
 msgstr "Muuta pakkauksen nimeä"
 
-#: model_utils.cpp:715 umlwidgets/widget_utils.cpp:985
+#: model_utils.cpp:716 umlwidgets/widget_utils.cpp:985
 #, kde-format
 msgid "Rename port"
 msgstr "Muuta portin nimeä"
 
-#: model_utils.cpp:716
+#: model_utils.cpp:717
 #, kde-format
 msgid "Rename role"
 msgstr "Muuta roolin nimeä"
 
-#: model_utils.cpp:717
+#: model_utils.cpp:718
 #, kde-format
 msgid "Rename stereotype"
 msgstr "Muuta stereotyypin nimeä"
 
-#: model_utils.cpp:718
+#: model_utils.cpp:719
 #, kde-format
 msgid "Rename template"
 msgstr "Muuta mallin nimeä"
 
-#: model_utils.cpp:719
+#: model_utils.cpp:720
 #, fuzzy, kde-format
 #| msgid "new_unique_constraint"
 msgid "Rename unique constraint"
 msgstr "uusi_yksilöllisyysrajoite"
 
-#: model_utils.cpp:720 umlwidgets/widget_utils.cpp:992
+#: model_utils.cpp:721 umlwidgets/widget_utils.cpp:992
 #, fuzzy, kde-format
 #| msgid "new_usecase"
 msgid "Rename use case"
 msgstr "uusi_käyttötapaus"
 
-#: model_utils.cpp:723
+#: model_utils.cpp:724
 #, kde-format
 msgid "Rename UML object"
 msgstr "Muuta UML-olion nimeä"
 
-#: model_utils.cpp:735 umlwidgets/widget_utils.cpp:1009
+#: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1009
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the actor:"
 msgstr "Anna aktiviteetin uusi nimi:"
 
-#: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1010
+#: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1010
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the artifact:"
 msgstr "Anna aktiviteetin uusi nimi:"
 
-#: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1011
+#: model_utils.cpp:738 umlwidgets/widget_utils.cpp:1011
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the association:"
 msgstr "Anna aktiviteetin uusi nimi:"
 
-#: model_utils.cpp:738
+#: model_utils.cpp:739
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the attribute:"
 msgstr "Anna aktiviteetin uusi nimi:"
 
-#: model_utils.cpp:739 umlwidgets/widget_utils.cpp:1013
+#: model_utils.cpp:740 umlwidgets/widget_utils.cpp:1013
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the diagram:"
 msgid "Enter the new name of the category:"
 msgstr "Anna kaavion uusi nimi:"
 
-#: model_utils.cpp:740
+#: model_utils.cpp:741
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the check constraint:"
 msgstr "Anna aktiviteetin uusi nimi:"
 
-#: model_utils.cpp:741 umlwidgets/widget_utils.cpp:1014
+#: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1014
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the model:"
 msgid "Enter the new name of the class:"
 msgstr "Anna mallin uusi nimi:"
 
-#: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1016
+#: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1016
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the model:"
 msgid "Enter the new name of the component:"
 msgstr "Anna mallin uusi nimi:"
 
-#: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1017
+#: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1017
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the datatype:"
 msgstr "Anna aktiviteetin uusi nimi:"
 
-#: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1018
+#: model_utils.cpp:745 umlwidgets/widget_utils.cpp:1018
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the entity:"
 msgstr "Anna aktiviteetin uusi nimi:"
 
-#: model_utils.cpp:745
+#: model_utils.cpp:746
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the entity attribute:"
 msgstr "Anna aktiviteetin uusi nimi:"
 
-#: model_utils.cpp:746
+#: model_utils.cpp:747
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the entity constraint:"
 msgstr "Anna aktiviteetin uusi nimi:"
 
-#: model_utils.cpp:747 umlwidgets/widget_utils.cpp:1019
+#: model_utils.cpp:748 umlwidgets/widget_utils.cpp:1019
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the model:"
 msgid "Enter the new name of the enum:"
 msgstr "Anna mallin uusi nimi:"
 
-#: model_utils.cpp:748
+#: model_utils.cpp:749
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the model:"
 msgid "Enter the new name of the enum literal:"
 msgstr "Anna mallin uusi nimi:"
 
-#: model_utils.cpp:749
+#: model_utils.cpp:750
 #, kde-format
 msgid "Enter the new name of the folder:"
 msgstr "Anna kansion uusi nimi:"
 
-#: model_utils.cpp:750
+#: model_utils.cpp:751
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the diagram:"
 msgid "Enter the new name of the foreign key constraint:"
 msgstr "Anna kaavion uusi nimi:"
 
-#: model_utils.cpp:751 umlwidgets/widget_utils.cpp:1022
+#: model_utils.cpp:752 umlwidgets/widget_utils.cpp:1022
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the diagram:"
 msgid "Enter the new name of the instance:"
 msgstr "Anna kaavion uusi nimi:"
 
-#: model_utils.cpp:752
+#: model_utils.cpp:753
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the activity:"
 msgid "Enter the new name of the instance attribute:"
 msgstr "Anna aktiviteetin uusi nimi:"
 
-#: model_utils.cpp:753 umlwidgets/widget_utils.cpp:1023
+#: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1023
 #, fuzzy, kde-format
 #| msgid "Enter the new name of the diagram:"
 msgid "Enter the new name of the interface:"
 msgstr "Anna kaavion uusi nimi:"
 
-#: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1025
+#: model_utils.cpp:755 umlwidgets/widget_utils.cpp:1025
 #, kde-format
 msgid "Enter the new name of the node:"
 msgstr "Anna solmun uusi nimi:"
 
-#: model_utils.cpp:755
+#: model_utils.cpp:756
 #, kde-format
 msgid "Enter the new name of the operation:"
 msgstr "Anna toiminnon uusi nimi:"
 
-#: model_utils.cpp:756 umlwidgets/widget_utils.cpp:1029
+#: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1029
 #, kde-format
 msgid "Enter the new name of the package:"
 msgstr "Anna pakkauksen uusi nimi:"
 
-#: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1031
+#: model_utils.cpp:758 umlwidgets/widget_utils.cpp:1031
 #, kde-format
 msgid "Enter the new name of the port:"
 msgstr "Anna portin uusi nimi:"
 
-#: model_utils.cpp:758
+#: model_utils.cpp:759
 #, kde-format
 msgid "Enter the new name of the role:"
 msgstr "Anna roolin uusi nimi:"
 
-#: model_utils.cpp:759
+#: model_utils.cpp:760
 #, kde-format
 msgid "Enter the new name of the stereotype:"
 msgstr "Anna stereotyypin uusi nimi:"
 
-#: model_utils.cpp:760
+#: model_utils.cpp:761
 #, kde-format
 msgid "Enter the new name of the template:"
 msgstr "Anna mallin uusi nimi:"
 
-#: model_utils.cpp:761
+#: model_utils.cpp:762
 #, fuzzy, kde-format
 #| msgid "Enter the name of the new state:"
 msgid "Enter the new name of the unique constraint:"
 msgstr "Anna uuden tilan nimi:"
 
-#: model_utils.cpp:762 umlwidgets/widget_utils.cpp:1038
+#: model_utils.cpp:763 umlwidgets/widget_utils.cpp:1038
 #, kde-format
 msgid "Enter the new name of the use case:"
 msgstr "Anna käyttötapauksen uusi nimi:"
 
-#: model_utils.cpp:765
+#: model_utils.cpp:766
 #, kde-format
 msgid "Enter the new name of the UML object"
 msgstr "Anna UML-olion uusi nimi"
 
-#: model_utils.cpp:1206
+#: model_utils.cpp:1207
 #, kde-format
 msgid "OK"
 msgstr "OK"
 
-#: model_utils.cpp:1206
+#: model_utils.cpp:1207
 #, kde-format
 msgctxt "parse status"
 msgid "Empty"
 msgstr "Tyhjä"
 
-#: model_utils.cpp:1206
+#: model_utils.cpp:1207
 #, kde-format
 msgid "Malformed argument"
 msgstr "Huonostimuotoiltu argumentti"
 
-#: model_utils.cpp:1207
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Unknown argument type"
 msgstr "Tuntematon argumentin tyyppi"
 
-#: model_utils.cpp:1207
+#: model_utils.cpp:1208
 #, kde-format
 msgid "Illegal method name"
 msgstr "Virheellinen metodin nimi"
 
-#: model_utils.cpp:1208
+#: model_utils.cpp:1209
 #, kde-format
 msgid "Unknown return type"
 msgstr "Tuntematon paluuarvon tyyppi"
 
-#: model_utils.cpp:1208
+#: model_utils.cpp:1209
 #, kde-format
 msgid "Unspecified error"
 msgstr "Määrittelemätön virhe"
@@ -6033,10 +6046,10 @@ msgstr "Osoitin"
 msgid "Usage"
 msgstr "Käyttö"
 
-#: object_factory.cpp:254 umldoc.cpp:1602 umldoc.cpp:1637
-#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
+#: object_factory.cpp:254 umldoc.cpp:1624 umldoc.cpp:1659
+#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
-#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:177
+#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:179
 #, kde-format
 msgid "That is an invalid name."
 msgstr "Virheellinen nimi."
@@ -6052,16 +6065,16 @@ msgstr "Tämä on koodigeneraattorin varattu sana."
 msgid "Reserved Keyword"
 msgstr "Varattu sana"
 
-#: object_factory.cpp:267 umldoc.cpp:1608 umldoc.cpp:1646
-#: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
+#: object_factory.cpp:267 umldoc.cpp:1630 umldoc.cpp:1668
+#: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
 msgid "That name is already being used."
 msgstr "Tämä nimi on jo käytössä."
 
-#: object_factory.cpp:268 umldoc.cpp:1511 umldoc.cpp:1580 umldoc.cpp:1608
-#: umldoc.cpp:1646 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
+#: object_factory.cpp:268 umldoc.cpp:1533 umldoc.cpp:1602 umldoc.cpp:1630
+#: umldoc.cpp:1668 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
@@ -7616,8 +7629,8 @@ msgstr "&Loki"
 msgid "Opening file..."
 msgstr "Avaa tiedostoa…"
 
-#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:349 umldoc.cpp:372
-#: umldoc.cpp:3285
+#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:351 umldoc.cpp:374
+#: umldoc.cpp:3308
 #, kde-format
 msgid "Untitled"
 msgstr "Nimetön"
@@ -7800,57 +7813,57 @@ msgstr "Valitse tuotava kansio:"
 msgid "XHTML Generation failed ."
 msgstr "XHTML:n luonti epäonnistui."
 
-#: umlappprivate.h:130
+#: umlappprivate.h:132
 #, kde-format
 msgid "&UML Objects"
 msgstr "&UML-oliot"
 
-#: umlappprivate.h:140
+#: umlappprivate.h:142
 #, kde-format
 msgid "&Stereotypes"
 msgstr "&Stereotyypit"
 
-#: umlappprivate.h:156
+#: umlappprivate.h:158
 #, kde-format
 msgid "Welcome"
 msgstr "Tervetuloa"
 
-#: umldoc.cpp:92 umldoc.cpp:2232 umldoc.cpp:2260 umldoc.cpp:2343
+#: umldoc.cpp:94 umldoc.cpp:2255 umldoc.cpp:2283 umldoc.cpp:2366
 #, kde-format
 msgid "UML Model"
 msgstr "Umbrello UML-mallinnus"
 
-#: umldoc.cpp:130
+#: umldoc.cpp:132
 #, kde-format
 msgid "Logical View"
 msgstr "Loogiset kaaviot"
 
-#: umldoc.cpp:131
+#: umldoc.cpp:133
 #, kde-format
 msgid "Use Case View"
 msgstr "Käyttötapaukset"
 
-#: umldoc.cpp:132
+#: umldoc.cpp:134
 #, kde-format
 msgid "Component View"
 msgstr "Komponentit"
 
-#: umldoc.cpp:133
+#: umldoc.cpp:135
 #, kde-format
 msgid "Deployment View"
 msgstr "Sijoittelukaaviot"
 
-#: umldoc.cpp:134
+#: umldoc.cpp:136
 #, kde-format
 msgid "Entity Relationship Model"
 msgstr "Käsitemallit"
 
-#: umldoc.cpp:160
+#: umldoc.cpp:162
 #, kde-format
 msgid "Datatypes"
 msgstr "Tietotyypit"
 
-#: umldoc.cpp:367
+#: umldoc.cpp:369
 #, kde-format
 msgid ""
 "The current file has been modified.\n"
@@ -7859,156 +7872,156 @@ msgstr ""
 "Nykyistä tiedostoa on muutettu.\n"
 "Haluatko tallentaa sen?"
 
-#: umldoc.cpp:368
+#: umldoc.cpp:370
 #, kde-format
 msgctxt "warning message"
 msgid "Warning"
 msgstr "Varoitus"
 
-#: umldoc.cpp:535
+#: umldoc.cpp:541
 #, kde-format
 msgid "The file <%1> does not exist."
 msgstr "Tiedostoa <%1> ei löytynyt."
 
-#: umldoc.cpp:535 umldoc.cpp:556 umldoc.cpp:595 umldoc.cpp:607 umldoc.cpp:621
-#: umldoc.cpp:634 umldoc.cpp:646 umldoc.cpp:684 umlmodel/folder.cpp:451
-#: umlmodel/folder.cpp:455
+#: umldoc.cpp:541 umldoc.cpp:562 umldoc.cpp:601 umldoc.cpp:613 umldoc.cpp:627
+#: umldoc.cpp:640 umldoc.cpp:652 umldoc.cpp:690 umlmodel/folder.cpp:450
+#: umlmodel/folder.cpp:454
 #, kde-format
 msgid "Load Error"
 msgstr "Tiedostonlukuvirhe"
 
-#: umldoc.cpp:556
+#: umldoc.cpp:562
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "Tiedosto %1 näyttää vioittuneelta."
 
-#: umldoc.cpp:594 umldoc.cpp:606 umldoc.cpp:633
+#: umldoc.cpp:600 umldoc.cpp:612 umldoc.cpp:639
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "Pakatussa tiedostossa %1 ei ollut XMI-tiedostoa."
 
-#: umldoc.cpp:620
+#: umldoc.cpp:626
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "Paketista avatun tiedoston %1 lukemisessa tapahtui virhe"
 
-#: umldoc.cpp:645 umldoc.cpp:681
+#: umldoc.cpp:651 umldoc.cpp:687
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "Tiedoston %1 lukemisessa tapahtui virhe"
 
-#: umldoc.cpp:683
+#: umldoc.cpp:689
 #, kde-format
 msgid "Reason: %1"
 msgstr "Syy: %1"
 
-#: umldoc.cpp:753 umldoc.cpp:764 umldoc.cpp:782 umldoc.cpp:823 umldoc.cpp:850
+#: umldoc.cpp:759 umldoc.cpp:770 umldoc.cpp:788 umldoc.cpp:833 umldoc.cpp:872
 #, kde-format
 msgid "There was a problem saving: %1"
 msgstr "Tiedoston %1 tallentamisessa tapahtui virhe"
 
-#: umldoc.cpp:753 umldoc.cpp:764 umldoc.cpp:782 umldoc.cpp:823 umldoc.cpp:850
-#: umldoc.cpp:857 umllistview.cpp:569
+#: umldoc.cpp:759 umldoc.cpp:770 umldoc.cpp:788 umldoc.cpp:833 umldoc.cpp:872
+#: umldoc.cpp:879 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
 msgstr "Tallennusvirhe"
 
-#: umldoc.cpp:857
+#: umldoc.cpp:879
 #, kde-format
 msgid "There was a problem uploading: %1"
 msgstr "Tiedoston %1 lähettämisessä tapahtui virhe"
 
-#: umldoc.cpp:1408
+#: umldoc.cpp:1430
 #, kde-format
 msgid "use case diagram"
 msgstr "käyttötapauskaavio"
 
-#: umldoc.cpp:1411
+#: umldoc.cpp:1433
 #, kde-format
 msgid "class diagram"
 msgstr "luokkakaavio"
 
-#: umldoc.cpp:1414
+#: umldoc.cpp:1436
 #, kde-format
 msgid "sequence diagram"
 msgstr "sekvenssikaavio"
 
-#: umldoc.cpp:1417
+#: umldoc.cpp:1439
 #, kde-format
 msgid "communication diagram"
 msgstr "kommunikointikaavio"
 
-#: umldoc.cpp:1420
+#: umldoc.cpp:1442
 #, fuzzy, kde-format
 #| msgid "&Select diagrams"
 msgid "object diagram"
 msgstr "Valit&se kaaviot"
 
-#: umldoc.cpp:1423
+#: umldoc.cpp:1445
 #, kde-format
 msgid "state diagram"
 msgstr "tilakaavio"
 
-#: umldoc.cpp:1426
+#: umldoc.cpp:1448
 #, kde-format
 msgid "activity diagram"
 msgstr "aktiviteettikaavio"
 
-#: umldoc.cpp:1429
+#: umldoc.cpp:1451
 #, kde-format
 msgid "component diagram"
 msgstr "komponenttikaavio"
 
-#: umldoc.cpp:1432
+#: umldoc.cpp:1454
 #, kde-format
 msgid "deployment diagram"
 msgstr "sijoittelukaavio"
 
-#: umldoc.cpp:1435
+#: umldoc.cpp:1457
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "käsitekaavio"
 
-#: umldoc.cpp:1505
+#: umldoc.cpp:1527
 #, kde-format
 msgctxt "diagram name"
 msgid "Name"
 msgstr "Nimi"
 
-#: umldoc.cpp:1505 umldoc.cpp:1567 umldoc.cpp:1596 umldoc.cpp:1631
+#: umldoc.cpp:1527 umldoc.cpp:1589 umldoc.cpp:1618 umldoc.cpp:1653
 #, kde-format
 msgid "Enter name:"
 msgstr "Anna nimi:"
 
-#: umldoc.cpp:1509 umldoc.cpp:1573
+#: umldoc.cpp:1531 umldoc.cpp:1595
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "Tämä on virheellinen nimi kaaviolle."
 
-#: umldoc.cpp:1511 umldoc.cpp:1580
+#: umldoc.cpp:1533 umldoc.cpp:1602
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "Kaavio käyttää jo tätä nimeä."
 
-#: umldoc.cpp:1566
+#: umldoc.cpp:1588
 #, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "Nimi"
 
-#: umldoc.cpp:1595
+#: umldoc.cpp:1617
 #, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "Nimi"
 
-#: umldoc.cpp:1630
+#: umldoc.cpp:1652
 #, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "Nimi"
 
-#: umldoc.cpp:1640
+#: umldoc.cpp:1662
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
@@ -8017,42 +8030,42 @@ msgstr ""
 "Antamasi nimi ei ole yksilöllinen.\n"
 "Tarkoititko tätä?"
 
-#: umldoc.cpp:1641
+#: umldoc.cpp:1663
 #, kde-format
 msgid "Use Name"
 msgstr "Käyttönimi"
 
-#: umldoc.cpp:1641
+#: umldoc.cpp:1663
 #, kde-format
 msgid "Enter New Name"
 msgstr "Anna uusi nimi"
 
-#: umldoc.cpp:2190
+#: umldoc.cpp:2213
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2354
+#: umldoc.cpp:2377
 #, kde-format
 msgid "Setting up the document..."
 msgstr "Alustaa tiedostoa…"
 
-#: umldoc.cpp:2383
+#: umldoc.cpp:2406
 #, kde-format
 msgid "Resolving object references..."
 msgstr "Selvitetään olion viitteitä…"
 
-#: umldoc.cpp:2491
+#: umldoc.cpp:2514
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "Lataa UML-elementtejä…"
 
-#: umldoc.cpp:2753
+#: umldoc.cpp:2776
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "Lataa diagrammeja…"
 
-#: umldoc.cpp:3287
+#: umldoc.cpp:3310
 #, kde-format
 msgid "/autosave%1"
 msgstr "/automaattitallennus%1"
@@ -8086,7 +8099,7 @@ msgstr ""
 msgid "File Exists"
 msgstr "Tiedosto on olemassa"
 
-#: umllistview.cpp:568 umlviewimageexportermodel.cpp:268
+#: umllistview.cpp:568 umlviewimageexportermodel.cpp:272
 #, kde-format
 msgid "There was a problem saving file: %1"
 msgstr "Tiedoston %1 tallentamisessa tapahtui virhe"
@@ -8186,12 +8199,12 @@ msgstr ""
 "Samalla nimellä ja allekirjoituksella on jo olemassa toiminto. Et voi lisätä "
 "sitä uudelleen."
 
-#: umlmodel/folder.cpp:451
+#: umlmodel/folder.cpp:450
 #, kde-format
 msgid "The folderfile %1 does not exist."
 msgstr "Kansiota %1 ei ollut."
 
-#: umlmodel/folder.cpp:455
+#: umlmodel/folder.cpp:454
 #, kde-format
 msgid "The folderfile %1 cannot be opened."
 msgstr "Kansiota %1 ei voida avata."
@@ -8201,13 +8214,13 @@ msgstr "Kansiota %1 ei voida avata."
 msgid "new_parameter"
 msgstr "uusi_parametri"
 
-#: umlmodel/package.cpp:169
+#: umlmodel/package.cpp:171
 #, kde-format
 msgctxt "object name"
 msgid "Name"
 msgstr "Nimi"
 
-#: umlmodel/package.cpp:170
+#: umlmodel/package.cpp:172
 #, kde-format
 msgid ""
 "An object with the name %1\n"
@@ -8218,17 +8231,17 @@ msgstr ""
 "olio, jonka nimi on %1.\n"
 "Anna uusi nimi:"
 
-#: umlmodel/umlcanvasobject.cpp:198
+#: umlmodel/umlcanvasobject.cpp:200
 #, kde-format
 msgid "new_literal"
 msgstr "uusi_vakio"
 
-#: umlmodel/umlcanvasobject.cpp:201
+#: umlmodel/umlcanvasobject.cpp:203
 #, kde-format
 msgid "new_field"
 msgstr "uusi_kenttä"
 
-#: umlmodel/umlcanvasobject.cpp:207
+#: umlmodel/umlcanvasobject.cpp:209
 #, kde-format
 msgid "new_fkey_constraint"
 msgstr "uusi_viiteavainrajoite"
@@ -8308,67 +8321,67 @@ msgstr "Käyttötapauksen &nimi:"
 msgid "Instance name:"
 msgstr "Instanssin nimi:"
 
-#: umlscene.cpp:719
+#: umlscene.cpp:720
 #, kde-format
 msgid "Diagram: %2 Page %1"
 msgstr "Kaavio: %2 Sivu %1"
 
-#: umlscene.cpp:1519
+#: umlscene.cpp:1520
 #, kde-format
 msgid "Use fill color"
 msgstr "Käytä täyttöväriä"
 
-#: umlscene.cpp:1521
+#: umlscene.cpp:1522
 #, kde-format
 msgid "No fill color"
 msgstr "Ei täyttöväriä"
 
-#: umlscene.cpp:1536
+#: umlscene.cpp:1537
 #, kde-format
 msgid "Change font"
 msgstr "Vaihda fontti"
 
-#: umlscene.cpp:1550
+#: umlscene.cpp:1551
 #, kde-format
 msgid "Change line color"
 msgstr "Vaihda viivan väri"
 
-#: umlscene.cpp:1568
+#: umlscene.cpp:1569
 #, kde-format
 msgid "Change line width"
 msgstr "Vaihda viivan paksuus"
 
-#: umlscene.cpp:1588
+#: umlscene.cpp:1589
 #, kde-format
 msgid "Change fill color"
 msgstr "Vaihda täyttöväri"
 
-#: umlscene.cpp:1603
+#: umlscene.cpp:1604
 #, kde-format
 msgid "Change visual property"
 msgstr "Muuta visuaalista ominaisuutta"
 
-#: umlscene.cpp:1654
+#: umlscene.cpp:1655
 #, kde-format
 msgid "Delete widgets"
 msgstr "Poista elementtejä"
 
-#: umlscene.cpp:1700
+#: umlscene.cpp:1701
 #, kde-format
 msgid "Resize widgets"
 msgstr "Muuta elementtien kokoa"
 
-#: umlscene.cpp:3352
+#: umlscene.cpp:3353
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Anna kaavion nimi"
 
-#: umlscene.cpp:3353
+#: umlscene.cpp:3354
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Anna kaavion uusi nimi:"
 
-#: umlscene.cpp:3369
+#: umlscene.cpp:3370
 #, fuzzy, kde-format
 #| msgid "Failed to import stack trace."
 msgid "Failed to import from file."
