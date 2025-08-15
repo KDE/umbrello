@@ -146,6 +146,10 @@ void BirdView::mousePressEvent(QMouseEvent *event)
  */
 void BirdView::mouseMoveEvent(QMouseEvent *event)
 {
+    if (!m_view) {
+        return;
+    }
+
     const QPoint delta = m_view->mapFromGlobal(event->globalPos()) - m_view->mapFromGlobal(m_moveStartPos);
     QSizeF scale(m_view->viewport()->rect().width() / rect().width(), m_view->viewport()->rect().height() / rect().height());
     QPoint scaledDelta(delta.x() * scale.width(), delta.y() * scale.height());
@@ -218,6 +222,9 @@ void BirdView::keyPressEvent(QKeyEvent *event)
 void BirdView::setSlotsEnabled(bool enabled)
 {
     UMLView* view = UMLApp::app()->currentView();
+    if (!view)
+        return;
+
     if (enabled) {
         connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
                 this, SLOT(slotViewChanged()));
