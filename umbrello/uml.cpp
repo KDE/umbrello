@@ -3103,6 +3103,17 @@ void UMLApp::createBirdView(UMLView *view)
     connect(m_birdViewDock, SIGNAL(sizeChanged(QSize)), m_birdView, SLOT(slotDockSizeChanged(QSize)));
 }
 
+void UMLApp::deleteBirdView()
+{
+    disconnect(m_birdView, SIGNAL(viewPositionChanged(QPointF)), this, SLOT(slotBirdViewChanged(QPointF)));
+    disconnect(m_birdViewDock, SIGNAL(sizeChanged(QSize)), m_birdView, SLOT(slotDockSizeChanged(QSize)));
+
+    if (m_birdView) {
+        delete m_birdView;
+    }
+    m_birdView = nullptr;
+}
+
 /**
  * Slot for changes of the bird view's rectangle by moving.
  * @param delta   change value for a move

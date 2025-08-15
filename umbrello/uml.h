@@ -184,6 +184,8 @@ public:
 
     static bool shuttingDown();
 
+    void deleteBirdView();
+
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
     virtual void keyReleaseEvent(QKeyEvent* e);

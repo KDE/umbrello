@@ -458,6 +458,9 @@ void UMLDoc::closeDocument()
     // Clear undo stack, as there is now nothing left that could be undone
     UMLApp::app()->clearUndoStack();
 
+    // Otherwise the bird view used an invalidated view
+    UMLApp::app()->deleteBirdView();
+
     m_bClosing = false;
 }
 
