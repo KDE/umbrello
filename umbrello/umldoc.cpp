@@ -456,6 +456,10 @@ void UMLDoc::closeDocument()
         // this creates too many items, only Logical View should be created
         listView->init();
     }
+
+    // Clear undo stack, as there is now nothing left that could be undone
+    UMLApp::app()->clearUndoStack();
+
     m_bClosing = false;
 }
 

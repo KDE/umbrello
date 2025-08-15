@@ -341,6 +341,9 @@ void UMLApp::initActions()
     editUndo = KStandardAction::undo(this, SLOT(slotEditUndo()), actionCollection());
     editRedo = KStandardAction::redo(this, SLOT(slotEditRedo()), actionCollection());
 
+    connect(m_pUndoStack, SIGNAL(canRedoChanged(bool)), editRedo, SLOT(setEnabled(bool)));
+    connect(m_pUndoStack, SIGNAL(canUndoChanged(bool)), editUndo, SLOT(setEnabled(bool)));
+
     editUndo->setPriority(QAction::LowPriority);   // icon only
     editRedo->setPriority(QAction::LowPriority);   // icon only
 
