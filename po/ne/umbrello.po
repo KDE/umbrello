@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-19 01:57+0000\n"
+"POT-Creation-Date: 2025-08-16 03:33+0000\n"
 "PO-Revision-Date: 2007-08-20 13:11+0545\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -213,7 +213,7 @@ msgstr ""
 "क्लिपबोर्डमा भएको कम्तिमा एउटा वस्तु टाँस्न सकिँदैन किनभने उही नामको एउटा वस्तु पहिल्यै "
 "अवस्थित छ । अन्य कुनै वस्तु टाँसिएको छ ।"
 
-#: clipboard/umlclipboard.cpp:755 uml.cpp:1637
+#: clipboard/umlclipboard.cpp:755 uml.cpp:1640
 #, kde-format
 msgid "Paste Error"
 msgstr "त्रुटि टाँस्नुहोस्"
@@ -2657,7 +2657,7 @@ msgid "N&ew Instance Attribute..."
 msgstr "नयाँ अस्तित्व विशेषता..."
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
-#: uml.cpp:587
+#: uml.cpp:590
 #, kde-format
 msgid "&Properties"
 msgstr "गुण"
@@ -2677,7 +2677,7 @@ msgid "Source Code"
 msgstr "कोड हेर्नुहोस्"
 
 #: dialogs/pages/classoptionspage.cpp:152
-#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:542
+#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:545
 #, fuzzy, kde-format
 #| msgid "Documentation"
 msgid "&Documentation"
@@ -2876,7 +2876,7 @@ msgid "The name you have entered is invalid."
 msgstr "तपाईँले प्रविष्ट गर्नुभएको नाम अवैध छ ।"
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
-#: umldoc.cpp:1509 umldoc.cpp:1573 umldoc.cpp:1602 umldoc.cpp:1637
+#: umldoc.cpp:1518 umldoc.cpp:1582 umldoc.cpp:1611 umldoc.cpp:1646
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:178
@@ -2889,7 +2889,7 @@ msgstr "अवैध नाम"
 msgid "The name you have entered is not unique."
 msgstr "तपाईँले प्रविष्ट गर्नुभएको नाम अद्वितिय छ ।"
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1641
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1650
 #, kde-format
 msgid "Name Not Unique"
 msgstr "नाम अद्धितिय छैन"
@@ -4732,7 +4732,7 @@ msgstr "विनाश देखाउनुहोस्"
 msgid "Import File(s)..."
 msgstr "वर्गहरू आयात गर्नुहोस्..."
 
-#: menus/listpopupmenu.cpp:198 uml.cpp:384
+#: menus/listpopupmenu.cpp:198 uml.cpp:387
 #, fuzzy, kde-format
 msgid "Import from Directory..."
 msgstr "वर्गहरू आयात गर्नुहोस्..."
@@ -5258,42 +5258,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "माथि पङ्क्तिबद्ध गर्नुहोस्"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:606
+#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:609
 #, kde-format
 msgid "Align Right"
 msgstr "दायाँ पङ्क्तिबद्ध गर्नुहोस्"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:611
+#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:614
 #, kde-format
 msgid "Align Left"
 msgstr "बायाँ पङ्क्तिबद्ध गर्नुहोस्"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:616
+#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:619
 #, kde-format
 msgid "Align Top"
 msgstr "माथि पङ्क्तिबद्ध गर्नुहोस्"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:621
+#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:624
 #, kde-format
 msgid "Align Bottom"
 msgstr "तल पङ्क्तिबद्ध गर्नुहोस्"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:626
+#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:629
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr "ठाडो बीचमा पङ्क्तिबद्ध गर्नुहोस्"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:631
+#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:634
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr "तेर्सो बीचमा पङ्क्तिबद्ध गर्नुहोस्"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:636
+#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:639
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr "ठाडो वितरण पङ्क्तिबद्ध गर्नुहोस्"
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:641
+#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:644
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr "तेर्सो वितरण पङ्क्तिबद्ध गर्नुहोस्"
@@ -6216,7 +6216,7 @@ msgstr "थप्ने मात्र"
 msgid "Usage"
 msgstr "सन्देश"
 
-#: object_factory.cpp:254 umldoc.cpp:1602 umldoc.cpp:1637
+#: object_factory.cpp:254 umldoc.cpp:1611 umldoc.cpp:1646
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:781
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:177
@@ -6235,7 +6235,7 @@ msgstr "यो कन्फिगर गरिएको कोड सर्ज�
 msgid "Reserved Keyword"
 msgstr "सञ्चित गरिएको शब्दकुञ्जी"
 
-#: object_factory.cpp:267 umldoc.cpp:1608 umldoc.cpp:1646
+#: object_factory.cpp:267 umldoc.cpp:1617 umldoc.cpp:1655
 #: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
@@ -6243,8 +6243,8 @@ msgstr "सञ्चित गरिएको शब्दकुञ्जी"
 msgid "That name is already being used."
 msgstr "त्यो नाम पहिल्यै प्रयोग गरिएको छ ।"
 
-#: object_factory.cpp:268 umldoc.cpp:1511 umldoc.cpp:1580 umldoc.cpp:1608
-#: umldoc.cpp:1646 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
+#: object_factory.cpp:268 umldoc.cpp:1520 umldoc.cpp:1589 umldoc.cpp:1617
+#: umldoc.cpp:1655 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:783
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
@@ -7592,203 +7592,203 @@ msgstr "सक्रिय भाषा"
 msgid "&Settings"
 msgstr "भूमिका सेटिङ"
 
-#: uml.cpp:360
+#: uml.cpp:363
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr "डक पुस्तकमा नमूना निर्यात गर्नुहोस्"
 
-#: uml.cpp:364
+#: uml.cpp:367
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr "एक्सएचटीएमएलमा नमूना निर्यात गर्नुहोस्"
 
-#: uml.cpp:368
+#: uml.cpp:371
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "नयाँ वर्ग विजार्ड..."
 
-#: uml.cpp:372
+#: uml.cpp:375
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "सक्रिय भाषाका लागि पूर्वनिर्धारित डेटाप्रकार थप्नुहोस्"
 
-#: uml.cpp:379
+#: uml.cpp:382
 #, fuzzy, kde-format
 #| msgid "&Code Generation Wizard..."
 msgid "Code &Importing Wizard..."
 msgstr "सङ्केत सिर्जना विजार्ड..."
 
-#: uml.cpp:389
+#: uml.cpp:392
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "सङ्केत सिर्जना विजार्ड..."
 
-#: uml.cpp:394
+#: uml.cpp:397
 #, kde-format
 msgid "&Generate All Code"
 msgstr "सबै सङ्केत सिर्जना गर्नुहोस्"
 
-#: uml.cpp:441
+#: uml.cpp:444
 #, kde-format
 msgid "Creates a new document"
 msgstr "नयाँ कागजात सिर्जना गर्दछ"
 
-#: uml.cpp:442
+#: uml.cpp:445
 #, kde-format
 msgid "Opens an existing document"
 msgstr "एउटा अवस्थित कागजात खोल्दछ"
 
-#: uml.cpp:443
+#: uml.cpp:446
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "हालै प्रयोग गरिएको फाइल खोल्दछ"
 
-#: uml.cpp:444
+#: uml.cpp:447
 #, kde-format
 msgid "Saves the document"
 msgstr "कागजात बचत गर्दछ"
 
-#: uml.cpp:445
+#: uml.cpp:448
 #, kde-format
 msgid "Saves the document as..."
 msgstr "यस रूपमा कागजात बचत गर्दछ..."
 
-#: uml.cpp:446
+#: uml.cpp:449
 #, kde-format
 msgid "Closes the document"
 msgstr "कागजात बन्द गर्दछ"
 
-#: uml.cpp:447
+#: uml.cpp:450
 #, kde-format
 msgid "Prints out the document"
 msgstr "कागजात मुद्रण गर्दछ"
 
-#: uml.cpp:448
+#: uml.cpp:451
 #, fuzzy, kde-format
 #| msgid "Prints out the document"
 msgid "Print Preview of the document"
 msgstr "कागजात मुद्रण गर्दछ"
 
-#: uml.cpp:449
+#: uml.cpp:452
 #, kde-format
 msgid "Quits the application"
 msgstr "अनुप्रयोग अन्त्य गर्दछ"
 
-#: uml.cpp:450
+#: uml.cpp:453
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr "डक पुस्तक ढाँचामा नमूना निर्यात गर्दछ"
 
-#: uml.cpp:451
+#: uml.cpp:454
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr "एक्सएचटीएमएल ढाँचामा नमूना निर्यात गर्दछ"
 
-#: uml.cpp:452
+#: uml.cpp:455
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "चयन गरिएको सेक्सन काट्छ र यसलाई क्लिपबोर्डमा राख्छ"
 
-#: uml.cpp:453
+#: uml.cpp:456
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "चयन गरिएको खण्ड क्लिपबोर्डमा प्रतिलिपि गर्छ"
 
-#: uml.cpp:454
+#: uml.cpp:457
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr "क्लिपबोर्डको सामग्री टाँस्दछ"
 
-#: uml.cpp:455
+#: uml.cpp:458
 #, fuzzy, kde-format
 msgid "Undo last action"
 msgstr "इन्डेन्टेसन छैन"
 
-#: uml.cpp:456
+#: uml.cpp:459
 #, kde-format
 msgid "Redo last undone action"
 msgstr ""
 
-#: uml.cpp:458
+#: uml.cpp:461
 #, kde-format
 msgid "Set the default program preferences"
 msgstr "पूर्वनिर्धारित कार्यक्रम प्राथमिकता सेट गर्नुहोस्"
 
-#: uml.cpp:462
+#: uml.cpp:465
 #, fuzzy, kde-format
 #| msgid "Delete &Selected"
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "चयन गरिएको मेट्नुहोस्"
 
-#: uml.cpp:473
+#: uml.cpp:476
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "वर्ग रेखाचित्र..."
 
-#: uml.cpp:480
+#: uml.cpp:483
 #, fuzzy, kde-format
 #| msgid "S&tate Diagram..."
 msgid "&Object Diagram..."
 msgstr "स्थिति रेखाचित्र..."
 
-#: uml.cpp:487
+#: uml.cpp:490
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "अनुक्रम रेखाचित्र..."
 
-#: uml.cpp:493
+#: uml.cpp:496
 #, fuzzy, kde-format
 #| msgid "C&ollaboration Diagram..."
 msgid "C&ommunication Diagram..."
 msgstr "सहकार्य रेखाचित्र"
 
-#: uml.cpp:499
+#: uml.cpp:502
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr "केस रेखाचित्र प्रयोग गर्नुहोस्..."
 
-#: uml.cpp:505
+#: uml.cpp:508
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "स्थिति रेखाचित्र..."
 
-#: uml.cpp:511
+#: uml.cpp:514
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "क्रियाकलाप रेखाचित्र..."
 
-#: uml.cpp:517
+#: uml.cpp:520
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "अवयव रेखाचित्र..."
 
-#: uml.cpp:523
+#: uml.cpp:526
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr "परिनियोजन रेखाचित्र..."
 
-#: uml.cpp:529
+#: uml.cpp:532
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "अस्तित्व सम्बन्ध रेखाचित्र..."
 
-#: uml.cpp:534 uml.cpp:963
+#: uml.cpp:537 uml.cpp:966
 #, kde-format
 msgid "&Tree View"
 msgstr "ट्री दृश्य"
 
-#: uml.cpp:538
+#: uml.cpp:541
 #, kde-format
 msgid "&Debugging"
 msgstr ""
 
-#: uml.cpp:546
+#: uml.cpp:549
 #, kde-format
 msgid "&Logging"
 msgstr ""
 
-#: uml.cpp:550
+#: uml.cpp:553
 #, kde-format
 msgid "&Command history"
 msgstr ""
@@ -7797,139 +7797,139 @@ msgstr ""
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:554 uml.cpp:1020
+#: uml.cpp:557 uml.cpp:1023
 #, kde-format
 msgid "&Bird's eye view"
 msgstr ""
 
-#: uml.cpp:559
+#: uml.cpp:562
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "रेखाचित्र खाली गर्नुहोस्"
 
-#: uml.cpp:563
+#: uml.cpp:566
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "ग्रिडमा सटाउनुहोस्"
 
-#: uml.cpp:567
+#: uml.cpp:570
 #, kde-format
 msgid "S&how Grid"
 msgstr "ग्रिड देखाउनुहोस्"
 
-#: uml.cpp:572
+#: uml.cpp:575
 #, fuzzy, kde-format
 #| msgid "Delete Diagram"
 msgid "&Delete Diagram"
 msgstr "रेखाचित्र मेट्नुहोस्"
 
-#: uml.cpp:577
+#: uml.cpp:580
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "तस्वीरको रूपमा निर्यात गर्नुहोस्..."
 
-#: uml.cpp:582
+#: uml.cpp:585
 #, fuzzy, kde-format
 #| msgid "Export &All Diagrams as Pictures..."
 msgid "Export &Diagrams as Pictures..."
 msgstr "सबै रेखाचित्रहरू तस्वीरको रूपमा निर्यात गर्नुहोस्..."
 
-#: uml.cpp:602
+#: uml.cpp:605
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "१००% मा जुम गर्नुहोस्"
 
-#: uml.cpp:645
+#: uml.cpp:648
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "ट्याब बायाँ सार्नुहोस्"
 
-#: uml.cpp:646
+#: uml.cpp:649
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "ट्याब दायाँ सार्नुहोस्"
 
-#: uml.cpp:662
+#: uml.cpp:665
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr "रेखाचित्र बायाँपट्टी चयन गर्नुहोस्"
 
-#: uml.cpp:663
+#: uml.cpp:666
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr "रेखाचित्र दायाँपट्टी चयन गर्नुहोस्"
 
-#: uml.cpp:801
+#: uml.cpp:804
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:853
+#: uml.cpp:856
 #, fuzzy, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "तयार ।"
 
-#: uml.cpp:861 uml.cpp:874
+#: uml.cpp:864 uml.cpp:877
 #, fuzzy, kde-format
 #| msgid "&100%"
 msgid "100%"
 msgstr "१०० %"
 
-#: uml.cpp:866
+#: uml.cpp:869
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Fit"
 msgstr "फिल्टर"
 
-#: uml.cpp:917
+#: uml.cpp:920
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "रेखाचित्र उपकरणपट्टी"
 
-#: uml.cpp:974
+#: uml.cpp:977
 #, fuzzy, kde-format
 msgid "Doc&umentation"
 msgstr "मिसिलीकरण"
 
-#: uml.cpp:985
+#: uml.cpp:988
 #, kde-format
 msgid "Co&mmand history"
 msgstr ""
 
-#: uml.cpp:1001
+#: uml.cpp:1004
 #, kde-format
 msgid "&Debug"
 msgstr ""
 
-#: uml.cpp:1008
+#: uml.cpp:1011
 #, kde-format
 msgid "&Log"
 msgstr ""
 
-#: uml.cpp:1046 uml.cpp:1263 uml.cpp:1301
+#: uml.cpp:1049 uml.cpp:1266 uml.cpp:1304
 #, kde-format
 msgid "Opening file..."
 msgstr "फाइल खुल्दैछ..."
 
-#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:349 umldoc.cpp:372
-#: umldoc.cpp:3285
+#: uml.cpp:1100 uml.cpp:1171 uml.cpp:1335 umldoc.cpp:349 umldoc.cpp:372
+#: umldoc.cpp:3294
 #, kde-format
 msgid "Untitled"
 msgstr ""
 
-#: uml.cpp:1245
+#: uml.cpp:1248
 #, kde-format
 msgid "Creating new document..."
 msgstr "नयाँ कागजात सिर्जना गरिँदैछ..."
 
-#: uml.cpp:1270
+#: uml.cpp:1273
 #, kde-format
 msgid "Open File"
 msgstr "फाइल खोल्नुहोस्"
 
-#: uml.cpp:1271
+#: uml.cpp:1274
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi."
@@ -7955,22 +7955,22 @@ msgstr ""
 "*.xmi.tar.bz2|बीजिप२ सङ्कुचित एक्सएमएल फाइल (*.xmi.tar.bz2)\n"
 "*.mdl|रोज मोडेल फाइल"
 
-#: uml.cpp:1331
+#: uml.cpp:1334
 #, kde-format
 msgid "Saving file..."
 msgstr "फाइल बचत गर्दैछ..."
 
-#: uml.cpp:1348
+#: uml.cpp:1351
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "नयाँ फाइलनामसँग फाइल बचत गर्दैछ..."
 
-#: uml.cpp:1353 umlviewimageexporter.cpp:172
+#: uml.cpp:1356 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr ""
 
-#: uml.cpp:1354
+#: uml.cpp:1357
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -7986,7 +7986,7 @@ msgstr ""
 "*.xmi.tar.bz2|बीजिप२ सङ्कुचित एक्सएमआई फाइल\n"
 "*|सबै फाइलहरू"
 
-#: uml.cpp:1372
+#: uml.cpp:1375
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7995,68 +7995,68 @@ msgstr ""
 "फाइल %1 अवस्थित छ ।\n"
 "तपाईँ यसलाई अधिलेखन गर्न चाहनुहुन्छ ?"
 
-#: uml.cpp:1373
+#: uml.cpp:1376
 #, fuzzy, kde-format
 msgid "Warning"
 msgstr "स्ट्रिङ"
 
-#: uml.cpp:1373
+#: uml.cpp:1376
 #, kde-format
 msgid "Overwrite"
 msgstr "अधिलेखन गर्नुहोस्"
 
-#: uml.cpp:1399
+#: uml.cpp:1402
 #, kde-format
 msgid "Closing file..."
 msgstr "फाइल बन्द गर्दैछ..."
 
-#: uml.cpp:1410
+#: uml.cpp:1413
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: uml.cpp:1416
+#: uml.cpp:1419
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: uml.cpp:1472
+#: uml.cpp:1475
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "Print Preview..."
 msgstr "दृश्य निर्यात गर्दैछ..."
 
-#: uml.cpp:1499
+#: uml.cpp:1502
 #, kde-format
 msgid "Printing..."
 msgstr "मुद्रण हुँदैछ..."
 
-#: uml.cpp:1505
+#: uml.cpp:1508
 #, kde-format
 msgid "Print %1"
 msgstr "%1 मुद्रण गर्नुहोस्"
 
-#: uml.cpp:1524
+#: uml.cpp:1527
 #, kde-format
 msgid "Exiting..."
 msgstr "बाहिर निस्कदैछ..."
 
-#: uml.cpp:1595
+#: uml.cpp:1598
 #, kde-format
 msgid "Cutting selection..."
 msgstr "चयन काटिँदैछ..."
 
-#: uml.cpp:1618
+#: uml.cpp:1621
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "क्लिपबोर्डमा चयन प्रतिलिपि गरिँदैछ..."
 
-#: uml.cpp:1630
+#: uml.cpp:1633
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "क्लिपबोर्ड सामग्री घुसाइदैछ..."
 
-#: uml.cpp:1635
+#: uml.cpp:1638
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -8065,41 +8065,41 @@ msgstr ""
 "अम्ब्रेलोले क्लिपबोर्ड सामग्रीहरू टाँस्न सकेन । यहाँ टाँसिने क्लिपबोर्डमा भएको वस्तुहरू गलत "
 "प्रकारको हुन सक्छ ।"
 
-#: uml.cpp:1661 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: uml.cpp:1664 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, fuzzy, kde-format
 #| msgid "Ready."
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "तयार ।"
 
-#: uml.cpp:2278
+#: uml.cpp:2281
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "तपाईँले पहिले केही सिर्जना नगरेसम्म कोड हेर्न सकिँदैन ।"
 
-#: uml.cpp:2278 uml.cpp:2281
+#: uml.cpp:2281 uml.cpp:2284
 #, kde-format
 msgid "Cannot View Code"
 msgstr "कोड हेर्न सकिँदैन"
 
-#: uml.cpp:2281
+#: uml.cpp:2284
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "साधरण कोड राइटरबाट कोड हेर्न सकिँदैन ।"
 
-#: uml.cpp:2767
+#: uml.cpp:2770
 #, fuzzy, kde-format
 #| msgid "Select Code to Import"
 msgid "Select file(s) to import:"
 msgstr "आयात गर्न कोड चयन गर्नुहोस्"
 
-#: uml.cpp:2796
+#: uml.cpp:2799
 #, fuzzy, kde-format
 #| msgid "Select Code to Import"
 msgid "Select directory to import:"
 msgstr "आयात गर्न कोड चयन गर्नुहोस्"
 
-#: uml.cpp:3320
+#: uml.cpp:3334
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""
@@ -8120,7 +8120,7 @@ msgstr "स्टेरियो प्रकार"
 msgid "Welcome"
 msgstr ""
 
-#: umldoc.cpp:92 umldoc.cpp:2232 umldoc.cpp:2260 umldoc.cpp:2343
+#: umldoc.cpp:92 umldoc.cpp:2241 umldoc.cpp:2269 umldoc.cpp:2352
 #, kde-format
 msgid "UML Model"
 msgstr "यूएमएल नमूना"
@@ -8170,158 +8170,158 @@ msgctxt "warning message"
 msgid "Warning"
 msgstr "स्ट्रिङ"
 
-#: umldoc.cpp:535
+#: umldoc.cpp:544
 #, fuzzy, kde-format
 #| msgid "The file %1 does not exist."
 msgid "The file <%1> does not exist."
 msgstr "फाइल %1 अवस्थित छैन ।"
 
-#: umldoc.cpp:535 umldoc.cpp:556 umldoc.cpp:595 umldoc.cpp:607 umldoc.cpp:621
-#: umldoc.cpp:634 umldoc.cpp:646 umldoc.cpp:684 umlmodel/folder.cpp:451
+#: umldoc.cpp:544 umldoc.cpp:565 umldoc.cpp:604 umldoc.cpp:616 umldoc.cpp:630
+#: umldoc.cpp:643 umldoc.cpp:655 umldoc.cpp:693 umlmodel/folder.cpp:451
 #: umlmodel/folder.cpp:455
 #, kde-format
 msgid "Load Error"
 msgstr "त्रुटि लोड गर्नुहोस्"
 
-#: umldoc.cpp:556
+#: umldoc.cpp:565
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "फाइल %1 दूषित देखिन्छ ।"
 
-#: umldoc.cpp:594 umldoc.cpp:606 umldoc.cpp:633
+#: umldoc.cpp:603 umldoc.cpp:615 umldoc.cpp:642
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "त्यहाँ सङ्कुचन गरिएको फाइल %1 मा एकसएमएल फाइल फेला परेन ।"
 
-#: umldoc.cpp:620
+#: umldoc.cpp:629
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "त्यहाँ झिकिएको फाइल लोड गर्दा समस्या भयो: %1"
 
-#: umldoc.cpp:645 umldoc.cpp:681
+#: umldoc.cpp:654 umldoc.cpp:690
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "त्यहाँ फाइल लोड गर्दा समस्या भयो: %1"
 
-#: umldoc.cpp:683
+#: umldoc.cpp:692
 #, kde-format
 msgid "Reason: %1"
 msgstr ""
 
-#: umldoc.cpp:753 umldoc.cpp:764 umldoc.cpp:782 umldoc.cpp:823 umldoc.cpp:850
+#: umldoc.cpp:762 umldoc.cpp:773 umldoc.cpp:791 umldoc.cpp:832 umldoc.cpp:859
 #, fuzzy, kde-format
 #| msgid "There was a problem saving file: %1"
 msgid "There was a problem saving: %1"
 msgstr "त्यहाँ फाइल बचत गर्दा समस्या थियो: %1"
 
-#: umldoc.cpp:753 umldoc.cpp:764 umldoc.cpp:782 umldoc.cpp:823 umldoc.cpp:850
-#: umldoc.cpp:857 umllistview.cpp:569
+#: umldoc.cpp:762 umldoc.cpp:773 umldoc.cpp:791 umldoc.cpp:832 umldoc.cpp:859
+#: umldoc.cpp:866 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
 msgstr "त्रुटि बचत गर्नुहोस्"
 
-#: umldoc.cpp:857
+#: umldoc.cpp:866
 #, fuzzy, kde-format
 #| msgid "There was a problem uploading file: %1"
 msgid "There was a problem uploading: %1"
 msgstr "त्यहाँ फाइल अपलोड गर्दा समस्या भयो: %1"
 
-#: umldoc.cpp:1408
+#: umldoc.cpp:1417
 #, kde-format
 msgid "use case diagram"
 msgstr "केस रेखाचित्र प्रयोग गर्नुहोस्"
 
-#: umldoc.cpp:1411
+#: umldoc.cpp:1420
 #, kde-format
 msgid "class diagram"
 msgstr "वर्ग रेखाचित्र"
 
-#: umldoc.cpp:1414
+#: umldoc.cpp:1423
 #, kde-format
 msgid "sequence diagram"
 msgstr "अनुक्रम रेखाचित्र"
 
-#: umldoc.cpp:1417
+#: umldoc.cpp:1426
 #, fuzzy, kde-format
 #| msgid "collaboration diagram"
 msgid "communication diagram"
 msgstr "सहकार्य रेखाचित्र"
 
-#: umldoc.cpp:1420
+#: umldoc.cpp:1429
 #, fuzzy, kde-format
 #| msgid "&Select diagrams"
 msgid "object diagram"
 msgstr "रेखाचित्र चयन गर्नुहोस्"
 
-#: umldoc.cpp:1423
+#: umldoc.cpp:1432
 #, kde-format
 msgid "state diagram"
 msgstr "स्थिति रेखाचित्र"
 
-#: umldoc.cpp:1426
+#: umldoc.cpp:1435
 #, kde-format
 msgid "activity diagram"
 msgstr "क्रियाकलाप रेखाचित्र"
 
-#: umldoc.cpp:1429
+#: umldoc.cpp:1438
 #, kde-format
 msgid "component diagram"
 msgstr "अवयव रेखाचित्र"
 
-#: umldoc.cpp:1432
+#: umldoc.cpp:1441
 #, kde-format
 msgid "deployment diagram"
 msgstr "परिनियोजन रेखाचित्र"
 
-#: umldoc.cpp:1435
+#: umldoc.cpp:1444
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "अस्तित्व सम्बन्ध रेखाचित्र"
 
-#: umldoc.cpp:1505
+#: umldoc.cpp:1514
 #, fuzzy, kde-format
 #| msgid "Name"
 msgctxt "diagram name"
 msgid "Name"
 msgstr "नाम"
 
-#: umldoc.cpp:1505 umldoc.cpp:1567 umldoc.cpp:1596 umldoc.cpp:1631
+#: umldoc.cpp:1514 umldoc.cpp:1576 umldoc.cpp:1605 umldoc.cpp:1640
 #, kde-format
 msgid "Enter name:"
 msgstr "नाम प्रविष्ट गर्नुहोस्:"
 
-#: umldoc.cpp:1509 umldoc.cpp:1573
+#: umldoc.cpp:1518 umldoc.cpp:1582
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "त्यो रेखाचित्रका लागि एउटा अवैध नाम हो ।"
 
-#: umldoc.cpp:1511 umldoc.cpp:1580
+#: umldoc.cpp:1520 umldoc.cpp:1589
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "रेखाचित्रले पहिल्यै त्यो नाम प्रयोग गरिरहेको छ ।"
 
-#: umldoc.cpp:1566
+#: umldoc.cpp:1575
 #, fuzzy, kde-format
 #| msgid "Name"
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "नाम"
 
-#: umldoc.cpp:1595
+#: umldoc.cpp:1604
 #, fuzzy, kde-format
 #| msgid "Name"
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "नाम"
 
-#: umldoc.cpp:1630
+#: umldoc.cpp:1639
 #, fuzzy, kde-format
 #| msgid "Name"
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "नाम"
 
-#: umldoc.cpp:1640
+#: umldoc.cpp:1649
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
@@ -8330,42 +8330,42 @@ msgstr ""
 "तपाईँले प्रविष्ट गर्नुभएको नाम अद्वितिय छैन ।\n"
 "के यो तपाईँले चाहेको जस्तो छ ?"
 
-#: umldoc.cpp:1641
+#: umldoc.cpp:1650
 #, kde-format
 msgid "Use Name"
 msgstr "नाम प्रयोग गर्नुहोस्"
 
-#: umldoc.cpp:1641
+#: umldoc.cpp:1650
 #, kde-format
 msgid "Enter New Name"
 msgstr "नयाँ नाम प्रविष्ट गर्नुहोस्"
 
-#: umldoc.cpp:2190
+#: umldoc.cpp:2199
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2354
+#: umldoc.cpp:2363
 #, kde-format
 msgid "Setting up the document..."
 msgstr "कागजात सेटिङ गर्दैछ..."
 
-#: umldoc.cpp:2383
+#: umldoc.cpp:2392
 #, kde-format
 msgid "Resolving object references..."
 msgstr "वस्तु सन्दर्भहरू विभाजित गर्दैछ... "
 
-#: umldoc.cpp:2491
+#: umldoc.cpp:2500
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "यूएमएल तत्वहरू लोड हुँदैछ..."
 
-#: umldoc.cpp:2753
+#: umldoc.cpp:2762
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "रेखाचित्र लोड हुँदैछ..."
 
-#: umldoc.cpp:3287
+#: umldoc.cpp:3296
 #, kde-format
 msgid "/autosave%1"
 msgstr "/autosave%1"
