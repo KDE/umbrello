@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-15 02:18+0000\n"
+"POT-Creation-Date: 2025-08-16 02:03+0000\n"
 "PO-Revision-Date: 2023-06-02 20:37+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -218,7 +218,7 @@ msgstr ""
 "Ainakin yksi kohde on jäänyt tuomatta leikepöydältä, koska samanniminen "
 "kohde on jo olemassa. Kaikki muut on lisätty."
 
-#: clipboard/umlclipboard.cpp:757 uml.cpp:1637
+#: clipboard/umlclipboard.cpp:757 uml.cpp:1640
 #, kde-format
 msgid "Paste Error"
 msgstr "Liittämisvirhe"
@@ -2620,7 +2620,7 @@ msgid "N&ew Instance Attribute..."
 msgstr "&Uusi attribuutti…"
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
-#: uml.cpp:587
+#: uml.cpp:590
 #, kde-format
 msgid "&Properties"
 msgstr "&Ominaisuudet"
@@ -2638,7 +2638,7 @@ msgid "Source Code"
 msgstr "Lähdekoodi"
 
 #: dialogs/pages/classoptionspage.cpp:152
-#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:542
+#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:545
 #, kde-format
 msgid "&Documentation"
 msgstr "&Dokumentaatio"
@@ -2829,7 +2829,7 @@ msgid "The name you have entered is invalid."
 msgstr "Antamasi nimi on virheellinen."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
-#: umldoc.cpp:1531 umldoc.cpp:1595 umldoc.cpp:1624 umldoc.cpp:1659
+#: umldoc.cpp:1540 umldoc.cpp:1604 umldoc.cpp:1633 umldoc.cpp:1668
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:180
@@ -2842,7 +2842,7 @@ msgstr "Virheellinen nimi"
 msgid "The name you have entered is not unique."
 msgstr "Antamasi nimi on jo käytössä."
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1663
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1672
 #, kde-format
 msgid "Name Not Unique"
 msgstr "Nimi ei ole ainutkertainen."
@@ -4612,7 +4612,7 @@ msgstr "Näytä erillisinä"
 msgid "Import File(s)..."
 msgstr "Tuo tiedostoja…"
 
-#: menus/listpopupmenu.cpp:198 uml.cpp:384
+#: menus/listpopupmenu.cpp:198 uml.cpp:387
 #, kde-format
 msgid "Import from Directory..."
 msgstr "Tuo kansiosta…"
@@ -5117,42 +5117,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "Asettelu"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:606
+#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:609
 #, kde-format
 msgid "Align Right"
 msgstr "Asettelu oikealle"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:611
+#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:614
 #, kde-format
 msgid "Align Left"
 msgstr "Asettelu vasemmalle"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:616
+#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:619
 #, kde-format
 msgid "Align Top"
 msgstr "Asettelu ylös"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:621
+#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:624
 #, kde-format
 msgid "Align Bottom"
 msgstr "Asettelu alas"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:626
+#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:629
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr "Asettelu pystysuunnassa keskelle"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:631
+#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:634
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr "Asettelu vaakasuunnassa keskelle"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:636
+#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:639
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr "Asettelu pystysuunnassa levittäen"
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:641
+#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:644
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr "Asettelu vaakatasossa levittäen"
@@ -6046,7 +6046,7 @@ msgstr "Osoitin"
 msgid "Usage"
 msgstr "Käyttö"
 
-#: object_factory.cpp:254 umldoc.cpp:1624 umldoc.cpp:1659
+#: object_factory.cpp:254 umldoc.cpp:1633 umldoc.cpp:1668
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:179
@@ -6065,7 +6065,7 @@ msgstr "Tämä on koodigeneraattorin varattu sana."
 msgid "Reserved Keyword"
 msgstr "Varattu sana"
 
-#: object_factory.cpp:267 umldoc.cpp:1630 umldoc.cpp:1668
+#: object_factory.cpp:267 umldoc.cpp:1639 umldoc.cpp:1677
 #: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
@@ -6073,8 +6073,8 @@ msgstr "Varattu sana"
 msgid "That name is already being used."
 msgstr "Tämä nimi on jo käytössä."
 
-#: object_factory.cpp:268 umldoc.cpp:1533 umldoc.cpp:1602 umldoc.cpp:1630
-#: umldoc.cpp:1668 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
+#: object_factory.cpp:268 umldoc.cpp:1542 umldoc.cpp:1611 umldoc.cpp:1639
+#: umldoc.cpp:1677 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
@@ -7316,199 +7316,199 @@ msgstr "&Aktiivinen kieli"
 msgid "&Settings"
 msgstr "&Asetukset"
 
-#: uml.cpp:360
+#: uml.cpp:363
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr "Vi&e malli DocBookiksi"
 
-#: uml.cpp:364
+#: uml.cpp:367
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr "Vi&e malli XHTML:ksi"
 
-#: uml.cpp:368
+#: uml.cpp:371
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "Opastettu luoka&nluonti…"
 
-#: uml.cpp:372
+#: uml.cpp:375
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "Lisää oletustietotyypit &aktiiviselle kielelle"
 
-#: uml.cpp:379
+#: uml.cpp:382
 #, kde-format
 msgid "Code &Importing Wizard..."
 msgstr "Opastettu koodin&tuonti…"
 
-#: uml.cpp:389
+#: uml.cpp:392
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "Opastettu koodin&luonti…"
 
-#: uml.cpp:394
+#: uml.cpp:397
 #, kde-format
 msgid "&Generate All Code"
 msgstr "&Luo kaikki koodi"
 
-#: uml.cpp:441
+#: uml.cpp:444
 #, kde-format
 msgid "Creates a new document"
 msgstr "Luo uusi tiedosto"
 
-#: uml.cpp:442
+#: uml.cpp:445
 #, kde-format
 msgid "Opens an existing document"
 msgstr "Avaa olemassa olevan tiedoston"
 
-#: uml.cpp:443
+#: uml.cpp:446
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "Avaa viimeksi käytettyjä tiedostoja"
 
-#: uml.cpp:444
+#: uml.cpp:447
 #, kde-format
 msgid "Saves the document"
 msgstr "Tallentaa tiedoston"
 
-#: uml.cpp:445
+#: uml.cpp:448
 #, kde-format
 msgid "Saves the document as..."
 msgstr "Tallenna tiedosto nimellä…"
 
-#: uml.cpp:446
+#: uml.cpp:449
 #, kde-format
 msgid "Closes the document"
 msgstr "Sulkee tiedoston"
 
-#: uml.cpp:447
+#: uml.cpp:450
 #, kde-format
 msgid "Prints out the document"
 msgstr "Tulostaa tiedoston"
 
-#: uml.cpp:448
+#: uml.cpp:451
 #, kde-format
 msgid "Print Preview of the document"
 msgstr "Mallinnuksen tulostuksen esikatselu"
 
-#: uml.cpp:449
+#: uml.cpp:452
 #, kde-format
 msgid "Quits the application"
 msgstr "Lopettaa ohjelman"
 
-#: uml.cpp:450
+#: uml.cpp:453
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr "Vie mallin docbook-muotoon"
 
-#: uml.cpp:451
+#: uml.cpp:454
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr "Vie mallin XHTML-muotoon"
 
-#: uml.cpp:452
+#: uml.cpp:455
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "Leikkaa valitun alueen ja vie sen leikepöydälle"
 
-#: uml.cpp:453
+#: uml.cpp:456
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "Kopioi valitun alueen leikepöydälle"
 
-#: uml.cpp:454
+#: uml.cpp:457
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr "Lisää leikepöydän sisällön"
 
-#: uml.cpp:455
+#: uml.cpp:458
 #, kde-format
 msgid "Undo last action"
 msgstr "Kumoa viimeisin toiminto"
 
-#: uml.cpp:456
+#: uml.cpp:459
 #, kde-format
 msgid "Redo last undone action"
 msgstr "Tee viimeisin kumottu toiminto uudelleen"
 
-#: uml.cpp:458
+#: uml.cpp:461
 #, kde-format
 msgid "Set the default program preferences"
 msgstr "Aseta oletusohjelman asetukset"
 
-#: uml.cpp:462
+#: uml.cpp:465
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "Poista valittu"
 
-#: uml.cpp:473
+#: uml.cpp:476
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "&Luokkakaavio…"
 
-#: uml.cpp:480
+#: uml.cpp:483
 #, fuzzy, kde-format
 #| msgid "S&tate Diagram..."
 msgid "&Object Diagram..."
 msgstr "&Tilakaavio…"
 
-#: uml.cpp:487
+#: uml.cpp:490
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "&Sekvenssikaavio…"
 
-#: uml.cpp:493
+#: uml.cpp:496
 #, kde-format
 msgid "C&ommunication Diagram..."
 msgstr "Kommunikointikaavi&o…"
 
-#: uml.cpp:499
+#: uml.cpp:502
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr "&Käyttötapauskaavio…"
 
-#: uml.cpp:505
+#: uml.cpp:508
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "&Tilakaavio…"
 
-#: uml.cpp:511
+#: uml.cpp:514
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "&Aktiviteettikaavio…"
 
-#: uml.cpp:517
+#: uml.cpp:520
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "Ko&mponenttikaavio…"
 
-#: uml.cpp:523
+#: uml.cpp:526
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr "Si&joittelukaavio…"
 
-#: uml.cpp:529
+#: uml.cpp:532
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "&Käsitekaavio…"
 
-#: uml.cpp:534 uml.cpp:963
+#: uml.cpp:537 uml.cpp:966
 #, kde-format
 msgid "&Tree View"
 msgstr "Puunä&kymä"
 
-#: uml.cpp:538
+#: uml.cpp:541
 #, kde-format
 msgid "&Debugging"
 msgstr "&Virheenpaikannus"
 
-#: uml.cpp:546
+#: uml.cpp:549
 #, kde-format
 msgid "&Logging"
 msgstr "&Lokitus"
 
-#: uml.cpp:550
+#: uml.cpp:553
 #, kde-format
 msgid "&Command history"
 msgstr "&Komentohistoria"
@@ -7517,135 +7517,135 @@ msgstr "&Komentohistoria"
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:554 uml.cpp:1020
+#: uml.cpp:557 uml.cpp:1023
 #, kde-format
 msgid "&Bird's eye view"
 msgstr "&Yleiskuva"
 
-#: uml.cpp:559
+#: uml.cpp:562
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "Tyhjennä kaavio"
 
-#: uml.cpp:563
+#: uml.cpp:566
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "A&seta ruudukkoon"
 
-#: uml.cpp:567
+#: uml.cpp:570
 #, kde-format
 msgid "S&how Grid"
 msgstr "Näytä &ruudukko"
 
-#: uml.cpp:572
+#: uml.cpp:575
 #, kde-format
 msgid "&Delete Diagram"
 msgstr "&Poista kaavio"
 
-#: uml.cpp:577
+#: uml.cpp:580
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "Vi&e kuvana…"
 
-#: uml.cpp:582
+#: uml.cpp:585
 #, kde-format
 msgid "Export &Diagrams as Pictures..."
 msgstr "Vie k&aaviot kuvana…"
 
-#: uml.cpp:602
+#: uml.cpp:605
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "S&uurennus → 100 %"
 
-#: uml.cpp:645
+#: uml.cpp:648
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "Siirry vase&mpaan välilehteen"
 
-#: uml.cpp:646
+#: uml.cpp:649
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "Siirry &oikeaan välilehteen"
 
-#: uml.cpp:662
+#: uml.cpp:665
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr "Valitse vasen kaavio"
 
-#: uml.cpp:663
+#: uml.cpp:666
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr "Valitse oikea kaavio"
 
-#: uml.cpp:801
+#: uml.cpp:804
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr " &%1 %"
 
-#: uml.cpp:853
+#: uml.cpp:856
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Valmis"
 
-#: uml.cpp:861 uml.cpp:874
+#: uml.cpp:864 uml.cpp:877
 #, kde-format
 msgid "100%"
 msgstr "100 %"
 
-#: uml.cpp:866
+#: uml.cpp:869
 #, kde-format
 msgid "Fit"
 msgstr "Sovita"
 
-#: uml.cpp:917
+#: uml.cpp:920
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "Kaaviotyökalurivi"
 
-#: uml.cpp:974
+#: uml.cpp:977
 #, kde-format
 msgid "Doc&umentation"
 msgstr "Dok&umentaatio"
 
-#: uml.cpp:985
+#: uml.cpp:988
 #, kde-format
 msgid "Co&mmand history"
 msgstr "K&omentohistoria"
 
-#: uml.cpp:1001
+#: uml.cpp:1004
 #, kde-format
 msgid "&Debug"
 msgstr "&Virheenpaikannus"
 
-#: uml.cpp:1008
+#: uml.cpp:1011
 #, kde-format
 msgid "&Log"
 msgstr "&Loki"
 
-#: uml.cpp:1046 uml.cpp:1263 uml.cpp:1301
+#: uml.cpp:1049 uml.cpp:1266 uml.cpp:1304
 #, kde-format
 msgid "Opening file..."
 msgstr "Avaa tiedostoa…"
 
-#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:351 umldoc.cpp:374
-#: umldoc.cpp:3308
+#: uml.cpp:1100 uml.cpp:1171 uml.cpp:1335 umldoc.cpp:351 umldoc.cpp:374
+#: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "Nimetön"
 
-#: uml.cpp:1245
+#: uml.cpp:1248
 #, kde-format
 msgid "Creating new document..."
 msgstr "Luo uutta tiedostoa…"
 
-#: uml.cpp:1270
+#: uml.cpp:1273
 #, kde-format
 msgid "Open File"
 msgstr "Avaa tiedoston"
 
-#: uml.cpp:1271
+#: uml.cpp:1274
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *."
@@ -7673,22 +7673,22 @@ msgstr ""
 "*.mdl|Rose-mallin tiedostot (*.mdl)\n"
 "*.zargo|Pakatut argo-tiedostot (*.zargo)\n"
 
-#: uml.cpp:1331
+#: uml.cpp:1334
 #, kde-format
 msgid "Saving file..."
 msgstr "Tallentaa tiedostoa…"
 
-#: uml.cpp:1348
+#: uml.cpp:1351
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Tallentaa tiedoston uudella nimellä…"
 
-#: uml.cpp:1353 umlviewimageexporter.cpp:172
+#: uml.cpp:1356 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Tallenna nimellä"
 
-#: uml.cpp:1354
+#: uml.cpp:1357
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7698,7 +7698,7 @@ msgstr ""
 "tgz);;*.xmi.tar.bz2 | Bzip2-pakattu XMI-tiedosto (*.xmi.tar.bz2);;* | Kaikki "
 "tiedostot (*)"
 
-#: uml.cpp:1372
+#: uml.cpp:1375
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7707,67 +7707,67 @@ msgstr ""
 "Tiedosto %1 on jo olemassa.\n"
 "Haluatko korvata sen?"
 
-#: uml.cpp:1373
+#: uml.cpp:1376
 #, kde-format
 msgid "Warning"
 msgstr "Varoitus"
 
-#: uml.cpp:1373
+#: uml.cpp:1376
 #, kde-format
 msgid "Overwrite"
 msgstr "Korvaa"
 
-#: uml.cpp:1399
+#: uml.cpp:1402
 #, kde-format
 msgid "Closing file..."
 msgstr "Sulkee tiedostoa…"
 
-#: uml.cpp:1410
+#: uml.cpp:1413
 #, kde-format
 msgid "No search term entered"
 msgstr "Hakusanaa ei annettu"
 
-#: uml.cpp:1416
+#: uml.cpp:1419
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "”%1”: %2 tulos"
 
-#: uml.cpp:1472
+#: uml.cpp:1475
 #, kde-format
 msgid "Print Preview..."
 msgstr "Tulostuksen esikatselu…"
 
-#: uml.cpp:1499
+#: uml.cpp:1502
 #, kde-format
 msgid "Printing..."
 msgstr "Tulostaa…"
 
-#: uml.cpp:1505
+#: uml.cpp:1508
 #, kde-format
 msgid "Print %1"
 msgstr "Tulosta %1"
 
-#: uml.cpp:1524
+#: uml.cpp:1527
 #, kde-format
 msgid "Exiting..."
 msgstr "Lopettaa…"
 
-#: uml.cpp:1595
+#: uml.cpp:1598
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Leikkaa valittua aluetta…"
 
-#: uml.cpp:1618
+#: uml.cpp:1621
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Kopioi valittua aluetta leikepöydälle…"
 
-#: uml.cpp:1630
+#: uml.cpp:1633
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Liittää työpöydän sisältöä…"
 
-#: uml.cpp:1635
+#: uml.cpp:1638
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7776,39 +7776,39 @@ msgstr ""
 "Umbrello ei pystynyt liittämään leikepöydän sisältöä. Leikepöydän oliot ovat "
 "epäsopivan tyyppisiä tähän."
 
-#: uml.cpp:1661 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: uml.cpp:1664 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Valmis."
 
-#: uml.cpp:2278
+#: uml.cpp:2281
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr ""
 "Koodia ei voi näyttää ennen kuin olet luonut (generoinut) jotain koodia."
 
-#: uml.cpp:2278 uml.cpp:2281
+#: uml.cpp:2281 uml.cpp:2284
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Ei pysty näyttämään koodia"
 
-#: uml.cpp:2281
+#: uml.cpp:2284
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Ei voi näyttää koodia yksinkertaisessa editorissa,"
 
-#: uml.cpp:2767
+#: uml.cpp:2770
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Valitse tuotavat tiedostot:"
 
-#: uml.cpp:2796
+#: uml.cpp:2799
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Valitse tuotava kansio:"
 
-#: uml.cpp:3320
+#: uml.cpp:3334
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML:n luonti epäonnistui."
@@ -7828,7 +7828,7 @@ msgstr "&Stereotyypit"
 msgid "Welcome"
 msgstr "Tervetuloa"
 
-#: umldoc.cpp:94 umldoc.cpp:2255 umldoc.cpp:2283 umldoc.cpp:2366
+#: umldoc.cpp:94 umldoc.cpp:2264 umldoc.cpp:2292 umldoc.cpp:2375
 #, kde-format
 msgid "UML Model"
 msgstr "Umbrello UML-mallinnus"
@@ -7878,150 +7878,150 @@ msgctxt "warning message"
 msgid "Warning"
 msgstr "Varoitus"
 
-#: umldoc.cpp:541
+#: umldoc.cpp:550
 #, kde-format
 msgid "The file <%1> does not exist."
 msgstr "Tiedostoa <%1> ei löytynyt."
 
-#: umldoc.cpp:541 umldoc.cpp:562 umldoc.cpp:601 umldoc.cpp:613 umldoc.cpp:627
-#: umldoc.cpp:640 umldoc.cpp:652 umldoc.cpp:690 umlmodel/folder.cpp:450
+#: umldoc.cpp:550 umldoc.cpp:571 umldoc.cpp:610 umldoc.cpp:622 umldoc.cpp:636
+#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/folder.cpp:450
 #: umlmodel/folder.cpp:454
 #, kde-format
 msgid "Load Error"
 msgstr "Tiedostonlukuvirhe"
 
-#: umldoc.cpp:562
+#: umldoc.cpp:571
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "Tiedosto %1 näyttää vioittuneelta."
 
-#: umldoc.cpp:600 umldoc.cpp:612 umldoc.cpp:639
+#: umldoc.cpp:609 umldoc.cpp:621 umldoc.cpp:648
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "Pakatussa tiedostossa %1 ei ollut XMI-tiedostoa."
 
-#: umldoc.cpp:626
+#: umldoc.cpp:635
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "Paketista avatun tiedoston %1 lukemisessa tapahtui virhe"
 
-#: umldoc.cpp:651 umldoc.cpp:687
+#: umldoc.cpp:660 umldoc.cpp:696
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "Tiedoston %1 lukemisessa tapahtui virhe"
 
-#: umldoc.cpp:689
+#: umldoc.cpp:698
 #, kde-format
 msgid "Reason: %1"
 msgstr "Syy: %1"
 
-#: umldoc.cpp:759 umldoc.cpp:770 umldoc.cpp:788 umldoc.cpp:833 umldoc.cpp:872
+#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
 #, kde-format
 msgid "There was a problem saving: %1"
 msgstr "Tiedoston %1 tallentamisessa tapahtui virhe"
 
-#: umldoc.cpp:759 umldoc.cpp:770 umldoc.cpp:788 umldoc.cpp:833 umldoc.cpp:872
-#: umldoc.cpp:879 umllistview.cpp:569
+#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
+#: umldoc.cpp:888 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
 msgstr "Tallennusvirhe"
 
-#: umldoc.cpp:879
+#: umldoc.cpp:888
 #, kde-format
 msgid "There was a problem uploading: %1"
 msgstr "Tiedoston %1 lähettämisessä tapahtui virhe"
 
-#: umldoc.cpp:1430
+#: umldoc.cpp:1439
 #, kde-format
 msgid "use case diagram"
 msgstr "käyttötapauskaavio"
 
-#: umldoc.cpp:1433
+#: umldoc.cpp:1442
 #, kde-format
 msgid "class diagram"
 msgstr "luokkakaavio"
 
-#: umldoc.cpp:1436
+#: umldoc.cpp:1445
 #, kde-format
 msgid "sequence diagram"
 msgstr "sekvenssikaavio"
 
-#: umldoc.cpp:1439
+#: umldoc.cpp:1448
 #, kde-format
 msgid "communication diagram"
 msgstr "kommunikointikaavio"
 
-#: umldoc.cpp:1442
+#: umldoc.cpp:1451
 #, fuzzy, kde-format
 #| msgid "&Select diagrams"
 msgid "object diagram"
 msgstr "Valit&se kaaviot"
 
-#: umldoc.cpp:1445
+#: umldoc.cpp:1454
 #, kde-format
 msgid "state diagram"
 msgstr "tilakaavio"
 
-#: umldoc.cpp:1448
+#: umldoc.cpp:1457
 #, kde-format
 msgid "activity diagram"
 msgstr "aktiviteettikaavio"
 
-#: umldoc.cpp:1451
+#: umldoc.cpp:1460
 #, kde-format
 msgid "component diagram"
 msgstr "komponenttikaavio"
 
-#: umldoc.cpp:1454
+#: umldoc.cpp:1463
 #, kde-format
 msgid "deployment diagram"
 msgstr "sijoittelukaavio"
 
-#: umldoc.cpp:1457
+#: umldoc.cpp:1466
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "käsitekaavio"
 
-#: umldoc.cpp:1527
+#: umldoc.cpp:1536
 #, kde-format
 msgctxt "diagram name"
 msgid "Name"
 msgstr "Nimi"
 
-#: umldoc.cpp:1527 umldoc.cpp:1589 umldoc.cpp:1618 umldoc.cpp:1653
+#: umldoc.cpp:1536 umldoc.cpp:1598 umldoc.cpp:1627 umldoc.cpp:1662
 #, kde-format
 msgid "Enter name:"
 msgstr "Anna nimi:"
 
-#: umldoc.cpp:1531 umldoc.cpp:1595
+#: umldoc.cpp:1540 umldoc.cpp:1604
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "Tämä on virheellinen nimi kaaviolle."
 
-#: umldoc.cpp:1533 umldoc.cpp:1602
+#: umldoc.cpp:1542 umldoc.cpp:1611
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "Kaavio käyttää jo tätä nimeä."
 
-#: umldoc.cpp:1588
+#: umldoc.cpp:1597
 #, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "Nimi"
 
-#: umldoc.cpp:1617
+#: umldoc.cpp:1626
 #, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "Nimi"
 
-#: umldoc.cpp:1652
+#: umldoc.cpp:1661
 #, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "Nimi"
 
-#: umldoc.cpp:1662
+#: umldoc.cpp:1671
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
@@ -8030,42 +8030,42 @@ msgstr ""
 "Antamasi nimi ei ole yksilöllinen.\n"
 "Tarkoititko tätä?"
 
-#: umldoc.cpp:1663
+#: umldoc.cpp:1672
 #, kde-format
 msgid "Use Name"
 msgstr "Käyttönimi"
 
-#: umldoc.cpp:1663
+#: umldoc.cpp:1672
 #, kde-format
 msgid "Enter New Name"
 msgstr "Anna uusi nimi"
 
-#: umldoc.cpp:2213
+#: umldoc.cpp:2222
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2377
+#: umldoc.cpp:2386
 #, kde-format
 msgid "Setting up the document..."
 msgstr "Alustaa tiedostoa…"
 
-#: umldoc.cpp:2406
+#: umldoc.cpp:2415
 #, kde-format
 msgid "Resolving object references..."
 msgstr "Selvitetään olion viitteitä…"
 
-#: umldoc.cpp:2514
+#: umldoc.cpp:2523
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "Lataa UML-elementtejä…"
 
-#: umldoc.cpp:2776
+#: umldoc.cpp:2785
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "Lataa diagrammeja…"
 
-#: umldoc.cpp:3310
+#: umldoc.cpp:3319
 #, kde-format
 msgid "/autosave%1"
 msgstr "/automaattitallennus%1"

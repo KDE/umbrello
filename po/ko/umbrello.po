@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-15 02:18+0000\n"
+"POT-Creation-Date: 2025-08-16 02:03+0000\n"
 "PO-Revision-Date: 2021-05-26 00:37+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -207,7 +207,7 @@ msgstr ""
 "이름이 같은 항목이 있기 때문에 클립보드에 있는 항목 중 일부를 붙여넣을 수 없"
 "습니다. 이름이 다른 항목은 붙여넣었습니다."
 
-#: clipboard/umlclipboard.cpp:757 uml.cpp:1637
+#: clipboard/umlclipboard.cpp:757 uml.cpp:1640
 #, kde-format
 msgid "Paste Error"
 msgstr "오류 붙이기"
@@ -2571,7 +2571,7 @@ msgid "N&ew Instance Attribute..."
 msgstr "새 속성(&E)..."
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
-#: uml.cpp:587
+#: uml.cpp:590
 #, kde-format
 msgid "&Properties"
 msgstr "속성(&P)"
@@ -2589,7 +2589,7 @@ msgid "Source Code"
 msgstr ""
 
 #: dialogs/pages/classoptionspage.cpp:152
-#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:542
+#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:545
 #, kde-format
 msgid "&Documentation"
 msgstr "문서(&D)"
@@ -2781,7 +2781,7 @@ msgid "The name you have entered is invalid."
 msgstr "입력한 이름이 유효하지 않습니다."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
-#: umldoc.cpp:1531 umldoc.cpp:1595 umldoc.cpp:1624 umldoc.cpp:1659
+#: umldoc.cpp:1540 umldoc.cpp:1604 umldoc.cpp:1633 umldoc.cpp:1668
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:180
@@ -2794,7 +2794,7 @@ msgstr "유효하지 않은 이름"
 msgid "The name you have entered is not unique."
 msgstr "입력한 이름이 고유한 이름이 아닙니다."
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1663
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1672
 #, kde-format
 msgid "Name Not Unique"
 msgstr "이름이 고유하지 않습니다"
@@ -4561,7 +4561,7 @@ msgstr "파괴자 보기"
 msgid "Import File(s)..."
 msgstr ""
 
-#: menus/listpopupmenu.cpp:198 uml.cpp:384
+#: menus/listpopupmenu.cpp:198 uml.cpp:387
 #, kde-format
 msgid "Import from Directory..."
 msgstr ""
@@ -5077,42 +5077,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:606
+#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:609
 #, kde-format
 msgid "Align Right"
 msgstr "오른쪽으로 정렬"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:611
+#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:614
 #, kde-format
 msgid "Align Left"
 msgstr "왼쪽으로 정렬"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:616
+#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:619
 #, kde-format
 msgid "Align Top"
 msgstr "위로 정렬"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:621
+#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:624
 #, kde-format
 msgid "Align Bottom"
 msgstr "아래로 정렬"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:626
+#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:629
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr "수직 중앙에 정렬"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:631
+#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:634
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr "수평 중앙에 정렬"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:636
+#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:639
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:641
+#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:644
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr ""
@@ -6034,7 +6034,7 @@ msgstr ""
 msgid "Usage"
 msgstr "메시지"
 
-#: object_factory.cpp:254 umldoc.cpp:1624 umldoc.cpp:1659
+#: object_factory.cpp:254 umldoc.cpp:1633 umldoc.cpp:1668
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:179
@@ -6053,7 +6053,7 @@ msgstr "설정한 코드 생성기에서의 언어에서 이미 예약된 키워
 msgid "Reserved Keyword"
 msgstr "예약된 키워드"
 
-#: object_factory.cpp:267 umldoc.cpp:1630 umldoc.cpp:1668
+#: object_factory.cpp:267 umldoc.cpp:1639 umldoc.cpp:1677
 #: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
@@ -6061,8 +6061,8 @@ msgstr "예약된 키워드"
 msgid "That name is already being used."
 msgstr "그 이름은 이미 사용중입니다."
 
-#: object_factory.cpp:268 umldoc.cpp:1533 umldoc.cpp:1602 umldoc.cpp:1630
-#: umldoc.cpp:1668 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
+#: object_factory.cpp:268 umldoc.cpp:1542 umldoc.cpp:1611 umldoc.cpp:1639
+#: umldoc.cpp:1677 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
@@ -7297,200 +7297,200 @@ msgstr "활성 언어(&L)"
 msgid "&Settings"
 msgstr "폰트 설정"
 
-#: uml.cpp:360
+#: uml.cpp:363
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr ""
 
-#: uml.cpp:364
+#: uml.cpp:367
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr ""
 
-#: uml.cpp:368
+#: uml.cpp:371
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "새 클래스 마법사(&N)..."
 
-#: uml.cpp:372
+#: uml.cpp:375
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "작동 언어에 대해 기본 데이타 형식을 추가(&A)"
 
-#: uml.cpp:379
+#: uml.cpp:382
 #, kde-format
 msgid "Code &Importing Wizard..."
 msgstr ""
 
-#: uml.cpp:389
+#: uml.cpp:392
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "코드 생성 마법사(&C)..."
 
-#: uml.cpp:394
+#: uml.cpp:397
 #, kde-format
 msgid "&Generate All Code"
 msgstr "모든 코드 생성(&G)"
 
-#: uml.cpp:441
+#: uml.cpp:444
 #, kde-format
 msgid "Creates a new document"
 msgstr "새 문서 생성"
 
-#: uml.cpp:442
+#: uml.cpp:445
 #, kde-format
 msgid "Opens an existing document"
 msgstr "존재하는 문서를 열기"
 
-#: uml.cpp:443
+#: uml.cpp:446
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "최근에 사용한 파일 열기"
 
-#: uml.cpp:444
+#: uml.cpp:447
 #, kde-format
 msgid "Saves the document"
 msgstr ""
 
-#: uml.cpp:445
+#: uml.cpp:448
 #, kde-format
 msgid "Saves the document as..."
 msgstr ""
 
-#: uml.cpp:446
+#: uml.cpp:449
 #, kde-format
 msgid "Closes the document"
 msgstr ""
 
-#: uml.cpp:447
+#: uml.cpp:450
 #, kde-format
 msgid "Prints out the document"
 msgstr ""
 
-#: uml.cpp:448
+#: uml.cpp:451
 #, kde-format
 msgid "Print Preview of the document"
 msgstr ""
 
-#: uml.cpp:449
+#: uml.cpp:452
 #, kde-format
 msgid "Quits the application"
 msgstr "앱 종료"
 
-#: uml.cpp:450
+#: uml.cpp:453
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr ""
 
-#: uml.cpp:451
+#: uml.cpp:454
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr ""
 
-#: uml.cpp:452
+#: uml.cpp:455
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "선택한 부분을 잘라내고 클립보드에 저장"
 
-#: uml.cpp:453
+#: uml.cpp:456
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "선택한 부분을 클립보드에 복사"
 
-#: uml.cpp:454
+#: uml.cpp:457
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr ""
 
-#: uml.cpp:455
+#: uml.cpp:458
 #, kde-format
 msgid "Undo last action"
 msgstr ""
 
-#: uml.cpp:456
+#: uml.cpp:459
 #, kde-format
 msgid "Redo last undone action"
 msgstr ""
 
-#: uml.cpp:458
+#: uml.cpp:461
 #, kde-format
 msgid "Set the default program preferences"
 msgstr "기본 프로그램 환경설정 설정"
 
-#: uml.cpp:462
+#: uml.cpp:465
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr ""
 
-#: uml.cpp:473
+#: uml.cpp:476
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "클래스 다이어그램(&C)..."
 
-#: uml.cpp:480
+#: uml.cpp:483
 #, fuzzy, kde-format
 #| msgid "S&tate Diagram..."
 msgid "&Object Diagram..."
 msgstr "상태 다이어그램(&T)..."
 
-#: uml.cpp:487
+#: uml.cpp:490
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "순서 다이어그램(&S)..."
 
-#: uml.cpp:493
+#: uml.cpp:496
 #, fuzzy, kde-format
 #| msgid "C&ollaboration Diagram..."
 msgid "C&ommunication Diagram..."
 msgstr "협동 다이어그램(&O)..."
 
-#: uml.cpp:499
+#: uml.cpp:502
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr "조건 다이어그램 사용(&U)..."
 
-#: uml.cpp:505
+#: uml.cpp:508
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "상태 다이어그램(&T)..."
 
-#: uml.cpp:511
+#: uml.cpp:514
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "작업 다이어그램(&A)..."
 
-#: uml.cpp:517
+#: uml.cpp:520
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "요소 다이어그램(&M)..."
 
-#: uml.cpp:523
+#: uml.cpp:526
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr "전개 다이어그램(&D)..."
 
-#: uml.cpp:529
+#: uml.cpp:532
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr ""
 
-#: uml.cpp:534 uml.cpp:963
+#: uml.cpp:537 uml.cpp:966
 #, kde-format
 msgid "&Tree View"
 msgstr "트리 보기(&T)"
 
-#: uml.cpp:538
+#: uml.cpp:541
 #, kde-format
 msgid "&Debugging"
 msgstr ""
 
-#: uml.cpp:546
+#: uml.cpp:549
 #, kde-format
 msgid "&Logging"
 msgstr ""
 
-#: uml.cpp:550
+#: uml.cpp:553
 #, kde-format
 msgid "&Command history"
 msgstr ""
@@ -7499,137 +7499,137 @@ msgstr ""
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:554 uml.cpp:1020
+#: uml.cpp:557 uml.cpp:1023
 #, kde-format
 msgid "&Bird's eye view"
 msgstr ""
 
-#: uml.cpp:559
+#: uml.cpp:562
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "초기화 다이어그램(&C)"
 
-#: uml.cpp:563
+#: uml.cpp:566
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "격자에 맞추기(&S)"
 
-#: uml.cpp:567
+#: uml.cpp:570
 #, kde-format
 msgid "S&how Grid"
 msgstr "격자 표시(&H)"
 
-#: uml.cpp:572
+#: uml.cpp:575
 #, kde-format
 msgid "&Delete Diagram"
 msgstr "다이어그램 삭제(&D)"
 
-#: uml.cpp:577
+#: uml.cpp:580
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "그림으로 내보내기(&E)..."
 
-#: uml.cpp:582
+#: uml.cpp:585
 #, fuzzy, kde-format
 #| msgid "Export as Picture..."
 msgid "Export &Diagrams as Pictures..."
 msgstr "그림으로 내보내기..."
 
-#: uml.cpp:602
+#: uml.cpp:605
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "100%로 확대(&O)"
 
-#: uml.cpp:645
+#: uml.cpp:648
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "탭 왼쪽으로 이동(&M)"
 
-#: uml.cpp:646
+#: uml.cpp:649
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "탭 오른쪽으로 이동(&M)"
 
-#: uml.cpp:662
+#: uml.cpp:665
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr ""
 
-#: uml.cpp:663
+#: uml.cpp:666
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr ""
 
-#: uml.cpp:801
+#: uml.cpp:804
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:853
+#: uml.cpp:856
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "준비"
 
-#: uml.cpp:861 uml.cpp:874
+#: uml.cpp:864 uml.cpp:877
 #, kde-format
 msgid "100%"
 msgstr ""
 
-#: uml.cpp:866
+#: uml.cpp:869
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Fit"
 msgstr "필터"
 
-#: uml.cpp:917
+#: uml.cpp:920
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "다이어그램 도구모음"
 
-#: uml.cpp:974
+#: uml.cpp:977
 #, kde-format
 msgid "Doc&umentation"
 msgstr ""
 
-#: uml.cpp:985
+#: uml.cpp:988
 #, kde-format
 msgid "Co&mmand history"
 msgstr ""
 
-#: uml.cpp:1001
+#: uml.cpp:1004
 #, kde-format
 msgid "&Debug"
 msgstr ""
 
-#: uml.cpp:1008
+#: uml.cpp:1011
 #, kde-format
 msgid "&Log"
 msgstr ""
 
-#: uml.cpp:1046 uml.cpp:1263 uml.cpp:1301
+#: uml.cpp:1049 uml.cpp:1266 uml.cpp:1304
 #, kde-format
 msgid "Opening file..."
 msgstr "파일 여는 중..."
 
-#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:351 umldoc.cpp:374
-#: umldoc.cpp:3308
+#: uml.cpp:1100 uml.cpp:1171 uml.cpp:1335 umldoc.cpp:351 umldoc.cpp:374
+#: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr ""
 
-#: uml.cpp:1245
+#: uml.cpp:1248
 #, kde-format
 msgid "Creating new document..."
 msgstr "새 문서 만드는 중..."
 
-#: uml.cpp:1270
+#: uml.cpp:1273
 #, kde-format
 msgid "Open File"
 msgstr "파일 열기"
 
-#: uml.cpp:1271
+#: uml.cpp:1274
 #, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7642,22 +7642,22 @@ msgid ""
 "*.zargo|Compressed argo Files(*.zargo)\n"
 msgstr ""
 
-#: uml.cpp:1331
+#: uml.cpp:1334
 #, kde-format
 msgid "Saving file..."
 msgstr "파일 저장하는 중..."
 
-#: uml.cpp:1348
+#: uml.cpp:1351
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "새 파일이름으로 파일 저장하는 중..."
 
-#: uml.cpp:1353 umlviewimageexporter.cpp:172
+#: uml.cpp:1356 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr ""
 
-#: uml.cpp:1354
+#: uml.cpp:1357
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -7673,7 +7673,7 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 압축 XMI 파일\n"
 "*|모든 파일"
 
-#: uml.cpp:1372
+#: uml.cpp:1375
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7682,105 +7682,105 @@ msgstr ""
 "%1 파일이 존재합니다.\n"
 "덮어쓰시겠습니까?"
 
-#: uml.cpp:1373
+#: uml.cpp:1376
 #, kde-format
 msgid "Warning"
 msgstr ""
 
-#: uml.cpp:1373
+#: uml.cpp:1376
 #, kde-format
 msgid "Overwrite"
 msgstr "덮어쓰기"
 
-#: uml.cpp:1399
+#: uml.cpp:1402
 #, kde-format
 msgid "Closing file..."
 msgstr "파일 닫는 중..."
 
-#: uml.cpp:1410
+#: uml.cpp:1413
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: uml.cpp:1416
+#: uml.cpp:1419
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: uml.cpp:1472
+#: uml.cpp:1475
 #, kde-format
 msgid "Print Preview..."
 msgstr ""
 
-#: uml.cpp:1499
+#: uml.cpp:1502
 #, kde-format
 msgid "Printing..."
 msgstr "인쇄 중..."
 
-#: uml.cpp:1505
+#: uml.cpp:1508
 #, kde-format
 msgid "Print %1"
 msgstr "인쇄 %1"
 
-#: uml.cpp:1524
+#: uml.cpp:1527
 #, kde-format
 msgid "Exiting..."
 msgstr "종료 중..."
 
-#: uml.cpp:1595
+#: uml.cpp:1598
 #, kde-format
 msgid "Cutting selection..."
 msgstr "선택 자르는 중..."
 
-#: uml.cpp:1618
+#: uml.cpp:1621
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "선택된 곳 클립보드에 복사하는 중..."
 
-#: uml.cpp:1630
+#: uml.cpp:1633
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "클립보드 내용 삽입 중..."
 
-#: uml.cpp:1635
+#: uml.cpp:1638
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
 "clipboard may be of the wrong type to be pasted here."
 msgstr ""
 
-#: uml.cpp:1661 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: uml.cpp:1664 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr ""
 
-#: uml.cpp:2278
+#: uml.cpp:2281
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr ""
 
-#: uml.cpp:2278 uml.cpp:2281
+#: uml.cpp:2281 uml.cpp:2284
 #, kde-format
 msgid "Cannot View Code"
 msgstr "코드를 볼 수 없습니다"
 
-#: uml.cpp:2281
+#: uml.cpp:2284
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr ""
 
-#: uml.cpp:2767
+#: uml.cpp:2770
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr ""
 
-#: uml.cpp:2796
+#: uml.cpp:2799
 #, kde-format
 msgid "Select directory to import:"
 msgstr ""
 
-#: uml.cpp:3320
+#: uml.cpp:3334
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""
@@ -7802,7 +7802,7 @@ msgstr "스테레오형"
 msgid "Welcome"
 msgstr ""
 
-#: umldoc.cpp:94 umldoc.cpp:2255 umldoc.cpp:2283 umldoc.cpp:2366
+#: umldoc.cpp:94 umldoc.cpp:2264 umldoc.cpp:2292 umldoc.cpp:2375
 #, kde-format
 msgid "UML Model"
 msgstr ""
@@ -7852,195 +7852,195 @@ msgctxt "warning message"
 msgid "Warning"
 msgstr ""
 
-#: umldoc.cpp:541
+#: umldoc.cpp:550
 #, kde-format
 msgid "The file <%1> does not exist."
 msgstr "파일 <%1>이(가) 없습니다."
 
-#: umldoc.cpp:541 umldoc.cpp:562 umldoc.cpp:601 umldoc.cpp:613 umldoc.cpp:627
-#: umldoc.cpp:640 umldoc.cpp:652 umldoc.cpp:690 umlmodel/folder.cpp:450
+#: umldoc.cpp:550 umldoc.cpp:571 umldoc.cpp:610 umldoc.cpp:622 umldoc.cpp:636
+#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/folder.cpp:450
 #: umlmodel/folder.cpp:454
 #, kde-format
 msgid "Load Error"
 msgstr "불러오기 오류"
 
-#: umldoc.cpp:562
+#: umldoc.cpp:571
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "파일 %1이(가) 잘못된 것 같습니다."
 
-#: umldoc.cpp:600 umldoc.cpp:612 umldoc.cpp:639
+#: umldoc.cpp:609 umldoc.cpp:621 umldoc.cpp:648
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr ""
 
-#: umldoc.cpp:626
+#: umldoc.cpp:635
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr ""
 
-#: umldoc.cpp:651 umldoc.cpp:687
+#: umldoc.cpp:660 umldoc.cpp:696
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "파일을 불러오는 도중 문제가 있었습니다: %1"
 
-#: umldoc.cpp:689
+#: umldoc.cpp:698
 #, kde-format
 msgid "Reason: %1"
 msgstr ""
 
-#: umldoc.cpp:759 umldoc.cpp:770 umldoc.cpp:788 umldoc.cpp:833 umldoc.cpp:872
+#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
 #, fuzzy, kde-format
 #| msgid "There was a problem saving file: %1"
 msgid "There was a problem saving: %1"
 msgstr "파일을 저장하던 중 문제가 있었습니다: %1"
 
-#: umldoc.cpp:759 umldoc.cpp:770 umldoc.cpp:788 umldoc.cpp:833 umldoc.cpp:872
-#: umldoc.cpp:879 umllistview.cpp:569
+#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
+#: umldoc.cpp:888 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
 msgstr "저장 오류"
 
-#: umldoc.cpp:879
+#: umldoc.cpp:888
 #, fuzzy, kde-format
 #| msgid "There was a problem uploading file: %1"
 msgid "There was a problem uploading: %1"
 msgstr "파일을 업로드 하던 중 문제가 있었습니다: %1"
 
-#: umldoc.cpp:1430
+#: umldoc.cpp:1439
 #, kde-format
 msgid "use case diagram"
 msgstr "조건 다이어그램 사용"
 
-#: umldoc.cpp:1433
+#: umldoc.cpp:1442
 #, kde-format
 msgid "class diagram"
 msgstr "클래스 다이어그램"
 
-#: umldoc.cpp:1436
+#: umldoc.cpp:1445
 #, kde-format
 msgid "sequence diagram"
 msgstr "순서 다이어그램"
 
-#: umldoc.cpp:1439
+#: umldoc.cpp:1448
 #, fuzzy, kde-format
 #| msgid "collaboration diagram"
 msgid "communication diagram"
 msgstr "협동 다이어그램"
 
-#: umldoc.cpp:1442
+#: umldoc.cpp:1451
 #, fuzzy, kde-format
 #| msgid "&Select diagrams"
 msgid "object diagram"
 msgstr "다이어그램 선택(&S)"
 
-#: umldoc.cpp:1445
+#: umldoc.cpp:1454
 #, kde-format
 msgid "state diagram"
 msgstr "상태 다이어그램"
 
-#: umldoc.cpp:1448
+#: umldoc.cpp:1457
 #, kde-format
 msgid "activity diagram"
 msgstr "작업 다이어그램"
 
-#: umldoc.cpp:1451
+#: umldoc.cpp:1460
 #, kde-format
 msgid "component diagram"
 msgstr "요소 다이어그램"
 
-#: umldoc.cpp:1454
+#: umldoc.cpp:1463
 #, kde-format
 msgid "deployment diagram"
 msgstr "전개 다이어그램"
 
-#: umldoc.cpp:1457
+#: umldoc.cpp:1466
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "항목 관계 다이어그램"
 
-#: umldoc.cpp:1527
+#: umldoc.cpp:1536
 #, kde-format
 msgctxt "diagram name"
 msgid "Name"
 msgstr ""
 
-#: umldoc.cpp:1527 umldoc.cpp:1589 umldoc.cpp:1618 umldoc.cpp:1653
+#: umldoc.cpp:1536 umldoc.cpp:1598 umldoc.cpp:1627 umldoc.cpp:1662
 #, kde-format
 msgid "Enter name:"
 msgstr "이름 입력:"
 
-#: umldoc.cpp:1531 umldoc.cpp:1595
+#: umldoc.cpp:1540 umldoc.cpp:1604
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "이것은 다이어그램에 유효하지 않은 이름입니다."
 
-#: umldoc.cpp:1533 umldoc.cpp:1602
+#: umldoc.cpp:1542 umldoc.cpp:1611
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "다이어그램이 그 이름을 이미 사용중입니다."
 
-#: umldoc.cpp:1588
+#: umldoc.cpp:1597
 #, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr ""
 
-#: umldoc.cpp:1617
+#: umldoc.cpp:1626
 #, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr ""
 
-#: umldoc.cpp:1652
+#: umldoc.cpp:1661
 #, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr ""
 
-#: umldoc.cpp:1662
+#: umldoc.cpp:1671
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
 "Is this what you wanted?"
 msgstr ""
 
-#: umldoc.cpp:1663
+#: umldoc.cpp:1672
 #, kde-format
 msgid "Use Name"
 msgstr ""
 
-#: umldoc.cpp:1663
+#: umldoc.cpp:1672
 #, kde-format
 msgid "Enter New Name"
 msgstr ""
 
-#: umldoc.cpp:2213
+#: umldoc.cpp:2222
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2377
+#: umldoc.cpp:2386
 #, kde-format
 msgid "Setting up the document..."
 msgstr "문서 설정..."
 
-#: umldoc.cpp:2406
+#: umldoc.cpp:2415
 #, kde-format
 msgid "Resolving object references..."
 msgstr "객체 관계 분석중 ..."
 
-#: umldoc.cpp:2514
+#: umldoc.cpp:2523
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "UML 요소 불러오는 중..."
 
-#: umldoc.cpp:2776
+#: umldoc.cpp:2785
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "다이어그램 불러오는 중..."
 
-#: umldoc.cpp:3310
+#: umldoc.cpp:3319
 #, kde-format
 msgid "/autosave%1"
 msgstr "/자동저장%1"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdesdk/umbrello.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-15 02:18+0000\n"
+"POT-Creation-Date: 2025-08-16 02:03+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -209,7 +209,7 @@ msgid ""
 "item of the same name already exists.  Any other items have been pasted."
 msgstr ""
 
-#: clipboard/umlclipboard.cpp:757 uml.cpp:1637
+#: clipboard/umlclipboard.cpp:757 uml.cpp:1640
 #, kde-format
 msgid "Paste Error"
 msgstr "Earráid Ghreamaithe"
@@ -2569,7 +2569,7 @@ msgid "N&ew Instance Attribute..."
 msgstr "Airí &Nua..."
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
-#: uml.cpp:587
+#: uml.cpp:590
 #, kde-format
 msgid "&Properties"
 msgstr "&Airíonna"
@@ -2587,7 +2587,7 @@ msgid "Source Code"
 msgstr "Cód Foinseach"
 
 #: dialogs/pages/classoptionspage.cpp:152
-#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:542
+#: dialogs/pages/classoptionspage.cpp:246 uml.cpp:545
 #, kde-format
 msgid "&Documentation"
 msgstr "&Doiciméadú"
@@ -2780,7 +2780,7 @@ msgid "The name you have entered is invalid."
 msgstr "D'iontráil tú ainm neamhbhailí."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
-#: umldoc.cpp:1531 umldoc.cpp:1595 umldoc.cpp:1624 umldoc.cpp:1659
+#: umldoc.cpp:1540 umldoc.cpp:1604 umldoc.cpp:1633 umldoc.cpp:1668
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:180
@@ -2793,7 +2793,7 @@ msgstr "Ainm Neamhbhailí"
 msgid "The name you have entered is not unique."
 msgstr ""
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1663
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1672
 #, kde-format
 msgid "Name Not Unique"
 msgstr ""
@@ -4584,7 +4584,7 @@ msgstr "Taispeáin díothú"
 msgid "Import File(s)..."
 msgstr "Iompórtáil Aicmí..."
 
-#: menus/listpopupmenu.cpp:198 uml.cpp:384
+#: menus/listpopupmenu.cpp:198 uml.cpp:387
 #, fuzzy, kde-format
 #| msgid "Import Project..."
 msgid "Import from Directory..."
@@ -5111,42 +5111,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "&Ailínigh"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:606
+#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:609
 #, kde-format
 msgid "Align Right"
 msgstr "Ailínigh Ar Dheis"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:611
+#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:614
 #, kde-format
 msgid "Align Left"
 msgstr "Ailínigh Ar Chlé"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:616
+#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:619
 #, kde-format
 msgid "Align Top"
 msgstr "Ailínigh leis an mBarr"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:621
+#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:624
 #, kde-format
 msgid "Align Bottom"
 msgstr "Ailínigh leis an mBun"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:626
+#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:629
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:631
+#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:634
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:636
+#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:639
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr ""
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:641
+#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:644
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr ""
@@ -6071,7 +6071,7 @@ msgstr "Cuir leis amháin"
 msgid "Usage"
 msgstr "Teachtaireacht"
 
-#: object_factory.cpp:254 umldoc.cpp:1624 umldoc.cpp:1659
+#: object_factory.cpp:254 umldoc.cpp:1633 umldoc.cpp:1668
 #: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
 #: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
 #: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:179
@@ -6090,7 +6090,7 @@ msgstr ""
 msgid "Reserved Keyword"
 msgstr "Lorgfhocal in Áirithe"
 
-#: object_factory.cpp:267 umldoc.cpp:1630 umldoc.cpp:1668
+#: object_factory.cpp:267 umldoc.cpp:1639 umldoc.cpp:1677
 #: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
@@ -6098,8 +6098,8 @@ msgstr "Lorgfhocal in Áirithe"
 msgid "That name is already being used."
 msgstr "Tá an t-ainm sin in úsáid cheana."
 
-#: object_factory.cpp:268 umldoc.cpp:1533 umldoc.cpp:1602 umldoc.cpp:1630
-#: umldoc.cpp:1668 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
+#: object_factory.cpp:268 umldoc.cpp:1542 umldoc.cpp:1611 umldoc.cpp:1639
+#: umldoc.cpp:1677 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
 #: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
 #: umlmodel/entity.cpp:276
 #, kde-format
@@ -7341,201 +7341,201 @@ msgstr "Teanga &Ghníomhach"
 msgid "&Settings"
 msgstr "Socruithe an Róil"
 
-#: uml.cpp:360
+#: uml.cpp:363
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr "&Easpórtáil samhail go DocBook"
 
-#: uml.cpp:364
+#: uml.cpp:367
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr "&Easpórtáil samhail go XHTML"
 
-#: uml.cpp:368
+#: uml.cpp:371
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "Treoraí Aicme &Nuaí..."
 
-#: uml.cpp:372
+#: uml.cpp:375
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr ""
 
-#: uml.cpp:379
+#: uml.cpp:382
 #, kde-format
 msgid "Code &Importing Wizard..."
 msgstr "Treoraí &Iompórtála Cóid..."
 
-#: uml.cpp:389
+#: uml.cpp:392
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "Treoraí Giniúna &Cóid..."
 
-#: uml.cpp:394
+#: uml.cpp:397
 #, kde-format
 msgid "&Generate All Code"
 msgstr "&Gin Cód Uile"
 
-#: uml.cpp:441
+#: uml.cpp:444
 #, kde-format
 msgid "Creates a new document"
 msgstr "Cruthaigh cáipéis nua"
 
-#: uml.cpp:442
+#: uml.cpp:445
 #, kde-format
 msgid "Opens an existing document"
 msgstr "Oscail cáipéis atá ann"
 
-#: uml.cpp:443
+#: uml.cpp:446
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "Oscail comhad a úsáideadh le déanaí"
 
-#: uml.cpp:444
+#: uml.cpp:447
 #, kde-format
 msgid "Saves the document"
 msgstr "Sábháil an cháipéis"
 
-#: uml.cpp:445
+#: uml.cpp:448
 #, kde-format
 msgid "Saves the document as..."
 msgstr "Sábháil an cháipéis mar..."
 
-#: uml.cpp:446
+#: uml.cpp:449
 #, kde-format
 msgid "Closes the document"
 msgstr "Dún an cháipéis"
 
-#: uml.cpp:447
+#: uml.cpp:450
 #, kde-format
 msgid "Prints out the document"
 msgstr "Priontáil an cháipéis"
 
-#: uml.cpp:448
+#: uml.cpp:451
 #, kde-format
 msgid "Print Preview of the document"
 msgstr "Réamhamharc Priontála na Cáipéise"
 
-#: uml.cpp:449
+#: uml.cpp:452
 #, kde-format
 msgid "Quits the application"
 msgstr "Éirigh as an bhfeidhmchlár"
 
-#: uml.cpp:450
+#: uml.cpp:453
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr "Easpórtáil an tsamhail go dtí an fhormáid docbook"
 
-#: uml.cpp:451
+#: uml.cpp:454
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr "Easpórtáil an tsamhail go dtí an fhormáid XHTML"
 
-#: uml.cpp:452
+#: uml.cpp:455
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "Gearr an rannán roghnaithe agus cuir é sa ghearrthaisce"
 
-#: uml.cpp:453
+#: uml.cpp:456
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "Cuir cóip den rannán roghnaithe sa ghearrthaisce"
 
-#: uml.cpp:454
+#: uml.cpp:457
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr ""
 
-#: uml.cpp:455
+#: uml.cpp:458
 #, fuzzy, kde-format
 #| msgid "Invoke action"
 msgid "Undo last action"
 msgstr "Cuir an gníomh i bhfeidhm"
 
-#: uml.cpp:456
+#: uml.cpp:459
 #, kde-format
 msgid "Redo last undone action"
 msgstr ""
 
-#: uml.cpp:458
+#: uml.cpp:461
 #, kde-format
 msgid "Set the default program preferences"
 msgstr ""
 
-#: uml.cpp:462
+#: uml.cpp:465
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "Scrios &Roghnaithe"
 
-#: uml.cpp:473
+#: uml.cpp:476
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "Léaráid Ai&cme..."
 
-#: uml.cpp:480
+#: uml.cpp:483
 #, fuzzy, kde-format
 #| msgid "&Activity Diagram..."
 msgid "&Object Diagram..."
 msgstr "Léaráid &Ghnímh..."
 
-#: uml.cpp:487
+#: uml.cpp:490
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr ""
 
-#: uml.cpp:493
+#: uml.cpp:496
 #, fuzzy, kde-format
 #| msgid "C&ollaboration Diagram..."
 msgid "C&ommunication Diagram..."
 msgstr "Léaráid Ch&omhoibrithe..."
 
-#: uml.cpp:499
+#: uml.cpp:502
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr "&Léaráid de Chás Úsáide..."
 
-#: uml.cpp:505
+#: uml.cpp:508
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr ""
 
-#: uml.cpp:511
+#: uml.cpp:514
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "Léaráid &Ghnímh..."
 
-#: uml.cpp:517
+#: uml.cpp:520
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "Léaráid Cho&mhpháirte..."
 
-#: uml.cpp:523
+#: uml.cpp:526
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr "Léaráid &Imlonnaithe..."
 
-#: uml.cpp:529
+#: uml.cpp:532
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "Léaráid d&e Ghaoil na nAonán..."
 
-#: uml.cpp:534 uml.cpp:963
+#: uml.cpp:537 uml.cpp:966
 #, kde-format
 msgid "&Tree View"
 msgstr "&Amharc Géagchórais"
 
-#: uml.cpp:538
+#: uml.cpp:541
 #, kde-format
 msgid "&Debugging"
 msgstr ""
 
-#: uml.cpp:546
+#: uml.cpp:549
 #, kde-format
 msgid "&Logging"
 msgstr ""
 
-#: uml.cpp:550
+#: uml.cpp:553
 #, kde-format
 msgid "&Command history"
 msgstr ""
@@ -7544,139 +7544,139 @@ msgstr ""
 #. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
 #. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
 #. create the bird's eye view
-#: uml.cpp:554 uml.cpp:1020
+#: uml.cpp:557 uml.cpp:1023
 #, kde-format
 msgid "&Bird's eye view"
 msgstr ""
 
-#: uml.cpp:559
+#: uml.cpp:562
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "&Bánaigh an Léaráid"
 
-#: uml.cpp:563
+#: uml.cpp:566
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "&Léim go Greille"
 
-#: uml.cpp:567
+#: uml.cpp:570
 #, kde-format
 msgid "S&how Grid"
 msgstr "T&aispeáin Greille"
 
-#: uml.cpp:572
+#: uml.cpp:575
 #, fuzzy, kde-format
 #| msgid "Delete Diagram"
 msgid "&Delete Diagram"
 msgstr "Scrios Léaráid"
 
-#: uml.cpp:577
+#: uml.cpp:580
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "&Easpórtáil mar Phictiúr..."
 
-#: uml.cpp:582
+#: uml.cpp:585
 #, fuzzy, kde-format
 #| msgid "Export as Picture..."
 msgid "Export &Diagrams as Pictures..."
 msgstr "Easpórtáil mar Phictiúr..."
 
-#: uml.cpp:602
+#: uml.cpp:605
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "&Súmáil go 100%"
 
-#: uml.cpp:645
+#: uml.cpp:648
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "&Bog Cluaisín Faoi Chlé"
 
-#: uml.cpp:646
+#: uml.cpp:649
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "&Bog Cluaisín Faoi Dheis"
 
-#: uml.cpp:662
+#: uml.cpp:665
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr "Roghnaigh an Léaráid ar Clé"
 
-#: uml.cpp:663
+#: uml.cpp:666
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr "Roghnaigh an Léaráid ar Dheis"
 
-#: uml.cpp:801
+#: uml.cpp:804
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:853
+#: uml.cpp:856
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Réidh"
 
-#: uml.cpp:861 uml.cpp:874
+#: uml.cpp:864 uml.cpp:877
 #, fuzzy, kde-format
 #| msgid "&100%"
 msgid "100%"
 msgstr "&100%"
 
-#: uml.cpp:866
+#: uml.cpp:869
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Fit"
 msgstr "Scagaire"
 
-#: uml.cpp:917
+#: uml.cpp:920
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr ""
 
-#: uml.cpp:974
+#: uml.cpp:977
 #, kde-format
 msgid "Doc&umentation"
 msgstr "D&oiciméadú"
 
-#: uml.cpp:985
+#: uml.cpp:988
 #, kde-format
 msgid "Co&mmand history"
 msgstr ""
 
-#: uml.cpp:1001
+#: uml.cpp:1004
 #, kde-format
 msgid "&Debug"
 msgstr ""
 
-#: uml.cpp:1008
+#: uml.cpp:1011
 #, kde-format
 msgid "&Log"
 msgstr ""
 
-#: uml.cpp:1046 uml.cpp:1263 uml.cpp:1301
+#: uml.cpp:1049 uml.cpp:1266 uml.cpp:1304
 #, kde-format
 msgid "Opening file..."
 msgstr "Comhad á oscailt..."
 
-#: uml.cpp:1097 uml.cpp:1168 uml.cpp:1332 umldoc.cpp:351 umldoc.cpp:374
-#: umldoc.cpp:3308
+#: uml.cpp:1100 uml.cpp:1171 uml.cpp:1335 umldoc.cpp:351 umldoc.cpp:374
+#: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "Gan Teideal"
 
-#: uml.cpp:1245
+#: uml.cpp:1248
 #, kde-format
 msgid "Creating new document..."
 msgstr "Cáipéis nua á cruthú..."
 
-#: uml.cpp:1270
+#: uml.cpp:1273
 #, kde-format
 msgid "Open File"
 msgstr "Oscail Comhad"
 
-#: uml.cpp:1271
+#: uml.cpp:1274
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi."
@@ -7702,22 +7702,22 @@ msgstr ""
 "*.xmi.tar.bz2|Comhaid XMI Comhbhrúite le Bzip2 (*.xmi.tar.bz2)*.mdl|Comhaid "
 "Samhla Rose"
 
-#: uml.cpp:1331
+#: uml.cpp:1334
 #, kde-format
 msgid "Saving file..."
 msgstr "Comhad á shábháil..."
 
-#: uml.cpp:1348
+#: uml.cpp:1351
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Comhad á shábháil le hainm comhaid nua..."
 
-#: uml.cpp:1353 umlviewimageexporter.cpp:172
+#: uml.cpp:1356 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Sábháil Mar"
 
-#: uml.cpp:1354
+#: uml.cpp:1357
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -7733,7 +7733,7 @@ msgstr ""
 "*.xmi.tar.bz2|Comhad XMI Comhbhrúite le Bzip2\n"
 "*|Gach Comhad"
 
-#: uml.cpp:1372
+#: uml.cpp:1375
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7742,107 +7742,107 @@ msgstr ""
 "Tá comhad %1 ann cheana.\n"
 "An bhfuil tú cinnte gur mian leat scríobh air?"
 
-#: uml.cpp:1373
+#: uml.cpp:1376
 #, kde-format
 msgid "Warning"
 msgstr "Rabhadh"
 
-#: uml.cpp:1373
+#: uml.cpp:1376
 #, kde-format
 msgid "Overwrite"
 msgstr "Forscríobh"
 
-#: uml.cpp:1399
+#: uml.cpp:1402
 #, kde-format
 msgid "Closing file..."
 msgstr "Comhad á dhúnadh..."
 
-#: uml.cpp:1410
+#: uml.cpp:1413
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: uml.cpp:1416
+#: uml.cpp:1419
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: uml.cpp:1472
+#: uml.cpp:1475
 #, kde-format
 msgid "Print Preview..."
 msgstr "Réamhamharc Priontála..."
 
-#: uml.cpp:1499
+#: uml.cpp:1502
 #, kde-format
 msgid "Printing..."
 msgstr "Á Phriontáil..."
 
-#: uml.cpp:1505
+#: uml.cpp:1508
 #, kde-format
 msgid "Print %1"
 msgstr "Priontáil %1"
 
-#: uml.cpp:1524
+#: uml.cpp:1527
 #, kde-format
 msgid "Exiting..."
 msgstr "Ag scor..."
 
-#: uml.cpp:1595
+#: uml.cpp:1598
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Roghnúchán á ghearradh..."
 
-#: uml.cpp:1618
+#: uml.cpp:1621
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Roghnúchán á chóipeáil go dtí an ghearrthaisce..."
 
-#: uml.cpp:1630
+#: uml.cpp:1633
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Inneachar na gearrthaisce á ionsá..."
 
-#: uml.cpp:1635
+#: uml.cpp:1638
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
 "clipboard may be of the wrong type to be pasted here."
 msgstr ""
 
-#: uml.cpp:1661 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: uml.cpp:1664 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Réidh."
 
-#: uml.cpp:2278
+#: uml.cpp:2281
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr ""
 
-#: uml.cpp:2278 uml.cpp:2281
+#: uml.cpp:2281 uml.cpp:2284
 #, kde-format
 msgid "Cannot View Code"
 msgstr ""
 
-#: uml.cpp:2281
+#: uml.cpp:2284
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr ""
 
-#: uml.cpp:2767
+#: uml.cpp:2770
 #, fuzzy, kde-format
 #| msgid "Select Code to Import"
 msgid "Select file(s) to import:"
 msgstr "Roghnaigh Cód le hIompórtáil"
 
-#: uml.cpp:2796
+#: uml.cpp:2799
 #, fuzzy, kde-format
 #| msgid "Select Code to Import"
 msgid "Select directory to import:"
 msgstr "Roghnaigh Cód le hIompórtáil"
 
-#: uml.cpp:3320
+#: uml.cpp:3334
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""
@@ -7864,7 +7864,7 @@ msgstr "Steiréitíopa"
 msgid "Welcome"
 msgstr ""
 
-#: umldoc.cpp:94 umldoc.cpp:2255 umldoc.cpp:2283 umldoc.cpp:2366
+#: umldoc.cpp:94 umldoc.cpp:2264 umldoc.cpp:2292 umldoc.cpp:2375
 #, kde-format
 msgid "UML Model"
 msgstr "Samhail UML"
@@ -7914,197 +7914,197 @@ msgctxt "warning message"
 msgid "Warning"
 msgstr "Rabhadh"
 
-#: umldoc.cpp:541
+#: umldoc.cpp:550
 #, fuzzy, kde-format
 #| msgid "The file %1 does not exist."
 msgid "The file <%1> does not exist."
 msgstr "Níl comhad %1 ann."
 
-#: umldoc.cpp:541 umldoc.cpp:562 umldoc.cpp:601 umldoc.cpp:613 umldoc.cpp:627
-#: umldoc.cpp:640 umldoc.cpp:652 umldoc.cpp:690 umlmodel/folder.cpp:450
+#: umldoc.cpp:550 umldoc.cpp:571 umldoc.cpp:610 umldoc.cpp:622 umldoc.cpp:636
+#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/folder.cpp:450
 #: umlmodel/folder.cpp:454
 #, kde-format
 msgid "Load Error"
 msgstr "Earráid le linn Luchtaithe"
 
-#: umldoc.cpp:562
+#: umldoc.cpp:571
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "Dealraíonn sé go bhfuil comhad %1 truaillithe."
 
-#: umldoc.cpp:600 umldoc.cpp:612 umldoc.cpp:639
+#: umldoc.cpp:609 umldoc.cpp:621 umldoc.cpp:648
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "Níor aimsíodh aon chomhad XMI i gcomhad comhbhrúite %1."
 
-#: umldoc.cpp:626
+#: umldoc.cpp:635
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "Bhí fadhb ann agus an comhad bainte á luchtú: %1"
 
-#: umldoc.cpp:651 umldoc.cpp:687
+#: umldoc.cpp:660 umldoc.cpp:696
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "Bhí fadhb ann agus an comhad á luchtú: %1"
 
-#: umldoc.cpp:689
+#: umldoc.cpp:698
 #, kde-format
 msgid "Reason: %1"
 msgstr ""
 
-#: umldoc.cpp:759 umldoc.cpp:770 umldoc.cpp:788 umldoc.cpp:833 umldoc.cpp:872
+#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
 #, fuzzy, kde-format
 #| msgid "There was a problem saving file: %1"
 msgid "There was a problem saving: %1"
 msgstr "Bhí fadhb ann agus an comhad á shábháil: %1"
 
 # Sábháil Earráid?
-#: umldoc.cpp:759 umldoc.cpp:770 umldoc.cpp:788 umldoc.cpp:833 umldoc.cpp:872
-#: umldoc.cpp:879 umllistview.cpp:569
+#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
+#: umldoc.cpp:888 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
 msgstr "Earráid le linn Sábhála"
 
-#: umldoc.cpp:879
+#: umldoc.cpp:888
 #, fuzzy, kde-format
 #| msgid "There was a problem uploading file: %1"
 msgid "There was a problem uploading: %1"
 msgstr "fadhb ann agus an comhad á uasluchtú: %1"
 
-#: umldoc.cpp:1430
+#: umldoc.cpp:1439
 #, kde-format
 msgid "use case diagram"
 msgstr "léaráid de chás úsáide"
 
-#: umldoc.cpp:1433
+#: umldoc.cpp:1442
 #, kde-format
 msgid "class diagram"
 msgstr "léaráid aicme"
 
-#: umldoc.cpp:1436
+#: umldoc.cpp:1445
 #, kde-format
 msgid "sequence diagram"
 msgstr ""
 
-#: umldoc.cpp:1439
+#: umldoc.cpp:1448
 #, fuzzy, kde-format
 #| msgid "collaboration diagram"
 msgid "communication diagram"
 msgstr "léaráid chomhoibrithe"
 
-#: umldoc.cpp:1442
+#: umldoc.cpp:1451
 #, fuzzy, kde-format
 #| msgid "&Select diagrams"
 msgid "object diagram"
 msgstr "&Roghnaigh léaráidí"
 
-#: umldoc.cpp:1445
+#: umldoc.cpp:1454
 #, kde-format
 msgid "state diagram"
 msgstr ""
 
-#: umldoc.cpp:1448
+#: umldoc.cpp:1457
 #, kde-format
 msgid "activity diagram"
 msgstr "léaráid ghnímh"
 
-#: umldoc.cpp:1451
+#: umldoc.cpp:1460
 #, kde-format
 msgid "component diagram"
 msgstr "léaráid chomhpháirt"
 
-#: umldoc.cpp:1454
+#: umldoc.cpp:1463
 #, kde-format
 msgid "deployment diagram"
 msgstr "léaráid imlonnaithe"
 
-#: umldoc.cpp:1457
+#: umldoc.cpp:1466
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "léaráid de ghaoil na n-aonán"
 
-#: umldoc.cpp:1527
+#: umldoc.cpp:1536
 #, kde-format
 msgctxt "diagram name"
 msgid "Name"
 msgstr "Ainm"
 
-#: umldoc.cpp:1527 umldoc.cpp:1589 umldoc.cpp:1618 umldoc.cpp:1653
+#: umldoc.cpp:1536 umldoc.cpp:1598 umldoc.cpp:1627 umldoc.cpp:1662
 #, kde-format
 msgid "Enter name:"
 msgstr "Iontráil ainm:"
 
-#: umldoc.cpp:1531 umldoc.cpp:1595
+#: umldoc.cpp:1540 umldoc.cpp:1604
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr ""
 
-#: umldoc.cpp:1533 umldoc.cpp:1602
+#: umldoc.cpp:1542 umldoc.cpp:1611
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "Tá léaráid ann leis an ainm sin cheana."
 
-#: umldoc.cpp:1588
+#: umldoc.cpp:1597
 #, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "Ainm"
 
-#: umldoc.cpp:1617
+#: umldoc.cpp:1626
 #, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "Ainm"
 
-#: umldoc.cpp:1652
+#: umldoc.cpp:1661
 #, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "Ainm"
 
-#: umldoc.cpp:1662
+#: umldoc.cpp:1671
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
 "Is this what you wanted?"
 msgstr ""
 
-#: umldoc.cpp:1663
+#: umldoc.cpp:1672
 #, kde-format
 msgid "Use Name"
 msgstr "Úsáid Ainm"
 
-#: umldoc.cpp:1663
+#: umldoc.cpp:1672
 #, kde-format
 msgid "Enter New Name"
 msgstr "Iontráil Ainm Nua"
 
-#: umldoc.cpp:2213
+#: umldoc.cpp:2222
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2377
+#: umldoc.cpp:2386
 #, kde-format
 msgid "Setting up the document..."
 msgstr "Cáipéis á socrú..."
 
-#: umldoc.cpp:2406
+#: umldoc.cpp:2415
 #, kde-format
 msgid "Resolving object references..."
 msgstr ""
 
-#: umldoc.cpp:2514
+#: umldoc.cpp:2523
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "Eilimintí UML á luchtú..."
 
-#: umldoc.cpp:2776
+#: umldoc.cpp:2785
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "Léaráidí á luchtú..."
 
-#: umldoc.cpp:3310
+#: umldoc.cpp:3319
 #, kde-format
 msgid "/autosave%1"
 msgstr ""
