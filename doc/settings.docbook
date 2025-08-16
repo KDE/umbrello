@@ -143,9 +143,6 @@
 
 <sect2 id="ui-associations">
     <title>Associations</title>
-    <para><guilabel>Use angular associating lines</guilabel> allows association
-        lines to vary at any angle.
-    </para>
     <para><guilabel>Create new association lines as:</guilabel> gives the ability
         to change the association line style.
     </para>
