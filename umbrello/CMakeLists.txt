@@ -535,8 +535,10 @@ target_link_libraries(libumbrello
     ${LIBXSLT_LIBRARIES}
     ${LIBXML2_LIBRARIES}
     codeimport
-    $<$<BOOL:${BUILD_WITH_QT6}>:KF6::KIOWidgets>
 )
+if(QT_MAJOR_VERSION STREQUAL "6")
+    target_link_libraries(libumbrello KF6::KIOWidgets)
+endif()
 ecm_add_app_icon(umbrello_SRCS
     ICONS
     ${CMAKE_CURRENT_SOURCE_DIR}/pics/global/16-apps-umbrello.png

@@ -113,7 +113,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 if(BUILD_PHP_IMPORT)
-    if(BUILD_WITH_QT6)
+    if(QT_MAJOR_VERSION STREQUAL "6")
         set(_name KDevelopPGQt)
     else()
         set(_name KDevelop-PG-Qt)
