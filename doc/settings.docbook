@@ -340,7 +340,7 @@
             Generates comments for classes and functions even if they are empty.</para>
         <para><guilabel>Write section comments</guilabel>
             allow users to choose whether to write section comments.
-            The possibile values are: None, When section is non empty, Always.</para>
+            The possible values are: None, When section is non empty, Always.</para>
 </sect3>    <!-- code-gen-formatting-comment-verbosity -->
 
 <sect3 id="code-gen-formatting-lines">
