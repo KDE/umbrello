@@ -150,7 +150,7 @@ else()
     set(BUILD_PHP_IMPORT 0)
 endif()
 
-set(UMBRELLO_DATA_INSTALL_DIR ${DATA_INSTALL_DIR}/umbrello${APP_SUFFIX})
+set(UMBRELLO_DATA_INSTALL_DIR ${KDE_INSTALL_DATADIR}/umbrello${APP_SUFFIX})
 
 ki18n_install(po)
 kdoctools_install(po)
