@@ -209,10 +209,6 @@
 >Associationer</title>
     <para
 ><guilabel
->Använd vinklade associationslinjer</guilabel
-> tillåter att associationslinjer varierar med godtycklig vinkel. </para>
-    <para
-><guilabel
 >Skapa nya associationslinjer som:</guilabel
 > ger möjlighet att ändra linjestil för associationer. </para>
 </sect2
@@ -451,8 +447,8 @@
 > Genererar kommentarer för klasser och funktioner även om de är tomma.</para>
         <para
 ><guilabel
->Skriv kommentarer för sektioner även om sektionen är tom</guilabel
-> Skriver kommentarer för privata, skyddade och öppna sektionerna även om de är tomma.</para>
+>Write section comments</guilabel
+> allow users to choose whether to write section comments. The possible values are: None, When section is non empty, Always.</para>
 </sect3
 >    <!-- code-gen-formatting-comment-verbosity -->
 

@@ -209,10 +209,6 @@
 >Asociaciones</title>
     <para
 ><guilabel
->Usar líneas de asociación angulares</guilabel
-> permite que las líneas de asociación puedan variar a cualquier ángulo. </para>
-    <para
-><guilabel
 >Crear nuevas líneas de asociación como:</guilabel
 > proporciona la posibilidad de cambiar el estilo de las líneas de asociación. </para>
 </sect2
@@ -449,8 +445,8 @@
 > Genera comentarios para las clases y funciones, incluso si están vacíos.</para>
         <para
 ><guilabel
->Escribir comentarios para las secciones incluso si están vacías</guilabel
-> Escribe comentarios para las secciones privada, protegida y pública, incluso si están vacías.</para>
+>Write section comments</guilabel
+> allow users to choose whether to write section comments. The possible values are: None, When section is non empty, Always.</para>
 </sect3
 >    <!-- code-gen-formatting-comment-verbosity -->
 

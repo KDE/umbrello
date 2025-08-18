@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-16 02:03+0000\n"
-"PO-Revision-Date: 2025-08-15 07:26+0200\n"
+"PO-Revision-Date: 2025-08-17 10:44+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -1124,7 +1124,7 @@ msgstr "&Skriv dokumenteringskommentarer även om tomma"
 #: codegenwizard/codegenoptionspage.ui:262
 #, kde-format
 msgid "Write section comments:"
-msgstr "Skriv avsnittskommentarer:"
+msgstr "Skriv sektionskommentarer:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1146,7 +1146,7 @@ msgstr "Inga"
 #: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
 msgid "When section is non empty"
-msgstr "När avsnittet inte är tomt"
+msgstr "När sektionen inte är tom"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:286
@@ -6692,13 +6692,13 @@ msgstr "Aktiverar eller inaktiverar detaljerad dokumentation"
 #: umbrello.kcfg:399
 #, kde-format
 msgid "Section Comment Policy"
-msgstr "Princip för avsnittskommentarer"
+msgstr "Princip för sektionskommentarer"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:400
 #, kde-format
 msgid "Whether section comments shall be written"
-msgstr "Om avsnittskommentarer ska skrivas"
+msgstr "Om sektionskommentarer ska skrivas"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:409
@@ -7274,12 +7274,12 @@ msgstr "Exporterar modellen till XHTML-format"
 #: uml.cpp:455
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
-msgstr "Klipper ut markerat avsnitt och placerar den på klippbordet"
+msgstr "Klipper ut markerad sektion och placerar den på klippbordet"
 
 #: uml.cpp:456
 #, kde-format
 msgid "Copies the selected section to the clipboard"
-msgstr "Kopierar markerat avsnitt till klippbordet"
+msgstr "Kopierar markerad sektion till klippbordet"
 
 #: uml.cpp:457
 #, kde-format
