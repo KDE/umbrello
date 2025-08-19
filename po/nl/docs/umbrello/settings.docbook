@@ -209,10 +209,6 @@
 >Associaties</title>
     <para
 ><guilabel
->Hoekige associatielijnen gebruiken</guilabel
-> biedt associatielijnen met een willekeurig variabele hoek. </para>
-    <para
-><guilabel
 >Nieuwe associatielijnen aanmaken zoals:</guilabel
 > biedt de mogelijkheid om de stijl van associatielijnen te wijzigen. </para>
 </sect2
@@ -451,8 +447,8 @@
 > Genereert toelichting voor klassen en functies zelfs als ze leeg zijn.</para>
         <para
 ><guilabel
->Toelichting schrijven voor secties zelfs als deze leeg zijn</guilabel
-> Schijft toelichtingen voor de privé, beschermde en publieke secties zelfs als ze leeg zijn.</para>
+>Sectiecommentaar</guilabel
+> biedt gebruikers te kiezen sectiecommentaar te schrijven. De mogelijke waarden zijn: Geen, Wanneer sectie niet leeg is, Altijd.</para>
 </sect3
 >    <!-- code-gen-formatting-comment-verbosity -->
 

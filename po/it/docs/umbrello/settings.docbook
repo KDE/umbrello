@@ -1,0 +1,746 @@
+<chapter id="settings">
+<title
+>Impostazioni</title>
+
+<sect1 id="general-settings">
+<title
+>Impostazioni generali</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Impostazioni generali</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="general-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Opzioni per le impostazioni generali in &umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para
+>Opzioni per le impostazioni generali in &umbrello; </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<sect2 id= "misc-settings">
+<title
+>Varie</title>
+<itemizedlist>
+    <listitem>
+        <para
+>L'opzione <guilabel
+>Abilita l'annullamento</guilabel
+> permette di annullare un'azione precedente.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Usa i nuovi generatori C++/Java/Ruby</guilabel
+> permette all'utente di selezionare i nuovi o i vecchi generatori</para>
+    </listitem>
+    <listitem
+><para
+>Quando <guilabel
+>Attiva i piè e i numeri di pagina durante la stampa</guilabel
+> è selezionata, stampa le informazioni del diagramma per il diagramma in stampa e il numero di pagina.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Usa diagrammi a scheda</guilabel
+> rende possibile avere diverse finestre a schede di diagrammi aperte nello stesso momento.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- misc-settings -->
+
+
+<sect2 id= "autosave-settings">
+<title
+>Salvataggio automatico</title>
+<itemizedlist>
+    <listitem
+><para
+><guilabel
+>Abilita il salvataggio automatico</guilabel
+> rende possibile effettuare il salvataggio automatico del file.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Seleziona l'intervallo per il salvataggio automatico (minuti):</guilabel
+> permette di impostare il tempo prima che il file sia salvato automaticamente.</para>
+    </listitem>
+    <listitem
+><para
+>Il valore predefinito di <guilabel
+>Imposta il suffisso per il salvataggio automatico:</guilabel
+> è .xmi ma l'opzione consente di impostare un'estensione di file diversa.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>   <!-- autosave-settings -->
+
+
+<sect2 id= "startup-settings">
+    <title
+>Avvio</title>
+    <itemizedlist>
+        <listitem
+><para
+>Se <guilabel
+>Carica l'ultimo progetto</guilabel
+> è impostata, carica sempre l'ultimo progetto aperto all'avvio del programma.</para>
+        </listitem>
+        <listitem
+><para
+><guilabel
+>Avvia nuovo progetto con:</guilabel
+> permette di scegliere con quale tipo di diagramma UML iniziare in un nuovo progetto.</para>
+        </listitem>
+        <listitem
+><para
+><guilabel
+>Linguaggio predefinito:</guilabel
+> è un'impostazione per il linguaggio di programmazione predefinito usato.</para>
+        </listitem>
+    </itemizedlist>
+</sect2
+>    <!-- startup-settings -->
+
+<sect2 id= "notifications-settings">
+<title
+>Notifiche</title>
+<itemizedlist>
+    <listitem
+><para
+><guilabel
+>Attiva tutti i messaggi</guilabel
+> è un'opzione per vedere tutte o un'insieme limitato di notifiche.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Abilita i messaggi relativi all'eliminazione di associazioni</guilabel
+>, se selezionata, garantisce la ricezione di tutti i messaggi di questo tipo.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>Abilita i messaggi relativi all'eliminazione di diagrammi</guilabel
+>, se selezionata, abilita tutti i messaggi di questo tipo.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>    <!-- notifications-settings -->
+
+</sect1
+>    <!-- general-settings -->
+
+<!-- Font Settings -->
+<sect1 id="font-settings">
+<title
+>Impostazioni dei caratteri</title>
+<para>
+    <screenshot>
+        <screeninfo
+>Impostazioni dei caratteri</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="font-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>Opzioni per le impostazioni del carattere del diagramma in &umbrello;</phrase>
+            </textobject>
+            <caption>
+                <para
+>Opzioni per le impostazioni del carattere del diagramma in &umbrello; </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<para
+>Queste impostazioni del carattere impostano le caratteristiche del testo nei diagrammi. Lo stile e la dimensione del carattere sono le uniche opzioni selezionabili.</para>
+
+</sect1
+>    <!-- font-settings -->
+
+<sect1 id="ui-settings">
+    <title
+>Impostazioni per l'interfaccia utente</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Impostazioni per l'interfaccia utente</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="user-interface-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opzioni per le impostazioni per l'interfaccia utente in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opzioni per le impostazioni per l'interfaccia utente in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="ui-general">
+    <title
+>Generale</title>
+    <para
+><guilabel
+>Interfaccia utente da destra a sinistra</guilabel
+> configura l'interfaccia per i linguaggi con scrittura da destra a sinistra. </para>
+</sect2
+>    <!-- ui-general-settings -->
+
+<sect2 id="ui-associations">
+    <title
+>Associazioni</title>
+    <para
+><guilabel
+>Crea nuove linee di associazione come:</guilabel
+> rende possibile cambiare lo stile delle linee di associazione. </para>
+</sect2
+>    <!-- ui-associations-settings -->
+
+<sect2 id="ui-color">
+    <title
+>Colore</title>
+    <para
+>La selezione del colore mette a disposizione diverse opzioni per cambiare i colori di testo, linee, riempimento, griglie e sfondo, nonché lo spessore delle linee.</para>
+</sect2
+>    <!-- ui-Color-settings -->
+
+</sect1
+>    <!-- ui-settings -->
+
+<sect1 id="class-settings">
+    <title
+>Impostazioni della classe</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Impostazioni della classe</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="class-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opzioni per le impostazioni della classe in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opzioni per le impostazioni della classe in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="show-class-settings">
+        <title
+>Mostra</title>
+        <para
+>La sezione Mostra presenta diverse impostazioni che determinano quali caratteristiche di una classe sono mostrate nel diagramma di classe.</para>
+</sect2
+>    <!-- show-class-settings -->
+
+<sect2 id="starting-scope-class-settings">
+        <title
+>Ambito di partenza</title>
+        <para
+>Scelte per le impostazioni predefinite di attributi e operazioni, se pubblici, privati o protetti.</para>
+</sect2
+>    <!-- starting-scope-class-settings -->
+
+</sect1
+>    <!-- class-settings -->
+
+<sect1 id="code-importer-settings">
+    <title
+>Impostazioni di importazione del codice</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Impostazioni di importazione del codice</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-import-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opzioni per le impostazioni di importazione del codice in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opzioni per le impostazioni di importazione del codice in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="include-search-paths-settings">
+    <title
+>Percorsi di ricerca dei file di inclusione</title>
+    <para
+>Viene fornita una raccomandazione generale per migliorare la ricerca tramite l'inclusione di UMBRELLO_INCPATH come variabile d'ambiente.</para>
+</sect2
+>    <!-- include-search-paths-settings -->
+
+<sect2 id="cpp-import-settings">
+    <title
+>Importazione C++</title>
+    <itemizedlist>
+    <listitem>
+    <para
+><guilabel
+>Per ogni file importato crea un artefatto nella vista dei componenti</guilabel
+> L'artefatto creato potrà quindi essere trascinato nella vista del diagramma delle classi, dove le dipendenze possono essere visualizzate in modo semplice assieme agli attributi e alle funzioni di ogni file.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Risolvi le dipendenze (riduce la velocità di importazione)</guilabel
+> Verifica che tutte le dipendenze del file siano risolte, e quindi saranno visibili nelle dipendenze della classe del diagramma delle classi.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Abilita lo standard C++11 (sperimentale)</guilabel
+> Una funzione sperimentale per la conformità allo standard C++11, disabilitare se non necessaria.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- c++-import-settings -->
+
+</sect1
+>    <!-- code-importer-settings -->
+
+<sect1 id="code-generation-settings">
+    <title
+>Impostazioni per la generazione del codice</title>
+
+    <sect2 id="code-gen-settings-general-tab">
+    <title
+>Scheda generale delle impostazioni per la generazione del codice</title>
+
+    <para>
+        <screenshot>
+            <screeninfo
+>Impostazioni generali per la generazione del codice</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-general-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opzioni per le impostazioni generali per la generazione del codice in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opzioni per le impostazioni generali per la generazione del codice in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <para
+>Il modellatore UML Umbrello può generare codice sorgente per vari linguaggi di programmazione in base al modello UML scelto per aiutarti a iniziare l'implementazione del tuo progetto. Il codice generato consiste di dichiarazioni di classi, con i loro metodi e attributi in modo che tu possa «riempire gli spazi vuoti» fornendo la funzionalità delle operazioni delle tue classi.</para>
+
+    <sect3 id="code-gen-language-settings">
+        <title
+>Linguaggio</title>
+        <para
+>Scegli il linguaggio di programmazione da usare per i progetti. Le scelte disponibili sono ActionScript, Ada, C++, C#, D, IDL, Java, JavaScript, MYSQL, Pascal, Perl, PHP, PHP5, PastgreSQL, Python, Ruby, SQL, Tcl, Vala e XMLSchema</para>
+    </sect3
+>    <!-- code-gen-language-settings -->
+
+    <sect3 id="code-generation-folders-settings">
+    <title
+>Cartelle</title>
+    <para
+><guilabel
+>Scrivi tutti i file generati nella cartella:</guilabel
+> ha un campo modificabile per il percorso desiderato per i file generati o, opzionalmente, un pulsante sfoglia per selezionare il percorso.</para>
+    <para
+><guilabel
+>Includi i file di intestazione dalla cartella:</guilabel
+> se selezionata, l'utente può indicare un percorso tramite un campo modificabile o sceglierlo con il pulsante sfoglia.</para>
+    </sect3
+>    <!-- code-generation-folders-settings -->
+
+
+<sect3 id="code-generation-overwrite-settings">
+<title
+>Linee guida di sovrascrittura</title>
+    <para
+>Quando il codice viene generato nella cartella specificata, questa opzione determina cosa succede se viene trovato un file con lo stesso nome. </para>
+<itemizedlist>
+        <listitem>
+        <para
+><guilabel
+>Sovrascrivi</guilabel
+> fà sì che il file sia sovrascritto senza avvisi o opzioni.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Chiedi</guilabel
+> fa sì che viene chiesto se sovrascrivere il file o rinominarlo.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>Usa un nome diverso</guilabel
+> fa sì che il file sia rinominato aggiungendo un suffisso se esiste già.</para>
+    </listitem>
+</itemizedlist>
+
+</sect3
+>    <!-- code-generation-overwrite-settings -->
+
+</sect2
+>    <!-- code-generation-settings-general-tab -->
+
+
+<sect2 id="code-gen-settings-format-tab">
+    <title
+>Scheda formattazione delle impostazioni per la generazione del codice</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Impostazioni di formattazione per la generazione del codice</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-formatting-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opzioni per le impostazioni di formattazione per la generazione del codice in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opzioni per le impostazioni di formattazione per la generazione del codice in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <sect3 id="code-gen-formatting-comment-verbosity">
+        <title
+>Verbosità dei commenti</title>
+        <para
+><guilabel
+>Scrivi commenti di documentazione anche se vuoti</guilabel
+> Genera commenti per la documentazione di classi e funzioni anche se sono vuote.</para>
+        <para
+><guilabel
+>Scrivi commenti di sezione:</guilabel
+> permette agli utenti di scegliere se scrivere i commenti di sezione. I valori possibili sono: No, Quando la sezione non è vuota, Sempre.</para>
+</sect3
+>    <!-- code-gen-formatting-comment-verbosity -->
+
+<sect3 id="code-gen-formatting-lines">
+    <title
+>Linee</title>
+    <para
+><guilabel
+>Tipo di rientro:</guilabel
+> offre una scelta tra nessuna indentazione, tabulatori o spazi.</para>
+    <para
+><guilabel
+>Quantità di rientro:</guilabel
+> permette all'utente di specificare il numero di spazio per le scelte di indentazione con tabulatori o spazi.</para>
+    <para
+><guilabel
+>Stile di fine riga:</guilabel
+> è la scelta tra gli stile di fine riga di *NIX, Windows e Mac.</para>
+</sect3
+>    <!-- code-gen-formatting-lines -->
+
+</sect2
+>    <!-- code-gen-settings-format-tab -->
+
+<sect2 id="code-gen-settings-language-options">
+    <title
+>Opzioni di linguaggio</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Opzioni di linguaggio per la generazione del codice</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-language-general.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opzioni per le impostazioni del linguaggio per la generazione del codice in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opzioni per le impostazioni del linguaggio per la generazione del codice in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>Questa pagina cambia per ogni linguaggio di programmazione selezionato nella scheda Generale. Attualmente le uniche opzioni disponibili sono quelle per il linguaggio C++.</para>
+
+<sect3 id="code-gen-settings-language-options-cpp">
+    <title
+>Generazione di codice C++</title>
+    <para
+></para>
+
+    <sect4 id="code-gen-settings-language-options-documentation">
+        <title
+>Documentazione</title>
+        <para
+><guilabel
+>Stile:</guilabel
+> permette di scegliere se usare «/** */» or «//» come stile di documentazione</para>
+    </sect4
+>    <!-- code-gen-settings-language-options-documentation -->
+
+    <sect4 id="language-general-tab">
+        <title
+>Generale</title>
+        <para
+>Nella scheda <guilabel
+>Generale</guilabel
+> della scheda <guilabel
+>Opzioni di linguaggio</guilabel
+> sono mostrate diverse opzioni relativa alla generazione del codice.</para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>Prefisso dei membri di classe</guilabel
+></para>
+                <para
+>Un'opzione che permette di aggiungere ai membri della classe, quando il codice viene generato, un prefisso determinato dall'utente.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Il pacchetto è uno spazio di nomi</guilabel
+></para>
+                <para
+>Gli spazi dei nomi (namespace) forniscono un modo per prevenire i conflitti di nomi in progetti grandi. I simboli dichiarati dentro il blocco di uno spazio di nomi sono inseriti in un ambito con nome che evita che vengono scambiati per simboli con lo stesso nome in altri ambiti.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Distruttori virtuali</guilabel
+></para>
+                <para
+>Anche se i distruttori non sono ereditati, se una classe base dichiara il proprio distruttore come virtuale, il distruttore derivato lo sovrascriverà sempre. Questo rende possibile eliminare gli oggetti allocati dinamicamente di tipo polimorfici attraverso puntatori alla base.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Genera costruttori vuoti</guilabel
+></para>
+                <para
+>Questo genererà costruttori che hanno parentesi vuote.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Genera metodi delle funzioni d'accesso</guilabel
+></para>
+                <para
+>Genererà i metodi per accedere ai tipi di dati.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Le operazioni sono in linea</guilabel
+></para>
+                <para
+>Genera i metodi come in linea, ma i compilatori sono liberi di scegliere di non rendere il metodo in linea.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Le funzioni d'accesso sono in linea</guilabel
+></para>
+                <para
+>I metodi che effettuano l'accesso ai dati della classe saranno generati con l'attributo inline, ma i compilatori sono liberi di scegliere di non rendere il metodo in linea.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Le funzioni d'accesso sono pubbliche</guilabel
+></para>
+                <para
+>I metodi che sono generati con visibilità pubblica saranno disponibile ogni volta che si crea un'istanza della classe.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Crea metodi getter con il prefisso «get»</guilabel
+></para>
+                <para
+>Questo aggiungerà il prefisso «get» ai metodi che ottengono/restituiscono i dati della classe.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Rimuovi il prefisso '[a-zA-Z]_' dai nomi dei metodi accessori</guilabel
+></para>
+                <para
+>Se è stato specificato un prefisso in <guilabel
+>Prefisso dei membri di classe</guilabel
+>, questo lo rimuoverà.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>I metodi accessori iniziano con lettere maiuscole</guilabel
+></para>
+                <para
+>Rende maiuscola la prima lettera del nome del metodo.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>Usa «\» come indicatore di documentazione invece di «@»</guilabel
+></para>
+                <para
+>Quali indicatori usare quando si documentano i parametri di un metodo.</para>
+            </listitem>
+        </itemizedlist>
+    </sect4
+>    <!-- language-general-tab -->
+
+    <sect4 id="language-method-body-tab">
+        <title
+>Metodo di generazione del corpo</title>
+        <para>
+            <screenshot>
+                <screeninfo
+>Opzioni di linguaggio per generazione del codice del corpo dei metodi</screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="code-generation-language-method-settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>Opzioni per la impostazioni di linguaggio per generazione del codice del corpo dei metodi in &umbrello;</phrase>
+                    </textobject>
+                    <caption>
+                        <para
+>Opzioni per la impostazioni di linguaggio per generazione del codice del corpo dei metodi in &umbrello; </para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para
+><guilabel
+>Lista</guilabel
+></para>
+        <para
+>Ha come opzioni QPtrList, vector e std::vector per il tipo della lista. Segue un campo modificabile o selezionabile per specificare il file di inclusione, assieme ad un pulsante sfoglia per trovare e selezionare il file di inclusione. C'è anche un'opzione per rendere globale la lista.</para>
+        <para
+><guilabel
+>Stringa</guilabel
+></para>
+            <para
+>Opzioni di string o QString per il tipo stringa. Segue un campo modificabile o selezionabile per specificare il file di inclusione, assieme ad un pulsante sfoglia per trovare e selezionare il file di inclusione. C'è anche un'opzione per rendere globale la stringa. </para>
+
+    </sect4
+>    <!-- language-method-body-tab -->
+
+</sect3
+>    <!-- code-gen-settings-language-options-cpp -->
+
+</sect2
+> <!-- code-gen-settings-language-options -->
+
+</sect1
+>    <!-- code-generation-settings-general-tab -->
+
+<sect1 id="code-viewer-settings">
+    <title
+>Impostazioni per la visualizzazione del codice</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Impostazioni per la visualizzazione del codice</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-viewer-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opzioni per le impostazioni per la visualizzazione del codice in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opzioni per le impostazioni per la visualizzazione del codice in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>Permette la personalizzazione del visore del codice. La sezione <guilabel
+>Carattere richiesto</guilabel
+> permette la selezione del carattere, e dello stile e della dimensione del carattere. Una rappresentazione della scelta effettuata viene mostrato sotto le possibili scelte. </para>
+    <para
+>Nella sezione <guilabel
+>Colori</guilabel
+>, le modifiche possono essere effettuate alle seguenti entità: carta, carattere, selezionato, blocco oggetto UML, blocco nascosto, testo modificabile e testo non modificabile. Modifiche ai colori possono essere effettuate facendo clic nelle rispettive etichette sulla casella del colore. </para>
+</sect1
+>    <!-- code-viewer-settings -->
+
+<sect1 id="auto-layout-settings">
+    <title
+>Impostazioni della disposizione automatica</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>Impostazioni della disposizione automatica</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="auto-layout-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>Opzioni per le impostazioni della disposizione automatica in &umbrello;</phrase>
+                </textobject>
+                <caption>
+                    <para
+>Opzioni per le impostazioni della disposizione automatica in &umbrello; </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+><guilabel
+>Rileva automaticamente generatore di disposizioni</guilabel
+></para>
+    <para
+>La funzionalità di disposizione automatica dipende dai generatori di disposizioni presenti nel pacchetto GraphViz, che è solitamente installato assieme a Umbrello dal gestore dei pacchetti. Umbrello rileva da solo la presenza di questi generatori di disposizioni. Nel caso che questa dipendenza non sia disponibile o non sia quella giusta, è possibile selezionare un altro percorso di installazione. </para>
+    <para
+><guilabel
+>Mostra disposizione di esportazione nel menu contestuale del diagramma</guilabel
+></para>
+    <para
+>L'esportazione dei file dot è effettuata usando la disposizione di esportazione. Quando questa opzione è segnata, la disposizione di esportazione viene aggiunta all'elenco di disposizioni di diagrammi disponibili e abilita una rapida anteprima dell'esportazione a dot. </para>
+</sect1
+>    <!-- auto-layout-settings -->
+
+</chapter>

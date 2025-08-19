@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-16 02:03+0000\n"
-"PO-Revision-Date: 2025-04-27 14:50+0200\n"
+"PO-Revision-Date: 2025-08-18 16:01+0200\n"
 "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -20,17 +20,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.12.0\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Federico Zenith,Daniele Medri"
+msgstr "Luigi Toscano,Federico Zenith,Daniele Medri"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "federico.zenith@member.fsf.org,"
+msgstr "luigi.toscano@tiscali.it,federico.zenith@member.fsf.org,"
 
 #: basictypes.cpp:189
 #, kde-format
@@ -450,7 +450,7 @@ msgstr "Prefisso dei membri di classe"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:85
 #, kde-format
 msgid "Method Body Generation"
-msgstr "Metodo di generazione del corpo"
+msgstr "Generazione del corpo del metodo"
 
 #. i18n: ectx: property (historyItems), widget (KHistoryComboBox, ui_listClassHCombo)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:122
@@ -493,7 +493,7 @@ msgstr "QPtrList"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:424
 #, kde-format
 msgid "vector"
-msgstr "vettore"
+msgstr "vector"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelVariable)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:140
@@ -597,7 +597,7 @@ msgstr "QString"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:496
 #, kde-format
 msgid "string"
-msgstr "stringa"
+msgstr "string"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelStringClass)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:295
@@ -1125,7 +1125,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:240
 #, kde-format
 msgid "&Write documentation comments even if empty"
-msgstr "&Scrivi commenti di documentazione anche se vuoto"
+msgstr "&Scrivi commenti di documentazione anche se vuoti"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
@@ -1147,7 +1147,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:276
 #, kde-format
 msgid "None"
-msgstr "Nessuno"
+msgstr "No"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:281
@@ -1201,7 +1201,7 @@ msgstr "Quantità di rientro:"
 #: codegenwizard/codegenoptionspage.ui:378
 #, kde-format
 msgid "Line ending style:"
-msgstr "Stile per terminare le righe:"
+msgstr "Stile di fine riga:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectEndLineCharsBox)
 #: codegenwizard/codegenoptionspage.ui:389
@@ -3999,14 +3999,13 @@ msgstr "&Tipo:"
 #, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr ""
+msgstr "Sì"
 
 #: dialogs/widgets/umlmessagebox.h:32
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "Nessuno"
+msgstr "No"
 
 #: dialogs/widgets/umlpackagewidget.cpp:29
 #, kde-format

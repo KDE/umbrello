@@ -15,6 +15,7 @@
  <!ENTITY working-with-umbrello-chapter SYSTEM "working_with_umbrello.docbook">
  <!ENTITY code-import-and-generation-chapter SYSTEM "code_import_and_generation.docbook">
  <!ENTITY other-features-chapter SYSTEM "other_features.docbook">
+ <!ENTITY settings-chapter SYSTEM "settings.docbook">
  <!ENTITY authors-chapter SYSTEM "authors.docbook">
  <!ENTITY credits-chapter SYSTEM "credits.docbook">
  <!ENTITY % addindex "IGNORE">
@@ -57,7 +58,7 @@
 </copyright>
 <copyright>
 <year
->2002, 2003</year>
+>2002-2020</year>
 <holder
 >Autori di &umbrello;</holder>
 </copyright>
@@ -95,6 +96,7 @@
 &working-with-umbrello-chapter;
 &code-import-and-generation-chapter;
 &other-features-chapter;
+&settings-chapter;
 &authors-chapter;
 &credits-chapter;
 
