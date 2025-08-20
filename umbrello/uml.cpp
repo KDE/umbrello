@@ -534,27 +534,27 @@ void UMLApp::initActions()
     newDiagram->addAction(entityRelationshipDiagram);
 
     viewShowTree = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_tree"));
-    viewShowTree->setText(i18n("&Tree View"));
+    viewShowTree->setText(i18n("Show tree view"));
     connect(viewShowTree, SIGNAL(triggered(bool)), this, SLOT(slotShowTreeView(bool)));
 
     viewShowDebug = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_debug"));
-    viewShowDebug->setText(i18n("&Debugging"));
+    viewShowDebug->setText(i18n("Show debug window"));
     connect(viewShowDebug, SIGNAL(triggered(bool)), this, SLOT(slotShowDebugView(bool)));
 
     viewShowDoc = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_doc"));
-    viewShowDoc->setText(i18n("&Documentation"));
+    viewShowDoc->setText(i18n("Show documentation window"));
     connect(viewShowDoc, SIGNAL(triggered(bool)), this, SLOT(slotShowDocumentationView(bool)));
 
     viewShowLog = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_log"));
-    viewShowLog->setText(i18n("&Logging"));
+    viewShowLog->setText(i18n("Show log window"));
     connect(viewShowLog, SIGNAL(triggered(bool)), this, SLOT(slotShowLogView(bool)));
 
     viewShowCmdHistory = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_undo"));
-    viewShowCmdHistory->setText(i18n("&Command history"));
+    viewShowCmdHistory->setText(i18n("Show command history"));
     connect(viewShowCmdHistory, SIGNAL(triggered(bool)), this, SLOT(slotShowCmdHistoryView(bool)));
 
     viewShowBirdView = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_bird"));
-    viewShowBirdView->setText(i18n("&Bird's eye view"));
+    viewShowBirdView->setText(i18n("Show bird's eye view"));
     connect(viewShowBirdView, SIGNAL(triggered(bool)), this, SLOT(slotShowBirdView(bool)));
 
     viewClearDiagram = actionCollection()->addAction(QStringLiteral("view_clear_diagram"));
