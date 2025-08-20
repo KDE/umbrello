@@ -11,7 +11,19 @@
   <Menu name="edit"><text>&amp;Edit</text>
     <Action name="delete_selected"/>
   </Menu>
-  <Menu name="views"><text>&amp;Diagram</text>
+  <Menu name="view"><text>&amp;View</text>
+    <Menu name="view_window"><text>&amp;Show/hide window</text>
+      <Action name="view_show_tree"/>
+      <Action name="view_show_doc"/>
+      <Action name="view_show_undo"/>
+      <Action name="view_show_bird"/>
+      <Action name="view_show_stereotypes"/>
+      <Action name="view_show_diagrams"/>
+      <Action name="view_show_objects"/>
+      <Action name="view_show_welcome"/>
+    </Menu>
+  </Menu>
+  <Menu name="diagram"><text>&amp;Diagram</text>
     <Menu name="new_view"><text>&amp;New</text>
       <Action name="new_class_diagram"/>
       @ACTION_NEW_OBJECT_DIAGRAM@
@@ -82,15 +94,6 @@
     <Action name="class_wizard"/>
   </Menu>
   <Menu name="settings"><text>&amp;Settings</text>
-    <DefineGroup name="view_show" append="view_show"/>
-    <Action name="view_show_tree"/>
-    <Action name="view_show_doc"/>
-    <Action name="view_show_undo"/>
-    <Action name="view_show_bird"/>
-    <Action name="view_show_stereotypes"/>
-    <Action name="view_show_diagrams"/>
-    <Action name="view_show_objects"/>
-    <Action name="view_show_welcome"/>
   </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar" fullWidth="true" newline="true">
