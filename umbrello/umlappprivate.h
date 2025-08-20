@@ -123,6 +123,7 @@ public Q_SLOTS:
         parent->addDockWidget(Qt::LeftDockWidgetArea, diagramsWindow);
 
         viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_diagrams"));
+        viewDiagramsWindow->setText(i18n("Show diagrams window"));
         connect(viewDiagramsWindow, SIGNAL(triggered(bool)), diagramsWindow, SLOT(setVisible(bool)));
     }
 
@@ -133,6 +134,7 @@ public Q_SLOTS:
         parent->addDockWidget(Qt::LeftDockWidgetArea, objectsWindow);
 
         viewObjectsWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_objects"));
+        viewObjectsWindow->setText(i18n("Show UML objects window"));
         connect(viewObjectsWindow, SIGNAL(triggered(bool)), objectsWindow, SLOT(setVisible(bool)));
     }
 
@@ -143,6 +145,7 @@ public Q_SLOTS:
         parent->addDockWidget(Qt::LeftDockWidgetArea, stereotypesWindow);
 
         viewStereotypesWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_stereotypes"));
+        viewStereotypesWindow->setText(i18n("Show stereotypes window"));
         connect(viewStereotypesWindow, SIGNAL(triggered(bool)), stereotypesWindow, SLOT(setVisible(bool)));
     }
 
@@ -176,6 +179,7 @@ public Q_SLOTS:
         parent->addDockWidget(Qt::RightDockWidgetArea, welcomeWindow);
 
         viewWelcomeWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_welcome"));
+        viewWelcomeWindow->setText(i18n("Show welcome window"));
         connect(viewWelcomeWindow, SIGNAL(triggered(bool)), welcomeWindow, SLOT(setVisible(bool)));
     }
 
