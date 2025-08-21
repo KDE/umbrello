@@ -146,7 +146,6 @@ UMLApp::UMLApp(QWidget* parent)
     m_documentationDock(nullptr),
     m_cmdHistoryDock(nullptr),
     m_propertyDock(nullptr),
-    m_logDock(nullptr),
     m_birdViewDock(nullptr),
     m_docWindow(nullptr),
     m_birdView(nullptr),
@@ -163,7 +162,6 @@ UMLApp::UMLApp(QWidget* parent)
     viewShowTree(nullptr),
     viewShowDebug(nullptr),
     viewShowDoc(nullptr),
-    viewShowLog(nullptr),
     viewShowCmdHistory(nullptr),
     viewShowBirdView(nullptr),
     newDiagram(nullptr),
@@ -544,10 +542,6 @@ void UMLApp::initActions()
     viewShowDoc = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_doc"));
     viewShowDoc->setText(i18n("Show documentation window"));
     connect(viewShowDoc, SIGNAL(triggered(bool)), this, SLOT(slotShowDocumentationView(bool)));
-
-    viewShowLog = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_log"));
-    viewShowLog->setText(i18n("Show log window"));
-    connect(viewShowLog, SIGNAL(triggered(bool)), this, SLOT(slotShowLogView(bool)));
 
     viewShowCmdHistory = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_undo"));
     viewShowCmdHistory->setText(i18n("Show command history"));
@@ -996,14 +990,7 @@ void UMLApp::initWidgets()
     m_debugDock->setObjectName(QStringLiteral("DebugDock"));
     addDockWidget(Qt::LeftDockWidgetArea, m_debugDock);
     m_debugDock->setWidget(Tracer::instance());
-    connect(m_debugDock, SIGNAL(visibilityChanged(bool)), viewShowLog, SLOT(setChecked(bool)));
-
-    // create the log viewer
-    m_logDock = new QDockWidget(i18n("&Log"), this);
-    m_logDock->setObjectName(QStringLiteral("LogDock"));
-    addDockWidget(Qt::LeftDockWidgetArea, m_logDock);
-    m_logDock->setWidget(m_d->logWindow);
-    connect(m_logDock, SIGNAL(visibilityChanged(bool)), viewShowLog, SLOT(setChecked(bool)));
+    connect(m_debugDock, SIGNAL(visibilityChanged(bool)), viewShowDebug, SLOT(setChecked(bool)));
 
     // create the property viewer
     //m_propertyDock = new QDockWidget(i18n("&Properties"), this);
@@ -1019,9 +1006,9 @@ void UMLApp::initWidgets()
     m_d->initWidgets();
 
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
-    tabifyDockWidget(m_cmdHistoryDock, m_logDock);
+    tabifyDockWidget(m_cmdHistoryDock, m_d->logDock);
     //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);  //:TODO:
-    tabifyDockWidget(m_logDock, m_debugDock);
+    tabifyDockWidget(m_d->logDock, m_debugDock);
     tabifyDockWidget(m_listDock, m_d->stereotypesWindow);
     tabifyDockWidget(m_d->stereotypesWindow, m_d->diagramsWindow);
 #ifdef ENABLE_UML_OBJECTS_WINDOW
@@ -1867,7 +1854,7 @@ QListWidget* UMLApp::logWindow() const
  */
 bool UMLApp::logToConsole() const
 {
-    return (Tracer::instance()->logToConsole() || !m_logDock || !m_logDock->isVisible());
+    return (Tracer::instance()->logToConsole() || !m_d->logDock || !m_d->logDock->isVisible());
 }
 
 /**
@@ -2591,12 +2578,6 @@ void UMLApp::slotShowCmdHistoryView(bool state)
 {
     m_cmdHistoryDock->setVisible(state);
     viewShowCmdHistory->setChecked(state);
-}
-
-void UMLApp::slotShowLogView(bool state)
-{
-    m_logDock->setVisible(state);
-    viewShowLog->setChecked(state);
 }
 
 void UMLApp::slotShowBirdView(bool state)

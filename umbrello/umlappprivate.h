@@ -58,6 +58,7 @@ public:
     QListWidget *logWindow;         ///< Logging window.
     KToggleAction *viewDiagramsWindow;
     KToggleAction *viewObjectsWindow;
+    KToggleAction *viewShowLog;
     KToggleAction *viewStereotypesWindow;
     KToggleAction *viewWelcomeWindow;
     DiagramsWindow *diagramsWindow;
@@ -65,6 +66,7 @@ public:
     StereotypesWindow *stereotypesWindow;
     QDockWidget *welcomeWindow;
     QDockWidget *editorWindow;
+    QDockWidget *logDock;            ///< Contains the log window widget.
 
     KTextEditor::Editor *editor;
     KTextEditor::View *view;
@@ -112,6 +114,9 @@ public Q_SLOTS:
         viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_diagrams"));
         viewDiagramsWindow->setText(i18n("Show diagrams window"));
 
+        viewShowLog = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_log"));
+        viewShowLog->setText(i18n("Show log window"));
+
         viewObjectsWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_objects"));
         viewObjectsWindow->setText(i18n("Show UML objects window"));
 
@@ -128,13 +133,9 @@ public Q_SLOTS:
            "Conditional jump or move depends on uninitialised value(s)".
          */
         editor = KTextEditor::Editor::instance();
-        logWindow = new QListWidget;
-        QFont mono;
-        mono.setFamily(QStringLiteral("Monospace"));
-        logWindow->setFont(mono);
-        connect(logWindow, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotLogWindowItemDoubleClicked(QListWidgetItem *)));
 
         createDiagramsWindow();
+        createLogWindow();
 #ifdef ENABLE_UML_OBJECTS_WINDOW
         createObjectsWindow();
 #endif
@@ -150,6 +151,24 @@ public Q_SLOTS:
         connect(viewDiagramsWindow, SIGNAL(triggered(bool)), diagramsWindow, SLOT(setVisible(bool)));
         connect(viewDiagramsWindow, SIGNAL(triggered(bool)), viewDiagramsWindow, SLOT(setChecked(bool)));
         connect(diagramsWindow, SIGNAL(visibilityChanged(bool)), viewDiagramsWindow, SLOT(setChecked(bool)));
+    }
+
+    void createLogWindow()
+    {
+        logWindow = new QListWidget;
+        QFont mono;
+        mono.setFamily(QStringLiteral("Monospace"));
+        logWindow->setFont(mono);
+        connect(logWindow, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotLogWindowItemDoubleClicked(QListWidgetItem *)));
+
+        // create the log viewer
+        logDock = new QDockWidget(i18n("&Log"), parent);
+        logDock->setObjectName(QStringLiteral("LogDock"));
+        parent->addDockWidget(Qt::LeftDockWidgetArea, logDock);
+        logDock->setWidget(logWindow);
+        connect(viewShowLog, SIGNAL(triggered(bool)), logDock, SLOT(setVisible(bool)));
+        connect(viewShowLog, SIGNAL(triggered(bool)), viewShowLog, SLOT(setChecked(bool)));
+        connect(logDock, SIGNAL(visibilityChanged(bool)), viewShowLog, SLOT(setChecked(bool)));
     }
 
     void createObjectsWindow()
