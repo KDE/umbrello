@@ -243,7 +243,7 @@ void UMLApp::setup()
     statusBar()->addPermanentWidget(m_pZoomSlider);
     statusBar()->addPermanentWidget(m_pZoomInPB);
 
-    initView();
+    initWidgets();
     initClip();
     readOptions();
 
@@ -679,6 +679,7 @@ void UMLApp::initActions()
 // @todo Check if this should be ported
 //     QMenu* menu = findMenu(QStringLiteral("settings"));
 //     menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
+    m_d->initActions();
 
     // disable actions at startup
     fileSave->setEnabled(true);
@@ -912,7 +913,7 @@ void UMLApp::initStatusBar()
  * Creates the centerwidget of the KMainWindow instance and
  * sets it as the view.
  */
-void UMLApp::initView()
+void UMLApp::initWidgets()
 {
     setCaption(m_doc->url().fileName(), false);
     m_view = nullptr;
@@ -994,13 +995,6 @@ void UMLApp::initView()
     m_cmdHistoryDock->setWidget(m_pQUndoView);
     connect(m_cmdHistoryDock, SIGNAL(visibilityChanged(bool)), viewShowCmdHistory, SLOT(setChecked(bool)));
 
-    m_d->createDiagramsWindow();
-#ifdef ENABLE_UML_OBJECTS_WINDOW
-    m_d->createObjectsWindow();
-#endif
-    m_d->createStereotypesWindow();
-    m_d->createWelcomeWindow();
-
     m_debugDock = new QDockWidget(i18n("&Debug"), this);
     m_debugDock->setObjectName(QStringLiteral("DebugDock"));
     addDockWidget(Qt::LeftDockWidgetArea, m_debugDock);
@@ -1024,6 +1018,8 @@ void UMLApp::initView()
     m_birdViewDock->setObjectName(QStringLiteral("BirdViewDock"));
     addDockWidget(Qt::RightDockWidgetArea, m_birdViewDock);
     connect(m_birdViewDock, SIGNAL(visibilityChanged(bool)), viewShowBirdView, SLOT(setChecked(bool)));
+
+    m_d->initWidgets();
 
     tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
     tabifyDockWidget(m_cmdHistoryDock, m_logDock);

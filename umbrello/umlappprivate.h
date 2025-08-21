@@ -85,15 +85,6 @@ public:
         view(nullptr),
         document(nullptr)
     {
-        /* TODO: On the call to KTextEditor::Editor::instance() Valgrind reports
-           "Conditional jump or move depends on uninitialised value(s)".
-         */
-        editor = KTextEditor::Editor::instance();
-        logWindow = new QListWidget;
-        QFont mono;
-        mono.setFamily(QStringLiteral("Monospace"));
-        logWindow->setFont(mono);
-        connect(logWindow, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotLogWindowItemDoubleClicked(QListWidgetItem *)));
     }
 
     ~UMLAppPrivate()
@@ -116,15 +107,49 @@ public Q_SLOTS:
         openFileInEditor(QUrl::fromLocalFile(columns[0]), columns[1].toInt()-1, columns[2].toInt());
     }
 
+    void initActions()
+    {
+        viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_diagrams"));
+        viewDiagramsWindow->setText(i18n("Show diagrams window"));
+
+        viewObjectsWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_objects"));
+        viewObjectsWindow->setText(i18n("Show UML objects window"));
+
+        viewStereotypesWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_stereotypes"));
+        viewStereotypesWindow->setText(i18n("Show stereotypes window"));
+
+        viewWelcomeWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_welcome"));
+        viewWelcomeWindow->setText(i18n("Show welcome window"));
+    }
+
+    void initWidgets()
+    {
+        /* TODO: On the call to KTextEditor::Editor::instance() Valgrind reports
+           "Conditional jump or move depends on uninitialised value(s)".
+         */
+        editor = KTextEditor::Editor::instance();
+        logWindow = new QListWidget;
+        QFont mono;
+        mono.setFamily(QStringLiteral("Monospace"));
+        logWindow->setFont(mono);
+        connect(logWindow, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT(slotLogWindowItemDoubleClicked(QListWidgetItem *)));
+
+        createDiagramsWindow();
+#ifdef ENABLE_UML_OBJECTS_WINDOW
+        createObjectsWindow();
+#endif
+        createStereotypesWindow();
+        createWelcomeWindow();
+    }
+
     void createDiagramsWindow()
     {
         // create the tree viewer
         diagramsWindow = new DiagramsWindow(i18n("&Diagrams"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, diagramsWindow);
-
-        viewDiagramsWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_diagrams"));
-        viewDiagramsWindow->setText(i18n("Show diagrams window"));
         connect(viewDiagramsWindow, SIGNAL(triggered(bool)), diagramsWindow, SLOT(setVisible(bool)));
+        connect(viewDiagramsWindow, SIGNAL(triggered(bool)), viewDiagramsWindow, SLOT(setChecked(bool)));
+        connect(diagramsWindow, SIGNAL(visibilityChanged(bool)), viewDiagramsWindow, SLOT(setChecked(bool)));
     }
 
     void createObjectsWindow()
@@ -132,10 +157,9 @@ public Q_SLOTS:
         // create the object window
         objectsWindow = new ObjectsWindow(i18n("&UML Objects"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, objectsWindow);
-
-        viewObjectsWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_objects"));
-        viewObjectsWindow->setText(i18n("Show UML objects window"));
         connect(viewObjectsWindow, SIGNAL(triggered(bool)), objectsWindow, SLOT(setVisible(bool)));
+        connect(viewObjectsWindow, SIGNAL(triggered(bool)), viewObjectsWindow, SLOT(setChecked(bool)));
+        connect(objectsWindow, SIGNAL(visibilityChanged(bool)), viewObjectsWindow, SLOT(setChecked(bool)));
     }
 
     void createStereotypesWindow()
@@ -143,10 +167,9 @@ public Q_SLOTS:
         // create the tree viewer
         stereotypesWindow = new StereotypesWindow(i18n("&Stereotypes"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, stereotypesWindow);
-
-        viewStereotypesWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_stereotypes"));
-        viewStereotypesWindow->setText(i18n("Show stereotypes window"));
+        connect(viewStereotypesWindow, SIGNAL(triggered(bool)), viewStereotypesWindow, SLOT(setChecked(bool)));
         connect(viewStereotypesWindow, SIGNAL(triggered(bool)), stereotypesWindow, SLOT(setVisible(bool)));
+        connect(stereotypesWindow, SIGNAL(visibilityChanged(bool)), viewStereotypesWindow, SLOT(setChecked(bool)));
     }
 
     void createWelcomeWindow()
@@ -177,10 +200,9 @@ public Q_SLOTS:
         welcomeWindow->setWidget(tb);
 #endif
         parent->addDockWidget(Qt::RightDockWidgetArea, welcomeWindow);
-
-        viewWelcomeWindow = parent->actionCollection()->add<KToggleAction>(QStringLiteral("view_show_welcome"));
-        viewWelcomeWindow->setText(i18n("Show welcome window"));
+        connect(viewWelcomeWindow, SIGNAL(triggered(bool)), viewWelcomeWindow, SLOT(setChecked(bool)));
         connect(viewWelcomeWindow, SIGNAL(triggered(bool)), welcomeWindow, SLOT(setVisible(bool)));
+        connect(welcomeWindow, SIGNAL(visibilityChanged(bool)), viewWelcomeWindow, SLOT(setChecked(bool)));
     }
 
     void slotWelcomeWindowLinkClicked(const QUrl &url)

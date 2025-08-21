@@ -199,7 +199,7 @@ protected:
 
     void initActions();
     void initStatusBar();
-    void initView();
+    void initWidgets();
 
     virtual bool queryClose();
 
