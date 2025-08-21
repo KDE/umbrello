@@ -676,9 +676,6 @@ void UMLApp::initActions()
                     QKeySequence(Qt::SHIFT | Qt::Key_Left) : QKeySequence(Qt::SHIFT | Qt::Key_Right)));
     connect(changeTabRight, SIGNAL(triggered(bool)), this, SLOT(slotChangeTabRight()));
 
-// @todo Check if this should be ported
-//     QMenu* menu = findMenu(QStringLiteral("settings"));
-//     menu->insertItem(i18n("&Windows"), dockHideShowMenu(), -1, 0);
     m_d->initActions();
 
     // disable actions at startup
