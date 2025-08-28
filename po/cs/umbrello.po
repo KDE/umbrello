@@ -3954,15 +3954,13 @@ msgstr "&Typ:"
 #, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr ""
+msgstr "Ano"
 
-# žádné parametry funkce v inspektoru funkcí
 #: dialogs/widgets/umlmessagebox.h:32
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "Nic"
+msgstr "Ne"
 
 #: dialogs/widgets/umlpackagewidget.cpp:29
 #, kde-format
@@ -7301,28 +7299,24 @@ msgid "&Entity Relationship Diagram..."
 msgstr ""
 
 #: uml.cpp:535
-#, fuzzy, kde-format
-#| msgid "Show Grid"
+#, kde-format
 msgid "Show tree view"
-msgstr "Zobrazit mřížku"
+msgstr ""
 
 #: uml.cpp:539
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "Show debug window"
-msgstr "Zobrazit destrukci"
+msgstr ""
 
 #: uml.cpp:543
-#, fuzzy, kde-format
-#| msgid "Show Documentation Indicator"
+#, kde-format
 msgid "Show documentation window"
-msgstr "Zobrazit ukazatel dokumentace"
+msgstr ""
 
 #: uml.cpp:547
-#, fuzzy, kde-format
-#| msgid "&Command history"
+#, kde-format
 msgid "Show command history"
-msgstr "Historie pří&kazů"
+msgstr ""
 
 #: uml.cpp:551
 #, kde-format
@@ -7622,16 +7616,14 @@ msgid "XHTML Generation failed ."
 msgstr ""
 
 #: umlappprivate.h:115
-#, fuzzy, kde-format
-#| msgid "Show &grid"
+#, kde-format
 msgid "Show diagrams window"
-msgstr "Zobrazit &mřížku"
+msgstr ""
 
 #: umlappprivate.h:118
-#, fuzzy, kde-format
-#| msgid "Show &grid"
+#, kde-format
 msgid "Show log window"
-msgstr "Zobrazit &mřížku"
+msgstr ""
 
 #: umlappprivate.h:121
 #, kde-format
@@ -7639,10 +7631,9 @@ msgid "Show UML objects window"
 msgstr ""
 
 #: umlappprivate.h:124
-#, fuzzy, kde-format
-#| msgid "New stereotype"
+#, kde-format
 msgid "Show stereotypes window"
-msgstr "Nový stereotyp"
+msgstr ""
 
 #: umlappprivate.h:127
 #, kde-format
@@ -9177,9 +9168,3 @@ msgstr "Stav"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr ""
-
-#~ msgid "&Debugging"
-#~ msgstr "&Ladění"
-
-#~ msgid "&Logging"
-#~ msgstr "Zázna&my"

@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-27 02:08+0000\n"
-"PO-Revision-Date: 2025-08-23 10:22-0300\n"
+"PO-Revision-Date: 2025-08-27 11:24-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -7365,34 +7365,29 @@ msgid "&Entity Relationship Diagram..."
 msgstr "Diagrama de relacionamento da &entidade..."
 
 #: uml.cpp:535
-#, fuzzy, kde-format
-#| msgid "Show Attributes"
+#, kde-format
 msgid "Show tree view"
-msgstr "Mostrar atributos"
+msgstr "Mostrar visão em árvore"
 
 #: uml.cpp:539
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show debug window"
-msgstr "Mostrar janela de documentação"
+msgstr "Mostrar janela de depuração"
 
 #: uml.cpp:543
-#, fuzzy, kde-format
-#| msgid "Show Documentation Indicator"
+#, kde-format
 msgid "Show documentation window"
-msgstr "Mostrar indicador da documentação"
+msgstr "Mostrar janela de documentação"
 
 #: uml.cpp:547
-#, fuzzy, kde-format
-#| msgid "&Command history"
+#, kde-format
 msgid "Show command history"
-msgstr "Histórico de &comandos"
+msgstr "Mostrar histórico de comandos"
 
 #: uml.cpp:551
-#, fuzzy, kde-format
-#| msgid "&Bird's eye view"
+#, kde-format
 msgid "Show bird's eye view"
-msgstr "&Exibição vista de cima"
+msgstr "Mostrar vista de cima"
 
 #: uml.cpp:556
 #, kde-format
@@ -7687,34 +7682,29 @@ msgid "XHTML Generation failed ."
 msgstr "A geração de XHTML falhou."
 
 #: umlappprivate.h:115
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show diagrams window"
-msgstr "Mostrar janela de documentação"
+msgstr "Mostrar janela de diagramas"
 
 #: umlappprivate.h:118
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show log window"
-msgstr "Mostrar janela de documentação"
+msgstr "Mostrar janela de registro"
 
 #: umlappprivate.h:121
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show UML objects window"
-msgstr "Mostrar janela de documentação"
+msgstr "Mostrar janela de objetos UML"
 
 #: umlappprivate.h:124
-#, fuzzy, kde-format
-#| msgid "Show Stereotypes"
+#, kde-format
 msgid "Show stereotypes window"
-msgstr "Mostrar estereótipos"
+msgstr "Mostrar janela de estereótipos"
 
 #: umlappprivate.h:127
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show welcome window"
-msgstr "Mostrar janela de documentação"
+msgstr "Mostrar janela de boas vindas"
 
 #: umlappprivate.h:165
 #, kde-format

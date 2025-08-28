@@ -7295,34 +7295,29 @@ msgid "&Entity Relationship Diagram..."
 msgstr "实体关系图(&E)..."
 
 #: uml.cpp:535
-#, fuzzy, kde-format
-#| msgid "Show Attributes"
+#, kde-format
 msgid "Show tree view"
-msgstr "显示属性"
+msgstr ""
 
 #: uml.cpp:539
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show debug window"
-msgstr "显示停靠窗口"
+msgstr ""
 
 #: uml.cpp:543
-#, fuzzy, kde-format
-#| msgid "Show Documentation Indicator"
+#, kde-format
 msgid "Show documentation window"
-msgstr "显示文档指示器"
+msgstr ""
 
 #: uml.cpp:547
-#, fuzzy, kde-format
-#| msgid "&Command history"
+#, kde-format
 msgid "Show command history"
-msgstr "命令历史(&C)"
+msgstr ""
 
 #: uml.cpp:551
-#, fuzzy, kde-format
-#| msgid "&Bird's eye view"
+#, kde-format
 msgid "Show bird's eye view"
-msgstr "鸟瞰图(&B)"
+msgstr ""
 
 #: uml.cpp:556
 #, kde-format
@@ -7608,34 +7603,29 @@ msgid "XHTML Generation failed ."
 msgstr "XHTML 生成失败。"
 
 #: umlappprivate.h:115
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show diagrams window"
-msgstr "显示停靠窗口"
+msgstr ""
 
 #: umlappprivate.h:118
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show log window"
-msgstr "显示停靠窗口"
+msgstr ""
 
 #: umlappprivate.h:121
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show UML objects window"
-msgstr "显示停靠窗口"
+msgstr ""
 
 #: umlappprivate.h:124
-#, fuzzy, kde-format
-#| msgid "Show Stereotypes"
+#, kde-format
 msgid "Show stereotypes window"
-msgstr "显示构造型"
+msgstr ""
 
 #: umlappprivate.h:127
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show welcome window"
-msgstr "显示停靠窗口"
+msgstr ""
 
 #: umlappprivate.h:165
 #, kde-format
@@ -9170,9 +9160,3 @@ msgstr "状态"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "前置/后置条件"
-
-#~ msgid "&Debugging"
-#~ msgstr "调试(&D)"
-
-#~ msgid "&Logging"
-#~ msgstr "日志(&L)"

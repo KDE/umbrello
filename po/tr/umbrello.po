@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-27 02:08+0000\n"
-"PO-Revision-Date: 2025-08-15 20:33+0300\n"
+"PO-Revision-Date: 2025-08-27 09:24+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.04.3\n"
+"X-Generator: Lokalize 25.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7366,34 +7366,29 @@ msgid "&Entity Relationship Diagram..."
 msgstr "Varlık İlişki&si Diyagramı..."
 
 #: uml.cpp:535
-#, fuzzy, kde-format
-#| msgid "Show Attributes"
+#, kde-format
 msgid "Show tree view"
-msgstr "Öznitelikleri göster"
+msgstr "Ağaç Görünümünü Göster"
 
 #: uml.cpp:539
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show debug window"
-msgstr "Belge Penceresini Göster"
+msgstr "Hata Ayıklama Penceresini Göster"
 
 #: uml.cpp:543
-#, fuzzy, kde-format
-#| msgid "Show Documentation Indicator"
+#, kde-format
 msgid "Show documentation window"
-msgstr "Belgelendirme Göstergesini Göster"
+msgstr "Belgelendirme Penceresini Göster"
 
 #: uml.cpp:547
-#, fuzzy, kde-format
-#| msgid "&Command history"
+#, kde-format
 msgid "Show command history"
-msgstr "&Komut Geçmişi"
+msgstr "Komut Geçmişini Göster"
 
 #: uml.cpp:551
-#, fuzzy, kde-format
-#| msgid "&Bird's eye view"
+#, kde-format
 msgid "Show bird's eye view"
-msgstr "&Kuşbakışı Görünüm"
+msgstr "Kuşbakışı Görünümü Göster"
 
 #: uml.cpp:556
 #, kde-format
@@ -7688,34 +7683,29 @@ msgid "XHTML Generation failed ."
 msgstr "XHTML üretimi işlemi başarısız oldu."
 
 #: umlappprivate.h:115
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show diagrams window"
-msgstr "Belge Penceresini Göster"
+msgstr "Diyagram Penceresini Göster"
 
 #: umlappprivate.h:118
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show log window"
-msgstr "Belge Penceresini Göster"
+msgstr "Günlük Penceresini Göster"
 
 #: umlappprivate.h:121
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show UML objects window"
-msgstr "Belge Penceresini Göster"
+msgstr "UML Nesneleri Penceresini Göster"
 
 #: umlappprivate.h:124
-#, fuzzy, kde-format
-#| msgid "Show Stereotypes"
+#, kde-format
 msgid "Show stereotypes window"
-msgstr "Sterotipleri göster"
+msgstr "Sterotipler Penceresini Göster"
 
 #: umlappprivate.h:127
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show welcome window"
-msgstr "Belge Penceresini Göster"
+msgstr "Karşılama Penceresini Göster"
 
 #: umlappprivate.h:165
 #, kde-format

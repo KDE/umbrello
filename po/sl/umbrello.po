@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-27 02:08+0000\n"
-"PO-Revision-Date: 2025-08-15 08:28+0200\n"
+"PO-Revision-Date: 2025-08-27 07:13+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -7350,32 +7350,27 @@ msgid "&Entity Relationship Diagram..."
 msgstr "Diagram odvisnosti &entitete..."
 
 #: uml.cpp:535
-#, fuzzy, kde-format
-#| msgid "Show Attributes"
+#, kde-format
 msgid "Show tree view"
-msgstr "Pokaži atribute"
+msgstr "Prikaži drevesni pogled"
 
 #: uml.cpp:539
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show debug window"
-msgstr "Prikaži pogovorno okno Doc"
+msgstr "Prikaži okno odpravljanja napak"
 
 #: uml.cpp:543
-#, fuzzy, kde-format
-#| msgid "Show Documentation Indicator"
+#, kde-format
 msgid "Show documentation window"
-msgstr "Pokaži kazalnik dokumentacije"
+msgstr "Pokaži okno dokumentacije"
 
 #: uml.cpp:547
-#, fuzzy, kde-format
-#| msgid "&Command history"
+#, kde-format
 msgid "Show command history"
-msgstr "Zgodovina ukazov"
+msgstr "Pokaži zgodovino ukazov"
 
 #: uml.cpp:551
-#, fuzzy, kde-format
-#| msgid "&Bird's eye view"
+#, kde-format
 msgid "Show bird's eye view"
 msgstr "Pogled ptičje perspektive"
 
@@ -7671,34 +7666,29 @@ msgid "XHTML Generation failed ."
 msgstr "Ustvarjanje XHTML je spodletelo."
 
 #: umlappprivate.h:115
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show diagrams window"
-msgstr "Prikaži pogovorno okno Doc"
+msgstr "Prikaži okno diagramov"
 
 #: umlappprivate.h:118
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show log window"
-msgstr "Prikaži pogovorno okno Doc"
+msgstr "Prikaži okno dnevnika"
 
 #: umlappprivate.h:121
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show UML objects window"
-msgstr "Prikaži pogovorno okno Doc"
+msgstr "Prikaži okno objektov UML"
 
 #: umlappprivate.h:124
-#, fuzzy, kde-format
-#| msgid "Show Stereotypes"
+#, kde-format
 msgid "Show stereotypes window"
-msgstr "Pokaži stereotipe"
+msgstr "Pokaži okno stereotipov"
 
 #: umlappprivate.h:127
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show welcome window"
-msgstr "Prikaži pogovorno okno Doc"
+msgstr "Prikaži pozdravno okno"
 
 #: umlappprivate.h:165
 #, kde-format
