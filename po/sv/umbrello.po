@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-08-27 02:08+0000\n"
-"PO-Revision-Date: 2025-08-17 10:44+0200\n"
+"PO-Revision-Date: 2025-08-29 08:17+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -7358,34 +7358,29 @@ msgid "&Entity Relationship Diagram..."
 msgstr "O&bjektsambandsdiagram..."
 
 #: uml.cpp:535
-#, fuzzy, kde-format
-#| msgid "Show Attributes"
+#, kde-format
 msgid "Show tree view"
-msgstr "Visa attribut"
+msgstr "Visa trädvy"
 
 #: uml.cpp:539
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show debug window"
-msgstr "Visa dokumentfönster"
+msgstr "Visa felsökningsfönster"
 
 #: uml.cpp:543
-#, fuzzy, kde-format
-#| msgid "Show Documentation Indicator"
+#, kde-format
 msgid "Show documentation window"
-msgstr "Visa dokumentationsindikering"
+msgstr "Visa dokumentationsfönster"
 
 #: uml.cpp:547
-#, fuzzy, kde-format
-#| msgid "&Command history"
+#, kde-format
 msgid "Show command history"
-msgstr "&Kommandohistorik"
+msgstr "Visa kommandohistorik"
 
 #: uml.cpp:551
-#, fuzzy, kde-format
-#| msgid "&Bird's eye view"
+#, kde-format
 msgid "Show bird's eye view"
-msgstr "Ö&versiktsvy"
+msgstr "Visa översiktsvy"
 
 #: uml.cpp:556
 #, kde-format
@@ -7679,34 +7674,29 @@ msgid "XHTML Generation failed ."
 msgstr "Misslyckades skapa XHTML."
 
 #: umlappprivate.h:115
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show diagrams window"
-msgstr "Visa dokumentfönster"
+msgstr "Visa diagramfönster"
 
 #: umlappprivate.h:118
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show log window"
-msgstr "Visa dokumentfönster"
+msgstr "Visa loggfönster"
 
 #: umlappprivate.h:121
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show UML objects window"
-msgstr "Visa dokumentfönster"
+msgstr "Visa UML-objektfönster"
 
 #: umlappprivate.h:124
-#, fuzzy, kde-format
-#| msgid "Show Stereotypes"
+#, kde-format
 msgid "Show stereotypes window"
-msgstr "Visa stereotyper"
+msgstr "Visa stereotypfönster"
 
 #: umlappprivate.h:127
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show welcome window"
-msgstr "Visa dokumentfönster"
+msgstr "Visa välkomstfönster"
 
 #: umlappprivate.h:165
 #, kde-format
