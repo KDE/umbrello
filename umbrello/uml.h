@@ -258,11 +258,6 @@ public Q_SLOTS:
     void slotImportClass();
     void slotImportProject();
     void slotUpdateViews();
-    void slotShowTreeView(bool state);
-    void slotShowDebugView(bool state);
-    void slotShowDocumentationView(bool state);
-    void slotShowCmdHistoryView(bool state);
-    void slotShowBirdView(bool state);
     void slotCurrentViewClearDiagram();
     void slotCurrentViewToggleSnapToGrid();
     void slotCurrentViewToggleShowGrid();
@@ -377,19 +372,8 @@ private:
      */
     UMLDoc* m_doc;
 
-    UMLListView* m_listView;  ///< Listview shows the current open file.
-
     QDockWidget* m_mainDock;           ///< The widget which shows the diagrams.
-    QDockWidget* m_listDock;           ///< Contains the UMLListView tree view.
-    QDockWidget* m_debugDock;          ///< Contains the debug DocWindow widget.
-    QDockWidget* m_documentationDock;  ///< Contains the documentation DocWindow widget.
-    QDockWidget* m_cmdHistoryDock;     ///< Contains the undo/redo viewer widget.
     QDockWidget* m_propertyDock;       ///< Contains the property browser widget.
-    BirdViewDockWidget* m_birdViewDock;///< Contains the bird's eye view
-
-    DocWindow*   m_docWindow;          ///< Documentation window.
-    BirdView*    m_birdView;           ///< Bird View window
-    QUndoView*   m_pQUndoView;         ///< Undo / Redo Viewer
     RefactoringAssistant* m_refactoringAssist;  ///< Refactoring assistant.
 
     // KAction pointers to enable/disable actions
@@ -401,13 +385,6 @@ private:
     QAction* editPaste;
     QAction* editUndo;
     QAction* editRedo;
-
-    QAction* viewShowTree;
-    QAction* viewShowDebug;
-    QAction* viewShowDoc;
-    QAction* viewShowLog;
-    QAction* viewShowCmdHistory;
-    QAction* viewShowBirdView;
 
     KActionMenu* newDiagram;
     QAction* viewClearDiagram;

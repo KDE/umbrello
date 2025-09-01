@@ -19,7 +19,6 @@
 #include "docwindow.h"
 #include "optionstate.h"
 #include "cmdlineexportallviewsevent.h"
-#include "cmds.h"
 #include "umbrellosettings.h"
 #include "statusbartoolbutton.h"
 #include "findresults.h"
@@ -34,7 +33,6 @@
 #include "simplecodegenerator.h"
 // utils
 #include "debug_utils.h"
-#include "widget_utils.h"
 #include "icon_utils.h"
 // dialogs
 #include "classwizard.h"
@@ -75,6 +73,7 @@
 #include <QFileDialog>
 #include <QKeyEvent>
 #include <QLabel>
+#include <QListWidget>
 #include <QMenu>
 #include <QPointer>
 #include <QPrinter>
@@ -90,7 +89,6 @@
 #include <QToolButton>
 #include <QUndoStack>
 #include <QUndoView>
-#include <QListWidget>
 
 #include <cmath>
 
@@ -139,17 +137,8 @@ UMLApp::UMLApp(QWidget* parent)
     m_config(KSharedConfig::openConfig()),
     m_view(nullptr),
     m_doc(nullptr),              // setup()
-    m_listView(nullptr),
     m_mainDock(nullptr),
-    m_listDock(nullptr),
-    m_debugDock(nullptr),
-    m_documentationDock(nullptr),
-    m_cmdHistoryDock(nullptr),
     m_propertyDock(nullptr),
-    m_birdViewDock(nullptr),
-    m_docWindow(nullptr),
-    m_birdView(nullptr),
-    m_pQUndoView(nullptr),
     m_refactoringAssist(nullptr),
     fileOpenRecent(nullptr),
     printPreview(nullptr),
@@ -159,11 +148,6 @@ UMLApp::UMLApp(QWidget* parent)
     editPaste(nullptr),
     editUndo(nullptr),
     editRedo(nullptr),
-    viewShowTree(nullptr),
-    viewShowDebug(nullptr),
-    viewShowDoc(nullptr),
-    viewShowCmdHistory(nullptr),
-    viewShowBirdView(nullptr),
     newDiagram(nullptr),
     viewClearDiagram(nullptr),
     viewSnapToGrid(nullptr),
@@ -280,7 +264,6 @@ UMLApp::~UMLApp()
     disconnect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotTabChanged(int)));
     disconnect(m_tabWidget, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotDiagramPopupMenu(QPoint)));
 
-    delete m_birdView;
     delete m_clipTimer;
     delete m_copyTimer;
     delete m_commoncodegenpolicy;
@@ -291,7 +274,6 @@ UMLApp::~UMLApp()
     m_pUndoStack = nullptr;
     delete m_refactoringAssist;
     delete m_xhtmlGenerator;
-    delete m_listView;
     delete m_doc;
     delete m_d;
 }
@@ -530,26 +512,6 @@ void UMLApp::initActions()
     entityRelationshipDiagram->setText(i18n("&Entity Relationship Diagram..."));
     connect(entityRelationshipDiagram, SIGNAL(triggered(bool)), this, SLOT(slotEntityRelationshipDiagram()));
     newDiagram->addAction(entityRelationshipDiagram);
-
-    viewShowTree = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_tree"));
-    viewShowTree->setText(i18n("Show tree view"));
-    connect(viewShowTree, SIGNAL(triggered(bool)), this, SLOT(slotShowTreeView(bool)));
-
-    viewShowDebug = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_debug"));
-    viewShowDebug->setText(i18n("Show debug window"));
-    connect(viewShowDebug, SIGNAL(triggered(bool)), this, SLOT(slotShowDebugView(bool)));
-
-    viewShowDoc = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_doc"));
-    viewShowDoc->setText(i18n("Show documentation window"));
-    connect(viewShowDoc, SIGNAL(triggered(bool)), this, SLOT(slotShowDocumentationView(bool)));
-
-    viewShowCmdHistory = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_undo"));
-    viewShowCmdHistory->setText(i18n("Show command history"));
-    connect(viewShowCmdHistory, SIGNAL(triggered(bool)), this, SLOT(slotShowCmdHistoryView(bool)));
-
-    viewShowBirdView = actionCollection()->add<KToggleAction>(QStringLiteral("view_show_bird"));
-    viewShowBirdView->setText(i18n("Show bird's eye view"));
-    connect(viewShowBirdView, SIGNAL(triggered(bool)), this, SLOT(slotShowBirdView(bool)));
 
     viewClearDiagram = actionCollection()->addAction(QStringLiteral("view_clear_diagram"));
     viewClearDiagram->setIcon(Icon_Utils::SmallIcon(Icon_Utils::it_Clear));
@@ -954,71 +916,7 @@ void UMLApp::initWidgets()
     widget->setLayout(m_layout);
     setCentralWidget(widget);
 
-    // create the tree viewer
-    m_listDock = new QDockWidget(i18n("&Tree View"), this);
-    m_listDock->setObjectName(QStringLiteral("TreeViewDock"));
-    addDockWidget(Qt::LeftDockWidgetArea, m_listDock);
-    m_listView = new UMLListView(m_listDock);
-    //m_listView->setSorting(-1);
-    m_listView->setDocument(m_doc);
-    m_listView->init();
-    m_listDock->setWidget(m_listView);
-    connect(m_listDock, SIGNAL(visibilityChanged(bool)), viewShowTree, SLOT(setChecked(bool)));
-
-    // create the documentation viewer
-    m_documentationDock = new QDockWidget(i18n("Doc&umentation"), this);
-    m_documentationDock->setObjectName(QStringLiteral("DocumentationDock"));
-    addDockWidget(Qt::LeftDockWidgetArea, m_documentationDock);
-    m_docWindow = new DocWindow(m_doc, m_documentationDock);
-    m_docWindow->setObjectName(QStringLiteral("DOCWINDOW"));
-    m_documentationDock->setWidget(m_docWindow);
-    connect(m_documentationDock, SIGNAL(visibilityChanged(bool)), viewShowDoc, SLOT(setChecked(bool)));
-
-    m_doc->setupSignals(); // make sure gets signal from list view
-
-    // create the command history viewer
-    m_cmdHistoryDock = new QDockWidget(i18n("Co&mmand history"), this);
-    m_cmdHistoryDock->setObjectName(QStringLiteral("CmdHistoryDock"));
-    addDockWidget(Qt::LeftDockWidgetArea, m_cmdHistoryDock);
-    m_pQUndoView = new QUndoView(m_cmdHistoryDock);
-    m_pQUndoView->setCleanIcon(Icon_Utils::SmallIcon(Icon_Utils::it_UndoView));
-    m_pQUndoView->setStack(m_pUndoStack);
-    m_cmdHistoryDock->setWidget(m_pQUndoView);
-    connect(m_cmdHistoryDock, SIGNAL(visibilityChanged(bool)), viewShowCmdHistory, SLOT(setChecked(bool)));
-
-    m_debugDock = new QDockWidget(i18n("&Debug"), this);
-    m_debugDock->setObjectName(QStringLiteral("DebugDock"));
-    addDockWidget(Qt::LeftDockWidgetArea, m_debugDock);
-    m_debugDock->setWidget(Tracer::instance());
-    connect(m_debugDock, SIGNAL(visibilityChanged(bool)), viewShowDebug, SLOT(setChecked(bool)));
-
-    // create the property viewer
-    //m_propertyDock = new QDockWidget(i18n("&Properties"), this);
-    //m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
-    //addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
-
-    // create the bird's eye view
-    m_birdViewDock = new BirdViewDockWidget(i18n("&Bird's eye view"), this);
-    m_birdViewDock->setObjectName(QStringLiteral("BirdViewDock"));
-    addDockWidget(Qt::RightDockWidgetArea, m_birdViewDock);
-    connect(m_birdViewDock, SIGNAL(visibilityChanged(bool)), viewShowBirdView, SLOT(setChecked(bool)));
-
     m_d->initWidgets();
-
-    tabifyDockWidget(m_documentationDock, m_cmdHistoryDock);
-    tabifyDockWidget(m_cmdHistoryDock, m_d->logDock);
-    //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);  //:TODO:
-    tabifyDockWidget(m_d->logDock, m_debugDock);
-    tabifyDockWidget(m_listDock, m_d->stereotypesWindow);
-    tabifyDockWidget(m_d->stereotypesWindow, m_d->diagramsWindow);
-#ifdef ENABLE_UML_OBJECTS_WINDOW
-    tabifyDockWidget(m_d->diagramsWindow, m_d->objectsWindow);
-#endif
-    if (m_d->welcomeWindow) {
-        tabifyDockWidget(m_d->welcomeWindow, m_birdViewDock);
-        m_d->welcomeWindow->raise();
-    }
-    m_listDock->raise();
 }
 
 /**
@@ -1052,7 +950,7 @@ UMLDoc *UMLApp::document() const
  */
 UMLListView* UMLApp::listView() const
 {
-    return m_listView;
+    return m_d->listView;
 }
 
 /**
@@ -1086,7 +984,7 @@ void UMLApp::saveOptions()
 
     UmbrelloSettings::setImageMimeType(imageMimeType());
 
-    UmbrelloSettings::setShowDocWindow(m_documentationDock->isVisible());
+    UmbrelloSettings::setShowDocWindow(m_d->documentationDock->isVisible());
 //     CodeGenerator *codegen = getGenerator();
 //     JavaCodeGenerator *javacodegen = dynamic_cast<JavaCodeGenerator*>(codegen);
 //     if (javacodegen)
@@ -1262,13 +1160,13 @@ void UMLApp::slotFileOpen()
            .replace(QStringLiteral(","), QStringLiteral(""))
             );
         if (!url.isEmpty()) {
-            m_listView->setSortingEnabled(false);
+            m_d->listView->setSortingEnabled(false);
             if (m_doc->openDocument(url)) {
                 fileOpenRecent->addUrl(url);
             }
             enablePrint(true);
             setCaption(m_doc->url().fileName(), false);
-            m_listView->setSortingEnabled(true);
+            m_d->listView->setSortingEnabled(true);
         }
     }
     slotUpdateViews();
@@ -1582,7 +1480,7 @@ void UMLApp::slotEditCut()
 
     // If not cutting diagram widgets, we did cut on a listview item
     if (!fromview) {
-        m_listView->setStartedCut(true);
+        m_d->listView->setStartedCut(true);
     }
 
     if (editCutCopy(fromview)) {
@@ -1832,7 +1730,7 @@ WorkToolBar* UMLApp::workToolBar() const
  */
 DocWindow* UMLApp::docWindow() const
 {
-    return m_docWindow;
+    return m_d->docWindow;
 }
 
 /**
@@ -2021,7 +1919,7 @@ void UMLApp::slotClipDataChanged()
  */
 void UMLApp::slotCopyChanged()
 {
-    if (m_listView->selectedItemsCount() || (currentView() && currentView()->umlScene()->selectedCount())) {
+    if (m_d->listView->selectedItemsCount() || (currentView() && currentView()->umlScene()->selectedCount())) {
         editCopy->setEnabled(true);
         editCut->setEnabled(true);
     }
@@ -2146,9 +2044,8 @@ void UMLApp::enableUndo(bool enable)
     m_undoEnabled = enable;
     editRedo->setVisible(enable);
     editUndo->setVisible(enable);
-    viewShowCmdHistory->setVisible(enable);
     clearUndoStack();
-    slotShowCmdHistoryView(enable);
+    m_d->cmdHistoryDock->setVisible(enable);
 }
 
 /**
@@ -2556,36 +2453,6 @@ QString UMLApp::activeLanguageScopeSeparator() const
     return Uml::ProgrammingLanguage::scopeSeparator(pl);
 }
 
-void UMLApp::slotShowTreeView(bool state)
-{
-    m_listDock->setVisible(state);
-    viewShowTree->setChecked(state);
-}
-
-void UMLApp::slotShowDebugView(bool state)
-{
-    m_debugDock->setVisible(state);
-    viewShowDebug->setChecked(state);
-}
-
-void UMLApp::slotShowDocumentationView(bool state)
-{
-    m_documentationDock->setVisible(state);
-    viewShowDoc->setChecked(state);
-}
-
-void UMLApp::slotShowCmdHistoryView(bool state)
-{
-    m_cmdHistoryDock->setVisible(state);
-    viewShowCmdHistory->setChecked(state);
-}
-
-void UMLApp::slotShowBirdView(bool state)
-{
-    m_birdViewDock->setVisible(state);
-    viewShowBirdView->setChecked(state);
-}
-
 /**
  * Menu selection for clear current view.
  */
@@ -2728,7 +2595,7 @@ void UMLApp::importFiles(QStringList &fileList, const QString &rootPath)
         logWindow()->setUpdatesEnabled(true);
         listView()->parentWidget()->setVisible(saveState);
         if (really_visible)
-            m_listDock->raise();
+            m_d->listDock->raise();
     }
 }
 
@@ -2856,10 +2723,10 @@ void UMLApp::slotDeleteSelected()
     // which prevents routing DEL key through the regular
     // key press event handler
     QWidget *f = focusWidget();
-    if (f == m_listView) {
+    if (f == m_d->listView) {
         QWidgetAction *o = static_cast<QWidgetAction *>(sender());
         if (o && o->objectName() == QStringLiteral("delete_selected")) {
-            m_listView->slotDeleteSelectedItems();
+            m_d->listView->slotDeleteSelectedItems();
         }
         return;
     }
@@ -3020,7 +2887,7 @@ void UMLApp::keyReleaseEvent(QKeyEvent *e)
 {
     switch(e->key()) {
     case Qt::Key_Backspace:
-        if (!m_docWindow->isTyping()) {
+        if (!m_d->docWindow->isTyping()) {
             m_toolsbar->setOldTool();
         }
         e->accept();
@@ -3069,23 +2936,12 @@ QWidget* UMLApp::mainViewWidget() const
  */
 void UMLApp::createBirdView(UMLView *view)
 {
-    if (m_birdView) {
-        delete m_birdView;
-    }
-    m_birdView = new BirdView(m_birdViewDock, view);
-    connect(m_birdView, SIGNAL(viewPositionChanged(QPointF)), this, SLOT(slotBirdViewChanged(QPointF)));
-    connect(m_birdViewDock, SIGNAL(sizeChanged(QSize)), m_birdView, SLOT(slotDockSizeChanged(QSize)));
+    m_d->createBirdView(view);
 }
 
 void UMLApp::deleteBirdView()
 {
-    disconnect(m_birdView, SIGNAL(viewPositionChanged(QPointF)), this, SLOT(slotBirdViewChanged(QPointF)));
-    disconnect(m_birdViewDock, SIGNAL(sizeChanged(QSize)), m_birdView, SLOT(slotDockSizeChanged(QSize)));
-
-    if (m_birdView) {
-        delete m_birdView;
-    }
-    m_birdView = nullptr;
+    m_d->deleteBirdView();
 }
 
 /**
@@ -3094,13 +2950,7 @@ void UMLApp::deleteBirdView()
  */
 void UMLApp::slotBirdViewChanged(const QPointF& delta)
 {
-    m_birdView->setSlotsEnabled(false);
-    UMLView* view = currentView();
-    QPointF oldCenter = view->mapToScene(view->viewport()->rect().center());
-    QPointF newCenter = oldCenter + delta;
-    view->centerOn(newCenter);
-    // DEBUG() << "view moved with: " << delta;
-    m_birdView->setSlotsEnabled(true);
+    m_d->slotBirdViewChanged(delta);
 }
 
 /**
@@ -3143,9 +2993,9 @@ void UMLApp::setCurrentView(UMLView* view, bool updateTreeView)
     setZoom(view->zoom());
     slotStatusMsg(view->umlScene()->name());
     if (updateTreeView) {
-        UMLListViewItem* lvitem = m_listView->findView(view);
+        UMLListViewItem* lvitem = m_d->listView->findView(view);
         if (lvitem) {
-            m_listView->setCurrentItem(lvitem);
+            m_d->listView->setCurrentItem(lvitem);
         }
     }
     DEBUG() << "Changed view to" << view->umlScene();
