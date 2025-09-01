@@ -22,6 +22,7 @@
 #include "umlview.h"
 
 // kde includes
+#include <KActionCategory>
 #include <KActionCollection>
 #include <KToggleAction>
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -82,7 +83,7 @@ public:
     KTextEditor::Editor *editor;
     KTextEditor::View *view;
     KTextEditor::Document *document;
-    KActionCollection *dockCategory;
+    KActionCategory *dockCategory;
 
     explicit UMLAppPrivate(UMLApp *_parent)
       : parent(_parent),
@@ -97,7 +98,7 @@ public:
         welcomeWindow(nullptr),
         view(nullptr),
         document(nullptr),
-        dockCategory(parent->actionCollection())
+        dockCategory(new KActionCategory(i18n("Show/hide window"), parent->actionCollection()))
     {
     }
 
