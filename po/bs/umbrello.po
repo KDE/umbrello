@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 02:08+0000\n"
+"POT-Creation-Date: 2025-09-04 02:01+0000\n"
 "PO-Revision-Date: 2015-02-25 21:00+0100\n"
 "Last-Translator: Samir Ribić <megaribi@epn.ba>\n"
 "Language-Team:  <bs@li.org>\n"
@@ -214,7 +214,7 @@ msgstr ""
 "Bar jedna stavka iz međuspremnika nije mogla biti umetnuta zato što stavka "
 "sa istim imenom već postoji. Sve ostale stavke su umetnute."
 
-#: clipboard/umlclipboard.cpp:757 uml.cpp:1620
+#: clipboard/umlclipboard.cpp:757 uml.cpp:1518
 #, kde-format
 msgid "Paste Error"
 msgstr "Greška prilikom umetanja"
@@ -2619,7 +2619,7 @@ msgid "N&ew Instance Attribute..."
 msgstr "N&ov atribut entiteta..."
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
-#: uml.cpp:584
+#: uml.cpp:546
 #, kde-format
 msgid "&Properties"
 msgstr "&Svojstva"
@@ -2799,7 +2799,7 @@ msgstr "Ograničenje provjerom ..."
 msgid "<p align=\"center\">No Options Available.</p>"
 msgstr "<p align=\"center\">Nema dostupnih opcija.</p>"
 
-#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:149
+#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:198
 #, kde-format
 msgid "&Diagrams"
 msgstr "&Dijagrami"
@@ -4647,7 +4647,7 @@ msgstr "Prikaži razgrađivanje"
 msgid "Import File(s)..."
 msgstr "Uvezi datoteke..."
 
-#: menus/listpopupmenu.cpp:198 uml.cpp:385
+#: menus/listpopupmenu.cpp:198 uml.cpp:367
 #, fuzzy, kde-format
 #| msgid "Import Project..."
 msgid "Import from Directory..."
@@ -5166,42 +5166,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "Poravnanje"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:603
+#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:565
 #, kde-format
 msgid "Align Right"
 msgstr "Poravnaj desno"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:608
+#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:570
 #, kde-format
 msgid "Align Left"
 msgstr "Poravnaj lijevo"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:613
+#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:575
 #, kde-format
 msgid "Align Top"
 msgstr "Poravnaj na vrhu"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:618
+#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:580
 #, kde-format
 msgid "Align Bottom"
 msgstr "Poravnaj na dnu"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:623
+#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:585
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr "Poravnaj uspravno u sredini"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:628
+#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:590
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr "Poravnaj vodoravno u sredini"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:633
+#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:595
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr "Poravnaj uspravno raspoređeno"
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:638
+#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:600
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr "Poravnaj vodoravno raspoređeno"
@@ -7360,398 +7360,353 @@ msgstr "&Izvezi model u XHTML"
 msgid "&Edit"
 msgstr "&Izmijeni"
 
-#. i18n: ectx: Menu (views)
+#. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
+#, fuzzy, kde-format
+#| msgid "Views"
+msgid "&View"
+msgstr "Prikazi"
+
+#. i18n: ectx: Menu (view_window)
+#: umbrelloui.rc.cmake:15
+#, fuzzy, kde-format
+#| msgid "Show Doc Window"
+msgid "&Show/hide window"
+msgstr "Prikaži Doc prozor"
+
+#. i18n: ectx: Menu (diagram)
+#: umbrelloui.rc.cmake:26
 #, kde-format
 msgid "&Diagram"
 msgstr "&Dijagram"
 
 #. i18n: ectx: Menu (new_view)
-#: umbrelloui.rc.cmake:15
+#: umbrelloui.rc.cmake:27
 #, kde-format
 msgid "&New"
 msgstr "&Novi"
 
 #. i18n: ectx: Menu (show_view)
-#: umbrelloui.rc.cmake:31
+#: umbrelloui.rc.cmake:43
 #, kde-format
 msgid "Sh&ow"
 msgstr "Pr&ikaži"
 
 #. i18n: ectx: Menu (zoom_menu)
-#: umbrelloui.rc.cmake:34
+#: umbrelloui.rc.cmake:46
 #, kde-format
 msgid "&Zoom"
 msgstr "&Uvećaj"
 
 #. i18n: ectx: Menu (align_menu)
-#: umbrelloui.rc.cmake:36
+#: umbrelloui.rc.cmake:48
 #, kde-format
 msgid "&Align"
 msgstr "&Poravnaj"
 
 #. i18n: ectx: Menu (code)
-#: umbrelloui.rc.cmake:52
+#: umbrelloui.rc.cmake:64
 #, kde-format
 msgid "&Code"
 msgstr "&Kôd"
 
 #. i18n: ectx: Menu (active_lang_menu)
-#: umbrelloui.rc.cmake:58
+#: umbrelloui.rc.cmake:70
 #, fuzzy, kde-format
 #| msgid "Active &Language"
 msgid "Active &Language"
 msgstr "Aktivni &jezik"
 
 #. i18n: ectx: Menu (settings)
-#: umbrelloui.rc.cmake:84
+#: umbrelloui.rc.cmake:96
 #, kde-format
 msgid "&Settings"
 msgstr "&Postavke"
 
-#: uml.cpp:361
+#: uml.cpp:343
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr "&Izvezi model u DocBook"
 
-#: uml.cpp:365
+#: uml.cpp:347
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr "&Izvezi model u XHTML"
 
-#: uml.cpp:369
+#: uml.cpp:351
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "&Čarobnjak za novu klasu..."
 
-#: uml.cpp:373
+#: uml.cpp:355
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "&Dodaj podrazumijevane tipove podataka za aktivan jezik"
 
-#: uml.cpp:380
+#: uml.cpp:362
 #, kde-format
 msgid "Code &Importing Wizard..."
 msgstr "Čarobnjak za &Uvoz koda."
 
-#: uml.cpp:390
+#: uml.cpp:372
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "Čarobnjak za generisanje &kôda..."
 
-#: uml.cpp:395
+#: uml.cpp:377
 #, kde-format
 msgid "&Generate All Code"
 msgstr "&Generiši sav kôd"
 
-#: uml.cpp:442
+#: uml.cpp:424
 #, kde-format
 msgid "Creates a new document"
 msgstr "Pravi novi dokument"
 
-#: uml.cpp:443
+#: uml.cpp:425
 #, kde-format
 msgid "Opens an existing document"
 msgstr "Otvara postojeći dokument"
 
-#: uml.cpp:444
+#: uml.cpp:426
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "Otvara skoro korištenu datoteku"
 
-#: uml.cpp:445
+#: uml.cpp:427
 #, kde-format
 msgid "Saves the document"
 msgstr "Snima dokument"
 
-#: uml.cpp:446
+#: uml.cpp:428
 #, kde-format
 msgid "Saves the document as..."
 msgstr "Snima dokument kao..."
 
-#: uml.cpp:447
+#: uml.cpp:429
 #, kde-format
 msgid "Closes the document"
 msgstr "Zatvara dokument"
 
-#: uml.cpp:448
+#: uml.cpp:430
 #, kde-format
 msgid "Prints out the document"
 msgstr "Štampa dokument"
 
-#: uml.cpp:449
+#: uml.cpp:431
 #, kde-format
 msgid "Print Preview of the document"
 msgstr "Pregled prije štampe dokumenta"
 
-#: uml.cpp:450
+#: uml.cpp:432
 #, kde-format
 msgid "Quits the application"
 msgstr "Izlazi iz programa"
 
-#: uml.cpp:451
+#: uml.cpp:433
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr "Izvozi model u formatu DocBook-a"
 
-#: uml.cpp:452
+#: uml.cpp:434
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr "Izvozi model u formatu XHTML-a"
 
-#: uml.cpp:453
+#: uml.cpp:435
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "Isijeca izabranu sekciju i stavlja je u clipboard"
 
-#: uml.cpp:454
+#: uml.cpp:436
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "Kopira trenutni izbor u clipboard"
 
-#: uml.cpp:455
+#: uml.cpp:437
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr "Umeće sadržaj međuspremnika"
 
-#: uml.cpp:456
+#: uml.cpp:438
 #, fuzzy, kde-format
 #| msgid "Invoke action"
 msgid "Undo last action"
 msgstr "Dozovi akciju"
 
-#: uml.cpp:457
+#: uml.cpp:439
 #, kde-format
 msgid "Redo last undone action"
 msgstr ""
 
-#: uml.cpp:459
+#: uml.cpp:441
 #, kde-format
 msgid "Set the default program preferences"
 msgstr "Postavlja podrazumijevana podešavanja programa"
 
-#: uml.cpp:463
+#: uml.cpp:445
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "Obriši &označeno"
 
-#: uml.cpp:474
+#: uml.cpp:456
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "Dijagram &klase..."
 
-#: uml.cpp:481
+#: uml.cpp:463
 #, fuzzy, kde-format
 #| msgid "S&tate Diagram..."
 msgid "&Object Diagram..."
 msgstr "Dijagram s&tanja..."
 
-#: uml.cpp:488
+#: uml.cpp:470
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "Dijagram &sekvence..."
 
-#: uml.cpp:494
+#: uml.cpp:476
 #, fuzzy, kde-format
 #| msgid "C&ollaboration Diagram..."
 msgid "C&ommunication Diagram..."
 msgstr "Dijagram s&aradnje..."
 
-#: uml.cpp:500
+#: uml.cpp:482
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr "&Dijagram slučaja upotrebe..."
 
-#: uml.cpp:506
+#: uml.cpp:488
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "Dijagram s&tanja..."
 
-#: uml.cpp:512
+#: uml.cpp:494
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "Dijagram &aktivnosti..."
 
-#: uml.cpp:518
+#: uml.cpp:500
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "Dijagram &komponente..."
 
-#: uml.cpp:524
+#: uml.cpp:506
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr "Dijagram &razvijanja..."
 
-#: uml.cpp:530
+#: uml.cpp:512
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "Dijagram odnosa &među entitetima..."
 
-#: uml.cpp:535
-#, fuzzy, kde-format
-#| msgid "Show Attributes"
-msgid "Show tree view"
-msgstr "Prikaži atribute"
-
-#: uml.cpp:539
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
-msgid "Show debug window"
-msgstr "Prikaži Doc prozor"
-
-#: uml.cpp:543
-#, fuzzy, kde-format
-#| msgid "Show Documentation Indicator"
-msgid "Show documentation window"
-msgstr "Pokaži Dokumentacijski Pokazivač"
-
-#: uml.cpp:547
-#, fuzzy, kde-format
-#| msgid "&Command history"
-msgid "Show command history"
-msgstr "Historijat ko&mandi"
-
-#: uml.cpp:551
-#, fuzzy, kde-format
-#| msgid "&Bird's eye view"
-msgid "Show bird's eye view"
-msgstr "Pogled &ptičije perspektive"
-
-#: uml.cpp:556
+#: uml.cpp:518
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "&Očisti dijagram"
 
-#: uml.cpp:560
+#: uml.cpp:522
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "&Uklapaj uz mrežu"
 
-#: uml.cpp:564
+#: uml.cpp:526
 #, kde-format
 msgid "S&how Grid"
 msgstr "P&rikaži mrežu"
 
-#: uml.cpp:569
+#: uml.cpp:531
 #, kde-format
 msgid "&Delete Diagram"
 msgstr "&Obriši dijagram"
 
-#: uml.cpp:574
+#: uml.cpp:536
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "Izv&ezi kao sliku..."
 
-#: uml.cpp:579
+#: uml.cpp:541
 #, fuzzy, kde-format
 #| msgid "Export &All Diagrams as Pictures..."
 msgid "Export &Diagrams as Pictures..."
 msgstr "Izvezi &sve dijagrame kao slike..."
 
-#: uml.cpp:599
+#: uml.cpp:561
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "&Zumiraj na 100%"
 
-#: uml.cpp:642
+#: uml.cpp:604
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "Pomjeri karticu u&lijevo"
 
-#: uml.cpp:643
+#: uml.cpp:605
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "Pomjeri karticu u&desno"
 
-#: uml.cpp:659
+#: uml.cpp:621
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr "Odaberi dijagram lijevo"
 
-#: uml.cpp:660
+#: uml.cpp:622
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr "Odaberi dijagram desno"
 
-#: uml.cpp:796
+#: uml.cpp:758
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:848
+#: uml.cpp:810
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Spreman"
 
-#: uml.cpp:856 uml.cpp:869
+#: uml.cpp:818 uml.cpp:831
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: uml.cpp:861
+#: uml.cpp:823
 #, kde-format
 msgid "Fit"
 msgstr "Uklopi"
 
-#: uml.cpp:912
+#: uml.cpp:874
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "Traka alata za dijagrame"
 
-#: uml.cpp:958
-#, kde-format
-msgid "&Tree View"
-msgstr "&Stablo-prikaz"
-
-#: uml.cpp:969
-#, kde-format
-msgid "Doc&umentation"
-msgstr "Dok&umentacija"
-
-#: uml.cpp:980
-#, kde-format
-msgid "Co&mmand history"
-msgstr "Historijat ko&mandi"
-
-#: uml.cpp:989
-#, kde-format
-msgid "&Debug"
-msgstr "&Ukloni greške"
-
-#. i18n("&Properties"), this);
-#. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
-#. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
-#. create the bird's eye view
-#: uml.cpp:1001
-#, kde-format
-msgid "&Bird's eye view"
-msgstr "Pogled &ptičije perspektive"
-
-#: uml.cpp:1029 uml.cpp:1246 uml.cpp:1284
+#: uml.cpp:927 uml.cpp:1144 uml.cpp:1182
 #, kde-format
 msgid "Opening file..."
 msgstr "Otvaram datoteku..."
 
-#: uml.cpp:1080 uml.cpp:1151 uml.cpp:1315 umldoc.cpp:351 umldoc.cpp:374
+#: uml.cpp:978 uml.cpp:1049 uml.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
 #: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "Bez naslova"
 
-#: uml.cpp:1228
+#: uml.cpp:1126
 #, kde-format
 msgid "Creating new document..."
 msgstr "Pravim novi dokument..."
 
-#: uml.cpp:1253
+#: uml.cpp:1151
 #, kde-format
 msgid "Open File"
 msgstr "Otvori datoteku"
 
-#: uml.cpp:1254
+#: uml.cpp:1152
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *."
@@ -7779,22 +7734,22 @@ msgstr ""
 "*.mdl|Rose model files (*.mdl)\n"
 "*.zargo|Compressed argo Files(*.zargo)\n"
 
-#: uml.cpp:1314
+#: uml.cpp:1212
 #, kde-format
 msgid "Saving file..."
 msgstr "Snimam datoteku..."
 
-#: uml.cpp:1331
+#: uml.cpp:1229
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Snimam datoteku pod novim imenom..."
 
-#: uml.cpp:1336 umlviewimageexporter.cpp:172
+#: uml.cpp:1234 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Snimi kao"
 
-#: uml.cpp:1337
+#: uml.cpp:1235
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -7810,7 +7765,7 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 kompresovane XMI datoteka\n"
 "*|Sve datoteke"
 
-#: uml.cpp:1355
+#: uml.cpp:1253
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7819,67 +7774,67 @@ msgstr ""
 "Datoteka %1 postoji.\n"
 "Želite li da ga prebrišete?"
 
-#: uml.cpp:1356
+#: uml.cpp:1254
 #, kde-format
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: uml.cpp:1356
+#: uml.cpp:1254
 #, kde-format
 msgid "Overwrite"
 msgstr "Prebriši"
 
-#: uml.cpp:1382
+#: uml.cpp:1280
 #, kde-format
 msgid "Closing file..."
 msgstr "Zatvaram datoteku..."
 
-#: uml.cpp:1393
+#: uml.cpp:1291
 #, kde-format
 msgid "No search term entered"
 msgstr "Nije ukucan pojam za pretragu"
 
-#: uml.cpp:1399
+#: uml.cpp:1297
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "'%1': %2 pronađen"
 
-#: uml.cpp:1455
+#: uml.cpp:1353
 #, kde-format
 msgid "Print Preview..."
 msgstr "Pregled za štampu..."
 
-#: uml.cpp:1482
+#: uml.cpp:1380
 #, kde-format
 msgid "Printing..."
 msgstr "Štampam..."
 
-#: uml.cpp:1488
+#: uml.cpp:1386
 #, kde-format
 msgid "Print %1"
 msgstr "Štampaj %1"
 
-#: uml.cpp:1507
+#: uml.cpp:1405
 #, kde-format
 msgid "Exiting..."
 msgstr "Izlazim..."
 
-#: uml.cpp:1578
+#: uml.cpp:1476
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Isijecam izbor..."
 
-#: uml.cpp:1601
+#: uml.cpp:1499
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Kopiram izbor u clipboard..."
 
-#: uml.cpp:1613
+#: uml.cpp:1511
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Umećem sadržaj clipboard-a..."
 
-#: uml.cpp:1618
+#: uml.cpp:1516
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7888,90 +7843,91 @@ msgstr ""
 "Umbrello nije mogao da umetne sadržaj međuspremnika. Objekti u međuspremniku "
 "su možda pogrešnog tipa da bi se ovdje umetnuli."
 
-#: uml.cpp:1644 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: uml.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Spreman."
 
-#: uml.cpp:2261
+#: uml.cpp:2158
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "Ne mogu da prikažem kôd dok ga ne generišite."
 
-#: uml.cpp:2261 uml.cpp:2264
+#: uml.cpp:2158 uml.cpp:2161
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Ne mogu da prikažem kôd"
 
-#: uml.cpp:2264
+#: uml.cpp:2161
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Ne mogu da prikažem kôd iz prostog pisača kôda."
 
-#: uml.cpp:2744
+#: uml.cpp:2611
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Označi fajl(ove) za uvoz:"
 
-#: uml.cpp:2773
+#: uml.cpp:2640
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Selektuj popis datoteka za uvoz:"
 
-#: uml.cpp:3308
+#: uml.cpp:3158
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Generisanje XHTML nije uspjelo."
 
-#: umlappprivate.h:115
+#: umlappprivate.h:101
 #, fuzzy, kde-format
 #| msgid "Show Doc Window"
-msgid "Show diagrams window"
+msgid "Show/hide window"
 msgstr "Prikaži Doc prozor"
 
-#: umlappprivate.h:118
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
-msgid "Show log window"
-msgstr "Prikaži Doc prozor"
+#: umlappprivate.h:169
+#, kde-format
+msgid "&Bird's eye view"
+msgstr "Pogled &ptičije perspektive"
 
-#: umlappprivate.h:121
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
-msgid "Show UML objects window"
-msgstr "Prikaži Doc prozor"
+#: umlappprivate.h:177
+#, kde-format
+msgid "Co&mmand history"
+msgstr "Historijat ko&mandi"
 
-#: umlappprivate.h:124
-#, fuzzy, kde-format
-#| msgid "Show Stereotypes"
-msgid "Show stereotypes window"
-msgstr "Prikaži stereotipe"
+#: umlappprivate.h:189
+#, kde-format
+msgid "&Debug"
+msgstr "&Ukloni greške"
 
-#: umlappprivate.h:127
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
-msgid "Show welcome window"
-msgstr "Prikaži Doc prozor"
+#: umlappprivate.h:205
+#, kde-format
+msgid "Doc&umentation"
+msgstr "Dok&umentacija"
 
-#: umlappprivate.h:165
+#: umlappprivate.h:224
 #, kde-format
 msgid "&Log"
 msgstr "&Log"
 
-#: umlappprivate.h:177
+#: umlappprivate.h:233
 #, fuzzy, kde-format
 #| msgid "UML Object Color"
 msgid "&UML Objects"
 msgstr "Boja UML objekta"
 
-#: umlappprivate.h:187
+#: umlappprivate.h:247
 #, fuzzy, kde-format
 #| msgid "Stereotypes"
 msgid "&Stereotypes"
 msgstr "Stereotipovi"
 
-#: umlappprivate.h:203
+#: umlappprivate.h:254
+#, kde-format
+msgid "&Tree View"
+msgstr "&Stablo-prikaz"
+
+#: umlappprivate.h:274
 #, kde-format
 msgid "Welcome"
 msgstr ""
@@ -9599,6 +9555,51 @@ msgstr "Stanje"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "Pred/Post stanje"
+
+#, fuzzy
+#~| msgid "Show Attributes"
+#~ msgid "Show tree view"
+#~ msgstr "Prikaži atribute"
+
+#, fuzzy
+#~| msgid "Show Documentation Indicator"
+#~ msgid "Show documentation window"
+#~ msgstr "Pokaži Dokumentacijski Pokazivač"
+
+#, fuzzy
+#~| msgid "&Command history"
+#~ msgid "Show command history"
+#~ msgstr "Historijat ko&mandi"
+
+#, fuzzy
+#~| msgid "&Bird's eye view"
+#~ msgid "Show bird's eye view"
+#~ msgstr "Pogled &ptičije perspektive"
+
+#, fuzzy
+#~| msgid "Show Doc Window"
+#~ msgid "Show diagrams window"
+#~ msgstr "Prikaži Doc prozor"
+
+#, fuzzy
+#~| msgid "Show Doc Window"
+#~ msgid "Show log window"
+#~ msgstr "Prikaži Doc prozor"
+
+#, fuzzy
+#~| msgid "Show Doc Window"
+#~ msgid "Show UML objects window"
+#~ msgstr "Prikaži Doc prozor"
+
+#, fuzzy
+#~| msgid "Show Stereotypes"
+#~ msgid "Show stereotypes window"
+#~ msgstr "Prikaži stereotipe"
+
+#, fuzzy
+#~| msgid "Show Doc Window"
+#~ msgid "Show welcome window"
+#~ msgstr "Prikaži Doc prozor"
 
 #~ msgid "&Debugging"
 #~ msgstr "&Otklanjanje grešaka"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-27 02:08+0000\n"
+"POT-Creation-Date: 2025-09-04 02:01+0000\n"
 "PO-Revision-Date: 2023-04-16 13:43+0200\n"
 "Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
@@ -215,7 +215,7 @@ msgstr ""
 "bereits ein Objekt mit dem gleichen Namen existiert. Alle anderen Objekte "
 "wurden eingefügt."
 
-#: clipboard/umlclipboard.cpp:757 uml.cpp:1620
+#: clipboard/umlclipboard.cpp:757 uml.cpp:1518
 #, kde-format
 msgid "Paste Error"
 msgstr "Fehler beim Einfügen"
@@ -2612,7 +2612,7 @@ msgid "N&ew Instance Attribute..."
 msgstr "N&eues Instanzsattribut ..."
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
-#: uml.cpp:584
+#: uml.cpp:546
 #, kde-format
 msgid "&Properties"
 msgstr "Ei&genschaften"
@@ -2789,7 +2789,7 @@ msgstr "Prüf-Einschränkung ..."
 msgid "<p align=\"center\">No Options Available.</p>"
 msgstr "<p align=\"center\">Keine Optionen verfügbar.</p>"
 
-#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:149
+#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:198
 #, kde-format
 msgid "&Diagrams"
 msgstr "&Diagramme"
@@ -4596,7 +4596,7 @@ msgstr "Dekonstruktions-Rahmen ausblenden"
 msgid "Import File(s)..."
 msgstr "Datei(en) importieren ..."
 
-#: menus/listpopupmenu.cpp:198 uml.cpp:385
+#: menus/listpopupmenu.cpp:198 uml.cpp:367
 #, kde-format
 msgid "Import from Directory..."
 msgstr "Aus Ordner importieren ..."
@@ -5095,42 +5095,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "Ausrichten"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:603
+#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:565
 #, kde-format
 msgid "Align Right"
 msgstr "Rechts ausrichten"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:608
+#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:570
 #, kde-format
 msgid "Align Left"
 msgstr "Links ausrichten"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:613
+#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:575
 #, kde-format
 msgid "Align Top"
 msgstr "Oben ausrichten"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:618
+#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:580
 #, kde-format
 msgid "Align Bottom"
 msgstr "Unten ausrichten"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:623
+#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:585
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr "Vertikal mittig ausrichten"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:628
+#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:590
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr "Horizontal mittig ausrichten"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:633
+#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:595
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr "Vertikal verteilt ausrichten"
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:638
+#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:600
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr "Horizontal verteilt ausrichten"
@@ -7165,395 +7165,349 @@ msgstr "Modell &exportieren"
 msgid "&Edit"
 msgstr "&Bearbeiten"
 
-#. i18n: ectx: Menu (views)
+#. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
+#, kde-format
+msgid "&View"
+msgstr "&Ansicht"
+
+#. i18n: ectx: Menu (view_window)
+#: umbrelloui.rc.cmake:15
+#, fuzzy, kde-format
+#| msgid "Show Doc Window"
+msgid "&Show/hide window"
+msgstr "Dokumentationsfenster anzeigen"
+
+#. i18n: ectx: Menu (diagram)
+#: umbrelloui.rc.cmake:26
 #, kde-format
 msgid "&Diagram"
 msgstr "Dia&gramm"
 
 #. i18n: ectx: Menu (new_view)
-#: umbrelloui.rc.cmake:15
+#: umbrelloui.rc.cmake:27
 #, kde-format
 msgid "&New"
 msgstr "&Neu"
 
 #. i18n: ectx: Menu (show_view)
-#: umbrelloui.rc.cmake:31
+#: umbrelloui.rc.cmake:43
 #, kde-format
 msgid "Sh&ow"
 msgstr "&Anzeigen"
 
 #. i18n: ectx: Menu (zoom_menu)
-#: umbrelloui.rc.cmake:34
+#: umbrelloui.rc.cmake:46
 #, kde-format
 msgid "&Zoom"
 msgstr "&Zoom"
 
 #. i18n: ectx: Menu (align_menu)
-#: umbrelloui.rc.cmake:36
+#: umbrelloui.rc.cmake:48
 #, kde-format
 msgid "&Align"
 msgstr "&Ausrichten"
 
 #. i18n: ectx: Menu (code)
-#: umbrelloui.rc.cmake:52
+#: umbrelloui.rc.cmake:64
 #, kde-format
 msgid "&Code"
 msgstr "&Quelltext"
 
 #. i18n: ectx: Menu (active_lang_menu)
-#: umbrelloui.rc.cmake:58
+#: umbrelloui.rc.cmake:70
 #, kde-format
 msgid "Active &Language"
 msgstr "Aktive &Sprache"
 
 #. i18n: ectx: Menu (settings)
-#: umbrelloui.rc.cmake:84
+#: umbrelloui.rc.cmake:96
 #, kde-format
 msgid "&Settings"
 msgstr "&Einstellungen"
 
-#: uml.cpp:361
+#: uml.cpp:343
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr "Modell nach &DocBook exportieren"
 
-#: uml.cpp:365
+#: uml.cpp:347
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr "Modell nach &XHTML exportieren"
 
-#: uml.cpp:369
+#: uml.cpp:351
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "&Assistent für neue Klasse ..."
 
-#: uml.cpp:373
+#: uml.cpp:355
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "&Standarddatentypen für aktive Sprache hinzufügen"
 
-#: uml.cpp:380
+#: uml.cpp:362
 #, kde-format
 msgid "Code &Importing Wizard..."
 msgstr "Assistent für Quelltext-&Import ..."
 
-#: uml.cpp:390
+#: uml.cpp:372
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "Assistent für die &Quelltext-Erstellung ..."
 
-#: uml.cpp:395
+#: uml.cpp:377
 #, kde-format
 msgid "&Generate All Code"
 msgstr "Alle Quelltexte &generieren"
 
-#: uml.cpp:442
+#: uml.cpp:424
 #, kde-format
 msgid "Creates a new document"
 msgstr "Erstellt ein neues Dokument"
 
-#: uml.cpp:443
+#: uml.cpp:425
 #, kde-format
 msgid "Opens an existing document"
 msgstr "Öffnet ein vorhandenes Dokument"
 
-#: uml.cpp:444
+#: uml.cpp:426
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "Öffnet eine kürzlich benutzte Datei"
 
-#: uml.cpp:445
+#: uml.cpp:427
 #, kde-format
 msgid "Saves the document"
 msgstr "Speichert das aktuelle Dokument"
 
-#: uml.cpp:446
+#: uml.cpp:428
 #, kde-format
 msgid "Saves the document as..."
 msgstr "Speichert das aktuelle Dokument unter ..."
 
-#: uml.cpp:447
+#: uml.cpp:429
 #, kde-format
 msgid "Closes the document"
 msgstr "Schließt das aktuelle Dokument"
 
-#: uml.cpp:448
+#: uml.cpp:430
 #, kde-format
 msgid "Prints out the document"
 msgstr "Druckt das aktuelle Dokument"
 
-#: uml.cpp:449
+#: uml.cpp:431
 #, kde-format
 msgid "Print Preview of the document"
 msgstr "Druckvorschau des Dokuments"
 
-#: uml.cpp:450
+#: uml.cpp:432
 #, kde-format
 msgid "Quits the application"
 msgstr "Beendet das Programm"
 
-#: uml.cpp:451
+#: uml.cpp:433
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr "Exportiert das Modell in das DocBook-Format"
 
-#: uml.cpp:452
+#: uml.cpp:434
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr "Exportiert das Modell in das XHTML-Format"
 
-#: uml.cpp:453
+#: uml.cpp:435
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr ""
 "Schneidet den ausgewählten Bereich aus und legt den Inhalt in der "
 "Zwischenablage ab."
 
-#: uml.cpp:454
+#: uml.cpp:436
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "Kopiert den ausgewählten Bereich in die Zwischenablage"
 
-#: uml.cpp:455
+#: uml.cpp:437
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr "Fügt den Inhalt der Zwischenablage ein"
 
-#: uml.cpp:456
+#: uml.cpp:438
 #, kde-format
 msgid "Undo last action"
 msgstr "Letzte Aktion zurücknehmen"
 
-#: uml.cpp:457
+#: uml.cpp:439
 #, kde-format
 msgid "Redo last undone action"
 msgstr "Letzte rückgängig gemachte Aktion wieder herstellen"
 
-#: uml.cpp:459
+#: uml.cpp:441
 #, kde-format
 msgid "Set the default program preferences"
 msgstr "Setzt die Programm-Voreinstellungen"
 
-#: uml.cpp:463
+#: uml.cpp:445
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "Auswahl lös&chen"
 
-#: uml.cpp:474
+#: uml.cpp:456
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "&Klassendiagramm ..."
 
-#: uml.cpp:481
+#: uml.cpp:463
 #, kde-format
 msgid "&Object Diagram..."
 msgstr "&Objektdiagramm ..."
 
-#: uml.cpp:488
+#: uml.cpp:470
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "&Sequenzdiagramm ..."
 
-#: uml.cpp:494
+#: uml.cpp:476
 #, kde-format
 msgid "C&ommunication Diagram..."
 msgstr "K&ommunikationsdiagramm ..."
 
-#: uml.cpp:500
+#: uml.cpp:482
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr "&Anwendungsfalldiagramm ..."
 
-#: uml.cpp:506
+#: uml.cpp:488
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "&Zustandsdiagramm ..."
 
-#: uml.cpp:512
+#: uml.cpp:494
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "Ak&tivitätsdiagramm ..."
 
-#: uml.cpp:518
+#: uml.cpp:500
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "Kom&ponentendiagramm ..."
 
-#: uml.cpp:524
+#: uml.cpp:506
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr "&Verteilungsdiagramm ..."
 
-#: uml.cpp:530
+#: uml.cpp:512
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "&Entitäten-Beziehungs-Diagramm ..."
 
-#: uml.cpp:535
-#, fuzzy, kde-format
-#| msgid "Show Attributes"
-msgid "Show tree view"
-msgstr "Attribute anzeigen"
-
-#: uml.cpp:539
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
-msgid "Show debug window"
-msgstr "Dokumentationsfenster anzeigen"
-
-#: uml.cpp:543
-#, fuzzy, kde-format
-#| msgid "Show Documentation Indicator"
-msgid "Show documentation window"
-msgstr "Dokumentationshinweis anzeigen"
-
-#: uml.cpp:547
-#, fuzzy, kde-format
-#| msgid "&Command history"
-msgid "Show command history"
-msgstr "&Befehlsverlauf"
-
-#: uml.cpp:551
-#, fuzzy, kde-format
-#| msgid "&Bird's eye view"
-msgid "Show bird's eye view"
-msgstr "&Übersicht"
-
-#: uml.cpp:556
+#: uml.cpp:518
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "Diagramm lee&ren"
 
-#: uml.cpp:560
+#: uml.cpp:522
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "E&inrasten am Raster"
 
-#: uml.cpp:564
+#: uml.cpp:526
 #, kde-format
 msgid "S&how Grid"
 msgstr "Ra&ster anzeigen"
 
-#: uml.cpp:569
+#: uml.cpp:531
 #, kde-format
 msgid "&Delete Diagram"
 msgstr "Diagramm &löschen"
 
-#: uml.cpp:574
+#: uml.cpp:536
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "Als Bild e&xportieren ..."
 
-#: uml.cpp:579
+#: uml.cpp:541
 #, kde-format
 msgid "Export &Diagrams as Pictures..."
 msgstr "&Diagramme als Bilder exportieren ..."
 
-#: uml.cpp:599
+#: uml.cpp:561
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "Z&oom auf 100 %"
 
-#: uml.cpp:642
+#: uml.cpp:604
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "&Unterfenster nach links bewegen"
 
-#: uml.cpp:643
+#: uml.cpp:605
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "&Unterfenster nach rechts bewegen"
 
-#: uml.cpp:659
+#: uml.cpp:621
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr "Linkes Diagramm wählen"
 
-#: uml.cpp:660
+#: uml.cpp:622
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr "Rechtes Diagramm wählen"
 
-#: uml.cpp:796
+#: uml.cpp:758
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr " &%1 %"
 
-#: uml.cpp:848
+#: uml.cpp:810
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Fertig"
 
-#: uml.cpp:856 uml.cpp:869
+#: uml.cpp:818 uml.cpp:831
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: uml.cpp:861
+#: uml.cpp:823
 #, kde-format
 msgid "Fit"
 msgstr "Einpassen"
 
-#: uml.cpp:912
+#: uml.cpp:874
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "Diagramm-Werkzeugleiste"
 
-#: uml.cpp:958
-#, kde-format
-msgid "&Tree View"
-msgstr "&Baumansicht"
-
-#: uml.cpp:969
-#, kde-format
-msgid "Doc&umentation"
-msgstr "Dok&umentation"
-
-#: uml.cpp:980
-#, kde-format
-msgid "Co&mmand history"
-msgstr "&Befehlsverlauf"
-
-#: uml.cpp:989
-#, kde-format
-msgid "&Debug"
-msgstr "&Fehlersuche"
-
-#. i18n("&Properties"), this);
-#. m_propertyDock->setObjectName(QStringLiteral("PropertyDock"));
-#. addDockWidget(Qt::LeftDockWidgetArea, m_propertyDock);  //:TODO:
-#. create the bird's eye view
-#: uml.cpp:1001
-#, kde-format
-msgid "&Bird's eye view"
-msgstr "&Übersicht"
-
-#: uml.cpp:1029 uml.cpp:1246 uml.cpp:1284
+#: uml.cpp:927 uml.cpp:1144 uml.cpp:1182
 #, kde-format
 msgid "Opening file..."
 msgstr "Datei wird geöffnet ..."
 
-#: uml.cpp:1080 uml.cpp:1151 uml.cpp:1315 umldoc.cpp:351 umldoc.cpp:374
+#: uml.cpp:978 uml.cpp:1049 uml.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
 #: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "Unbenannt"
 
-#: uml.cpp:1228
+#: uml.cpp:1126
 #, kde-format
 msgid "Creating new document..."
 msgstr "Neues Dokument wird erstellt ..."
 
-#: uml.cpp:1253
+#: uml.cpp:1151
 #, kde-format
 msgid "Open File"
 msgstr "Datei öffnen"
 
-#: uml.cpp:1254
+#: uml.cpp:1152
 #, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7574,22 +7528,22 @@ msgstr ""
 "*.mdl|Rose-Model-Dateien\n"
 "*.zargo|Komprimierte Argo-Dateien (*.zargo)\n"
 
-#: uml.cpp:1314
+#: uml.cpp:1212
 #, kde-format
 msgid "Saving file..."
 msgstr "Datei wird gespeichert ..."
 
-#: uml.cpp:1331
+#: uml.cpp:1229
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Datei wird unter neuem Namen gespeichert ..."
 
-#: uml.cpp:1336 umlviewimageexporter.cpp:172
+#: uml.cpp:1234 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Speichern unter"
 
-#: uml.cpp:1337
+#: uml.cpp:1235
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7599,7 +7553,7 @@ msgstr ""
 "*.xmi.tar.bz2 | Bzip2-komprimierte XMI-Datei (*.xmi.tar.bz2);;* | Alle "
 "Dateien (*)"
 
-#: uml.cpp:1355
+#: uml.cpp:1253
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7608,67 +7562,67 @@ msgstr ""
 "Die Datei „%1“ existiert bereits.\n"
 "Soll sie überschrieben werden?"
 
-#: uml.cpp:1356
+#: uml.cpp:1254
 #, kde-format
 msgid "Warning"
 msgstr "Warnung"
 
-#: uml.cpp:1356
+#: uml.cpp:1254
 #, kde-format
 msgid "Overwrite"
 msgstr "Überschreiben"
 
-#: uml.cpp:1382
+#: uml.cpp:1280
 #, kde-format
 msgid "Closing file..."
 msgstr "Datei wird geschlossen ..."
 
-#: uml.cpp:1393
+#: uml.cpp:1291
 #, kde-format
 msgid "No search term entered"
 msgstr "Kein Suchbegriff eingegeben"
 
-#: uml.cpp:1399
+#: uml.cpp:1297
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "'%1': %2 gefunden"
 
-#: uml.cpp:1455
+#: uml.cpp:1353
 #, kde-format
 msgid "Print Preview..."
 msgstr "Druckvorschau ..."
 
-#: uml.cpp:1482
+#: uml.cpp:1380
 #, kde-format
 msgid "Printing..."
 msgstr "Druckvorgang läuft ..."
 
-#: uml.cpp:1488
+#: uml.cpp:1386
 #, kde-format
 msgid "Print %1"
 msgstr "„%1“ drucken"
 
-#: uml.cpp:1507
+#: uml.cpp:1405
 #, kde-format
 msgid "Exiting..."
 msgstr "Es wird beendet ..."
 
-#: uml.cpp:1578
+#: uml.cpp:1476
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Auswahl wird ausgeschnitten ..."
 
-#: uml.cpp:1601
+#: uml.cpp:1499
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Auswahl wird in Zwischenablage kopiert ..."
 
-#: uml.cpp:1613
+#: uml.cpp:1511
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Inhalt der Zwischenablage wird eingefügt ..."
 
-#: uml.cpp:1618
+#: uml.cpp:1516
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7678,91 +7632,92 @@ msgstr ""
 "der Zwischenablage hat möglicherweise den falschen Typ, um hier eingefügt zu "
 "werden."
 
-#: uml.cpp:1644 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: uml.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Fertig."
 
-#: uml.cpp:2261
+#: uml.cpp:2158
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr ""
 "Es kann kein Quelltext anzeigt werden, wenn noch keiner generiert wurde."
 
-#: uml.cpp:2261 uml.cpp:2264
+#: uml.cpp:2158 uml.cpp:2161
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Der Quelltext kann nicht angezeigt werden."
 
-#: uml.cpp:2264
+#: uml.cpp:2161
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr ""
 "Der von der aktuellen Quelltext-Erstellung erzeugte Quellcode kann nicht "
 "angezeigt werden."
 
-#: uml.cpp:2744
+#: uml.cpp:2611
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Datei(en) für Import wählen:"
 
-#: uml.cpp:2773
+#: uml.cpp:2640
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Ordner für Import wählen:"
 
-#: uml.cpp:3308
+#: uml.cpp:3158
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML-Erstellung fehlgeschlagen."
 
-#: umlappprivate.h:115
+#: umlappprivate.h:101
 #, fuzzy, kde-format
 #| msgid "Show Doc Window"
-msgid "Show diagrams window"
+msgid "Show/hide window"
 msgstr "Dokumentationsfenster anzeigen"
 
-#: umlappprivate.h:118
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
-msgid "Show log window"
-msgstr "Dokumentationsfenster anzeigen"
+#: umlappprivate.h:169
+#, kde-format
+msgid "&Bird's eye view"
+msgstr "&Übersicht"
 
-#: umlappprivate.h:121
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
-msgid "Show UML objects window"
-msgstr "Dokumentationsfenster anzeigen"
+#: umlappprivate.h:177
+#, kde-format
+msgid "Co&mmand history"
+msgstr "&Befehlsverlauf"
 
-#: umlappprivate.h:124
-#, fuzzy, kde-format
-#| msgid "Show Stereotypes"
-msgid "Show stereotypes window"
-msgstr "Stereotyp anzeigen"
+#: umlappprivate.h:189
+#, kde-format
+msgid "&Debug"
+msgstr "&Fehlersuche"
 
-#: umlappprivate.h:127
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
-msgid "Show welcome window"
-msgstr "Dokumentationsfenster anzeigen"
+#: umlappprivate.h:205
+#, kde-format
+msgid "Doc&umentation"
+msgstr "Dok&umentation"
 
-#: umlappprivate.h:165
+#: umlappprivate.h:224
 #, kde-format
 msgid "&Log"
 msgstr "&Protokoll"
 
-#: umlappprivate.h:177
+#: umlappprivate.h:233
 #, kde-format
 msgid "&UML Objects"
 msgstr "&UML-Objekte"
 
-#: umlappprivate.h:187
+#: umlappprivate.h:247
 #, kde-format
 msgid "&Stereotypes"
 msgstr "&Stereotypen"
 
-#: umlappprivate.h:203
+#: umlappprivate.h:254
+#, kde-format
+msgid "&Tree View"
+msgstr "&Baumansicht"
+
+#: umlappprivate.h:274
 #, kde-format
 msgid "Welcome"
 msgstr "Willkommen"
@@ -9289,6 +9244,51 @@ msgstr "Zustand"
 msgid "Pre/Post condition"
 msgstr "Bedingung/Nachbedingung"
 
+#, fuzzy
+#~| msgid "Show Attributes"
+#~ msgid "Show tree view"
+#~ msgstr "Attribute anzeigen"
+
+#, fuzzy
+#~| msgid "Show Documentation Indicator"
+#~ msgid "Show documentation window"
+#~ msgstr "Dokumentationshinweis anzeigen"
+
+#, fuzzy
+#~| msgid "&Command history"
+#~ msgid "Show command history"
+#~ msgstr "&Befehlsverlauf"
+
+#, fuzzy
+#~| msgid "&Bird's eye view"
+#~ msgid "Show bird's eye view"
+#~ msgstr "&Übersicht"
+
+#, fuzzy
+#~| msgid "Show Doc Window"
+#~ msgid "Show diagrams window"
+#~ msgstr "Dokumentationsfenster anzeigen"
+
+#, fuzzy
+#~| msgid "Show Doc Window"
+#~ msgid "Show log window"
+#~ msgstr "Dokumentationsfenster anzeigen"
+
+#, fuzzy
+#~| msgid "Show Doc Window"
+#~ msgid "Show UML objects window"
+#~ msgstr "Dokumentationsfenster anzeigen"
+
+#, fuzzy
+#~| msgid "Show Stereotypes"
+#~ msgid "Show stereotypes window"
+#~ msgstr "Stereotyp anzeigen"
+
+#, fuzzy
+#~| msgid "Show Doc Window"
+#~ msgid "Show welcome window"
+#~ msgstr "Dokumentationsfenster anzeigen"
+
 #~ msgid "&Debugging"
 #~ msgstr "&Fehlersuche"
 
@@ -9766,9 +9766,6 @@ msgstr "Bedingung/Nachbedingung"
 
 #~ msgid "Creation canceled"
 #~ msgstr "Erstellungsprozess abgebrochen"
-
-#~ msgid "&View"
-#~ msgstr "&Ansicht"
 
 #~ msgid "Show &visibility"
 #~ msgstr "&Sichtbarkeit anzeigen"
