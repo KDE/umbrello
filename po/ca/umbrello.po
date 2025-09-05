@@ -13,14 +13,14 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-04 02:01+0000\n"
-"PO-Revision-Date: 2025-08-27 13:50+0200\n"
+"PO-Revision-Date: 2025-09-04 10:57+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.04.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -7143,17 +7143,15 @@ msgstr "&Edita"
 
 #. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
-#, fuzzy, kde-format
-#| msgid "Views"
+#, kde-format
 msgid "&View"
-msgstr "Vistes"
+msgstr "&Visualitza"
 
 #. i18n: ectx: Menu (view_window)
 #: umbrelloui.rc.cmake:15
-#, fuzzy, kde-format
-#| msgid "Show debug window"
+#, kde-format
 msgid "&Show/hide window"
-msgstr "Mostra la finestra de depuració"
+msgstr "Mo&stra/oculta la finestra"
 
 #. i18n: ectx: Menu (diagram)
 #: umbrelloui.rc.cmake:26
@@ -7643,10 +7641,9 @@ msgid "XHTML Generation failed ."
 msgstr "Ha fallat la generació de XHTML."
 
 #: umlappprivate.h:101
-#, fuzzy, kde-format
-#| msgid "Show debug window"
+#, kde-format
 msgid "Show/hide window"
-msgstr "Mostra la finestra de depuració"
+msgstr "Mostra/oculta la finestra"
 
 #: umlappprivate.h:169
 #, kde-format

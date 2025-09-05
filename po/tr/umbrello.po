@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-04 02:01+0000\n"
-"PO-Revision-Date: 2025-08-27 09:24+0300\n"
+"PO-Revision-Date: 2025-09-04 14:08+0300\n"
 "Last-Translator: Emir SARI <emir_sari@îcloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -7143,17 +7143,15 @@ msgstr "Dü&zen"
 
 #. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
-#, fuzzy, kde-format
-#| msgid "Views"
+#, kde-format
 msgid "&View"
-msgstr "Görünümler"
+msgstr "Görü&nüm"
 
 #. i18n: ectx: Menu (view_window)
 #: umbrelloui.rc.cmake:15
-#, fuzzy, kde-format
-#| msgid "Show debug window"
+#, kde-format
 msgid "&Show/hide window"
-msgstr "Hata Ayıklama Penceresini Göster"
+msgstr "Pencereyi &Göster/Gizle"
 
 #. i18n: ectx: Menu (diagram)
 #: umbrelloui.rc.cmake:26
@@ -7643,10 +7641,9 @@ msgid "XHTML Generation failed ."
 msgstr "XHTML üretimi işlemi başarısız oldu."
 
 #: umlappprivate.h:101
-#, fuzzy, kde-format
-#| msgid "Show debug window"
+#, kde-format
 msgid "Show/hide window"
-msgstr "Hata Ayıklama Penceresini Göster"
+msgstr "Pencereyi Göster/Gizle"
 
 #: umlappprivate.h:169
 #, kde-format

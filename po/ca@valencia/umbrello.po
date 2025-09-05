@@ -13,14 +13,14 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-04 02:01+0000\n"
-"PO-Revision-Date: 2025-08-27 13:50+0200\n"
+"PO-Revision-Date: 2025-09-04 10:57+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.04.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -1464,7 +1464,7 @@ msgstr "Desselecciona-ho tot"
 #: codeimpwizard/codeimpselectpage.ui:124
 #, kde-format
 msgid "Select all"
-msgstr "Tria-ho tot"
+msgstr "Selecciona-ho tot"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_filesLabel)
 #: codeimpwizard/codeimpselectpage.ui:136
@@ -7148,17 +7148,15 @@ msgstr "&Edita"
 
 #. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
-#, fuzzy, kde-format
-#| msgid "Views"
+#, kde-format
 msgid "&View"
-msgstr "Vistes"
+msgstr "Vi&sualitza"
 
 #. i18n: ectx: Menu (view_window)
 #: umbrelloui.rc.cmake:15
-#, fuzzy, kde-format
-#| msgid "Show debug window"
+#, kde-format
 msgid "&Show/hide window"
-msgstr "Mostra la finestra de depuració"
+msgstr "Mo&stra/oculta la finestra"
 
 #. i18n: ectx: Menu (diagram)
 #: umbrelloui.rc.cmake:26
@@ -7648,10 +7646,9 @@ msgid "XHTML Generation failed ."
 msgstr "No s'ha pogut generar XHTML."
 
 #: umlappprivate.h:101
-#, fuzzy, kde-format
-#| msgid "Show debug window"
+#, kde-format
 msgid "Show/hide window"
-msgstr "Mostra la finestra de depuració"
+msgstr "Mostra o oculta la finestra"
 
 #: umlappprivate.h:169
 #, kde-format
@@ -9218,30 +9215,3 @@ msgstr "Estat"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "Pre/post condició"
-
-#~ msgid "Show tree view"
-#~ msgstr "Mostra la vista en arbre"
-
-#~ msgid "Show documentation window"
-#~ msgstr "Mostra la finestra de documentació"
-
-#~ msgid "Show command history"
-#~ msgstr "Mostra l'historial d'ordres"
-
-#~ msgid "Show bird's eye view"
-#~ msgstr "Mostra la vista d'ocell"
-
-#~ msgid "Show diagrams window"
-#~ msgstr "Mostra la finestra dels diagrames"
-
-#~ msgid "Show log window"
-#~ msgstr "Mostra la finestra del registre"
-
-#~ msgid "Show UML objects window"
-#~ msgstr "Mostra la finestra d'objectes UML"
-
-#~ msgid "Show stereotypes window"
-#~ msgstr "Mostra la finestra d'estereotips"
-
-#~ msgid "Show welcome window"
-#~ msgstr "Mostra la finestra de benvinguda"
