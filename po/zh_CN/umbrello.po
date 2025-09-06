@@ -7072,17 +7072,15 @@ msgstr "编辑(&E)"
 
 #. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
-#, fuzzy, kde-format
-#| msgid "Views"
+#, kde-format
 msgid "&View"
-msgstr "视图"
+msgstr ""
 
 #. i18n: ectx: Menu (view_window)
 #: umbrelloui.rc.cmake:15
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "&Show/hide window"
-msgstr "显示停靠窗口"
+msgstr ""
 
 #. i18n: ectx: Menu (diagram)
 #: umbrelloui.rc.cmake:26
@@ -7563,10 +7561,9 @@ msgid "XHTML Generation failed ."
 msgstr "XHTML 生成失败。"
 
 #: umlappprivate.h:101
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show/hide window"
-msgstr "显示停靠窗口"
+msgstr ""
 
 #: umlappprivate.h:169
 #, kde-format
