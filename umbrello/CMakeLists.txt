@@ -440,6 +440,8 @@ set(umbrellobase_SRCS
     assocrules.cpp
     basictypes.cpp
     birdview.cpp
+    birdviewdockwidget.cpp
+    birdviewdockwidget.h
     codeviewerstate.cpp
     cmdlineexportallviewsevent.cpp
     compressionhelper.h

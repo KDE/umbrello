@@ -16,27 +16,6 @@ class QGraphicsView;
 QT_END_NAMESPACE
 
 /**
- * @brief The class BirdViewDockWidget contains the bird view.
- *
- * BirdViewDockWidget is a subclass of QDockWidget.
- * It reimplements the resize event handler by emitting a size changed signal.
- *
- * @author Andi Fischer
- */
-class BirdViewDockWidget : public QDockWidget
-{
-    Q_OBJECT
-public:
-    explicit BirdViewDockWidget(const QString& title, QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags(0));
-
-Q_SIGNALS:
-    void sizeChanged(const QSize& size);
-
-protected:
-    virtual void resizeEvent(QResizeEvent *event);
-};
-
-/**
  * @brief The class BirdView controls the view of the whole scene.
  *
  * A view of the whole scene is shown together with a representation of the

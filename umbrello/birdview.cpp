@@ -251,23 +251,3 @@ void BirdView::setBackgroundColor(QFrame *frame, const QColor& color)
     frame->setPalette(newPalette);
     frame->setAutoFillBackground(true);
 }
-
-//------------------------------------------------------------------------------
-
-/**
- * Constructor.
- */
-BirdViewDockWidget::BirdViewDockWidget(const QString& title, QWidget* parent, Qt::WindowFlags flags)
-  : QDockWidget(title, parent, flags)
-{
-}
-
-/**
- * Handle resize event of the dock widget.
- * Emits size changed signal.
- */
-void BirdViewDockWidget::resizeEvent(QResizeEvent *event)
-{
-    Q_EMIT sizeChanged(event->size());
-}
-

@@ -8,6 +8,7 @@
 
 // app includes
 #include "birdview.h"
+#include "birdviewdockwidget.h"
 #include "cmdcreatediagram.h"
 #include "debug_utils.h"
 #include "diagramswindow.h"
