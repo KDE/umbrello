@@ -45,7 +45,7 @@ DEBUG_REGISTER(UMLClassifier)
 /**
  * @brief holds set of classifiers for recursive loop detection
  */
-class UMLClassifierSet: public QSet<const UMLClassifier *> {
+class UMLClassifierSet : public QSet<const UMLClassifier *> {
 public:
     UMLClassifierSet() : level(0)
     {

@@ -21,7 +21,7 @@ class QCheckBox;
  * @author Jonathan Riddell <jr@jriddell.org>
  * Bugs and comments to umbrello-devel@kde.org or https://bugs.kde.org
  */
-class OverwriteDialog: public SinglePageDialogBase
+class OverwriteDialog : public SinglePageDialogBase
 {
     Q_OBJECT
 public:

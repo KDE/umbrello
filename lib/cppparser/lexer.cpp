@@ -19,7 +19,7 @@ DEBUG_REGISTER_DISABLED(Lexer)
 #if defined(KDEVELOP_BGPARSER)
 #include <QThread>
 
-class KDevTread: public QThread
+class KDevTread : public QThread
 {
 public:
     static void yield()

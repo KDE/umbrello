@@ -66,7 +66,7 @@ private:
     int& m_i;
 };
 
-class DefaultSourceProvider: public SourceProvider
+class DefaultSourceProvider : public SourceProvider
 {
 public:
     DefaultSourceProvider() {}

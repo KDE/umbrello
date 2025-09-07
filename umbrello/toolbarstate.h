@@ -61,7 +61,7 @@ class UMLWidget;
  * @todo Handle, for example, left press, right press, left release, right
  *       release and other similar strange combinations?
  */
-class ToolBarState: public QObject
+class ToolBarState : public QObject
 {
     Q_OBJECT
 public:
