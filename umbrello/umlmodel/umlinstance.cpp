@@ -3,7 +3,7 @@
     SPDX-FileCopyrightText: 2016-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
-#include "instance.h"
+#include "umlinstance.h"
 
 //app includes
 #include "cmds.h"

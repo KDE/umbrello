@@ -15,7 +15,7 @@
 #include "umlcategory.h"
 #include "umlentity.h"
 #include "umlclassifier.h"
-#include "instance.h"
+#include "umlinstance.h"
 
 #include "associationwidget.h"
 #include "categorywidget.h"

@@ -12,7 +12,7 @@
 #include "dialog_utils.h"
 #include "umlclassifier.h"
 #include "umldatatype.h"
-#include "instance.h"
+#include "umlinstance.h"
 #include "umlobject.h"
 #include "objectwidget.h"
 #include "uml.h"

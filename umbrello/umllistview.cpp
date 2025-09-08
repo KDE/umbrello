@@ -29,7 +29,7 @@
 #include "operation.h"
 #include "umlattribute.h"
 #include "umlentityattribute.h"
-#include "instance.h"
+#include "umlinstance.h"
 #include "umlinstanceattribute.h"
 #include "uniqueconstraint.h"
 #include "umlforeignkeyconstraint.h"

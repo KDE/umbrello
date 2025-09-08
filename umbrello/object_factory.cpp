@@ -25,7 +25,7 @@
 #include "umlentity.h"
 #include "umlfolder.h"
 #include "umlforeignkeyconstraint.h"
-#include "instance.h"
+#include "umlinstance.h"
 #include "model_utils.h"
 #include "node.h"
 #include "package.h"

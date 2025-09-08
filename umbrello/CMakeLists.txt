@@ -432,7 +432,7 @@ set(libuml_SRCS
     umlmodel/umlrole.cpp
     umlmodel/usecase.cpp
     umlmodel/uniqueconstraint.cpp
-    umlmodel/instance.cpp
+    umlmodel/umlinstance.cpp
     umlmodel/umlinstanceattribute.cpp
 )
 

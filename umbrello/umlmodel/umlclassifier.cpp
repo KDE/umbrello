@@ -27,7 +27,7 @@
 #include "umltemplatedialog.h"
 #include "optionstate.h"
 #include "icon_utils.h"
-#include "instance.h"
+#include "umlinstance.h"
 #include "umlinstanceattribute.h"
 #include "optionstate.h"
 

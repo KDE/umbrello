@@ -7,7 +7,7 @@
 #include "umlinstanceattribute.h"
 
 //local includes
-#include "instance.h"
+#include "umlinstance.h"
 #include "umlattribute.h"
 #include "debug_utils.h"
 #include "model_utils.h"

@@ -29,7 +29,7 @@
 #include "entitywidget.h"
 #include "umlenum.h"
 #include "enumwidget.h"
-#include "instance.h"
+#include "umlinstance.h"
 #include "floatingdashlinewidget.h"
 #include "floatingtextwidget.h"
 #include "umlfolder.h"

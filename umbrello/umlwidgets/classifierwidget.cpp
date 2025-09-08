@@ -15,7 +15,7 @@
 #include "debug_utils.h"
 #include "diagram_utils.h"
 #include "dialog_utils.h"
-#include "instance.h"
+#include "umlinstance.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
 #include "operation.h"

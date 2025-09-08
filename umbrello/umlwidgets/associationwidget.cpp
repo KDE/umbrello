@@ -30,7 +30,7 @@
 #include "umlview.h"
 #include "umlwidget.h"
 #include "widget_utils.h"
-#include "instance.h"
+#include "umlinstance.h"
 #include "umlinstanceattribute.h"
 
 // kde includes

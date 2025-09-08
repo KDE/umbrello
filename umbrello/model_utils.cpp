@@ -17,7 +17,7 @@
 #include "umlfolder.h"
 #include "umlclassifier.h"
 #include "umlenum.h"
-#include "instance.h"
+#include "umlinstance.h"
 #include "umlentity.h"
 #include "template.h"
 #include "operation.h"
