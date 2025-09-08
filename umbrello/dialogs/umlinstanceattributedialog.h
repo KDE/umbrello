@@ -8,7 +8,7 @@
 
 #include <QWidget>
 #include "singlepagedialogbase.h"
-#include "instanceattribute.h"
+#include "umlinstanceattribute.h"
 
 namespace Ui {
 class UMLInstanceAttributeDialog;

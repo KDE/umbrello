@@ -4,7 +4,7 @@
 */
 
 //own header
-#include "instanceattribute.h"
+#include "umlinstanceattribute.h"
 
 //local includes
 #include "instance.h"

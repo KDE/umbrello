@@ -7,7 +7,7 @@
 #define UMLINSTANCE_H
 
 #include "umlcanvasobject.h"
-#include "instanceattribute.h"
+#include "umlinstanceattribute.h"
 
 class UMLClassifier;
 class UMLClassifierListItem;

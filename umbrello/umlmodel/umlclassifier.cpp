@@ -28,7 +28,7 @@
 #include "optionstate.h"
 #include "icon_utils.h"
 #include "instance.h"
-#include "instanceattribute.h"
+#include "umlinstanceattribute.h"
 #include "optionstate.h"
 
 // kde includes

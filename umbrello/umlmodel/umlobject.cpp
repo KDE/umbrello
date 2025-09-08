@@ -1403,7 +1403,7 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
 #include "umlenum.h"
 #include "umlforeignkeyconstraint.h"
 #include "instance.h"
-#include "instanceattribute.h"
+#include "umlinstanceattribute.h"
 #include "node.h"
 #include "operation.h"
 #include "port.h"

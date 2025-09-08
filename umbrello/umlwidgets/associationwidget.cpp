@@ -31,7 +31,7 @@
 #include "umlwidget.h"
 #include "widget_utils.h"
 #include "instance.h"
-#include "instanceattribute.h"
+#include "umlinstanceattribute.h"
 
 // kde includes
 #include <KLocalizedString>

@@ -10,7 +10,7 @@
 #include "umlclassifier.h"
 #include "classpropertiesdialog.h"
 #include "debug_utils.h"
-#include "instanceattribute.h"
+#include "umlinstanceattribute.h"
 #include "object_factory.h"
 #include "uml.h"
 #include "umldoc.h"

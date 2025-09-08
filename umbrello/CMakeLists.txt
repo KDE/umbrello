@@ -433,7 +433,7 @@ set(libuml_SRCS
     umlmodel/usecase.cpp
     umlmodel/uniqueconstraint.cpp
     umlmodel/instance.cpp
-    umlmodel/instanceattribute.cpp
+    umlmodel/umlinstanceattribute.cpp
 )
 
 set(umbrellobase_SRCS

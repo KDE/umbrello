@@ -17,7 +17,7 @@
 #include "template.h"
 #include "umlattribute.h"
 #include "operation.h"
-#include "instanceattribute.h"
+#include "umlinstanceattribute.h"
 #include "umlentityconstraint.h"
 #include "umldoc.h"
 #include "umllistview.h"

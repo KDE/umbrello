@@ -30,7 +30,7 @@
 #include "umlattribute.h"
 #include "umlentityattribute.h"
 #include "instance.h"
-#include "instanceattribute.h"
+#include "umlinstanceattribute.h"
 #include "uniqueconstraint.h"
 #include "umlforeignkeyconstraint.h"
 #include "umlcheckconstraint.h"
