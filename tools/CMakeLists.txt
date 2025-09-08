@@ -1,5 +1,5 @@
 
-set(LIBS ${LIB_PREFIX}Xml ${LIB_PREFIX}Core)
+set(LIBS Qt::Xml Qt::Core)
 
 set(po2xmi_SRCS po2xmi.cpp shared.cpp)
 

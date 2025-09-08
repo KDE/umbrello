@@ -51,8 +51,8 @@ set(libkdevcppparser_SRCS
 
 add_library(codeimport STATIC ${libcodeimport_SRCS} ${libkdevcppparser_SRCS})
 target_link_libraries(codeimport
-    Qt${QT_MAJOR_VERSION}::Widgets
-    Qt${QT_MAJOR_VERSION}::Xml
+    Qt::Widgets
+    Qt::Xml
     KF${QT_MAJOR_VERSION}::CoreAddons
     KF${QT_MAJOR_VERSION}::I18n
     KF${QT_MAJOR_VERSION}::IconThemes

@@ -50,9 +50,9 @@ include_directories(
 )
 
 set(LIBS
-    Qt${QT_MAJOR_VERSION}::Xml
-    Qt${QT_MAJOR_VERSION}::Test
-    Qt${QT_MAJOR_VERSION}::Widgets
+    Qt::Xml
+    Qt::Test
+    Qt::Widgets
     KF${QT_MAJOR_VERSION}::I18n
     KF${QT_MAJOR_VERSION}::Crash
     ${LIBXML2_LIBRARIES}

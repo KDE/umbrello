@@ -518,10 +518,10 @@ list(APPEND libumbrello_SRCS icons.qrc ${CMAKE_CURRENT_BINARY_DIR}/ui.qrc)
 add_library(libumbrello ${LIB_BUILD_MODE} ${libumbrello_SRCS})
 set_target_properties(libumbrello PROPERTIES OUTPUT_NAME umbrello)
 target_link_libraries(libumbrello
-    Qt${QT_MAJOR_VERSION}::Widgets
-    Qt${QT_MAJOR_VERSION}::Xml
-    Qt${QT_MAJOR_VERSION}::PrintSupport
-    Qt${QT_MAJOR_VERSION}::Svg
+    Qt::Widgets
+    Qt::Xml
+    Qt::PrintSupport
+    Qt::Svg
     KF${QT_MAJOR_VERSION}::Archive
     KF${QT_MAJOR_VERSION}::Completion
     KF${QT_MAJOR_VERSION}::CoreAddons
