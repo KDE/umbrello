@@ -8,7 +8,7 @@
 
 // app includes
 #include "debug_utils.h"
-#include "node.h"
+#include "umlnode.h"
 #include "umlscene.h"
 #include "umlview.h"
 

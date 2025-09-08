@@ -27,7 +27,7 @@
 #include "umlactor.h"
 #include "usecase.h"
 #include "umlcomponent.h"
-#include "node.h"
+#include "umlnode.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlscene.h"

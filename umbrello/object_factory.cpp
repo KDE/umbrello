@@ -27,7 +27,7 @@
 #include "umlforeignkeyconstraint.h"
 #include "umlinstance.h"
 #include "model_utils.h"
-#include "node.h"
+#include "umlnode.h"
 #include "package.h"
 #include "port.h"
 #include "operation.h"

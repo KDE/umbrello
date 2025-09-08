@@ -36,7 +36,7 @@
 #include "forkjoinwidget.h"
 #include "interfacewidget.h"
 #include "messagewidget.h"
-#include "node.h"
+#include "umlnode.h"
 #include "nodewidget.h"
 #include "notewidget.h"
 #include "object_factory.h"

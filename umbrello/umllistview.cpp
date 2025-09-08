@@ -15,7 +15,7 @@
 #include "package.h"
 #include "umlfolder.h"
 #include "umlcomponent.h"
-#include "node.h"
+#include "umlnode.h"
 #include "umlartifact.h"
 #include "umlenum.h"
 #include "umlenumliteral.h"
