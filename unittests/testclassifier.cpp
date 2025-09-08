@@ -10,7 +10,7 @@
 #include "uml.h"
 #include "umlassociation.h"
 #include "umlclassifier.h"
-#include "datatype.h"
+#include "umldatatype.h"
 #include "operation.h"
 #include "model_utils.h"
 

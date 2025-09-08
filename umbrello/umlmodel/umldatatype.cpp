@@ -4,7 +4,7 @@
 */
 
 // own header
-#include "datatype.h"
+#include "umldatatype.h"
 
 /**
  * Sets up a Datatype.

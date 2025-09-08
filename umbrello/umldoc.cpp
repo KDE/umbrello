@@ -23,7 +23,7 @@
 #include "template.h"
 #include "enumliteral.h"
 #include "stereotype.h"
-#include "datatype.h"
+#include "umldatatype.h"
 #include "umlclassifierlistitem.h"
 #include "object_factory.h"
 #include "import_argo.h"

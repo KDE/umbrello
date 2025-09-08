@@ -21,7 +21,7 @@
 #include "umlcomponent.h"
 #include "cmds.h"
 #include "componentwidget.h"
-#include "datatype.h"
+#include "umldatatype.h"
 #include "diagram_utils.h"
 #include "pinportbase.h"
 #include "datatypewidget.h"

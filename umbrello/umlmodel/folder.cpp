@@ -16,7 +16,7 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
-#include "datatype.h"
+#include "umldatatype.h"
 
 // kde includes
 #include <KLocalizedString>

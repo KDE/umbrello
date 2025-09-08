@@ -19,7 +19,7 @@
 #include "umlclassifier.h"
 #include "umlattribute.h"
 #include "operation.h"
-#include "datatype.h"
+#include "umldatatype.h"
 #include "enum.h"
 #include "enumliteral.h"
 #include "umlassociation.h"

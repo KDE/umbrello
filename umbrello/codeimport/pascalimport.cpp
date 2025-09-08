@@ -9,7 +9,7 @@
 // app includes
 #include "umlattribute.h"
 #include "umlclassifier.h"
-#include "datatype.h"
+#include "umldatatype.h"
 #define DBG_SRC QStringLiteral("PascalImport")
 #include "debug_utils.h"
 #include "enum.h"

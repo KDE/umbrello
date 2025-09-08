@@ -21,7 +21,7 @@
 #include "enumliteral.h"
 #include "entity.h"
 #include "umlcategory.h"
-#include "datatype.h"
+#include "umldatatype.h"
 #include "docwindow.h"
 #include "layoutgenerator.h"
 #include "umllistviewpopupmenu.h"

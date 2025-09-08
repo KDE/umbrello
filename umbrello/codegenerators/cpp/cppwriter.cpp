@@ -14,7 +14,7 @@
 #include "umlassociation.h"
 #include "umlclassifier.h"
 #include "codegen_utils.h"
-#include "datatype.h"
+#include "umldatatype.h"
 #include "debug_utils.h"
 #include "model_utils.h"
 #include "uml.h"

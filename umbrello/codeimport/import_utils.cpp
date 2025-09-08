@@ -10,7 +10,7 @@
 #include "umlassociation.h"
 #include "umlartifact.h"
 #include "umlclassifier.h"
-#include "datatype.h"
+#include "umldatatype.h"
 #define DBG_SRC QStringLiteral("Import_Utils")
 #include "debug_utils.h"
 #include "folder.h"

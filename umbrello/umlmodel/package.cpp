@@ -13,7 +13,7 @@
 #include "umldoc.h"
 #include "umlclassifier.h"
 #include "umlassociation.h"
-#include "datatype.h"
+#include "umldatatype.h"
 #include "entity.h"
 #include "folder.h"
 #include "object_factory.h"
