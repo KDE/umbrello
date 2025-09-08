@@ -9,7 +9,7 @@
 #include "dwriter.h"
 
 // app includes
-#include "association.h"
+#include "umlassociation.h"
 #include "attribute.h"
 #include "classifier.h"
 #include "codegen_utils.h"

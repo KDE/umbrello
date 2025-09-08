@@ -8,7 +8,7 @@
 
 // app includes
 #include "associationwidget.h"
-#include "association.h"
+#include "umlassociation.h"
 #define DBG_SRC QStringLiteral("Diagram_Utils")
 #include "debug_utils.h"
 #include "import_utils.h"

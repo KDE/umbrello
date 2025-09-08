@@ -6,7 +6,7 @@
 #include "cmdbasewidgetcommand.h"
 
 // app includes
-#include "association.h"
+#include "umlassociation.h"
 #include "associationwidget.h"
 #include "folder.h"
 #include "messagewidget.h"

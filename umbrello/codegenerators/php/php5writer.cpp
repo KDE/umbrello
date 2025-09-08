@@ -8,7 +8,7 @@
 
 #include "php5writer.h"
 
-#include "association.h"
+#include "umlassociation.h"
 #include "attribute.h"
 #include "classifier.h"
 #include "debug_utils.h"

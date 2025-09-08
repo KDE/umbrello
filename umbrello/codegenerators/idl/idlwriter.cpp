@@ -14,7 +14,7 @@
 #include "classifierlistitem.h"
 #include "umlclassifierlistitemlist.h"
 #include "package.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "attribute.h"
 #include "operation.h"
 

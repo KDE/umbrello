@@ -14,7 +14,7 @@
 #include "debug_utils.h"
 #include "operation.h"
 #include "attribute.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "template.h"
 #include "umldoc.h"
 #include "uml.h"  // Only needed for log{Warn,Error}

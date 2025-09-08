@@ -5,7 +5,7 @@
 #include "classifier.h"
 
 // app includes
-#include "association.h"
+#include "umlassociation.h"
 #include "debug_utils.h"
 #include "umlassociationlist.h"
 #include "operation.h"

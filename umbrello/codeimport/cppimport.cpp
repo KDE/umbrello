@@ -22,7 +22,7 @@
 #include "operation.h"
 #include "attribute.h"
 #include "template.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "optionstate.h"
 
 // qt includes

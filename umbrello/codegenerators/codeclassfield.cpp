@@ -10,7 +10,7 @@
 
 // app includes
 #include "attribute.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "classifiercodedocument.h"
 #include "codegenerator.h"
 #include "codegenerators/codegenfactory.h"

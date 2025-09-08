@@ -11,7 +11,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "classifier.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "attribute.h"
 #include "operation.h"
 #include "template.h"

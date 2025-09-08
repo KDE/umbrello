@@ -8,7 +8,7 @@
 
 // app includes
 #include "assocrules.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "associationline.h"
 #include "associationwidget.h"
 #include "classifier.h"

@@ -11,7 +11,7 @@
 #include "cppwriter.h"
 
 // app includes
-#include "association.h"
+#include "umlassociation.h"
 #include "classifier.h"
 #include "codegen_utils.h"
 #include "datatype.h"

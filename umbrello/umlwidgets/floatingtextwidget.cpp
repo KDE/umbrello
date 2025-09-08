@@ -7,7 +7,7 @@
 #include "floatingtextwidget.h"
 
 // local includes
-#include "association.h"
+#include "umlassociation.h"
 #include "associationwidget.h"
 #include "associationpropertiesdialog.h"
 #include "classifier.h"

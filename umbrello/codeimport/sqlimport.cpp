@@ -8,7 +8,7 @@
 #include "sqlimport.h"
 
 // app includes
-#include "association.h"
+#include "umlassociation.h"
 #include "attribute.h"
 #include "checkconstraint.h"
 #include "classifier.h"

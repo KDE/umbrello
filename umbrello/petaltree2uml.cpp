@@ -22,7 +22,7 @@
 #include "datatype.h"
 #include "enum.h"
 #include "enumliteral.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "umlrole.h"
 #include "umlactor.h"
 #include "usecase.h"

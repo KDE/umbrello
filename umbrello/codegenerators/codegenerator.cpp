@@ -14,7 +14,7 @@
 #include "codeviewerdialog.h"
 #include "simplecodegenerator.h"
 #include "attribute.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "classifier.h"
 #include "classifiercodedocument.h"
 #include "codedocument.h"

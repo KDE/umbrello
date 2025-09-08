@@ -8,7 +8,7 @@
 
 // app includes
 #include "umlartifact.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "attribute.h"
 #include "classifier.h"
 #define DBG_SRC QStringLiteral("PHPImport")

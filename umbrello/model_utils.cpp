@@ -22,7 +22,7 @@
 #include "template.h"
 #include "operation.h"
 #include "attribute.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "umlrole.h"
 #include "umldoc.h"
 #include "uml.h"

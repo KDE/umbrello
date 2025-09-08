@@ -9,7 +9,7 @@
 // app includes
 #include "umlactor.h"
 #include "umlartifact.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "attribute.h"
 #include "category.h"
 #include "checkconstraint.h"

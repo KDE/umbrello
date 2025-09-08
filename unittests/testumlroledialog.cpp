@@ -5,7 +5,7 @@
 */
 
 // app includes
-#include "association.h"
+#include "umlassociation.h"
 #include "stereotype.h"
 #include "uml.h"
 #include "umlrole.h"

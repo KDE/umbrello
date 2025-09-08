@@ -7,7 +7,7 @@
 #include "testumlcanvasobject.h"
 
 // app include
-#include "association.h"
+#include "umlassociation.h"
 #include "classifier.h"
 #include "umlcanvasobject.h"
 

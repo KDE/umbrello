@@ -7,7 +7,7 @@
 #include "umlrole.h"
 
 // local includes
-#include "association.h"
+#include "umlassociation.h"
 #include "debug_utils.h"
 #include "model_utils.h"
 #include "optionstate.h"

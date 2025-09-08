@@ -8,7 +8,7 @@
 
 // app include
 #include "uml.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "classifier.h"
 #include "datatype.h"
 #include "operation.h"

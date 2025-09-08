@@ -9,7 +9,7 @@
 // app includes
 #include "debug_utils.h"
 #include "uniqueid.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "package.h"
 #include "folder.h"
 #include "codegenerator.h"

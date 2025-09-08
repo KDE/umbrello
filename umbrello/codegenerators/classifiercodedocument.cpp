@@ -9,7 +9,7 @@
 #include "classifiercodedocument.h"
 
 // local includes
-#include "association.h"
+#include "umlassociation.h"
 #include "attribute.h"
 
 #include "operation.h"

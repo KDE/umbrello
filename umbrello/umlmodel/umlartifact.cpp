@@ -4,7 +4,7 @@
 */
 
 #include "umlartifact.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "clipboard/idchangelog.h"
 
 #include <KLocalizedString>

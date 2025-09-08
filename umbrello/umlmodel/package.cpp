@@ -12,7 +12,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "classifier.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "datatype.h"
 #include "entity.h"
 #include "folder.h"

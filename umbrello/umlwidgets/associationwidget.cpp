@@ -7,7 +7,7 @@
 #include "associationwidget.h"
 
 // app includes
-#include "association.h"
+#include "umlassociation.h"
 #include "associationpropertiesdialog.h"
 #include "associationwidgetpopupmenu.h"
 #include "assocrules.h"

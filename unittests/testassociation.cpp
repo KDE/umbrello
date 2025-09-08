@@ -7,7 +7,7 @@
 #include "testassociation.h"
 
 // app include
-#include "association.h"
+#include "umlassociation.h"
 #include "classifier.h"
 #include "folder.h"
 #include "package.h"

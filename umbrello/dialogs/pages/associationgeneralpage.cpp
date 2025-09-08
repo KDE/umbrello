@@ -8,7 +8,7 @@
 
 // local includes
 #include "associationwidget.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "assocrules.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"

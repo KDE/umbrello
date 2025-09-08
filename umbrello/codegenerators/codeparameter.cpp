@@ -9,7 +9,7 @@
 #include "codeparameter.h"
 
 // local includes
-#include "association.h"
+#include "umlassociation.h"
 #include "attribute.h"
 #include "classifiercodedocument.h"
 #include "debug_utils.h"

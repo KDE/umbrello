@@ -9,7 +9,7 @@
 #include "tclwriter.h"
 
 // app includes
-#include "association.h"
+#include "umlassociation.h"
 #include "classifier.h"
 #include "classifierlistitem.h"
 #include "codegen_utils.h"

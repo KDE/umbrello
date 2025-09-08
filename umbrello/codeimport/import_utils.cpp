@@ -7,7 +7,7 @@
 #include "import_utils.h"
 
 // app includes
-#include "association.h"
+#include "umlassociation.h"
 #include "umlartifact.h"
 #include "classifier.h"
 #include "datatype.h"

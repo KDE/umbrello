@@ -10,7 +10,7 @@
 #include "activitywidget.h"
 #include "actorwidget.h"
 #include "artifactwidget.h"
-#include "association.h"
+#include "umlassociation.h"
 #include "associationwidget.h"
 #include "assocrules.h"
 #include "attribute.h"

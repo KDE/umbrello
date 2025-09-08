@@ -9,7 +9,7 @@
 #include "ownedcodeblock.h"
 
 // local includes
-#include "association.h"
+#include "umlassociation.h"
 #include "classifier.h"
 #include "debug_utils.h"
 #include "umldoc.h"

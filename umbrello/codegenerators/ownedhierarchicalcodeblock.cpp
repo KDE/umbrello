@@ -9,7 +9,7 @@
 #include "ownedhierarchicalcodeblock.h"
 
 // local includes
-#include "association.h"
+#include "umlassociation.h"
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlrole.h"

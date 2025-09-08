@@ -6,7 +6,7 @@
 // own header
 #include "component.h"
 // app includes
-#include "association.h"
+#include "umlassociation.h"
 #include "debug_utils.h"
 #include "object_factory.h"
 #include "model_utils.h"

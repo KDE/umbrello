@@ -4,7 +4,7 @@
 */
 
 // own header
-#include "association.h"
+#include "umlassociation.h"
 
 // app includes
 #include "debug_utils.h"
