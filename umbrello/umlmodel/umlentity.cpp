@@ -4,7 +4,7 @@
 */
 
 // own header
-#include "entity.h"
+#include "umlentity.h"
 
 // app includes
 #include "debug_utils.h"

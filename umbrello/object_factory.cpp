@@ -22,7 +22,7 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "umlenum.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "folder.h"
 #include "foreignkeyconstraint.h"
 #include "instance.h"

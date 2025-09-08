@@ -18,7 +18,7 @@
 #include "umlclassifier.h"
 #include "umlenum.h"
 #include "instance.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "template.h"
 #include "operation.h"
 #include "umlattribute.h"

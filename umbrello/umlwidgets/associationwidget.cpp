@@ -18,7 +18,7 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "docwindow.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"

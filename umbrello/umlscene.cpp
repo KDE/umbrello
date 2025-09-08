@@ -29,7 +29,7 @@
 #include "debug_utils.h"   // we cannot use the predefined DBG_SRC due to class UMLScenePrivate
 #include "dialog_utils.h"
 #include "docwindow.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "entitywidget.h"
 #include "enumwidget.h"
 #include "floatingtextwidget.h"

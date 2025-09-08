@@ -15,7 +15,7 @@
 #include "componentwidget.h"
 #include "constraintlistpage.h"
 #include "debug_utils.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "objectwidget.h"
 #include "packagecontentspage.h"
 #include "uml.h"

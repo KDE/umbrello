@@ -14,7 +14,7 @@
 #include "enumliteral.h"
 #include "umlentityattribute.h"
 #include "umlenum.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "stereotype.h"
 #include "umldoc.h"
 #include "uml.h"

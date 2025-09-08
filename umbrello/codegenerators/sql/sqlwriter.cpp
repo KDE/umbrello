@@ -13,7 +13,7 @@
 #include "umlclassifier.h"
 #include "debug_utils.h"
 #include "umlenum.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "foreignkeyconstraint.h"
 #include "model_utils.h"
 #include "operation.h"

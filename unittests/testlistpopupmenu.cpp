@@ -13,7 +13,7 @@
 #include "umlscenepopupmenu.h"
 
 #include "umlcategory.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "umlclassifier.h"
 #include "instance.h"
 

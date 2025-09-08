@@ -10,7 +10,7 @@
 #include "umlclassifierlistitem.h"
 #include "umlclassifier.h"
 #include "umlenum.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "umlentityattribute.h"
 #include "enumliteral.h"
 #include "object_factory.h"

@@ -19,7 +19,7 @@
 #include "umlartifact.h"
 #include "umlenum.h"
 #include "enumliteral.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "umlcategory.h"
 #include "umldatatype.h"
 #include "docwindow.h"

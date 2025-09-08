@@ -13,7 +13,7 @@
 #include "debug_utils.h"
 #include "folder.h"
 #include "umlclassifier.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "template.h"
 #include "umlattribute.h"
 #include "operation.h"

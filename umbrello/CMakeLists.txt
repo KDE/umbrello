@@ -409,7 +409,7 @@ set(libuml_SRCS
     umlmodel/umlclassifierlistitem.cpp
     umlmodel/umlcomponent.cpp
     umlmodel/umldatatype.cpp
-    umlmodel/entity.cpp
+    umlmodel/umlentity.cpp
     umlmodel/umlentityattribute.cpp
     umlmodel/umlentityconstraint.cpp
     umlmodel/umlenum.cpp

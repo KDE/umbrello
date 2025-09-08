@@ -20,7 +20,7 @@
 #include "operation.h"
 #include "package.h"
 #include "uml.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "umlentityattribute.h"
 #include "foreignkeyconstraint.h"
 #include "uniqueconstraint.h"

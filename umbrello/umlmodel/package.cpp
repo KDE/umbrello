@@ -14,7 +14,7 @@
 #include "umlclassifier.h"
 #include "umlassociation.h"
 #include "umldatatype.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "folder.h"
 #include "object_factory.h"
 #include "optionstate.h"

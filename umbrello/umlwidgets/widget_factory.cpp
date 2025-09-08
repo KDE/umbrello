@@ -25,7 +25,7 @@
 #include "datatypewidget.h"
 #define DBG_SRC QStringLiteral("Widget_Factory")
 #include "debug_utils.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "entitywidget.h"
 #include "umlenum.h"
 #include "enumwidget.h"

@@ -10,7 +10,7 @@
 #include "umlclassifier.h"
 #include "umlclassifierlistitem.h"
 #include "debug_utils.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "umlentityattribute.h"
 #include "foreignkeyconstraint.h"
 #include "listpopupmenu.h"

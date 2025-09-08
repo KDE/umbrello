@@ -5,7 +5,7 @@
 
 #include "postgresqlwriter.h"
 
-#include "entity.h"
+#include "umlentity.h"
 #include "umlentityattributelist.h"
 
 #include <KLocalizedString>

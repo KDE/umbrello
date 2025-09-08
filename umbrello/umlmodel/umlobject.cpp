@@ -1397,7 +1397,7 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
 #include "umlclassifier.h"
 #include "umlcomponent.h"
 #include "umldatatype.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "umlentityattribute.h"
 #include "umlentityconstraint.h"
 #include "umlenum.h"

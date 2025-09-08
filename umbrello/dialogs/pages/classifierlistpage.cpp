@@ -14,7 +14,7 @@
 #include "uml.h"  // only needed for log{Warn,Error}
 #include "umlclassifier.h"
 #include "umlenum.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "umlattribute.h"
 #include "dialogspopupmenu.h"
 #include "operation.h"

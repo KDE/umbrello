@@ -13,7 +13,7 @@
 #include "umlentityattribute.h"
 #include "enumliteral.h"
 #include "umlenum.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "foreignkeyconstraint.h"
 #include "object_factory.h"
 #include "operation.h"

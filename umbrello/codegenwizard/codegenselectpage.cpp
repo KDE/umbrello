@@ -11,7 +11,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "umlclassifier.h"
-#include "entity.h"
+#include "umlentity.h"
 
 //kde includes
 #include <KLocalizedString>

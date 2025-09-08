@@ -16,7 +16,7 @@
 #include "umlclassifier.h"
 #include "dialog_utils.h"
 #include "umlenum.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "docwindow.h"
 #include "operation.h"
 #include "umlattribute.h"

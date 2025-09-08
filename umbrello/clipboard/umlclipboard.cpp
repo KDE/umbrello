@@ -15,7 +15,7 @@
 #include "umlattribute.h"
 #include "umlclassifier.h"
 #include "umlenum.h"
-#include "entity.h"
+#include "umlentity.h"
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
 #include "operation.h"
