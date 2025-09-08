@@ -4,7 +4,7 @@
 */
 
 //own header
-#include "foreignkeyconstraint.h"
+#include "umlforeignkeyconstraint.h"
 
 // app includes
 #include "debug_utils.h"

@@ -12,7 +12,7 @@
 #include "debug_utils.h"
 #include "umlentity.h"
 #include "umlentityattribute.h"
-#include "foreignkeyconstraint.h"
+#include "umlforeignkeyconstraint.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
 #include "uml.h"

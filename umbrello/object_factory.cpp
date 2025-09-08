@@ -24,7 +24,7 @@
 #include "umlenum.h"
 #include "umlentity.h"
 #include "umlfolder.h"
-#include "foreignkeyconstraint.h"
+#include "umlforeignkeyconstraint.h"
 #include "instance.h"
 #include "model_utils.h"
 #include "node.h"

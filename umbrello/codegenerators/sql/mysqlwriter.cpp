@@ -7,7 +7,7 @@
 
 #include "umlentity.h"
 #include "umlentityattribute.h"
-#include "foreignkeyconstraint.h"
+#include "umlforeignkeyconstraint.h"
 #include "umlclassifierlistitemlist.h"
 #include "umlentityattributelist.h"
 

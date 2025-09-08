@@ -14,7 +14,7 @@
 #include "umlenumliteral.h"
 #include "umlenum.h"
 #include "umlentity.h"
-#include "foreignkeyconstraint.h"
+#include "umlforeignkeyconstraint.h"
 #include "object_factory.h"
 #include "operation.h"
 #include "template.h"

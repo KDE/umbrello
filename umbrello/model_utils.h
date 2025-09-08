@@ -10,7 +10,7 @@
 #include "umllistviewitem.h"
 #include "umlobjectlist.h"
 #include "umlviewlist.h"
-#include "foreignkeyconstraint.h"
+#include "umlforeignkeyconstraint.h"
 #include "icon_utils.h"
 #include "multipagedialogbase.h"
 #include "widgetbase.h"

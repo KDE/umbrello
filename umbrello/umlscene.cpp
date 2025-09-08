@@ -34,7 +34,7 @@
 #include "enumwidget.h"
 #include "floatingtextwidget.h"
 #include "umlfolder.h"
-#include "foreignkeyconstraint.h"
+#include "umlforeignkeyconstraint.h"
 #include "forkjoinwidget.h"
 #include "idchangelog.h"
 #include "interfacewidget.h"

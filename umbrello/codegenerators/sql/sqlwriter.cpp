@@ -14,7 +14,7 @@
 #include "debug_utils.h"
 #include "umlenum.h"
 #include "umlentity.h"
-#include "foreignkeyconstraint.h"
+#include "umlforeignkeyconstraint.h"
 #include "model_utils.h"
 #include "operation.h"
 #include "uniqueconstraint.h"

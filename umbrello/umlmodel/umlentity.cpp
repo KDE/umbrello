@@ -10,7 +10,7 @@
 #include "debug_utils.h"
 #include "umlentityattribute.h"
 #include "uniqueconstraint.h"
-#include "foreignkeyconstraint.h"
+#include "umlforeignkeyconstraint.h"
 #include "umlcheckconstraint.h"
 #include "umldoc.h"
 #include "uml.h"
