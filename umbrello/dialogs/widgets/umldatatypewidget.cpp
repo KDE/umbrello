@@ -5,7 +5,7 @@
 
 #include "umldatatypewidget.h"
 
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "umlclassifier.h"
 #include "debug_utils.h"
 #include "entityattribute.h"

@@ -7,7 +7,7 @@
 #define ENTITYCONSTRAINT_H
 
 #include "basictypes.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "umlclassifierlist.h"
 
 /**

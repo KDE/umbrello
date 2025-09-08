@@ -7,7 +7,7 @@
 #define OPERATION_H
 
 #include "umlattributelist.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 
 class UMLClassifier;
 

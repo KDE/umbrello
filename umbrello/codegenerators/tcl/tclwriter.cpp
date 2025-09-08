@@ -11,7 +11,7 @@
 // app includes
 #include "umlassociation.h"
 #include "umlclassifier.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "codegen_utils.h"
 #include "debug_utils.h"
 #include "model_utils.h"

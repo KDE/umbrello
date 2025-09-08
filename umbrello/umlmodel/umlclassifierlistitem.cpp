@@ -4,7 +4,7 @@
 */
 
 // own header
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 
 // local includes
 #include "debug_utils.h"

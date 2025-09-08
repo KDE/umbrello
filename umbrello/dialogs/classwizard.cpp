@@ -9,7 +9,7 @@
 // local includes
 #include "umlattribute.h"
 #include "umlclassifier.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "classifierlistpage.h"
 #include "classgeneralpage.h"
 #include "operation.h"

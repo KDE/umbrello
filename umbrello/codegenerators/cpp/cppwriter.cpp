@@ -23,7 +23,7 @@
 #include "template.h"
 #include "umltemplatelist.h"
 #include "umlclassifierlistitemlist.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "codegenerationpolicy.h"
 #include "enumliteral.h"
 

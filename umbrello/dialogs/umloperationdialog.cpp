@@ -17,7 +17,7 @@
 #include "umlattributelist.h"
 #include "umldatatypewidget.h"
 #include "umlstereotypewidget.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "documentationwidget.h"
 #include "umlclassifierlistitemlist.h"
 #include "dialog_utils.h"

@@ -8,7 +8,7 @@
 #include "umlassociation.h"
 #include "umlattribute.h"
 #include "umlclassifier.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "debug_utils.h"
 #include "enum.h"
 #include "folder.h"

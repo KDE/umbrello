@@ -5,7 +5,7 @@
 #include "umluniqueconstraintdialog.h"
 
 #include "umlattribute.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "umlclassifier.h"
 #include "debug_utils.h"
 #include "entity.h"

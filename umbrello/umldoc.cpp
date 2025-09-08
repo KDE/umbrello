@@ -24,7 +24,7 @@
 #include "enumliteral.h"
 #include "stereotype.h"
 #include "datatype.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "object_factory.h"
 #include "import_argo.h"
 #include "import_rose.h"

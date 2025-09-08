@@ -6,7 +6,7 @@
 #ifndef TEMPLATE_H
 #define TEMPLATE_H
 
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 
 /**
  * This class holds information used by template classes, called

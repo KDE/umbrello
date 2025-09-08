@@ -6,7 +6,7 @@
 #ifndef ENUMLITERAL_H
 #define ENUMLITERAL_H
 
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 
 /**
  * This class is used to set up information for an enum literal.  Enum

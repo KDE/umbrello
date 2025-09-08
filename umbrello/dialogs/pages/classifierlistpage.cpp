@@ -6,7 +6,7 @@
 #include "classifierlistpage.h"
 
 #include "basictypes.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "codetextedit.h"
 #define DBG_SRC QStringLiteral("ClassifierListPage")
 #include "debug_utils.h"

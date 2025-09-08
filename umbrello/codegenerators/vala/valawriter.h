@@ -10,7 +10,7 @@
 #ifndef VALAWRITER_H
 #define VALAWRITER_H
 
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "simplecodegenerator.h"
 #include "umlassociationlist.h"
 #include "umlattributelist.h"

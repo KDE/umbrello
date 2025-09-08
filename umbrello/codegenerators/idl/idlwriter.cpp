@@ -11,7 +11,7 @@
 #include "umlclassifier.h"
 #include "debug_utils.h"
 #include "enum.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "umlclassifierlistitemlist.h"
 #include "package.h"
 #include "umlassociation.h"

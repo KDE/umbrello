@@ -5,7 +5,7 @@
 
 #include "umlclassifierlistitemlist.h"
 
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 
 #include <KLocalizedString>
 

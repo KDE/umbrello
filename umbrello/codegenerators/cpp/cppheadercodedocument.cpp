@@ -20,7 +20,7 @@
 #include "umlpackagelist.h"
 #include "package.h"
 #include "umlclassifierlistitemlist.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "enum.h"
 #include "uml.h"
 

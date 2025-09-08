@@ -8,7 +8,7 @@
 
 // app includes
 #include "umlclassifier.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "debug_utils.h"
 #include "enum.h"
 #include "enumliteral.h"

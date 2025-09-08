@@ -9,7 +9,7 @@
 #include "umlattributelist.h"
 #include "umloperationlist.h"
 #include "umlclassifierlistitemlist.h"
-#include "classifierlistitem.h"
+#include "umlclassifierlistitem.h"
 #include "umltemplatelist.h"
 #include "model_utils.h"
 
