@@ -410,7 +410,7 @@ set(libuml_SRCS
     umlmodel/umlcomponent.cpp
     umlmodel/umldatatype.cpp
     umlmodel/entity.cpp
-    umlmodel/entityattribute.cpp
+    umlmodel/umlentityattribute.cpp
     umlmodel/entityconstraint.cpp
     umlmodel/umlenum.cpp
     umlmodel/enumliteral.cpp

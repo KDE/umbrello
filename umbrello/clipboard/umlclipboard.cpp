@@ -21,7 +21,7 @@
 #include "operation.h"
 #include "template.h"
 #include "enumliteral.h"
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 #include "model_utils.h"
 #include "notewidget.h"
 #include "umldoc.h"

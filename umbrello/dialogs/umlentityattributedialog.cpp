@@ -7,7 +7,7 @@
 #include "umlentityattributedialog.h"
 
 // app includes
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 #include "umlclassifier.h"
 #include "umldoc.h"
 #include "uml.h"

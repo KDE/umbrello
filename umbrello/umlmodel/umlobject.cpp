@@ -1398,7 +1398,7 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
 #include "umlcomponent.h"
 #include "umldatatype.h"
 #include "entity.h"
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 #include "entityconstraint.h"
 #include "umlenum.h"
 #include "foreignkeyconstraint.h"

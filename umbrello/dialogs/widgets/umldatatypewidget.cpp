@@ -8,7 +8,7 @@
 #include "umlclassifierlistitem.h"
 #include "umlclassifier.h"
 #include "debug_utils.h"
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 #include "import_utils.h"
 #include "model_utils.h"
 #include "object_factory.h"

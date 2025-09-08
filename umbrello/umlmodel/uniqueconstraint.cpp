@@ -9,7 +9,7 @@
 // app includes
 #include "debug_utils.h"
 #include "entity.h"
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 #include "umldoc.h"
 #include "uml.h"  // Only needed for log{Warn,Error}
 #include "umlattributedialog.h"

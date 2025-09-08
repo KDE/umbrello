@@ -21,7 +21,7 @@
 #include "package.h"
 #include "uml.h"
 #include "entity.h"
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 #include "foreignkeyconstraint.h"
 #include "uniqueconstraint.h"
 #include "umldoc.h"

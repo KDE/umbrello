@@ -6,7 +6,7 @@
 #include "mysqlwriter.h"
 
 #include "entity.h"
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 #include "foreignkeyconstraint.h"
 #include "umlclassifierlistitemlist.h"
 #include "umlentityattributelist.h"

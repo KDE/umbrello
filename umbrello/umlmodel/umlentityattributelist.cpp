@@ -5,7 +5,7 @@
 
 #include "umlentityattributelist.h"
 
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 
 #include <KLocalizedString>
 

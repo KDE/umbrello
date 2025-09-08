@@ -11,7 +11,7 @@
 #include "umlclassifier.h"
 #include "umlenum.h"
 #include "entity.h"
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 #include "enumliteral.h"
 #include "object_factory.h"
 #include "operation.h"

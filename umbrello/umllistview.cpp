@@ -28,7 +28,7 @@
 #include "template.h"
 #include "operation.h"
 #include "umlattribute.h"
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 #include "instance.h"
 #include "instanceattribute.h"
 #include "uniqueconstraint.h"

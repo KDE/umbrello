@@ -8,7 +8,7 @@
 
 // app includes
 #include "debug_utils.h"
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 #include "uniqueconstraint.h"
 #include "foreignkeyconstraint.h"
 #include "umlcheckconstraint.h"

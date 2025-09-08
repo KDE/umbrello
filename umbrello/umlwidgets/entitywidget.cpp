@@ -11,7 +11,7 @@
 #include "umlclassifierlistitem.h"
 #include "debug_utils.h"
 #include "entity.h"
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 #include "foreignkeyconstraint.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"

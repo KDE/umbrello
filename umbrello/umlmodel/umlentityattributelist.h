@@ -7,7 +7,7 @@
 #define UMLENTITYATTRIBUTELIST_H
 
 #include <qlist.h>
-#include "entityattribute.h"
+#include "umlentityattribute.h"
 
 //typedef QPtrList<UMLEntityAttribute> UMLEntityAttributeList;
 typedef QListIterator<UMLEntityAttribute*> UMLEntityAttributeListIt;
