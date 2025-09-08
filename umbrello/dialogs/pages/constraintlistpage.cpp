@@ -12,7 +12,7 @@
 #include "umlenum.h"
 #include "umlentity.h"
 #include "umlentityattribute.h"
-#include "enumliteral.h"
+#include "umlenumliteral.h"
 #include "object_factory.h"
 #include "operation.h"
 #include "template.h"

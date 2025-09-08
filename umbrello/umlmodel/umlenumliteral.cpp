@@ -3,7 +3,7 @@
     SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
-#include "enumliteral.h"
+#include "umlenumliteral.h"
 #include "umlenumliteraldialog.h"
 
 #include <KLocalizedString>

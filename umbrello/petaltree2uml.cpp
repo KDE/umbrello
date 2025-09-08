@@ -21,7 +21,7 @@
 #include "operation.h"
 #include "umldatatype.h"
 #include "umlenum.h"
-#include "enumliteral.h"
+#include "umlenumliteral.h"
 #include "umlassociation.h"
 #include "umlrole.h"
 #include "umlactor.h"

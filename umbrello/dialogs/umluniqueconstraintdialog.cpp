@@ -10,7 +10,7 @@
 #include "debug_utils.h"
 #include "umlentity.h"
 #include "umlentityattribute.h"
-#include "enumliteral.h"
+#include "umlenumliteral.h"
 #include "umlenum.h"
 #include "object_factory.h"
 #include "operation.h"

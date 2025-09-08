@@ -20,7 +20,7 @@
 #include "messagewidget.h"
 #include "operation.h"
 #include "template.h"
-#include "enumliteral.h"
+#include "umlenumliteral.h"
 #include "umlentityattribute.h"
 #include "model_utils.h"
 #include "notewidget.h"

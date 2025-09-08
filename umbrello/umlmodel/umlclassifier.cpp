@@ -11,7 +11,7 @@
 #include "operation.h"
 #include "umlattribute.h"
 #include "template.h"
-#include "enumliteral.h"
+#include "umlenumliteral.h"
 #include "umlentityattribute.h"
 #include "umlenum.h"
 #include "umlentity.h"

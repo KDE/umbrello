@@ -8,7 +8,7 @@
 
 // app includes
 #include "debug_utils.h"
-#include "enumliteral.h"
+#include "umlenumliteral.h"
 #include "optionstate.h"
 #include "umldoc.h"
 #include "uml.h"

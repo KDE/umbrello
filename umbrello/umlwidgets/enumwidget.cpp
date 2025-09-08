@@ -11,7 +11,7 @@
 #include "umlclassifierlistitem.h"
 #include "debug_utils.h"
 #include "umlenum.h"
-#include "enumliteral.h"
+#include "umlenumliteral.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
 #include "uml.h"

@@ -9,7 +9,7 @@
 // app includes
 #include "classpropertiesdialog.h"
 #include "debug_utils.h"
-#include "enumliteral.h"
+#include "umlenumliteral.h"
 #include "uniqueid.h"
 #include "uml.h"
 #include "umldoc.h"

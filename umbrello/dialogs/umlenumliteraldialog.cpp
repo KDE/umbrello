@@ -9,7 +9,7 @@
 #include "umlenumliteraldialog.h"
 
 // app includes
-#include "enumliteral.h"
+#include "umlenumliteral.h"
 #include "umlclassifier.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"

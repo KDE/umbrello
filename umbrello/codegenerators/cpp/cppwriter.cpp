@@ -25,7 +25,7 @@
 #include "umlclassifierlistitemlist.h"
 #include "umlclassifierlistitem.h"
 #include "codegenerationpolicy.h"
-#include "enumliteral.h"
+#include "umlenumliteral.h"
 
 // qt includes
 #include <QFile>

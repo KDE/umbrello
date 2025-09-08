@@ -11,7 +11,7 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "umlentityattribute.h"
-#include "enumliteral.h"
+#include "umlenumliteral.h"
 #include "umlenum.h"
 #include "umlentity.h"
 #include "foreignkeyconstraint.h"
