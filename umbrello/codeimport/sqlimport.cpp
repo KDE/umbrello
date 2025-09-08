@@ -10,7 +10,7 @@
 // app includes
 #include "umlassociation.h"
 #include "umlattribute.h"
-#include "checkconstraint.h"
+#include "umlcheckconstraint.h"
 #include "classifier.h"
 #define DBG_SRC QStringLiteral("SqlImport")
 #include "debug_utils.h"

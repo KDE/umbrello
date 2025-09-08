@@ -11,7 +11,7 @@
 #include "entityattribute.h"
 #include "uniqueconstraint.h"
 #include "foreignkeyconstraint.h"
-#include "checkconstraint.h"
+#include "umlcheckconstraint.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "uniqueid.h"

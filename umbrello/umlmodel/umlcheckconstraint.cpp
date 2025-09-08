@@ -4,7 +4,7 @@
 */
 
 //own header
-#include "checkconstraint.h"
+#include "umlcheckconstraint.h"
 
 // app includes
 #include "debug_utils.h"

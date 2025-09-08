@@ -7,7 +7,7 @@
 
 #include "uml.h"
 #include "umldoc.h"
-#include "checkconstraint.h"
+#include "umlcheckconstraint.h"
 
 // kde includes
 #include <KLocalizedString>

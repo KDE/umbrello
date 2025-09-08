@@ -33,7 +33,7 @@
 #include "instanceattribute.h"
 #include "uniqueconstraint.h"
 #include "foreignkeyconstraint.h"
-#include "checkconstraint.h"
+#include "umlcheckconstraint.h"
 #include "uml.h"
 #include "umlclipboard.h"
 #include "umldoc.h"

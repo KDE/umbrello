@@ -12,7 +12,7 @@
 #include "umlassociation.h"
 #include "umlattribute.h"
 #include "umlcategory.h"
-#include "checkconstraint.h"
+#include "umlcheckconstraint.h"
 #include "classifier.h"
 #include "cmds.h"
 #include "codegenerator.h"
