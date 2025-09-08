@@ -37,7 +37,6 @@ Name[sr@latin]=Podrazumevani raspored za slučaj upotrebe
 Name[sv]=Standardlayout för användarfall
 Name[tr]=Kullanım Durumu Öntanımlı Yerleşimi
 Name[uk]=Типове компонування випадку використання
-Name[x-test]=xxUseCase Default Layoutxx
 Name[zh_CN]=用例默认布局
 Name[zh_TW]=UseCase 預設佈局
 Comment=Usecase Default Layout
@@ -78,7 +77,6 @@ Comment[sr@latin]=Podrazumevani raspored za slučaj upotrebe
 Comment[sv]=Standardlayout för användarfall
 Comment[tr]=Kullanım Durumu Öntanımlı Yerleşimi
 Comment[uk]=Типове компонування випадку використання
-Comment[x-test]=xxUsecase Default Layoutxx
 Comment[zh_CN]=用例默认布局
 Comment[zh_TW]=Usecase 預設佈局
 

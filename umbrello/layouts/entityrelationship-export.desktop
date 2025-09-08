@@ -41,7 +41,6 @@ Name[sr@latin]=Izvezi raspored
 Name[sv]=Exportera layout
 Name[tr]=Yerleşimi Dışa Aktar
 Name[uk]=Компонування експортованих даних
-Name[x-test]=xxExport Layoutxx
 Name[zh_CN]=导出布局
 Name[zh_TW]=匯出佈局
 Comment=Export Layout for Class Diagrams
@@ -82,7 +81,6 @@ Comment[sr@latin]=Izvezi raspored za dijagrame klasa
 Comment[sv]=Exportera layout av klassdiagram
 Comment[tr]=Yerleşimi Sınıf Diyagramları için Dışa Aktar
 Comment[uk]=Компонування для експортування діаграм класів
-Comment[x-test]=xxExport Layout for Class Diagramsxx
 Comment[zh_CN]=导出类图布局
 Comment[zh_TW]=類別圖片的匯出佈局
 
