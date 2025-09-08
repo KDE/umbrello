@@ -24,7 +24,7 @@
 #include "umlpackagelist.h"
 #include "model_utils.h"
 #include "package.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "import_utils.h"
 #include "umlscene.h"
 #include "umlobjectnamewidget.h"

@@ -11,7 +11,7 @@
 #include "uniqueid.h"
 #include "umlassociation.h"
 #include "package.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "codegenerator.h"
 #include "umlclassifier.h"
 #include "dialog_utils.h"

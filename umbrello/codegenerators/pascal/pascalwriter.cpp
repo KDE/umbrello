@@ -11,7 +11,7 @@
 #include "umlclassifierlistitem.h"
 #include "debug_utils.h"
 #include "umlenum.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "operation.h"
 #include "template.h"
 #include "uml.h"

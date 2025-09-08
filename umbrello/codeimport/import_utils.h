@@ -7,7 +7,7 @@
 #define IMPORT_UTILS_H
 
 #include "basictypes.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "umlattributelist.h"
 
 #include <QStringList>

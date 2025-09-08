@@ -13,7 +13,7 @@
 #define DBG_SRC QStringLiteral("UMLDragData")
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "idchangelog.h"
 #include "model_utils.h"
 #include "object_factory.h"

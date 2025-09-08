@@ -13,7 +13,7 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "package.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "umlcomponent.h"
 #include "node.h"
 #include "umlartifact.h"

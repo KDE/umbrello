@@ -6,7 +6,7 @@
 
 #include "testwidgetbase.h"
 
-#include "folder.h"
+#include "umlfolder.h"
 #include "widgetbase.h"
 #include "umlscene.h"
 #include "umlview.h"

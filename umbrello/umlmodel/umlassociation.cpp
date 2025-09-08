@@ -10,7 +10,7 @@
 #include "debug_utils.h"
 #include "umlclassifier.h"
 #include "classpropertiesdialog.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlrole.h"

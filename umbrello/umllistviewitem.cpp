@@ -11,7 +11,7 @@
 
 // app includes
 #include "debug_utils.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "umlclassifier.h"
 #include "umlentity.h"
 #include "template.h"

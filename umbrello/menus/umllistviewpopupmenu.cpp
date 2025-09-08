@@ -5,7 +5,7 @@
 
 #include "umllistviewpopupmenu.h"
 #include "debug_utils.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "optionstate.h"
 #include "model_utils.h"
 #include "uml.h"  // only needed for log{Warn,Error}

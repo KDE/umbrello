@@ -9,7 +9,7 @@
 // app includes
 #include "uml.h"
 #include "umldoc.h"
-#include "folder.h"
+#include "umlfolder.h"
 #define DBG_SRC QStringLiteral("Import_Rose")
 #include "debug_utils.h"
 #include "encodinghelper.h"

@@ -13,7 +13,7 @@
 #include "umlobject.h"
 #include "umldoc.h"
 #include "uml.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "umlattributedialog.h"
 #include "object_factory.h"
 #include "optionstate.h"

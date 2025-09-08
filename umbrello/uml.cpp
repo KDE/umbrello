@@ -22,7 +22,7 @@
 #include "umbrellosettings.h"
 #include "statusbartoolbutton.h"
 #include "findresults.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "models/diagramsmodel.h"
 
 // code generation

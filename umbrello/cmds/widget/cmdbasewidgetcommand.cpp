@@ -8,7 +8,7 @@
 // app includes
 #include "umlassociation.h"
 #include "associationwidget.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "messagewidget.h"
 #include "model_utils.h"
 #include "uml.h"

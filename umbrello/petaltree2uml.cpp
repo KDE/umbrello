@@ -15,7 +15,7 @@
 #include "import_rose.h"
 #include "uniqueid.h"
 #include "package.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "umlclassifier.h"
 #include "umlattribute.h"
 #include "operation.h"

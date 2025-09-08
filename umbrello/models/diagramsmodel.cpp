@@ -10,7 +10,7 @@
 #include "umlview.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "folder.h"
+#include "umlfolder.h"
 
 // kde includes
 #include <KLocalizedString>

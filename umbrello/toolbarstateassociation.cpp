@@ -16,7 +16,7 @@
 #include "cmds/widget/cmdcreatewidget.h"
 #include "floatingtextwidget.h"
 #include "debug_utils.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "model_utils.h"
 #include "uml.h"
 #include "umldoc.h"

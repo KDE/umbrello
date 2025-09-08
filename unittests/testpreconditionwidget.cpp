@@ -7,7 +7,7 @@
 #include "testpreconditionwidget.h"
 #include "preconditionwidget.h"
 
-#include "folder.h"
+#include "umlfolder.h"
 #include "objectwidget.h"
 #include "umlscene.h"
 

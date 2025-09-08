@@ -32,7 +32,7 @@
 #include "instance.h"
 #include "floatingdashlinewidget.h"
 #include "floatingtextwidget.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "forkjoinwidget.h"
 #include "interfacewidget.h"
 #include "messagewidget.h"

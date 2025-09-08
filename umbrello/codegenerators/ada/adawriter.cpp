@@ -15,7 +15,7 @@
 #include "umlclassifierlistitem.h"
 #include "umlclassifierlistitemlist.h"
 #include "umltemplatelist.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "umlassociation.h"
 #include "umlattribute.h"
 #include "operation.h"

@@ -9,7 +9,7 @@
 // app include
 #include "umlassociation.h"
 #include "umlclassifier.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "package.h"
 #include "stereotype.h"
 #include "uml.h"

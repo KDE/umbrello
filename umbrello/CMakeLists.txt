@@ -414,7 +414,7 @@ set(libuml_SRCS
     umlmodel/umlentityconstraint.cpp
     umlmodel/umlenum.cpp
     umlmodel/umlenumliteral.cpp
-    umlmodel/folder.cpp
+    umlmodel/umlfolder.cpp
     umlmodel/foreignkeyconstraint.cpp
     umlmodel/node.cpp
     umlmodel/operation.cpp

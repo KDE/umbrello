@@ -7,7 +7,7 @@
 #include "codegenselectpage.h"
 
 // app includes
-#include "folder.h"
+#include "umlfolder.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "umlclassifier.h"

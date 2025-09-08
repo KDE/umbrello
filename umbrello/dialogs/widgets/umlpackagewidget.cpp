@@ -9,7 +9,7 @@
 #include "model_utils.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "package.h"
 
 #include <KComboBox>

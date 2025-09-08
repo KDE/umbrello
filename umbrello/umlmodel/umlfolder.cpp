@@ -4,7 +4,7 @@
 */
 
 // own header
-#include "folder.h"
+#include "umlfolder.h"
 
 // app includes
 #include "debug_utils.h"

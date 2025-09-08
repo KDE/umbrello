@@ -9,7 +9,7 @@
 // local includes
 #include "associationwidget.h"
 #include "debug_utils.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "icon_utils.h"
 #include "uml.h"  // Only needed for log{Warn,Error}
 #include "umldoc.h"

@@ -22,7 +22,7 @@
 #include "classifierwidget.h"
 #include "entitywidget.h"
 
-#include "folder.h"
+#include "umlfolder.h"
 #include "umllistview.h"
 #include "umlscene.h"
 #include "umlview.h"

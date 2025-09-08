@@ -16,7 +16,7 @@
 #include "combinedfragmentwidget.h"
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "forkjoinwidget.h"
 #include "layoutgenerator.h"
 #include "model_utils.h"

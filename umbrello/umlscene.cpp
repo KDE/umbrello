@@ -33,7 +33,7 @@
 #include "entitywidget.h"
 #include "enumwidget.h"
 #include "floatingtextwidget.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "foreignkeyconstraint.h"
 #include "forkjoinwidget.h"
 #include "idchangelog.h"

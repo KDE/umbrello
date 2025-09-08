@@ -15,7 +15,7 @@
 #include "umlassociation.h"
 #include "umldatatype.h"
 #include "umlentity.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "object_factory.h"
 #include "optionstate.h"
 #include "model_utils.h"

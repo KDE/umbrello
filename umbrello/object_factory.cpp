@@ -23,7 +23,7 @@
 #include "dialog_utils.h"
 #include "umlenum.h"
 #include "umlentity.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "foreignkeyconstraint.h"
 #include "instance.h"
 #include "model_utils.h"

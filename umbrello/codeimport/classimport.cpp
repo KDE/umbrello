@@ -9,7 +9,7 @@
 // app includes
 #define DBG_SRC QStringLiteral("ClassImport")
 #include "debug_utils.h"
-#include "folder.h"
+#include "umlfolder.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "idlimport.h"
