@@ -8,7 +8,7 @@
 
 // app includes
 #include "association.h"
-#include "artifact.h"
+#include "umlartifact.h"
 #include "classifier.h"
 #include "datatype.h"
 #define DBG_SRC QStringLiteral("Import_Utils")

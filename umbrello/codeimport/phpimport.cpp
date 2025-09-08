@@ -7,7 +7,7 @@
 #include "phpimport.h"
 
 // app includes
-#include "artifact.h"
+#include "umlartifact.h"
 #include "association.h"
 #include "attribute.h"
 #include "classifier.h"

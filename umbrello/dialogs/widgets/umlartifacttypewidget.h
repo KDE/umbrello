@@ -6,7 +6,7 @@
 #ifndef UMLARTIFACTTYPEWIDGET_H
 #define UMLARTIFACTTYPEWIDGET_H
 
-#include "artifact.h"
+#include "umlartifact.h"
 
 #include <QMap>
 #include <QWidget>

@@ -7,7 +7,7 @@
 #include "artifactwidget.h"
 
 // app includes
-#include "artifact.h"
+#include "umlartifact.h"
 #include "debug_utils.h"
 #include "umlscene.h"
 #include "umlview.h"

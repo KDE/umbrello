@@ -16,7 +16,7 @@
 #include "folder.h"
 #include "component.h"
 #include "node.h"
-#include "artifact.h"
+#include "umlartifact.h"
 #include "enum.h"
 #include "enumliteral.h"
 #include "entity.h"

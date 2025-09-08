@@ -3,7 +3,7 @@
     SPDX-FileCopyrightText: 2003-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
-#include "artifact.h"
+#include "umlartifact.h"
 #include "association.h"
 #include "clipboard/idchangelog.h"
 

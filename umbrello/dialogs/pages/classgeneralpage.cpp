@@ -17,7 +17,7 @@
 #include "objectwidget.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "artifact.h"
+#include "umlartifact.h"
 #include "component.h"
 #include "umlview.h"
 #include "stereotype.h"

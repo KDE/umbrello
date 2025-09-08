@@ -1388,7 +1388,7 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
 
 //only required for getting types
 #include "umlactor.h"
-#include "artifact.h"
+#include "umlartifact.h"
 #include "association.h"
 #include "attribute.h"
 #include "umlcanvasobject.h"

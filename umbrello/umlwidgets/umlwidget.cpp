@@ -6,7 +6,7 @@
 #include "umlwidget.h"
 
 // local includes
-#include "artifact.h"
+#include "umlartifact.h"
 #include "artifactwidget.h"
 #include "activitywidget.h"
 #include "umlactor.h"

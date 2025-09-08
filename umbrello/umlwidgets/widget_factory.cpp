@@ -10,7 +10,7 @@
 #include "activitywidget.h"
 #include "umlactor.h"
 #include "actorwidget.h"
-#include "artifact.h"
+#include "umlartifact.h"
 #include "artifactwidget.h"
 #include "associationwidget.h"
 #include "boxwidget.h"

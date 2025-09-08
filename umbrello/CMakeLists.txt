@@ -400,7 +400,7 @@ set(libfinder_SRCS
 
 set(libuml_SRCS
     umlmodel/umlactor.cpp
-    umlmodel/artifact.cpp
+    umlmodel/umlartifact.cpp
     umlmodel/association.cpp
     umlmodel/attribute.cpp
     umlmodel/category.cpp
