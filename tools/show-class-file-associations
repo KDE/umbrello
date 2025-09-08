@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# SPDX-FileCopyrightText: 2025 Ralf Habacker <ralf.habacker@freenet.de>
+# SPDX-License-Identifier: MIT
+
+find umbrello unittests lib tools -name '*.h' | grep -v kdev| xargs gawk '
+$0 ~ /^class\s+/ && $0 !~ /;/ {
+    f=FILENAME
+    gsub(/:.*$/,"",f)
+    b=f
+    gsub(/^.*\//, "", b)
+    c=$2
+    gsub(/[;:].*$/,"",c)
+    e=tolower(c) ".h"
+    if (b != e)
+        print f " " c " " e
+}'
