@@ -4,7 +4,7 @@
 */
 
 // own header
-#include "stereotype.h"
+#include "umlstereotype.h"
 
 // local includes
 #include "debug_utils.h"

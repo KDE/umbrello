@@ -6,7 +6,7 @@
 #include "umlstereotypewidget.h"
 
 #include "basictypes.h"
-#include "stereotype.h"
+#include "umlstereotype.h"
 #include "uml.h"
 #include "umldoc.h"
 

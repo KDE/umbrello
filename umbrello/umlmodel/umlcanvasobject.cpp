@@ -15,7 +15,7 @@
 #include "umlattribute.h"
 #include "umloperation.h"
 #include "template.h"
-#include "stereotype.h"
+#include "umlstereotype.h"
 #include "idchangelog.h"
 
 // kde includes

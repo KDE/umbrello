@@ -31,7 +31,7 @@
 #include "umlpackage.h"
 #include "umlport.h"
 #include "umloperation.h"
-#include "stereotype.h"
+#include "umlstereotype.h"
 #include "usecase.h"
 #include "uml.h"
 #include "umldoc.h"

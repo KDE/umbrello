@@ -19,7 +19,7 @@
 #include "umldoc.h"
 #include "dialog_utils.h"
 #include "object_factory.h"
-#include "stereotype.h"
+#include "umlstereotype.h"
 
 // kde includes
 #include <KComboBox>

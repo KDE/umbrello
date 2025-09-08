@@ -11,7 +11,7 @@
 #include "umlclassifier.h"
 #include "umlfolder.h"
 #include "umlpackage.h"
-#include "stereotype.h"
+#include "umlstereotype.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"

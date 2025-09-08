@@ -15,7 +15,7 @@
 #include "umlentityattribute.h"
 #include "umlenum.h"
 #include "umlentity.h"
-#include "stereotype.h"
+#include "umlstereotype.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "uniqueid.h"

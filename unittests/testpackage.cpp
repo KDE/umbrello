@@ -8,7 +8,7 @@
 
 #include "umlclassifier.h"
 #include "umlpackage.h"
-#include "stereotype.h"
+#include "umlstereotype.h"
 
 void TestPackage::test_appendClassesAndInterfaces()
 {

@@ -22,7 +22,7 @@
 #include "umlclassifierlistitemlist.h"
 #include "dialog_utils.h"
 #include "parameterpropertiesdialog.h"
-#include "stereotype.h"
+#include "umlstereotype.h"
 #include "uniqueid.h"
 #include "visibilityenumwidget.h"
 

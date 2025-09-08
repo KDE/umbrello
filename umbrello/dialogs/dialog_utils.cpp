@@ -10,7 +10,7 @@
 #include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "stereotype.h"
+#include "umlstereotype.h"
 #include "umlwidget.h"
 #include "dontaskagain.h"
 #include "model_utils.h"

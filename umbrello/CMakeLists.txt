@@ -420,7 +420,7 @@ set(libuml_SRCS
     umlmodel/umloperation.cpp
     umlmodel/umlpackage.cpp
     umlmodel/umlport.cpp
-    umlmodel/stereotype.cpp
+    umlmodel/umlstereotype.cpp
     umlmodel/template.cpp
     umlmodel/umlattributelist.cpp
     umlmodel/umlcanvasobject.cpp

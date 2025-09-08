@@ -20,7 +20,7 @@
 #include "umlartifact.h"
 #include "umlcomponent.h"
 #include "umlview.h"
-#include "stereotype.h"
+#include "umlstereotype.h"
 #include "umlpackagelist.h"
 #include "model_utils.h"
 #include "umlpackage.h"

@@ -6,7 +6,7 @@
 #include "stereotypesmodel.h"
 
 // app includes
-#include "stereotype.h"
+#include "umlstereotype.h"
 #include "uml.h"
 #include "umldoc.h"
 

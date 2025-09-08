@@ -22,7 +22,7 @@
 #include "umlattribute.h"
 #include "template.h"
 #include "umlenumliteral.h"
-#include "stereotype.h"
+#include "umlstereotype.h"
 #include "umldatatype.h"
 #include "umlclassifierlistitem.h"
 #include "object_factory.h"

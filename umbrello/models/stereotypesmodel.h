@@ -11,7 +11,7 @@
 
 // qt includes
 #include <QAbstractTableModel>
-#include "stereotype.h"
+#include "umlstereotype.h"
 
 class StereotypesModel : public QAbstractTableModel
 {

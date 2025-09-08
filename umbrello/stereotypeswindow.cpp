@@ -8,7 +8,7 @@
 // app includes
 #include "dialog_utils.h"
 #include "debug_utils.h"
-#include "stereotype.h"
+#include "umlstereotype.h"
 #include "models/stereotypesmodel.h"
 #include "dialogs/stereoattributedialog.h"
 #include "uml.h"
