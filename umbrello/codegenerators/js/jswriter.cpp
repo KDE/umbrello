@@ -10,7 +10,7 @@
 #include "umlattribute.h"
 #include "umlclassifier.h"
 #include "debug_utils.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umldoc.h"
 #include "uml.h"  // Only needed for log{Warn,Error}
 

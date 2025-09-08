@@ -16,7 +16,7 @@
 #include "umlentity.h"
 #include "umlforeignkeyconstraint.h"
 #include "model_utils.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "uniqueconstraint.h"
 #include "umlentityattributelist.h"
 #include "umlclassifierlistitemlist.h"

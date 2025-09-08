@@ -17,7 +17,7 @@
 #include "umlentity.h"
 #include "umlattribute.h"
 #include "dialogspopupmenu.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "template.h"
 #include "umlenumliteral.h"
 #include "umlentityattribute.h"

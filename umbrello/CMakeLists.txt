@@ -417,7 +417,7 @@ set(libuml_SRCS
     umlmodel/umlfolder.cpp
     umlmodel/umlforeignkeyconstraint.cpp
     umlmodel/umlnode.cpp
-    umlmodel/operation.cpp
+    umlmodel/umloperation.cpp
     umlmodel/package.cpp
     umlmodel/port.cpp
     umlmodel/stereotype.cpp

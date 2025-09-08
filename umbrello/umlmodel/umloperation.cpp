@@ -4,7 +4,7 @@
 */
 
 // own header
-#include "operation.h"
+#include "umloperation.h"
 
 // app includes
 #include "umlattribute.h"

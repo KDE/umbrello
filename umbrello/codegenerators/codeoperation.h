@@ -9,7 +9,7 @@
 #define CODEOPERATION_H
 
 #include "codemethodblock.h"
-#include "operation.h"
+#include "umloperation.h"
 
 #include <QString>
 

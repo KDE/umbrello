@@ -19,7 +19,7 @@
 #include "package.h"
 #include "umlenum.h"
 #include "umlclassifier.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umlattribute.h"
 #include "template.h"
 #include "umlassociation.h"

@@ -14,7 +14,7 @@
 #include "codegenerator.h"
 #include "debug_utils.h"
 #include "optionstate.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlrole.h"

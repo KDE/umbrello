@@ -11,7 +11,7 @@
 #include "umlassociation.h"
 #include "umlclassifier.h"
 #include "umldatatype.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "model_utils.h"
 
 //-----------------------------------------------------------------------------

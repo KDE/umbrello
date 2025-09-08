@@ -20,7 +20,7 @@
 #include "umlinstance.h"
 #include "umlentity.h"
 #include "template.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umlattribute.h"
 #include "umlassociation.h"
 #include "umlrole.h"

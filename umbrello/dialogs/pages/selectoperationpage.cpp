@@ -12,7 +12,7 @@
 #include "debug_utils.h"
 #include "documentationwidget.h"
 #include "messagewidget.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umlclassifierlistitemlist.h"
 #include "umlscene.h"
 #include "umlview.h"

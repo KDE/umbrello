@@ -18,7 +18,7 @@
 #include "umlentity.h"
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "template.h"
 #include "umlenumliteral.h"
 #include "umlentityattribute.h"

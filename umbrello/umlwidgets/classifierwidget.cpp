@@ -18,7 +18,7 @@
 #include "umlinstance.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "optionstate.h"
 #include "template.h"
 #include "uml.h"

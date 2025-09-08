@@ -12,7 +12,7 @@
 #include "umlassociation.h"
 #include "umlattribute.h"
 
-#include "operation.h"
+#include "umloperation.h"
 #include "umlclassifierlistitem.h"
 #include "umlclassifier.h"
 #include "codegenerator.h"

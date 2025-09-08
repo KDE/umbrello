@@ -30,7 +30,7 @@
 #include "umlnode.h"
 #include "package.h"
 #include "port.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "stereotype.h"
 #include "usecase.h"
 #include "uml.h"

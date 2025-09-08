@@ -13,7 +13,7 @@
 #include "classpropertiesdialog.h"
 #include "debug_utils.h"
 #include "object_factory.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umlattributedialog.h"
 #include "umldoc.h"
 #include "umloperationdialog.h"

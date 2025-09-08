@@ -12,7 +12,7 @@
 #include "debug_utils.h"
 #include "umlenum.h"
 #include "umlfolder.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "template.h"
 #include "uml.h"
 #include "umlclassifierlistitemlist.h"

@@ -17,7 +17,7 @@
 #include "umlclassifier.h"
 #include "codedocument.h"
 #include "codegenerationpolicy.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umldoc.h"
 #include "uml.h"
 

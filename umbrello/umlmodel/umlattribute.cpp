@@ -9,7 +9,7 @@
 // app includes
 #include "debug_utils.h"
 #include "umlclassifier.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umlobject.h"
 #include "umldoc.h"
 #include "uml.h"

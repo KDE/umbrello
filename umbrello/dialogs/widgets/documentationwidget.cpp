@@ -7,7 +7,7 @@
 
 #include "associationwidget.h"
 #include "codetextedit.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umlobject.h"
 #include "umlwidget.h"
 

@@ -16,7 +16,7 @@
 #include "umlentity.h"
 #include "template.h"
 #include "umlattribute.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umlinstanceattribute.h"
 #include "umlentityconstraint.h"
 #include "umldoc.h"

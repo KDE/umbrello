@@ -18,7 +18,7 @@
 #include "umlfolder.h"
 #include "umlassociation.h"
 #include "umlattribute.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "template.h"
 
 #include <KLocalizedString>

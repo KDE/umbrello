@@ -18,7 +18,7 @@
 #include "umlenum.h"
 #include "umlentity.h"
 #include "docwindow.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umlattribute.h"
 #include "template.h"
 #include "umlenumliteral.h"

@@ -14,7 +14,7 @@
 #include "umlclassifier.h"
 #include "codegen_utils.h"
 #include "debug_utils.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "template.h"
 #include "umldoc.h"
 #include "uml.h"  // Only needed for log{Warn,Error}

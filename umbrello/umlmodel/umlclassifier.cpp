@@ -8,7 +8,7 @@
 #include "umlassociation.h"
 #include "debug_utils.h"
 #include "umlassociationlist.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umlattribute.h"
 #include "template.h"
 #include "umlenumliteral.h"

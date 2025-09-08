@@ -19,7 +19,7 @@
 #include "model_utils.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "template.h"
 #include "umltemplatelist.h"
 #include "umlclassifierlistitemlist.h"

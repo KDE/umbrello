@@ -14,7 +14,7 @@
 #include "debug_utils.h"
 #include "umlenum.h"
 #include "import_utils.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "package.h"
 #include "uml.h"
 #include "umldoc.h"

@@ -14,7 +14,7 @@
 #include "floatingtextwidget.h"
 #include "listpopupmenu.h"
 #include "objectwidget.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "messagewidgetpropertiesdialog.h"

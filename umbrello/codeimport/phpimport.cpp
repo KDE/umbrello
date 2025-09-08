@@ -16,7 +16,7 @@
 #include "umlenum.h"
 #include "import_utils.h"
 #include "object_factory.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "optionstate.h"
 #include "package.h"
 #include "template.h"

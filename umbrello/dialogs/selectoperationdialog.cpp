@@ -11,7 +11,7 @@
 #include "umlclassifier.h"
 #include "debug_utils.h"
 #include "linkwidget.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umlclassifierlistitemlist.h"
 #include "umlscene.h"
 #include "umlview.h"

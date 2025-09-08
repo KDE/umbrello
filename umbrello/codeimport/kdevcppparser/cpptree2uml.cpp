@@ -13,7 +13,7 @@
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umldatatype.h"
-#include "operation.h"
+#include "umloperation.h"
 #define DBG_SRC QStringLiteral("CppTree2Uml")
 #include "debug_utils.h"
 #include "ast_utils.h"

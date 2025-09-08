@@ -12,7 +12,7 @@
 #include "codegen_utils.h"
 #include "umlclassifier.h"
 #include "debug_utils.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "umlattribute.h"
 #include "umlassociation.h"
 #include "template.h"

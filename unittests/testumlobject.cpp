@@ -10,7 +10,7 @@
 #include "umlattribute.h"
 #include "umlclassifier.h"
 #include "umlfolder.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "package.h"
 #include "stereotype.h"
 #include "uml.h"

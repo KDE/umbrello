@@ -22,7 +22,7 @@
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
 #include "objectwidget.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "optionstate.h"
 #include "uml.h"
 #include "umldoc.h"

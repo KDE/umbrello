@@ -14,7 +14,7 @@
 #include "umlentityattribute.h"
 #include "umlenumliteral.h"
 #include "object_factory.h"
-#include "operation.h"
+#include "umloperation.h"
 #include "template.h"
 #include "umldoc.h"
 #include "uml.h"  // only needed for log{Warn,Error}

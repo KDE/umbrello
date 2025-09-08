@@ -16,7 +16,7 @@
 #include "package.h"
 #include "umlassociation.h"
 #include "umlattribute.h"
-#include "operation.h"
+#include "umloperation.h"
 
 #include <QFile>
 #include <QRegularExpression>
