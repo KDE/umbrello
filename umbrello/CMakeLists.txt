@@ -411,7 +411,7 @@ set(libuml_SRCS
     umlmodel/umldatatype.cpp
     umlmodel/entity.cpp
     umlmodel/umlentityattribute.cpp
-    umlmodel/entityconstraint.cpp
+    umlmodel/umlentityconstraint.cpp
     umlmodel/umlenum.cpp
     umlmodel/enumliteral.cpp
     umlmodel/folder.cpp

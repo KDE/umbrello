@@ -33,7 +33,7 @@
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "umlview.h"
-#include "entityconstraint.h"
+#include "umlentityconstraint.h"
 #include "idchangelog.h"
 #include "umllistviewpopupmenu.h"
 #include "cmds.h"

@@ -5,7 +5,7 @@
 
 #include "umlentityconstraintlist.h"
 
-#include "entityconstraint.h"
+#include "umlentityconstraint.h"
 
 #include <KLocalizedString>
 

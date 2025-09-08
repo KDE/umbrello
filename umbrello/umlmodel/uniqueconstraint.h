@@ -8,7 +8,7 @@
 
 #include "basictypes.h"
 #include "umlclassifierlistitem.h"
-#include "entityconstraint.h"
+#include "umlentityconstraint.h"
 #include "umlclassifierlist.h"
 #include "umlentityattributelist.h"
 

@@ -7,7 +7,7 @@
 #define CHECKCONSTRAINT_H
 
 #include "basictypes.h"
-#include "entityconstraint.h"
+#include "umlentityconstraint.h"
 
 /**
  * This class is used to set up information for a unique entity constraint.

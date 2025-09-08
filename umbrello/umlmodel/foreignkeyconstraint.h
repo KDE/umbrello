@@ -8,7 +8,7 @@
 
 // appl includes
 #include "basictypes.h"
-#include "entityconstraint.h"
+#include "umlentityconstraint.h"
 
 // qt includes
 #include <QMap>

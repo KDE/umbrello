@@ -18,7 +18,7 @@
 #include "umlattribute.h"
 #include "operation.h"
 #include "instanceattribute.h"
-#include "entityconstraint.h"
+#include "umlentityconstraint.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlobjectlist.h"

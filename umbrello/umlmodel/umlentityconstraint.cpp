@@ -4,7 +4,7 @@
 */
 
 //own header
-#include "entityconstraint.h"
+#include "umlentityconstraint.h"
 
 // app includes
 #include "umlobject.h"
