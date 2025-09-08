@@ -10,7 +10,7 @@
 #include "activitywidget.h"
 #include "associationline.h"
 #include "associationwidget.h"
-#include "category.h"
+#include "umlcategory.h"
 #include "classifier.h"
 #include "classifierwidget.h"
 #include "combinedfragmentwidget.h"

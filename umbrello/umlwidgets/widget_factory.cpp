@@ -14,7 +14,7 @@
 #include "artifactwidget.h"
 #include "associationwidget.h"
 #include "boxwidget.h"
-#include "category.h"
+#include "umlcategory.h"
 #include "categorywidget.h"
 #include "classifier.h"
 #include "classifierwidget.h"

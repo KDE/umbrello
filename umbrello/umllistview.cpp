@@ -20,7 +20,7 @@
 #include "enum.h"
 #include "enumliteral.h"
 #include "entity.h"
-#include "category.h"
+#include "umlcategory.h"
 #include "datatype.h"
 #include "docwindow.h"
 #include "layoutgenerator.h"

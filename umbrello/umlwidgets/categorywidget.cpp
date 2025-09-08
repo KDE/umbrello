@@ -7,7 +7,7 @@
 #include "categorywidget.h"
 
 // local includes
-#include "category.h"
+#include "umlcategory.h"
 #include "debug_utils.h"
 #include "listpopupmenu.h"
 #include "umlview.h"

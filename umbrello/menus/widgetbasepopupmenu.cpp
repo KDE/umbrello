@@ -7,7 +7,7 @@
 
 // app includes
 #include "activitywidget.h"
-#include "category.h"
+#include "umlcategory.h"
 #include "classifier.h"
 #include "combinedfragmentwidget.h"
 #include "debug_utils.h"

@@ -11,7 +11,7 @@
 #include "umlartifact.h"
 #include "umlassociation.h"
 #include "umlattribute.h"
-#include "category.h"
+#include "umlcategory.h"
 #include "checkconstraint.h"
 #include "classifier.h"
 #include "cmds.h"
