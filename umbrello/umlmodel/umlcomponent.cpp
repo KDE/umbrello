@@ -4,7 +4,7 @@
 */
 
 // own header
-#include "component.h"
+#include "umlcomponent.h"
 // app includes
 #include "umlassociation.h"
 #include "debug_utils.h"

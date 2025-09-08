@@ -16,7 +16,7 @@
 #include "umlclassifier.h"
 #include "cmds.h"
 #include "codegenerator.h"
-#include "component.h"
+#include "umlcomponent.h"
 #include "datatype.h"
 #define DBG_SRC QStringLiteral("Object_Factory")
 #include "debug_utils.h"

@@ -14,7 +14,7 @@
 #include "dialog_utils.h"
 #include "package.h"
 #include "folder.h"
-#include "component.h"
+#include "umlcomponent.h"
 #include "node.h"
 #include "umlartifact.h"
 #include "enum.h"

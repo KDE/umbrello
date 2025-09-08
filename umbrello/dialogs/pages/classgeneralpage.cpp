@@ -18,7 +18,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlartifact.h"
-#include "component.h"
+#include "umlcomponent.h"
 #include "umlview.h"
 #include "stereotype.h"
 #include "umlpackagelist.h"

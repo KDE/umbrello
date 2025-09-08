@@ -26,7 +26,7 @@
 #include "umlrole.h"
 #include "umlactor.h"
 #include "usecase.h"
-#include "component.h"
+#include "umlcomponent.h"
 #include "node.h"
 #include "uml.h"
 #include "umldoc.h"

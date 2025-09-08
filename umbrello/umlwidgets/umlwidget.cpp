@@ -15,7 +15,7 @@
 #include "umlclassifier.h"
 #include "classpropertiesdialog.h"
 #include "cmds.h"
-#include "component.h"
+#include "umlcomponent.h"
 #include "componentwidget.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"

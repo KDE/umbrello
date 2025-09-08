@@ -18,7 +18,7 @@
 #include "umlclassifier.h"
 #include "classifierwidget.h"
 #include "classoptionspage.h"
-#include "component.h"
+#include "umlcomponent.h"
 #include "cmds.h"
 #include "componentwidget.h"
 #include "datatype.h"

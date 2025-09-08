@@ -7,7 +7,7 @@
 #include "componentwidget.h"
 
 // app includes
-#include "component.h"
+#include "umlcomponent.h"
 #include "debug_utils.h"
 #include "umlscene.h"
 #include "umlview.h"

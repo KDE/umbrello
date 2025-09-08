@@ -20,7 +20,7 @@
 #include "classifierwidget.h"
 #include "cmds.h"
 #include "combinedfragmentwidget.h"
-#include "component.h"
+#include "umlcomponent.h"
 #include "componentwidget.h"
 #include "datatypewidget.h"
 #define DBG_SRC QStringLiteral("Widget_Factory")
