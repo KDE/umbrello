@@ -20,7 +20,7 @@
 #include "umlattribute.h"
 #include "operation.h"
 #include "umldatatype.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "enumliteral.h"
 #include "umlassociation.h"
 #include "umlrole.h"

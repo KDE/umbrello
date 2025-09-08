@@ -14,7 +14,7 @@
 #include "associationwidget.h"
 #include "umlattribute.h"
 #include "umlclassifier.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "entity.h"
 #include "floatingtextwidget.h"
 #include "messagewidget.h"

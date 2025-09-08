@@ -17,7 +17,7 @@
 #include "umlcomponent.h"
 #include "node.h"
 #include "umlartifact.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "enumliteral.h"
 #include "entity.h"
 #include "umlcategory.h"

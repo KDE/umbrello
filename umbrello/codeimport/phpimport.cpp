@@ -13,7 +13,7 @@
 #include "umlclassifier.h"
 #define DBG_SRC QStringLiteral("PHPImport")
 #include "debug_utils.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "import_utils.h"
 #include "object_factory.h"
 #include "operation.h"

@@ -17,7 +17,7 @@
 #include "uml.h"
 #include "umlobject.h"
 #include "package.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "umlclassifier.h"
 #include "operation.h"
 #include "umlattribute.h"

@@ -5,7 +5,7 @@
 
 #include "defaultvaluewidget.h"
 
-#include "enum.h"
+#include "umlenum.h"
 #include "umldatatype.h"
 #include "uml.h"
 #include "umldoc.h"

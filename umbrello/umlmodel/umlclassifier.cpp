@@ -13,7 +13,7 @@
 #include "template.h"
 #include "enumliteral.h"
 #include "entityattribute.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "entity.h"
 #include "stereotype.h"
 #include "umldoc.h"

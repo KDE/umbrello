@@ -412,7 +412,7 @@ set(libuml_SRCS
     umlmodel/entity.cpp
     umlmodel/entityattribute.cpp
     umlmodel/entityconstraint.cpp
-    umlmodel/enum.cpp
+    umlmodel/umlenum.cpp
     umlmodel/enumliteral.cpp
     umlmodel/folder.cpp
     umlmodel/foreignkeyconstraint.cpp

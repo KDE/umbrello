@@ -13,7 +13,7 @@
 #include "umldoc.h"
 #include "uml.h"  // only needed for log{Warn,Error}
 #include "umlclassifier.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "entity.h"
 #include "umlattribute.h"
 #include "dialogspopupmenu.h"

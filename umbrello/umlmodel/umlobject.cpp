@@ -1400,7 +1400,7 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
 #include "entity.h"
 #include "entityattribute.h"
 #include "entityconstraint.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "foreignkeyconstraint.h"
 #include "instance.h"
 #include "instanceattribute.h"

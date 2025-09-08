@@ -14,7 +14,7 @@
 #include "umlclassifier.h"
 #define DBG_SRC QStringLiteral("SqlImport")
 #include "debug_utils.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "folder.h"
 #include "import_utils.h"
 #include "operation.h"

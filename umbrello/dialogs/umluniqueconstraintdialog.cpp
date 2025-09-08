@@ -11,7 +11,7 @@
 #include "entity.h"
 #include "entityattribute.h"
 #include "enumliteral.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "object_factory.h"
 #include "operation.h"
 #include "template.h"

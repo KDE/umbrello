@@ -16,7 +16,7 @@
 #include "package.h"
 #include "folder.h"
 #include "umlclassifier.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "instance.h"
 #include "entity.h"
 #include "template.h"

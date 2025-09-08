@@ -12,7 +12,7 @@
 #include "umlcheckconstraint.h"
 #include "umlclassifier.h"
 #include "debug_utils.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "entity.h"
 #include "foreignkeyconstraint.h"
 #include "model_utils.h"

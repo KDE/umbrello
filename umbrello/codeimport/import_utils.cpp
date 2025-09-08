@@ -14,7 +14,7 @@
 #define DBG_SRC QStringLiteral("Import_Utils")
 #include "debug_utils.h"
 #include "folder.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "object_factory.h"
 #include "operation.h"
 #include "package.h"

@@ -4,7 +4,7 @@
 */
 
 // own header
-#include "enum.h"
+#include "umlenum.h"
 
 // app includes
 #include "debug_utils.h"

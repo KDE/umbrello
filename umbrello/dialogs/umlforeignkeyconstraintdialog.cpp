@@ -12,7 +12,7 @@
 #include "dialog_utils.h"
 #include "entityattribute.h"
 #include "enumliteral.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "entity.h"
 #include "foreignkeyconstraint.h"
 #include "object_factory.h"

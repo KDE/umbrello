@@ -21,7 +21,7 @@
 #include "package.h"
 #include "umlclassifierlistitemlist.h"
 #include "umlclassifierlistitem.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "uml.h"
 
 // qt includes

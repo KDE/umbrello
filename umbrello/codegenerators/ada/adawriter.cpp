@@ -11,7 +11,7 @@
 #include "umldoc.h"
 #include "uml.h"
 #include "umlclassifier.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "umlclassifierlistitem.h"
 #include "umlclassifierlistitemlist.h"
 #include "umltemplatelist.h"

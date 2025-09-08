@@ -21,7 +21,7 @@
 #define DBG_SRC QStringLiteral("Object_Factory")
 #include "debug_utils.h"
 #include "dialog_utils.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "entity.h"
 #include "folder.h"
 #include "foreignkeyconstraint.h"

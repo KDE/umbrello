@@ -12,7 +12,7 @@
 #include "codeimpthread.h"
 #define DBG_SRC QStringLiteral("JavaImport")
 #include "debug_utils.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "import_utils.h"
 #include "object_factory.h"
 #include "operation.h"

@@ -15,7 +15,7 @@
 #include "codegenerator.h"
 #include "umlclassifier.h"
 #include "dialog_utils.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "entity.h"
 #include "docwindow.h"
 #include "operation.h"

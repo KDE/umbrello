@@ -27,7 +27,7 @@
 #include "debug_utils.h"
 #include "entity.h"
 #include "entitywidget.h"
-#include "enum.h"
+#include "umlenum.h"
 #include "enumwidget.h"
 #include "instance.h"
 #include "floatingdashlinewidget.h"
