@@ -31,7 +31,7 @@
 #include "umlentityattribute.h"
 #include "umlinstance.h"
 #include "umlinstanceattribute.h"
-#include "uniqueconstraint.h"
+#include "umluniqueconstraint.h"
 #include "umlforeignkeyconstraint.h"
 #include "umlcheckconstraint.h"
 #include "uml.h"

@@ -20,7 +20,7 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
-#include "uniqueconstraint.h"
+#include "umluniqueconstraint.h"
 
 // qt includes
 #include <QXmlStreamWriter>

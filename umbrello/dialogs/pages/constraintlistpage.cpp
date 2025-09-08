@@ -18,7 +18,7 @@
 #include "umltemplate.h"
 #include "umldoc.h"
 #include "uml.h"  // only needed for log{Warn,Error}
-#include "uniqueconstraint.h"
+#include "umluniqueconstraint.h"
 
 #include <KLocalizedString>
 #include <QMenu>

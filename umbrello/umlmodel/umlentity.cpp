@@ -9,7 +9,7 @@
 // app includes
 #include "debug_utils.h"
 #include "umlentityattribute.h"
-#include "uniqueconstraint.h"
+#include "umluniqueconstraint.h"
 #include "umlforeignkeyconstraint.h"
 #include "umlcheckconstraint.h"
 #include "umldoc.h"

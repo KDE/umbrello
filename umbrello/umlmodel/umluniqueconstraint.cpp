@@ -4,7 +4,7 @@
 */
 
 //own header
-#include "uniqueconstraint.h"
+#include "umluniqueconstraint.h"
 
 // app includes
 #include "debug_utils.h"

@@ -17,7 +17,7 @@
 #include "umlforeignkeyconstraint.h"
 #include "model_utils.h"
 #include "umloperation.h"
-#include "uniqueconstraint.h"
+#include "umluniqueconstraint.h"
 #include "umlentityattributelist.h"
 #include "umlclassifierlistitemlist.h"
 #include "uml.h"  // only needed for log{Warn,Error}

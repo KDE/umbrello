@@ -22,7 +22,7 @@
 #include "umldoc.h"
 #include "umlentitylist.h"
 #include "umlmessagebox.h"
-#include "uniqueconstraint.h"
+#include "umluniqueconstraint.h"
 #include "icon_utils.h"
 
 #include <kcombobox.h>

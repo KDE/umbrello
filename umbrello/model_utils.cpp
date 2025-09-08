@@ -12,7 +12,7 @@
 #include "debug_utils.h"
 #include "umlobject.h"
 #include "umlpackagelist.h"
-#include "uniqueconstraint.h"
+#include "umluniqueconstraint.h"
 #include "umlpackage.h"
 #include "umlfolder.h"
 #include "umlclassifier.h"

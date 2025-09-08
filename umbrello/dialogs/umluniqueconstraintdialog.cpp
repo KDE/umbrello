@@ -16,7 +16,7 @@
 #include "umloperation.h"
 #include "umltemplate.h"
 #include "uml.h"
-#include "uniqueconstraint.h"
+#include "umluniqueconstraint.h"
 #include "umldoc.h"
 
 #include <kcombobox.h>

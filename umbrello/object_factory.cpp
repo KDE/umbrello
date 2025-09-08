@@ -37,7 +37,7 @@
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlpackagelist.h"
-#include "uniqueconstraint.h"
+#include "umluniqueconstraint.h"
 #include "uniqueid.h"
 
 // kde includes

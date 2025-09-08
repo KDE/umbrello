@@ -23,7 +23,7 @@
 #include "umlentity.h"
 #include "umlentityattribute.h"
 #include "umlforeignkeyconstraint.h"
-#include "uniqueconstraint.h"
+#include "umluniqueconstraint.h"
 #include "umldoc.h"
 #include "umlpackagelist.h"
 

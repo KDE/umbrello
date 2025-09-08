@@ -1409,7 +1409,7 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
 #include "umlport.h"
 #include "umlrole.h"
 #include "umltemplate.h"
-#include "uniqueconstraint.h"
+#include "umluniqueconstraint.h"
 #include "usecase.h"
 
 UMLActor                * UMLObject::asUMLActor()                { return dynamic_cast<UMLActor*>(this); }
