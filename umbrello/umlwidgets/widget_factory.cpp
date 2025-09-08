@@ -45,7 +45,7 @@
 #include "umlpackage.h"
 #include "packagewidget.h"
 #include "pinwidget.h"
-#include "port.h"
+#include "umlport.h"
 #include "portwidget.h"
 #include "preconditionwidget.h"
 #include "regionwidget.h"

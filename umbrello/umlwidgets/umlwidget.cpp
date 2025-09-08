@@ -31,7 +31,7 @@
 #include "menus/listpopupmenu.h"
 #include "objectnodewidget.h"
 #include "pinwidget.h"
-#include "port.h"
+#include "umlport.h"
 #include "portwidget.h"
 #include "regionwidget.h"
 #include "signalwidget.h"

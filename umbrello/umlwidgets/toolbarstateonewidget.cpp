@@ -20,7 +20,7 @@
 #include "regionwidget.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "port.h"
+#include "umlport.h"
 #include "umlscene.h"
 #include "umlwidget.h"
 #include "object_factory.h"

@@ -3,7 +3,7 @@
     SPDX-FileCopyrightText: 2014-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
-#include "port.h"
+#include "umlport.h"
 
 #include <KLocalizedString>
 

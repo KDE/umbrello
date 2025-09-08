@@ -29,7 +29,7 @@
 #include "model_utils.h"
 #include "umlnode.h"
 #include "umlpackage.h"
-#include "port.h"
+#include "umlport.h"
 #include "umloperation.h"
 #include "stereotype.h"
 #include "usecase.h"

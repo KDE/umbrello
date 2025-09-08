@@ -1406,7 +1406,7 @@ QDebug operator<<(QDebug out, const UMLObject& obj)
 #include "umlinstanceattribute.h"
 #include "umlnode.h"
 #include "umloperation.h"
-#include "port.h"
+#include "umlport.h"
 #include "umlrole.h"
 #include "template.h"
 #include "uniqueconstraint.h"

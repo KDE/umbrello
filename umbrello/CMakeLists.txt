@@ -419,7 +419,7 @@ set(libuml_SRCS
     umlmodel/umlnode.cpp
     umlmodel/umloperation.cpp
     umlmodel/umlpackage.cpp
-    umlmodel/port.cpp
+    umlmodel/umlport.cpp
     umlmodel/stereotype.cpp
     umlmodel/template.cpp
     umlmodel/umlattributelist.cpp

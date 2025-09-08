@@ -7,7 +7,7 @@
 #include "portwidget.h"
 
 // app includes
-#include "port.h"
+#include "umlport.h"
 #include "umlpackage.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
