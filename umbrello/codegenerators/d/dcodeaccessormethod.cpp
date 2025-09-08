@@ -9,7 +9,7 @@
 #include "dcodeaccessormethod.h"
 
 // local includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "codegenerator.h"
 #include "codegenerationpolicy.h"
 #include "codegen_utils.h"

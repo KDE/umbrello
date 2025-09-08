@@ -7,7 +7,7 @@
 #include "pascalimport.h"
 
 // app includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "datatype.h"
 #define DBG_SRC QStringLiteral("PascalImport")

@@ -8,7 +8,7 @@
 
 //local includes
 #include "instance.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "debug_utils.h"
 #include "model_utils.h"
 #include "umldoc.h"

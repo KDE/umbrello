@@ -7,7 +7,7 @@
 #include "umlattributedialog.h"
 
 // app includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "documentationwidget.h"
 #include "template.h"

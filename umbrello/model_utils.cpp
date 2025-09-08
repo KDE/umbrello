@@ -21,7 +21,7 @@
 #include "entity.h"
 #include "template.h"
 #include "operation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "umlassociation.h"
 #include "umlrole.h"
 #include "umldoc.h"

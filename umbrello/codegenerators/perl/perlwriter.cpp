@@ -8,7 +8,7 @@
 #include "perlwriter.h"
 
 #include "umlassociation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "operation.h"
 #include "umldoc.h"

@@ -9,7 +9,7 @@
 #include "cppcodeclassfield.h"
 
 // local includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifiercodedocument.h"
 #include "codegenerator.h"
 #include "cppcodegenerationpolicy.h"

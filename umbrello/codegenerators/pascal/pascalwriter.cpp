@@ -6,7 +6,7 @@
 #include "pascalwriter.h"
 
 #include "umlassociation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "classifierlistitem.h"
 #include "debug_utils.h"

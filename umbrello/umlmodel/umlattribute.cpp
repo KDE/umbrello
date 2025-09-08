@@ -4,7 +4,7 @@
 */
 
 // own header
-#include "attribute.h"
+#include "umlattribute.h"
 
 // app includes
 #include "debug_utils.h"

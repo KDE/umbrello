@@ -12,7 +12,7 @@
 #include "umldoc.h"
 #include "classifier.h"
 #include "umlassociation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "operation.h"
 #include "template.h"
 #include "stereotype.h"

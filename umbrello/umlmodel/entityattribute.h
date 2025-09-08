@@ -6,7 +6,7 @@
 #ifndef ENTITYATTRIBUTE_H
 #define ENTITYATTRIBUTE_H
 
-#include "attribute.h"
+#include "umlattribute.h"
 #include "basictypes.h"
 
 /**

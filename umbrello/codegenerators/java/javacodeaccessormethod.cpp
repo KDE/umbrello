@@ -9,7 +9,7 @@
 #include "javacodeaccessormethod.h"
 
 // local includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "codegenerator.h"
 #include "codegenerationpolicy.h"
 #include "classifiercodedocument.h"

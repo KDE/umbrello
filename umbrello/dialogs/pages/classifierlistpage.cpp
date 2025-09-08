@@ -15,7 +15,7 @@
 #include "classifier.h"
 #include "enum.h"
 #include "entity.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "dialogspopupmenu.h"
 #include "operation.h"
 #include "template.h"

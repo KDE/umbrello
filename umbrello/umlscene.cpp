@@ -13,7 +13,7 @@
 #include "umlassociation.h"
 #include "associationwidget.h"
 #include "assocrules.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "boxwidget.h"
 #include "classifier.h"
 #include "classifierwidget.h"

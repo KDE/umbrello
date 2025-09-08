@@ -19,7 +19,7 @@
 #include "entity.h"
 #include "docwindow.h"
 #include "operation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "template.h"
 #include "enumliteral.h"
 #include "stereotype.h"

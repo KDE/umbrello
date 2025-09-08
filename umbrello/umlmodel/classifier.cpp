@@ -9,7 +9,7 @@
 #include "debug_utils.h"
 #include "umlassociationlist.h"
 #include "operation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "template.h"
 #include "enumliteral.h"
 #include "entityattribute.h"

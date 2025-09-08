@@ -20,7 +20,7 @@
 #include "enum.h"
 #include "classifier.h"
 #include "operation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "template.h"
 #include "umlassociation.h"
 #include "optionstate.h"

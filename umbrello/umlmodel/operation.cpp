@@ -7,7 +7,7 @@
 #include "operation.h"
 
 // app includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "model_utils.h"
 #include "debug_utils.h"

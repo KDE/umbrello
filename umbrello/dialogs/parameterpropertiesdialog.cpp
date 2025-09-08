@@ -7,7 +7,7 @@
 #include "parameterpropertiesdialog.h"
 
 // local includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
 #include "documentationwidget.h"

@@ -9,7 +9,7 @@
 #include "xmlelementcodeblock.h"
 
 // local includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "codedocument.h"
 #include "uml.h"
 #include "xmlcodecomment.h"

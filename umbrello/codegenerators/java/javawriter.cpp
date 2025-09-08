@@ -13,7 +13,7 @@
 #include "classifier.h"
 #include "debug_utils.h"
 #include "operation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "umlassociation.h"
 #include "template.h"
 #include "umldoc.h"

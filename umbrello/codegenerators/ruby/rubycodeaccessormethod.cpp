@@ -9,7 +9,7 @@
 #include "rubycodeaccessormethod.h"
 
 // local includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "codegenerator.h"
 #include "classifiercodedocument.h"
 #include "codegen_utils.h"

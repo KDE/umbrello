@@ -7,7 +7,7 @@
 #include "jswriter.h"
 
 #include "umlassociation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
 #include "operation.h"

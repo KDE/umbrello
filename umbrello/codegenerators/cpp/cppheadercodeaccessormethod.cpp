@@ -9,7 +9,7 @@
 #include "cppheadercodeaccessormethod.h"
 
 // local includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifiercodedocument.h"
 #include "cppcodegenerator.h"
 #include "cppsourcecodedocument.h"

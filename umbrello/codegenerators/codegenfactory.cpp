@@ -10,7 +10,7 @@
 #include "codegenfactory.h"
 
 // app includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "codegenerator.h"
 #include "debug_utils.h"
 #include "optionstate.h"

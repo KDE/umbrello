@@ -11,7 +11,7 @@
 #include "associationpropertiesdialog.h"
 #include "associationwidgetpopupmenu.h"
 #include "assocrules.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "classifierwidget.h"
 #define DBG_SRC QStringLiteral("AssociationWidget")

@@ -15,7 +15,7 @@
 #include "classifier.h"
 #include "entity.h"
 #include "template.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "operation.h"
 #include "instanceattribute.h"
 #include "entityconstraint.h"

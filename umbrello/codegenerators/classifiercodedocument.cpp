@@ -10,7 +10,7 @@
 
 // local includes
 #include "umlassociation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 
 #include "operation.h"
 #include "classifierlistitem.h"

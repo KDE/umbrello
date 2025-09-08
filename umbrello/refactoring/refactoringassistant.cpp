@@ -7,7 +7,7 @@
 
 #include "refactoringassistant.h"
 
-#include "attribute.h"
+#include "umlattribute.h"
 #include "basictypes.h"
 #include "classifier.h"
 #include "classpropertiesdialog.h"

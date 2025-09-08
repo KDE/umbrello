@@ -5,7 +5,7 @@
 
 #include "constraintlistpage.h"
 
-#include "attribute.h"
+#include "umlattribute.h"
 #include "debug_utils.h"
 #include "classifierlistitem.h"
 #include "classifier.h"

@@ -17,7 +17,7 @@
 #include "package.h"
 #include "folder.h"
 #include "classifier.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "operation.h"
 #include "datatype.h"
 #include "enum.h"

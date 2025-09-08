@@ -17,7 +17,7 @@
 #include "umltemplatelist.h"
 #include "folder.h"
 #include "umlassociation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "operation.h"
 #include "template.h"
 

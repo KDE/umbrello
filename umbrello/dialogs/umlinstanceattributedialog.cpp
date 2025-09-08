@@ -6,7 +6,7 @@
 //local includes
 #include "umlinstanceattributedialog.h"
 #include "ui_umlinstanceattributedialog.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "uml.h"
 
 // kde includes

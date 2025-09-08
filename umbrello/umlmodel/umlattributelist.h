@@ -8,7 +8,7 @@
 
 #include <QList>
 
-#include "attribute.h"
+#include "umlattribute.h"
 
 //typedef QPtrList<UMLAttribute> UMLAttributeList;
 typedef QListIterator<UMLAttribute*> UMLAttributeListIt;

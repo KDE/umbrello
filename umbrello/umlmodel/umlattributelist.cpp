@@ -5,7 +5,7 @@
 
 #include "umlattributelist.h"
 
-#include "attribute.h"
+#include "umlattribute.h"
 
 #include <KLocalizedString>
 

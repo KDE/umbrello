@@ -13,7 +13,7 @@
 #include "overwritedialog.h"
 #include "codeviewerdialog.h"
 #include "simplecodegenerator.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "umlassociation.h"
 #include "classifier.h"
 #include "classifiercodedocument.h"

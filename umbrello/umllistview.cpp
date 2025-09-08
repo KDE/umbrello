@@ -27,7 +27,7 @@
 #include "umllistviewpopupmenu.h"
 #include "template.h"
 #include "operation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "entityattribute.h"
 #include "instance.h"
 #include "instanceattribute.h"

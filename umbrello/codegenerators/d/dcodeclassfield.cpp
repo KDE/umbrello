@@ -9,7 +9,7 @@
 #include "dcodeclassfield.h"
 
 // local includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "dcodecomment.h"
 #include "dcodegenerator.h"
 #include "debug_utils.h"

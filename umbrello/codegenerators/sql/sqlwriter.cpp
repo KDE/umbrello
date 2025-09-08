@@ -8,7 +8,7 @@
 #include "sqlwriter.h"
 
 #include "umlassociation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "checkconstraint.h"
 #include "classifier.h"
 #include "debug_utils.h"

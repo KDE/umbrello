@@ -15,7 +15,7 @@
 #include "umlclassifierlistitemlist.h"
 #include "package.h"
 #include "umlassociation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "operation.h"
 
 #include <QFile>

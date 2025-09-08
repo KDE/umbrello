@@ -10,7 +10,7 @@
 #include "umlactor.h"
 #include "umlartifact.h"
 #include "umlassociation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "category.h"
 #include "checkconstraint.h"
 #include "classifier.h"

@@ -8,7 +8,7 @@
 #ifndef XMLSCHEMAWRITER_H
 #define XMLSCHEMAWRITER_H
 
-#include "attribute.h"
+#include "umlattribute.h"
 #include "umlassociation.h"
 #include "codegenerator.h"
 #include "umlclassifierlist.h"

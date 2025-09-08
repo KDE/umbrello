@@ -7,7 +7,7 @@
 #include "selectoperationdialog.h"
 
 // local includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
 #include "linkwidget.h"

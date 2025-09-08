@@ -4,7 +4,7 @@
 */
 #include "umluniqueconstraintdialog.h"
 
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifierlistitem.h"
 #include "classifier.h"
 #include "debug_utils.h"

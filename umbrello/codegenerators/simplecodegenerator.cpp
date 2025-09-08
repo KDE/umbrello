@@ -11,7 +11,7 @@
 // app includes
 #include "overwritedialog.h"
 #include "model_utils.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "umloperationlist.h"
 #include "umlattributelist.h"
 #include "classifier.h"

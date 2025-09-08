@@ -7,7 +7,7 @@
 #include "testumlobject.h"
 
 // app include
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "folder.h"
 #include "operation.h"

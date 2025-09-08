@@ -6,7 +6,7 @@
 #include "objectsmodel.h"
 
 // app includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "folder.h"
 #include "operation.h"

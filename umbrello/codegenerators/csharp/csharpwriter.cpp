@@ -6,7 +6,7 @@
 #include "csharpwriter.h"
 
 #include "umlassociation.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "debug_utils.h"
 #include "folder.h"

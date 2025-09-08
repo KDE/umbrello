@@ -9,7 +9,7 @@
 #include "rubycodeclassfield.h"
 
 // local includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "debug_utils.h"
 #include "rubyclassifiercodedocument.h"
 #include "rubycodecomment.h"

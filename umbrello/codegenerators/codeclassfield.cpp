@@ -9,7 +9,7 @@
 #include "codeclassfield.h"
 
 // app includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "umlassociation.h"
 #include "classifiercodedocument.h"
 #include "codegenerator.h"

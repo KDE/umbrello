@@ -12,7 +12,7 @@
 #include "umldragdata.h"
 #include "idchangelog.h"
 #include "associationwidget.h"
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "enum.h"
 #include "entity.h"

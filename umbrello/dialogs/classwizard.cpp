@@ -7,7 +7,7 @@
 #include "classwizard.h"
 
 // local includes
-#include "attribute.h"
+#include "umlattribute.h"
 #include "classifier.h"
 #include "classifierlistitem.h"
 #include "classifierlistpage.h"
