@@ -41,7 +41,6 @@ Name[sr@latin]=Vodoravni raspored
 Name[sv]=Horisontell layout
 Name[tr]=Yatay Yerleşim
 Name[uk]=Горизонтальне компонування
-Name[x-test]=xxHorizontal Layoutxx
 Name[zh_CN]=水平布局
 Name[zh_TW]=水平佈局
 Comment=Layout which renders horizontal
@@ -73,7 +72,6 @@ Comment[sl]=Postavitev za vodoravni izris
 Comment[sv]=Layout som återges horisontellt
 Comment[tr]=Yatay sunan yerleşim
 Comment[uk]=Компонування з горизонтальним розташуванням елементів
-Comment[x-test]=xxLayout which renders horizontalxx
 Comment[zh_CN]=水平显示的布局
 Comment[zh_TW]=水平繪製佈局
 
