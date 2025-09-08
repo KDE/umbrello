@@ -10,7 +10,7 @@
 #define DBG_SRC QStringLiteral("XhtmlGenerator")
 #include "debug_utils.h"
 #include "docbook2xhtmlgeneratorjob.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlviewimageexportermodel.h"
 #include "docbookgenerator.h"

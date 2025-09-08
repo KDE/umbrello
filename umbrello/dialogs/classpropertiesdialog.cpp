@@ -18,7 +18,7 @@
 #include "umlentity.h"
 #include "objectwidget.h"
 #include "packagecontentspage.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlview.h"

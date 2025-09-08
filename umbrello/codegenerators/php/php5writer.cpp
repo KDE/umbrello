@@ -14,7 +14,7 @@
 #include "debug_utils.h"
 #include "umloperation.h"
 #include "umldoc.h"
-#include "uml.h"  // only needed for log{Warn,Error}
+#include "umlapp.h"  // only needed for log{Warn,Error}
 
 #include <QRegularExpression>
 #include <QTextStream>

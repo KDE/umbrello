@@ -13,7 +13,7 @@
 #include "classifiercodedocument.h"
 #include "codeeditor.h"
 #include "debug_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // qt/kde includes
 #include <KLocalizedString>

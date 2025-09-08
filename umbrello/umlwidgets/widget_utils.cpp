@@ -12,7 +12,7 @@
 #include "objectwidget.h"
 #include "messagewidget.h"
 #include "umlwidget.h"
-#include "uml.h"  // only needed for log{Warn,Error}
+#include "umlapp.h"  // only needed for log{Warn,Error}
 
 #include <KLocalizedString>
 

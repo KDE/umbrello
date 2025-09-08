@@ -14,7 +14,7 @@
 #include "umlfolder.h"
 #include "umloperation.h"
 #include "umltemplate.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlclassifierlistitemlist.h"
 #include "umldoc.h"
 #include "umltemplatelist.h"

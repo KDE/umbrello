@@ -28,7 +28,7 @@
 #include "umlusecase.h"
 #include "umlcomponent.h"
 #include "umlnode.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"

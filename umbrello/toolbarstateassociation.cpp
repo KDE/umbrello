@@ -18,7 +18,7 @@
 #include "debug_utils.h"
 #include "umlfolder.h"
 #include "model_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlscene.h"

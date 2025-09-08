@@ -14,7 +14,7 @@
 #define DBG_SRC QStringLiteral("CppImport")
 #include "debug_utils.h"
 #include "import_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlobject.h"
 #include "umlpackage.h"
 #include "umlenum.h"

@@ -10,7 +10,7 @@
 #include "debug_utils.h"
 #include "icon_utils.h"
 #include "optionstate.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlview.h"
 

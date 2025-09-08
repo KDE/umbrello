@@ -11,7 +11,7 @@
 // local includes
 #include "umlattribute.h"
 #include "codedocument.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "xmlcodecomment.h"
 
 // qt includes

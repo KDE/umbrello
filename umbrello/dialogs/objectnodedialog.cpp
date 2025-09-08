@@ -13,7 +13,7 @@
 #include "icon_utils.h"
 #include "objectnodewidget.h"
 #include "umlview.h"
-#include "uml.h"  // only needed for log{Warn,Error}
+#include "umlapp.h"  // only needed for log{Warn,Error}
 
 // kde includes
 #include <klineedit.h>

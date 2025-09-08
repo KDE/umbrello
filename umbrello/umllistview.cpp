@@ -34,7 +34,7 @@
 #include "umluniqueconstraint.h"
 #include "umlforeignkeyconstraint.h"
 #include "umlcheckconstraint.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlclipboard.h"
 #include "umldoc.h"
 #include "umllistviewitemlist.h"

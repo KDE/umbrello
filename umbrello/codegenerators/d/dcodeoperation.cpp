@@ -11,7 +11,7 @@
 #include "dcodegenerationpolicy.h"
 #include "dclassifiercodedocument.h"
 #include "dcodedocumentation.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // Constructors/Destructors
 //

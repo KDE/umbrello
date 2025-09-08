@@ -6,7 +6,7 @@
 #include "findresults.h"
 
 // app includes
-#include "uml.h"
+#include "umlapp.h"
 #include "umldocfinder.h"
 #include "umllistviewfinder.h"
 #include "umlscenefinder.h"

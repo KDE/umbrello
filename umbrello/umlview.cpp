@@ -11,7 +11,7 @@
 #include "docwindow.h"
 #include "model_utils.h"
 #include "notewidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umldragdata.h"
 #include "umlscene.h"

@@ -10,7 +10,7 @@
 #include "codeclassfield.h"
 #include "classifiercodedocument.h"
 #include "codegenerationpolicy.h"
-#include "uml.h"
+#include "umlapp.h"
 
 #include <QXmlStreamWriter>
 

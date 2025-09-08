@@ -4,7 +4,7 @@
 */
 
 // own header
-#include "uml.h"
+#include "umlapp.h"
 
 // app includes
 #include "birdview.h"

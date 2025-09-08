@@ -19,7 +19,7 @@
 #include "import_utils.h"
 #include "umloperation.h"
 #include "umlpackage.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlentity.h"
 #include "umlentityattribute.h"
 #include "umlforeignkeyconstraint.h"

@@ -8,7 +8,7 @@
 // app includes
 #include "umlscene.h"
 #include "umlview.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlfolder.h"
 

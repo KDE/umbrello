@@ -15,7 +15,7 @@
 #include "umlinstance.h"
 #include "umlobject.h"
 #include "objectwidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlartifact.h"
 #include "umlcomponent.h"

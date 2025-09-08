@@ -17,7 +17,7 @@
 #include "umlattributedialog.h"
 #include "umldoc.h"
 #include "umloperationdialog.h"
-#include "uml.h"  // Only needed for log{Warn,Error}
+#include "umlapp.h"  // Only needed for log{Warn,Error}
 
 #include <KLocalizedString>
 #include <KMessageBox>

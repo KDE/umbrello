@@ -11,7 +11,7 @@
 // local includes
 #include "javacodecomment.h"
 #include "codeviewerdialog.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umbrellosettings.h"
 
 // kde includes

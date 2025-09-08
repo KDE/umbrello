@@ -9,7 +9,7 @@
 #include "dialog_utils.h"
 #include "dialogspopupmenu.h"
 #include "statewidget.h"
-#include "uml.h"
+#include "umlapp.h"
 
 #include <KLocalizedString>
 

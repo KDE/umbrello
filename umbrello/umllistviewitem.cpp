@@ -26,7 +26,7 @@
 #include "umlview.h"
 #include "model_utils.h"
 #include "uniqueid.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "cmds.h"
 
 // kde includes

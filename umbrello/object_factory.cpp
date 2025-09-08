@@ -33,7 +33,7 @@
 #include "umloperation.h"
 #include "umlstereotype.h"
 #include "umlusecase.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlpackagelist.h"

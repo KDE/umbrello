@@ -12,7 +12,7 @@
 #include "codedocument.h"
 #include "codegenerator.h"
 #include "codegenerationpolicy.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // qt includes
 #include <QRegularExpression>

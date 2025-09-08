@@ -7,7 +7,7 @@
 
 // app includes
 #include "models/diagramsmodel.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlview.h"
 

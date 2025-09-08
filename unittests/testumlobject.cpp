@@ -13,7 +13,7 @@
 #include "umloperation.h"
 #include "umlpackage.h"
 #include "umlstereotype.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlobject.h"
 

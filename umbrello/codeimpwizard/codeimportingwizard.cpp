@@ -10,7 +10,7 @@
 #include "codeimpstatuspage.h"
 #include "umlclassifier.h"
 #include "icon_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // kde includes
 #include <KLocalizedString>

@@ -14,7 +14,7 @@
 #include "javaclassifiercodedocument.h"
 #include "javacodegenerationpolicy.h"
 #include "umlrole.h"
-#include "uml.h"
+#include "umlapp.h"
 
 /**
  * Constructor.

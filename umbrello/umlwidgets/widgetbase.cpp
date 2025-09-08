@@ -9,7 +9,7 @@
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "floatingtextwidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlobject.h"

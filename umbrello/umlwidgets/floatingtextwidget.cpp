@@ -22,7 +22,7 @@
 #include "object_factory.h"
 #include "umloperation.h"
 #include "selectoperationdialog.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlview.h"
 

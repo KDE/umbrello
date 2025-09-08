@@ -11,7 +11,7 @@
 #include "dialog_utils.h"
 #include "optionstate.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // kde includes
 #include <KLocalizedString>

@@ -12,7 +12,7 @@
 #include "debug_utils.h"
 #include "dotgenerator.h"
 #include "model_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"

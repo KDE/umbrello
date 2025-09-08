@@ -12,7 +12,7 @@
 #include "widget_utils.h"
 #include "listpopupmenu.h"
 #include "statewidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"

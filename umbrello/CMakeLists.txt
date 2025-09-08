@@ -470,7 +470,7 @@ set(umbrellobase_SRCS
     toolbarstateother.cpp
     toolbarstatepool.cpp
     umlappprivate.cpp
-    uml.cpp
+    umlapp.cpp
     umldoc.cpp
     umllistview.cpp
     umllistviewitem.cpp

@@ -9,7 +9,7 @@
 // local includes
 #define DBG_SRC QStringLiteral("AssocRules")
 #include "debug_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlview.h"
 #include "umlwidget.h"
 #include "umlobject.h"

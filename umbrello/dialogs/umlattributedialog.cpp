@@ -12,7 +12,7 @@
 #include "documentationwidget.h"
 #include "umltemplate.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldatatypewidget.h"
 #include "umlstereotypewidget.h"
 #include "visibilityenumwidget.h"

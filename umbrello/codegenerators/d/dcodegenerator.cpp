@@ -11,7 +11,7 @@
 // local includes
 #include "codeviewerdialog.h"
 #include "dcodecomment.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // kde includes
 #include <kconfig.h>

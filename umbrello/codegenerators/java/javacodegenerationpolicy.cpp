@@ -12,7 +12,7 @@
 #include "javacodegenerationpolicypage.h"
 #include "javacodegenerator.h"
 #include "optionstate.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umbrellosettings.h"
 
 // kde includes

@@ -6,7 +6,7 @@
 // app includes
 #define DBG_SRC QStringLiteral("main")
 #include "debug_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "version.h"
 #include "umldoc.h"
 #include "cmdlineexportallviewsevent.h"

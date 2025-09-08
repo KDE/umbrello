@@ -17,7 +17,7 @@
 #include "findresults.h"
 #include "objectswindow.h"
 #include "stereotypeswindow.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlview.h"

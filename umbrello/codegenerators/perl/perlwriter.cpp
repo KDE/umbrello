@@ -12,7 +12,7 @@
 #include "umlclassifier.h"
 #include "umloperation.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 
 #include <QDateTime>
 #include <QDir>

@@ -9,7 +9,7 @@
 #include "javacodegenerationpolicypage.h"
 
 // app includes
-#include "uml.h"
+#include "umlapp.h"
 
 // kde includes
 #include <KLocalizedString>

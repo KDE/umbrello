@@ -17,7 +17,7 @@
 #include "javaclassifiercodedocument.h"
 #include "umlobject.h"
 #include "umlrole.h"
-#include "uml.h"
+#include "umlapp.h"
 
 JavaCodeClassField::JavaCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role)
         : CodeClassField(parentDoc, role)

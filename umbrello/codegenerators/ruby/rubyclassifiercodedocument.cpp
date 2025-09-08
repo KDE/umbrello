@@ -17,7 +17,7 @@
 #include "rubyclassdeclarationblock.h"
 #include "rubycodeclassfielddeclarationblock.h"
 #include "rubycodeoperation.h"
-#include "uml.h"
+#include "umlapp.h"
 
 DEBUG_REGISTER_DISABLED(RubyClassifierCodeDocument)
 

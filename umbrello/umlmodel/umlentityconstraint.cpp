@@ -9,7 +9,7 @@
 // app includes
 #include "umlobject.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // qt includes
 

@@ -5,7 +5,7 @@
 
 #include "umlcheckconstraintdialog.h"
 
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlcheckconstraint.h"
 

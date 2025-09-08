@@ -6,7 +6,7 @@
 #include "umllistviewfinder.h"
 
 // app include
-#include "uml.h"
+#include "umlapp.h"
 #include "umllistview.h"
 #include "umlobject.h"
 

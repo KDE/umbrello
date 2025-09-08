@@ -9,7 +9,7 @@
 // app includes
 #include "umlfolder.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlclassifier.h"
 #include "umlentity.h"
 

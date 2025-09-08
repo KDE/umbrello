@@ -18,7 +18,7 @@
 #include "debug_utils.h"
 #include "umlobject.h"
 #include "umlrole.h"
-#include "uml.h"
+#include "umlapp.h"
 
 CPPSourceCodeAccessorMethod::CPPSourceCodeAccessorMethod(CodeClassField * field, CodeAccessorMethod::AccessorType type)
   : CodeAccessorMethod(field)

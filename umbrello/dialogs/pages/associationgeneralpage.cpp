@@ -16,7 +16,7 @@
 #include "objectwidget.h"
 #include "umldoc.h"
 #include "umlobject.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // kde includes
 #include <kcombobox.h>

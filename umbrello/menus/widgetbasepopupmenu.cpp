@@ -20,7 +20,7 @@
 #include "objectnodewidget.h"
 #include "pinportbase.h"
 #include "statewidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlscene.h"

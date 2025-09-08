@@ -13,7 +13,7 @@
 #include "codegenerator.h"
 #include "umlclassifier.h"
 #include "umlrole.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "debug_utils.h"
 
 /**

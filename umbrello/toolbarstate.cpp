@@ -12,7 +12,7 @@
 #include "messagewidget.h"
 #include "floatingdashlinewidget.h"
 #include "objectwidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlview.h"
 #include "umlwidget.h"
 #include "widget_utils.h"

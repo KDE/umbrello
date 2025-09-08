@@ -24,7 +24,7 @@
 #include "objectwidget.h"
 #include "umloperation.h"
 #include "optionstate.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"

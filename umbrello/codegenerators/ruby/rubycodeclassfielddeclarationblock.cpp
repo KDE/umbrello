@@ -13,7 +13,7 @@
 #include "rubyclassifiercodedocument.h"
 #include "rubycodegenerationpolicy.h"
 #include "umlrole.h"
-#include "uml.h"
+#include "umlapp.h"
 
 /**
  * Constructor.

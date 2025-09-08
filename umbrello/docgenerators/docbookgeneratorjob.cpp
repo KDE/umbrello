@@ -8,7 +8,7 @@
 #include "docbookgenerator.h"
 #include "debug_utils.h"
 #include "file_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 
 #include <libxml/xmlmemory.h>

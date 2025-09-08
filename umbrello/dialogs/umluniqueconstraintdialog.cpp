@@ -15,7 +15,7 @@
 #include "object_factory.h"
 #include "umloperation.h"
 #include "umltemplate.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umluniqueconstraint.h"
 #include "umldoc.h"
 

@@ -11,7 +11,7 @@
 #include "umlclassifier.h"
 #include "classpropertiesdialog.h"
 #include "umlfolder.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlrole.h"
 #include "uniqueid.h"

@@ -13,7 +13,7 @@
 #include "optionstate.h"
 #include "rubycodegenerationpolicypage.h"
 #include "rubycodegenerator.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umbrellosettings.h"
 
 /**

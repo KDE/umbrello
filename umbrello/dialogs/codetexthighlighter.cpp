@@ -14,7 +14,7 @@
 
 #include "codegenerator.h"
 #include "codegenfactory.h"
-#include "uml.h"
+#include "umlapp.h"
 
 /**
  * Constructor.

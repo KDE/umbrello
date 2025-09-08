@@ -38,7 +38,7 @@
 #include "settingsdialog.h"
 #include "statewidget.h"
 #include "umlstereotype.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlobject.h"

@@ -11,7 +11,7 @@
 #include "debug_utils.h"
 #include "umlfolder.h"
 #include "umloperation.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 
 #include <QRegularExpression>

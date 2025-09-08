@@ -9,7 +9,7 @@
 #include "debug_utils.h"
 #include "dialogspopupmenu.h"
 #include "umlpackage.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlobjectlist.h"
 

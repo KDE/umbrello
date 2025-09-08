@@ -11,7 +11,7 @@
 #include "javaclassifiercodedocument.h"
 #include "javacodedocumentation.h"
 #include "javacodegenerator.h"
-#include "uml.h"
+#include "umlapp.h"
 
 JavaCodeOperation::JavaCodeOperation
  (JavaClassifierCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment)

@@ -10,7 +10,7 @@
 #include "umlclassifier.h"
 #include "umlfolder.h"
 #include "umloperation.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 
 #include "umlobjectprivate.h"

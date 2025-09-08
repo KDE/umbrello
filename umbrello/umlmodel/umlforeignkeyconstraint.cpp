@@ -12,7 +12,7 @@
 #include "umlentityattribute.h"
 #include "umlobject.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlforeignkeyconstraintdialog.h"
 #include "object_factory.h"
 

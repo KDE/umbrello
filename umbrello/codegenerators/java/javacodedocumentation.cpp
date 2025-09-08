@@ -11,7 +11,7 @@
 // local includes
 #include "codegenerationpolicy.h"
 #include "javaclassifiercodedocument.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // qt includes
 #include <QRegularExpression>

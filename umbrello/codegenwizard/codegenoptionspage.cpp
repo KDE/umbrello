@@ -14,7 +14,7 @@
 #include "codegenerators/codegenfactory.h"
 #include "codegenerators/codegenpolicyext.h"
 #include "defaultcodegenpolicypage.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlmessagebox.h"
 
 // kde includes

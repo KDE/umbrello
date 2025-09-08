@@ -11,7 +11,7 @@
 #include "cppcodegenerationpolicy.h"
 #include "cppheadercodedocument.h"
 #include "cppcodedocumentation.h"
-#include "uml.h"
+#include "umlapp.h"
 
 CPPHeaderCodeOperation::CPPHeaderCodeOperation
  (CPPHeaderCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment)

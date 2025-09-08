@@ -15,7 +15,7 @@
 #include "xmlelementcodeblock.h"
 #include "codegenfactory.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // qt includes
 #include <QRegularExpression>

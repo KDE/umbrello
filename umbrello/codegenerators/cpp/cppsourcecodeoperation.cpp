@@ -11,7 +11,7 @@
 #include "cppcodegenerationpolicy.h"
 #include "cppsourcecodedocument.h"
 #include "cppcodedocumentation.h"
-#include "uml.h"
+#include "umlapp.h"
 
 CPPSourceCodeOperation::CPPSourceCodeOperation(CPPSourceCodeDocument * doc, UMLOperation *parent, const QString & body, const QString & comment)
         : CodeOperation (doc, parent, body, comment)

@@ -5,7 +5,7 @@
 
 #include "umlartifacttypewidget.h"
 
-#include "uml.h"
+#include "umlapp.h"
 
 #include <KLocalizedString>
 

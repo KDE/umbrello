@@ -10,7 +10,7 @@
 #define DBG_SRC QStringLiteral("LayoutGrid")
 #include "debug_utils.h"
 #include "umlscene.h"
-#include "uml.h"
+#include "umlapp.h"
 
 #include <QPainter>
 #include <QVarLengthArray>

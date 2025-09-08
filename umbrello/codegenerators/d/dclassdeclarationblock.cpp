@@ -11,7 +11,7 @@
 #include "dcodegenerationpolicy.h"
 #include "dcodedocumentation.h"
 #include "model_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 
 DClassDeclarationBlock::DClassDeclarationBlock
   (DClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)

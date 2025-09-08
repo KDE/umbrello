@@ -26,7 +26,7 @@
 #include "umlclassifier.h"
 #include "codegenerationpolicy.h"
 #include "debug_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // qt includes
 #include <QRegularExpression>

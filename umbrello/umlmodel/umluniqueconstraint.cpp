@@ -11,7 +11,7 @@
 #include "umlentity.h"
 #include "umlentityattribute.h"
 #include "umldoc.h"
-#include "uml.h"  // Only needed for log{Warn,Error}
+#include "umlapp.h"  // Only needed for log{Warn,Error}
 #include "umlattributedialog.h"
 #include "umluniqueconstraintdialog.h"
 #include "object_factory.h"

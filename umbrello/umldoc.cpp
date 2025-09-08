@@ -29,7 +29,7 @@
 #include "import_argo.h"
 #include "import_rose.h"
 #include "model_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "umlview.h"

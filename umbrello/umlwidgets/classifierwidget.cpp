@@ -21,7 +21,7 @@
 #include "umloperation.h"
 #include "optionstate.h"
 #include "umltemplate.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlview.h"
 #include "widget_utils.h"

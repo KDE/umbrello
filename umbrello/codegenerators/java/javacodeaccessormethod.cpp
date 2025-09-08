@@ -16,7 +16,7 @@
 #include "debug_utils.h"
 #include "umlobject.h"
 #include "umlrole.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "codegen_utils.h"
 #include "javaclassifiercodedocument.h"
 #include "javacodegenerationpolicy.h"

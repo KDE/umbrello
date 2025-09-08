@@ -13,7 +13,7 @@
 #include "debug_utils.h"
 #include "umloperation.h"
 #include "umldoc.h"
-#include "uml.h"  // Only needed for logWarn
+#include "umlapp.h"  // Only needed for logWarn
 
 #include <QRegularExpression>
 #include <QTextStream>

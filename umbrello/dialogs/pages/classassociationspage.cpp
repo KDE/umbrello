@@ -12,7 +12,7 @@
 #include "dialogspopupmenu.h"
 #include "umlobject.h"
 #include "umlscene.h"
-#include "uml.h"
+#include "umlapp.h"
 
 #include <KLocalizedString>
 

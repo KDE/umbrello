@@ -12,7 +12,7 @@
 #include "umlattribute.h"
 #include "umlclassifier.h"
 #include "debug_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlrole.h"
 

@@ -7,7 +7,7 @@
 
 // app includes
 #include "debug_utils.h"
-#include "uml.h"  // Only needed for log{Warn,Error}
+#include "umlapp.h"  // Only needed for log{Warn,Error}
 
 // kde includes
 #include <KLocalizedString>

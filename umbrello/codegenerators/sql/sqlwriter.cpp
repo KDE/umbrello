@@ -20,7 +20,7 @@
 #include "umluniqueconstraint.h"
 #include "umlentityattributelist.h"
 #include "umlclassifierlistitemlist.h"
-#include "uml.h"  // only needed for log{Warn,Error}
+#include "umlapp.h"  // only needed for log{Warn,Error}
 
 #include <KLocalizedString>
 

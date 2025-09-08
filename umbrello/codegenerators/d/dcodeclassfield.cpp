@@ -15,7 +15,7 @@
 #include "debug_utils.h"
 #include "umlobject.h"
 #include "umlrole.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // #include "dcodeaccessormethod.h"
 #include "dclassifiercodedocument.h"

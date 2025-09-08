@@ -56,7 +56,7 @@
 #include "statewidget.h"
 #include "toolbarstate.h"
 #include "toolbarstatefactory.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umldragdata.h"
 #include "umlfiledialog.h"

@@ -11,7 +11,7 @@
 #include "debug_utils.h"
 #include "umlenumliteral.h"
 #include "uniqueid.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umlobjectprivate.h"

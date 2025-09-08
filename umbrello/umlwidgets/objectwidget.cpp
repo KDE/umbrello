@@ -14,7 +14,7 @@
 #include "listpopupmenu.h"
 #include "messagewidget.h"
 #include "seqlinewidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlscene.h"

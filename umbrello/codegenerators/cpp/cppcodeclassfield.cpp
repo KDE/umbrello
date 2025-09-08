@@ -16,7 +16,7 @@
 #include "debug_utils.h"
 #include "umlobject.h"
 #include "umlrole.h"
-#include "uml.h"
+#include "umlapp.h"
 
 CPPCodeClassField::CPPCodeClassField (ClassifierCodeDocument * parentDoc, UMLRole * role)
         : CodeClassField(parentDoc, role)

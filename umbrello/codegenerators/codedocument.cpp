@@ -13,7 +13,7 @@
 #include "debug_utils.h"
 #include "umlpackage.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // qt includes
 #include <QDateTime>

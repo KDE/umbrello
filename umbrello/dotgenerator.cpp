@@ -14,7 +14,7 @@
 #include "statewidget.h"
 #define DBG_SRC QStringLiteral("DotGenerator")
 #include "debug_utils.h"
-#include "uml.h"  // only needed for log{Warn,Error}
+#include "umlapp.h"  // only needed for log{Warn,Error}
 
 // kde includes
 #include <KConfigGroup>

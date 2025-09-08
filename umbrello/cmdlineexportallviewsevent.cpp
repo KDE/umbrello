@@ -9,7 +9,7 @@
 // app includes
 #define DBG_SRC QStringLiteral("CmdLineExportAllViewsEvent")
 #include "debug_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlviewimageexportermodel.h"
 

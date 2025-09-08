@@ -7,7 +7,7 @@
 #include "testclassifier.h"
 
 // app include
-#include "uml.h"
+#include "umlapp.h"
 #include "umlassociation.h"
 #include "umlclassifier.h"
 #include "umldatatype.h"

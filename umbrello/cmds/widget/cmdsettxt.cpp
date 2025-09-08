@@ -9,7 +9,7 @@
 #define DBG_SRC QStringLiteral("CmdSetTxt")
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // kde includes
 #include <KLocalizedString>

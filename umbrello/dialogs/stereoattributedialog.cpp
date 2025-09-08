@@ -10,7 +10,7 @@
 // app includes
 #include "umlstereotype.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "dialog_utils.h"
 #include "debug_utils.h"
 

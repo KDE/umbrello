@@ -13,7 +13,7 @@
 #include "classifierlistpage.h"
 #include "classgeneralpage.h"
 #include "umloperation.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlclassifierlistitemlist.h"
 

@@ -8,7 +8,7 @@
 // app includes
 #include "debug_utils.h"
 #include "umlpackage.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 
 // kde includes

@@ -25,7 +25,7 @@
 #include "umlassociation.h"
 #include "umlrole.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umllistview.h"
 #include "umllistviewitem.h"
 #include "umlscene.h"

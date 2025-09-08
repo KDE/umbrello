@@ -15,7 +15,7 @@
 #include "debug_utils.h"
 #include "optionstate.h"
 #include "umloperation.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlrole.h"
 

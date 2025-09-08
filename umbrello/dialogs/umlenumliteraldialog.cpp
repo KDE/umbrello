@@ -13,7 +13,7 @@
 #include "umlclassifier.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
-#include "uml.h"  // Only needed for log{Warn,Error}
+#include "umlapp.h"  // Only needed for log{Warn,Error}
 
 // kde includes
 #include <klineedit.h>

@@ -10,7 +10,7 @@
 #include "diagramprintpage.h"
 #include "exportallviewsdialog.h"
 #include "umlviewimageexportermodel.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 
 // kde include files

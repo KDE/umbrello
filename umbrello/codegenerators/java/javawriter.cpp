@@ -17,7 +17,7 @@
 #include "umlassociation.h"
 #include "umltemplate.h"
 #include "umldoc.h"
-#include "uml.h"  // Only needed for log{Warn,Error}
+#include "umlapp.h"  // Only needed for log{Warn,Error}
 #include "umltemplatelist.h"
 
 // qt includes

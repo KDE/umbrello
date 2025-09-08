@@ -8,7 +8,7 @@
 // app includes
 #define DBG_SRC QStringLiteral("File_Utils")
 #include "debug_utils.h"
-#include "uml.h"  // Only needed for logDebug
+#include "umlapp.h"  // Only needed for logDebug
 
 // qt includes
 #include <QFileInfo>

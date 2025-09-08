@@ -12,7 +12,7 @@
 #include "docwindow.h"
 #include "listpopupmenu.h"
 #include "notedialog.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"

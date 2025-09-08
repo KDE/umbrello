@@ -21,7 +21,7 @@
 #include "rubycodedocumentation.h"
 #include "umlobject.h"
 #include "umlrole.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // qt includes
 #include <QRegularExpression>

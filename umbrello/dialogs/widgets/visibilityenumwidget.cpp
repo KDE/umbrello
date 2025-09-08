@@ -6,7 +6,7 @@
 #include "visibilityenumwidget.h"
 
 #include "associationwidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlobject.h"
 
 #include <KLocalizedString>

@@ -7,7 +7,7 @@
 #include "umlinstanceattributedialog.h"
 #include "ui_umlinstanceattributedialog.h"
 #include "umlattribute.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // kde includes
 #include <KLocalizedString>

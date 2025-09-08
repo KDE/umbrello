@@ -11,7 +11,7 @@
 #include "debug_utils.h"
 #include "icon_utils.h"
 #include "objectwidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlobject.h"
 #include "umlview.h"
 

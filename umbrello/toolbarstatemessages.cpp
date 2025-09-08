@@ -13,7 +13,7 @@
 #include "messagewidget.h"
 #include "objectwidget.h"
 #include "object_factory.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlview.h"
 #include "umlscene.h"

@@ -13,7 +13,7 @@
 #include "floatingtextwidget.h"
 #include "linkwidget.h"
 #include "listpopupmenu.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "uniqueid.h"
 #include "umlview.h"

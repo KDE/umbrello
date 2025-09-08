@@ -11,7 +11,7 @@
 #define DBG_SRC QStringLiteral("LayoutGenerator")
 #include "debug_utils.h"
 #include "floatingtextwidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlwidget.h"
 
 // kde includes

@@ -10,7 +10,7 @@
 #include "umlclassifier.h"
 #include "classifiercodedocument.h"
 #include "codeviewerdialog.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 
 /**

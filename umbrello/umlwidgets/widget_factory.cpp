@@ -51,7 +51,7 @@
 #include "regionwidget.h"
 #include "signalwidget.h"
 #include "statewidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"

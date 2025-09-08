@@ -20,7 +20,7 @@
 #include "combinedfragmentwidget.h"
 #include "statewidget.h"
 #include "signalwidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlview.h"
 #include "umldoc.h"
 #include "objectwidget.h"

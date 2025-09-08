@@ -8,7 +8,7 @@
 
 // local includes
 #include "messagewidget.h"
-#include "uml.h"
+#include "umlapp.h"
 
 /**
  *  Sets up an Message Widget Properties Dialog.

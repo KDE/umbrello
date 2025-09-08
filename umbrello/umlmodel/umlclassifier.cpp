@@ -17,7 +17,7 @@
 #include "umlentity.h"
 #include "umlstereotype.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "uniqueid.h"
 #include "object_factory.h"
 #include "model_utils.h"

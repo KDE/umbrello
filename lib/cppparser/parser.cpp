@@ -11,7 +11,7 @@
 #include "errors.h"
 #define DBG_SRC  QLatin1String("Parser")
 #include "debug_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // qt
 #include <QString>

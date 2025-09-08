@@ -20,7 +20,7 @@
 #include "umltemplatelist.h"
 #include "umlclassifierlistitemlist.h"
 #include "umldoc.h"
-#include "uml.h"  // Only needed for log{Warn,Error}
+#include "umlapp.h"  // Only needed for log{Warn,Error}
 
 // qt includes
 #include <QFile>

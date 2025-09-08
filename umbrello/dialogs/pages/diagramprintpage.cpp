@@ -10,7 +10,7 @@
 #include "basictypes.h"
 #include "debug_utils.h"
 #include "model_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlviewlist.h"

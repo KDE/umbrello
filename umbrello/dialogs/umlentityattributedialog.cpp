@@ -10,7 +10,7 @@
 #include "umlentityattribute.h"
 #include "umlclassifier.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldatatypewidget.h"
 #include "defaultvaluewidget.h"
 #include "umlstereotypewidget.h"

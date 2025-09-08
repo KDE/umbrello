@@ -11,7 +11,7 @@
 // local includes
 #include "codedocument.h"
 #include "codegenfactory.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // qt/kde includes
 #include <QXmlStreamWriter>

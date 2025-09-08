@@ -9,7 +9,7 @@
 #include "cpptree2uml.h"
 
 // app includes
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umllistview.h"
 #include "umldatatype.h"

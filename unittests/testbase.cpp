@@ -8,7 +8,7 @@
 
 // app includes
 #include "codegenerationpolicy.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 
 // KDE includes

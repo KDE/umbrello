@@ -10,7 +10,7 @@
 #define DBG_SRC QStringLiteral("ClassImport")
 #include "debug_utils.h"
 #include "umlfolder.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "idlimport.h"
 #include "pythonimport.h"

@@ -12,7 +12,7 @@
 #include "model_utils.h"
 #include "object_factory.h"
 #include "optionstate.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"

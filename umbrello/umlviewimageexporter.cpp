@@ -12,7 +12,7 @@
 #include "dotgenerator.h"
 #include "umlfiledialog.h"
 #include "umlviewimageexportermodel.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlscene.h"
 

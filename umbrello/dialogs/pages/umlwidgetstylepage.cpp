@@ -10,7 +10,7 @@
 #include "selectlayouttypewidget.h"
 #include "debug_utils.h"
 #include "optionstate.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlscene.h"
 #include "umlview.h"
 #include "widgetbase.h"

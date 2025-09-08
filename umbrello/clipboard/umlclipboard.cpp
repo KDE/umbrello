@@ -31,7 +31,7 @@
 #include "umlscene.h"
 #include "umlview.h"
 #include "umlwidget.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // kde includes
 #include <KMessageBox>

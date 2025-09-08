@@ -6,7 +6,7 @@
 #include "umldocfinder.h"
 
 // app include
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlscenefinder.h"
 #include "umlview.h"

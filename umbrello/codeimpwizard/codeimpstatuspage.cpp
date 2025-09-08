@@ -15,7 +15,7 @@
 #include "codeimportingwizard.h"  //:TODO: circular reference
 #include "debug_utils.h"
 #include "model_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umllistview.h"
 

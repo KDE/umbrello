@@ -10,7 +10,7 @@
 
 // app includes
 #include "debug_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // kde includes
 #include <KLocalizedString>

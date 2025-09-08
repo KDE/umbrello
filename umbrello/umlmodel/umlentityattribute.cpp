@@ -10,7 +10,7 @@
 #include "debug_utils.h"
 //#include "umlcanvasobject.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlentityattributedialog.h"
 #include "object_factory.h"
 

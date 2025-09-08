@@ -8,7 +8,7 @@
 #include "rubyclassdeclarationblock.h"
 #include "rubycodedocumentation.h"
 #include "rubycodegenerator.h"
-#include "uml.h"
+#include "umlapp.h"
 
 RubyClassDeclarationBlock::RubyClassDeclarationBlock
  (RubyClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)

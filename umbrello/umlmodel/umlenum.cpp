@@ -11,7 +11,7 @@
 #include "umlenumliteral.h"
 #include "optionstate.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "uniqueid.h"
 #include "idchangelog.h"
 

@@ -7,7 +7,7 @@
 #include "diagrampropertiespage.h"
 
 // local includes
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"

@@ -8,7 +8,7 @@
 
 // local includes
 #include "debug_utils.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlclassifier.h"
 #include "umlassociation.h"

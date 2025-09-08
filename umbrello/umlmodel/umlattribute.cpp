@@ -12,7 +12,7 @@
 #include "umloperation.h"
 #include "umlobject.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlfolder.h"
 #include "umlattributedialog.h"
 #include "object_factory.h"

@@ -7,7 +7,7 @@
 #include "import_rose.h"
 
 // app includes
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlfolder.h"
 #define DBG_SRC QStringLiteral("Import_Rose")

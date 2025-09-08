@@ -10,7 +10,7 @@
 #include "cppcodeclassfield.h"
 #include "debug_utils.h"
 #include "model_utils.h"
-#include "uml.h"  // only needed for log{Warn,Error}
+#include "umlapp.h"  // only needed for log{Warn,Error}
 
 CPPSourceCodeClassFieldDeclarationBlock::CPPSourceCodeClassFieldDeclarationBlock (CodeClassField * parent)
         : CodeClassFieldDeclarationBlock (parent)

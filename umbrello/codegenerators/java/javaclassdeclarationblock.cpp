@@ -10,7 +10,7 @@
 #include "codegenerator.h"
 #include "codegenerationpolicy.h"
 #include "javacodedocumentation.h"
-#include "uml.h"
+#include "umlapp.h"
 
 JavaClassDeclarationBlock::JavaClassDeclarationBlock
  (JavaClassifierCodeDocument * parentDoc, const QString &startText, const QString &endText, const QString &comment)

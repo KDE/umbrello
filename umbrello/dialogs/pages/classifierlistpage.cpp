@@ -11,7 +11,7 @@
 #define DBG_SRC QStringLiteral("ClassifierListPage")
 #include "debug_utils.h"
 #include "umldoc.h"
-#include "uml.h"  // only needed for log{Warn,Error}
+#include "umlapp.h"  // only needed for log{Warn,Error}
 #include "umlclassifier.h"
 #include "umlenum.h"
 #include "umlentity.h"

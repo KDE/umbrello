@@ -16,7 +16,7 @@
 #include "codegen_utils.h"
 #include "codeviewerdialog.h"
 #include "codedocumentlist.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // kde includes
 #include <kconfig.h>

@@ -16,7 +16,7 @@
 #include "umlclassifierlistitem.h"
 #include "umlclassifier.h"
 #include "codegenerator.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlrole.h"
 #include "umlattributelist.h"

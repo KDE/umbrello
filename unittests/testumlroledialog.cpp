@@ -7,7 +7,7 @@
 // app includes
 #include "umlassociation.h"
 #include "umlstereotype.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlrole.h"
 #include "umlroledialog.h"
 

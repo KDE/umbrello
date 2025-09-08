@@ -12,7 +12,7 @@
 #include "debug_utils.h"
 #include "umlinstanceattribute.h"
 #include "object_factory.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlinstanceattributedialog.h"
 #include "uniqueid.h"

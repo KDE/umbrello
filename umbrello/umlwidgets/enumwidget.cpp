@@ -14,7 +14,7 @@
 #include "umlenumliteral.h"
 #include "listpopupmenu.h"
 #include "object_factory.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlclassifierlistitemlist.h"
 #include "umldoc.h"
 #include "umlscene.h"

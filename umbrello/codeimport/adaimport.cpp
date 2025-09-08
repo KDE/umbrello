@@ -16,7 +16,7 @@
 #include "import_utils.h"
 #include "umloperation.h"
 #include "umlpackage.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 
 // qt includes

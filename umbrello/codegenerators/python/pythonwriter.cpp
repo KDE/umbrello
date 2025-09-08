@@ -14,7 +14,7 @@
 #include "umloperation.h"
 #include "umldoc.h"
 #include "umlattributelist.h"
-#include "uml.h"  // Only needed for log{Warn,Error}
+#include "umlapp.h"  // Only needed for log{Warn,Error}
 
 #include <KLocalizedString>
 

@@ -11,7 +11,7 @@
 #include "debug_utils.h"
 #include "listpopupmenu.h"
 #include "umlview.h"
-#include "uml.h"  // only needed for log{Warn,Error}
+#include "umlapp.h"  // only needed for log{Warn,Error}
 
 // qt includes
 #include <QPainter>

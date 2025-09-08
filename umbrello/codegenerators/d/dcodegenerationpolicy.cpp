@@ -12,7 +12,7 @@
 // app includes
 #include "dcodegenerationpolicypage.h"
 #include "dcodegenerator.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umbrellosettings.h"
 #include "optionstate.h"
 

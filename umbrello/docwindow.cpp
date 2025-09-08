@@ -11,7 +11,7 @@
 #include "debug_utils.h"
 #include "umlfolder.h"
 #include "icon_utils.h"
-#include "uml.h"  // Only needed for log{Warn,Error}
+#include "umlapp.h"  // Only needed for log{Warn,Error}
 #include "umldoc.h"
 #include "umlobject.h"
 #include "umlscene.h"

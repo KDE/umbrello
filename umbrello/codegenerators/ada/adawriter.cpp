@@ -9,7 +9,7 @@
 
 #include "debug_utils.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlclassifier.h"
 #include "umlenum.h"
 #include "umlclassifierlistitem.h"

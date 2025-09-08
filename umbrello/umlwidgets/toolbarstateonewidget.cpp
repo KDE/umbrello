@@ -18,7 +18,7 @@
 #include "portwidget.h"
 #include "preconditionwidget.h"
 #include "regionwidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlport.h"
 #include "umlscene.h"

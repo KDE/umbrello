@@ -13,7 +13,7 @@
 #include "umlscene.h"
 #include "umlviewlist.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "selectdiagramwidget.h"
 #include "statewidget.h"
 #include "dialog_utils.h"

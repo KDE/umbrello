@@ -22,7 +22,7 @@
 #include "umlclassifierlistitemlist.h"
 #include "umlclassifierlistitem.h"
 #include "umlenum.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // qt includes
 

@@ -81,7 +81,7 @@ protected:
 
 #include <QDomDocument>
 #include <QXmlStreamWriter>
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 
 /**

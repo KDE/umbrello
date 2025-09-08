@@ -15,7 +15,7 @@
 #include "listpopupmenu.h"
 #include "objectwidget.h"
 #include "umloperation.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "messagewidgetpropertiesdialog.h"
 #include "umlview.h"

@@ -12,7 +12,7 @@
 #include "dialog_utils.h"
 #include "listpopupmenu.h"
 #include "objectnodedialog.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"

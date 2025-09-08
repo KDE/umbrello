@@ -19,7 +19,7 @@
 #include "codegenerationpolicy.h"
 #include "umloperation.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // kde includes
 #include <KLocalizedString>

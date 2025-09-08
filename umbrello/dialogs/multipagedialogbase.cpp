@@ -14,7 +14,7 @@
 #include "icon_utils.h"
 #include "notepage.h"
 #include "messagewidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "selectoperationpage.h"
 #include "umlwidget.h"
 #include "umlwidgetstylepage.h"

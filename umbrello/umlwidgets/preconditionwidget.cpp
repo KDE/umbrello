@@ -11,7 +11,7 @@
 #include "dialog_utils.h"
 #include "listpopupmenu.h"
 #include "objectwidget.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "umlscene.h"
 #include "uniqueid.h"
 #include "idchangelog.h"

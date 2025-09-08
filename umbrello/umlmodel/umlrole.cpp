@@ -13,7 +13,7 @@
 #include "optionstate.h"
 #include "umldoc.h"
 #include "umlroledialog.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // qt includes
 #include <QPointer>

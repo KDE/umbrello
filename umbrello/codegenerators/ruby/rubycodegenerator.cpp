@@ -11,7 +11,7 @@
 // local includes
 #include "rubycodecomment.h"
 #include "codeviewerdialog.h"
-#include "uml.h"
+#include "umlapp.h"
 
 // kde includes
 #include <kconfig.h>

@@ -13,7 +13,7 @@
 #include "umlforeignkeyconstraint.h"
 #include "umlcheckconstraint.h"
 #include "umldoc.h"
-#include "uml.h"
+#include "umlapp.h"
 #include "uniqueid.h"
 #include "umlentityattributelist.h"
 #include "umlentityconstraintlist.h"

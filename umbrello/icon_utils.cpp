@@ -10,7 +10,7 @@
 #define DBG_SRC QStringLiteral("Icon_Utils")
 #include "debug_utils.h"
 #include "optionstate.h"
-#include "uml.h"  // Only needed for logDebug
+#include "umlapp.h"  // Only needed for logDebug
 
 #include <kiconloader.h>
 
