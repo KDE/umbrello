@@ -3,7 +3,7 @@
     SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
-#include "actor.h"
+#include "umlactor.h"
 
 /**
  * Constructs an Actor.

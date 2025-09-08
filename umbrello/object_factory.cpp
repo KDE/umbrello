@@ -7,7 +7,7 @@
 #include "object_factory.h"
 
 // app includes
-#include "actor.h"
+#include "umlactor.h"
 #include "artifact.h"
 #include "association.h"
 #include "attribute.h"

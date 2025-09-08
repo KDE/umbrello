@@ -8,7 +8,7 @@
 
 // app includes
 #include "activitywidget.h"
-#include "actor.h"
+#include "umlactor.h"
 #include "actorwidget.h"
 #include "artifact.h"
 #include "artifactwidget.h"

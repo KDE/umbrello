@@ -7,7 +7,7 @@
 #include "actorwidget.h"
 
 // local includes
-#include "actor.h"
+#include "umlactor.h"
 #include "debug_utils.h"
 #include "umlview.h"
 

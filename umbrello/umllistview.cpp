@@ -7,7 +7,7 @@
 #include "umllistview.h"
 
 // app includes
-#include "actor.h"
+#include "umlactor.h"
 #include "classifier.h"
 #include "cmds.h"
 #include "debug_utils.h"

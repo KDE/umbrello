@@ -399,7 +399,7 @@ set(libfinder_SRCS
 )
 
 set(libuml_SRCS
-    umlmodel/actor.cpp
+    umlmodel/umlactor.cpp
     umlmodel/artifact.cpp
     umlmodel/association.cpp
     umlmodel/attribute.cpp

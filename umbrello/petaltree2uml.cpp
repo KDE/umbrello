@@ -24,7 +24,7 @@
 #include "enumliteral.h"
 #include "association.h"
 #include "umlrole.h"
-#include "actor.h"
+#include "umlactor.h"
 #include "usecase.h"
 #include "component.h"
 #include "node.h"
