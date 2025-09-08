@@ -24,7 +24,7 @@
 #include "umlscene.h"
 #include "umlwidget.h"
 #include "object_factory.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "widget_factory.h"
 #include "widget_utils.h"
 

@@ -16,7 +16,7 @@
 #include "import_utils.h"
 #include "uml.h"
 #include "umlobject.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "umlenum.h"
 #include "umlclassifier.h"
 #include "umloperation.h"

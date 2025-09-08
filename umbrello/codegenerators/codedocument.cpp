@@ -11,7 +11,7 @@
 // local includes
 #include "codegenerator.h"
 #include "debug_utils.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "umldoc.h"
 #include "uml.h"
 

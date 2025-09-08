@@ -23,7 +23,7 @@
 #include "stereotype.h"
 #include "umlpackagelist.h"
 #include "model_utils.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "umlfolder.h"
 #include "import_utils.h"
 #include "umlscene.h"

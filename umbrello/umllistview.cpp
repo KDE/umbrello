@@ -12,7 +12,7 @@
 #include "cmds.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "umlfolder.h"
 #include "umlcomponent.h"
 #include "umlnode.h"

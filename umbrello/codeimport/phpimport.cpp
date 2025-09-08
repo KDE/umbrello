@@ -18,7 +18,7 @@
 #include "object_factory.h"
 #include "umloperation.h"
 #include "optionstate.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "template.h"
 #include "uml.h"
 #include "umldoc.h"

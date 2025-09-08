@@ -18,7 +18,7 @@
 #include "umlfolder.h"
 #include "import_utils.h"
 #include "umloperation.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "uml.h"
 #include "umlentity.h"
 #include "umlentityattribute.h"

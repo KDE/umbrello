@@ -18,7 +18,7 @@
 #include "cppheadercodeclassfielddeclarationblock.h"
 #include "debug_utils.h"
 #include "umlpackagelist.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "umlclassifierlistitemlist.h"
 #include "umlclassifierlistitem.h"
 #include "umlenum.h"

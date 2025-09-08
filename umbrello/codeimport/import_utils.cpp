@@ -17,7 +17,7 @@
 #include "umlenum.h"
 #include "object_factory.h"
 #include "umloperation.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "template.h"
 #include "uml.h"
 #include "umldoc.h"

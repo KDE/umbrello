@@ -8,7 +8,7 @@
 
 // app includes
 #include "port.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "debug_utils.h"
 #include "listpopupmenu.h"
 #include "uml.h"

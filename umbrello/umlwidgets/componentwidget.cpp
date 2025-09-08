@@ -13,7 +13,7 @@
 #include "umlview.h"
 #include "optionstate.h"
 #include "umldoc.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "portwidget.h"
 
 // qt includes

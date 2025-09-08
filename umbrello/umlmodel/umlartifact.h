@@ -6,7 +6,7 @@
 #ifndef ARTIFACT_H
 #define ARTIFACT_H
 
-#include "package.h"
+#include "umlpackage.h"
 
 /**
  * This class contains the non-graphical information required for a UML

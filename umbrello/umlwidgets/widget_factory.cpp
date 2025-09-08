@@ -42,7 +42,7 @@
 #include "object_factory.h"
 #include "objectnodewidget.h"
 #include "objectwidget.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "packagewidget.h"
 #include "pinwidget.h"
 #include "port.h"

@@ -28,7 +28,7 @@
 #include "umlinstance.h"
 #include "model_utils.h"
 #include "umlnode.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "port.h"
 #include "umloperation.h"
 #include "stereotype.h"

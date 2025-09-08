@@ -5,7 +5,7 @@
 #ifndef CLASSIFIER_H
 #define CLASSIFIER_H
 
-#include "package.h"
+#include "umlpackage.h"
 #include "umlattributelist.h"
 #include "umloperationlist.h"
 #include "umlclassifierlistitemlist.h"

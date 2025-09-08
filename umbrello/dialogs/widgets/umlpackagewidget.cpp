@@ -10,7 +10,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umlfolder.h"
-#include "package.h"
+#include "umlpackage.h"
 
 #include <KComboBox>
 #include <KLocalizedString>

@@ -10,7 +10,7 @@
 #include "debug_utils.h"
 #include "uniqueid.h"
 #include "umlassociation.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "umlfolder.h"
 #include "codegenerator.h"
 #include "umlclassifier.h"

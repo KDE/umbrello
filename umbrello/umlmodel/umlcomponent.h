@@ -6,7 +6,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include "package.h"
+#include "umlpackage.h"
 
 /**
  * This class contains the non-graphical information required for a

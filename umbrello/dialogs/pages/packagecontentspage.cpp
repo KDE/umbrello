@@ -8,7 +8,7 @@
 #include "classpropertiesdialog.h"
 #include "debug_utils.h"
 #include "dialogspopupmenu.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobjectlist.h"

@@ -13,7 +13,7 @@
 #include "umlobject.h"
 #include "umlpackagelist.h"
 #include "uniqueconstraint.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "umlfolder.h"
 #include "umlclassifier.h"
 #include "umlenum.h"

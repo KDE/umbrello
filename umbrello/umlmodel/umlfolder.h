@@ -6,7 +6,7 @@
 #ifndef UMLFOLDER_H
 #define UMLFOLDER_H
 
-#include "package.h"
+#include "umlpackage.h"
 #include "umlviewlist.h"
 #include "optionstate.h"
 

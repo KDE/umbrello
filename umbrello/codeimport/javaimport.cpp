@@ -16,7 +16,7 @@
 #include "import_utils.h"
 #include "object_factory.h"
 #include "umloperation.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlpackagelist.h"

@@ -4,7 +4,7 @@
 */
 
 // own header file
-#include "package.h"
+#include "umlpackage.h"
 
 // local includes
 #include "debug_utils.h"

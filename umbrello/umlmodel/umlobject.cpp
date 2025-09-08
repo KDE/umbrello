@@ -16,7 +16,7 @@
 #include "umllistview.h"
 #include "umlobjectprivate.h"
 #include "models/objectsmodel.h"
-#include "package.h"
+#include "umlpackage.h"
 #include "umlfolder.h"
 #include "stereotype.h"
 #include "object_factory.h"
