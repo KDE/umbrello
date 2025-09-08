@@ -44,7 +44,7 @@
 #include "umlobject.h"
 #include "umlscene.h"
 #include "umlview.h"
-#include "usecase.h"
+#include "umlusecase.h"
 #include "usecasewidget.h"
 #include "uniqueid.h"
 #include "widget_factory.h"

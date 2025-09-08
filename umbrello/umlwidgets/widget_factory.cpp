@@ -55,7 +55,7 @@
 #include "umldoc.h"
 #include "umlscene.h"
 #include "umlview.h"
-#include "usecase.h"
+#include "umlusecase.h"
 #include "usecasewidget.h"
 
 DEBUG_REGISTER(Widget_Factory)

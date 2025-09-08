@@ -3,7 +3,7 @@
     SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
 
-#include "usecase.h"
+#include "umlusecase.h"
 
 /**
  * Creates a UseCase object

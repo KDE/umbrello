@@ -42,7 +42,7 @@
 #include "umlscene.h"
 #include "umlview.h"
 #include "umlviewimageexporter.h"
-#include "usecase.h"
+#include "umlusecase.h"
 #include "model_utils.h"
 #include "models/diagramsmodel.h"
 #include "optionstate.h"

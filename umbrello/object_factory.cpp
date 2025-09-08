@@ -32,7 +32,7 @@
 #include "umlport.h"
 #include "umloperation.h"
 #include "umlstereotype.h"
-#include "usecase.h"
+#include "umlusecase.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"

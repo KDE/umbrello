@@ -25,7 +25,7 @@
 #include "umlassociation.h"
 #include "umlrole.h"
 #include "umlactor.h"
-#include "usecase.h"
+#include "umlusecase.h"
 #include "umlcomponent.h"
 #include "umlnode.h"
 #include "uml.h"

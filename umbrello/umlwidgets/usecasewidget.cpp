@@ -8,7 +8,7 @@
 
 // app includes
 #include "debug_utils.h"
-#include "usecase.h"
+#include "umlusecase.h"
 #include "umlview.h"
 
 // qt includes
