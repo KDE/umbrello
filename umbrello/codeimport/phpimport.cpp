@@ -19,7 +19,7 @@
 #include "umloperation.h"
 #include "optionstate.h"
 #include "umlpackage.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlobject.h"

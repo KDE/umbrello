@@ -19,7 +19,7 @@
 #include "umlassociation.h"
 #include "umlattribute.h"
 #include "umloperation.h"
-#include "template.h"
+#include "umltemplate.h"
 
 #include <KLocalizedString>
 

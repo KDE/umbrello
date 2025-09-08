@@ -13,7 +13,7 @@
 #include "umlenum.h"
 #include "umlfolder.h"
 #include "umloperation.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "uml.h"
 #include "umlclassifierlistitemlist.h"
 #include "umldoc.h"

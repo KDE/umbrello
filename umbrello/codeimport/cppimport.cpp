@@ -21,7 +21,7 @@
 #include "umlclassifier.h"
 #include "umloperation.h"
 #include "umlattribute.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "umlassociation.h"
 #include "optionstate.h"
 

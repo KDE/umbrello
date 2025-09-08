@@ -421,7 +421,7 @@ set(libuml_SRCS
     umlmodel/umlpackage.cpp
     umlmodel/umlport.cpp
     umlmodel/umlstereotype.cpp
-    umlmodel/template.cpp
+    umlmodel/umltemplate.cpp
     umlmodel/umlattributelist.cpp
     umlmodel/umlcanvasobject.cpp
     umlmodel/umlclassifierlistitemlist.cpp

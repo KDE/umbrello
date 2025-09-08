@@ -15,7 +15,7 @@
 #include "umloperation.h"
 #include "umlattribute.h"
 #include "umlassociation.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "umldoc.h"
 #include "uml.h"  // Only needed for log{Warn,Error}
 #include "umltemplatelist.h"

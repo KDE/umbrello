@@ -15,7 +15,7 @@
 #include "umlenumliteral.h"
 #include "object_factory.h"
 #include "umloperation.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "umldoc.h"
 #include "uml.h"  // only needed for log{Warn,Error}
 #include "uniqueconstraint.h"

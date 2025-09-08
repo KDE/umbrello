@@ -19,7 +19,7 @@
 #include "floatingtextwidget.h"
 #include "messagewidget.h"
 #include "umloperation.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "umlenumliteral.h"
 #include "umlentityattribute.h"
 #include "model_utils.h"

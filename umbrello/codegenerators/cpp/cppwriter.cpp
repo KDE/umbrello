@@ -20,7 +20,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "umloperation.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "umltemplatelist.h"
 #include "umlclassifierlistitemlist.h"
 #include "umlclassifierlistitem.h"

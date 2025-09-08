@@ -25,7 +25,7 @@
 #include "docwindow.h"
 #include "layoutgenerator.h"
 #include "umllistviewpopupmenu.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "umloperation.h"
 #include "umlattribute.h"
 #include "umlentityattribute.h"

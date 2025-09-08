@@ -12,7 +12,7 @@
 #include "umldoc.h"
 #include "umloperation.h"
 #include "umlclassifier.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "dialogspopupmenu.h"
 #include "umlattributelist.h"
 #include "umldatatypewidget.h"

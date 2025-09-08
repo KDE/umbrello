@@ -10,7 +10,7 @@
 #include "umlattribute.h"
 #include "umlclassifier.h"
 #include "documentationwidget.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "umldatatypewidget.h"

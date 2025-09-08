@@ -16,7 +16,7 @@
 #include "debug_utils.h"
 #include "model_utils.h"
 #include "umloperation.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "umltemplatelist.h"
 #include "umlclassifierlistitemlist.h"
 #include "umldoc.h"

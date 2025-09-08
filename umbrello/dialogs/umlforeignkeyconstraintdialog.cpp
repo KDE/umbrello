@@ -17,7 +17,7 @@
 #include "umlforeignkeyconstraint.h"
 #include "object_factory.h"
 #include "umloperation.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "uml.h"
 #include "umldoc.h"
 #include "umlentitylist.h"

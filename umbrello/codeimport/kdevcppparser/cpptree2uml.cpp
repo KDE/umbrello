@@ -25,7 +25,7 @@
 // Make capsule methods in ClassImport, and remove these includes.
 #include "umlclassifier.h"
 // FIXME The next include is motivated by template params
-#include "template.h"
+#include "umltemplate.h"
 
 // qt includes
 #include <QDir>

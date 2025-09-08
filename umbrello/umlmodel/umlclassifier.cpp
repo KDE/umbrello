@@ -10,7 +10,7 @@
 #include "umlassociationlist.h"
 #include "umloperation.h"
 #include "umlattribute.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "umlenumliteral.h"
 #include "umlentityattribute.h"
 #include "umlenum.h"

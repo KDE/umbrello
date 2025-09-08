@@ -15,7 +15,7 @@
 #include "umldatatypewidget.h"
 #include "umlstereotypewidget.h"
 #include "umltemplatelist.h"
-#include "template.h"
+#include "umltemplate.h"
 #include "umldoc.h"
 #include "dialog_utils.h"
 #include "object_factory.h"

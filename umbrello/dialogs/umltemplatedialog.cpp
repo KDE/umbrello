@@ -7,7 +7,7 @@
 #include "umltemplatedialog.h"
 
 // app includes
-#include "template.h"
+#include "umltemplate.h"
 #include "umlclassifier.h"
 #include "documentationwidget.h"
 #include "umldoc.h"

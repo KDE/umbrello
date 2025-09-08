@@ -4,7 +4,7 @@
 */
 
 // own header
-#include "template.h"
+#include "umltemplate.h"
 
 // app includes
 #include "debug_utils.h"
