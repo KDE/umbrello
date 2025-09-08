@@ -13,7 +13,7 @@
 #include "idchangelog.h"
 #include "associationwidget.h"
 #include "umlattribute.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "enum.h"
 #include "entity.h"
 #include "floatingtextwidget.h"

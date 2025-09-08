@@ -6,7 +6,7 @@
 #ifndef DATATYPE_H
 #define DATATYPE_H
 
-#include "classifier.h"
+#include "umlclassifier.h"
 
 /**
  * This class contains the non-graphical information required for a UML Datatype.

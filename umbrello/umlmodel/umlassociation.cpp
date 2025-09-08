@@ -8,7 +8,7 @@
 
 // app includes
 #include "debug_utils.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classpropertiesdialog.h"
 #include "folder.h"
 #include "uml.h"

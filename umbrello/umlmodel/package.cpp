@@ -11,7 +11,7 @@
 #include "dialog_utils.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "umlassociation.h"
 #include "datatype.h"
 #include "entity.h"

@@ -10,7 +10,7 @@
 
 // local includes
 #include "umlattribute.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"

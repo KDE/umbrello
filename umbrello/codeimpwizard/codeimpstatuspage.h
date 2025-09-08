@@ -8,7 +8,7 @@
 
 // app includes
 #include "ui_codeimpstatuspage.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 
 //kde includes
 #include <kled.h>

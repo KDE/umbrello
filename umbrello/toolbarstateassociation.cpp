@@ -11,7 +11,7 @@
 #include "umlassociation.h"
 #include "associationline.h"
 #include "associationwidget.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classifierwidget.h"
 #include "cmds/widget/cmdcreatewidget.h"
 #include "floatingtextwidget.h"

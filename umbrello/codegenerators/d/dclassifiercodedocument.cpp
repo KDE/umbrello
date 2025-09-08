@@ -14,7 +14,7 @@
 #include "dclassdeclarationblock.h"
 #include "dcodeclassfielddeclarationblock.h"
 #include "codegen_utils.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "codegenerationpolicy.h"
 #include "debug_utils.h"
 #include "uml.h"

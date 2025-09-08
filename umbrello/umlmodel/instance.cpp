@@ -7,7 +7,7 @@
 
 //app includes
 #include "cmds.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classpropertiesdialog.h"
 #include "debug_utils.h"
 #include "instanceattribute.h"

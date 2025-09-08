@@ -8,7 +8,7 @@
 
 // local includes
 #include "debug_utils.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "model_utils.h"
 #include "object_factory.h"
 #include "uml.h"

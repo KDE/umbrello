@@ -8,7 +8,7 @@
 #ifndef CLASSIFIERCODEDOCUMENT_H
 #define CLASSIFIERCODEDOCUMENT_H
 
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "codeaccessormethod.h"
 #include "codedocument.h"
 #include "codeoperation.h"

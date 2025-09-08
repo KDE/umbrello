@@ -13,7 +13,7 @@
 #include "umlattribute.h"
 #include "umlcategory.h"
 #include "umlcheckconstraint.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "cmds.h"
 #include "codegenerator.h"
 #include "component.h"

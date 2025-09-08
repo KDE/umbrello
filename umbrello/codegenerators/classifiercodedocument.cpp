@@ -14,7 +14,7 @@
 
 #include "operation.h"
 #include "classifierlistitem.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "codegenerator.h"
 #include "uml.h"
 #include "umldoc.h"

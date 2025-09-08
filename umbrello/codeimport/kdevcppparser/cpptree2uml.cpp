@@ -23,7 +23,7 @@
 
 // FIXME: The sole reason for the next 2 includes is parseTypedef().
 // Make capsule methods in ClassImport, and remove these includes.
-#include "classifier.h"
+#include "umlclassifier.h"
 // FIXME The next include is motivated by template params
 #include "template.h"
 

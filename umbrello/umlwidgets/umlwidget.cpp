@@ -12,7 +12,7 @@
 #include "umlactor.h"
 #include "actorwidget.h"
 #include "associationwidget.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classpropertiesdialog.h"
 #include "cmds.h"
 #include "component.h"

@@ -7,7 +7,7 @@
 
 #include "xmlschemawriter.h"
 
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "debug_utils.h"
 #include "operation.h"
 #include "umldoc.h"

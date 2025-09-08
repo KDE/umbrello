@@ -10,7 +10,7 @@
 // app includes
 #include "ui_codegenstatuspage.h"
 #include "basictypes.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "codegenerationpolicy.h"
 #include "codegenerator.h"
 

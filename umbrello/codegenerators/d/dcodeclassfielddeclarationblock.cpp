@@ -11,7 +11,7 @@
 #include "dclassifiercodedocument.h"
 #include "dcodegenerationpolicy.h"
 #include "codegenerator.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "umlrole.h"
 #include "uml.h"
 #include "debug_utils.h"

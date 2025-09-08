@@ -11,7 +11,7 @@
 #include "associationline.h"
 #include "associationwidget.h"
 #include "umlcategory.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classifierwidget.h"
 #include "combinedfragmentwidget.h"
 #include "debug_utils.h"

@@ -16,7 +16,7 @@
 #include "uniqueid.h"
 #include "package.h"
 #include "folder.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "umlattribute.h"
 #include "operation.h"
 #include "datatype.h"

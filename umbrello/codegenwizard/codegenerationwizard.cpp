@@ -12,7 +12,7 @@
 #include "codegenselectpage.h"
 #include "codegenoptionspage.h"
 #include "codegenstatuspage.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "icon_utils.h"
 #include "uml.h"
 

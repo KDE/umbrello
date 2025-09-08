@@ -9,7 +9,7 @@
 // app includes
 #include "umlassociation.h"
 #include "umlattribute.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #define DBG_SRC QStringLiteral("AdaImport")
 #include "debug_utils.h"
 #include "enum.h"

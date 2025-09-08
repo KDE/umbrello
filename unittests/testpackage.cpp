@@ -6,7 +6,7 @@
 
 #include "testpackage.h"
 
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "package.h"
 #include "stereotype.h"
 

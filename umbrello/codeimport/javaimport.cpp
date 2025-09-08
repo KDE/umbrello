@@ -8,7 +8,7 @@
 
 // app includes
 #include "umlattribute.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "codeimpthread.h"
 #define DBG_SRC QStringLiteral("JavaImport")
 #include "debug_utils.h"

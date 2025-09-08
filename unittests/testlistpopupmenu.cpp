@@ -14,7 +14,7 @@
 
 #include "umlcategory.h"
 #include "entity.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "instance.h"
 
 #include "associationwidget.h"

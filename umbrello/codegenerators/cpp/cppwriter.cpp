@@ -12,7 +12,7 @@
 
 // app includes
 #include "umlassociation.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "codegen_utils.h"
 #include "datatype.h"
 #include "debug_utils.h"

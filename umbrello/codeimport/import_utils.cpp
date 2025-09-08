@@ -9,7 +9,7 @@
 // app includes
 #include "umlassociation.h"
 #include "umlartifact.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "datatype.h"
 #define DBG_SRC QStringLiteral("Import_Utils")
 #include "debug_utils.h"

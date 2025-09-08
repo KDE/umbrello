@@ -8,7 +8,7 @@
 
 // app includes
 #include "debug_utils.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "operation.h"
 #include "umlobject.h"
 #include "umldoc.h"

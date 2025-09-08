@@ -2,7 +2,7 @@
     SPDX-License-Identifier: GPL-2.0-or-later
     SPDX-FileCopyrightText: 2002-2022 Umbrello UML Modeller Authors <umbrello-devel@kde.org>
 */
-#include "classifier.h"
+#include "umlclassifier.h"
 
 // app includes
 #include "umlassociation.h"

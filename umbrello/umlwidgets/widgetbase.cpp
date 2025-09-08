@@ -5,7 +5,7 @@
 
 #include "widgetbase.h"
 
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"
 #include "floatingtextwidget.h"

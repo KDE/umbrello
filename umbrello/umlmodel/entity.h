@@ -6,7 +6,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "classifier.h"
+#include "umlclassifier.h"
 
 // forward declarations
 class UMLEntityAttribute;

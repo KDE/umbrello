@@ -6,7 +6,7 @@
 #ifndef ENUM_H
 #define ENUM_H
 
-#include "classifier.h"
+#include "umlclassifier.h"
 
 class UMLEnumLiteral;
 

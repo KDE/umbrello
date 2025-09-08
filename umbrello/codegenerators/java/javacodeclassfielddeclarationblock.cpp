@@ -8,7 +8,7 @@
 #include "javacodeclassfielddeclarationblock.h"
 
 #include "codegenerator.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "debug_utils.h"
 #include "javacodeclassfield.h"
 #include "javaclassifiercodedocument.h"

@@ -10,7 +10,7 @@
 
 // local includes
 #include "codegen_utils.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "debug_utils.h"
 #include "rubycodegenerator.h"
 #include "rubycodecomment.h"

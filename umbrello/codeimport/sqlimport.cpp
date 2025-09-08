@@ -11,7 +11,7 @@
 #include "umlassociation.h"
 #include "umlattribute.h"
 #include "umlcheckconstraint.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #define DBG_SRC QStringLiteral("SqlImport")
 #include "debug_utils.h"
 #include "enum.h"

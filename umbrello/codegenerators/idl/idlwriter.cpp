@@ -8,7 +8,7 @@
 #include "umldoc.h"
 #include "uml.h"  // only needed for log{Warn,Error}
 #include "debug_utils.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "debug_utils.h"
 #include "enum.h"
 #include "classifierlistitem.h"

@@ -10,7 +10,7 @@
 #include "umlartifact.h"
 #include "umlassociation.h"
 #include "umlattribute.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #define DBG_SRC QStringLiteral("PHPImport")
 #include "debug_utils.h"
 #include "enum.h"

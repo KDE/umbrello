@@ -8,7 +8,7 @@
 
 // local includes
 #include "associationwidget.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "cmds.h"
 #define DBG_SRC QStringLiteral("UMLDragData")
 #include "debug_utils.h"

@@ -7,7 +7,7 @@
 #include "linkwidget.h"
 
 // app includes
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "debug_utils.h"
 #include "operation.h"
 #include "uml.h"

@@ -15,7 +15,7 @@
 #include "uniqueconstraint.h"
 #include "package.h"
 #include "folder.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "enum.h"
 #include "instance.h"
 #include "entity.h"

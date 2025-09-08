@@ -9,7 +9,7 @@
 
 #include "umlattribute.h"
 #include "basictypes.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classpropertiesdialog.h"
 #include "debug_utils.h"
 #include "object_factory.h"

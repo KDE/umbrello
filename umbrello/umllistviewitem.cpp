@@ -12,7 +12,7 @@
 // app includes
 #include "debug_utils.h"
 #include "folder.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "entity.h"
 #include "template.h"
 #include "umlattribute.h"

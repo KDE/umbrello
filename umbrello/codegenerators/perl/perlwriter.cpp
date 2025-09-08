@@ -9,7 +9,7 @@
 
 #include "umlassociation.h"
 #include "umlattribute.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "operation.h"
 #include "umldoc.h"
 #include "uml.h"

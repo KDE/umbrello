@@ -10,7 +10,7 @@
 #include "umlassociation.h"
 #include "associationwidget.h"
 #include "associationpropertiesdialog.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
 #include "dialog_utils.h"

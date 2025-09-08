@@ -10,7 +10,7 @@
 #include "debug_utils.h"
 #include "uml.h"
 #include "umldoc.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "umlassociation.h"
 #include "umlattribute.h"
 #include "operation.h"

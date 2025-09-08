@@ -405,7 +405,7 @@ set(libuml_SRCS
     umlmodel/umlattribute.cpp
     umlmodel/umlcategory.cpp
     umlmodel/umlcheckconstraint.cpp
-    umlmodel/classifier.cpp
+    umlmodel/umlclassifier.cpp
     umlmodel/classifierlistitem.cpp
     umlmodel/component.cpp
     umlmodel/datatype.cpp

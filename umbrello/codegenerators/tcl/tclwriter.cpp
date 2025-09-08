@@ -10,7 +10,7 @@
 
 // app includes
 #include "umlassociation.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classifierlistitem.h"
 #include "codegen_utils.h"
 #include "debug_utils.h"

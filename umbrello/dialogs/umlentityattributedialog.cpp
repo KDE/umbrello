@@ -8,7 +8,7 @@
 
 // app includes
 #include "entityattribute.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "umldoc.h"
 #include "uml.h"
 #include "umldatatypewidget.h"

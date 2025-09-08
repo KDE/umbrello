@@ -15,7 +15,7 @@
 #include "assocrules.h"
 #include "umlattribute.h"
 #include "boxwidget.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classifierwidget.h"
 #include "classoptionspage.h"
 #include "component.h"

@@ -8,7 +8,7 @@
 
 // app include
 #include "umlassociation.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "umlcanvasobject.h"
 
 //-----------------------------------------------------------------------------

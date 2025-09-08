@@ -15,7 +15,7 @@
 #include "simplecodegenerator.h"
 #include "umlattribute.h"
 #include "umlassociation.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classifiercodedocument.h"
 #include "codedocument.h"
 #include "codegenerationpolicy.h"

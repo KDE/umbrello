@@ -7,7 +7,7 @@
 
 #include "rubycodeclassfielddeclarationblock.h"
 
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "codegenerator.h"
 #include "rubycodeclassfield.h"
 #include "rubyclassifiercodedocument.h"

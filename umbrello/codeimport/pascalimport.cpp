@@ -8,7 +8,7 @@
 
 // app includes
 #include "umlattribute.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "datatype.h"
 #define DBG_SRC QStringLiteral("PascalImport")
 #include "debug_utils.h"

@@ -7,7 +7,7 @@
 #include "testpythonwriter.h"
 
 // app includes
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "pythonwriter.h"
 
 const bool IS_NOT_IMPL = false;

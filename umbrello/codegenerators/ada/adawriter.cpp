@@ -10,7 +10,7 @@
 #include "debug_utils.h"
 #include "umldoc.h"
 #include "uml.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "enum.h"
 #include "classifierlistitem.h"
 #include "umlclassifierlistitemlist.h"

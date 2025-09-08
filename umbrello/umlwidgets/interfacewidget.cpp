@@ -5,7 +5,7 @@
 
 #include "interfacewidget.h"
 
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "debug_utils.h"
 
 DEBUG_REGISTER_DISABLED(InterfaceWidget)

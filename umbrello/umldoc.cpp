@@ -13,7 +13,7 @@
 #include "package.h"
 #include "folder.h"
 #include "codegenerator.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "dialog_utils.h"
 #include "enum.h"
 #include "entity.h"

@@ -10,7 +10,7 @@
 #include "umlassociation.h"
 #include "umlattribute.h"
 #include "umlcheckconstraint.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "debug_utils.h"
 #include "enum.h"
 #include "entity.h"

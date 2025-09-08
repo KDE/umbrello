@@ -10,7 +10,7 @@
 #include "floatingtextwidget.h"
 #include "associationwidget.h"
 #include "associationline.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "cmds.h"
 #include "debug_utils.h"
 #include "diagram_utils.h"

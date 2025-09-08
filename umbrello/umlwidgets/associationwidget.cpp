@@ -12,7 +12,7 @@
 #include "associationwidgetpopupmenu.h"
 #include "assocrules.h"
 #include "umlattribute.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classifierwidget.h"
 #define DBG_SRC QStringLiteral("AssociationWidget")
 #include "debug_utils.h"

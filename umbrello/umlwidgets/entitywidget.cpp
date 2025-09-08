@@ -7,7 +7,7 @@
 #include "entitywidget.h"
 
 // app includes
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classifierlistitem.h"
 #include "debug_utils.h"
 #include "entity.h"

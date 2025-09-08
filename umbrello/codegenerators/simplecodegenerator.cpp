@@ -14,7 +14,7 @@
 #include "umlattribute.h"
 #include "umloperationlist.h"
 #include "umlattributelist.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "codedocument.h"
 #include "codegenerationpolicy.h"
 #include "operation.h"

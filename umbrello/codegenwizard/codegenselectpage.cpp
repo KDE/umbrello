@@ -10,7 +10,7 @@
 #include "folder.h"
 #include "umldoc.h"
 #include "uml.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "entity.h"
 
 //kde includes

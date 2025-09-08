@@ -7,7 +7,7 @@
 
 #include "advancedcodegenerator.h"
 
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classifiercodedocument.h"
 #include "codeviewerdialog.h"
 #include "uml.h"

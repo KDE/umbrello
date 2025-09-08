@@ -8,7 +8,7 @@
 #include "umlattribute.h"
 #include "debug_utils.h"
 #include "classifierlistitem.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "enum.h"
 #include "entity.h"
 #include "entityattribute.h"

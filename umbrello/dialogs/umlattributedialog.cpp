@@ -8,7 +8,7 @@
 
 // app includes
 #include "umlattribute.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "documentationwidget.h"
 #include "template.h"
 #include "umldoc.h"

@@ -10,7 +10,7 @@
 
 #include "codeclassfieldlist.h"
 #include "classifiercodedocument.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "hierarchicalcodeblock.h"
 #include "dcodeclassfield.h"
 #include "dcodeoperation.h"

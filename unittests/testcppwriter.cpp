@@ -7,7 +7,7 @@
 #include "testcppwriter.h"
 
 // app include
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "cppwriter.h"
 
 const bool IS_NOT_IMPL = false;

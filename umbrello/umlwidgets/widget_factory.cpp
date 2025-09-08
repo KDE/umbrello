@@ -16,7 +16,7 @@
 #include "boxwidget.h"
 #include "umlcategory.h"
 #include "categorywidget.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "classifierwidget.h"
 #include "cmds.h"
 #include "combinedfragmentwidget.h"

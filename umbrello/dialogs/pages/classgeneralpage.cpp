@@ -10,7 +10,7 @@
 #include "debug_utils.h"
 #include "documentationwidget.h"
 #include "dialog_utils.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "datatype.h"
 #include "instance.h"
 #include "umlobject.h"

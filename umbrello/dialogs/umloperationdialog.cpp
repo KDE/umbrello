@@ -11,7 +11,7 @@
 #include "uml.h"
 #include "umldoc.h"
 #include "operation.h"
-#include "classifier.h"
+#include "umlclassifier.h"
 #include "template.h"
 #include "dialogspopupmenu.h"
 #include "umlattributelist.h"
