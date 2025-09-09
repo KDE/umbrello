@@ -3103,7 +3103,7 @@ bool UMLDoc::assignNewIDs(UMLObject* obj)
     }
 
     if (obj->baseType() == UMLObject::ot_Interface || obj->baseType() == UMLObject::ot_Class) {
-        UMLOperationList operations(((UMLClassifier*)obj)->getOpList());
+        UMLOperationList operations(((UMLClassifier*)obj)->getOperationsList());
         for(UMLObject *listItem : operations) {
             result = assignNewID(listItem->id());
             listItem->setID(result);

@@ -415,7 +415,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
     }
 
     // Generate public operations.
-    UMLOperationList opl(c->getOpList());
+    UMLOperationList opl(c->getOperationsList());
     UMLOperationList oppub;
     for(UMLOperation* op : opl) {
         if (op->visibility() == Uml::Visibility::Public)
@@ -742,7 +742,7 @@ void AdaWriter::finalizeRun()
                         ada << m_endl;
                 }
             }
-            UMLOperationList opl(c->getOpList());
+            UMLOperationList opl(c->getOperationsList());
             // Generate protected operations.
             UMLOperationList opprot;
             for(UMLOperation* op : opl) {

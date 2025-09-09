@@ -632,7 +632,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
         if (numOps > 0) {
             height += numOps * fontHeight;
             // ... width
-            UMLOperationList list(umlc->getOpList());
+            UMLOperationList list(umlc->getOperationsList());
             for(UMLOperation* op : list) {
                       if (visualProperty(ShowPublicOnly) && op->visibility() != Uml::Visibility::Public)
                     continue;

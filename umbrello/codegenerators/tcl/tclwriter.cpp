@@ -678,7 +678,7 @@ void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility::Enum pe
     int j;
 
     //sort operations by scope first and see if there are abstract methods
-    UMLOperationList inputlist = c->getOpList();
+    UMLOperationList inputlist = c->getOperationsList();
     for(UMLOperation * op : inputlist) {
         switch (op->visibility()) {
         case Uml::Visibility::Public:
@@ -753,7 +753,7 @@ void TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility::Enum pe
     int j;
 
     //sort operations by scope first and see if there are abstract methods
-    UMLOperationList inputlist = c->getOpList();
+    UMLOperationList inputlist = c->getOperationsList();
     for(UMLOperation * op : inputlist) {
         switch (op->visibility()) {
         case Uml::Visibility::Public:

@@ -176,7 +176,7 @@ void RubyWriter::writeOperations(UMLClassifier *c, QTextStream &h)
     UMLOperationList oppub, opprot, oppriv;
 
     //sort operations by scope first and see if there are abstract methods
-    UMLOperationList opl(c->getOpList());
+    UMLOperationList opl(c->getOperationsList());
     for(UMLOperation *op : opl) {
         switch(op->visibility()) {
         case Uml::Visibility::Public:

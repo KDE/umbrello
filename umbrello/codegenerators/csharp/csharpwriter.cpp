@@ -346,7 +346,7 @@ void CSharpWriter::writeOperations(UMLClassifier *c, QTextStream &cs)
     bool generateErrorStub = true;
 
     //sort operations by scope first and see if there are abstract methods
-    UMLOperationList opl(c->getOpList());
+    UMLOperationList opl(c->getOperationsList());
     for(UMLOperation* op :  opl) {
         switch (op->visibility()) {
           case Uml::Visibility::Public:
@@ -414,7 +414,7 @@ void CSharpWriter::writeOverridesRecursive(UMLClassifierList *superclasses, QTex
     for(UMLClassifier* obj : *superclasses) {
         if (!obj->isInterface() && obj->hasAbstractOps()) {
             // collect abstract ops
-            UMLOperationList opl(obj->getOpList());
+            UMLOperationList opl(obj->getOperationsList());
             for(UMLOperation* op : opl) {
                 if (op->isAbstract()) {
                     opabstract.append(op);
@@ -456,7 +456,7 @@ void CSharpWriter::writeRealizationsRecursive(UMLClassifier *currentClass, UMLAs
             continue;
 
         // collect operations of one realization
-        UMLOperationList opreal = real->getOpList();
+        UMLOperationList opreal = real->getOperationsList();
 
         // write realizations
         cs << m_endl << m_container_indent << m_indentation << "#region " << real->name() << " members" << m_endl << m_endl;

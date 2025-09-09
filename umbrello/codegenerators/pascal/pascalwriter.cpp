@@ -280,7 +280,7 @@ void PascalWriter::writeClass(UMLClassifier *c)
     //bool haveAttrs = (isClass && atl.count());
 
     // Generate public operations.
-    UMLOperationList opl(c->getOpList());
+    UMLOperationList opl(c->getOperationsList());
     UMLOperationList oppub;
 
     for(UMLOperation* op : opl) {

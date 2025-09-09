@@ -300,7 +300,7 @@ void JavaClassifierCodeDocument::updateContent()
 
     bool isInterface = parentIsInterface();
     bool hasOperationMethods = false;
-    UMLOperationList list = c->getOpList();
+    UMLOperationList list = c->getOperationsList();
     hasOperationMethods = ! list.isEmpty();
 
     QString endLine = commonPolicy->getNewLineEndingChars(); // a shortcut..so we don't have to call this all the time

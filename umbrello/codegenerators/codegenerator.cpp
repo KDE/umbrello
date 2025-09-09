@@ -251,7 +251,7 @@ void CodeGenerator::saveToXMI(QXmlStreamWriter& writer)
         UMLClassifierList concepts = m_document->classesAndInterfaces();
         for(UMLClassifier *c : concepts) {
             uIgnoreZeroPointer(c);
-            UMLOperationList operations = c->getOpList();
+            UMLOperationList operations = c->getOperationsList();
             for(UMLOperation *op : operations) {
                 // save the source code
                 QString code = op->getSourceCode();
@@ -656,7 +656,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
     }
 
     //operations
-    UMLOperationList opl(c->getOpList());
+    UMLOperationList opl(c->getOperationsList());
     for(UMLOperation *op : opl) {
         temp = nullptr;
         //check return value

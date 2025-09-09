@@ -505,7 +505,7 @@ void ClassifierCodeDocument::syncClassFields()
  */
 void ClassifierCodeDocument::updateOperations()
 {
-    UMLOperationList opList(getParentClassifier()->getOpList());
+    UMLOperationList opList(getParentClassifier()->getOperationsList());
     for (UMLOperation *op : opList) {
         QString tag = CodeOperation::findTag(op);
         CodeOperation * codeOp = dynamic_cast<CodeOperation*>(findTextBlockByTag(tag, true));

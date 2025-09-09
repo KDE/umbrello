@@ -250,7 +250,7 @@ bool SimpleCodeGenerator::hasDefaultValueAttr(UMLClassifier *c)
  */
 bool SimpleCodeGenerator::hasAbstractOps(UMLClassifier *c)
 {
-    UMLOperationList opl(c->getOpList());
+    UMLOperationList opl(c->getOperationsList());
     for(UMLOperation* op : opl) {
         if (op->isAbstract())
             return true;

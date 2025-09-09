@@ -613,7 +613,7 @@ void ASWriter::writeClass(UMLClassifier *c)
         }
     }
 
-    UMLOperationList opList(c->getOpList());
+    UMLOperationList opList(c->getOperationsList());
     for (UMLOperation* op: opList) {
         if (op->visibility() == Uml::Visibility::Protected) {
             as << m_indentation << "ASSetPropFlags (this, \"" << cleanName(op->name()) << "\", 1);" << m_endl;
@@ -640,7 +640,7 @@ void ASWriter::writeClass(UMLClassifier *c)
     as << m_endl;
 
     //operations
-    UMLOperationList ops(c->getOpList());
+    UMLOperationList ops(c->getOperationsList());
     writeOperations(classname, &ops, as);
 
     as << m_endl;

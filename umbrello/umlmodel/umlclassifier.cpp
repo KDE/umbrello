@@ -671,7 +671,7 @@ void UMLClassifier::setNameCmd(const QString &strName)
     if (UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Cpp ||
             UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::CSharp ||
             UMLApp::app()->activeLanguage() == Uml::ProgrammingLanguage::Java) {
-        for(UMLOperation *op : getOpList()) {
+        for(UMLOperation *op : getOperationsList()) {
             if (op->isConstructorOperation())
                 op->setNameCmd(strName);
             if (op->isDestructorOperation())
@@ -909,7 +909,7 @@ int UMLClassifier::removeAttribute(UMLAttribute* att)
  */
 bool UMLClassifier::hasAbstractOps () const
 {
-    UMLOperationList opl(getOpList());
+    UMLOperationList opl(getOperationsList());
     for(UMLOperation  *op : opl) {
         uIgnoreZeroPointer(op);
         if (op->isAbstract()) {
@@ -926,7 +926,7 @@ bool UMLClassifier::hasAbstractOps () const
  */
 int UMLClassifier::operations() const
 {
-    return getOpList().count();
+    return getOperationsList().count();
 }
 
 
@@ -937,7 +937,7 @@ int UMLClassifier::operations() const
  * @param alreadyTraversed   internal used object to avoid recursive loops
  * @return   The list of operations for the Classifier.
  */
-UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSet *alreadyTraversed) const
+UMLOperationList UMLClassifier::getOperationsList(bool includeInherited, UMLClassifierSet *alreadyTraversed) const
 {
     UMLOperationList ops;
     for(UMLObject *li : subordinates()) {
@@ -965,7 +965,7 @@ UMLOperationList UMLClassifier::getOpList(bool includeInherited, UMLClassifierSe
                 continue;
             }
             // get operations for each parent by recursive call
-            UMLOperationList pops = c->getOpList(true, alreadyTraversed);
+            UMLOperationList pops = c->getOperationsList(true, alreadyTraversed);
             // add these operations to operation list, but only if unique.
             for(UMLOperation  *po : pops) {
                 QString po_as_string(po->toString(Uml::SignatureType::SigNoVis));
@@ -1290,7 +1290,7 @@ bool UMLClassifier::hasAccessorMethods() const
  */
 bool UMLClassifier::hasOperationMethods() const
 {
-    return getOpList().count() > 0 ? true : false;
+    return getOperationsList().count() > 0 ? true : false;
 }
 
 /**
@@ -1417,7 +1417,7 @@ void UMLClassifier::saveToXMI(QXmlStreamWriter& writer)
     }
 
     UMLClassifierListItemList attList = getFilteredList(UMLObject::ot_Attribute);
-    UMLOperationList          opList  = getOpList();
+    UMLOperationList          opList  = getOperationsList();
 
     if (attList.count() || opList.count()) {
         if (! Settings::optionState().generalState.uml2) {

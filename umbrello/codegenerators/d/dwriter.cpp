@@ -204,7 +204,7 @@ void DWriter::writeClass(UMLClassifier *c)
     bool hasAssociations = aggregations.count() + associations.count() + compositions.count() + uniAssociations.count() > 0;
     bool hasAttributes = atl.count() > 0;
     bool hasAccessorMethods = hasAttributes || hasAssociations;
-    bool hasOperationMethods = c->getOpList().count() > 0;
+    bool hasOperationMethods = c->getOperationsList().count() > 0;
 
     // ATTRIBUTES
     //
@@ -796,7 +796,7 @@ void DWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationList &
 
     for(UMLClassifier* classifier : superClasses) {
         getSuperImplementedOperations(classifier, yetImplementedOpList, toBeImplementedOpList, (classifier->isInterface() && noClassInPath));
-        UMLOperationList opl = classifier->getOpList();
+        UMLOperationList opl = classifier->getOperationsList();
         for(UMLOperation* op : opl) {
             if (classifier->isInterface() && noClassInPath) {
                 if (!DWriter::dMethodInList(op, toBeImplementedOpList))
@@ -829,7 +829,7 @@ void DWriter::writeOperations(UMLClassifier *c, QTextStream &d)
     UMLOperationList oppub, opprot, oppriv;
 
     //sort operations by scope first and see if there are abstract methods
-    opl = c->getOpList();
+    opl = c->getOperationsList();
     if (! c->isInterface()) {
         getInterfacesOperationsToBeImplemented(c, opl);
     }

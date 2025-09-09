@@ -354,7 +354,7 @@ void RubyClassifierCodeDocument::updateContent()
     bool hasOperationMethods = false;
     Q_ASSERT(c != nullptr);
     if (c) {
-        UMLOperationList list = c->getOpList();
+        UMLOperationList list = c->getOperationsList();
         hasOperationMethods = ! list.isEmpty();
     }
     CodeGenerationPolicy *pol = UMLApp::app()->commonPolicy();

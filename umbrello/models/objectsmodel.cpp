@@ -146,7 +146,7 @@ QVariant ObjectsModel::data(const QModelIndex & index, int role) const
                     return QStringLiteral("parent -");
             } else if (o->isUMLOperation()) {
                 const UMLClassifier *c = o->umlParent()->asUMLClassifier();
-                if (c && c->getOpList().contains(o->asUMLOperation()))
+                if (c && c->getOperationsList().contains(o->asUMLOperation()))
                     return QStringLiteral("parent +");
                 else
                     return QStringLiteral("parent -");

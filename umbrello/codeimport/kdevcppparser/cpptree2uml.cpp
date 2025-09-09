@@ -480,7 +480,7 @@ void CppTree2Uml::parseClassSpecifier(ClassSpecifierAST* ast)
 
     // check if class is an interface
     bool isInterface = true;
-    for(UMLOperation *op : klass->getOpList()) {
+    for(UMLOperation *op : klass->getOperationsList()) {
         if (!op->isDestructorOperation() && op->isAbstract() == false)
             isInterface = false;
     }

@@ -1200,7 +1200,7 @@ void CppWriter::writeOperations(UMLClassifier *c, bool isHeaderMethod,
     UMLOperationList oplist;
 
     //sort operations by scope first and see if there are abstract methods
-    UMLOperationList inputlist = c->getOpList();
+    UMLOperationList inputlist = c->getOperationsList();
     for (UMLOperation* op : inputlist) {
         if (op->visibility() == permitScope) {
             oplist.append(op);

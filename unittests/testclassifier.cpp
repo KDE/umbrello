@@ -166,11 +166,11 @@ void TEST_classifier::test_findOperations()
     UMLClassifier c(QStringLiteral("Test A"), Uml::ID::None);
     UMLOperation o1(nullptr, QStringLiteral("testop1"));
     c.addOperation(&o1);
-    int num1 = c.getOpList().count();
+    int num1 = c.getOperationsList().count();
     QCOMPARE(num1, 1);
     UMLOperation o2(nullptr, QStringLiteral("testop2"));
     c.addOperation(&o2);
-    int num2 = c.getOpList().count();
+    int num2 = c.getOperationsList().count();
     QCOMPARE(num2, 2);
     QCOMPARE(c.findOperations(QStringLiteral("testop1")).count(), 1);
     QCOMPARE(c.findOperations(QStringLiteral("testop2")).count(), 1);

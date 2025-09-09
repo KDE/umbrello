@@ -126,7 +126,7 @@ void JavaWriter::writeClass(UMLClassifier *c)
     bool hasAssociations = aggregations.count() > 0 || associations.count() > 0 || compositions.count() > 0 || uniAssociations.count() > 0;
     bool hasAttributes = (atl.count() > 0);
     bool hasAccessorMethods = hasAttributes || hasAssociations;
-    bool hasOperationMethods = (c->getOpList().count() > 0);
+    bool hasOperationMethods = (c->getOperationsList().count() > 0);
     // this is a bit too simplistic..some associations are for
     // SINGLE objects, and WONT be declared as Vectors, so this
     // is a bit overly inclusive
@@ -814,7 +814,7 @@ void JavaWriter::getSuperImplementedOperations(UMLClassifier *c, UMLOperationLis
     for (UMLClassifier *classifier :  superClasses) {
 
         getSuperImplementedOperations(classifier, yetImplementedOpList, toBeImplementedOpList, (classifier->isInterface() && noClassInPath));
-        UMLOperationList opl = classifier->getOpList();
+        UMLOperationList opl = classifier->getOperationsList();
         for (UMLOperation *op :  opl) {
             if (classifier->isInterface() && noClassInPath) {
                 if (!JavaWriter::javaMethodInList(op, toBeImplementedOpList))
@@ -857,7 +857,7 @@ void JavaWriter::writeOperations(UMLClassifier *c, QTextStream &java) {
     UMLOperationList oppub, opprot, oppriv;
 
     //sort operations by scope first and see if there are abstract methods
-    opl = c->getOpList();
+    opl = c->getOperationsList();
     if (! c->isInterface()) {
         getInterfacesOperationsToBeImplemented(c, opl);
     }

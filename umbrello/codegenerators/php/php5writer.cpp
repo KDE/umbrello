@@ -3158,7 +3158,7 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php)
     bool generateErrorStub = false;
 
     //sort operations by scope first and see if there are abstract methods
-    UMLOperationList opl(c->getOpList());
+    UMLOperationList opl(c->getOperationsList());
     for(UMLOperation *op : opl) {
         switch(op->visibility()) {
           case Uml::Visibility::Public:
@@ -3209,7 +3209,7 @@ void Php5Writer::writeOperations(UMLClassifier *c, QTextStream &php)
             if (real == c)
                 continue;
 
-            UMLOperationList opl(real->getOpList());
+            UMLOperationList opl(real->getOperationsList());
             for(UMLOperation *op : opl) {
                 opreal.append(op);
             }

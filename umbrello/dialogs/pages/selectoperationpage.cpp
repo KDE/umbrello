@@ -220,7 +220,7 @@ bool SelectOperationPage::setClassOp(const QString &op)
 void SelectOperationPage::setupOperationsList()
 {
     m_pOpCB->clear();
-    UMLOperationList list = m_classifier->getOpList(true);
+    UMLOperationList list = m_classifier->getOperationsList(true);
     if (list.count() > 0)
         m_pOpCB->insertItem(0, QString());
     std::sort(list.begin(), list.end(), caseInsensitiveLessThan);

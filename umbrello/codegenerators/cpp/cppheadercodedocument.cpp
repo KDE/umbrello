@@ -367,7 +367,7 @@ void CPPHeaderCodeDocument::updateContent()
     CodeClassFieldList privCompositionClassFields = getSpecificClassFields (CodeClassField::Composition, Uml::Visibility::Private);
 
     bool hasOperationMethods = false;
-    UMLOperationList list = c->getOpList();
+    UMLOperationList list = c->getOperationsList();
     hasOperationMethods = ! list.isEmpty();
 
     bool hasNamespace = false;

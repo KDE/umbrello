@@ -682,7 +682,7 @@ void RefactoringAssistant::addClassifier(UMLClassifier *classifier, QTreeWidgetI
     QTreeWidgetItem *opsFolder = new QTreeWidgetItem(classifierItem, itemTextOp);
     opsFolder->setIcon(0, Icon_Utils::SmallIcon(Icon_Utils::it_Folder_Orange));
     opsFolder->setExpanded(true);
-    UMLOperationList ops(classifier->getOpList());
+    UMLOperationList ops(classifier->getOperationsList());
     for(UMLOperation *op : ops) {
         operationAdded(op);
     }

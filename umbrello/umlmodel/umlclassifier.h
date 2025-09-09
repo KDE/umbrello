@@ -82,7 +82,7 @@ public:
 
     int operations() const;
 
-    UMLOperationList getOpList(bool includeInherited = false, UMLClassifierSet  *alreadyTraversed = nullptr) const;
+    UMLOperationList getOperationsList(bool includeInherited = false, UMLClassifierSet  *alreadyTraversed = nullptr) const;
 
     UMLObject* createTemplate(const QString& name = QString());
 
