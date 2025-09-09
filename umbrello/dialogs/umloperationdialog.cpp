@@ -183,7 +183,7 @@ void UMLOperationDialog::setupDialog()
     m_pDownButton->setEnabled(false);
 
     // fill in parm list box
-    UMLAttributeList list = m_operation->getParmList();
+    UMLAttributeList list = m_operation->getParameterList();
     for(UMLAttribute* pAtt : list) {
         m_pParmsLW->addItem(pAtt->toString(Uml::SignatureType::SigNoVis));
     }
@@ -289,7 +289,7 @@ void UMLOperationDialog::slotNewParameter()
 
 void UMLOperationDialog::slotDeleteParameter()
 {
-    UMLAttribute* pOldAtt = m_operation->getParmList().at(m_pParmsLW->row(m_pParmsLW->currentItem()));
+    UMLAttribute* pOldAtt = m_operation->getParameterList().at(m_pParmsLW->row(m_pParmsLW->currentItem()));
 
     m_operation->removeParm(pOldAtt);
     m_pParmsLW->takeItem(m_pParmsLW->currentRow());
@@ -306,7 +306,7 @@ void UMLOperationDialog::slotParameterProperties()
     UMLAttribute  *pAtt = nullptr, * pOldAtt = nullptr;
 
     int position = m_pParmsLW->row(m_pParmsLW->currentItem());
-    pOldAtt = m_operation->getParmList().at(position);
+    pOldAtt = m_operation->getParameterList().at(position);
     if (!pOldAtt) {
         logDebug1("UMLOperationDialog::slotParameterProperties: The impossible has occurred for: %1",
                   m_pParmsLW->currentItem()->text());
@@ -347,7 +347,7 @@ void UMLOperationDialog::slotParameterUp()
     int row = m_pParmsLW->currentRow();
     QListWidgetItem* item = m_pParmsLW->currentItem();
     if (item) {
-        UMLAttribute* pOldAtt = m_operation->getParmList().at(m_pParmsLW->row(item));
+        UMLAttribute* pOldAtt = m_operation->getParameterList().at(m_pParmsLW->row(item));
 
         m_operation->moveParmLeft(pOldAtt);
         m_pParmsLW->takeItem(row);
@@ -366,7 +366,7 @@ void UMLOperationDialog::slotParameterDown()
     int row = m_pParmsLW->currentRow();
     QListWidgetItem* item = m_pParmsLW->currentItem();
     if (item) {
-        UMLAttribute* pOldAtt = m_operation->getParmList().at(m_pParmsLW->row(item));
+        UMLAttribute* pOldAtt = m_operation->getParameterList().at(m_pParmsLW->row(item));
 
         m_operation->moveParmRight(pOldAtt);
         m_pParmsLW->takeItem(row);
@@ -417,7 +417,7 @@ bool UMLOperationDialog::apply()
 
     UMLClassifier *classifier = m_operation->umlParent()->asUMLClassifier();
     if(classifier != nullptr &&
-            classifier->checkOperationSignature(name, m_operation->getParmList(), m_operation))
+            classifier->checkOperationSignature(name, m_operation->getParameterList(), m_operation))
     {
         QString msg = i18n("An operation with that signature already exists in %1.\n", classifier->name())
                       +

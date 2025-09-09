@@ -1235,7 +1235,7 @@ void CppWriter::writeOperations(UMLClassifier *c, UMLOperationList &oplist, bool
     for (UMLOperation* op : oplist) {
         QString doc;  // buffer for documentation
         QString methodReturnType;
-        UMLAttributeList atl = op->getParmList();  // method parameters
+        UMLAttributeList atl = op->getParameterList();  // method parameters
 
         if (op->isConstructorOperation()) {
             if (generateEmptyConstructors && atl.count() == 0)

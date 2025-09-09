@@ -721,7 +721,7 @@ void TclWriter::writeOperationHeader(UMLClassifier * c, Uml::Visibility::Enum pe
             code = scope + QStringLiteral(" method ") + name + QStringLiteral(" {");
         }
         // method parameters
-        UMLAttributeList atl = op->getParmList();
+        UMLAttributeList atl = op->getParameterList();
         j = 0;
         for(UMLAttribute* at : atl) {
             QString typeName = fixTypeName(at->getTypeName());
@@ -786,7 +786,7 @@ void TclWriter::writeOperationSource(UMLClassifier * c, Uml::Visibility::Enum pe
         writeComm(name);
         code = QStringLiteral("body ") + name + QStringLiteral(" {");
         // parameters
-        UMLAttributeList atl = op->getParmList();
+        UMLAttributeList atl = op->getParameterList();
         j = 0;
         for(UMLAttribute* at : atl) {
             QString atName = cleanName(at->name());

@@ -258,7 +258,7 @@ void RubyWriter::writeOperations(const QString &classname, const UMLOperationLis
         methodName.remove(QStringLiteral("operator "));
         methodName = methodName.mid(0, 1).toLower() + methodName.mid(1);
 
-        UMLAttributeList atl = op->getParmList();
+        UMLAttributeList atl = op->getParameterList();
         // Always write out the docs for ruby as the type of the
         // arguments and return value of the methods is useful
         bool writeDoc = true;

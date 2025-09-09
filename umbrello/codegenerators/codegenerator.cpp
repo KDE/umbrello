@@ -665,7 +665,7 @@ void CodeGenerator::findObjectsRelated(UMLClassifier *c, UMLPackageList &cList)
             cList.append(temp);
         }
         //check parameters
-        UMLAttributeList atl = op->getParmList();
+        UMLAttributeList atl = op->getParameterList();
         for(UMLAttribute *at : atl) {
             temp = (UMLClassifier*)at->getType();
             if (temp && !temp->isUMLDatatype() && !cList.count(temp)) {

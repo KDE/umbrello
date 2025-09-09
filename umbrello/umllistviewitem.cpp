@@ -558,7 +558,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
             // TODO: Check that no operation with the exact same profile exists.
             UMLApp::app()->executeCommand(new Uml::CmdRenameUMLObject(op, od.m_name));
             op->setType(od.m_pReturnType);
-            UMLAttributeList parmList = op->getParmList();
+            UMLAttributeList parmList = op->getParameterList();
             const int newParmListCount = parmList.count();
             if (newParmListCount > od.m_args.count()) {
                 // Remove parameters at end of of list that no longer exist.

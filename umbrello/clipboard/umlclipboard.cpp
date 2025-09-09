@@ -655,7 +655,7 @@ bool UMLClipboard::pasteClip5(const QMimeData* data)
         case UMLObject::ot_Operation :
             {
                 UMLOperation *op = obj->asUMLOperation();
-                UMLOperation *exist = parent->checkOperationSignature(op->name(), op->getParmList());
+                UMLOperation *exist = parent->checkOperationSignature(op->name(), op->getParameterList());
                 if (exist) {
                     QString newName = parent->uniqChildName(UMLObject::ot_Operation, obj->name());
                     op->setName(newName);

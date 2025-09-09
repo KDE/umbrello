@@ -140,7 +140,7 @@ QVariant ObjectsModel::data(const QModelIndex & index, int role) const
         } else if (o->umlParent()) {
             if (o->isUMLAttribute()) {
                 const UMLOperation *op = o->umlParent()->asUMLOperation();
-                if (op && op->getParmList().contains(o->asUMLAttribute()))
+                if (op && op->getParameterList().contains(o->asUMLAttribute()))
                     return QStringLiteral("parent +");
                 else
                     return QStringLiteral("parent -");

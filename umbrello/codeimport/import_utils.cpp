@@ -563,7 +563,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
         op->setDoc(strippedComment);
     }
 
-    UMLAttributeList params = op->getParmList();
+    UMLAttributeList params = op->getParameterList();
     UMLOperation *exist = klass->checkOperationSignature(op->name(), params);
     if (exist) {
         // copy contents to existing operation
@@ -572,7 +572,7 @@ void insertMethod(UMLClassifier *klass, UMLOperation* &op,
         exist->setAbstract(isAbstract);
         if (! strippedComment.isEmpty())
             exist->setDoc(strippedComment);
-        UMLAttributeList exParams = exist->getParmList();
+        UMLAttributeList exParams = exist->getParameterList();
         for (UMLAttributeListIt it(params), exIt(exParams) ; it.hasNext() ;) {
             UMLAttribute *param = it.next(), *exParam = exIt.next();
             exParam->setName(param->name());

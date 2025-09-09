@@ -817,7 +817,7 @@ DEBUG() << "acceptProposedAction";  //:TODO:fischer
     if (t == UMLObject::ot_Operation) {
         DEBUG() << "Moving operation";
         UMLOperation *op = movingObject->asUMLOperation();
-        if (newClassifier->checkOperationSignature(op->name(), op->getParmList())) {
+        if (newClassifier->checkOperationSignature(op->name(), op->getParameterList())) {
             QString msg = i18n("An operation with that signature already exists in %1.\n", newClassifier->name())
                           +
                           i18n("Choose a different name or parameter list.");

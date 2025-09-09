@@ -429,7 +429,7 @@ void IDLWriter::writeClass(UMLClassifier *c)
  */
 void IDLWriter::writeOperation(UMLOperation *op, QTextStream &idl, bool is_comment)
 {
-    UMLAttributeList atl = op->getParmList();
+    UMLAttributeList atl = op->getParameterList();
     QString rettype = op->getTypeName();
 
     if (rettype.isEmpty())

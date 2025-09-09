@@ -401,7 +401,7 @@ void PythonWriter::writeOperations(const QString& classname, UMLOperationList &o
     }
 
     for(UMLOperation* op :  opList) {
-        UMLAttributeList atl = op->getParmList();
+        UMLAttributeList atl = op->getParameterList();
         //write method doc if we have doc || if at least one of the params has doc
         bool writeDoc = forceDoc() || !op->doc().isEmpty();
         for(UMLAttribute* at : atl)

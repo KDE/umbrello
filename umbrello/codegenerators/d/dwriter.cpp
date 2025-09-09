@@ -766,8 +766,8 @@ bool DWriter::compareDMethod(UMLOperation *op1, UMLOperation *op2)
         return true;
     if (op1->name() != op2->name())
         return false;
-    UMLAttributeList atl1 = op1->getParmList();
-    UMLAttributeList atl2 = op2->getParmList();
+    UMLAttributeList atl1 = op1->getParameterList();
+    UMLAttributeList atl2 = op2->getParameterList();
     if (atl1.count() != atl2.count())
         return false;
 
@@ -901,7 +901,7 @@ void DWriter::writeOperations(UMLOperationList &oplist, QTextStream &d)
 
         str += methodReturnType + QLatin1Char(' ') + cleanName(op->name()) + QLatin1Char('(');
 
-        atl = op->getParmList();
+        atl = op->getParameterList();
         int i = atl.count();
         int j = 0;
         for (UMLAttributeListIt atlIt(atl); atlIt.hasNext();  ++j) {

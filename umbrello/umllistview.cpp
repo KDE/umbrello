@@ -1863,7 +1863,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                                               op->name(), &isExistingOp, &ntDummyList);
                     newOp->setType(op->getType());
                     newOp->setVisibility(op->visibility());
-                    UMLAttributeList parmList = op->getParmList();
+                    UMLAttributeList parmList = op->getParameterList();
                     for(UMLAttribute *parm : parmList) {
                         UMLAttribute *newParm = new UMLAttribute(newParentClassifier,
                                 parm->name(),

@@ -174,7 +174,7 @@ void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true
  *
  * @return a list of the parameters in the operation
  */
-UMLAttributeList UMLOperation::getParmList() const
+UMLAttributeList UMLOperation::getParameterList() const
 {
     return m_args;
 }

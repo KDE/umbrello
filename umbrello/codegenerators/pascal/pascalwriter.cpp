@@ -351,7 +351,7 @@ void PascalWriter::writeOperation(UMLOperation *op, QTextStream &pas, bool is_co
         pas << "// TODO: generate status method " << op->name() << m_endl;
         return;
     }
-    UMLAttributeList atl = op->getParmList();
+    UMLAttributeList atl = op->getParameterList();
     QString rettype = op->getTypeName();
     bool use_procedure = (rettype.isEmpty() || rettype == QStringLiteral("void"));
 

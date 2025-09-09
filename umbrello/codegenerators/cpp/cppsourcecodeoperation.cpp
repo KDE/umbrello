@@ -63,7 +63,7 @@ void CPPSourceCodeOperation::updateMethodDeclaration()
     QString className = CodeGenerator::cleanName(c->name());
 
     // assemble parameters
-    UMLAttributeList list = getParentOperation()->getParmList();
+    UMLAttributeList list = getParentOperation()->getParameterList();
     int nrofParam = list.count();
     int paramNum = 0;
     for(UMLAttribute* parm : list) {

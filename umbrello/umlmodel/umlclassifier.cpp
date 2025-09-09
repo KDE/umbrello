@@ -145,7 +145,7 @@ UMLOperation * UMLClassifier::checkOperationSignature(
         if (test == exemptOp) {
             continue;
         }
-        UMLAttributeList testParams = test->getParmList();
+        UMLAttributeList testParams = test->getParameterList();
         const int pCount = testParams.count();
         if (pCount != inputParmCount) {
             continue;
@@ -185,7 +185,7 @@ UMLOperation* UMLClassifier::findOperation(const QString& name,
     const int inputParmCount = params.count();
 
     for(UMLOperation* test : list) {
-        UMLAttributeList testParams = test->getParmList();
+        UMLAttributeList testParams = test->getParameterList();
         const int pCount = testParams.count();
         if (inputParmCount == 0 && pCount == 0)
             return test;
@@ -276,7 +276,7 @@ UMLOperation* UMLClassifier::createOperation(
                 delete op;
                 delete operationDialog;
                 return nullptr;
-            } else if (checkOperationSignature(op->name(), op->getParmList())) {
+            } else if (checkOperationSignature(op->name(), op->getParameterList())) {
                 KMessageBox::information(nullptr,
                                          i18n("An operation with the same name and signature already exists. You cannot add it again."));
             } else {
@@ -312,7 +312,7 @@ bool UMLClassifier::addOperation(UMLOperation* op, int position)
         logDebug1("UMLClassifier::addOperation: findRef(%1) finds op (bad)", op->name());
         return false;
     }
-    if (checkOperationSignature(op->name(), op->getParmList())) {
+    if (checkOperationSignature(op->name(), op->getParameterList())) {
         logDebug1("UMLClassifier::addOperation: checkOperationSignature(%1) op is non-unique",
                   op->name());
         return false;

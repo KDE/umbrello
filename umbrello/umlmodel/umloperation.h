@@ -40,7 +40,7 @@ public:
 
     void removeParm(UMLAttribute *a, bool emitModifiedSignal = true);
 
-    UMLAttributeList getParmList() const;
+    UMLAttributeList getParameterList() const;
 
     UMLAttribute * findParm(const QString &name) const;
 

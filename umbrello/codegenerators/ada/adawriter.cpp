@@ -439,7 +439,7 @@ void AdaWriter::writeClass(UMLClassifier *c)
  */
 void AdaWriter::writeOperation(UMLOperation *op, QTextStream &ada, bool is_comment)
 {
-    UMLAttributeList atl = op->getParmList();
+    UMLAttributeList atl = op->getParameterList();
     QString rettype = op->getTypeName();
     bool use_procedure = (rettype.isEmpty() || rettype == QStringLiteral("void"));
 

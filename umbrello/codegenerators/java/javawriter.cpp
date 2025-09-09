@@ -770,8 +770,8 @@ bool JavaWriter::compareJavaMethod(UMLOperation *op1, UMLOperation *op2)
         return true;
     if (op1->name() != op2->name())
         return false;
-    UMLAttributeList atl1 = op1->getParmList();
-    UMLAttributeList atl2 = op2->getParmList();
+    UMLAttributeList atl1 = op1->getParameterList();
+    UMLAttributeList atl2 = op2->getParameterList();
     if (atl1.count() != atl2.count())
         return false;
     for (UMLAttributeListIt atl1It(atl1), atl2It(atl2); atl1It.hasNext() && atl2It.hasNext();) {
@@ -934,7 +934,7 @@ void JavaWriter::writeOperations(UMLOperationList &oplist, QTextStream &java)
         str += (op->isStatic() ? QStringLiteral("static ") : QString());
         str += methodReturnType + QLatin1Char(' ') + cleanName(op->name()) + QLatin1Char('(');
 
-        atl = op->getParmList();
+        atl = op->getParameterList();
         i= atl.count();
         j=0;
         for (UMLAttribute* at :  atl) {
