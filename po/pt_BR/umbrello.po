@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-04 02:01+0000\n"
-"PO-Revision-Date: 2025-08-27 11:24-0300\n"
+"PO-Revision-Date: 2025-09-08 09:29-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -7142,17 +7142,15 @@ msgstr "&Editar"
 
 #. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
-#, fuzzy, kde-format
-#| msgid "Views"
+#, kde-format
 msgid "&View"
-msgstr "Visões"
+msgstr "E&xibir"
 
 #. i18n: ectx: Menu (view_window)
 #: umbrelloui.rc.cmake:15
-#, fuzzy, kde-format
-#| msgid "Show debug window"
+#, kde-format
 msgid "&Show/hide window"
-msgstr "Mostrar janela de depuração"
+msgstr "&Mostrar/ocultar janela"
 
 #. i18n: ectx: Menu (diagram)
 #: umbrelloui.rc.cmake:26
@@ -7642,10 +7640,9 @@ msgid "XHTML Generation failed ."
 msgstr "A geração de XHTML falhou."
 
 #: umlappprivate.h:101
-#, fuzzy, kde-format
-#| msgid "Show debug window"
+#, kde-format
 msgid "Show/hide window"
-msgstr "Mostrar janela de depuração"
+msgstr "Mostrar/ocultar janela"
 
 #: umlappprivate.h:169
 #, kde-format
