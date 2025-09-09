@@ -349,7 +349,7 @@ void UMLOperationDialog::slotParameterUp()
     if (item) {
         UMLAttribute* pOldAtt = m_operation->getParameterList().at(m_pParmsLW->row(item));
 
-        m_operation->moveParmLeft(pOldAtt);
+        m_operation->moveParameterLeft(pOldAtt);
         m_pParmsLW->takeItem(row);
         m_pParmsLW->insertItem(row - 1, item);
 

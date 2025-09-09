@@ -35,7 +35,7 @@ public:
 
     void setType(UMLObject* type);
 
-    void moveParmLeft(UMLAttribute *a);
+    void moveParameterLeft(UMLAttribute *a);
     void moveParmRight(UMLAttribute *a);
 
     void removeParameter(UMLAttribute *a, bool emitModifiedSignal = true);

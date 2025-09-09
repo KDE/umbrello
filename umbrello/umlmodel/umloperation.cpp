@@ -102,7 +102,7 @@ void UMLOperation::setType(UMLObject* type)
  *
  * @param a   the parameter to move
  */
-void UMLOperation::moveParmLeft(UMLAttribute * a)
+void UMLOperation::moveParameterLeft(UMLAttribute * a)
 {
     if (a == nullptr) {
         logDebug0("UMLOperation::moveParmLeft called on NULL attribute");
