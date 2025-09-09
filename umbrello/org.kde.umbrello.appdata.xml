@@ -36,7 +36,6 @@
   <name xml:lang="sv">Umbrello</name>
   <name xml:lang="tr">Umbrello</name>
   <name xml:lang="uk">Umbrello</name>
-  <name xml:lang="x-test">xxUmbrelloxx</name>
   <name xml:lang="zh-CN">Umbrello</name>
   <name xml:lang="zh-TW">Umbrello</name>
   <summary>UML Modeller</summary>
@@ -69,7 +68,6 @@
   <summary xml:lang="sv">UML-modellering</summary>
   <summary xml:lang="tr">UML Modelleyicisi</summary>
   <summary xml:lang="uk">Засіб моделювання UML</summary>
-  <summary xml:lang="x-test">xxUML Modellerxx</summary>
   <summary xml:lang="zh-CN">UML 建模工具</summary>
   <summary xml:lang="zh-TW">UML Modeller</summary>
   <description>
@@ -106,7 +104,6 @@
     <p xml:lang="sv">Umbrello är ett modelleringsverktyg för Unified Modelling Language och kodgenerator. Det kan skapa diagram av programvara och andra system med industristandardformatet UML, och kan också skapa kod från UML-diagram på ett antal olika programspråk.</p>
     <p xml:lang="tr">Umbrello, Birleşik Modelleme Dili (UML) modelleme aracı ve kod üretecidir. Endüstri standardı UML biçiminde yazılım ve diğer sistem çizimlerini oluşturabilir ve ayrıca çeşitli programlama dillerinde UML çizimlerinden kod üretebilir.</p>
     <p xml:lang="uk">Umbrello — засіб моделювання уніфікованою мовою моделювання (UML) та інструмент для створення шаблонів коду. Програма здатна створювати діаграми систем програмного забезпечення та інших систем у стандартному форматі UML та реалізовувати діаграми UML у програмному коді багатьма мовами програмування.</p>
-    <p xml:lang="x-test">xxUmbrello is a Unified Modelling Language (UML) modelling tool and code generator. It can create diagrams of software and other systems in the industry-standard UML format, and can also generate code from UML diagrams in a variety of programming languages.xx</p>
     <p xml:lang="zh-CN">Umbrello 是一个统一建模语言（UML）建模工具和代码生成器。 它可以用行业标准的UML 格式绘制软件和其他系统图表，并且还可以从 UML 图生成各种编程语言的代码。</p>
     <p xml:lang="zh-TW">Umbrello 是一個統一塑模語言 (UML) 的建模工具與程式碼生成器。它可以建立軟體與其他系統圖表在工業標準的 UML 格式中，並可以從 UML 圖中生成許多不同的程式語言。</p>
     <p>Features:</p>
@@ -139,7 +136,6 @@
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
-    <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">功能：</p>
     <p xml:lang="zh-TW">功能：</p>
     <ul>
@@ -173,7 +169,6 @@
       <li xml:lang="sv">Format som stöds: XMI</li>
       <li xml:lang="tr">Desteklenen biçimler: XMI</li>
       <li xml:lang="uk">Підтримувані формати: XMI</li>
-      <li xml:lang="x-test">xxSupported formats: XMIxx</li>
       <li xml:lang="zh-CN">支持格式：XMI</li>
       <li xml:lang="zh-TW">支援的格式：XMI</li>
       <li>Several type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationship</li>
@@ -205,7 +200,6 @@
       <li xml:lang="sv">Flera diagramtyper stöds: användningsfall, klass, sekvens, kommunikation, tillstånd, aktivitet, komponent, utplacering, objektsamband</li>
       <li xml:lang="tr">Çeşitli türde diyagramlar desteklenir: Kullanım senaryosu, sınıf, sıralama, iletişim, durum, eylem, bileşen, dağılım, varlık bağıntısı</li>
       <li xml:lang="uk">Підтримка декількох типів діаграм: випадків використання, класів, послідовності, обміну даними, станів, компонент, розміщення та взаємозв’язку компонентів.</li>
-      <li xml:lang="x-test">xxSeveral type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationshipxx</li>
       <li xml:lang="zh-CN">数种受支持的图表：用例图、类图、时序图、通信图、状态图、活动图、组件图、部署图、ER（实体关系）图</li>
       <li xml:lang="zh-TW">支援數種類型的圖表：使用範例、類、序列、協作、狀態、活動、組件、佈署、實體關係</li>
     </ul>
@@ -246,7 +240,6 @@
       <caption xml:lang="sv">Visa klassdiagram</caption>
       <caption xml:lang="tr">Sınıf diyagramı gösteriliyor</caption>
       <caption xml:lang="uk">Показ діаграми класу</caption>
-      <caption xml:lang="x-test">xxShowing class diagramxx</caption>
       <image>https://cdn.kde.org/screenshots/umbrello/umbrello.png</image>
     </screenshot>
   </screenshots>
