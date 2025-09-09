@@ -47,7 +47,7 @@ public:
     QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig,
                      bool withStereotype=false) const;
 
-    void addParm(UMLAttribute *parameter, int position = -1);
+    void addParameter(UMLAttribute *parameter, int position = -1);
 
     bool resolveRef();
 

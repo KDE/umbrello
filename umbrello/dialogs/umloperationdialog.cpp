@@ -273,7 +273,7 @@ void UMLOperationDialog::slotNewParameter()
 
         if (!pAtt) {
             newAttribute->setID(UniqueID::gen());
-            m_operation->addParm(newAttribute);
+            m_operation->addParameter(newAttribute);
             m_pParmsLW->addItem(newAttribute->toString(Uml::SignatureType::SigNoVis));
             m_doc->setModified(true);
         } else {

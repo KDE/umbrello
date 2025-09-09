@@ -356,7 +356,7 @@ public:
            item->setID(UniqueID::gen());
         logDebug2("petaltree2uml ParametersReader::insertAtParent(%1): Adding parameter %2",
                   m_operation->name(), item->name());
-        m_operation->addParm(item->asUMLAttribute());
+        m_operation->addParameter(item->asUMLAttribute());
     }
 protected:
     UMLOperation *m_operation;

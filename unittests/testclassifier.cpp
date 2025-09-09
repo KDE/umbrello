@@ -195,12 +195,12 @@ void TEST_classifier::test_findOperation()
     UMLOperation o1(nullptr, QStringLiteral("testop1"));
     UMLAttribute a1(nullptr, QStringLiteral("aParam"));
     a1.setTypeName(QStringLiteral("int"));
-    o1.addParm(&a1);
+    o1.addParameter(&a1);
     c.addOperation(&o1);
     UMLOperation o2(nullptr, QStringLiteral("testop1"));
     UMLAttribute a2(nullptr, QStringLiteral("aParam"));
     a2.setTypeName(QStringLiteral("double"));
-    o2.addParm(&a2);
+    o2.addParameter(&a2);
     c.addOperation(&o2);
     Model_Utils::NameAndType_List searchTypes;
     // first function

@@ -256,7 +256,7 @@ UMLOperation* UMLClassifier::createOperation(
             UMLAttribute *par = new UMLAttribute(op, nt.m_name, Uml::ID::None, Uml::Visibility::Private,
                                                  nt.m_type, nt.m_initialValue);
             par->setParmKind(nt.m_direction);
-            op->addParm(par);
+            op->addParameter(par);
         }
     }
 

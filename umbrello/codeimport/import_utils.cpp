@@ -608,7 +608,7 @@ UMLAttribute* addMethodParameter(UMLOperation *method,
         bPutAtGlobalScope = false;
     }
     UMLAttribute *attr = Object_Factory::createAttribute(method, name, typeObj);
-    method->addParm(attr);
+    method->addParameter(attr);
     return attr;
 }
 

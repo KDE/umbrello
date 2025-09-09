@@ -272,7 +272,7 @@ QString UMLOperation::toString(Uml::SignatureType::Enum sig, bool withStereotype
  *                  If position = -1 the parameter will be
  *                  appended to the list.
  */
-void UMLOperation::addParm(UMLAttribute *parameter, int position)
+void UMLOperation::addParameter(UMLAttribute *parameter, int position)
 {
     if (position >= 0 && position <= (int)m_args.count())
         m_args.insert(position, parameter);

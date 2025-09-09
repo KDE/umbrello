@@ -582,7 +582,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
                 a->setParmKind(nm_tp.m_direction);
                 a->setInitialValue(nm_tp.m_initialValue);
                 if (i >= newParmListCount) {
-                    op->addParm(a);
+                    op->addParameter(a);
                 }
             }
             m_label = op->toString(Uml::SignatureType::SigNoVis);

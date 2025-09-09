@@ -1872,7 +1872,7 @@ UMLListViewItem * UMLListView::moveObject(Uml::ID::Type srcId, UMLListViewItem::
                                 parm->getType(),
                                 parm->getInitialValue());
                         newParm->setParmKind(parm->getParmKind());
-                        newOp->addParm(newParm);
+                        newOp->addParameter(newParm);
                     }
                     newItem->setUMLObject(newOp);
                     newParent->addChildItem(newOp, newItem);
