@@ -269,7 +269,7 @@ void UMLOperationDialog::slotNewParameter()
 
     QPointer<ParameterPropertiesDialog> dlg = new ParameterPropertiesDialog(this, m_doc, newAttribute);
     if (dlg->exec()) {
-        pAtt = m_operation->findParm(newAttribute->name());
+        pAtt = m_operation->findParameter(newAttribute->name());
 
         if (!pAtt) {
             newAttribute->setID(UniqueID::gen());
@@ -322,7 +322,7 @@ void UMLOperationDialog::slotParameterProperties()
         bool namingConflict = false;
         QString newName = tempAttribute->name();
 
-        pAtt = m_operation->findParm(newName); // search whether a parameter with this name already exists
+        pAtt = m_operation->findParameter(newName); // search whether a parameter with this name already exists
         if(pAtt && pAtt != pOldAtt) {
             KMessageBox::error(this, i18n("The parameter name you have chosen is already being used in this operation."),
                                i18n("Parameter Name Not Unique"), KMessageBox::Option(0));

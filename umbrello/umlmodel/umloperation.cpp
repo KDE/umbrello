@@ -185,7 +185,7 @@ UMLAttributeList UMLOperation::getParameterList() const
  * @param name      the parameter name to search for
  * @return          the found parameter, 0 if not found
  */
-UMLAttribute* UMLOperation::findParm(const QString &name) const
+UMLAttribute* UMLOperation::findParameter(const QString &name) const
 {
     for(UMLAttribute *obj: m_args) {
         if (obj->name() == name)
@@ -289,7 +289,7 @@ QString UMLOperation::getUniqueParameterName() const
 {
     QString currentName = i18n("new_parameter");
     QString name = currentName;
-    for (int number = 1; findParm(name); ++number) {
+    for (int number = 1; findParameter(name); ++number) {
         name = currentName + QLatin1Char('_') + QString::number(number);
     }
     return name;

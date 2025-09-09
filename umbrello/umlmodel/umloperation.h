@@ -42,7 +42,7 @@ public:
 
     UMLAttributeList getParameterList() const;
 
-    UMLAttribute * findParm(const QString &name) const;
+    UMLAttribute * findParameter(const QString &name) const;
 
     QString toString(Uml::SignatureType::Enum sig = Uml::SignatureType::NoSig,
                      bool withStereotype=false) const;
