@@ -126,7 +126,7 @@ void UMLOperation::moveParameterLeft(UMLAttribute * a)
  *
  * @param a   the parameter to move
  */
-void UMLOperation::moveParmRight(UMLAttribute * a)
+void UMLOperation::moveParameterRight(UMLAttribute * a)
 {
     if (a == nullptr) {
         logDebug0("UMLOperation::moveParmRight called on NULL attribute");
