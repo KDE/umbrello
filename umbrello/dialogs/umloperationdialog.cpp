@@ -291,7 +291,7 @@ void UMLOperationDialog::slotDeleteParameter()
 {
     UMLAttribute* pOldAtt = m_operation->getParameterList().at(m_pParmsLW->row(m_pParmsLW->currentItem()));
 
-    m_operation->removeParm(pOldAtt);
+    m_operation->removeParameter(pOldAtt);
     m_pParmsLW->takeItem(m_pParmsLW->currentRow());
     m_doc->setModified(true);
 

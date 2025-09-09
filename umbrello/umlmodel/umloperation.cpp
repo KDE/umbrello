@@ -154,7 +154,7 @@ void UMLOperation::moveParmRight(UMLAttribute * a)
  *                  which creates an entry in the Undo stack for the
  *                  removal, default: true
  */
-void UMLOperation::removeParm(UMLAttribute * a, bool emitModifiedSignal /* =true */)
+void UMLOperation::removeParameter(UMLAttribute * a, bool emitModifiedSignal /* =true */)
 {
     if (a == nullptr) {
         logDebug0("UMLOperation::removeParm called on NULL attribute");

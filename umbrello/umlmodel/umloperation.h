@@ -38,7 +38,7 @@ public:
     void moveParmLeft(UMLAttribute *a);
     void moveParmRight(UMLAttribute *a);
 
-    void removeParm(UMLAttribute *a, bool emitModifiedSignal = true);
+    void removeParameter(UMLAttribute *a, bool emitModifiedSignal = true);
 
     UMLAttributeList getParameterList() const;
 

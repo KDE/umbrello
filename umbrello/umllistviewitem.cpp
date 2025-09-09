@@ -564,7 +564,7 @@ void UMLListViewItem::slotEditFinished(const QString &newText)
                 // Remove parameters at end of of list that no longer exist.
                 for (int i = od.m_args.count(); i < newParmListCount; i++) {
                     UMLAttribute *a = parmList.at(i);
-                    op->removeParm(a, false);
+                    op->removeParameter(a, false);
                 }
             }
             Model_Utils::NameAndType_ListIt lit = od.m_args.begin();
