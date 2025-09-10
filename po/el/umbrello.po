@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-04 02:01+0000\n"
+"POT-Creation-Date: 2025-09-10 01:58+0000\n"
 "PO-Revision-Date: 2023-07-29 17:38+0300\n"
 "Last-Translator: Theofilos Intzoglou <int.teo@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -216,7 +216,7 @@ msgstr ""
 "επειδή ένα αντικείμενο με το ίδιο όνομα υπάρχει ήδη.  Όλα τα υπόλοιπα "
 "αντικείμενα επικολλήθηκαν."
 
-#: clipboard/umlclipboard.cpp:757 uml.cpp:1518
+#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1518
 #, kde-format
 msgid "Paste Error"
 msgstr "Σφάλμα επικόλλησης"
@@ -2612,7 +2612,7 @@ msgid "N&ew Instance Attribute..."
 msgstr "Νέο χαρα&κτηριστικό στιγμιότυπου..."
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
-#: uml.cpp:546
+#: umlapp.cpp:546
 #, kde-format
 msgid "&Properties"
 msgstr "&Ιδιότητες"
@@ -2788,7 +2788,7 @@ msgstr "Έλεγχος περιορισμού..."
 msgid "<p align=\"center\">No Options Available.</p>"
 msgstr "<p align=\"center\">Χωρίς διαθέσιμες επιλογές.</p>"
 
-#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:198
+#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:199
 #, kde-format
 msgid "&Diagrams"
 msgstr "&Διαγράμματα"
@@ -2821,9 +2821,10 @@ msgstr "Το όνομα που εισάγατε δεν είναι έγκυρο."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
 #: umldoc.cpp:1540 umldoc.cpp:1604 umldoc.cpp:1633 umldoc.cpp:1668
-#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
-#: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
-#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:180
+#: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
+#: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
+#: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
+#: umlmodel/umlenum.cpp:105 umlmodel/umlpackage.cpp:180
 #, kde-format
 msgid "Invalid Name"
 msgstr "Μη έγκυρο όνομα"
@@ -4597,7 +4598,7 @@ msgstr "Απόκρυψη καταστροφής"
 msgid "Import File(s)..."
 msgstr "Εισαγωγή αρχείου(ων)..."
 
-#: menus/listpopupmenu.cpp:198 uml.cpp:367
+#: menus/listpopupmenu.cpp:198 umlapp.cpp:367
 #, kde-format
 msgid "Import from Directory..."
 msgstr "Εισαγωγή από κατάλογο..."
@@ -5096,42 +5097,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "Στοίχιση"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:565
+#: menus/widgetbasepopupmenu.cpp:594 umlapp.cpp:565
 #, kde-format
 msgid "Align Right"
 msgstr "Στοίχιση δεξιά"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:570
+#: menus/widgetbasepopupmenu.cpp:595 umlapp.cpp:570
 #, kde-format
 msgid "Align Left"
 msgstr "Στοίχιση αριστερά"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:575
+#: menus/widgetbasepopupmenu.cpp:596 umlapp.cpp:575
 #, kde-format
 msgid "Align Top"
 msgstr "Στοίχιση πάνω"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:580
+#: menus/widgetbasepopupmenu.cpp:597 umlapp.cpp:580
 #, kde-format
 msgid "Align Bottom"
 msgstr "Στοίχιση κάτω"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:585
+#: menus/widgetbasepopupmenu.cpp:599 umlapp.cpp:585
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr "Στοίχιση κατακόρυφη στο μέσο"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:590
+#: menus/widgetbasepopupmenu.cpp:600 umlapp.cpp:590
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr "Στοίχιση οριζόντια στο μέσο"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:595
+#: menus/widgetbasepopupmenu.cpp:601 umlapp.cpp:595
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr "Ισοκατανεμημένη κατακόρυφη στοίχιση"
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:600
+#: menus/widgetbasepopupmenu.cpp:602 umlapp.cpp:600
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr "Ισοκατανεμημένη οριζόντια στοίχιση"
@@ -5943,9 +5944,10 @@ msgid "Usage"
 msgstr "Χρήση"
 
 #: object_factory.cpp:254 umldoc.cpp:1633 umldoc.cpp:1668
-#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
-#: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
-#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:179
+#: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
+#: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
+#: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
+#: umlmodel/umlenum.cpp:105 umlmodel/umlpackage.cpp:179
 #, kde-format
 msgid "That is an invalid name."
 msgstr "Αυτό είναι ένα μη έγκυρο όνομα."
@@ -5964,17 +5966,18 @@ msgid "Reserved Keyword"
 msgstr "Χρησιμοποιημένη λέξη"
 
 #: object_factory.cpp:267 umldoc.cpp:1639 umldoc.cpp:1677
-#: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
-#: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
-#: umlmodel/entity.cpp:276
+#: umlmodel/umlclassifier.cpp:412 umlmodel/umlclassifier.cpp:784
+#: umlmodel/umlentity.cpp:124 umlmodel/umlentity.cpp:177
+#: umlmodel/umlentity.cpp:227 umlmodel/umlentity.cpp:276
 #, kde-format
 msgid "That name is already being used."
 msgstr "Αυτό το όνομα χρησιμοποιείται ήδη."
 
 #: object_factory.cpp:268 umldoc.cpp:1542 umldoc.cpp:1611 umldoc.cpp:1639
-#: umldoc.cpp:1677 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
-#: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
-#: umlmodel/entity.cpp:276
+#: umldoc.cpp:1677 umlmodel/umlclassifier.cpp:412
+#: umlmodel/umlclassifier.cpp:784 umlmodel/umlentity.cpp:124
+#: umlmodel/umlentity.cpp:177 umlmodel/umlentity.cpp:227
+#: umlmodel/umlentity.cpp:276
 #, kde-format
 msgid "Not a Unique Name"
 msgstr "Το όνομα δεν είναι μοναδικό"
@@ -7237,286 +7240,286 @@ msgstr "Ενεργή &γλώσσα"
 msgid "&Settings"
 msgstr "&Ρυθμίσεις"
 
-#: uml.cpp:343
+#: umlapp.cpp:343
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr "&Εξαγωγή μοντέλου σε DocBook"
 
-#: uml.cpp:347
+#: umlapp.cpp:347
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr "&Εξαγωγή μοντέλου σε XHTML"
 
-#: uml.cpp:351
+#: umlapp.cpp:351
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "Βοηθός &νέας κλάσης..."
 
-#: uml.cpp:355
+#: umlapp.cpp:355
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "&Προσθήκη προκαθορισμένων τύπων δεδομένων για την ενεργή γλώσσα"
 
-#: uml.cpp:362
+#: umlapp.cpp:362
 #, kde-format
 msgid "Code &Importing Wizard..."
 msgstr "Βοηθός ε&ισαγωγής κώδικα..."
 
-#: uml.cpp:372
+#: umlapp.cpp:372
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "Βοηθός δημιουργίας &κώδικα..."
 
-#: uml.cpp:377
+#: umlapp.cpp:377
 #, kde-format
 msgid "&Generate All Code"
 msgstr "&Δημιουργία όλου του κώδικα"
 
-#: uml.cpp:424
+#: umlapp.cpp:424
 #, kde-format
 msgid "Creates a new document"
 msgstr "Δημιουργία ενός νέου εγγράφου"
 
-#: uml.cpp:425
+#: umlapp.cpp:425
 #, kde-format
 msgid "Opens an existing document"
 msgstr "Άνοιγμα ενός υπάρχοντος εγγράφου"
 
-#: uml.cpp:426
+#: umlapp.cpp:426
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "Ανοίγει ένα πρόσφατα χρησιμοποιημένο αρχείο"
 
-#: uml.cpp:427
+#: umlapp.cpp:427
 #, kde-format
 msgid "Saves the document"
 msgstr "Αποθήκευση του εγγράφου"
 
-#: uml.cpp:428
+#: umlapp.cpp:428
 #, kde-format
 msgid "Saves the document as..."
 msgstr "Αποθήκευση του εγγράφου ως..."
 
-#: uml.cpp:429
+#: umlapp.cpp:429
 #, kde-format
 msgid "Closes the document"
 msgstr "Κλείσιμο του εγγράφου"
 
-#: uml.cpp:430
+#: umlapp.cpp:430
 #, kde-format
 msgid "Prints out the document"
 msgstr "Εκτύπωση του εγγράφου"
 
-#: uml.cpp:431
+#: umlapp.cpp:431
 #, kde-format
 msgid "Print Preview of the document"
 msgstr "Εκτύπωση προεπισκόπησης του εγγράφου"
 
-#: uml.cpp:432
+#: umlapp.cpp:432
 #, kde-format
 msgid "Quits the application"
 msgstr "Έξοδος από την εφαρμογή"
 
-#: uml.cpp:433
+#: umlapp.cpp:433
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr "Αποθηκεύει το μοντέλο σε μορφή docbook"
 
-#: uml.cpp:434
+#: umlapp.cpp:434
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr "Αποθηκεύει το μοντέλο σε μορφή XHTML"
 
-#: uml.cpp:435
+#: umlapp.cpp:435
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "Αποκοπή του επιλεγμένου τμήματος και τοποθέτηση στο πρόχειρο"
 
-#: uml.cpp:436
+#: umlapp.cpp:436
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "Αντιγραφή του επιλεγμένου τμήματος στο πρόχειρο"
 
-#: uml.cpp:437
+#: umlapp.cpp:437
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr "Επικόλληση των περιεχομένων του πρόχειρου"
 
-#: uml.cpp:438
+#: umlapp.cpp:438
 #, kde-format
 msgid "Undo last action"
 msgstr "Αναίρεση τελευταίας ενέργειας"
 
-#: uml.cpp:439
+#: umlapp.cpp:439
 #, kde-format
 msgid "Redo last undone action"
 msgstr "Επανάληψη τελευταίας αναιρεθείσας ενέργειας"
 
-#: uml.cpp:441
+#: umlapp.cpp:441
 #, kde-format
 msgid "Set the default program preferences"
 msgstr "Ορισμός των προκαθορισμένων προτιμήσεων του προγράμματος"
 
-#: uml.cpp:445
+#: umlapp.cpp:445
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "Διαγραφή ε&πιλεγμένου"
 
-#: uml.cpp:456
+#: umlapp.cpp:456
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "Διάγραμμα &κλάσης..."
 
-#: uml.cpp:463
+#: umlapp.cpp:463
 #, kde-format
 msgid "&Object Diagram..."
 msgstr "Διάγραμμα &αντικειμένου..."
 
-#: uml.cpp:470
+#: umlapp.cpp:470
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "Διάγραμμα &ακολουθίας..."
 
-#: uml.cpp:476
+#: umlapp.cpp:476
 #, kde-format
 msgid "C&ommunication Diagram..."
 msgstr "Διάγραμμα &επικοινωνίας..."
 
-#: uml.cpp:482
+#: umlapp.cpp:482
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr "Διάγραμμα &περίπτωσης χρήσης..."
 
-#: uml.cpp:488
+#: umlapp.cpp:488
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "Διάγραμμα κα&τάστασης..."
 
-#: uml.cpp:494
+#: umlapp.cpp:494
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "Διάγραμμα &δραστηριότητας..."
 
-#: uml.cpp:500
+#: umlapp.cpp:500
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "Διάγραμμα συ&στατικού..."
 
-#: uml.cpp:506
+#: umlapp.cpp:506
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr "Διάγραμμα ετο&ιμασίας..."
 
-#: uml.cpp:512
+#: umlapp.cpp:512
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "Διάγραμμα σχέσεων ο&ντότητας..."
 
-#: uml.cpp:518
+#: umlapp.cpp:518
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "Κα&θαρισμός διαγράμματος"
 
-#: uml.cpp:522
+#: umlapp.cpp:522
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "&Προσαρμογή στον κάνναβο"
 
-#: uml.cpp:526
+#: umlapp.cpp:526
 #, kde-format
 msgid "S&how Grid"
 msgstr "Εμ&φάνιση καννάβου"
 
-#: uml.cpp:531
+#: umlapp.cpp:531
 #, kde-format
 msgid "&Delete Diagram"
 msgstr "&Διαγραφή διαγράμματος"
 
-#: uml.cpp:536
+#: umlapp.cpp:536
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "Ε&ξαγωγή ως εικόνα..."
 
-#: uml.cpp:541
+#: umlapp.cpp:541
 #, kde-format
 msgid "Export &Diagrams as Pictures..."
 msgstr "Εξαγωγή &διαγραμμάτων ως εικόνες..."
 
-#: uml.cpp:561
+#: umlapp.cpp:561
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "Ε&στίαση στο 100%"
 
-#: uml.cpp:604
+#: umlapp.cpp:604
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "&Μετακίνηση καρτέλας αριστερά"
 
-#: uml.cpp:605
+#: umlapp.cpp:605
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "&Μετακίνηση καρτέλας δεξιά"
 
-#: uml.cpp:621
+#: umlapp.cpp:621
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr "Επιλογή διαγράμματος στα αριστερά"
 
-#: uml.cpp:622
+#: umlapp.cpp:622
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr "Επιλογή διαγράμματος στα δεξιά"
 
-#: uml.cpp:758
+#: umlapp.cpp:758
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr " &%1%"
 
-#: uml.cpp:810
+#: umlapp.cpp:810
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "Έτοιμο"
 
-#: uml.cpp:818 uml.cpp:831
+#: umlapp.cpp:818 umlapp.cpp:831
 #, kde-format
 msgid "100%"
 msgstr "100%"
 
-#: uml.cpp:823
+#: umlapp.cpp:823
 #, kde-format
 msgid "Fit"
 msgstr "Προσαρμογή"
 
-#: uml.cpp:874
+#: umlapp.cpp:874
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "Γραμμή εργαλείων διαγράμματος"
 
-#: uml.cpp:927 uml.cpp:1144 uml.cpp:1182
+#: umlapp.cpp:927 umlapp.cpp:1144 umlapp.cpp:1182
 #, kde-format
 msgid "Opening file..."
 msgstr "Άνοιγμα αρχείου..."
 
-#: uml.cpp:978 uml.cpp:1049 uml.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
+#: umlapp.cpp:978 umlapp.cpp:1049 umlapp.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
 #: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "Άτιτλο"
 
-#: uml.cpp:1126
+#: umlapp.cpp:1126
 #, kde-format
 msgid "Creating new document..."
 msgstr "Δημιουργία νέου εγγράφου..."
 
-#: uml.cpp:1151
+#: umlapp.cpp:1151
 #, kde-format
 msgid "Open File"
 msgstr "Άνοιγμα αρχείου"
 
-#: uml.cpp:1152
+#: umlapp.cpp:1152
 #, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7537,22 +7540,22 @@ msgstr ""
 "*.mdl|Αρχεία Rose model (*.mdl)\n"
 "*.zargo|Συμπιεσμένα αρχεία argo (*.zargo)\n"
 
-#: uml.cpp:1212
+#: umlapp.cpp:1212
 #, kde-format
 msgid "Saving file..."
 msgstr "Αποθήκευση αρχείου..."
 
-#: uml.cpp:1229
+#: umlapp.cpp:1229
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Αποθήκευση αρχείου με ένα νέο όνομα..."
 
-#: uml.cpp:1234 umlviewimageexporter.cpp:172
+#: umlapp.cpp:1234 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Αποθήκευση ως"
 
-#: uml.cpp:1235
+#: umlapp.cpp:1235
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7562,7 +7565,7 @@ msgstr ""
 "tgz);;*.xmi.tar.bz2 | Bzip2 συμπιεσμένο αρχείο XMI (*.xmi.tar.bz2);;* | Όλα "
 "τα αρχεία (*)"
 
-#: uml.cpp:1253
+#: umlapp.cpp:1253
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7571,67 +7574,67 @@ msgstr ""
 "Το αρχείο %1 υπάρχει.\n"
 "Επιθυμείτε την αντικατάστασή του;"
 
-#: uml.cpp:1254
+#: umlapp.cpp:1254
 #, kde-format
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
-#: uml.cpp:1254
+#: umlapp.cpp:1254
 #, kde-format
 msgid "Overwrite"
 msgstr "Αντικατάσταση"
 
-#: uml.cpp:1280
+#: umlapp.cpp:1280
 #, kde-format
 msgid "Closing file..."
 msgstr "Κλείσιμο αρχείου..."
 
-#: uml.cpp:1291
+#: umlapp.cpp:1291
 #, kde-format
 msgid "No search term entered"
 msgstr "Δε δόθηκαν κριτήρια αναζήτησης"
 
-#: uml.cpp:1297
+#: umlapp.cpp:1297
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "'%1': %2 βρέθηκε"
 
-#: uml.cpp:1353
+#: umlapp.cpp:1353
 #, kde-format
 msgid "Print Preview..."
 msgstr "Εκτύπωση προεπισκόπησης..."
 
-#: uml.cpp:1380
+#: umlapp.cpp:1380
 #, kde-format
 msgid "Printing..."
 msgstr "Εκτύπωση..."
 
-#: uml.cpp:1386
+#: umlapp.cpp:1386
 #, kde-format
 msgid "Print %1"
 msgstr "Εκτύπωση %1"
 
-#: uml.cpp:1405
+#: umlapp.cpp:1405
 #, kde-format
 msgid "Exiting..."
 msgstr "Έξοδος..."
 
-#: uml.cpp:1476
+#: umlapp.cpp:1476
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Αποκοπή επιλογής..."
 
-#: uml.cpp:1499
+#: umlapp.cpp:1499
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Αντιγραφή επιλογής στο πρόχειρο..."
 
-#: uml.cpp:1511
+#: umlapp.cpp:1511
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Εισαγωγή περιεχομένων πρόχειρου..."
 
-#: uml.cpp:1516
+#: umlapp.cpp:1516
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7641,89 +7644,89 @@ msgstr ""
 "αντικείμενα στο πρόχειρο μπορεί να είναι λάθος τύπου για την επικόλλησή τους "
 "εδώ."
 
-#: uml.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: umlapp.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Έτοιμο."
 
-#: uml.cpp:2158
+#: umlapp.cpp:2158
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "Αδυναμία προβολής του κώδικα μέχρι να δημιουργηθεί κάτι πρώτα."
 
-#: uml.cpp:2158 uml.cpp:2161
+#: umlapp.cpp:2158 umlapp.cpp:2161
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Αδυναμία προβολής κώδικα"
 
-#: uml.cpp:2161
+#: umlapp.cpp:2161
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Αδυναμία προβολής κώδικα από τον απλό συγγραφέα κώδικα."
 
-#: uml.cpp:2611
+#: umlapp.cpp:2611
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Επιλογή αρχείου(ων) για εισαγωγή:"
 
-#: uml.cpp:2640
+#: umlapp.cpp:2640
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Επιλογή καταλόγου για εισαγωγή:"
 
-#: uml.cpp:3158
+#: umlapp.cpp:3158
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Αποτυχία δημιουργίας XHTML."
 
-#: umlappprivate.h:101
+#: umlappprivate.h:102
 #, fuzzy, kde-format
 #| msgid "Show Doc Window"
 msgid "Show/hide window"
 msgstr "Εμφάνιση παραθύρου τεκμηρίωσης"
 
-#: umlappprivate.h:169
+#: umlappprivate.h:170
 #, kde-format
 msgid "&Bird's eye view"
 msgstr "Γενική άποψη"
 
-#: umlappprivate.h:177
+#: umlappprivate.h:178
 #, kde-format
 msgid "Co&mmand history"
 msgstr "Ιστορικό &εντολών"
 
-#: umlappprivate.h:189
+#: umlappprivate.h:190
 #, kde-format
 msgid "&Debug"
 msgstr "&Αποσφαλμάτωση"
 
-#: umlappprivate.h:205
+#: umlappprivate.h:206
 #, kde-format
 msgid "Doc&umentation"
 msgstr "Τεκ&μηρίωση"
 
-#: umlappprivate.h:224
+#: umlappprivate.h:225
 #, kde-format
 msgid "&Log"
 msgstr "&Καταγραφή"
 
-#: umlappprivate.h:233
+#: umlappprivate.h:234
 #, kde-format
 msgid "&UML Objects"
 msgstr "Αντικείμενα &UML"
 
-#: umlappprivate.h:247
+#: umlappprivate.h:248
 #, kde-format
 msgid "&Stereotypes"
 msgstr "&Στερεότυπα"
 
-#: umlappprivate.h:254
+#: umlappprivate.h:255
 #, kde-format
 msgid "&Tree View"
 msgstr "Προβολή &δέντρου"
 
-#: umlappprivate.h:274
+#: umlappprivate.h:275
 #, kde-format
 msgid "Welcome"
 msgstr "Καλώς ήρθατε"
@@ -7784,8 +7787,8 @@ msgid "The file <%1> does not exist."
 msgstr "Το αρχείο <%1> δεν υπάρχει."
 
 #: umldoc.cpp:550 umldoc.cpp:571 umldoc.cpp:610 umldoc.cpp:622 umldoc.cpp:636
-#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/folder.cpp:450
-#: umlmodel/folder.cpp:454
+#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/umlfolder.cpp:450
+#: umlmodel/umlfolder.cpp:454
 #, kde-format
 msgid "Load Error"
 msgstr "Σφάλμα φόρτωσης"
@@ -8092,47 +8095,6 @@ msgstr ""
 msgid "Name Not Valid"
 msgstr "Μη έγκυρο όνομα"
 
-#: umlmodel/classifier.cpp:281
-#, kde-format
-msgid ""
-"An operation with the same name and signature already exists. You cannot add "
-"it again."
-msgstr ""
-"Μια λειτουργία με το ίδιο όνομα και υπογραφή υπάρχει ήδη. Δεν μπορείτε να "
-"την προσθέσετε ξανά."
-
-#: umlmodel/folder.cpp:450
-#, kde-format
-msgid "The folderfile %1 does not exist."
-msgstr "Το αρχείο φάκελος %1 δεν υπάρχει."
-
-#: umlmodel/folder.cpp:454
-#, kde-format
-msgid "The folderfile %1 cannot be opened."
-msgstr "Το αρχείο φάκελος %1 δεν μπορεί να ανοιχτεί."
-
-#: umlmodel/operation.cpp:290
-#, kde-format
-msgid "new_parameter"
-msgstr "νέα_παράμετρος"
-
-#: umlmodel/package.cpp:171
-#, kde-format
-msgctxt "object name"
-msgid "Name"
-msgstr "Όνομα"
-
-#: umlmodel/package.cpp:172
-#, kde-format
-msgid ""
-"An object with the name %1\n"
-"already exists in the package %2.\n"
-"Please enter a new name:"
-msgstr ""
-"Ένα αντικείμενο με το όνομα %1\n"
-"υπάρχει ήδη στο πακέτο %2.\n"
-"Παρακαλώ εισάγετε ένα νέο όνομα:"
-
 #: umlmodel/umlcanvasobject.cpp:200
 #, kde-format
 msgid "new_literal"
@@ -8147,6 +8109,25 @@ msgstr "νέο_πεδίο"
 #, kde-format
 msgid "new_fkey_constraint"
 msgstr "νέος_περιορισμός_ξένου_κλειδιού"
+
+#: umlmodel/umlclassifier.cpp:281
+#, kde-format
+msgid ""
+"An operation with the same name and signature already exists. You cannot add "
+"it again."
+msgstr ""
+"Μια λειτουργία με το ίδιο όνομα και υπογραφή υπάρχει ήδη. Δεν μπορείτε να "
+"την προσθέσετε ξανά."
+
+#: umlmodel/umlfolder.cpp:450
+#, kde-format
+msgid "The folderfile %1 does not exist."
+msgstr "Το αρχείο φάκελος %1 δεν υπάρχει."
+
+#: umlmodel/umlfolder.cpp:454
+#, kde-format
+msgid "The folderfile %1 cannot be opened."
+msgstr "Το αρχείο φάκελος %1 δεν μπορεί να ανοιχτεί."
 
 #: umlmodel/umlobject.cpp:1230
 #, kde-format
@@ -8222,6 +8203,28 @@ msgstr "Όνομα περίπτωσης &χρήσης:"
 #, kde-format
 msgid "Instance name:"
 msgstr "Όνομα αντιγράφου:"
+
+#: umlmodel/umloperation.cpp:290
+#, kde-format
+msgid "new_parameter"
+msgstr "νέα_παράμετρος"
+
+#: umlmodel/umlpackage.cpp:171
+#, kde-format
+msgctxt "object name"
+msgid "Name"
+msgstr "Όνομα"
+
+#: umlmodel/umlpackage.cpp:172
+#, kde-format
+msgid ""
+"An object with the name %1\n"
+"already exists in the package %2.\n"
+"Please enter a new name:"
+msgstr ""
+"Ένα αντικείμενο με το όνομα %1\n"
+"υπάρχει ήδη στο πακέτο %2.\n"
+"Παρακαλώ εισάγετε ένα νέο όνομα:"
 
 #: umlscene.cpp:720
 #, kde-format

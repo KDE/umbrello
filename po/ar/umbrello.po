@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-04 02:01+0000\n"
+"POT-Creation-Date: 2025-09-10 01:58+0000\n"
 "PO-Revision-Date: 2025-08-05 12:41+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -207,7 +207,7 @@ msgid ""
 "item of the same name already exists.  Any other items have been pasted."
 msgstr ""
 
-#: clipboard/umlclipboard.cpp:757 uml.cpp:1518
+#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1518
 #, fuzzy, kde-format
 msgid "Paste Error"
 msgstr "لصق خطأ"
@@ -2556,7 +2556,7 @@ msgid "N&ew Instance Attribute..."
 msgstr "جديد كيان الصّفة."
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
-#: uml.cpp:546
+#: umlapp.cpp:546
 #, kde-format
 msgid "&Properties"
 msgstr "&خصائص"
@@ -2730,7 +2730,7 @@ msgstr "كِش تقييد."
 msgid "<p align=\"center\">No Options Available.</p>"
 msgstr "<p align=\"center\">لا خيارات متوفّرة.</p>"
 
-#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:198
+#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:199
 #, fuzzy, kde-format
 msgid "&Diagrams"
 msgstr "التخطيط"
@@ -2763,9 +2763,10 @@ msgstr ""
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
 #: umldoc.cpp:1540 umldoc.cpp:1604 umldoc.cpp:1633 umldoc.cpp:1668
-#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
-#: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
-#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:180
+#: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
+#: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
+#: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
+#: umlmodel/umlenum.cpp:105 umlmodel/umlpackage.cpp:180
 #, kde-format
 msgid "Invalid Name"
 msgstr "الاسم غير صالح"
@@ -4502,7 +4503,7 @@ msgstr "لا الإزاحة"
 msgid "Import File(s)..."
 msgstr "استيراد الأصناف."
 
-#: menus/listpopupmenu.cpp:198 uml.cpp:367
+#: menus/listpopupmenu.cpp:198 umlapp.cpp:367
 #, fuzzy, kde-format
 msgid "Import from Directory..."
 msgstr "استيراد مشروع."
@@ -5001,42 +5002,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "حاذِ إلى"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:565
+#: menus/widgetbasepopupmenu.cpp:594 umlapp.cpp:565
 #, kde-format
 msgid "Align Right"
 msgstr "حاذِ يمينًا"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:570
+#: menus/widgetbasepopupmenu.cpp:595 umlapp.cpp:570
 #, kde-format
 msgid "Align Left"
 msgstr "حاذِ يسارًا"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:575
+#: menus/widgetbasepopupmenu.cpp:596 umlapp.cpp:575
 #, kde-format
 msgid "Align Top"
 msgstr "حاذ لأعلى"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:580
+#: menus/widgetbasepopupmenu.cpp:597 umlapp.cpp:580
 #, kde-format
 msgid "Align Bottom"
 msgstr "حاذ لأسفل"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:585
+#: menus/widgetbasepopupmenu.cpp:599 umlapp.cpp:585
 #, fuzzy, kde-format
 msgid "Align Vertical Middle"
 msgstr "حاذي رأسي وسط"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:590
+#: menus/widgetbasepopupmenu.cpp:600 umlapp.cpp:590
 #, fuzzy, kde-format
 msgid "Align Horizontal Middle"
 msgstr "حاذي أفقي وسط"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:595
+#: menus/widgetbasepopupmenu.cpp:601 umlapp.cpp:595
 #, fuzzy, kde-format
 msgid "Align Vertical Distribute"
 msgstr "حاذي رأسي توزيع"
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:600
+#: menus/widgetbasepopupmenu.cpp:602 umlapp.cpp:600
 #, fuzzy, kde-format
 msgid "Align Horizontal Distribute"
 msgstr "حاذي أفقي توزيع"
@@ -5858,9 +5859,10 @@ msgid "Usage"
 msgstr "الاستخدام"
 
 #: object_factory.cpp:254 umldoc.cpp:1633 umldoc.cpp:1668
-#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
-#: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
-#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:179
+#: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
+#: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
+#: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
+#: umlmodel/umlenum.cpp:105 umlmodel/umlpackage.cpp:179
 #, fuzzy, kde-format
 msgid "That is an invalid name."
 msgstr "ذلك هو غير صالح الاسم."
@@ -5877,17 +5879,18 @@ msgid "Reserved Keyword"
 msgstr "محجوز الكلمة المفتاح"
 
 #: object_factory.cpp:267 umldoc.cpp:1639 umldoc.cpp:1677
-#: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
-#: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
-#: umlmodel/entity.cpp:276
+#: umlmodel/umlclassifier.cpp:412 umlmodel/umlclassifier.cpp:784
+#: umlmodel/umlentity.cpp:124 umlmodel/umlentity.cpp:177
+#: umlmodel/umlentity.cpp:227 umlmodel/umlentity.cpp:276
 #, fuzzy, kde-format
 msgid "That name is already being used."
 msgstr "ذلك الاسم هو مُستخدَم."
 
 #: object_factory.cpp:268 umldoc.cpp:1542 umldoc.cpp:1611 umldoc.cpp:1639
-#: umldoc.cpp:1677 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
-#: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
-#: umlmodel/entity.cpp:276
+#: umldoc.cpp:1677 umlmodel/umlclassifier.cpp:412
+#: umlmodel/umlclassifier.cpp:784 umlmodel/umlentity.cpp:124
+#: umlmodel/umlentity.cpp:177 umlmodel/umlentity.cpp:227
+#: umlmodel/umlentity.cpp:276
 #, fuzzy, kde-format
 msgid "Not a Unique Name"
 msgstr "لا a وحيدفريد الاسم"
@@ -7127,287 +7130,287 @@ msgstr "نشط اللغة"
 msgid "&Settings"
 msgstr "إ&عدادات"
 
-#: uml.cpp:343
+#: umlapp.cpp:343
 #, fuzzy, kde-format
 msgid "&Export model to DocBook"
 msgstr "صدِّر شكل ، نموذج إلى DocBook"
 
-#: uml.cpp:347
+#: umlapp.cpp:347
 #, fuzzy, kde-format
 msgid "&Export model to XHTML"
 msgstr "صدِّر شكل ، نموذج إلى"
 
-#: uml.cpp:351
+#: umlapp.cpp:351
 #, fuzzy, kde-format
 msgid "&New Class Wizard..."
 msgstr "جديد الفئة المساعد."
 
-#: uml.cpp:355
+#: umlapp.cpp:355
 #, fuzzy, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "إضافة افتراضي لـ نشط اللغة"
 
-#: uml.cpp:362
+#: umlapp.cpp:362
 #, fuzzy, kde-format
 msgid "Code &Importing Wizard..."
 msgstr "الرّمز الجيل المساعد."
 
-#: uml.cpp:372
+#: umlapp.cpp:372
 #, fuzzy, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "الرّمز الجيل المساعد."
 
-#: uml.cpp:377
+#: umlapp.cpp:377
 #, fuzzy, kde-format
 msgid "&Generate All Code"
 msgstr "أنشئ الكل الرّمز"
 
-#: uml.cpp:424
+#: umlapp.cpp:424
 #, fuzzy, kde-format
 msgid "Creates a new document"
 msgstr "تقوم بعمل مستند جديد"
 
-#: uml.cpp:425
+#: umlapp.cpp:425
 #, fuzzy, kde-format
 msgid "Opens an existing document"
 msgstr "تفتح مستند موجود"
 
-#: uml.cpp:426
+#: umlapp.cpp:426
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "يفتح ملفًّا مستخدم مؤخّرًا"
 
-#: uml.cpp:427
+#: umlapp.cpp:427
 #, fuzzy, kde-format
 msgid "Saves the document"
 msgstr "ينقذ مستند"
 
-#: uml.cpp:428
+#: umlapp.cpp:428
 #, fuzzy, kde-format
 msgid "Saves the document as..."
 msgstr "ينقذ مستند."
 
-#: uml.cpp:429
+#: umlapp.cpp:429
 #, fuzzy, kde-format
 msgid "Closes the document"
 msgstr "يغلق مستند"
 
-#: uml.cpp:430
+#: umlapp.cpp:430
 #, fuzzy, kde-format
 msgid "Prints out the document"
 msgstr "الطبعات خارج مستند"
 
-#: uml.cpp:431
+#: umlapp.cpp:431
 #, fuzzy, kde-format
 msgid "Print Preview of the document"
 msgstr "الطبعات خارج مستند"
 
-#: uml.cpp:432
+#: umlapp.cpp:432
 #, kde-format
 msgid "Quits the application"
 msgstr "ينهي التَّطبيق"
 
-#: uml.cpp:433
+#: umlapp.cpp:433
 #, fuzzy, kde-format
 msgid "Exports the model to the docbook format"
 msgstr "الصادرات شكل ، نموذج إلى تنسيق"
 
-#: uml.cpp:434
+#: umlapp.cpp:434
 #, fuzzy, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr "الصادرات شكل ، نموذج إلى تنسيق"
 
-#: uml.cpp:435
+#: umlapp.cpp:435
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "يقُصُ المقطع المُنتقَى ويضعه في حافظة القُصاصات"
 
-#: uml.cpp:436
+#: umlapp.cpp:436
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "ينسخ المقطع المُنتقى إلى حافظة القُصاصات"
 
-#: uml.cpp:437
+#: umlapp.cpp:437
 #, fuzzy, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr "المعاجين من حافظة"
 
-#: uml.cpp:438
+#: umlapp.cpp:438
 #, fuzzy, kde-format
 #| msgid "Invoke action"
 msgid "Undo last action"
 msgstr "استدعِ إجراء"
 
-#: uml.cpp:439
+#: umlapp.cpp:439
 #, kde-format
 msgid "Redo last undone action"
 msgstr ""
 
-#: uml.cpp:441
+#: umlapp.cpp:441
 #, fuzzy, kde-format
 msgid "Set the default program preferences"
 msgstr "ضبط افتراضي برنامج تفضيلات"
 
-#: uml.cpp:445
+#: umlapp.cpp:445
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "امحُ ال&محدد"
 
-#: uml.cpp:456
+#: umlapp.cpp:456
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "&مخطط الفئة"
 
-#: uml.cpp:463
+#: umlapp.cpp:463
 #, fuzzy, kde-format
 msgid "&Object Diagram..."
 msgstr "الحالة التخطيط."
 
-#: uml.cpp:470
+#: umlapp.cpp:470
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "&مخطط التتابع"
 
-#: uml.cpp:476
+#: umlapp.cpp:476
 #, fuzzy, kde-format
 msgid "C&ommunication Diagram..."
 msgstr "التعاون التخطيط."
 
-#: uml.cpp:482
+#: umlapp.cpp:482
 #, fuzzy, kde-format
 msgid "&Use Case Diagram..."
 msgstr "إستعمل الحالة التخطيط."
 
-#: uml.cpp:488
+#: umlapp.cpp:488
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "مخطط ال&حالة…"
 
-#: uml.cpp:494
+#: umlapp.cpp:494
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "&مخطط النشاط..."
 
-#: uml.cpp:500
+#: umlapp.cpp:500
 #, fuzzy, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "المكوّن التخطيط."
 
-#: uml.cpp:506
+#: umlapp.cpp:506
 #, fuzzy, kde-format
 msgid "&Deployment Diagram..."
 msgstr "نشر التخطيط."
 
-#: uml.cpp:512
+#: umlapp.cpp:512
 #, fuzzy, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "كيان العلاقة التخطيط."
 
-#: uml.cpp:518
+#: umlapp.cpp:518
 #, fuzzy, kde-format
 msgid "&Clear Diagram"
 msgstr "امسح التخطيط"
 
-#: uml.cpp:522
+#: umlapp.cpp:522
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "&مطابقة للشبكة"
 
-#: uml.cpp:526
+#: umlapp.cpp:526
 #, kde-format
 msgid "S&how Grid"
 msgstr "أظهر ال&شبكة"
 
-#: uml.cpp:531
+#: umlapp.cpp:531
 #, fuzzy, kde-format
 msgid "&Delete Diagram"
 msgstr "احذف التخطيط"
 
-#: uml.cpp:536
+#: umlapp.cpp:536
 #, fuzzy, kde-format
 msgid "&Export as Picture..."
 msgstr "صدِّر صورة."
 
-#: uml.cpp:541
+#: umlapp.cpp:541
 #, fuzzy, kde-format
 msgid "Export &Diagrams as Pictures..."
 msgstr "صدِّر الكل التخطيطات صور."
 
-#: uml.cpp:561
+#: umlapp.cpp:561
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "&قرّب إلى 100٪"
 
-#: uml.cpp:604
+#: umlapp.cpp:604
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "انقل اللسان لل&يسار"
 
-#: uml.cpp:605
+#: umlapp.cpp:605
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "انقل اللسان للي&مين"
 
-#: uml.cpp:621
+#: umlapp.cpp:621
 #, fuzzy, kde-format
 msgid "Select Diagram on Left"
 msgstr "انتقِ التخطيط يعمل يسار"
 
-#: uml.cpp:622
+#: umlapp.cpp:622
 #, fuzzy, kde-format
 msgid "Select Diagram on Right"
 msgstr "انتقِ التخطيط يعمل يمين"
 
-#: uml.cpp:758
+#: umlapp.cpp:758
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:810
+#: umlapp.cpp:810
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "جاهز"
 
-#: uml.cpp:818 uml.cpp:831
+#: umlapp.cpp:818 umlapp.cpp:831
 #, fuzzy, kde-format
 msgid "100%"
 msgstr "&100%"
 
-#: uml.cpp:823
+#: umlapp.cpp:823
 #, kde-format
 msgid "Fit"
 msgstr "ناسب"
 
-#: uml.cpp:874
+#: umlapp.cpp:874
 #, fuzzy, kde-format
 msgid "Diagram Toolbar"
 msgstr "التخطيط شريط الأدوات"
 
-#: uml.cpp:927 uml.cpp:1144 uml.cpp:1182
+#: umlapp.cpp:927 umlapp.cpp:1144 umlapp.cpp:1182
 #, kde-format
 msgid "Opening file..."
 msgstr "يفتح الملف..."
 
-#: uml.cpp:978 uml.cpp:1049 uml.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
+#: umlapp.cpp:978 umlapp.cpp:1049 umlapp.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
 #: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "غير معنون"
 
-#: uml.cpp:1126
+#: umlapp.cpp:1126
 #, kde-format
 msgid "Creating new document..."
 msgstr "ينشئ مستندًا جديدًا..."
 
-#: uml.cpp:1151
+#: umlapp.cpp:1151
 #, kde-format
 msgid "Open File"
 msgstr "افتح الملف"
 
-#: uml.cpp:1152
+#: umlapp.cpp:1152
 #, fuzzy, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7422,184 +7425,184 @@ msgstr ""
 "الكل مدعوم ملفات n غير مضغوط ملفات n Gzip مضغوط ملفات n Bzip2 مضغوط ملفات n "
 "الوردة شكل ، نموذج ملفات"
 
-#: uml.cpp:1212
+#: umlapp.cpp:1212
 #, kde-format
 msgid "Saving file..."
 msgstr "يحفظ الملفّ..."
 
-#: uml.cpp:1229
+#: umlapp.cpp:1229
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "يحفظ الملفّ باسم ملفّ جديد..."
 
-#: uml.cpp:1234 umlviewimageexporter.cpp:172
+#: umlapp.cpp:1234 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "احفظ كَ‍"
 
-#: uml.cpp:1235
+#: umlapp.cpp:1235
 #, fuzzy, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
 "*.xmi.tar.bz2 | Bzip2 Compressed XMI File (*.xmi.tar.bz2);;* | All Files (*)"
 msgstr "ملف n Gzip مضغوط ملف n Bzip2 مضغوط ملف n الكل ملفات"
 
-#: uml.cpp:1253
+#: umlapp.cpp:1253
 #, fuzzy, kde-format
 msgid ""
 "The file %1 exists.\n"
 "Do you wish to overwrite it?"
 msgstr "الـ ملفّ موجود إلى كتابة فوقية :: كتابة على الإيطالية?"
 
-#: uml.cpp:1254
+#: umlapp.cpp:1254
 #, kde-format
 msgid "Warning"
 msgstr "تحذير"
 
-#: uml.cpp:1254
+#: umlapp.cpp:1254
 #, kde-format
 msgid "Overwrite"
 msgstr "استبدل"
 
-#: uml.cpp:1280
+#: umlapp.cpp:1280
 #, kde-format
 msgid "Closing file..."
 msgstr "يغلق الملفّ..."
 
-#: uml.cpp:1291
+#: umlapp.cpp:1291
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: uml.cpp:1297
+#: umlapp.cpp:1297
 #, fuzzy, kde-format
 msgid "'%1': %2 found"
 msgstr "عُثر على:"
 
-#: uml.cpp:1353
+#: umlapp.cpp:1353
 #, kde-format
 msgid "Print Preview..."
 msgstr "معاينة الطباعة..."
 
-#: uml.cpp:1380
+#: umlapp.cpp:1380
 #, kde-format
 msgid "Printing..."
 msgstr "يطبع..."
 
-#: uml.cpp:1386
+#: umlapp.cpp:1386
 #, kde-format
 msgid "Print %1"
 msgstr "اطبع %1"
 
-#: uml.cpp:1405
+#: umlapp.cpp:1405
 #, fuzzy, kde-format
 msgid "Exiting..."
 msgstr "جاري الخروج..."
 
-#: uml.cpp:1476
+#: umlapp.cpp:1476
 #, kde-format
 msgid "Cutting selection..."
 msgstr "جاري قطع الإختيار..."
 
-#: uml.cpp:1499
+#: umlapp.cpp:1499
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "جاري نسخ الإختيار الى الحافظة..."
 
-#: uml.cpp:1511
+#: umlapp.cpp:1511
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "جاري إدراج محتويات الحافظة..."
 
-#: uml.cpp:1516
+#: umlapp.cpp:1516
 #, fuzzy, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
 "clipboard may be of the wrong type to be pasted here."
 msgstr "Umbrello ليس الصق حافظة الـ بوصة حافظة أيار من خطأ نوع إلى."
 
-#: uml.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: umlapp.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "جاهز."
 
-#: uml.cpp:2158
+#: umlapp.cpp:2158
 #, fuzzy, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "لا يستطيع اعرض رمز حتّى توليد بعض الأوّل."
 
-#: uml.cpp:2158 uml.cpp:2161
+#: umlapp.cpp:2158 umlapp.cpp:2161
 #, fuzzy, kde-format
 msgid "Cannot View Code"
 msgstr "لا يستطيع عرض الرّمز"
 
-#: uml.cpp:2161
+#: umlapp.cpp:2161
 #, fuzzy, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "لا يستطيع اعرض رمز من بسيط رمز."
 
-#: uml.cpp:2611
+#: umlapp.cpp:2611
 #, fuzzy, kde-format
 msgid "Select file(s) to import:"
 msgstr "انتقِ الرّمز إلى استيراد"
 
-#: uml.cpp:2640
+#: umlapp.cpp:2640
 #, fuzzy, kde-format
 msgid "Select directory to import:"
 msgstr "انتقِ الرّمز إلى استيراد"
 
-#: uml.cpp:3158
+#: umlapp.cpp:3158
 #, fuzzy, kde-format
 msgid "XHTML Generation failed ."
 msgstr "الجيل failed."
 
-#: umlappprivate.h:101
+#: umlappprivate.h:102
 #, fuzzy, kde-format
 msgid "Show/hide window"
 msgstr "لا الإزاحة"
 
-#: umlappprivate.h:169
+#: umlappprivate.h:170
 #, kde-format
 msgid "&Bird's eye view"
 msgstr "&منظور عين الطائر"
 
-#: umlappprivate.h:177
+#: umlappprivate.h:178
 #, kde-format
 msgid "Co&mmand history"
 msgstr ""
 
-#: umlappprivate.h:189
+#: umlappprivate.h:190
 #, kde-format
 msgid "&Debug"
 msgstr "تن&قيح"
 
-#: umlappprivate.h:205
+#: umlappprivate.h:206
 #, kde-format
 msgid "Doc&umentation"
 msgstr "ال&توثيق"
 
-#: umlappprivate.h:224
+#: umlappprivate.h:225
 #, kde-format
 msgid "&Log"
 msgstr "سجل"
 
-#: umlappprivate.h:233
+#: umlappprivate.h:234
 #, fuzzy, kde-format
 msgid "&UML Objects"
 msgstr "كائن"
 
-#: umlappprivate.h:247
+#: umlappprivate.h:248
 #, fuzzy, kde-format
 msgid "&Stereotypes"
 msgstr "القالب الجاهز"
 
-#: umlappprivate.h:254
+#: umlappprivate.h:255
 #, kde-format
 msgid "&Tree View"
 msgstr "&عرض الشّجرة"
 
-#: umlappprivate.h:274
+#: umlappprivate.h:275
 #, kde-format
 msgid "Welcome"
 msgstr "مرحباً"
@@ -7660,8 +7663,8 @@ msgid "The file <%1> does not exist."
 msgstr "الملف %1 ليس موجودا."
 
 #: umldoc.cpp:550 umldoc.cpp:571 umldoc.cpp:610 umldoc.cpp:622 umldoc.cpp:636
-#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/folder.cpp:450
-#: umlmodel/folder.cpp:454
+#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/umlfolder.cpp:450
+#: umlmodel/umlfolder.cpp:454
 #, kde-format
 msgid "Load Error"
 msgstr "خطأ أثناء التحميل"
@@ -7958,42 +7961,6 @@ msgstr "الـ الاسم غير صالح إجراء ملغي."
 msgid "Name Not Valid"
 msgstr "الاسم لا صالح"
 
-#: umlmodel/classifier.cpp:281
-#, fuzzy, kde-format
-msgid ""
-"An operation with the same name and signature already exists. You cannot add "
-"it again."
-msgstr "أداة تعريف عملية مع الاسم و إمضاء موجود أنت ليس اضف الإيطالية."
-
-#: umlmodel/folder.cpp:450
-#, fuzzy, kde-format
-msgid "The folderfile %1 does not exist."
-msgstr "الـ ليس."
-
-#: umlmodel/folder.cpp:454
-#, fuzzy, kde-format
-msgid "The folderfile %1 cannot be opened."
-msgstr "الـ."
-
-#: umlmodel/operation.cpp:290
-#, fuzzy, kde-format
-msgid "new_parameter"
-msgstr "جديد معلمة"
-
-#: umlmodel/package.cpp:171
-#, kde-format
-msgctxt "object name"
-msgid "Name"
-msgstr "الاسم"
-
-#: umlmodel/package.cpp:172
-#, fuzzy, kde-format
-msgid ""
-"An object with the name %1\n"
-"already exists in the package %2.\n"
-"Please enter a new name:"
-msgstr "أداة تعريف كائن مع الاسم موجود بوصة حزمة<br /> رجاء أدخل a جديد الاسم:"
-
 #: umlmodel/umlcanvasobject.cpp:200
 #, fuzzy, kde-format
 msgid "new_literal"
@@ -8010,6 +7977,23 @@ msgid "new_fkey_constraint"
 msgstr ""
 "جديد قيد\n"
 "قسْر"
+
+#: umlmodel/umlclassifier.cpp:281
+#, fuzzy, kde-format
+msgid ""
+"An operation with the same name and signature already exists. You cannot add "
+"it again."
+msgstr "أداة تعريف عملية مع الاسم و إمضاء موجود أنت ليس اضف الإيطالية."
+
+#: umlmodel/umlfolder.cpp:450
+#, fuzzy, kde-format
+msgid "The folderfile %1 does not exist."
+msgstr "الـ ليس."
+
+#: umlmodel/umlfolder.cpp:454
+#, fuzzy, kde-format
+msgid "The folderfile %1 cannot be opened."
+msgstr "الـ."
 
 #: umlmodel/umlobject.cpp:1230
 #, fuzzy, kde-format
@@ -8085,6 +8069,25 @@ msgstr "استخدام حالة خطاطة"
 #, fuzzy, kde-format
 msgid "Instance name:"
 msgstr "أدخل اسم:"
+
+#: umlmodel/umloperation.cpp:290
+#, fuzzy, kde-format
+msgid "new_parameter"
+msgstr "جديد معلمة"
+
+#: umlmodel/umlpackage.cpp:171
+#, kde-format
+msgctxt "object name"
+msgid "Name"
+msgstr "الاسم"
+
+#: umlmodel/umlpackage.cpp:172
+#, fuzzy, kde-format
+msgid ""
+"An object with the name %1\n"
+"already exists in the package %2.\n"
+"Please enter a new name:"
+msgstr "أداة تعريف كائن مع الاسم موجود بوصة حزمة<br /> رجاء أدخل a جديد الاسم:"
 
 #: umlscene.cpp:720
 #, fuzzy, kde-format

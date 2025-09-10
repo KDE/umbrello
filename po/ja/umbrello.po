@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-04 02:01+0000\n"
+"POT-Creation-Date: 2025-09-10 01:58+0000\n"
 "PO-Revision-Date: 2008-11-05 23:34+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -221,7 +221,7 @@ msgstr ""
 "つを貼り付けることができませんでした。他のアイテムは既に貼り付けられていま"
 "す。"
 
-#: clipboard/umlclipboard.cpp:757 uml.cpp:1518
+#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1518
 #, kde-format
 msgid "Paste Error"
 msgstr "貼り付けエラー"
@@ -2670,7 +2670,7 @@ msgid "N&ew Instance Attribute..."
 msgstr "新規エンティティ属性(&E)..."
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
-#: uml.cpp:546
+#: umlapp.cpp:546
 #, kde-format
 msgid "&Properties"
 msgstr "プロパティ(&P)"
@@ -2853,7 +2853,7 @@ msgstr "チェック制約..."
 msgid "<p align=\"center\">No Options Available.</p>"
 msgstr "<p align=\"center\">利用可能なオプションがありません。</p>"
 
-#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:198
+#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:199
 #, kde-format
 msgid "&Diagrams"
 msgstr "図(&D)"
@@ -2886,9 +2886,10 @@ msgstr "入力された名前は無効です。"
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
 #: umldoc.cpp:1540 umldoc.cpp:1604 umldoc.cpp:1633 umldoc.cpp:1668
-#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
-#: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
-#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:180
+#: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
+#: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
+#: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
+#: umlmodel/umlenum.cpp:105 umlmodel/umlpackage.cpp:180
 #, kde-format
 msgid "Invalid Name"
 msgstr "無効な名前"
@@ -4720,7 +4721,7 @@ msgstr "デストラクタを表示"
 msgid "Import File(s)..."
 msgstr "プロジェクトをインポート..."
 
-#: menus/listpopupmenu.cpp:198 uml.cpp:367
+#: menus/listpopupmenu.cpp:198 umlapp.cpp:367
 #, fuzzy, kde-format
 #| msgid "Import Project..."
 msgid "Import from Directory..."
@@ -5250,42 +5251,42 @@ msgctxt "align menu"
 msgid "Align"
 msgstr "整列(&A)"
 
-#: menus/widgetbasepopupmenu.cpp:594 uml.cpp:565
+#: menus/widgetbasepopupmenu.cpp:594 umlapp.cpp:565
 #, kde-format
 msgid "Align Right"
 msgstr "右揃え"
 
-#: menus/widgetbasepopupmenu.cpp:595 uml.cpp:570
+#: menus/widgetbasepopupmenu.cpp:595 umlapp.cpp:570
 #, kde-format
 msgid "Align Left"
 msgstr "左揃え"
 
-#: menus/widgetbasepopupmenu.cpp:596 uml.cpp:575
+#: menus/widgetbasepopupmenu.cpp:596 umlapp.cpp:575
 #, kde-format
 msgid "Align Top"
 msgstr "上揃え"
 
-#: menus/widgetbasepopupmenu.cpp:597 uml.cpp:580
+#: menus/widgetbasepopupmenu.cpp:597 umlapp.cpp:580
 #, kde-format
 msgid "Align Bottom"
 msgstr "下揃え"
 
-#: menus/widgetbasepopupmenu.cpp:599 uml.cpp:585
+#: menus/widgetbasepopupmenu.cpp:599 umlapp.cpp:585
 #, kde-format
 msgid "Align Vertical Middle"
 msgstr "垂直方向中央揃え"
 
-#: menus/widgetbasepopupmenu.cpp:600 uml.cpp:590
+#: menus/widgetbasepopupmenu.cpp:600 umlapp.cpp:590
 #, kde-format
 msgid "Align Horizontal Middle"
 msgstr "水平方向中央揃え"
 
-#: menus/widgetbasepopupmenu.cpp:601 uml.cpp:595
+#: menus/widgetbasepopupmenu.cpp:601 umlapp.cpp:595
 #, kde-format
 msgid "Align Vertical Distribute"
 msgstr "垂直方向均等配置"
 
-#: menus/widgetbasepopupmenu.cpp:602 uml.cpp:600
+#: menus/widgetbasepopupmenu.cpp:602 umlapp.cpp:600
 #, kde-format
 msgid "Align Horizontal Distribute"
 msgstr "水平方向均等配置"
@@ -6221,9 +6222,10 @@ msgid "Usage"
 msgstr "メッセージ"
 
 #: object_factory.cpp:254 umldoc.cpp:1633 umldoc.cpp:1668
-#: umlmodel/classifier.cpp:409 umlmodel/classifier.cpp:782
-#: umlmodel/entity.cpp:122 umlmodel/entity.cpp:175 umlmodel/entity.cpp:225
-#: umlmodel/entity.cpp:274 umlmodel/enum.cpp:105 umlmodel/package.cpp:179
+#: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
+#: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
+#: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
+#: umlmodel/umlenum.cpp:105 umlmodel/umlpackage.cpp:179
 #, kde-format
 msgid "That is an invalid name."
 msgstr "無効な名前です。"
@@ -6240,17 +6242,18 @@ msgid "Reserved Keyword"
 msgstr "予約語"
 
 #: object_factory.cpp:267 umldoc.cpp:1639 umldoc.cpp:1677
-#: umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
-#: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
-#: umlmodel/entity.cpp:276
+#: umlmodel/umlclassifier.cpp:412 umlmodel/umlclassifier.cpp:784
+#: umlmodel/umlentity.cpp:124 umlmodel/umlentity.cpp:177
+#: umlmodel/umlentity.cpp:227 umlmodel/umlentity.cpp:276
 #, kde-format
 msgid "That name is already being used."
 msgstr "その名前は既に使われています。"
 
 #: object_factory.cpp:268 umldoc.cpp:1542 umldoc.cpp:1611 umldoc.cpp:1639
-#: umldoc.cpp:1677 umlmodel/classifier.cpp:412 umlmodel/classifier.cpp:784
-#: umlmodel/entity.cpp:124 umlmodel/entity.cpp:177 umlmodel/entity.cpp:227
-#: umlmodel/entity.cpp:276
+#: umldoc.cpp:1677 umlmodel/umlclassifier.cpp:412
+#: umlmodel/umlclassifier.cpp:784 umlmodel/umlentity.cpp:124
+#: umlmodel/umlentity.cpp:177 umlmodel/umlentity.cpp:227
+#: umlmodel/umlentity.cpp:276
 #, kde-format
 msgid "Not a Unique Name"
 msgstr "名前が重複"
@@ -7577,311 +7580,311 @@ msgid "&Settings"
 msgstr "ロールの設定"
 
 # ACCELERATOR changed by translator
-#: uml.cpp:343
+#: umlapp.cpp:343
 #, kde-format
 msgid "&Export model to DocBook"
 msgstr "モデルを DocBook でエクスポート(&D)"
 
 # ACCELERATOR changed by translator
-#: uml.cpp:347
+#: umlapp.cpp:347
 #, kde-format
 msgid "&Export model to XHTML"
 msgstr "モデルを XHTML でエクスポート(&X)"
 
-#: uml.cpp:351
+#: umlapp.cpp:351
 #, kde-format
 msgid "&New Class Wizard..."
 msgstr "新規クラスウィザード(&N)..."
 
-#: uml.cpp:355
+#: umlapp.cpp:355
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
 msgstr "有効な言語に対して標準のデータタイプを設定(&A)"
 
-#: uml.cpp:362
+#: umlapp.cpp:362
 #, fuzzy, kde-format
 #| msgid "&Code Generation Wizard..."
 msgid "Code &Importing Wizard..."
 msgstr "コード生成ウィザード(&W)..."
 
-#: uml.cpp:372
+#: umlapp.cpp:372
 #, kde-format
 msgid "&Code Generation Wizard..."
 msgstr "コード生成ウィザード(&W)..."
 
-#: uml.cpp:377
+#: umlapp.cpp:377
 #, kde-format
 msgid "&Generate All Code"
 msgstr "すべてのコードを生成(&G)"
 
 # @info:tooltip
-#: uml.cpp:424
+#: umlapp.cpp:424
 #, kde-format
 msgid "Creates a new document"
 msgstr "新しい文書を作成します"
 
 # @info:tooltip
-#: uml.cpp:425
+#: umlapp.cpp:425
 #, kde-format
 msgid "Opens an existing document"
 msgstr "既存の文書を開きます"
 
 # @info:tooltip
-#: uml.cpp:426
+#: umlapp.cpp:426
 #, kde-format
 msgid "Opens a recently used file"
 msgstr "最近使ったファイルを開きます"
 
 # @info:tooltip
-#: uml.cpp:427
+#: umlapp.cpp:427
 #, kde-format
 msgid "Saves the document"
 msgstr "文書を保存します"
 
 # skip-rule: dots2
 # @info:tooltip
-#: uml.cpp:428
+#: umlapp.cpp:428
 #, kde-format
 msgid "Saves the document as..."
 msgstr "文書に名前を付けて保存します"
 
 # @info:tooltip
-#: uml.cpp:429
+#: umlapp.cpp:429
 #, kde-format
 msgid "Closes the document"
 msgstr "文書を閉じます"
 
 # @info:tooltip
-#: uml.cpp:430
+#: umlapp.cpp:430
 #, kde-format
 msgid "Prints out the document"
 msgstr "文書を印刷します"
 
 # @info:tooltip
-#: uml.cpp:431
+#: umlapp.cpp:431
 #, fuzzy, kde-format
 #| msgid "Prints out the document"
 msgid "Print Preview of the document"
 msgstr "文書を印刷します"
 
 # @info:tooltip
-#: uml.cpp:432
+#: umlapp.cpp:432
 #, kde-format
 msgid "Quits the application"
 msgstr "アプリケーションを終了します"
 
 # @info:tooltip
-#: uml.cpp:433
+#: umlapp.cpp:433
 #, kde-format
 msgid "Exports the model to the docbook format"
 msgstr "モデルを docbook フォーマットでエクスポートします"
 
 # @info:tooltip
-#: uml.cpp:434
+#: umlapp.cpp:434
 #, kde-format
 msgid "Exports the model to the XHTML format"
 msgstr "モデルを XHTML フォーマットでエクスポートします"
 
 # @info:tooltip
-#: uml.cpp:435
+#: umlapp.cpp:435
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
 msgstr "選択した部分を切り取りクリップボードにコピーします"
 
 # @info:tooltip
-#: uml.cpp:436
+#: umlapp.cpp:436
 #, kde-format
 msgid "Copies the selected section to the clipboard"
 msgstr "選択した部分をクリップボードにコピーします"
 
 # @info:tooltip
-#: uml.cpp:437
+#: umlapp.cpp:437
 #, kde-format
 msgid "Pastes the contents of the clipboard"
 msgstr "クリップボードの内容を貼り付けます"
 
-#: uml.cpp:438
+#: umlapp.cpp:438
 #, fuzzy, kde-format
 #| msgid "&Invoke action "
 msgid "Undo last action"
 msgstr "アクションを呼び出し(&I)"
 
-#: uml.cpp:439
+#: umlapp.cpp:439
 #, kde-format
 msgid "Redo last undone action"
 msgstr ""
 
 # @info:tooltip
-#: uml.cpp:441
+#: umlapp.cpp:441
 #, kde-format
 msgid "Set the default program preferences"
 msgstr "プログラムのデフォルトの動作を設定します"
 
-#: uml.cpp:445
+#: umlapp.cpp:445
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
 msgstr "選択したウィジェットを削除(&S)"
 
-#: uml.cpp:456
+#: umlapp.cpp:456
 #, kde-format
 msgid "&Class Diagram..."
 msgstr "クラス図(&C)..."
 
-#: uml.cpp:463
+#: umlapp.cpp:463
 #, fuzzy, kde-format
 #| msgid "S&tate Diagram..."
 msgid "&Object Diagram..."
 msgstr "状態図(&S)..."
 
-#: uml.cpp:470
+#: umlapp.cpp:470
 #, kde-format
 msgid "&Sequence Diagram..."
 msgstr "シーケンス図(&S)..."
 
-#: uml.cpp:476
+#: umlapp.cpp:476
 #, fuzzy, kde-format
 #| msgid "C&ollaboration Diagram..."
 msgid "C&ommunication Diagram..."
 msgstr "コラボレーション図(&C)..."
 
-#: uml.cpp:482
+#: umlapp.cpp:482
 #, kde-format
 msgid "&Use Case Diagram..."
 msgstr "ユースケース図(&U)..."
 
-#: uml.cpp:488
+#: umlapp.cpp:488
 #, kde-format
 msgid "S&tate Diagram..."
 msgstr "状態図(&S)..."
 
-#: uml.cpp:494
+#: umlapp.cpp:494
 #, kde-format
 msgid "&Activity Diagram..."
 msgstr "アクティビティ図(&A)..."
 
-#: uml.cpp:500
+#: umlapp.cpp:500
 #, kde-format
 msgid "Co&mponent Diagram..."
 msgstr "コンポーネント図(&M)..."
 
-#: uml.cpp:506
+#: umlapp.cpp:506
 #, kde-format
 msgid "&Deployment Diagram..."
 msgstr "配置図(&D)..."
 
-#: uml.cpp:512
+#: umlapp.cpp:512
 #, kde-format
 msgid "&Entity Relationship Diagram..."
 msgstr "エンティティ関係図(&E)..."
 
-#: uml.cpp:518
+#: umlapp.cpp:518
 #, kde-format
 msgid "&Clear Diagram"
 msgstr "図をクリア(&C)"
 
-#: uml.cpp:522
+#: umlapp.cpp:522
 #, kde-format
 msgid "&Snap to Grid"
 msgstr "グリッドに合わせる(&S)"
 
-#: uml.cpp:526
+#: umlapp.cpp:526
 #, kde-format
 msgid "S&how Grid"
 msgstr "グリッドを表示(&H)"
 
-#: uml.cpp:531
+#: umlapp.cpp:531
 #, fuzzy, kde-format
 #| msgid "Delete Diagram"
 msgid "&Delete Diagram"
 msgstr "図を削除"
 
-#: uml.cpp:536
+#: umlapp.cpp:536
 #, kde-format
 msgid "&Export as Picture..."
 msgstr "画像としてエクスポート(&E)..."
 
-#: uml.cpp:541
+#: umlapp.cpp:541
 #, fuzzy, kde-format
 #| msgid "Export &All Diagrams as Pictures..."
 msgid "Export &Diagrams as Pictures..."
 msgstr "すべての図を画像としてエクスポート(&A)..."
 
-#: uml.cpp:561
+#: umlapp.cpp:561
 #, kde-format
 msgid "Z&oom to 100%"
 msgstr "100% にズーム(&O)"
 
-#: uml.cpp:604
+#: umlapp.cpp:604
 #, kde-format
 msgid "&Move Tab Left"
 msgstr "タブを左に移動(&M)"
 
-#: uml.cpp:605
+#: umlapp.cpp:605
 #, kde-format
 msgid "&Move Tab Right"
 msgstr "タブを右に移動(&M)"
 
-#: uml.cpp:621
+#: umlapp.cpp:621
 #, kde-format
 msgid "Select Diagram on Left"
 msgstr "左の図を選択"
 
-#: uml.cpp:622
+#: umlapp.cpp:622
 #, kde-format
 msgid "Select Diagram on Right"
 msgstr "右の図を選択"
 
-#: uml.cpp:758
+#: umlapp.cpp:758
 #, kde-format
 msgctxt "%1 percent value from 20 to 500"
 msgid " &%1%"
 msgstr ""
 
-#: uml.cpp:810
+#: umlapp.cpp:810
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
 msgstr "準備完了"
 
-#: uml.cpp:818 uml.cpp:831
+#: umlapp.cpp:818 umlapp.cpp:831
 #, kde-format
 msgid "100%"
 msgstr ""
 
-#: uml.cpp:823
+#: umlapp.cpp:823
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Fit"
 msgstr "フィルタ"
 
-#: uml.cpp:874
+#: umlapp.cpp:874
 #, kde-format
 msgid "Diagram Toolbar"
 msgstr "図に関するツールバー"
 
-#: uml.cpp:927 uml.cpp:1144 uml.cpp:1182
+#: umlapp.cpp:927 umlapp.cpp:1144 umlapp.cpp:1182
 #, kde-format
 msgid "Opening file..."
 msgstr "ファイルを開いています..."
 
-#: uml.cpp:978 uml.cpp:1049 uml.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
+#: umlapp.cpp:978 umlapp.cpp:1049 umlapp.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
 #: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "名前なし"
 
-#: uml.cpp:1126
+#: umlapp.cpp:1126
 #, kde-format
 msgid "Creating new document..."
 msgstr "新しい文書を作成しています..."
 
-#: uml.cpp:1151
+#: umlapp.cpp:1151
 #, kde-format
 msgid "Open File"
 msgstr "ファイルを開く"
 
-#: uml.cpp:1152
+#: umlapp.cpp:1152
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi."
@@ -7907,23 +7910,23 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 圧縮 XMI ファイル (*.xmi.tar.bz2)\n"
 "*.mdl|Rose モデルファイル"
 
-#: uml.cpp:1212
+#: umlapp.cpp:1212
 #, kde-format
 msgid "Saving file..."
 msgstr "ファイルを保存しています..."
 
 # skip-rule: filename
-#: uml.cpp:1229
+#: umlapp.cpp:1229
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "新しい名前でファイルを保存しています..."
 
-#: uml.cpp:1234 umlviewimageexporter.cpp:172
+#: umlapp.cpp:1234 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "名前を付けて保存"
 
-#: uml.cpp:1235
+#: umlapp.cpp:1235
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -7939,7 +7942,7 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 圧縮された XMI ファイル\n"
 "*|すべてのファイル"
 
-#: uml.cpp:1253
+#: umlapp.cpp:1253
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7948,68 +7951,68 @@ msgstr ""
 "ファイル ‘%1’ は存在します。\n"
 "上書きしますか？"
 
-#: uml.cpp:1254
+#: umlapp.cpp:1254
 #, kde-format
 msgid "Warning"
 msgstr "警告"
 
-#: uml.cpp:1254
+#: umlapp.cpp:1254
 #, kde-format
 msgid "Overwrite"
 msgstr "上書き"
 
-#: uml.cpp:1280
+#: umlapp.cpp:1280
 #, kde-format
 msgid "Closing file..."
 msgstr "ファイルを閉じています..."
 
-#: uml.cpp:1291
+#: umlapp.cpp:1291
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: uml.cpp:1297
+#: umlapp.cpp:1297
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: uml.cpp:1353
+#: umlapp.cpp:1353
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "Print Preview..."
 msgstr "ビューをエクスポート..."
 
-#: uml.cpp:1380
+#: umlapp.cpp:1380
 #, kde-format
 msgid "Printing..."
 msgstr "印刷中..."
 
-#: uml.cpp:1386
+#: umlapp.cpp:1386
 #, kde-format
 msgid "Print %1"
 msgstr "“%1” を印刷"
 
-#: uml.cpp:1405
+#: umlapp.cpp:1405
 #, kde-format
 msgid "Exiting..."
 msgstr "終了中..."
 
-#: uml.cpp:1476
+#: umlapp.cpp:1476
 #, kde-format
 msgid "Cutting selection..."
 msgstr "選択範囲を切り取り中..."
 
-#: uml.cpp:1499
+#: umlapp.cpp:1499
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "選択内容をクリップボードにコピー中..."
 
-#: uml.cpp:1511
+#: umlapp.cpp:1511
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "クリップボードの内容を挿入中..."
 
-#: uml.cpp:1516
+#: umlapp.cpp:1516
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -8018,92 +8021,92 @@ msgstr ""
 "Umbrello はクリップボードの内容を貼り付けることができませんでした。クリップ"
 "ボードの内容はおそらくここに貼り付けるタイプではないのでしょう。"
 
-#: uml.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: umlapp.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "準備完了。"
 
-#: uml.cpp:2158
+#: umlapp.cpp:2158
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "いくつかコードを生成した後にのみ、コードを見ることができます。"
 
-#: uml.cpp:2158 uml.cpp:2161
+#: umlapp.cpp:2158 umlapp.cpp:2161
 #, kde-format
 msgid "Cannot View Code"
 msgstr "コードを表示できません"
 
-#: uml.cpp:2161
+#: umlapp.cpp:2161
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "シンプルコードライターでコードを表示できません"
 
-#: uml.cpp:2611
+#: umlapp.cpp:2611
 #, fuzzy, kde-format
 #| msgid "Select the object node type"
 msgid "Select file(s) to import:"
 msgstr "オブジェクトノードのタイプを選択"
 
-#: uml.cpp:2640
+#: umlapp.cpp:2640
 #, kde-format
 msgid "Select directory to import:"
 msgstr ""
 
-#: uml.cpp:3158
+#: umlapp.cpp:3158
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML の生成に失敗しました。"
 
-#: umlappprivate.h:101
+#: umlappprivate.h:102
 #, fuzzy, kde-format
 #| msgid "Show destruction"
 msgid "Show/hide window"
 msgstr "デストラクタを表示"
 
-#: umlappprivate.h:169
+#: umlappprivate.h:170
 #, kde-format
 msgid "&Bird's eye view"
 msgstr ""
 
-#: umlappprivate.h:177
+#: umlappprivate.h:178
 #, kde-format
 msgid "Co&mmand history"
 msgstr "コマンド履歴(&M)"
 
-#: umlappprivate.h:189
+#: umlappprivate.h:190
 #, kde-format
 msgid "&Debug"
 msgstr ""
 
-#: umlappprivate.h:205
+#: umlappprivate.h:206
 #, kde-format
 msgid "Doc&umentation"
 msgstr "ドキュメンテーション(&U)"
 
-#: umlappprivate.h:224
+#: umlappprivate.h:225
 #, kde-format
 msgid "&Log"
 msgstr ""
 
-#: umlappprivate.h:233
+#: umlappprivate.h:234
 #, fuzzy, kde-format
 #| msgid "UML Object Color"
 msgid "&UML Objects"
 msgstr "UML オブジェクトの色"
 
-#: umlappprivate.h:247
+#: umlappprivate.h:248
 #, fuzzy, kde-format
 #| msgid "Stereotype"
 msgid "&Stereotypes"
 msgstr "ステレオタイプ"
 
-#: umlappprivate.h:254
+#: umlappprivate.h:255
 #, kde-format
 msgid "&Tree View"
 msgstr "ツリー表示(&T)"
 
-#: umlappprivate.h:274
+#: umlappprivate.h:275
 #, kde-format
 msgid "Welcome"
 msgstr ""
@@ -8165,8 +8168,8 @@ msgid "The file <%1> does not exist."
 msgstr "ファイル <filename>%1</filename> は存在しません。"
 
 #: umldoc.cpp:550 umldoc.cpp:571 umldoc.cpp:610 umldoc.cpp:622 umldoc.cpp:636
-#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/folder.cpp:450
-#: umlmodel/folder.cpp:454
+#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/umlfolder.cpp:450
+#: umlmodel/umlfolder.cpp:454
 #, kde-format
 msgid "Load Error"
 msgstr "ロードエラー"
@@ -8478,50 +8481,6 @@ msgstr ""
 msgid "Name Not Valid"
 msgstr "名前が無効"
 
-#: umlmodel/classifier.cpp:281
-#, fuzzy, kde-format
-#| msgid ""
-#| "An operation with the same name and signature already exists. You can not "
-#| "add it again."
-msgid ""
-"An operation with the same name and signature already exists. You cannot add "
-"it again."
-msgstr ""
-"同じ名前とシグニチャをもつ操作が既に存在します。二回追加することはできませ"
-"ん。"
-
-#: umlmodel/folder.cpp:450
-#, kde-format
-msgid "The folderfile %1 does not exist."
-msgstr "ファイル ‘%1’ は存在しません。"
-
-#: umlmodel/folder.cpp:454
-#, kde-format
-msgid "The folderfile %1 cannot be opened."
-msgstr "ファイル ‘%1’ を開けません。"
-
-#: umlmodel/operation.cpp:290
-#, kde-format
-msgid "new_parameter"
-msgstr "新規パラメータ"
-
-#: umlmodel/package.cpp:171
-#, kde-format
-msgctxt "object name"
-msgid "Name"
-msgstr "名前"
-
-#: umlmodel/package.cpp:172
-#, kde-format
-msgid ""
-"An object with the name %1\n"
-"already exists in the package %2.\n"
-"Please enter a new name:"
-msgstr ""
-"“%1” という名前のオブジェクトは\n"
-"パッケージ “%2” に既に存在します。\n"
-"他の名前を入力してください:"
-
 #: umlmodel/umlcanvasobject.cpp:200
 #, kde-format
 msgid "new_literal"
@@ -8536,6 +8495,28 @@ msgstr "新規フィールド"
 #, kde-format
 msgid "new_fkey_constraint"
 msgstr "新規外部キー制約"
+
+#: umlmodel/umlclassifier.cpp:281
+#, fuzzy, kde-format
+#| msgid ""
+#| "An operation with the same name and signature already exists. You can not "
+#| "add it again."
+msgid ""
+"An operation with the same name and signature already exists. You cannot add "
+"it again."
+msgstr ""
+"同じ名前とシグニチャをもつ操作が既に存在します。二回追加することはできませ"
+"ん。"
+
+#: umlmodel/umlfolder.cpp:450
+#, kde-format
+msgid "The folderfile %1 does not exist."
+msgstr "ファイル ‘%1’ は存在しません。"
+
+#: umlmodel/umlfolder.cpp:454
+#, kde-format
+msgid "The folderfile %1 cannot be opened."
+msgstr "ファイル ‘%1’ を開けません。"
 
 #: umlmodel/umlobject.cpp:1230
 #, kde-format
@@ -8614,6 +8595,28 @@ msgstr "ユースケース名(&N):"
 #, kde-format
 msgid "Instance name:"
 msgstr "インスタンス名:"
+
+#: umlmodel/umloperation.cpp:290
+#, kde-format
+msgid "new_parameter"
+msgstr "新規パラメータ"
+
+#: umlmodel/umlpackage.cpp:171
+#, kde-format
+msgctxt "object name"
+msgid "Name"
+msgstr "名前"
+
+#: umlmodel/umlpackage.cpp:172
+#, kde-format
+msgid ""
+"An object with the name %1\n"
+"already exists in the package %2.\n"
+"Please enter a new name:"
+msgstr ""
+"“%1” という名前のオブジェクトは\n"
+"パッケージ “%2” に既に存在します。\n"
+"他の名前を入力してください:"
 
 #: umlscene.cpp:720
 #, kde-format
