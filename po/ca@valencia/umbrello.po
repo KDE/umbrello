@@ -7267,7 +7267,7 @@ msgstr "Guarda el document"
 #: umlapp.cpp:428
 #, kde-format
 msgid "Saves the document as..."
-msgstr "Guarda el document com a…"
+msgstr "Anomena i guarda el document…"
 
 #: umlapp.cpp:429
 #, kde-format
