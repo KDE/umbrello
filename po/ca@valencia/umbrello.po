@@ -1464,7 +1464,7 @@ msgstr "Desselecciona-ho tot"
 #: codeimpwizard/codeimpselectpage.ui:124
 #, kde-format
 msgid "Select all"
-msgstr "Tria-ho tot"
+msgstr "Selecciona-ho tot"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_filesLabel)
 #: codeimpwizard/codeimpselectpage.ui:136
@@ -7240,7 +7240,7 @@ msgstr "Guarda el document"
 #: uml.cpp:448
 #, kde-format
 msgid "Saves the document as..."
-msgstr "Guarda el document com a…"
+msgstr "Anomena i guarda el document…"
 
 #: uml.cpp:449
 #, kde-format
