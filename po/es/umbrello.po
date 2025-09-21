@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-10 01:58+0000\n"
-"PO-Revision-Date: 2025-09-16 01:00+0200\n"
+"PO-Revision-Date: 2025-09-20 20:54+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -7425,7 +7425,7 @@ msgstr "Exportar &diagramas como imágenes…"
 #: umlapp.cpp:561
 #, kde-format
 msgid "Z&oom to 100%"
-msgstr "Z&oom al 100 %"
+msgstr "A&mpliación al 100 %"
 
 #: umlapp.cpp:604
 #, kde-format
@@ -7462,7 +7462,7 @@ msgstr "Preparado"
 #: umlapp.cpp:818 umlapp.cpp:831
 #, kde-format
 msgid "100%"
-msgstr "100%"
+msgstr "100 %"
 
 #: umlapp.cpp:823
 #, kde-format
