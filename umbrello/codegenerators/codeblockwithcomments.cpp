@@ -11,6 +11,7 @@
 // local includes
 #include "codedocument.h"
 #include "codegenfactory.h"
+#include "debug_utils.h"
 #include "umlapp.h"
 
 // qt/kde includes

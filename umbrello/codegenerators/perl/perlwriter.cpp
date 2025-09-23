@@ -7,6 +7,7 @@
 
 #include "perlwriter.h"
 
+#include "debug_utils.h"
 #include "umlassociation.h"
 #include "umlattribute.h"
 #include "umlclassifier.h"

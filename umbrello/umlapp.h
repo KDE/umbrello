@@ -463,47 +463,4 @@ Q_SIGNALS:
     friend class UMLView;
 };
 
-#define logDebug0(s) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
-                     UMLApp::app()->logDebug(QStringLiteral(s))
-#define logInfo0(s)  UMLApp::app()->logInfo(QStringLiteral(s))
-#define logWarn0(s)  UMLApp::app()->logWarn(QStringLiteral(s))
-#define logError0(s) UMLApp::app()->logError(QStringLiteral(s))
-
-#define logDebug1(s, a) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
-                        do { QString fmt = QString(QStringLiteral(s)).arg(a); UMLApp::app()->logDebug(fmt); } while (0)
-#define logInfo1(s, a)  do { QString fmt = QString(QStringLiteral(s)).arg(a); UMLApp::app()->logInfo(fmt);  } while (0)
-#define logWarn1(s, a)  do { QString fmt = QString(QStringLiteral(s)).arg(a); UMLApp::app()->logWarn(fmt);  } while (0)
-#define logError1(s, a) do { QString fmt = QString(QStringLiteral(s)).arg(a); UMLApp::app()->logError(fmt); } while (0)
-
-#define logDebug2(s, a, b) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
-                           do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b); UMLApp::app()->logDebug(fmt); } while (0)
-#define logInfo2(s, a, b)  do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b); UMLApp::app()->logInfo(fmt);  } while (0)
-#define logWarn2(s, a, b)  do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b); UMLApp::app()->logWarn(fmt);  } while (0)
-#define logError2(s, a, b) do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b); UMLApp::app()->logError(fmt); } while (0)
-
-#define logDebug3(s, a, b, c) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
-                              do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c); UMLApp::app()->logDebug(fmt); } while (0)
-#define logInfo3(s, a, b, c)  do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c); UMLApp::app()->logInfo(fmt);  } while (0)
-#define logWarn3(s, a, b, c)  do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c); UMLApp::app()->logWarn(fmt);  } while (0)
-#define logError3(s, a, b, c) do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c); UMLApp::app()->logError(fmt); } while (0)
-
-#define logDebug4(s, a, b, c, d) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
-                                 do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logDebug(fmt); } while (0)
-#define logInfo4(s, a, b, c, d)  do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logInfo(fmt);  } while (0)
-#define logWarn4(s, a, b, c, d)  do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logWarn(fmt);  } while (0)
-#define logError4(s, a, b, c, d) do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c).arg(d); UMLApp::app()->logError(fmt); } while (0)
-
-#define logDebug5(s, a, b, c, d, e) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
-                                    do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c).arg(d).arg(e); \
-                                    UMLApp::app()->logDebug(fmt); } while (0)
-#define logInfo5(s, a, b, c, d, e)  do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c).arg(d).arg(e); \
-                                    UMLApp::app()->logInfo(fmt);  } while (0)
-#define logWarn5(s, a, b, c, d, e)  do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c).arg(d).arg(e); \
-                                    UMLApp::app()->logWarn(fmt);  } while (0)
-#define logError5(s, a, b, c, d, e) do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c).arg(d).arg(e); \
-                                    UMLApp::app()->logError(fmt); } while (0)
-
-#define logDebug6(s, a, b, c, d, e, f) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
-        do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c).arg(d).arg(e).arg(f); UMLApp::app()->logDebug(fmt); } while (0)
-
 #endif // UML_H

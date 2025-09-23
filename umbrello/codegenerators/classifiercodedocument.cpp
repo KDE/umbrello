@@ -9,6 +9,7 @@
 #include "classifiercodedocument.h"
 
 // local includes
+#include "debug_utils.h"
 #include "umlassociation.h"
 #include "umlattribute.h"
 

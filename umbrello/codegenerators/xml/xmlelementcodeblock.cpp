@@ -9,6 +9,7 @@
 #include "xmlelementcodeblock.h"
 
 // local includes
+#include "debug_utils.h"
 #include "umlattribute.h"
 #include "codedocument.h"
 #include "umlapp.h"
