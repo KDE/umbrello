@@ -1649,21 +1649,6 @@ void AssociationWidget::calculateEndingPoints()
     }
 
     int size = m_associationLine.count();
-    if (size < 2) {
-        QPointF pA = pWidgetA->scenePos();
-        QPointF pB = pWidgetB->scenePos();
-        QPolygonF polyA = pWidgetA->shape().toFillPolygon().translated(pA);
-        QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pB);
-        QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
-        if (nearestPoints.isNull()) {
-            logError0("AssociationWidget::calculateEndingPoints: Widget_Utils::closestPoints failed, "
-                      "falling back to simple widget positions");
-        } else {
-            pA = nearestPoints.p1();
-            pB = nearestPoints.p2();
-        }
-        m_associationLine.setEndPoints(pA, pB);
-    }
 
     // See if an association to self.
     // See if it needs to be set up before we continue:
@@ -1681,25 +1666,23 @@ void AssociationWidget::calculateEndingPoints()
         return;
     }
 
-    if (size < 2 || (m_associationLine.startPoint().isNull()
-                 &&  m_associationLine.endPoint().isNull())) {
-        QPointF pA = pWidgetA->scenePos();
-        QPointF pB = pWidgetB->scenePos();
-        QPolygonF polyA = pWidgetA->shape().toFillPolygon().translated(pA);
-        QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pB);
-        QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
-        if (nearestPoints.isNull()) {
-            logError0("AssociationWidget::calculateEndingPoints: Widget_Utils::closestPoints failed, "
-                      "falling back to simple widget positions");
-        } else {
-            pA = nearestPoints.p1();
-            pB = nearestPoints.p2();
-        }
-        m_associationLine.setEndPoints(pA, pB);
+    QPointF pA = pWidgetA->scenePos();
+    QPointF pB = pWidgetB->scenePos();
+    QPolygonF polyA = pWidgetA->shape().toFillPolygon().translated(pA);
+    QPolygonF polyB = pWidgetB->shape().toFillPolygon().translated(pB);
+    QLineF nearestPoints = Widget_Utils::closestPoints(polyA, polyB);
+    if (nearestPoints.isNull()) {
+        logError0("AssociationWidget::calculateEndingPoints: Widget_Utils::closestPoints failed, "
+                  "falling back to simple widget positions");
+    } else {
+        pA = nearestPoints.p1();
+        pB = nearestPoints.p2();
     }
+    m_associationLine.setEndPoints(pA, pB);
 
-    setStartAndEndPoint(this, m_role[RoleType::A].umlWidget);
-    setStartAndEndPoint(this, m_role[RoleType::B].umlWidget);
+    // TODO check if these calls are really needed as end points are already set
+    //setStartAndEndPoint(this, m_role[RoleType::A].umlWidget);
+    //setStartAndEndPoint(this, m_role[RoleType::B].umlWidget);
     AssociationWidgetList assocList(m_scene->associationList());
     updateAssociations(m_role[RoleType::A].umlWidget, assocList);
     updateAssociations(m_role[RoleType::B].umlWidget, assocList);
