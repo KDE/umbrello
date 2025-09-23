@@ -917,6 +917,10 @@ void UMLApp::initWidgets()
     setCentralWidget(widget);
 
     m_d->initWidgets();
+
+    // setup signals for work tool bar
+    // make sure gets signal from list view
+    m_doc->setupSignals();
 }
 
 /**

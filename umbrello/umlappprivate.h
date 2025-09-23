@@ -210,8 +210,6 @@ public Q_SLOTS:
         docWindow->setObjectName(QStringLiteral("DOCWINDOW"));
         documentationDock->setWidget(docWindow);
         dockCategory->addAction(QStringLiteral("view_show_doc"), documentationDock->toggleViewAction());
-
-        parent->document()->setupSignals(); // make sure gets signal from list view
     }
 
     void createLogWindow()
