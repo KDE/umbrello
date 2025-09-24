@@ -138,6 +138,17 @@ private:
  */
 #define ENUM_NAME(o, e, v) (o::staticMetaObject.enumerator(o::staticMetaObject.indexOfEnumerator(#e)).valueToKey((v)))
 
+template <typename T>
+QString toString(const T& value);
+
+template <typename T>
+QString toString(const T& value)
+{
+    QString s;
+    QDebug(&s) << value;   // relies on Qt's QDebug operator<<
+    return s.trimmed();
+}
+
 #define logDebug0(s) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
                      UMLApp::app()->logDebug(QStringLiteral(s))
 #define logInfo0(s)  UMLApp::app()->logInfo(QStringLiteral(s))
