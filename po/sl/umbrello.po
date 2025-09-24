@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-10 01:58+0000\n"
+"POT-Creation-Date: 2025-09-24 02:01+0000\n"
 "PO-Revision-Date: 2025-09-04 06:45+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -218,7 +218,7 @@ msgstr ""
 "Vsaj eden od predmetov v odložišču ni bil prilepljen, ker predmet z enakim "
 "imenom že obstaja. Vsi drugi predmeti so bili prilepljeni."
 
-#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1518
+#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1522
 #, kde-format
 msgid "Paste Error"
 msgstr "Napaka med lepljenjem"
@@ -7446,28 +7446,28 @@ msgstr "Prilagodi"
 msgid "Diagram Toolbar"
 msgstr "Orodna vrstica diagrama"
 
-#: umlapp.cpp:927 umlapp.cpp:1144 umlapp.cpp:1182
+#: umlapp.cpp:931 umlapp.cpp:1148 umlapp.cpp:1186
 #, kde-format
 msgid "Opening file..."
 msgstr "Odpiranje datoteke ..."
 
-#: umlapp.cpp:978 umlapp.cpp:1049 umlapp.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
+#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:351 umldoc.cpp:374
 #: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "Neimenovano"
 
-#: umlapp.cpp:1126
+#: umlapp.cpp:1130
 #, kde-format
 msgid "Creating new document..."
 msgstr "Ustvarjanje novega dokumenta ..."
 
-#: umlapp.cpp:1151
+#: umlapp.cpp:1155
 #, kde-format
 msgid "Open File"
 msgstr "Odpri datoteko"
 
-#: umlapp.cpp:1152
+#: umlapp.cpp:1156
 #, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7487,22 +7487,22 @@ msgstr ""
 "*.mdl|Modelne datoteke Rose\n"
 "*.zargo|Stisnjene datoteke argo (*.zargo)\n"
 
-#: umlapp.cpp:1212
+#: umlapp.cpp:1216
 #, kde-format
 msgid "Saving file..."
 msgstr "Shranjevanje datoteke ..."
 
-#: umlapp.cpp:1229
+#: umlapp.cpp:1233
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Shranjevanje datoteke z novim imenom ..."
 
-#: umlapp.cpp:1234 umlviewimageexporter.cpp:172
+#: umlapp.cpp:1238 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Shrani kot"
 
-#: umlapp.cpp:1235
+#: umlapp.cpp:1239
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7512,7 +7512,7 @@ msgstr ""
 "xmi.tgz);;*.xmi.tar.bz2 | Z Bzip2 stisnjena datoteka XMI (*.xmi.tar.bz2);;* "
 "| Vse datoteke (*)"
 
-#: umlapp.cpp:1253
+#: umlapp.cpp:1257
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7521,67 +7521,67 @@ msgstr ""
 "Datoteka %1 obstaja.\n"
 "Ali jo želite prepisati?"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, kde-format
 msgid "Warning"
 msgstr "Opozorilo"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, kde-format
 msgid "Overwrite"
 msgstr "Prepiši"
 
-#: umlapp.cpp:1280
+#: umlapp.cpp:1284
 #, kde-format
 msgid "Closing file..."
 msgstr "Zapiranje datoteke ..."
 
-#: umlapp.cpp:1291
+#: umlapp.cpp:1295
 #, kde-format
 msgid "No search term entered"
 msgstr "Iskani izraz ni vnesen"
 
-#: umlapp.cpp:1297
+#: umlapp.cpp:1301
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "»%1«: %2 najdenih"
 
-#: umlapp.cpp:1353
+#: umlapp.cpp:1357
 #, kde-format
 msgid "Print Preview..."
 msgstr "Predogled tiskanja ..."
 
-#: umlapp.cpp:1380
+#: umlapp.cpp:1384
 #, kde-format
 msgid "Printing..."
 msgstr "Tiskanje ..."
 
-#: umlapp.cpp:1386
+#: umlapp.cpp:1390
 #, kde-format
 msgid "Print %1"
 msgstr "Natisni %1"
 
-#: umlapp.cpp:1405
+#: umlapp.cpp:1409
 #, kde-format
 msgid "Exiting..."
 msgstr "Končujem ..."
 
-#: umlapp.cpp:1476
+#: umlapp.cpp:1480
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Izrezovanje izbora ..."
 
-#: umlapp.cpp:1499
+#: umlapp.cpp:1503
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Kopiranje izbora v odložišče ..."
 
-#: umlapp.cpp:1511
+#: umlapp.cpp:1515
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Vstavljanje vsebine odložišča ..."
 
-#: umlapp.cpp:1516
+#: umlapp.cpp:1520
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7590,38 +7590,38 @@ msgstr ""
 "Umbrello ni mogel prilepiti vsebine odložišča. Predmeti v odložišču so "
 "mogoče napačne vrste."
 
-#: umlapp.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: umlapp.cpp:1546 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Pripravljen."
 
-#: umlapp.cpp:2158
+#: umlapp.cpp:2162
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "Ni mogoče prikazati kode, dokler je nekaj ne ustvarite."
 
-#: umlapp.cpp:2158 umlapp.cpp:2161
+#: umlapp.cpp:2162 umlapp.cpp:2165
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Ni mogoče prikazati kode"
 
-#: umlapp.cpp:2161
+#: umlapp.cpp:2165
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Ni mogoče prikazati kode iz preprostega pisalnika kode."
 
-#: umlapp.cpp:2611
+#: umlapp.cpp:2615
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Izberite datoteke za uvoz:"
 
-#: umlapp.cpp:2640
+#: umlapp.cpp:2644
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Izberite mapo za uvoz:"
 
-#: umlapp.cpp:3158
+#: umlapp.cpp:3162
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Ustvarjanje XHTML je spodletelo."
@@ -7651,27 +7651,27 @@ msgstr "Razhrošči"
 msgid "Doc&umentation"
 msgstr "Dok&umentacija"
 
-#: umlappprivate.h:225
+#: umlappprivate.h:223
 #, kde-format
 msgid "&Log"
 msgstr "Dnevnik"
 
-#: umlappprivate.h:234
+#: umlappprivate.h:232
 #, kde-format
 msgid "&UML Objects"
 msgstr "Predmeti &UML"
 
-#: umlappprivate.h:248
+#: umlappprivate.h:246
 #, kde-format
 msgid "&Stereotypes"
 msgstr "&Stereotipi"
 
-#: umlappprivate.h:255
+#: umlappprivate.h:253
 #, kde-format
 msgid "&Tree View"
 msgstr "Drevesni prikaz"
 
-#: umlappprivate.h:275
+#: umlappprivate.h:273
 #, kde-format
 msgid "Welcome"
 msgstr "Dobrodošli"

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-10 01:58+0000\n"
+"POT-Creation-Date: 2025-09-24 02:01+0000\n"
 "PO-Revision-Date: 2024-06-10 23:11+0900\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -215,7 +215,7 @@ msgstr ""
 "至少有一個剪貼簿中的項目無法貼上，因為已經有相同名稱的項目存在。其它的項目都"
 "已貼上。"
 
-#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1518
+#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1522
 #, kde-format
 msgid "Paste Error"
 msgstr "貼上時發生錯誤"
@@ -7589,28 +7589,28 @@ msgstr "適中"
 msgid "Diagram Toolbar"
 msgstr "圖表工具列"
 
-#: umlapp.cpp:927 umlapp.cpp:1144 umlapp.cpp:1182
+#: umlapp.cpp:931 umlapp.cpp:1148 umlapp.cpp:1186
 #, kde-format
 msgid "Opening file..."
 msgstr "正在開啟檔案..."
 
-#: umlapp.cpp:978 umlapp.cpp:1049 umlapp.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
+#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:351 umldoc.cpp:374
 #: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
 
-#: umlapp.cpp:1126
+#: umlapp.cpp:1130
 #, kde-format
 msgid "Creating new document..."
 msgstr "正在建立新文件..."
 
-#: umlapp.cpp:1151
+#: umlapp.cpp:1155
 #, kde-format
 msgid "Open File"
 msgstr "開啟檔案"
 
-#: umlapp.cpp:1152
+#: umlapp.cpp:1156
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *."
@@ -7638,22 +7638,22 @@ msgstr ""
 "*.mdl|Rose 模型檔案（*.mdl）\n"
 "*.zargo|壓縮的 argo 檔（*.zargo）\n"
 
-#: umlapp.cpp:1212
+#: umlapp.cpp:1216
 #, kde-format
 msgid "Saving file..."
 msgstr "正在儲存檔案..."
 
-#: umlapp.cpp:1229
+#: umlapp.cpp:1233
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "正在用新檔名儲存檔案..."
 
-#: umlapp.cpp:1234 umlviewimageexporter.cpp:172
+#: umlapp.cpp:1238 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "另存為"
 
-#: umlapp.cpp:1235
+#: umlapp.cpp:1239
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7662,7 +7662,7 @@ msgstr ""
 "*.xmi | XMI 檔案 (*.xmi);;*.xmi.tgz | Gzip 壓縮過的 XMI 檔案 (*.xmi.tgz);;*."
 "xmi.tar.bz2 | Bzip2 壓縮過的 XMI 檔案 (*.xmi.tar.bz2);;* | 所有檔案 (*)"
 
-#: umlapp.cpp:1253
+#: umlapp.cpp:1257
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7671,105 +7671,105 @@ msgstr ""
 "檔案 %1 已存在。\n"
 "要覆寫它嗎？"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, kde-format
 msgid "Warning"
 msgstr "警告"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, kde-format
 msgid "Overwrite"
 msgstr "覆寫"
 
-#: umlapp.cpp:1280
+#: umlapp.cpp:1284
 #, kde-format
 msgid "Closing file..."
 msgstr "正在關閉檔案..."
 
-#: umlapp.cpp:1291
+#: umlapp.cpp:1295
 #, kde-format
 msgid "No search term entered"
 msgstr "沒有輸入搜尋字串"
 
-#: umlapp.cpp:1297
+#: umlapp.cpp:1301
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "'%1'：找到 %2 筆"
 
-#: umlapp.cpp:1353
+#: umlapp.cpp:1357
 #, kde-format
 msgid "Print Preview..."
 msgstr "預覽列印.."
 
-#: umlapp.cpp:1380
+#: umlapp.cpp:1384
 #, kde-format
 msgid "Printing..."
 msgstr "正在列印..."
 
-#: umlapp.cpp:1386
+#: umlapp.cpp:1390
 #, kde-format
 msgid "Print %1"
 msgstr "列印 %1"
 
-#: umlapp.cpp:1405
+#: umlapp.cpp:1409
 #, kde-format
 msgid "Exiting..."
 msgstr "正在離開..."
 
-#: umlapp.cpp:1476
+#: umlapp.cpp:1480
 #, kde-format
 msgid "Cutting selection..."
 msgstr "正在剪下所選取的項目..."
 
-#: umlapp.cpp:1499
+#: umlapp.cpp:1503
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "正在複製所選取的項目到剪貼簿..."
 
-#: umlapp.cpp:1511
+#: umlapp.cpp:1515
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "正在插入剪貼簿內容..."
 
-#: umlapp.cpp:1516
+#: umlapp.cpp:1520
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
 "clipboard may be of the wrong type to be pasted here."
 msgstr "Umbrello 無法貼上剪貼簿內容。剪貼簿中的物件的型態可能不正確。"
 
-#: umlapp.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: umlapp.cpp:1546 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "已就緒。"
 
-#: umlapp.cpp:2158
+#: umlapp.cpp:2162
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "產生代碼後才能檢視代碼。"
 
-#: umlapp.cpp:2158 umlapp.cpp:2161
+#: umlapp.cpp:2162 umlapp.cpp:2165
 #, kde-format
 msgid "Cannot View Code"
 msgstr "無法檢視代碼"
 
-#: umlapp.cpp:2161
+#: umlapp.cpp:2165
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "無法檢視簡單代碼編寫器中的代碼"
 
-#: umlapp.cpp:2611
+#: umlapp.cpp:2615
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "選擇要匯入的檔案："
 
-#: umlapp.cpp:2640
+#: umlapp.cpp:2644
 #, kde-format
 msgid "Select directory to import:"
 msgstr "選擇要匯入的目錄："
 
-#: umlapp.cpp:3158
+#: umlapp.cpp:3162
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML 產生失敗。"
@@ -7800,27 +7800,27 @@ msgstr "除錯(&D)"
 msgid "Doc&umentation"
 msgstr "文件(&U)"
 
-#: umlappprivate.h:225
+#: umlappprivate.h:223
 #, kde-format
 msgid "&Log"
 msgstr "紀錄(&L)"
 
-#: umlappprivate.h:234
+#: umlappprivate.h:232
 #, kde-format
 msgid "&UML Objects"
 msgstr "UML 物件(&U)"
 
-#: umlappprivate.h:248
+#: umlappprivate.h:246
 #, kde-format
 msgid "&Stereotypes"
 msgstr "模板造型(&S)"
 
-#: umlappprivate.h:255
+#: umlappprivate.h:253
 #, kde-format
 msgid "&Tree View"
 msgstr "樹狀檢視(&T)"
 
-#: umlappprivate.h:275
+#: umlappprivate.h:273
 #, kde-format
 msgid "Welcome"
 msgstr "歡迎"

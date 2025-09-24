@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-10 01:58+0000\n"
+"POT-Creation-Date: 2025-09-24 02:01+0000\n"
 "PO-Revision-Date: 2023-06-02 20:37+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -218,7 +218,7 @@ msgstr ""
 "Ainakin yksi kohde on jäänyt tuomatta leikepöydältä, koska samanniminen "
 "kohde on jo olemassa. Kaikki muut on lisätty."
 
-#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1518
+#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1522
 #, kde-format
 msgid "Paste Error"
 msgstr "Liittämisvirhe"
@@ -7592,28 +7592,28 @@ msgstr "Sovita"
 msgid "Diagram Toolbar"
 msgstr "Kaaviotyökalurivi"
 
-#: umlapp.cpp:927 umlapp.cpp:1144 umlapp.cpp:1182
+#: umlapp.cpp:931 umlapp.cpp:1148 umlapp.cpp:1186
 #, kde-format
 msgid "Opening file..."
 msgstr "Avaa tiedostoa…"
 
-#: umlapp.cpp:978 umlapp.cpp:1049 umlapp.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
+#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:351 umldoc.cpp:374
 #: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "Nimetön"
 
-#: umlapp.cpp:1126
+#: umlapp.cpp:1130
 #, kde-format
 msgid "Creating new document..."
 msgstr "Luo uutta tiedostoa…"
 
-#: umlapp.cpp:1151
+#: umlapp.cpp:1155
 #, kde-format
 msgid "Open File"
 msgstr "Avaa tiedoston"
 
-#: umlapp.cpp:1152
+#: umlapp.cpp:1156
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *."
@@ -7641,22 +7641,22 @@ msgstr ""
 "*.mdl|Rose-mallin tiedostot (*.mdl)\n"
 "*.zargo|Pakatut argo-tiedostot (*.zargo)\n"
 
-#: umlapp.cpp:1212
+#: umlapp.cpp:1216
 #, kde-format
 msgid "Saving file..."
 msgstr "Tallentaa tiedostoa…"
 
-#: umlapp.cpp:1229
+#: umlapp.cpp:1233
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Tallentaa tiedoston uudella nimellä…"
 
-#: umlapp.cpp:1234 umlviewimageexporter.cpp:172
+#: umlapp.cpp:1238 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Tallenna nimellä"
 
-#: umlapp.cpp:1235
+#: umlapp.cpp:1239
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7666,7 +7666,7 @@ msgstr ""
 "tgz);;*.xmi.tar.bz2 | Bzip2-pakattu XMI-tiedosto (*.xmi.tar.bz2);;* | Kaikki "
 "tiedostot (*)"
 
-#: umlapp.cpp:1253
+#: umlapp.cpp:1257
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7675,67 +7675,67 @@ msgstr ""
 "Tiedosto %1 on jo olemassa.\n"
 "Haluatko korvata sen?"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, kde-format
 msgid "Warning"
 msgstr "Varoitus"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, kde-format
 msgid "Overwrite"
 msgstr "Korvaa"
 
-#: umlapp.cpp:1280
+#: umlapp.cpp:1284
 #, kde-format
 msgid "Closing file..."
 msgstr "Sulkee tiedostoa…"
 
-#: umlapp.cpp:1291
+#: umlapp.cpp:1295
 #, kde-format
 msgid "No search term entered"
 msgstr "Hakusanaa ei annettu"
 
-#: umlapp.cpp:1297
+#: umlapp.cpp:1301
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "”%1”: %2 tulos"
 
-#: umlapp.cpp:1353
+#: umlapp.cpp:1357
 #, kde-format
 msgid "Print Preview..."
 msgstr "Tulostuksen esikatselu…"
 
-#: umlapp.cpp:1380
+#: umlapp.cpp:1384
 #, kde-format
 msgid "Printing..."
 msgstr "Tulostaa…"
 
-#: umlapp.cpp:1386
+#: umlapp.cpp:1390
 #, kde-format
 msgid "Print %1"
 msgstr "Tulosta %1"
 
-#: umlapp.cpp:1405
+#: umlapp.cpp:1409
 #, kde-format
 msgid "Exiting..."
 msgstr "Lopettaa…"
 
-#: umlapp.cpp:1476
+#: umlapp.cpp:1480
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Leikkaa valittua aluetta…"
 
-#: umlapp.cpp:1499
+#: umlapp.cpp:1503
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Kopioi valittua aluetta leikepöydälle…"
 
-#: umlapp.cpp:1511
+#: umlapp.cpp:1515
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Liittää työpöydän sisältöä…"
 
-#: umlapp.cpp:1516
+#: umlapp.cpp:1520
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7744,39 +7744,39 @@ msgstr ""
 "Umbrello ei pystynyt liittämään leikepöydän sisältöä. Leikepöydän oliot ovat "
 "epäsopivan tyyppisiä tähän."
 
-#: umlapp.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: umlapp.cpp:1546 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Valmis."
 
-#: umlapp.cpp:2158
+#: umlapp.cpp:2162
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr ""
 "Koodia ei voi näyttää ennen kuin olet luonut (generoinut) jotain koodia."
 
-#: umlapp.cpp:2158 umlapp.cpp:2161
+#: umlapp.cpp:2162 umlapp.cpp:2165
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Ei pysty näyttämään koodia"
 
-#: umlapp.cpp:2161
+#: umlapp.cpp:2165
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Ei voi näyttää koodia yksinkertaisessa editorissa,"
 
-#: umlapp.cpp:2611
+#: umlapp.cpp:2615
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Valitse tuotavat tiedostot:"
 
-#: umlapp.cpp:2640
+#: umlapp.cpp:2644
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Valitse tuotava kansio:"
 
-#: umlapp.cpp:3158
+#: umlapp.cpp:3162
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML:n luonti epäonnistui."
@@ -7807,27 +7807,27 @@ msgstr "&Virheenpaikannus"
 msgid "Doc&umentation"
 msgstr "Dok&umentaatio"
 
-#: umlappprivate.h:225
+#: umlappprivate.h:223
 #, kde-format
 msgid "&Log"
 msgstr "&Loki"
 
-#: umlappprivate.h:234
+#: umlappprivate.h:232
 #, kde-format
 msgid "&UML Objects"
 msgstr "&UML-oliot"
 
-#: umlappprivate.h:248
+#: umlappprivate.h:246
 #, kde-format
 msgid "&Stereotypes"
 msgstr "&Stereotyypit"
 
-#: umlappprivate.h:255
+#: umlappprivate.h:253
 #, kde-format
 msgid "&Tree View"
 msgstr "Puunä&kymä"
 
-#: umlappprivate.h:275
+#: umlappprivate.h:273
 #, kde-format
 msgid "Welcome"
 msgstr "Tervetuloa"

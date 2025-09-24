@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-10 01:58+0000\n"
+"POT-Creation-Date: 2025-09-24 02:01+0000\n"
 "PO-Revision-Date: 2014-07-19 17:56+0430\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <kde-i18n-fa@kde.org>\n"
@@ -214,7 +214,7 @@ msgstr ""
 "حداقل یکی از فقره‌های تخته‌یادداشت چسبانده نشد، زیرا فقره‌ای با همان نام از قبل "
 "وجود دارد. سایر فقره‌ها چسبانده شده‌اند."
 
-#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1518
+#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1522
 #, kde-format
 msgid "Paste Error"
 msgstr "خطای چسباندن"
@@ -7761,28 +7761,28 @@ msgstr "پالایه"
 msgid "Diagram Toolbar"
 msgstr "میله ابزار نمودار"
 
-#: umlapp.cpp:927 umlapp.cpp:1144 umlapp.cpp:1182
+#: umlapp.cpp:931 umlapp.cpp:1148 umlapp.cpp:1186
 #, kde-format
 msgid "Opening file..."
 msgstr "در حال باز کردن پرونده..."
 
-#: umlapp.cpp:978 umlapp.cpp:1049 umlapp.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
+#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:351 umldoc.cpp:374
 #: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "بدون عنوان"
 
-#: umlapp.cpp:1126
+#: umlapp.cpp:1130
 #, kde-format
 msgid "Creating new document..."
 msgstr "در حال ایجاد سند جدید..."
 
-#: umlapp.cpp:1151
+#: umlapp.cpp:1155
 #, kde-format
 msgid "Open File"
 msgstr "باز کردن پرونده"
 
-#: umlapp.cpp:1152
+#: umlapp.cpp:1156
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi."
@@ -7808,22 +7808,22 @@ msgstr ""
 "*.xmi.tar.bz2|پرونده‌های XMI فشرده Bzip2 (*.xmi.tar.bz2)\n"
 "*.mdl|پرونده‌های مدل Rose"
 
-#: umlapp.cpp:1212
+#: umlapp.cpp:1216
 #, kde-format
 msgid "Saving file..."
 msgstr "در حال ذخیره پرونده..."
 
-#: umlapp.cpp:1229
+#: umlapp.cpp:1233
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "در حال ذخیره پرونده با نام پرونده‌ای جدید..."
 
-#: umlapp.cpp:1234 umlviewimageexporter.cpp:172
+#: umlapp.cpp:1238 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "ذخیره به عنوان"
 
-#: umlapp.cpp:1235
+#: umlapp.cpp:1239
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -7839,7 +7839,7 @@ msgstr ""
 "*.xmi.tar.bz2|پرونده XMI فشرده Bzip2\n"
 "*|همه پرونده‌ها"
 
-#: umlapp.cpp:1253
+#: umlapp.cpp:1257
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7848,68 +7848,68 @@ msgstr ""
 "پرونده %1 وجود دارد.\n"
 "می‌خواهید آن را جای‌نوشت کنید؟"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, kde-format
 msgid "Warning"
 msgstr "اخطار"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, kde-format
 msgid "Overwrite"
 msgstr "جای‌نوشت"
 
-#: umlapp.cpp:1280
+#: umlapp.cpp:1284
 #, kde-format
 msgid "Closing file..."
 msgstr "در حال بستن پرونده..."
 
-#: umlapp.cpp:1291
+#: umlapp.cpp:1295
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: umlapp.cpp:1297
+#: umlapp.cpp:1301
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: umlapp.cpp:1353
+#: umlapp.cpp:1357
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "Print Preview..."
 msgstr "در حال صادرات نما..."
 
-#: umlapp.cpp:1380
+#: umlapp.cpp:1384
 #, kde-format
 msgid "Printing..."
 msgstr "چاپ..."
 
-#: umlapp.cpp:1386
+#: umlapp.cpp:1390
 #, kde-format
 msgid "Print %1"
 msgstr "چاپ %1"
 
-#: umlapp.cpp:1405
+#: umlapp.cpp:1409
 #, kde-format
 msgid "Exiting..."
 msgstr "خروج..."
 
-#: umlapp.cpp:1476
+#: umlapp.cpp:1480
 #, kde-format
 msgid "Cutting selection..."
 msgstr "در حال برش گزینش..."
 
-#: umlapp.cpp:1499
+#: umlapp.cpp:1503
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "در حال رونوشت گزینش به تخته یادداشت..."
 
-#: umlapp.cpp:1511
+#: umlapp.cpp:1515
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "در حال درج محتویات تخته یادداشت..."
 
-#: umlapp.cpp:1516
+#: umlapp.cpp:1520
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7918,40 +7918,40 @@ msgstr ""
 "Umbrello نتوانست محتویات تخته یادداشت را بچسباند. ممکن است اشیای درون تخته "
 "یادداشت از نوع نادرست، اینجا درج شود."
 
-#: umlapp.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: umlapp.cpp:1546 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, fuzzy, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "آماده."
 
-#: umlapp.cpp:2158
+#: umlapp.cpp:2162
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "تا در ابتدا چند کد تولید نکنید، نمی‌توانید کد را ببینید."
 
-#: umlapp.cpp:2158 umlapp.cpp:2161
+#: umlapp.cpp:2162 umlapp.cpp:2165
 #, kde-format
 msgid "Cannot View Code"
 msgstr "نمی‌توان کد را دید"
 
-#: umlapp.cpp:2161
+#: umlapp.cpp:2165
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "نمی‌توان کد را از نویسنده کد ساده دید."
 
-#: umlapp.cpp:2611
+#: umlapp.cpp:2615
 #, fuzzy, kde-format
 #| msgid "Select Code to Import"
 msgid "Select file(s) to import:"
 msgstr "برگزیدن کد برای واردات"
 
-#: umlapp.cpp:2640
+#: umlapp.cpp:2644
 #, fuzzy, kde-format
 #| msgid "Select Code to Import"
 msgid "Select directory to import:"
 msgstr "برگزیدن کد برای واردات"
 
-#: umlapp.cpp:3158
+#: umlapp.cpp:3162
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""
@@ -7982,28 +7982,28 @@ msgstr ""
 msgid "Doc&umentation"
 msgstr "&مستندات‌"
 
-#: umlappprivate.h:225
+#: umlappprivate.h:223
 #, kde-format
 msgid "&Log"
 msgstr ""
 
-#: umlappprivate.h:234
+#: umlappprivate.h:232
 #, fuzzy, kde-format
 msgid "&UML Objects"
 msgstr "روند &شیء‌"
 
-#: umlappprivate.h:248
+#: umlappprivate.h:246
 #, fuzzy, kde-format
 #| msgid "Stereotype"
 msgid "&Stereotypes"
 msgstr "کلیشه"
 
-#: umlappprivate.h:255
+#: umlappprivate.h:253
 #, kde-format
 msgid "&Tree View"
 msgstr "نمای &درخت‌"
 
-#: umlappprivate.h:275
+#: umlappprivate.h:273
 #, kde-format
 msgid "Welcome"
 msgstr ""

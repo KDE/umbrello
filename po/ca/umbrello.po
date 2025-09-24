@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-10 01:58+0000\n"
+"POT-Creation-Date: 2025-09-24 02:01+0000\n"
 "PO-Revision-Date: 2025-09-04 10:57+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -216,7 +216,7 @@ msgstr ""
 "n'existeix un altre amb el mateix nom. Qualsevol altre element sí que ha "
 "estat enganxat."
 
-#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1518
+#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1522
 #, kde-format
 msgid "Paste Error"
 msgstr "Error en enganxar"
@@ -7462,28 +7462,28 @@ msgstr "Ajusta"
 msgid "Diagram Toolbar"
 msgstr "Barra d'eines diagrama"
 
-#: umlapp.cpp:927 umlapp.cpp:1144 umlapp.cpp:1182
+#: umlapp.cpp:931 umlapp.cpp:1148 umlapp.cpp:1186
 #, kde-format
 msgid "Opening file..."
 msgstr "S'està obrint el fitxer..."
 
-#: umlapp.cpp:978 umlapp.cpp:1049 umlapp.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
+#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:351 umldoc.cpp:374
 #: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "Sense títol"
 
-#: umlapp.cpp:1126
+#: umlapp.cpp:1130
 #, kde-format
 msgid "Creating new document..."
 msgstr "S'està creant un document nou..."
 
-#: umlapp.cpp:1151
+#: umlapp.cpp:1155
 #, kde-format
 msgid "Open File"
 msgstr "Obre un fitxer"
 
-#: umlapp.cpp:1152
+#: umlapp.cpp:1156
 #, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7504,22 +7504,22 @@ msgstr ""
 "*.mdl|Fitxers de model de Rose (*.mdl)\n"
 "*.zargo|Fitxers comprimits amb argo (*.zargo)\n"
 
-#: umlapp.cpp:1212
+#: umlapp.cpp:1216
 #, kde-format
 msgid "Saving file..."
 msgstr "S'està desant el fitxer..."
 
-#: umlapp.cpp:1229
+#: umlapp.cpp:1233
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "S'està desant el fitxer amb un nom nou..."
 
-#: umlapp.cpp:1234 umlviewimageexporter.cpp:172
+#: umlapp.cpp:1238 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Desa com a"
 
-#: umlapp.cpp:1235
+#: umlapp.cpp:1239
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7529,7 +7529,7 @@ msgstr ""
 "tgz);;*.xmi.tar.bz2 | Fitxer XMI comprimit amb Bzip2 (*.xmi.tar.bz2);;* | "
 "Tots els fitxers (*)"
 
-#: umlapp.cpp:1253
+#: umlapp.cpp:1257
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7538,67 +7538,67 @@ msgstr ""
 "El fitxer %1 ja existeix.\n"
 "El voleu sobreescriure?"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, kde-format
 msgid "Warning"
 msgstr "Avís"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, kde-format
 msgid "Overwrite"
 msgstr "Sobreescriu"
 
-#: umlapp.cpp:1280
+#: umlapp.cpp:1284
 #, kde-format
 msgid "Closing file..."
 msgstr "S'està tancant el fitxer..."
 
-#: umlapp.cpp:1291
+#: umlapp.cpp:1295
 #, kde-format
 msgid "No search term entered"
 msgstr "No s'ha introduït cap terme a cercar"
 
-#: umlapp.cpp:1297
+#: umlapp.cpp:1301
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "«%1»: %2 trobat"
 
-#: umlapp.cpp:1353
+#: umlapp.cpp:1357
 #, kde-format
 msgid "Print Preview..."
 msgstr "Vista prèvia d'impressió..."
 
-#: umlapp.cpp:1380
+#: umlapp.cpp:1384
 #, kde-format
 msgid "Printing..."
 msgstr "S'està imprimint..."
 
-#: umlapp.cpp:1386
+#: umlapp.cpp:1390
 #, kde-format
 msgid "Print %1"
 msgstr "S'imprimeix %1"
 
-#: umlapp.cpp:1405
+#: umlapp.cpp:1409
 #, kde-format
 msgid "Exiting..."
 msgstr "S'està sortint..."
 
-#: umlapp.cpp:1476
+#: umlapp.cpp:1480
 #, kde-format
 msgid "Cutting selection..."
 msgstr "S'està tallant la selecció..."
 
-#: umlapp.cpp:1499
+#: umlapp.cpp:1503
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "S'està copiant la selecció al porta-retalls..."
 
-#: umlapp.cpp:1511
+#: umlapp.cpp:1515
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "S'està inserint el contingut del porta-retalls..."
 
-#: umlapp.cpp:1516
+#: umlapp.cpp:1520
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7607,38 +7607,38 @@ msgstr ""
 "Umbrello no ha pogut enganxar el contingut del Porta-retalls. Els objectes "
 "del porta-retalls deuen ser d'un tipus incorrecte a enganxar aquí."
 
-#: umlapp.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: umlapp.cpp:1546 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Llest."
 
-#: umlapp.cpp:2158
+#: umlapp.cpp:2162
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "No es pot veure el codi a menys que primer el genereu."
 
-#: umlapp.cpp:2158 umlapp.cpp:2161
+#: umlapp.cpp:2162 umlapp.cpp:2165
 #, kde-format
 msgid "Cannot View Code"
 msgstr "No es pot veure el codi"
 
-#: umlapp.cpp:2161
+#: umlapp.cpp:2165
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "No es pot veure el codi des d'un simple escriptor de codi."
 
-#: umlapp.cpp:2611
+#: umlapp.cpp:2615
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Selecció del fitxer/s a importar:"
 
-#: umlapp.cpp:2640
+#: umlapp.cpp:2644
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Selecció del directori a importar:"
 
-#: umlapp.cpp:3158
+#: umlapp.cpp:3162
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Ha fallat la generació de XHTML."
@@ -7668,27 +7668,27 @@ msgstr "&Depura"
 msgid "Doc&umentation"
 msgstr "&Documentació"
 
-#: umlappprivate.h:225
+#: umlappprivate.h:223
 #, kde-format
 msgid "&Log"
 msgstr "&Registre"
 
-#: umlappprivate.h:234
+#: umlappprivate.h:232
 #, kde-format
 msgid "&UML Objects"
 msgstr "Objectes &UML"
 
-#: umlappprivate.h:248
+#: umlappprivate.h:246
 #, kde-format
 msgid "&Stereotypes"
 msgstr "E&stereotips"
 
-#: umlappprivate.h:255
+#: umlappprivate.h:253
 #, kde-format
 msgid "&Tree View"
 msgstr "Vista en a&rbre"
 
-#: umlappprivate.h:275
+#: umlappprivate.h:273
 #, kde-format
 msgid "Welcome"
 msgstr "Us donem la benvinguda"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-10 01:58+0000\n"
+"POT-Creation-Date: 2025-09-24 02:01+0000\n"
 "PO-Revision-Date: 2008-11-05 23:34+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -221,7 +221,7 @@ msgstr ""
 "つを貼り付けることができませんでした。他のアイテムは既に貼り付けられていま"
 "す。"
 
-#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1518
+#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1522
 #, kde-format
 msgid "Paste Error"
 msgstr "貼り付けエラー"
@@ -7863,28 +7863,28 @@ msgstr "フィルタ"
 msgid "Diagram Toolbar"
 msgstr "図に関するツールバー"
 
-#: umlapp.cpp:927 umlapp.cpp:1144 umlapp.cpp:1182
+#: umlapp.cpp:931 umlapp.cpp:1148 umlapp.cpp:1186
 #, kde-format
 msgid "Opening file..."
 msgstr "ファイルを開いています..."
 
-#: umlapp.cpp:978 umlapp.cpp:1049 umlapp.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
+#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:351 umldoc.cpp:374
 #: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr "名前なし"
 
-#: umlapp.cpp:1126
+#: umlapp.cpp:1130
 #, kde-format
 msgid "Creating new document..."
 msgstr "新しい文書を作成しています..."
 
-#: umlapp.cpp:1151
+#: umlapp.cpp:1155
 #, kde-format
 msgid "Open File"
 msgstr "ファイルを開く"
 
-#: umlapp.cpp:1152
+#: umlapp.cpp:1156
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi."
@@ -7910,23 +7910,23 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 圧縮 XMI ファイル (*.xmi.tar.bz2)\n"
 "*.mdl|Rose モデルファイル"
 
-#: umlapp.cpp:1212
+#: umlapp.cpp:1216
 #, kde-format
 msgid "Saving file..."
 msgstr "ファイルを保存しています..."
 
 # skip-rule: filename
-#: umlapp.cpp:1229
+#: umlapp.cpp:1233
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "新しい名前でファイルを保存しています..."
 
-#: umlapp.cpp:1234 umlviewimageexporter.cpp:172
+#: umlapp.cpp:1238 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "名前を付けて保存"
 
-#: umlapp.cpp:1235
+#: umlapp.cpp:1239
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -7942,7 +7942,7 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 圧縮された XMI ファイル\n"
 "*|すべてのファイル"
 
-#: umlapp.cpp:1253
+#: umlapp.cpp:1257
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7951,68 +7951,68 @@ msgstr ""
 "ファイル ‘%1’ は存在します。\n"
 "上書きしますか？"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, kde-format
 msgid "Warning"
 msgstr "警告"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, kde-format
 msgid "Overwrite"
 msgstr "上書き"
 
-#: umlapp.cpp:1280
+#: umlapp.cpp:1284
 #, kde-format
 msgid "Closing file..."
 msgstr "ファイルを閉じています..."
 
-#: umlapp.cpp:1291
+#: umlapp.cpp:1295
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: umlapp.cpp:1297
+#: umlapp.cpp:1301
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: umlapp.cpp:1353
+#: umlapp.cpp:1357
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "Print Preview..."
 msgstr "ビューをエクスポート..."
 
-#: umlapp.cpp:1380
+#: umlapp.cpp:1384
 #, kde-format
 msgid "Printing..."
 msgstr "印刷中..."
 
-#: umlapp.cpp:1386
+#: umlapp.cpp:1390
 #, kde-format
 msgid "Print %1"
 msgstr "“%1” を印刷"
 
-#: umlapp.cpp:1405
+#: umlapp.cpp:1409
 #, kde-format
 msgid "Exiting..."
 msgstr "終了中..."
 
-#: umlapp.cpp:1476
+#: umlapp.cpp:1480
 #, kde-format
 msgid "Cutting selection..."
 msgstr "選択範囲を切り取り中..."
 
-#: umlapp.cpp:1499
+#: umlapp.cpp:1503
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "選択内容をクリップボードにコピー中..."
 
-#: umlapp.cpp:1511
+#: umlapp.cpp:1515
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "クリップボードの内容を挿入中..."
 
-#: umlapp.cpp:1516
+#: umlapp.cpp:1520
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -8021,39 +8021,39 @@ msgstr ""
 "Umbrello はクリップボードの内容を貼り付けることができませんでした。クリップ"
 "ボードの内容はおそらくここに貼り付けるタイプではないのでしょう。"
 
-#: umlapp.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: umlapp.cpp:1546 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "準備完了。"
 
-#: umlapp.cpp:2158
+#: umlapp.cpp:2162
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "いくつかコードを生成した後にのみ、コードを見ることができます。"
 
-#: umlapp.cpp:2158 umlapp.cpp:2161
+#: umlapp.cpp:2162 umlapp.cpp:2165
 #, kde-format
 msgid "Cannot View Code"
 msgstr "コードを表示できません"
 
-#: umlapp.cpp:2161
+#: umlapp.cpp:2165
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "シンプルコードライターでコードを表示できません"
 
-#: umlapp.cpp:2611
+#: umlapp.cpp:2615
 #, fuzzy, kde-format
 #| msgid "Select the object node type"
 msgid "Select file(s) to import:"
 msgstr "オブジェクトノードのタイプを選択"
 
-#: umlapp.cpp:2640
+#: umlapp.cpp:2644
 #, kde-format
 msgid "Select directory to import:"
 msgstr ""
 
-#: umlapp.cpp:3158
+#: umlapp.cpp:3162
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML の生成に失敗しました。"
@@ -8084,29 +8084,29 @@ msgstr ""
 msgid "Doc&umentation"
 msgstr "ドキュメンテーション(&U)"
 
-#: umlappprivate.h:225
+#: umlappprivate.h:223
 #, kde-format
 msgid "&Log"
 msgstr ""
 
-#: umlappprivate.h:234
+#: umlappprivate.h:232
 #, fuzzy, kde-format
 #| msgid "UML Object Color"
 msgid "&UML Objects"
 msgstr "UML オブジェクトの色"
 
-#: umlappprivate.h:248
+#: umlappprivate.h:246
 #, fuzzy, kde-format
 #| msgid "Stereotype"
 msgid "&Stereotypes"
 msgstr "ステレオタイプ"
 
-#: umlappprivate.h:255
+#: umlappprivate.h:253
 #, kde-format
 msgid "&Tree View"
 msgstr "ツリー表示(&T)"
 
-#: umlappprivate.h:275
+#: umlappprivate.h:273
 #, kde-format
 msgid "Welcome"
 msgstr ""

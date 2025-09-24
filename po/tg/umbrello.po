@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-10 01:58+0000\n"
+"POT-Creation-Date: 2025-09-24 02:01+0000\n"
 "PO-Revision-Date: 2019-09-29 12:21+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -226,7 +226,7 @@ msgstr ""
 "монанд қалам аллакай мавҷуд дорад.  Вале дигар қаламҳо аллакай гузошта "
 "шудаанд."
 
-#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1518
+#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1522
 #, kde-format
 msgid "Paste Error"
 msgstr "Часпондани хато"
@@ -7868,28 +7868,28 @@ msgstr "Филтр"
 msgid "Diagram Toolbar"
 msgstr "Лавҳаи асбоби диаграмма"
 
-#: umlapp.cpp:927 umlapp.cpp:1144 umlapp.cpp:1182
+#: umlapp.cpp:931 umlapp.cpp:1148 umlapp.cpp:1186
 #, kde-format
 msgid "Opening file..."
 msgstr "Кушодани файл..."
 
-#: umlapp.cpp:978 umlapp.cpp:1049 umlapp.cpp:1213 umldoc.cpp:351 umldoc.cpp:374
+#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:351 umldoc.cpp:374
 #: umldoc.cpp:3317
 #, kde-format
 msgid "Untitled"
 msgstr ""
 
-#: umlapp.cpp:1126
+#: umlapp.cpp:1130
 #, kde-format
 msgid "Creating new document..."
 msgstr "Сохтани документи нав..."
 
-#: umlapp.cpp:1151
+#: umlapp.cpp:1155
 #, kde-format
 msgid "Open File"
 msgstr "Кушодани Файл"
 
-#: umlapp.cpp:1152
+#: umlapp.cpp:1156
 #, fuzzy, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
@@ -7907,22 +7907,22 @@ msgstr ""
 "*.xmi.tgz|Пачақ шудаи Gzip XMI Файлҳо (*.xmi.tgz)\n"
 "*.xmi.tar.bz2|Пачақ шудаи Bzip2 XMI Файлҳо (*.xmi.tar.bz2)"
 
-#: umlapp.cpp:1212
+#: umlapp.cpp:1216
 #, kde-format
 msgid "Saving file..."
 msgstr "Хотиргузории файл..."
 
-#: umlapp.cpp:1229
+#: umlapp.cpp:1233
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Хотиргузори намудани файл бо номи файли нав..."
 
-#: umlapp.cpp:1234 umlviewimageexporter.cpp:172
+#: umlapp.cpp:1238 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr ""
 
-#: umlapp.cpp:1235
+#: umlapp.cpp:1239
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -7938,7 +7938,7 @@ msgstr ""
 "*.xmi.tar.bz2|Bzip2 Пачақ шудаи XMI Файл\n"
 " *|Ҳамаи файлҳо"
 
-#: umlapp.cpp:1253
+#: umlapp.cpp:1257
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7947,67 +7947,67 @@ msgstr ""
 "Файл вуҷуд дорад %1.\n"
 "Онро иваз мехоҳед кунед?"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, fuzzy, kde-format
 msgid "Warning"
 msgstr "сатр"
 
-#: umlapp.cpp:1254
+#: umlapp.cpp:1258
 #, fuzzy, kde-format
 msgid "Overwrite"
 msgstr "И&ваз кардан"
 
-#: umlapp.cpp:1280
+#: umlapp.cpp:1284
 #, kde-format
 msgid "Closing file..."
 msgstr "Маҳкам кардани файл..."
 
-#: umlapp.cpp:1291
+#: umlapp.cpp:1295
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: umlapp.cpp:1297
+#: umlapp.cpp:1301
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: umlapp.cpp:1353
+#: umlapp.cpp:1357
 #, fuzzy, kde-format
 msgid "Print Preview..."
 msgstr "Баромадан..."
 
-#: umlapp.cpp:1380
+#: umlapp.cpp:1384
 #, kde-format
 msgid "Printing..."
 msgstr "Чоп кардан..."
 
-#: umlapp.cpp:1386
+#: umlapp.cpp:1390
 #, kde-format
 msgid "Print %1"
 msgstr "Чоп %1"
 
-#: umlapp.cpp:1405
+#: umlapp.cpp:1409
 #, kde-format
 msgid "Exiting..."
 msgstr "Баромадан..."
 
-#: umlapp.cpp:1476
+#: umlapp.cpp:1480
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Буридан интихобро..."
 
-#: umlapp.cpp:1499
+#: umlapp.cpp:1503
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Нусха кардани интихобро ба клипборд..."
 
-#: umlapp.cpp:1511
+#: umlapp.cpp:1515
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Даровардани иборат будаи клипборд..."
 
-#: umlapp.cpp:1516
+#: umlapp.cpp:1520
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -8016,39 +8016,39 @@ msgstr ""
 "Umbrello наметавонад часпонад иборатҳои клипбордро. Чизҳо дар клипборд "
 "мумкин ки намуди хато мебошанд барои часпондан дар ин ҷо."
 
-#: umlapp.cpp:1542 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: umlapp.cpp:1546 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, fuzzy, kde-format
 #| msgid "Ready."
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Таёр."
 
-#: umlapp.cpp:2158
+#: umlapp.cpp:2162
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "Барои тамошои код онро бояд ҳосил кунед."
 
-#: umlapp.cpp:2158 umlapp.cpp:2161
+#: umlapp.cpp:2162 umlapp.cpp:2165
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Хатоги дар тамошои код"
 
-#: umlapp.cpp:2161
+#: umlapp.cpp:2165
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Тамошо кардан намешавад аз тарафи нависандаи коди оддӣ."
 
-#: umlapp.cpp:2611
+#: umlapp.cpp:2615
 #, fuzzy, kde-format
 msgid "Select file(s) to import:"
 msgstr "Синфҳоро барои воридот интихоб намоед"
 
-#: umlapp.cpp:2640
+#: umlapp.cpp:2644
 #, fuzzy, kde-format
 msgid "Select directory to import:"
 msgstr "Синфҳоро барои воридот интихоб намоед"
 
-#: umlapp.cpp:3158
+#: umlapp.cpp:3162
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""
@@ -8080,29 +8080,29 @@ msgstr ""
 msgid "Doc&umentation"
 msgstr "Ҳуҷҷатнома"
 
-#: umlappprivate.h:225
+#: umlappprivate.h:223
 #, kde-format
 msgid "&Log"
 msgstr ""
 
-#: umlappprivate.h:234
+#: umlappprivate.h:232
 #, fuzzy, kde-format
 #| msgid "Object"
 msgid "&UML Objects"
 msgstr "Мавзӯъ"
 
-#: umlappprivate.h:248
+#: umlappprivate.h:246
 #, fuzzy, kde-format
 #| msgid "Stereotype"
 msgid "&Stereotypes"
 msgstr "Навъи стереоӣ"
 
-#: umlappprivate.h:255
+#: umlappprivate.h:253
 #, kde-format
 msgid "&Tree View"
 msgstr "&Намуди дарахт"
 
-#: umlappprivate.h:275
+#: umlappprivate.h:273
 #, kde-format
 msgid "Welcome"
 msgstr ""
