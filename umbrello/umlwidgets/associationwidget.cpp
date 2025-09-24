@@ -2867,7 +2867,7 @@ bool AssociationWidget::checkAddPoint(const QPointF &scenePos)
             const int midSegY = segStart.y() + (segEnd.y() - segStart.y()) / 2;
 #ifdef VERBOSE_DEBUGGING
             logDebug4("segStart=%1, segEnd=%2, midSeg=(%3,%4)",
-                      segStart, segEnd, midSegX, midSegY);
+                      ::toString(segStart), ::toString(segEnd), midSegX, midSegY);
 #endif
             if (midSegX > scenePos.x() || midSegY < scenePos.y()) {
                 m_nLinePathSegmentIndex++;
@@ -3137,10 +3137,10 @@ bool AssociationWidget::findIntercept(const QRectF& rect, const QPointF& point,
 #ifdef VERBOSE_DEBUGGING
     if (xSide != Uml::Region::Error) {
         logDebug5("AssociationWidget::findIntercept (rect=%1, center=%2, point=%3) : intercept at %4 %5",
-                  rect, rectCenter, point, result, Uml::Region::toString(xSide));
+                  ::toString(rect), ::toString(rectCenter), ::toString(point), ::toString(result), Uml::Region::toString(xSide));
     } else {
         logDebug4("AssociationWidget::findIntercept (rect=%1, center=%2, point=%3) : no intercept with %4",
-                   rect, rectCenter, point, edges);
+                   ::toString(rect), ::toString(rectCenter), ::toString(point), ::toString(edges));
     }
 #endif
     return (xSide != Uml::Region::Error);

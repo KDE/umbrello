@@ -526,9 +526,9 @@ void ClassifierListPage::printItemList(const QString &prologue)
     UMLClassifierListItemList itemList = getItemList();
     for (UMLClassifierListItemListIt it(itemList); it.hasNext();) {
         item = it.next();
-        buf.append(' ' + item->getName());
+        buf.append(QLatin1Char(' ') + item->getTypeName());
     }
-    logDebug1("%1 %2", prologue, buf);
+    logDebug2("%1 %2", prologue, buf);
 #else
     Q_UNUSED(prologue);
 #endif
