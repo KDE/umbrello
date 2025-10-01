@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-16 03:33+0000\n"
+"POT-Creation-Date: 2025-10-01 03:35+0000\n"
 "PO-Revision-Date: 2025-08-05 12:41+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -8177,37 +8177,37 @@ msgstr "تعذّر إنشاء الدّليل: %1"
 msgid "A problem occurred while saving diagram in %1"
 msgstr "A بينما خطاطة بوصة 1"
 
-#: umlwidgets/associationwidget.cpp:2659
+#: umlwidgets/associationwidget.cpp:2642
 #, kde-format
 msgid "Multiplicity"
 msgstr "التعددية"
 
-#: umlwidgets/associationwidget.cpp:2660 umlwidgets/floatingtextwidget.cpp:350
+#: umlwidgets/associationwidget.cpp:2643 umlwidgets/floatingtextwidget.cpp:350
 #, fuzzy, kde-format
 msgid "Enter multiplicity:"
 msgstr "إدخال:"
 
-#: umlwidgets/associationwidget.cpp:2678
+#: umlwidgets/associationwidget.cpp:2661
 #, fuzzy, kde-format
 msgid "Association Name"
 msgstr "الجمعيّة الاسم"
 
-#: umlwidgets/associationwidget.cpp:2679 umlwidgets/floatingtextwidget.cpp:357
+#: umlwidgets/associationwidget.cpp:2662 umlwidgets/floatingtextwidget.cpp:357
 #, fuzzy, kde-format
 msgid "Enter association name:"
 msgstr "إدخال الاسم:"
 
-#: umlwidgets/associationwidget.cpp:2699
+#: umlwidgets/associationwidget.cpp:2682
 #, fuzzy, kde-format
 msgid "Role Name"
 msgstr "الدّور الاسم"
 
-#: umlwidgets/associationwidget.cpp:2700 umlwidgets/floatingtextwidget.cpp:348
+#: umlwidgets/associationwidget.cpp:2683 umlwidgets/floatingtextwidget.cpp:348
 #, fuzzy, kde-format
 msgid "Enter role name:"
 msgstr "إدخال الاسم:"
 
-#: umlwidgets/associationwidget.cpp:3180
+#: umlwidgets/associationwidget.cpp:3163
 #, kde-format
 msgid "Press Ctrl with left mouse click to delete a point"
 msgstr ""

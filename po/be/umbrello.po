@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-16 03:33+0000\n"
+"POT-Creation-Date: 2025-10-01 03:35+0000\n"
 "PO-Revision-Date: 2007-10-28 14:03+0200\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -8194,37 +8194,37 @@ msgstr "Немагчыма стварыць тэчку"
 msgid "A problem occurred while saving diagram in %1"
 msgstr ""
 
-#: umlwidgets/associationwidget.cpp:2659
+#: umlwidgets/associationwidget.cpp:2642
 #, fuzzy, kde-format
 msgid "Multiplicity"
 msgstr "Множнасць"
 
-#: umlwidgets/associationwidget.cpp:2660 umlwidgets/floatingtextwidget.cpp:350
+#: umlwidgets/associationwidget.cpp:2643 umlwidgets/floatingtextwidget.cpp:350
 #, fuzzy, kde-format
 msgid "Enter multiplicity:"
 msgstr "Увядзіце множнасць:"
 
-#: umlwidgets/associationwidget.cpp:2678
+#: umlwidgets/associationwidget.cpp:2661
 #, fuzzy, kde-format
 msgid "Association Name"
 msgstr "Імя асацыяцыі"
 
-#: umlwidgets/associationwidget.cpp:2679 umlwidgets/floatingtextwidget.cpp:357
+#: umlwidgets/associationwidget.cpp:2662 umlwidgets/floatingtextwidget.cpp:357
 #, fuzzy, kde-format
 msgid "Enter association name:"
 msgstr "Увядзіце імя асацыяцыі:"
 
-#: umlwidgets/associationwidget.cpp:2699
+#: umlwidgets/associationwidget.cpp:2682
 #, fuzzy, kde-format
 msgid "Role Name"
 msgstr "Імя ролі"
 
-#: umlwidgets/associationwidget.cpp:2700 umlwidgets/floatingtextwidget.cpp:348
+#: umlwidgets/associationwidget.cpp:2683 umlwidgets/floatingtextwidget.cpp:348
 #, fuzzy, kde-format
 msgid "Enter role name:"
 msgstr "Увядзіце імя ролі:"
 
-#: umlwidgets/associationwidget.cpp:3180
+#: umlwidgets/associationwidget.cpp:3163
 #, kde-format
 msgid "Press Ctrl with left mouse click to delete a point"
 msgstr ""

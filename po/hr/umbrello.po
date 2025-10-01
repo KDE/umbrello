@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-16 03:33+0000\n"
+"POT-Creation-Date: 2025-10-01 03:35+0000\n"
 "PO-Revision-Date: 2004-04-20 13:30+CEST\n"
 "Last-Translator: auto\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -8360,37 +8360,37 @@ msgstr "Ne mogu napraviti direktorij"
 msgid "A problem occurred while saving diagram in %1"
 msgstr ""
 
-#: umlwidgets/associationwidget.cpp:2659
+#: umlwidgets/associationwidget.cpp:2642
 #, fuzzy, kde-format
 msgid "Multiplicity"
 msgstr "Višestrukost"
 
-#: umlwidgets/associationwidget.cpp:2660 umlwidgets/floatingtextwidget.cpp:350
+#: umlwidgets/associationwidget.cpp:2643 umlwidgets/floatingtextwidget.cpp:350
 #, fuzzy, kde-format
 msgid "Enter multiplicity:"
 msgstr "Unesite višestrukost:"
 
-#: umlwidgets/associationwidget.cpp:2678
+#: umlwidgets/associationwidget.cpp:2661
 #, fuzzy, kde-format
 msgid "Association Name"
 msgstr "Ime pridruživanja"
 
-#: umlwidgets/associationwidget.cpp:2679 umlwidgets/floatingtextwidget.cpp:357
+#: umlwidgets/associationwidget.cpp:2662 umlwidgets/floatingtextwidget.cpp:357
 #, fuzzy, kde-format
 msgid "Enter association name:"
 msgstr "Unesite ime pridruživanja:"
 
-#: umlwidgets/associationwidget.cpp:2699
+#: umlwidgets/associationwidget.cpp:2682
 #, fuzzy, kde-format
 msgid "Role Name"
 msgstr "Ime uloge"
 
-#: umlwidgets/associationwidget.cpp:2700 umlwidgets/floatingtextwidget.cpp:348
+#: umlwidgets/associationwidget.cpp:2683 umlwidgets/floatingtextwidget.cpp:348
 #, kde-format
 msgid "Enter role name:"
 msgstr "Unesite ime uloge:"
 
-#: umlwidgets/associationwidget.cpp:3180
+#: umlwidgets/associationwidget.cpp:3163
 #, kde-format
 msgid "Press Ctrl with left mouse click to delete a point"
 msgstr ""

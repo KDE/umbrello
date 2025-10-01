@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-16 03:33+0000\n"
+"POT-Creation-Date: 2025-10-01 03:35+0000\n"
 "PO-Revision-Date: 2023-01-06 03:12+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -8304,37 +8304,37 @@ msgstr "Não é possível criar a pasta: %1"
 msgid "A problem occurred while saving diagram in %1"
 msgstr "Ocorreu um problema ao gravar o diagrama em %1"
 
-#: umlwidgets/associationwidget.cpp:2659
+#: umlwidgets/associationwidget.cpp:2642
 #, kde-format
 msgid "Multiplicity"
 msgstr "Multiplicidade"
 
-#: umlwidgets/associationwidget.cpp:2660 umlwidgets/floatingtextwidget.cpp:350
+#: umlwidgets/associationwidget.cpp:2643 umlwidgets/floatingtextwidget.cpp:350
 #, kde-format
 msgid "Enter multiplicity:"
 msgstr "Indique a multiplicidade:"
 
-#: umlwidgets/associationwidget.cpp:2678
+#: umlwidgets/associationwidget.cpp:2661
 #, kde-format
 msgid "Association Name"
 msgstr "Nome da Associação"
 
-#: umlwidgets/associationwidget.cpp:2679 umlwidgets/floatingtextwidget.cpp:357
+#: umlwidgets/associationwidget.cpp:2662 umlwidgets/floatingtextwidget.cpp:357
 #, kde-format
 msgid "Enter association name:"
 msgstr "Indique o nome da associação:"
 
-#: umlwidgets/associationwidget.cpp:2699
+#: umlwidgets/associationwidget.cpp:2682
 #, kde-format
 msgid "Role Name"
 msgstr "Nome do Papel"
 
-#: umlwidgets/associationwidget.cpp:2700 umlwidgets/floatingtextwidget.cpp:348
+#: umlwidgets/associationwidget.cpp:2683 umlwidgets/floatingtextwidget.cpp:348
 #, kde-format
 msgid "Enter role name:"
 msgstr "Indique o nome do papel:"
 
-#: umlwidgets/associationwidget.cpp:3180
+#: umlwidgets/associationwidget.cpp:3163
 #, kde-format
 msgid "Press Ctrl with left mouse click to delete a point"
 msgstr ""

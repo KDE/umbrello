@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-16 03:33+0000\n"
+"POT-Creation-Date: 2025-10-01 03:35+0000\n"
 "PO-Revision-Date: 2024-06-10 23:11+0900\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -8403,37 +8403,37 @@ msgstr "無法建立目錄：%1"
 msgid "A problem occurred while saving diagram in %1"
 msgstr "在 %1 中儲存圖表時發生了錯誤"
 
-#: umlwidgets/associationwidget.cpp:2659
+#: umlwidgets/associationwidget.cpp:2642
 #, kde-format
 msgid "Multiplicity"
 msgstr "多重性"
 
-#: umlwidgets/associationwidget.cpp:2660 umlwidgets/floatingtextwidget.cpp:350
+#: umlwidgets/associationwidget.cpp:2643 umlwidgets/floatingtextwidget.cpp:350
 #, kde-format
 msgid "Enter multiplicity:"
 msgstr "輸入多重性："
 
-#: umlwidgets/associationwidget.cpp:2678
+#: umlwidgets/associationwidget.cpp:2661
 #, kde-format
 msgid "Association Name"
 msgstr "關聯名稱"
 
-#: umlwidgets/associationwidget.cpp:2679 umlwidgets/floatingtextwidget.cpp:357
+#: umlwidgets/associationwidget.cpp:2662 umlwidgets/floatingtextwidget.cpp:357
 #, kde-format
 msgid "Enter association name:"
 msgstr "輸入關聯名稱："
 
-#: umlwidgets/associationwidget.cpp:2699
+#: umlwidgets/associationwidget.cpp:2682
 #, kde-format
 msgid "Role Name"
 msgstr "角色名稱"
 
-#: umlwidgets/associationwidget.cpp:2700 umlwidgets/floatingtextwidget.cpp:348
+#: umlwidgets/associationwidget.cpp:2683 umlwidgets/floatingtextwidget.cpp:348
 #, kde-format
 msgid "Enter role name:"
 msgstr "輸入角色名稱："
 
-#: umlwidgets/associationwidget.cpp:3180
+#: umlwidgets/associationwidget.cpp:3163
 #, kde-format
 msgid "Press Ctrl with left mouse click to delete a point"
 msgstr "按下 Ctrl 並點擊滑鼠左鍵可以刪除點"

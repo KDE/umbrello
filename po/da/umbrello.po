@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-08-16 03:33+0000\n"
+"POT-Creation-Date: 2025-10-01 03:35+0000\n"
 "PO-Revision-Date: 2018-03-03 17:38+0200\n"
 "Last-Translator: scootergrisen\n"
 "Language-Team: Danish\n"
@@ -8475,37 +8475,37 @@ msgstr "Kan ikke oprette mappe: %1"
 msgid "A problem occurred while saving diagram in %1"
 msgstr "Et problem opstod mens diagrammet blev gemt i %1"
 
-#: umlwidgets/associationwidget.cpp:2659
+#: umlwidgets/associationwidget.cpp:2642
 #, kde-format
 msgid "Multiplicity"
 msgstr "Multiplicitet"
 
-#: umlwidgets/associationwidget.cpp:2660 umlwidgets/floatingtextwidget.cpp:350
+#: umlwidgets/associationwidget.cpp:2643 umlwidgets/floatingtextwidget.cpp:350
 #, kde-format
 msgid "Enter multiplicity:"
 msgstr "Indtast multiplicitet:"
 
-#: umlwidgets/associationwidget.cpp:2678
+#: umlwidgets/associationwidget.cpp:2661
 #, kde-format
 msgid "Association Name"
 msgstr "Associationsnavn"
 
-#: umlwidgets/associationwidget.cpp:2679 umlwidgets/floatingtextwidget.cpp:357
+#: umlwidgets/associationwidget.cpp:2662 umlwidgets/floatingtextwidget.cpp:357
 #, kde-format
 msgid "Enter association name:"
 msgstr "Indtast associationsnavn:"
 
-#: umlwidgets/associationwidget.cpp:2699
+#: umlwidgets/associationwidget.cpp:2682
 #, kde-format
 msgid "Role Name"
 msgstr "Rollenavn"
 
-#: umlwidgets/associationwidget.cpp:2700 umlwidgets/floatingtextwidget.cpp:348
+#: umlwidgets/associationwidget.cpp:2683 umlwidgets/floatingtextwidget.cpp:348
 #, kde-format
 msgid "Enter role name:"
 msgstr "Indtast rollenavn:"
 
-#: umlwidgets/associationwidget.cpp:3180
+#: umlwidgets/associationwidget.cpp:3163
 #, kde-format
 msgid "Press Ctrl with left mouse click to delete a point"
 msgstr "Tryk Ctrl med venstre museklik for at slette et punkt"
