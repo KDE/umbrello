@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=Horizontal Layout
+Name[ar]=تخطيط أفقي
 Name[bs]=Horizontalni raspored
 Name[ca]=Disposició horitzontal
 Name[ca@valencia]=Disposició horitzontal
@@ -44,6 +45,7 @@ Name[uk]=Горизонтальне компонування
 Name[zh_CN]=水平布局
 Name[zh_TW]=水平佈局
 Comment=Layout which renders horizontal
+Comment[ar]=تخطيط يقدِّم أفقيًّا
 Comment[ca]=Disposició que renderitza horitzontalment
 Comment[ca@valencia]=Disposició que renderitza horitzontalment
 Comment[de]=Layout, das horizontal gerendert wird

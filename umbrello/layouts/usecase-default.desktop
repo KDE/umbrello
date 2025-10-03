@@ -1,6 +1,7 @@
 Desktop Entry]
 Type=Service
 Name=UseCase Default Layout
+Name[ar]=تخطيط حالة الاستخدام المبدئي
 Name[bs]=UseCase podrazumijevani raspored
 Name[ca]=Disposició predeterminada dels casos d'ús
 Name[ca@valencia]=Disposició predeterminada dels casos d'ús
@@ -40,6 +41,7 @@ Name[uk]=Типове компонування випадку використа
 Name[zh_CN]=用例默认布局
 Name[zh_TW]=UseCase 預設佈局
 Comment=Usecase Default Layout
+Comment[ar]=تخطيط حالة الاستخدام المبدئي
 Comment[bs]=UseCase podrazumijevani raspored
 Comment[ca]=Disposició predeterminada dels casos d'ús
 Comment[ca@valencia]=Disposició predeterminada dels casos d'ús
