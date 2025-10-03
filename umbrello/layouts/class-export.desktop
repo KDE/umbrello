@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=Export Layout
+Name[ar]=صدّر التخطيط
 Name[bs]=Izvozni raspored
 Name[ca]=Exporta la disposició
 Name[ca@valencia]=Exporta la disposició
@@ -44,6 +45,7 @@ Name[uk]=Компонування експортованих даних
 Name[zh_CN]=导出布局
 Name[zh_TW]=匯出佈局
 Comment=Export Layout for Class Diagrams
+Comment[ar]=تخطيط التصدير لمخطّطات الأصناف
 Comment[bs]=Izvozni raspored za dijagrame klase
 Comment[ca]=Exporta la disposició dels diagrames de classe
 Comment[ca@valencia]=Exporta la disposició dels diagrames de classe

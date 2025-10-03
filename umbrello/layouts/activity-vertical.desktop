@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=Vertical Layout
+Name[ar]=تخطيط رأسي
 Name[bs]=Vertikalni raspored
 Name[ca]=Disposició vertical
 Name[ca@valencia]=Disposició vertical
@@ -44,6 +45,7 @@ Name[uk]=Вертикальне компонування
 Name[zh_CN]=垂直布局
 Name[zh_TW]=垂直佈局
 Comment=Layout which renders vertical
+Comment[ar]=تخطيط يقدِّم رأسيًّا
 Comment[bs]=Raspored koji obrađuej vertikalno
 Comment[ca]=Disposició que renderitza verticalment
 Comment[ca@valencia]=Disposició que renderitza verticalment
