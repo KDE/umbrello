@@ -7079,10 +7079,9 @@ msgstr "&Upravit"
 
 #. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
-#, fuzzy, kde-format
-#| msgid "Views"
+#, kde-format
 msgid "&View"
-msgstr "Pohledy"
+msgstr "Po&hled"
 
 #. i18n: ectx: Menu (view_window)
 #: umbrelloui.rc.cmake:15
