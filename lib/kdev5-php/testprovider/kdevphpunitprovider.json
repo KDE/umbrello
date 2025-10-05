@@ -3,6 +3,7 @@
         "Authors": [
             {
                 "Name": "Miha Čančula",
+                "Name[ar]": "ميها شانكولا",
                 "Name[ca@valencia]": "Miha Čančula",
                 "Name[ca]": "Miha Čančula",
                 "Name[cs]": "Miha Čančula",
@@ -38,6 +39,7 @@
         ],
         "Category": "Testing",
         "Description": "Finds and runs PHPUnit tests.",
+        "Description[ar]": "اعثر على اختبارات بي اتش بي يونت وشغّلها.",
         "Description[ca@valencia]": "Busca i executa les proves de PHPUnit.",
         "Description[ca]": "Cerca i executa les proves del PHPUnit.",
         "Description[cs]": "Hledá a spouští testy PHPUnit.",
@@ -73,6 +75,7 @@
         "Id": "kdevphpunitprovider",
         "License": "GPL",
         "Name": "PHPUnit Integration",
+        "Name[ar]": "دمج بي اتش بي يونت",
         "Name[ca@valencia]": "Integració de PHPUnit",
         "Name[ca]": "Integració del PHPUnit",
         "Name[cs]": "Integrace PHPUnit",
