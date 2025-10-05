@@ -7,6 +7,7 @@
     <name translate="no">KDE</name>
   </developer>
   <name>Umbrello</name>
+  <name xml:lang="ar">أمبريلو</name>
   <name xml:lang="ca">Umbrello</name>
   <name xml:lang="ca-valencia">Umbrello</name>
   <name xml:lang="cs">Umbrello</name>
@@ -40,6 +41,7 @@
   <name xml:lang="zh-CN">Umbrello</name>
   <name xml:lang="zh-TW">Umbrello</name>
   <summary>UML Modeller</summary>
+  <summary xml:lang="ar">مُنَمذِج لغة النمذجة الموحدة (UML)</summary>
   <summary xml:lang="ca">Modelador UML</summary>
   <summary xml:lang="ca-valencia">Modelador UML</summary>
   <summary xml:lang="cs">UML modelář</summary>
@@ -78,6 +80,7 @@
       It can create diagrams of software and other systems in the industry-standard UML format, and can also generate code from UML diagrams
       in a variety of programming languages.
     </p>
+    <p xml:lang="ar">أمبريلو هي أداة نمذجة لغة النمذجة الموحدة (UML) ومُوَلِّد شِفرة. إنها تستطيع إنشاء مُخطَّطات للبرامج والأنظمة الأخرى بتنسيق UML القياسي في الصناعة، كما تستطيع أيضًا توليد شِفرة من مخططات UML بلغات برمجة متنوعة.</p>
     <p xml:lang="ca">L'Umbrello és una eina de modelatge i generador de codi per al Llenguatge Unificat de Modelatge (UML). Pot crear diagrames de programari i altres sistemes en el format UML estàndard de la indústria, i també pot generar codi des de diagrames UML en diversos llenguatges de programació.</p>
     <p xml:lang="ca-valencia">Umbrello és una eina de modelatge i generador de codi per al Llenguatge Unificat de Modelatge (UML). Pot crear diagrames de programari i altres sistemes en el format UML estàndard de la indústria, i també pot generar codi des de diagrames UML en diversos llenguatges de programació.</p>
     <p xml:lang="da">Umbrello er et Unified Modelling Language-modelleringsværktøj (UML) og kodegenerator. Den kan generere diagrammer af software og andre systemer i UML-formatet, som er en industristandard, og kan også generere kode fra UML-diagrammer i forskellige programmeringssprog.</p>
@@ -109,6 +112,7 @@
     <p xml:lang="zh-CN">Umbrello 是一个统一建模语言（UML）建模工具和代码生成器。 它可以用行业标准的UML 格式绘制软件和其他系统图表，并且还可以从 UML 图生成各种编程语言的代码。</p>
     <p xml:lang="zh-TW">Umbrello 是一個統一塑模語言 (UML) 的建模工具與程式碼生成器。它可以建立軟體與其他系統圖表在工業標準的 UML 格式中，並可以從 UML 圖中生成許多不同的程式語言。</p>
     <p>Features:</p>
+    <p xml:lang="ar">المزايا:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="ca-valencia">Característiques:</p>
     <p xml:lang="cs">Vlastnosti:</p>
@@ -143,6 +147,7 @@
     <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Supported formats: XMI</li>
+      <li xml:lang="ar">التنسيقات المتاحة: XMI</li>
       <li xml:lang="ca">Formats admesos: XMI</li>
       <li xml:lang="ca-valencia">Formats admesos: XMI</li>
       <li xml:lang="cs">Podporované formáty: XMI</li>
@@ -176,6 +181,7 @@
       <li xml:lang="zh-CN">支持格式：XMI</li>
       <li xml:lang="zh-TW">支援的格式：XMI</li>
       <li>Several type of diagrams supported: use case, class, sequence, communication, state, activity, component, deployment, entity relationship</li>
+      <li xml:lang="ar">يوفر أنواعًا متعددة من المخططات: حالة الاستخدام، الصنف، تسلسل، الاتصال، الحالة، النشاط، المكون، النشر، وعلاقة الكيان</li>
       <li xml:lang="ca">Es permeten diversos tipus de diagrames: cas d'ús, classe, seqüència, comunicació, estat, activitat, component, desplegament, entitat relació</li>
       <li xml:lang="ca-valencia">Es permeten diversos tipus de diagrames: cas d'ús, classe, seqüència, comunicació, estat, activitat, component, desplegament, entitat relació</li>
       <li xml:lang="da">Understøtter adskillige diagramtyper: brugsmønster, klasse, sekvens, kommunikation, tilstand, aktivitet, komponent, udførelse, entitetsrelation</li>
@@ -216,6 +222,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>Showing class diagram</caption>
+      <caption xml:lang="ar">يعرض مخطط الصنف</caption>
       <caption xml:lang="ca">Mostrant un diagrama de classes</caption>
       <caption xml:lang="ca-valencia">Mostrant un diagrama de classes</caption>
       <caption xml:lang="cs">Zobrazuje diagram třídy</caption>
