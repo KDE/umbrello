@@ -3,6 +3,7 @@
         "Authors": [
             {
                 "Name": "Milian Wolff",
+                "Name[ar]": "ميليان وولف",
                 "Name[ca@valencia]": "Milian Wolff",
                 "Name[ca]": "Milian Wolff",
                 "Name[cs]": "Milian Wolff",
@@ -39,6 +40,7 @@
         ],
         "Category": "Documentation",
         "Description": "This plugin integrates PHP.net online documentation.",
+        "Description[ar]": "هذا الملحق يدمج التوثيق متصل لـ PHP.net.",
         "Description[ca@valencia]": "Este connector integra la documentació en línia de PHP.net.",
         "Description[ca]": "Aquest connector integra la documentació en línia de PHP.net.",
         "Description[da]": "Pluginet fortoker onlinedokumentation fra PHP.net.",
@@ -73,6 +75,7 @@
         "Id": "kdevphpdocs",
         "License": "GPL",
         "Name": "PHP Documentation",
+        "Name[ar]": "توثيق بي اتش بي",
         "Name[ca@valencia]": "Documentació de PHP",
         "Name[ca]": "Documentació de PHP",
         "Name[cs]": "Dokumentace PHP",
