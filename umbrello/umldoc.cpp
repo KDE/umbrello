@@ -950,7 +950,7 @@ bool UMLDoc::saveDocument(const QUrl& url, const char * format)
 #ifdef Q_OS_WIN
             tmpfile.setAutoRemove(true);
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-            KIO::Job* job = KIO::copy(QUrl::fromLocalFile(tmpfile.fileName()), url, KIO::Overwrite);
+            KIO::Job* fcj = KIO::copy(QUrl::fromLocalFile(tmpfile.fileName()), url, KIO::Overwrite);
 #else
             KIO::FileCopyJob* fcj = KIO::file_copy(QUrl::fromLocalFile(tmpfile.fileName()), url, -1, KIO::Overwrite);
 #endif
