@@ -1376,7 +1376,7 @@ void AssociationWidget::setUMLAssociation (UMLAssociation * assoc)
         // just too hard otherwise to prevent problems in the code. Bottom line: we need to
         // delete orphaned associations or we well get code crashes and memory leaks.
         if (umla->nrof_parent_widgets <= 0) {
-            //umla->deleteLater();
+            umla->deleteLater();
         }
 
         m_umlObject = nullptr;
