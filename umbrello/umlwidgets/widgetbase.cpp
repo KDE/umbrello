@@ -595,6 +595,19 @@ void WidgetBase::setChangesShape(bool state)
     m_changesShape = state;
 }
 
+bool WidgetBase::highLighted() const
+{
+    return m_highLighted;
+}
+
+void WidgetBase::setHighLighted(bool state)
+{
+    bool oldState = m_highLighted;
+    m_highLighted = state;
+    if (oldState != state)
+        update();
+}
+
 /**
  * A virtual method for the widget to display a property dialog box.
  * Subclasses should reimplement this appropriately.

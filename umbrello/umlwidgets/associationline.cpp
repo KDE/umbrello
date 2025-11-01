@@ -1128,6 +1128,18 @@ void AssociationLine::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         }
     }
 
+    if (m_associationWidget->highLighted()) {
+        QPainterPathStroker stroker;
+        stroker.setWidth(3.0);
+        QPainterPath outline = stroker.createStroke(path());
+        QColor shadowColor(Qt::blue);
+        shadowColor.setAlpha(80);
+        QBrush shadowBrush(shadowColor);
+        painter->setBrush(shadowBrush);
+        painter->setPen(Qt::NoPen);
+        painter->drawPath(outline);
+    }
+
     // now restore the points array
     m_points[0] = savedStart;
     m_points[sz - 1] = savedEnd;

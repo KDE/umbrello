@@ -41,6 +41,7 @@ private:
     void fillListBox();
 
 public Q_SLOTS:
+    void slotClick(QListWidgetItem *item);
     void slotDoubleClick(QListWidgetItem *item);
     void slotRightButtonPressed(const QPoint &p);
     void slotMenuSelection(QAction* action);

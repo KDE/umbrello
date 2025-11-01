@@ -56,6 +56,8 @@ ClassAssociationsPage::ClassAssociationsPage(QWidget *parent, UMLScene *s, UMLOb
             this, SLOT(slotDoubleClick(QListWidgetItem*)));
     connect(m_pAssocLW, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(slotRightButtonPressed(QPoint)));
+    connect(m_pAssocLW, SIGNAL(itemClicked(QListWidgetItem*)),
+            this, SLOT(slotClick(QListWidgetItem*)));
 }
 
 /**
@@ -63,10 +65,33 @@ ClassAssociationsPage::ClassAssociationsPage(QWidget *parent, UMLScene *s, UMLOb
  */
 ClassAssociationsPage::~ClassAssociationsPage()
 {
+    disconnect(m_pAssocLW, SIGNAL(itemClicked(QListWidgetItem*)),
+               this, SLOT(slotClick(QListWidgetItem*)));
     disconnect(m_pAssocLW, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
                this, SLOT(slotDoubleClick(QListWidgetItem*)));
     disconnect(m_pAssocLW, SIGNAL(customContextMenuRequested(QPoint)),
                this, SLOT(slotRightButtonPressed(QPoint)));
+
+    for (AssociationWidget *w : m_List) {
+        w->setHighLighted(false);
+    }
+}
+
+void ClassAssociationsPage::slotClick(QListWidgetItem * item)
+{
+    if (!item) {
+        return;
+    }
+
+    int row = m_pAssocLW->currentRow();
+    if (row == -1) {
+        return;
+    }
+
+    AssociationWidget *a = m_List.at(row);
+    for (AssociationWidget *w : m_List) {
+        w->setHighLighted(w->id() == a->id());
+    }
 }
 
 void ClassAssociationsPage::slotDoubleClick(QListWidgetItem * item)
