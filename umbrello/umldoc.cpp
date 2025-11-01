@@ -7,6 +7,7 @@
 #include "umldoc.h"
 
 // app includes
+#include "associationwidget.h"
 #include "cmds.h"
 #include "codegenerator.h"
 #include "debug_utils.h"
@@ -82,7 +83,92 @@ public:
     QStringList errors; ///< holds loading errors
 
     Private(UMLDoc *p) : parent(p) {}
+    void checkAndFixFileAfterLoad();
+    void checkAssociationWidgetsAfterLoad();
+    void collectAssociations(QList<UMLAssociation *> &out, UMLFolder *folder);
+    void createAssociationWidget(UMLAssociation *assoc);
 };
+
+void UMLDoc::Private::checkAndFixFileAfterLoad()
+{
+    checkAssociationWidgetsAfterLoad();
+}
+
+void UMLDoc::Private::collectAssociations(QList<UMLAssociation*> &out, UMLFolder *folder)
+{
+    if (!folder)
+        return;
+
+    for (UMLObject *obj : folder->containedObjects()) {
+
+        if (obj->isUMLAssociation()) {
+            out.append(obj->asUMLAssociation());
+        } else if (obj->isUMLClassifier()) {
+            for (UMLObject *o : obj->asUMLClassifier()->containedObjects()) {
+                if (o->isUMLAssociation()) {
+                    out.append(o->asUMLAssociation());
+                }
+            }
+        } else if (obj->isUMLFolder()) {
+            collectAssociations(out, obj->asUMLFolder());
+        }
+    }
+}
+
+void UMLDoc::Private::createAssociationWidget(UMLAssociation *assoc)
+{
+    Uml::ID::Type idA = assoc->getObjectId(Uml::RoleType::A);
+    Uml::ID::Type idB = assoc->getObjectId(Uml::RoleType::B);
+
+    for (UMLView *view :parent->viewIterator()) {
+        UMLWidget *widgetA = nullptr;
+        UMLWidget *widgetB = nullptr;
+        for (UMLWidget *w : view->umlScene()->widgetList()) {
+            if (w->id() == idA)
+                widgetA = w;
+            else if (w->id() == idB)
+                widgetB = w;
+        }
+        if (widgetA && widgetB) {
+            AssociationWidget *aw = AssociationWidget::create (view->umlScene(), widgetA, assoc->getAssocType(),
+                                                               widgetB, assoc);
+            view->umlScene()->addAssociation(aw);
+        }
+    }
+}
+
+void UMLDoc::Private::checkAssociationWidgetsAfterLoad()
+{
+    // Get all uml associations
+    UMLAssociationList associations;
+    collectAssociations(associations, parent->rootFolder(Uml::ModelType::Logical));
+
+    // Get all association widgets
+    QList<AssociationWidget*> widgets;
+    for (UMLView *view : parent->viewIterator()) {
+        for (UMLWidget *w : view->umlScene()->widgetList()) {
+            if (auto aw = qobject_cast<AssociationWidget*>(w))
+                widgets.append(aw);
+        }
+    }
+
+    // Which UMLAssociation has no wigdet ?
+    for (UMLAssociation *assoc : associations) {
+        bool found = false;
+        for (AssociationWidget *aw : widgets) {
+            if (aw->association() == assoc) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            // find associated UMLWidget
+            qWarning() << "Missing widget for association: "
+                       << assoc->name() << " (" << Uml::ID::toString(assoc->id()) << ")";
+            createAssociationWidget(assoc);
+        }
+    }
+}
 
 /**
  * Constructor for the fileclass of the application.
@@ -708,6 +794,7 @@ bool UMLDoc::openDocument(const QUrl& url, const char *format /* = nullptr */)
     // for compatibility
     addDefaultStereotypes();
 
+    m_d->checkAndFixFileAfterLoad();
     return true;
 }
 
