@@ -16,55 +16,10 @@ DialogsPopupMenu::DialogsPopupMenu(QWidget *parent, TriggerType type)
   : ListPopupMenu(parent)
 {
     switch(type) {
-    case tt_New_Parameter:
-        insert(mt_New_Parameter);
-        break;
-
-    case tt_New_Operation:
-        insert(mt_New_Operation);
-        break;
-
-    case tt_New_Attribute:
-        insert(mt_New_Attribute);
-        break;
-
-    case tt_New_InstanceAttribute:
-        insert(mt_New_InstanceAttribute);
-        break;
-
-    case tt_New_Template:
-        insert(mt_New_Template);
-        break;
-
-    case tt_New_EnumLiteral:
-        insert(mt_New_EnumLiteral);
-        break;
-
-    case tt_New_EntityAttribute:
-        insert(mt_New_EntityAttribute);
-        break;
-
-    case tt_New_Activity:
-        insertSubMenuNew(type);
-        break;
-
     case tt_Activity_Selected:
         insertSubMenuNew(type);
         insert(mt_Rename);
         insert(mt_Delete);
-        break;
-
-    case tt_Parameter_Selected:
-        insert(mt_New_Parameter);
-        insert(mt_Rename);
-        insert(mt_Delete);
-        insert(mt_Properties);
-        break;
-
-    case tt_Operation_Selected:
-        insert(mt_New_Operation);
-        insert(mt_Delete);
-        insert(mt_Properties);
         break;
 
     case tt_Attribute_Selected:
@@ -73,14 +28,8 @@ DialogsPopupMenu::DialogsPopupMenu(QWidget *parent, TriggerType type)
         insert(mt_Properties);
         break;
 
-    case tt_InstanceAttribute_Selected:
-        insert(mt_New_InstanceAttribute);
-        insert(mt_Delete);
-        insert(mt_Properties);
-        break;
-
-    case tt_Template_Selected:
-        insert(mt_New_Attribute, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("New Template..."));
+    case tt_EntityAttribute_Selected:
+        insert(mt_New_EntityAttribute);
         insert(mt_Delete);
         insert(mt_Properties);
         break;
@@ -91,8 +40,59 @@ DialogsPopupMenu::DialogsPopupMenu(QWidget *parent, TriggerType type)
         insert(mt_Properties);
         break;
 
-    case tt_EntityAttribute_Selected:
+    case tt_InstanceAttribute_Selected:
+        insert(mt_New_InstanceAttribute);
+        insert(mt_Delete);
+        insert(mt_Properties);
+        break;
+
+    case tt_New_Activity:
+        insertSubMenuNew(type);
+        break;
+
+    case tt_New_Attribute:
+        insert(mt_New_Attribute);
+        break;
+
+    case tt_New_EntityAttribute:
         insert(mt_New_EntityAttribute);
+        break;
+
+    case tt_New_EnumLiteral:
+        insert(mt_New_EnumLiteral);
+        break;
+
+    case tt_New_InstanceAttribute:
+        insert(mt_New_InstanceAttribute);
+        break;
+
+    case tt_New_Operation:
+        insert(mt_New_Operation);
+        break;
+
+    case tt_New_Parameter:
+        insert(mt_New_Parameter);
+        break;
+
+    case tt_New_Template:
+        insert(mt_New_Template);
+        break;
+
+    case tt_Operation_Selected:
+        insert(mt_New_Operation);
+        insert(mt_Delete);
+        insert(mt_Properties);
+        break;
+
+    case tt_Parameter_Selected:
+        insert(mt_New_Parameter);
+        insert(mt_Rename);
+        insert(mt_Delete);
+        insert(mt_Properties);
+        break;
+
+    case tt_Template_Selected:
+        insert(mt_New_Attribute, Icon_Utils::SmallIcon(Icon_Utils::it_Template_New), i18n("New Template..."));
         insert(mt_Delete);
         insert(mt_Properties);
         break;
