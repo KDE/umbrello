@@ -22,6 +22,11 @@ DialogsPopupMenu::DialogsPopupMenu(QWidget *parent, TriggerType type)
         insert(mt_Delete);
         break;
 
+    case tt_Association_Selected:
+        insert(mt_Delete);
+        insert(mt_Properties);
+        break;
+
     case tt_Attribute_Selected:
         insert(mt_New_Attribute);
         insert(mt_Delete);
