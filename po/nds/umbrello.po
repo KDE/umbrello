@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-30 02:12+0000\n"
+"POT-Creation-Date: 2025-11-03 01:58+0000\n"
 "PO-Revision-Date: 2011-12-15 07:28+0100\n"
 "Last-Translator: Manfred Wiese <m.j.wiese@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -99,7 +99,7 @@ msgstr "Tosamenstellen"
 msgid "Dependency"
 msgstr "Afhängigkeit"
 
-#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1239 worktoolbar.cpp:332
+#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
 #, kde-format
 msgid "Association"
 msgstr "Towiesen"
@@ -167,7 +167,7 @@ msgid "State Transition"
 msgstr "Tostand-Övergang"
 
 #: basictypes.cpp:357 dialogs/activitydialog.cpp:139
-#: umlwidgets/widgetbase.cpp:1230 worktoolbar.cpp:377
+#: umlwidgets/widgetbase.cpp:1243 worktoolbar.cpp:377
 #, kde-format
 msgid "Activity"
 msgstr "Aktiviteet"
@@ -1345,7 +1345,7 @@ msgstr "Status"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1254
+#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "Klass"
@@ -2141,7 +2141,7 @@ msgstr "&All Diagrammen"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:154
-#: umlwidgets/widgetbase.cpp:1245 worktoolbar.cpp:389
+#: umlwidgets/widgetbase.cpp:1258 worktoolbar.cpp:389
 #, kde-format
 msgid "Category"
 msgstr "Kategorie"
@@ -2154,14 +2154,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100
-#: umlwidgets/widgetbase.cpp:1290 worktoolbar.cpp:355
+#: umlwidgets/widgetbase.cpp:1303 worktoolbar.cpp:355
 #, kde-format
 msgid "Package"
 msgstr "Paket"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryInterface)
 #: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:204
-#: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1272
+#: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1285
 #: worktoolbar.cpp:359
 #, kde-format
 msgid "Interface"
@@ -2850,7 +2850,7 @@ msgid "The name you have entered is invalid."
 msgstr "Du hest en leeg Naam ingeven."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
-#: umldoc.cpp:1540 umldoc.cpp:1604 umldoc.cpp:1633 umldoc.cpp:1668
+#: umldoc.cpp:1627 umldoc.cpp:1691 umldoc.cpp:1720 umldoc.cpp:1755
 #: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
 #: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
 #: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
@@ -2864,7 +2864,7 @@ msgstr "Leeg Naam"
 msgid "The name you have entered is not unique."
 msgstr "Du hest en nich eensoortet Naam ingeven."
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1672
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1759
 #, kde-format
 msgid "Name Not Unique"
 msgstr "Nich eensoortet Naam"
@@ -4529,14 +4529,14 @@ msgstr "Aktiviteet..."
 msgid "Activity Transition"
 msgstr "Aktiviteet-Övergang"
 
-#: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1233
+#: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1246
 #: worktoolbar.cpp:338
 #, kde-format
 msgid "Actor"
 msgstr "Aktöör"
 
 #. i18n("Actor...")); break;
-#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1236
+#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1249
 #: worktoolbar.cpp:358
 #, kde-format
 msgid "Artifact"
@@ -4577,7 +4577,7 @@ msgctxt "add new combined state"
 msgid "Combined state..."
 msgstr "Tosamensett Brookstück"
 
-#: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1251
+#: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1264
 #: worktoolbar.cpp:356
 #, kde-format
 msgid "Component"
@@ -4617,7 +4617,7 @@ msgstr "Ennaktiviteet"
 msgid "End State"
 msgstr "Enntostand"
 
-#: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1260
+#: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1273
 #: worktoolbar.cpp:364
 #, kde-format
 msgid "Entity"
@@ -4811,7 +4811,7 @@ msgstr "Nieg Beteker..."
 msgid "New Parameter..."
 msgstr "Nieg Parameter..."
 
-#: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1278
+#: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1291
 #: worktoolbar.cpp:357
 #, kde-format
 msgid "Node"
@@ -4846,13 +4846,13 @@ msgstr "Datei opmaken"
 msgid "Package..."
 msgstr "Paket..."
 
-#: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1293
+#: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1306
 #: worktoolbar.cpp:381
 #, kde-format
 msgid "Pin"
 msgstr "Pin"
 
-#: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1296
+#: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1309
 #: worktoolbar.cpp:382
 #, kde-format
 msgid "Port"
@@ -4870,7 +4870,7 @@ msgstr "Vör-/Nabeding"
 msgid "Redo"
 msgstr "Wedderhalen"
 
-#: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1302
+#: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1315
 #: worktoolbar.cpp:348
 #, kde-format
 msgid "Region"
@@ -6198,7 +6198,7 @@ msgstr "Bloots tofögen"
 msgid "Usage"
 msgstr "Naricht"
 
-#: object_factory.cpp:254 umldoc.cpp:1633 umldoc.cpp:1668
+#: object_factory.cpp:254 umldoc.cpp:1720 umldoc.cpp:1755
 #: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
 #: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
 #: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
@@ -6218,7 +6218,7 @@ msgstr "Dit is en schuult Slötelwoort vun den instellten Kode-Opsteller."
 msgid "Reserved Keyword"
 msgstr "Schuult Slötelwoort"
 
-#: object_factory.cpp:267 umldoc.cpp:1639 umldoc.cpp:1677
+#: object_factory.cpp:267 umldoc.cpp:1726 umldoc.cpp:1764
 #: umlmodel/umlclassifier.cpp:412 umlmodel/umlclassifier.cpp:784
 #: umlmodel/umlentity.cpp:124 umlmodel/umlentity.cpp:177
 #: umlmodel/umlentity.cpp:227 umlmodel/umlentity.cpp:276
@@ -6226,8 +6226,8 @@ msgstr "Schuult Slötelwoort"
 msgid "That name is already being used."
 msgstr "De Naam warrt al bruukt."
 
-#: object_factory.cpp:268 umldoc.cpp:1542 umldoc.cpp:1611 umldoc.cpp:1639
-#: umldoc.cpp:1677 umlmodel/umlclassifier.cpp:412
+#: object_factory.cpp:268 umldoc.cpp:1629 umldoc.cpp:1698 umldoc.cpp:1726
+#: umldoc.cpp:1764 umlmodel/umlclassifier.cpp:412
 #: umlmodel/umlclassifier.cpp:784 umlmodel/umlentity.cpp:124
 #: umlmodel/umlentity.cpp:177 umlmodel/umlentity.cpp:227
 #: umlmodel/umlentity.cpp:276
@@ -7768,8 +7768,8 @@ msgstr "Diagramm-Warktüüchbalken"
 msgid "Opening file..."
 msgstr "Datei warrt opmaakt..."
 
-#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:351 umldoc.cpp:374
-#: umldoc.cpp:3317
+#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:437 umldoc.cpp:460
+#: umldoc.cpp:3404
 #, kde-format
 msgid "Untitled"
 msgstr "ahn Naam"
@@ -8011,42 +8011,42 @@ msgstr "&Boomansicht"
 msgid "Welcome"
 msgstr ""
 
-#: umldoc.cpp:94 umldoc.cpp:2264 umldoc.cpp:2292 umldoc.cpp:2375
+#: umldoc.cpp:180 umldoc.cpp:2351 umldoc.cpp:2379 umldoc.cpp:2462
 #, kde-format
 msgid "UML Model"
 msgstr "UML-Modell"
 
-#: umldoc.cpp:132
+#: umldoc.cpp:218
 #, kde-format
 msgid "Logical View"
 msgstr "Logisch Ansicht"
 
-#: umldoc.cpp:133
+#: umldoc.cpp:219
 #, kde-format
 msgid "Use Case View"
 msgstr "Bruukbispeel-Ansicht"
 
-#: umldoc.cpp:134
+#: umldoc.cpp:220
 #, kde-format
 msgid "Component View"
 msgstr "Komponenten-Ansicht"
 
-#: umldoc.cpp:135
+#: umldoc.cpp:221
 #, kde-format
 msgid "Deployment View"
 msgstr "Insetten-Ansicht"
 
-#: umldoc.cpp:136
+#: umldoc.cpp:222
 #, kde-format
 msgid "Entity Relationship Model"
 msgstr "Eenheitenbetog-Modell"
 
-#: umldoc.cpp:162
+#: umldoc.cpp:248
 #, kde-format
 msgid "Datatypes"
 msgstr "Datentypen"
 
-#: umldoc.cpp:369
+#: umldoc.cpp:455
 #, kde-format
 msgid ""
 "The current file has been modified.\n"
@@ -8055,160 +8055,160 @@ msgstr ""
 "De aktuelle Datei wöör ännert.\n"
 "Wullt Du ehr sekern?"
 
-#: umldoc.cpp:370
+#: umldoc.cpp:456
 #, kde-format
 msgctxt "warning message"
 msgid "Warning"
 msgstr "Wohrschoen"
 
-#: umldoc.cpp:550
+#: umldoc.cpp:636
 #, fuzzy, kde-format
 #| msgid "The file %1 does not exist."
 msgid "The file <%1> does not exist."
 msgstr "De Datei \"%1\" gifft dat nich."
 
-#: umldoc.cpp:550 umldoc.cpp:571 umldoc.cpp:610 umldoc.cpp:622 umldoc.cpp:636
-#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/umlfolder.cpp:450
+#: umldoc.cpp:636 umldoc.cpp:657 umldoc.cpp:696 umldoc.cpp:708 umldoc.cpp:722
+#: umldoc.cpp:735 umldoc.cpp:747 umldoc.cpp:785 umlmodel/umlfolder.cpp:450
 #: umlmodel/umlfolder.cpp:454
 #, kde-format
 msgid "Load Error"
 msgstr "Fehler bi't Laden"
 
-#: umldoc.cpp:571
+#: umldoc.cpp:657
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "As dat lett is de Datei \"%1\" schaadhaftig."
 
-#: umldoc.cpp:609 umldoc.cpp:621 umldoc.cpp:648
+#: umldoc.cpp:695 umldoc.cpp:707 umldoc.cpp:734
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "Binnen de komprimeerte Datei \"%1\" lett sik keen XMI-Datei finnen."
 
-#: umldoc.cpp:635
+#: umldoc.cpp:721
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "Dat geev en Problem bi't Laden vun de ruttrocken Datei \"%1\""
 
-#: umldoc.cpp:660 umldoc.cpp:696
+#: umldoc.cpp:746 umldoc.cpp:782
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "Dat geev en Problem bi't Laden vun Datei \"%1\""
 
-#: umldoc.cpp:698
+#: umldoc.cpp:784
 #, kde-format
 msgid "Reason: %1"
 msgstr ""
 
-#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
+#: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #, fuzzy, kde-format
 #| msgid "There was a problem saving file: %1"
 msgid "There was a problem saving: %1"
 msgstr "Dat geev en Problem bi't Sekern vun Datei \"%1\""
 
-#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
-#: umldoc.cpp:888 umllistview.cpp:569
+#: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
+#: umldoc.cpp:975 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
 msgstr "Fehler bi't Sekern"
 
-#: umldoc.cpp:888
+#: umldoc.cpp:975
 #, fuzzy, kde-format
 #| msgid "There was a problem uploading file: %1"
 msgid "There was a problem uploading: %1"
 msgstr "Dat geev en Problem bi't Hoochladen vun Datei \"%1\""
 
-#: umldoc.cpp:1439
+#: umldoc.cpp:1526
 #, kde-format
 msgid "use case diagram"
 msgstr "Bruukbispeel-Diagramm"
 
-#: umldoc.cpp:1442
+#: umldoc.cpp:1529
 #, kde-format
 msgid "class diagram"
 msgstr "Klass-Diagramm"
 
-#: umldoc.cpp:1445
+#: umldoc.cpp:1532
 #, kde-format
 msgid "sequence diagram"
 msgstr "Reeg-Diagramm"
 
-#: umldoc.cpp:1448
+#: umldoc.cpp:1535
 #, fuzzy, kde-format
 #| msgid "collaboration diagram"
 msgid "communication diagram"
 msgstr "Tosamenarbeit-Diagramm"
 
-#: umldoc.cpp:1451
+#: umldoc.cpp:1538
 #, fuzzy, kde-format
 #| msgid "&Select diagrams"
 msgid "object diagram"
 msgstr "Diagrammen &utsöken"
 
-#: umldoc.cpp:1454
+#: umldoc.cpp:1541
 #, kde-format
 msgid "state diagram"
 msgstr "Tostand-Diagramm"
 
-#: umldoc.cpp:1457
+#: umldoc.cpp:1544
 #, kde-format
 msgid "activity diagram"
 msgstr "Aktiviteet-Diagramm"
 
-#: umldoc.cpp:1460
+#: umldoc.cpp:1547
 #, kde-format
 msgid "component diagram"
 msgstr "Komponenten-Diagramm"
 
-#: umldoc.cpp:1463
+#: umldoc.cpp:1550
 #, kde-format
 msgid "deployment diagram"
 msgstr "Instten-Diagramm"
 
-#: umldoc.cpp:1466
+#: umldoc.cpp:1553
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "Eenheitenbetog-Diagramm"
 
-#: umldoc.cpp:1536
+#: umldoc.cpp:1623
 #, kde-format
 msgctxt "diagram name"
 msgid "Name"
 msgstr "Naam"
 
-#: umldoc.cpp:1536 umldoc.cpp:1598 umldoc.cpp:1627 umldoc.cpp:1662
+#: umldoc.cpp:1623 umldoc.cpp:1685 umldoc.cpp:1714 umldoc.cpp:1749
 #, kde-format
 msgid "Enter name:"
 msgstr "Naam ingeven:"
 
-#: umldoc.cpp:1540 umldoc.cpp:1604
+#: umldoc.cpp:1627 umldoc.cpp:1691
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "Dat is en leeg Naam för en Diagramm."
 
-#: umldoc.cpp:1542 umldoc.cpp:1611
+#: umldoc.cpp:1629 umldoc.cpp:1698
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "En Diagramm bruukt den Naam al."
 
-#: umldoc.cpp:1597
+#: umldoc.cpp:1684
 #, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "Naam"
 
-#: umldoc.cpp:1626
+#: umldoc.cpp:1713
 #, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "Naam"
 
-#: umldoc.cpp:1661
+#: umldoc.cpp:1748
 #, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "Naam"
 
-#: umldoc.cpp:1671
+#: umldoc.cpp:1758
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
@@ -8217,42 +8217,42 @@ msgstr ""
 "Du hest en nich eensoortet Naam ingeven.\n"
 "Wullt Du dat redig so?"
 
-#: umldoc.cpp:1672
+#: umldoc.cpp:1759
 #, kde-format
 msgid "Use Name"
 msgstr "Naam bruken"
 
-#: umldoc.cpp:1672
+#: umldoc.cpp:1759
 #, kde-format
 msgid "Enter New Name"
 msgstr "Nieg Naam ingeven"
 
-#: umldoc.cpp:2222
+#: umldoc.cpp:2309
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2386
+#: umldoc.cpp:2473
 #, kde-format
 msgid "Setting up the document..."
 msgstr "Dokment waart torechtmaakt..."
 
-#: umldoc.cpp:2415
+#: umldoc.cpp:2502
 #, kde-format
 msgid "Resolving object references..."
 msgstr "Objektbetöög warrt oplööst..."
 
-#: umldoc.cpp:2523
+#: umldoc.cpp:2610
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "UML-Elementen warrt laadt..."
 
-#: umldoc.cpp:2785
+#: umldoc.cpp:2872
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "Diagrammen warrt laadt..."
 
-#: umldoc.cpp:3319
+#: umldoc.cpp:3406
 #, kde-format
 msgid "/autosave%1"
 msgstr "/autosave%1"
@@ -8761,7 +8761,7 @@ msgstr "Naam"
 msgid "Enter operation name:"
 msgstr "Akschoonnaam ingeven:"
 
-#: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1299
+#: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1312
 #: worktoolbar.cpp:331
 #, kde-format
 msgid "Precondition"
@@ -9480,84 +9480,84 @@ msgstr "Giff den niegen Naam för dat Modell in:"
 msgid "Enter the new name of the widget:"
 msgstr "Giff den niegen Naam för dat Modell in:"
 
-#: umlwidgets/widgetbase.cpp:1242 worktoolbar.cpp:337
+#: umlwidgets/widgetbase.cpp:1255 worktoolbar.cpp:337
 #, kde-format
 msgid "Box"
 msgstr "Rahmen"
 
-#: umlwidgets/widgetbase.cpp:1248
+#: umlwidgets/widgetbase.cpp:1261
 #, fuzzy, kde-format
 #| msgid "Combined Fragment"
 msgid "CombinedFragment"
 msgstr "Tosamensett Brookstück"
 
-#: umlwidgets/widgetbase.cpp:1257 worktoolbar.cpp:362
+#: umlwidgets/widgetbase.cpp:1270 worktoolbar.cpp:362
 #, kde-format
 msgid "Datatype"
 msgstr "Datentyp"
 
-#: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:363
+#: umlwidgets/widgetbase.cpp:1276 worktoolbar.cpp:363
 #, kde-format
 msgid "Enum"
 msgstr "Optellen"
 
-#: umlwidgets/widgetbase.cpp:1266
+#: umlwidgets/widgetbase.cpp:1279
 #, kde-format
 msgid "FloatingDashLine"
 msgstr ""
 
-#: umlwidgets/widgetbase.cpp:1269
+#: umlwidgets/widgetbase.cpp:1282
 #, fuzzy, kde-format
 #| msgid "Fork/Join"
 msgid "ForkJoin"
 msgstr "Gaveln/Tosamenfögen"
 
-#: umlwidgets/widgetbase.cpp:1275
+#: umlwidgets/widgetbase.cpp:1288
 #, kde-format
 msgid "Message"
 msgstr "Naricht"
 
-#: umlwidgets/widgetbase.cpp:1281 worktoolbar.cpp:336
+#: umlwidgets/widgetbase.cpp:1294 worktoolbar.cpp:336
 #, kde-format
 msgid "Note"
 msgstr "Anmarken"
 
-#: umlwidgets/widgetbase.cpp:1284 worktoolbar.cpp:323
+#: umlwidgets/widgetbase.cpp:1297 worktoolbar.cpp:323
 #, kde-format
 msgid "Object"
 msgstr "Objekt"
 
-#: umlwidgets/widgetbase.cpp:1287
+#: umlwidgets/widgetbase.cpp:1300
 #, fuzzy, kde-format
 #| msgid "Object Node"
 msgid "ObjectNode"
 msgstr "Objektknütt"
 
-#: umlwidgets/widgetbase.cpp:1305
+#: umlwidgets/widgetbase.cpp:1318
 #, fuzzy, kde-format
 #| msgid "new Signal"
 msgid "Signal"
 msgstr "Nieg Signaal"
 
-#: umlwidgets/widgetbase.cpp:1308
+#: umlwidgets/widgetbase.cpp:1321
 #, fuzzy, kde-format
 #| msgctxt "state in statechart"
 #| msgid "State"
 msgid "State"
 msgstr "Tostand"
 
-#: umlwidgets/widgetbase.cpp:1311
+#: umlwidgets/widgetbase.cpp:1324
 #, kde-format
 msgid "Text"
 msgstr ""
 
-#: umlwidgets/widgetbase.cpp:1314
+#: umlwidgets/widgetbase.cpp:1327
 #, fuzzy, kde-format
 #| msgid "Use Case"
 msgid "UseCase"
 msgstr "Bruukbispill"
 
-#: umlwidgets/widgetbase.cpp:1317 worktoolbar.cpp:392
+#: umlwidgets/widgetbase.cpp:1330 worktoolbar.cpp:392
 #, fuzzy, kde-format
 #| msgid "Instance name:"
 msgid "Instance"

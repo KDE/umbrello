@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-30 02:12+0000\n"
+"POT-Creation-Date: 2025-11-03 01:58+0000\n"
 "PO-Revision-Date: 2007-10-28 14:03+0200\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -99,7 +99,7 @@ msgstr "Агрэгаванне"
 msgid "Dependency"
 msgstr "Залежнасць"
 
-#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1239 worktoolbar.cpp:332
+#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
 #, kde-format
 msgid "Association"
 msgstr "Асацыяцыя"
@@ -165,7 +165,7 @@ msgid "State Transition"
 msgstr "Пераход стану"
 
 #: basictypes.cpp:357 dialogs/activitydialog.cpp:139
-#: umlwidgets/widgetbase.cpp:1230 worktoolbar.cpp:377
+#: umlwidgets/widgetbase.cpp:1243 worktoolbar.cpp:377
 #, fuzzy, kde-format
 msgid "Activity"
 msgstr "Выгляды дзейнасці"
@@ -1324,7 +1324,7 @@ msgstr "Запуск"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1254
+#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "Клас"
@@ -2092,7 +2092,7 @@ msgstr "Усе дыяграмы"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:154
-#: umlwidgets/widgetbase.cpp:1245 worktoolbar.cpp:389
+#: umlwidgets/widgetbase.cpp:1258 worktoolbar.cpp:389
 #, kde-format
 msgid "Category"
 msgstr ""
@@ -2105,14 +2105,14 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100
-#: umlwidgets/widgetbase.cpp:1290 worktoolbar.cpp:355
+#: umlwidgets/widgetbase.cpp:1303 worktoolbar.cpp:355
 #, fuzzy, kde-format
 msgid "Package"
 msgstr "Пакет"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryInterface)
 #: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:204
-#: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1272
+#: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1285
 #: worktoolbar.cpp:359
 #, fuzzy, kde-format
 msgid "Interface"
@@ -2778,7 +2778,7 @@ msgid "The name you have entered is invalid."
 msgstr "Паказана няправільнае імя."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
-#: umldoc.cpp:1540 umldoc.cpp:1604 umldoc.cpp:1633 umldoc.cpp:1668
+#: umldoc.cpp:1627 umldoc.cpp:1691 umldoc.cpp:1720 umldoc.cpp:1755
 #: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
 #: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
 #: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
@@ -2792,7 +2792,7 @@ msgstr "Няслушнае імя"
 msgid "The name you have entered is not unique."
 msgstr "Такое імя ўжо існуе."
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1672
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1759
 #, fuzzy, kde-format
 msgid "Name Not Unique"
 msgstr "Імя існуе"
@@ -4355,14 +4355,14 @@ msgstr "Дзейнасць..."
 msgid "Activity Transition"
 msgstr "Пераход дзейнасці"
 
-#: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1233
+#: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1246
 #: worktoolbar.cpp:338
 #, fuzzy, kde-format
 msgid "Actor"
 msgstr "Дзеючы твар"
 
 #. i18n("Actor...")); break;
-#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1236
+#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1249
 #: worktoolbar.cpp:358
 #, fuzzy, kde-format
 msgid "Artifact"
@@ -4402,7 +4402,7 @@ msgctxt "add new combined state"
 msgid "Combined state..."
 msgstr "Недапушчальны аргумент"
 
-#: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1251
+#: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1264
 #: worktoolbar.cpp:356
 #, fuzzy, kde-format
 msgid "Component"
@@ -4441,7 +4441,7 @@ msgstr "Канчатковая дзейнасць"
 msgid "End State"
 msgstr "Канчатковы стан"
 
-#: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1260
+#: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1273
 #: worktoolbar.cpp:364
 #, fuzzy, kde-format
 msgid "Entity"
@@ -4625,7 +4625,7 @@ msgstr "Новая канстанта..."
 msgid "New Parameter..."
 msgstr "Новы параметр..."
 
-#: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1278
+#: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1291
 #: worktoolbar.cpp:357
 #, fuzzy, kde-format
 msgid "Node"
@@ -4658,13 +4658,13 @@ msgstr "Адкрыць файл"
 msgid "Package..."
 msgstr "Пакет..."
 
-#: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1293
+#: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1306
 #: worktoolbar.cpp:381
 #, kde-format
 msgid "Pin"
 msgstr ""
 
-#: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1296
+#: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1309
 #: worktoolbar.cpp:382
 #, kde-format
 msgid "Port"
@@ -4681,7 +4681,7 @@ msgstr "чакаецца ўмоўны выраз"
 msgid "Redo"
 msgstr "Паўтарыць"
 
-#: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1302
+#: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1315
 #: worktoolbar.cpp:348
 #, fuzzy, kde-format
 msgid "Region"
@@ -5859,7 +5859,7 @@ msgstr "Толькі даданне"
 msgid "Usage"
 msgstr "Паведамленне"
 
-#: object_factory.cpp:254 umldoc.cpp:1633 umldoc.cpp:1668
+#: object_factory.cpp:254 umldoc.cpp:1720 umldoc.cpp:1755
 #: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
 #: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
 #: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
@@ -5879,7 +5879,7 @@ msgstr "Гэтае зарэзерваванае службовае слова а
 msgid "Reserved Keyword"
 msgstr "Зарэзерваванае ключавое слова"
 
-#: object_factory.cpp:267 umldoc.cpp:1639 umldoc.cpp:1677
+#: object_factory.cpp:267 umldoc.cpp:1726 umldoc.cpp:1764
 #: umlmodel/umlclassifier.cpp:412 umlmodel/umlclassifier.cpp:784
 #: umlmodel/umlentity.cpp:124 umlmodel/umlentity.cpp:177
 #: umlmodel/umlentity.cpp:227 umlmodel/umlentity.cpp:276
@@ -5887,8 +5887,8 @@ msgstr "Зарэзерваванае ключавое слова"
 msgid "That name is already being used."
 msgstr "Імя ўжо выкарыстоўваецца."
 
-#: object_factory.cpp:268 umldoc.cpp:1542 umldoc.cpp:1611 umldoc.cpp:1639
-#: umldoc.cpp:1677 umlmodel/umlclassifier.cpp:412
+#: object_factory.cpp:268 umldoc.cpp:1629 umldoc.cpp:1698 umldoc.cpp:1726
+#: umldoc.cpp:1764 umlmodel/umlclassifier.cpp:412
 #: umlmodel/umlclassifier.cpp:784 umlmodel/umlentity.cpp:124
 #: umlmodel/umlentity.cpp:177 umlmodel/umlentity.cpp:227
 #: umlmodel/umlentity.cpp:276
@@ -7394,8 +7394,8 @@ msgstr "Панель дыяграм"
 msgid "Opening file..."
 msgstr "Адкрыццё файла..."
 
-#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:351 umldoc.cpp:374
-#: umldoc.cpp:3317
+#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:437 umldoc.cpp:460
+#: umldoc.cpp:3404
 #, fuzzy, kde-format
 msgid "Untitled"
 msgstr "Безназоўны"
@@ -7619,42 +7619,42 @@ msgstr "&Дрэва"
 msgid "Welcome"
 msgstr ""
 
-#: umldoc.cpp:94 umldoc.cpp:2264 umldoc.cpp:2292 umldoc.cpp:2375
+#: umldoc.cpp:180 umldoc.cpp:2351 umldoc.cpp:2379 umldoc.cpp:2462
 #, fuzzy, kde-format
 msgid "UML Model"
 msgstr "Мадэль UML"
 
-#: umldoc.cpp:132
+#: umldoc.cpp:218
 #, fuzzy, kde-format
 msgid "Logical View"
 msgstr "Лагічнае паданне"
 
-#: umldoc.cpp:133
+#: umldoc.cpp:219
 #, fuzzy, kde-format
 msgid "Use Case View"
 msgstr "Прэцэдэнты"
 
-#: umldoc.cpp:134
+#: umldoc.cpp:220
 #, fuzzy, kde-format
 msgid "Component View"
 msgstr "Кампаненты"
 
-#: umldoc.cpp:135
+#: umldoc.cpp:221
 #, fuzzy, kde-format
 msgid "Deployment View"
 msgstr "Разгортванне"
 
-#: umldoc.cpp:136
+#: umldoc.cpp:222
 #, fuzzy, kde-format
 msgid "Entity Relationship Model"
 msgstr "Адносіны"
 
-#: umldoc.cpp:162
+#: umldoc.cpp:248
 #, fuzzy, kde-format
 msgid "Datatypes"
 msgstr "Тыпы дадзеных"
 
-#: umldoc.cpp:369
+#: umldoc.cpp:455
 #, fuzzy, kde-format
 msgid ""
 "The current file has been modified.\n"
@@ -7663,155 +7663,155 @@ msgstr ""
 "Бягучы файл быў зменены.\n"
 "Захаваць яго?"
 
-#: umldoc.cpp:370
+#: umldoc.cpp:456
 #, fuzzy, kde-format
 msgctxt "warning message"
 msgid "Warning"
 msgstr "Папярэджанне"
 
-#: umldoc.cpp:550
+#: umldoc.cpp:636
 #, fuzzy, kde-format
 msgid "The file <%1> does not exist."
 msgstr "Файл %1 не існуе."
 
-#: umldoc.cpp:550 umldoc.cpp:571 umldoc.cpp:610 umldoc.cpp:622 umldoc.cpp:636
-#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/umlfolder.cpp:450
+#: umldoc.cpp:636 umldoc.cpp:657 umldoc.cpp:696 umldoc.cpp:708 umldoc.cpp:722
+#: umldoc.cpp:735 umldoc.cpp:747 umldoc.cpp:785 umlmodel/umlfolder.cpp:450
 #: umlmodel/umlfolder.cpp:454
 #, fuzzy, kde-format
 msgid "Load Error"
 msgstr "Памылка загрузкі"
 
-#: umldoc.cpp:571
+#: umldoc.cpp:657
 #, fuzzy, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "Файл %1 пашкоджаны."
 
-#: umldoc.cpp:609 umldoc.cpp:621 umldoc.cpp:648
+#: umldoc.cpp:695 umldoc.cpp:707 umldoc.cpp:734
 #, fuzzy, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "Сціснуты файл %1 не ўтрымоўвае XMI."
 
-#: umldoc.cpp:635
+#: umldoc.cpp:721
 #, fuzzy, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "Памылка пры загрузцы распакаванага файла: %1"
 
-#: umldoc.cpp:660 umldoc.cpp:696
+#: umldoc.cpp:746 umldoc.cpp:782
 #, fuzzy, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "Памылка пры загрузцы файла: %1"
 
-#: umldoc.cpp:698
+#: umldoc.cpp:784
 #, kde-format
 msgid "Reason: %1"
 msgstr ""
 
-#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
+#: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #, fuzzy, kde-format
 msgid "There was a problem saving: %1"
 msgstr "Памылка пры захаванні файла: %1"
 
-#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
-#: umldoc.cpp:888 umllistview.cpp:569
+#: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
+#: umldoc.cpp:975 umllistview.cpp:569
 #, fuzzy, kde-format
 msgid "Save Error"
 msgstr "Памылка захаваньня"
 
-#: umldoc.cpp:888
+#: umldoc.cpp:975
 #, fuzzy, kde-format
 msgid "There was a problem uploading: %1"
 msgstr "Памылка пры запампоўцы файла на сервер: %1"
 
-#: umldoc.cpp:1439
+#: umldoc.cpp:1526
 #, fuzzy, kde-format
 msgid "use case diagram"
 msgstr "Дыяграма прэцэдэнтаў"
 
-#: umldoc.cpp:1442
+#: umldoc.cpp:1529
 #, fuzzy, kde-format
 msgid "class diagram"
 msgstr "Дыяграма класаў"
 
-#: umldoc.cpp:1445
+#: umldoc.cpp:1532
 #, fuzzy, kde-format
 msgid "sequence diagram"
 msgstr "Дыяграма паслядоўнасці"
 
-#: umldoc.cpp:1448
+#: umldoc.cpp:1535
 #, fuzzy, kde-format
 msgid "communication diagram"
 msgstr "Дыяграма кааперацыі"
 
-#: umldoc.cpp:1451
+#: umldoc.cpp:1538
 #, fuzzy, kde-format
 msgid "object diagram"
 msgstr "Вылучыць дыяграмы"
 
-#: umldoc.cpp:1454
+#: umldoc.cpp:1541
 #, fuzzy, kde-format
 msgid "state diagram"
 msgstr "Дыяграма станаў"
 
-#: umldoc.cpp:1457
+#: umldoc.cpp:1544
 #, fuzzy, kde-format
 msgid "activity diagram"
 msgstr "Дыяграма дзейнасці"
 
-#: umldoc.cpp:1460
+#: umldoc.cpp:1547
 #, fuzzy, kde-format
 msgid "component diagram"
 msgstr "Дыяграма кампанентаў"
 
-#: umldoc.cpp:1463
+#: umldoc.cpp:1550
 #, fuzzy, kde-format
 msgid "deployment diagram"
 msgstr "Дыяграма разгортвання"
 
-#: umldoc.cpp:1466
+#: umldoc.cpp:1553
 #, fuzzy, kde-format
 msgid "entity relationship diagram"
 msgstr "Дыяграма адносін сутнасцяў"
 
-#: umldoc.cpp:1536
+#: umldoc.cpp:1623
 #, fuzzy, kde-format
 msgctxt "diagram name"
 msgid "Name"
 msgstr "Назва"
 
-#: umldoc.cpp:1536 umldoc.cpp:1598 umldoc.cpp:1627 umldoc.cpp:1662
+#: umldoc.cpp:1623 umldoc.cpp:1685 umldoc.cpp:1714 umldoc.cpp:1749
 #, fuzzy, kde-format
 msgid "Enter name:"
 msgstr "Увядзіце імя:"
 
-#: umldoc.cpp:1540 umldoc.cpp:1604
+#: umldoc.cpp:1627 umldoc.cpp:1691
 #, fuzzy, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "Недапушчальнае імя дыяграмы."
 
-#: umldoc.cpp:1542 umldoc.cpp:1611
+#: umldoc.cpp:1629 umldoc.cpp:1698
 #, fuzzy, kde-format
 msgid "A diagram is already using that name."
 msgstr "Дыяграма ўжо выкарыстае гэтае імя."
 
-#: umldoc.cpp:1597
+#: umldoc.cpp:1684
 #, fuzzy, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "Назва"
 
-#: umldoc.cpp:1626
+#: umldoc.cpp:1713
 #, fuzzy, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "Назва"
 
-#: umldoc.cpp:1661
+#: umldoc.cpp:1748
 #, fuzzy, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "Назва"
 
-#: umldoc.cpp:1671
+#: umldoc.cpp:1758
 #, fuzzy, kde-format
 msgid ""
 "The name you entered was not unique.\n"
@@ -7820,42 +7820,42 @@ msgstr ""
 "Такое імя ўжо існуе.\n"
 "Вы жадаеце менавіта гэта?"
 
-#: umldoc.cpp:1672
+#: umldoc.cpp:1759
 #, fuzzy, kde-format
 msgid "Use Name"
 msgstr "Выкарыстаць паказанае імя"
 
-#: umldoc.cpp:1672
+#: umldoc.cpp:1759
 #, fuzzy, kde-format
 msgid "Enter New Name"
 msgstr "Увядзіце новае імя"
 
-#: umldoc.cpp:2222
+#: umldoc.cpp:2309
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2386
+#: umldoc.cpp:2473
 #, fuzzy, kde-format
 msgid "Setting up the document..."
 msgstr "Пабудова дакумента..."
 
-#: umldoc.cpp:2415
+#: umldoc.cpp:2502
 #, fuzzy, kde-format
 msgid "Resolving object references..."
 msgstr "Дазвол спасылак на аб'екты..."
 
-#: umldoc.cpp:2523
+#: umldoc.cpp:2610
 #, fuzzy, kde-format
 msgid "Loading UML elements..."
 msgstr "Загрузка элементаў UML..."
 
-#: umldoc.cpp:2785
+#: umldoc.cpp:2872
 #, fuzzy, kde-format
 msgid "Loading diagrams..."
 msgstr "Загрузка дыяграм..."
 
-#: umldoc.cpp:3319
+#: umldoc.cpp:3406
 #, fuzzy, kde-format
 msgid "/autosave%1"
 msgstr "/autosave%1"
@@ -8331,7 +8331,7 @@ msgstr "Назва"
 msgid "Enter operation name:"
 msgstr "Увядзіце імя аперацыі:"
 
-#: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1299
+#: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1312
 #: worktoolbar.cpp:331
 #, fuzzy, kde-format
 msgid "Precondition"
@@ -8955,77 +8955,77 @@ msgstr "Увядзіце новае імя мадэлі:"
 msgid "Enter the new name of the widget:"
 msgstr "Увядзіце новае імя мадэлі:"
 
-#: umlwidgets/widgetbase.cpp:1242 worktoolbar.cpp:337
+#: umlwidgets/widgetbase.cpp:1255 worktoolbar.cpp:337
 #, kde-format
 msgid "Box"
 msgstr "Блок"
 
-#: umlwidgets/widgetbase.cpp:1248
+#: umlwidgets/widgetbase.cpp:1261
 #, fuzzy, kde-format
 msgid "CombinedFragment"
 msgstr "Недапушчальны аргумент"
 
-#: umlwidgets/widgetbase.cpp:1257 worktoolbar.cpp:362
+#: umlwidgets/widgetbase.cpp:1270 worktoolbar.cpp:362
 #, fuzzy, kde-format
 msgid "Datatype"
 msgstr "Тып дадзеных"
 
-#: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:363
+#: umlwidgets/widgetbase.cpp:1276 worktoolbar.cpp:363
 #, fuzzy, kde-format
 msgid "Enum"
 msgstr "Які пералічваецца тып"
 
-#: umlwidgets/widgetbase.cpp:1266
+#: umlwidgets/widgetbase.cpp:1279
 #, kde-format
 msgid "FloatingDashLine"
 msgstr ""
 
-#: umlwidgets/widgetbase.cpp:1269
+#: umlwidgets/widgetbase.cpp:1282
 #, fuzzy, kde-format
 msgid "ForkJoin"
 msgstr "Аддзяліць або далучыць"
 
-#: umlwidgets/widgetbase.cpp:1275
+#: umlwidgets/widgetbase.cpp:1288
 #, fuzzy, kde-format
 msgid "Message"
 msgstr "Паведамленне"
 
-#: umlwidgets/widgetbase.cpp:1281 worktoolbar.cpp:336
+#: umlwidgets/widgetbase.cpp:1294 worktoolbar.cpp:336
 #, kde-format
 msgid "Note"
 msgstr "Заўвагі"
 
-#: umlwidgets/widgetbase.cpp:1284 worktoolbar.cpp:323
+#: umlwidgets/widgetbase.cpp:1297 worktoolbar.cpp:323
 #, kde-format
 msgid "Object"
 msgstr "Аб'ект"
 
-#: umlwidgets/widgetbase.cpp:1287
+#: umlwidgets/widgetbase.cpp:1300
 #, fuzzy, kde-format
 msgid "ObjectNode"
 msgstr "Аб'ект"
 
-#: umlwidgets/widgetbase.cpp:1305
+#: umlwidgets/widgetbase.cpp:1318
 #, fuzzy, kde-format
 msgid "Signal"
 msgstr "Увядзіце імя:"
 
-#: umlwidgets/widgetbase.cpp:1308
+#: umlwidgets/widgetbase.cpp:1321
 #, fuzzy, kde-format
 msgid "State"
 msgstr "Стан"
 
-#: umlwidgets/widgetbase.cpp:1311
+#: umlwidgets/widgetbase.cpp:1324
 #, kde-format
 msgid "Text"
 msgstr ""
 
-#: umlwidgets/widgetbase.cpp:1314
+#: umlwidgets/widgetbase.cpp:1327
 #, fuzzy, kde-format
 msgid "UseCase"
 msgstr "Прэцэдэнт"
 
-#: umlwidgets/widgetbase.cpp:1317 worktoolbar.cpp:392
+#: umlwidgets/widgetbase.cpp:1330 worktoolbar.cpp:392
 #, fuzzy, kde-format
 msgid "Instance"
 msgstr "Імя асобніка:"

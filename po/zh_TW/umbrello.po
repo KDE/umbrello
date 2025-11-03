@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-30 02:12+0000\n"
+"POT-Creation-Date: 2025-11-03 01:58+0000\n"
 "PO-Revision-Date: 2024-06-10 23:11+0900\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -105,7 +105,7 @@ msgstr "聚合"
 msgid "Dependency"
 msgstr "相依性"
 
-#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1239 worktoolbar.cpp:332
+#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
 #, kde-format
 msgid "Association"
 msgstr "關聯"
@@ -171,7 +171,7 @@ msgid "State Transition"
 msgstr "狀態轉移"
 
 #: basictypes.cpp:357 dialogs/activitydialog.cpp:139
-#: umlwidgets/widgetbase.cpp:1230 worktoolbar.cpp:377
+#: umlwidgets/widgetbase.cpp:1243 worktoolbar.cpp:377
 #, kde-format
 msgid "Activity"
 msgstr "活動"
@@ -1325,7 +1325,7 @@ msgstr "狀態"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1254
+#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "類別"
@@ -2099,7 +2099,7 @@ msgstr "全部圖表(&A)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:154
-#: umlwidgets/widgetbase.cpp:1245 worktoolbar.cpp:389
+#: umlwidgets/widgetbase.cpp:1258 worktoolbar.cpp:389
 #, kde-format
 msgid "Category"
 msgstr "類別"
@@ -2112,14 +2112,14 @@ msgstr "全部"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100
-#: umlwidgets/widgetbase.cpp:1290 worktoolbar.cpp:355
+#: umlwidgets/widgetbase.cpp:1303 worktoolbar.cpp:355
 #, kde-format
 msgid "Package"
 msgstr "套件"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryInterface)
 #: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:204
-#: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1272
+#: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1285
 #: worktoolbar.cpp:359
 #, kde-format
 msgid "Interface"
@@ -2802,7 +2802,7 @@ msgid "The name you have entered is invalid."
 msgstr "您輸入的名稱不合法。"
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
-#: umldoc.cpp:1540 umldoc.cpp:1604 umldoc.cpp:1633 umldoc.cpp:1668
+#: umldoc.cpp:1627 umldoc.cpp:1691 umldoc.cpp:1720 umldoc.cpp:1755
 #: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
 #: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
 #: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
@@ -2816,7 +2816,7 @@ msgstr "無效名稱"
 msgid "The name you have entered is not unique."
 msgstr "您輸入的名稱不唯一。"
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1672
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1759
 #, kde-format
 msgid "Name Not Unique"
 msgstr "名稱不唯一"
@@ -4404,14 +4404,14 @@ msgstr "活動..."
 msgid "Activity Transition"
 msgstr "活動轉移"
 
-#: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1233
+#: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1246
 #: worktoolbar.cpp:338
 #, kde-format
 msgid "Actor"
 msgstr "主角"
 
 #. i18n("Actor...")); break;
-#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1236
+#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1249
 #: worktoolbar.cpp:358
 #, kde-format
 msgid "Artifact"
@@ -4452,7 +4452,7 @@ msgctxt "add new combined state"
 msgid "Combined state..."
 msgstr "已組合片段"
 
-#: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1251
+#: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1264
 #: worktoolbar.cpp:356
 #, kde-format
 msgid "Component"
@@ -4492,7 +4492,7 @@ msgstr "終止活動"
 msgid "End State"
 msgstr "終止狀態"
 
-#: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1260
+#: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1273
 #: worktoolbar.cpp:364
 #, kde-format
 msgid "Entity"
@@ -4680,7 +4680,7 @@ msgstr "新增常數..."
 msgid "New Parameter..."
 msgstr "新增參數..."
 
-#: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1278
+#: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1291
 #: worktoolbar.cpp:357
 #, kde-format
 msgid "Node"
@@ -4714,13 +4714,13 @@ msgstr "開啟檔案"
 msgid "Package..."
 msgstr "套件..."
 
-#: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1293
+#: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1306
 #: worktoolbar.cpp:381
 #, kde-format
 msgid "Pin"
 msgstr "Pin"
 
-#: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1296
+#: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1309
 #: worktoolbar.cpp:382
 #, kde-format
 msgid "Port"
@@ -4737,7 +4737,7 @@ msgstr "先決後續條件"
 msgid "Redo"
 msgstr "重做"
 
-#: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1302
+#: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1315
 #: worktoolbar.cpp:348
 #, kde-format
 msgid "Region"
@@ -6045,7 +6045,7 @@ msgstr "指標"
 msgid "Usage"
 msgstr "使用量"
 
-#: object_factory.cpp:254 umldoc.cpp:1633 umldoc.cpp:1668
+#: object_factory.cpp:254 umldoc.cpp:1720 umldoc.cpp:1755
 #: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
 #: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
 #: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
@@ -6065,7 +6065,7 @@ msgstr "這是配置的代碼產生器語言所用的保留關鍵字。"
 msgid "Reserved Keyword"
 msgstr "保留的關鍵字"
 
-#: object_factory.cpp:267 umldoc.cpp:1639 umldoc.cpp:1677
+#: object_factory.cpp:267 umldoc.cpp:1726 umldoc.cpp:1764
 #: umlmodel/umlclassifier.cpp:412 umlmodel/umlclassifier.cpp:784
 #: umlmodel/umlentity.cpp:124 umlmodel/umlentity.cpp:177
 #: umlmodel/umlentity.cpp:227 umlmodel/umlentity.cpp:276
@@ -6073,8 +6073,8 @@ msgstr "保留的關鍵字"
 msgid "That name is already being used."
 msgstr "名稱已被使用。"
 
-#: object_factory.cpp:268 umldoc.cpp:1542 umldoc.cpp:1611 umldoc.cpp:1639
-#: umldoc.cpp:1677 umlmodel/umlclassifier.cpp:412
+#: object_factory.cpp:268 umldoc.cpp:1629 umldoc.cpp:1698 umldoc.cpp:1726
+#: umldoc.cpp:1764 umlmodel/umlclassifier.cpp:412
 #: umlmodel/umlclassifier.cpp:784 umlmodel/umlentity.cpp:124
 #: umlmodel/umlentity.cpp:177 umlmodel/umlentity.cpp:227
 #: umlmodel/umlentity.cpp:276
@@ -7594,8 +7594,8 @@ msgstr "圖表工具列"
 msgid "Opening file..."
 msgstr "正在開啟檔案..."
 
-#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:351 umldoc.cpp:374
-#: umldoc.cpp:3317
+#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:437 umldoc.cpp:460
+#: umldoc.cpp:3404
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
@@ -7825,42 +7825,42 @@ msgstr "樹狀檢視(&T)"
 msgid "Welcome"
 msgstr "歡迎"
 
-#: umldoc.cpp:94 umldoc.cpp:2264 umldoc.cpp:2292 umldoc.cpp:2375
+#: umldoc.cpp:180 umldoc.cpp:2351 umldoc.cpp:2379 umldoc.cpp:2462
 #, kde-format
 msgid "UML Model"
 msgstr "UML 模型"
 
-#: umldoc.cpp:132
+#: umldoc.cpp:218
 #, kde-format
 msgid "Logical View"
 msgstr "邏輯檢視"
 
-#: umldoc.cpp:133
+#: umldoc.cpp:219
 #, kde-format
 msgid "Use Case View"
 msgstr "用例檢視"
 
-#: umldoc.cpp:134
+#: umldoc.cpp:220
 #, kde-format
 msgid "Component View"
 msgstr "元件檢視"
 
-#: umldoc.cpp:135
+#: umldoc.cpp:221
 #, kde-format
 msgid "Deployment View"
 msgstr "部署檢視"
 
-#: umldoc.cpp:136
+#: umldoc.cpp:222
 #, kde-format
 msgid "Entity Relationship Model"
 msgstr "實體關係模型"
 
-#: umldoc.cpp:162
+#: umldoc.cpp:248
 #, kde-format
 msgid "Datatypes"
 msgstr "資料型態"
 
-#: umldoc.cpp:369
+#: umldoc.cpp:455
 #, kde-format
 msgid ""
 "The current file has been modified.\n"
@@ -7869,155 +7869,155 @@ msgstr ""
 "目前的檔案已修改。\n"
 "要儲存嗎？"
 
-#: umldoc.cpp:370
+#: umldoc.cpp:456
 #, kde-format
 msgctxt "warning message"
 msgid "Warning"
 msgstr "警告"
 
-#: umldoc.cpp:550
+#: umldoc.cpp:636
 #, kde-format
 msgid "The file <%1> does not exist."
 msgstr "檔案 <%1> 不存在。"
 
-#: umldoc.cpp:550 umldoc.cpp:571 umldoc.cpp:610 umldoc.cpp:622 umldoc.cpp:636
-#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/umlfolder.cpp:450
+#: umldoc.cpp:636 umldoc.cpp:657 umldoc.cpp:696 umldoc.cpp:708 umldoc.cpp:722
+#: umldoc.cpp:735 umldoc.cpp:747 umldoc.cpp:785 umlmodel/umlfolder.cpp:450
 #: umlmodel/umlfolder.cpp:454
 #, kde-format
 msgid "Load Error"
 msgstr "載入時發生錯誤"
 
-#: umldoc.cpp:571
+#: umldoc.cpp:657
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "檔案 %1 似乎已損壞。"
 
-#: umldoc.cpp:609 umldoc.cpp:621 umldoc.cpp:648
+#: umldoc.cpp:695 umldoc.cpp:707 umldoc.cpp:734
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "壓縮檔案 %1 中找不到 XMI 檔。"
 
-#: umldoc.cpp:635
+#: umldoc.cpp:721
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "載入解出來的檔案時發生錯誤：%1"
 
-#: umldoc.cpp:660 umldoc.cpp:696
+#: umldoc.cpp:746 umldoc.cpp:782
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "載入檔案時發生錯誤：%1"
 
-#: umldoc.cpp:698
+#: umldoc.cpp:784
 #, kde-format
 msgid "Reason: %1"
 msgstr ""
 
-#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
+#: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #, kde-format
 msgid "There was a problem saving: %1"
 msgstr "儲存檔案時發生錯誤：%1"
 
-#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
-#: umldoc.cpp:888 umllistview.cpp:569
+#: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
+#: umldoc.cpp:975 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
 msgstr "儲存時發生錯誤"
 
-#: umldoc.cpp:888
+#: umldoc.cpp:975
 #, kde-format
 msgid "There was a problem uploading: %1"
 msgstr "上傳檔案時發生錯誤：%1"
 
-#: umldoc.cpp:1439
+#: umldoc.cpp:1526
 #, kde-format
 msgid "use case diagram"
 msgstr "用例圖"
 
-#: umldoc.cpp:1442
+#: umldoc.cpp:1529
 #, kde-format
 msgid "class diagram"
 msgstr "類別圖"
 
-#: umldoc.cpp:1445
+#: umldoc.cpp:1532
 #, kde-format
 msgid "sequence diagram"
 msgstr "序列圖"
 
-#: umldoc.cpp:1448
+#: umldoc.cpp:1535
 #, kde-format
 msgid "communication diagram"
 msgstr "協作圖"
 
-#: umldoc.cpp:1451
+#: umldoc.cpp:1538
 #, kde-format
 msgid "object diagram"
 msgstr "物件圖表"
 
-#: umldoc.cpp:1454
+#: umldoc.cpp:1541
 #, kde-format
 msgid "state diagram"
 msgstr "狀態圖"
 
-#: umldoc.cpp:1457
+#: umldoc.cpp:1544
 #, kde-format
 msgid "activity diagram"
 msgstr "活動圖"
 
-#: umldoc.cpp:1460
+#: umldoc.cpp:1547
 #, kde-format
 msgid "component diagram"
 msgstr "元件圖"
 
-#: umldoc.cpp:1463
+#: umldoc.cpp:1550
 #, kde-format
 msgid "deployment diagram"
 msgstr "部署圖"
 
-#: umldoc.cpp:1466
+#: umldoc.cpp:1553
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "實體關係圖"
 
-#: umldoc.cpp:1536
+#: umldoc.cpp:1623
 #, kde-format
 msgctxt "diagram name"
 msgid "Name"
 msgstr "名稱"
 
-#: umldoc.cpp:1536 umldoc.cpp:1598 umldoc.cpp:1627 umldoc.cpp:1662
+#: umldoc.cpp:1623 umldoc.cpp:1685 umldoc.cpp:1714 umldoc.cpp:1749
 #, kde-format
 msgid "Enter name:"
 msgstr "輸入名稱："
 
-#: umldoc.cpp:1540 umldoc.cpp:1604
+#: umldoc.cpp:1627 umldoc.cpp:1691
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "圖名無效。"
 
-#: umldoc.cpp:1542 umldoc.cpp:1611
+#: umldoc.cpp:1629 umldoc.cpp:1698
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "圖名已被使用。"
 
-#: umldoc.cpp:1597
+#: umldoc.cpp:1684
 #, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "名稱"
 
-#: umldoc.cpp:1626
+#: umldoc.cpp:1713
 #, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "名稱"
 
-#: umldoc.cpp:1661
+#: umldoc.cpp:1748
 #, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "名稱"
 
-#: umldoc.cpp:1671
+#: umldoc.cpp:1758
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
@@ -8026,42 +8026,42 @@ msgstr ""
 "所輸入的名稱不唯一。\n"
 "您確定這就是您要的嗎？"
 
-#: umldoc.cpp:1672
+#: umldoc.cpp:1759
 #, kde-format
 msgid "Use Name"
 msgstr "使用此名稱"
 
-#: umldoc.cpp:1672
+#: umldoc.cpp:1759
 #, kde-format
 msgid "Enter New Name"
 msgstr "輸入新名稱"
 
-#: umldoc.cpp:2222
+#: umldoc.cpp:2309
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr ""
 
-#: umldoc.cpp:2386
+#: umldoc.cpp:2473
 #, kde-format
 msgid "Setting up the document..."
 msgstr "正在設立文件..."
 
-#: umldoc.cpp:2415
+#: umldoc.cpp:2502
 #, kde-format
 msgid "Resolving object references..."
 msgstr "正在反解物件參考..."
 
-#: umldoc.cpp:2523
+#: umldoc.cpp:2610
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "正在載入 UML 元素...."
 
-#: umldoc.cpp:2785
+#: umldoc.cpp:2872
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "正在載入圖表..."
 
-#: umldoc.cpp:3319
+#: umldoc.cpp:3406
 #, kde-format
 msgid "/autosave%1"
 msgstr "/自動儲存 %1"
@@ -8544,7 +8544,7 @@ msgstr "名稱"
 msgid "Enter operation name:"
 msgstr "輸入操作名稱："
 
-#: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1299
+#: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1312
 #: worktoolbar.cpp:331
 #, kde-format
 msgid "Precondition"
@@ -9260,77 +9260,77 @@ msgstr "輸入模型的新名稱："
 msgid "Enter the new name of the widget:"
 msgstr "輸入模型的新名稱："
 
-#: umlwidgets/widgetbase.cpp:1242 worktoolbar.cpp:337
+#: umlwidgets/widgetbase.cpp:1255 worktoolbar.cpp:337
 #, kde-format
 msgid "Box"
 msgstr "方框"
 
-#: umlwidgets/widgetbase.cpp:1248
+#: umlwidgets/widgetbase.cpp:1261
 #, kde-format
 msgid "CombinedFragment"
 msgstr "已組合片段"
 
-#: umlwidgets/widgetbase.cpp:1257 worktoolbar.cpp:362
+#: umlwidgets/widgetbase.cpp:1270 worktoolbar.cpp:362
 #, kde-format
 msgid "Datatype"
 msgstr "資料型態"
 
-#: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:363
+#: umlwidgets/widgetbase.cpp:1276 worktoolbar.cpp:363
 #, kde-format
 msgid "Enum"
 msgstr "Enum"
 
-#: umlwidgets/widgetbase.cpp:1266
+#: umlwidgets/widgetbase.cpp:1279
 #, kde-format
 msgid "FloatingDashLine"
 msgstr "浮動虛線"
 
-#: umlwidgets/widgetbase.cpp:1269
+#: umlwidgets/widgetbase.cpp:1282
 #, kde-format
 msgid "ForkJoin"
 msgstr "分叉/連接"
 
-#: umlwidgets/widgetbase.cpp:1275
+#: umlwidgets/widgetbase.cpp:1288
 #, kde-format
 msgid "Message"
 msgstr "訊息"
 
-#: umlwidgets/widgetbase.cpp:1281 worktoolbar.cpp:336
+#: umlwidgets/widgetbase.cpp:1294 worktoolbar.cpp:336
 #, kde-format
 msgid "Note"
 msgstr "註釋"
 
-#: umlwidgets/widgetbase.cpp:1284 worktoolbar.cpp:323
+#: umlwidgets/widgetbase.cpp:1297 worktoolbar.cpp:323
 #, kde-format
 msgid "Object"
 msgstr "物件"
 
-#: umlwidgets/widgetbase.cpp:1287
+#: umlwidgets/widgetbase.cpp:1300
 #, kde-format
 msgid "ObjectNode"
 msgstr "物件節點"
 
-#: umlwidgets/widgetbase.cpp:1305
+#: umlwidgets/widgetbase.cpp:1318
 #, kde-format
 msgid "Signal"
 msgstr "信號"
 
-#: umlwidgets/widgetbase.cpp:1308
+#: umlwidgets/widgetbase.cpp:1321
 #, kde-format
 msgid "State"
 msgstr "狀態"
 
-#: umlwidgets/widgetbase.cpp:1311
+#: umlwidgets/widgetbase.cpp:1324
 #, kde-format
 msgid "Text"
 msgstr "文字"
 
-#: umlwidgets/widgetbase.cpp:1314
+#: umlwidgets/widgetbase.cpp:1327
 #, kde-format
 msgid "UseCase"
 msgstr "用例"
 
-#: umlwidgets/widgetbase.cpp:1317 worktoolbar.cpp:392
+#: umlwidgets/widgetbase.cpp:1330 worktoolbar.cpp:392
 #, kde-format
 msgid "Instance"
 msgstr "實體"

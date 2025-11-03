@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-09-30 02:12+0000\n"
+"POT-Creation-Date: 2025-11-03 01:58+0000\n"
 "PO-Revision-Date: 2025-09-04 10:57+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -104,7 +104,7 @@ msgstr "Agregació"
 msgid "Dependency"
 msgstr "Dependència"
 
-#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1239 worktoolbar.cpp:332
+#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
 #, kde-format
 msgid "Association"
 msgstr "Associació"
@@ -170,7 +170,7 @@ msgid "State Transition"
 msgstr "Transició d'estat"
 
 #: basictypes.cpp:357 dialogs/activitydialog.cpp:139
-#: umlwidgets/widgetbase.cpp:1230 worktoolbar.cpp:377
+#: umlwidgets/widgetbase.cpp:1243 worktoolbar.cpp:377
 #, kde-format
 msgid "Activity"
 msgstr "Activitat"
@@ -1339,7 +1339,7 @@ msgstr "Estat"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1254
+#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "Classe"
@@ -2117,7 +2117,7 @@ msgstr "&Tots els diagrames"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:154
-#: umlwidgets/widgetbase.cpp:1245 worktoolbar.cpp:389
+#: umlwidgets/widgetbase.cpp:1258 worktoolbar.cpp:389
 #, kde-format
 msgid "Category"
 msgstr "Categoria"
@@ -2130,14 +2130,14 @@ msgstr "Tot"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100
-#: umlwidgets/widgetbase.cpp:1290 worktoolbar.cpp:355
+#: umlwidgets/widgetbase.cpp:1303 worktoolbar.cpp:355
 #, kde-format
 msgid "Package"
 msgstr "Paquet"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryInterface)
 #: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:204
-#: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1272
+#: menus/listpopupmenu.cpp:205 umlwidgets/widgetbase.cpp:1285
 #: worktoolbar.cpp:359
 #, kde-format
 msgid "Interface"
@@ -2817,7 +2817,7 @@ msgid "The name you have entered is invalid."
 msgstr "El nom que heu introduït no és vàlid."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
-#: umldoc.cpp:1540 umldoc.cpp:1604 umldoc.cpp:1633 umldoc.cpp:1668
+#: umldoc.cpp:1627 umldoc.cpp:1691 umldoc.cpp:1720 umldoc.cpp:1755
 #: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
 #: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
 #: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
@@ -2831,7 +2831,7 @@ msgstr "Nom no vàlid"
 msgid "The name you have entered is not unique."
 msgstr "El nom que heu introduït no és únic."
 
-#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1672
+#: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1759
 #, kde-format
 msgid "Name Not Unique"
 msgstr "Nom no únic"
@@ -4419,14 +4419,14 @@ msgstr "Activitat..."
 msgid "Activity Transition"
 msgstr "Transició d'activitat"
 
-#: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1233
+#: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1246
 #: worktoolbar.cpp:338
 #, kde-format
 msgid "Actor"
 msgstr "Actor"
 
 #. i18n("Actor...")); break;
-#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1236
+#: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1249
 #: worktoolbar.cpp:358
 #, kde-format
 msgid "Artifact"
@@ -4466,7 +4466,7 @@ msgctxt "add new combined state"
 msgid "Combined state..."
 msgstr "Estat combinat..."
 
-#: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1251
+#: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1264
 #: worktoolbar.cpp:356
 #, kde-format
 msgid "Component"
@@ -4505,7 +4505,7 @@ msgstr "Finalitza activitat"
 msgid "End State"
 msgstr "Estat final"
 
-#: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1260
+#: menus/listpopupmenu.cpp:177 umlwidgets/widgetbase.cpp:1273
 #: worktoolbar.cpp:364
 #, kde-format
 msgid "Entity"
@@ -4689,7 +4689,7 @@ msgstr "Literal nou..."
 msgid "New Parameter..."
 msgstr "Paràmetre nou..."
 
-#: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1278
+#: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1291
 #: worktoolbar.cpp:357
 #, kde-format
 msgid "Node"
@@ -4722,13 +4722,13 @@ msgstr "Obre un fitxer"
 msgid "Package..."
 msgstr "Paquet..."
 
-#: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1293
+#: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1306
 #: worktoolbar.cpp:381
 #, kde-format
 msgid "Pin"
 msgstr "Pin"
 
-#: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1296
+#: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1309
 #: worktoolbar.cpp:382
 #, kde-format
 msgid "Port"
@@ -4745,7 +4745,7 @@ msgstr "Pre post condició"
 msgid "Redo"
 msgstr "Refés"
 
-#: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1302
+#: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1315
 #: worktoolbar.cpp:348
 #, kde-format
 msgid "Region"
@@ -5923,7 +5923,7 @@ msgstr "Apuntador"
 msgid "Usage"
 msgstr "Ús"
 
-#: object_factory.cpp:254 umldoc.cpp:1633 umldoc.cpp:1668
+#: object_factory.cpp:254 umldoc.cpp:1720 umldoc.cpp:1755
 #: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
 #: umlmodel/umlentity.cpp:122 umlmodel/umlentity.cpp:175
 #: umlmodel/umlentity.cpp:225 umlmodel/umlentity.cpp:274
@@ -5945,7 +5945,7 @@ msgstr ""
 msgid "Reserved Keyword"
 msgstr "Paraula clau reservada"
 
-#: object_factory.cpp:267 umldoc.cpp:1639 umldoc.cpp:1677
+#: object_factory.cpp:267 umldoc.cpp:1726 umldoc.cpp:1764
 #: umlmodel/umlclassifier.cpp:412 umlmodel/umlclassifier.cpp:784
 #: umlmodel/umlentity.cpp:124 umlmodel/umlentity.cpp:177
 #: umlmodel/umlentity.cpp:227 umlmodel/umlentity.cpp:276
@@ -5953,8 +5953,8 @@ msgstr "Paraula clau reservada"
 msgid "That name is already being used."
 msgstr "Aquest nom ja s'està usant."
 
-#: object_factory.cpp:268 umldoc.cpp:1542 umldoc.cpp:1611 umldoc.cpp:1639
-#: umldoc.cpp:1677 umlmodel/umlclassifier.cpp:412
+#: object_factory.cpp:268 umldoc.cpp:1629 umldoc.cpp:1698 umldoc.cpp:1726
+#: umldoc.cpp:1764 umlmodel/umlclassifier.cpp:412
 #: umlmodel/umlclassifier.cpp:784 umlmodel/umlentity.cpp:124
 #: umlmodel/umlentity.cpp:177 umlmodel/umlentity.cpp:227
 #: umlmodel/umlentity.cpp:276
@@ -7467,8 +7467,8 @@ msgstr "Barra d'eines diagrama"
 msgid "Opening file..."
 msgstr "S'està obrint el fitxer..."
 
-#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:351 umldoc.cpp:374
-#: umldoc.cpp:3317
+#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:437 umldoc.cpp:460
+#: umldoc.cpp:3404
 #, kde-format
 msgid "Untitled"
 msgstr "Sense títol"
@@ -7693,42 +7693,42 @@ msgstr "Vista en a&rbre"
 msgid "Welcome"
 msgstr "Us donem la benvinguda"
 
-#: umldoc.cpp:94 umldoc.cpp:2264 umldoc.cpp:2292 umldoc.cpp:2375
+#: umldoc.cpp:180 umldoc.cpp:2351 umldoc.cpp:2379 umldoc.cpp:2462
 #, kde-format
 msgid "UML Model"
 msgstr "Model UML"
 
-#: umldoc.cpp:132
+#: umldoc.cpp:218
 #, kde-format
 msgid "Logical View"
 msgstr "Vista lògica"
 
-#: umldoc.cpp:133
+#: umldoc.cpp:219
 #, kde-format
 msgid "Use Case View"
 msgstr "Vista casos d'ús"
 
-#: umldoc.cpp:134
+#: umldoc.cpp:220
 #, kde-format
 msgid "Component View"
 msgstr "Vista component"
 
-#: umldoc.cpp:135
+#: umldoc.cpp:221
 #, kde-format
 msgid "Deployment View"
 msgstr "Vista desplegament"
 
-#: umldoc.cpp:136
+#: umldoc.cpp:222
 #, kde-format
 msgid "Entity Relationship Model"
 msgstr "Model entitat relació"
 
-#: umldoc.cpp:162
+#: umldoc.cpp:248
 #, kde-format
 msgid "Datatypes"
 msgstr "Tipus de dades"
 
-#: umldoc.cpp:369
+#: umldoc.cpp:455
 #, kde-format
 msgid ""
 "The current file has been modified.\n"
@@ -7737,155 +7737,155 @@ msgstr ""
 "El fitxer actual ha estat modificat.\n"
 "Desitgeu desar-lo?"
 
-#: umldoc.cpp:370
+#: umldoc.cpp:456
 #, kde-format
 msgctxt "warning message"
 msgid "Warning"
 msgstr "Avís"
 
-#: umldoc.cpp:550
+#: umldoc.cpp:636
 #, kde-format
 msgid "The file <%1> does not exist."
 msgstr "El fitxer <%1> no existeix."
 
-#: umldoc.cpp:550 umldoc.cpp:571 umldoc.cpp:610 umldoc.cpp:622 umldoc.cpp:636
-#: umldoc.cpp:649 umldoc.cpp:661 umldoc.cpp:699 umlmodel/umlfolder.cpp:450
+#: umldoc.cpp:636 umldoc.cpp:657 umldoc.cpp:696 umldoc.cpp:708 umldoc.cpp:722
+#: umldoc.cpp:735 umldoc.cpp:747 umldoc.cpp:785 umlmodel/umlfolder.cpp:450
 #: umlmodel/umlfolder.cpp:454
 #, kde-format
 msgid "Load Error"
 msgstr "Error de càrrega"
 
-#: umldoc.cpp:571
+#: umldoc.cpp:657
 #, kde-format
 msgid "The file %1 seems to be corrupted."
 msgstr "El fitxer %1 sembla estar corrupte."
 
-#: umldoc.cpp:609 umldoc.cpp:621 umldoc.cpp:648
+#: umldoc.cpp:695 umldoc.cpp:707 umldoc.cpp:734
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
 msgstr "No s'ha trobat un fitxer XMI dins del fitxer comprimit %1."
 
-#: umldoc.cpp:635
+#: umldoc.cpp:721
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
 msgstr "S'ha produït un problema en carregar el fitxer extret: %1"
 
-#: umldoc.cpp:660 umldoc.cpp:696
+#: umldoc.cpp:746 umldoc.cpp:782
 #, kde-format
 msgid "There was a problem loading file: %1"
 msgstr "S'ha produït un problema en carregar el fitxer: %1"
 
-#: umldoc.cpp:698
+#: umldoc.cpp:784
 #, kde-format
 msgid "Reason: %1"
 msgstr "Motiu: %1"
 
-#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
+#: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #, kde-format
 msgid "There was a problem saving: %1"
 msgstr "S'ha produït un problema en desar: %1"
 
-#: umldoc.cpp:768 umldoc.cpp:779 umldoc.cpp:797 umldoc.cpp:842 umldoc.cpp:881
-#: umldoc.cpp:888 umllistview.cpp:569
+#: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
+#: umldoc.cpp:975 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
 msgstr "Error en desar"
 
-#: umldoc.cpp:888
+#: umldoc.cpp:975
 #, kde-format
 msgid "There was a problem uploading: %1"
 msgstr "S'ha produït un problema en pujar: %1"
 
-#: umldoc.cpp:1439
+#: umldoc.cpp:1526
 #, kde-format
 msgid "use case diagram"
 msgstr "diagrama de casos d'ús"
 
-#: umldoc.cpp:1442
+#: umldoc.cpp:1529
 #, kde-format
 msgid "class diagram"
 msgstr "diagrama de classes"
 
-#: umldoc.cpp:1445
+#: umldoc.cpp:1532
 #, kde-format
 msgid "sequence diagram"
 msgstr "diagrama de seqüències"
 
-#: umldoc.cpp:1448
+#: umldoc.cpp:1535
 #, kde-format
 msgid "communication diagram"
 msgstr "diagrama de comunicació"
 
-#: umldoc.cpp:1451
+#: umldoc.cpp:1538
 #, kde-format
 msgid "object diagram"
 msgstr "diagrama d'objectes"
 
-#: umldoc.cpp:1454
+#: umldoc.cpp:1541
 #, kde-format
 msgid "state diagram"
 msgstr "diagrama d'estats"
 
-#: umldoc.cpp:1457
+#: umldoc.cpp:1544
 #, kde-format
 msgid "activity diagram"
 msgstr "diagrama d'activitats"
 
-#: umldoc.cpp:1460
+#: umldoc.cpp:1547
 #, kde-format
 msgid "component diagram"
 msgstr "diagrama de components"
 
-#: umldoc.cpp:1463
+#: umldoc.cpp:1550
 #, kde-format
 msgid "deployment diagram"
 msgstr "diagrama de desplegament"
 
-#: umldoc.cpp:1466
+#: umldoc.cpp:1553
 #, kde-format
 msgid "entity relationship diagram"
 msgstr "diagrama entitat relació"
 
-#: umldoc.cpp:1536
+#: umldoc.cpp:1623
 #, kde-format
 msgctxt "diagram name"
 msgid "Name"
 msgstr "Nom"
 
-#: umldoc.cpp:1536 umldoc.cpp:1598 umldoc.cpp:1627 umldoc.cpp:1662
+#: umldoc.cpp:1623 umldoc.cpp:1685 umldoc.cpp:1714 umldoc.cpp:1749
 #, kde-format
 msgid "Enter name:"
 msgstr "Introduïu nom:"
 
-#: umldoc.cpp:1540 umldoc.cpp:1604
+#: umldoc.cpp:1627 umldoc.cpp:1691
 #, kde-format
 msgid "That is an invalid name for a diagram."
 msgstr "Aquest no és un nom vàlid per a un diagrama."
 
-#: umldoc.cpp:1542 umldoc.cpp:1611
+#: umldoc.cpp:1629 umldoc.cpp:1698
 #, kde-format
 msgid "A diagram is already using that name."
 msgstr "Ja hi ha un diagrama usant aquest nom."
 
-#: umldoc.cpp:1597
+#: umldoc.cpp:1684
 #, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
 msgstr "Nom"
 
-#: umldoc.cpp:1626
+#: umldoc.cpp:1713
 #, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
 msgstr "Nom"
 
-#: umldoc.cpp:1661
+#: umldoc.cpp:1748
 #, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
 msgstr "Nom"
 
-#: umldoc.cpp:1671
+#: umldoc.cpp:1758
 #, kde-format
 msgid ""
 "The name you entered was not unique.\n"
@@ -7894,42 +7894,42 @@ msgstr ""
 "El nom que heu introduït no era únic.\n"
 "És això el que voleu?"
 
-#: umldoc.cpp:1672
+#: umldoc.cpp:1759
 #, kde-format
 msgid "Use Name"
 msgstr "Nom a usar"
 
-#: umldoc.cpp:1672
+#: umldoc.cpp:1759
 #, kde-format
 msgid "Enter New Name"
 msgstr "Introduïu el nom nou"
 
-#: umldoc.cpp:2222
+#: umldoc.cpp:2309
 #, kde-format
 msgid "Unsupported xmi file version: %1"
 msgstr "Versió no admesa del fitxer XMI: %1"
 
-#: umldoc.cpp:2386
+#: umldoc.cpp:2473
 #, kde-format
 msgid "Setting up the document..."
 msgstr "S'està configurant el document..."
 
-#: umldoc.cpp:2415
+#: umldoc.cpp:2502
 #, kde-format
 msgid "Resolving object references..."
 msgstr "S'estan resolent les referències a objectes..."
 
-#: umldoc.cpp:2523
+#: umldoc.cpp:2610
 #, kde-format
 msgid "Loading UML elements..."
 msgstr "S'estan carregant els elements UML..."
 
-#: umldoc.cpp:2785
+#: umldoc.cpp:2872
 #, kde-format
 msgid "Loading diagrams..."
 msgstr "S'estan carregant els diagrames..."
 
-#: umldoc.cpp:3319
+#: umldoc.cpp:3406
 #, kde-format
 msgid "/autosave%1"
 msgstr "/autodesat%1"
@@ -8416,7 +8416,7 @@ msgstr "Nom"
 msgid "Enter operation name:"
 msgstr "Introduïu el nom de l'operació:"
 
-#: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1299
+#: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1312
 #: worktoolbar.cpp:331
 #, kde-format
 msgid "Precondition"
@@ -9043,77 +9043,77 @@ msgstr "Introduïu el nom nou del giny UML:"
 msgid "Enter the new name of the widget:"
 msgstr "Introduïu el nom nou del giny:"
 
-#: umlwidgets/widgetbase.cpp:1242 worktoolbar.cpp:337
+#: umlwidgets/widgetbase.cpp:1255 worktoolbar.cpp:337
 #, kde-format
 msgid "Box"
 msgstr "Quadre"
 
-#: umlwidgets/widgetbase.cpp:1248
+#: umlwidgets/widgetbase.cpp:1261
 #, kde-format
 msgid "CombinedFragment"
 msgstr "FragmentCombinat"
 
-#: umlwidgets/widgetbase.cpp:1257 worktoolbar.cpp:362
+#: umlwidgets/widgetbase.cpp:1270 worktoolbar.cpp:362
 #, kde-format
 msgid "Datatype"
 msgstr "Tipus de dada"
 
-#: umlwidgets/widgetbase.cpp:1263 worktoolbar.cpp:363
+#: umlwidgets/widgetbase.cpp:1276 worktoolbar.cpp:363
 #, kde-format
 msgid "Enum"
 msgstr "Enum"
 
-#: umlwidgets/widgetbase.cpp:1266
+#: umlwidgets/widgetbase.cpp:1279
 #, kde-format
 msgid "FloatingDashLine"
 msgstr "LiniaGuionsFlotant"
 
-#: umlwidgets/widgetbase.cpp:1269
+#: umlwidgets/widgetbase.cpp:1282
 #, kde-format
 msgid "ForkJoin"
 msgstr "BifurcaUneix"
 
-#: umlwidgets/widgetbase.cpp:1275
+#: umlwidgets/widgetbase.cpp:1288
 #, kde-format
 msgid "Message"
 msgstr "Missatge"
 
-#: umlwidgets/widgetbase.cpp:1281 worktoolbar.cpp:336
+#: umlwidgets/widgetbase.cpp:1294 worktoolbar.cpp:336
 #, kde-format
 msgid "Note"
 msgstr "Nota"
 
-#: umlwidgets/widgetbase.cpp:1284 worktoolbar.cpp:323
+#: umlwidgets/widgetbase.cpp:1297 worktoolbar.cpp:323
 #, kde-format
 msgid "Object"
 msgstr "Objecte"
 
-#: umlwidgets/widgetbase.cpp:1287
+#: umlwidgets/widgetbase.cpp:1300
 #, kde-format
 msgid "ObjectNode"
 msgstr "ObjecteNode"
 
-#: umlwidgets/widgetbase.cpp:1305
+#: umlwidgets/widgetbase.cpp:1318
 #, kde-format
 msgid "Signal"
 msgstr "Senyal"
 
-#: umlwidgets/widgetbase.cpp:1308
+#: umlwidgets/widgetbase.cpp:1321
 #, kde-format
 msgid "State"
 msgstr "Estat"
 
-#: umlwidgets/widgetbase.cpp:1311
+#: umlwidgets/widgetbase.cpp:1324
 #, kde-format
 msgid "Text"
 msgstr "Text"
 
-#: umlwidgets/widgetbase.cpp:1314
+#: umlwidgets/widgetbase.cpp:1327
 #, kde-format
 msgid "UseCase"
 msgstr "CasUs"
 
-#: umlwidgets/widgetbase.cpp:1317 worktoolbar.cpp:392
+#: umlwidgets/widgetbase.cpp:1330 worktoolbar.cpp:392
 #, kde-format
 msgid "Instance"
 msgstr "Instància"
