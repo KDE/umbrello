@@ -222,7 +222,7 @@ msgstr "Les traits ne peuvent avoir de constantes."
 msgid ""
 "Only booleans, ints, floats and strings are allowed for class constants."
 msgstr ""
-"Seuls les booléens, les entiers, les flottants et les chaînes sont autorisés "
+"Seuls les booléens, les entiers, les flottants et les chaines sont autorisés "
 "pour les constantes de classes."
 
 #: duchain/builders/declarationbuilder.cpp:709
