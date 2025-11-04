@@ -617,7 +617,7 @@ msgstr "QString"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:496
 #, kde-format
 msgid "string"
-msgstr "chaîne"
+msgstr "chaine"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelStringClass)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:295
@@ -6952,7 +6952,7 @@ msgstr "L'inclusion de « String » est globale"
 #: umbrello.kcfg:514
 #, kde-format
 msgid "Enables/Disables global inclusion of string"
-msgstr "Active / Désactive l'inclusion globale de chaînes"
+msgstr "Active / Désactive l'inclusion globale de chaines"
 
 #. i18n: ectx: label, entry (vectorClassName), group (CPP Code Generation)
 #: umbrello.kcfg:518
@@ -8792,7 +8792,7 @@ msgstr "Nouvelle activité"
 #: umlwidgets/widget_utils.cpp:875
 #, kde-format
 msgid "New box"
-msgstr "Nouvelle boîte"
+msgstr "Nouvelle boite"
 
 #: umlwidgets/widget_utils.cpp:878
 #, kde-format
