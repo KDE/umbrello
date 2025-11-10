@@ -1914,7 +1914,7 @@ void  UMLScene::getDiagram(QPixmap &diagram, const QRectF &rect)
                diagram.rect().width(), diagram.rect().height(),
                rect.width(), rect.height());
     QPainter painter(&diagram);
-    painter.fillRect(0, 0, rect.width(), rect.height(), Qt::white);
+    painter.fillRect(0, 0, diagram.rect().width(), diagram.rect().height(), Qt::white);
     getDiagram(painter, rect);
 }
 
