@@ -63,6 +63,10 @@ void UIOptionsPage::setupPage()
     m_rightToLeftUI->setChecked(UmbrelloSettings::rightToLeftUI());
     otherLayout->addWidget(m_rightToLeftUI, 0, 0);
 
+    m_alignmentGuidesUI = new QCheckBox(i18n("Use alignment guides"), box);
+    m_alignmentGuidesUI->setChecked(m_options->uiState.useAlignmentGuides);
+    otherLayout->addWidget(m_alignmentGuidesUI, 0, 1);
+
     QGroupBox *boxAssocs = new QGroupBox(i18nc("Association options", "Associations"), this);
     QGridLayout *layoutAssocs = new QGridLayout(boxAssocs);
     layoutAssocs->setContentsMargins(margin, margin, margin, margin);
@@ -163,6 +167,7 @@ void UIOptionsPage::setDefaults()
     slotBgCBChecked(false);
     slotLineWidthCBChecked(false);
     m_rightToLeftUI->setChecked(false);
+    m_alignmentGuidesUI->setChecked(true);
     m_layoutTypeW->setCurrentLayout(Uml::LayoutType::Direct);
 }
 
@@ -179,6 +184,7 @@ void UIOptionsPage::apply()
     m_options->uiState.backgroundColor = m_bgColorB->color();
     m_options->uiState.useBackgroundColor = m_bgColorCB->isChecked();
     m_options->uiState.gridDotColor = m_gridColorB->color();
+    m_options->uiState.useAlignmentGuides = m_alignmentGuidesUI->isChecked();
     m_options->generalState.layoutType = m_layoutTypeW->currentLayout();
     UmbrelloSettings::setRightToLeftUI(m_rightToLeftUI->isChecked());
     qApp->setLayoutDirection(UmbrelloSettings::rightToLeftUI() ? Qt::RightToLeft : Qt::LeftToRight);

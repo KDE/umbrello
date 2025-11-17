@@ -68,7 +68,8 @@ class UIState {
 public:
     UIState()
      : useFillColor(false),
-       lineWidth(0)
+       lineWidth(0),
+       useAlignmentGuides(true)
     {
     }
 
@@ -87,6 +88,7 @@ public:
     QColor backgroundColor;
     bool   useBackgroundColor;
     QColor gridDotColor;
+    bool   useAlignmentGuides;
 };
 
 class ClassState {

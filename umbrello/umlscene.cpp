@@ -9,6 +9,7 @@
 // application specific includes
 #include "activitywidget.h"
 #include "actorwidget.h"
+#include "alignmentguide.h"
 #include "artifactwidget.h"
 #include "umlassociation.h"
 #include "associationwidget.h"
@@ -300,6 +301,8 @@ UMLScene::UMLScene(UMLFolder *parentFolder, UMLView *view)
 //    // settings for background
 //    setBackgroundBrush(QColor(195, 195, 195));
     m_layoutGrid = new LayoutGrid(this);
+    m_alignmentGuide = new AlignmentGuide(this);
+    m_alignmentGuide->setEnabled(m_Options.uiState.useAlignmentGuides);
 
     // fix crash caused by Qt stale item issue see https://bugs.kde.org/show_bug.cgi?id=383592
     setItemIndexMethod(NoIndex);
@@ -326,6 +329,7 @@ UMLScene::~UMLScene()
     removeAllWidgets();
 
     delete m_layoutGrid;
+    delete m_alignmentGuide;
     delete m_d;
 }
 
@@ -599,6 +603,8 @@ void UMLScene::setOptionState(const Settings::OptionState& options)
     if (options.uiState.useBackgroundColor)
         setBackgroundBrush(options.uiState.backgroundColor);
     setGridDotColor(options.uiState.gridDotColor);
+    if (m_alignmentGuide)
+        m_alignmentGuide->setEnabled(options.uiState.useAlignmentGuides);
 }
 
 /**
@@ -3624,6 +3630,14 @@ int UMLScene::snapY() const
 }
 
 /**
+ * Returns the alignment guide.
+ */
+AlignmentGuide* UMLScene::alignmentGuide() const
+{
+    return m_alignmentGuide;
+}
+
+/**
  * Sets the grid size in x and y.
  */
 void UMLScene::setSnapSpacing(int x, int y)
@@ -3791,6 +3805,44 @@ void UMLScene::drawBackground(QPainter *painter, const QRectF &rect)
               << QLineF(m_pos + QPointF(0,-5), m_pos + QPointF(0,5));
         painter->setPen(Qt::gray);
         painter->drawLines(lines);
+    }
+}
+
+/**
+ * Draws the foreground of the scene.
+ * This is used to draw alignment guides on top of widgets.
+ */
+void UMLScene::drawForeground(QPainter *painter, const QRectF &rect)
+{
+    QGraphicsScene::drawForeground(painter, rect);
+
+    // Draw alignment guides
+    if (m_alignmentGuide && m_alignmentGuide->isEnabled()) {
+        QList<AlignmentGuide::GuideLine> guides = m_alignmentGuide->activeGuides();
+        if (!guides.isEmpty()) {
+            painter->save();
+
+            // Set up pen for guide lines (dark blue, solid, 1px)
+            QPen guidePen(QColor(0, 102, 204), 1, Qt::SolidLine);  // Dark blue color
+            guidePen.setCosmetic(true);  // Ensure 1px width regardless of zoom
+            painter->setPen(guidePen);
+            painter->setRenderHint(QPainter::Antialiasing, false);  // Crisp 1px lines
+
+            // Draw each guide line across the visible rect
+            for (const AlignmentGuide::GuideLine &guide : guides) {
+                if (guide.isVertical()) {
+                    // Vertical line at guide.position
+                    QLineF line(guide.position, rect.top(), guide.position, rect.bottom());
+                    painter->drawLine(line);
+                } else if (guide.isHorizontal()) {
+                    // Horizontal line at guide.position
+                    QLineF line(rect.left(), guide.position, rect.right(), guide.position);
+                    painter->drawLine(line);
+                }
+            }
+
+            painter->restore();
+        }
     }
 }
 
