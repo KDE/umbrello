@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-03 01:58+0000\n"
+"POT-Creation-Date: 2025-11-17 16:19+0000\n"
 "PO-Revision-Date: 2024-06-10 23:11+0900\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
@@ -4379,7 +4379,7 @@ msgstr "曲線尺"
 msgid "Orthogonal"
 msgstr "垂直"
 
-#: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:225
+#: menus/dialogspopupmenu.cpp:100 menus/listpopupmenu.cpp:225
 #, kde-format
 msgid "New Template..."
 msgstr "新增樣本..."

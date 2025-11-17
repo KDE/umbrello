@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-03 01:58+0000\n"
+"POT-Creation-Date: 2025-11-17 16:19+0000\n"
 "PO-Revision-Date: 2025-09-04 17:12+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -4405,7 +4405,7 @@ msgstr "Spline"
 msgid "Orthogonal"
 msgstr "Orthogonaal"
 
-#: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:225
+#: menus/dialogspopupmenu.cpp:100 menus/listpopupmenu.cpp:225
 #, kde-format
 msgid "New Template..."
 msgstr "Nieuw sjabloon..."

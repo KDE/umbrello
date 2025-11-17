@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-03 01:58+0000\n"
+"POT-Creation-Date: 2025-11-17 16:19+0000\n"
 "PO-Revision-Date: 2014-07-19 17:56+0430\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <kde-i18n-fa@kde.org>\n"
@@ -4495,7 +4495,7 @@ msgstr ""
 msgid "Orthogonal"
 msgstr ""
 
-#: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:225
+#: menus/dialogspopupmenu.cpp:100 menus/listpopupmenu.cpp:225
 #, kde-format
 msgid "New Template..."
 msgstr "قالب جدید..."

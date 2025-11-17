@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdesdk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-03 01:58+0000\n"
+"POT-Creation-Date: 2025-11-17 16:19+0000\n"
 "PO-Revision-Date: 2023-12-13 17:08-0500\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -4395,7 +4395,7 @@ msgstr ""
 msgid "Orthogonal"
 msgstr ""
 
-#: menus/dialogspopupmenu.cpp:83 menus/listpopupmenu.cpp:225
+#: menus/dialogspopupmenu.cpp:100 menus/listpopupmenu.cpp:225
 #, kde-format
 msgid "New Template..."
 msgstr ""
