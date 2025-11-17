@@ -188,6 +188,11 @@
          <whatsthis>The Color of the grid dots</whatsthis>
          <default>lightGray</default>
        </entry>
+       <entry name="useAlignmentGuides" type="Bool">
+         <label>Use Alignment Guides</label>
+         <whatsthis>Enable/disable alignment guides when dragging or resizing widgets</whatsthis>
+         <default>true</default>
+       </entry>
        <entry name="rightToLeftUI" type="Bool">
          <label>Right to left user interface</label>
          <whatsthis>Enable/disable user interface direction from right to left</whatsthis>
@@ -619,4 +624,3 @@
         </entry>
     </group>
 </kcfg>
-

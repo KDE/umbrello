@@ -9,6 +9,7 @@
 #include "umlartifact.h"
 #include "artifactwidget.h"
 #include "activitywidget.h"
+#include "alignmentguide.h"
 #include "umlactor.h"
 #include "actorwidget.h"
 #include "associationwidget.h"
@@ -491,7 +492,16 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     QPointF delta = event->scenePos() - event->lastScenePos();
 
     logDebug2("UMLWidget::mouseMoveEvent: diffX=%1 / diffY=%2", diffX, diffY);
-    
+
+    // Apply alignment guide snapping to the primary widget being moved
+    if (umlScene()->alignmentGuide() && umlScene()->alignmentGuide()->isEnabled()) {
+        QPointF snappedPos = umlScene()->alignmentGuide()->snapPosition(this, position);
+        diffX = snappedPos.x() - x();
+        diffY = snappedPos.y() - y();
+        // Trigger scene redraw to update guide lines
+        umlScene()->update();
+    }
+
     for(UMLWidget *widget : umlScene()->selectedWidgets()) {
         if ((widget->parentItem() == nullptr) || (!widget->parentItem()->isSelected())) {
             widget->moveWidgetBy(diffX, diffY);
@@ -581,6 +591,12 @@ void UMLWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         m_inMoveArea = false;
     }
     m_startMove = false;
+
+    // Clear alignment guides after move/resize
+    if (umlScene()->alignmentGuide()) {
+        umlScene()->alignmentGuide()->clear();
+        umlScene()->invalidate();  // Redraw to remove guide lines
+    }
 }
 
 /**
@@ -1566,6 +1582,17 @@ void UMLWidget::resize(QGraphicsSceneMouseEvent *me)
     } else if ((me->modifiers() & Qt::ShiftModifier) || (me->modifiers() & Qt::ControlModifier)) {
         //Move in X axis
         newH = m_oldH;
+    }
+
+    // Apply alignment guide snapping during resize
+    if (umlScene()->alignmentGuide() && umlScene()->alignmentGuide()->isEnabled()) {
+        qreal snappedW = newW;
+        qreal snappedH = newH;
+        umlScene()->alignmentGuide()->snapResize(this, newW, newH, snappedW, snappedH);
+        newW = snappedW;
+        newH = snappedH;
+        // Trigger scene redraw to update guide lines
+        umlScene()->update();
     }
 
     constrain(newW, newH);

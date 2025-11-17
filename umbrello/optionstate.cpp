@@ -149,6 +149,7 @@ namespace Settings {
         backgroundColor = UmbrelloSettings::backgroundColor();
         useBackgroundColor = UmbrelloSettings::useBackgroundColor();
         gridDotColor = UmbrelloSettings::gridDotColor();
+        useAlignmentGuides = UmbrelloSettings::useAlignmentGuides();
     }
 
     void UIState::save()
@@ -162,6 +163,7 @@ namespace Settings {
         UmbrelloSettings::setBackgroundColor(backgroundColor);
         UmbrelloSettings::setUseBackgroundColor(useBackgroundColor);
         UmbrelloSettings::setGridDotColor(gridDotColor);
+        UmbrelloSettings::setUseAlignmentGuides(useAlignmentGuides);
     }
 
     /**
@@ -179,6 +181,7 @@ namespace Settings {
         writer.writeAttribute(QStringLiteral("linewidth"),        QString::number(lineWidth));
         writer.writeAttribute(QStringLiteral("textcolor"),        textColor.name());
         writer.writeAttribute(QStringLiteral("usefillcolor"),     QString::number(useFillColor));
+        writer.writeAttribute(QStringLiteral("usealignmentguides"), QString::number(useAlignmentGuides));
     }
 
     /**
@@ -218,6 +221,9 @@ namespace Settings {
 
         QString usefillcolor = element.attribute(QStringLiteral("usefillcolor"), QStringLiteral("0"));
         this->useFillColor = (bool)usefillcolor.toInt();
+
+        QString usealignmentguides = element.attribute(QStringLiteral("usealignmentguides"), QStringLiteral("1"));
+        this->useAlignmentGuides = (bool)usealignmentguides.toInt();
 
         return true;
     }

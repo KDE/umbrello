@@ -47,6 +47,7 @@ protected:
     Settings::OptionState *m_options;
 
     QCheckBox * m_rightToLeftUI;
+    QCheckBox * m_alignmentGuidesUI;
     QGroupBox * m_colorGB;
     QCheckBox * m_textColorCB;
     QCheckBox * m_lineColorCB;

@@ -30,6 +30,7 @@
 #include <QXmlStreamWriter>
 
 // forward declarations
+class AlignmentGuide;
 class ClassOptionsPage;
 class IDChangeLog;
 class LayoutGrid;
@@ -131,6 +132,8 @@ public:
 
     bool isShowDocumentationIndicator() const;
     void setShowDocumentationIndicator(bool bShow);
+
+    AlignmentGuide* alignmentGuide() const;
 
     bool useFillColor() const;
     void setUseFillColor(bool ufc);
@@ -377,6 +380,7 @@ protected:
     void forceUpdateWidgetFontMetrics(QPainter *painter);
 
     virtual void drawBackground(QPainter *painter, const QRectF &rect);
+    virtual void drawForeground(QPainter *painter, const QRectF &rect);
 
 #if !(QT_DEPRECATED_SINCE(5, 0))
     inline QGraphicsItem *itemAt(const QPointF &position) const {
@@ -410,6 +414,7 @@ private:
     UMLDoc* m_doc;                  ///< Pointer to the UMLDoc.
     UMLViewImageExporter* m_pImageExporter;  ///< Used to export the view.
     LayoutGrid*  m_layoutGrid;      ///< layout grid in the background
+    AlignmentGuide* m_alignmentGuide; ///< alignment guide for widget snapping
     bool m_autoIncrementSequence; ///< state of auto increment sequence
     qreal m_minX, m_minY;     ///< Gather data for estimating required canvas size (used during loadFromXMI)
     qreal m_maxX, m_maxY;     ///< Gather data for estimating required canvas size (used during loadFromXMI)
