@@ -6,6 +6,7 @@
 #include "alignmentguide.h"
 #include "umlwidget.h"
 #include "umlscene.h"
+#include "floatingtextwidget.h"
 
 #include <QGraphicsView>
 #include <QtMath>
@@ -94,6 +95,11 @@ QPointF AlignmentGuide::snapPosition(UMLWidget *widget, const QPointF &proposedP
     for (UMLWidget *otherWidget : allWidgets) {
         // Skip the widget being moved and selected widgets (they move together)
         if (otherWidget == widget || otherWidget->isSelected()) {
+            continue;
+        }
+
+        // Skip floating text labels (association labels, role names, etc.)
+        if (dynamic_cast<FloatingTextWidget*>(otherWidget)) {
             continue;
         }
 
@@ -243,6 +249,11 @@ void AlignmentGuide::snapResize(UMLWidget *widget, qreal proposedWidth, qreal pr
     for (UMLWidget *otherWidget : allWidgets) {
         // Skip the widget being resized and selected widgets
         if (otherWidget == widget || otherWidget->isSelected()) {
+            continue;
+        }
+
+        // Skip floating text labels (association labels, role names, etc.)
+        if (dynamic_cast<FloatingTextWidget*>(otherWidget)) {
             continue;
         }
 

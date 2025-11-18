@@ -3816,8 +3816,8 @@ void UMLScene::drawForeground(QPainter *painter, const QRectF &rect)
 {
     QGraphicsScene::drawForeground(painter, rect);
 
-    // Draw alignment guides
-    if (m_alignmentGuide && m_alignmentGuide->isEnabled()) {
+    // Draw alignment guides (disabled when snap-to-grid is active)
+    if (!snapToGrid() && m_alignmentGuide && m_alignmentGuide->isEnabled()) {
         QList<AlignmentGuide::GuideLine> guides = m_alignmentGuide->activeGuides();
         if (!guides.isEmpty()) {
             painter->save();
