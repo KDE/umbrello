@@ -1597,6 +1597,21 @@ void UMLWidget::resize(QGraphicsSceneMouseEvent *me)
         umlScene()->update();
     }
 
+    // Apply grid snapping during resize
+    if (umlScene()->snapToGrid()) {
+        // Calculate what the right and bottom edges would be
+        qreal right = x() + newW;
+        qreal bottom = y() + newH;
+
+        // Snap the edges to grid
+        qreal snappedRight = umlScene()->snappedX(right);
+        qreal snappedBottom = umlScene()->snappedY(bottom);
+
+        // Calculate new size from snapped edges
+        newW = snappedRight - x();
+        newH = snappedBottom - y();
+    }
+
     constrain(newW, newH);
     resizeWidget(newW, newH);
     DEBUG() << "event=" << me->scenePos() << "/ pos=" << pos() << " / newW=" << newW << " / newH=" << newH;
