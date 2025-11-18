@@ -494,7 +494,8 @@ void UMLWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     logDebug2("UMLWidget::mouseMoveEvent: diffX=%1 / diffY=%2", diffX, diffY);
 
     // Apply alignment guide snapping to the primary widget being moved
-    if (umlScene()->alignmentGuide() && umlScene()->alignmentGuide()->isEnabled()) {
+    // (disabled when snap-to-grid is active)
+    if (!umlScene()->snapToGrid() && umlScene()->alignmentGuide() && umlScene()->alignmentGuide()->isEnabled()) {
         QPointF snappedPos = umlScene()->alignmentGuide()->snapPosition(this, position);
         diffX = snappedPos.x() - x();
         diffY = snappedPos.y() - y();
@@ -1585,7 +1586,8 @@ void UMLWidget::resize(QGraphicsSceneMouseEvent *me)
     }
 
     // Apply alignment guide snapping during resize
-    if (umlScene()->alignmentGuide() && umlScene()->alignmentGuide()->isEnabled()) {
+    // (disabled when snap-to-grid is active)
+    if (!umlScene()->snapToGrid() && umlScene()->alignmentGuide() && umlScene()->alignmentGuide()->isEnabled()) {
         qreal snappedW = newW;
         qreal snappedH = newH;
         umlScene()->alignmentGuide()->snapResize(this, newW, newH, snappedW, snappedH);
