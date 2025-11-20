@@ -90,6 +90,8 @@ find_package(Qt${QT_MAJOR_VERSION} ${QT${QT_MAJOR_VERSION}_MIN_VERSION} REQUIRED
     Xml
 )
 
+message(STATUS "Found Qt version '${Qt${QT_MAJOR_VERSION}_VERSION}'")
+
 # search packages used by KDE
 find_package(KF${QT_MAJOR_VERSION} REQUIRED COMPONENTS
     Archive
@@ -106,6 +108,8 @@ find_package(KF${QT_MAJOR_VERSION} REQUIRED COMPONENTS
     WindowSystem
     XmlGui
 )
+
+message(STATUS "Found KDE framework version ${KF${QT_MAJOR_VERSION}_VERSION}")
 
 if(CMAKE_COMPILER_IS_GNUCXX)
     string(REPLACE "-Wsuggest-override" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
