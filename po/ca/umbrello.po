@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-19 01:59+0000\n"
-"PO-Revision-Date: 2025-09-04 10:57+0200\n"
+"PO-Revision-Date: 2025-11-19 09:38+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -3073,7 +3073,7 @@ msgstr "Interfície d'usuari de dreta a esquerra"
 #: dialogs/pages/uioptionspage.cpp:66
 #, kde-format
 msgid "Use alignment guides"
-msgstr ""
+msgstr "Empra les guies d'alineació"
 
 #: dialogs/pages/uioptionspage.cpp:70
 #, kde-format
@@ -6393,13 +6393,14 @@ msgstr "El color del punt de la quadrícula"
 #: umbrello.kcfg:192
 #, kde-format
 msgid "Use Alignment Guides"
-msgstr ""
+msgstr "Empra guies d'alineació"
 
 #. i18n: ectx: whatsthis, entry (useAlignmentGuides), group (UI Options)
 #: umbrello.kcfg:193
 #, kde-format
 msgid "Enable/disable alignment guides when dragging or resizing widgets"
 msgstr ""
+"Activa/desactiva les guies d'alineació en arrossegar o redimensionar ginys"
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
 #: umbrello.kcfg:198
