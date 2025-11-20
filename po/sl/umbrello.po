@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-19 03:21+0000\n"
-"PO-Revision-Date: 2025-09-04 06:45+0200\n"
+"PO-Revision-Date: 2025-11-19 07:13+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.7\n"
+"X-Generator: Poedit 3.8\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3069,7 +3069,7 @@ msgstr "Uporabniški vmesnik z desne na levo"
 #: dialogs/pages/uioptionspage.cpp:66
 #, kde-format
 msgid "Use alignment guides"
-msgstr ""
+msgstr "Uporabi vodila za poravnavo"
 
 #: dialogs/pages/uioptionspage.cpp:70
 #, kde-format
@@ -6381,13 +6381,15 @@ msgstr "Barva točk mreže"
 #: umbrello.kcfg:192
 #, kde-format
 msgid "Use Alignment Guides"
-msgstr ""
+msgstr "Uporabi vodila za poravnavo"
 
 #. i18n: ectx: whatsthis, entry (useAlignmentGuides), group (UI Options)
 #: umbrello.kcfg:193
 #, kde-format
 msgid "Enable/disable alignment guides when dragging or resizing widgets"
 msgstr ""
+"Omogoči/onemogoči vodila za poravnavo med vlečenjem ali spremembo velikosti "
+"gradnikov"
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
 #: umbrello.kcfg:198

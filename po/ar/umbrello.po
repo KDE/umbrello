@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-19 03:21+0000\n"
-"PO-Revision-Date: 2025-10-05 10:32+0400\n"
+"PO-Revision-Date: 2025-11-19 20:51+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -3054,7 +3054,7 @@ msgstr "واجهة من اليمين إلى اليسار"
 #: dialogs/pages/uioptionspage.cpp:66
 #, kde-format
 msgid "Use alignment guides"
-msgstr ""
+msgstr "استخدم أدلة المحاذاة"
 
 #: dialogs/pages/uioptionspage.cpp:70
 #, kde-format
@@ -6360,13 +6360,13 @@ msgstr "لون نقاط الشبكة"
 #: umbrello.kcfg:192
 #, kde-format
 msgid "Use Alignment Guides"
-msgstr ""
+msgstr "استخدم أدلة المحاذاة"
 
 #. i18n: ectx: whatsthis, entry (useAlignmentGuides), group (UI Options)
 #: umbrello.kcfg:193
 #, kde-format
 msgid "Enable/disable alignment guides when dragging or resizing widgets"
-msgstr ""
+msgstr "مكّن/عطّل أدلة المحاذاة عند سحب أو تغيير حجم عناصر واجهة المستخدم"
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
 #: umbrello.kcfg:198
