@@ -14,14 +14,14 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-19 01:59+0000\n"
-"PO-Revision-Date: 2025-09-20 20:54+0100\n"
+"PO-Revision-Date: 2025-11-21 01:15+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.08.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -3075,7 +3075,7 @@ msgstr "Interfaz de usuario de derecha a izquierda"
 #: dialogs/pages/uioptionspage.cpp:66
 #, kde-format
 msgid "Use alignment guides"
-msgstr ""
+msgstr "Usar guías de alineación"
 
 #: dialogs/pages/uioptionspage.cpp:70
 #, kde-format
@@ -6398,13 +6398,15 @@ msgstr "El color de los puntos de la rejilla"
 #: umbrello.kcfg:192
 #, kde-format
 msgid "Use Alignment Guides"
-msgstr ""
+msgstr "Usar guías de alineación"
 
 #. i18n: ectx: whatsthis, entry (useAlignmentGuides), group (UI Options)
 #: umbrello.kcfg:193
 #, kde-format
 msgid "Enable/disable alignment guides when dragging or resizing widgets"
 msgstr ""
+"Activar/desactivar guías de alineación al arrastrar o cambiar el tamaño de "
+"los widgets"
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
 #: umbrello.kcfg:198
