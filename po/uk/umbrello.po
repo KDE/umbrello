@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-19 03:21+0000\n"
-"PO-Revision-Date: 2025-09-04 08:16+0300\n"
+"PO-Revision-Date: 2025-11-20 22:19+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -3071,7 +3071,7 @@ msgstr "Інтерфейс користувача справа ліворуч"
 #: dialogs/pages/uioptionspage.cpp:66
 #, kde-format
 msgid "Use alignment guides"
-msgstr ""
+msgstr "Використовувати напрямні вирівнювання"
 
 #: dialogs/pages/uioptionspage.cpp:70
 #, kde-format
@@ -6381,13 +6381,15 @@ msgstr "Колір точок ґратки"
 #: umbrello.kcfg:192
 #, kde-format
 msgid "Use Alignment Guides"
-msgstr ""
+msgstr "Використовувати напрямні вирівнювання"
 
 #. i18n: ectx: whatsthis, entry (useAlignmentGuides), group (UI Options)
 #: umbrello.kcfg:193
 #, kde-format
 msgid "Enable/disable alignment guides when dragging or resizing widgets"
 msgstr ""
+"Увімкнути або вимкнути напрямні вирівнювання при перетягуванні або зміні "
+"розмірів віджетів"
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
 #: umbrello.kcfg:198
