@@ -10,6 +10,7 @@
 
 #include <KLocalizedString>
 
+#include <QDir>
 #include <QFileInfo>
 
 Q_LOGGING_CATEGORY(UMBRELLO, "umbrello")
@@ -111,13 +112,13 @@ Tracer* Tracer::instance()
         s_instance = new Tracer();
         s_classes = new MapType();
         s_states  = new StateMap();
+        QDir srcDir(QStringLiteral(CMAKE_SOURCE_DIR));
         // Transfer g_clientInfo (C plain old data) to s_classes (C++)
         for (int i = 0; i < n_clients; i++) {
             ClientInfo_POD & cli = g_clientInfo[i];
             QFileInfo fi(QLatin1String(cli.filePath));
             QString dirName = fi.absolutePath();
-            QFileInfo f(dirName);
-            QString path = f.fileName();
+            QString path = srcDir.relativeFilePath(dirName);
             uDebug() << "Tracer::registerClass(" << cli.name << ") : " << path;
             QString name = QString::fromLatin1(cli.name);
             (*s_classes)[name] = MapEntry(path, cli.state);
@@ -289,6 +290,8 @@ void Tracer::showEvent(QShowEvent* e)
 
     for(int i = 0; i < topLevelItemCount(); i++)
         updateParentItemCheckBox(topLevelItem(i));
+
+    sortByColumn(0, Qt::AscendingOrder);
 }
 
 /**
