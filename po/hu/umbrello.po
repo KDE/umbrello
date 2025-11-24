@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.2\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 01:59+0000\n"
+"POT-Creation-Date: 2025-11-24 02:03+0000\n"
 "PO-Revision-Date: 2022-02-14 09:24+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -1578,7 +1578,7 @@ msgstr "Kész."
 msgid "No code importer for file: %1"
 msgstr "Nincs kódimportáló ehhez a fájlhoz: %1"
 
-#: debug/debug_utils.cpp:140
+#: debug/debug_utils.cpp:141
 #, kde-format
 msgid "Class Name"
 msgstr "Osztálynév"

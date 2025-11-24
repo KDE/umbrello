@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdesdk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 01:59+0000\n"
+"POT-Creation-Date: 2025-11-24 02:03+0000\n"
 "PO-Revision-Date: 2023-12-13 17:08-0500\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -1569,7 +1569,7 @@ msgstr "Gati."
 msgid "No code importer for file: %1"
 msgstr ""
 
-#: debug/debug_utils.cpp:140
+#: debug/debug_utils.cpp:141
 #, fuzzy, kde-format
 #| msgid "Class"
 msgid "Class Name"

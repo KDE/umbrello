@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 01:59+0000\n"
+"POT-Creation-Date: 2025-11-24 02:03+0000\n"
 "PO-Revision-Date: 2025-11-19 08:24+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -1580,7 +1580,7 @@ msgstr "Готово."
 msgid "No code importer for file: %1"
 msgstr "Немає засобу імпортування для файла: %1"
 
-#: debug/debug_utils.cpp:140
+#: debug/debug_utils.cpp:141
 #, kde-format
 msgid "Class Name"
 msgstr "Назва класу"

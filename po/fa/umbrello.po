@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 01:59+0000\n"
+"POT-Creation-Date: 2025-11-24 02:03+0000\n"
 "PO-Revision-Date: 2014-07-19 17:56+0430\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <kde-i18n-fa@kde.org>\n"
@@ -1627,7 +1627,7 @@ msgstr "آماده."
 msgid "No code importer for file: %1"
 msgstr ""
 
-#: debug/debug_utils.cpp:140
+#: debug/debug_utils.cpp:141
 #, fuzzy, kde-format
 #| msgid "Class name"
 msgid "Class Name"

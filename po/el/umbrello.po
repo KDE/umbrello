@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 01:59+0000\n"
+"POT-Creation-Date: 2025-11-24 02:03+0000\n"
 "PO-Revision-Date: 2023-07-29 17:38+0300\n"
 "Last-Translator: Theofilos Intzoglou <int.teo@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -1584,7 +1584,7 @@ msgstr "Έτοιμο."
 msgid "No code importer for file: %1"
 msgstr "Κανένας κώδικας δεν έγινε εισαγωγή για το αρχείο: %1"
 
-#: debug/debug_utils.cpp:140
+#: debug/debug_utils.cpp:141
 #, kde-format
 msgid "Class Name"
 msgstr "Όνομα κλάσης"

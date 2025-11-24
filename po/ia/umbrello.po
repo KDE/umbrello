@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 01:59+0000\n"
+"POT-Creation-Date: 2025-11-24 02:03+0000\n"
 "PO-Revision-Date: 2023-02-09 23:30+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -1546,7 +1546,7 @@ msgstr "Preste."
 msgid "No code importer for file: %1"
 msgstr ""
 
-#: debug/debug_utils.cpp:140
+#: debug/debug_utils.cpp:141
 #, kde-format
 msgid "Class Name"
 msgstr ""
