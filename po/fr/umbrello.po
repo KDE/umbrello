@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-19 03:21+0000\n"
-"PO-Revision-Date: 2025-09-05 20:43+0200\n"
+"PO-Revision-Date: 2025-11-22 18:12+0100\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Accelerator-Marker: &\n"
 "X-Environment: kde\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.11.80\n"
 "X-Text-Markup: kde4\n"
 
 #, kde-format
@@ -3108,7 +3108,7 @@ msgstr "Interface utilisateur de droite à gauche"
 #: dialogs/pages/uioptionspage.cpp:66
 #, kde-format
 msgid "Use alignment guides"
-msgstr ""
+msgstr "Utiliser les repères d'alignement"
 
 #: dialogs/pages/uioptionspage.cpp:70
 #, kde-format
@@ -6438,13 +6438,15 @@ msgstr "La couleur des points de la grille"
 #: umbrello.kcfg:192
 #, kde-format
 msgid "Use Alignment Guides"
-msgstr ""
+msgstr "Utiliser les repères d'alignement"
 
 #. i18n: ectx: whatsthis, entry (useAlignmentGuides), group (UI Options)
 #: umbrello.kcfg:193
 #, kde-format
 msgid "Enable/disable alignment guides when dragging or resizing widgets"
 msgstr ""
+"Activer / désactiver les repères d'alignement lors d'un glisser ou d'un "
+"redimensionnent de composants graphiques"
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
 #: umbrello.kcfg:198
