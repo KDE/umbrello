@@ -9231,36 +9231,3 @@ msgstr "Estat"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "Pre/post condició"
-
-#~ msgid "Show tree view"
-#~ msgstr "Mostra la vista en arbre"
-
-#~ msgid "Show documentation window"
-#~ msgstr "Mostra la finestra de documentació"
-
-#~ msgid "Show command history"
-#~ msgstr "Mostra l'historial d'ordres"
-
-#~ msgid "Show bird's eye view"
-#~ msgstr "Mostra la vista d'ocell"
-
-#~ msgid "Show diagrams window"
-#~ msgstr "Mostra la finestra dels diagrames"
-
-#~ msgid "Show log window"
-#~ msgstr "Mostra la finestra del registre"
-
-#~ msgid "Show UML objects window"
-#~ msgstr "Mostra la finestra d'objectes UML"
-
-#~ msgid "Show stereotypes window"
-#~ msgstr "Mostra la finestra d'estereotips"
-
-#~ msgid "Show welcome window"
-#~ msgstr "Mostra la finestra de benvinguda"
-
-#~ msgid "&Debugging"
-#~ msgstr "&Depuració"
-
-#~ msgid "&Logging"
-#~ msgstr "&Registre"
