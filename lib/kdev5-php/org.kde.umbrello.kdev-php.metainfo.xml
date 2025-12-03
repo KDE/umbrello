@@ -72,4 +72,7 @@
   <url type="donation">https://www.kde.org/community/donations/?app=kdevelop</url>
   <project_group>KDE</project_group>
   <update_contact>kdevelop-devel@kde.org</update_contact>
+  <releases>
+    <release version="25.12.0" date="2025-12-11"/>
+  </releases>
 </component>
