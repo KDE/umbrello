@@ -17,6 +17,7 @@
   <name xml:lang="fi">KDevelopin PHP-tuki</name>
   <name xml:lang="fr">Prise en charge de PHP pour KDevelop</name>
   <name xml:lang="gl">Compatibilidade con PHP para KDevelop</name>
+  <name xml:lang="he">תמיכה של KDevelop ב־PHP</name>
   <name xml:lang="hu">KDevelop PHP-támogatás</name>
   <name xml:lang="it">Supporto PHP per KDevelop</name>
   <name xml:lang="ka">KDevelop PHP მხარდაჭერა</name>
@@ -48,6 +49,7 @@
   <summary xml:lang="fi">PHP-kielen tuki KDevelopiin</summary>
   <summary xml:lang="fr">Prise en charge du langage PHP pour KDevelop</summary>
   <summary xml:lang="gl">Compatibilidade coa linguaxe PHP para KDevelop</summary>
+  <summary xml:lang="he">תמיכה בשפת PHP ב־KDevelop</summary>
   <summary xml:lang="hu">PHP nyelvi támogatás a KDevelophoz</summary>
   <summary xml:lang="it">Supporto al linguaggio PHP per KDevelop</summary>
   <summary xml:lang="ka">PHP ენის მხარდაჭერა KDevelop-სთვის</summary>
