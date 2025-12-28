@@ -230,15 +230,15 @@
 ></listitem>
 <listitem
 ><para
->Criando novos elementos em seu modelo e adicionando-os ao seu diagrama ao mesmo tempo, usando uma das Ferramentas de edição da Barra de Ferramentas de Trabalho</para
+>Criando novos elementos em seu modelo e adicionando-os ao seu diagrama ao mesmo tempo, usando uma das ferramentas de edição da barra de ferramentas de trabalho</para
 ></listitem>
 </itemizedlist>
 <para
 >Para inserir elementos que já existam em seu modelo, apenas arraste-os da Visão de Árvore e solte-os onde você deseja posicioná-los em seu diagrama. Você sempre poderá mover elementos pelo Diagrama usando a Ferramenta Selecionar </para>
 <para
->A segunda maneira de adicionar elementos ao seu diagrama é usando as ferramentas de edição da Barra de Ferramentas de Trabalho (observe que isto também adicionará elementos ao seu modelo). </para>
+>A segunda maneira de adicionar elementos ao seu diagrama é usando as ferramentas de edição da barra de ferramentas de trabalho (observe que isto também adicionará elementos ao seu modelo). </para>
 <para
->A Barra de Ferramentas de Trabalho era localizada por padrão na parte superior da janela. As ferramentas disponíveis nesta barra de ferramentas (os botões que você vê nela) mudam dependendo do tipo de diagrama em que você está atualmente trabalhando. O botão para a ferramenta atualmente selecionada é ativado na barra de ferramentas. Você pode alternar para a ferramenta selecionada pressionando a tecla &Esc;. </para>
+>A barra de ferramentas de trabalho era localizada por padrão na parte superior da janela. As ferramentas disponíveis nesta barra de ferramentas (os botões que você vê nela) mudam dependendo do tipo de diagrama em que você está atualmente trabalhando. O botão para a ferramenta atualmente selecionada é ativado na barra de ferramentas. Você pode alternar para a ferramenta selecionada pressionando a tecla &Esc;. </para>
 <para
 >Quando você tiver selecionado uma ferramenta de edição da Barra de Ferramentas de Trabalho (por exemplo, a ferramenta para inserir classes) o ponteiro do mouse muda para uma cruz, e você pode inserir os elementos em seu modelo através de um clique simples em seu diagrama. Observe que elementos em &UML; devem ter um <emphasis
 >Nome Único</emphasis
@@ -394,7 +394,7 @@
 <para
 >Notas, Linhas de Texto e Caixas são elementos que podem ser representados em qualquer tipo de diagrama e não possuem nenhum valor semântico, mas são muito úteis para adicionar comentários extras ou explanações que podem tornar seu diagrama mais fácil de entender. </para>
 <para
->Para adicionar uma Nota ou Linha de Texto, selecione a ferramenta correspondente na Barra de Ferramentas de Trabalho e dê um clique simples no diagrama onde você deseja colocar seu comentário. Você pode editar o texto abrindo o elemento através do menu de contexto ou, no caso de notas, através de um clique <mousebutton
+>Para adicionar uma Nota ou Linha de Texto, selecione a ferramenta correspondente na barra de ferramentas de trabalho e dê um clique simples no diagrama onde você deseja colocar seu comentário. Você pode editar o texto abrindo o elemento através do menu de contexto ou, no caso de notas, através de um clique <mousebutton
 >duplo</mousebutton
 > nelas. </para>
 <sect3 id="anchors">
