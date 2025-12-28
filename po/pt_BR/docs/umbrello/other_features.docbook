@@ -30,6 +30,12 @@
 > no menu <guimenu
 >Diagrama</guimenu
 >. </para>
+<para
+>Você pode exportar vários diagramas de uma só vez usando a opção <guimenuitem
+>Exportar diagramas como imagens...</guimenuitem
+> do menu <guimenu
+>Arquivo</guimenu
+>. Com isso, você também pode definir a resolução da imagem, para que as imagens não fiquem tão desfocadas. </para>
 </sect2>
 <sect2 id="printing">
 <title
