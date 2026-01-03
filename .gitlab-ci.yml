@@ -4,8 +4,13 @@
 include:
   - project: sysadmin/ci-utilities
     file:
-      - /gitlab-templates/linux.yml
+      # qt5 support will be discontinued
+      #- /gitlab-templates/linux.yml
       - /gitlab-templates/flatpak.yml
+      # testclassifier fails for unknown reasons
+      #- /gitlab-templates/freebsd-qt6.yml
+      #- /gitlab-templates/linux-qt6.yml
+      - /gitlab-templates/windows-qt6.yml
 
 distro_kf5_leap:
   stage: build
@@ -34,3 +39,8 @@ distro_kf6_tumbleweed:
     - ./tools/ci-install.sh
   script:
     - ./tools/ci-build.sh
+
+windows_qt69:
+  variables:
+    # Fix error "fatal: Unable to persist credentials with the 'wincredman' credential store"
+    GCM_CREDENTIAL_STORE: "none"
