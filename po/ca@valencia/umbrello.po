@@ -4128,7 +4128,7 @@ msgstr "Exporta totes les vistes…"
 #: docgenerators/docbookgenerator.cpp:85 umlviewimageexporterall.cpp:101
 #, kde-format
 msgid "Some errors happened when exporting the images:"
-msgstr "S'han generat alguns errors en exportar les imatges:"
+msgstr "S'han generat alguns errors mentre s'exportaven les imatges:"
 
 #: docgenerators/docbookgenerator.cpp:89
 #, kde-format
