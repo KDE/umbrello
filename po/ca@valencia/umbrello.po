@@ -219,7 +219,7 @@ msgstr ""
 #: clipboard/umlclipboard.cpp:757 umlapp.cpp:1522
 #, kde-format
 msgid "Paste Error"
-msgstr "S'ha produït un error en apegar"
+msgstr "S'ha produït un error mentre s'apegava"
 
 #: cmds/cmdcreatediagram.cpp:26
 #, kde-format
@@ -940,7 +940,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.cpp:254
 #, kde-format
 msgid "Error Writing to Output Folder"
-msgstr "S'ha produït un error en escriure a la carpeta d'eixida"
+msgstr "S'ha produït un error mentre s'escrivia a la carpeta d'eixida"
 
 #: codegenwizard/codegenoptionspage.cpp:259
 #, kde-format
@@ -987,7 +987,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.cpp:272
 #, kde-format
 msgid "Error Creating Folder"
-msgstr "S'ha produït un error en crear la carpeta"
+msgstr "S'ha produït un error mentre es creava la carpeta"
 
 #: codegenwizard/codegenoptionspage.cpp:278
 #, kde-format
@@ -1517,7 +1517,7 @@ msgstr "S'està important el fitxer… HA FALLAT<br>"
 #: codeimpwizard/codeimpstatuspage.cpp:156
 #, kde-format
 msgid "Import Failed"
-msgstr "No s'ha pogut importar"
+msgstr "Ha fallat mentre s'importava"
 
 #: codeimpwizard/codeimpstatuspage.cpp:167
 #, kde-format
@@ -3677,7 +3677,7 @@ msgstr "Accions"
 #: dialogs/umlforeignkeyconstraintdialog.cpp:232
 #, kde-format
 msgid "On Update"
-msgstr "En actualitzar"
+msgstr "Mentre s'actualitza"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:238
 #, kde-format
@@ -4128,7 +4128,7 @@ msgstr "Exporta totes les vistes…"
 #: docgenerators/docbookgenerator.cpp:85 umlviewimageexporterall.cpp:101
 #, kde-format
 msgid "Some errors happened when exporting the images:"
-msgstr "S'han generat alguns errors en exportar les imatges:"
+msgstr "S'han generat alguns errors mentre s'exportaven les imatges:"
 
 #: docgenerators/docbookgenerator.cpp:89
 #, kde-format
@@ -4207,7 +4207,7 @@ msgstr "S'ha acabat de copiar el CSS…"
 #: docgenerators/xhtmlgenerator.cpp:161
 #, kde-format
 msgid "Failed Copying CSS..."
-msgstr "No s'ha pogut copiar el CSS…"
+msgstr "Ha fallat mentre es copiava el CSS…"
 
 #: docwindow.cpp:44
 #, kde-format
@@ -7792,12 +7792,12 @@ msgstr "No s'ha trobat un fitxer XMI dins del fitxer comprimit %1."
 #: umldoc.cpp:721
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
-msgstr "S'ha produït un problema en carregar el fitxer extret: %1"
+msgstr "S'ha produït un problema mentre es carregava el fitxer extret: %1"
 
 #: umldoc.cpp:746 umldoc.cpp:782
 #, kde-format
 msgid "There was a problem loading file: %1"
-msgstr "S'ha produït un problema en carregar el fitxer: %1"
+msgstr "S'ha produït un problema mentre es carregava el fitxer: %1"
 
 #: umldoc.cpp:784
 #, kde-format
@@ -7807,18 +7807,18 @@ msgstr "Motiu: %1"
 #: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #, kde-format
 msgid "There was a problem saving: %1"
-msgstr "S'ha produït un problema en guardar: %1"
+msgstr "S'ha produït un problema mentre es guardava: %1"
 
 #: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #: umldoc.cpp:975 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
-msgstr "S'ha produït un error en guardar"
+msgstr "S'ha produït un error mentre es guardava"
 
 #: umldoc.cpp:975
 #, kde-format
 msgid "There was a problem uploading: %1"
-msgstr "S'ha produït un problema en pujar: %1"
+msgstr "S'ha produït un problema mentre es pujava: %1"
 
 #: umldoc.cpp:1526
 #, kde-format
@@ -7992,7 +7992,7 @@ msgstr "El fitxer existix"
 #: umllistview.cpp:568 umlviewimageexportermodel.cpp:272
 #, kde-format
 msgid "There was a problem saving file: %1"
-msgstr "S'ha produït un problema en guardar el fitxer: %1"
+msgstr "S'ha produït un problema mentre es guardava el fitxer: %1"
 
 #: umllistview.cpp:600
 #, kde-format
@@ -8275,7 +8275,7 @@ msgstr "Introduïu el nom nou del diagrama:"
 #: umlscene.cpp:3376
 #, kde-format
 msgid "Failed to import from file."
-msgstr "No s'ha pogut importar des d'un fitxer."
+msgstr "Ha fallat mentre s'importava des d'un fitxer."
 
 #: umlviewimageexporter.cpp:73
 #, kde-format
