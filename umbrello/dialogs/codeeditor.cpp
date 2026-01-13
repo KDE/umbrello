@@ -960,7 +960,7 @@ void CodeEditor::updateTextBlockFromText(TextBlock * block)
         int pstart = m_textBlockList.indexOf(block);
         QString content;
 
-        // Assemble content from editiable paras
+        // Assemble content from editable paras
         if (info) {
             QList<ParaInfo*> list = info->m_paraList;
             for(ParaInfo * item : list) {
@@ -1038,7 +1038,7 @@ void CodeEditor::slotCursorPositionChanged()
 
     }
 
-    // now check if the current paragraph is really editiable, and if so,
+    // now check if the current paragraph is really editable, and if so,
     // do some things
     bool editPara = isParaEditable(para);
     if (editPara) {

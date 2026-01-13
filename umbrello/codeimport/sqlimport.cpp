@@ -77,7 +77,7 @@ void SQLImport::fillSource(const QString& word)
 }
 
 /**
- * Strip qoutes from identifier.
+ * Strip quotes from identifier.
  *
  * @param token string with current token
  * @return stripped string

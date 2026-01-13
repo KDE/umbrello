@@ -62,7 +62,7 @@ SinglePageDialogBase::~SinglePageDialogBase()
 /**
  * Apply dialog changes to the related object.
  *
- * This method could be overridden in derived dialogs to suppport post dialog applying.
+ * This method could be overridden in derived dialogs to support post dialog applying.
  *
  * @return true apply succeeds
  * @return false apply does not succeed

@@ -27,7 +27,7 @@ MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala, and XMLSche
 In order to generate code with &umbrello;, you first need to create or load a Model
 containing at least one class. When you are ready to start writing some code, select the
 <guimenuitem>Code Generation Wizard</guimenuitem> entry from the <guimenuitem>Code</guimenuitem> menu to 
-start a wizard which will guide you trough the code generation process.
+start a wizard which will guide you through the code generation process.
 </para>
 <para>
 The first step is to select the classes for which you want to generate source code.

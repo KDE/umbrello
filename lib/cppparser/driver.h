@@ -187,7 +187,7 @@ public:
 
     /**
      * Check to see if a file has been modified
-     * \param fileName The name of hte file to get the modification state of. An
+     * \param fileName The name of the file to get the modification state of. An
      *                 absolute path should be used.
      * \return true if the file has been modified
      * \return false if the file has not been modified

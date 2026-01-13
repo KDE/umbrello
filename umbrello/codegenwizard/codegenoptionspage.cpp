@@ -128,7 +128,7 @@ int CodeGenOptionsPage::newLineToInteger(CodeGenerationPolicy::NewLineType value
 /**
  * Converts the overwrite policy value to the corresponding widget object.
  * @param value   the overwrite policy
- * @return        the corresponding widget obeject
+ * @return        the corresponding widget object
  */
 QRadioButton* CodeGenOptionsPage::overwriteToWidget(CodeGenerationPolicy::OverwritePolicy value)
 {

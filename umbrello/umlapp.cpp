@@ -232,14 +232,14 @@ void UMLApp::setup()
     //get a reference to the Code->Active Language and to the Diagram->Zoom menu
     m_langSelect = findMenu(QStringLiteral("active_lang_menu"));
     //in case langSelect hasn't been initialized we create the Popup menu.
-    //it will be hidden, but at least we wont crash if someone takes the entry away from the ui.rc file
+    //it will be hidden, but at least we won't crash if someone takes the entry away from the ui.rc file
     if (m_langSelect == nullptr) {
         m_langSelect = new QMenu(QStringLiteral("active_lang_menu"), this);
     }
 
     m_zoomSelect = findMenu(QStringLiteral("zoom_menu"));
     //in case zoomSelect hasn't been initialized we create the Popup menu.
-    //it will be hidden, but at least we wont crash if some one takes the entry away from the ui.rc file
+    //it will be hidden, but at least we won't crash if some one takes the entry away from the ui.rc file
     if (m_zoomSelect == nullptr) {
         m_zoomSelect = new QMenu(QStringLiteral("zoom_menu"), this);
     }
@@ -2449,7 +2449,7 @@ bool UMLApp::activeLanguageIsCaseSensitive() const
 }
 
 /**
- * Return the target language depedent scope separator.
+ * Return the target language dependent scope separator.
  */
 QString UMLApp::activeLanguageScopeSeparator() const
 {

@@ -10,7 +10,7 @@ public class ComplexNumber // class
         set { real = value; }
     }
 
-    public double Imag { get; set; } // Property with hidded field, PascalCase
+    public double Imag { get; set; } // Property with hidden field, PascalCase
     public static string Format { get { return "a + b * i"; } }
 
     protected const double PI = 3.14; // keyword: const (just for example, in this class Math.PI is used because it has more precision)

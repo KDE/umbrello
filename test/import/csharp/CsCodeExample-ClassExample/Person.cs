@@ -7,7 +7,7 @@ public class Address
     public int Number { get; set; }
 }
 
-public abstract class Human // keyword: abstract, can not be initialised, only inhereted
+public abstract class Human // keyword: abstract, can not be initialised, only inherited
 {
     public DateTime BirthDate { get; set; }
 }

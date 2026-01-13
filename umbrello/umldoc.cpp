@@ -152,7 +152,7 @@ void UMLDoc::Private::checkAssociationWidgetsAfterLoad()
         }
     }
 
-    // Which UMLAssociation has no wigdet ?
+    // Which UMLAssociation has no widget ?
     for (UMLAssociation *assoc : associations) {
         bool found = false;
         for (AssociationWidget *aw : widgets) {
@@ -1235,7 +1235,7 @@ bool UMLDoc::isUnique(const QString &name) const
     UMLListViewItem  *parentItem = nullptr;
 
     // check for current item, if its a package, then we do a check on that
-    // otherwise, if current item exists, find its parent and check if thats
+    // otherwise, if current item exists, find its parent and check if that's
     // a package..
     if (currentItem) {
         // its possible that the current item *is* a package, then just
@@ -1505,7 +1505,7 @@ void UMLDoc::addAssociation(UMLAssociation *assoc)
     }
     pkg->addObject(assoc);
 
-    // I don't believe this appropriate, UMLAssociations ARENT UMLWidgets -b.t.
+    // I don't believe this appropriate, UMLAssociations AREN'T UMLWidgets -b.t.
     // Q_EMIT sigObjectCreated(o);
 
     setModified(true);
@@ -1783,7 +1783,7 @@ void UMLDoc::changeCurrentView(Uml::ID::Type id)
         UMLApp::app()->setDiagramMenuItemsState(true);
         setModified(true);
         Q_EMIT sigCurrentViewChanged();
-        // when clicking on a tab, the documentation of diagram is upated in docwindow
+        // when clicking on a tab, the documentation of diagram is updated in docwindow
         UMLApp::app()->docWindow()->showDocumentation(scene);
     }
     else {

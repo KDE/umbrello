@@ -678,7 +678,7 @@ QSizeF ClassifierWidget::calculateSize(bool withExtensions /* = true */) const
 }
 
 /**
- * Calculcates the size of the templates box in the top left
+ * Calculates the size of the templates box in the top left
  * if it exists, returns QSize(0, 0) if it doesn't.
  *
  * @return  QSize of the templates flap.

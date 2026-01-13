@@ -5,7 +5,7 @@
 # list lines with duplicate xmi.id's 
 # 
 
-# generate list of non uniqe id's 
+# generate list of non unique id's 
 ids=$(gawk '
 $1 ~ /<XMI.extension/ {
   exclude = 1 

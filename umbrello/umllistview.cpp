@@ -1411,7 +1411,7 @@ UMLListViewItem* UMLListView::findItem(Uml::ID::Type id)
 }
 
 /**
- * Carries out initalisation of attributes in class.
+ * Carries out initialisation of attributes in class.
  * This method is called more than once during an instance's lifetime (by UMLDoc)!
  * So we must not allocate any memory before freeing the previously allocated one
  * or do connect()s.

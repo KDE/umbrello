@@ -1287,7 +1287,7 @@ void AssociationWidget::cleanup()
            We do not remove the UMLAssociation from the document.
            Why? - Well, for example we might be in the middle of
            a cut/paste. If the UMLAssociation is removed by the cut
-           then upon pasteing we have a problem.
+           then upon pasting we have a problem.
            This is not quite clean yet - there should be a way to
            explicitly delete a UMLAssociation.  The Right Thing would
            be to have a ListView representation for UMLAssociation.

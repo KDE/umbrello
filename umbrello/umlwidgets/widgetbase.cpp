@@ -614,7 +614,7 @@ void WidgetBase::setHighLighted(bool state)
  * In case the user cancels the dialog or there are some requirements
  * not fulfilled the method returns false; true otherwise.
  *
- * @return true - properties has been applyed
+ * @return true - properties has been applied
  * @return false - properties has not been applied
  *
  */

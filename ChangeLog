@@ -123,7 +123,7 @@ version 2.10.80 (4.10.80)
 * Migrate EntityWidget::draw() to qt4 paint api. (320463)
 * Migrate DataTypeWidget::draw() to qt4 paint api. (320463)
 * Migrate ComponentWidget::draw() to qt4 paint api. (320463)
-* Removed obsolate call to setY(), which has already been called in UMLWidget::loadFromXMI(). (320463)
+* Removed obsolete call to setY(), which has already been called in UMLWidget::loadFromXMI(). (320463)
 * Crash fix caused by removing a FloatingDashLineWidget from the gui but not from CombinedFragmentWidget::m_dashLines. (320463)
 * Avoid double painting of FloatingDashLineWidget; it is painted by QGraphicsScene already. (320463)
 * Fixed FloatingDashLineWidget painting artifacts caused by not set widget height. (320463)
@@ -136,13 +136,13 @@ version 2.10.80 (4.10.80)
 * Migrate BoxWidget::draw() to qt4 paint api. (320463)
 * Migrate ActivityWidget::draw() to qt4 paint api. (320463)
 * Migrate ActorWidget::draw() to qt4 paint api. (320463)
-* Reenable including of inherited methods on adding messages to sequence diagram. (306785)
+* Re-enable including of inherited methods on adding messages to sequence diagram. (306785)
 * Prevent recursive search loops. (306785)
 * Cosmetic update of documentation (Yuri Chornoivan)
 * Import XMI_FILE_VERSION. (Ralf Habacker)
 * Moved XMI_FILE_VERSION to version.h where app version definition already is. (Ralf Habacker)
 * Refactored ID::Type related conversion functions similar to other types in basictypes.* (Ralf Habacker)
-* Enable guard against resursive inheritance loops to self. (306785)
+* Enable guard against recursive inheritance loops to self. (306785)
 * Fixed synchronous message painting artifacts. (320109)
 
 version 2.10.5
@@ -184,7 +184,7 @@ Version 2.10.2
 * Move dock windows visible switches to settings menu. (Ralf Habacker)
 * Add error condition marker to activity diagram.. (Ralf Habacker)
 * Add activity diagram containing all elements. (Ralf Habacker)
-* Size problem fix when flipping fork/join state widget orientiation. (Ralf Habacker)
+* Size problem fix when flipping fork/join state widget orientation. (Ralf Habacker)
 * Crash fix when adding widgets to state diagram. (Ralf Habacker)
 * Add class diagram containing all elements. (Ralf Habacker)
 * Increase the border of the 'Fit in view' function, which makes it looking better. (Ralf Habacker)
@@ -263,7 +263,7 @@ Version 2.9.0
 * category widget drawing problem (301595)
 * Note widgets get resized when printing (152757)
 * Note widget text is not editable through doc window (301181)
-* umbrello crashs when importing templated java source code (293770)
+* umbrello crashes when importing templated java source code (293770)
 * activity diagram, branch/merge: background fill not disabled (165799)
 * Umbrello crashed when changing the Package of a class (268469)
 * Cannot anchor note in state diagram (270597)
@@ -301,7 +301,7 @@ Version 2.8.0
 * Made printing border calculation more robust
 * Reuse changed printer settings
 * Show diagram print settings dialog before print or print preview dialog
-* Added msvc2010 preprocesser for idl preprocessing
+* Added msvc2010 preprocessor for idl preprocessing
 * Enabling of cut/copy/paste actions is incorrect (70925)
 * Segmentation fault when copy&paste of sequence diagram (287179) and therefore also
   - Copy and paste or drag and drop of a java datatype between folders (280770) 
@@ -315,7 +315,7 @@ Version 2.8.0
 * Copy/Paste of activity, state and use case diagram elements do not create new elements (291557)
 * Crash on new synchronous message in sequence diagram (168752)
 * Umbrello crashes with SIGSEGV in Object Flow properties 170596)
-* Crash fix in case the path does not fit into the package hierachy we cannot check the imports (200721)
+* Crash fix in case the path does not fit into the package hierarchy we cannot check the imports (200721)
 * Crash fix on importing idl file (203092)
 * Crash on C++ import with Doxygen: cause Doxygen Braces (228352)
 * Crash on new entity (entity relationship model) (259404)
@@ -778,7 +778,7 @@ Version 1.1.1
 
 Version 1.1 (including 1.1 rc 2)
 
-* Activites can have multiple outgoing associations
+* Activities can have multiple outgoing associations
 
 * Updated and translated tips file
 
@@ -796,7 +796,7 @@ Version 1.1 (including 1.1 rc 2)
 
 Version 1.1 rc 1
 
-* Pasteing in sequence diagrams now works correctly
+* Pasting in sequence diagrams now works correctly
 
 * Paste operation now shows dialogue messages when it can't paste everything or at all
 
@@ -844,7 +844,7 @@ Version 1.1 beta 2
 
 * Name changed to Umbrello UML Modeller
 
-* Java filenames have corret capitalisation
+* Java filenames have correct capitalisation
 
 * Grid is no longer printed
 
@@ -856,11 +856,11 @@ Version 1.1 beta 2
 
 * Sequence and collaboration messages always update when they should
 
-* Consistant position for labels on sequence messages
+* Consistent position for labels on sequence messages
 
 * Nicer looking selection box
 
-* "New operation" from sequence diagram messages will now be used automaticaly on that message
+* "New operation" from sequence diagram messages will now be used automatically on that message
 
 * Some improvements in menu consistency
 
@@ -943,15 +943,15 @@ Version 1.0.2
 
 * Correctly deletes message from sequence diagram.
 
-* Recent files list now corectly handled
+* Recent files list now correctly handled
 
-* Error on loading files now put Untitled corerctly in the caption.
+* Error on loading files now put Untitled correctly in the caption.
 
 * Toolbars keep session settings
 
 * Added folders for Actors, Use Cases and Concepts to help organisation
 
-* Composition, Implemantation, unidirectional associations and realizations added to class diagrams
+* Composition, Implementation, unidirectional associations and realizations added to class diagrams
 
 * Generalization, dependency, and unidirectional associations added to use case diagrams.
 
@@ -975,7 +975,7 @@ Version 1.0.1
 
 * fixed printing so print multiple pages is now correct
 
-* popup menu co-ordinates fixes for popup menus and list view
+* popup menu coordinates fixes for popup menus and list view
 
 * Diagram made bigger
 
@@ -1004,7 +1004,7 @@ if this works)
 
 * Removed HTML welcome screen due to loading time.
 
-* Changed the icons setup by KDevelop (someone please desing better ones)
+* Changed the icons setup by KDevelop (someone please design better ones)
 
 * Has i18n ready to go, just need translators (any takers?)
 

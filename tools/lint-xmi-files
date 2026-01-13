@@ -1,6 +1,6 @@
 #!/bin/bash
 # @author Ralf Habacker
-# @brief lint xmi fils and extract missing dtd elements/attributes from xmllint error messages
+# @brief lint xmi files and extract missing dtd elements/attributes from xmllint error messages
 #
 
 # fails also on piped failure
