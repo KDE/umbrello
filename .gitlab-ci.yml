@@ -7,9 +7,8 @@ include:
       # qt5 support will be discontinued
       #- /gitlab-templates/linux.yml
       - /gitlab-templates/flatpak.yml
-      # testclassifier fails for unknown reasons
-      #- /gitlab-templates/freebsd-qt6.yml
-      #- /gitlab-templates/linux-qt6.yml
+      - /gitlab-templates/freebsd-qt6.yml
+      - /gitlab-templates/linux-qt6.yml
       - /gitlab-templates/windows-qt6.yml
 
 distro_kf5_leap:
