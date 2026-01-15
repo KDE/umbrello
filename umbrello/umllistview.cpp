@@ -1203,11 +1203,13 @@ void UMLListView::setDocument(UMLDoc *doc)
     }
     m_doc = doc;
 
-    connect(m_doc, SIGNAL(sigDiagramCreated(Uml::ID::Type)), this, SLOT(slotDiagramCreated(Uml::ID::Type)));
-    connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::ID::Type)), this, SLOT(slotDiagramRemoved(Uml::ID::Type)));
-    connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::ID::Type)), this, SLOT(slotDiagramRenamed(Uml::ID::Type)));
-    connect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)),   this, SLOT(slotObjectCreated(UMLObject*)));
-    connect(m_doc, SIGNAL(sigObjectRemoved(UMLObject*)),   this, SLOT(slotObjectRemoved(UMLObject*)));
+    if (!qApp->property("umbrello_unittest").toBool()) {
+        connect(m_doc, SIGNAL(sigDiagramCreated(Uml::ID::Type)), this, SLOT(slotDiagramCreated(Uml::ID::Type)));
+        connect(m_doc, SIGNAL(sigDiagramRemoved(Uml::ID::Type)), this, SLOT(slotDiagramRemoved(Uml::ID::Type)));
+        connect(m_doc, SIGNAL(sigDiagramRenamed(Uml::ID::Type)), this, SLOT(slotDiagramRenamed(Uml::ID::Type)));
+        connect(m_doc, SIGNAL(sigObjectCreated(UMLObject*)),   this, SLOT(slotObjectCreated(UMLObject*)));
+        connect(m_doc, SIGNAL(sigObjectRemoved(UMLObject*)),   this, SLOT(slotObjectRemoved(UMLObject*)));
+    }
 }
 
 /**

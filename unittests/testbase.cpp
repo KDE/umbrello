@@ -39,6 +39,9 @@ TestBase::TestBase(QObject *parent)
 
 void TestBase::initTestCase()
 {
+    // used in UMLListView::setDocument()
+    qApp->setProperty("umbrello_unittest", true);
+
     KLocalizedString::setApplicationDomain("umbrello");
 
     // hide Qt warning
