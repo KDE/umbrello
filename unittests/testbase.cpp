@@ -52,6 +52,7 @@ void TestBase::initTestCase()
     UMLApp *app = new UMLApp(w);
     app->setup();
     app->setActiveLanguage(Uml::ProgrammingLanguage::Cpp);
+    app->document()->newDocument();
 }
 
 void TestBase::cleanupTestCase()
