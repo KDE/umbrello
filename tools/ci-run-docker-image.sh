@@ -10,7 +10,7 @@
 : "${ci_distro:=}"
 
 # enter source dir
-# cd ~/src/kmymoney
+# cd ~/src/umbrello
 
 case "$ci_distro" in
     (opensuse-leap|opensuse-leap-15.6)

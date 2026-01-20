@@ -105,7 +105,7 @@ if test "$ci_build" = "yes"; then
     export LC_ALL=C.UTF-8
     export QT_QPA_PLATFORM=offscreen
     cmake_options="-DCMAKE_BUILD_TYPE=RelWithDebInfo $ci_cmake_options"
-    # kmymoney specific command line
+    # umbrello specific command line
     case $ci_variant in
         (kf6*)
             cmake $cmake_options -DBUILD_WITH_QT6=1 ..
