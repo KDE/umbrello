@@ -3,6 +3,11 @@
 # @author Ralf Habacker <ralf.habacker@freenet.de>
 #
 
+# run as
+#  ci_distro=... ci_parallel=... ci_variant=... sudo -E tools/ci-run-docker-image.sh
+# or
+#  sudo ci_distro=... ci_parallel=... ci_variant=... tools/ci-run-docker-image.sh
+
 # the docker image to use
 : "${ci_image:=opensuse/leap:15.6}"
 
