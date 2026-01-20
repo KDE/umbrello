@@ -21,6 +21,9 @@ case "$ci_distro" in
     (opensuse-leap|opensuse-leap-15.6)
         ci_image=opensuse/leap:15.6
         ;;
+    (opensuse-leap-16)
+        ci_image=opensuse/leap:16.0
+        ;;
     (opensuse-tumbleweed)
         ci_image=opensuse/tumbleweed
         ;;
