@@ -101,6 +101,8 @@ fi
 cd ci-build-${ci_variant}-${ci_host}
 
 if test "$ci_build" = "yes"; then
+    export LANG=C.UTF-8
+    export LC_ALL=C.UTF-8
     export QT_QPA_PLATFORM=offscreen
     cmake_options="-DCMAKE_BUILD_TYPE=RelWithDebInfo $ci_cmake_options"
     # kmymoney specific command line
