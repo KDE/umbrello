@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-24 02:03+0000\n"
+"POT-Creation-Date: 2026-01-21 02:12+0000\n"
 "PO-Revision-Date: 2011-07-27 13:53+0300\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -424,7 +424,7 @@ msgstr ""
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
 #: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:132
-#: umllistview.cpp:1448
+#: umllistview.cpp:1450
 #, kde-format
 msgid "General"
 msgstr "Общи"
@@ -1304,7 +1304,7 @@ msgstr "Състояние"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
+#: dialogs/finddialog.ui:89 umllistview.cpp:1445 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "Клас"
@@ -2131,7 +2131,7 @@ msgstr "Общи"
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
 #: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:302
-#: umllistview.cpp:1447
+#: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
 msgstr "Шрифт"
@@ -3236,7 +3236,7 @@ msgstr "&Диаграма"
 msgid "Umbrello Setup"
 msgstr "Настройки на Umbrello"
 
-#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1449
+#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1451
 #, kde-format
 msgid "User Interface"
 msgstr "Потребителски интерфейс"
@@ -3263,7 +3263,7 @@ msgstr "Клас"
 msgid "Class Settings"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1444
+#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1446
 #, kde-format
 msgid "Code Importer"
 msgstr ""
@@ -3273,7 +3273,7 @@ msgstr ""
 msgid "Code Import Settings"
 msgstr "Настройки на шрифта"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1445
+#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1447
 #, kde-format
 msgid "Code Generation"
 msgstr ""
@@ -3283,7 +3283,7 @@ msgstr ""
 msgid "Code Generation Settings"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1446
+#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1448
 #, kde-format
 msgid "Code Viewer"
 msgstr ""
@@ -3293,7 +3293,7 @@ msgstr ""
 msgid "Code Viewer Settings"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1442
+#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1444
 #, fuzzy, kde-format
 msgid "Auto Layout"
 msgstr "Автоматично запазване"
@@ -7878,47 +7878,47 @@ msgstr "Въведете име на модела"
 msgid "Enter the new name of the model:"
 msgstr "Въведете ново име за модела:"
 
-#: umllistview.cpp:1420
+#: umllistview.cpp:1422
 #, kde-format
 msgid "Views"
 msgstr "Изгледи"
 
-#: umllistview.cpp:1438
+#: umllistview.cpp:1440
 #, fuzzy, kde-format
 msgid "Settings"
 msgstr "Настройки на роля"
 
-#: umllistview.cpp:2455
+#: umllistview.cpp:2457
 #, kde-format
 msgid "Loading listview..."
 msgstr ""
 
-#: umllistview.cpp:2824
+#: umllistview.cpp:2826
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr ""
 
-#: umllistview.cpp:2825
+#: umllistview.cpp:2827
 #, fuzzy, kde-format
 msgid "Class Not Empty"
 msgstr "Папката не е празна"
 
-#: umllistview.cpp:2829
+#: umllistview.cpp:2831
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr ""
 
-#: umllistview.cpp:2830
+#: umllistview.cpp:2832
 #, fuzzy, kde-format
 msgid "Package Not Empty"
 msgstr "Папката не е празна"
 
-#: umllistview.cpp:2834
+#: umllistview.cpp:2836
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr ""
 
-#: umllistview.cpp:2835
+#: umllistview.cpp:2837
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "Папката не е празна"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-24 02:03+0000\n"
+"POT-Creation-Date: 2026-01-21 02:12+0000\n"
 "PO-Revision-Date: 2024-05-30 22:41+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -429,7 +429,7 @@ msgstr "<p align=\"center\">Kodgenerado por C++</p>"
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
 #: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:132
-#: umllistview.cpp:1448
+#: umllistview.cpp:1450
 #, kde-format
 msgid "General"
 msgstr "Ĝenerale"
@@ -1326,7 +1326,7 @@ msgstr "Stato"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
+#: dialogs/finddialog.ui:89 umllistview.cpp:1445 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "Klaso"
@@ -2164,7 +2164,7 @@ msgstr "Ĝenerale"
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
 #: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:302
-#: umllistview.cpp:1447
+#: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
 msgstr "Tiparo"
@@ -3300,7 +3300,7 @@ msgstr "Diagramo"
 msgid "Umbrello Setup"
 msgstr "Agordo de Umbrello"
 
-#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1449
+#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1451
 #, kde-format
 msgid "User Interface"
 msgstr "Uzant-interfaco"
@@ -3327,7 +3327,7 @@ msgstr "Klaso"
 msgid "Class Settings"
 msgstr "Agordo de Klaso"
 
-#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1444
+#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1446
 #, kde-format
 msgid "Code Importer"
 msgstr "Kodimportilo"
@@ -3337,7 +3337,7 @@ msgstr "Kodimportilo"
 msgid "Code Import Settings"
 msgstr "Agordo de Kodimportilo"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1445
+#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1447
 #, kde-format
 msgid "Code Generation"
 msgstr "Kodgenerado"
@@ -3347,7 +3347,7 @@ msgstr "Kodgenerado"
 msgid "Code Generation Settings"
 msgstr "Agordo de Kodgenerado"
 
-#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1446
+#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1448
 #, kde-format
 msgid "Code Viewer"
 msgstr "Kodmontrilo"
@@ -3357,7 +3357,7 @@ msgstr "Kodmontrilo"
 msgid "Code Viewer Settings"
 msgstr "Agordo de Kodmontrilo"
 
-#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1442
+#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1444
 #, kde-format
 msgid "Auto Layout"
 msgstr "Aŭtomata Aranĝado"
@@ -7975,47 +7975,47 @@ msgstr "Enigi Modelnomon"
 msgid "Enter the new name of the model:"
 msgstr "Enigu la novan nomon de la modelo:"
 
-#: umllistview.cpp:1420
+#: umllistview.cpp:1422
 #, kde-format
 msgid "Views"
 msgstr "Perspektivoj"
 
-#: umllistview.cpp:1438
+#: umllistview.cpp:1440
 #, kde-format
 msgid "Settings"
 msgstr "Agordo"
 
-#: umllistview.cpp:2455
+#: umllistview.cpp:2457
 #, kde-format
 msgid "Loading listview..."
 msgstr "Ŝarganta Listoperspektivon..."
 
-#: umllistview.cpp:2824
+#: umllistview.cpp:2826
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr "La klaso devas esti malplenigata antaŭ ĝia forigo."
 
-#: umllistview.cpp:2825
+#: umllistview.cpp:2827
 #, kde-format
 msgid "Class Not Empty"
 msgstr "Klaso Ne Malplena"
 
-#: umllistview.cpp:2829
+#: umllistview.cpp:2831
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr "La pako devas esti malplenigata antaŭ ĝia forigo."
 
-#: umllistview.cpp:2830
+#: umllistview.cpp:2832
 #, kde-format
 msgid "Package Not Empty"
 msgstr "Pako Ne Malplena"
 
-#: umllistview.cpp:2834
+#: umllistview.cpp:2836
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "La dosierujo devas esti malplena antaŭ ĝia forigo."
 
-#: umllistview.cpp:2835
+#: umllistview.cpp:2837
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "Dosierujo Ne Malplena"

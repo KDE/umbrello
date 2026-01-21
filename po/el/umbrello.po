@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-24 02:03+0000\n"
+"POT-Creation-Date: 2026-01-21 02:12+0000\n"
 "PO-Revision-Date: 2023-07-29 17:38+0300\n"
 "Last-Translator: Theofilos Intzoglou <int.teo@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -437,7 +437,7 @@ msgstr "<p align=\"center\">C++ Δημιουργία Κώδικα</p>"
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
 #: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:132
-#: umllistview.cpp:1448
+#: umllistview.cpp:1450
 #, kde-format
 msgid "General"
 msgstr "Γενικά"
@@ -1338,7 +1338,7 @@ msgstr "Κατάσταση"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
+#: dialogs/finddialog.ui:89 umllistview.cpp:1445 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "Κλάση"
@@ -2179,7 +2179,7 @@ msgstr "Γενικά"
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
 #: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:302
-#: umllistview.cpp:1447
+#: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
 msgstr "Γραμματοσειρά"
@@ -3319,7 +3319,7 @@ msgstr "Διάγραμμα"
 msgid "Umbrello Setup"
 msgstr "Ρύθμιση Umbrello"
 
-#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1449
+#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1451
 #, kde-format
 msgid "User Interface"
 msgstr "Περιβάλλον χρήστη"
@@ -3346,7 +3346,7 @@ msgstr "Κλάση"
 msgid "Class Settings"
 msgstr "Ρυθμίσεις κλάσης"
 
-#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1444
+#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1446
 #, kde-format
 msgid "Code Importer"
 msgstr "Εισαγωγέας κώδικα"
@@ -3356,7 +3356,7 @@ msgstr "Εισαγωγέας κώδικα"
 msgid "Code Import Settings"
 msgstr "Ρυθμίσεις εισαγωγής κώδικα"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1445
+#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1447
 #, kde-format
 msgid "Code Generation"
 msgstr "Δημιουργία κώδικα"
@@ -3366,7 +3366,7 @@ msgstr "Δημιουργία κώδικα"
 msgid "Code Generation Settings"
 msgstr "Ρυθμίσεις δημιουργίας κώδικα"
 
-#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1446
+#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1448
 #, kde-format
 msgid "Code Viewer"
 msgstr "Προβολέας κώδικα"
@@ -3376,7 +3376,7 @@ msgstr "Προβολέας κώδικα"
 msgid "Code Viewer Settings"
 msgstr "Ρυθμίσεις προβολής κώδικα"
 
-#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1442
+#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1444
 #, kde-format
 msgid "Auto Layout"
 msgstr "Αυτόματη διάταξη"
@@ -8035,47 +8035,47 @@ msgstr "Εισάγετε όνομα μοντέλου"
 msgid "Enter the new name of the model:"
 msgstr "Εισάγετε το νέο όνομα του μοντέλου:"
 
-#: umllistview.cpp:1420
+#: umllistview.cpp:1422
 #, kde-format
 msgid "Views"
 msgstr "Προβολές"
 
-#: umllistview.cpp:1438
+#: umllistview.cpp:1440
 #, kde-format
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: umllistview.cpp:2455
+#: umllistview.cpp:2457
 #, kde-format
 msgid "Loading listview..."
 msgstr "Φόρτωση προβολής λίστας..."
 
-#: umllistview.cpp:2824
+#: umllistview.cpp:2826
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr "Η κλάση πρέπει να αδειάσει πριν να μπορεί να διαγραφεί."
 
-#: umllistview.cpp:2825
+#: umllistview.cpp:2827
 #, kde-format
 msgid "Class Not Empty"
 msgstr "Η κλάση δεν είναι κενή"
 
-#: umllistview.cpp:2829
+#: umllistview.cpp:2831
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr "Το πακέτο πρέπει να αδειάσει πριν να μπορεί να διαγραφεί."
 
-#: umllistview.cpp:2830
+#: umllistview.cpp:2832
 #, kde-format
 msgid "Package Not Empty"
 msgstr "Το πακέτο δεν είναι κενό"
 
-#: umllistview.cpp:2834
+#: umllistview.cpp:2836
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "Ο φάκελος πρέπει να αδειάσει πριν να μπορεί να διαγραφεί."
 
-#: umllistview.cpp:2835
+#: umllistview.cpp:2837
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "Ο φάκελος δεν είναι κενός"

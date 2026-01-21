@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdesdk/umbrello.pot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-24 02:03+0000\n"
+"POT-Creation-Date: 2026-01-21 02:12+0000\n"
 "PO-Revision-Date: 2004-09-20 15:44+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: br <LL@li.org>\n"
@@ -443,7 +443,7 @@ msgstr "<p align=\"center\">Hedad</p>"
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
 #: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:132
-#: umllistview.cpp:1448
+#: umllistview.cpp:1450
 #, kde-format
 msgid "General"
 msgstr "Pennañ"
@@ -1348,7 +1348,7 @@ msgstr "Loc'hadur"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
+#: dialogs/finddialog.ui:89 umllistview.cpp:1445 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "Renkad"
@@ -2219,7 +2219,7 @@ msgstr "Pennañ"
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
 #: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:302
-#: umllistview.cpp:1447
+#: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
 msgstr "Nodrez"
@@ -3399,7 +3399,7 @@ msgstr "Roit anv ar skeudenn"
 msgid "Umbrello Setup"
 msgstr ""
 
-#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1449
+#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1451
 #, kde-format
 msgid "User Interface"
 msgstr "Etrefas arveriad"
@@ -3429,7 +3429,7 @@ msgstr "Renkad"
 msgid "Class Settings"
 msgstr "Kefluniadur ar renkad"
 
-#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1444
+#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1446
 #, fuzzy, kde-format
 #| msgid "Not Generated"
 msgid "Code Importer"
@@ -3441,7 +3441,7 @@ msgstr "N'eo ket savet"
 msgid "Code Import Settings"
 msgstr "Dibarzhoù hollek"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1445
+#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1447
 #, fuzzy, kde-format
 #| msgid "Project Generation"
 msgid "Code Generation"
@@ -3453,7 +3453,7 @@ msgstr "Krouidigezh ar raktres"
 msgid "Code Generation Settings"
 msgstr "Dibarzhoù hollek"
 
-#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1446
+#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1448
 #, kde-format
 msgid "Code Viewer"
 msgstr ""
@@ -3464,7 +3464,7 @@ msgstr ""
 msgid "Code Viewer Settings"
 msgstr "Dibarzhoù hollek"
 
-#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1442
+#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1444
 #, fuzzy, kde-format
 #| msgid "Autosave"
 msgid "Auto Layout"
@@ -8426,52 +8426,52 @@ msgstr "Roit anv ar gobari"
 msgid "Enter the new name of the model:"
 msgstr "Roit anv nevez ar gobari :"
 
-#: umllistview.cpp:1420
+#: umllistview.cpp:1422
 #, kde-format
 msgid "Views"
 msgstr "Gweloù"
 
-#: umllistview.cpp:1438
+#: umllistview.cpp:1440
 #, fuzzy, kde-format
 #| msgid "Font Settings"
 msgid "Settings"
 msgstr "Dibarzhoù an nodezhoù"
 
-#: umllistview.cpp:2455
+#: umllistview.cpp:2457
 #, kde-format
 msgid "Loading listview..."
 msgstr "Emaon o kargañ gwell ar roll ..."
 
-#: umllistview.cpp:2824
+#: umllistview.cpp:2826
 #, fuzzy, kde-format
 #| msgid "The folder must be emptied before it can be deleted."
 msgid "The class must be emptied before it can be deleted."
 msgstr "Red eo goullo ar renkell a-raok lemel ar renkell."
 
-#: umllistview.cpp:2825
+#: umllistview.cpp:2827
 #, fuzzy, kde-format
 #| msgid "Folder Not Empty"
 msgid "Class Not Empty"
 msgstr "N'eo ket goullo ar renkell"
 
-#: umllistview.cpp:2829
+#: umllistview.cpp:2831
 #, fuzzy, kde-format
 #| msgid "The folder must be emptied before it can be deleted."
 msgid "The package must be emptied before it can be deleted."
 msgstr "Red eo goullo ar renkell a-raok lemel ar renkell."
 
-#: umllistview.cpp:2830
+#: umllistview.cpp:2832
 #, fuzzy, kde-format
 #| msgid "Folder Not Empty"
 msgid "Package Not Empty"
 msgstr "N'eo ket goullo ar renkell"
 
-#: umllistview.cpp:2834
+#: umllistview.cpp:2836
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "Red eo goullo ar renkell a-raok lemel ar renkell."
 
-#: umllistview.cpp:2835
+#: umllistview.cpp:2837
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "N'eo ket goullo ar renkell"

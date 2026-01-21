@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-24 02:03+0000\n"
+"POT-Creation-Date: 2026-01-21 02:12+0000\n"
 "PO-Revision-Date: 2025-11-19 06:51+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -439,7 +439,7 @@ msgstr "<p align=\"center\">Ustvarjanje kode v C++</p>"
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
 #: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:132
-#: umllistview.cpp:1448
+#: umllistview.cpp:1450
 #, kde-format
 msgid "General"
 msgstr "Splošno"
@@ -1335,7 +1335,7 @@ msgstr "Stanje"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
+#: dialogs/finddialog.ui:89 umllistview.cpp:1445 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "Razred"
@@ -2175,7 +2175,7 @@ msgstr "Splošno"
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
 #: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:302
-#: umllistview.cpp:1447
+#: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
 msgstr "Pisava"
@@ -3310,7 +3310,7 @@ msgstr "Diagram"
 msgid "Umbrello Setup"
 msgstr "Nastavitve Umbrella"
 
-#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1449
+#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1451
 #, kde-format
 msgid "User Interface"
 msgstr "Uporabniški vmesnik"
@@ -3337,7 +3337,7 @@ msgstr "Razred"
 msgid "Class Settings"
 msgstr "Nastavitve razredov"
 
-#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1444
+#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1446
 #, kde-format
 msgid "Code Importer"
 msgstr "Uvoznik kode"
@@ -3347,7 +3347,7 @@ msgstr "Uvoznik kode"
 msgid "Code Import Settings"
 msgstr "Nastavitve uvoza kode"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1445
+#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1447
 #, kde-format
 msgid "Code Generation"
 msgstr "Ustvarjanje kode"
@@ -3357,7 +3357,7 @@ msgstr "Ustvarjanje kode"
 msgid "Code Generation Settings"
 msgstr "Nastavitve ustvarjanja kode"
 
-#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1446
+#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1448
 #, kde-format
 msgid "Code Viewer"
 msgstr "Pregledovalnik kode"
@@ -3367,7 +3367,7 @@ msgstr "Pregledovalnik kode"
 msgid "Code Viewer Settings"
 msgstr "Nastavitve pregledovalnika kode"
 
-#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1442
+#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1444
 #, kde-format
 msgid "Auto Layout"
 msgstr "Samodejna postavitev"
@@ -7980,47 +7980,47 @@ msgstr "Vnesite ime modela"
 msgid "Enter the new name of the model:"
 msgstr "Vnesite novo ime modela:"
 
-#: umllistview.cpp:1420
+#: umllistview.cpp:1422
 #, kde-format
 msgid "Views"
 msgstr "Prikazi"
 
-#: umllistview.cpp:1438
+#: umllistview.cpp:1440
 #, kde-format
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: umllistview.cpp:2455
+#: umllistview.cpp:2457
 #, kde-format
 msgid "Loading listview..."
 msgstr "Nalaganje seznamskega pogleda ..."
 
-#: umllistview.cpp:2824
+#: umllistview.cpp:2826
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr "Razred mora biti prazen, preden ga lahko izbrišete."
 
-#: umllistview.cpp:2825
+#: umllistview.cpp:2827
 #, kde-format
 msgid "Class Not Empty"
 msgstr "Razred ni prazen"
 
-#: umllistview.cpp:2829
+#: umllistview.cpp:2831
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr "Paket mora biti prazen, preden ga lahko izbrišete."
 
-#: umllistview.cpp:2830
+#: umllistview.cpp:2832
 #, kde-format
 msgid "Package Not Empty"
 msgstr "Paket ni prazen"
 
-#: umllistview.cpp:2834
+#: umllistview.cpp:2836
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "Mapa mora biti prazna, preden jo lahko izbrišete."
 
-#: umllistview.cpp:2835
+#: umllistview.cpp:2837
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "Mapa ni prazna"

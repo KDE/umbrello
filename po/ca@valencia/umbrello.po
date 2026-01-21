@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-24 02:03+0000\n"
+"POT-Creation-Date: 2026-01-21 02:12+0000\n"
 "PO-Revision-Date: 2025-11-19 09:38+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -437,7 +437,7 @@ msgstr "<p align=\"center\">Generació de codi C++</p>"
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
 #: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:132
-#: umllistview.cpp:1448
+#: umllistview.cpp:1450
 #, kde-format
 msgid "General"
 msgstr "General"
@@ -1338,7 +1338,7 @@ msgstr "Estat"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
+#: dialogs/finddialog.ui:89 umllistview.cpp:1445 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "Classe"
@@ -2176,7 +2176,7 @@ msgstr "General"
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
 #: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:302
-#: umllistview.cpp:1447
+#: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
 msgstr "Tipus de lletra"
@@ -3313,7 +3313,7 @@ msgstr "Diagrama"
 msgid "Umbrello Setup"
 msgstr "Configura Umbrello"
 
-#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1449
+#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1451
 #, kde-format
 msgid "User Interface"
 msgstr "Interfície d'usuari"
@@ -3340,7 +3340,7 @@ msgstr "Classe"
 msgid "Class Settings"
 msgstr "Opcions classes"
 
-#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1444
+#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1446
 #, kde-format
 msgid "Code Importer"
 msgstr "Importador de codi"
@@ -3350,7 +3350,7 @@ msgstr "Importador de codi"
 msgid "Code Import Settings"
 msgstr "Configureu l'importador de codi"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1445
+#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1447
 #, kde-format
 msgid "Code Generation"
 msgstr "Generació de codi"
@@ -3360,7 +3360,7 @@ msgstr "Generació de codi"
 msgid "Code Generation Settings"
 msgstr "Opcions generació de codi"
 
-#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1446
+#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1448
 #, kde-format
 msgid "Code Viewer"
 msgstr "Visor de codi"
@@ -3370,7 +3370,7 @@ msgstr "Visor de codi"
 msgid "Code Viewer Settings"
 msgstr "Opcions del visor de codi"
 
-#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1442
+#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1444
 #, kde-format
 msgid "Auto Layout"
 msgstr "Disposició automàtica"
@@ -8004,47 +8004,47 @@ msgstr "Introduïu el nom del model"
 msgid "Enter the new name of the model:"
 msgstr "Introduïu el nom nou del model:"
 
-#: umllistview.cpp:1420
+#: umllistview.cpp:1422
 #, kde-format
 msgid "Views"
 msgstr "Vistes"
 
-#: umllistview.cpp:1438
+#: umllistview.cpp:1440
 #, kde-format
 msgid "Settings"
 msgstr "Configuració"
 
-#: umllistview.cpp:2455
+#: umllistview.cpp:2457
 #, kde-format
 msgid "Loading listview..."
 msgstr "S'està carregant la vista en llista…"
 
-#: umllistview.cpp:2824
+#: umllistview.cpp:2826
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr "La classe ha de buidar-se abans que es puga suprimir."
 
-#: umllistview.cpp:2825
+#: umllistview.cpp:2827
 #, kde-format
 msgid "Class Not Empty"
 msgstr "Classe no buida"
 
-#: umllistview.cpp:2829
+#: umllistview.cpp:2831
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr "Este paquet ha de buidar-se abans que es puga suprimir."
 
-#: umllistview.cpp:2830
+#: umllistview.cpp:2832
 #, kde-format
 msgid "Package Not Empty"
 msgstr "Paquet no buit"
 
-#: umllistview.cpp:2834
+#: umllistview.cpp:2836
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "La carpeta ha de buidar-se abans que es puga suprimir."
 
-#: umllistview.cpp:2835
+#: umllistview.cpp:2837
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "Carpeta no buida"

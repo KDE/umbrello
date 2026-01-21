@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-24 02:03+0000\n"
+"POT-Creation-Date: 2026-01-21 02:12+0000\n"
 "PO-Revision-Date: 2025-11-19 08:24+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -433,7 +433,7 @@ msgstr "<p align=\"center\">Створення коду C++</p>"
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
 #: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:132
-#: umllistview.cpp:1448
+#: umllistview.cpp:1450
 #, kde-format
 msgid "General"
 msgstr "Загальне"
@@ -1332,7 +1332,7 @@ msgstr "Стан"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
+#: dialogs/finddialog.ui:89 umllistview.cpp:1445 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "Клас"
@@ -2174,7 +2174,7 @@ msgstr "Загальні"
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
 #: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:302
-#: umllistview.cpp:1447
+#: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
 msgstr "Шрифт"
@@ -3312,7 +3312,7 @@ msgstr "Діаграма"
 msgid "Umbrello Setup"
 msgstr "Налаштування Umbrello"
 
-#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1449
+#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1451
 #, kde-format
 msgid "User Interface"
 msgstr "Інтерфейс користувача"
@@ -3339,7 +3339,7 @@ msgstr "Клас"
 msgid "Class Settings"
 msgstr "Параметри класу"
 
-#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1444
+#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1446
 #, kde-format
 msgid "Code Importer"
 msgstr "Імпортування коду"
@@ -3349,7 +3349,7 @@ msgstr "Імпортування коду"
 msgid "Code Import Settings"
 msgstr "Параметри імпортування коду"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1445
+#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1447
 #, kde-format
 msgid "Code Generation"
 msgstr "Створення коду"
@@ -3359,7 +3359,7 @@ msgstr "Створення коду"
 msgid "Code Generation Settings"
 msgstr "Параметри створення коду"
 
-#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1446
+#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1448
 #, kde-format
 msgid "Code Viewer"
 msgstr "Перегляд коду"
@@ -3369,7 +3369,7 @@ msgstr "Перегляд коду"
 msgid "Code Viewer Settings"
 msgstr "Параметри перегляду коду"
 
-#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1442
+#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1444
 #, kde-format
 msgid "Auto Layout"
 msgstr "Автокомпонування"
@@ -7989,47 +7989,47 @@ msgstr "Введіть назву моделі"
 msgid "Enter the new name of the model:"
 msgstr "Введіть нову назву моделі:"
 
-#: umllistview.cpp:1420
+#: umllistview.cpp:1422
 #, kde-format
 msgid "Views"
 msgstr "Перегляди"
 
-#: umllistview.cpp:1438
+#: umllistview.cpp:1440
 #, kde-format
 msgid "Settings"
 msgstr "Параметри"
 
-#: umllistview.cpp:2455
+#: umllistview.cpp:2457
 #, kde-format
 msgid "Loading listview..."
 msgstr "Завантаження списку…"
 
-#: umllistview.cpp:2824
+#: umllistview.cpp:2826
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr "Слід спорожнити клас, перш ніж вилучати його."
 
-#: umllistview.cpp:2825
+#: umllistview.cpp:2827
 #, kde-format
 msgid "Class Not Empty"
 msgstr "Клас не є порожнім"
 
-#: umllistview.cpp:2829
+#: umllistview.cpp:2831
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr "Слід спорожнити пакунок, перш ніж вилучати його."
 
-#: umllistview.cpp:2830
+#: umllistview.cpp:2832
 #, kde-format
 msgid "Package Not Empty"
 msgstr "Пакунок не є порожнім"
 
-#: umllistview.cpp:2834
+#: umllistview.cpp:2836
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "Слід спорожнити теку, перш ніж вилучати її."
 
-#: umllistview.cpp:2835
+#: umllistview.cpp:2837
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "Тека не порожня"
