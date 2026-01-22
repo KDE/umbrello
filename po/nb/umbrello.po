@@ -3279,8 +3279,8 @@ msgstr "Parameterretning"
 #: dialogs/parameterpropertiesdialog.cpp:83
 #, kde-format
 msgid ""
-"\"in\" is a readonly parameter, \"out\" is a writeonly parameter and "
-"\"inout\" is a parameter for reading and writing."
+"\"in\" is a readonly parameter, \"out\" is a writeonly parameter and \"inout"
+"\" is a parameter for reading and writing."
 msgstr ""
 "«inn» er en skrivebeskyttet parameter, «ut» er en som bare skrives, og "
 "«innut» er en som både leses og skrives."
@@ -4249,8 +4249,8 @@ msgstr "Umbrello UML-modellerer"
 #, kde-format
 msgid ""
 "Umbrello – Visual development environment for software, based on the "
-"industry standard Unified Modelling Language (UML).<br/>See also <a "
-"href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
+"industry standard Unified Modelling Language (UML).<br/>See also <a href="
+"\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 msgstr ""
 
 #: main.cpp:123
@@ -7505,8 +7505,8 @@ msgstr "Åpne fil"
 #: umlapp.cpp:1156
 #, kde-format
 msgid ""
-"*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files "
-"(*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.uml, *.mdl, *.zargo)\n"
+"*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
+"xmi, *.xmi.tgz, *.xmi.tar.bz2, *.uml, *.mdl, *.zargo)\n"
 "*.xmi|Uncompressed XMI Files (*.xmi)\n"
 "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
 "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
@@ -7533,9 +7533,8 @@ msgstr "Lagre som"
 #: umlapp.cpp:1239
 #, kde-format
 msgid ""
-"*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File "
-"(*.xmi.tgz);;*.xmi.tar.bz2 | Bzip2 Compressed XMI File (*.xmi.tar.bz2);;* | "
-"All Files (*)"
+"*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
+"*.xmi.tar.bz2 | Bzip2 Compressed XMI File (*.xmi.tar.bz2);;* | All Files (*)"
 msgstr ""
 
 #: umlapp.cpp:1257
