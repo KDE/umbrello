@@ -4,6 +4,7 @@
 include:
   - project: sysadmin/ci-utilities
     file:
+      - /gitlab-templates/documentation.yml
       # qt5 support will be discontinued
       #- /gitlab-templates/linux.yml
       - /gitlab-templates/flatpak.yml
