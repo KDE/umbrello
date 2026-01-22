@@ -48,8 +48,9 @@ void TestBase::initTestCase()
     // QWARN  : ... QWidget::setWindowModified: The window title does not contain a '[*]' placeholder
     defaultHandler = qInstallMessageHandler(customMessageHandler);
 
-    QWidget *w = new QWidget;
-    UMLApp *app = new UMLApp(w);
+    m_mainWidget = new QWidget;
+
+    UMLApp *app = new UMLApp(m_mainWidget);
     app->setup();
     app->setActiveLanguage(Uml::ProgrammingLanguage::Cpp);
     app->document()->newDocument();
@@ -58,7 +59,12 @@ void TestBase::initTestCase()
 void TestBase::cleanupTestCase()
 {
     qDeleteAll(m_objectsToDelete);
+    m_objectsToDelete.clear();
+
     delete UMLApp::app();
+
+    delete m_mainWidget;
+    m_mainWidget = nullptr;
 }
 
 void TestBase::cleanupOnExit(QObject *p)

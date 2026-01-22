@@ -43,6 +43,7 @@ protected Q_SLOTS:
 
 protected:
     QList<QPointer<QObject>> m_objectsToDelete;
+    QWidget *m_mainWidget = nullptr;
 };
 
 /**
