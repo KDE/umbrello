@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-trunk/messages/umbrello/umbrello_kdevphp5.pot\n"
-"X-Crowdin-File-ID: 6811\n"
+"X-Crowdin-File: /kf6-trunk/messages/umbrello/umbrello_kdevphp5.pot\n"
+"X-Crowdin-File-ID: 59932\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"

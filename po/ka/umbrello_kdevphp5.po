@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 09:01+0000\n"
-"PO-Revision-Date: 2023-01-03 07:19+0100\n"
+"PO-Revision-Date: 2026-01-22 06:23+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.8\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -36,7 +36,7 @@ msgstr "გადაფარვა"
 #: completion/implementationitem.cpp:63
 #, kde-format
 msgid "Implement"
-msgstr "იმლემენტაცია"
+msgstr "იმპლემენტაცია"
 
 #: completion/implementationitem.cpp:75
 #, kde-format
@@ -76,7 +76,7 @@ msgstr ""
 "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
 "weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">ნაგულისხმებად <a href="
+"right:0px; -qt-block-indent:0; text-indent:0px;\">ნაგულისხმევად <a href="
 "\"https://php.net\"><span style=\" text-decoration: underline; color:#0000ff;"
 "\">PHP -ის ონლაინ</span></a> ონლაინ დოკუმენტაცია გამოიყენება. ასევე "
 "შეგიძლიათ დააყენოთ მდებარეობა, სადაც დოკუმენტაციის ლოკალური ასლი გაგაჩნიათ. "
@@ -231,14 +231,14 @@ msgstr "მეთოდის მოდიფიკატორად „static�
 #, kde-format
 msgid "Default value for parameters with a class type hint can only be NULL."
 msgstr ""
-"კლასის ტიპის კონტროლის მქონე პარამეტრების ნაგულისხმები მნიშვნელობა მხოლოდ "
+"კლასის ტიპის კონტროლის მქონე პარამეტრების ნაგულისხმევი მნიშვნელობა მხოლოდ "
 "NULL შეიძლება იყოს."
 
 #: duchain/builders/declarationbuilder.cpp:763
 #, kde-format
 msgid "Following parameters must have a default value assigned."
 msgstr ""
-"პარამეტრები, რომლებისთვისაც ნაგულისხმები მნიშვნელობის მინიჭება აუცილებელია."
+"პარამეტრები, რომლებისთვისაც ნაგულისხმევი მნიშვნელობის მინიჭება აუცილებელია."
 
 #: duchain/builders/declarationbuilder.cpp:870
 #, kde-format

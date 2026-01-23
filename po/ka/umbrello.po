@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-21 02:12+0000\n"
-"PO-Revision-Date: 2025-04-26 10:37+0200\n"
+"PO-Revision-Date: 2026-01-22 15:59+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.8\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -205,6 +205,8 @@ msgid ""
 "At least one of the items in the clipboard could not be pasted because an "
 "item of the same name already exists.  Any other items have been pasted."
 msgstr ""
+"ბუფერში მყოფი, სულ ცოტა, ერთი ელემენტის ჩასმა შეუძლებელია, რადგან ელემენტი "
+"იგივე სახელით უკვე არსებობს.  ყველა სხვა ელემენტი ჩასმულია."
 
 #: clipboard/umlclipboard.cpp:757 umlapp.cpp:1522
 #, kde-format
@@ -332,6 +334,8 @@ msgid ""
 "Cannot open file %1 for writing. Please make sure the folder exists and you "
 "have permissions to write to it."
 msgstr ""
+"%1-ის ჩასაწერად გახსნა შეუძლებელია. დარწმუნდით, რომ საქაღალდე არსებობს და "
+"მასში ჩაწერის უფლება გაქვტ."
 
 #: codegenerators/codegenerator.cpp:524
 #, kde-format
@@ -403,7 +407,7 @@ msgstr "მიმღები მეთოდების სახელებ�
 #: codegenerators/cpp/cppcodegenerationform.cpp:64
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor method names"
-msgstr ""
+msgstr "პრეფიქსის '[a-zA-Z]_' წაშლა წვდომის მეთოდის სახელებიდან"
 
 #. i18n: ectx: label, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
 #: codegenerators/cpp/cppcodegenerationform.cpp:68 umbrello.kcfg:553
@@ -414,13 +418,13 @@ msgstr "წვდომის მეთოდები მაღალი რე
 #: codegenerators/cpp/cppcodegenerationform.cpp:72
 #, kde-format
 msgid "Use '\\' as documentation tag instead of '@'"
-msgstr ""
+msgstr "'\\'-ის გამოყენება დოკუმენტაციის ჭდისთვის '@'-ის მაგიერ"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelTitle)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:31
 #, kde-format
 msgid "<p align=\"center\">C++ Code Generation</p>"
-msgstr ""
+msgstr "<p align=\"center\">C++-ის კოდის გენერაცია</p>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
@@ -684,7 +688,7 @@ msgstr "<i><p align=\"center\">ფაილის ჩასმა</p></i>"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:526
 #, kde-format
 msgid "Use following for classes in generated code:"
-msgstr ""
+msgstr "შემდეგის გამოყენება კლასებისთვის დაგენერირებულ კოდში:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxDocumentation)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
@@ -764,7 +768,7 @@ msgstr "ცარიელი კონსტრუქტორის მეთ�
 #: codegenerators/ruby/rubycodegenerationformbase.ui:109
 #, kde-format
 msgid "Association accessor methods"
-msgstr ""
+msgstr "ასოცირების წვდომის მეთოდები"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_generateAttribAccessors)
 #: codegenerators/d/dcodegenerationformbase.ui:128
@@ -781,7 +785,7 @@ msgstr "ატრიბუტებთან წვდომის მეთო�
 #: codegenerators/ruby/rubycodegenerationformbase.ui:133
 #, kde-format
 msgid "Default attribute accessor scope:"
-msgstr ""
+msgstr "ნაგულისხმევი ატრიბუტის წვდომის მეთოდის შუალედი:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_accessorScopeCB)
 #. i18n: ectx: property (text), item, widget (KComboBox, m_assocFieldScopeCB)
@@ -847,7 +851,7 @@ msgstr "მშობელი ობიექტიდან"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:174
 #, kde-format
 msgid "Default association field scope:"
-msgstr ""
+msgstr "ნაგულისხმევი ასოცირების ველის შუალედი:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_assocFieldScopeCB)
 #: codegenerators/d/dcodegenerationformbase.ui:236
@@ -885,7 +889,7 @@ msgstr "ჰეში (#)"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:74
 #, kde-format
 msgid "Begin-End (=begin  =end)"
-msgstr ""
+msgstr "დასაწყისი-დასასრული (=begin  =end)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxAutoGeneratedMethods)
 #: codegenerators/ruby/rubycodegenerationformbase.ui:91
@@ -922,6 +926,8 @@ msgid ""
 "The output folder exists, but it is not writable.\n"
 "Please set the appropriate permissions or choose another folder."
 msgstr ""
+"გამოტანის საქაღალდე არსებობს, მაგრამ ის ჩაწერადი არაა.\n"
+"დააყენეთ შესაფერისი წვდომები, ან აირჩიეთ სხვა საქაღალდე."
 
 #: codegenwizard/codegenoptionspage.cpp:254
 #, kde-format
@@ -931,7 +937,7 @@ msgstr "გამოტანის საქაღალდეში ჩაწ�
 #: codegenwizard/codegenoptionspage.cpp:259
 #, kde-format
 msgid "%1 does not seem to be a folder. Please choose a valid folder."
-msgstr ""
+msgstr "%1 საქაღალდეს არ ჰგავს. აირჩიეთ სწორი საქაღალდე."
 
 #: codegenwizard/codegenoptionspage.cpp:260
 #, kde-format
@@ -941,7 +947,7 @@ msgstr "აირჩიეთ სწორი საქაღალდე"
 #: codegenwizard/codegenoptionspage.cpp:266
 #, kde-format
 msgid "The folder %1 does not exist. Do you want to create it now?"
-msgstr ""
+msgstr "საქაღალდე %1 არ არსებობს. გნებავთ მისი შექმნა?"
 
 #: codegenwizard/codegenoptionspage.cpp:267
 #: codegenwizard/codegenoptionspage.cpp:279
@@ -966,6 +972,9 @@ msgid ""
 "Please make sure you have write access to its parent folder or select "
 "another, valid, folder."
 msgstr ""
+"საქაღალდის შექმნა შეუძლებელია.\n"
+"დარწმუნდით, რომ გაქვთ ჩაწერის უფლება მის მშობელ საქაღალდეში, ან აირჩიეთ "
+"სხვა, სწორი საქაღალდე."
 
 #: codegenwizard/codegenoptionspage.cpp:272
 #, kde-format
@@ -999,7 +1008,7 @@ msgstr "ყველა გენერირებული ფაილის 
 #: codegenwizard/codegenoptionspage.ui:89
 #, kde-format
 msgid "Files generated by Code Generator will be written to this folder"
-msgstr ""
+msgstr "კოდის გენერატორის მიერ შექმნილი ფაილები ამ საქაღალდეში ჩაიწერება"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_browseOutput)
 #: codegenwizard/codegenoptionspage.ui:96
@@ -1011,7 +1020,7 @@ msgstr "არჩევა..."
 #: codegenwizard/codegenoptionspage.ui:105
 #, kde-format
 msgid "&Include heading files from folder:"
-msgstr ""
+msgstr "თავსართი ფაილებ&ის ჩასმა საქაღალდიდან:"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, ui_headingsDir)
 #: codegenwizard/codegenoptionspage.ui:117
@@ -1019,6 +1028,8 @@ msgstr ""
 msgid ""
 "Files in this folder will be used as heading files in the generated code"
 msgstr ""
+"ფაილები ამ საქაღალდიდან გამოყენებული იქნება თავსართის ფაილებად გენერირებულ "
+"კოდში"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_browseHeadings)
 #: codegenwizard/codegenoptionspage.ui:124
@@ -1040,6 +1051,8 @@ msgid ""
 "If a file with the same name as the name code \n"
 "generator wants to use as output file already exists:"
 msgstr ""
+"თუ ფაილი იგივე სახელით, რომელიც კოდის\n"
+"გენერატორს უნდა, გამოტანის ფაილად გამოიყენოს, უკვე არსებობს:"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, ui_radioButtonOverwrite)
 #: codegenwizard/codegenoptionspage.ui:167
@@ -1073,6 +1086,8 @@ msgid ""
 "If a file already exists in the destination folder, select a different name "
 "to use by adding a suffix to the file name"
 msgstr ""
+"თუ ფაილი უკვე არსებობს სამიზნე საქაღალდეში, სხვა სახელის არჩევა "
+"გამოსაყენებლად ფაილის სახელზე სუფიქსის დამატებით"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_radioButtonChangeName)
 #: codegenwizard/codegenoptionspage.ui:193
@@ -1097,12 +1112,14 @@ msgstr "კომენტარის დაწვრილებადობ�
 #, kde-format
 msgid "Write comments &for class and method documentation even if empty"
 msgstr ""
+"კომენტარების დაწერა კლასებისთვისა და მეთოდის დოკუმენტაციისთვის მაშინაც კი, "
+"თუ &ცარიელია"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_forceDoc)
 #: codegenwizard/codegenoptionspage.ui:240
 #, kde-format
 msgid "&Write documentation comments even if empty"
-msgstr ""
+msgstr "დოკუმენტაციის კომენტარების ჩა&წერა მაშინაც კი, თუ ცარიელია"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
@@ -1117,6 +1134,8 @@ msgid ""
 "Writes comments to indicate the different sections (public, private etc) in "
 "a class, even if the sections are empty"
 msgstr ""
+"ჩაწერს კომენტარებს, რომ მიუთითოს სხვადასხვა სექციებზე (საჯარო, პირადიდა ა."
+"შ.) კლასში მაშინაც კი, თუ სექციები ცარიელია"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:276
@@ -1224,7 +1243,7 @@ msgstr "ხელმისაწვდომი კლასები"
 #: codegenwizard/codegenselectpage.ui:73
 #, kde-format
 msgid "Add class for code generation"
-msgstr ""
+msgstr "კლასის დამატება კოდის გენერაციისთვის"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_addButton)
 #: codegenwizard/codegenselectpage.ui:76
@@ -1253,7 +1272,7 @@ msgstr "მონიშნული კლასები"
 #: codegenwizard/codegenstatuspage.cpp:39
 #, kde-format
 msgid "Status of Code Generation Progress"
-msgstr ""
+msgstr "კოდის გენერაციის მიმდინარეობის სტატუსი"
 
 #: codegenwizard/codegenstatuspage.cpp:40
 #, kde-format
@@ -1293,7 +1312,7 @@ msgstr "ფაილის გახსნის შეცდომა!"
 #: codegenwizard/codegenstatuspage.cpp:224
 #, kde-format
 msgid "Umbrello Code Generation - Logger Export"
-msgstr ""
+msgstr "Umbrello-ის კოდის გენერაცია - ჟურნალის გატანა"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_statusTab)
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
@@ -1339,7 +1358,7 @@ msgstr "გენერაცია"
 #: codeimport/classimport.cpp:101
 #, kde-format
 msgid "Importing file: %1 Progress: %2/%3"
-msgstr ""
+msgstr "ფაილის შემოტანა: %1 მიმდინარეობა: %2/%3"
 
 #: codeimport/classimport.cpp:109
 #, kde-format
@@ -1376,17 +1395,17 @@ msgstr "ფაილური სისტემის მოდელი"
 #: codeimpwizard/codeimpselectpage.cpp:136
 #, kde-format
 msgid "Select the desired language to filter files."
-msgstr ""
+msgstr "აირჩიეთ სასურველი ენა ფაილების გასაფილტრად."
 
 #: codeimpwizard/codeimpselectpage.cpp:137
 #, kde-format
 msgid "Select also all the files in the subdirectories."
-msgstr ""
+msgstr "ასევე აირჩიეთ ყველა ფაილი ქვესაქაღალდეებში."
 
 #: codeimpwizard/codeimpselectpage.cpp:138
 #, kde-format
 msgid "Select all the files below the current directory."
-msgstr ""
+msgstr "ყველა ფაილის არჩევა მიმდინარე საქაღალდის ქვეშ."
 
 #: codeimpwizard/codeimpselectpage.cpp:139
 #, kde-format
@@ -1457,13 +1476,15 @@ msgid ""
 "Press the button 'Start import' to start the code import.\n"
 "Check the success state for every class."
 msgstr ""
+"დააჭირეთ ღილაკს 'შემოტანის დაწყება' კოდის შემოტანის დასაწყებად.\n"
+"შეამოწმეთ წარმატების მდგომარეობა თითოეული კლასისთვის."
 
 #: codeimpwizard/codeimpstatuspage.cpp:127
 #, kde-format
 msgid "<b>Code import of 1 file:</b><br>"
 msgid_plural "<b>Code import of %1 files:</b><br>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<b>კოდის შემოტანა 1 ფაილიდან:</b><br>"
+msgstr[1] "<b>კოდის შემოტანა %1 ფაილიდან:</b><br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:151
 #, kde-format
@@ -1508,7 +1529,7 @@ msgstr "არ შემოტანილა"
 #: codeimpwizard/codeimpstatuspage.cpp:325
 #, kde-format
 msgid "Umbrello Code Import - Logger Export"
-msgstr ""
+msgstr "Umbrello-ის კოდის შემოტანა - ჟურნალის გატანა"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabStatus)
 #: codeimpwizard/codeimpstatuspage.ui:33
@@ -1548,7 +1569,7 @@ msgstr "მზადაა."
 #: codeimpwizard/codeimpthread.cpp:66
 #, kde-format
 msgid "No code importer for file: %1"
-msgstr ""
+msgstr "კოდის შემომტანის გარეშე ფაილისთვის: %1"
 
 #: debug/debug_utils.cpp:141
 #, kde-format
@@ -1722,28 +1743,28 @@ msgstr "ჩამოთვლადი კონსტანტები"
 #: dialogs/classpropertiesdialog.cpp:307
 #, kde-format
 msgid "Enum Literals Settings"
-msgstr ""
+msgstr "ჩამოთვლადი კონსტანტების მორგება"
 
 #: dialogs/classpropertiesdialog.cpp:317
 #: dialogs/pages/classifierlistpage.cpp:128
 #, kde-format
 msgid "Entity Attributes"
-msgstr ""
+msgstr "ობიექტის ატრიბუტები"
 
 #: dialogs/classpropertiesdialog.cpp:317
 #, kde-format
 msgid "Entity Attributes Settings"
-msgstr ""
+msgstr "ობიექტის ატრიბუტების მორგება"
 
 #: dialogs/classpropertiesdialog.cpp:327
 #, kde-format
 msgid "Entity Constraints"
-msgstr ""
+msgstr "ობიექტის შეზღუდვები"
 
 #: dialogs/classpropertiesdialog.cpp:327
 #, kde-format
 msgid "Entity Constraints Settings"
-msgstr ""
+msgstr "ობიექტის შეზღუდვების მორგება"
 
 #: dialogs/classpropertiesdialog.cpp:337
 #, kde-format
@@ -1946,17 +1967,17 @@ msgstr "ყველა შეტყობინების ჩართვა"
 #: dialogs/dialog_utils.cpp:37
 #, kde-format
 msgid "Enable 'delete association' related messages"
-msgstr ""
+msgstr "'ასოციაციის წაშლასთან' დაკავშირებული შეტყობინებების ჩართვა"
 
 #: dialogs/dialog_utils.cpp:38
 #, kde-format
 msgid "Enable 'delete diagram' related messages"
-msgstr ""
+msgstr "'დიაგრამის წაშლასთან' დაკავშირებული შეტყობინებების ჩართვა"
 
 #: dialogs/dialog_utils.cpp:215
 #, kde-format
 msgid "You are about to delete an association. Do you really want to continue?"
-msgstr ""
+msgstr "აპირებთ, ასოციაცია წაშალოთ. მართლა გნებავთ გაგრძელება?"
 
 #: dialogs/dialog_utils.cpp:216
 #, kde-format
@@ -1969,6 +1990,8 @@ msgid ""
 "You are about to delete the entire diagram.\n"
 "Are you sure?"
 msgstr ""
+"აპირებთ, მთელი დიაგრამა წაშალოთ.\n"
+"დარწმუნებული ბრძანდებით?"
 
 #: dialogs/dialog_utils.cpp:231
 #, kde-format
@@ -2024,6 +2047,8 @@ msgid ""
 "Create in the target directory the same tree structure used\n"
 "in the document to store the views"
 msgstr ""
+"სამიზნე საქაღალდეში იგივე ხის სტრუქტურის შექმნა,\n"
+"როგორიც დოკუმენტში გამოიყენება ხედების შესანახად"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_useFolders)
 #: dialogs/exportallviewsdialogbase.ui:61
@@ -2246,7 +2271,7 @@ msgstr "&გადაწერა"
 #: dialogs/overwritedialog.cpp:29
 #, kde-format
 msgid "&Generate Similar File Name"
-msgstr ""
+msgstr "მსგავსი ფაილის სახელის &გენერაცია"
 
 #: dialogs/overwritedialog.cpp:30
 #, kde-format
@@ -2261,6 +2286,10 @@ msgid ""
 "Umbrello can overwrite the file, generate a similar\n"
 "file name or not generate this file."
 msgstr ""
+"ფაილი %1 %2-ში უკვე არსებობს.\n"
+"\n"
+"Umbrello-ს შეუძლია, თავზე გადააწეროს ფაილებს, შექმნას მსგავსი\n"
+"ფაილის სახელი, ან არ დააგენერიროს ეს ფაილი."
 
 #: dialogs/overwritedialog.cpp:40
 #, kde-format
@@ -2419,7 +2448,7 @@ msgstr ""
 #: dialogs/pages/autolayoutoptionpage.ui:27
 #, kde-format
 msgid "Auto detect layout generator"
-msgstr ""
+msgstr "განლაგების გენერატორის ავტომატური აღმოჩენა"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/pages/autolayoutoptionpage.ui:37
@@ -2446,7 +2475,7 @@ msgstr ""
 #: dialogs/pages/autolayoutoptionpage.ui:91
 #, kde-format
 msgid "Show export layout in diagram context menu"
-msgstr ""
+msgstr "გატანის განლაგების ჩვენება დიაგრამის კონტექსტურ მენიუში"
 
 #: dialogs/pages/classgeneralpage.cpp:126
 #, kde-format
@@ -2493,6 +2522,9 @@ msgid ""
 "is already being used.\n"
 "The name has been reset."
 msgstr ""
+"თქვენი არჩეული ფაილის\n"
+"სახელი უკვე გამოიყენება.\n"
+"გამოყენებული იქნება სხვა სახელი."
 
 #: dialogs/pages/classgeneralpage.cpp:341
 #: dialogs/pages/classgeneralpage.cpp:379
@@ -2524,7 +2556,7 @@ msgstr "&ახალი ჩამოთვლადი კონსტანტ
 #: dialogs/pages/classifierlistpage.cpp:129
 #, kde-format
 msgid "N&ew Entity Attribute..."
-msgstr ""
+msgstr "ახალი ობი&ექტის ატრიბუტი..."
 
 #: dialogs/pages/classifierlistpage.cpp:132
 #, kde-format
@@ -2626,17 +2658,17 @@ msgstr "&ატრიბუტის ასოციაციები"
 #: dialogs/pages/classoptionspage.cpp:289
 #, kde-format
 msgid "Starting Scope"
-msgstr ""
+msgstr "საწყისი შუალედი"
 
 #: dialogs/pages/classoptionspage.cpp:296
 #, kde-format
 msgid "Default attribute scope:"
-msgstr ""
+msgstr "ნაგულისხმევი ატრიბუტის შუალედი:"
 
 #: dialogs/pages/classoptionspage.cpp:299
 #, kde-format
 msgid "Default operation scope:"
-msgstr "ოპერაციის ნაგულისხმები ფარგლები:"
+msgstr "ოპერაციის ნაგულისხმევი ფარგლები:"
 
 #: dialogs/pages/classoptionspage.cpp:333
 #, kde-format
@@ -2671,6 +2703,8 @@ msgid ""
 "Additional include search paths could be added by specifying environment "
 "variable UMBRELLO_INCPATH."
 msgstr ""
+"დამატებითი თავსართის ფაილების მოსაძებნი ბილიკების დამატება შეგიძლიათ გარემოს "
+"ცვლადით UMBRELLO_INCPATH."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/pages/codeimportoptionspage.ui:56
@@ -2682,13 +2716,13 @@ msgstr "C++ შემოტანა"
 #: dialogs/pages/codeimportoptionspage.ui:66
 #, kde-format
 msgid "For each imported file create an artifact in the component view"
-msgstr ""
+msgstr "თითოეული შემოტანილი ფაილისთვის არტეფაქტის შექმნა კომპონენტის ხედში"
 
 #. i18n: ectx: property (text), widget (QCheckBox, resolveDependenciesCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:73
 #, kde-format
 msgid "Resolve dependencies (reduces import speed)"
-msgstr ""
+msgstr "დამოკიდებულებების ამოხსნა (ამცირებს შემოტანის სიჩქარეს)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, supportCPP11CheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:80
@@ -2884,7 +2918,7 @@ msgstr "ახალი C++/Java/Ruby გენერატორების �
 #: dialogs/pages/generaloptionpage.cpp:60
 #, kde-format
 msgid "Turn on footer and page numbers when printing"
-msgstr ""
+msgstr "ქვედა კოლონტიტულის და გვერდის დანომვრის ჩართვა ბეჭდვისას"
 
 #: dialogs/pages/generaloptionpage.cpp:64
 #, kde-format
@@ -2904,12 +2938,12 @@ msgstr "ავტომატური შენახვის &ჩართვ
 #: dialogs/pages/generaloptionpage.cpp:80
 #, kde-format
 msgid "Select auto-save time interval (mins):"
-msgstr ""
+msgstr "ავტოშენახვის დროის შუალედი (წთ):"
 
 #: dialogs/pages/generaloptionpage.cpp:92
 #, kde-format
 msgid "Set autosave suffix:"
-msgstr ""
+msgstr "ავტოშენახვის სუფიქსის დაყენება:"
 
 #: dialogs/pages/generaloptionpage.cpp:94
 #, kde-format
@@ -2935,17 +2969,17 @@ msgstr "&ბოლო პროექტის ჩატვირთვა"
 #: dialogs/pages/generaloptionpage.cpp:115
 #, kde-format
 msgid "Start new project with:"
-msgstr ""
+msgstr "ახალი პროექტის დაწყება რით:"
 
 #: dialogs/pages/generaloptionpage.cpp:132
 #, kde-format
 msgid "Default Language :"
-msgstr "ნაგულისხმები ენა :"
+msgstr "ნაგულისხმევი ენა :"
 
 #: dialogs/pages/packagecontentspage.cpp:40
 #, kde-format
 msgid "Contained Items"
-msgstr ""
+msgstr "შემავალი ელემენტები"
 
 #: dialogs/pages/selectoperationpage.cpp:58
 #: dialogs/selectoperationdialog.cpp:58 dialogs/selectoperationdialog.cpp:65
@@ -2994,12 +3028,12 @@ msgstr "საერთო"
 #: dialogs/pages/uioptionspage.cpp:62 umbrello.kcfg:197
 #, kde-format
 msgid "Right to left user interface"
-msgstr ""
+msgstr "მარჯვნიდან მარცხნივ მომხმარებლის ინტერფეისი"
 
 #: dialogs/pages/uioptionspage.cpp:66
 #, kde-format
 msgid "Use alignment guides"
-msgstr ""
+msgstr "სწორების მიმმართველების გამოყენება"
 
 #: dialogs/pages/uioptionspage.cpp:70
 #, kde-format
@@ -3010,7 +3044,7 @@ msgstr "ასოცირებები"
 #: dialogs/pages/uioptionspage.cpp:75
 #, kde-format
 msgid "Create new association lines as:"
-msgstr ""
+msgstr "ახალი ასოციაციის ხაზების შექმნა, როგორც:"
 
 #: dialogs/pages/uioptionspage.cpp:78
 #, kde-format
@@ -3113,7 +3147,7 @@ msgstr "&ტექსტი:"
 #, kde-format
 msgctxt "default text color button"
 msgid "Defaul&t"
-msgstr "ნაგულისხმები"
+msgstr "ნაგულისხმევი"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:119
 #, kde-format
@@ -3125,7 +3159,7 @@ msgstr "&ხაზი:"
 #, kde-format
 msgctxt "default line color button"
 msgid "&Default"
-msgstr "&ნაგულისხმები"
+msgstr "&ნაგულისხმევი"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:129
 #, kde-format
@@ -3136,7 +3170,7 @@ msgstr "&შევსება:"
 #, kde-format
 msgctxt "default fill color button"
 msgid "D&efault"
-msgstr "&ნაგულისხმები"
+msgstr "&ნაგულისხმევი"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:139
 #, kde-format
@@ -3153,7 +3187,7 @@ msgstr "ფონი:"
 #, kde-format
 msgctxt "default background color button"
 msgid "De&fault"
-msgstr "&ნაგულისხმები"
+msgstr "&ნაგულისხმევი"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:159
 #, kde-format
@@ -3165,7 +3199,7 @@ msgstr "&ბადის წერტილი:"
 #, kde-format
 msgctxt "default grid dot color button"
 msgid "Def&ault"
-msgstr "&ნაგულისხმები"
+msgstr "&ნაგულისხმევი"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:174
 #, kde-format
@@ -3183,7 +3217,7 @@ msgstr "ხაზის &სიგანე:"
 #, kde-format
 msgctxt "default line width button"
 msgid "Defa&ult"
-msgstr "&ნაგულისხმები"
+msgstr "&ნაგულისხმევი"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:203
 #, kde-format
@@ -3204,7 +3238,7 @@ msgstr "&სახელი:"
 #: dialogs/parameterpropertiesdialog.cpp:82
 #, kde-format
 msgid "Passing Direction"
-msgstr ""
+msgstr "გავლის მიმართულება"
 
 #: dialogs/parameterpropertiesdialog.cpp:83
 #, kde-format
@@ -3216,7 +3250,7 @@ msgstr ""
 #: dialogs/parameterpropertiesdialog.cpp:161
 #, kde-format
 msgid "You have entered an invalid parameter name."
-msgstr ""
+msgstr "თქვენი შეყვანილი პარამეტრის სახელი არასწორია."
 
 #: dialogs/parameterpropertiesdialog.cpp:162
 #, kde-format
@@ -3399,7 +3433,7 @@ msgstr "სტერეოტიპის თვისებები"
 #: dialogs/stereoattributedialog.cpp:58
 #, kde-format
 msgid "Stereotype Attributes for "
-msgstr ""
+msgstr "სტერეოტიპის ატრიბუტები "
 
 #: dialogs/stereoattributedialog.cpp:74 dialogs/umlattributedialog.cpp:76
 #, kde-format
@@ -3417,7 +3451,7 @@ msgstr "&ტიპი:"
 #, kde-format
 msgctxt "default value"
 msgid "&Default:"
-msgstr "&ნაგულისხმები:"
+msgstr "&ნაგულისხმევი:"
 
 #: dialogs/umlattributedialog.cpp:43
 #, kde-format
@@ -3432,12 +3466,12 @@ msgstr "&საწყისი მნიშვნელობა:"
 #: dialogs/umlattributedialog.cpp:89 dialogs/umloperationdialog.cpp:112
 #, kde-format
 msgid "Classifier &scope (\"static\")"
-msgstr ""
+msgstr "&კლასიფიკატორის შუალედი (\"static\")"
 
 #: dialogs/umlattributedialog.cpp:123 dialogs/umlenumliteraldialog.cpp:84
 #, kde-format
 msgid "You have entered an invalid attribute name."
-msgstr ""
+msgstr "თქვენი შეყვანილი ატრიბუტის სახელი არასწორია."
 
 #: dialogs/umlattributedialog.cpp:124 dialogs/umlenumliteraldialog.cpp:85
 #: refactoring/refactoringassistant.cpp:845
@@ -3449,7 +3483,7 @@ msgstr "ატრიბუტის სახელი არასწორი�
 #, kde-format
 msgid ""
 "The attribute name you have chosen is already being used in this operation."
-msgstr ""
+msgstr "ატრიბუტის სახელი, რომელიც აირჩიეთ, უკვე გამოიყენება ამ ოპერაციაში."
 
 #: dialogs/umlattributedialog.cpp:132 dialogs/umlenumliteraldialog.cpp:98
 #, kde-format
@@ -3459,7 +3493,7 @@ msgstr "ატრიბუტის სახელი უნიკალურ�
 #: dialogs/umlcheckconstraintdialog.cpp:25
 #, kde-format
 msgid "Check Constraint Properties"
-msgstr ""
+msgstr "შემოწმების შეზღუდვის თვისებები"
 
 #: dialogs/umlcheckconstraintdialog.cpp:52
 #: dialogs/umluniqueconstraintdialog.cpp:79
@@ -3476,7 +3510,7 @@ msgstr "პირობის შემოწმება :"
 #: dialogs/umlentityattributedialog.cpp:43
 #, kde-format
 msgid "Entity Attribute Properties"
-msgstr ""
+msgstr "ობიექტის ატრიბუტის თვისებები"
 
 #: dialogs/umlentityattributedialog.cpp:71
 #, kde-format
@@ -3528,12 +3562,12 @@ msgstr "&დაინდექსებული"
 #: dialogs/umlentityattributedialog.cpp:163
 #, kde-format
 msgid "You have entered an invalid entity attribute name."
-msgstr ""
+msgstr "თქვენი შეყვანილი ობიექტის ატრიბუტის სახელი არასწორია."
 
 #: dialogs/umlentityattributedialog.cpp:164
 #, kde-format
 msgid "Entity Attribute Name Invalid"
-msgstr ""
+msgstr "ობიექტის ატრიბუტის სახელი არასწორია"
 
 #: dialogs/umlentityattributedialog.cpp:171
 #, kde-format
@@ -3541,16 +3575,18 @@ msgid ""
 "The entity attribute name you have chosen is already being used in this "
 "operation."
 msgstr ""
+"ობიექტის ატრიბუტის სახელი, რომელიც თქვენ აირჩიეთ, უკვე გამოიყენება ამ "
+"ოპერაციაში."
 
 #: dialogs/umlentityattributedialog.cpp:172
 #, kde-format
 msgid "Entity Attribute Name Not Unique"
-msgstr ""
+msgstr "ობიექტის ატრიბუტის სახელი უნიკალური არაა"
 
 #: dialogs/umlenumliteraldialog.cpp:31
 #, kde-format
 msgid "EnumLiteral Properties"
-msgstr ""
+msgstr "ჩამოთვლადი კონსტანტის თვისებები"
 
 #: dialogs/umlenumliteraldialog.cpp:57
 #, kde-format
@@ -3566,7 +3602,7 @@ msgstr "&მნიშვნელობა:"
 #: dialogs/umlforeignkeyconstraintdialog.cpp:54
 #, kde-format
 msgid "Foreign Key Setup"
-msgstr ""
+msgstr "უცხოური გასაღების მორგება"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:205
 #, kde-format
@@ -3589,7 +3625,7 @@ msgstr "სახელი"
 #: dialogs/umlforeignkeyconstraintdialog.cpp:219
 #, kde-format
 msgid "Referenced Entity"
-msgstr ""
+msgstr "მიმართული ობიექტი"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:225
 #, kde-format
@@ -3680,7 +3716,7 @@ msgstr "ობიექტის ატრიბუტის თვისებ�
 #: dialogs/umlinstanceattributedialog.cpp:40
 #, kde-format
 msgid "You have entered an invalid attribute value."
-msgstr ""
+msgstr "თქვენი შეყვანილი ატრიბუტის მნიშვნელობა არასწორია."
 
 #: dialogs/umlinstanceattributedialog.cpp:41
 #, kde-format
@@ -3713,12 +3749,12 @@ msgstr "&სახელი:"
 #: dialogs/umloperationdialog.cpp:108
 #, kde-format
 msgid "&Abstract operation"
-msgstr ""
+msgstr "&აბსტრაქტული ოპერაცია"
 
 #: dialogs/umloperationdialog.cpp:115
 #, kde-format
 msgid "&Query (\"const\")"
-msgstr ""
+msgstr "&მოთხოვნა (\"const\")"
 
 #: dialogs/umloperationdialog.cpp:118
 #, kde-format
@@ -3751,6 +3787,8 @@ msgid ""
 "The parameter name you have chosen\n"
 "is already being used in this operation."
 msgstr ""
+"პარამეტრის სახელი, რომელიც აირჩიეთ,\n"
+"უკვე გამოიყენება ამ ოპერაციაში."
 
 #: dialogs/umloperationdialog.cpp:281 dialogs/umloperationdialog.cpp:328
 #, kde-format
@@ -3761,12 +3799,12 @@ msgstr "პარამეტრის სახელი უნიკალუ�
 #, kde-format
 msgid ""
 "The parameter name you have chosen is already being used in this operation."
-msgstr ""
+msgstr "პარამეტრის სახელი, რომელიც აირჩიეთ, უკვე გამოიყენება ამ ოპერაციაში."
 
 #: dialogs/umloperationdialog.cpp:412
 #, kde-format
 msgid "You have entered an invalid operation name."
-msgstr ""
+msgstr "თქვენ არასწორი ოპერაციის სახელი შეიყვანეთ."
 
 #: dialogs/umloperationdialog.cpp:413 dialogs/umloperationdialog.cpp:425
 #: refactoring/refactoringassistant.cpp:824
@@ -3777,12 +3815,12 @@ msgstr "ოპერაციის სახელი არასწორი�
 #: dialogs/umloperationdialog.cpp:422 refactoring/refactoringassistant.cpp:821
 #, kde-format
 msgid "An operation with that signature already exists in %1.\n"
-msgstr ""
+msgstr "ოპერაცია ამ სიგნატურით %1-ში უკვე არსებობს.\n"
 
 #: dialogs/umloperationdialog.cpp:424 refactoring/refactoringassistant.cpp:823
 #, kde-format
 msgid "Choose a different name or parameter list."
-msgstr ""
+msgstr "აირჩიეთ ხვა სახელი, ან პარამეტრების სია."
 
 #: dialogs/umltemplatedialog.cpp:37
 #, kde-format
@@ -3798,7 +3836,7 @@ msgstr "&სახელი:"
 #: dialogs/umltemplatedialog.cpp:88
 #, kde-format
 msgid "You have entered an invalid template name."
-msgstr ""
+msgstr "თქვენი შეყვანილი ნიმუშის სახელი არასწორია."
 
 #: dialogs/umltemplatedialog.cpp:89
 #, kde-format
@@ -3811,6 +3849,7 @@ msgid ""
 "The template parameter name you have chosen is already being used in this "
 "operation."
 msgstr ""
+"ნიმუშის პარამეტრის სახელი, რომელიც აირჩიეთ, უკვე გამოიყენება ამ ოპერაციაში."
 
 #: dialogs/umltemplatedialog.cpp:99
 #, kde-format
@@ -3820,7 +3859,7 @@ msgstr "შაბლონის სახელი უნიკალური 
 #: dialogs/umluniqueconstraintdialog.cpp:45
 #, kde-format
 msgid "Unique Constraint Properties"
-msgstr ""
+msgstr "უნიკალური შეზღუდვის თვისებები"
 
 #: dialogs/umluniqueconstraintdialog.cpp:87
 #, kde-format
@@ -3830,7 +3869,7 @@ msgstr "ატრიბუტის დეტალები"
 #: dialogs/umluniqueconstraintdialog.cpp:219
 #, kde-format
 msgid "You have entered an invalid constraint name."
-msgstr ""
+msgstr "თქვენი შეყვანილი შეზღუდვის სახელი არასწორია."
 
 #: dialogs/umluniqueconstraintdialog.cpp:220
 #, kde-format
@@ -3846,7 +3885,7 @@ msgstr "ჩვენება"
 #: dialogs/umlviewdialog.cpp:105
 #, kde-format
 msgid "Classes Display Options"
-msgstr ""
+msgstr "კლასების ჩვენების პარამეტრები"
 
 #: dialogs/umlviewdialog.cpp:115
 #, kde-format
@@ -3862,7 +3901,7 @@ msgstr "დიაგრამის სტილი"
 #: dialogs/widgets/defaultvaluewidget.cpp:36
 #, kde-format
 msgid "&Default value:"
-msgstr "&ნაგულისხმები მნიშვნელობა:"
+msgstr "&ნაგულისხმევი მნიშვნელობა:"
 
 #: dialogs/widgets/imagetypewidget.cpp:28
 #, kde-format
@@ -3904,7 +3943,7 @@ msgstr "&ცხრილი"
 #, kde-format
 msgctxt "draw as default"
 msgid "&Default"
-msgstr "&ნაგულისხმები"
+msgstr "&ნაგულისხმევი"
 
 #: dialogs/widgets/umlartifacttypewidget.cpp:32
 #, kde-format
@@ -3924,14 +3963,13 @@ msgstr "&ტიპი:"
 #, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr ""
+msgstr "დიახ"
 
 #: dialogs/widgets/umlmessagebox.h:32
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "არაფერი"
+msgstr "არა"
 
 #: dialogs/widgets/umlpackagewidget.cpp:29
 #, kde-format
@@ -4038,37 +4076,37 @@ msgstr "XHTML-ში გატანა..."
 #: docgenerators/docbookgenerator.cpp:79 umlviewimageexporterall.cpp:95
 #, kde-format
 msgid "Exporting all views..."
-msgstr ""
+msgstr "მიმდინარეობს ყველა ხედის გატანა..."
 
 #: docgenerators/docbookgenerator.cpp:85 umlviewimageexporterall.cpp:101
 #, kde-format
 msgid "Some errors happened when exporting the images:"
-msgstr ""
+msgstr "აღმოჩენილია რამდენიმე შეცდომა გამოსახულებების გატანისას:"
 
 #: docgenerators/docbookgenerator.cpp:89
 #, kde-format
 msgid "Generating Docbook..."
-msgstr ""
+msgstr "Docbook-ის გენერაცია..."
 
 #: docgenerators/docbookgenerator.cpp:113
 #, kde-format
 msgid "Docbook Generation Complete..."
-msgstr ""
+msgstr "Docbook-ის გენერაცია დასრულდა..."
 
 #: docgenerators/docbookgenerator.cpp:116
 #, kde-format
 msgid "Docbook Generation Failed..."
-msgstr ""
+msgstr "Docbook-ის გენერაცია ჩავარდა..."
 
 #: docgenerators/docbookgeneratorjob.cpp:191
 #, kde-format
 msgid "Exporting to DocBook..."
-msgstr ""
+msgstr "გატანა DocBook-ში..."
 
 #: docgenerators/main.cpp:33 docgenerators/main.cpp:46
 #, kde-format
 msgid "Umbrello UML Modeller autonomous code generator"
-msgstr ""
+msgstr "Umbrello-ის UML მოდელერის ავტონომური კოდის გენერატორი"
 
 #: docgenerators/main.cpp:48
 #, kde-format
@@ -4080,12 +4118,12 @@ msgstr ""
 #: docgenerators/main.cpp:50
 #, kde-format
 msgid "Gael de Chalendar (aka Kleag)"
-msgstr ""
+msgstr "გაელ დე ჩალენდარი (იგივე Kleag)"
 
 #: docgenerators/main.cpp:51 main.cpp:128
 #, kde-format
 msgid "Umbrello UML Modeller Authors"
-msgstr ""
+msgstr "Umbrello-ის UML მოდელერის ავტორები"
 
 #: docgenerators/main.cpp:55
 #, kde-format
@@ -4137,7 +4175,7 @@ msgstr "დოკუმენტაციის ტიპი"
 #: docwindow.cpp:88
 #, kde-format
 msgid "Activate documentation edit after focus change."
-msgstr ""
+msgstr "დოკუმენტაციის ჩასწორების გააქტიურება ფოკუსის ცვლილების შემდეგ."
 
 #: layoutgenerator.cpp:261
 #, kde-format
@@ -4147,7 +4185,7 @@ msgstr "განლაგების გადატარება"
 #: main.cpp:117
 #, kde-format
 msgid "Umbrello UML Modeller"
-msgstr ""
+msgstr "Umbrello-ის UML მოდელერი"
 
 #: main.cpp:119
 #, kde-format
@@ -4172,12 +4210,12 @@ msgstr "საწყისი ვერსიის ავტორი."
 #: main.cpp:132 main.cpp:135
 #, kde-format
 msgid "Bug fixing, porting work, code cleanup, new features."
-msgstr ""
+msgstr "შეცდომების გასწორება, გატანა, კოდის გასუფთავება, ახალი ფუნქციები."
 
 #: main.cpp:138
 #, kde-format
 msgid "Porting work, code cleanup, new features."
-msgstr ""
+msgstr "გადატანა, კოდის გასუფთავება, ახალი ფუნქციები."
 
 #: main.cpp:141
 #, kde-format
@@ -4187,7 +4225,7 @@ msgstr "პროექტის მიმდინარე ხელმძღ�
 #: main.cpp:144
 #, kde-format
 msgid "A lot of work for C++ and Java code generation. Codeeditor."
-msgstr ""
+msgstr "ბევრი სამუშაო C++ და Java კოდების გენერირებისთვის. კოდის რედაქტორი."
 
 #: main.cpp:153
 #, kde-format
@@ -4197,17 +4235,17 @@ msgstr "გასახსნელი ფაილი"
 #: main.cpp:154
 #, kde-format
 msgid "export diagrams to extension and exit"
-msgstr ""
+msgstr "დიაგრამების გატანა გაფართოებაზე და გასვლა"
 
 #: main.cpp:156
 #, kde-format
 msgid "list available export extensions"
-msgstr ""
+msgstr "ხელმისაწვდომი გატანის გაფართოებების სია"
 
 #: main.cpp:158
 #, kde-format
 msgid "the local directory to save the exported diagrams in"
-msgstr ""
+msgstr "ლოკალური საქაღალდე გატანილი დიაგრამების შესანახად"
 
 #: main.cpp:160
 #, kde-format
@@ -4217,7 +4255,7 @@ msgstr "ფაილების შემოტანა"
 #: main.cpp:162
 #, kde-format
 msgid "list supported languages"
-msgstr ""
+msgstr "მხარდაჭერილი ენების ჩამონათვალი"
 
 #: main.cpp:164
 #, kde-format
@@ -4229,7 +4267,7 @@ msgstr ""
 #: main.cpp:166
 #, kde-format
 msgid "import files from directory <dir>"
-msgstr ""
+msgstr "ფაილების შემოტანა საქაღალდიდან <სქღლდ>"
 
 #: main.cpp:168
 #, kde-format
@@ -4254,22 +4292,22 @@ msgstr "წერტილის წაშლა"
 #: menus/associationwidgetpopupmenu.cpp:52
 #, kde-format
 msgid "Choose Spline points automatically"
-msgstr ""
+msgstr "სპლაინის წერტილების ავტომატური არჩევა"
 
 #: menus/associationwidgetpopupmenu.cpp:67
 #, kde-format
 msgid "Change Association Name..."
-msgstr ""
+msgstr "ასოციაციის სახელის შეცვლა..."
 
 #: menus/associationwidgetpopupmenu.cpp:68 menus/widgetbasepopupmenu.cpp:490
 #, kde-format
 msgid "Change Role A Name..."
-msgstr ""
+msgstr "როლი A-ის სახელის შეცვლა..."
 
 #: menus/associationwidgetpopupmenu.cpp:69 menus/widgetbasepopupmenu.cpp:493
 #, kde-format
 msgid "Change Role B Name..."
-msgstr ""
+msgstr "როლი B-ის სახელის შეცვლა..."
 
 #: menus/associationwidgetpopupmenu.cpp:76 menus/widgetbasepopupmenu.cpp:508
 #, kde-format
@@ -4325,7 +4363,7 @@ msgstr "აქტივობა..."
 #: menus/listpopupmenu.cpp:146 worktoolbar.cpp:376
 #, kde-format
 msgid "Activity Transition"
-msgstr ""
+msgstr "აქტივობის გადასვლა"
 
 #: menus/listpopupmenu.cpp:147 umlwidgets/widgetbase.cpp:1246
 #: worktoolbar.cpp:338
@@ -4433,7 +4471,7 @@ msgstr "ჩამონათვალი..."
 #: menus/listpopupmenu.cpp:183
 #, kde-format
 msgid "Enum Literal..."
-msgstr ""
+msgstr "ჩამოთვლადი კონსტანტა..."
 
 #: menus/listpopupmenu.cpp:185
 #, kde-format
@@ -4443,12 +4481,12 @@ msgstr "ყველას ამოკეცვა"
 #: menus/listpopupmenu.cpp:186
 #, kde-format
 msgid "Export as Picture..."
-msgstr ""
+msgstr "გატანა სურათის სახით..."
 
 #: menus/listpopupmenu.cpp:187
 #, kde-format
 msgid "Externalize Folder..."
-msgstr ""
+msgstr "საქაღალდის გარედ გამოცხადება..."
 
 #: menus/listpopupmenu.cpp:188 menus/widgetbasepopupmenu.cpp:535
 #, kde-format
@@ -4488,7 +4526,7 @@ msgstr "მდგომარეობის დიაგრამაზე გ�
 #: menus/listpopupmenu.cpp:196
 #, kde-format
 msgid "Hide destruction box"
-msgstr ""
+msgstr "დესტრუქციის ბლოკის დამალვა"
 
 #: menus/listpopupmenu.cpp:197
 #, kde-format
@@ -4540,7 +4578,7 @@ msgstr "საჭირო ინტერფეისი"
 #: menus/listpopupmenu.cpp:208
 #, kde-format
 msgid "Internalize Folder"
-msgstr ""
+msgstr "საქაღალდის შიდად გამოცხადება"
 
 #: menus/listpopupmenu.cpp:209 worktoolbar.cpp:370
 #, kde-format
@@ -4585,12 +4623,12 @@ msgstr "სინქრონული შეტყობინება"
 #: menus/listpopupmenu.cpp:220
 #, kde-format
 msgid "New Entity Attribute..."
-msgstr ""
+msgstr "ახალი ობიექტის ტრიბუტი..."
 
 #: menus/listpopupmenu.cpp:221
 #, kde-format
 msgid "New Literal..."
-msgstr ""
+msgstr "ახალი კონსტანტა..."
 
 #: menus/listpopupmenu.cpp:224
 #, kde-format
@@ -4646,7 +4684,7 @@ msgstr "პორტი"
 #: menus/listpopupmenu.cpp:239
 #, kde-format
 msgid "Pre Post Condition"
-msgstr ""
+msgstr "წინა/შემდეგი პირობა"
 
 #: menus/listpopupmenu.cpp:242
 #, kde-format
@@ -4667,7 +4705,7 @@ msgstr "წაშლა"
 #: menus/listpopupmenu.cpp:245
 #, kde-format
 msgid "Remove state diagram"
-msgstr ""
+msgstr "მდგომარეობის დიაგრამის წაშლა"
 
 #: menus/listpopupmenu.cpp:246 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
@@ -4682,7 +4720,7 @@ msgstr "ობიექტის გადარქმევა..."
 #: menus/listpopupmenu.cpp:248
 #, kde-format
 msgid "Return to combined state"
-msgstr ""
+msgstr "დაბრუნება კომბინირებულ მდგომარეობაზე"
 
 #: menus/listpopupmenu.cpp:249
 #, kde-format
@@ -4773,12 +4811,12 @@ msgstr "კატეგორიის ტიპი"
 #: menus/listpopupmenu.cpp:512
 #, kde-format
 msgid "Disjoint(Specialisation)"
-msgstr ""
+msgstr "დაშლა (სპეციალიზაცია)"
 
 #: menus/listpopupmenu.cpp:513
 #, kde-format
 msgid "Overlapping(Specialisation)"
-msgstr ""
+msgstr "გადაფარვადი (სპეციალიზაცია)"
 
 #: menus/listpopupmenu.cpp:514
 #, kde-format
@@ -4809,7 +4847,7 @@ msgstr "ბადეზე მიბმა"
 #: menus/umlscenepopupmenu.cpp:59
 #, kde-format
 msgid "Snap Component Size to Grid"
-msgstr ""
+msgstr "კომპონენტის ზომის მიმაგრება ბადეზე"
 
 #: menus/umlscenepopupmenu.cpp:61
 #, kde-format
@@ -4819,7 +4857,7 @@ msgstr "ბადის ჩვენება"
 #: menus/umlscenepopupmenu.cpp:63
 #, kde-format
 msgid "Show Documentation Indicator"
-msgstr ""
+msgstr "დოკუმენტაციის მაჩვენებლის ჩვენება"
 
 #: menus/umlscenepopupmenu.cpp:105
 #, kde-format
@@ -4952,7 +4990,7 @@ msgstr "გაწმენდა"
 #: menus/widgetbasepopupmenu.cpp:461
 #, kde-format
 msgid "Add Interaction Operand"
-msgstr ""
+msgstr "ურთიერთქმედების ოპერანდის დამატება"
 
 #: menus/widgetbasepopupmenu.cpp:469
 #, kde-format
@@ -4963,7 +5001,7 @@ msgstr "გაწმენდა"
 #: menus/widgetbasepopupmenu.cpp:481 menus/widgetbasepopupmenu.cpp:484
 #, kde-format
 msgid "Change Multiplicity..."
-msgstr ""
+msgstr "სიმრავლის შეცვლა..."
 
 #: menus/widgetbasepopupmenu.cpp:487
 #, kde-format
@@ -5017,22 +5055,22 @@ msgstr "ძირის სწორება"
 #: menus/widgetbasepopupmenu.cpp:599 umlapp.cpp:585
 #, kde-format
 msgid "Align Vertical Middle"
-msgstr ""
+msgstr "ვერტიკალურად შუაზე სწორება"
 
 #: menus/widgetbasepopupmenu.cpp:600 umlapp.cpp:590
 #, kde-format
 msgid "Align Horizontal Middle"
-msgstr ""
+msgstr "ჰორიზონტალურად შუაზე სწორება"
 
 #: menus/widgetbasepopupmenu.cpp:601 umlapp.cpp:595
 #, kde-format
 msgid "Align Vertical Distribute"
-msgstr ""
+msgstr "ვერტიკალურად განაწილებულად სწორება"
 
 #: menus/widgetbasepopupmenu.cpp:602 umlapp.cpp:600
 #, kde-format
 msgid "Align Horizontal Distribute"
-msgstr ""
+msgstr "ჰორიზონტალურად განაწილებულად სწორება"
 
 #: model_utils.cpp:561
 #, kde-format
@@ -5492,7 +5530,7 @@ msgstr "კატეგორიის სახელის გადარქ�
 #: model_utils.cpp:699
 #, kde-format
 msgid "Rename check constraint"
-msgstr ""
+msgstr "შემოწმების შეზღუდვის სახელის გადარქმევა"
 
 #: model_utils.cpp:700 umlwidgets/widget_utils.cpp:968
 #, kde-format
@@ -5512,17 +5550,17 @@ msgstr "მონაცემის ტიპის სახელის გა
 #: model_utils.cpp:703 umlwidgets/widget_utils.cpp:972
 #, kde-format
 msgid "Rename entity"
-msgstr ""
+msgstr "ობიექტის სახელის გადარქმევა"
 
 #: model_utils.cpp:704
 #, kde-format
 msgid "Rename entity attribute"
-msgstr ""
+msgstr "ობიექტის ატრიბუტის სახელის გადარქმევა"
 
 #: model_utils.cpp:705
 #, kde-format
 msgid "Rename entity constraint"
-msgstr ""
+msgstr "ობიექტის შეზღუდვის სახელის გადარქმევა"
 
 #: model_utils.cpp:706 umlwidgets/widget_utils.cpp:973
 #, kde-format
@@ -5532,7 +5570,7 @@ msgstr "ჩამონათვლის სახელის გადარ�
 #: model_utils.cpp:707
 #, kde-format
 msgid "Rename enum literal"
-msgstr ""
+msgstr "ობიექტის კონსტანტის სახელის გადარქმევა"
 
 #: model_utils.cpp:708
 #, kde-format
@@ -5542,22 +5580,22 @@ msgstr "საქაღალდის სახელის შეცვლა"
 #: model_utils.cpp:709
 #, kde-format
 msgid "Rename foreign key constraint"
-msgstr ""
+msgstr "გარე გასაღების შეზღუდვის სახელის გადარქმევა"
 
 #: model_utils.cpp:710 umlwidgets/widget_utils.cpp:976
 #, kde-format
 msgid "Rename instance"
-msgstr ""
+msgstr "გაშვებული ასლის სახელის გადარქმევა"
 
 #: model_utils.cpp:711
 #, kde-format
 msgid "Rename instance attribute"
-msgstr ""
+msgstr "გაშვებული ასლის ატრიბუტის სახელის გადარქმევა"
 
 #: model_utils.cpp:712 umlwidgets/widget_utils.cpp:977
 #, kde-format
 msgid "Rename interface"
-msgstr ""
+msgstr "ინტერფეისის სახელის გადარქმევა"
 
 #: model_utils.cpp:713 umlwidgets/widget_utils.cpp:979
 #, kde-format
@@ -5607,7 +5645,7 @@ msgstr "გამოყენების ვარიანტის სახ�
 #: model_utils.cpp:724
 #, kde-format
 msgid "Rename UML object"
-msgstr ""
+msgstr "UML ობიექტის სახელის გადარქმევა"
 
 #: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1009
 #, kde-format
@@ -5637,7 +5675,7 @@ msgstr "შეიყვანეთ კატეგორიის ახალ�
 #: model_utils.cpp:741
 #, kde-format
 msgid "Enter the new name of the check constraint:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი სახელი შემოწმების შეზღუდვისთვის:"
 
 #: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1014
 #, kde-format
@@ -5657,17 +5695,17 @@ msgstr "შეიყვანეთ მონაცემების ტიპ�
 #: model_utils.cpp:745 umlwidgets/widget_utils.cpp:1018
 #, kde-format
 msgid "Enter the new name of the entity:"
-msgstr ""
+msgstr "შეიყვანეთ ობიექტის ახალი სახელი:"
 
 #: model_utils.cpp:746
 #, kde-format
 msgid "Enter the new name of the entity attribute:"
-msgstr ""
+msgstr "შეიყვანეთ ობიექტის ატრიბუტის ახალი სახელი:"
 
 #: model_utils.cpp:747
 #, kde-format
 msgid "Enter the new name of the entity constraint:"
-msgstr ""
+msgstr "შეიყვანეთ ობიექტის შეზღუდვის ახალი სახელი:"
 
 #: model_utils.cpp:748 umlwidgets/widget_utils.cpp:1019
 #, kde-format
@@ -5677,7 +5715,7 @@ msgstr "შეიყვანეთ ჩამონათვლის ახა�
 #: model_utils.cpp:749
 #, kde-format
 msgid "Enter the new name of the enum literal:"
-msgstr ""
+msgstr "შეიყვანეთ ჩამოთვლადი კონსტანტის ახალი სახელი:"
 
 #: model_utils.cpp:750
 #, kde-format
@@ -5692,12 +5730,12 @@ msgstr "შეიყვანეთ უცხო გასაღების შ
 #: model_utils.cpp:752 umlwidgets/widget_utils.cpp:1022
 #, kde-format
 msgid "Enter the new name of the instance:"
-msgstr ""
+msgstr "შეიყვანეთ გაშვებული ასლის ახალი სახელი:"
 
 #: model_utils.cpp:753
 #, kde-format
 msgid "Enter the new name of the instance attribute:"
-msgstr ""
+msgstr "შეიყვანეთ გაშვებული ასლის ატრიბუტის ახალი სახელი:"
 
 #: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1023
 #, kde-format
@@ -5747,12 +5785,12 @@ msgstr "შეიყვანეთ უნიკალური შეზღუ�
 #: model_utils.cpp:763 umlwidgets/widget_utils.cpp:1038
 #, kde-format
 msgid "Enter the new name of the use case:"
-msgstr ""
+msgstr "შეიყვანეთ შემთხვევის გამოყენების ახალი სახელი:"
 
 #: model_utils.cpp:766
 #, kde-format
 msgid "Enter the new name of the UML object"
-msgstr ""
+msgstr "შეიყვანეთ UML ობიექტის ახალი სახელი"
 
 #: model_utils.cpp:1207
 #, kde-format
@@ -5768,7 +5806,7 @@ msgstr "ცარიელი"
 #: model_utils.cpp:1207
 #, kde-format
 msgid "Malformed argument"
-msgstr ""
+msgstr "არასწორად ჩამოყალიბებული არგუმენტი"
 
 #: model_utils.cpp:1208
 #, kde-format
@@ -5804,7 +5842,7 @@ msgstr "ტიპი"
 #: models/diagramsmodel.cpp:58
 #, kde-format
 msgid "Widgets/Associations"
-msgstr ""
+msgstr "ვიჯეტები/ასოციაციები"
 
 #: models/objectsmodel.cpp:82
 #, kde-format
@@ -5844,12 +5882,12 @@ msgstr "ეს არასწორი სახელია."
 #, kde-format
 msgid ""
 "This is a reserved keyword for the language of the configured code generator."
-msgstr ""
+msgstr "ეს დაცული საკვანძო სიტყვაა მორგებული კოდის გენერატორის ენისთვის."
 
 #: object_factory.cpp:262
 #, kde-format
 msgid "Reserved Keyword"
-msgstr ""
+msgstr "დაცული საკვანძო სიტყვა"
 
 #: object_factory.cpp:267 umldoc.cpp:1726 umldoc.cpp:1764
 #: umlmodel/umlclassifier.cpp:412 umlmodel/umlclassifier.cpp:784
@@ -5857,7 +5895,7 @@ msgstr ""
 #: umlmodel/umlentity.cpp:227 umlmodel/umlentity.cpp:276
 #, kde-format
 msgid "That name is already being used."
-msgstr ""
+msgstr "ეს სახელი უკვე გამოიყენება."
 
 #: object_factory.cpp:268 umldoc.cpp:1629 umldoc.cpp:1698 umldoc.cpp:1726
 #: umldoc.cpp:1764 umlmodel/umlclassifier.cpp:412
@@ -5866,17 +5904,17 @@ msgstr ""
 #: umlmodel/umlentity.cpp:276
 #, kde-format
 msgid "Not a Unique Name"
-msgstr ""
+msgstr "უნიკალური სახელი არაა"
 
 #: refactoring/refactoringassistant.cpp:443
 #, kde-format
 msgid "Add Base Class"
-msgstr ""
+msgstr "საბაზისო კლასის დამატება"
 
 #: refactoring/refactoringassistant.cpp:444
 #, kde-format
 msgid "Add Derived Class"
-msgstr ""
+msgstr "წარმოებული კლასის დამატება"
 
 #. i18n("Add Interface Implementation"), SLOT(addInterfaceImplementation()), Icon_Utils::it_Implementation));
 #: refactoring/refactoringassistant.cpp:446
@@ -5895,44 +5933,44 @@ msgstr "ატრიბუტის დამატება"
 #: refactoring/refactoringassistant.cpp:450
 #, kde-format
 msgid "Add Base Interface"
-msgstr ""
+msgstr "საბაზისო ინტერფეისის დამატება"
 
 #: refactoring/refactoringassistant.cpp:451
 #, kde-format
 msgid "Add Derived Interface"
-msgstr ""
+msgstr "წარმოებული ინტერფეისის დამატება"
 
 #: refactoring/refactoringassistant.cpp:510
 #: refactoring/refactoringassistant.cpp:691
 #, kde-format
 msgid "Base Classifiers"
-msgstr ""
+msgstr "საბაზისო კლასიფიკატორები"
 
 #: refactoring/refactoringassistant.cpp:555
 #: refactoring/refactoringassistant.cpp:710
 #, kde-format
 msgid "Derived Classifiers"
-msgstr ""
+msgstr "მიღებული კლასიფიკატორები"
 
 #: refactoring/refactoringassistant.cpp:842
 #, kde-format
 msgid "An attribute with that name already exists in %1.\n"
-msgstr ""
+msgstr "%1-ში ატრიბუტი ამ სახელით უკვე არსებობს.\n"
 
 #: refactoring/refactoringassistant.cpp:844
 #, kde-format
 msgid "Choose a different name."
-msgstr ""
+msgstr "აირჩიეთ სხვა სახელი."
 
 #: toolbarstateassociation.cpp:182 toolbarstateassociation.cpp:280
 #, kde-format
 msgid "Incorrect use of associations."
-msgstr ""
+msgstr "ასოციაციების არასწორი გამოყენება."
 
 #: toolbarstateassociation.cpp:182 toolbarstateassociation.cpp:280
 #, kde-format
 msgid "Association Error"
-msgstr ""
+msgstr "ასოციაციის შეცდომა"
 
 #: toolbarstatemessages.cpp:340
 #, kde-format
@@ -5942,79 +5980,79 @@ msgstr "განადგურება"
 #: toolbarstateother.cpp:277
 #, kde-format
 msgid "Enter Activity Name"
-msgstr ""
+msgstr "შეიყვანეთ აქტივობის სახელი"
 
 #: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:585
 #: umlwidgets/widget_utils.cpp:824
 #, kde-format
 msgid "new activity"
-msgstr ""
+msgstr "ახალი აქტივობა"
 
 #: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:587
 #: umlwidgets/widget_utils.cpp:917
 #, kde-format
 msgid "Enter the name of the new activity:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი აქტივობის სახელი:"
 
 #: toolbarstateother.cpp:285
 #, kde-format
 msgid "Enter Signal Name"
-msgstr ""
+msgstr "შეიყვანეთ სიგნალის სახელი"
 
 #: toolbarstateother.cpp:286
 #, kde-format
 msgid "Enter Signal"
-msgstr ""
+msgstr "შეიყვანეთ სიგნალი"
 
 #: toolbarstateother.cpp:286
 #, kde-format
 msgid "new Signal"
-msgstr ""
+msgstr "ახალი სიგნალი"
 
 #: toolbarstateother.cpp:292
 #, kde-format
 msgid "Enter Time Event Name"
-msgstr ""
+msgstr "შეიყვანეთ დროის მოვლენის სახელი"
 
 #: toolbarstateother.cpp:293
 #, kde-format
 msgid "Enter Time Event"
-msgstr ""
+msgstr "შეიყვანეთ დროის მოვლენა"
 
 #: toolbarstateother.cpp:293
 #, kde-format
 msgid "new time event"
-msgstr ""
+msgstr "ახალი დროის მოვლენა"
 
 #: toolbarstateother.cpp:299
 #, kde-format
 msgid "Enter Combined Fragment Name"
-msgstr ""
+msgstr "შეიყვანეთ კომბინირებული ფრაგმენტის სახელი"
 
 #: toolbarstateother.cpp:300
 #, kde-format
 msgid "Enter the Combined Fragment"
-msgstr ""
+msgstr "შეიყვანეთ კომბინირებული ფრაგმენტი"
 
 #: toolbarstateother.cpp:300
 #, kde-format
 msgid "new Combined Fragment"
-msgstr ""
+msgstr "ახალი კომბინირებული ფრაგმენტი"
 
 #: toolbarstateother.cpp:306
 #, kde-format
 msgid "Enter State Name"
-msgstr ""
+msgstr "შეიყვანეთ მდგომარეობის სახელი"
 
 #: toolbarstateother.cpp:307 umlwidgets/widget_utils.cpp:851
 #, kde-format
 msgid "new state"
-msgstr ""
+msgstr "ახალი მდგომარეობა"
 
 #: toolbarstateother.cpp:307 umlwidgets/widget_utils.cpp:944
 #, kde-format
 msgid "Enter the name of the new state:"
-msgstr ""
+msgstr "შეიყვანეთ ახალი მდგომარეობის სახელი:"
 
 #. i18n: ectx: label, entry (Geometry), group (General Options)
 #. i18n: ectx: whatsthis, entry (Geometry), group (General Options)
@@ -6033,43 +6071,43 @@ msgstr "გამოსახულების MIME ტიპი"
 #: umbrello.kcfg:18
 #, kde-format
 msgid "The Mime Type of the Images"
-msgstr ""
+msgstr "გამოსახულებების MIME ტიპი"
 
 #. i18n: ectx: label, entry (undo), group (General Options)
 #: umbrello.kcfg:22
 #, kde-format
 msgid "Undo Support"
-msgstr ""
+msgstr "მხარდაჭერის გაუქმება"
 
 #. i18n: ectx: whatsthis, entry (undo), group (General Options)
 #: umbrello.kcfg:23
 #, kde-format
 msgid "Undo Support is enabled when this is true"
-msgstr ""
+msgstr "გაუქმების მხარდაჭერა ჩართულია, როცა ეს ჭეშმარიტია"
 
 #. i18n: ectx: label, entry (tabdiagrams), group (General Options)
 #: umbrello.kcfg:27
 #, kde-format
 msgid "Tabbed Diagrams"
-msgstr ""
+msgstr "ჩანართებიანი დიაგრამები"
 
 #. i18n: ectx: whatsthis, entry (tabdiagrams), group (General Options)
 #: umbrello.kcfg:28
 #, kde-format
 msgid "Enables/Disables Tabbed View of Diagrams in the view area"
-msgstr ""
+msgstr "ჩართავს/გამორთავს დიაგრამების ჩანართებიან ხედს ხედის არეში"
 
 #. i18n: ectx: label, entry (newcodegen), group (General Options)
 #: umbrello.kcfg:32
 #, kde-format
 msgid "New Code Generator"
-msgstr ""
+msgstr "ახალი კოდის გენერატორი"
 
 #. i18n: ectx: whatsthis, entry (newcodegen), group (General Options)
 #: umbrello.kcfg:33
 #, kde-format
 msgid "Enables/Disables Support for the New Code Generator"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ახალი კოდის გენერატორის მხარდაჭერას"
 
 #. i18n: ectx: label, entry (layoutType), group (General Options)
 #: umbrello.kcfg:37
@@ -6081,19 +6119,19 @@ msgstr "განლაგების იპი"
 #: umbrello.kcfg:38
 #, kde-format
 msgid "The layout type to use for new lines"
-msgstr ""
+msgstr "განლაგების ტიპი ახალი ხაზებისთვის"
 
 #. i18n: ectx: label, entry (footerPrinting), group (General Options)
 #: umbrello.kcfg:50
 #, kde-format
 msgid "Footer Printing"
-msgstr ""
+msgstr "ქვედა კოლონტიტული ბეჭდვა"
 
 #. i18n: ectx: whatsthis, entry (footerPrinting), group (General Options)
 #: umbrello.kcfg:51
 #, kde-format
 msgid "Enables/Disables Support for footer printing"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ქვედა კოლონტიტულის ბეჭდვის მხარდაჭერას"
 
 #. i18n: ectx: label, entry (autosave), group (General Options)
 #: umbrello.kcfg:55
@@ -6105,31 +6143,31 @@ msgstr "ავტომატური შენახვა"
 #: umbrello.kcfg:56
 #, kde-format
 msgid "Enables/Disables Auto Saving at Regular Intervals"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ავტომატურ შენახვას რეგულარული ინტერვალებით"
 
 #. i18n: ectx: label, entry (time), group (General Options)
 #: umbrello.kcfg:60
 #, kde-format
 msgid "Auto Save Time ( Old )"
-msgstr ""
+msgstr "ავტოშენახვის დრო (ძველი)"
 
 #. i18n: ectx: whatsthis, entry (time), group (General Options)
 #: umbrello.kcfg:61
 #, kde-format
 msgid "Auto Save Time Interval ( Old )"
-msgstr ""
+msgstr "ავტოშენახვის დროის შუალედი (ძველი)"
 
 #. i18n: ectx: label, entry (autosavesuffix), group (General Options)
 #: umbrello.kcfg:74
 #, kde-format
 msgid "Auto Save Suffix"
-msgstr ""
+msgstr "ავტოშენახვის სუფიქსი"
 
 #. i18n: ectx: whatsthis, entry (autosavesuffix), group (General Options)
 #: umbrello.kcfg:75
 #, kde-format
 msgid "The Suffix for the auto save file"
-msgstr ""
+msgstr "სუფიქსი ავტომატური შენახვის ფაილისთვის"
 
 #. i18n: ectx: label, entry (loadlast), group (General Options)
 #: umbrello.kcfg:79
@@ -6141,7 +6179,7 @@ msgstr "ბოლოს ჩატვირთვა"
 #: umbrello.kcfg:80
 #, kde-format
 msgid "Enables/Disables Loading of the last open file"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ბოლო გახსნილი ფაილის ჩატვირთვას"
 
 #. i18n: ectx: label, entry (diagram), group (General Options)
 #: umbrello.kcfg:84
@@ -6159,31 +6197,31 @@ msgstr "გაშვებისას ჩასატვირთი დია�
 #: umbrello.kcfg:102
 #, kde-format
 msgid "Default Language at Startup"
-msgstr "ნაგულისხმები ენა გაშვებისას"
+msgstr "ნაგულისხმევი ენა გაშვებისას"
 
 #. i18n: ectx: whatsthis, entry (defaultLanguage), group (General Options)
 #: umbrello.kcfg:103
 #, kde-format
 msgid "The Language that Umbrello should start with by default"
-msgstr ""
+msgstr "ენა, რომლითაც Umbrello ნაგულისხმევად უნდა გაეშვას"
 
 #. i18n: ectx: label, entry (uml2), group (General Options)
 #: umbrello.kcfg:135
 #, kde-format
 msgid "Use UML-2.x Notation"
-msgstr ""
+msgstr "UML-2.x ნოტაციის გამოყენება"
 
 #. i18n: ectx: whatsthis, entry (uml2), group (General Options)
 #: umbrello.kcfg:136
 #, kde-format
 msgid "Enables/Disables UML2 notation"
-msgstr ""
+msgstr "ჩართავს/გამორთავს UML2 ნოტაციას"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:143
 #, kde-format
 msgid "Enables/Disables usage of fill color"
-msgstr ""
+msgstr "ჩართავს/გამორთავს შევსების ფერის გამოყენებას"
 
 #. i18n: ectx: label, entry (fillColor), group (UI Options)
 #: umbrello.kcfg:147
@@ -6195,7 +6233,7 @@ msgstr "შემვსები ფერი"
 #: umbrello.kcfg:148
 #, kde-format
 msgid "The Fill Color to be used"
-msgstr ""
+msgstr "შევსების გამოყენებული ფერი"
 
 #. i18n: ectx: label, entry (lineColor), group (UI Options)
 #: umbrello.kcfg:152
@@ -6207,7 +6245,7 @@ msgstr "ხაზის ფერი"
 #: umbrello.kcfg:153
 #, kde-format
 msgid "The Color of the Lines"
-msgstr ""
+msgstr "ხაზების ფერი"
 
 #. i18n: ectx: label, entry (lineWidth), group (UI Options)
 #: umbrello.kcfg:157
@@ -6219,7 +6257,7 @@ msgstr "ხაზის სიგანე"
 #: umbrello.kcfg:158
 #, kde-format
 msgid "The Width of the Line"
-msgstr ""
+msgstr "ხაზის სიგანე"
 
 #. i18n: ectx: label, entry (textColor), group (UI Options)
 #: umbrello.kcfg:162
@@ -6231,25 +6269,25 @@ msgstr "ტექსტის ფერი"
 #: umbrello.kcfg:163
 #, kde-format
 msgid "The Color of the Text"
-msgstr ""
+msgstr "ტექსტის ფერი"
 
 #. i18n: ectx: label, entry (showDocWindow), group (UI Options)
 #: umbrello.kcfg:167
 #, kde-format
 msgid "Show Doc Window"
-msgstr ""
+msgstr "დოკუმენტაციის ფანჯრის ჩვენება"
 
 #. i18n: ectx: whatsthis, entry (showDocWindow), group (UI Options)
 #: umbrello.kcfg:168
 #, kde-format
 msgid "Enables/Disables showing of the doc window"
-msgstr ""
+msgstr "ჩართავს/გამორთავს დოკუმენტაციის ფანჯრის ჩვენებას"
 
 #. i18n: ectx: whatsthis, entry (uiFont), group (UI Options)
 #: umbrello.kcfg:173
 #, kde-format
 msgid "The Font to be used"
-msgstr ""
+msgstr "გამოსაყენებელი ფონტი"
 
 #. i18n: ectx: label, entry (backgroundColor), group (UI Options)
 #: umbrello.kcfg:177
@@ -6261,7 +6299,7 @@ msgstr "ფონის ფერი"
 #: umbrello.kcfg:178
 #, kde-format
 msgid "The Color of the diagram background"
-msgstr ""
+msgstr "დიაგრამის ფონის ფერი"
 
 #. i18n: ectx: label, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:182
@@ -6273,25 +6311,25 @@ msgstr "ფონის ფერი"
 #: umbrello.kcfg:183
 #, kde-format
 msgid "Enables/Disables the usage of a custom background color"
-msgstr ""
+msgstr "ჩართავს/გამორთავს მომხმარებლის ფონის ფერის გამოყენებას"
 
 #. i18n: ectx: label, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:187
 #, kde-format
 msgid "Grid Dot Color"
-msgstr ""
+msgstr "ბადის წერტილის ფერი"
 
 #. i18n: ectx: whatsthis, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:188
 #, kde-format
 msgid "The Color of the grid dots"
-msgstr ""
+msgstr "ბადის წერტილების ფერი"
 
 #. i18n: ectx: label, entry (useAlignmentGuides), group (UI Options)
 #: umbrello.kcfg:192
 #, kde-format
 msgid "Use Alignment Guides"
-msgstr ""
+msgstr "სწორების მიმმართველების გამოყენება"
 
 #. i18n: ectx: whatsthis, entry (useAlignmentGuides), group (UI Options)
 #: umbrello.kcfg:193
@@ -6304,6 +6342,7 @@ msgstr ""
 #, kde-format
 msgid "Enable/disable user interface direction from right to left"
 msgstr ""
+"ჩართავს/გამორთავს მომხმარებლის ინტერფეისის მიმართულებას მარჯვნიდან მარცხნივ"
 
 #. i18n: ectx: label, entry (showVisibility), group (Class Options)
 #: umbrello.kcfg:204
@@ -6315,7 +6354,7 @@ msgstr "ხილვადობისჩვენება"
 #: umbrello.kcfg:205
 #, kde-format
 msgid "Show the Visibility of the Attributes ( eg: private, public, protected)"
-msgstr ""
+msgstr "ატრიბუტების ხილვადობის ჩვენება (მაგ: პირადი, საჯარო, დაცული)"
 
 #. i18n: ectx: label, entry (showAtts), group (Class Options)
 #: umbrello.kcfg:209
@@ -6346,7 +6385,7 @@ msgstr "პაკეტის ჩვენება"
 #: umbrello.kcfg:220
 #, kde-format
 msgid "Enables/Disables showing of packages"
-msgstr ""
+msgstr "ჩართავს/გამორთავს პაკეტების ჩვენებას"
 
 #. i18n: ectx: label, entry (showStereoType), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showStereoType), group (Class Options)
@@ -6360,52 +6399,52 @@ msgstr "სტერეოტიპების ჩვენება"
 #: umbrello.kcfg:234 umbrello.kcfg:235
 #, kde-format
 msgid "Show Attribute Associations"
-msgstr ""
+msgstr "ატრიბუტის ასოციაციების ჩვენება"
 
 #. i18n: ectx: label, entry (showPublicOnly), group (Class Options)
 #: umbrello.kcfg:239
 #, kde-format
 msgid "Show Public Only"
-msgstr ""
+msgstr "მხოლოდ საჯაეროების ჩვენება"
 
 #. i18n: ectx: whatsthis, entry (showPublicOnly), group (Class Options)
 #: umbrello.kcfg:240
 #, kde-format
 msgid "Enables/Disables showing of public attributes/methods"
-msgstr ""
+msgstr "ჩართავს/გამორთავს საჯარო ატრიბუტების/მეთოდების ჩვენებას"
 
 #. i18n: ectx: label, entry (showAttSig), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showAttSig), group (Class Options)
 #: umbrello.kcfg:244 umbrello.kcfg:245
 #, kde-format
 msgid "Show Attribute Signature"
-msgstr ""
+msgstr "ატრიბუტის ხელმოწერის ჩვენება"
 
 #. i18n: ectx: label, entry (showOpSig), group (Class Options)
 #: umbrello.kcfg:249
 #, kde-format
 msgid "Show Operation Signature"
-msgstr ""
+msgstr "ოპერაციის ხელმოწერის ჩვენება"
 
 #. i18n: ectx: whatsthis, entry (showOpSig), group (Class Options)
 #: umbrello.kcfg:250
 #, kde-format
 msgid "Show operation signature"
-msgstr ""
+msgstr "ოპერაციის ხელმოწერის ჩვენება"
 
 #. i18n: ectx: label, entry (defaultAttributeScope), group (Class Options)
 #. i18n: ectx: whatsthis, entry (defaultAttributeScope), group (Class Options)
 #: umbrello.kcfg:254 umbrello.kcfg:255
 #, kde-format
 msgid "Default Attribute Scope"
-msgstr ""
+msgstr "ნაგულისხმევი ატრიბუტის შუალედი"
 
 #. i18n: ectx: label, entry (defaultOperationScope), group (Class Options)
 #. i18n: ectx: whatsthis, entry (defaultOperationScope), group (Class Options)
 #: umbrello.kcfg:266 umbrello.kcfg:267
 #, kde-format
 msgid "Default Operation Scope"
-msgstr ""
+msgstr "ნაგულისხმევი ოპერაციის შუალედი"
 
 #. i18n: ectx: label, entry (height), group (Code Viewer Options)
 #: umbrello.kcfg:280
@@ -6417,7 +6456,7 @@ msgstr "სიმაღლე"
 #: umbrello.kcfg:281
 #, kde-format
 msgid "Height of the code viewer"
-msgstr ""
+msgstr "კოდის მთვალიერებლის სიმაღლე"
 
 #. i18n: ectx: label, entry (width), group (Code Viewer Options)
 #: umbrello.kcfg:286
@@ -6429,32 +6468,32 @@ msgstr "სიგანე"
 #: umbrello.kcfg:287
 #, kde-format
 msgid "Width of the Code Viewer"
-msgstr ""
+msgstr "კოდის მთვალიერებლის სიგანე"
 
 #. i18n: ectx: label, entry (showHiddenBlocks), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (showHiddenBlocks), group (Code Viewer Options)
 #: umbrello.kcfg:292 umbrello.kcfg:293
 #, kde-format
 msgid "Show Hidden Blocks"
-msgstr ""
+msgstr "დამალული ბლოკების ჩვენება"
 
 #. i18n: ectx: label, entry (blocksAreHighlighted), group (Code Viewer Options)
 #: umbrello.kcfg:297
 #, kde-format
 msgid "Highlight Blocks"
-msgstr ""
+msgstr "ბლოკების გამოკვეთა"
 
 #. i18n: ectx: whatsthis, entry (blocksAreHighlighted), group (Code Viewer Options)
 #: umbrello.kcfg:298
 #, kde-format
 msgid "Enables/Disables Highlighting of blocks"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ბლოკების გამოკვეთას"
 
 #. i18n: ectx: whatsthis, entry (codeViewerFont), group (Code Viewer Options)
 #: umbrello.kcfg:303
 #, kde-format
 msgid "Font to be used in the Code Viewer"
-msgstr ""
+msgstr "კოდის მთვალიერებელში გამოსაყენებელი ფონტი"
 
 #. i18n: ectx: label, entry (paperColor), group (Code Viewer Options)
 #: umbrello.kcfg:307
@@ -6466,7 +6505,7 @@ msgstr "ფურცლის ფერი"
 #: umbrello.kcfg:308
 #, kde-format
 msgid "Color of the Paper"
-msgstr ""
+msgstr "ქაღალდის ფერი"
 
 #. i18n: ectx: label, entry (fontColor), group (Code Viewer Options)
 #: umbrello.kcfg:312
@@ -6478,7 +6517,7 @@ msgstr "ფონტის ფერი"
 #: umbrello.kcfg:313
 #, kde-format
 msgid "Color of the Font"
-msgstr ""
+msgstr "ფონტის ფერი"
 
 #. i18n: ectx: label, entry (selectedColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (selectedColor), group (Code Viewer Options)
@@ -6492,87 +6531,87 @@ msgstr "არჩეული ფერი"
 #, kde-format
 msgctxt "Color of the Edit Block"
 msgid "Edit Block Color"
-msgstr ""
+msgstr "ბლოკის ფერის ჩასწორება"
 
 #. i18n: ectx: whatsthis, entry (editBlockColor), group (Code Viewer Options)
 #: umbrello.kcfg:323
 #, kde-format
 msgid "Color of the Edit Block"
-msgstr ""
+msgstr "ჩასწორების ბლოკის ფერი"
 
 #. i18n: ectx: label, entry (nonEditBlockColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (nonEditBlockColor), group (Code Viewer Options)
 #: umbrello.kcfg:327 umbrello.kcfg:328
 #, kde-format
 msgid "Non Edit Block Color"
-msgstr ""
+msgstr "არჩასწორებადი ბლოკის ფერი"
 
 #. i18n: ectx: label, entry (umlObjectColor), group (Code Viewer Options)
 #: umbrello.kcfg:332
 #, kde-format
 msgid "UML Object Color"
-msgstr ""
+msgstr "UML ობიექტის ფერი"
 
 #. i18n: ectx: whatsthis, entry (umlObjectColor), group (Code Viewer Options)
 #: umbrello.kcfg:333
 #, kde-format
 msgid "Color of the UML Object"
-msgstr ""
+msgstr "UML ობიექტის ფერი"
 
 #. i18n: ectx: label, entry (hiddenColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (hiddenColor), group (Code Viewer Options)
 #: umbrello.kcfg:337 umbrello.kcfg:338
 #, kde-format
 msgid "Hidden Color"
-msgstr ""
+msgstr "დამალული ფერი"
 
 #. i18n: ectx: label, entry (createArtifacts), group (Code Importer)
 #: umbrello.kcfg:344
 #, kde-format
 msgid "Create Artifacts for imported files"
-msgstr ""
+msgstr "არტეფაქტების შექმნა შემოტანილი ფაილებისთვის"
 
 #. i18n: ectx: whatsthis, entry (createArtifacts), group (Code Importer)
 #: umbrello.kcfg:345
 #, kde-format
 msgid "Create an artifact in the component view for each imported file"
-msgstr ""
+msgstr "არტეფაქტის შექმნა კომპონენტის ხედში თითოეული შემოტანილი ფაილისთვის"
 
 #. i18n: ectx: label, entry (resolveDependencies), group (Code Importer)
 #: umbrello.kcfg:349
 #, kde-format
 msgid "Resolve dependencies"
-msgstr ""
+msgstr "დამოკიდებულებების ამოხსნა"
 
 #. i18n: ectx: whatsthis, entry (resolveDependencies), group (Code Importer)
 #: umbrello.kcfg:350
 #, kde-format
 msgid "Resolve dependencies when importing file"
-msgstr ""
+msgstr "დამოკიდებულებების ამოხსნა ფაილის შემოტანისას"
 
 #. i18n: ectx: label, entry (supportCPP11), group (Code Importer)
 #: umbrello.kcfg:354
 #, kde-format
 msgid "Support C++11 standard"
-msgstr ""
+msgstr "C++11 სტანდარტის მხარდაჭერა"
 
 #. i18n: ectx: whatsthis, entry (supportCPP11), group (Code Importer)
 #: umbrello.kcfg:355
 #, kde-format
 msgid "Support C++11 standard on code import"
-msgstr ""
+msgstr "C++11 სტანდარტის მხარდაჭერა კოდის შემოტანისას"
 
 #. i18n: ectx: label, entry (autoGenEmptyConstructors), group (Code Generation)
 #: umbrello.kcfg:361
 #, kde-format
 msgid "Auto Generate Empty Constructors"
-msgstr ""
+msgstr "ცარიელი კონსტრუქტორების ავტომატური გენერაცია"
 
 #. i18n: ectx: whatsthis, entry (autoGenEmptyConstructors), group (Code Generation)
 #: umbrello.kcfg:362
 #, kde-format
 msgid "Enables/Disables Auto Generation of Empty Constructors"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ცარიელი კონსტრუქტორების ავტომატურ გენერაციას"
 
 #. i18n: ectx: label, entry (commentStyle), group (Code Generation)
 #: umbrello.kcfg:366
@@ -6584,91 +6623,91 @@ msgstr "კომენტარის სტილი"
 #: umbrello.kcfg:367
 #, kde-format
 msgid "Sets the Style of Comments to be used"
-msgstr ""
+msgstr "აყენებს გამოსაყენებელი კომენტარების სტილს"
 
 #. i18n: ectx: label, entry (defaultAssocFieldScope), group (Code Generation)
 #: umbrello.kcfg:375
 #, kde-format
 msgid "Default Association Field Scope"
-msgstr ""
+msgstr "ნაგულისხმევი ასოციაციის ველის შუალედი"
 
 #. i18n: ectx: whatsthis, entry (defaultAssocFieldScope), group (Code Generation)
 #: umbrello.kcfg:376
 #, kde-format
 msgid "Sets the default Association field scope"
-msgstr ""
+msgstr "დააყენებს ნაგულისხმევი ასოციაციის ველის შუალედს"
 
 #. i18n: ectx: label, entry (defaultAttributeAccessorScope), group (Code Generation)
 #: umbrello.kcfg:387
 #, kde-format
 msgid "Default Attribute Accessor Scope"
-msgstr ""
+msgstr "ნაგულისხმევი ატრიბუტის წვდომის მეთოდის შუალედი"
 
 #. i18n: ectx: whatsthis, entry (defaultAttributeAccessorScope), group (Code Generation)
 #: umbrello.kcfg:388
 #, kde-format
 msgid "Sets the default attribute accessor scope"
-msgstr ""
+msgstr "დააყენებს ნაგულისხმევი ატრიბუტის წვდომის მეთოდის შუალედს"
 
 #. i18n: ectx: label, entry (forceDoc), group (Code Generation)
 #: umbrello.kcfg:399
 #, kde-format
 msgid "Force Documentation"
-msgstr ""
+msgstr "ნაძალადევი დოკუმენტირება"
 
 #. i18n: ectx: whatsthis, entry (forceDoc), group (Code Generation)
 #: umbrello.kcfg:400
 #, kde-format
 msgid "Enables/Disables Verbose Documentation"
-msgstr ""
+msgstr "ჩართავს/გამორთავს დამატებით დოკუმენტირებას"
 
 #. i18n: ectx: label, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:404
 #, kde-format
 msgid "Section Comment Policy"
-msgstr ""
+msgstr "სექციის კომენტარების პოლიტიკა"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:405
 #, kde-format
 msgid "Whether section comments shall be written"
-msgstr ""
+msgstr "უნდა დაიწეროს თუ არა სექციის კომენტარები"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:414
 #, kde-format
 msgid "Headings Directory"
-msgstr ""
+msgstr "თავსართი ფაილების საქაღალდე"
 
 #. i18n: ectx: whatsthis, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:415
 #, kde-format
 msgid "The Path in which the headings are stored"
-msgstr ""
+msgstr "ბილიკი, სადაც თავსართი ფაილებია შენახული"
 
 #. i18n: ectx: label, entry (includeHeadings), group (Code Generation)
 #: umbrello.kcfg:419
 #, kde-format
 msgid "Include headings"
-msgstr ""
+msgstr "თავსართი ფაილების ჩასმა"
 
 #. i18n: ectx: whatsthis, entry (includeHeadings), group (Code Generation)
 #: umbrello.kcfg:420
 #, kde-format
 msgid "Enables/Disables inclusion of headings"
-msgstr ""
+msgstr "ჩართავს/გამორთავს თავსართი ფაილების ჩასმას"
 
 #. i18n: ectx: label, entry (indentationAmount), group (Code Generation)
 #: umbrello.kcfg:424
 #, kde-format
 msgid "Indentation Amount"
-msgstr ""
+msgstr "სწორების რაოდენობა"
 
 #. i18n: ectx: whatsthis, entry (indentationAmount), group (Code Generation)
 #: umbrello.kcfg:425
 #, kde-format
 msgid "The amount of indentation"
-msgstr ""
+msgstr "სწორების რაოდენობა"
 
 #. i18n: ectx: label, entry (indentationType), group (Code Generation)
 #: umbrello.kcfg:430
@@ -6680,7 +6719,7 @@ msgstr "სწორების ტიპი"
 #: umbrello.kcfg:431
 #, kde-format
 msgid "The Type of Indentation"
-msgstr ""
+msgstr "სწორების ტიპი"
 
 #. i18n: ectx: label, entry (lineEndingType), group (Code Generation)
 #: umbrello.kcfg:440
@@ -6692,14 +6731,14 @@ msgstr "ხაზის დასრულების ტიპი"
 #: umbrello.kcfg:441
 #, kde-format
 msgid "The type of line ending ( or new line type )"
-msgstr ""
+msgstr "ხაზის დაბოლოების ტიპი (ან ახალი ხაზის ტიპი)"
 
 #. i18n: ectx: label, entry (modnamePolicy), group (Code Generation)
 #. i18n: ectx: whatsthis, entry (modnamePolicy), group (Code Generation)
 #: umbrello.kcfg:450 umbrello.kcfg:451
 #, kde-format
 msgid "Modifier Name Policy"
-msgstr ""
+msgstr "მოდიფიკატორის სახელების პოლიტიკა"
 
 #. i18n: ectx: label, entry (outputDirectory), group (Code Generation)
 #: umbrello.kcfg:460
@@ -6711,325 +6750,325 @@ msgstr "გამოტანის საქაღალდე"
 #: umbrello.kcfg:461
 #, kde-format
 msgid "The directory to which the code has to be outputted"
-msgstr ""
+msgstr "საქაღალდე, რომელშიც კოდის გამოტანა მოხდება"
 
 #. i18n: ectx: whatsthis, entry (overwritePolicy), group (Code Generation)
 #: umbrello.kcfg:466
 #, kde-format
 msgid "The policy to be followed when there are name conflicts"
-msgstr ""
+msgstr "პოლიტიკა, რომელსაც დაცული იქნება სახელების კონფლიქტის დროს"
 
 #. i18n: ectx: label, entry (autoGenAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:478
 #, kde-format
 msgid "Auto Generate Accessors"
-msgstr ""
+msgstr "წვდომის მეთოდების ავტოგენერაცია"
 
 #. i18n: ectx: whatsthis, entry (autoGenAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:479
 #, kde-format
 msgid "Enables/Disables auto generation of accessors"
-msgstr ""
+msgstr "ჩართავს/გამორთავს წვდომის მეთოდების ავტოგენერაციას"
 
 #. i18n: ectx: whatsthis, entry (classMemberPrefix), group (CPP Code Generation)
 #: umbrello.kcfg:484
 #, kde-format
 msgid "The prefix for class members"
-msgstr ""
+msgstr "პრეფიქსი კლასის წევრებისთვის"
 
 #. i18n: ectx: label, entry (inlineAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:488
 #, kde-format
 msgid "Inline Accessors"
-msgstr ""
+msgstr "ხაზშივე არსებული წვდომის მეთოდები"
 
 #. i18n: ectx: whatsthis, entry (inlineAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:489
 #, kde-format
 msgid "Enables/Disables Inline accessors"
-msgstr ""
+msgstr "ჩართავს გამორთავს ხაზშივე არსებულ წვდომის მეთოდებს"
 
 #. i18n: ectx: label, entry (inlineOps), group (CPP Code Generation)
 #: umbrello.kcfg:493
 #, kde-format
 msgid "Inline operations"
-msgstr ""
+msgstr "ხაზშივე ოპერაციები"
 
 #. i18n: ectx: whatsthis, entry (inlineOps), group (CPP Code Generation)
 #: umbrello.kcfg:494
 #, kde-format
 msgid "Enables/Disables Inline Operations"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ხაზშივე ოპერაციებს"
 
 #. i18n: ectx: label, entry (packageIsNamespace), group (CPP Code Generation)
 #: umbrello.kcfg:498
 #, kde-format
 msgid "Package is namespace"
-msgstr ""
+msgstr "პაკეტი სახელების სივრცეა"
 
 #. i18n: ectx: whatsthis, entry (packageIsNamespace), group (CPP Code Generation)
 #: umbrello.kcfg:499
 #, kde-format
 msgid "Enables/Disables treating a package as a namespace"
-msgstr ""
+msgstr "ჩართავს/გამორთავს პაკეტის სახელების სივრცედ აღქმას"
 
 #. i18n: ectx: label, entry (publicAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:503
 #, kde-format
 msgid "Public Accessors"
-msgstr ""
+msgstr "საჯარო წვდომის მეთოდები"
 
 #. i18n: ectx: whatsthis, entry (publicAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:504
 #, kde-format
 msgid "Enables/Disables public accessors"
-msgstr ""
+msgstr "ჩართავს/გამორთავს საჯარო წვდომის მეთოდებს"
 
 #. i18n: ectx: label, entry (stringClassName), group (CPP Code Generation)
 #: umbrello.kcfg:508
 #, kde-format
 msgid "String Class Name"
-msgstr ""
+msgstr "სტრიქონი კლასის სახელი"
 
 #. i18n: ectx: whatsthis, entry (stringClassName), group (CPP Code Generation)
 #: umbrello.kcfg:509
 #, kde-format
 msgid "The name of the string class"
-msgstr ""
+msgstr "სტრიქონი კლასის სახელი"
 
 #. i18n: ectx: label, entry (stringClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:513
 #, kde-format
 msgid "String Class Name Include"
-msgstr ""
+msgstr "სტრიქონი კლასის სახელი შეიცავს"
 
 #. i18n: ectx: whatsthis, entry (stringClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:514
 #, kde-format
 msgid "The name of the string class to be included"
-msgstr ""
+msgstr "ჩასასმელი სტრიქონი კლასის სახელი"
 
 #. i18n: ectx: label, entry (stringIncludeIsGlobal), group (CPP Code Generation)
 #: umbrello.kcfg:518
 #, kde-format
 msgid "String Include is Global"
-msgstr ""
+msgstr "სტრიქონის ჩასმა გლობალურია"
 
 #. i18n: ectx: whatsthis, entry (stringIncludeIsGlobal), group (CPP Code Generation)
 #: umbrello.kcfg:519
 #, kde-format
 msgid "Enables/Disables global inclusion of string"
-msgstr ""
+msgstr "ჩაართავს/გამორთავს სტრიქონის გლობალურ ჩასმას"
 
 #. i18n: ectx: label, entry (vectorClassName), group (CPP Code Generation)
 #: umbrello.kcfg:523
 #, kde-format
 msgid "Vector Class Name"
-msgstr ""
+msgstr "ვექტორული კლასის სახელი"
 
 #. i18n: ectx: whatsthis, entry (vectorClassName), group (CPP Code Generation)
 #: umbrello.kcfg:524
 #, kde-format
 msgid "The name of the vector class"
-msgstr ""
+msgstr "ვექტორული კლასის სახელი"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:528
 #, kde-format
 msgid "Vector Class Name Include"
-msgstr ""
+msgstr "ვექტორული კლასის სახელი შეიცავს"
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:529
 #, kde-format
 msgid "The name of the vector class to be included"
-msgstr ""
+msgstr "ჩასასმელი ვექტორული კლასის სახელი"
 
 #. i18n: ectx: label, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
 #: umbrello.kcfg:533
 #, kde-format
 msgid "Vector include is global"
-msgstr ""
+msgstr "ვექტორის ჩასმა გლობალურია"
 
 #. i18n: ectx: whatsthis, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
 #: umbrello.kcfg:534
 #, kde-format
 msgid "Enables/Disables global inclusion of vector class"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ვექტორის კლასის გლობალურ ჩასმას"
 
 #. i18n: ectx: label, entry (virtualDestructors), group (CPP Code Generation)
 #: umbrello.kcfg:538
 #, kde-format
 msgid "Virtual Destructors"
-msgstr ""
+msgstr "ვირტუალური დესტრუქტორები"
 
 #. i18n: ectx: whatsthis, entry (virtualDestructors), group (CPP Code Generation)
 #: umbrello.kcfg:539
 #, kde-format
 msgid "Enables/Disables virtual destructors"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ვირტუალურ დესკტრუქტორებს"
 
 #. i18n: ectx: label, entry (getterWithGetPrefix), group (CPP Code Generation)
 #: umbrello.kcfg:543
 #, kde-format
 msgid "Getters with 'get' prefix"
-msgstr ""
+msgstr "მიმღებები პრეფიქსით 'get'"
 
 #. i18n: ectx: whatsthis, entry (getterWithGetPrefix), group (CPP Code Generation)
 #: umbrello.kcfg:544
 #, kde-format
 msgid "If enabled, create getters with 'get' prefix"
-msgstr ""
+msgstr "თუ ჩართულია, მიმღებები შეიქმნება პრეფიქსით 'get'"
 
 #. i18n: ectx: label, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
 #: umbrello.kcfg:548
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor methods"
-msgstr ""
+msgstr "პრეფიქსის '[a-zA-Z]_' წაშლა წვდომის მეთოდებიდან"
 
 #. i18n: ectx: whatsthis, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
 #: umbrello.kcfg:549
 #, kde-format
 msgid "If enabled, remove prefix '[a-zA-Z]_' from accessor methods"
-msgstr ""
+msgstr "თუ ჩართულია, წაშლის პრეფიქსს '[a-zA-Z]_' წვდომის მეთოდებიდან"
 
 #. i18n: ectx: whatsthis, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
 #: umbrello.kcfg:554
 #, kde-format
 msgid "If enabled, accessor methods start with capital letters"
-msgstr ""
+msgstr "თ ჩართულია, წვდომის მეთოდები დიდი ასოებით იწყება"
 
 #. i18n: ectx: label, entry (docToolTag), group (CPP Code Generation)
 #: umbrello.kcfg:558
 #, kde-format
 msgid "Documentation tags"
-msgstr ""
+msgstr "დოკუმენტაციის ჭდეები"
 
 #. i18n: ectx: whatsthis, entry (docToolTag), group (CPP Code Generation)
 #: umbrello.kcfg:559
 #, kde-format
 msgid "The tag used for generating doxygen documentation (\\\\, @)"
-msgstr ""
+msgstr "doxygen-ის დოკუმენტაციის გენერაციისთვის გამოყენებული ჭდე (\\\\, @)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:565
 #, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
-msgstr ""
+msgstr "ატრიბუტის წვდომის მეთოდების ავტომატური გენერაცია ( D )"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:566
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors ( D )"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ატრიბუტის წვდომის მეთოდების ავტოგენერაციას (D)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:570
 #, kde-format
 msgid "Auto Generate Assoc Accessors ( D )"
-msgstr ""
+msgstr "ასოცირებული წვდომის მეთოდების ავტომატური გენერაცია ( D )"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:571
 #, kde-format
 msgid "Enables/Disables auto generation of association accessors ( D )"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ასოციაციის წვდომის მეთოდების ავტოგენერაციას ( D )"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:575
 #, kde-format
 msgid "Build ANT Document (D)"
-msgstr ""
+msgstr "ANT დოკუმენტის აგება (D)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:576
 #, kde-format
 msgid "Enables/Disables building of ANT Document (D)"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ANT დოკუმენტის აგებას (D)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:582
 #, kde-format
 msgid "Auto Generate Attribute Accessors (Java)"
-msgstr ""
+msgstr "ატრიბუტის წვდომის მეთოდების ავტომატური გენერაცია ( Java )"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:583
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Java)"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ატრიბუტის წვდომის მეთოდების ავტოგენერაციას (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:587
 #, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
-msgstr ""
+msgstr "ასოცირებული წვდომის მეთოდების ავტომატური გენერაცია ( Java )"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:588
 #, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ასოციაციის წვდომის მეთოდების ავტოგენერაციას (Java)"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:592
 #, kde-format
 msgid "Build ANT Document (Java)"
-msgstr ""
+msgstr "ANT დოკუმენტის აგება (Java)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:593
 #, kde-format
 msgid "Enables/Disables building of ANT Document (Java)"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ANT დოკუმენტის აგებას (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:599
 #, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
-msgstr ""
+msgstr "ატრიბუტის წვდომის მეთოდების ავტომატური გენერაცია ( Ruby )"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:600
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Ruby)"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ატრიბუტის წვდომის მეთოდების ავტოგენერაციას (Ruby)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:604
 #, kde-format
 msgid "Auto Generate Assoc Accessors (Ruby)"
-msgstr ""
+msgstr "ასოცირებული წვდომის მეთოდების ავტომატური გენერაცია ( Ruby )"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:605
 #, kde-format
 msgid "Enables/Disables auto generation of association accessors (Ruby)"
-msgstr ""
+msgstr "ჩართავს/გამორთავს ასოციაციის წვდომის მეთოდების ავტოგენერაციას (Ruby)"
 
 #. i18n: ectx: label, entry (autoDotPath), group (Auto Layout)
 #: umbrello.kcfg:611
 #, kde-format
 msgid "Automatic Dot Path"
-msgstr ""
+msgstr "ავტომატური ბილიკი Dot ფაილებამდე"
 
 #. i18n: ectx: whatsthis, entry (autoDotPath), group (Auto Layout)
 #: umbrello.kcfg:612
 #, kde-format
 msgid "determine automatically the path of dot executable"
-msgstr ""
+msgstr "Dot-ის გამშვები ფაილის ბილიკის ავტომატური დადგენა"
 
 #. i18n: ectx: label, entry (dotPath), group (Auto Layout)
 #: umbrello.kcfg:616
 #, kde-format
 msgid "Dot Path"
-msgstr ""
+msgstr "ბილიკი Dot-მდე"
 
 #. i18n: ectx: whatsthis, entry (dotPath), group (Auto Layout)
 #: umbrello.kcfg:617
 #, kde-format
 msgid "set path to dot executable (optional)"
-msgstr ""
+msgstr "ბილიკის დაყენება Dot-ის გამშვებ ფაილამდე (არასავალდებულო)"
 
 #. i18n: ectx: label, entry (showExportLayout), group (Auto Layout)
 #: umbrello.kcfg:621
@@ -7057,17 +7096,15 @@ msgstr "&ჩასწორება"
 
 #. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
-#, fuzzy, kde-format
-#| msgid "Views"
+#, kde-format
 msgid "&View"
-msgstr "ხედები"
+msgstr "&ხედი"
 
 #. i18n: ectx: Menu (view_window)
 #: umbrelloui.rc.cmake:15
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "&Show/hide window"
-msgstr "დესტრუქციის ჩვენება"
+msgstr "ფანჯრი&ს ჩვენება/დამალვა"
 
 #. i18n: ectx: Menu (diagram)
 #: umbrelloui.rc.cmake:26
@@ -7120,42 +7157,42 @@ msgstr "&მორგება"
 #: umlapp.cpp:343
 #, kde-format
 msgid "&Export model to DocBook"
-msgstr ""
+msgstr "მოდ&ელის გატანა DocBook-ში"
 
 #: umlapp.cpp:347
 #, kde-format
 msgid "&Export model to XHTML"
-msgstr ""
+msgstr "მოდ&ელის გატანა XHTML-ში"
 
 #: umlapp.cpp:351
 #, kde-format
 msgid "&New Class Wizard..."
-msgstr ""
+msgstr "ა&ხალი კლასის ოსტატი..."
 
 #: umlapp.cpp:355
 #, kde-format
 msgid "&Add Default Datatypes for Active Language"
-msgstr ""
+msgstr "ნაგულისხმევი მონაცემთა ტიპების დამატება &აქტიური ენისთვის"
 
 #: umlapp.cpp:362
 #, kde-format
 msgid "Code &Importing Wizard..."
-msgstr ""
+msgstr "კოდის შემოტანის &ოსტატი..."
 
 #: umlapp.cpp:372
 #, kde-format
 msgid "&Code Generation Wizard..."
-msgstr ""
+msgstr "&კოდის გენერაციის ოსტატი..."
 
 #: umlapp.cpp:377
 #, kde-format
 msgid "&Generate All Code"
-msgstr ""
+msgstr "კოდის სრულად &გენერაცია"
 
 #: umlapp.cpp:424
 #, kde-format
 msgid "Creates a new document"
-msgstr ""
+msgstr "ქმნის ახალ დოკუმენტს"
 
 #: umlapp.cpp:425
 #, kde-format
@@ -7175,22 +7212,22 @@ msgstr "შეინახავს დოკუმენტს"
 #: umlapp.cpp:428
 #, kde-format
 msgid "Saves the document as..."
-msgstr ""
+msgstr "შეინახავს დოკუმენტს, როგორც..."
 
 #: umlapp.cpp:429
 #, kde-format
 msgid "Closes the document"
-msgstr ""
+msgstr "დახურავს დოკუმენტს"
 
 #: umlapp.cpp:430
 #, kde-format
 msgid "Prints out the document"
-msgstr ""
+msgstr "დაბეჭდავს დოკუმენტს"
 
 #: umlapp.cpp:431
 #, kde-format
 msgid "Print Preview of the document"
-msgstr ""
+msgstr "დოკუმენტის ბეჭდვდისწინა გადახედვა"
 
 #: umlapp.cpp:432
 #, kde-format
@@ -7200,12 +7237,12 @@ msgstr "აპლიკაციიდან გასვლა"
 #: umlapp.cpp:433
 #, kde-format
 msgid "Exports the model to the docbook format"
-msgstr ""
+msgstr "გაიტანს მოდელს docbook ფორმატში"
 
 #: umlapp.cpp:434
 #, kde-format
 msgid "Exports the model to the XHTML format"
-msgstr ""
+msgstr "გაიტანს მოდელს XHTML ფორმატში"
 
 #: umlapp.cpp:435
 #, kde-format
@@ -7220,7 +7257,7 @@ msgstr "მონიშნული სექციის ბაფერში 
 #: umlapp.cpp:437
 #, kde-format
 msgid "Pastes the contents of the clipboard"
-msgstr ""
+msgstr "ჩასვამს ბუფერის შემცველობას"
 
 #: umlapp.cpp:438
 #, kde-format
@@ -7235,7 +7272,7 @@ msgstr "ბოლო დაბრუნებული ცვლილები�
 #: umlapp.cpp:441
 #, kde-format
 msgid "Set the default program preferences"
-msgstr ""
+msgstr "ნაგულისხმევი პროგრამის პარამეტრების დაყენება"
 
 #: umlapp.cpp:445
 #, kde-format
@@ -7261,47 +7298,47 @@ msgstr "&მიმდევრობის დიაგრამა..."
 #: umlapp.cpp:476
 #, kde-format
 msgid "C&ommunication Diagram..."
-msgstr ""
+msgstr "კ&ომუნიკაციის დიაგრამა..."
 
 #: umlapp.cpp:482
 #, kde-format
 msgid "&Use Case Diagram..."
-msgstr ""
+msgstr "შემთხვევის დიაგრამის გამო&ყენება..."
 
 #: umlapp.cpp:488
 #, kde-format
 msgid "S&tate Diagram..."
-msgstr ""
+msgstr "მდგომარეობის &დიაგრამა..."
 
 #: umlapp.cpp:494
 #, kde-format
 msgid "&Activity Diagram..."
-msgstr ""
+msgstr "&აქტივობის დიაგრამა..."
 
 #: umlapp.cpp:500
 #, kde-format
 msgid "Co&mponent Diagram..."
-msgstr ""
+msgstr "კო&მოპონენტის დიაგრამა..."
 
 #: umlapp.cpp:506
 #, kde-format
 msgid "&Deployment Diagram..."
-msgstr ""
+msgstr "გაშლის &დიაგრამა..."
 
 #: umlapp.cpp:512
 #, kde-format
 msgid "&Entity Relationship Diagram..."
-msgstr ""
+msgstr "ობი&ექტის ურთიერთობების დიაგრამა..."
 
 #: umlapp.cpp:518
 #, kde-format
 msgid "&Clear Diagram"
-msgstr ""
+msgstr "დიაგრამის გასუ&ფთავება"
 
 #: umlapp.cpp:522
 #, kde-format
 msgid "&Snap to Grid"
-msgstr ""
+msgstr "მიმაგრება ბადე&ზე"
 
 #: umlapp.cpp:526
 #, kde-format
@@ -7316,37 +7353,37 @@ msgstr "&დიაგრამის წაშლა"
 #: umlapp.cpp:536
 #, kde-format
 msgid "&Export as Picture..."
-msgstr ""
+msgstr "&გატანა სურათის სახით..."
 
 #: umlapp.cpp:541
 #, kde-format
 msgid "Export &Diagrams as Pictures..."
-msgstr ""
+msgstr "&დიაგრამების გატანა სურათების სახით..."
 
 #: umlapp.cpp:561
 #, kde-format
 msgid "Z&oom to 100%"
-msgstr ""
+msgstr "მასშ&ტაბი 100%-მდე"
 
 #: umlapp.cpp:604
 #, kde-format
 msgid "&Move Tab Left"
-msgstr ""
+msgstr "ჩანართის &მარცხნივ გადატანა"
 
 #: umlapp.cpp:605
 #, kde-format
 msgid "&Move Tab Right"
-msgstr ""
+msgstr "ჩანართის მა&რჯვნივ გადატანა"
 
 #: umlapp.cpp:621
 #, kde-format
 msgid "Select Diagram on Left"
-msgstr ""
+msgstr "მარცხენა დიაგრამის მონიშვნა"
 
 #: umlapp.cpp:622
 #, kde-format
 msgid "Select Diagram on Right"
-msgstr ""
+msgstr "მარჯვენა დიაგრამის მონისვნა"
 
 #: umlapp.cpp:758
 #, kde-format
@@ -7408,6 +7445,14 @@ msgid ""
 "*.mdl|Rose model files (*.mdl)\n"
 "*.zargo|Compressed argo Files(*.zargo)\n"
 msgstr ""
+"*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|ყველა მხარდაჭერილი ფაილი "
+"(*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.uml, *.mdl, *.zargo)\n"
+"*.xmi|შეუკუმშავი XMI ფაილები (*.xmi)\n"
+"*.xmi.tgz|Gzip-ით შეკუმშული XMI ფაილები (*.xmi.tgz)\n"
+"*.xmi.tar.bz2|Bzip2-ით შეკუმშული XMI ფაილები (*.xmi.tar.bz2)\n"
+"*.uml|Eclipse-ის PapyrusUML ფაილები (*.uml)\n"
+"*.mdl|Rose-ის მოდელის ფაილები (*.mdl)\n"
+"*.zargo|შეკუმშული argo ფაილები(*.zargo)\n"
 
 #: umlapp.cpp:1216
 #, kde-format
@@ -7430,6 +7475,9 @@ msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
 "*.xmi.tar.bz2 | Bzip2 Compressed XMI File (*.xmi.tar.bz2);;* | All Files (*)"
 msgstr ""
+"*.xmi | XMI ფაილი (*.xmi);;*.xmi.tgz | Gzip-ით შეკუმშული XMI ფაილი (*.xmi."
+"tgz);;*.xmi.tar.bz2 | Bzip2-ით შეკუმშული XMI File (*.xmi.tar.bz2);;* | ყველა "
+"ფაილი (*)"
 
 #: umlapp.cpp:1257
 #, kde-format
@@ -7437,6 +7485,8 @@ msgid ""
 "The file %1 exists.\n"
 "Do you wish to overwrite it?"
 msgstr ""
+"ფაილი %1 არსებობს.\n"
+"გნებავთ მისი თავზე გადაწერა?"
 
 #: umlapp.cpp:1258
 #, kde-format
@@ -7456,7 +7506,7 @@ msgstr "ფაილის დახურვა..."
 #: umlapp.cpp:1295
 #, kde-format
 msgid "No search term entered"
-msgstr ""
+msgstr "საძებნი ტერმინი შეყვანილი არაა"
 
 #: umlapp.cpp:1301
 #, kde-format
@@ -7504,6 +7554,8 @@ msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
 "clipboard may be of the wrong type to be pasted here."
 msgstr ""
+"Umbrello-მა ბუფერის შემცველობის ჩასმა ვერ შეძლო.  ბუფერში არსებული "
+"ობიექტები, შეიძლება, არასწორი ტიპისაა."
 
 #: umlapp.cpp:1546 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
@@ -7514,43 +7566,42 @@ msgstr "მზადაა."
 #: umlapp.cpp:2162
 #, kde-format
 msgid "Cannot view code until you generate some first."
-msgstr ""
+msgstr "კოდის ნახვა შეუძლებელია, სანამ, ჯერ, მის გენერაციას არ მოახდენთ."
 
 #: umlapp.cpp:2162 umlapp.cpp:2165
 #, kde-format
 msgid "Cannot View Code"
-msgstr ""
+msgstr "კოდის ნახვა შეუძლებელია"
 
 #: umlapp.cpp:2165
 #, kde-format
 msgid "Cannot view code from simple code writer."
-msgstr ""
+msgstr "კოდის ნახვა მარტივი კოდმწერიდან შეუძლებელია."
 
 #: umlapp.cpp:2615
 #, kde-format
 msgid "Select file(s) to import:"
-msgstr ""
+msgstr "აირჩიეთ ფაილები შემოსატანად:"
 
 #: umlapp.cpp:2644
 #, kde-format
 msgid "Select directory to import:"
-msgstr ""
+msgstr "აირჩიეთ საქაღალდე შემოსატანად:"
 
 #: umlapp.cpp:3162
 #, kde-format
 msgid "XHTML Generation failed ."
-msgstr ""
+msgstr "XHTML-ის გენერაცია ჩავარდა ."
 
 #: umlappprivate.h:102
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "Show/hide window"
-msgstr "დესტრუქციის ჩვენება"
+msgstr "ფანჯრის ჩვენება/დამალვა"
 
 #: umlappprivate.h:170
 #, kde-format
 msgid "&Bird's eye view"
-msgstr ""
+msgstr "&ზოგადი ხედი"
 
 #: umlappprivate.h:178
 #, kde-format
@@ -7575,12 +7626,12 @@ msgstr "&ჟურნალი"
 #: umlappprivate.h:232
 #, kde-format
 msgid "&UML Objects"
-msgstr ""
+msgstr "&UML ობიექტები"
 
 #: umlappprivate.h:246
 #, kde-format
 msgid "&Stereotypes"
-msgstr ""
+msgstr "&სტერეოტიპები"
 
 #: umlappprivate.h:253
 #, kde-format
@@ -7605,7 +7656,7 @@ msgstr "ლოგიკური ხედი"
 #: umldoc.cpp:219
 #, kde-format
 msgid "Use Case View"
-msgstr ""
+msgstr "შემთხვევის ხედის გამოყენება"
 
 #: umldoc.cpp:220
 #, kde-format
@@ -7620,12 +7671,12 @@ msgstr "გაშლის ხედი"
 #: umldoc.cpp:222
 #, kde-format
 msgid "Entity Relationship Model"
-msgstr ""
+msgstr "ობიექტების ურთიერთობის მოდელი"
 
 #: umldoc.cpp:248
 #, kde-format
 msgid "Datatypes"
-msgstr ""
+msgstr "მონაცემთა ტიპები"
 
 #: umldoc.cpp:455
 #, kde-format
@@ -7645,7 +7696,7 @@ msgstr "გაფრთხილება"
 #: umldoc.cpp:636
 #, kde-format
 msgid "The file <%1> does not exist."
-msgstr ""
+msgstr "ფაილი <%1> არ არსებობს."
 
 #: umldoc.cpp:636 umldoc.cpp:657 umldoc.cpp:696 umldoc.cpp:708 umldoc.cpp:722
 #: umldoc.cpp:735 umldoc.cpp:747 umldoc.cpp:785 umlmodel/umlfolder.cpp:450
@@ -7657,22 +7708,22 @@ msgstr "ჩატვირთვის შეცდომა"
 #: umldoc.cpp:657
 #, kde-format
 msgid "The file %1 seems to be corrupted."
-msgstr ""
+msgstr "როგორც ჩანს, ფაილი %1 დაზიანებულია."
 
 #: umldoc.cpp:695 umldoc.cpp:707 umldoc.cpp:734
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
-msgstr ""
+msgstr "შეკუმშულ ფაილში %1 XMI ფაილები აღმოჩენილი არაა."
 
 #: umldoc.cpp:721
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
-msgstr ""
+msgstr "ამოღებული ფაილის ჩატვირთვის პრობლემა: %1"
 
 #: umldoc.cpp:746 umldoc.cpp:782
 #, kde-format
 msgid "There was a problem loading file: %1"
-msgstr ""
+msgstr "ფაილის ჩატვირთვის პრობლემა: %1"
 
 #: umldoc.cpp:784
 #, kde-format
@@ -7682,7 +7733,7 @@ msgstr "მიზეზი: %1"
 #: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #, kde-format
 msgid "There was a problem saving: %1"
-msgstr ""
+msgstr "შენახვის პრობლემა: %1"
 
 #: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #: umldoc.cpp:975 umllistview.cpp:569
@@ -7693,57 +7744,57 @@ msgstr "შენახვის შეცდომა"
 #: umldoc.cpp:975
 #, kde-format
 msgid "There was a problem uploading: %1"
-msgstr ""
+msgstr "ატვირთვის პრობლემა: %1"
 
 #: umldoc.cpp:1526
 #, kde-format
 msgid "use case diagram"
-msgstr ""
+msgstr "შემთხვევის დიაგრამის გამოყენება"
 
 #: umldoc.cpp:1529
 #, kde-format
 msgid "class diagram"
-msgstr ""
+msgstr "კლასის დიაგრამა"
 
 #: umldoc.cpp:1532
 #, kde-format
 msgid "sequence diagram"
-msgstr ""
+msgstr "მიმდევრობის დიაგრამა"
 
 #: umldoc.cpp:1535
 #, kde-format
 msgid "communication diagram"
-msgstr ""
+msgstr "კომუნიკაციის დიაგრამა"
 
 #: umldoc.cpp:1538
 #, kde-format
 msgid "object diagram"
-msgstr ""
+msgstr "ობიექტის დიაგრამა"
 
 #: umldoc.cpp:1541
 #, kde-format
 msgid "state diagram"
-msgstr ""
+msgstr "მდგომარეობის დიაგრამა"
 
 #: umldoc.cpp:1544
 #, kde-format
 msgid "activity diagram"
-msgstr ""
+msgstr "აქტივობის დიაგრამა"
 
 #: umldoc.cpp:1547
 #, kde-format
 msgid "component diagram"
-msgstr ""
+msgstr "კომპონენტის დიაგრამა"
 
 #: umldoc.cpp:1550
 #, kde-format
 msgid "deployment diagram"
-msgstr ""
+msgstr "გაშლის დიაგრამა"
 
 #: umldoc.cpp:1553
 #, kde-format
 msgid "entity relationship diagram"
-msgstr ""
+msgstr "ელემენტების ურთიერთობის დიაგრამა"
 
 #: umldoc.cpp:1623
 #, kde-format
@@ -7759,12 +7810,12 @@ msgstr "შეიყვანეთ სახელი:"
 #: umldoc.cpp:1627 umldoc.cpp:1691
 #, kde-format
 msgid "That is an invalid name for a diagram."
-msgstr ""
+msgstr "ეს არასწორი სახელია დიაგრამისთვის."
 
 #: umldoc.cpp:1629 umldoc.cpp:1698
 #, kde-format
 msgid "A diagram is already using that name."
-msgstr ""
+msgstr "დიაგრამა უკვე იყენებს ამ სახელს."
 
 #: umldoc.cpp:1684
 #, kde-format
@@ -7790,6 +7841,8 @@ msgid ""
 "The name you entered was not unique.\n"
 "Is this what you wanted?"
 msgstr ""
+"შეყვანილი სახელი უნიკალური არაა.\n"
+"მართლა გნებავთ ამით გაგრძელება?"
 
 #: umldoc.cpp:1759
 #, kde-format
@@ -7804,27 +7857,27 @@ msgstr "შეიყვანეთ ახალი სახელი"
 #: umldoc.cpp:2309
 #, kde-format
 msgid "Unsupported xmi file version: %1"
-msgstr ""
+msgstr "მხარდაუჭერელი xmi ფაილის ვერსია: %1"
 
 #: umldoc.cpp:2473
 #, kde-format
 msgid "Setting up the document..."
-msgstr ""
+msgstr "დოკუმენტის მორგება..."
 
 #: umldoc.cpp:2502
 #, kde-format
 msgid "Resolving object references..."
-msgstr ""
+msgstr "ობიექტის მიმართვების ამოხსნა..."
 
 #: umldoc.cpp:2610
 #, kde-format
 msgid "Loading UML elements..."
-msgstr ""
+msgstr "იტვირთება UML ელემენტები..."
 
 #: umldoc.cpp:2872
 #, kde-format
 msgid "Loading diagrams..."
-msgstr ""
+msgstr "იტვირთება დიაგრამები..."
 
 #: umldoc.cpp:3406
 #, kde-format
@@ -7834,12 +7887,13 @@ msgstr "/autosave%1"
 #: umllistview.cpp:530
 #, kde-format
 msgid "Externalize Folder"
-msgstr ""
+msgstr "საქაღალდის გარედ გამოცხადება"
 
 #: umllistview.cpp:550
 #, kde-format
 msgid "Folder %1 must be relative to the main model directory, %2."
 msgstr ""
+"საქაღალდე %1 მთავარი მოდელის საქაღალდესთან, %2, დაკავშირებული უნდა იყოს."
 
 #: umllistview.cpp:551
 #, kde-format
@@ -7852,6 +7906,8 @@ msgid ""
 "File %1 already exists!\n"
 "The existing file will be overwritten."
 msgstr ""
+"ფაილი %1 უკვე არსებობს!\n"
+"არსებულ ფაილს თავზე გადაეწერება."
 
 #: umllistview.cpp:560
 #, kde-format
@@ -7861,7 +7917,7 @@ msgstr "ფაილი არსებობს"
 #: umllistview.cpp:568 umlviewimageexportermodel.cpp:272
 #, kde-format
 msgid "There was a problem saving file: %1"
-msgstr ""
+msgstr "ფაილის შენახვის პრობლემა: %1"
 
 #: umllistview.cpp:600
 #, kde-format
@@ -7871,7 +7927,7 @@ msgstr "შეიყვანეთ მოდელის სახელი"
 #: umllistview.cpp:601
 #, kde-format
 msgid "Enter the new name of the model:"
-msgstr ""
+msgstr "შეიყვანეთ მოდელის ახალი სახელი:"
 
 #: umllistview.cpp:1422
 #, kde-format
@@ -7886,12 +7942,12 @@ msgstr "პარამეტრები"
 #: umllistview.cpp:2457
 #, kde-format
 msgid "Loading listview..."
-msgstr ""
+msgstr "ჩამონათვალის ჩატვირთვა..."
 
 #: umllistview.cpp:2826
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
-msgstr ""
+msgstr "კლასი წაშლამდე ცარიელი უნდა იყოს."
 
 #: umllistview.cpp:2827
 #, kde-format
@@ -7901,7 +7957,7 @@ msgstr "კლასი ცარიელი არაა"
 #: umllistview.cpp:2831
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
-msgstr ""
+msgstr "წაშლამდე პაკეტი ცარიელი უნდა იყოს."
 
 #: umllistview.cpp:2832
 #, kde-format
@@ -7911,7 +7967,7 @@ msgstr "პაკეტი ცარიელი არაა"
 #: umllistview.cpp:2836
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
-msgstr ""
+msgstr "წაშლამდე საქაღალდე ცარიელი უნდა იყოს."
 
 #: umllistview.cpp:2837
 #, kde-format
@@ -8046,7 +8102,7 @@ msgstr "პორტის &სახელი:"
 #: umlmodel/umlobject.cpp:1272
 #, kde-format
 msgid "Use case &name:"
-msgstr ""
+msgstr "შემთხვევის სახელის გამოყე&ნება:"
 
 #: umlmodel/umlobject.cpp:1275
 #, kde-format
@@ -8130,12 +8186,12 @@ msgstr "შეიყვანეთ დიაგრამის სახელ�
 #: umlscene.cpp:3360
 #, kde-format
 msgid "Enter the new name of the diagram:"
-msgstr ""
+msgstr "შეიყვანეთ დიაგრამის ახალი სახელი:"
 
 #: umlscene.cpp:3376
 #, kde-format
 msgid "Failed to import from file."
-msgstr ""
+msgstr "ფაილიდან შემოტანა ჩავარდა."
 
 #: umlviewimageexporter.cpp:73
 #, kde-format
@@ -8145,7 +8201,7 @@ msgstr "ხედის გატანა..."
 #: umlviewimageexporter.cpp:78
 #, kde-format
 msgid "An error happened when exporting the image:\n"
-msgstr ""
+msgstr "შეცდომა გამოსახულების გატანისას:\n"
 
 #: umlviewimageexporter.cpp:109
 #, kde-format
@@ -8153,6 +8209,8 @@ msgid ""
 "The selected file %1 exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
+"არჩეული ფაილი %1 უკვე არსებობს.\n"
+"გნებავთ მისი თავზე გადაწერა?"
 
 #: umlviewimageexporter.cpp:110
 #, kde-format
@@ -8172,7 +8230,7 @@ msgstr "საქაღალდის შექმნის შეცდომ�
 #: umlviewimageexportermodel.cpp:259
 #, kde-format
 msgid "A problem occurred while saving diagram in %1"
-msgstr ""
+msgstr "პრობლემა დიაგრამის %1-ში შენახვისას"
 
 #: umlwidgets/associationwidget.cpp:2642
 #, kde-format
@@ -8182,7 +8240,7 @@ msgstr "გამრავლებადობა"
 #: umlwidgets/associationwidget.cpp:2643 umlwidgets/floatingtextwidget.cpp:350
 #, kde-format
 msgid "Enter multiplicity:"
-msgstr ""
+msgstr "შეიყვანეთ სიმრავლე:"
 
 #: umlwidgets/associationwidget.cpp:2661
 #, kde-format
@@ -8192,7 +8250,7 @@ msgstr "ასოციაციის სახელი"
 #: umlwidgets/associationwidget.cpp:2662 umlwidgets/floatingtextwidget.cpp:357
 #, kde-format
 msgid "Enter association name:"
-msgstr ""
+msgstr "შეიყვანეთ ასოციაციის სახელი:"
 
 #: umlwidgets/associationwidget.cpp:2682
 #, kde-format
@@ -8207,12 +8265,12 @@ msgstr "შეიყვანეთ როლის სახელი:"
 #: umlwidgets/associationwidget.cpp:3163
 #, kde-format
 msgid "Press Ctrl with left mouse click to delete a point"
-msgstr ""
+msgstr "წერტილის წასაშლელად დააჭირეთ Ctrl-ს მარცხენა თაგუნას წკაპით"
 
 #: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
 msgid "Enter the name of the diagram referenced"
-msgstr ""
+msgstr "შეიყვანეთ მიმართული დიაგრამის სახელი"
 
 #: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
@@ -8250,12 +8308,12 @@ msgstr "შეიყვანეთ პირველი ალტერნა�
 #: umlwidgets/combinedfragmentwidget.cpp:431
 #, kde-format
 msgid "Enter referenced diagram name"
-msgstr ""
+msgstr "შეიყვანეთ მიმართული დიაგრამის სახელი"
 
 #: umlwidgets/combinedfragmentwidget.cpp:432
 #, kde-format
 msgid "Enter referenced diagram name :"
-msgstr ""
+msgstr "შეიყვანეთ მიმართული დიაგრამის სახელი :"
 
 #: umlwidgets/combinedfragmentwidget.cpp:437
 #, kde-format
@@ -8296,7 +8354,7 @@ msgstr "სახელი"
 #: umlwidgets/floatingtextwidget.cpp:718
 #, kde-format
 msgid "Enter operation name:"
-msgstr ""
+msgstr "შეიყვანეთ ოპერაციის სახელი:"
 
 #: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1312
 #: worktoolbar.cpp:331
@@ -8332,47 +8390,47 @@ msgstr "შეიყვანეთ ობიექტის კვანძი�
 #: umlwidgets/objectnodewidget.cpp:221
 #, kde-format
 msgid "Enter the name of the object node :"
-msgstr ""
+msgstr "შეიყვანეთ ობიექტის კვანძის სახელი :"
 
 #: umlwidgets/objectnodewidget.cpp:298
 #, kde-format
 msgid "Select Object node type"
-msgstr "აირჩიეთ ობიეტქის კვანძის ტიპი"
+msgstr "აირჩიეთ ობიექტის კვანძის ტიპი"
 
 #: umlwidgets/objectnodewidget.cpp:298
 #, kde-format
 msgid "Select the object node type"
-msgstr ""
+msgstr "აირჩიეთ ობიექტის კვანძის ტიპი"
 
 #: umlwidgets/objectnodewidget.cpp:304
 #, kde-format
 msgid "Enter the name of the data store node"
-msgstr ""
+msgstr "შეიყვანეთ მონაცემთა საცავის კვანძის სახელი"
 
 #: umlwidgets/objectnodewidget.cpp:304
 #, kde-format
 msgid "data store name"
-msgstr ""
+msgstr "მონაცემთა საცავის სახელი"
 
 #: umlwidgets/objectnodewidget.cpp:306
 #, kde-format
 msgid "Enter the name of the buffer node"
-msgstr ""
+msgstr "შეიყვანეთ ბუფერის კვანძის სახელი"
 
 #: umlwidgets/objectnodewidget.cpp:306
 #, kde-format
 msgid "Enter the name of the buffer"
-msgstr ""
+msgstr "შეიყვანეთ ბუფერის სახელი"
 
 #: umlwidgets/objectnodewidget.cpp:306
 #, kde-format
 msgid "centralBuffer"
-msgstr ""
+msgstr "centralBuffer"
 
 #: umlwidgets/objectnodewidget.cpp:308
 #, kde-format
 msgid "Enter the name of the object flow"
-msgstr ""
+msgstr "შეიყვანეთ ობიექტის დინების სახელი"
 
 #: umlwidgets/objectnodewidget.cpp:308
 #, kde-format
@@ -8382,12 +8440,14 @@ msgstr "ნაკადის ობიექტი"
 #: umlwidgets/objectnodewidget.cpp:325
 #, kde-format
 msgid "Enter Object Flow State"
-msgstr ""
+msgstr "შეიყვანეთ ობიექტის დინების მდგომარეობა"
 
 #: umlwidgets/objectnodewidget.cpp:326
 #, kde-format
 msgid "Enter State (keep '-' if there is no state for the object) "
 msgstr ""
+"შეიყვანეთ მდგომარეობა (დატოვეთ სიმბოლო '-', თუ ამ ობიექტს მდგომარეობა არ "
+"აქვს) "
 
 #: umlwidgets/signalwidget.cpp:326
 #, kde-format
@@ -8435,12 +8495,12 @@ msgstr "შეიყვანეთ ობიექტის სახელი:
 #: umlwidgets/umlwidget.cpp:1564
 #, kde-format
 msgid "Hold shift or control to move in X axis."
-msgstr ""
+msgstr "გეჭიროთ Shift-ზე, ან Ctrl-ზე X ღერძზე სამოძრაოდ."
 
 #: umlwidgets/umlwidget.cpp:1565
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
-msgstr ""
+msgstr "გეჭიროთ Shift-ზე და Ctrl-ზე X ღერძზე სამოძრაოდ."
 
 #: umlwidgets/widget_utils.cpp:825
 #, kde-format
@@ -8930,7 +8990,7 @@ msgstr "ყუთი"
 #: umlwidgets/widgetbase.cpp:1261
 #, kde-format
 msgid "CombinedFragment"
-msgstr ""
+msgstr "კომბინირებული ფრაგმენტი"
 
 #: umlwidgets/widgetbase.cpp:1270 worktoolbar.cpp:362
 #, kde-format
@@ -8945,12 +9005,12 @@ msgstr "სია"
 #: umlwidgets/widgetbase.cpp:1279
 #, kde-format
 msgid "FloatingDashLine"
-msgstr ""
+msgstr "მცურავი პუნქტირიანი ხაზი"
 
 #: umlwidgets/widgetbase.cpp:1282
 #, kde-format
 msgid "ForkJoin"
-msgstr ""
+msgstr "გამოყოფა ან შერწყმა"
 
 #: umlwidgets/widgetbase.cpp:1288
 #, kde-format
@@ -8970,7 +9030,7 @@ msgstr "ობიექტი"
 #: umlwidgets/widgetbase.cpp:1300
 #, kde-format
 msgid "ObjectNode"
-msgstr ""
+msgstr "ობიექტის კვანძი"
 
 #: umlwidgets/widgetbase.cpp:1318
 #, kde-format
@@ -8990,7 +9050,7 @@ msgstr "ტექსტი"
 #: umlwidgets/widgetbase.cpp:1327
 #, kde-format
 msgid "UseCase"
-msgstr ""
+msgstr "გამოყენების შემთხვევა"
 
 #: umlwidgets/widgetbase.cpp:1330 worktoolbar.cpp:392
 #, kde-format
@@ -9016,7 +9076,7 @@ msgstr "განადგურება"
 #: worktoolbar.cpp:330
 #, kde-format
 msgid "Combined Fragment"
-msgstr ""
+msgstr "კომბინირებული ფრაგმენტი"
 
 #: worktoolbar.cpp:335
 #, kde-format
@@ -9026,7 +9086,7 @@ msgstr "იარლიყი"
 #: worktoolbar.cpp:342
 #, kde-format
 msgid "Directional Association"
-msgstr ""
+msgstr "მიმართული ასოციაცია"
 
 #: worktoolbar.cpp:346
 #, kde-format
@@ -9042,27 +9102,27 @@ msgstr "სიგნალის გაგზავნა"
 #: worktoolbar.cpp:352
 #, kde-format
 msgid "Accept signal"
-msgstr ""
+msgstr "სიგნალის მიღება"
 
 #: worktoolbar.cpp:353
 #, kde-format
 msgid "Accept time event"
-msgstr ""
+msgstr "დროის მოვლენის მიღება"
 
 #: worktoolbar.cpp:354
 #, kde-format
 msgid "Fork/Join"
-msgstr ""
+msgstr "გამოყოფა/შერწყმა"
 
 #: worktoolbar.cpp:360
 #, kde-format
 msgid "Interface Provider"
-msgstr ""
+msgstr "ინტერფეისის მომწოდებელი"
 
 #: worktoolbar.cpp:361
 #, kde-format
 msgid "Interface required"
-msgstr ""
+msgstr "ინტერფეისი აუცილებელია"
 
 #: worktoolbar.cpp:367
 #, kde-format
@@ -9080,7 +9140,7 @@ msgstr "არჩევანი"
 #: worktoolbar.cpp:374
 #, kde-format
 msgid "And Line"
-msgstr ""
+msgstr "და ხაზი"
 
 #: worktoolbar.cpp:378
 #, kde-format
@@ -9091,7 +9151,7 @@ msgstr "State"
 #: worktoolbar.cpp:388
 #, kde-format
 msgid "Pre/Post condition"
-msgstr ""
+msgstr "წინა/შემდეგი პირობა"
 
 #, fuzzy
 #~| msgid "Show Attributes"

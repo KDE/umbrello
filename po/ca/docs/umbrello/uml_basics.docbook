@@ -188,9 +188,7 @@
 ><para
 ><emphasis
 >Generalització</emphasis
-> especifica que un cas d'ús hereta les característiques del cas d'ús <quote
->superior</quote
->, i pot substituir-ne una part o afegir-ne de noves de manera similar a l'herència entre classes. </para>
+> especifica que un cas d'ús hereta les característiques del cas d'ús «superior», i pot substituir-ne una part o afegir-ne de noves de manera similar a l'herència entre classes. </para>
 </listitem>
 </itemizedlist>
 </sect3>
