@@ -146,29 +146,29 @@
 <!-- Font Settings -->
 <sect1 id="font-settings">
 <title
->Configuració del tipus de lletra</title>
+>Configuració de la lletra</title>
 <para>
     <screenshot>
         <screeninfo
->Configuració del tipus de lletra</screeninfo>
+>Configuració de la lletra</screeninfo>
         <mediaobject>
             <imageobject>
                 <imagedata fileref="font-settings.png" format="PNG"/>
             </imageobject>
             <textobject>
                 <phrase
->Opcions de la Configuració del tipus de lletra del diagrama a l'&umbrello;</phrase>
+>Opcions de la Configuració de la lletra del diagrama a l'&umbrello;</phrase>
             </textobject>
             <caption>
                 <para
->Opcions de la Configuració del tipus de lletra del diagrama a l'&umbrello; </para>
+>Opcions de la Configuració de la lletra del diagrama a l'&umbrello; </para>
             </caption>
         </mediaobject>
     </screenshot>
 </para>
 
 <para
->Aquesta configuració del tipus de lletra estableix les característiques del text en els diagrames. Els tipus de lletra i la mida són les úniques opcions seleccionables.</para>
+>Aquesta configuració de la lletra estableix les característiques del text en els diagrames. La lletra i la mida són les úniques opcions seleccionables.</para>
 
 </sect1
 >    <!-- font-settings -->
@@ -449,8 +449,8 @@
 >: genera comentaris per a classes i funcions fins i tot si estan buides.</para>
         <para
 ><guilabel
->Write section comments</guilabel
-> allow users to choose whether to write section comments. The possible values are: None, When section is non empty, Always.</para>
+>Escriu els comentaris de secció</guilabel
+> permet als usuaris triar si escriure els comentaris de la secció. Els valors possibles són: Sense, Quan la secció no estigui buida, Sempre.</para>
 </sect3
 >    <!-- code-gen-formatting-comment-verbosity -->
 
@@ -699,12 +699,12 @@
     </para>
     <para
 >Permet la personalització del visualitzador de codi. La secció <guilabel
->Tipus de lletra requerit</guilabel
-> permet seleccionar el tipus de lletra, estil i mida del tipus de lletra. A sota de les eleccions es mostra una representació de les vostres eleccions. </para>
+>Lletra requerida</guilabel
+> permet seleccionar la lletra, l'estil i la mida de la lletra. A sota de les eleccions es mostra una representació de les vostres eleccions. </para>
     <para
 >A la secció <guilabel
 >Colors</guilabel
->, es poden realitzar canvis en paper, tipus de lletra, seleccionada, bloc d'objecte UML, bloc ocult, text editable i text no editable. Es poden fer canvis en els colors fent clic al quadre de color al costat de l'etiqueta respectiva. </para>
+>, es poden realitzar canvis en paper, lletra, seleccionada, bloc d'objecte UML, bloc ocult, text editable i text no editable. Es poden fer canvis en els colors fent clic al quadre de color al costat de l'etiqueta respectiva. </para>
 </sect1
 >    <!-- code-viewer-settings -->
 
