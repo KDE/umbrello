@@ -447,8 +447,8 @@
 > Genererar kommentarer för klasser och funktioner även om de är tomma.</para>
         <para
 ><guilabel
->Write section comments</guilabel
-> allow users to choose whether to write section comments. The possible values are: None, When section is non empty, Always.</para>
+>Skriv sektionskommentarer</guilabel
+> tillåt användaren att välja om sektionskommentarer ska skrivas. De möjliga värdena är: Inga, När sektionen inte är tom, Alltid.</para>
 </sect3
 >    <!-- code-gen-formatting-comment-verbosity -->
 

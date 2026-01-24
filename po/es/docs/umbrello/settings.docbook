@@ -445,8 +445,8 @@
 > Genera comentarios para las clases y funciones, incluso si están vacíos.</para>
         <para
 ><guilabel
->Write section comments</guilabel
-> allow users to choose whether to write section comments. The possible values are: None, When section is non empty, Always.</para>
+>Escribir comentarios de la sección</guilabel
+> permite escoger si se pueden escribir comentarios de la sección. Los valores posibles son: «Ninguno», «Cuando la sección no está vacía» y «Siempre».</para>
 </sect3
 >    <!-- code-gen-formatting-comment-verbosity -->
 

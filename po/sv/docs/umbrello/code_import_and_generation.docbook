@@ -20,11 +20,11 @@
 <title
 >Generera kod</title>
 <para
->För att generera kod med &umbrello;, måste du först skapa eller ladda en modell som innehåller minst en klass. När du är klar att börja skriva lite kod, välj då alternativet <guimenuitem
->Kodgenereringsguide</guimenuitem
-> i menyn <guimenuitem
->Kod</guimenuitem
->, för att starta guiden som leder dig igenom kodgenereringsprocessen. </para>
+>In order to generate code with &umbrello;, you first need to create or load a Model containing at least one class. When you are ready to start writing some code, select the <guimenuitem
+>Code Generation Wizard</guimenuitem
+> entry from the <guimenuitem
+>Code</guimenuitem
+> menu to start a wizard which will guide you trough the code generation process. </para>
 <para
 >Det första steget är att välja klasser, som du vill skapa källkod för. Normalt väljs alla klasser i modellen, och du kan ta bort de som du inte vill generera kod för, genom att flytta dem till listan på vänster sida. </para>
 <para
