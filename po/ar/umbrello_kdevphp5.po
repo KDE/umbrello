@@ -1,13 +1,13 @@
 # Copyright (C) 2025 This file is copyright:
-# This file is distributed under the same license as the kdev-php package.
+# This file is distributed under the same license as the umbrello package.
 # SPDX-FileCopyrightText: 2025 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: kdev-php\n"
+"Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 09:01+0000\n"
-"PO-Revision-Date: 2025-10-05 14:34+0400\n"
+"PO-Revision-Date: 2025-10-02 17:15+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -36,7 +36,7 @@ msgstr "تجاوز"
 #: completion/implementationitem.cpp:63
 #, kde-format
 msgid "Implement"
-msgstr "نفّذ"
+msgstr "طبّق"
 
 #: completion/implementationitem.cpp:75
 #, kde-format
@@ -47,7 +47,7 @@ msgstr "من %1"
 #: docs/phpdocsconfig.ui:20
 #, kde-format
 msgid "PHP Manual Integration"
-msgstr "تكامل دليل PHP"
+msgstr "دمج دليل PHP"
 
 #. i18n: ectx: property (text), widget (QLabel, PhpDocNote)
 #: docs/phpdocsconfig.ui:36
@@ -76,11 +76,11 @@ msgstr ""
 "</style></head><body style=\" font-family:'DejaVu Sans'; font-size:8pt; font-"
 "weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
-"right:0px; -qt-block-indent:0; text-indent:0px;\">مبدئيا، الوثائق <a href="
+"right:0px; -qt-block-indent:0; text-indent:0px;\">بشكل مبدئي، يُستخدَم <a href="
 "\"http://php.net\"><span style=\" text-decoration: underline; color:#0000ff;"
-"\">وثائق PHP</span></a> الشبكية تستخدم عن بعد. بدلا من ذلك، اضبط الموقع "
-"لنسخة محلية من الوثائق باللغة التي تختارها. تأكد من تنزيل حزمة <span style="
-"\" font-style:italic;\">\"ملفات HTML عديدة\"</span>.</p></body></html>"
+"\">دليل PHP</span></a> المتاح على الإنترنت عن بُعد. بدلاً من ذلك، اضبط الموقع "
+"لنسخة محلية من الدليل بلغتك المفضّلة. تأكّد من تنزيل حزمة <span style=\" font-"
+"style:italic;\">\"ملفات HTML المتعددة\"</span>.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, PhpDocLocationLabel)
 #: docs/phpdocsconfig.ui:57
@@ -91,18 +91,18 @@ msgstr "الموقع:"
 #: docs/phpdocsmodel.cpp:96
 #, kde-format
 msgid "<lost declaration>"
-msgstr "<تصريح ضائع>"
+msgstr "<تصريح مفقود>"
 
 #: docs/phpdocsplugin.cpp:207
 #, kde-format
 msgid "PHP Documentation"
-msgstr "وثائق PHP"
+msgstr "توثيق بي اتش بي"
 
 #. i18n: ectx: label, entry (phpDocLocation), group (PHP Documentation)
 #: docs/phpdocssettings.kcfg:10
 #, kde-format
 msgid "Specifies the location of the PHP documentation to use."
-msgstr "يحدد موقع وثائق PHP المراد استخدامها."
+msgstr "حدد موقع دليل PHP الذي تستخدمه."
 
 #. i18n: ectx: tooltip, entry (phpDocLocation), group (PHP Documentation)
 #: docs/phpdocssettings.kcfg:13
@@ -113,9 +113,9 @@ msgid ""
 "contains the\n"
 "                 PHP documentation in HTML format with many files."
 msgstr ""
-"موقع وثائق PHP المراد استخدامها. إما أن تستخدم موقعا بعيدا مثل https://php."
-"net أو\n"
-"                 دليلا محليا يحتوي على وثائق PHP بتنسيق HTML مع ملفات عديدة."
+"موقع دليل PHP الذي تستخدمه. لديك اختياران: إمّا موقع بعيد مثل https://php.net "
+"أو\n"
+"                 مجلد محلي يحتوي على دليل PHP بصيغة HTML وملفات متعددة."
 
 #. i18n: ectx: whatsthis, entry (phpDocLocation), group (PHP Documentation)
 #: docs/phpdocssettings.kcfg:15
@@ -123,17 +123,17 @@ msgstr ""
 msgid ""
 "Make sure local copies are downloaded in HTML format with many files.\n"
 "        "
-msgstr "تأكد من تنزيل النسخ المحلية بتنسيق HTML مع ملفات عديدة."
+msgstr "تأكّد من تنزيل النُسخ المحلية بصيغة HTML مع ملفات عديدة.        "
 
 #: docs/phpdocumentationwidget.cpp:56
 #, kde-format
 msgid "...loading documentation..."
-msgstr "...يحمّل الوثائق..."
+msgstr "...يُحمَّل الدليل..."
 
 #: duchain/builders/contextbuilder.cpp:397
 #, kde-format
 msgid "Circular inheritance of %1 and %2"
-msgstr "وراثة دائرية لـ %1 و %2"
+msgstr "توارث دائري لـ %1 و %2"
 
 #: duchain/builders/declarationbuilder.cpp:321
 #, kde-format
@@ -143,7 +143,7 @@ msgstr "يجب حذف نوع الوصول لتابِع الواجهة %1."
 #: duchain/builders/declarationbuilder.cpp:325
 #, kde-format
 msgid "Interface function %1 cannot contain body."
-msgstr "لا يمكن أن تحتوي دالة الواجهة %1 على جسم."
+msgstr "لا يمكن أن يحتوي تابع الواجهة %1 على جسد."
 
 #: duchain/builders/declarationbuilder.cpp:337
 #, kde-format
@@ -151,77 +151,76 @@ msgid ""
 "Class %1 contains abstract method %2 and must therefore be declared abstract "
 "or implement the method."
 msgstr ""
-"يحتوي الصنف %1 على التابع المجرد %2 ولذلك يجب الإعلان عنه كمجرد أو تنفيذ "
-"التابع."
+"يحتوي الصنف %1 على التابع المجرَّد %2، وعليه يجب إعلانه مُجرَّدًا أو طبّق التابِع."
 
 #: duchain/builders/declarationbuilder.cpp:343
 #, kde-format
 msgid "Abstract function %1 cannot contain body."
-msgstr "لا يمكن أن تحتوي الدالة المجردة %1 على جسم."
+msgstr "لا يمكن أن يحتوي التابع المجرَّد %1 على جسد."
 
 #: duchain/builders/declarationbuilder.cpp:346
 #, kde-format
 msgid "Cannot use the final modifier on an abstract class member."
-msgstr "لا يمكن استخدام المعدل final على عضو صنف مجرد."
+msgstr "لا يمكنك استخدام مُعدِّل 'final' على عضو صنف مجرَّد."
 
 #: duchain/builders/declarationbuilder.cpp:356
 #, kde-format
 msgid "Non-abstract method %1 must contain body."
-msgstr "يجب أن يحتوي التابع غير المجرد %1 على جسم."
+msgstr "يجب أن يحتوي التابِع غير المجرَّد %1 على جسد."
 
 #: duchain/builders/declarationbuilder.cpp:374
 #, kde-format
 msgid "Properties cannot be declared final."
-msgstr "لا يمكن الإعلان عن الخصائص كـ final."
+msgstr "لا يمكن إعلان الخاصيات كـ 'final'."
 
 #: duchain/builders/declarationbuilder.cpp:377
 #, kde-format
 msgid "Properties cannot be declared abstract."
-msgstr "لا يمكن الإعلان عن الخصائص كـ abstract."
+msgstr "لا يمكن إعلان الخاصيات كـ 'abstract'."
 
 #: duchain/builders/declarationbuilder.cpp:423
 #, kde-format
 msgid ""
 "Trait method %1 has not been applied, because there are collisions with "
 "other trait methods on %2"
-msgstr "لم يطبق تابع السمة %1، لوجود تعارضات مع توابع سمة أخرى على %2"
+msgstr "لم يطبَّق تابع السِمة %1، لوجود تعارضات مع توابع سِمة أخرى على %2"
 
 #: duchain/builders/declarationbuilder.cpp:577
 #, kde-format
 msgid "Cannot redeclare private property %1 from this context."
-msgstr "لا يمكن إعادة الإعلان عن الخاصية الخاصة %1 من هذا السياق."
+msgstr "لا يمكنك إعادة إعلان الخاصية الخاصة %1 من هذا السياق."
 
 #: duchain/builders/declarationbuilder.cpp:583
 #, kde-format
 msgid "Cannot redeclare protected property %1 from this context."
-msgstr "لا يمكن إعادة الإعلان عن الخاصية المحمية %1 من هذا السياق."
+msgstr "لا يمكنك إعادة إعلان الخاصية المحمية %1 من هذا السياق."
 
 #: duchain/builders/declarationbuilder.cpp:616
 #, kde-format
 msgid "Traits cannot have constants."
-msgstr "لا يمكن أن تحتوي السمات على ثوابت."
+msgstr "لا يمكن أن تحتوي السِمات على ثوابت."
 
 #: duchain/builders/declarationbuilder.cpp:657
 #, kde-format
 msgid ""
 "Only booleans, ints, floats and strings are allowed for class constants."
 msgstr ""
-"فقط القيم المنطقية والأعداد الصحيحة والعائمة والسلاسل مسموح بها لثوابت الصنف."
+"يُسمَح فقط بالبوليانية، والأعداد الصحيحة، والعائمة، والسلاسل لثوابت الصنف."
 
 #: duchain/builders/declarationbuilder.cpp:709
 #, kde-format
 msgid "Cannot use 'final' as method modifier"
-msgstr "لا يمكن استخدام 'final' كمعدل تابع"
+msgstr "لا يمكنك استخدام 'final' كمُعدِّل تابع"
 
 #: duchain/builders/declarationbuilder.cpp:712
 #, kde-format
 msgid "Cannot use 'static' as method modifier"
-msgstr "لا يمكن استخدام 'static' كمعدل تابع"
+msgstr "لا يمكنك استخدام 'static' كمُعدِّل تابع"
 
 #: duchain/builders/declarationbuilder.cpp:760
 #, kde-format
 msgid "Default value for parameters with a class type hint can only be NULL."
-msgstr "القيمة المبدئية للوسائط ذات تلميح نوع الصنف لا يمكن أن تكون إلا NULL."
+msgstr "القيمة المبدئية للوسائط بتلميح نوع صنف يجب أن تكون NULL فقط."
 
 #: duchain/builders/declarationbuilder.cpp:763
 #, kde-format
@@ -231,7 +230,7 @@ msgstr "يجب تعيين قيمة مبدئية للوسائط التالية."
 #: duchain/builders/declarationbuilder.cpp:870
 #, kde-format
 msgid "Cannot redeclare PHP internal %1."
-msgstr "لا يمكن إعادة الإعلان عن PHP الداخلي %1."
+msgstr "لا يمكنك إعادة إعلان تابع PHP الداخلي %1."
 
 #: duchain/builders/declarationbuilder.cpp:873
 #, kde-format
@@ -240,13 +239,13 @@ msgid ""
 "be incompatible, to improve maintainability consider using accessor methods "
 "in traits instead."
 msgstr ""
-"يعرّف %1 و %2 نفس الخاصية (%3) في تكوين %1. قد يكون هذا غير متوافق، لتحسين "
-"قابلية الصيانة، فكر في استخدام توابع الوصول في السمات بدلاً من ذلك."
+"يُعرِّف كل من %1 و %2 الخاصية نفسها (%3) في تكوين %1. قد يكون هذا غير متوافق، "
+"لتحسين القابلية للصيانة، فكّر في استخدام توابع الوصول في السِمات بدلاً من ذلك."
 
 #: duchain/builders/declarationbuilder.cpp:881
 #, kde-format
 msgid "Cannot redeclare %1, already declared in %2 on line %3."
-msgstr "لا يمكن إعادة الإعلان عن %1، أُعلن عنه بالفعل في %2 في السطر %3."
+msgstr "لا يمكنك إعادة إعلان %1، فقد أُعلِن عنه بالفعل في %2 في السطر %3."
 
 #: duchain/builders/declarationbuilder.cpp:967
 #, kde-format
@@ -254,39 +253,39 @@ msgid ""
 "Class %1 contains %2 abstract methods and must therefore be declared "
 "abstract or implement the remaining methods."
 msgstr ""
-"يحتوي الصنف %1 على %2 تابع مجرد ولذلك يجب الإعلان عنه كمجرد أو تنفيذ التوابع "
-"المتبقية."
+"يحتوي الصنف %1 على %2 من التوابع المجرَّدة، وعليه يجب إعلانه مُجرَّدًا أو طبّق "
+"التوابع المتبقية."
 
 #: duchain/builders/declarationbuilder.cpp:974
 #, kde-format
 msgid "Cannot re-assign $this."
-msgstr "لا يمكن إعادة تعيين $this."
+msgstr "لا يمكنك إعادة تعيين $this."
 
 #: duchain/builders/declarationbuilder.cpp:1410
 #, kde-format
 msgid "The use statement with non-compound name '%1' has no effect."
-msgstr "عبارة الاستخدام بالاسم غير المركب '%1' لا أثر لها."
+msgstr "عبارة 'use' ذات الاسم غير المركّب '%1' ليس لها تأثير."
 
 #: duchain/builders/declarationbuilder.cpp:1434
 #, kde-format
 msgid "Cannot use '%1' as '%2' because the name is already in use."
-msgstr "لا يمكن استخدام '%1' كـ '%2' لأن الاسم قيد الاستخدام بالفعل."
+msgstr "لا يمكنك استخدام '%1' كـ '%2' لأن الاسم قيد الاستخدام بالفعل."
 
 #: duchain/builders/usebuilder.cpp:191
 #, kde-format
 msgid "Usage of %1 is deprecated."
-msgstr "استخدام %1 مهمل."
+msgstr "استخدام %1 مُهمل."
 
 #: duchain/builders/usebuilder.cpp:193
 #, kde-format
 msgid "Declaration not found: %1"
-msgstr "لم يعثر على التصريح: %1"
+msgstr "التصريح غير موجود: %1"
 
 #: duchain/declarations/traitmemberaliasdeclaration.cpp:55
 #: duchain/declarations/traitmethodaliasdeclaration.cpp:88
 #, kde-format
 msgid "Lost trait alias %1"
-msgstr "السمة المستعارة المفقودة %1"
+msgstr "اسم سِمة مستعار مفقود %1"
 
 #: duchain/navigation/declarationnavigationcontext.cpp:113
 #: duchain/navigation/declarationnavigationcontext.cpp:126
@@ -297,12 +296,12 @@ msgstr "استخدام %1 من %2<br />"
 #: duchain/navigation/declarationnavigationcontext.cpp:136
 #, kde-format
 msgid "Broken member alias trait."
-msgstr "سمة عضو مستعار مكسورة."
+msgstr "سِمة اسم عضو مستعار معطَّلة."
 
 #: duchain/navigation/declarationnavigationcontext.cpp:151
 #, kde-format
 msgid "PHP internal"
-msgstr "PHP داخلي"
+msgstr "داخلي لـ PHP"
 
 #: duchain/navigation/declarationnavigationcontext.cpp:161
 #, kde-format
@@ -323,7 +322,7 @@ msgstr "فارغ (ليس داخل صنف)"
 #: duchain/navigation/magicconstantnavigationcontext.cpp:81
 #, kde-format
 msgid "empty (not inside a method)"
-msgstr "فارغ (ليس داخل تابع)"
+msgstr "فارغ (ليس داخل تابِع)"
 
 #: duchain/navigation/magicconstantnavigationcontext.cpp:91
 #, kde-format
@@ -333,7 +332,7 @@ msgstr "فارغ (ليس داخل دالة)"
 #: duchain/navigation/magicconstantnavigationcontext.cpp:100
 #, kde-format
 msgid "empty (not inside a namespace)"
-msgstr "فارغ (ليس داخل نطاق أسماء)"
+msgstr "فارغ (ليس داخل فضاء أسماء)"
 
 #: duchain/navigation/magicconstantnavigationcontext.cpp:104
 #, kde-format
@@ -349,39 +348,39 @@ msgstr "%1 من %2"
 #: parser/main.cpp:25
 #, kde-format
 msgid "php-parser"
-msgstr "محلل php"
+msgstr "محلّل بي اتش بي"
 
 #: parser/main.cpp:26
 #, kde-format
 msgid "KDevelop PHP parser debugging utility"
-msgstr "أداة تصحيح محلل PHP لـ KDevelop"
+msgstr "أداة تصحيح محلّل PHP لـ KDevelop"
 
 #: parser/main.cpp:27
 #, kde-format
 msgid "(c) 2008 Niko Sams, 2009 Milian Wolff"
-msgstr "(ج) 2008 نيكو سامس، 2009 ميليان وولف"
+msgstr "(ج) 2008 نيكو سامز، 2009 ميليان وولف"
 
 #: parser/parsesession.cpp:68
 #, kde-format
 msgid "Could not open file '%1'"
-msgstr "لا يمكن فتح الملف '%1'"
+msgstr "تعذّر فتح الملف '%1'"
 
 #: parser/parsesession.cpp:71
 #, kde-format
 msgid "File could not be read from."
-msgstr "لا يمكن القراءة من الملف."
+msgstr "تعذّر القراءة من الملف."
 
 #: parser/parsesession.cpp:74
 #, kde-format
 msgid "File could not be opened."
-msgstr "لا يمكن فتح الملف."
+msgstr "تعذّر فتح الملف."
 
 #: parser/parsesession.cpp:77
 #, kde-format
 msgid "File permissions prevent opening for read."
-msgstr "أذونات الملف تمنع فتحه للقراءة."
+msgstr "تمنع أذونات الملف الفتح للقراءة."
 
 #: testprovider/phpunitrunjob.cpp:71
 #, kde-format
 msgid "PHPUnit"
-msgstr "وحدة PHP"
+msgstr "PHPUnit"

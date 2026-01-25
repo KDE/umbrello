@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-21 02:12+0000\n"
-"PO-Revision-Date: 2026-01-22 09:14+0200\n"
+"PO-Revision-Date: 2026-01-24 22:01+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -21,92 +21,92 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "צוות התרגום של KDE ישראל"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "kde-l10n-he@kde.org"
 
 #: basictypes.cpp:189
 #, kde-format
 msgid "Class Diagram"
-msgstr ""
+msgstr "תרשים מחלקות"
 
 #: basictypes.cpp:191
 #, kde-format
 msgid "Use Case Diagram"
-msgstr ""
+msgstr "תרשים אופן שימוש"
 
 #: basictypes.cpp:193
 #, kde-format
 msgid "Sequence Diagram"
-msgstr ""
+msgstr "תרשים רצף"
 
 #: basictypes.cpp:195
 #, kde-format
 msgid "Collaboration Diagram"
-msgstr ""
+msgstr "תרשים שיתוף פעולה"
 
 #: basictypes.cpp:197
 #, kde-format
 msgid "State Diagram"
-msgstr ""
+msgstr "תרשים מצבים"
 
 #: basictypes.cpp:199
 #, kde-format
 msgid "Activity Diagram"
-msgstr ""
+msgstr "תרשים פעילות"
 
 #: basictypes.cpp:201
 #, kde-format
 msgid "Component Diagram"
-msgstr ""
+msgstr "תרשים רכיבים"
 
 #: basictypes.cpp:203
 #, kde-format
 msgid "Deployment Diagram"
-msgstr ""
+msgstr "תרשים הטמעה"
 
 #: basictypes.cpp:205
 #, kde-format
 msgid "Entity Relationship Diagram"
-msgstr ""
+msgstr "תרשים יחס בין ישויות"
 
 #: basictypes.cpp:207
 #, kde-format
 msgid "Object Diagram"
-msgstr ""
+msgstr "תרשים עצמים"
 
 #: basictypes.cpp:209
 #, kde-format
 msgid "No Diagram"
-msgstr ""
+msgstr "ללא תרשים"
 
 #: basictypes.cpp:325 worktoolbar.cpp:343
 #, kde-format
 msgid "Generalization"
-msgstr ""
+msgstr "הכללה"
 
 #: basictypes.cpp:327 worktoolbar.cpp:340
 #, kde-format
 msgid "Aggregation"
-msgstr ""
+msgstr "צבירה"
 
 #: basictypes.cpp:329 worktoolbar.cpp:339
 #, kde-format
 msgid "Dependency"
-msgstr ""
+msgstr "תלות"
 
 #: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
 #, kde-format
 msgid "Association"
-msgstr ""
+msgstr "שיוך"
 
 #: basictypes.cpp:333
 #, kde-format
 msgid "Self Association"
-msgstr ""
+msgstr "שיוך עצמי"
 
 #: basictypes.cpp:335
 #, kde-format

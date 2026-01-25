@@ -1,11 +1,11 @@
 # Translation of umbrello.po to Catalan (Valencian)
-# Copyright (C) 2003-2025 This_file_is_part_of_KDE
+# Copyright (C) 2003-2026 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2 or later.
 #
 # SPDX-FileCopyrightText: 2003, 2006, 2007, 2012, 2013, 2014, 2016, 2017, 2019, 2020 Antoni Bella Pérez <antonibella5@yahoo.com>
 # SPDX-FileCopyrightText: 2004 Ivan Lloro Boada <antispam@wanadoo.es>
 # SPDX-FileCopyrightText: 2004, 2005, 2006 Albert Astals Cid <aacid@kde.org>
-# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2025 Josep M. Ferrer <txemaq@gmail.com>
+# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2025, 2026 Josep M. Ferrer <txemaq@gmail.com>
 # SPDX-FileCopyrightText: 2008 Orestes Mas Casals <orestes@tsc.upc.edu>
 # SPDX-FileCopyrightText: 2009, 2010, 2011, 2012 Manuel Tortosa <manutortosa@chakra-project.org>
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-21 02:12+0000\n"
-"PO-Revision-Date: 2025-11-19 09:38+0100\n"
+"PO-Revision-Date: 2026-01-22 12:20+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -269,7 +269,7 @@ msgstr "Canvia el color de farciment: %1"
 #: cmds/widget/cmdchangefont.cpp:19
 #, kde-format
 msgid "Change font : %1"
-msgstr "Canvia el tipus de lletra: %1"
+msgstr "Canvia la lletra: %1"
 
 #: cmds/widget/cmdchangelinecolor.cpp:21
 #, kde-format
@@ -1934,7 +1934,7 @@ msgstr "Colors"
 #: dialogs/codevieweroptionsbase.ui:46
 #, kde-format
 msgid "Font:"
-msgstr "Tipus de lletra:"
+msgstr "Lletra:"
 
 #. i18n: ectx: property (text), widget (QLabel, paperLabel)
 #: dialogs/codevieweroptionsbase.ui:76
@@ -2179,12 +2179,12 @@ msgstr "General"
 #: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
-msgstr "Tipus de lletra"
+msgstr "Lletra"
 
 #: dialogs/multipagedialogbase.cpp:338
 #, kde-format
 msgid "Font Settings"
-msgstr "Configureu el tipus de lletra"
+msgstr "Configureu la lletra"
 
 #: dialogs/multipagedialogbase.cpp:413
 #, kde-format
@@ -4441,7 +4441,7 @@ msgstr "Artefacte"
 #: menus/listpopupmenu.cpp:156 menus/widgetbasepopupmenu.cpp:557
 #, kde-format
 msgid "Change Font..."
-msgstr "Canvia el tipus de lletra…"
+msgstr "Canvia la lletra…"
 
 #: menus/listpopupmenu.cpp:158
 #, kde-format
@@ -5921,7 +5921,7 @@ msgstr "Pare"
 #: models/objectsmodel.cpp:88
 #, kde-format
 msgid "Pointer"
-msgstr "Apuntador"
+msgstr "Punter"
 
 #: models/stereotypesmodel.cpp:53
 #, kde-format
@@ -6352,7 +6352,7 @@ msgstr "Activa o desactiva la visualització de la finestra del document"
 #: umbrello.kcfg:173
 #, kde-format
 msgid "The Font to be used"
-msgstr "El tipus de lletra que s'ha d'utilitzar"
+msgstr "La lletra que s'ha d'utilitzar"
 
 #. i18n: ectx: label, entry (backgroundColor), group (UI Options)
 #: umbrello.kcfg:177
@@ -6560,7 +6560,7 @@ msgstr "Activa o desactiva el ressaltat dels blocs"
 #: umbrello.kcfg:303
 #, kde-format
 msgid "Font to be used in the Code Viewer"
-msgstr "Tipus de lletra que s'ha d'utilitzar en el visor de codi"
+msgstr "Lletra que s'ha d'utilitzar en el visor de codi"
 
 #. i18n: ectx: label, entry (paperColor), group (Code Viewer Options)
 #: umbrello.kcfg:307
@@ -6578,13 +6578,13 @@ msgstr "Color del paper de fons"
 #: umbrello.kcfg:312
 #, kde-format
 msgid "Font Color"
-msgstr "Color del tipus de lletra"
+msgstr "Color de la lletra"
 
 #. i18n: ectx: whatsthis, entry (fontColor), group (Code Viewer Options)
 #: umbrello.kcfg:313
 #, kde-format
 msgid "Color of the Font"
-msgstr "Color del tipus de lletra"
+msgstr "Color de la lletra"
 
 #. i18n: ectx: label, entry (selectedColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (selectedColor), group (Code Viewer Options)
@@ -8230,7 +8230,7 @@ msgstr "Sense color de farciment"
 #: umlscene.cpp:1543
 #, kde-format
 msgid "Change font"
-msgstr "Canvia el tipus de lletra"
+msgstr "Canvia la lletra"
 
 #: umlscene.cpp:1557
 #, kde-format
