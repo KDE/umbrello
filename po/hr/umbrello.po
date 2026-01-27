@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 03:21+0000\n"
+"POT-Creation-Date: 2026-01-27 02:40+0000\n"
 "PO-Revision-Date: 2004-04-20 13:30+CEST\n"
 "Last-Translator: auto\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -436,7 +436,7 @@ msgstr "<p align=\"center\">Generiranje C++ kôda</p>"
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
 #: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:132
-#: umllistview.cpp:1448
+#: umllistview.cpp:1450
 #, kde-format
 msgid "General"
 msgstr "Općenito"
@@ -1335,7 +1335,7 @@ msgstr "Podizanje"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
+#: dialogs/finddialog.ui:89 umllistview.cpp:1445 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "Klasa"
@@ -2178,7 +2178,7 @@ msgstr "Općenito"
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
 #: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:302
-#: umllistview.cpp:1447
+#: umllistview.cpp:1449
 #, fuzzy, kde-format
 msgid "Font"
 msgstr "Pismo:"
@@ -3332,7 +3332,7 @@ msgstr "&Grafikon"
 msgid "Umbrello Setup"
 msgstr "Podešavanje Umbrello-a"
 
-#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1449
+#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1451
 #, kde-format
 msgid "User Interface"
 msgstr "Korisničko sučelje"
@@ -3361,7 +3361,7 @@ msgstr "Klasa"
 msgid "Class Settings"
 msgstr "Postavke klase"
 
-#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1444
+#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1446
 #, fuzzy, kde-format
 msgid "Code Importer"
 msgstr "Nije generiran"
@@ -3371,7 +3371,7 @@ msgstr "Nije generiran"
 msgid "Code Import Settings"
 msgstr "Postavke prikazivača kôda"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1445
+#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1447
 #, fuzzy, kde-format
 msgid "Code Generation"
 msgstr "Generiranje kôda"
@@ -3381,7 +3381,7 @@ msgstr "Generiranje kôda"
 msgid "Code Generation Settings"
 msgstr "Postavke generiranja kôda"
 
-#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1446
+#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1448
 #, fuzzy, kde-format
 msgid "Code Viewer"
 msgstr "Prikazivač koda"
@@ -3391,7 +3391,7 @@ msgstr "Prikazivač koda"
 msgid "Code Viewer Settings"
 msgstr "Postavke prikazivača kôda"
 
-#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1442
+#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1444
 #, fuzzy, kde-format
 #| msgid "Autosave"
 msgid "Auto Layout"
@@ -8084,48 +8084,48 @@ msgstr "Unesite ime stanja"
 msgid "Enter the new name of the model:"
 msgstr "Unesite novo ime za aktivnost:"
 
-#: umllistview.cpp:1420
+#: umllistview.cpp:1422
 #, kde-format
 msgid "Views"
 msgstr "Pogledi"
 
-#: umllistview.cpp:1438
+#: umllistview.cpp:1440
 #, fuzzy, kde-format
 #| msgid "Font Settings"
 msgid "Settings"
 msgstr "Postavke pisma"
 
-#: umllistview.cpp:2455
+#: umllistview.cpp:2457
 #, fuzzy, kde-format
 msgid "Loading listview..."
 msgstr "Učitavam dijagrame..."
 
-#: umllistview.cpp:2824
+#: umllistview.cpp:2826
 #, fuzzy, kde-format
 msgid "The class must be emptied before it can be deleted."
 msgstr "Direktorij se mora prvo isprazniti da bi se obrisao."
 
-#: umllistview.cpp:2825
+#: umllistview.cpp:2827
 #, fuzzy, kde-format
 msgid "Class Not Empty"
 msgstr "Direktorij nije prazan"
 
-#: umllistview.cpp:2829
+#: umllistview.cpp:2831
 #, fuzzy, kde-format
 msgid "The package must be emptied before it can be deleted."
 msgstr "Direktorij se mora prvo isprazniti da bi se obrisao."
 
-#: umllistview.cpp:2830
+#: umllistview.cpp:2832
 #, fuzzy, kde-format
 msgid "Package Not Empty"
 msgstr "Direktorij nije prazan"
 
-#: umllistview.cpp:2834
+#: umllistview.cpp:2836
 #, fuzzy, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "Direktorij se mora prvo isprazniti da bi se obrisao."
 
-#: umllistview.cpp:2835
+#: umllistview.cpp:2837
 #, fuzzy, kde-format
 msgid "Folder Not Empty"
 msgstr "Direktorij nije prazan"

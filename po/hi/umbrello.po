@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-19 03:21+0000\n"
+"POT-Creation-Date: 2026-01-27 02:40+0000\n"
 "PO-Revision-Date: 2021-09-17 20:07+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -453,7 +453,7 @@ msgstr "<p align=\"center\">सी++ कोड तैयार करना</p>"
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
 #: codegenwizard/codegenoptionspage.ui:39 dialogs/objectnodedialog.cpp:132
-#: umllistview.cpp:1448
+#: umllistview.cpp:1450
 #, kde-format
 msgid "General"
 msgstr "सामान्य"
@@ -1340,7 +1340,7 @@ msgstr "प्रारंभ में"
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
 #: codegenwizard/codegenstatuspage.ui:40 codeimpwizard/codeimpstatuspage.ui:54
-#: dialogs/finddialog.ui:89 umllistview.cpp:1443 umlwidgets/widgetbase.cpp:1267
+#: dialogs/finddialog.ui:89 umllistview.cpp:1445 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
 msgstr "वर्ग"
@@ -2198,7 +2198,7 @@ msgstr "सामान्य"
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
 #: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:302
-#: umllistview.cpp:1447
+#: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
 msgstr "फ़ॉन्ट"
@@ -3340,7 +3340,7 @@ msgstr "आरेख (&D)"
 msgid "Umbrello Setup"
 msgstr "अम्बेरेलो सेटअप"
 
-#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1449
+#: dialogs/settingsdialog.cpp:100 umllistview.cpp:1451
 #, kde-format
 msgid "User Interface"
 msgstr "यूज़र इंटरफेस"
@@ -3367,7 +3367,7 @@ msgstr "वर्ग"
 msgid "Class Settings"
 msgstr "क्लास विन्यास"
 
-#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1444
+#: dialogs/settingsdialog.cpp:123 umllistview.cpp:1446
 #, fuzzy, kde-format
 #| msgid "Not Generated"
 msgid "Code Importer"
@@ -3379,7 +3379,7 @@ msgstr "नहीं बना"
 msgid "Code Import Settings"
 msgstr "कोड प्रदर्शक विन्यास"
 
-#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1445
+#: dialogs/settingsdialog.cpp:132 umllistview.cpp:1447
 #, kde-format
 msgid "Code Generation"
 msgstr "कोड तैयार करना"
@@ -3389,7 +3389,7 @@ msgstr "कोड तैयार करना"
 msgid "Code Generation Settings"
 msgstr "कोड बनाने के लिए विन्यास"
 
-#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1446
+#: dialogs/settingsdialog.cpp:140 umllistview.cpp:1448
 #, kde-format
 msgid "Code Viewer"
 msgstr "कोड प्रदर्शक"
@@ -3399,7 +3399,7 @@ msgstr "कोड प्रदर्शक"
 msgid "Code Viewer Settings"
 msgstr "कोड प्रदर्शक विन्यास"
 
-#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1442
+#: dialogs/settingsdialog.cpp:147 umllistview.cpp:1444
 #, fuzzy, kde-format
 #| msgid "Auto Save"
 msgid "Auto Layout"
@@ -8311,52 +8311,52 @@ msgstr "मॉडल नाम भरें"
 msgid "Enter the new name of the model:"
 msgstr "मॉडल का नया नाम भरें:"
 
-#: umllistview.cpp:1420
+#: umllistview.cpp:1422
 #, kde-format
 msgid "Views"
 msgstr "दृश्य"
 
-#: umllistview.cpp:1438
+#: umllistview.cpp:1440
 #, fuzzy, kde-format
 #| msgid "Role Settings"
 msgid "Settings"
 msgstr "भूमिका विन्यास "
 
-#: umllistview.cpp:2455
+#: umllistview.cpp:2457
 #, kde-format
 msgid "Loading listview..."
 msgstr "सूचीदृश्य लोड किया जा रहा है..."
 
-#: umllistview.cpp:2824
+#: umllistview.cpp:2826
 #, fuzzy, kde-format
 #| msgid "The folder must be emptied before it can be deleted."
 msgid "The class must be emptied before it can be deleted."
 msgstr "फ़ोल्डर को मिटा सकें इस के लिए पहले इसे खाली करना होगा."
 
-#: umllistview.cpp:2825
+#: umllistview.cpp:2827
 #, fuzzy, kde-format
 #| msgid "Folder Not Empty"
 msgid "Class Not Empty"
 msgstr "फ़ोल्डर खाली नहीं है"
 
-#: umllistview.cpp:2829
+#: umllistview.cpp:2831
 #, fuzzy, kde-format
 #| msgid "The folder must be emptied before it can be deleted."
 msgid "The package must be emptied before it can be deleted."
 msgstr "फ़ोल्डर को मिटा सकें इस के लिए पहले इसे खाली करना होगा."
 
-#: umllistview.cpp:2830
+#: umllistview.cpp:2832
 #, fuzzy, kde-format
 #| msgid "Folder Not Empty"
 msgid "Package Not Empty"
 msgstr "फ़ोल्डर खाली नहीं है"
 
-#: umllistview.cpp:2834
+#: umllistview.cpp:2836
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
 msgstr "फ़ोल्डर को मिटा सकें इस के लिए पहले इसे खाली करना होगा."
 
-#: umllistview.cpp:2835
+#: umllistview.cpp:2837
 #, kde-format
 msgid "Folder Not Empty"
 msgstr "फ़ोल्डर खाली नहीं है"
