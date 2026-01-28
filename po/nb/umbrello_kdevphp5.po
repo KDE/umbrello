@@ -1,4 +1,4 @@
-# Translation of kdevphp to Norwegian Bokmål
+# Translation of umbrello_kdevphp5 to Norwegian Bokmål
 #
 # Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2010.
 msgid ""
