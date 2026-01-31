@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-21 02:12+0000\n"
-"PO-Revision-Date: 2026-01-24 22:01+0200\n"
+"PO-Revision-Date: 2026-01-30 09:23+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -41,7 +41,7 @@ msgstr "תרשים אופן שימוש"
 #: basictypes.cpp:193
 #, kde-format
 msgid "Sequence Diagram"
-msgstr "תרשים רצף"
+msgstr "תרשים הרצף"
 
 #: basictypes.cpp:195
 #, kde-format
@@ -121,27 +121,27 @@ msgstr ""
 #: basictypes.cpp:339
 #, kde-format
 msgid "Sequence Message"
-msgstr ""
+msgstr "הודעת רצף"
 
 #: basictypes.cpp:341
 #, kde-format
 msgid "Collaboration Self Message"
-msgstr ""
+msgstr "הודעת שיתוף פעולה עצמית"
 
 #: basictypes.cpp:343
 #, kde-format
 msgid "Sequence Self Message"
-msgstr ""
+msgstr "הודעת רצף עצמית"
 
 #: basictypes.cpp:345 worktoolbar.cpp:333
 #, kde-format
 msgid "Containment"
-msgstr ""
+msgstr "תכולה"
 
 #: basictypes.cpp:347 worktoolbar.cpp:344
 #, kde-format
 msgid "Composition"
-msgstr ""
+msgstr "תרכובת"
 
 #: basictypes.cpp:349
 #, kde-format
@@ -156,43 +156,43 @@ msgstr ""
 #: basictypes.cpp:353 worktoolbar.cpp:334
 #, kde-format
 msgid "Anchor"
-msgstr ""
+msgstr "עוגן"
 
 #: basictypes.cpp:355 menus/listpopupmenu.cpp:260 worktoolbar.cpp:375
 #, kde-format
 msgid "State Transition"
-msgstr ""
+msgstr "מעבר מצב"
 
 #: basictypes.cpp:357 dialogs/activitydialog.cpp:139
 #: umlwidgets/widgetbase.cpp:1243 worktoolbar.cpp:377
 #, kde-format
 msgid "Activity"
-msgstr ""
+msgstr "פעילות"
 
 #: basictypes.cpp:359 menus/listpopupmenu.cpp:184 worktoolbar.cpp:386
 #, kde-format
 msgid "Exception"
-msgstr ""
+msgstr "חריגה"
 
 #: basictypes.cpp:361 worktoolbar.cpp:390
 #, kde-format
 msgid "Category to Parent"
-msgstr ""
+msgstr "קטגוריה להורה"
 
 #: basictypes.cpp:363 worktoolbar.cpp:391
 #, kde-format
 msgid "Child to Category"
-msgstr ""
+msgstr "צאצא לקטגוריה"
 
 #: basictypes.cpp:365 worktoolbar.cpp:341
 #, kde-format
 msgid "Relationship"
-msgstr ""
+msgstr "קשר"
 
 #: basictypes.cpp:367
 #, kde-format
 msgid "Unknown"
-msgstr ""
+msgstr "לא ידוע"
 
 #: basictypes.cpp:369
 #, kde-format
@@ -209,22 +209,22 @@ msgstr ""
 #: clipboard/umlclipboard.cpp:757 umlapp.cpp:1522
 #, kde-format
 msgid "Paste Error"
-msgstr ""
+msgstr "שגיאת הדבקה"
 
 #: cmds/cmdcreatediagram.cpp:26
 #, kde-format
 msgid "Create diagram %1: %2"
-msgstr ""
+msgstr "יצירת תרשים %1: %2"
 
 #: cmds/cmdhandlerename.cpp:22
 #, kde-format
 msgid "Change text : %1 to %2"
-msgstr ""
+msgstr "עריכת טקסט : %1 ל־%2"
 
 #: cmds/cmdremovediagram.cpp:33
 #, kde-format
 msgid "Remove diagram %1"
-msgstr ""
+msgstr "הסרת תרשים %1"
 
 #: cmds/cmdsetstereotype.cpp:21
 #, kde-format
@@ -234,17 +234,17 @@ msgstr ""
 #: cmds/cmdsetvisibility.cpp:22
 #, kde-format
 msgid "Change visibility : %1"
-msgstr ""
+msgstr "שינוי מצב חשיפה : %1"
 
 #: cmds/generic/cmdcreateumlobject.cpp:28 object_factory.cpp:178
 #, kde-format
 msgid "Create UML object : %1"
-msgstr ""
+msgstr "יצירת עצם UML :‏ %1"
 
 #: cmds/generic/cmdremoveumlobject.cpp:25
 #, kde-format
 msgid "Remove UML object : %1"
-msgstr ""
+msgstr "הסרת עצם UML ‏: %1"
 
 #: cmds/generic/cmdrenameumlobject.cpp:20
 #, kde-format
@@ -2856,7 +2856,7 @@ msgstr ""
 #: dialogs/pages/diagrampropertiespage.ui:312
 #, kde-format
 msgid "Autoincrement Sequence "
-msgstr ""
+msgstr "הגדלת רצף אוטומטית "
 
 #: dialogs/pages/generaloptionpage.cpp:41
 #: dialogs/pages/umlwidgetstylepage.cpp:198
@@ -2956,7 +2956,7 @@ msgstr ""
 #: dialogs/selectoperationdialog.cpp:70
 #, kde-format
 msgid "Sequence number:"
-msgstr ""
+msgstr "מספר רצף:"
 
 #: dialogs/pages/selectoperationpage.cpp:67
 #: dialogs/selectoperationdialog.cpp:73
@@ -7252,7 +7252,7 @@ msgstr ""
 #: umlapp.cpp:470
 #, kde-format
 msgid "&Sequence Diagram..."
-msgstr ""
+msgstr "תרשים ה&רצף…"
 
 #: umlapp.cpp:476
 #, kde-format
@@ -7701,7 +7701,7 @@ msgstr ""
 #: umldoc.cpp:1532
 #, kde-format
 msgid "sequence diagram"
-msgstr ""
+msgstr "תרשים הרצף"
 
 #: umldoc.cpp:1535
 #, kde-format
@@ -8748,12 +8748,12 @@ msgstr ""
 #: umlwidgets/widget_utils.cpp:962
 #, kde-format
 msgid "Rename activity"
-msgstr ""
+msgstr "שינוי שם פעילות"
 
 #: umlwidgets/widget_utils.cpp:966
 #, kde-format
 msgid "Rename box"
-msgstr ""
+msgstr "שינוי שם תיבה"
 
 #: umlwidgets/widget_utils.cpp:969
 #, kde-format
@@ -8763,27 +8763,27 @@ msgstr ""
 #: umlwidgets/widget_utils.cpp:974
 #, kde-format
 msgid "Rename floating dash line"
-msgstr ""
+msgstr "שינוי שם קו מקווקוו צף"
 
 #: umlwidgets/widget_utils.cpp:975
 #, kde-format
 msgid "Rename fork/join"
-msgstr ""
+msgstr "שינוי שם התפצלות/הצטרפות"
 
 #: umlwidgets/widget_utils.cpp:978
 #, kde-format
 msgid "Rename message"
-msgstr ""
+msgstr "שינוי שם הודעה"
 
 #: umlwidgets/widget_utils.cpp:980
 #, kde-format
 msgid "Rename note"
-msgstr ""
+msgstr "שינוי שם הערה"
 
 #: umlwidgets/widget_utils.cpp:981
 #, kde-format
 msgid "Rename object"
-msgstr ""
+msgstr "שינוי שם עצם"
 
 #: umlwidgets/widget_utils.cpp:982
 #, kde-format
@@ -8793,52 +8793,52 @@ msgstr ""
 #: umlwidgets/widget_utils.cpp:984
 #, kde-format
 msgid "Rename pin"
-msgstr ""
+msgstr "שינוי שם נעץ"
 
 #: umlwidgets/widget_utils.cpp:986
 #, kde-format
 msgid "Rename precondition"
-msgstr ""
+msgstr "שינוי שם תנאי קדם"
 
 #: umlwidgets/widget_utils.cpp:987
 #, kde-format
 msgid "Rename region"
-msgstr ""
+msgstr "שינוי שם אזור"
 
 #: umlwidgets/widget_utils.cpp:988
 #, kde-format
 msgid "Rename signal"
-msgstr ""
+msgstr "שינוי שם אות"
 
 #: umlwidgets/widget_utils.cpp:989
 #, kde-format
 msgid "Rename state"
-msgstr ""
+msgstr "שינוי שם מצב"
 
 #: umlwidgets/widget_utils.cpp:990
 #, kde-format
 msgid "Rename text"
-msgstr ""
+msgstr "שינוי שם טקסט"
 
 #: umlwidgets/widget_utils.cpp:991
 #, kde-format
 msgid "Rename UML widget"
-msgstr ""
+msgstr "שינוי שם וידג׳ט UML"
 
 #: umlwidgets/widget_utils.cpp:996
 #, kde-format
 msgid "Rename widget"
-msgstr ""
+msgstr "שינוי שם וידג׳ט"
 
 #: umlwidgets/widget_utils.cpp:1008
 #, kde-format
 msgid "Enter the new name of the activity:"
-msgstr ""
+msgstr "נא למלא את השם החדש של הפעילות:"
 
 #: umlwidgets/widget_utils.cpp:1012
 #, kde-format
 msgid "Enter the new name of the box:"
-msgstr ""
+msgstr "נא למלא את השם החדש של התיבה:"
 
 #: umlwidgets/widget_utils.cpp:1015
 #, kde-format
@@ -8848,22 +8848,22 @@ msgstr ""
 #: umlwidgets/widget_utils.cpp:1020
 #, kde-format
 msgid "Enter the new name of the floating dash line:"
-msgstr ""
+msgstr "נא למלא שם חדש לקו המקווקוו הצף:"
 
 #: umlwidgets/widget_utils.cpp:1021
 #, kde-format
 msgid "Enter the new name of the fork/join widget:"
-msgstr ""
+msgstr "נא למלא שם חדש להתפצלות/הצטרפות:"
 
 #: umlwidgets/widget_utils.cpp:1024
 #, kde-format
 msgid "Enter the new name of the message:"
-msgstr ""
+msgstr "נא למלא את שם ההודעה החדש:"
 
 #: umlwidgets/widget_utils.cpp:1026
 #, kde-format
 msgid "Enter the new name of the note:"
-msgstr ""
+msgstr "נא למלא את שם ההערה החדש:"
 
 #: umlwidgets/widget_utils.cpp:1027
 #, kde-format
@@ -8918,7 +8918,7 @@ msgstr ""
 #: umlwidgets/widgetbase.cpp:1255 worktoolbar.cpp:337
 #, kde-format
 msgid "Box"
-msgstr ""
+msgstr "תיבה"
 
 #: umlwidgets/widgetbase.cpp:1261
 #, kde-format
@@ -8928,12 +8928,12 @@ msgstr ""
 #: umlwidgets/widgetbase.cpp:1270 worktoolbar.cpp:362
 #, kde-format
 msgid "Datatype"
-msgstr ""
+msgstr "סוג נתונים"
 
 #: umlwidgets/widgetbase.cpp:1276 worktoolbar.cpp:363
 #, kde-format
 msgid "Enum"
-msgstr ""
+msgstr "מונה"
 
 #: umlwidgets/widgetbase.cpp:1279
 #, kde-format
@@ -8948,17 +8948,17 @@ msgstr ""
 #: umlwidgets/widgetbase.cpp:1288
 #, kde-format
 msgid "Message"
-msgstr ""
+msgstr "הודעה"
 
 #: umlwidgets/widgetbase.cpp:1294 worktoolbar.cpp:336
 #, kde-format
 msgid "Note"
-msgstr ""
+msgstr "הערה"
 
 #: umlwidgets/widgetbase.cpp:1297 worktoolbar.cpp:323
 #, kde-format
 msgid "Object"
-msgstr ""
+msgstr "עצם"
 
 #: umlwidgets/widgetbase.cpp:1300
 #, kde-format
@@ -8968,43 +8968,43 @@ msgstr ""
 #: umlwidgets/widgetbase.cpp:1318
 #, kde-format
 msgid "Signal"
-msgstr ""
+msgstr "אות"
 
 #: umlwidgets/widgetbase.cpp:1321
 #, kde-format
 msgid "State"
-msgstr ""
+msgstr "מצב"
 
 #: umlwidgets/widgetbase.cpp:1324
 #, kde-format
 msgid "Text"
-msgstr ""
+msgstr "טקסט"
 
 #: umlwidgets/widgetbase.cpp:1327
 #, kde-format
 msgid "UseCase"
-msgstr ""
+msgstr "מקרה בוחן"
 
 #: umlwidgets/widgetbase.cpp:1330 worktoolbar.cpp:392
 #, kde-format
 msgid "Instance"
-msgstr ""
+msgstr "מופע"
 
 #: worktoolbar.cpp:322
 #, kde-format
 msgctxt "selection arrow"
 msgid "Select"
-msgstr ""
+msgstr "בחירה"
 
 #: worktoolbar.cpp:324
 #, kde-format
 msgid "Creation"
-msgstr ""
+msgstr "יצירה"
 
 #: worktoolbar.cpp:325
 #, kde-format
 msgid "Destroy"
-msgstr ""
+msgstr "השמדה"
 
 #: worktoolbar.cpp:330
 #, kde-format
@@ -9014,74 +9014,74 @@ msgstr ""
 #: worktoolbar.cpp:335
 #, kde-format
 msgid "Label"
-msgstr ""
+msgstr "תווית"
 
 #: worktoolbar.cpp:342
 #, kde-format
 msgid "Directional Association"
-msgstr ""
+msgstr "שיוך כיווני"
 
 #: worktoolbar.cpp:346
 #, kde-format
 msgctxt "UML class"
 msgid "Class"
-msgstr ""
+msgstr "מחלקה"
 
 #: worktoolbar.cpp:351
 #, kde-format
 msgid "Send signal"
-msgstr ""
+msgstr "שליחת אות"
 
 #: worktoolbar.cpp:352
 #, kde-format
 msgid "Accept signal"
-msgstr ""
+msgstr "קבלת אות"
 
 #: worktoolbar.cpp:353
 #, kde-format
 msgid "Accept time event"
-msgstr ""
+msgstr "קבלת אירוע זמן"
 
 #: worktoolbar.cpp:354
 #, kde-format
 msgid "Fork/Join"
-msgstr ""
+msgstr "התפצלות/הצטרפות"
 
 #: worktoolbar.cpp:360
 #, kde-format
 msgid "Interface Provider"
-msgstr ""
+msgstr "ספק ממשק"
 
 #: worktoolbar.cpp:361
 #, kde-format
 msgid "Interface required"
-msgstr ""
+msgstr "נדרש ממשק"
 
 #: worktoolbar.cpp:367
 #, kde-format
 msgctxt "join states"
 msgid "Join"
-msgstr ""
+msgstr "הצטרפות"
 
 #: worktoolbar.cpp:371
 #, kde-format
 msgctxt "state choice"
 msgid "Choice"
-msgstr ""
+msgstr "בחירה"
 
 #. i18n("Choice"),                  Icon_Utils::it_Choice_Round,            SLOT(slotChoice()) },          //NotYetImplemented
 #: worktoolbar.cpp:374
 #, kde-format
 msgid "And Line"
-msgstr ""
+msgstr "קו וגם"
 
 #: worktoolbar.cpp:378
 #, kde-format
 msgctxt "state diagram"
 msgid "State"
-msgstr ""
+msgstr "מצב"
 
 #: worktoolbar.cpp:388
 #, kde-format
 msgid "Pre/Post condition"
-msgstr ""
+msgstr "תנאי מקדים/סופי"
