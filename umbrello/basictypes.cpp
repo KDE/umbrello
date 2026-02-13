@@ -922,6 +922,8 @@ QString toString(Enum item)
             return QStringLiteral("Java");
         case JavaScript:
             return QStringLiteral("JavaScript");
+        case TypeScript:
+            return QStringLiteral("TypeScript");
         case MySQL:
             return QStringLiteral("MySQL");
         case Pascal:
@@ -973,6 +975,8 @@ Enum fromString(const QString& item)
         return Java;
     if (item == QStringLiteral("JavaScript"))
         return JavaScript;
+    if (item == QStringLiteral("TypeScript"))
+        return TypeScript;
     if (item == QStringLiteral("MySQL"))
         return MySQL;
     if (item == QStringLiteral("Pascal"))
@@ -1049,6 +1053,8 @@ QStringList toExtensions(Enum item)
         case JavaScript:
             result << QStringLiteral("*.js");
             break;
+        case TypeScript:
+            result << QStringLiteral("*.ts");
         case Pascal:
             result << QStringLiteral("*.pas");
             break;
@@ -1151,6 +1157,7 @@ QString scopeSeparator(Enum item)
         item == Uml::ProgrammingLanguage::Pascal ||
         item == Uml::ProgrammingLanguage::Java ||
         item == Uml::ProgrammingLanguage::JavaScript ||
+        item == Uml::ProgrammingLanguage::TypeScript ||
         item == Uml::ProgrammingLanguage::Vala ||
         item == Uml::ProgrammingLanguage::Python)  // CHECK: more?
         return QStringLiteral(".");

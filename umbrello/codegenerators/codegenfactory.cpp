@@ -10,6 +10,7 @@
 #include "codegenfactory.h"
 
 // app includes
+#include "tswriter.h"
 #include "umlattribute.h"
 #include "codegenerator.h"
 #include "debug_utils.h"
@@ -132,6 +133,9 @@ CodeGenerator* createObject(Uml::ProgrammingLanguage::Enum pl)
             break;
         case Uml::ProgrammingLanguage::JavaScript:
             obj = new JSWriter();
+            break;
+        case Uml::ProgrammingLanguage::TypeScript:
+            obj = new TSWriter();
             break;
         case Uml::ProgrammingLanguage::MySQL:
             obj = new MySQLWriter();

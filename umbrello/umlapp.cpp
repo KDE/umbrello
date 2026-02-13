@@ -7,6 +7,7 @@
 #include "umlapp.h"
 
 // app includes
+#include "basictypes.h"
 #include "birdview.h"
 #include "dialog_utils.h"
 #include "umlappprivate.h"
@@ -385,6 +386,7 @@ void UMLApp::initActions()
     setProgLangAction(Uml::ProgrammingLanguage::IDL,          "IDL",             "setLang_idl");
     setProgLangAction(Uml::ProgrammingLanguage::Java,         "Java",            "setLang_java");
     setProgLangAction(Uml::ProgrammingLanguage::JavaScript,   "JavaScript",      "setLang_javascript");
+    setProgLangAction(Uml::ProgrammingLanguage::TypeScript,   "TypeScript",      "setLang_typescript");
     setProgLangAction(Uml::ProgrammingLanguage::MySQL,        "MySQL (SQL)",     "setLang_mysql");
     setProgLangAction(Uml::ProgrammingLanguage::Pascal,       "Pascal",          "setLang_pascal");
     setProgLangAction(Uml::ProgrammingLanguage::Perl,         "Perl",            "setLang_perl");
@@ -407,6 +409,7 @@ void UMLApp::initActions()
     connect(m_langAct[Uml::ProgrammingLanguage::IDL],          SIGNAL(triggered()), this, SLOT(setLang_idl()));
     connect(m_langAct[Uml::ProgrammingLanguage::Java],         SIGNAL(triggered()), this, SLOT(setLang_java()));
     connect(m_langAct[Uml::ProgrammingLanguage::JavaScript],   SIGNAL(triggered()), this, SLOT(setLang_javascript()));
+    connect(m_langAct[Uml::ProgrammingLanguage::TypeScript],   SIGNAL(triggered()), this, SLOT(setLang_typescript()));
     connect(m_langAct[Uml::ProgrammingLanguage::MySQL],        SIGNAL(triggered()), this, SLOT(setLang_mysql()));
     connect(m_langAct[Uml::ProgrammingLanguage::Pascal],       SIGNAL(triggered()), this, SLOT(setLang_pascal()));
     connect(m_langAct[Uml::ProgrammingLanguage::Perl],         SIGNAL(triggered()), this, SLOT(setLang_perl()));
@@ -2340,6 +2343,11 @@ void UMLApp::setLang_java()
 void UMLApp::setLang_javascript()
 {
     setActiveLanguage(Uml::ProgrammingLanguage::JavaScript);
+}
+
+void UMLApp::setLang_typescript()
+{
+    setActiveLanguage(Uml::ProgrammingLanguage::TypeScript);
 }
 
 void UMLApp::setLang_mysql()

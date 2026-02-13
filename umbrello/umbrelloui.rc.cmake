@@ -76,6 +76,7 @@
       <Action name="setLang_idl"/>
       <Action name="setLang_java"/>
       <Action name="setLang_javascript"/>
+      <Action name="setLang_typescript"/>
       <Action name="setLang_mysql"/>
       <Action name="setLang_pascal"/>
       <Action name="setLang_perl"/>

@@ -110,6 +110,7 @@
             <choice name="IDL" />
             <choice name="Java" />
             <choice name="JavaScript" />
+            <choice name="TypeScript" />
             <choice name="MySQL" />
             <choice name="Pascal" />
             <choice name="Perl" />

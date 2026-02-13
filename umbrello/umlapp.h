@@ -307,6 +307,7 @@ private Q_SLOTS:
     void setLang_idl();
     void setLang_java();
     void setLang_javascript();
+    void setLang_typescript();
     void setLang_mysql();
     void setLang_pascal();
     void setLang_perl();

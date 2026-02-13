@@ -43,6 +43,7 @@ include_directories(
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/idl/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/java/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/js/
+  ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/ts/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/pascal/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/perl/
   ${CMAKE_CURRENT_SOURCE_DIR}/codegenerators/php/
@@ -140,6 +141,7 @@ set(libcodegenerator_SRCS
     codegenerators/java/javacodeoperation.cpp
     codegenerators/java/javawriter.cpp
     codegenerators/js/jswriter.cpp
+    codegenerators/ts/tswriter.cpp
     codegenerators/ownedcodeblock.cpp
     codegenerators/ownedhierarchicalcodeblock.cpp
     codegenerators/pascal/pascalwriter.cpp

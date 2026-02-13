@@ -297,6 +297,7 @@ namespace Uml
             IDL,
             Java,
             JavaScript,
+            TypeScript,
             MySQL,
             Pascal,
             Perl,
