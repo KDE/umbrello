@@ -11,6 +11,7 @@
 #include "simplecodegenerator.h"
 #include "umloperationlist.h"
 #include "umlassociationlist.h"
+#include "umlenum.h"
 
 class QTextStream;
 
@@ -32,10 +33,15 @@ public:
 
     virtual QStringList reservedKeywords() const;
 
-private:
-    void writeOperations(QString classname, UMLOperationList *opList, QTextStream &js);
+    QStringList defaultDatatypes() const;
 
-    void writeAssociation(QString& classname, UMLAssociationList& assoclist, QTextStream &js);
+private:
+
+    void writeEnum(UMLEnum *c);
+
+    void writeOperations(QString classname, UMLOperationList *opList, QTextStream &ts, bool isInterface);
+
+    void writeAssociation(QString& classname, UMLClassifier* c, QTextStream &ts);
 };
 
 #endif // TSWRITER_H
