@@ -17,7 +17,6 @@
 
 #include <QRegularExpression>
 #include <QTextStream>
-#include <cstdio>
 
 // Helper to map UML visibility to TS keywords
 QString toTSVisibility(Uml::Visibility::Enum v) {
@@ -38,7 +37,7 @@ TSWriter::~TSWriter()
 }
 
 /**
- * Call this method to generate Actionscript code for a UMLClassifier.
+ * Call this method to generate TypeScript code for a UMLClassifier.
  * @param c   the class you want to generate code for
  */
 void TSWriter::writeClass(UMLClassifier *c)
@@ -49,8 +48,8 @@ void TSWriter::writeClass(UMLClassifier *c)
     }
     UMLEnum *asEnum = dynamic_cast<UMLEnum*>(c);
     if (asEnum) {
-        writeEnum(asEnum); // Call your helper method
-        return;            // STOP here so we don't write it as a class
+        writeEnum(asEnum);
+        return;
     }
 
     QString classname = cleanName(c->name());
@@ -71,7 +70,6 @@ void TSWriter::writeClass(UMLClassifier *c)
     }
     QTextStream ts(&fileTs);
 
-    // 1. Header & License
     QString str = getHeadingFile(QStringLiteral(".ts"));
     if (!str.isEmpty()) {
         str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
@@ -79,7 +77,6 @@ void TSWriter::writeClass(UMLClassifier *c)
         ts << str << m_endl;
     }
 
-    // 2. Imports
     // In TS, we usually import classes from other files.
     UMLPackageList includes;
     findObjectsRelated(c, includes);
@@ -92,18 +89,16 @@ void TSWriter::writeClass(UMLClassifier *c)
     }
     ts << m_endl;
 
-    // 3. Class Documentation
+    // Class Documentation
     if (forceDoc() || !c->doc().isEmpty()) {
         ts << "/**" << m_endl;
         ts << formatDoc(c->doc(), QStringLiteral(" * "));
         ts << " */" << m_endl;
     }
 
-    // 4. Class Declaration
-    QString inheritanceStr; // Default constructor creates empty string
+    QString inheritanceStr;
     UMLClassifierList superclasses = c->getSuperClasses();
     if (!superclasses.isEmpty()) {
-        // Fix: Use QStringLiteral for concatenation
         inheritanceStr = QStringLiteral(" extends ") + cleanName(superclasses.first()->name());
     }
 
@@ -113,7 +108,7 @@ void TSWriter::writeClass(UMLClassifier *c)
 
     ts << "export " << typeKeyword << " " << classname << inheritanceStr << " {" << m_endl;
 
-    // 5. Attributes (Fields)
+    // Attributes (Fields)
     UMLAttributeList atl = c->getAttributeList();
     for (UMLAttribute *at : atl) {
         if (forceDoc() || !at->doc().isEmpty()) {
@@ -134,10 +129,10 @@ void TSWriter::writeClass(UMLClassifier *c)
         ts << ";" << m_endl;
     }
 
-    // 6. Associations (as Fields)
+    // Associations (as Fields)
     writeAssociation(classname, c, ts);
 
-    // 7. Constructor
+    // Constructor
     // Interfaces don't have constructors in TS
     if (!c->isInterface()) {
         ts << m_endl << m_indentation << "constructor() {" << m_endl;
@@ -148,7 +143,7 @@ void TSWriter::writeClass(UMLClassifier *c)
         ts << m_indentation << "}" << m_endl;
     }
 
-    // 8. Operations (Methods)
+    // Operations (Methods)
     UMLOperationList ops(c->getOperationsList());
     writeOperations(classname, &ops, ts, c->isInterface());
 
@@ -182,7 +177,6 @@ void TSWriter::writeEnum(UMLEnum *e)
     }
     QTextStream ts(&fileTs);
 
-    // 1. Header
     QString str = getHeadingFile(QStringLiteral(".ts"));
     if (!str.isEmpty()) {
         str.replace(QRegularExpression(QStringLiteral("%filename%")), fileName);
@@ -191,21 +185,18 @@ void TSWriter::writeEnum(UMLEnum *e)
     }
     ts << m_endl;
 
-    // 2. Documentation
     if (forceDoc() || !e->doc().isEmpty()) {
         ts << "/**" << m_endl;
         ts << formatDoc(e->doc(), QStringLiteral(" * "));
         ts << " */" << m_endl;
     }
 
-    // 3. Enum Definition
+    // Enum Definition
     ts << "export enum " << classname << " {" << m_endl;
 
-    // --- FIX: Use UMLObject::ot_EnumLiteral and UMLClassifierListItemList ---
     UMLClassifierListItemList literals = e->getFilteredList(UMLObject::ot_EnumLiteral);
 
     for (UMLClassifierListItem *obj : literals) {
-        // --- FIX: Safe cast now that header is included ---
         UMLEnumLiteral *literal = static_cast<UMLEnumLiteral*>(obj);
 
         QString name = cleanName(literal->name());
@@ -275,7 +266,7 @@ void TSWriter::writeAssociation(QString& classname, UMLClassifier* c, QTextStrea
         } else {
             // e.g. public teacher: Teacher;
             // Note: In strict TS, this might error if not initialized in constructor.
-            // We can add ' | null = null' or '!' to suppress, but let's keep it simple.
+            // We can add ' | null = null' or '!' to suppress
             ts << m_indentation << vis << " " << roleName << ": " << typeName << ";" << m_endl;
         }
     }
