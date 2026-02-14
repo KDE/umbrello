@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-27 02:40+0000\n"
-"PO-Revision-Date: 2026-01-30 09:23+0200\n"
+"PO-Revision-Date: 2026-02-13 18:09+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -8438,57 +8438,57 @@ msgstr ""
 #: umlwidgets/widget_utils.cpp:825
 #, kde-format
 msgid "new actor"
-msgstr ""
+msgstr "שחקן חדש"
 
 #: umlwidgets/widget_utils.cpp:826
 #, kde-format
 msgid "new artifact"
-msgstr ""
+msgstr "חפץ חדש"
 
 #: umlwidgets/widget_utils.cpp:827
 #, kde-format
 msgid "new association"
-msgstr ""
+msgstr "שיוך חדש"
 
 #: umlwidgets/widget_utils.cpp:828
 #, kde-format
 msgid "new box"
-msgstr ""
+msgstr "תיבה חדשה"
 
 #: umlwidgets/widget_utils.cpp:829
 #, kde-format
 msgid "new category"
-msgstr ""
+msgstr "קטגוריה חדשה"
 
 #: umlwidgets/widget_utils.cpp:830
 #, kde-format
 msgid "new class"
-msgstr ""
+msgstr "מחלקה חדשה"
 
 #: umlwidgets/widget_utils.cpp:831
 #, kde-format
 msgid "new combined fragment"
-msgstr ""
+msgstr "מקטע משולב חדש"
 
 #: umlwidgets/widget_utils.cpp:832
 #, kde-format
 msgid "new component"
-msgstr ""
+msgstr "רכיב חדש"
 
 #: umlwidgets/widget_utils.cpp:833
 #, kde-format
 msgid "new datatype"
-msgstr ""
+msgstr "סוג נתונים חדש"
 
 #: umlwidgets/widget_utils.cpp:834
 #, kde-format
 msgid "new entity"
-msgstr ""
+msgstr "יישות חדשה"
 
 #: umlwidgets/widget_utils.cpp:835
 #, kde-format
 msgid "new enum"
-msgstr ""
+msgstr "מונה חדש"
 
 #: umlwidgets/widget_utils.cpp:836
 #, kde-format
@@ -8498,107 +8498,107 @@ msgstr ""
 #: umlwidgets/widget_utils.cpp:837
 #, kde-format
 msgid "new fork/join"
-msgstr ""
+msgstr "התפצלות/הצטרפות חדשה"
 
 #: umlwidgets/widget_utils.cpp:838
 #, kde-format
 msgid "new instance"
-msgstr ""
+msgstr "מופע חדש"
 
 #: umlwidgets/widget_utils.cpp:839
 #, kde-format
 msgid "new interface"
-msgstr ""
+msgstr "ממשק חדש"
 
 #: umlwidgets/widget_utils.cpp:840
 #, kde-format
 msgid "new message"
-msgstr ""
+msgstr "הודעה חדשה"
 
 #: umlwidgets/widget_utils.cpp:841
 #, kde-format
 msgid "new node"
-msgstr ""
+msgstr "מפרק חדש"
 
 #: umlwidgets/widget_utils.cpp:842
 #, kde-format
 msgid "new note"
-msgstr ""
+msgstr "הערה חדשה"
 
 #: umlwidgets/widget_utils.cpp:843
 #, kde-format
 msgid "new object"
-msgstr ""
+msgstr "עצם חדש"
 
 #: umlwidgets/widget_utils.cpp:844
 #, kde-format
 msgid "new object node"
-msgstr ""
+msgstr "מפרק עצם חדש"
 
 #: umlwidgets/widget_utils.cpp:845
 #, kde-format
 msgid "new package"
-msgstr ""
+msgstr "חבילה חדשה"
 
 #: umlwidgets/widget_utils.cpp:846
 #, kde-format
 msgid "new pin"
-msgstr ""
+msgstr "נעץ חדש"
 
 #: umlwidgets/widget_utils.cpp:847
 #, kde-format
 msgid "new port"
-msgstr ""
+msgstr "פתחה חדשה"
 
 #: umlwidgets/widget_utils.cpp:848
 #, kde-format
 msgid "new precondition"
-msgstr ""
+msgstr "תנאי מקדים חדש"
 
 #: umlwidgets/widget_utils.cpp:849
 #, kde-format
 msgid "new region"
-msgstr ""
+msgstr "אזור חדש"
 
 #: umlwidgets/widget_utils.cpp:850
 #, kde-format
 msgid "new signal"
-msgstr ""
+msgstr "אות חדש"
 
 #: umlwidgets/widget_utils.cpp:852
 #, kde-format
 msgid "new text"
-msgstr ""
+msgstr "טקסט חדש"
 
 #: umlwidgets/widget_utils.cpp:853
 #, kde-format
 msgid "new UML widget"
-msgstr ""
+msgstr "וידג׳ט UML חדש"
 
 #: umlwidgets/widget_utils.cpp:854
 #, kde-format
 msgid "new use case"
-msgstr ""
+msgstr "אופן שימוש חדש"
 
 #: umlwidgets/widget_utils.cpp:858
 #, kde-format
 msgid "new widget"
-msgstr ""
+msgstr "וידג׳ט חדש"
 
 #: umlwidgets/widget_utils.cpp:871
 #, kde-format
 msgid "New activity"
-msgstr ""
+msgstr "פעילות חדשה"
 
 #: umlwidgets/widget_utils.cpp:875
 #, kde-format
 msgid "New box"
-msgstr ""
+msgstr "תיבה חדשה"
 
 #: umlwidgets/widget_utils.cpp:878
 #, kde-format
 msgid "New combined fragment"
-msgstr ""
+msgstr "מקטע משולב חדש"
 
 #: umlwidgets/widget_utils.cpp:883
 #, kde-format
@@ -8608,67 +8608,67 @@ msgstr ""
 #: umlwidgets/widget_utils.cpp:884
 #, kde-format
 msgid "New fork/join"
-msgstr ""
+msgstr "התפצלות/הצטרפות חדשה"
 
 #: umlwidgets/widget_utils.cpp:887
 #, kde-format
 msgid "New message"
-msgstr ""
+msgstr "הודעה חדשה"
 
 #: umlwidgets/widget_utils.cpp:889
 #, kde-format
 msgid "New note"
-msgstr ""
+msgstr "הערה חדשה"
 
 #: umlwidgets/widget_utils.cpp:890
 #, kde-format
 msgid "New object"
-msgstr ""
+msgstr "עצם חדש"
 
 #: umlwidgets/widget_utils.cpp:891
 #, kde-format
 msgid "New object node"
-msgstr ""
+msgstr "מפרק עצם חדש"
 
 #: umlwidgets/widget_utils.cpp:893
 #, kde-format
 msgid "New pin"
-msgstr ""
+msgstr "נעץ חדש"
 
 #: umlwidgets/widget_utils.cpp:895
 #, kde-format
 msgid "New precondition"
-msgstr ""
+msgstr "תנאי מקדים חדש"
 
 #: umlwidgets/widget_utils.cpp:896
 #, kde-format
 msgid "New region"
-msgstr ""
+msgstr "אזור חדש"
 
 #: umlwidgets/widget_utils.cpp:897
 #, kde-format
 msgid "New signal"
-msgstr ""
+msgstr "אות חדש"
 
 #: umlwidgets/widget_utils.cpp:898
 #, kde-format
 msgid "New state"
-msgstr ""
+msgstr "מצב חדש"
 
 #: umlwidgets/widget_utils.cpp:899
 #, kde-format
 msgid "New text"
-msgstr ""
+msgstr "טקסט חדש"
 
 #: umlwidgets/widget_utils.cpp:900
 #, kde-format
 msgid "New UML widget"
-msgstr ""
+msgstr "וידג׳ט UML חדש"
 
 #: umlwidgets/widget_utils.cpp:905
 #, kde-format
 msgid "New widget"
-msgstr ""
+msgstr "וידג׳ט חדש"
 
 #: umlwidgets/widget_utils.cpp:921
 #, kde-format
@@ -8843,7 +8843,7 @@ msgstr "נא למלא את השם החדש של התיבה:"
 #: umlwidgets/widget_utils.cpp:1015
 #, kde-format
 msgid "Enter the new name of the combined fragment:"
-msgstr ""
+msgstr "נא למלא את שם החדש של המקטע המשולב:"
 
 #: umlwidgets/widget_utils.cpp:1020
 #, kde-format
@@ -8868,52 +8868,52 @@ msgstr "נא למלא את שם ההערה החדש:"
 #: umlwidgets/widget_utils.cpp:1027
 #, kde-format
 msgid "Enter the new name of the object:"
-msgstr ""
+msgstr "נא למלא את השם החדש של העצם:"
 
 #: umlwidgets/widget_utils.cpp:1028
 #, kde-format
 msgid "Enter the new name of the object node:"
-msgstr ""
+msgstr "נא למלא את השם החדש של מפרק העצם:"
 
 #: umlwidgets/widget_utils.cpp:1030
 #, kde-format
 msgid "Enter the new name of the pin:"
-msgstr ""
+msgstr "נא למלא את השם החדש של הנעץ:"
 
 #: umlwidgets/widget_utils.cpp:1032
 #, kde-format
 msgid "Enter the new name of the precondition:"
-msgstr ""
+msgstr "נא למלא את השם החדש של התנאי המקדים:"
 
 #: umlwidgets/widget_utils.cpp:1033
 #, kde-format
 msgid "Enter the new name of the region:"
-msgstr ""
+msgstr "נא למלא את השם החדש של האזור:"
 
 #: umlwidgets/widget_utils.cpp:1034
 #, kde-format
 msgid "Enter the new name of the signal:"
-msgstr ""
+msgstr "נא למלא את השם החדש של האות:"
 
 #: umlwidgets/widget_utils.cpp:1035
 #, kde-format
 msgid "Enter the new name of the state:"
-msgstr ""
+msgstr "נא למלא את השם החדש של המצב:"
 
 #: umlwidgets/widget_utils.cpp:1036
 #, kde-format
 msgid "Enter the new name of the text:"
-msgstr ""
+msgstr "נא למלא את השם החדש של הטקסט:"
 
 #: umlwidgets/widget_utils.cpp:1037
 #, kde-format
 msgid "Enter the new name of the uml widget:"
-msgstr ""
+msgstr "נא למלא את השם החדש של וידג׳ט ה־uml:"
 
 #: umlwidgets/widget_utils.cpp:1041
 #, kde-format
 msgid "Enter the new name of the widget:"
-msgstr ""
+msgstr "נא למלא את השם החדש של הווידג׳ט:"
 
 #: umlwidgets/widgetbase.cpp:1255 worktoolbar.cpp:337
 #, kde-format
@@ -8923,7 +8923,7 @@ msgstr "תיבה"
 #: umlwidgets/widgetbase.cpp:1261
 #, kde-format
 msgid "CombinedFragment"
-msgstr ""
+msgstr "מקטע_משולב"
 
 #: umlwidgets/widgetbase.cpp:1270 worktoolbar.cpp:362
 #, kde-format
@@ -9009,7 +9009,7 @@ msgstr "השמדה"
 #: worktoolbar.cpp:330
 #, kde-format
 msgid "Combined Fragment"
-msgstr ""
+msgstr "מקטע משולב"
 
 #: worktoolbar.cpp:335
 #, kde-format
