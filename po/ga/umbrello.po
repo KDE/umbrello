@@ -73,10 +73,9 @@ msgid "Entity Relationship Diagram"
 msgstr "Léaráid de Ghaoil na nAonán"
 
 #: basictypes.cpp:207
-#, fuzzy, kde-format
-#| msgid "Delete Diagram"
+#, kde-format
 msgid "Object Diagram"
-msgstr "Scrios Léaráid"
+msgstr ""
 
 #: basictypes.cpp:209
 #, kde-format
@@ -109,16 +108,14 @@ msgid "Self Association"
 msgstr ""
 
 #: basictypes.cpp:335
-#, fuzzy, kde-format
-#| msgid "Asynchronous Message"
+#, kde-format
 msgid "Collaboration Asynchronous Message"
-msgstr "Teachtaireacht Aisioncrónach"
+msgstr ""
 
 #: basictypes.cpp:337
-#, fuzzy, kde-format
-#| msgid "Synchronous Message"
+#, kde-format
 msgid "Collaboration Synchronous Message"
-msgstr "Teachtaireacht Shioncrónach"
+msgstr ""
 
 #: basictypes.cpp:339
 #, kde-format
@@ -225,10 +222,9 @@ msgid "Change text : %1 to %2"
 msgstr "Athraigh téacs: %1 go %2"
 
 #: cmds/cmdremovediagram.cpp:33
-#, fuzzy, kde-format
-#| msgid "Create diagram %1: %2"
+#, kde-format
 msgid "Remove diagram %1"
-msgstr "Cruthaigh léaráid %1: %2"
+msgstr ""
 
 #: cmds/cmdsetstereotype.cpp:21
 #, kde-format
@@ -241,16 +237,14 @@ msgid "Change visibility : %1"
 msgstr "Athraigh an infheictheacht: %1"
 
 #: cmds/generic/cmdcreateumlobject.cpp:28 object_factory.cpp:178
-#, fuzzy, kde-format
-#| msgid "Create uml object : %1"
+#, kde-format
 msgid "Create UML object : %1"
-msgstr "Cruthaigh réad UML: %1"
+msgstr ""
 
 #: cmds/generic/cmdremoveumlobject.cpp:25
-#, fuzzy, kde-format
-#| msgid "Create uml object : %1"
+#, kde-format
 msgid "Remove UML object : %1"
-msgstr "Cruthaigh réad UML: %1"
+msgstr ""
 
 #: cmds/generic/cmdrenameumlobject.cpp:20
 #, kde-format
@@ -273,10 +267,9 @@ msgid "Change line color : %1"
 msgstr "Athraigh dath líne: %1"
 
 #: cmds/widget/cmdchangelinewidth.cpp:22
-#, fuzzy, kde-format
-#| msgid "Change line color : %1"
+#, kde-format
 msgid "Change line width : %1"
-msgstr "Athraigh dath líne: %1"
+msgstr ""
 
 #: cmds/widget/cmdchangemultiplicity.cpp:21
 #, kde-format
@@ -289,22 +282,19 @@ msgid "Change text color : %1"
 msgstr "Athraigh dath an téacs : %1"
 
 #: cmds/widget/cmdchangeusefillcolor.cpp:21
-#, fuzzy, kde-format
-#| msgid "Change fill color : %1"
+#, kde-format
 msgid "Use fill color : %1"
-msgstr "Athraigh an dath líonta: %1"
+msgstr ""
 
 #: cmds/widget/cmdchangeusefillcolor.cpp:23
-#, fuzzy, kde-format
-#| msgid "Change fill color : %1"
+#, kde-format
 msgid "No fill color : %1"
-msgstr "Athraigh an dath líonta: %1"
+msgstr ""
 
 #: cmds/widget/cmdchangevisualproperty.cpp:28
-#, fuzzy, kde-format
-#| msgid "Change visibility : %1"
+#, kde-format
 msgid "Change visual property : %1"
-msgstr "Athraigh an infheictheacht: %1"
+msgstr ""
 
 #: cmds/widget/cmdcreatewidget.cpp:29 cmds/widget/cmdcreatewidget.cpp:52
 #, kde-format
@@ -317,10 +307,9 @@ msgid "Move widget : %1"
 msgstr "Bog giuirléid: %1"
 
 #: cmds/widget/cmdremovewidget.cpp:26 cmds/widget/cmdremovewidget.cpp:77
-#, fuzzy, kde-format
-#| msgid "Move widget : %1"
+#, kde-format
 msgid "Remove widget : %1"
-msgstr "Bog giuirléid: %1"
+msgstr ""
 
 #: cmds/widget/cmdresizewidget.cpp:21
 #, kde-format
@@ -1472,9 +1461,6 @@ msgid "<b>Code import of 1 file:</b><br>"
 msgid_plural "<b>Code import of %1 files:</b><br>"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
 
 #: codeimpwizard/codeimpstatuspage.cpp:151
 #, kde-format
@@ -1879,10 +1865,9 @@ msgid "Cut"
 msgstr "Gearr"
 
 #: dialogs/codeviewerdialog.cpp:95
-#, fuzzy, kde-format
-#| msgid "Code Viewer - "
+#, kde-format
 msgid "Code Viewer - %1"
-msgstr "Amharcán Cóid - "
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_showHiddenCodeCB)
 #: dialogs/codeviewerdialogbase.ui:20
@@ -1951,10 +1936,9 @@ msgid "<p align=\"right\">Editable text:</p>"
 msgstr "<p align=\"right\">Téacs ineagarthóireachta:</p>"
 
 #: dialogs/dialog_utils.cpp:36
-#, fuzzy, kde-format
-#| msgid "E&nable autosave"
+#, kde-format
 msgid "Enable all messages"
-msgstr "&Cumasaigh uathshábháil"
+msgstr ""
 
 #: dialogs/dialog_utils.cpp:37
 #, kde-format
@@ -1972,10 +1956,9 @@ msgid "You are about to delete an association. Do you really want to continue?"
 msgstr ""
 
 #: dialogs/dialog_utils.cpp:216
-#, fuzzy, kde-format
-#| msgid "Association"
+#, kde-format
 msgid "Delete Association"
-msgstr "Comhcheangal"
+msgstr ""
 
 #: dialogs/dialog_utils.cpp:230
 #, kde-format
@@ -2002,10 +1985,9 @@ msgid "&Delete"
 msgstr "&Scrios"
 
 #: dialogs/dontaskagain.cpp:59
-#, fuzzy, kde-format
-#| msgid "Associations"
+#, kde-format
 msgid "Notifications"
-msgstr "Comhcheangail"
+msgstr ""
 
 #: dialogs/exportallviewsdialog.cpp:61 dialogs/widgets/imagetypewidget.cpp:29
 #, kde-format
@@ -2070,10 +2052,9 @@ msgstr "Scagaire"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_treeView)
 #: dialogs/finddialog.ui:33
-#, fuzzy, kde-format
-#| msgid "&Tree View"
+#, kde-format
 msgid "Tree View"
-msgstr "&Amharc Géagchórais"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_CurrentDiagram)
 #: dialogs/finddialog.ui:43 dialogs/pages/diagramprintpage.cpp:51
@@ -2135,11 +2116,9 @@ msgid "Search Term:"
 msgstr ""
 
 #: dialogs/multipagedialogbase.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "default line color button"
-#| msgid "&Default"
+#, kde-format
 msgid "Default"
-msgstr "&Réamhshocrú"
+msgstr ""
 
 #: dialogs/multipagedialogbase.cpp:299 dialogs/multipagedialogbase.cpp:313
 #: dialogs/multipagedialogbase.cpp:323
@@ -2179,10 +2158,9 @@ msgid "Style"
 msgstr "Stíl"
 
 #: dialogs/multipagedialogbase.cpp:424
-#, fuzzy, kde-format
-#| msgid "Widget Style"
+#, kde-format
 msgid "Line Style"
-msgstr "Stíl Giuirléidí"
+msgstr ""
 
 #: dialogs/multipagedialogbase.cpp:444
 #, kde-format
@@ -2196,10 +2174,9 @@ msgid "Role Settings"
 msgstr "Socruithe an Róil"
 
 #: dialogs/notedialog.cpp:20
-#, fuzzy, kde-format
-#| msgid "Properties"
+#, kde-format
 msgid "Note Properties"
-msgstr "Airíonna"
+msgstr ""
 
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
@@ -2557,16 +2534,14 @@ msgid "N&ew Constraint..."
 msgstr ""
 
 #: dialogs/pages/classifierlistpage.cpp:136
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Instance Attribute"
-msgstr "Tréithe Aonáin"
+msgstr ""
 
 #: dialogs/pages/classifierlistpage.cpp:137
-#, fuzzy, kde-format
-#| msgid "N&ew Attribute..."
+#, kde-format
 msgid "N&ew Instance Attribute..."
-msgstr "Airí &Nua..."
+msgstr ""
 
 #: dialogs/pages/classifierlistpage.cpp:210 dialogs/umloperationdialog.cpp:166
 #: umlapp.cpp:546
@@ -2661,28 +2636,24 @@ msgid "Default operation scope:"
 msgstr "Scóp réamhshocraithe oibríochta:"
 
 #: dialogs/pages/classoptionspage.cpp:333
-#, fuzzy, kde-format
-#| msgid "Attribute Settings"
+#, kde-format
 msgid "Attribute Signatures"
-msgstr "Socruithe Tréithe"
+msgstr ""
 
 #: dialogs/pages/classoptionspage.cpp:438
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "No Stereotype"
-msgstr "Steiréitíopa"
+msgstr ""
 
 #: dialogs/pages/classoptionspage.cpp:439
-#, fuzzy, kde-format
-#| msgid "Stereotype name:"
+#, kde-format
 msgid "Stereotype Name"
-msgstr "Ainm an steiréitíopa:"
+msgstr ""
 
 #: dialogs/pages/classoptionspage.cpp:440
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "Stereotype with Tags"
-msgstr "Steiréitíopa"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: dialogs/pages/codeimportoptionspage.ui:31
@@ -2700,10 +2671,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/pages/codeimportoptionspage.ui:56
-#, fuzzy, kde-format
-#| msgid "C++- Import"
+#, kde-format
 msgid "C++ Import"
-msgstr "Iompórtáil C++"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, createArtifactCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:66
@@ -2825,17 +2795,15 @@ msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelWidth)
 #: dialogs/pages/diagrampropertiespage.ui:105
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width:"
-msgstr "Leithead"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelHeight)
 #: dialogs/pages/diagrampropertiespage.ui:144
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Height:"
-msgstr "Airde"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_checkBoxShowGrid)
 #: dialogs/pages/diagrampropertiespage.ui:189
@@ -2884,10 +2852,9 @@ msgstr "Y"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_autoIncrementSequence)
 #: dialogs/pages/diagrampropertiespage.ui:312
-#, fuzzy, kde-format
-#| msgid "&Auto increment"
+#, kde-format
 msgid "Autoincrement Sequence "
-msgstr "Incrimintigh go u&athoibríoch"
+msgstr ""
 
 #: dialogs/pages/generaloptionpage.cpp:41
 #: dialogs/pages/umlwidgetstylepage.cpp:198
@@ -2917,10 +2884,9 @@ msgid "Turn on footer and page numbers when printing"
 msgstr ""
 
 #: dialogs/pages/generaloptionpage.cpp:64
-#, fuzzy, kde-format
-#| msgid "Enable undo"
+#, kde-format
 msgid "Enable UML2 support"
-msgstr "Cumasaigh cealú"
+msgstr ""
 
 #: dialogs/pages/generaloptionpage.cpp:69
 #, kde-format
@@ -2992,10 +2958,9 @@ msgstr ""
 
 #: dialogs/pages/selectoperationpage.cpp:67
 #: dialogs/selectoperationdialog.cpp:73
-#, fuzzy, kde-format
-#| msgid "&Auto increment"
+#, kde-format
 msgid "Auto increment:"
-msgstr "Incrimintigh go u&athoibríoch"
+msgstr ""
 
 #: dialogs/pages/selectoperationpage.cpp:72
 #: dialogs/selectoperationdialog.cpp:78
@@ -3017,11 +2982,10 @@ msgid "Custom operation:"
 msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:56
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgctxt "General options"
 msgid "General"
-msgstr "Ginearálta"
+msgstr ""
 
 #. i18n: ectx: label, entry (rightToLeftUI), group (UI Options)
 #: dialogs/pages/uioptionspage.cpp:62 umbrello.kcfg:197
@@ -3035,11 +2999,10 @@ msgid "Use alignment guides"
 msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:70
-#, fuzzy, kde-format
-#| msgid "Associations"
+#, kde-format
 msgctxt "Association options"
 msgid "Associations"
-msgstr "Comhcheangail"
+msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:75
 #, kde-format
@@ -3053,42 +3016,36 @@ msgid "Color"
 msgstr "Dath"
 
 #: dialogs/pages/uioptionspage.cpp:86
-#, fuzzy, kde-format
-#| msgid "Custom text color:"
+#, kde-format
 msgid "Custom text color"
-msgstr "Dath saincheaptha téacs:"
+msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:93
-#, fuzzy, kde-format
-#| msgid "Custom line color:"
+#, kde-format
 msgid "Custom line color"
-msgstr "Dath saincheaptha línte:"
+msgstr ""
 
 #. i18n("D&efault Color"), m_colorGB);
 #. colorLayout->addWidget(m_lineDefaultB, 0, 2);
 #: dialogs/pages/uioptionspage.cpp:103
-#, fuzzy, kde-format
-#| msgid "Custom fill color:"
+#, kde-format
 msgid "Custom fill color"
-msgstr "Dath saincheaptha líonta:"
+msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:109
-#, fuzzy, kde-format
-#| msgid "Custom grid color:"
+#, kde-format
 msgid "Custom grid color"
-msgstr "Dath saincheaptha greille:"
+msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:115
-#, fuzzy, kde-format
-#| msgid "Custom background color:"
+#, kde-format
 msgid "Custom background color"
-msgstr "Dath saincheaptha an chúlra:"
+msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:122
-#, fuzzy, kde-format
-#| msgid "Custom line width:"
+#, kde-format
 msgid "Custom line width"
-msgstr "Leithead saincheaptha línte:"
+msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:132
 #, kde-format
@@ -3226,10 +3183,9 @@ msgid "Defa&ult"
 msgstr "&Réamhshocrú"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:203
-#, fuzzy, kde-format
-#| msgid "The Width of the Line"
+#, kde-format
 msgid "Layout of the line:"
-msgstr "Leithead na Líne"
+msgstr ""
 
 #: dialogs/parameterpropertiesdialog.cpp:49
 #, kde-format
@@ -3265,16 +3221,14 @@ msgid "Parameter Name Invalid"
 msgstr "Ainm Neamhbhailí Paraiméadair"
 
 #: dialogs/selectdiagramdialog.cpp:18
-#, fuzzy, kde-format
-#| msgid "&Select diagrams"
+#, kde-format
 msgid "Select diagram"
-msgstr "&Roghnaigh léaráidí"
+msgstr ""
 
 #: dialogs/selectdiagramdialog.cpp:19
-#, fuzzy, kde-format
-#| msgid "&Diagram"
+#, kde-format
 msgid "Diagram"
-msgstr "Léarái&d"
+msgstr ""
 
 #: dialogs/settingsdialog.cpp:35
 #, kde-format
@@ -3378,53 +3332,46 @@ msgid "End state"
 msgstr "Staid deiridh"
 
 #: dialogs/statedialog.cpp:142
-#, fuzzy, kde-format
-#| msgid "Fork"
+#, kde-format
 msgctxt "fork state in statechart"
 msgid "Fork"
-msgstr "Forc"
+msgstr ""
 
 #: dialogs/statedialog.cpp:145
-#, fuzzy, kde-format
-#| msgid "Join"
+#, kde-format
 msgctxt "join state in statechart"
 msgid "Join"
-msgstr "Snaidhm"
+msgstr ""
 
 #: dialogs/statedialog.cpp:148
-#, fuzzy, kde-format
-#| msgid "Junction"
+#, kde-format
 msgctxt "junction state in statechart"
 msgid "Junction"
-msgstr "Cumar"
+msgstr ""
 
 #: dialogs/statedialog.cpp:151
-#, fuzzy, kde-format
-#| msgid "Deep History"
+#, kde-format
 msgctxt "deep history state in statechart"
 msgid "DeepHistory"
-msgstr "Stair Dhomhain"
+msgstr ""
 
 #: dialogs/statedialog.cpp:154
-#, fuzzy, kde-format
-#| msgid "Shallow History"
+#, kde-format
 msgctxt "shallow history state in statechart"
 msgid "ShallowHistory"
-msgstr "Stair Éadomhain"
+msgstr ""
 
 #: dialogs/statedialog.cpp:157
-#, fuzzy, kde-format
-#| msgid "Choice"
+#, kde-format
 msgctxt "choice state in statechart"
 msgid "Choice"
-msgstr "Rogha"
+msgstr ""
 
 #: dialogs/statedialog.cpp:160
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgctxt "combined state in statechart"
 msgid "Combined"
-msgstr "Mír Chomhcheangailte"
+msgstr ""
 
 #: dialogs/statedialog.cpp:168
 #, kde-format
@@ -3437,22 +3384,19 @@ msgid "State name:"
 msgstr "Ainm na staide:"
 
 #: dialogs/statedialog.cpp:183
-#, fuzzy, kde-format
-#| msgid "Loading diagrams..."
+#, kde-format
 msgid "Linked diagram:"
-msgstr "Léaráidí á luchtú..."
+msgstr ""
 
 #: dialogs/stereoattributedialog.cpp:38
-#, fuzzy, kde-format
-#| msgid "Properties"
+#, kde-format
 msgid "Stereotype Properties"
-msgstr "Airíonna"
+msgstr ""
 
 #: dialogs/stereoattributedialog.cpp:58
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Stereotype Attributes for "
-msgstr "Tréithe Aonáin"
+msgstr ""
 
 #: dialogs/stereoattributedialog.cpp:74 dialogs/umlattributedialog.cpp:76
 #, kde-format
@@ -3461,19 +3405,16 @@ msgid "&Name:"
 msgstr "Ai&nm:"
 
 #: dialogs/stereoattributedialog.cpp:77
-#, fuzzy, kde-format
-#| msgid "&Type:"
+#, kde-format
 msgctxt "attribute type"
 msgid "&Type:"
-msgstr "&Cineál:"
+msgstr ""
 
 #: dialogs/stereoattributedialog.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "default line color button"
-#| msgid "&Default"
+#, kde-format
 msgctxt "default value"
 msgid "&Default:"
-msgstr "&Réamhshocrú"
+msgstr ""
 
 #: dialogs/umlattributedialog.cpp:43
 #, kde-format
@@ -3541,10 +3482,9 @@ msgid "&Name:"
 msgstr "Ai&nm:"
 
 #: dialogs/umlentityattributedialog.cpp:82
-#, fuzzy, kde-format
-#| msgid "Length/Values:"
+#, kde-format
 msgid "Length/Values:"
-msgstr "Fad/Luachanna:"
+msgstr ""
 
 #: dialogs/umlentityattributedialog.cpp:85
 #, kde-format
@@ -3567,10 +3507,9 @@ msgid "Indexing"
 msgstr "Innéacsú"
 
 #: dialogs/umlentityattributedialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "&Not Indexed"
+#, kde-format
 msgid "&Not Indexed"
-msgstr "Gan &Innéacs"
+msgstr ""
 
 #. i18n("&Primary"), m_pScopeGB);
 #. scopeLayout->addWidget(m_pPublicRB);
@@ -3579,10 +3518,9 @@ msgstr "Gan &Innéacs"
 #. scopeLayout->addWidget(m_pProtectedRB);
 #.
 #: dialogs/umlentityattributedialog.cpp:125
-#, fuzzy, kde-format
-#| msgid "&Indexed"
+#, kde-format
 msgid "&Indexed"
-msgstr "&Innéacsaithe"
+msgstr ""
 
 #: dialogs/umlentityattributedialog.cpp:163
 #, kde-format
@@ -3607,18 +3545,15 @@ msgid "Entity Attribute Name Not Unique"
 msgstr ""
 
 #: dialogs/umlenumliteraldialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "General Properties"
+#, kde-format
 msgid "EnumLiteral Properties"
-msgstr "Airíonna Ginearálta"
+msgstr ""
 
 #: dialogs/umlenumliteraldialog.cpp:57
-#, fuzzy, kde-format
-#| msgctxt "property name"
-#| msgid "&Name:"
+#, kde-format
 msgctxt "literal name"
 msgid "&Name:"
-msgstr "Ai&nm:"
+msgstr ""
 
 #: dialogs/umlenumliteraldialog.cpp:61
 #, kde-format
@@ -3735,16 +3670,14 @@ msgid ""
 msgstr ""
 
 #: dialogs/umlinstanceattributedialog.cpp:21
-#, fuzzy, kde-format
-#| msgid "Attribute Properties"
+#, kde-format
 msgid "Object Attribute Properties"
-msgstr "Airíonna Tréithe"
+msgstr ""
 
 #: dialogs/umlinstanceattributedialog.cpp:40
-#, fuzzy, kde-format
-#| msgid "You have entered an invalid attribute name."
+#, kde-format
 msgid "You have entered an invalid attribute value."
-msgstr "Tá ainm neamhbhailí tréithe iontráilte agat."
+msgstr ""
 
 #: dialogs/umlinstanceattributedialog.cpp:41
 #, kde-format
@@ -3753,17 +3686,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/umlinstanceattributedialog.ui:27
-#, fuzzy, kde-format
-#| msgid "Attributes:"
+#, kde-format
 msgid "Attribute Name:"
-msgstr "Tréithe:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/umlinstanceattributedialog.ui:37
-#, fuzzy, kde-format
-#| msgid "Length/Values:"
+#, kde-format
 msgid "Value:"
-msgstr "Fad/Luachanna:"
+msgstr ""
 
 #: dialogs/umloperationdialog.cpp:58
 #, kde-format
@@ -3777,16 +3708,14 @@ msgid "&Name:"
 msgstr "Ai&nm:"
 
 #: dialogs/umloperationdialog.cpp:108
-#, fuzzy, kde-format
-#| msgid "Add Operation"
+#, kde-format
 msgid "&Abstract operation"
-msgstr "Cuir Oibríocht Leis"
+msgstr ""
 
 #: dialogs/umloperationdialog.cpp:115
-#, fuzzy, kde-format
-#| msgid "&Query (\"const\")"
+#, kde-format
 msgid "&Query (\"const\")"
-msgstr "&Iarratas (\"const\")"
+msgstr ""
 
 #: dialogs/umloperationdialog.cpp:118
 #, kde-format
@@ -3799,10 +3728,9 @@ msgid "&inline"
 msgstr ""
 
 #: dialogs/umloperationdialog.cpp:127
-#, fuzzy, kde-format
-#| msgid "&Overwrite"
+#, kde-format
 msgid "&Override"
-msgstr "F&orscríobh"
+msgstr ""
 
 #: dialogs/umloperationdialog.cpp:138
 #, kde-format
@@ -3929,10 +3857,9 @@ msgid "Diagram Style"
 msgstr ""
 
 #: dialogs/widgets/defaultvaluewidget.cpp:36
-#, fuzzy, kde-format
-#| msgid "&Default value:"
+#, kde-format
 msgid "&Default value:"
-msgstr "&Réamhshocrú:"
+msgstr ""
 
 #: dialogs/widgets/imagetypewidget.cpp:28
 #, kde-format
@@ -3940,10 +3867,9 @@ msgid "&Image type:"
 msgstr ""
 
 #: dialogs/widgets/resolutionwidget.cpp:25
-#, fuzzy, kde-format
-#| msgid "Realization"
+#, kde-format
 msgid "&Resolution:"
-msgstr "Fíorú"
+msgstr ""
 
 #: dialogs/widgets/resolutionwidget.cpp:25
 #, kde-format
@@ -3951,11 +3877,9 @@ msgid "DPI"
 msgstr ""
 
 #: dialogs/widgets/selectdiagramwidget.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "new container menu"
-#| msgid "New"
+#, kde-format
 msgid "New"
-msgstr "Nua"
+msgstr ""
 
 #. i18n: ectx: Menu (file)
 #: dialogs/widgets/umlartifacttypewidget.cpp:24 umbrelloui.rc.cmake:4
@@ -4000,11 +3924,10 @@ msgid "Yes"
 msgstr ""
 
 #: dialogs/widgets/umlmessagebox.h:32
-#, fuzzy, kde-format
-#| msgid "Node"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "Nód"
+msgstr ""
 
 #: dialogs/widgets/umlpackagewidget.cpp:29
 #, kde-format
@@ -4012,10 +3935,9 @@ msgid "Package path:"
 msgstr "Conair an phacáiste:"
 
 #: dialogs/widgets/umlstereotypewidget.cpp:22 umlmodel/umlobject.cpp:1269
-#, fuzzy, kde-format
-#| msgid "Stereotype name:"
+#, kde-format
 msgid "Stereotype &name:"
-msgstr "Ainm an steiréitíopa:"
+msgstr ""
 
 #: dialogs/widgets/visibilityenumwidget.cpp:26
 #, kde-format
@@ -4145,14 +4067,11 @@ msgid "Umbrello UML Modeller autonomous code generator"
 msgstr ""
 
 #: docgenerators/main.cpp:48
-#, fuzzy, kde-format
-#| msgid ""
-#| "(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML "
-#| "Modeller Authors"
+#, kde-format
 msgid ""
 "(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller "
 "Authors"
-msgstr "© 2006 Gael de Chalendar (aka Kleag), © 2002-2006 Údair Umbrello"
+msgstr ""
 
 #: docgenerators/main.cpp:50
 #, kde-format
@@ -4207,10 +4126,9 @@ msgid ""
 msgstr ""
 
 #: docwindow.cpp:81
-#, fuzzy, kde-format
-#| msgid "Indentation type:"
+#, kde-format
 msgid "Documentation type"
-msgstr "Cineál eangaithe:"
+msgstr ""
 
 #: docwindow.cpp:88
 #, kde-format
@@ -4218,10 +4136,9 @@ msgid "Activate documentation edit after focus change."
 msgstr ""
 
 #: layoutgenerator.cpp:261
-#, fuzzy, kde-format
-#| msgid "Auto Layout"
+#, kde-format
 msgid "Apply layout"
-msgstr "Leagan Amach Uathoibríoch"
+msgstr ""
 
 #: main.cpp:117
 #, kde-format
@@ -4237,12 +4154,11 @@ msgid ""
 msgstr ""
 
 #: main.cpp:123
-#, fuzzy, kde-format
-#| msgid "(c) 2001 Paul Hensgen, (c) 2002-2012 Umbrello UML Modeller Authors"
+#, kde-format
 msgid ""
 "Copyright © 2001 Paul Hensgen,\n"
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
-msgstr "© 2001 Paul Hensgen, © 2002-2012 Údair Samhaltóra UML Umbrello"
+msgstr ""
 
 #: main.cpp:127
 #, kde-format
@@ -4260,10 +4176,9 @@ msgid "Porting work, code cleanup, new features."
 msgstr ""
 
 #: main.cpp:141
-#, fuzzy, kde-format
-#| msgid "&Current diagram"
+#, kde-format
 msgid "Current maintainer."
-msgstr "&Léaráid reatha"
+msgstr ""
 
 #: main.cpp:144
 #, kde-format
@@ -4291,16 +4206,14 @@ msgid "the local directory to save the exported diagrams in"
 msgstr ""
 
 #: main.cpp:160
-#, fuzzy, kde-format
-#| msgid "importing file ..."
+#, kde-format
 msgid "import files"
-msgstr "comhad á iompórtáil..."
+msgstr ""
 
 #: main.cpp:162
-#, fuzzy, kde-format
-#| msgid "All Supported Files"
+#, kde-format
 msgid "list supported languages"
-msgstr "Gach Comhad a Thacaítear Leis"
+msgstr ""
 
 #: main.cpp:164
 #, kde-format
@@ -4310,16 +4223,14 @@ msgid ""
 msgstr ""
 
 #: main.cpp:166
-#, fuzzy, kde-format
-#| msgid "Import Project..."
+#, kde-format
 msgid "import files from directory <dir>"
-msgstr "Iompórtáil Tionscadal..."
+msgstr ""
 
 #: main.cpp:168
-#, fuzzy, kde-format
-#| msgid "Active &Language"
+#, kde-format
 msgid "set language"
-msgstr "Teanga &Ghníomhach"
+msgstr ""
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
@@ -4327,16 +4238,14 @@ msgid "Delete Anchor"
 msgstr "Scrios Ancaire"
 
 #: menus/associationwidgetpopupmenu.cpp:48
-#, fuzzy, kde-format
-#| msgid "Add only"
+#, kde-format
 msgid "Add Point"
-msgstr "Cuir leis amháin"
+msgstr ""
 
 #: menus/associationwidgetpopupmenu.cpp:50
-#, fuzzy, kde-format
-#| msgid "Delete"
+#, kde-format
 msgid "Delete Point"
-msgstr "Scrios"
+msgstr ""
 
 #: menus/associationwidgetpopupmenu.cpp:52
 #, kde-format
@@ -4364,11 +4273,10 @@ msgid "Select Operation..."
 msgstr "Roghnaigh Oibríocht..."
 
 #: menus/associationwidgetpopupmenu.cpp:94
-#, fuzzy, kde-format
-#| msgid "Auto Layout"
+#, kde-format
 msgctxt "Layout menu"
 msgid "Layout"
-msgstr "Leagan Amach Uathoibríoch"
+msgstr ""
 
 #: menus/associationwidgetpopupmenu.cpp:95
 #, kde-format
@@ -4396,16 +4304,14 @@ msgid "New Template..."
 msgstr "Teimpléad Nua..."
 
 #: menus/listpopupmenu.cpp:143
-#, fuzzy, kde-format
-#| msgid "Accept signal"
+#, kde-format
 msgid "Accept Signal"
-msgstr "Glac le comhartha"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:144
-#, fuzzy, kde-format
-#| msgid "Accept signal"
+#, kde-format
 msgid "Accept Time Event"
-msgstr "Glac le comhartha"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:145 menus/listpopupmenu.cpp:218
 #, kde-format
@@ -4459,11 +4365,10 @@ msgid "Collapse All"
 msgstr "Laghdaigh Uile"
 
 #: menus/listpopupmenu.cpp:162
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgctxt "add new combined state"
 msgid "Combined state..."
-msgstr "Mír Chomhcheangailte"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1264
 #: worktoolbar.cpp:356
@@ -4490,10 +4395,9 @@ msgid "Deep History"
 msgstr "Stair Dhomhain"
 
 #: menus/listpopupmenu.cpp:174
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "Edit combined state"
-msgstr "Mír Chomhcheangailte"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:175 worktoolbar.cpp:379
 #, kde-format
@@ -4573,34 +4477,29 @@ msgid "Fork"
 msgstr "Forc"
 
 #: menus/listpopupmenu.cpp:195
-#, fuzzy, kde-format
-#| msgid "Use tabbed diagrams"
+#, kde-format
 msgid "Go to state diagram"
-msgstr "Úsáid léaráidí le cluaisíní"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:196
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "Hide destruction box"
-msgstr "Taispeáin díothú"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:197
-#, fuzzy, kde-format
-#| msgid "Import Classes..."
+#, kde-format
 msgid "Import File(s)..."
-msgstr "Iompórtáil Aicmí..."
+msgstr ""
 
 #: menus/listpopupmenu.cpp:198 umlapp.cpp:367
-#, fuzzy, kde-format
-#| msgid "Import Project..."
+#, kde-format
 msgid "Import from Directory..."
-msgstr "Iompórtáil Tionscadal..."
+msgstr ""
 
 #: menus/listpopupmenu.cpp:199
-#, fuzzy, kde-format
-#| msgid "Closing file..."
+#, kde-format
 msgid "from file..."
-msgstr "Comhad á dhúnadh..."
+msgstr ""
 
 #: menus/listpopupmenu.cpp:200 worktoolbar.cpp:383
 #, kde-format
@@ -4613,11 +4512,10 @@ msgid "Initial State"
 msgstr "Staid Tosaigh"
 
 #: menus/listpopupmenu.cpp:202
-#, fuzzy, kde-format
-#| msgid "Instance name:"
+#, kde-format
 msgctxt "new instance menu item"
 msgid "Instance..."
-msgstr "Ainm áisc:"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:203 menus/listpopupmenu.cpp:219
 #: menus/listpopupmenu.cpp:222
@@ -4626,16 +4524,14 @@ msgid "New Attribute..."
 msgstr "Airí Nua..."
 
 #: menus/listpopupmenu.cpp:206
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "Provided interface"
-msgstr "comhéadan_nua"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:207
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "Required interface"
-msgstr "Comhéadan Úsáideora"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:208
 #, kde-format
@@ -4658,16 +4554,14 @@ msgid "Asynchronous Message"
 msgstr "Teachtaireacht Aisioncrónach"
 
 #: menus/listpopupmenu.cpp:213
-#, fuzzy, kde-format
-#| msgid "Lost Message"
+#, kde-format
 msgid "Creation Message"
-msgstr "Teachtaireacht Caillte"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:214
-#, fuzzy, kde-format
-#| msgid "Lost Message"
+#, kde-format
 msgid "Destroy Message"
-msgstr "Teachtaireacht Caillte"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:215 worktoolbar.cpp:328
 #, kde-format
@@ -4707,10 +4601,9 @@ msgstr "Nód"
 
 #. i18n("Node...")); break;
 #: menus/listpopupmenu.cpp:228
-#, fuzzy, kde-format
-#| msgid "Node..."
+#, kde-format
 msgid "Note..."
-msgstr "Nód..."
+msgstr ""
 
 #: menus/listpopupmenu.cpp:229
 #, kde-format
@@ -4723,10 +4616,9 @@ msgid "Object Node"
 msgstr "Nód Réada"
 
 #: menus/listpopupmenu.cpp:231
-#, fuzzy, kde-format
-#| msgid "Open File"
+#, kde-format
 msgid "Open file"
-msgstr "Oscail Comhad"
+msgstr ""
 
 #. i18n("Operation...")); break;
 #: menus/listpopupmenu.cpp:234
@@ -4748,10 +4640,9 @@ msgstr ""
 
 #. i18n("Port...")); break;
 #: menus/listpopupmenu.cpp:239
-#, fuzzy, kde-format
-#| msgid "Pre/Post condition"
+#, kde-format
 msgid "Pre Post Condition"
-msgstr "Réamh/Iar-choinníoll"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:242
 #, kde-format
@@ -4765,16 +4656,14 @@ msgid "Region"
 msgstr "Réigiún"
 
 #: menus/listpopupmenu.cpp:244
-#, fuzzy, kde-format
-#| msgid "<< Remove"
+#, kde-format
 msgid "Remove"
-msgstr "<< Bain"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:245
-#, fuzzy, kde-format
-#| msgid "Create diagram %1: %2"
+#, kde-format
 msgid "Remove state diagram"
-msgstr "Cruthaigh léaráid %1: %2"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:246 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
@@ -4787,16 +4676,14 @@ msgid "Rename Object..."
 msgstr "Athainmnigh Réad..."
 
 #: menus/listpopupmenu.cpp:248
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "Return to combined state"
-msgstr "Mír Chomhcheangailte"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:249
-#, fuzzy, kde-format
-#| msgid "Rename Class..."
+#, kde-format
 msgid "Return to class"
-msgstr "Athainmnigh Aicme..."
+msgstr ""
 
 #: menus/listpopupmenu.cpp:250
 #, kde-format
@@ -4809,16 +4696,14 @@ msgid "Resize"
 msgstr "Athraigh an mhéid"
 
 #: menus/listpopupmenu.cpp:252
-#, fuzzy, kde-format
-#| msgid "&Select diagrams"
+#, kde-format
 msgid "Select state diagram"
-msgstr "&Roghnaigh léaráidí"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:253
-#, fuzzy, kde-format
-#| msgid "Send signal"
+#, kde-format
 msgid "Send Signal"
-msgstr "Seol Comhartha"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:254 worktoolbar.cpp:366
 #, kde-format
@@ -4826,10 +4711,9 @@ msgid "Shallow History"
 msgstr "Stair Éadomhain"
 
 #: menus/listpopupmenu.cpp:256
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "Show destruction box"
-msgstr "Taispeáin díothú"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:257
 #, kde-format
@@ -4877,11 +4761,10 @@ msgid "New"
 msgstr "Nua"
 
 #: menus/listpopupmenu.cpp:511
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgctxt "category type sub menu"
 msgid "Category Type"
-msgstr "Catagóir"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:512
 #, kde-format
@@ -4906,10 +4789,9 @@ msgid "Change into Class"
 msgstr ""
 
 #: menus/umllistviewpopupmenu.cpp:160 menus/widgetbasepopupmenu.cpp:201
-#, fuzzy, kde-format
-#| msgid "Show Package"
+#, kde-format
 msgid "Change into Package"
-msgstr "Taispeáin Pacáiste"
+msgstr ""
 
 #: menus/umlscenepopupmenu.cpp:53
 #, kde-format
@@ -4922,10 +4804,9 @@ msgid "Snap to Grid"
 msgstr "Léim go Greille"
 
 #: menus/umlscenepopupmenu.cpp:59
-#, fuzzy, kde-format
-#| msgid "Snap to Grid"
+#, kde-format
 msgid "Snap Component Size to Grid"
-msgstr "Léim go Greille"
+msgstr ""
 
 #: menus/umlscenepopupmenu.cpp:61
 #, kde-format
@@ -4933,10 +4814,9 @@ msgid "Show Grid"
 msgstr "Taispeáin Greille"
 
 #: menus/umlscenepopupmenu.cpp:63
-#, fuzzy, kde-format
-#| msgid "Documentation tags"
+#, kde-format
 msgid "Show Documentation Indicator"
-msgstr "Clibeanna doiciméadaithe"
+msgstr ""
 
 #: menus/umlscenepopupmenu.cpp:105
 #, kde-format
@@ -4959,10 +4839,9 @@ msgid "Attribute Signature"
 msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:119 menus/widgetbasepopupmenu.cpp:127
-#, fuzzy, kde-format
-#| msgid "Show attributes"
+#, kde-format
 msgid "Show Signatures"
-msgstr "Taispeáin tréithe"
+msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:120 menus/widgetbasepopupmenu.cpp:128
 #, kde-format
@@ -4980,16 +4859,14 @@ msgid "Show Non-public members"
 msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:138
-#, fuzzy, kde-format
-#| msgid "Package"
+#, kde-format
 msgid "Packages"
-msgstr "Pacáiste"
+msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:144
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "Stereotypes"
-msgstr "Steiréitíopa"
+msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:203
 #, kde-format
@@ -5044,10 +4921,9 @@ msgid "Change Text..."
 msgstr "Athraigh téacs..."
 
 #: menus/widgetbasepopupmenu.cpp:334 menus/widgetbasepopupmenu.cpp:585
-#, fuzzy, kde-format
-#| msgid "&Auto increment"
+#, kde-format
 msgid "Auto resize"
-msgstr "Incrimintigh go u&athoibríoch"
+msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:367
 #, kde-format
@@ -5105,17 +4981,15 @@ msgid "Use Fill Color"
 msgstr "Úsáid Dath an Líonta"
 
 #: menus/widgetbasepopupmenu.cpp:537
-#, fuzzy, kde-format
-#| msgid "Fill Color"
+#, kde-format
 msgid "No Fill Color"
-msgstr "Dath an Líonta"
+msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:593
-#, fuzzy, kde-format
-#| msgid "&Align"
+#, kde-format
 msgctxt "align menu"
 msgid "Align"
-msgstr "&Ailínigh"
+msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:594 umlapp.cpp:565
 #, kde-format
@@ -5203,16 +5077,14 @@ msgid "new_entity"
 msgstr "aonán_nua"
 
 #: model_utils.cpp:571
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "new_entity_attribute"
-msgstr "tréith_nua"
+msgstr ""
 
 #: model_utils.cpp:572
-#, fuzzy, kde-format
-#| msgid "new_entity"
+#, kde-format
 msgid "new_entity_constraint"
-msgstr "aonán_nua"
+msgstr ""
 
 #: model_utils.cpp:573
 #, kde-format
@@ -5220,10 +5092,9 @@ msgid "new_enum"
 msgstr "áirithe_nua"
 
 #: model_utils.cpp:574
-#, fuzzy, kde-format
-#| msgid "new_literal"
+#, kde-format
 msgid "new_enum_literal"
-msgstr "oibreann_nua_litriúil"
+msgstr ""
 
 #: model_utils.cpp:575
 #, kde-format
@@ -5236,16 +5107,14 @@ msgid "new_foreign_key_constraint"
 msgstr ""
 
 #: model_utils.cpp:577
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "new_instance"
-msgstr "comhéadan_nua"
+msgstr ""
 
 #: model_utils.cpp:578
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "new_instance_attribute"
-msgstr "Tréithe Aonáin"
+msgstr ""
 
 #: model_utils.cpp:579
 #, kde-format
@@ -5268,22 +5137,19 @@ msgid "new_package"
 msgstr "pacáiste_nua"
 
 #: model_utils.cpp:583
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new_port"
-msgstr "aisteoir_nua"
+msgstr ""
 
 #: model_utils.cpp:584
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "new_role"
-msgstr "fillteán_nua"
+msgstr ""
 
 #: model_utils.cpp:585
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "new_stereotype"
-msgstr "Steiréitíopa"
+msgstr ""
 
 #: model_utils.cpp:586 umlmodel/umlcanvasobject.cpp:194
 #, kde-format
@@ -5296,10 +5162,9 @@ msgid "new_unique_constraint"
 msgstr ""
 
 #: model_utils.cpp:588
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "new_use_case"
-msgstr "cásúsáide_nua"
+msgstr ""
 
 #: model_utils.cpp:590 umlmodel/umlcanvasobject.cpp:215
 #, kde-format
@@ -5307,34 +5172,29 @@ msgid "new_object"
 msgstr "réad_nua"
 
 #: model_utils.cpp:610 umlwidgets/widget_utils.cpp:872
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "New actor"
-msgstr "aisteoir_nua"
+msgstr ""
 
 #: model_utils.cpp:611 umlwidgets/widget_utils.cpp:873
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "New artifact"
-msgstr "déantán_nua"
+msgstr ""
 
 #: model_utils.cpp:612 umlwidgets/widget_utils.cpp:874
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "New association"
-msgstr "comhcheangal_nua"
+msgstr ""
 
 #: model_utils.cpp:613
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "New attribute"
-msgstr "tréith_nua"
+msgstr ""
 
 #: model_utils.cpp:614 umlwidgets/widget_utils.cpp:876
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "New category"
-msgstr "catagóir_nua"
+msgstr ""
 
 #: model_utils.cpp:615
 #, kde-format
@@ -5342,34 +5202,29 @@ msgid "New check constraint"
 msgstr ""
 
 #: model_utils.cpp:616 umlwidgets/widget_utils.cpp:877
-#, fuzzy, kde-format
-#| msgid "New Class"
+#, kde-format
 msgid "New class"
-msgstr "Aicme Nua"
+msgstr ""
 
 #: model_utils.cpp:617 umlwidgets/widget_utils.cpp:879
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "New component"
-msgstr "comhpháirt_nua"
+msgstr ""
 
 #: model_utils.cpp:618 umlwidgets/widget_utils.cpp:880
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "New datatype"
-msgstr "cineálsonraí_nua"
+msgstr ""
 
 #: model_utils.cpp:619 umlwidgets/widget_utils.cpp:881
-#, fuzzy, kde-format
-#| msgid "new_entity"
+#, kde-format
 msgid "New entity"
-msgstr "aonán_nua"
+msgstr ""
 
 #: model_utils.cpp:620
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "New entity attribute"
-msgstr "Tréithe Aonáin"
+msgstr ""
 
 #: model_utils.cpp:621
 #, kde-format
@@ -5377,22 +5232,19 @@ msgid "New entity constraint"
 msgstr ""
 
 #: model_utils.cpp:622 umlwidgets/widget_utils.cpp:882
-#, fuzzy, kde-format
-#| msgid "new_enum"
+#, kde-format
 msgid "New enum"
-msgstr "áirithe_nua"
+msgstr ""
 
 #: model_utils.cpp:623
-#, fuzzy, kde-format
-#| msgid "new_literal"
+#, kde-format
 msgid "New enum literal"
-msgstr "oibreann_nua_litriúil"
+msgstr ""
 
 #: model_utils.cpp:624
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "New folder"
-msgstr "fillteán_nua"
+msgstr ""
 
 #: model_utils.cpp:625
 #, kde-format
@@ -5400,64 +5252,54 @@ msgid "New foreign key constraint"
 msgstr ""
 
 #: model_utils.cpp:626 umlwidgets/widget_utils.cpp:885
-#, fuzzy, kde-format
-#| msgid "Instance name:"
+#, kde-format
 msgid "New instance"
-msgstr "Ainm áisc:"
+msgstr ""
 
 #: model_utils.cpp:627
-#, fuzzy, kde-format
-#| msgid "N&ew Attribute..."
+#, kde-format
 msgid "New instance attribute"
-msgstr "Airí &Nua..."
+msgstr ""
 
 #: model_utils.cpp:628 umlwidgets/widget_utils.cpp:886
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "New interface"
-msgstr "comhéadan_nua"
+msgstr ""
 
 #: model_utils.cpp:629 umlwidgets/widget_utils.cpp:888
-#, fuzzy, kde-format
-#| msgid "new_node"
+#, kde-format
 msgid "New node"
-msgstr "nód_nua"
+msgstr ""
 
 #: model_utils.cpp:630
-#, fuzzy, kde-format
-#| msgid "new_operation"
+#, kde-format
 msgid "New operation"
-msgstr "oibríocht_nua"
+msgstr ""
 
 #: model_utils.cpp:631 umlwidgets/widget_utils.cpp:892
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "New package"
-msgstr "pacáiste_nua"
+msgstr ""
 
 #: model_utils.cpp:632 umlwidgets/widget_utils.cpp:894
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "New port"
-msgstr "aisteoir_nua"
+msgstr ""
 
 #: model_utils.cpp:633
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New role"
-msgstr "Steiréitíopa"
+msgstr ""
 
 #: model_utils.cpp:634
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New stereotype"
-msgstr "Steiréitíopa"
+msgstr ""
 
 #: model_utils.cpp:635
-#, fuzzy, kde-format
-#| msgid "new_template"
+#, kde-format
 msgid "New template"
-msgstr "teimpléad_nua"
+msgstr ""
 
 #: model_utils.cpp:636
 #, kde-format
@@ -5465,220 +5307,184 @@ msgid "New unique constraint"
 msgstr ""
 
 #: model_utils.cpp:637 umlwidgets/widget_utils.cpp:901
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "New use case"
-msgstr "cásúsáide_nua"
+msgstr ""
 
 #: model_utils.cpp:640
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "New UML object"
-msgstr "Réad"
+msgstr ""
 
 #: model_utils.cpp:652 umlwidgets/widget_utils.cpp:918
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new actor:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:653 umlwidgets/widget_utils.cpp:919
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new artifact:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:654 umlwidgets/widget_utils.cpp:920
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new association:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:655
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new attribute:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:656 umlwidgets/widget_utils.cpp:922
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new category:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:657
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new check constraint:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:658 umlwidgets/widget_utils.cpp:923
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new class:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:659 umlwidgets/widget_utils.cpp:925
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new component:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:660 umlwidgets/widget_utils.cpp:926
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new datatype:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:661 umlwidgets/widget_utils.cpp:927
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new entity:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:662
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new entity attribute:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:663
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new entity constraint:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:664 umlwidgets/widget_utils.cpp:928
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new enum:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:665
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new enum literal:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:666
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the name of the new folder:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:667
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new foreign key constraint:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:668 umlwidgets/widget_utils.cpp:931
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new instance:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:669
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new instance attribute:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:670 umlwidgets/widget_utils.cpp:932
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new interface:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:671 umlwidgets/widget_utils.cpp:934
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the name of the new node:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:672
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new operation:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:673 umlwidgets/widget_utils.cpp:938
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new package:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:674 umlwidgets/widget_utils.cpp:940
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new port:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:675
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new role:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:676
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new stereotype:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:677
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new template:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:678
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new unique constraint:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:679 umlwidgets/widget_utils.cpp:947
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new use case:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:682
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new UML object"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: model_utils.cpp:694 umlwidgets/widget_utils.cpp:963
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename actor"
-msgstr "Athainmnigh Réad"
+msgstr ""
 
 #: model_utils.cpp:695 umlwidgets/widget_utils.cpp:964
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "Rename artifact"
-msgstr "déantán_nua"
+msgstr ""
 
 #: model_utils.cpp:696 umlwidgets/widget_utils.cpp:965
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "Rename association"
-msgstr "comhcheangal_nua"
+msgstr ""
 
 #: model_utils.cpp:697
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "Rename attribute"
-msgstr "tréith_nua"
+msgstr ""
 
 #: model_utils.cpp:698 umlwidgets/widget_utils.cpp:967
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "Rename category"
-msgstr "catagóir_nua"
+msgstr ""
 
 #: model_utils.cpp:699
 #, kde-format
@@ -5686,58 +5492,49 @@ msgid "Rename check constraint"
 msgstr ""
 
 #: model_utils.cpp:700 umlwidgets/widget_utils.cpp:968
-#, fuzzy, kde-format
-#| msgid "Rename Class..."
+#, kde-format
 msgid "Rename class"
-msgstr "Athainmnigh Aicme..."
+msgstr ""
 
 #: model_utils.cpp:701 umlwidgets/widget_utils.cpp:970
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "Rename component"
-msgstr "comhpháirt_nua"
+msgstr ""
 
 #: model_utils.cpp:702 umlwidgets/widget_utils.cpp:971
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "Rename datatype"
-msgstr "cineálsonraí_nua"
+msgstr ""
 
 #: model_utils.cpp:703 umlwidgets/widget_utils.cpp:972
-#, fuzzy, kde-format
-#| msgid "Rename Activity"
+#, kde-format
 msgid "Rename entity"
-msgstr "Athainmnigh an Gníomh"
+msgstr ""
 
 #: model_utils.cpp:704
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Rename entity attribute"
-msgstr "Tréithe Aonáin"
+msgstr ""
 
 #: model_utils.cpp:705
-#, fuzzy, kde-format
-#| msgid "Generate empty constructors"
+#, kde-format
 msgid "Rename entity constraint"
-msgstr "Gin cruthaitheoirí folmha"
+msgstr ""
 
 #: model_utils.cpp:706 umlwidgets/widget_utils.cpp:973
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename enum"
-msgstr "Athainmnigh"
+msgstr ""
 
 #: model_utils.cpp:707
-#, fuzzy, kde-format
-#| msgid "new_literal"
+#, kde-format
 msgid "Rename enum literal"
-msgstr "oibreann_nua_litriúil"
+msgstr ""
 
 #: model_utils.cpp:708
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "Rename folder"
-msgstr "fillteán_nua"
+msgstr ""
 
 #: model_utils.cpp:709
 #, kde-format
@@ -5745,64 +5542,54 @@ msgid "Rename foreign key constraint"
 msgstr ""
 
 #: model_utils.cpp:710 umlwidgets/widget_utils.cpp:976
-#, fuzzy, kde-format
-#| msgid "Instance name:"
+#, kde-format
 msgid "Rename instance"
-msgstr "Ainm áisc:"
+msgstr ""
 
 #: model_utils.cpp:711
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Rename instance attribute"
-msgstr "Tréithe Aonáin"
+msgstr ""
 
 #: model_utils.cpp:712 umlwidgets/widget_utils.cpp:977
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "Rename interface"
-msgstr "Comhéadan Úsáideora"
+msgstr ""
 
 #: model_utils.cpp:713 umlwidgets/widget_utils.cpp:979
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename node"
-msgstr "Athainmnigh"
+msgstr ""
 
 #: model_utils.cpp:714
-#, fuzzy, kde-format
-#| msgid "new_operation"
+#, kde-format
 msgid "Rename operation"
-msgstr "oibríocht_nua"
+msgstr ""
 
 #: model_utils.cpp:715 umlwidgets/widget_utils.cpp:983
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "Rename package"
-msgstr "pacáiste_nua"
+msgstr ""
 
 #: model_utils.cpp:716 umlwidgets/widget_utils.cpp:985
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "Rename port"
-msgstr "aisteoir_nua"
+msgstr ""
 
 #: model_utils.cpp:717
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename role"
-msgstr "Athainmnigh"
+msgstr ""
 
 #: model_utils.cpp:718
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "Rename stereotype"
-msgstr "Steiréitíopa"
+msgstr ""
 
 #: model_utils.cpp:719
-#, fuzzy, kde-format
-#| msgid "new_template"
+#, kde-format
 msgid "Rename template"
-msgstr "teimpléad_nua"
+msgstr ""
 
 #: model_utils.cpp:720
 #, kde-format
@@ -5810,190 +5597,159 @@ msgid "Rename unique constraint"
 msgstr ""
 
 #: model_utils.cpp:721 umlwidgets/widget_utils.cpp:992
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "Rename use case"
-msgstr "cásúsáide_nua"
+msgstr ""
 
 #: model_utils.cpp:724
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename UML object"
-msgstr "Athainmnigh Réad"
+msgstr ""
 
 #: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1009
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the actor:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1010
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the artifact:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:738 umlwidgets/widget_utils.cpp:1011
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the association:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:739
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the attribute:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:740 umlwidgets/widget_utils.cpp:1013
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the category:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:741
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the check constraint:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1014
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the class:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1016
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the component:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1017
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the datatype:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:745 umlwidgets/widget_utils.cpp:1018
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:746
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity attribute:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:747
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity constraint:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:748 umlwidgets/widget_utils.cpp:1019
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the enum:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:749
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the enum literal:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:750
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the folder:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:751
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the foreign key constraint:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:752 umlwidgets/widget_utils.cpp:1022
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the instance:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:753
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the instance attribute:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1023
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the interface:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:755 umlwidgets/widget_utils.cpp:1025
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the node:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:756
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the operation:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1029
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the package:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:758 umlwidgets/widget_utils.cpp:1031
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the port:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:759
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the role:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:760
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the stereotype:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:761
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the template:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:762
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the unique constraint:"
-msgstr "Iontráil ainm nua ar an ghnímh:"
+msgstr ""
 
 #: model_utils.cpp:763 umlwidgets/widget_utils.cpp:1038
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the use case:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:766
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the UML object"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: model_utils.cpp:1207
 #, kde-format
@@ -6038,16 +5794,14 @@ msgid "Name"
 msgstr "Ainm"
 
 #: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:78
-#, fuzzy, kde-format
-#| msgid "Type:"
+#, kde-format
 msgid "Type"
-msgstr "Cineál:"
+msgstr ""
 
 #: models/diagramsmodel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Associations"
+#, kde-format
 msgid "Widgets/Associations"
-msgstr "Comhcheangail"
+msgstr ""
 
 #: models/objectsmodel.cpp:82
 #, kde-format
@@ -6055,10 +5809,9 @@ msgid "ID"
 msgstr ""
 
 #: models/objectsmodel.cpp:84
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Saved"
-msgstr "Sábháil Mar"
+msgstr ""
 
 #: models/objectsmodel.cpp:86
 #, kde-format
@@ -6066,16 +5819,14 @@ msgid "Parent"
 msgstr ""
 
 #: models/objectsmodel.cpp:88
-#, fuzzy, kde-format
-#| msgid "Add only"
+#, kde-format
 msgid "Pointer"
-msgstr "Cuir leis amháin"
+msgstr ""
 
 #: models/stereotypesmodel.cpp:53
-#, fuzzy, kde-format
-#| msgid "Message"
+#, kde-format
 msgid "Usage"
-msgstr "Teachtaireacht"
+msgstr ""
 
 #: object_factory.cpp:254 umldoc.cpp:1720 umldoc.cpp:1755
 #: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
@@ -6319,10 +6070,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (layoutType), group (General Options)
 #: umbrello.kcfg:37
-#, fuzzy, kde-format
-#| msgid "Auto Layout"
+#, kde-format
 msgid "Layout Type"
-msgstr "Leagan Amach Uathoibríoch"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (layoutType), group (General Options)
 #: umbrello.kcfg:38
@@ -6422,10 +6172,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (uml2), group (General Options)
 #: umbrello.kcfg:136
-#, fuzzy, kde-format
-#| msgid "Enables/Disables Inline Operations"
+#, kde-format
 msgid "Enables/Disables UML2 notation"
-msgstr "Cumasaigh/Díchumasaigh Oibríochtaí inlíne"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:143
@@ -6513,17 +6262,15 @@ msgstr "Dath Chúlra an Diagram"
 
 #. i18n: ectx: label, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:182
-#, fuzzy, kde-format
-#| msgid "Custom background color:"
+#, kde-format
 msgid "Use background color"
-msgstr "Dath saincheaptha an chúlra:"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:183
-#, fuzzy, kde-format
-#| msgid "Enables/Disables virtual destructors"
+#, kde-format
 msgid "Enables/Disables the usage of a custom background color"
-msgstr "Cumasaigh/Díchumasaigh Scriostóirí fíorúla"
+msgstr ""
 
 #. i18n: ectx: label, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:187
@@ -7085,10 +6832,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:528
-#, fuzzy, kde-format
-#| msgid "Template Name Invalid"
+#, kde-format
 msgid "Vector Class Name Include"
-msgstr "Ainm Neamhbhailí Teimpléid"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:529
@@ -7164,10 +6910,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:565
-#, fuzzy, kde-format
-#| msgid "Auto Generate Accessors"
+#, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
-msgstr "Gin Rochtaineoirí go hUathoibríoch"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:566
@@ -7213,17 +6958,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:587
-#, fuzzy, kde-format
-#| msgid "Auto Generate Accessors"
+#, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
-msgstr "Gin Rochtaineoirí go hUathoibríoch"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:588
-#, fuzzy, kde-format
-#| msgid "Enables/Disables Auto Generation of Empty Constructors"
+#, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
-msgstr "Cumasaigh/Díchumasaigh Giniúint Uathoibríoch de Chruthaitheoirí Folmha"
+msgstr ""
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:592
@@ -7239,10 +6982,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:599
-#, fuzzy, kde-format
-#| msgid "Auto Generate Accessors"
+#, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
-msgstr "Gin Rochtaineoirí go hUathoibríoch"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:600
@@ -7300,10 +7042,9 @@ msgstr ""
 
 #. i18n: ectx: Menu (file_export)
 #: umbrelloui.rc.cmake:5
-#, fuzzy, kde-format
-#| msgid "&Export model to XHTML"
+#, kde-format
 msgid "&Export model"
-msgstr "&Easpórtáil samhail go XHTML"
+msgstr ""
 
 #. i18n: ectx: Menu (edit)
 #: umbrelloui.rc.cmake:11
@@ -7313,17 +7054,15 @@ msgstr "&Eagar"
 
 #. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
-#, fuzzy, kde-format
-#| msgid "Views"
+#, kde-format
 msgid "&View"
-msgstr "Amhairc"
+msgstr ""
 
 #. i18n: ectx: Menu (view_window)
 #: umbrelloui.rc.cmake:15
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "&Show/hide window"
-msgstr "Taispeáin Fuinneog Cháipéise"
+msgstr ""
 
 #. i18n: ectx: Menu (diagram)
 #: umbrelloui.rc.cmake:26
@@ -7363,17 +7102,15 @@ msgstr "&Cód"
 
 #. i18n: ectx: Menu (active_lang_menu)
 #: umbrelloui.rc.cmake:70
-#, fuzzy, kde-format
-#| msgid "Active &Language"
+#, kde-format
 msgid "Active &Language"
-msgstr "Teanga &Ghníomhach"
+msgstr ""
 
 #. i18n: ectx: Menu (settings)
 #: umbrelloui.rc.cmake:96
-#, fuzzy, kde-format
-#| msgid "Role Settings"
+#, kde-format
 msgid "&Settings"
-msgstr "Socruithe an Róil"
+msgstr ""
 
 #: umlapp.cpp:343
 #, kde-format
@@ -7481,10 +7218,9 @@ msgid "Pastes the contents of the clipboard"
 msgstr ""
 
 #: umlapp.cpp:438
-#, fuzzy, kde-format
-#| msgid "Invoke action"
+#, kde-format
 msgid "Undo last action"
-msgstr "Cuir an gníomh i bhfeidhm"
+msgstr ""
 
 #: umlapp.cpp:439
 #, kde-format
@@ -7508,10 +7244,9 @@ msgid "&Class Diagram..."
 msgstr "Léaráid Ai&cme..."
 
 #: umlapp.cpp:463
-#, fuzzy, kde-format
-#| msgid "&Activity Diagram..."
+#, kde-format
 msgid "&Object Diagram..."
-msgstr "Léaráid &Ghnímh..."
+msgstr ""
 
 #: umlapp.cpp:470
 #, kde-format
@@ -7519,10 +7254,9 @@ msgid "&Sequence Diagram..."
 msgstr ""
 
 #: umlapp.cpp:476
-#, fuzzy, kde-format
-#| msgid "C&ollaboration Diagram..."
+#, kde-format
 msgid "C&ommunication Diagram..."
-msgstr "Léaráid Ch&omhoibrithe..."
+msgstr ""
 
 #: umlapp.cpp:482
 #, kde-format
@@ -7570,10 +7304,9 @@ msgid "S&how Grid"
 msgstr "T&aispeáin Greille"
 
 #: umlapp.cpp:531
-#, fuzzy, kde-format
-#| msgid "Delete Diagram"
+#, kde-format
 msgid "&Delete Diagram"
-msgstr "Scrios Léaráid"
+msgstr ""
 
 #: umlapp.cpp:536
 #, kde-format
@@ -7581,10 +7314,9 @@ msgid "&Export as Picture..."
 msgstr "&Easpórtáil mar Phictiúr..."
 
 #: umlapp.cpp:541
-#, fuzzy, kde-format
-#| msgid "Export as Picture..."
+#, kde-format
 msgid "Export &Diagrams as Pictures..."
-msgstr "Easpórtáil mar Phictiúr..."
+msgstr ""
 
 #: umlapp.cpp:561
 #, kde-format
@@ -7624,16 +7356,14 @@ msgid "Ready"
 msgstr "Réidh"
 
 #: umlapp.cpp:818 umlapp.cpp:831
-#, fuzzy, kde-format
-#| msgid "&100%"
+#, kde-format
 msgid "100%"
-msgstr "&100%"
+msgstr ""
 
 #: umlapp.cpp:823
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Fit"
-msgstr "Scagaire"
+msgstr ""
 
 #: umlapp.cpp:874
 #, kde-format
@@ -7662,14 +7392,7 @@ msgid "Open File"
 msgstr "Oscail Comhad"
 
 #: umlapp.cpp:1156
-#, fuzzy, kde-format
-#| msgid ""
-#| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi."
-#| "tgz, *.xmi.tar.bz2, *.mdl)\n"
-#| "*.xmi|Uncompressed XMI Files (*.xmi)\n"
-#| "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
-#| "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
-#| "*.mdl|Rose model files"
+#, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
 "xmi, *.xmi.tgz, *.xmi.tar.bz2, *.uml, *.mdl, *.zargo)\n"
@@ -7680,12 +7403,6 @@ msgid ""
 "*.mdl|Rose model files (*.mdl)\n"
 "*.zargo|Compressed argo Files(*.zargo)\n"
 msgstr ""
-"*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|Gach Comhad Tacaithe (*.xmi, *.xmi.tgz, "
-"*.xmi.tar.bz2, *.mdl)\n"
-"*.xmi|Comhaid Díchomhbhrúite XMI (*.xmi)\n"
-"*.xmi.tgz|Comhaid XMI Comhbhrúite le Gzip (*.xmi.tgz)\n"
-"*.xmi.tar.bz2|Comhaid XMI Comhbhrúite le Bzip2 (*.xmi.tar.bz2)*.mdl|Comhaid "
-"Samhla Rose"
 
 #: umlapp.cpp:1216
 #, kde-format
@@ -7703,20 +7420,11 @@ msgid "Save As"
 msgstr "Sábháil Mar"
 
 #: umlapp.cpp:1239
-#, fuzzy, kde-format
-#| msgid ""
-#| "*.xmi|XMI File\n"
-#| "*.xmi.tgz|Gzip Compressed XMI File\n"
-#| "*.xmi.tar.bz2|Bzip2 Compressed XMI File\n"
-#| "*|All Files"
+#, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
 "*.xmi.tar.bz2 | Bzip2 Compressed XMI File (*.xmi.tar.bz2);;* | All Files (*)"
 msgstr ""
-"*.xmi|Comhad XMI\n"
-"*.xmi.tgz|Comhad XMI Comhbhrúite le Gzip\n"
-"*.xmi.tar.bz2|Comhad XMI Comhbhrúite le Bzip2\n"
-"*|Gach Comhad"
 
 #: umlapp.cpp:1257
 #, kde-format
@@ -7816,16 +7524,14 @@ msgid "Cannot view code from simple code writer."
 msgstr ""
 
 #: umlapp.cpp:2615
-#, fuzzy, kde-format
-#| msgid "Select Code to Import"
+#, kde-format
 msgid "Select file(s) to import:"
-msgstr "Roghnaigh Cód le hIompórtáil"
+msgstr ""
 
 #: umlapp.cpp:2644
-#, fuzzy, kde-format
-#| msgid "Select Code to Import"
+#, kde-format
 msgid "Select directory to import:"
-msgstr "Roghnaigh Cód le hIompórtáil"
+msgstr ""
 
 #: umlapp.cpp:3162
 #, kde-format
@@ -7833,10 +7539,9 @@ msgid "XHTML Generation failed ."
 msgstr ""
 
 #: umlappprivate.h:102
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show/hide window"
-msgstr "Taispeáin Fuinneog Cháipéise"
+msgstr ""
 
 #: umlappprivate.h:170
 #, kde-format
@@ -7864,16 +7569,14 @@ msgid "&Log"
 msgstr ""
 
 #: umlappprivate.h:232
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "&UML Objects"
-msgstr "Réad"
+msgstr ""
 
 #: umlappprivate.h:246
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "&Stereotypes"
-msgstr "Steiréitíopa"
+msgstr ""
 
 #: umlappprivate.h:253
 #, kde-format
@@ -7936,10 +7639,9 @@ msgid "Warning"
 msgstr "Rabhadh"
 
 #: umldoc.cpp:636
-#, fuzzy, kde-format
-#| msgid "The file %1 does not exist."
+#, kde-format
 msgid "The file <%1> does not exist."
-msgstr "Níl comhad %1 ann."
+msgstr ""
 
 #: umldoc.cpp:636 umldoc.cpp:657 umldoc.cpp:696 umldoc.cpp:708 umldoc.cpp:722
 #: umldoc.cpp:735 umldoc.cpp:747 umldoc.cpp:785 umlmodel/umlfolder.cpp:450
@@ -7974,10 +7676,9 @@ msgid "Reason: %1"
 msgstr ""
 
 #: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
-#, fuzzy, kde-format
-#| msgid "There was a problem saving file: %1"
+#, kde-format
 msgid "There was a problem saving: %1"
-msgstr "Bhí fadhb ann agus an comhad á shábháil: %1"
+msgstr ""
 
 # Sábháil Earráid?
 #: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
@@ -7987,10 +7688,9 @@ msgid "Save Error"
 msgstr "Earráid le linn Sábhála"
 
 #: umldoc.cpp:975
-#, fuzzy, kde-format
-#| msgid "There was a problem uploading file: %1"
+#, kde-format
 msgid "There was a problem uploading: %1"
-msgstr "fadhb ann agus an comhad á uasluchtú: %1"
+msgstr ""
 
 #: umldoc.cpp:1526
 #, kde-format
@@ -8008,16 +7708,14 @@ msgid "sequence diagram"
 msgstr ""
 
 #: umldoc.cpp:1535
-#, fuzzy, kde-format
-#| msgid "collaboration diagram"
+#, kde-format
 msgid "communication diagram"
-msgstr "léaráid chomhoibrithe"
+msgstr ""
 
 #: umldoc.cpp:1538
-#, fuzzy, kde-format
-#| msgid "&Select diagrams"
+#, kde-format
 msgid "object diagram"
-msgstr "&Roghnaigh léaráidí"
+msgstr ""
 
 #: umldoc.cpp:1541
 #, kde-format
@@ -8153,10 +7851,9 @@ msgid ""
 msgstr ""
 
 #: umllistview.cpp:560
-#, fuzzy, kde-format
-#| msgid "File Exist"
+#, kde-format
 msgid "File Exists"
-msgstr "Tá an comhad ann"
+msgstr ""
 
 #: umllistview.cpp:568 umlviewimageexportermodel.cpp:272
 #, kde-format
@@ -8179,10 +7876,9 @@ msgid "Views"
 msgstr "Amhairc"
 
 #: umllistview.cpp:1440
-#, fuzzy, kde-format
-#| msgid "Role Settings"
+#, kde-format
 msgid "Settings"
-msgstr "Socruithe an Róil"
+msgstr ""
 
 #: umllistview.cpp:2457
 #, kde-format
@@ -8195,10 +7891,9 @@ msgid "The class must be emptied before it can be deleted."
 msgstr ""
 
 #: umllistview.cpp:2827
-#, fuzzy, kde-format
-#| msgid "Class Name"
+#, kde-format
 msgid "Class Not Empty"
-msgstr "Ainm Aicme"
+msgstr ""
 
 #: umllistview.cpp:2831
 #, kde-format
@@ -8206,10 +7901,9 @@ msgid "The package must be emptied before it can be deleted."
 msgstr ""
 
 #: umllistview.cpp:2832
-#, fuzzy, kde-format
-#| msgid "Package path:"
+#, kde-format
 msgid "Package Not Empty"
-msgstr "Conair an phacáiste:"
+msgstr ""
 
 #: umllistview.cpp:2836
 #, kde-format
@@ -8292,10 +7986,9 @@ msgid "Artifact &name:"
 msgstr "Ai&nm déantáin:"
 
 #: umlmodel/umlobject.cpp:1236
-#, fuzzy, kde-format
-#| msgid "Association"
+#, kde-format
 msgid "Association &name:"
-msgstr "Comhcheangal"
+msgstr ""
 
 #: umlmodel/umlobject.cpp:1239
 #, kde-format
@@ -8323,10 +8016,9 @@ msgid "Enum &name:"
 msgstr ""
 
 #: umlmodel/umlobject.cpp:1254
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "Folder &name:"
-msgstr "Ainm &nóid:"
+msgstr ""
 
 #: umlmodel/umlobject.cpp:1257
 #, kde-format
@@ -8344,10 +8036,9 @@ msgid "Package &name:"
 msgstr "Ainm an &phacáiste:"
 
 #: umlmodel/umlobject.cpp:1266
-#, fuzzy, kde-format
-#| msgid "Actor &name:"
+#, kde-format
 msgid "Port &name:"
-msgstr "Ai&nm aisteora:"
+msgstr ""
 
 #: umlmodel/umlobject.cpp:1272
 #, kde-format
@@ -8384,58 +8075,49 @@ msgid "Diagram: %2 Page %1"
 msgstr "Léaráid: %2 Leathanach %1"
 
 #: umlscene.cpp:1526
-#, fuzzy, kde-format
-#| msgid "&Use fill color"
+#, kde-format
 msgid "Use fill color"
-msgstr "Ú&sáid dath an líonta"
+msgstr ""
 
 #: umlscene.cpp:1528
-#, fuzzy, kde-format
-#| msgid "Fill Color"
+#, kde-format
 msgid "No fill color"
-msgstr "Dath an Líonta"
+msgstr ""
 
 #: umlscene.cpp:1543
-#, fuzzy, kde-format
-#| msgid "Change font : %1"
+#, kde-format
 msgid "Change font"
-msgstr "Athraigh an cló: %1"
+msgstr ""
 
 #: umlscene.cpp:1557
-#, fuzzy, kde-format
-#| msgid "Change Line Color"
+#, kde-format
 msgid "Change line color"
-msgstr "Athraigh Dath Líne"
+msgstr ""
 
 #: umlscene.cpp:1575
-#, fuzzy, kde-format
-#| msgid "Custom line width:"
+#, kde-format
 msgid "Change line width"
-msgstr "Leithead saincheaptha línte:"
+msgstr ""
 
 #: umlscene.cpp:1595
-#, fuzzy, kde-format
-#| msgid "Change Fill Color"
+#, kde-format
 msgid "Change fill color"
-msgstr "Athraigh Dath an Líonta"
+msgstr ""
 
 #: umlscene.cpp:1610
-#, fuzzy, kde-format
-#| msgid "Change Properties"
+#, kde-format
 msgid "Change visual property"
-msgstr "Athraigh Airíonna"
+msgstr ""
 
 #: umlscene.cpp:1661
-#, fuzzy, kde-format
-#| msgid "Delete"
+#, kde-format
 msgid "Delete widgets"
-msgstr "Scrios"
+msgstr ""
 
 #: umlscene.cpp:1707
-#, fuzzy, kde-format
-#| msgid "Resize widget : %1"
+#, kde-format
 msgid "Resize widgets"
-msgstr "Athraigh méid na giuirléide: %1"
+msgstr ""
 
 #: umlscene.cpp:3359
 #, kde-format
@@ -8480,10 +8162,9 @@ msgid "Empty scene"
 msgstr ""
 
 #: umlviewimageexportermodel.cpp:242
-#, fuzzy, kde-format
-#| msgid "Can not create directory: %1"
+#, kde-format
 msgid "Cannot create directory: %1"
-msgstr "Ní féidir comhadlann a chruthú: %1"
+msgstr ""
 
 #: umlviewimageexportermodel.cpp:259
 #, kde-format
@@ -8584,10 +8265,9 @@ msgid "Enter alternative Name"
 msgstr "Iontráil ainm mar mhalairt"
 
 #: umlwidgets/floatingdashlinewidget.cpp:103
-#, fuzzy, kde-format
-#| msgid "Enter alternative Name"
+#, kde-format
 msgid "Enter the alternative:"
-msgstr "Iontráil ainm mar mhalairt"
+msgstr ""
 
 #: umlwidgets/floatingtextwidget.cpp:201
 #, kde-format
@@ -8738,10 +8418,9 @@ msgid ""
 msgstr ""
 
 #: umlwidgets/umlwidget.cpp:562
-#, fuzzy, kde-format
-#| msgid "Move widget : %1"
+#, kde-format
 msgid "Move widgets"
-msgstr "Bog giuirléid: %1"
+msgstr ""
 
 #: umlwidgets/umlwidget.cpp:811
 #, kde-format
@@ -8764,70 +8443,59 @@ msgid "Hold shift and control to move in Y axis."
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:825
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new actor"
-msgstr "aisteoir_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:826
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "new artifact"
-msgstr "déantán_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:827
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "new association"
-msgstr "comhcheangal_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:828
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new box"
-msgstr "aisteoir_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:829
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "new category"
-msgstr "catagóir_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:830
-#, fuzzy, kde-format
-#| msgid "new_class"
+#, kde-format
 msgid "new class"
-msgstr "aicme_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:831
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "new combined fragment"
-msgstr "Mír Chomhcheangailte"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:832
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "new component"
-msgstr "comhpháirt_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:833
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "new datatype"
-msgstr "cineálsonraí_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:834
-#, fuzzy, kde-format
-#| msgid "new_entity"
+#, kde-format
 msgid "new entity"
-msgstr "aonán_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:835
-#, fuzzy, kde-format
-#| msgid "new_enum"
+#, kde-format
 msgid "new enum"
-msgstr "áirithe_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:836
 #, kde-format
@@ -8835,70 +8503,59 @@ msgid "new floating dash line"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:837
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "new fork/join"
-msgstr "Forc/Snaidhm"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:838
-#, fuzzy, kde-format
-#| msgid "Instance name:"
+#, kde-format
 msgid "new instance"
-msgstr "Ainm áisc:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:839
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "new interface"
-msgstr "comhéadan_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:840
-#, fuzzy, kde-format
-#| msgid "E&nable autosave"
+#, kde-format
 msgid "new message"
-msgstr "&Cumasaigh uathshábháil"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:841
-#, fuzzy, kde-format
-#| msgid "new_node"
+#, kde-format
 msgid "new node"
-msgstr "nód_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:842
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new note"
-msgstr "aisteoir_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:843
-#, fuzzy, kde-format
-#| msgid "new_object"
+#, kde-format
 msgid "new object"
-msgstr "réad_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:844
-#, fuzzy, kde-format
-#| msgid "Enter object name:"
+#, kde-format
 msgid "new object node"
-msgstr "Iontráil ainm an réada:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:845
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "new package"
-msgstr "pacáiste_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:846
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "new pin"
-msgstr "Comhartha nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:847
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new port"
-msgstr "aisteoir_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:848
 #, kde-format
@@ -8906,46 +8563,39 @@ msgid "new precondition"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:849
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "new region"
-msgstr "Comhartha nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:850
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "new signal"
-msgstr "Comhartha nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:852
-#, fuzzy, kde-format
-#| msgid "Enter new text:"
+#, kde-format
 msgid "new text"
-msgstr "Iontráil téacs nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:853
-#, fuzzy, kde-format
-#| msgid "Move widget : %1"
+#, kde-format
 msgid "new UML widget"
-msgstr "Bog giuirléid: %1"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:854
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "new use case"
-msgstr "cásúsáide_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:858
-#, fuzzy, kde-format
-#| msgid "Move widget : %1"
+#, kde-format
 msgid "new widget"
-msgstr "Bog giuirléid: %1"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:871
-#, fuzzy, kde-format
-#| msgid "new activity"
+#, kde-format
 msgid "New activity"
-msgstr "gníomh nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:875
 #, kde-format
@@ -8953,10 +8603,9 @@ msgid "New box"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:878
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "New combined fragment"
-msgstr "Mír Chomhcheangailte"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:883
 #, kde-format
@@ -8964,191 +8613,159 @@ msgid "New floating dash line"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:884
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "New fork/join"
-msgstr "Forc/Snaidhm"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:887
-#, fuzzy, kde-format
-#| msgid "Message"
+#, kde-format
 msgid "New message"
-msgstr "Teachtaireacht"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:889
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New note"
-msgstr "Steiréitíopa"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:890
-#, fuzzy, kde-format
-#| msgid "new_object"
+#, kde-format
 msgid "New object"
-msgstr "réad_nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:891
-#, fuzzy, kde-format
-#| msgid "Object Node"
+#, kde-format
 msgid "New object node"
-msgstr "Nód Réada"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:893
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "New pin"
-msgstr "Comhartha nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:895
-#, fuzzy, kde-format
-#| msgid "Precondition"
+#, kde-format
 msgid "New precondition"
-msgstr "Réamhchoinníoll"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:896
-#, fuzzy, kde-format
-#| msgid "Region"
+#, kde-format
 msgid "New region"
-msgstr "Réigiún"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:897
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "New signal"
-msgstr "Comhartha nua"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:898
-#, fuzzy, kde-format
-#| msgctxt "end state in statechart"
-#| msgid "End state"
+#, kde-format
 msgid "New state"
-msgstr "Staid deiridh"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:899
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "New text"
-msgstr "Steiréitíopa"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:900
-#, fuzzy, kde-format
-#| msgid "Move widget : %1"
+#, kde-format
 msgid "New UML widget"
-msgstr "Bog giuirléid: %1"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:905
-#, fuzzy, kde-format
-#| msgid "Move widget : %1"
+#, kde-format
 msgid "New widget"
-msgstr "Bog giuirléid: %1"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:921
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new box:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:924
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new combined fragment:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:929
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new floating dash line:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:930
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new fork/join:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:933
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new message:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:935
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new note:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:936
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new object:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:937
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new object node:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:939
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new pin:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:941
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new precondition:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:942
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new region:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:943
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new signal:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:945
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new text:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:946
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new uml widget:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:950
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new widget:"
-msgstr "Iontráil ainm an ghnímh nua:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:962
-#, fuzzy, kde-format
-#| msgid "Rename Activity"
+#, kde-format
 msgid "Rename activity"
-msgstr "Athainmnigh an Gníomh"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:966
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename box"
-msgstr "Athainmnigh"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:969
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "Rename combined fragment"
-msgstr "Mír Chomhcheangailte"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:974
 #, kde-format
@@ -9161,76 +8778,64 @@ msgid "Rename fork/join"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:978
-#, fuzzy, kde-format
-#| msgid "E&nable autosave"
+#, kde-format
 msgid "Rename message"
-msgstr "&Cumasaigh uathshábháil"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:980
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename note"
-msgstr "Athainmnigh"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:981
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename object"
-msgstr "Athainmnigh Réad"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:982
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename object node"
-msgstr "Athainmnigh Réad"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:984
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename pin"
-msgstr "Athainmnigh"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:986
-#, fuzzy, kde-format
-#| msgid "Precondition"
+#, kde-format
 msgid "Rename precondition"
-msgstr "Réamhchoinníoll"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:987
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename region"
-msgstr "Athainmnigh"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:988
-#, fuzzy, kde-format
-#| msgid "Send signal"
+#, kde-format
 msgid "Rename signal"
-msgstr "Seol Comhartha"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:989
-#, fuzzy, kde-format
-#| msgid "Rename Activity"
+#, kde-format
 msgid "Rename state"
-msgstr "Athainmnigh an Gníomh"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:990
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename text"
-msgstr "Athainmnigh Réad"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:991
-#, fuzzy, kde-format
-#| msgid "Resize widget : %1"
+#, kde-format
 msgid "Rename UML widget"
-msgstr "Athraigh méid na giuirléide: %1"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:996
-#, fuzzy, kde-format
-#| msgid "Resize widget : %1"
+#, kde-format
 msgid "Rename widget"
-msgstr "Athraigh méid na giuirléide: %1"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1008
 #, kde-format
@@ -9238,100 +8843,84 @@ msgid "Enter the new name of the activity:"
 msgstr "Iontráil ainm nua ar an ghnímh:"
 
 #: umlwidgets/widget_utils.cpp:1012
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the box:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1015
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the combined fragment:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1020
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the floating dash line:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1021
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the fork/join widget:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1024
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the message:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1026
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the note:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1027
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the object:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1028
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the object node:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1030
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the pin:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1032
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the precondition:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the region:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1034
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the signal:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1035
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the state:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1036
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the text:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1037
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the uml widget:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1041
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the widget:"
-msgstr "Iontráil ainm nua ar an tsamhail:"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1255 worktoolbar.cpp:337
 #, kde-format
@@ -9339,10 +8928,9 @@ msgid "Box"
 msgstr "Bosca"
 
 #: umlwidgets/widgetbase.cpp:1261
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "CombinedFragment"
-msgstr "Mír Chomhcheangailte"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1270 worktoolbar.cpp:362
 #, kde-format
@@ -9360,10 +8948,9 @@ msgid "FloatingDashLine"
 msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1282
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "ForkJoin"
-msgstr "Forc/Snaidhm"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1288
 #, kde-format
@@ -9381,42 +8968,34 @@ msgid "Object"
 msgstr "Réad"
 
 #: umlwidgets/widgetbase.cpp:1300
-#, fuzzy, kde-format
-#| msgid "Object Node"
+#, kde-format
 msgid "ObjectNode"
-msgstr "Nód Réada"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1318
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "Signal"
-msgstr "Comhartha nua"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "state in statechart"
-#| msgid "State"
+#, kde-format
 msgid "State"
-msgstr "Staid"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1324
-#, fuzzy, kde-format
-#| msgctxt "text color"
-#| msgid "&Text:"
+#, kde-format
 msgid "Text"
-msgstr "&Téacs:"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1327
-#, fuzzy, kde-format
-#| msgid "Use Case"
+#, kde-format
 msgid "UseCase"
-msgstr "Cás Úsáide"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1330 worktoolbar.cpp:392
-#, fuzzy, kde-format
-#| msgid "Instance name:"
+#, kde-format
 msgid "Instance"
-msgstr "Ainm áisc:"
+msgstr ""
 
 #: worktoolbar.cpp:322
 #, kde-format
@@ -9425,10 +9004,9 @@ msgid "Select"
 msgstr "Roghnaigh"
 
 #: worktoolbar.cpp:324
-#, fuzzy, kde-format
-#| msgid "Aggregation"
+#, kde-format
 msgid "Creation"
-msgstr "Comhbhailiúchán"
+msgstr ""
 
 #: worktoolbar.cpp:325
 #, kde-format
@@ -9477,16 +9055,14 @@ msgid "Fork/Join"
 msgstr "Forc/Snaidhm"
 
 #: worktoolbar.cpp:360
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interface Provider"
-msgstr "Comhéadan"
+msgstr ""
 
 #: worktoolbar.cpp:361
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interface required"
-msgstr "Comhéadan"
+msgstr ""
 
 #: worktoolbar.cpp:367
 #, kde-format
@@ -9516,634 +9092,3 @@ msgstr "Staid"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr "Réamh/Iar-choinníoll"
-
-#, fuzzy
-#~| msgid "Show Attributes"
-#~ msgid "Show tree view"
-#~ msgstr "Taispeáin Tréithe"
-
-#, fuzzy
-#~| msgid "Documentation tags"
-#~ msgid "Show documentation window"
-#~ msgstr "Clibeanna doiciméadaithe"
-
-#, fuzzy
-#~| msgid "Shallow History"
-#~ msgid "Show command history"
-#~ msgstr "Stair Éadomhain"
-
-#, fuzzy
-#~| msgid "Show Doc Window"
-#~ msgid "Show diagrams window"
-#~ msgstr "Taispeáin Fuinneog Cháipéise"
-
-#, fuzzy
-#~| msgid "Show Doc Window"
-#~ msgid "Show log window"
-#~ msgstr "Taispeáin Fuinneog Cháipéise"
-
-#, fuzzy
-#~| msgid "Show Doc Window"
-#~ msgid "Show UML objects window"
-#~ msgstr "Taispeáin Fuinneog Cháipéise"
-
-#, fuzzy
-#~| msgid "Show Stereotypes"
-#~ msgid "Show stereotypes window"
-#~ msgstr "Taispeáin Steiréitíopa"
-
-#, fuzzy
-#~| msgid "Show Doc Window"
-#~ msgid "Show welcome window"
-#~ msgstr "Taispeáin Fuinneog Cháipéise"
-
-#~ msgid "Angular Lines"
-#~ msgstr "Línte Uilleacha"
-
-#~ msgid "All Supported Files"
-#~ msgstr "Gach Comhad a Thacaítear Leis"
-
-#~ msgid "the directory of the file"
-#~ msgstr "comhadlann an chomhaid"
-
-#, fuzzy
-#~| msgid "Active &Language"
-#~ msgid "set active language"
-#~ msgstr "Teanga &Ghníomhach"
-
-#, fuzzy
-#~| msgid ""
-#~| "*.xmi|XMI File\n"
-#~| "*.xmi.tgz|Gzip Compressed XMI File\n"
-#~| "*.xmi.tar.bz2|Bzip2 Compressed XMI File\n"
-#~| "*|All Files"
-#~ msgid ""
-#~ "*.xmi|XMI File\n"
-#~ "*.xmi.tgz|Gzip Compressed XMI File\n"
-#~ "*.xmi.tar.bz2|Bzip2 Compressed XMI File\n"
-#~ "*|All Files"
-#~ msgstr ""
-#~ "*.xmi|Comhad XMI\n"
-#~ "*.xmi.tgz|Comhad XMI Comhbhrúite le Gzip\n"
-#~ "*.xmi.tar.bz2|Comhad XMI Comhbhrúite le Bzip2\n"
-#~ "*|Gach Comhad"
-
-#~ msgid "The file %1 does not exist."
-#~ msgstr "Níl comhad %1 ann."
-
-#~ msgid "There was a problem uploading file: %1"
-#~ msgstr "fadhb ann agus an comhad á uasluchtú: %1"
-
-#~ msgid "Paul Hensgen"
-#~ msgstr "Paul Hensgen"
-
-#, fuzzy
-#~| msgid "Rename object : %1 to %2"
-#~ msgid "Rename type: %1 to %2"
-#~ msgstr "Athainmnigh réad: %1 go %2"
-
-#~ msgid "Stereot&ype"
-#~ msgstr "St&eiréitíopa"
-
-#, fuzzy
-#~| msgid "Can not save an empty diagram"
-#~ msgid "Cannot save an empty diagram"
-#~ msgstr "Ní féidir léaráid fholamh a shábháil"
-
-#~ msgid "New Activity"
-#~ msgstr "Gníomh Nua"
-
-#, fuzzy
-#~| msgid "Subsystem"
-#~ msgid "new_subsystem"
-#~ msgstr "Fochóras"
-
-#~ msgctxt "UMLObject name"
-#~ msgid "Name"
-#~ msgstr "Ainm"
-
-#, fuzzy
-#~| msgid "Enter the name of the new activity:"
-#~ msgid "Enter name for new stereotype"
-#~ msgstr "Iontráil ainm an ghnímh nua:"
-
-#, fuzzy
-#~| msgid "Enter Model Name"
-#~ msgid "Enter Port Name"
-#~ msgstr "Iontráil Ainm na Samhla"
-
-#, fuzzy
-#~| msgid "Enter alternative Name"
-#~ msgid "Enter the port name :"
-#~ msgstr "Iontráil ainm mar mhalairt"
-
-#, fuzzy
-#~| msgid "Enter alternative Name"
-#~ msgid "Enter the Pin"
-#~ msgstr "Iontráil ainm mar mhalairt"
-
-#, fuzzy
-#~| msgid "Enter alternative Name"
-#~ msgid "Enter the port"
-#~ msgstr "Iontráil ainm mar mhalairt"
-
-#, fuzzy
-#~| msgid "Enter New Name"
-#~ msgid "Enter Subsystem Name"
-#~ msgstr "Iontráil Ainm Nua"
-
-#~ msgid "Actor..."
-#~ msgstr "Aisteoir..."
-
-#~ msgid "Use Case..."
-#~ msgstr "Cás Úsáide..."
-
-#~ msgid "Component..."
-#~ msgstr "Comhpháirt..."
-
-#~ msgid "Artifact..."
-#~ msgstr "Déantán..."
-
-#~ msgid "Node..."
-#~ msgstr "Nód..."
-
-#~ msgid "Entity..."
-#~ msgstr "Aonán..."
-
-#~ msgid "Category..."
-#~ msgstr "Catagóir..."
-
-#~ msgctxt "new class menu item"
-#~ msgid "Class"
-#~ msgstr "Aicme"
-
-#~ msgid "Interface..."
-#~ msgstr "Comhéadan..."
-
-#~ msgid "Operation..."
-#~ msgstr "Oibríocht..."
-
-#~ msgid "Template..."
-#~ msgstr "Teimpléad..."
-
-#, fuzzy
-#~| msgid "Export..."
-#~ msgid "Port..."
-#~ msgstr "Easpórtáil..."
-
-#~ msgctxt "new classifier menu"
-#~ msgid "New"
-#~ msgstr "Nua"
-
-#, fuzzy
-#~| msgid "&Stereotype name:"
-#~ msgid "&Stereotype name:"
-#~ msgstr "&Ainm an steiréitíopa:"
-
-#~ msgid "Delete Diagram"
-#~ msgstr "Scrios Léaráid"
-
-#, fuzzy
-#~| msgid "Private"
-#~ msgid "Pri&vate"
-#~ msgstr "Príobháideach"
-
-#, fuzzy
-#~| msgctxt "scope for A is implementation"
-#~| msgid "Implementation"
-#~ msgid "I&mplementation"
-#~ msgstr "Doiciméadú"
-
-#, fuzzy
-#~| msgid "Force Documentation"
-#~ msgid "Note Documentation"
-#~ msgstr "Fórsáil Doiciméadú"
-
-#~ msgid "Form"
-#~ msgstr "Foirm"
-
-#, fuzzy
-#~| msgid "(c) 2001 Paul Hensgen, (c) 2002-2012 Umbrello UML Modeller Authors"
-#~ msgid "(c) 2001 Paul Hensgen, (c) 2002-2016 Umbrello UML Modeller Authors"
-#~ msgstr "© 2001 Paul Hensgen, © 2002-2012 Údair Samhaltóra UML Umbrello"
-
-#, fuzzy
-#~| msgid "File to open"
-#~ msgid "File to open with path."
-#~ msgstr "Comhad le hoscailt"
-
-#, fuzzy
-#~| msgid "importing file ..."
-#~ msgid "Import files."
-#~ msgstr "comhad á iompórtáil..."
-
-#, fuzzy
-#~| msgid "&Initial value:"
-#~ msgid "Initial Value:"
-#~ msgstr "Luach tosa&igh:"
-
-#, fuzzy
-#~| msgid "&Type of diagram"
-#~ msgid "Type Modifier:"
-#~ msgstr "&Cineál na léaráide"
-
-#, fuzzy
-#~| msgid "&Auto increment"
-#~ msgid "Auto Increment"
-#~ msgstr "Incrimintigh go u&athoibríoch"
-
-#, fuzzy
-#~| msgid "New Parameter..."
-#~ msgid "New Parameter"
-#~ msgstr "Paraiméadar Nua..."
-
-#, fuzzy
-#~| msgctxt "component is executable"
-#~| msgid "&Executable"
-#~ msgid "&Mutable"
-#~ msgstr "&Inrite"
-
-#, fuzzy
-#~| msgid "Constraints"
-#~ msgid "Const"
-#~ msgstr "Srianta"
-
-#, fuzzy
-#~| msgid "Protected"
-#~ msgid "Prote&cted"
-#~ msgstr "Cosanta"
-
-#, fuzzy
-#~| msgid "Export as Picture..."
-#~ msgid "Import stack trace..."
-#~ msgstr "Easpórtáil mar Phictiúr..."
-
-#, fuzzy
-#~| msgid "Enter object name:"
-#~ msgid "Object name:"
-#~ msgstr "Iontráil ainm an réada:"
-
-#~ msgid "Class name:"
-#~ msgstr "Ainm aicme:"
-
-#, fuzzy
-#~| msgid "Class &name:"
-#~ msgid "Class &name"
-#~ msgstr "&Ainm aicme:"
-
-#, fuzzy
-#~| msgid "Object"
-#~ msgctxt "UML object"
-#~ msgid "Object"
-#~ msgstr "Réad"
-
-#, fuzzy
-#~| msgid "&Diagrams"
-#~ msgid "Diagrams"
-#~ msgstr "Léarái&dí"
-
-#~ msgid "Implements"
-#~ msgstr "Feidhmíonn"
-
-#, fuzzy
-#~| msgid "Import Project..."
-#~ msgid "Import &Project..."
-#~ msgstr "Iompórtáil Tionscadal..."
-
-#~ msgctxt "enum name"
-#~ msgid "Name"
-#~ msgstr "Ainm"
-
-#~ msgid "&Export"
-#~ msgstr "&Easpórtáil"
-
-#, fuzzy
-#~| msgid "Filter"
-#~ msgid "Filter:"
-#~ msgstr "Scagaire"
-
-#, fuzzy
-#~| msgid "Change font : %1"
-#~ msgid "Changing note"
-#~ msgstr "Athraigh an cló: %1"
-
-#, fuzzy
-#~| msgid "Enter name:"
-#~ msgid "Enter note:"
-#~ msgstr "Iontráil ainm:"
-
-#~ msgid "Component name:"
-#~ msgstr "Ainm comhpháirte:"
-
-#~ msgid "Node name:"
-#~ msgstr "Ainm nóid:"
-
-#~ msgctxt "font page name"
-#~ msgid "Font"
-#~ msgstr "Cló"
-
-#~ msgctxt "widget style page name"
-#~ msgid "Style"
-#~ msgstr "Stíl"
-
-#~ msgctxt "access control public"
-#~ msgid "&Public"
-#~ msgstr "&Poiblí"
-
-#~ msgctxt "access control private"
-#~ msgid "P&rivate"
-#~ msgstr "P&ríobháideach"
-
-#~ msgctxt "access control protected"
-#~ msgid "Prot&ected"
-#~ msgstr "Cosa&nta"
-
-#~ msgctxt "protected visibility"
-#~ msgid "Prot&ected"
-#~ msgstr "Cosa&nta"
-
-#~ msgctxt "namespace scope"
-#~ msgid "Namespace"
-#~ msgstr "Ainmspás"
-
-#~ msgctxt "class scope"
-#~ msgid "Class"
-#~ msgstr "Aicme"
-
-#~ msgid "Line width:  "
-#~ msgstr "Leithead líne:  "
-
-#~ msgid "Internal Error"
-#~ msgstr "Earráid Inmheánach"
-
-#~ msgid "'%1' expected found '%2'"
-#~ msgstr "bhíothas ag súil le '%1' ach fuarthas '%2'"
-
-#~ msgid "<eof>"
-#~ msgstr "<eof>"
-
-#~ msgid "expression expected"
-#~ msgstr "bhíothas ag súil le slonn"
-
-#~ msgid "} expected"
-#~ msgstr "bhíothas ag súil le }"
-
-#~ msgid "namespace expected"
-#~ msgstr "bhíothas ag súil le hainmspás"
-
-#~ msgid "{ expected"
-#~ msgstr "bhíothas ag súil le {"
-
-#~ msgid "Namespace name expected"
-#~ msgstr "bhíothas ag súil le hainm ainmspáis"
-
-#~ msgid "Constant expression expected"
-#~ msgstr "bhíothas ag súil le slonn tairiseach"
-
-#~ msgid "')' expected"
-#~ msgstr "bhíothas ag súil le ')'"
-
-#~ msgid "} missing"
-#~ msgstr "} ar iarraidh"
-
-#~ msgid "Identifier expected"
-#~ msgstr "Bhíothas ag súil le haitheantóir"
-
-#~ msgid "statement expected"
-#~ msgstr "bhíothas ag súil le ráiteas"
-
-#~ msgid "Delete Selected Items"
-#~ msgstr "Scrios na Míreanna Roghnaithe"
-
-#~ msgid "Show &visibility"
-#~ msgstr "Taispeáin in&fheictheacht"
-
-#~ msgid "Show operations"
-#~ msgstr "Taispeáin oibríochtaí"
-
-#~ msgid "Show stereot&ype"
-#~ msgstr "Taispeáin st&eiréitíopa"
-
-#~ msgid "Show package"
-#~ msgstr "Taispeáin pacáiste"
-
-#~ msgid "Create class diagram : %1"
-#~ msgstr "Cruthaigh léaráid aicmí: %1"
-
-#~ msgid "Create entity relationship diagram : %1"
-#~ msgstr "Cruthaigh léaráid de ghaoil na n-aonán: %1"
-
-#~ msgid "Create use case diagram : %1"
-#~ msgstr "Cruthaigh léaráid de chás úsáide: %1"
-
-#~ msgid "Create activity diagram : %1"
-#~ msgstr "Cruthaigh léaráid ghnímh: %1"
-
-#~ msgid "Create collaboration diagram : %1"
-#~ msgstr "Cruthaigh léaráid chomhoibrithe: %1"
-
-#~ msgid "Create sequence diagram : %1"
-#~ msgstr "Cruthaigh léaráid seichimh: %1"
-
-#~ msgid "Create deployment diagram : %1"
-#~ msgstr "Cruthaigh léaráid imlonnaithe: %1"
-
-#~ msgid "Create component diagram : %1"
-#~ msgstr "Cruthaigh léaráid chomhpháirt: %1"
-
-#~ msgctxt "widget color page name"
-#~ msgid "Color"
-#~ msgstr "Dath"
-
-#~ msgid "Widget Colors"
-#~ msgstr "Dathanna Giuirléidí"
-
-#~ msgctxt "color page title"
-#~ msgid "Color"
-#~ msgstr "Dath"
-
-#~ msgctxt "color page"
-#~ msgid "Color"
-#~ msgstr "Dath"
-
-#~ msgctxt "diagram colors page"
-#~ msgid "Color"
-#~ msgstr "Dathanna"
-
-#~ msgid "Diagram Colors"
-#~ msgstr "Dathanna na Léaráide"
-
-#~ msgctxt "widget color page"
-#~ msgid "Color"
-#~ msgstr "Dath"
-
-#~ msgid "You have to choose a directory."
-#~ msgstr "Caithfidh tú comhadlann a roghnú."
-
-#~ msgid "This directory does not exist."
-#~ msgstr "Níl an chomhadlann seo ann."
-
-#~ msgid "No source file in this directory."
-#~ msgstr "Níl aon chód foinseach sa chomhadlann seo."
-
-#~ msgid "The base directory that contains the project"
-#~ msgstr "Bunchomhadlann ina bhfuil an tionscadal"
-
-#~ msgid "&Directory of the project:"
-#~ msgstr "&Comhadlann an tionscadail:"
-
-#~ msgid "The language of the project"
-#~ msgstr "Teanga an tionscadail"
-
-#~ msgid "Language:"
-#~ msgstr "Teanga:"
-
-#~ msgid "*.idl|IDL Files (*.idl)"
-#~ msgstr "*.idl|Comhaid IDL (*.idl)"
-
-#~ msgid "*.py|Python Files (*.py *.pyw)"
-#~ msgstr "*.py|Comhaid Python (*.py *.pyw)"
-
-#~ msgid "*.java|Java Files (*.java)"
-#~ msgstr "*.java|Comhaid Java (*.java)"
-
-#~ msgid "*.pas|Pascal Files (*.pas)"
-#~ msgstr "*.pas|Comhaid Pascal (*.pas)"
-
-#~ msgid "*.ads *.ada|Ada Files (*.ads *.ada)"
-#~ msgstr "*.ads *.ada|Comhaid Ada (*.ads *.ada)"
-
-#~ msgid "*.h *.hh *.hpp *.hxx *.H|Header Files (*.h *.hh *.hpp *.hxx *.H)"
-#~ msgstr ""
-#~ "*.h *.hh *.hpp *.hxx *.H|Comhaid Cheanntáisc (*.h *.hh *.hpp *.hxx *.H)"
-
-#~ msgid "D&efault Color"
-#~ msgstr "D&ath Réamhshocraithe"
-
-#~ msgid "Fill color:"
-#~ msgstr "Dath an líonta:"
-
-#~ msgid "De&fault Color"
-#~ msgstr "Da&th Réamhshocraithe"
-
-#~ msgid "D&efault Width"
-#~ msgstr "L&eithead Réamhshocraithe"
-
-#~ msgid "&Hide Grid"
-#~ msgstr "&Folaigh Greille"
-
-#~ msgid "&OK"
-#~ msgstr "&OK"
-
-#~ msgid "&Cancel"
-#~ msgstr "&Cealaigh"
-
-#~ msgid ""
-#~ "All Supported Files (*.xmi *.mdl);;XMI Files (*.xmi);;Rose model files (*."
-#~ "mdl)"
-#~ msgstr ""
-#~ "Gach Comhad a dTacaítear Leo (*.xmi *.mdl);;Comhaid XMI (*.xmi);;Comhaid "
-#~ "samhla Rose (*.mdl)"
-
-#~ msgid "XMI File (*.xmi);;All Files (*.*"
-#~ msgstr "Comhad XMI (*.xmi);;Gach Comhad (*.*"
-
-#~ msgid "Generation Status"
-#~ msgstr "Stádas Giniúna"
-
-#~ msgctxt "finish code generation"
-#~ msgid "Finish"
-#~ msgstr "Críochnaigh"
-
-#~ msgid "General Options"
-#~ msgstr "Roghanna Ginearálta"
-
-#~ msgid "Import existing projects"
-#~ msgstr "Iompórtáil tionscadail atá ann"
-
-#~ msgid "Close"
-#~ msgstr "Dún"
-
-#~ msgid "Collaboration"
-#~ msgstr "Comhoibriú"
-
-#~ msgid "Sequence"
-#~ msgstr "Seicheamh"
-
-#~ msgid "Deployment"
-#~ msgstr "Imlonnú"
-
-#~ msgid " &33%"
-#~ msgstr " &33%"
-
-#~ msgid " &50%"
-#~ msgstr " &50%"
-
-#~ msgid " &75%"
-#~ msgstr " &75%"
-
-#~ msgid "1&50%"
-#~ msgstr "1&50%"
-
-#~ msgid "&200%"
-#~ msgstr "&200%"
-
-#~ msgid "3&00%"
-#~ msgstr "3&00%"
-
-#~ msgid "kde-uml-Diagram"
-#~ msgstr "Léaráid-uml-kde"
-
-#~ msgid "&Package name:"
-#~ msgstr "Ainm an &phacáiste:"
-
-#~ msgid "Code Generation Status"
-#~ msgstr "Stádas Giniúna Cóid"
-
-#~ msgid "Implements (Generalisation/Realisation)"
-#~ msgstr "Feidhmiú (Ginearálú/Réadú)"
-
-#~ msgid "&Primary"
-#~ msgstr "&Príomha"
-
-#~ msgid "&Unique"
-#~ msgstr "&Uathúil"
-
-#~ msgid "Component Diagram..."
-#~ msgstr "Léaráid Chomhpháirte..."
-
-#~ msgid "Deployment Diagram..."
-#~ msgstr "Léaráid Imlonnaithe..."
-
-#~ msgid "Entity Relationship Diagram..."
-#~ msgstr "Léaráid de Ghaoil na nAonán..."
-
-#~ msgid "Use Case Diagram..."
-#~ msgstr "Léaráid de Chás Úsáide..."
-
-#~ msgid "Class Diagram..."
-#~ msgstr "Léaráid Aicme..."
-
-#~ msgid "Activity Diagram..."
-#~ msgstr "Léaráid Ghnímh..."
-
-#~ msgid "Collaboration Diagram..."
-#~ msgstr "Léaráid Chomhoibrithe..."
-
-#~ msgid "&Tip of the day"
-#~ msgstr "&Leid an lae"
-
-#~ msgid "Sta&rtup logo"
-#~ msgstr "Lógó &tosaithe"
-
-#~ msgid "Toggling toolbar..."
-#~ msgstr "Barra uirlisí á scoránú..."
-
-#~ msgid "Toggle the statusbar..."
-#~ msgstr "Scoránaigh an barra stádais..."
-
-#~ msgid "UNDEFINED"
-#~ msgstr "GAN SAINMHÍNIÚ"
-
-#~ msgid "&Windows"
-#~ msgstr "&Fuinneoga"

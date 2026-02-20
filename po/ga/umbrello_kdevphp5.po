@@ -361,20 +361,3 @@ msgstr "Níl cead agat é seo a oscailt chun é a léamh."
 #, kde-format
 msgid "PHPUnit"
 msgstr ""
-
-#, fuzzy
-#~| msgid "From %1"
-#~ msgid " from "
-#~ msgstr "Ó %1"
-
-#~ msgid "Milian Wolff"
-#~ msgstr "Milian Wolff"
-
-#~ msgid "Author"
-#~ msgstr "Údar"
-
-#~ msgid "Niko Sams"
-#~ msgstr "Niko Sams"
-
-#~ msgid "Included file %1 could not be found."
-#~ msgstr "Níorbh fhéidir comhad iniata %1 a aimsiú."
