@@ -67,9 +67,10 @@ public:
 class UIState {
 public:
     UIState()
-     : useFillColor(false),
-       lineWidth(0),
-       useAlignmentGuides(true)
+     : useFillColor(false)
+     , lineWidth(0)
+     , useBackgroundColor(false)
+     , useAlignmentGuides(true)
     {
     }
 
