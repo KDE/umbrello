@@ -2953,8 +2953,13 @@ void UMLDoc::removeAllObjects()
  */
 UMLPackageList UMLDoc::packages(bool includeNested /* = true */, Uml::ModelType::Enum model) const
 {
+
     UMLPackageList packageList;
-    m_root[model]->appendPackages(packageList, includeNested);
+    if (model < Uml::ModelType::Enum::N_MODELTYPES) {
+        m_root[model]->appendPackages(packageList, includeNested);
+    } else {
+        qWarning() << "Invalid Uml::ModelType::Enum value" << Uml::ModelType::toString(model);
+    }
     return packageList;
 }
 

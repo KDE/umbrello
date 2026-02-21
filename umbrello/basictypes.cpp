@@ -36,8 +36,9 @@ QString toString(Enum item)
         case EntityRelationship:
             return QString(QStringLiteral("EntityRelationship"));
         case Logical:
-        default:
             return QString(QStringLiteral("Logical"));
+        default:
+            return QString(QStringLiteral("Invalid"));
     }
 }
 
