@@ -87,19 +87,19 @@ public:
     KActionCategory *dockCategory;
 
     explicit UMLAppPrivate(UMLApp *_parent)
-      : parent(_parent),
-        findDialog(_parent),
-        diagramsWindow(nullptr),
-        objectsWindow(nullptr),
-        stereotypesWindow(nullptr),
-        birdView(nullptr),
-        listView(nullptr),
-        pQUndoView(nullptr),
-        editorWindow(nullptr),
-        welcomeWindow(nullptr),
-        view(nullptr),
-        document(nullptr),
-        dockCategory(new KActionCategory(i18n("Show/hide window"), parent->actionCollection()))
+      : parent(_parent)
+      , findDialog(_parent)
+      , diagramsWindow(nullptr)
+      , objectsWindow(nullptr)
+      , stereotypesWindow(nullptr)
+      , birdView(nullptr)
+      , listView(nullptr)
+      , pQUndoView(nullptr)
+      , editorWindow(nullptr)
+      , welcomeWindow(nullptr)
+      , view(nullptr)
+      , document(nullptr)
+      , dockCategory(new KActionCategory(i18n("Show/hide window"), parent->actionCollection()))
     {
     }
 

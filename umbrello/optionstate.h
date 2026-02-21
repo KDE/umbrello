@@ -30,18 +30,18 @@ enum Page
 class GeneralState {
 public:
     GeneralState()
-      : undo(false),
-        tabdiagrams(false),
-        newcodegen(false),
-        layoutType(Uml::LayoutType::Undefined),
-        footerPrinting(false),
-        autosave(false),
-        time(0),
-        autosavetime(0),
-        loadlast(false),
-        diagram(Uml::DiagramType::Class),
-        defaultLanguage(Uml::ProgrammingLanguage::Cpp),
-        uml2(false)
+      : undo(false)
+      , tabdiagrams(false)
+      , newcodegen(false)
+      , layoutType(Uml::LayoutType::Undefined)
+      , footerPrinting(false)
+      , autosave(false)
+      , time(0)
+      , autosavetime(0)
+      , loadlast(false)
+      , diagram(Uml::DiagramType::Class)
+      , defaultLanguage(Uml::ProgrammingLanguage::Cpp)
+      , uml2(false)
     {
     }
 
