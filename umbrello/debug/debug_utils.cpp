@@ -15,6 +15,8 @@
 
 Q_LOGGING_CATEGORY(UMBRELLO, "umbrello")
 
+enum ItemType { RootAll, Directory, Class };
+
 Tracer* Tracer::s_instance = nullptr;
 Tracer::MapType* Tracer::s_classes;
 Tracer::StateMap* Tracer::s_states;
@@ -321,6 +323,7 @@ void Tracer::showEvent(QShowEvent* e)
     // Root: "All"
     QTreeWidgetItem* allItem = new QTreeWidgetItem(QStringList(i18n("All")));
     allItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+    allItem->setData(0, Qt::UserRole, RootAll);
     addTopLevelItem(allItem);
 
     QHash<QString, QTreeWidgetItem*> dirMap;
@@ -331,12 +334,14 @@ void Tracer::showEvent(QShowEvent* e)
         if (!dirItem) {
             dirItem = new QTreeWidgetItem(allItem, QStringList(it.value().filePath));
             dirItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+            dirItem->setData(0, Qt::UserRole, Directory);
             dirMap.insert(it.value().filePath, dirItem);
         }
 
         QTreeWidgetItem* clsItem = new QTreeWidgetItem(dirItem, QStringList(it.key()));
         clsItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
         clsItem->setCheckState(0, it.value().state ? Qt::Checked : Qt::Unchecked);
+        clsItem->setData(0, Qt::UserRole, Class);
     }
 
     // Update directory parents
@@ -355,6 +360,9 @@ void Tracer::showEvent(QShowEvent* e)
  */
 void Tracer::slotParentItemClicked(QTreeWidgetItem* parent)
 {
+    if (parent->data(0, Qt::UserRole).toInt() != Directory)
+        return;
+
     // @TODO parent->checkState(0) do not return the correct state
     // Qt::CheckState state = parent->checkState(0);
     Qt::CheckState state = (*s_states)[parent->text(0)];
@@ -383,29 +391,30 @@ void Tracer::slotItemClicked(QTreeWidgetItem* item, int column)
 {
     Q_UNUSED(column);
 
-    // Leaf: class
-    if (item->parent() && item->parent()->parent()) {
-        (*s_classes)[item->text(0)].state = !(*s_classes)[item->text(0)].state;
-        item->setCheckState(0, (*s_classes)[item->text(0)].state ? Qt::Checked : Qt::Unchecked);
+    switch (item->data(0, Qt::UserRole).toInt()) {
+    case Class: {
+        const QString name = item->text(0);
+        (*s_classes)[name].state = !(*s_classes)[name].state;
+        item->setCheckState(0, (*s_classes)[name].state ? Qt::Checked : Qt::Unchecked);
+
         updateParentItemCheckBox(item->parent());
         updateAllItemCheckBox();
-        return;
+        break;
     }
-
-    // Directory
-    if (item->parent() && item->parent()->text(0) == i18n("All")) {
+    case Directory:
         slotParentItemClicked(item);
         updateAllItemCheckBox();
-        return;
-    }
+        break;
 
-    // Root: "All"
-    if (!item->parent()) {
+    case RootAll: {
         Qt::CheckState state = item->checkState(0);
         if (state == Qt::Checked)
             enableAll();
         else
             disableAll();
-        return;
+        break;
+    }
+    default:
+        break;
     }
 }
