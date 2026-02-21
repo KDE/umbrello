@@ -7,11 +7,14 @@
 */
 
 #include "debug_utils.h"
+#include "optionstate.h"
 
 #include <KLocalizedString>
 
 #include <QDir>
 #include <QFileInfo>
+
+#include <atomic>
 
 Q_LOGGING_CATEGORY(UMBRELLO, "umbrello")
 
@@ -151,12 +154,25 @@ Tracer::~Tracer()
     clear();
 }
 
+static std::atomic_bool s_debugTracingEnabled = true;
+
+void Tracer::onSettingsChanged(const Settings::OptionState &state)
+{
+    // Debug tracing is intentionally disabled when debug UI is hidden
+    // to avoid runtime overhead in production usage.
+    s_debugTracingEnabled.store(state.generalState.showDebugWindows,
+                                std::memory_order_relaxed);
+}
+
 /**
  * Return debugging state for a given class
  * @param name   the class name to check
  */
 bool Tracer::isEnabled(const QString& name) const
 {
+    if (!s_debugTracingEnabled.load(std::memory_order_relaxed))
+        return false;
+
     if (!s_classes->contains(name)) {
         // Classes that are not registered are enabled by default.
         // The intent is that classes which produce few debug messages, or whose

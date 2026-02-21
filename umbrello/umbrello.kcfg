@@ -136,6 +136,11 @@
          <whatsthis>Enables/Disables UML2 notation</whatsthis>
          <default>true</default>
        </entry>
+       <entry name="showDebugWindows" type="Bool">
+         <label>Show debug windows</label>
+         <whatsthis>Show or hide the debug window and UML objects window</whatsthis>
+         <default>false</default>
+       </entry>
     </group>
     <group name="UI Options">
        <entry name="useFillColor" type="Bool">

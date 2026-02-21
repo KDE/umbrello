@@ -97,6 +97,7 @@ public:
       , pQUndoView(nullptr)
       , editorWindow(nullptr)
       , welcomeWindow(nullptr)
+      , debugDock(nullptr)
       , view(nullptr)
       , document(nullptr)
       , dockCategory(new KActionCategory(i18n("Show/hide window"), parent->actionCollection()))
@@ -117,6 +118,32 @@ public:
 
     bool openFileInEditor(const QUrl &file, int startCursor=0, int endCursor=0);
 
+    void onSettingsChanged(const Settings::OptionState &optionState)
+    {
+        const bool showDebugWindows = optionState.generalState.showDebugWindows;
+
+        if (showDebugWindows) {
+            createDebugWindow();
+            if (debugDock && logDock)
+                parent->tabifyDockWidget(logDock, debugDock);
+#ifdef ENABLE_UML_OBJECTS_WINDOW
+            createObjectsWindow();
+            if (objectsWindow && diagramsWindow)
+                parent->tabifyDockWidget(diagramsWindow, objectsWindow);
+#endif
+        }
+
+        if (debugDock) {
+            debugDock->setVisible(showDebugWindows);
+            debugDock->toggleViewAction()->setChecked(showDebugWindows);
+        }
+        if (objectsWindow) {
+            objectsWindow->setVisible(showDebugWindows);
+            objectsWindow->toggleViewAction()->setChecked(showDebugWindows);
+        }
+        Tracer::onSettingsChanged(optionState);
+    }
+
 public Q_SLOTS:
     void slotLogWindowItemDoubleClicked(QListWidgetItem *item)
     {
@@ -129,13 +156,9 @@ public Q_SLOTS:
     {
         createBirdWindow();
         createCommandHistoryWindow();
-        createDebugWindow();
         createDiagramsWindow();
         createDocumentationWindow();
         createLogWindow();
-#ifdef ENABLE_UML_OBJECTS_WINDOW
-        createObjectsWindow();
-#endif
         createPropertyWindow();
         createStereotypesWindow();
         createTreeWindow();
@@ -144,12 +167,8 @@ public Q_SLOTS:
         parent->tabifyDockWidget(documentationDock, cmdHistoryDock);
         parent->tabifyDockWidget(cmdHistoryDock, logDock);
         //tabifyDockWidget(m_cmdHistoryDock, m_propertyDock);  //:TODO:
-        parent->tabifyDockWidget(logDock, debugDock);
         parent->tabifyDockWidget(listDock, stereotypesWindow);
         parent->tabifyDockWidget(stereotypesWindow, diagramsWindow);
-    #ifdef ENABLE_UML_OBJECTS_WINDOW
-        parent->tabifyDockWidget(diagramsWindow, objectsWindow);
-    #endif
         if (welcomeWindow) {
             parent->tabifyDockWidget(welcomeWindow, birdViewDock);
             welcomeWindow->raise();
@@ -187,6 +206,9 @@ public Q_SLOTS:
 
     void createDebugWindow()
     {
+        if (debugDock)
+              return;
+
         debugDock = new QDockWidget(i18n("&Debug"), parent);
         debugDock->setObjectName(QStringLiteral("DebugDock"));
         parent->addDockWidget(Qt::LeftDockWidgetArea, debugDock);
@@ -229,6 +251,9 @@ public Q_SLOTS:
 
     void createObjectsWindow()
     {
+        if (objectsWindow)
+              return;
+
         objectsWindow = new ObjectsWindow(i18n("&UML Objects"), parent);
         parent->addDockWidget(Qt::LeftDockWidgetArea, objectsWindow);
         dockCategory->addAction(QStringLiteral("view_show_objects"), objectsWindow->toggleViewAction());

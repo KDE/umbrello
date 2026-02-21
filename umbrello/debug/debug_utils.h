@@ -21,6 +21,8 @@ Q_DECLARE_LOGGING_CATEGORY(UMBRELLO)
 #include <QMetaEnum>
 #include <QTreeWidget>
 
+namespace Settings { class OptionState; }
+
 /**
  * @short The singleton class for switching on or off debug messages.
  *
@@ -72,6 +74,7 @@ public:
     bool logToConsole();
 
     static void registerClass(const char * name, bool state=true, const char *filePath = nullptr);
+    static void onSettingsChanged(const Settings::OptionState &state);
 
 protected:
     void update(const QString &name);

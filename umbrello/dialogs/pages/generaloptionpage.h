@@ -52,6 +52,7 @@ protected:
         QCheckBox * newcodegenCB;
         QCheckBox * footerPrintingCB;
         QCheckBox * uml2CB;
+        QCheckBox * showDebugWindowsCB;
 
         QCheckBox * autosaveCB;
         QCheckBox * loadlastCB;

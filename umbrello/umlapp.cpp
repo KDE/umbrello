@@ -918,6 +918,9 @@ void UMLApp::initWidgets()
 
     m_d->initWidgets();
 
+    // initialize from configuration file
+    m_d->onSettingsChanged(Settings::optionState());
+
     // setup signals for work tool bar
     // make sure gets signal from list view
     m_doc->setupSignals();
@@ -2005,6 +2008,7 @@ void UMLApp::slotApplyPrefs()
         const QString plStr = m_settingsDialog->getCodeGenerationLanguage();
         Uml::ProgrammingLanguage::Enum pl = Uml::ProgrammingLanguage::fromString(plStr);
         setGenerator(pl);
+        m_d->onSettingsChanged(optionState);
     }
 }
 

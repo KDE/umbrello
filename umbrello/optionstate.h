@@ -42,6 +42,7 @@ public:
       , diagram(Uml::DiagramType::Class)
       , defaultLanguage(Uml::ProgrammingLanguage::Cpp)
       , uml2(false)
+      , showDebugWindows(false)
     {
     }
 
@@ -62,6 +63,7 @@ public:
     Uml::ProgrammingLanguage::Enum defaultLanguage;
     QString lastFile;
     bool uml2;
+    bool showDebugWindows;
 };
 
 class UIState {

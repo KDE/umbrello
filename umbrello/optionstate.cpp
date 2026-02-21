@@ -37,6 +37,7 @@ namespace Settings {
         loadlast =  UmbrelloSettings::loadlast();
         diagram  = UmbrelloSettings::diagram();
         defaultLanguage =  UmbrelloSettings::defaultLanguage();
+        showDebugWindows =  UmbrelloSettings::showDebugWindows();
     }
 
     void GeneralState::save()
@@ -53,6 +54,7 @@ namespace Settings {
         UmbrelloSettings::setUml2(uml2);
         UmbrelloSettings::setDiagram(diagram);
         UmbrelloSettings::setDefaultLanguage(defaultLanguage);
+        UmbrelloSettings::setShowDebugWindows(showDebugWindows);
     }
 
     void ClassState::load()

@@ -65,6 +65,10 @@ GeneralOptionPage::GeneralOptionPage(QWidget* parent)
     m_GeneralWidgets.uml2CB->setChecked(optionState.generalState.uml2);
     miscLayout->addWidget(m_GeneralWidgets.uml2CB, 2, 1);
 
+    m_GeneralWidgets.showDebugWindowsCB = new QCheckBox(i18n("Show debug windows"), m_GeneralWidgets.miscGB);
+    m_GeneralWidgets.showDebugWindowsCB->setChecked(optionState.generalState.showDebugWindows);
+    miscLayout->addWidget(m_GeneralWidgets.showDebugWindowsCB, 3, 0);
+
     //setup autosave settings
     m_GeneralWidgets.autosaveGB = new QGroupBox(i18n("Autosave"));
     topLayout->addWidget(m_GeneralWidgets.autosaveGB);
@@ -186,6 +190,7 @@ void GeneralOptionPage::apply()
     optionState.generalState.loadlast = m_GeneralWidgets.loadlastCB->isChecked();
     optionState.generalState.diagram  = Uml::DiagramType::fromInt(m_GeneralWidgets.diagramKB->currentIndex() + 1);
     optionState.generalState.defaultLanguage = Uml::ProgrammingLanguage::fromInt(m_GeneralWidgets.languageKB->currentIndex());
+    optionState.generalState.showDebugWindows = m_GeneralWidgets.showDebugWindowsCB->isChecked();
     Q_EMIT applyClicked();
 }
 
