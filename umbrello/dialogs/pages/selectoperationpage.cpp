@@ -46,12 +46,13 @@ static bool caseInsensitiveLessThan(const UMLOperation *s1, const UMLOperation *
  *  @param  enableAutoIncrement Flag to enable auto increment checkbox
  */
 SelectOperationPage::SelectOperationPage(UMLView *parent, UMLClassifier *c, LinkWidget *widget, bool enableAutoIncrement)
-  : DialogPageBase(parent),
-    m_id(CUSTOM),
-    m_pView(parent),
-    m_classifier(c),
-    m_widget(widget),
-    m_enableAutoIncrement(false)
+  : DialogPageBase(parent)
+  , m_id(CUSTOM)
+  , m_pView(parent)
+  , m_classifier(c)
+  , m_widget(widget)
+  , m_enableAutoIncrement(false)
+  , m_docWidget(nullptr)
 {
     QVBoxLayout * topLayout = new QVBoxLayout(this);
 
@@ -94,7 +95,8 @@ SelectOperationPage::SelectOperationPage(UMLView *parent, UMLClassifier *c, Link
         if (w)
             m_docWidget = new DocumentationWidget(w, this);
     }
-    topLayout->addWidget(m_docWidget);
+    if (m_docWidget)
+        topLayout->addWidget(m_docWidget);
 
     setupOperationsList();
     setupDialog();
@@ -295,7 +297,8 @@ void SelectOperationPage::setupDialog()
  */
 bool SelectOperationPage::apply()
 {
-    m_docWidget->apply();
+    if (m_docWidget)
+        m_docWidget->apply();
 
     QString opText = getOpText();
     if (isClassOp()) {
