@@ -188,14 +188,39 @@ void Tracer::disable(const QString& name)
     update(name);
 }
 
+
 void Tracer::enableAll()
 {
-    //:TODO:
+    for (auto it = s_classes->begin(); it != s_classes->end(); ++it)
+        it.value().state = true;
+
+    QTreeWidgetItem* allItem = topLevelItem(0);
+
+    for (int i = 0; i < allItem->childCount(); ++i) {
+        QTreeWidgetItem* dir = allItem->child(i);
+        for (int j = 0; j < dir->childCount(); ++j)
+            dir->child(j)->setCheckState(0, Qt::Checked);
+        dir->setCheckState(0, Qt::Checked);
+    }
+
+    allItem->setCheckState(0, Qt::Checked);
 }
 
 void Tracer::disableAll()
 {
-    //:TODO:
+    for (auto it = s_classes->begin(); it != s_classes->end(); ++it)
+        it.value().state = true;
+
+    QTreeWidgetItem* allItem = topLevelItem(0);
+
+    for (int i = 0; i < allItem->childCount(); ++i) {
+        QTreeWidgetItem* dir = allItem->child(i);
+        for (int j = 0; j < dir->childCount(); ++j)
+            dir->child(j)->setCheckState(0, Qt::Unchecked);
+        dir->setCheckState(0, Qt::Unchecked);
+    }
+
+    allItem->setCheckState(0, Qt::Unchecked);
 }
 
 bool Tracer::logToConsole()
@@ -239,6 +264,28 @@ void Tracer::update(const QString &name)
     }
 }
 
+void Tracer::updateAllItemCheckBox()
+{
+    if (topLevelItemCount() == 0)
+        return;
+
+    QTreeWidgetItem* allItem = topLevelItem(0);
+    int enabled = 0;
+    const int total = s_classes->size();
+
+    for (auto it = s_classes->constBegin(); it != s_classes->constEnd(); ++it) {
+        if (it.value().state)
+            ++enabled;
+    }
+
+    if (enabled == total)
+        allItem->setCheckState(0, Qt::Checked);
+    else if (enabled == 0)
+        allItem->setCheckState(0, Qt::Unchecked);
+    else
+        allItem->setCheckState(0, Qt::PartiallyChecked);
+}
+
 /**
  * Update check box of parent items.
  *
@@ -269,26 +316,37 @@ void Tracer::showEvent(QShowEvent* e)
     Q_UNUSED(e);
 
     clear();
-    MapType::const_iterator i = s_classes->constBegin();
-    for(; i != s_classes->constEnd(); i++) {
-        QList<QTreeWidgetItem*> items = findItems(i.value().filePath, Qt::MatchFixedString);
-        QTreeWidgetItem *topLevel = nullptr;
-        if (items.size() == 0) {
-            topLevel = new QTreeWidgetItem(QStringList(i.value().filePath));
-            topLevel->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
-            updateParentItemCheckBox(topLevel);
-            addTopLevelItem(topLevel);
-        }
-        else
-            topLevel = items.first();
 
-        QTreeWidgetItem* item = new QTreeWidgetItem(topLevel, QStringList(i.key()));
-        item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
-        item->setCheckState(0, i.value().state ? Qt::Checked : Qt::Unchecked);
+    // Root: "All"
+    QTreeWidgetItem* allItem = new QTreeWidgetItem(QStringList(i18n("All")));
+    allItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+    addTopLevelItem(allItem);
+
+    QHash<QString, QTreeWidgetItem*> dirMap;
+
+    for (auto it = s_classes->constBegin(); it != s_classes->constEnd(); ++it) {
+        QTreeWidgetItem* dirItem = dirMap.value(it.value().filePath, nullptr);
+
+        if (!dirItem) {
+            dirItem = new QTreeWidgetItem(allItem, QStringList(it.value().filePath));
+            dirItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+            dirMap.insert(it.value().filePath, dirItem);
+        }
+
+        QTreeWidgetItem* clsItem = new QTreeWidgetItem(dirItem, QStringList(it.key()));
+        clsItem->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+        clsItem->setCheckState(0, it.value().state ? Qt::Checked : Qt::Unchecked);
     }
 
-    for(int i = 0; i < topLevelItemCount(); i++)
-        updateParentItemCheckBox(topLevelItem(i));
+    // Update directory parents
+    for (auto it = dirMap.constBegin(); it != dirMap.constEnd(); ++it) {
+        updateParentItemCheckBox(it.value());
+    }
+    // Update global state
+    updateAllItemCheckBox();
+
+    expandItem(allItem);
+    sortItems(0, Qt::AscendingOrder);
 }
 
 /**
@@ -323,11 +381,29 @@ void Tracer::slotItemClicked(QTreeWidgetItem* item, int column)
 {
     Q_UNUSED(column);
 
-    if (item->parent()) {
+    // Leaf: class
+    if (item->parent() && item->parent()->parent()) {
         (*s_classes)[item->text(0)].state = !(*s_classes)[item->text(0)].state;
         item->setCheckState(0, (*s_classes)[item->text(0)].state ? Qt::Checked : Qt::Unchecked);
         updateParentItemCheckBox(item->parent());
+        updateAllItemCheckBox();
         return;
     }
-    slotParentItemClicked(item);
+
+    // Directory
+    if (item->parent() && item->parent()->text(0) == i18n("All")) {
+        slotParentItemClicked(item);
+        updateAllItemCheckBox();
+        return;
+    }
+
+    // Root: "All"
+    if (!item->parent()) {
+        Qt::CheckState state = item->checkState(0);
+        if (state == Qt::Checked)
+            enableAll();
+        else
+            disableAll();
+        return;
+    }
 }

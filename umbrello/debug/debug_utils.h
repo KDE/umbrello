@@ -75,6 +75,7 @@ public:
 
 protected:
     void update(const QString &name);
+    void updateAllItemCheckBox();
     void updateParentItemCheckBox(QTreeWidgetItem *parent);
     virtual void showEvent(QShowEvent*);
 
