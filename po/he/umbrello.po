@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-01-27 02:40+0000\n"
-"PO-Revision-Date: 2026-02-13 18:09+0200\n"
+"PO-Revision-Date: 2026-02-20 12:25+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -8044,7 +8044,7 @@ msgstr ""
 #: umlmodel/umlobject.cpp:1275
 #, kde-format
 msgid "Instance name:"
-msgstr ""
+msgstr "שם עותק:"
 
 #: umlmodel/umloperation.cpp:290
 #, kde-format
@@ -8055,7 +8055,7 @@ msgstr ""
 #, kde-format
 msgctxt "object name"
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: umlmodel/umlpackage.cpp:172
 #, kde-format
@@ -8068,72 +8068,72 @@ msgstr ""
 #: umlscene.cpp:726
 #, kde-format
 msgid "Diagram: %2 Page %1"
-msgstr ""
+msgstr "תרשים: %2 עמוד %1"
 
 #: umlscene.cpp:1526
 #, kde-format
 msgid "Use fill color"
-msgstr ""
+msgstr "להשתמש בצבע מילוי"
 
 #: umlscene.cpp:1528
 #, kde-format
 msgid "No fill color"
-msgstr ""
+msgstr "ללא צבע מילוי"
 
 #: umlscene.cpp:1543
 #, kde-format
 msgid "Change font"
-msgstr ""
+msgstr "החלפת גופן"
 
 #: umlscene.cpp:1557
 #, kde-format
 msgid "Change line color"
-msgstr ""
+msgstr "שינוי צבע קו"
 
 #: umlscene.cpp:1575
 #, kde-format
 msgid "Change line width"
-msgstr ""
+msgstr "שינוי עובי קו"
 
 #: umlscene.cpp:1595
 #, kde-format
 msgid "Change fill color"
-msgstr ""
+msgstr "שינוי צבע מילוי"
 
 #: umlscene.cpp:1610
 #, kde-format
 msgid "Change visual property"
-msgstr ""
+msgstr "שינוי מאפיין חזותי"
 
 #: umlscene.cpp:1661
 #, kde-format
 msgid "Delete widgets"
-msgstr ""
+msgstr "מחיקת וידג׳טים"
 
 #: umlscene.cpp:1707
 #, kde-format
 msgid "Resize widgets"
-msgstr ""
+msgstr "שינוי גודל של וידג׳טים"
 
 #: umlscene.cpp:3359
 #, kde-format
 msgid "Enter Diagram Name"
-msgstr ""
+msgstr "נא למלא שם תרשים"
 
 #: umlscene.cpp:3360
 #, kde-format
 msgid "Enter the new name of the diagram:"
-msgstr ""
+msgstr "נא למלא שם חדש לתרשים:"
 
 #: umlscene.cpp:3376
 #, kde-format
 msgid "Failed to import from file."
-msgstr ""
+msgstr "ייבוא מקובץ נכשל."
 
 #: umlviewimageexporter.cpp:73
 #, kde-format
 msgid "Exporting view..."
-msgstr ""
+msgstr "התצוגה מיוצאת…"
 
 #: umlviewimageexporter.cpp:78
 #, kde-format
@@ -8150,7 +8150,7 @@ msgstr ""
 #: umlviewimageexporter.cpp:110
 #, kde-format
 msgid "File Already Exists"
-msgstr ""
+msgstr "הקובץ כבר קיים"
 
 #: umlviewimageexportermodel.cpp:237
 #, kde-format
@@ -8190,17 +8190,17 @@ msgstr ""
 #: umlwidgets/associationwidget.cpp:2682
 #, kde-format
 msgid "Role Name"
-msgstr ""
+msgstr "שם התפקיד"
 
 #: umlwidgets/associationwidget.cpp:2683 umlwidgets/floatingtextwidget.cpp:348
 #, kde-format
 msgid "Enter role name:"
-msgstr ""
+msgstr "נא למלא שם תפקיד:"
 
 #: umlwidgets/associationwidget.cpp:3163
 #, kde-format
 msgid "Press Ctrl with left mouse click to delete a point"
-msgstr ""
+msgstr "לחיצה עם Ctrl ולחצן העכבר השמאלי מוחקת נקודה"
 
 #: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
@@ -8210,7 +8210,7 @@ msgstr ""
 #: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
 msgid "Diagram name"
-msgstr ""
+msgstr "שם התרשים"
 
 #: umlwidgets/combinedfragmentwidget.cpp:305
 #: umlwidgets/combinedfragmentwidget.cpp:307
@@ -8233,22 +8233,22 @@ msgstr ""
 #: umlwidgets/combinedfragmentwidget.cpp:426
 #, kde-format
 msgid "Enter first alternative"
-msgstr ""
+msgstr "מילוי החלופה הראשונה"
 
 #: umlwidgets/combinedfragmentwidget.cpp:427
 #, kde-format
 msgid "Enter first alternative :"
-msgstr ""
+msgstr "נא למלא את החלופה הראשונה:"
 
 #: umlwidgets/combinedfragmentwidget.cpp:431
 #, kde-format
 msgid "Enter referenced diagram name"
-msgstr ""
+msgstr "מילוי שם תרשים מופנה"
 
 #: umlwidgets/combinedfragmentwidget.cpp:432
 #, kde-format
 msgid "Enter referenced diagram name :"
-msgstr ""
+msgstr "נא למלא שם תרשים מופנה:"
 
 #: umlwidgets/combinedfragmentwidget.cpp:437
 #, kde-format
@@ -8258,12 +8258,12 @@ msgstr ""
 #: umlwidgets/floatingdashlinewidget.cpp:102
 #, kde-format
 msgid "Enter alternative Name"
-msgstr ""
+msgstr "מילוי שם חלופי"
 
 #: umlwidgets/floatingdashlinewidget.cpp:103
 #, kde-format
 msgid "Enter the alternative:"
-msgstr ""
+msgstr "נא למלא את החלופה:"
 
 #: umlwidgets/floatingtextwidget.cpp:201
 #, kde-format
