@@ -382,6 +382,9 @@ bool AssociationLine::loadFromXMI(QDomElement &qElement)
  */
 void AssociationLine::saveToXMI(QXmlStreamWriter& writer)
 {
+    if (count() == 0)
+        return;
+
     writer.writeStartElement(QStringLiteral("linepath"));
     writer.writeAttribute(QStringLiteral("layout"), Uml::LayoutType::toString(m_layout));
     writer.writeStartElement(QStringLiteral("startpoint"));
