@@ -19,7 +19,6 @@ enum ItemType { RootAll, Directory, Class };
 
 Tracer* Tracer::s_instance = nullptr;
 Tracer::MapType* Tracer::s_classes;
-Tracer::StateMap* Tracer::s_states;
 bool Tracer::s_logToConsole;
 
 #define MAX_TRACERCLIENTS 500
@@ -113,7 +112,6 @@ Tracer* Tracer::instance()
     if (s_instance == nullptr) {
         s_instance = new Tracer();
         s_classes = new MapType();
-        s_states  = new StateMap();
         QDir srcDir(QStringLiteral(CMAKE_SOURCE_DIR));
         // Transfer g_clientInfo (C plain old data) to s_classes (C++)
         for (int i = 0; i < n_clients; i++) {
@@ -212,7 +210,7 @@ void Tracer::enableAll()
 void Tracer::disableAll()
 {
     for (auto it = s_classes->begin(); it != s_classes->end(); ++it)
-        it.value().state = true;
+        it.value().state = false;
 
     QTreeWidgetItem* allItem = topLevelItem(0);
 
@@ -307,8 +305,6 @@ void Tracer::updateParentItemCheckBox(QTreeWidgetItem* parent)
         parent->setCheckState(0, Qt::Unchecked);
     else
         parent->setCheckState(0, Qt::PartiallyChecked);
-
-    (*s_states)[parent->text(0)] = parent->checkState(0);
 }
 
 /**
@@ -344,16 +340,43 @@ void Tracer::showEvent(QShowEvent* e)
         clsItem->setData(0, Qt::UserRole, Class);
     }
 
-    // Update directory parents
-    for (auto it = dirMap.constBegin(); it != dirMap.constEnd(); ++it) {
-        updateParentItemCheckBox(it.value());
+    for (int i = 0; i < topLevelItemCount(); ++i) {
+        restoreParentCheckState(topLevelItem(i));
     }
 
-    // Update global state
     updateAllItemCheckBox();
 
     expandItem(allItem);
     sortItems(0, Qt::AscendingOrder);
+}
+
+void Tracer::restoreParentCheckState(QTreeWidgetItem* parent)
+{
+    int checkedCount = 0;
+    int totalChildren = parent->childCount();
+
+    for (int i = 0; i < totalChildren; ++i) {
+        QTreeWidgetItem* child = parent->child(i);
+
+        if (child->childCount() > 0) { // directory
+            restoreParentCheckState(child);
+            if (child->checkState(0) == Qt::Checked)
+                ++checkedCount;
+            else if (child->checkState(0) == Qt::PartiallyChecked)
+                checkedCount += 0; // will set parent to partial below
+        } else { // class
+            QString className = child->text(0);
+            if ((*s_classes)[className].state)
+                ++checkedCount;
+        }
+    }
+
+    if (checkedCount == 0)
+        parent->setCheckState(0, Qt::Unchecked);
+    else if (checkedCount == totalChildren)
+        parent->setCheckState(0, Qt::Checked);
+    else
+        parent->setCheckState(0, Qt::PartiallyChecked);
 }
 
 /**
@@ -363,21 +386,11 @@ void Tracer::slotParentItemClicked(QTreeWidgetItem* parent)
     if (parent->data(0, Qt::UserRole).toInt() != Directory)
         return;
 
-    // @TODO parent->checkState(0) do not return the correct state
-    // Qt::CheckState state = parent->checkState(0);
-    Qt::CheckState state = (*s_states)[parent->text(0)];
-    if (state == Qt::PartiallyChecked || state == Qt::Unchecked) {
-        for(int i = 0; i < parent->childCount(); i++) {
-            QString text = parent->child(i)->text(0);
-            (*s_classes)[text].state = true;
-            parent->child(i)->setCheckState(0, (*s_classes)[text].state ? Qt::Checked : Qt::Unchecked);
-        }
-    } else if (state == Qt::Checked) {
-        for(int i = 0; i < parent->childCount(); i++) {
-            QString text = parent->child(i)->text(0);
-            (*s_classes)[text].state = false;
-            parent->child(i)->setCheckState(0, (*s_classes)[text].state ? Qt::Checked : Qt::Unchecked);
-        }
+    Qt::CheckState state = parent->checkState(0);
+    for(int i = 0; i < parent->childCount(); i++) {
+        QString text = parent->child(i)->text(0);
+        (*s_classes)[text].state = (state == Qt::Checked);
+        parent->child(i)->setCheckState(0, state);
     }
     updateParentItemCheckBox(parent);
 }

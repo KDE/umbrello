@@ -78,6 +78,7 @@ protected:
     void updateAllItemCheckBox();
     void updateParentItemCheckBox(QTreeWidgetItem *parent);
     virtual void showEvent(QShowEvent*);
+    void restoreParentCheckState(QTreeWidgetItem *parent);
 
 private Q_SLOTS:
     void slotParentItemClicked(QTreeWidgetItem *parent);
