@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-21 02:12+0000\n"
+"POT-Creation-Date: 2026-02-22 00:49+0000\n"
 "PO-Revision-Date: 2026-01-22 12:20+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -34,174 +34,174 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "manutortosa@gmail.com"
 
-#: basictypes.cpp:189
+#: basictypes.cpp:190
 #, kde-format
 msgid "Class Diagram"
 msgstr "Diagrama de classes"
 
-#: basictypes.cpp:191
+#: basictypes.cpp:192
 #, kde-format
 msgid "Use Case Diagram"
 msgstr "Diagrama de casos d'ús"
 
-#: basictypes.cpp:193
+#: basictypes.cpp:194
 #, kde-format
 msgid "Sequence Diagram"
 msgstr "Diagrama de seqüències"
 
-#: basictypes.cpp:195
+#: basictypes.cpp:196
 #, kde-format
 msgid "Collaboration Diagram"
 msgstr "Diagrama de col·laboració"
 
-#: basictypes.cpp:197
+#: basictypes.cpp:198
 #, kde-format
 msgid "State Diagram"
 msgstr "Diagrama d'estats"
 
-#: basictypes.cpp:199
+#: basictypes.cpp:200
 #, kde-format
 msgid "Activity Diagram"
 msgstr "Diagrama d'activitats"
 
-#: basictypes.cpp:201
+#: basictypes.cpp:202
 #, kde-format
 msgid "Component Diagram"
 msgstr "Diagrama de components"
 
-#: basictypes.cpp:203
+#: basictypes.cpp:204
 #, kde-format
 msgid "Deployment Diagram"
 msgstr "Diagrama de desplegament"
 
-#: basictypes.cpp:205
+#: basictypes.cpp:206
 #, kde-format
 msgid "Entity Relationship Diagram"
 msgstr "Diagrama de relació d'entitats"
 
-#: basictypes.cpp:207
+#: basictypes.cpp:208
 #, kde-format
 msgid "Object Diagram"
 msgstr "Diagrama d'objectes"
 
-#: basictypes.cpp:209
+#: basictypes.cpp:210
 #, kde-format
 msgid "No Diagram"
 msgstr "Cap diagrama"
 
-#: basictypes.cpp:325 worktoolbar.cpp:343
+#: basictypes.cpp:326 worktoolbar.cpp:343
 #, kde-format
 msgid "Generalization"
 msgstr "Generalització"
 
-#: basictypes.cpp:327 worktoolbar.cpp:340
+#: basictypes.cpp:328 worktoolbar.cpp:340
 #, kde-format
 msgid "Aggregation"
 msgstr "Agregació"
 
-#: basictypes.cpp:329 worktoolbar.cpp:339
+#: basictypes.cpp:330 worktoolbar.cpp:339
 #, kde-format
 msgid "Dependency"
 msgstr "Dependència"
 
-#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
+#: basictypes.cpp:332 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
 #, kde-format
 msgid "Association"
 msgstr "Associació"
 
-#: basictypes.cpp:333
+#: basictypes.cpp:334
 #, kde-format
 msgid "Self Association"
 msgstr "Auto associació"
 
-#: basictypes.cpp:335
+#: basictypes.cpp:336
 #, kde-format
 msgid "Collaboration Asynchronous Message"
 msgstr "Missatge asíncron de col·laboració"
 
-#: basictypes.cpp:337
+#: basictypes.cpp:338
 #, kde-format
 msgid "Collaboration Synchronous Message"
 msgstr "Missatge síncron de col·laboració"
 
-#: basictypes.cpp:339
+#: basictypes.cpp:340
 #, kde-format
 msgid "Sequence Message"
 msgstr "Diagrama de seqüència"
 
-#: basictypes.cpp:341
+#: basictypes.cpp:342
 #, kde-format
 msgid "Collaboration Self Message"
 msgstr "Auto missatge de col·laboració"
 
-#: basictypes.cpp:343
+#: basictypes.cpp:344
 #, kde-format
 msgid "Sequence Self Message"
 msgstr "Auto missatge de seqüència"
 
-#: basictypes.cpp:345 worktoolbar.cpp:333
+#: basictypes.cpp:346 worktoolbar.cpp:333
 #, kde-format
 msgid "Containment"
 msgstr "Contenció"
 
-#: basictypes.cpp:347 worktoolbar.cpp:344
+#: basictypes.cpp:348 worktoolbar.cpp:344
 #, kde-format
 msgid "Composition"
 msgstr "Composició"
 
-#: basictypes.cpp:349
+#: basictypes.cpp:350
 #, kde-format
 msgid "Realization"
 msgstr "Realització"
 
-#: basictypes.cpp:351
+#: basictypes.cpp:352
 #, kde-format
 msgid "Uni Association"
 msgstr "Associació UNI"
 
-#: basictypes.cpp:353 worktoolbar.cpp:334
+#: basictypes.cpp:354 worktoolbar.cpp:334
 #, kde-format
 msgid "Anchor"
 msgstr "Ancoratge"
 
-#: basictypes.cpp:355 menus/listpopupmenu.cpp:260 worktoolbar.cpp:375
+#: basictypes.cpp:356 menus/listpopupmenu.cpp:260 worktoolbar.cpp:375
 #, kde-format
 msgid "State Transition"
 msgstr "Transició d'estat"
 
-#: basictypes.cpp:357 dialogs/activitydialog.cpp:139
+#: basictypes.cpp:358 dialogs/activitydialog.cpp:139
 #: umlwidgets/widgetbase.cpp:1243 worktoolbar.cpp:377
 #, kde-format
 msgid "Activity"
 msgstr "Activitat"
 
-#: basictypes.cpp:359 menus/listpopupmenu.cpp:184 worktoolbar.cpp:386
+#: basictypes.cpp:360 menus/listpopupmenu.cpp:184 worktoolbar.cpp:386
 #, kde-format
 msgid "Exception"
 msgstr "Excepció"
 
-#: basictypes.cpp:361 worktoolbar.cpp:390
+#: basictypes.cpp:362 worktoolbar.cpp:390
 #, kde-format
 msgid "Category to Parent"
 msgstr "Categoria a Pare"
 
-#: basictypes.cpp:363 worktoolbar.cpp:391
+#: basictypes.cpp:364 worktoolbar.cpp:391
 #, kde-format
 msgid "Child to Category"
 msgstr "Fill a Categoria"
 
-#: basictypes.cpp:365 worktoolbar.cpp:341
+#: basictypes.cpp:366 worktoolbar.cpp:341
 #, kde-format
 msgid "Relationship"
 msgstr "Relació"
 
-#: basictypes.cpp:367
+#: basictypes.cpp:368
 #, kde-format
 msgid "Unknown"
 msgstr "Desconegut"
 
 # skip-rule: t-int_sp
-#: basictypes.cpp:369
+#: basictypes.cpp:370
 #, kde-format
 msgid "? AssociationType ?"
 msgstr "? TipusAssociació ?"
@@ -1589,6 +1589,12 @@ msgstr "No hi ha cap importador de codi per al fitxer: %1"
 msgid "Class Name"
 msgstr "Nom de la classe"
 
+#. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
+#: debug/debug_utils.cpp:320 dialogs/finddialog.ui:82
+#, kde-format
+msgid "All"
+msgstr "Tot"
+
 #: dialogs/activitydialog.cpp:37 dialogs/activitydialog.cpp:149
 #: dialogs/classpropertiesdialog.cpp:119 dialogs/objectnodedialog.cpp:39
 #: dialogs/pages/associationgeneralpage.cpp:77
@@ -2120,12 +2126,6 @@ msgstr "&Tots els diagrames"
 #, kde-format
 msgid "Category"
 msgstr "Categoria"
-
-#. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
-#: dialogs/finddialog.ui:82
-#, kde-format
-msgid "All"
-msgstr "Tot"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100
@@ -3020,38 +3020,38 @@ msgstr "Idioma predeterminat:"
 msgid "Contained Items"
 msgstr "Elements continguts"
 
-#: dialogs/pages/selectoperationpage.cpp:58
+#: dialogs/pages/selectoperationpage.cpp:59
 #: dialogs/selectoperationdialog.cpp:58 dialogs/selectoperationdialog.cpp:65
 #, kde-format
 msgid "Select Operation"
 msgstr "Tria una operació"
 
-#: dialogs/pages/selectoperationpage.cpp:64
+#: dialogs/pages/selectoperationpage.cpp:65
 #: dialogs/selectoperationdialog.cpp:70
 #, kde-format
 msgid "Sequence number:"
 msgstr "Número de seqüència:"
 
-#: dialogs/pages/selectoperationpage.cpp:67
+#: dialogs/pages/selectoperationpage.cpp:68
 #: dialogs/selectoperationdialog.cpp:73
 #, kde-format
 msgid "Auto increment:"
 msgstr "Increment automàtic:"
 
-#: dialogs/pages/selectoperationpage.cpp:72
+#: dialogs/pages/selectoperationpage.cpp:73
 #: dialogs/selectoperationdialog.cpp:78
 #, kde-format
 msgid "Class operation:"
 msgstr "Operació de classe:"
 
-#: dialogs/pages/selectoperationpage.cpp:80
+#: dialogs/pages/selectoperationpage.cpp:81
 #: dialogs/selectoperationdialog.cpp:86 menus/listpopupmenu.cpp:223
 #: menus/widgetbasepopupmenu.cpp:507
 #, kde-format
 msgid "New Operation..."
 msgstr "Operació nova…"
 
-#: dialogs/pages/selectoperationpage.cpp:84
+#: dialogs/pages/selectoperationpage.cpp:85
 #: dialogs/selectoperationdialog.cpp:90
 #, kde-format
 msgid "Custom operation:"
@@ -7492,7 +7492,7 @@ msgid "Opening file..."
 msgstr "S'està obrint el fitxer…"
 
 #: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:437 umldoc.cpp:460
-#: umldoc.cpp:3404
+#: umldoc.cpp:3409
 #, kde-format
 msgid "Untitled"
 msgstr "Sense títol"
@@ -7953,7 +7953,7 @@ msgstr "S'estan carregant els elements UML…"
 msgid "Loading diagrams..."
 msgstr "S'estan carregant els diagrames…"
 
-#: umldoc.cpp:3406
+#: umldoc.cpp:3411
 #, kde-format
 msgid "/autosave%1"
 msgstr "/autoguardat%1"

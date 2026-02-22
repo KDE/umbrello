@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-21 02:12+0000\n"
+"POT-Creation-Date: 2026-02-22 00:49+0000\n"
 "PO-Revision-Date: 2004-04-20 13:30+CEST\n"
 "Last-Translator: auto\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -32,173 +32,173 @@ msgstr ""
 "lokalizacija@linux.hr, lokalizacija@linux.hr, lokalizacija@linux.hr, "
 "lokalizacija@linux.hr"
 
-#: basictypes.cpp:189
+#: basictypes.cpp:190
 #, fuzzy, kde-format
 msgid "Class Diagram"
 msgstr "Dijagram klasa"
 
-#: basictypes.cpp:191
+#: basictypes.cpp:192
 #, fuzzy, kde-format
 msgid "Use Case Diagram"
 msgstr "Dijagram slučaja upotrebe"
 
-#: basictypes.cpp:193
+#: basictypes.cpp:194
 #, fuzzy, kde-format
 msgid "Sequence Diagram"
 msgstr "Dijagram sekvenci"
 
-#: basictypes.cpp:195
+#: basictypes.cpp:196
 #, fuzzy, kde-format
 msgid "Collaboration Diagram"
 msgstr "Dijagram saradnje"
 
-#: basictypes.cpp:197
+#: basictypes.cpp:198
 #, fuzzy, kde-format
 msgid "State Diagram"
 msgstr "Dijagram stanja"
 
-#: basictypes.cpp:199
+#: basictypes.cpp:200
 #, kde-format
 msgid "Activity Diagram"
 msgstr "Dijagram aktivnosti"
 
-#: basictypes.cpp:201
+#: basictypes.cpp:202
 #, fuzzy, kde-format
 msgid "Component Diagram"
 msgstr "Dijagram komponenti"
 
-#: basictypes.cpp:203
+#: basictypes.cpp:204
 #, fuzzy, kde-format
 msgid "Deployment Diagram"
 msgstr "Dijagram razvijanja"
 
-#: basictypes.cpp:205
+#: basictypes.cpp:206
 #, fuzzy, kde-format
 msgid "Entity Relationship Diagram"
 msgstr "Dijagram saradnje..."
 
-#: basictypes.cpp:207
+#: basictypes.cpp:208
 #, fuzzy, kde-format
 msgid "Object Diagram"
 msgstr "Obriši dijagram"
 
-#: basictypes.cpp:209
+#: basictypes.cpp:210
 #, fuzzy, kde-format
 msgid "No Diagram"
 msgstr "Bez dijagrama"
 
-#: basictypes.cpp:325 worktoolbar.cpp:343
+#: basictypes.cpp:326 worktoolbar.cpp:343
 #, fuzzy, kde-format
 msgid "Generalization"
 msgstr "Uopćenje"
 
-#: basictypes.cpp:327 worktoolbar.cpp:340
+#: basictypes.cpp:328 worktoolbar.cpp:340
 #, kde-format
 msgid "Aggregation"
 msgstr "Agregacija"
 
-#: basictypes.cpp:329 worktoolbar.cpp:339
+#: basictypes.cpp:330 worktoolbar.cpp:339
 #, kde-format
 msgid "Dependency"
 msgstr "Ovisnosti"
 
-#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
+#: basictypes.cpp:332 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
 #, kde-format
 msgid "Association"
 msgstr "U vezi s"
 
-#: basictypes.cpp:333
+#: basictypes.cpp:334
 #, fuzzy, kde-format
 msgid "Self Association"
 msgstr "Samopridruživanje"
 
-#: basictypes.cpp:335
+#: basictypes.cpp:336
 #, fuzzy, kde-format
 msgid "Collaboration Asynchronous Message"
 msgstr "Asinhrona poruka"
 
-#: basictypes.cpp:337
+#: basictypes.cpp:338
 #, fuzzy, kde-format
 msgid "Collaboration Synchronous Message"
 msgstr "Sinhrona poruka"
 
-#: basictypes.cpp:339
+#: basictypes.cpp:340
 #, kde-format
 msgid "Sequence Message"
 msgstr ""
 
-#: basictypes.cpp:341
+#: basictypes.cpp:342
 #, kde-format
 msgid "Collaboration Self Message"
 msgstr ""
 
-#: basictypes.cpp:343
+#: basictypes.cpp:344
 #, kde-format
 msgid "Sequence Self Message"
 msgstr ""
 
-#: basictypes.cpp:345 worktoolbar.cpp:333
+#: basictypes.cpp:346 worktoolbar.cpp:333
 #, kde-format
 msgid "Containment"
 msgstr ""
 
-#: basictypes.cpp:347 worktoolbar.cpp:344
+#: basictypes.cpp:348 worktoolbar.cpp:344
 #, kde-format
 msgid "Composition"
 msgstr "Sastavljanje poruka"
 
-#: basictypes.cpp:349
+#: basictypes.cpp:350
 #, fuzzy, kde-format
 msgid "Realization"
 msgstr "Realizacija"
 
-#: basictypes.cpp:351
+#: basictypes.cpp:352
 #, fuzzy, kde-format
 msgid "Uni Association"
 msgstr "Jednostrano pridruživanje"
 
-#: basictypes.cpp:353 worktoolbar.cpp:334
+#: basictypes.cpp:354 worktoolbar.cpp:334
 #, kde-format
 msgid "Anchor"
 msgstr "Sidro"
 
-#: basictypes.cpp:355 menus/listpopupmenu.cpp:260 worktoolbar.cpp:375
+#: basictypes.cpp:356 menus/listpopupmenu.cpp:260 worktoolbar.cpp:375
 #, fuzzy, kde-format
 msgid "State Transition"
 msgstr "Prelaz stanja"
 
-#: basictypes.cpp:357 dialogs/activitydialog.cpp:139
+#: basictypes.cpp:358 dialogs/activitydialog.cpp:139
 #: umlwidgets/widgetbase.cpp:1243 worktoolbar.cpp:377
 #, kde-format
 msgid "Activity"
 msgstr "Aktivnost"
 
-#: basictypes.cpp:359 menus/listpopupmenu.cpp:184 worktoolbar.cpp:386
+#: basictypes.cpp:360 menus/listpopupmenu.cpp:184 worktoolbar.cpp:386
 #, kde-format
 msgid "Exception"
 msgstr ""
 
-#: basictypes.cpp:361 worktoolbar.cpp:390
+#: basictypes.cpp:362 worktoolbar.cpp:390
 #, kde-format
 msgid "Category to Parent"
 msgstr ""
 
-#: basictypes.cpp:363 worktoolbar.cpp:391
+#: basictypes.cpp:364 worktoolbar.cpp:391
 #, kde-format
 msgid "Child to Category"
 msgstr ""
 
-#: basictypes.cpp:365 worktoolbar.cpp:341
+#: basictypes.cpp:366 worktoolbar.cpp:341
 #, fuzzy, kde-format
 msgid "Relationship"
 msgstr "Realizacija"
 
-#: basictypes.cpp:367
+#: basictypes.cpp:368
 #, kde-format
 msgid "Unknown"
 msgstr ""
 
-#: basictypes.cpp:369
+#: basictypes.cpp:370
 #, fuzzy, kde-format
 #| msgid "Association"
 msgid "? AssociationType ?"
@@ -1591,6 +1591,12 @@ msgstr ""
 msgid "Class Name"
 msgstr "Ime klase"
 
+#. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
+#: debug/debug_utils.cpp:320 dialogs/finddialog.ui:82
+#, kde-format
+msgid "All"
+msgstr ""
+
 #: dialogs/activitydialog.cpp:37 dialogs/activitydialog.cpp:149
 #: dialogs/classpropertiesdialog.cpp:119 dialogs/objectnodedialog.cpp:39
 #: dialogs/pages/associationgeneralpage.cpp:77
@@ -2119,12 +2125,6 @@ msgstr "&Svi dijagrami"
 #: umlwidgets/widgetbase.cpp:1258 worktoolbar.cpp:389
 #, kde-format
 msgid "Category"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
-#: dialogs/finddialog.ui:82
-#, kde-format
-msgid "All"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
@@ -3026,38 +3026,38 @@ msgstr "&Uobičajeno"
 msgid "Contained Items"
 msgstr "Sadržane stavke"
 
-#: dialogs/pages/selectoperationpage.cpp:58
+#: dialogs/pages/selectoperationpage.cpp:59
 #: dialogs/selectoperationdialog.cpp:58 dialogs/selectoperationdialog.cpp:65
 #, fuzzy, kde-format
 msgid "Select Operation"
 msgstr "Odaberite operaciju"
 
-#: dialogs/pages/selectoperationpage.cpp:64
+#: dialogs/pages/selectoperationpage.cpp:65
 #: dialogs/selectoperationdialog.cpp:70
 #, fuzzy, kde-format
 msgid "Sequence number:"
 msgstr "Broj sekvence:"
 
-#: dialogs/pages/selectoperationpage.cpp:67
+#: dialogs/pages/selectoperationpage.cpp:68
 #: dialogs/selectoperationdialog.cpp:73
 #, kde-format
 msgid "Auto increment:"
 msgstr ""
 
-#: dialogs/pages/selectoperationpage.cpp:72
+#: dialogs/pages/selectoperationpage.cpp:73
 #: dialogs/selectoperationdialog.cpp:78
 #, fuzzy, kde-format
 msgid "Class operation:"
 msgstr "Operacija klase:"
 
-#: dialogs/pages/selectoperationpage.cpp:80
+#: dialogs/pages/selectoperationpage.cpp:81
 #: dialogs/selectoperationdialog.cpp:86 menus/listpopupmenu.cpp:223
 #: menus/widgetbasepopupmenu.cpp:507
 #, fuzzy, kde-format
 msgid "New Operation..."
 msgstr "Nova operacija..."
 
-#: dialogs/pages/selectoperationpage.cpp:84
+#: dialogs/pages/selectoperationpage.cpp:85
 #: dialogs/selectoperationdialog.cpp:90
 #, fuzzy, kde-format
 msgid "Custom operation:"
@@ -7582,7 +7582,7 @@ msgid "Opening file..."
 msgstr "Otvaram datoteku …"
 
 #: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:437 umldoc.cpp:460
-#: umldoc.cpp:3404
+#: umldoc.cpp:3409
 #, kde-format
 msgid "Untitled"
 msgstr ""
@@ -8036,7 +8036,7 @@ msgstr "Učitavam UML elemente..."
 msgid "Loading diagrams..."
 msgstr "Učitavam dijagrame..."
 
-#: umldoc.cpp:3406
+#: umldoc.cpp:3411
 #, fuzzy, kde-format
 msgid "/autosave%1"
 msgstr "/automatsko spremanje%1"

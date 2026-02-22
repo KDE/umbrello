@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ../cy/messages//kdesdk/umbrello.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-21 02:12+0000\n"
+"POT-Creation-Date: 2026-02-22 00:49+0000\n"
 "PO-Revision-Date: 2004-09-20 15:44+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandrakesoft.com>\n"
 "Language-Team: cy <LL@li.org>\n"
@@ -22,180 +22,180 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "kyfieithu@dotmon.com"
 
-#: basictypes.cpp:189
+#: basictypes.cpp:190
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Class Diagram"
 msgstr "Creu Plygell"
 
-#: basictypes.cpp:191
+#: basictypes.cpp:192
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Use Case Diagram"
 msgstr "Creu Plygell"
 
-#: basictypes.cpp:193
+#: basictypes.cpp:194
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Sequence Diagram"
 msgstr "Creu Plygell"
 
-#: basictypes.cpp:195
+#: basictypes.cpp:196
 #, kde-format
 msgid "Collaboration Diagram"
 msgstr ""
 
-#: basictypes.cpp:197
+#: basictypes.cpp:198
 #, fuzzy, kde-format
 msgid "State Diagram"
 msgstr "Rhowch enw:"
 
-#: basictypes.cpp:199
+#: basictypes.cpp:200
 #, kde-format
 msgid "Activity Diagram"
 msgstr ""
 
-#: basictypes.cpp:201
+#: basictypes.cpp:202
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Component Diagram"
 msgstr "Creu Plygell"
 
-#: basictypes.cpp:203
+#: basictypes.cpp:204
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Deployment Diagram"
 msgstr "Creu Plygell"
 
-#: basictypes.cpp:205
+#: basictypes.cpp:206
 #, fuzzy, kde-format
 #| msgid "Relationship"
 msgid "Entity Relationship Diagram"
 msgstr "Perthynas"
 
-#: basictypes.cpp:207
+#: basictypes.cpp:208
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Object Diagram"
 msgstr "Creu Plygell"
 
-#: basictypes.cpp:209
+#: basictypes.cpp:210
 #, fuzzy, kde-format
 msgid "No Diagram"
 msgstr "Rhowch enw:"
 
-#: basictypes.cpp:325 worktoolbar.cpp:343
+#: basictypes.cpp:326 worktoolbar.cpp:343
 #, kde-format
 msgid "Generalization"
 msgstr ""
 
-#: basictypes.cpp:327 worktoolbar.cpp:340
+#: basictypes.cpp:328 worktoolbar.cpp:340
 #, kde-format
 msgid "Aggregation"
 msgstr ""
 
-#: basictypes.cpp:329 worktoolbar.cpp:339
+#: basictypes.cpp:330 worktoolbar.cpp:339
 #, kde-format
 msgid "Dependency"
 msgstr "Dibyniaeth"
 
-#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
+#: basictypes.cpp:332 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
 #, kde-format
 msgid "Association"
 msgstr "Cyd"
 
-#: basictypes.cpp:333
+#: basictypes.cpp:334
 #, kde-format
 msgid "Self Association"
 msgstr ""
 
-#: basictypes.cpp:335
+#: basictypes.cpp:336
 #, kde-format
 msgid "Collaboration Asynchronous Message"
 msgstr ""
 
-#: basictypes.cpp:337
+#: basictypes.cpp:338
 #, kde-format
 msgid "Collaboration Synchronous Message"
 msgstr ""
 
-#: basictypes.cpp:339
+#: basictypes.cpp:340
 #, kde-format
 msgid "Sequence Message"
 msgstr ""
 
-#: basictypes.cpp:341
+#: basictypes.cpp:342
 #, kde-format
 msgid "Collaboration Self Message"
 msgstr ""
 
-#: basictypes.cpp:343
+#: basictypes.cpp:344
 #, kde-format
 msgid "Sequence Self Message"
 msgstr ""
 
-#: basictypes.cpp:345 worktoolbar.cpp:333
+#: basictypes.cpp:346 worktoolbar.cpp:333
 #, kde-format
 msgid "Containment"
 msgstr ""
 
-#: basictypes.cpp:347 worktoolbar.cpp:344
+#: basictypes.cpp:348 worktoolbar.cpp:344
 #, kde-format
 msgid "Composition"
 msgstr ""
 
-#: basictypes.cpp:349
+#: basictypes.cpp:350
 #, kde-format
 msgid "Realization"
 msgstr ""
 
-#: basictypes.cpp:351
+#: basictypes.cpp:352
 #, kde-format
 msgid "Uni Association"
 msgstr ""
 
-#: basictypes.cpp:353 worktoolbar.cpp:334
+#: basictypes.cpp:354 worktoolbar.cpp:334
 #, kde-format
 msgid "Anchor"
 msgstr ""
 
-#: basictypes.cpp:355 menus/listpopupmenu.cpp:260 worktoolbar.cpp:375
+#: basictypes.cpp:356 menus/listpopupmenu.cpp:260 worktoolbar.cpp:375
 #, kde-format
 msgid "State Transition"
 msgstr ""
 
-#: basictypes.cpp:357 dialogs/activitydialog.cpp:139
+#: basictypes.cpp:358 dialogs/activitydialog.cpp:139
 #: umlwidgets/widgetbase.cpp:1243 worktoolbar.cpp:377
 #, kde-format
 msgid "Activity"
 msgstr ""
 
-#: basictypes.cpp:359 menus/listpopupmenu.cpp:184 worktoolbar.cpp:386
+#: basictypes.cpp:360 menus/listpopupmenu.cpp:184 worktoolbar.cpp:386
 #, kde-format
 msgid "Exception"
 msgstr ""
 
-#: basictypes.cpp:361 worktoolbar.cpp:390
+#: basictypes.cpp:362 worktoolbar.cpp:390
 #, kde-format
 msgid "Category to Parent"
 msgstr ""
 
-#: basictypes.cpp:363 worktoolbar.cpp:391
+#: basictypes.cpp:364 worktoolbar.cpp:391
 #, kde-format
 msgid "Child to Category"
 msgstr ""
 
-#: basictypes.cpp:365 worktoolbar.cpp:341
+#: basictypes.cpp:366 worktoolbar.cpp:341
 #, kde-format
 msgid "Relationship"
 msgstr "Perthynas"
 
-#: basictypes.cpp:367
+#: basictypes.cpp:368
 #, kde-format
 msgid "Unknown"
 msgstr ""
 
-#: basictypes.cpp:369
+#: basictypes.cpp:370
 #, fuzzy, kde-format
 #| msgid "Association"
 msgid "? AssociationType ?"
@@ -1615,6 +1615,12 @@ msgstr ""
 msgid "Class Name"
 msgstr "Dosbarth"
 
+#. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
+#: debug/debug_utils.cpp:320 dialogs/finddialog.ui:82
+#, kde-format
+msgid "All"
+msgstr ""
+
 #: dialogs/activitydialog.cpp:37 dialogs/activitydialog.cpp:149
 #: dialogs/classpropertiesdialog.cpp:119 dialogs/objectnodedialog.cpp:39
 #: dialogs/pages/associationgeneralpage.cpp:77
@@ -2161,12 +2167,6 @@ msgstr ""
 #: umlwidgets/widgetbase.cpp:1258 worktoolbar.cpp:389
 #, kde-format
 msgid "Category"
-msgstr ""
-
-#. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
-#: dialogs/finddialog.ui:82
-#, kde-format
-msgid "All"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
@@ -3074,40 +3074,40 @@ msgstr "&Gwerth ragosod :"
 msgid "Contained Items"
 msgstr ""
 
-#: dialogs/pages/selectoperationpage.cpp:58
+#: dialogs/pages/selectoperationpage.cpp:59
 #: dialogs/selectoperationdialog.cpp:58 dialogs/selectoperationdialog.cpp:65
 #, fuzzy, kde-format
 #| msgid "Operation"
 msgid "Select Operation"
 msgstr "Gweithrediad"
 
-#: dialogs/pages/selectoperationpage.cpp:64
+#: dialogs/pages/selectoperationpage.cpp:65
 #: dialogs/selectoperationdialog.cpp:70
 #, kde-format
 msgid "Sequence number:"
 msgstr ""
 
-#: dialogs/pages/selectoperationpage.cpp:67
+#: dialogs/pages/selectoperationpage.cpp:68
 #: dialogs/selectoperationdialog.cpp:73
 #, kde-format
 msgid "Auto increment:"
 msgstr ""
 
-#: dialogs/pages/selectoperationpage.cpp:72
+#: dialogs/pages/selectoperationpage.cpp:73
 #: dialogs/selectoperationdialog.cpp:78
 #, fuzzy, kde-format
 #| msgid "Operation"
 msgid "Class operation:"
 msgstr "Gweithrediad"
 
-#: dialogs/pages/selectoperationpage.cpp:80
+#: dialogs/pages/selectoperationpage.cpp:81
 #: dialogs/selectoperationdialog.cpp:86 menus/listpopupmenu.cpp:223
 #: menus/widgetbasepopupmenu.cpp:507
 #, kde-format
 msgid "New Operation..."
 msgstr ""
 
-#: dialogs/pages/selectoperationpage.cpp:84
+#: dialogs/pages/selectoperationpage.cpp:85
 #: dialogs/selectoperationdialog.cpp:90
 #, fuzzy, kde-format
 #| msgid "Operation"
@@ -7842,7 +7842,7 @@ msgid "Opening file..."
 msgstr "Agor ffeil..."
 
 #: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:437 umldoc.cpp:460
-#: umldoc.cpp:3404
+#: umldoc.cpp:3409
 #, kde-format
 msgid "Untitled"
 msgstr ""
@@ -8297,7 +8297,7 @@ msgstr ""
 msgid "Loading diagrams..."
 msgstr ""
 
-#: umldoc.cpp:3406
+#: umldoc.cpp:3411
 #, kde-format
 msgid "/autosave%1"
 msgstr ""

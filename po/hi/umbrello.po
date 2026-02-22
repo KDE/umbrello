@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-21 02:12+0000\n"
+"POT-Creation-Date: 2026-02-22 00:49+0000\n"
 "PO-Revision-Date: 2021-09-17 20:07+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -29,177 +29,177 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "raviratlami@aol.in"
 
-#: basictypes.cpp:189
+#: basictypes.cpp:190
 #, kde-format
 msgid "Class Diagram"
 msgstr "वर्ग आरेख"
 
-#: basictypes.cpp:191
+#: basictypes.cpp:192
 #, kde-format
 msgid "Use Case Diagram"
 msgstr "केस आरेख इस्तेमाल करें"
 
-#: basictypes.cpp:193
+#: basictypes.cpp:194
 #, kde-format
 msgid "Sequence Diagram"
 msgstr "आरेख अनुक्रम"
 
-#: basictypes.cpp:195
+#: basictypes.cpp:196
 #, kde-format
 msgid "Collaboration Diagram"
 msgstr "कोलाबरेशन आरेख"
 
-#: basictypes.cpp:197
+#: basictypes.cpp:198
 #, kde-format
 msgid "State Diagram"
 msgstr "आरेख अवस्था"
 
-#: basictypes.cpp:199
+#: basictypes.cpp:200
 #, kde-format
 msgid "Activity Diagram"
 msgstr "क्रिया आरेख"
 
-#: basictypes.cpp:201
+#: basictypes.cpp:202
 #, kde-format
 msgid "Component Diagram"
 msgstr "आरेख अवयव"
 
-#: basictypes.cpp:203
+#: basictypes.cpp:204
 #, kde-format
 msgid "Deployment Diagram"
 msgstr "डिपोलायमेंट आरेख"
 
-#: basictypes.cpp:205
+#: basictypes.cpp:206
 #, kde-format
 msgid "Entity Relationship Diagram"
 msgstr "एंटिटी रिलेशनशिप डायग्राम"
 
-#: basictypes.cpp:207
+#: basictypes.cpp:208
 #, fuzzy, kde-format
 #| msgid "Delete Diagram"
 msgid "Object Diagram"
 msgstr "आरेख मिटाएँ"
 
-#: basictypes.cpp:209
+#: basictypes.cpp:210
 #, kde-format
 msgid "No Diagram"
 msgstr "कोई आरेख नहीं"
 
-#: basictypes.cpp:325 worktoolbar.cpp:343
+#: basictypes.cpp:326 worktoolbar.cpp:343
 #, kde-format
 msgid "Generalization"
 msgstr "सामान्यीकरण"
 
-#: basictypes.cpp:327 worktoolbar.cpp:340
+#: basictypes.cpp:328 worktoolbar.cpp:340
 #, kde-format
 msgid "Aggregation"
 msgstr "एग्रीगेशन"
 
-#: basictypes.cpp:329 worktoolbar.cpp:339
+#: basictypes.cpp:330 worktoolbar.cpp:339
 #, kde-format
 msgid "Dependency"
 msgstr "डिपेंडेंसी"
 
-#: basictypes.cpp:331 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
+#: basictypes.cpp:332 umlwidgets/widgetbase.cpp:1252 worktoolbar.cpp:332
 #, kde-format
 msgid "Association"
 msgstr "सम्बद्धता"
 
-#: basictypes.cpp:333
+#: basictypes.cpp:334
 #, kde-format
 msgid "Self Association"
 msgstr "स्वतः सम्बद्धता"
 
-#: basictypes.cpp:335
+#: basictypes.cpp:336
 #, fuzzy, kde-format
 #| msgid "Collaboration Message"
 msgid "Collaboration Asynchronous Message"
 msgstr "कोलाबरेशन संदेश"
 
-#: basictypes.cpp:337
+#: basictypes.cpp:338
 #, fuzzy, kde-format
 #| msgid "Collaboration Self Message"
 msgid "Collaboration Synchronous Message"
 msgstr "कोलाबरेशन सेल्फ संदेश"
 
-#: basictypes.cpp:339
+#: basictypes.cpp:340
 #, kde-format
 msgid "Sequence Message"
 msgstr "अनुक्रम संदेश"
 
-#: basictypes.cpp:341
+#: basictypes.cpp:342
 #, kde-format
 msgid "Collaboration Self Message"
 msgstr "कोलाबरेशन सेल्फ संदेश"
 
-#: basictypes.cpp:343
+#: basictypes.cpp:344
 #, kde-format
 msgid "Sequence Self Message"
 msgstr "सीक्वेंस सेल्फ संदेश"
 
-#: basictypes.cpp:345 worktoolbar.cpp:333
+#: basictypes.cpp:346 worktoolbar.cpp:333
 #, kde-format
 msgid "Containment"
 msgstr "कन्टेनमेंट"
 
-#: basictypes.cpp:347 worktoolbar.cpp:344
+#: basictypes.cpp:348 worktoolbar.cpp:344
 #, kde-format
 msgid "Composition"
 msgstr "कम्पोज़िशन"
 
-#: basictypes.cpp:349
+#: basictypes.cpp:350
 #, kde-format
 msgid "Realization"
 msgstr "रीयलाइज़ेशन"
 
-#: basictypes.cpp:351
+#: basictypes.cpp:352
 #, kde-format
 msgid "Uni Association"
 msgstr "यूनी सम्बद्धता"
 
-#: basictypes.cpp:353 worktoolbar.cpp:334
+#: basictypes.cpp:354 worktoolbar.cpp:334
 #, kde-format
 msgid "Anchor"
 msgstr "एंकर"
 
-#: basictypes.cpp:355 menus/listpopupmenu.cpp:260 worktoolbar.cpp:375
+#: basictypes.cpp:356 menus/listpopupmenu.cpp:260 worktoolbar.cpp:375
 #, kde-format
 msgid "State Transition"
 msgstr "अवस्था परिवर्तन"
 
-#: basictypes.cpp:357 dialogs/activitydialog.cpp:139
+#: basictypes.cpp:358 dialogs/activitydialog.cpp:139
 #: umlwidgets/widgetbase.cpp:1243 worktoolbar.cpp:377
 #, kde-format
 msgid "Activity"
 msgstr "क्रियाएँ"
 
-#: basictypes.cpp:359 menus/listpopupmenu.cpp:184 worktoolbar.cpp:386
+#: basictypes.cpp:360 menus/listpopupmenu.cpp:184 worktoolbar.cpp:386
 #, kde-format
 msgid "Exception"
 msgstr "एक्सेप्शन"
 
-#: basictypes.cpp:361 worktoolbar.cpp:390
+#: basictypes.cpp:362 worktoolbar.cpp:390
 #, kde-format
 msgid "Category to Parent"
 msgstr "अभिभावक में वर्ग"
 
-#: basictypes.cpp:363 worktoolbar.cpp:391
+#: basictypes.cpp:364 worktoolbar.cpp:391
 #, kde-format
 msgid "Child to Category"
 msgstr "वर्ग में शिशु"
 
-#: basictypes.cpp:365 worktoolbar.cpp:341
+#: basictypes.cpp:366 worktoolbar.cpp:341
 #, kde-format
 msgid "Relationship"
 msgstr "संबन्ध"
 
-#: basictypes.cpp:367
+#: basictypes.cpp:368
 #, fuzzy, kde-format
 #| msgid "Union"
 msgid "Unknown"
 msgstr "संघ"
 
-#: basictypes.cpp:369
+#: basictypes.cpp:370
 #, fuzzy, kde-format
 #| msgid "Association"
 msgid "? AssociationType ?"
@@ -1607,6 +1607,12 @@ msgstr ""
 msgid "Class Name"
 msgstr "वर्ग नाम"
 
+#. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
+#: debug/debug_utils.cpp:320 dialogs/finddialog.ui:82
+#, kde-format
+msgid "All"
+msgstr ""
+
 #: dialogs/activitydialog.cpp:37 dialogs/activitydialog.cpp:149
 #: dialogs/classpropertiesdialog.cpp:119 dialogs/objectnodedialog.cpp:39
 #: dialogs/pages/associationgeneralpage.cpp:77
@@ -2142,12 +2148,6 @@ msgstr "सभी आरेख (&A)"
 #, kde-format
 msgid "Category"
 msgstr "श्रेणी"
-
-#. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
-#: dialogs/finddialog.ui:82
-#, kde-format
-msgid "All"
-msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100
@@ -3034,39 +3034,39 @@ msgstr "डिफ़ॉल्ट भाषा :"
 msgid "Contained Items"
 msgstr "रखी हुई वस्तुएँ"
 
-#: dialogs/pages/selectoperationpage.cpp:58
+#: dialogs/pages/selectoperationpage.cpp:59
 #: dialogs/selectoperationdialog.cpp:58 dialogs/selectoperationdialog.cpp:65
 #, kde-format
 msgid "Select Operation"
 msgstr "संचालन चुनें"
 
-#: dialogs/pages/selectoperationpage.cpp:64
+#: dialogs/pages/selectoperationpage.cpp:65
 #: dialogs/selectoperationdialog.cpp:70
 #, kde-format
 msgid "Sequence number:"
 msgstr "अनुक्रम क्रमांक:"
 
-#: dialogs/pages/selectoperationpage.cpp:67
+#: dialogs/pages/selectoperationpage.cpp:68
 #: dialogs/selectoperationdialog.cpp:73
 #, fuzzy, kde-format
 #| msgid "&Auto increment"
 msgid "Auto increment:"
 msgstr "स्वचालित वृद्धि (&A)"
 
-#: dialogs/pages/selectoperationpage.cpp:72
+#: dialogs/pages/selectoperationpage.cpp:73
 #: dialogs/selectoperationdialog.cpp:78
 #, kde-format
 msgid "Class operation:"
 msgstr "क्लास संचालन:"
 
-#: dialogs/pages/selectoperationpage.cpp:80
+#: dialogs/pages/selectoperationpage.cpp:81
 #: dialogs/selectoperationdialog.cpp:86 menus/listpopupmenu.cpp:223
 #: menus/widgetbasepopupmenu.cpp:507
 #, kde-format
 msgid "New Operation..."
 msgstr "नया संचालन..."
 
-#: dialogs/pages/selectoperationpage.cpp:84
+#: dialogs/pages/selectoperationpage.cpp:85
 #: dialogs/selectoperationdialog.cpp:90
 #, kde-format
 msgid "Custom operation:"
@@ -7781,7 +7781,7 @@ msgid "Opening file..."
 msgstr "फ़ाइल खोला जा रहा है..."
 
 #: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:437 umldoc.cpp:460
-#: umldoc.cpp:3404
+#: umldoc.cpp:3409
 #, kde-format
 msgid "Untitled"
 msgstr "बिना शीर्षक"
@@ -8262,7 +8262,7 @@ msgstr "यूएमएल अवयव लोड किया जा रहा 
 msgid "Loading diagrams..."
 msgstr "आरेख लोड किया जा रहा है..."
 
-#: umldoc.cpp:3406
+#: umldoc.cpp:3411
 #, kde-format
 msgid "/autosave%1"
 msgstr "/स्वचलित-सहेजें%1"
