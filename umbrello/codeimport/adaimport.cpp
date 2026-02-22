@@ -529,11 +529,11 @@ bool AdaImport::parseStmt()
                 klass = type->asUMLClassifier();
                 op = Import_Utils::makeOperation(klass, name);
                 // The controlling parameter is suppressed.
-                parNameCount--;
                 if (parNameCount) {
-                    for (uint i = 0; i < parNameCount; ++i) {
+                    for (uint i = 0; i < parNameCount - 1; ++i) { // stop at parNameCount-2
                         parName[i] = parName[i + 1];
                     }
+                    parNameCount--; // reduce count after removing first element
                 }
             }
             for (uint i = 0; i < parNameCount; ++i) {
