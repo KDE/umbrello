@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-27 02:40+0000\n"
+"POT-Creation-Date: 2026-02-22 02:45+0000\n"
 "PO-Revision-Date: 2025-11-19 20:51+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -1579,6 +1579,12 @@ msgstr "لا يوجد مستورد شيفرة للملف: %1"
 msgid "Class Name"
 msgstr "اسم الفئة"
 
+#. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
+#: debug/debug_utils.cpp:319 dialogs/finddialog.ui:82
+#, kde-format
+msgid "All"
+msgstr "الكلّ"
+
 #: dialogs/activitydialog.cpp:37 dialogs/activitydialog.cpp:149
 #: dialogs/classpropertiesdialog.cpp:119 dialogs/objectnodedialog.cpp:39
 #: dialogs/pages/associationgeneralpage.cpp:77
@@ -2109,12 +2115,6 @@ msgstr "&كل المخططات"
 #, kde-format
 msgid "Category"
 msgstr "الفئة"
-
-#. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
-#: dialogs/finddialog.ui:82
-#, kde-format
-msgid "All"
-msgstr "الكلّ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100

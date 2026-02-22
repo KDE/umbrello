@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-01-27 02:40+0000\n"
+"POT-Creation-Date: 2026-02-22 02:45+0000\n"
 "PO-Revision-Date: 2025-11-19 06:52-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -1586,6 +1586,12 @@ msgstr "Nenhum importador de código para o arquivo: %1"
 msgid "Class Name"
 msgstr "Nome da classe"
 
+#. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
+#: debug/debug_utils.cpp:319 dialogs/finddialog.ui:82
+#, kde-format
+msgid "All"
+msgstr "Todas"
+
 #: dialogs/activitydialog.cpp:37 dialogs/activitydialog.cpp:149
 #: dialogs/classpropertiesdialog.cpp:119 dialogs/objectnodedialog.cpp:39
 #: dialogs/pages/associationgeneralpage.cpp:77
@@ -2118,12 +2124,6 @@ msgstr "&Todos diagramas"
 #, kde-format
 msgid "Category"
 msgstr "Categoria"
-
-#. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
-#: dialogs/finddialog.ui:82
-#, kde-format
-msgid "All"
-msgstr "Todas"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100
