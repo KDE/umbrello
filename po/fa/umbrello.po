@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-22 00:49+0000\n"
+"POT-Creation-Date: 2026-02-24 00:48+0000\n"
 "PO-Revision-Date: 2014-07-19 17:56+0430\n"
 "Last-Translator: Mohi Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <kde-i18n-fa@kde.org>\n"
@@ -214,7 +214,7 @@ msgstr ""
 "حداقل یکی از فقره‌های تخته‌یادداشت چسبانده نشد، زیرا فقره‌ای با همان نام از قبل "
 "وجود دارد. سایر فقره‌ها چسبانده شده‌اند."
 
-#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1522
+#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1525
 #, kde-format
 msgid "Paste Error"
 msgstr "خطای چسباندن"
@@ -432,7 +432,7 @@ msgid "Remove prefix '[a-zA-Z]_' from accessor method names"
 msgstr ""
 
 #. i18n: ectx: label, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
-#: codegenerators/cpp/cppcodegenerationform.cpp:68 umbrello.kcfg:553
+#: codegenerators/cpp/cppcodegenerationform.cpp:68 umbrello.kcfg:558
 #, kde-format
 msgid "Accessor methods start with capital letters"
 msgstr ""
@@ -458,7 +458,7 @@ msgstr "عمومی"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: label, entry (classMemberPrefix), group (CPP Code Generation)
-#: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:483
+#: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:488
 #, kde-format
 msgid "Class member prefix"
 msgstr ""
@@ -1066,7 +1066,7 @@ msgstr "&مرور...‌"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxOverwritePolicy)
 #. i18n: ectx: label, entry (overwritePolicy), group (Code Generation)
-#: codegenwizard/codegenoptionspage.ui:136 umbrello.kcfg:465
+#: codegenwizard/codegenoptionspage.ui:136 umbrello.kcfg:470
 #, kde-format
 msgid "Overwrite Policy"
 msgstr "سیاست جای‌نوشت"
@@ -1627,14 +1627,14 @@ msgstr "آماده."
 msgid "No code importer for file: %1"
 msgstr ""
 
-#: debug/debug_utils.cpp:141
+#: debug/debug_utils.cpp:144
 #, fuzzy, kde-format
 #| msgid "Class name"
 msgid "Class Name"
 msgstr "نام رده"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
-#: debug/debug_utils.cpp:320 dialogs/finddialog.ui:82
+#: debug/debug_utils.cpp:336 dialogs/finddialog.ui:82
 #, kde-format
 msgid "All"
 msgstr ""
@@ -2229,7 +2229,7 @@ msgstr "عمومی"
 
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
-#: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:302
+#: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:177 umbrello.kcfg:307
 #: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
@@ -2842,7 +2842,7 @@ msgstr "بررسی قید..."
 msgid "<p align=\"center\">No Options Available.</p>"
 msgstr "<p align=\"center\">گزینه‌ای در دسترس نیست.</p>"
 
-#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:199
+#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:221
 #, kde-format
 msgid "&Diagrams"
 msgstr "&نمودارها‌"
@@ -3017,27 +3017,34 @@ msgstr ""
 msgid "Enable UML2 support"
 msgstr "فعال‌سازی واگرد"
 
-#: dialogs/pages/generaloptionpage.cpp:69
+#. i18n: ectx: label, entry (showDebugWindows), group (General Options)
+#: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
+#, fuzzy, kde-format
+#| msgid "Show &grid"
+msgid "Show debug windows"
+msgstr "نمایش &توری‌"
+
+#: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
 msgid "Autosave"
 msgstr "ذخیره خودکار"
 
-#: dialogs/pages/generaloptionpage.cpp:76
+#: dialogs/pages/generaloptionpage.cpp:80
 #, kde-format
 msgid "E&nable autosave"
 msgstr "&فعال‌سازی ذخیره خودکار‌"
 
-#: dialogs/pages/generaloptionpage.cpp:80
+#: dialogs/pages/generaloptionpage.cpp:84
 #, kde-format
 msgid "Select auto-save time interval (mins):"
 msgstr "برگزیدن فاصله زمانی ذخیره خودکار )دقیقه(:"
 
-#: dialogs/pages/generaloptionpage.cpp:92
+#: dialogs/pages/generaloptionpage.cpp:96
 #, kde-format
 msgid "Set autosave suffix:"
 msgstr "تنظیم پسوند ذخیره خودکار:"
 
-#: dialogs/pages/generaloptionpage.cpp:94
+#: dialogs/pages/generaloptionpage.cpp:98
 #, fuzzy, kde-format
 msgid ""
 "<qt><p>The autosave file will be saved to ~/autosave.xmi if the autosaving "
@@ -3054,22 +3061,22 @@ msgstr ""
 "با پسوند پرونده‌ای که شما ذخیره کرده‌اید برابر باشد، ذخیره خودکار پرونده شما "
 "را به طور خودکار جای‌نوشت می‌کند.</p></qt>"
 
-#: dialogs/pages/generaloptionpage.cpp:105
+#: dialogs/pages/generaloptionpage.cpp:109
 #, kde-format
 msgid "Startup"
 msgstr "راه‌اندازی"
 
-#: dialogs/pages/generaloptionpage.cpp:111
+#: dialogs/pages/generaloptionpage.cpp:115
 #, kde-format
 msgid "&Load last project"
 msgstr "&بارگذاری آخرین پروژه‌"
 
-#: dialogs/pages/generaloptionpage.cpp:115
+#: dialogs/pages/generaloptionpage.cpp:119
 #, kde-format
 msgid "Start new project with:"
 msgstr "آغاز پروژه جدید با:"
 
-#: dialogs/pages/generaloptionpage.cpp:132
+#: dialogs/pages/generaloptionpage.cpp:136
 #, kde-format
 msgid "Default Language :"
 msgstr "زبان &پیش‌فرض :‌‌"
@@ -3125,7 +3132,7 @@ msgid "General"
 msgstr "عمومی"
 
 #. i18n: ectx: label, entry (rightToLeftUI), group (UI Options)
-#: dialogs/pages/uioptionspage.cpp:62 umbrello.kcfg:197
+#: dialogs/pages/uioptionspage.cpp:62 umbrello.kcfg:202
 #, kde-format
 msgid "Right to left user interface"
 msgstr ""
@@ -5208,7 +5215,7 @@ msgstr "رنگ"
 
 #. i18n: ectx: label, entry (useFillColor), group (UI Options)
 #: menus/widgetbasepopupmenu.cpp:536 menus/widgetbasepopupmenu.cpp:617
-#: umbrello.kcfg:142
+#: umbrello.kcfg:147
 #, kde-format
 msgid "Use Fill Color"
 msgstr "استفاده از رنگ پر"
@@ -6535,163 +6542,169 @@ msgstr ""
 msgid "Enables/Disables UML2 notation"
 msgstr "مستندات یاددداشت"
 
+#. i18n: ectx: whatsthis, entry (showDebugWindows), group (General Options)
+#: umbrello.kcfg:141
+#, fuzzy, kde-format
+msgid "Show or hide the debug window and UML objects window"
+msgstr "روند &شیء‌"
+
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
-#: umbrello.kcfg:143
+#: umbrello.kcfg:148
 #, fuzzy, kde-format
 #| msgid "Virtual destructors"
 msgid "Enables/Disables usage of fill color"
 msgstr "ویرانگرهای مجازی"
 
 #. i18n: ectx: label, entry (fillColor), group (UI Options)
-#: umbrello.kcfg:147
+#: umbrello.kcfg:152
 #, fuzzy, kde-format
 msgid "Fill Color"
 msgstr "رنگ پر..."
 
 #. i18n: ectx: whatsthis, entry (fillColor), group (UI Options)
-#: umbrello.kcfg:148
+#: umbrello.kcfg:153
 #, fuzzy, kde-format
 #| msgid "Change Fill Color"
 msgid "The Fill Color to be used"
 msgstr "تغییر رنگ پر"
 
 #. i18n: ectx: label, entry (lineColor), group (UI Options)
-#: umbrello.kcfg:152
+#: umbrello.kcfg:157
 #, fuzzy, kde-format
 msgid "Line Color"
 msgstr "رنگ خط..."
 
 #. i18n: ectx: whatsthis, entry (lineColor), group (UI Options)
-#: umbrello.kcfg:153
+#: umbrello.kcfg:158
 #, fuzzy, kde-format
 #| msgid "the directory of the file"
 msgid "The Color of the Lines"
 msgstr "فهرست راهنمای پرونده"
 
 #. i18n: ectx: label, entry (lineWidth), group (UI Options)
-#: umbrello.kcfg:157
+#: umbrello.kcfg:162
 #, fuzzy, kde-format
 msgid "Line Width"
 msgstr "عرض خط:"
 
 #. i18n: ectx: whatsthis, entry (lineWidth), group (UI Options)
-#: umbrello.kcfg:158
+#: umbrello.kcfg:163
 #, fuzzy, kde-format
 #| msgid "the directory of the file"
 msgid "The Width of the Line"
 msgstr "فهرست راهنمای پرونده"
 
 #. i18n: ectx: label, entry (textColor), group (UI Options)
-#: umbrello.kcfg:162
+#: umbrello.kcfg:167
 #, fuzzy, kde-format
 #| msgid "Widget Color"
 msgid "Text Color"
 msgstr "رنگ عنصر"
 
 #. i18n: ectx: whatsthis, entry (textColor), group (UI Options)
-#: umbrello.kcfg:163
+#: umbrello.kcfg:168
 #, fuzzy, kde-format
 #| msgid "the directory of the file"
 msgid "The Color of the Text"
 msgstr "فهرست راهنمای پرونده"
 
 #. i18n: ectx: label, entry (showDocWindow), group (UI Options)
-#: umbrello.kcfg:167
+#: umbrello.kcfg:172
 #, kde-format
 msgid "Show Doc Window"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (showDocWindow), group (UI Options)
-#: umbrello.kcfg:168
+#: umbrello.kcfg:173
 #, fuzzy, kde-format
 msgid "Enables/Disables showing of the doc window"
 msgstr "نمایش عملیات"
 
 #. i18n: ectx: whatsthis, entry (uiFont), group (UI Options)
-#: umbrello.kcfg:173
+#: umbrello.kcfg:178
 #, fuzzy, kde-format
 #| msgid "Change Fill Color"
 msgid "The Font to be used"
 msgstr "تغییر رنگ پر"
 
 #. i18n: ectx: label, entry (backgroundColor), group (UI Options)
-#: umbrello.kcfg:177
+#: umbrello.kcfg:182
 #, fuzzy, kde-format
 msgid "Background Color"
 msgstr "رنگ"
 
 #. i18n: ectx: whatsthis, entry (backgroundColor), group (UI Options)
-#: umbrello.kcfg:178
+#: umbrello.kcfg:183
 #, fuzzy, kde-format
 #| msgid "the directory of the file"
 msgid "The Color of the diagram background"
 msgstr "فهرست راهنمای پرونده"
 
 #. i18n: ectx: label, entry (useBackgroundColor), group (UI Options)
-#: umbrello.kcfg:182
+#: umbrello.kcfg:187
 #, fuzzy, kde-format
 msgid "Use background color"
 msgstr "رنگ"
 
 #. i18n: ectx: whatsthis, entry (useBackgroundColor), group (UI Options)
-#: umbrello.kcfg:183
+#: umbrello.kcfg:188
 #, fuzzy, kde-format
 #| msgid "Virtual destructors"
 msgid "Enables/Disables the usage of a custom background color"
 msgstr "ویرانگرهای مجازی"
 
 #. i18n: ectx: label, entry (gridDotColor), group (UI Options)
-#: umbrello.kcfg:187
+#: umbrello.kcfg:192
 #, fuzzy, kde-format
 #| msgid "Widget Color"
 msgid "Grid Dot Color"
 msgstr "رنگ عنصر"
 
 #. i18n: ectx: whatsthis, entry (gridDotColor), group (UI Options)
-#: umbrello.kcfg:188
+#: umbrello.kcfg:193
 #, fuzzy, kde-format
 #| msgid "the directory of the file"
 msgid "The Color of the grid dots"
 msgstr "فهرست راهنمای پرونده"
 
 #. i18n: ectx: label, entry (useAlignmentGuides), group (UI Options)
-#: umbrello.kcfg:192
+#: umbrello.kcfg:197
 #, kde-format
 msgid "Use Alignment Guides"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (useAlignmentGuides), group (UI Options)
-#: umbrello.kcfg:193
+#: umbrello.kcfg:198
 #, kde-format
 msgid "Enable/disable alignment guides when dragging or resizing widgets"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
-#: umbrello.kcfg:198
+#: umbrello.kcfg:203
 #, kde-format
 msgid "Enable/disable user interface direction from right to left"
 msgstr ""
 
 #. i18n: ectx: label, entry (showVisibility), group (Class Options)
-#: umbrello.kcfg:204
+#: umbrello.kcfg:209
 #, fuzzy, kde-format
 msgid "Show Visibility"
 msgstr "نمایش &نمایانی‌"
 
 #. i18n: ectx: whatsthis, entry (showVisibility), group (Class Options)
-#: umbrello.kcfg:205
+#: umbrello.kcfg:210
 #, kde-format
 msgid "Show the Visibility of the Attributes ( eg: private, public, protected)"
 msgstr ""
 
 #. i18n: ectx: label, entry (showAtts), group (Class Options)
-#: umbrello.kcfg:209
+#: umbrello.kcfg:214
 #, fuzzy, kde-format
 msgid "Show Attributes"
 msgstr "نمایش خصیصه‌ها"
 
 #. i18n: ectx: whatsthis, entry (showAtts), group (Class Options)
-#: umbrello.kcfg:210
+#: umbrello.kcfg:215
 #, fuzzy, kde-format
 #| msgid "Show attributes"
 msgid "Show attributes of the class"
@@ -6699,46 +6712,46 @@ msgstr "نمایش خصیصه‌ها"
 
 #. i18n: ectx: label, entry (showOps), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showOps), group (Class Options)
-#: umbrello.kcfg:214 umbrello.kcfg:215
+#: umbrello.kcfg:219 umbrello.kcfg:220
 #, fuzzy, kde-format
 msgid "Show Operations"
 msgstr "نمایش عملیات"
 
 #. i18n: ectx: label, entry (showPackage), group (Class Options)
-#: umbrello.kcfg:219
+#: umbrello.kcfg:224
 #, fuzzy, kde-format
 msgid "Show Package"
 msgstr "نمایش بسته"
 
 #. i18n: ectx: whatsthis, entry (showPackage), group (Class Options)
-#: umbrello.kcfg:220
+#: umbrello.kcfg:225
 #, fuzzy, kde-format
 msgid "Enables/Disables showing of packages"
 msgstr "نمایش عملیات"
 
 #. i18n: ectx: label, entry (showStereoType), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showStereoType), group (Class Options)
-#: umbrello.kcfg:224 umbrello.kcfg:225
+#: umbrello.kcfg:229 umbrello.kcfg:230
 #, fuzzy, kde-format
 msgid "Show Stereotypes"
 msgstr "نمایش &کلیشه‌ای‌"
 
 #. i18n: ectx: label, entry (showAttribAssocs), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showAttribAssocs), group (Class Options)
-#: umbrello.kcfg:234 umbrello.kcfg:235
+#: umbrello.kcfg:239 umbrello.kcfg:240
 #, fuzzy, kde-format
 msgid "Show Attribute Associations"
 msgstr "انجمنهای &خصیصه‌"
 
 #. i18n: ectx: label, entry (showPublicOnly), group (Class Options)
-#: umbrello.kcfg:239
+#: umbrello.kcfg:244
 #, fuzzy, kde-format
 #| msgid "Public Only"
 msgid "Show Public Only"
 msgstr "فقط عمومی"
 
 #. i18n: ectx: whatsthis, entry (showPublicOnly), group (Class Options)
-#: umbrello.kcfg:240
+#: umbrello.kcfg:245
 #, fuzzy, kde-format
 #| msgid "Virtual destructors"
 msgid "Enables/Disables showing of public attributes/methods"
@@ -6746,58 +6759,58 @@ msgstr "ویرانگرهای مجازی"
 
 #. i18n: ectx: label, entry (showAttSig), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showAttSig), group (Class Options)
-#: umbrello.kcfg:244 umbrello.kcfg:245
+#: umbrello.kcfg:249 umbrello.kcfg:250
 #, fuzzy, kde-format
 msgid "Show Attribute Signature"
 msgstr "نمایش امضای خصیصه‌ها"
 
 #. i18n: ectx: label, entry (showOpSig), group (Class Options)
-#: umbrello.kcfg:249
+#: umbrello.kcfg:254
 #, fuzzy, kde-format
 msgid "Show Operation Signature"
 msgstr "نمایش امضای عمل"
 
 #. i18n: ectx: whatsthis, entry (showOpSig), group (Class Options)
-#: umbrello.kcfg:250
+#: umbrello.kcfg:255
 #, kde-format
 msgid "Show operation signature"
 msgstr "نمایش امضای عمل"
 
 #. i18n: ectx: label, entry (defaultAttributeScope), group (Class Options)
 #. i18n: ectx: whatsthis, entry (defaultAttributeScope), group (Class Options)
-#: umbrello.kcfg:254 umbrello.kcfg:255
+#: umbrello.kcfg:259 umbrello.kcfg:260
 #, fuzzy, kde-format
 msgid "Default Attribute Scope"
 msgstr "دامنه خصیصه پیش‌فرض:"
 
 #. i18n: ectx: label, entry (defaultOperationScope), group (Class Options)
 #. i18n: ectx: whatsthis, entry (defaultOperationScope), group (Class Options)
-#: umbrello.kcfg:266 umbrello.kcfg:267
+#: umbrello.kcfg:271 umbrello.kcfg:272
 #, fuzzy, kde-format
 msgid "Default Operation Scope"
 msgstr "دامنه عمل پیش‌فرض:"
 
 #. i18n: ectx: label, entry (height), group (Code Viewer Options)
-#: umbrello.kcfg:280
+#: umbrello.kcfg:285
 #, kde-format
 msgid "Height"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (height), group (Code Viewer Options)
-#: umbrello.kcfg:281
+#: umbrello.kcfg:286
 #, fuzzy, kde-format
 #| msgid "Code Viewer"
 msgid "Height of the code viewer"
 msgstr "مشاهده‌گر کد"
 
 #. i18n: ectx: label, entry (width), group (Code Viewer Options)
-#: umbrello.kcfg:286
+#: umbrello.kcfg:291
 #, fuzzy, kde-format
 msgid "Width"
 msgstr "عرض خط:"
 
 #. i18n: ectx: whatsthis, entry (width), group (Code Viewer Options)
-#: umbrello.kcfg:287
+#: umbrello.kcfg:292
 #, fuzzy, kde-format
 #| msgid "Code Viewer"
 msgid "Width of the Code Viewer"
@@ -6805,51 +6818,51 @@ msgstr "مشاهده‌گر کد"
 
 #. i18n: ectx: label, entry (showHiddenBlocks), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (showHiddenBlocks), group (Code Viewer Options)
-#: umbrello.kcfg:292 umbrello.kcfg:293
+#: umbrello.kcfg:297 umbrello.kcfg:298
 #, fuzzy, kde-format
 msgid "Show Hidden Blocks"
 msgstr "نمایش بلوکهای مخفی"
 
 #. i18n: ectx: label, entry (blocksAreHighlighted), group (Code Viewer Options)
-#: umbrello.kcfg:297
+#: umbrello.kcfg:302
 #, kde-format
 msgid "Highlight Blocks"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (blocksAreHighlighted), group (Code Viewer Options)
-#: umbrello.kcfg:298
+#: umbrello.kcfg:303
 #, fuzzy, kde-format
 msgid "Enables/Disables Highlighting of blocks"
 msgstr "نمایش عملیات"
 
 #. i18n: ectx: whatsthis, entry (codeViewerFont), group (Code Viewer Options)
-#: umbrello.kcfg:303
+#: umbrello.kcfg:308
 #, fuzzy, kde-format
 #| msgid "Code Viewer"
 msgid "Font to be used in the Code Viewer"
 msgstr "مشاهده‌گر کد"
 
 #. i18n: ectx: label, entry (paperColor), group (Code Viewer Options)
-#: umbrello.kcfg:307
+#: umbrello.kcfg:312
 #, fuzzy, kde-format
 msgid "Paper Color"
 msgstr "رنگهای نمودار"
 
 #. i18n: ectx: whatsthis, entry (paperColor), group (Code Viewer Options)
-#: umbrello.kcfg:308
+#: umbrello.kcfg:313
 #, fuzzy, kde-format
 #| msgid "Closes the document"
 msgid "Color of the Paper"
 msgstr "سند را می‌بندد"
 
 #. i18n: ectx: label, entry (fontColor), group (Code Viewer Options)
-#: umbrello.kcfg:312
+#: umbrello.kcfg:317
 #, fuzzy, kde-format
 msgid "Font Color"
 msgstr "رنگ"
 
 #. i18n: ectx: whatsthis, entry (fontColor), group (Code Viewer Options)
-#: umbrello.kcfg:313
+#: umbrello.kcfg:318
 #, fuzzy, kde-format
 #| msgid "Closes the document"
 msgid "Color of the Font"
@@ -6857,20 +6870,20 @@ msgstr "سند را می‌بندد"
 
 #. i18n: ectx: label, entry (selectedColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (selectedColor), group (Code Viewer Options)
-#: umbrello.kcfg:317 umbrello.kcfg:318
+#: umbrello.kcfg:322 umbrello.kcfg:323
 #, fuzzy, kde-format
 msgid "Selected Color"
 msgstr "برگزیده:"
 
 #. i18n: ectx: label, entry (editBlockColor), group (Code Viewer Options)
-#: umbrello.kcfg:322
+#: umbrello.kcfg:327
 #, fuzzy, kde-format
 msgctxt "Color of the Edit Block"
 msgid "Edit Block Color"
 msgstr "رنگ پر..."
 
 #. i18n: ectx: whatsthis, entry (editBlockColor), group (Code Viewer Options)
-#: umbrello.kcfg:323
+#: umbrello.kcfg:328
 #, fuzzy, kde-format
 #| msgid "Closes the document"
 msgid "Color of the Edit Block"
@@ -6878,19 +6891,19 @@ msgstr "سند را می‌بندد"
 
 #. i18n: ectx: label, entry (nonEditBlockColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (nonEditBlockColor), group (Code Viewer Options)
-#: umbrello.kcfg:327 umbrello.kcfg:328
+#: umbrello.kcfg:332 umbrello.kcfg:333
 #, fuzzy, kde-format
 msgid "Non Edit Block Color"
 msgstr "رنگ پر..."
 
 #. i18n: ectx: label, entry (umlObjectColor), group (Code Viewer Options)
-#: umbrello.kcfg:332
+#: umbrello.kcfg:337
 #, fuzzy, kde-format
 msgid "UML Object Color"
 msgstr "روند &شیء‌"
 
 #. i18n: ectx: whatsthis, entry (umlObjectColor), group (Code Viewer Options)
-#: umbrello.kcfg:333
+#: umbrello.kcfg:338
 #, fuzzy, kde-format
 #| msgid "Closes the document"
 msgid "Color of the UML Object"
@@ -6898,536 +6911,536 @@ msgstr "سند را می‌بندد"
 
 #. i18n: ectx: label, entry (hiddenColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (hiddenColor), group (Code Viewer Options)
-#: umbrello.kcfg:337 umbrello.kcfg:338
+#: umbrello.kcfg:342 umbrello.kcfg:343
 #, fuzzy, kde-format
 msgid "Hidden Color"
 msgstr "رنگ عنصر"
 
 #. i18n: ectx: label, entry (createArtifacts), group (Code Importer)
-#: umbrello.kcfg:344
+#: umbrello.kcfg:349
 #, kde-format
 msgid "Create Artifacts for imported files"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (createArtifacts), group (Code Importer)
-#: umbrello.kcfg:345
+#: umbrello.kcfg:350
 #, kde-format
 msgid "Create an artifact in the component view for each imported file"
 msgstr ""
 
 #. i18n: ectx: label, entry (resolveDependencies), group (Code Importer)
-#: umbrello.kcfg:349
+#: umbrello.kcfg:354
 #, fuzzy, kde-format
 #| msgid "Resolving object references..."
 msgid "Resolve dependencies"
 msgstr "رفع ارجاعات شیء..."
 
 #. i18n: ectx: whatsthis, entry (resolveDependencies), group (Code Importer)
-#: umbrello.kcfg:350
+#: umbrello.kcfg:355
 #, kde-format
 msgid "Resolve dependencies when importing file"
 msgstr ""
 
 #. i18n: ectx: label, entry (supportCPP11), group (Code Importer)
-#: umbrello.kcfg:354
+#: umbrello.kcfg:359
 #, kde-format
 msgid "Support C++11 standard"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (supportCPP11), group (Code Importer)
-#: umbrello.kcfg:355
+#: umbrello.kcfg:360
 #, kde-format
 msgid "Support C++11 standard on code import"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoGenEmptyConstructors), group (Code Generation)
-#: umbrello.kcfg:361
+#: umbrello.kcfg:366
 #, fuzzy, kde-format
 msgid "Auto Generate Empty Constructors"
 msgstr "تولید سازنده‌های خالی"
 
 #. i18n: ectx: whatsthis, entry (autoGenEmptyConstructors), group (Code Generation)
-#: umbrello.kcfg:362
+#: umbrello.kcfg:367
 #, fuzzy, kde-format
 msgid "Enables/Disables Auto Generation of Empty Constructors"
 msgstr "تولید سازنده‌های خالی"
 
 #. i18n: ectx: label, entry (commentStyle), group (Code Generation)
-#: umbrello.kcfg:366
+#: umbrello.kcfg:371
 #, fuzzy, kde-format
 msgid "Comment Style"
 msgstr "مؤلفه"
 
 #. i18n: ectx: whatsthis, entry (commentStyle), group (Code Generation)
-#: umbrello.kcfg:367
+#: umbrello.kcfg:372
 #, kde-format
 msgid "Sets the Style of Comments to be used"
 msgstr ""
 
 #. i18n: ectx: label, entry (defaultAssocFieldScope), group (Code Generation)
-#: umbrello.kcfg:375
+#: umbrello.kcfg:380
 #, fuzzy, kde-format
 msgid "Default Association Field Scope"
 msgstr "دامنه حوزه انجمن پیش‌فرض:"
 
 #. i18n: ectx: whatsthis, entry (defaultAssocFieldScope), group (Code Generation)
-#: umbrello.kcfg:376
+#: umbrello.kcfg:381
 #, fuzzy, kde-format
 #| msgid "Default association field scope:"
 msgid "Sets the default Association field scope"
 msgstr "دامنه حوزه انجمن پیش‌فرض:"
 
 #. i18n: ectx: label, entry (defaultAttributeAccessorScope), group (Code Generation)
-#: umbrello.kcfg:387
+#: umbrello.kcfg:392
 #, fuzzy, kde-format
 msgid "Default Attribute Accessor Scope"
 msgstr "دامنه دستیاب خصیصه پیش‌فرض:"
 
 #. i18n: ectx: whatsthis, entry (defaultAttributeAccessorScope), group (Code Generation)
-#: umbrello.kcfg:388
+#: umbrello.kcfg:393
 #, fuzzy, kde-format
 #| msgid "Default attribute accessor scope:"
 msgid "Sets the default attribute accessor scope"
 msgstr "دامنه دستیاب خصیصه پیش‌فرض:"
 
 #. i18n: ectx: label, entry (forceDoc), group (Code Generation)
-#: umbrello.kcfg:399
+#: umbrello.kcfg:404
 #, fuzzy, kde-format
 msgid "Force Documentation"
 msgstr "مستندات یاددداشت"
 
 #. i18n: ectx: whatsthis, entry (forceDoc), group (Code Generation)
-#: umbrello.kcfg:400
+#: umbrello.kcfg:405
 #, fuzzy, kde-format
 msgid "Enables/Disables Verbose Documentation"
 msgstr "مستندات یاددداشت"
 
 #. i18n: ectx: label, entry (writeSectionComments), group (Code Generation)
-#: umbrello.kcfg:404
+#: umbrello.kcfg:409
 #, kde-format
 msgid "Section Comment Policy"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
-#: umbrello.kcfg:405
+#: umbrello.kcfg:410
 #, kde-format
 msgid "Whether section comments shall be written"
 msgstr ""
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
-#: umbrello.kcfg:414
+#: umbrello.kcfg:419
 #, fuzzy, kde-format
 msgid "Headings Directory"
 msgstr "جهت گذر"
 
 #. i18n: ectx: whatsthis, entry (headingsDirectory), group (Code Generation)
-#: umbrello.kcfg:415
+#: umbrello.kcfg:420
 #, kde-format
 msgid "The Path in which the headings are stored"
 msgstr ""
 
 #. i18n: ectx: label, entry (includeHeadings), group (Code Generation)
-#: umbrello.kcfg:419
+#: umbrello.kcfg:424
 #, fuzzy, kde-format
 msgid "Include headings"
 msgstr "پرونده‌های &Include سرآیند از پوشه:‌"
 
 #. i18n: ectx: whatsthis, entry (includeHeadings), group (Code Generation)
-#: umbrello.kcfg:420
+#: umbrello.kcfg:425
 #, fuzzy, kde-format
 msgid "Enables/Disables inclusion of headings"
 msgstr "نمایش عملیات"
 
 #. i18n: ectx: label, entry (indentationAmount), group (Code Generation)
-#: umbrello.kcfg:424
+#: umbrello.kcfg:429
 #, fuzzy, kde-format
 msgid "Indentation Amount"
 msgstr "مقدار تورفتگی:"
 
 #. i18n: ectx: whatsthis, entry (indentationAmount), group (Code Generation)
-#: umbrello.kcfg:425
+#: umbrello.kcfg:430
 #, fuzzy, kde-format
 #| msgid "No Indentation"
 msgid "The amount of indentation"
 msgstr "بدون تورفتگی"
 
 #. i18n: ectx: label, entry (indentationType), group (Code Generation)
-#: umbrello.kcfg:430
+#: umbrello.kcfg:435
 #, fuzzy, kde-format
 msgid "Indentation Type"
 msgstr "نوع تورفتگی:"
 
 #. i18n: ectx: whatsthis, entry (indentationType), group (Code Generation)
-#: umbrello.kcfg:431
+#: umbrello.kcfg:436
 #, fuzzy, kde-format
 #| msgid "No Indentation"
 msgid "The Type of Indentation"
 msgstr "بدون تورفتگی"
 
 #. i18n: ectx: label, entry (lineEndingType), group (Code Generation)
-#: umbrello.kcfg:440
+#: umbrello.kcfg:445
 #, fuzzy, kde-format
 msgid "Line Ending Type"
 msgstr "سبک پایان خط:"
 
 #. i18n: ectx: whatsthis, entry (lineEndingType), group (Code Generation)
-#: umbrello.kcfg:441
+#: umbrello.kcfg:446
 #, kde-format
 msgid "The type of line ending ( or new line type )"
 msgstr ""
 
 #. i18n: ectx: label, entry (modnamePolicy), group (Code Generation)
 #. i18n: ectx: whatsthis, entry (modnamePolicy), group (Code Generation)
-#: umbrello.kcfg:450 umbrello.kcfg:451
+#: umbrello.kcfg:455 umbrello.kcfg:456
 #, kde-format
 msgid "Modifier Name Policy"
 msgstr ""
 
 #. i18n: ectx: label, entry (outputDirectory), group (Code Generation)
-#: umbrello.kcfg:460
+#: umbrello.kcfg:465
 #, kde-format
 msgid "Output Directory"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (outputDirectory), group (Code Generation)
-#: umbrello.kcfg:461
+#: umbrello.kcfg:466
 #, kde-format
 msgid "The directory to which the code has to be outputted"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (overwritePolicy), group (Code Generation)
-#: umbrello.kcfg:466
+#: umbrello.kcfg:471
 #, kde-format
 msgid "The policy to be followed when there are name conflicts"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoGenAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:478
+#: umbrello.kcfg:483
 #, fuzzy, kde-format
 msgid "Auto Generate Accessors"
 msgstr "روشهای تولید خودکار"
 
 #. i18n: ectx: whatsthis, entry (autoGenAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:479
+#: umbrello.kcfg:484
 #, fuzzy, kde-format
 msgid "Enables/Disables auto generation of accessors"
 msgstr "تولید سازنده‌های خالی"
 
 #. i18n: ectx: whatsthis, entry (classMemberPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:484
+#: umbrello.kcfg:489
 #, kde-format
 msgid "The prefix for class members"
 msgstr ""
 
 #. i18n: ectx: label, entry (inlineAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:488
+#: umbrello.kcfg:493
 #, fuzzy, kde-format
 msgid "Inline Accessors"
 msgstr "روشهای تولید خودکار"
 
 #. i18n: ectx: whatsthis, entry (inlineAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:489
+#: umbrello.kcfg:494
 #, fuzzy, kde-format
 msgid "Enables/Disables Inline accessors"
 msgstr "نمایش عملیات"
 
 #. i18n: ectx: label, entry (inlineOps), group (CPP Code Generation)
-#: umbrello.kcfg:493
+#: umbrello.kcfg:498
 #, fuzzy, kde-format
 msgid "Inline operations"
 msgstr "نمایش عملیات"
 
 #. i18n: ectx: whatsthis, entry (inlineOps), group (CPP Code Generation)
-#: umbrello.kcfg:494
+#: umbrello.kcfg:499
 #, fuzzy, kde-format
 msgid "Enables/Disables Inline Operations"
 msgstr "نمایش عملیات"
 
 #. i18n: ectx: label, entry (packageIsNamespace), group (CPP Code Generation)
-#: umbrello.kcfg:498
+#: umbrello.kcfg:503
 #, fuzzy, kde-format
 msgid "Package is namespace"
 msgstr "بسته، یک فضای نام است"
 
 #. i18n: ectx: whatsthis, entry (packageIsNamespace), group (CPP Code Generation)
-#: umbrello.kcfg:499
+#: umbrello.kcfg:504
 #, kde-format
 msgid "Enables/Disables treating a package as a namespace"
 msgstr ""
 
 #. i18n: ectx: label, entry (publicAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:503
+#: umbrello.kcfg:508
 #, kde-format
 msgid "Public Accessors"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (publicAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:504
+#: umbrello.kcfg:509
 #, fuzzy, kde-format
 #| msgid "Virtual destructors"
 msgid "Enables/Disables public accessors"
 msgstr "ویرانگرهای مجازی"
 
 #. i18n: ectx: label, entry (stringClassName), group (CPP Code Generation)
-#: umbrello.kcfg:508
+#: umbrello.kcfg:513
 #, fuzzy, kde-format
 msgid "String Class Name"
 msgstr "نام رده"
 
 #. i18n: ectx: whatsthis, entry (stringClassName), group (CPP Code Generation)
-#: umbrello.kcfg:509
+#: umbrello.kcfg:514
 #, fuzzy, kde-format
 #| msgid "The language of the project"
 msgid "The name of the string class"
 msgstr "زبان پروژه"
 
 #. i18n: ectx: label, entry (stringClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:513
+#: umbrello.kcfg:518
 #, fuzzy, kde-format
 msgid "String Class Name Include"
 msgstr "نام رده"
 
 #. i18n: ectx: whatsthis, entry (stringClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:514
+#: umbrello.kcfg:519
 #, fuzzy, kde-format
 #| msgid "Enter the name of the data store node"
 msgid "The name of the string class to be included"
 msgstr "وارد کردن نام گره ذخیره داده"
 
 #. i18n: ectx: label, entry (stringIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:518
+#: umbrello.kcfg:523
 #, kde-format
 msgid "String Include is Global"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (stringIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:519
+#: umbrello.kcfg:524
 #, fuzzy, kde-format
 msgid "Enables/Disables global inclusion of string"
 msgstr "نمایش عملیات"
 
 #. i18n: ectx: label, entry (vectorClassName), group (CPP Code Generation)
-#: umbrello.kcfg:523
+#: umbrello.kcfg:528
 #, fuzzy, kde-format
 msgid "Vector Class Name"
 msgstr "نام رده"
 
 #. i18n: ectx: whatsthis, entry (vectorClassName), group (CPP Code Generation)
-#: umbrello.kcfg:524
+#: umbrello.kcfg:529
 #, fuzzy, kde-format
 #| msgid "Enter the name of the object flow"
 msgid "The name of the vector class"
 msgstr "وارد کردن نام روند شیء"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:528
+#: umbrello.kcfg:533
 #, fuzzy, kde-format
 msgid "Vector Class Name Include"
 msgstr "نام رده"
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:529
+#: umbrello.kcfg:534
 #, fuzzy, kde-format
 #| msgid "Enter the name of the data store node"
 msgid "The name of the vector class to be included"
 msgstr "وارد کردن نام گره ذخیره داده"
 
 #. i18n: ectx: label, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:533
+#: umbrello.kcfg:538
 #, kde-format
 msgid "Vector include is global"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:534
+#: umbrello.kcfg:539
 #, fuzzy, kde-format
 msgid "Enables/Disables global inclusion of vector class"
 msgstr "نمایش عملیات"
 
 #. i18n: ectx: label, entry (virtualDestructors), group (CPP Code Generation)
-#: umbrello.kcfg:538
+#: umbrello.kcfg:543
 #, fuzzy, kde-format
 msgid "Virtual Destructors"
 msgstr "ویرانگرهای مجازی"
 
 #. i18n: ectx: whatsthis, entry (virtualDestructors), group (CPP Code Generation)
-#: umbrello.kcfg:539
+#: umbrello.kcfg:544
 #, fuzzy, kde-format
 #| msgid "Virtual destructors"
 msgid "Enables/Disables virtual destructors"
 msgstr "ویرانگرهای مجازی"
 
 #. i18n: ectx: label, entry (getterWithGetPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:543
+#: umbrello.kcfg:548
 #, kde-format
 msgid "Getters with 'get' prefix"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (getterWithGetPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:544
+#: umbrello.kcfg:549
 #, kde-format
 msgid "If enabled, create getters with 'get' prefix"
 msgstr ""
 
 #. i18n: ectx: label, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
-#: umbrello.kcfg:548
+#: umbrello.kcfg:553
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor methods"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
-#: umbrello.kcfg:549
+#: umbrello.kcfg:554
 #, kde-format
 msgid "If enabled, remove prefix '[a-zA-Z]_' from accessor methods"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
-#: umbrello.kcfg:554
+#: umbrello.kcfg:559
 #, kde-format
 msgid "If enabled, accessor methods start with capital letters"
 msgstr ""
 
 #. i18n: ectx: label, entry (docToolTag), group (CPP Code Generation)
-#: umbrello.kcfg:558
+#: umbrello.kcfg:563
 #, fuzzy, kde-format
 #| msgid "Documentation"
 msgid "Documentation tags"
 msgstr "مستندات"
 
 #. i18n: ectx: whatsthis, entry (docToolTag), group (CPP Code Generation)
-#: umbrello.kcfg:559
+#: umbrello.kcfg:564
 #, kde-format
 msgid "The tag used for generating doxygen documentation (\\\\, @)"
 msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:565
+#: umbrello.kcfg:570
 #, fuzzy, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "روشهای تولید خودکار"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:566
+#: umbrello.kcfg:571
 #, fuzzy, kde-format
 msgid "Enables/Disables auto generation of attribute accessors ( D )"
 msgstr "تولید سازنده‌های خالی"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:570
+#: umbrello.kcfg:575
 #, fuzzy, kde-format
 msgid "Auto Generate Assoc Accessors ( D )"
 msgstr "روشهای تولید خودکار"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:571
+#: umbrello.kcfg:576
 #, fuzzy, kde-format
 msgid "Enables/Disables auto generation of association accessors ( D )"
 msgstr "تولید سازنده‌های خالی"
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
-#: umbrello.kcfg:575
+#: umbrello.kcfg:580
 #, fuzzy, kde-format
 msgid "Build ANT Document (D)"
 msgstr "مستندات یاددداشت"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
-#: umbrello.kcfg:576
+#: umbrello.kcfg:581
 #, fuzzy, kde-format
 msgid "Enables/Disables building of ANT Document (D)"
 msgstr "مستندات یاددداشت"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:582
+#: umbrello.kcfg:587
 #, fuzzy, kde-format
 msgid "Auto Generate Attribute Accessors (Java)"
 msgstr "روشهای تولید خودکار"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:583
+#: umbrello.kcfg:588
 #, fuzzy, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Java)"
 msgstr "تولید سازنده‌های خالی"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:587
+#: umbrello.kcfg:592
 #, fuzzy, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "روشهای تولید خودکار"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:588
+#: umbrello.kcfg:593
 #, fuzzy, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr "تولید سازنده‌های خالی"
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
-#: umbrello.kcfg:592
+#: umbrello.kcfg:597
 #, fuzzy, kde-format
 msgid "Build ANT Document (Java)"
 msgstr "مستندات یاددداشت"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
-#: umbrello.kcfg:593
+#: umbrello.kcfg:598
 #, fuzzy, kde-format
 msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "مستندات یاددداشت"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:599
+#: umbrello.kcfg:604
 #, fuzzy, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr "روشهای تولید خودکار"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:600
+#: umbrello.kcfg:605
 #, fuzzy, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Ruby)"
 msgstr "تولید سازنده‌های خالی"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:604
+#: umbrello.kcfg:609
 #, fuzzy, kde-format
 msgid "Auto Generate Assoc Accessors (Ruby)"
 msgstr "روشهای تولید خودکار"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:605
+#: umbrello.kcfg:610
 #, fuzzy, kde-format
 msgid "Enables/Disables auto generation of association accessors (Ruby)"
 msgstr "تولید سازنده‌های خالی"
 
 #. i18n: ectx: label, entry (autoDotPath), group (Auto Layout)
-#: umbrello.kcfg:611
+#: umbrello.kcfg:616
 #, kde-format
 msgid "Automatic Dot Path"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (autoDotPath), group (Auto Layout)
-#: umbrello.kcfg:612
+#: umbrello.kcfg:617
 #, kde-format
 msgid "determine automatically the path of dot executable"
 msgstr ""
 
 #. i18n: ectx: label, entry (dotPath), group (Auto Layout)
-#: umbrello.kcfg:616
+#: umbrello.kcfg:621
 #, kde-format
 msgid "Dot Path"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (dotPath), group (Auto Layout)
-#: umbrello.kcfg:617
+#: umbrello.kcfg:622
 #, kde-format
 msgid "set path to dot executable (optional)"
 msgstr ""
 
 #. i18n: ectx: label, entry (showExportLayout), group (Auto Layout)
-#: umbrello.kcfg:621
+#: umbrello.kcfg:626
 #, kde-format
 msgid "Show Export Layout"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (showExportLayout), group (Auto Layout)
-#: umbrello.kcfg:622
+#: umbrello.kcfg:627
 #, kde-format
 msgid "show export layout"
 msgstr ""
@@ -7778,28 +7791,28 @@ msgstr "پالایه"
 msgid "Diagram Toolbar"
 msgstr "میله ابزار نمودار"
 
-#: umlapp.cpp:931 umlapp.cpp:1148 umlapp.cpp:1186
+#: umlapp.cpp:934 umlapp.cpp:1151 umlapp.cpp:1189
 #, kde-format
 msgid "Opening file..."
 msgstr "در حال باز کردن پرونده..."
 
-#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:437 umldoc.cpp:460
+#: umlapp.cpp:985 umlapp.cpp:1056 umlapp.cpp:1220 umldoc.cpp:437 umldoc.cpp:460
 #: umldoc.cpp:3409
 #, kde-format
 msgid "Untitled"
 msgstr "بدون عنوان"
 
-#: umlapp.cpp:1130
+#: umlapp.cpp:1133
 #, kde-format
 msgid "Creating new document..."
 msgstr "در حال ایجاد سند جدید..."
 
-#: umlapp.cpp:1155
+#: umlapp.cpp:1158
 #, kde-format
 msgid "Open File"
 msgstr "باز کردن پرونده"
 
-#: umlapp.cpp:1156
+#: umlapp.cpp:1159
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl|All Supported Files (*.xmi, *.xmi."
@@ -7825,22 +7838,22 @@ msgstr ""
 "*.xmi.tar.bz2|پرونده‌های XMI فشرده Bzip2 (*.xmi.tar.bz2)\n"
 "*.mdl|پرونده‌های مدل Rose"
 
-#: umlapp.cpp:1216
+#: umlapp.cpp:1219
 #, kde-format
 msgid "Saving file..."
 msgstr "در حال ذخیره پرونده..."
 
-#: umlapp.cpp:1233
+#: umlapp.cpp:1236
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "در حال ذخیره پرونده با نام پرونده‌ای جدید..."
 
-#: umlapp.cpp:1238 umlviewimageexporter.cpp:172
+#: umlapp.cpp:1241 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "ذخیره به عنوان"
 
-#: umlapp.cpp:1239
+#: umlapp.cpp:1242
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi|XMI File\n"
@@ -7856,7 +7869,7 @@ msgstr ""
 "*.xmi.tar.bz2|پرونده XMI فشرده Bzip2\n"
 "*|همه پرونده‌ها"
 
-#: umlapp.cpp:1257
+#: umlapp.cpp:1260
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7865,68 +7878,68 @@ msgstr ""
 "پرونده %1 وجود دارد.\n"
 "می‌خواهید آن را جای‌نوشت کنید؟"
 
-#: umlapp.cpp:1258
+#: umlapp.cpp:1261
 #, kde-format
 msgid "Warning"
 msgstr "اخطار"
 
-#: umlapp.cpp:1258
+#: umlapp.cpp:1261
 #, kde-format
 msgid "Overwrite"
 msgstr "جای‌نوشت"
 
-#: umlapp.cpp:1284
+#: umlapp.cpp:1287
 #, kde-format
 msgid "Closing file..."
 msgstr "در حال بستن پرونده..."
 
-#: umlapp.cpp:1295
+#: umlapp.cpp:1298
 #, kde-format
 msgid "No search term entered"
 msgstr ""
 
-#: umlapp.cpp:1301
+#: umlapp.cpp:1304
 #, kde-format
 msgid "'%1': %2 found"
 msgstr ""
 
-#: umlapp.cpp:1357
+#: umlapp.cpp:1360
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "Print Preview..."
 msgstr "در حال صادرات نما..."
 
-#: umlapp.cpp:1384
+#: umlapp.cpp:1387
 #, kde-format
 msgid "Printing..."
 msgstr "چاپ..."
 
-#: umlapp.cpp:1390
+#: umlapp.cpp:1393
 #, kde-format
 msgid "Print %1"
 msgstr "چاپ %1"
 
-#: umlapp.cpp:1409
+#: umlapp.cpp:1412
 #, kde-format
 msgid "Exiting..."
 msgstr "خروج..."
 
-#: umlapp.cpp:1480
+#: umlapp.cpp:1483
 #, kde-format
 msgid "Cutting selection..."
 msgstr "در حال برش گزینش..."
 
-#: umlapp.cpp:1503
+#: umlapp.cpp:1506
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "در حال رونوشت گزینش به تخته یادداشت..."
 
-#: umlapp.cpp:1515
+#: umlapp.cpp:1518
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "در حال درج محتویات تخته یادداشت..."
 
-#: umlapp.cpp:1520
+#: umlapp.cpp:1523
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7935,92 +7948,92 @@ msgstr ""
 "Umbrello نتوانست محتویات تخته یادداشت را بچسباند. ممکن است اشیای درون تخته "
 "یادداشت از نوع نادرست، اینجا درج شود."
 
-#: umlapp.cpp:1546 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: umlapp.cpp:1549 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, fuzzy, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "آماده."
 
-#: umlapp.cpp:2162
+#: umlapp.cpp:2166
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "تا در ابتدا چند کد تولید نکنید، نمی‌توانید کد را ببینید."
 
-#: umlapp.cpp:2162 umlapp.cpp:2165
+#: umlapp.cpp:2166 umlapp.cpp:2169
 #, kde-format
 msgid "Cannot View Code"
 msgstr "نمی‌توان کد را دید"
 
-#: umlapp.cpp:2165
+#: umlapp.cpp:2169
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "نمی‌توان کد را از نویسنده کد ساده دید."
 
-#: umlapp.cpp:2615
+#: umlapp.cpp:2619
 #, fuzzy, kde-format
 #| msgid "Select Code to Import"
 msgid "Select file(s) to import:"
 msgstr "برگزیدن کد برای واردات"
 
-#: umlapp.cpp:2644
+#: umlapp.cpp:2648
 #, fuzzy, kde-format
 #| msgid "Select Code to Import"
 msgid "Select directory to import:"
 msgstr "برگزیدن کد برای واردات"
 
-#: umlapp.cpp:3162
+#: umlapp.cpp:3166
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""
 
-#: umlappprivate.h:102
+#: umlappprivate.h:103
 #, fuzzy, kde-format
 #| msgid "Show destruction"
 msgid "Show/hide window"
 msgstr "نمایش تخریب"
 
-#: umlappprivate.h:170
+#: umlappprivate.h:189
 #, kde-format
 msgid "&Bird's eye view"
 msgstr ""
 
-#: umlappprivate.h:178
+#: umlappprivate.h:197
 #, kde-format
 msgid "Co&mmand history"
 msgstr "تاریخچه &فرمان‌"
 
-#: umlappprivate.h:190
+#: umlappprivate.h:212
 #, kde-format
 msgid "&Debug"
 msgstr ""
 
-#: umlappprivate.h:206
+#: umlappprivate.h:228
 #, kde-format
 msgid "Doc&umentation"
 msgstr "&مستندات‌"
 
-#: umlappprivate.h:223
+#: umlappprivate.h:245
 #, kde-format
 msgid "&Log"
 msgstr ""
 
-#: umlappprivate.h:232
+#: umlappprivate.h:257
 #, fuzzy, kde-format
 msgid "&UML Objects"
 msgstr "روند &شیء‌"
 
-#: umlappprivate.h:246
+#: umlappprivate.h:271
 #, fuzzy, kde-format
 #| msgid "Stereotype"
 msgid "&Stereotypes"
 msgstr "کلیشه"
 
-#: umlappprivate.h:253
+#: umlappprivate.h:278
 #, kde-format
 msgid "&Tree View"
 msgstr "نمای &درخت‌"
 
-#: umlappprivate.h:273
+#: umlappprivate.h:298
 #, kde-format
 msgid "Welcome"
 msgstr ""
@@ -9677,15 +9690,6 @@ msgstr ""
 #~| msgid "Show &grid"
 #~ msgid "Show diagrams window"
 #~ msgstr "نمایش &توری‌"
-
-#, fuzzy
-#~| msgid "Show &grid"
-#~ msgid "Show log window"
-#~ msgstr "نمایش &توری‌"
-
-#, fuzzy
-#~ msgid "Show UML objects window"
-#~ msgstr "روند &شیء‌"
 
 #, fuzzy
 #~ msgid "Show stereotypes window"

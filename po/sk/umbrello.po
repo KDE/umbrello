@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-22 00:49+0000\n"
+"POT-Creation-Date: 2026-02-24 00:48+0000\n"
 "PO-Revision-Date: 2022-04-07 18:18+0200\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -208,7 +208,7 @@ msgstr ""
 "Aspoň 1 objekt nebolo možné vložiť zo schránky, pretože už existuje objekt s "
 "rovnakým názvom. Všetky ostatné objekty boli vložené."
 
-#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1522
+#: clipboard/umlclipboard.cpp:757 umlapp.cpp:1525
 #, kde-format
 msgid "Paste Error"
 msgstr "Chyba vloženia"
@@ -410,7 +410,7 @@ msgid "Remove prefix '[a-zA-Z]_' from accessor method names"
 msgstr ""
 
 #. i18n: ectx: label, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
-#: codegenerators/cpp/cppcodegenerationform.cpp:68 umbrello.kcfg:553
+#: codegenerators/cpp/cppcodegenerationform.cpp:68 umbrello.kcfg:558
 #, kde-format
 msgid "Accessor methods start with capital letters"
 msgstr ""
@@ -436,7 +436,7 @@ msgstr "Všeobecne"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: label, entry (classMemberPrefix), group (CPP Code Generation)
-#: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:483
+#: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:488
 #, kde-format
 msgid "Class member prefix"
 msgstr ""
@@ -1041,7 +1041,7 @@ msgstr "Pr&echádzať"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxOverwritePolicy)
 #. i18n: ectx: label, entry (overwritePolicy), group (Code Generation)
-#: codegenwizard/codegenoptionspage.ui:136 umbrello.kcfg:465
+#: codegenwizard/codegenoptionspage.ui:136 umbrello.kcfg:470
 #, kde-format
 msgid "Overwrite Policy"
 msgstr "Pravidlá pre prepísanie"
@@ -1578,13 +1578,13 @@ msgstr "Pripravený."
 msgid "No code importer for file: %1"
 msgstr "Žiadny importér pre súbor: %1"
 
-#: debug/debug_utils.cpp:141
+#: debug/debug_utils.cpp:144
 #, kde-format
 msgid "Class Name"
 msgstr "Názov triedy"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
-#: debug/debug_utils.cpp:320 dialogs/finddialog.ui:82
+#: debug/debug_utils.cpp:336 dialogs/finddialog.ui:82
 #, kde-format
 msgid "All"
 msgstr "Všetko"
@@ -2169,7 +2169,7 @@ msgstr "Všeobecné"
 
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
-#: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:172 umbrello.kcfg:302
+#: dialogs/multipagedialogbase.cpp:338 umbrello.kcfg:177 umbrello.kcfg:307
 #: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
@@ -2786,7 +2786,7 @@ msgstr "Skontrolovať obmedzenie..."
 msgid "<p align=\"center\">No Options Available.</p>"
 msgstr "<p align=\"center\">Nie sú dostupné žiadne voľby.</p>"
 
-#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:199
+#: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:221
 #, kde-format
 msgid "&Diagrams"
 msgstr "&Diagramy"
@@ -2959,27 +2959,34 @@ msgstr "Zapnúť pätičku a čísla strán pri tlači"
 msgid "Enable UML2 support"
 msgstr "Povoliť podporu UML2"
 
-#: dialogs/pages/generaloptionpage.cpp:69
+#. i18n: ectx: label, entry (showDebugWindows), group (General Options)
+#: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
+#, fuzzy, kde-format
+#| msgid "Show Doc Window"
+msgid "Show debug windows"
+msgstr "Ukázať okno dokumentácie"
+
+#: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
 msgid "Autosave"
 msgstr "Automatické ukladanie"
 
-#: dialogs/pages/generaloptionpage.cpp:76
+#: dialogs/pages/generaloptionpage.cpp:80
 #, kde-format
 msgid "E&nable autosave"
 msgstr "A&ktivovať automatické ukladanie"
 
-#: dialogs/pages/generaloptionpage.cpp:80
+#: dialogs/pages/generaloptionpage.cpp:84
 #, kde-format
 msgid "Select auto-save time interval (mins):"
 msgstr "Interval pre automatické ukladanie (v minútach):"
 
-#: dialogs/pages/generaloptionpage.cpp:92
+#: dialogs/pages/generaloptionpage.cpp:96
 #, kde-format
 msgid "Set autosave suffix:"
 msgstr "Nastaviť príponu pre automatické ukladanie:"
 
-#: dialogs/pages/generaloptionpage.cpp:94
+#: dialogs/pages/generaloptionpage.cpp:98
 #, kde-format
 msgid ""
 "<qt><p>The autosave file will be saved to ~/autosave.xmi if the autosaving "
@@ -2996,22 +3003,22 @@ msgstr ""
 "p><p>V prípade, že je táto prípona rovnaká ako prípona vami uloženého "
 "súboru, automatické ukladanie prepíše váš súbor automaticky.</p></qt>"
 
-#: dialogs/pages/generaloptionpage.cpp:105
+#: dialogs/pages/generaloptionpage.cpp:109
 #, kde-format
 msgid "Startup"
 msgstr "Spustenie"
 
-#: dialogs/pages/generaloptionpage.cpp:111
+#: dialogs/pages/generaloptionpage.cpp:115
 #, kde-format
 msgid "&Load last project"
 msgstr "&Načítať posledný projekt"
 
-#: dialogs/pages/generaloptionpage.cpp:115
+#: dialogs/pages/generaloptionpage.cpp:119
 #, kde-format
 msgid "Start new project with:"
 msgstr "Začať nový projekt s týmto diagramom:"
 
-#: dialogs/pages/generaloptionpage.cpp:132
+#: dialogs/pages/generaloptionpage.cpp:136
 #, kde-format
 msgid "Default Language :"
 msgstr "Predvolený jazyk:"
@@ -3065,7 +3072,7 @@ msgid "General"
 msgstr "Všeobecné"
 
 #. i18n: ectx: label, entry (rightToLeftUI), group (UI Options)
-#: dialogs/pages/uioptionspage.cpp:62 umbrello.kcfg:197
+#: dialogs/pages/uioptionspage.cpp:62 umbrello.kcfg:202
 #, kde-format
 msgid "Right to left user interface"
 msgstr "Používateľské rozhranie sprava doľava"
@@ -5097,7 +5104,7 @@ msgstr "Farba"
 
 #. i18n: ectx: label, entry (useFillColor), group (UI Options)
 #: menus/widgetbasepopupmenu.cpp:536 menus/widgetbasepopupmenu.cpp:617
-#: umbrello.kcfg:142
+#: umbrello.kcfg:147
 #, kde-format
 msgid "Use Fill Color"
 msgstr "Použiť farbu výplne"
@@ -6418,804 +6425,811 @@ msgstr "Použiť notáciu UML-2.x"
 msgid "Enables/Disables UML2 notation"
 msgstr "Povolí/Zakáže notáciu UML2"
 
+#. i18n: ectx: whatsthis, entry (showDebugWindows), group (General Options)
+#: umbrello.kcfg:141
+#, fuzzy, kde-format
+#| msgid "Show Doc Window"
+msgid "Show or hide the debug window and UML objects window"
+msgstr "Ukázať okno dokumentácie"
+
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
-#: umbrello.kcfg:143
+#: umbrello.kcfg:148
 #, kde-format
 msgid "Enables/Disables usage of fill color"
 msgstr "Povolí/zakáže použitie farby výplne"
 
 #. i18n: ectx: label, entry (fillColor), group (UI Options)
-#: umbrello.kcfg:147
+#: umbrello.kcfg:152
 #, kde-format
 msgid "Fill Color"
 msgstr "Farba výplne"
 
 #. i18n: ectx: whatsthis, entry (fillColor), group (UI Options)
-#: umbrello.kcfg:148
+#: umbrello.kcfg:153
 #, kde-format
 msgid "The Fill Color to be used"
 msgstr "Farba výplne, ktorá bude použitá."
 
 #. i18n: ectx: label, entry (lineColor), group (UI Options)
-#: umbrello.kcfg:152
+#: umbrello.kcfg:157
 #, kde-format
 msgid "Line Color"
 msgstr "Farba čiary"
 
 #. i18n: ectx: whatsthis, entry (lineColor), group (UI Options)
-#: umbrello.kcfg:153
+#: umbrello.kcfg:158
 #, kde-format
 msgid "The Color of the Lines"
 msgstr "Farba čiar"
 
 #. i18n: ectx: label, entry (lineWidth), group (UI Options)
-#: umbrello.kcfg:157
+#: umbrello.kcfg:162
 #, kde-format
 msgid "Line Width"
 msgstr "Šírka čiary"
 
 #. i18n: ectx: whatsthis, entry (lineWidth), group (UI Options)
-#: umbrello.kcfg:158
+#: umbrello.kcfg:163
 #, kde-format
 msgid "The Width of the Line"
 msgstr "Šírka čiary"
 
 #. i18n: ectx: label, entry (textColor), group (UI Options)
-#: umbrello.kcfg:162
+#: umbrello.kcfg:167
 #, kde-format
 msgid "Text Color"
 msgstr "Farba textu"
 
 #. i18n: ectx: whatsthis, entry (textColor), group (UI Options)
-#: umbrello.kcfg:163
+#: umbrello.kcfg:168
 #, kde-format
 msgid "The Color of the Text"
 msgstr "Farba textu"
 
 #. i18n: ectx: label, entry (showDocWindow), group (UI Options)
-#: umbrello.kcfg:167
+#: umbrello.kcfg:172
 #, kde-format
 msgid "Show Doc Window"
 msgstr "Ukázať okno dokumentácie"
 
 #. i18n: ectx: whatsthis, entry (showDocWindow), group (UI Options)
-#: umbrello.kcfg:168
+#: umbrello.kcfg:173
 #, kde-format
 msgid "Enables/Disables showing of the doc window"
 msgstr "Povolí/zakáže zobrazenie okna dokumentácie"
 
 #. i18n: ectx: whatsthis, entry (uiFont), group (UI Options)
-#: umbrello.kcfg:173
+#: umbrello.kcfg:178
 #, kde-format
 msgid "The Font to be used"
 msgstr "Písmo, ktoré sa použije"
 
 #. i18n: ectx: label, entry (backgroundColor), group (UI Options)
-#: umbrello.kcfg:177
+#: umbrello.kcfg:182
 #, kde-format
 msgid "Background Color"
 msgstr "Farba pozadia"
 
 #. i18n: ectx: whatsthis, entry (backgroundColor), group (UI Options)
-#: umbrello.kcfg:178
+#: umbrello.kcfg:183
 #, kde-format
 msgid "The Color of the diagram background"
 msgstr "Farba pozadia diagramu"
 
 #. i18n: ectx: label, entry (useBackgroundColor), group (UI Options)
-#: umbrello.kcfg:182
+#: umbrello.kcfg:187
 #, fuzzy, kde-format
 #| msgid "Custom background color"
 msgid "Use background color"
 msgstr "Vlastná farba pozadia"
 
 #. i18n: ectx: whatsthis, entry (useBackgroundColor), group (UI Options)
-#: umbrello.kcfg:183
+#: umbrello.kcfg:188
 #, fuzzy, kde-format
 #| msgid "Enables/Disables usage of fill color"
 msgid "Enables/Disables the usage of a custom background color"
 msgstr "Povolí/zakáže použitie farby výplne"
 
 #. i18n: ectx: label, entry (gridDotColor), group (UI Options)
-#: umbrello.kcfg:187
+#: umbrello.kcfg:192
 #, kde-format
 msgid "Grid Dot Color"
 msgstr "Farba bodiek mriežky"
 
 #. i18n: ectx: whatsthis, entry (gridDotColor), group (UI Options)
-#: umbrello.kcfg:188
+#: umbrello.kcfg:193
 #, kde-format
 msgid "The Color of the grid dots"
 msgstr "Farba bodiek mriežky"
 
 #. i18n: ectx: label, entry (useAlignmentGuides), group (UI Options)
-#: umbrello.kcfg:192
+#: umbrello.kcfg:197
 #, kde-format
 msgid "Use Alignment Guides"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (useAlignmentGuides), group (UI Options)
-#: umbrello.kcfg:193
+#: umbrello.kcfg:198
 #, kde-format
 msgid "Enable/disable alignment guides when dragging or resizing widgets"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
-#: umbrello.kcfg:198
+#: umbrello.kcfg:203
 #, kde-format
 msgid "Enable/disable user interface direction from right to left"
 msgstr "Povoliť/zakázať používateľské rozhranie sprava doľava"
 
 #. i18n: ectx: label, entry (showVisibility), group (Class Options)
-#: umbrello.kcfg:204
+#: umbrello.kcfg:209
 #, kde-format
 msgid "Show Visibility"
 msgstr "Zobraziť viditeľnosť"
 
 #. i18n: ectx: whatsthis, entry (showVisibility), group (Class Options)
-#: umbrello.kcfg:205
+#: umbrello.kcfg:210
 #, kde-format
 msgid "Show the Visibility of the Attributes ( eg: private, public, protected)"
 msgstr "Zobraziť viditeľnosť atribútov (napr. súkromné, verejné, chránené)"
 
 #. i18n: ectx: label, entry (showAtts), group (Class Options)
-#: umbrello.kcfg:209
+#: umbrello.kcfg:214
 #, kde-format
 msgid "Show Attributes"
 msgstr "Zobraziť atribúty"
 
 #. i18n: ectx: whatsthis, entry (showAtts), group (Class Options)
-#: umbrello.kcfg:210
+#: umbrello.kcfg:215
 #, kde-format
 msgid "Show attributes of the class"
 msgstr "Ukázať atribúty triedy"
 
 #. i18n: ectx: label, entry (showOps), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showOps), group (Class Options)
-#: umbrello.kcfg:214 umbrello.kcfg:215
+#: umbrello.kcfg:219 umbrello.kcfg:220
 #, kde-format
 msgid "Show Operations"
 msgstr "Zobraziť operácie"
 
 #. i18n: ectx: label, entry (showPackage), group (Class Options)
-#: umbrello.kcfg:219
+#: umbrello.kcfg:224
 #, kde-format
 msgid "Show Package"
 msgstr "Zobraziť balík"
 
 #. i18n: ectx: whatsthis, entry (showPackage), group (Class Options)
-#: umbrello.kcfg:220
+#: umbrello.kcfg:225
 #, kde-format
 msgid "Enables/Disables showing of packages"
 msgstr "Povolí/Zakáže zobrazovanie balíkov"
 
 #. i18n: ectx: label, entry (showStereoType), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showStereoType), group (Class Options)
-#: umbrello.kcfg:224 umbrello.kcfg:225
+#: umbrello.kcfg:229 umbrello.kcfg:230
 #, kde-format
 msgid "Show Stereotypes"
 msgstr "Ukázať stereotypy"
 
 #. i18n: ectx: label, entry (showAttribAssocs), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showAttribAssocs), group (Class Options)
-#: umbrello.kcfg:234 umbrello.kcfg:235
+#: umbrello.kcfg:239 umbrello.kcfg:240
 #, kde-format
 msgid "Show Attribute Associations"
 msgstr "Ukázať asociácie atribútu"
 
 #. i18n: ectx: label, entry (showPublicOnly), group (Class Options)
-#: umbrello.kcfg:239
+#: umbrello.kcfg:244
 #, kde-format
 msgid "Show Public Only"
 msgstr "Zobraziť iba verejné"
 
 #. i18n: ectx: whatsthis, entry (showPublicOnly), group (Class Options)
-#: umbrello.kcfg:240
+#: umbrello.kcfg:245
 #, kde-format
 msgid "Enables/Disables showing of public attributes/methods"
 msgstr "Povolí/zakáže zobrazenie verejných atribútov/metód"
 
 #. i18n: ectx: label, entry (showAttSig), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showAttSig), group (Class Options)
-#: umbrello.kcfg:244 umbrello.kcfg:245
+#: umbrello.kcfg:249 umbrello.kcfg:250
 #, kde-format
 msgid "Show Attribute Signature"
 msgstr "Zobraziť signatúru atribútu"
 
 #. i18n: ectx: label, entry (showOpSig), group (Class Options)
-#: umbrello.kcfg:249
+#: umbrello.kcfg:254
 #, kde-format
 msgid "Show Operation Signature"
 msgstr "Zobraziť signatúru operácie"
 
 #. i18n: ectx: whatsthis, entry (showOpSig), group (Class Options)
-#: umbrello.kcfg:250
+#: umbrello.kcfg:255
 #, kde-format
 msgid "Show operation signature"
 msgstr "Zobraziť signatúru operácie"
 
 #. i18n: ectx: label, entry (defaultAttributeScope), group (Class Options)
 #. i18n: ectx: whatsthis, entry (defaultAttributeScope), group (Class Options)
-#: umbrello.kcfg:254 umbrello.kcfg:255
+#: umbrello.kcfg:259 umbrello.kcfg:260
 #, kde-format
 msgid "Default Attribute Scope"
 msgstr "Štandardná oblasť atribútu"
 
 #. i18n: ectx: label, entry (defaultOperationScope), group (Class Options)
 #. i18n: ectx: whatsthis, entry (defaultOperationScope), group (Class Options)
-#: umbrello.kcfg:266 umbrello.kcfg:267
+#: umbrello.kcfg:271 umbrello.kcfg:272
 #, kde-format
 msgid "Default Operation Scope"
 msgstr "Štandardná oblasť operácie"
 
 #. i18n: ectx: label, entry (height), group (Code Viewer Options)
-#: umbrello.kcfg:280
+#: umbrello.kcfg:285
 #, kde-format
 msgid "Height"
 msgstr "Výška"
 
 #. i18n: ectx: whatsthis, entry (height), group (Code Viewer Options)
-#: umbrello.kcfg:281
+#: umbrello.kcfg:286
 #, kde-format
 msgid "Height of the code viewer"
 msgstr "Výška prehliadača kódu"
 
 #. i18n: ectx: label, entry (width), group (Code Viewer Options)
-#: umbrello.kcfg:286
+#: umbrello.kcfg:291
 #, kde-format
 msgid "Width"
 msgstr "Šírka"
 
 #. i18n: ectx: whatsthis, entry (width), group (Code Viewer Options)
-#: umbrello.kcfg:287
+#: umbrello.kcfg:292
 #, kde-format
 msgid "Width of the Code Viewer"
 msgstr "Šírka prehliadača kódu"
 
 #. i18n: ectx: label, entry (showHiddenBlocks), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (showHiddenBlocks), group (Code Viewer Options)
-#: umbrello.kcfg:292 umbrello.kcfg:293
+#: umbrello.kcfg:297 umbrello.kcfg:298
 #, kde-format
 msgid "Show Hidden Blocks"
 msgstr "Zobraziť skryté bloky"
 
 #. i18n: ectx: label, entry (blocksAreHighlighted), group (Code Viewer Options)
-#: umbrello.kcfg:297
+#: umbrello.kcfg:302
 #, kde-format
 msgid "Highlight Blocks"
 msgstr "Zvýrazniť bloky"
 
 #. i18n: ectx: whatsthis, entry (blocksAreHighlighted), group (Code Viewer Options)
-#: umbrello.kcfg:298
+#: umbrello.kcfg:303
 #, kde-format
 msgid "Enables/Disables Highlighting of blocks"
 msgstr "Povolí/Zakáže zvýraznenie blokov"
 
 #. i18n: ectx: whatsthis, entry (codeViewerFont), group (Code Viewer Options)
-#: umbrello.kcfg:303
+#: umbrello.kcfg:308
 #, kde-format
 msgid "Font to be used in the Code Viewer"
 msgstr "Písmo na použitie v prehliadači kódu"
 
 #. i18n: ectx: label, entry (paperColor), group (Code Viewer Options)
-#: umbrello.kcfg:307
+#: umbrello.kcfg:312
 #, kde-format
 msgid "Paper Color"
 msgstr "Farba papiera"
 
 #. i18n: ectx: whatsthis, entry (paperColor), group (Code Viewer Options)
-#: umbrello.kcfg:308
+#: umbrello.kcfg:313
 #, kde-format
 msgid "Color of the Paper"
 msgstr "Farba papiera"
 
 #. i18n: ectx: label, entry (fontColor), group (Code Viewer Options)
-#: umbrello.kcfg:312
+#: umbrello.kcfg:317
 #, kde-format
 msgid "Font Color"
 msgstr "Farba písma"
 
 #. i18n: ectx: whatsthis, entry (fontColor), group (Code Viewer Options)
-#: umbrello.kcfg:313
+#: umbrello.kcfg:318
 #, kde-format
 msgid "Color of the Font"
 msgstr "Farba písma"
 
 #. i18n: ectx: label, entry (selectedColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (selectedColor), group (Code Viewer Options)
-#: umbrello.kcfg:317 umbrello.kcfg:318
+#: umbrello.kcfg:322 umbrello.kcfg:323
 #, kde-format
 msgid "Selected Color"
 msgstr "Vybraná farba"
 
 #. i18n: ectx: label, entry (editBlockColor), group (Code Viewer Options)
-#: umbrello.kcfg:322
+#: umbrello.kcfg:327
 #, kde-format
 msgctxt "Color of the Edit Block"
 msgid "Edit Block Color"
 msgstr "Farba editačného bloku"
 
 #. i18n: ectx: whatsthis, entry (editBlockColor), group (Code Viewer Options)
-#: umbrello.kcfg:323
+#: umbrello.kcfg:328
 #, kde-format
 msgid "Color of the Edit Block"
 msgstr "Farba editačného bloku"
 
 #. i18n: ectx: label, entry (nonEditBlockColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (nonEditBlockColor), group (Code Viewer Options)
-#: umbrello.kcfg:327 umbrello.kcfg:328
+#: umbrello.kcfg:332 umbrello.kcfg:333
 #, kde-format
 msgid "Non Edit Block Color"
 msgstr "Farba needitačného bloku"
 
 #. i18n: ectx: label, entry (umlObjectColor), group (Code Viewer Options)
-#: umbrello.kcfg:332
+#: umbrello.kcfg:337
 #, kde-format
 msgid "UML Object Color"
 msgstr "Farba UML objektu"
 
 #. i18n: ectx: whatsthis, entry (umlObjectColor), group (Code Viewer Options)
-#: umbrello.kcfg:333
+#: umbrello.kcfg:338
 #, kde-format
 msgid "Color of the UML Object"
 msgstr "Farba UML objektu"
 
 #. i18n: ectx: label, entry (hiddenColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (hiddenColor), group (Code Viewer Options)
-#: umbrello.kcfg:337 umbrello.kcfg:338
+#: umbrello.kcfg:342 umbrello.kcfg:343
 #, kde-format
 msgid "Hidden Color"
 msgstr "Skrytá farba"
 
 #. i18n: ectx: label, entry (createArtifacts), group (Code Importer)
-#: umbrello.kcfg:344
+#: umbrello.kcfg:349
 #, kde-format
 msgid "Create Artifacts for imported files"
 msgstr "Vytvoriť artefakty pre importované súbory"
 
 #. i18n: ectx: whatsthis, entry (createArtifacts), group (Code Importer)
-#: umbrello.kcfg:345
+#: umbrello.kcfg:350
 #, kde-format
 msgid "Create an artifact in the component view for each imported file"
 msgstr "Vytvoriť artefakt v pohľade komponentu pre každý importovaný súbor"
 
 #. i18n: ectx: label, entry (resolveDependencies), group (Code Importer)
-#: umbrello.kcfg:349
+#: umbrello.kcfg:354
 #, kde-format
 msgid "Resolve dependencies"
 msgstr "Vyriešiť závislosti"
 
 #. i18n: ectx: whatsthis, entry (resolveDependencies), group (Code Importer)
-#: umbrello.kcfg:350
+#: umbrello.kcfg:355
 #, kde-format
 msgid "Resolve dependencies when importing file"
 msgstr "Vyriešiť závislosti pri importe súborov"
 
 #. i18n: ectx: label, entry (supportCPP11), group (Code Importer)
-#: umbrello.kcfg:354
+#: umbrello.kcfg:359
 #, kde-format
 msgid "Support C++11 standard"
 msgstr "Podpora štandardu C++11"
 
 #. i18n: ectx: whatsthis, entry (supportCPP11), group (Code Importer)
-#: umbrello.kcfg:355
+#: umbrello.kcfg:360
 #, kde-format
 msgid "Support C++11 standard on code import"
 msgstr "Podpora štandardu C++11 pri importe kódu"
 
 #. i18n: ectx: label, entry (autoGenEmptyConstructors), group (Code Generation)
-#: umbrello.kcfg:361
+#: umbrello.kcfg:366
 #, kde-format
 msgid "Auto Generate Empty Constructors"
 msgstr "Automaticky generovať prázdne konštruktory"
 
 #. i18n: ectx: whatsthis, entry (autoGenEmptyConstructors), group (Code Generation)
-#: umbrello.kcfg:362
+#: umbrello.kcfg:367
 #, kde-format
 msgid "Enables/Disables Auto Generation of Empty Constructors"
 msgstr "Povolí/zakáže automatické generovanie prázdnych konštruktorov"
 
 #. i18n: ectx: label, entry (commentStyle), group (Code Generation)
-#: umbrello.kcfg:366
+#: umbrello.kcfg:371
 #, kde-format
 msgid "Comment Style"
 msgstr "Štýl komentára"
 
 #. i18n: ectx: whatsthis, entry (commentStyle), group (Code Generation)
-#: umbrello.kcfg:367
+#: umbrello.kcfg:372
 #, kde-format
 msgid "Sets the Style of Comments to be used"
 msgstr "Nastaví štýl komentárov na použitie"
 
 #. i18n: ectx: label, entry (defaultAssocFieldScope), group (Code Generation)
-#: umbrello.kcfg:375
+#: umbrello.kcfg:380
 #, kde-format
 msgid "Default Association Field Scope"
 msgstr "Predvolený rozsah asociatívneho poľa"
 
 #. i18n: ectx: whatsthis, entry (defaultAssocFieldScope), group (Code Generation)
-#: umbrello.kcfg:376
+#: umbrello.kcfg:381
 #, kde-format
 msgid "Sets the default Association field scope"
 msgstr "Nastaví predvolený rozsah asociatívneho poľa"
 
 #. i18n: ectx: label, entry (defaultAttributeAccessorScope), group (Code Generation)
-#: umbrello.kcfg:387
+#: umbrello.kcfg:392
 #, kde-format
 msgid "Default Attribute Accessor Scope"
 msgstr "Predvolený rozsah prístupovej metódy atribútu"
 
 #. i18n: ectx: whatsthis, entry (defaultAttributeAccessorScope), group (Code Generation)
-#: umbrello.kcfg:388
+#: umbrello.kcfg:393
 #, kde-format
 msgid "Sets the default attribute accessor scope"
 msgstr "Nastaví predvolený rozsah prístupovej metódy atribútu"
 
 #. i18n: ectx: label, entry (forceDoc), group (Code Generation)
-#: umbrello.kcfg:399
+#: umbrello.kcfg:404
 #, kde-format
 msgid "Force Documentation"
 msgstr "Vynútiť dokumentáciu"
 
 #. i18n: ectx: whatsthis, entry (forceDoc), group (Code Generation)
-#: umbrello.kcfg:400
+#: umbrello.kcfg:405
 #, kde-format
 msgid "Enables/Disables Verbose Documentation"
 msgstr "Povolí/Zakáže podrobnú dokumentáciu"
 
 #. i18n: ectx: label, entry (writeSectionComments), group (Code Generation)
-#: umbrello.kcfg:404
+#: umbrello.kcfg:409
 #, kde-format
 msgid "Section Comment Policy"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
-#: umbrello.kcfg:405
+#: umbrello.kcfg:410
 #, kde-format
 msgid "Whether section comments shall be written"
 msgstr ""
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
-#: umbrello.kcfg:414
+#: umbrello.kcfg:419
 #, kde-format
 msgid "Headings Directory"
 msgstr "Priečinok hlavičiek"
 
 #. i18n: ectx: whatsthis, entry (headingsDirectory), group (Code Generation)
-#: umbrello.kcfg:415
+#: umbrello.kcfg:420
 #, kde-format
 msgid "The Path in which the headings are stored"
 msgstr "Cesta, v ktorej sú uložené hlavičky"
 
 #. i18n: ectx: label, entry (includeHeadings), group (Code Generation)
-#: umbrello.kcfg:419
+#: umbrello.kcfg:424
 #, kde-format
 msgid "Include headings"
 msgstr "Vložiť hlavičky"
 
 #. i18n: ectx: whatsthis, entry (includeHeadings), group (Code Generation)
-#: umbrello.kcfg:420
+#: umbrello.kcfg:425
 #, kde-format
 msgid "Enables/Disables inclusion of headings"
 msgstr "Povolí/Zakáže vloženie hlavičiek"
 
 #. i18n: ectx: label, entry (indentationAmount), group (Code Generation)
-#: umbrello.kcfg:424
+#: umbrello.kcfg:429
 #, kde-format
 msgid "Indentation Amount"
 msgstr "Miera odsadenia"
 
 #. i18n: ectx: whatsthis, entry (indentationAmount), group (Code Generation)
-#: umbrello.kcfg:425
+#: umbrello.kcfg:430
 #, kde-format
 msgid "The amount of indentation"
 msgstr "Miera odsadenia"
 
 #. i18n: ectx: label, entry (indentationType), group (Code Generation)
-#: umbrello.kcfg:430
+#: umbrello.kcfg:435
 #, kde-format
 msgid "Indentation Type"
 msgstr "Typ odsadenia"
 
 #. i18n: ectx: whatsthis, entry (indentationType), group (Code Generation)
-#: umbrello.kcfg:431
+#: umbrello.kcfg:436
 #, kde-format
 msgid "The Type of Indentation"
 msgstr "Typ odsadenia"
 
 #. i18n: ectx: label, entry (lineEndingType), group (Code Generation)
-#: umbrello.kcfg:440
+#: umbrello.kcfg:445
 #, kde-format
 msgid "Line Ending Type"
 msgstr "Štýl zakončenia čiar"
 
 #. i18n: ectx: whatsthis, entry (lineEndingType), group (Code Generation)
-#: umbrello.kcfg:441
+#: umbrello.kcfg:446
 #, kde-format
 msgid "The type of line ending ( or new line type )"
 msgstr "Typ ukončenia riadku (alebo typ nového riadku)"
 
 #. i18n: ectx: label, entry (modnamePolicy), group (Code Generation)
 #. i18n: ectx: whatsthis, entry (modnamePolicy), group (Code Generation)
-#: umbrello.kcfg:450 umbrello.kcfg:451
+#: umbrello.kcfg:455 umbrello.kcfg:456
 #, kde-format
 msgid "Modifier Name Policy"
 msgstr "Politika názvov modifikátorov"
 
 #. i18n: ectx: label, entry (outputDirectory), group (Code Generation)
-#: umbrello.kcfg:460
+#: umbrello.kcfg:465
 #, kde-format
 msgid "Output Directory"
 msgstr "Výstupný adresár"
 
 #. i18n: ectx: whatsthis, entry (outputDirectory), group (Code Generation)
-#: umbrello.kcfg:461
+#: umbrello.kcfg:466
 #, kde-format
 msgid "The directory to which the code has to be outputted"
 msgstr "Adresár, do ktorého musí byť vytvorený kód"
 
 #. i18n: ectx: whatsthis, entry (overwritePolicy), group (Code Generation)
-#: umbrello.kcfg:466
+#: umbrello.kcfg:471
 #, kde-format
 msgid "The policy to be followed when there are name conflicts"
 msgstr "Postup, ktorý sa použije, v prípade konfliktov názvov"
 
 #. i18n: ectx: label, entry (autoGenAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:478
+#: umbrello.kcfg:483
 #, kde-format
 msgid "Auto Generate Accessors"
 msgstr "Automaticky generovať prístupové metódy"
 
 #. i18n: ectx: whatsthis, entry (autoGenAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:479
+#: umbrello.kcfg:484
 #, kde-format
 msgid "Enables/Disables auto generation of accessors"
 msgstr "Povolí/Zakáže automatické generovanie prístupových metód"
 
 #. i18n: ectx: whatsthis, entry (classMemberPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:484
+#: umbrello.kcfg:489
 #, kde-format
 msgid "The prefix for class members"
 msgstr ""
 
 #. i18n: ectx: label, entry (inlineAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:488
+#: umbrello.kcfg:493
 #, kde-format
 msgid "Inline Accessors"
 msgstr "Vložené prístupové metódy"
 
 #. i18n: ectx: whatsthis, entry (inlineAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:489
+#: umbrello.kcfg:494
 #, kde-format
 msgid "Enables/Disables Inline accessors"
 msgstr "Povolí/Zakáže vložené prístupové metódy"
 
 #. i18n: ectx: label, entry (inlineOps), group (CPP Code Generation)
-#: umbrello.kcfg:493
+#: umbrello.kcfg:498
 #, kde-format
 msgid "Inline operations"
 msgstr "Inline operácie"
 
 #. i18n: ectx: whatsthis, entry (inlineOps), group (CPP Code Generation)
-#: umbrello.kcfg:494
+#: umbrello.kcfg:499
 #, kde-format
 msgid "Enables/Disables Inline Operations"
 msgstr "Povolí/Zakáže vložené operácie"
 
 #. i18n: ectx: label, entry (packageIsNamespace), group (CPP Code Generation)
-#: umbrello.kcfg:498
+#: umbrello.kcfg:503
 #, kde-format
 msgid "Package is namespace"
 msgstr "Balík je priestor mien"
 
 #. i18n: ectx: whatsthis, entry (packageIsNamespace), group (CPP Code Generation)
-#: umbrello.kcfg:499
+#: umbrello.kcfg:504
 #, kde-format
 msgid "Enables/Disables treating a package as a namespace"
 msgstr "Povolí/Zakáže zaobchádzanie s balíčkom ako s priestorom mien"
 
 #. i18n: ectx: label, entry (publicAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:503
+#: umbrello.kcfg:508
 #, kde-format
 msgid "Public Accessors"
 msgstr "Verejné prístupové metódy"
 
 #. i18n: ectx: whatsthis, entry (publicAccessors), group (CPP Code Generation)
-#: umbrello.kcfg:504
+#: umbrello.kcfg:509
 #, kde-format
 msgid "Enables/Disables public accessors"
 msgstr "Povolí/Zakáže verejné prístupové metódy"
 
 #. i18n: ectx: label, entry (stringClassName), group (CPP Code Generation)
-#: umbrello.kcfg:508
+#: umbrello.kcfg:513
 #, kde-format
 msgid "String Class Name"
 msgstr "Názov triedy reťazca"
 
 #. i18n: ectx: whatsthis, entry (stringClassName), group (CPP Code Generation)
-#: umbrello.kcfg:509
+#: umbrello.kcfg:514
 #, kde-format
 msgid "The name of the string class"
 msgstr "Názov triedy reťazca"
 
 #. i18n: ectx: label, entry (stringClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:513
+#: umbrello.kcfg:518
 #, kde-format
 msgid "String Class Name Include"
 msgstr "Názov triedy reťazca, ktorá sa má vložiť"
 
 #. i18n: ectx: whatsthis, entry (stringClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:514
+#: umbrello.kcfg:519
 #, kde-format
 msgid "The name of the string class to be included"
 msgstr "Názov triedy reťazca, ktorá má byť vložená"
 
 #. i18n: ectx: label, entry (stringIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:518
+#: umbrello.kcfg:523
 #, kde-format
 msgid "String Include is Global"
 msgstr "Vloženie reťazca je globálne"
 
 #. i18n: ectx: whatsthis, entry (stringIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:519
+#: umbrello.kcfg:524
 #, kde-format
 msgid "Enables/Disables global inclusion of string"
 msgstr "Povolí/Zakáže globálne vloženie reťazca"
 
 #. i18n: ectx: label, entry (vectorClassName), group (CPP Code Generation)
-#: umbrello.kcfg:523
+#: umbrello.kcfg:528
 #, kde-format
 msgid "Vector Class Name"
 msgstr "Názov vektorovej triedy"
 
 #. i18n: ectx: whatsthis, entry (vectorClassName), group (CPP Code Generation)
-#: umbrello.kcfg:524
+#: umbrello.kcfg:529
 #, kde-format
 msgid "The name of the vector class"
 msgstr "Názov vektorovej triedy"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:528
+#: umbrello.kcfg:533
 #, fuzzy, kde-format
 #| msgid "Vector Class Name Include "
 msgid "Vector Class Name Include"
 msgstr "Názov vektorovej triedy, ktorá sa má vložiť"
 
 #. i18n: ectx: whatsthis, entry (vectorClassNameInclude), group (CPP Code Generation)
-#: umbrello.kcfg:529
+#: umbrello.kcfg:534
 #, kde-format
 msgid "The name of the vector class to be included"
 msgstr "Názov vektorovej triedy, ktorá má byť vložená"
 
 #. i18n: ectx: label, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:533
+#: umbrello.kcfg:538
 #, kde-format
 msgid "Vector include is global"
 msgstr "Vloženie vektora je globálne"
 
 #. i18n: ectx: whatsthis, entry (vectorIncludeIsGlobal), group (CPP Code Generation)
-#: umbrello.kcfg:534
+#: umbrello.kcfg:539
 #, kde-format
 msgid "Enables/Disables global inclusion of vector class"
 msgstr "Povolí/Zakáže globálne vloženie vektorovej triedy"
 
 #. i18n: ectx: label, entry (virtualDestructors), group (CPP Code Generation)
-#: umbrello.kcfg:538
+#: umbrello.kcfg:543
 #, kde-format
 msgid "Virtual Destructors"
 msgstr "Virtuálne deštruktory"
 
 #. i18n: ectx: whatsthis, entry (virtualDestructors), group (CPP Code Generation)
-#: umbrello.kcfg:539
+#: umbrello.kcfg:544
 #, kde-format
 msgid "Enables/Disables virtual destructors"
 msgstr "Povolí/Zakáže virtuálne deštruktory"
 
 #. i18n: ectx: label, entry (getterWithGetPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:543
+#: umbrello.kcfg:548
 #, kde-format
 msgid "Getters with 'get' prefix"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (getterWithGetPrefix), group (CPP Code Generation)
-#: umbrello.kcfg:544
+#: umbrello.kcfg:549
 #, kde-format
 msgid "If enabled, create getters with 'get' prefix"
 msgstr ""
 
 #. i18n: ectx: label, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
-#: umbrello.kcfg:548
+#: umbrello.kcfg:553
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor methods"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
-#: umbrello.kcfg:549
+#: umbrello.kcfg:554
 #, kde-format
 msgid "If enabled, remove prefix '[a-zA-Z]_' from accessor methods"
 msgstr ""
 
 #. i18n: ectx: whatsthis, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
-#: umbrello.kcfg:554
+#: umbrello.kcfg:559
 #, kde-format
 msgid "If enabled, accessor methods start with capital letters"
 msgstr ""
 
 #. i18n: ectx: label, entry (docToolTag), group (CPP Code Generation)
-#: umbrello.kcfg:558
+#: umbrello.kcfg:563
 #, kde-format
 msgid "Documentation tags"
 msgstr "Značky dokumentácie"
 
 #. i18n: ectx: whatsthis, entry (docToolTag), group (CPP Code Generation)
-#: umbrello.kcfg:559
+#: umbrello.kcfg:564
 #, kde-format
 msgid "The tag used for generating doxygen documentation (\\\\, @)"
 msgstr "Tag použitý pre generovanie doxygen dokumentácie (\\\\, @)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:565
+#: umbrello.kcfg:570
 #, fuzzy, kde-format
 #| msgid "Auto Generate Attribute Accessors ( D ) "
 msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "Automaticky generovať prístupové metódy atribútu ( D )"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:566
+#: umbrello.kcfg:571
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors ( D )"
 msgstr ""
 "Povolí/Zakáže automatické generovanie prístupových metód atribútu ( D )"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:570
+#: umbrello.kcfg:575
 #, kde-format
 msgid "Auto Generate Assoc Accessors ( D )"
 msgstr "Automaticky generovať prístupové metódy asociácie ( D ) "
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
-#: umbrello.kcfg:571
+#: umbrello.kcfg:576
 #, kde-format
 msgid "Enables/Disables auto generation of association accessors ( D )"
 msgstr ""
 "Povolí/Zakáže automatické generovanie prístupových metód asociácie ( D ) "
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
-#: umbrello.kcfg:575
+#: umbrello.kcfg:580
 #, fuzzy, kde-format
 #| msgid "Build ANT Document (D) "
 msgid "Build ANT Document (D)"
 msgstr "Zostaviť dokument ANT (D) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
-#: umbrello.kcfg:576
+#: umbrello.kcfg:581
 #, fuzzy, kde-format
 #| msgid "Enables/Disables building of ANT Document (D) "
 msgid "Enables/Disables building of ANT Document (D)"
 msgstr "Povolí/Zakáže zostavovanie dokumentu ANT (D) "
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:582
+#: umbrello.kcfg:587
 #, kde-format
 msgid "Auto Generate Attribute Accessors (Java)"
 msgstr "Automaticky generovať prístupové metódy atribútu (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:583
+#: umbrello.kcfg:588
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Java)"
 msgstr ""
 "Povolí/Zakáže automatické generovanie prístupových metód atribútu (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:587
+#: umbrello.kcfg:592
 #, fuzzy, kde-format
 #| msgid "Auto Generate Assoc Accessors (Java) "
 msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "Automaticky generovať prístupové metódy asociácie (Java) "
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
-#: umbrello.kcfg:588
+#: umbrello.kcfg:593
 #, fuzzy, kde-format
 #| msgid "Enables/Disables auto generation of association accessors (Java) "
 msgid "Enables/Disables auto generation of association accessors (Java)"
@@ -7223,78 +7237,78 @@ msgstr ""
 "Povolí/Zakáže automatické generovanie prístupových metód asociácie (Java) "
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
-#: umbrello.kcfg:592
+#: umbrello.kcfg:597
 #, fuzzy, kde-format
 #| msgid "Build ANT Document (Java) "
 msgid "Build ANT Document (Java)"
 msgstr "Zostaviť ANT dokument (Java) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
-#: umbrello.kcfg:593
+#: umbrello.kcfg:598
 #, fuzzy, kde-format
 #| msgid "Enables/Disables building of ANT Document (Java) "
 msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "Povolí/Zakáže zostavovanie dokumentu ANT (Java) "
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:599
+#: umbrello.kcfg:604
 #, fuzzy, kde-format
 #| msgid "Auto Generate Attribute Accessors (Ruby) "
 msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr "Automaticky generovať prístupové metódy atribútu (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:600
+#: umbrello.kcfg:605
 #, kde-format
 msgid "Enables/Disables auto generation of attribute accessors (Ruby)"
 msgstr ""
 "Povolí/Zakáže automatické generovanie prístupových metód atribútu (Ruby)"
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:604
+#: umbrello.kcfg:609
 #, kde-format
 msgid "Auto Generate Assoc Accessors (Ruby)"
 msgstr "Automaticky generovať prístupové metódy asociácie (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsRuby), group (Ruby Code Generation)
-#: umbrello.kcfg:605
+#: umbrello.kcfg:610
 #, kde-format
 msgid "Enables/Disables auto generation of association accessors (Ruby)"
 msgstr ""
 "Povolí/Zakáže automatické generovanie prístupových metód asociácie (Ruby)"
 
 #. i18n: ectx: label, entry (autoDotPath), group (Auto Layout)
-#: umbrello.kcfg:611
+#: umbrello.kcfg:616
 #, kde-format
 msgid "Automatic Dot Path"
 msgstr "Automatická dot cesta"
 
 #. i18n: ectx: whatsthis, entry (autoDotPath), group (Auto Layout)
-#: umbrello.kcfg:612
+#: umbrello.kcfg:617
 #, kde-format
 msgid "determine automatically the path of dot executable"
 msgstr "automaticky určiť cestu spustiteľného súboru dot"
 
 #. i18n: ectx: label, entry (dotPath), group (Auto Layout)
-#: umbrello.kcfg:616
+#: umbrello.kcfg:621
 #, kde-format
 msgid "Dot Path"
 msgstr "Bodová cesta"
 
 #. i18n: ectx: whatsthis, entry (dotPath), group (Auto Layout)
-#: umbrello.kcfg:617
+#: umbrello.kcfg:622
 #, kde-format
 msgid "set path to dot executable (optional)"
 msgstr "nastaviť cestu k spustiteľnému súboru dot (voliteľné)"
 
 #. i18n: ectx: label, entry (showExportLayout), group (Auto Layout)
-#: umbrello.kcfg:621
+#: umbrello.kcfg:626
 #, kde-format
 msgid "Show Export Layout"
 msgstr "Zobraziť rozloženie exportu"
 
 #. i18n: ectx: whatsthis, entry (showExportLayout), group (Auto Layout)
-#: umbrello.kcfg:622
+#: umbrello.kcfg:627
 #, kde-format
 msgid "show export layout"
 msgstr "zobraziť rozloženie exportu"
@@ -7632,28 +7646,28 @@ msgstr "Prispôsobiť"
 msgid "Diagram Toolbar"
 msgstr "Nástrojová lišta diagramov"
 
-#: umlapp.cpp:931 umlapp.cpp:1148 umlapp.cpp:1186
+#: umlapp.cpp:934 umlapp.cpp:1151 umlapp.cpp:1189
 #, kde-format
 msgid "Opening file..."
 msgstr "Otváram súbor..."
 
-#: umlapp.cpp:982 umlapp.cpp:1053 umlapp.cpp:1217 umldoc.cpp:437 umldoc.cpp:460
+#: umlapp.cpp:985 umlapp.cpp:1056 umlapp.cpp:1220 umldoc.cpp:437 umldoc.cpp:460
 #: umldoc.cpp:3409
 #, kde-format
 msgid "Untitled"
 msgstr "Bez názvu"
 
-#: umlapp.cpp:1130
+#: umlapp.cpp:1133
 #, kde-format
 msgid "Creating new document..."
 msgstr "Vytváram nový dokument..."
 
-#: umlapp.cpp:1155
+#: umlapp.cpp:1158
 #, kde-format
 msgid "Open File"
 msgstr "Otvoriť súbor"
 
-#: umlapp.cpp:1156
+#: umlapp.cpp:1159
 #, fuzzy, kde-format
 #| msgid ""
 #| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *."
@@ -7681,22 +7695,22 @@ msgstr ""
 "*.mdl|Modelové súbory Rose (*.mdl)\n"
 "*.zargo|Komprimované argo súbory (*.zargo)\n"
 
-#: umlapp.cpp:1216
+#: umlapp.cpp:1219
 #, kde-format
 msgid "Saving file..."
 msgstr "Ukladám súbor..."
 
-#: umlapp.cpp:1233
+#: umlapp.cpp:1236
 #, kde-format
 msgid "Saving file with a new filename..."
 msgstr "Ukladám súbor pod novým názvom..."
 
-#: umlapp.cpp:1238 umlviewimageexporter.cpp:172
+#: umlapp.cpp:1241 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
 msgstr "Uložiť ako"
 
-#: umlapp.cpp:1239
+#: umlapp.cpp:1242
 #, kde-format
 msgid ""
 "*.xmi | XMI File (*.xmi);;*.xmi.tgz | Gzip Compressed XMI File (*.xmi.tgz);;"
@@ -7706,7 +7720,7 @@ msgstr ""
 "tgz);;*.xmi.tar.bz2 | Bzip2 komprimovnaý XMI súbor (*.xmi.tar.bz2);;* | "
 "všetky súbory (*)"
 
-#: umlapp.cpp:1257
+#: umlapp.cpp:1260
 #, kde-format
 msgid ""
 "The file %1 exists.\n"
@@ -7715,67 +7729,67 @@ msgstr ""
 "Súbor %1 už existuje.\n"
 "Chcete ho prepísať?"
 
-#: umlapp.cpp:1258
+#: umlapp.cpp:1261
 #, kde-format
 msgid "Warning"
 msgstr "Varovanie"
 
-#: umlapp.cpp:1258
+#: umlapp.cpp:1261
 #, kde-format
 msgid "Overwrite"
 msgstr "Prepísať"
 
-#: umlapp.cpp:1284
+#: umlapp.cpp:1287
 #, kde-format
 msgid "Closing file..."
 msgstr "Zatváram súbor..."
 
-#: umlapp.cpp:1295
+#: umlapp.cpp:1298
 #, kde-format
 msgid "No search term entered"
 msgstr "Nezadaný žiadny hľadaný termín"
 
-#: umlapp.cpp:1301
+#: umlapp.cpp:1304
 #, kde-format
 msgid "'%1': %2 found"
 msgstr "'%1': %2 nájdené"
 
-#: umlapp.cpp:1357
+#: umlapp.cpp:1360
 #, kde-format
 msgid "Print Preview..."
 msgstr "Náhľad tlače..."
 
-#: umlapp.cpp:1384
+#: umlapp.cpp:1387
 #, kde-format
 msgid "Printing..."
 msgstr "Tlačím..."
 
-#: umlapp.cpp:1390
+#: umlapp.cpp:1393
 #, kde-format
 msgid "Print %1"
 msgstr "Tlač %1"
 
-#: umlapp.cpp:1409
+#: umlapp.cpp:1412
 #, kde-format
 msgid "Exiting..."
 msgstr "Ukončujem činnosť..."
 
-#: umlapp.cpp:1480
+#: umlapp.cpp:1483
 #, kde-format
 msgid "Cutting selection..."
 msgstr "Vystrihávam výber..."
 
-#: umlapp.cpp:1503
+#: umlapp.cpp:1506
 #, kde-format
 msgid "Copying selection to clipboard..."
 msgstr "Kopírujem výber do schránky..."
 
-#: umlapp.cpp:1515
+#: umlapp.cpp:1518
 #, kde-format
 msgid "Inserting clipboard contents..."
 msgstr "Vkladám obsah schránky..."
 
-#: umlapp.cpp:1520
+#: umlapp.cpp:1523
 #, kde-format
 msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
@@ -7784,89 +7798,89 @@ msgstr ""
 "Umbrello nedokázal vložiť obsah schránky. Objekty v schránke sú možno typu "
 "ktorý sem nie je možné vložiť."
 
-#: umlapp.cpp:1546 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
+#: umlapp.cpp:1549 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
 msgstr "Pripravený."
 
-#: umlapp.cpp:2162
+#: umlapp.cpp:2166
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr "Nemôžem zobraziť kód kým ho nevygenerujete!"
 
-#: umlapp.cpp:2162 umlapp.cpp:2165
+#: umlapp.cpp:2166 umlapp.cpp:2169
 #, kde-format
 msgid "Cannot View Code"
 msgstr "Nebolo možné zobraziť kód"
 
-#: umlapp.cpp:2165
+#: umlapp.cpp:2169
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr "Nie je možné zobraziť kód z jednoduchého generátora kódu."
 
-#: umlapp.cpp:2615
+#: umlapp.cpp:2619
 #, kde-format
 msgid "Select file(s) to import:"
 msgstr "Vyberte súbor(y) na import:"
 
-#: umlapp.cpp:2644
+#: umlapp.cpp:2648
 #, kde-format
 msgid "Select directory to import:"
 msgstr "Vyberte adresár na import:"
 
-#: umlapp.cpp:3162
+#: umlapp.cpp:3166
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Generovanie XHTML zlyhalo."
 
-#: umlappprivate.h:102
+#: umlappprivate.h:103
 #, fuzzy, kde-format
 #| msgid "Show Doc Window"
 msgid "Show/hide window"
 msgstr "Ukázať okno dokumentácie"
 
-#: umlappprivate.h:170
+#: umlappprivate.h:189
 #, kde-format
 msgid "&Bird's eye view"
 msgstr "Pohľad vtáčieho oka"
 
-#: umlappprivate.h:178
+#: umlappprivate.h:197
 #, kde-format
 msgid "Co&mmand history"
 msgstr "História príkazov"
 
-#: umlappprivate.h:190
+#: umlappprivate.h:212
 #, kde-format
 msgid "&Debug"
 msgstr "&Ladiť"
 
-#: umlappprivate.h:206
+#: umlappprivate.h:228
 #, kde-format
 msgid "Doc&umentation"
 msgstr "Dokumentácia"
 
-#: umlappprivate.h:223
+#: umlappprivate.h:245
 #, kde-format
 msgid "&Log"
 msgstr "&Záznam"
 
-#: umlappprivate.h:232
+#: umlappprivate.h:257
 #, kde-format
 msgid "&UML Objects"
 msgstr "UML objekty"
 
-#: umlappprivate.h:246
+#: umlappprivate.h:271
 #, kde-format
 msgid "&Stereotypes"
 msgstr "Stereotypy"
 
-#: umlappprivate.h:253
+#: umlappprivate.h:278
 #, kde-format
 msgid "&Tree View"
 msgstr "S&tromový pohľad"
 
-#: umlappprivate.h:273
+#: umlappprivate.h:298
 #, kde-format
 msgid "Welcome"
 msgstr "Vitajte"
@@ -9505,16 +9519,6 @@ msgstr "Pred/po podmienka"
 #, fuzzy
 #~| msgid "Show Doc Window"
 #~ msgid "Show diagrams window"
-#~ msgstr "Ukázať okno dokumentácie"
-
-#, fuzzy
-#~| msgid "Show Doc Window"
-#~ msgid "Show log window"
-#~ msgstr "Ukázať okno dokumentácie"
-
-#, fuzzy
-#~| msgid "Show Doc Window"
-#~ msgid "Show UML objects window"
 #~ msgstr "Ukázať okno dokumentácie"
 
 #, fuzzy
