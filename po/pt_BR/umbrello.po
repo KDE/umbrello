@@ -1,7 +1,7 @@
 # Translation of umbrello.po to Brazilian Portuguese
 # Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019 Free Software Foundation, Inc.
 #
-# SPDX-FileCopyrightText: 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2025 Marcus Gama <marcus.gama@gmail.com>
+# SPDX-FileCopyrightText: 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2025, 2026 Marcus Gama <marcus.gama@gmail.com>
 # Lisiane Sztoltz <lisiane@conectiva.com.br>, 2003, 2004.
 # Lisiane Sztoltz Teixeira <lisiane@conectiva.com.br>, 2004.
 # Roberto Selbach Teixeira <rst@iname.com>, 2004.
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-24 00:48+0000\n"
-"PO-Revision-Date: 2025-11-19 06:59-0300\n"
+"PO-Revision-Date: 2026-02-24 08:48-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Lokalize 25.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2958,10 +2958,9 @@ msgstr "Habilitar suporte UML2"
 
 #. i18n: ectx: label, entry (showDebugWindows), group (General Options)
 #: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
-#, fuzzy, kde-format
-#| msgid "Show log window"
+#, kde-format
 msgid "Show debug windows"
-msgstr "Mostrar janela de registro"
+msgstr "Mostrar janelas de depuração"
 
 #: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
@@ -6286,10 +6285,9 @@ msgstr "Ativa/desativa a notação de UML2"
 
 #. i18n: ectx: whatsthis, entry (showDebugWindows), group (General Options)
 #: umbrello.kcfg:141
-#, fuzzy, kde-format
-#| msgid "Show UML objects window"
+#, kde-format
 msgid "Show or hide the debug window and UML objects window"
-msgstr "Mostrar janela de objetos UML"
+msgstr "Mostrar ou ocultar a janela de depuração e a janela de objetos UML"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:148

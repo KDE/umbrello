@@ -4,13 +4,13 @@
 # version 3 or later versions approved by the membership of KDE e.V.
 #
 # Ivan Petrouchtchak <fr.ivan@ukrainian-orthodox.org>, 2005, 2006, 2008.
-# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2025.
+# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-24 00:48+0000\n"
-"PO-Revision-Date: 2025-11-19 08:24+0200\n"
+"PO-Revision-Date: 2026-02-24 09:24+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2958,10 +2958,9 @@ msgstr "Увімкнути підтримку UML2"
 
 #. i18n: ectx: label, entry (showDebugWindows), group (General Options)
 #: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
-#, fuzzy, kde-format
-#| msgid "Show log window"
+#, kde-format
 msgid "Show debug windows"
-msgstr "Показати вікно журналу"
+msgstr "Показати вікна діагностики"
 
 #: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
@@ -6278,10 +6277,9 @@ msgstr "Вмикає/Вимикає позначення UML2"
 
 #. i18n: ectx: whatsthis, entry (showDebugWindows), group (General Options)
 #: umbrello.kcfg:141
-#, fuzzy, kde-format
-#| msgid "Show UML objects window"
+#, kde-format
 msgid "Show or hide the debug window and UML objects window"
-msgstr "Показати вікно об'єктів UML"
+msgstr "Показати або сховати вікно діагностики та вікно об'єктів UML"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:148

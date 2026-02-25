@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-24 00:48+0000\n"
-"PO-Revision-Date: 2025-11-19 06:51+0100\n"
+"PO-Revision-Date: 2026-02-24 07:25+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -2956,10 +2956,9 @@ msgstr "Omogoči podporo UML2"
 
 #. i18n: ectx: label, entry (showDebugWindows), group (General Options)
 #: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
-#, fuzzy, kde-format
-#| msgid "Show log window"
+#, kde-format
 msgid "Show debug windows"
-msgstr "Prikaži okno dnevnika"
+msgstr "Prikaži okna odpravljanja napak"
 
 #: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
@@ -6278,10 +6277,9 @@ msgstr "Preklopi zapis UML2"
 
 #. i18n: ectx: whatsthis, entry (showDebugWindows), group (General Options)
 #: umbrello.kcfg:141
-#, fuzzy, kde-format
-#| msgid "Show UML objects window"
+#, kde-format
 msgid "Show or hide the debug window and UML objects window"
-msgstr "Prikaži okno objektov UML"
+msgstr "Prikaži ali skrij okno za odpravljanje napak in okno objektov UML"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:148
@@ -7677,7 +7675,7 @@ msgstr "Zgodovina ukazov"
 #: umlappprivate.h:212
 #, kde-format
 msgid "&Debug"
-msgstr "Razhrošči"
+msgstr "Odpravljanje napak"
 
 #: umlappprivate.h:228
 #, kde-format

@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-24 00:48+0000\n"
-"PO-Revision-Date: 2026-01-22 12:20+0100\n"
+"PO-Revision-Date: 2026-02-24 09:43+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2960,10 +2960,9 @@ msgstr "Activa el funcionament amb UML2"
 
 #. i18n: ectx: label, entry (showDebugWindows), group (General Options)
 #: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
-#, fuzzy, kde-format
-#| msgid "Show/hide window"
+#, kde-format
 msgid "Show debug windows"
-msgstr "Mostra o oculta la finestra"
+msgstr "Mostra la finestra de depuració"
 
 #: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
@@ -6293,7 +6292,7 @@ msgstr "Activa o desactiva la notació UML2"
 #: umbrello.kcfg:141
 #, kde-format
 msgid "Show or hide the debug window and UML objects window"
-msgstr ""
+msgstr "Mostra la finestra de depuració i la finestra d'objectes UML"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:148

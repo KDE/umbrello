@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-24 00:48+0000\n"
-"PO-Revision-Date: 2026-02-05 16:03+0100\n"
+"PO-Revision-Date: 2026-02-24 12:14+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -2889,10 +2889,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (showDebugWindows), group (General Options)
 #: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
-#, fuzzy, kde-format
-#| msgid "Show/hide window"
+#, kde-format
 msgid "Show debug windows"
-msgstr "Monstra/cela fenestra"
+msgstr "Monstra fenestras de cribrar"
 
 #: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format

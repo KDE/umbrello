@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-24 00:48+0000\n"
-"PO-Revision-Date: 2026-01-23 07:47+0100\n"
+"PO-Revision-Date: 2026-02-24 04:43+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2948,10 +2948,9 @@ msgstr "UML2-ის მხარდაჭერის ჩართვა"
 
 #. i18n: ectx: label, entry (showDebugWindows), group (General Options)
 #: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
-#, fuzzy, kde-format
-#| msgid "Show &grid"
+#, kde-format
 msgid "Show debug windows"
-msgstr "&ბადის ჩვენება"
+msgstr "გამართვის ფანჯრების ჩვენება"
 
 #: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
@@ -6270,10 +6269,9 @@ msgstr "ჩართავს/გამორთავს UML2 ნოტაც�
 
 #. i18n: ectx: whatsthis, entry (showDebugWindows), group (General Options)
 #: umbrello.kcfg:141
-#, fuzzy, kde-format
-#| msgid "New UML object"
+#, kde-format
 msgid "Show or hide the debug window and UML objects window"
-msgstr "ახალი UML ობიექტი"
+msgstr "გამართვისა და UML ობიექტების ფანჯრის ჩვენება, ან დამალვა"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:148
