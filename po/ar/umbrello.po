@@ -1,5 +1,5 @@
 # translation of umbrello.po to
-# SPDX-FileCopyrightText: 2022, 2025 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
+# SPDX-FileCopyrightText: 2022, 2025, 2026 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 # Ahmad M. Zawawi <azawawi@emirates.net.ae>, 2004.
 # محمد سعد  Mohamed SAAD <metehyi@free.fr>, 2006.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-24 00:48+0000\n"
-"PO-Revision-Date: 2025-11-19 20:51+0400\n"
+"PO-Revision-Date: 2026-02-25 21:38+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -2943,10 +2943,9 @@ msgstr "فعّل دعم UML2"
 
 #. i18n: ectx: label, entry (showDebugWindows), group (General Options)
 #: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
-#, fuzzy, kde-format
-#| msgid "Show &grid"
+#, kde-format
 msgid "Show debug windows"
-msgstr "اعرض الشـ&بكة"
+msgstr "أظهر نوافذ التّنقيح"
 
 #: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
@@ -6257,9 +6256,9 @@ msgstr "مكّن/عطّل تدوين UML2"
 
 #. i18n: ectx: whatsthis, entry (showDebugWindows), group (General Options)
 #: umbrello.kcfg:141
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show or hide the debug window and UML objects window"
-msgstr "كائن"
+msgstr "أظهر أو أخفِ نافذة التصحيح ونافذة كائنات UML"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:148
