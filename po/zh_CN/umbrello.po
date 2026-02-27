@@ -2917,10 +2917,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (showDebugWindows), group (General Options)
 #: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show debug windows"
-msgstr "显示停靠窗口"
+msgstr ""
 
 #: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
