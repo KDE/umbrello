@@ -9,13 +9,13 @@
 # SPDX-FileCopyrightText: 2010 Johannes Obermayr <johannesobermayr@gmx.de>
 # SPDX-FileCopyrightText: 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
 # SPDX-FileCopyrightText: 2022 Frank Steinmetzger <dev-kde@felsenfleischer.de>
-# SPDX-FileCopyrightText: 2025 Alexander Becker <alex-at-kde-l10n-de@freenet.de>
+# SPDX-FileCopyrightText: 2025, 2026 Alexander Becker <alex-at-kde-l10n-de@freenet.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-22 02:45+0000\n"
-"PO-Revision-Date: 2025-10-19 21:28+0200\n"
+"PO-Revision-Date: 2026-02-24 22:41+0100\n"
 "Last-Translator: Alexander Becker <alex-at-kde-l10n-de@freenet.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 25.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -385,12 +385,12 @@ msgstr "Virtuelle Destruktoren"
 #: codegenerators/cpp/cppcodegenerationform.cpp:40
 #, kde-format
 msgid "Generate empty constructors"
-msgstr "Leere Konstruktoren erzeugen"
+msgstr "Leere Konstruktoren erstellen"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:44
 #, kde-format
 msgid "Generate accessor methods"
-msgstr "Zugriffsmethoden erzeugen"
+msgstr "Zugriffsmethoden erstellen"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:48
 #, kde-format
@@ -432,7 +432,7 @@ msgstr "„\\“ anstatt „@“ als Dokumentations-Tag verwenden"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:31
 #, kde-format
 msgid "<p align=\"center\">C++ Code Generation</p>"
-msgstr "<p align=\"center\">C++-Quelltext-Erstellung</p>"
+msgstr "<p align=\"center\">C++-Quelltexterstellung</p>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabGeneral)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:51
@@ -453,7 +453,7 @@ msgstr "Präfix für Klassen-Member"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:85
 #, kde-format
 msgid "Method Body Generation"
-msgstr "Quelltext-Erstellung für Methoden"
+msgstr "Quelltexterstellung für Methoden"
 
 #. i18n: ectx: property (historyItems), widget (KHistoryComboBox, ui_listClassHCombo)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:122
@@ -696,7 +696,7 @@ msgstr "<i><p align=\"center\"><b>Includes</b></p></i>"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:526
 #, kde-format
 msgid "Use following for classes in generated code:"
-msgstr "Folgende für Klassen in generiertem Quelltext verwenden:"
+msgstr "Folgende für Klassen im erstellten Quelltext verwenden:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxDocumentation)
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
@@ -760,7 +760,7 @@ msgstr "ANT-Projekt erstellen"
 #: codegenerators/java/javacodegenerationformbase.ui:76
 #, kde-format
 msgid "Auto-Generate Methods"
-msgstr "Automatisch erzeugte Methoden"
+msgstr "Methoden automatisch erstellen"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_generateConstructors)
 #: codegenerators/d/dcodegenerationformbase.ui:108
@@ -873,19 +873,19 @@ msgstr "Von übergeordneter Rolle"
 #: codegenerators/d/dcodegenerationformbase.ui:318
 #, kde-format
 msgid "<p align=\"center\">D Code Generation</p>"
-msgstr "<p align=\"center\">D-Quelltext-Erstellung</p>"
+msgstr "<p align=\"center\">D-Quelltexterstellung</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelTitle)
 #: codegenerators/java/javacodegenerationformbase.ui:318
 #, kde-format
 msgid "<p align=\"center\">Java Code Generation</p>"
-msgstr "<p align=\"center\">Java-Quelltext-Erstellung</p>"
+msgstr "<p align=\"center\">Java-Quelltexterstellung</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelTitle)
 #: codegenerators/ruby/rubycodegenerationformbase.ui:30
 #, kde-format
 msgid "<p align=\"center\">Ruby Code Generation</p>"
-msgstr "<p align=\"center\">Ruby-Quelltext-Erstellung</p>"
+msgstr "<p align=\"center\">Ruby-Quelltexterstellung</p>"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_SelectCommentStyle)
 #: codegenerators/ruby/rubycodegenerationformbase.ui:69
@@ -903,12 +903,12 @@ msgstr "Beginn-Ende (=begin  =end)"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:91
 #, kde-format
 msgid "Auto-Generated Methods"
-msgstr "Automatisch erzeugte Methoden"
+msgstr "Automatisch erstellte Methoden"
 
 #: codegenwizard/codegenerationwizard.cpp:35
 #, kde-format
 msgid "Code Generation Wizard"
-msgstr "Assistent für die Quelltext-Erstellung"
+msgstr "Assistent für Quelltexterstellung"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenOptionsPage)
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeImpSelectPage)
@@ -916,12 +916,12 @@ msgstr "Assistent für die Quelltext-Erstellung"
 #: codegenwizard/codegenoptionspage.ui:20 codeimpwizard/codeimpselectpage.ui:20
 #, kde-format
 msgid "Code Generation Options"
-msgstr "Einstellungen zur Quelltext-Erstellung"
+msgstr "Einstellungen für Quelltexterstellung"
 
 #: codegenwizard/codegenoptionspage.cpp:34
 #, kde-format
 msgid "Adjust code generation options."
-msgstr "Einstellungen zur Quelltext-Erstellung anpassen."
+msgstr "Einstellungen für Quelltexterstellung anpassen."
 
 #: codegenwizard/codegenoptionspage.cpp:191
 #, kde-format
@@ -1012,15 +1012,15 @@ msgstr "Ordner"
 #: codegenwizard/codegenoptionspage.ui:77
 #, kde-format
 msgid "Write all generated files to folder:"
-msgstr "Ordner für generierte Dateien:"
+msgstr "Ordner zum Schreiben aller erstellten Dateien:"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, ui_outputDir)
 #: codegenwizard/codegenoptionspage.ui:89
 #, kde-format
 msgid "Files generated by Code Generator will be written to this folder"
 msgstr ""
-"In diesem Ordner werden die durch die Quelltext-Erstellung erzeugten Dateien "
-"abgelegt."
+"Durch die Quelltexterstellung erstellte Dateien werden in diesen Ordner "
+"abgelegt"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_browseOutput)
 #: codegenwizard/codegenoptionspage.ui:96
@@ -1032,7 +1032,7 @@ msgstr "Aus&wählen …"
 #: codegenwizard/codegenoptionspage.ui:105
 #, kde-format
 msgid "&Include heading files from folder:"
-msgstr "&Einbeziehen der Header-Dateien aus Ordner:"
+msgstr "&Einbeziehen der Vorlagendateien für Kopfzeilen aus Ordner:"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, ui_headingsDir)
 #: codegenwizard/codegenoptionspage.ui:117
@@ -1040,8 +1040,8 @@ msgstr "&Einbeziehen der Header-Dateien aus Ordner:"
 msgid ""
 "Files in this folder will be used as heading files in the generated code"
 msgstr ""
-"Dateien in diesem Ordner werden für die Quelltext-Erstellung als Header-"
-"Dateien genutzt."
+"Dateien in diesem Ordner werden für die Quelltexterstellung als "
+"Vorlagendateien für Kopfzeilen verwendet."
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_browseHeadings)
 #: codegenwizard/codegenoptionspage.ui:124
@@ -1064,7 +1064,7 @@ msgid ""
 "generator wants to use as output file already exists:"
 msgstr ""
 "Wenn bereits eine Datei mit dem gleichen Namen existiert, \n"
-"wie von der Quelltext-Erstellung für die Ausgabe vorgesehen ist:"
+"wie von der Quelltexterstellung für die Ausgabe vorgesehen ist:"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, ui_radioButtonOverwrite)
 #: codegenwizard/codegenoptionspage.ui:167
@@ -1125,20 +1125,20 @@ msgstr "Umfang Quelltextkommentare"
 #, kde-format
 msgid "Write comments &for class and method documentation even if empty"
 msgstr ""
-"Kommentare &für Klassen- und Methoden-Dokumentation erzeugen, selbst wenn "
+"Kommentare &für Klassen- und Methodendokumentation erstellen, selbst wenn "
 "diese leer sind"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_forceDoc)
 #: codegenwizard/codegenoptionspage.ui:240
 #, kde-format
 msgid "&Write documentation comments even if empty"
-msgstr "&Dokumentations-Kommentare erzeugen, selbst wenn diese leer sind"
+msgstr "&Dokumentationskommentare erstellen, selbst wenn diese leer sind"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
 #, kde-format
 msgid "Write section comments:"
-msgstr "Abschnitt-Kommentare erzeugen:"
+msgstr "Abschnittskommentare erstellen:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1147,8 +1147,8 @@ msgid ""
 "Writes comments to indicate the different sections (public, private etc) in "
 "a class, even if the sections are empty"
 msgstr ""
-"Erzeugt Kommentare, um die verschiedenen Abschnitte (public, private usw.) "
-"in einer Klasse zu kennzeichnen, selbst wenn diese leer sind"
+"Erstellt Kommentare, um die verschiedenen Abschnitte (public, private usw.) "
+"in einer Klasse zu kennzeichnen, selbst wenn die Abschnitte leer sind"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:276
@@ -1240,13 +1240,13 @@ msgid ""
 "for in the right hand side list."
 msgstr ""
 "Platzieren Sie alle Klassen, für die Sie Quelltext\n"
-"erzeugen möchten, in der rechten Liste."
+"erstellen möchten, in der rechten Liste."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CodeGenSelectPage)
 #: codegenwizard/codegenselectpage.ui:20
 #, kde-format
 msgid "Code Generation Selection"
-msgstr "Auswahl der Quelltext-Erstellung"
+msgstr "Auswahl der Quelltexterstellung"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelListAvailable)
 #: codegenwizard/codegenselectpage.ui:33
@@ -1258,7 +1258,7 @@ msgstr "Vorhandene Klassen"
 #: codegenwizard/codegenselectpage.ui:73
 #, kde-format
 msgid "Add class for code generation"
-msgstr "Klasse für Quelltext-Erstellung hinzufügen"
+msgstr "Klasse zu Quelltexterstellung hinzufügen"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_addButton)
 #: codegenwizard/codegenselectpage.ui:76
@@ -1270,7 +1270,7 @@ msgstr "Hinzufügen >>"
 #: codegenwizard/codegenselectpage.ui:103
 #, kde-format
 msgid "Remove class from Code Generation"
-msgstr "Klasse von Quelltext-Erstellung ausschließen"
+msgstr "Klasse aus Quelltexterstellung entfernen"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_removeButton)
 #: codegenwizard/codegenselectpage.ui:106
@@ -1287,7 +1287,7 @@ msgstr "Ausgewählte Klassen"
 #: codegenwizard/codegenstatuspage.cpp:39
 #, kde-format
 msgid "Status of Code Generation Progress"
-msgstr "Status der Quelltext-Erstellung"
+msgstr "Status der Quelltexterstellung"
 
 #: codegenwizard/codegenstatuspage.cpp:40
 #, kde-format
@@ -1295,24 +1295,25 @@ msgid ""
 "Press the button Generate to start the code generation.\n"
 "Check the success state for every class."
 msgstr ""
-"Drücken Sie auf Erzeugen, um die Quelltext-Erstellung zu starten.\n"
-"Überprüfen Sie das Ergebnis für jede Klasse."
+"Drücken Sie auf den „Erstellen“-Knopf, um die Quelltexterstellung zu "
+"starten.\n"
+"Überprüfen Sie den Erfolgsstatus für jede Klasse."
 
 #: codegenwizard/codegenstatuspage.cpp:81
 #: codeimpwizard/codeimpstatuspage.cpp:97
 #, kde-format
 msgid "Not Yet Generated"
-msgstr "Noch nicht erzeugt"
+msgstr "Noch nicht erstellt"
 
 #: codegenwizard/codegenstatuspage.cpp:170
 #, kde-format
 msgid "Code Generated"
-msgstr "Quelltext generiert"
+msgstr "Quelltext erstellt"
 
 #: codegenwizard/codegenstatuspage.cpp:174
 #, kde-format
 msgid "Not Generated"
-msgstr "Nicht erzeugt"
+msgstr "Nicht erstellt"
 
 #: codegenwizard/codegenstatuspage.cpp:179
 #, kde-format
@@ -1329,7 +1330,7 @@ msgstr "Die Datei kann nicht geöffnet werden."
 #: codegenwizard/codegenstatuspage.cpp:224
 #, kde-format
 msgid "Umbrello Code Generation - Logger Export"
-msgstr "Umbrello-Quelltext-Erstellung -- Protokoll-Export"
+msgstr "Umbrello-Quelltexterstellung – Protokollexport"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_statusTab)
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
@@ -1370,7 +1371,7 @@ msgstr "Exportieren …"
 #: codegenwizard/codegenstatuspage.ui:114
 #, kde-format
 msgid "Generate"
-msgstr "Erzeugen"
+msgstr "Erstellen"
 
 #: codeimport/classimport.cpp:101
 #, kde-format
@@ -1392,17 +1393,17 @@ msgstr "Fehlgeschlagen."
 #: codeimpwizard/codeimportingwizard.cpp:34
 #, kde-format
 msgid "Code Importing Wizard"
-msgstr "Assistent für Quelltext-Import"
+msgstr "Assistent für Quelltextimport"
 
 #: codeimpwizard/codeimpselectpage.cpp:36
 #, kde-format
 msgid "Code Importing Path"
-msgstr "Quelltext-Importpfad"
+msgstr "Quelltextimportpfad"
 
 #: codeimpwizard/codeimpselectpage.cpp:37
 #, kde-format
 msgid "Select the code importing path."
-msgstr "Wählen Sie den Quelltext-Importpfad."
+msgstr "Wählen Sie den Quelltextimportpfad."
 
 #: codeimpwizard/codeimpselectpage.cpp:109
 #, kde-format
@@ -1500,7 +1501,7 @@ msgstr ""
 #, kde-format
 msgid "<b>Code import of 1 file:</b><br>"
 msgid_plural "<b>Code import of %1 files:</b><br>"
-msgstr[0] "<b>Quelltext-Import von 1 Datei:</b><br>"
+msgstr[0] "<b>Quelltextimport von 1 Datei:</b><br>"
 msgstr[1] "<b>Quelltext-Import von %1 Dateien:</b><br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:151
@@ -1546,7 +1547,7 @@ msgstr "Nicht importiert"
 #: codeimpwizard/codeimpstatuspage.cpp:325
 #, kde-format
 msgid "Umbrello Code Import - Logger Export"
-msgstr "Umbrello-Quelltext-Import -- Protokoll-Export"
+msgstr "Umbrello-Quelltextimport – Protokollexport"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabStatus)
 #: codeimpwizard/codeimpstatuspage.ui:33
@@ -1586,7 +1587,7 @@ msgstr "Fertig."
 #: codeimpwizard/codeimpthread.cpp:66
 #, kde-format
 msgid "No code importer for file: %1"
-msgstr "Kein Quelltext-Importer für Datei: %1"
+msgstr "Kein Quelltextimporter für Datei: %1"
 
 #: debug/debug_utils.cpp:140
 #, kde-format
@@ -2072,8 +2073,8 @@ msgid ""
 "Create in the target directory the same tree structure used\n"
 "in the document to store the views"
 msgstr ""
-"Erzeugt im Zielordner die gleiche Baumstruktur, die auch zum Speichern der "
-"Ansichten im Dokument verwendet wird."
+"Im Zielordner die gleiche Baumstruktur erstellen, die auch\n"
+"zum Speichern der Ansichten im Dokument verwendet wird."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_useFolders)
 #: dialogs/exportallviewsdialogbase.ui:61
@@ -2085,11 +2086,12 @@ msgid ""
 "Only the folders made by the user are created in the base directory (Logical "
 "view, use case view and so on are not created)."
 msgstr ""
-"Die Ansichten werden im Dokument in Ordner gespeichert. Die gleiche "
+"Die Ansichten werden im Dokument in Ordnern gespeichert. Die gleiche "
 "Baumstruktur, die im Dokument zum Speichern der Ansichten verwendet wird, "
-"kann auch im gewählten Basisordner erzeugt werden.\n"
-"Nur die vom Anwender erstellten Ordner werden auch im Basisordner erstellt "
-"(die logische Ansicht, Anwendungsfallansicht usw. werden nicht erzeugt)."
+"kann mithilfe dieser Einstellung auch im gewählten Basisordner erstellt "
+"werden.\n"
+"Nur die vom Anwender erstellten Ordner werden auch im Basisordner erstellt, "
+"die logische Ansicht, Anwendungsfallansicht usw. werden nicht erstellt."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_useFolders)
 #: dialogs/exportallviewsdialogbase.ui:64
@@ -2295,12 +2297,12 @@ msgstr "Über&schreiben"
 #: dialogs/overwritedialog.cpp:29
 #, kde-format
 msgid "&Generate Similar File Name"
-msgstr "Ähnlichen Dateinamen &generieren"
+msgstr "Ähnlichen Dateinamen &erstellen"
 
 #: dialogs/overwritedialog.cpp:30
 #, kde-format
 msgid "&Do Not Generate File"
-msgstr "&Datei nicht erzeugen"
+msgstr "&Datei nicht erstellen"
 
 #: dialogs/overwritedialog.cpp:37
 #, kde-format
@@ -2312,8 +2314,8 @@ msgid ""
 msgstr ""
 "Die Datei %1 existiert bereits in %2.\n"
 "\n"
-"Umbrello kann die Datei überschreiben, einen ähnlichen Namen\n"
-"erzeugen oder das Erstellen der Datei abbrechen."
+"Umbrello kann die Datei überschreiben, einen ähnlichen\n"
+"Dateinamen erstellen oder das Erstellen der Datei abbrechen."
 
 #: dialogs/overwritedialog.cpp:40
 #, kde-format
@@ -2951,7 +2953,7 @@ msgstr "Unterfenster verwenden"
 #: dialogs/pages/generaloptionpage.cpp:56
 #, kde-format
 msgid "Use new C++/Java/Ruby generators"
-msgstr "Neue Quelltext-Erstellung für C++/Java/Ruby verwenden"
+msgstr "Neue Quelltexterstellung für C++/Java/Ruby verwenden"
 
 #: dialogs/pages/generaloptionpage.cpp:60
 #, kde-format
@@ -3079,7 +3081,7 @@ msgstr "Bedienungsoberfläche „Rechts nach links“"
 #: dialogs/pages/uioptionspage.cpp:66
 #, kde-format
 msgid "Use alignment guides"
-msgstr ""
+msgstr "Ausrichtungshilfen verwenden"
 
 #: dialogs/pages/uioptionspage.cpp:70
 #, kde-format
@@ -3350,22 +3352,22 @@ msgstr "Klassen-Einstellungen"
 #: dialogs/settingsdialog.cpp:123 umllistview.cpp:1446
 #, kde-format
 msgid "Code Importer"
-msgstr "Quelltext-Import"
+msgstr "Quelltextimport"
 
 #: dialogs/settingsdialog.cpp:123
 #, kde-format
 msgid "Code Import Settings"
-msgstr "Einstellungen für Quelltext-Import"
+msgstr "Einstellungen für Quelltextimport"
 
 #: dialogs/settingsdialog.cpp:132 umllistview.cpp:1447
 #, kde-format
 msgid "Code Generation"
-msgstr "Quelltext-Erstellung"
+msgstr "Quelltexterstellung"
 
 #: dialogs/settingsdialog.cpp:132
 #, kde-format
 msgid "Code Generation Settings"
-msgstr "Einstellungen für Quelltext-Erstellung"
+msgstr "Einstellungen für Quelltexterstellung"
 
 #: dialogs/settingsdialog.cpp:140 umllistview.cpp:1448
 #, kde-format
@@ -4161,7 +4163,7 @@ msgstr "Nach DocBook exportieren …"
 #: docgenerators/main.cpp:33 docgenerators/main.cpp:46
 #, kde-format
 msgid "Umbrello UML Modeller autonomous code generator"
-msgstr "Umbrello UML-Modeller eigenständige Quelltext-Erstellung"
+msgstr "Umbrello UML-Modeller eigenständige Quelltexterstellung"
 
 #: docgenerators/main.cpp:48
 #, kde-format
@@ -6172,13 +6174,13 @@ msgstr "Aktiviert/Deaktiviert die Ansicht der Diagramme in Unterfenstern"
 #: umbrello.kcfg:32
 #, kde-format
 msgid "New Code Generator"
-msgstr "Neue Quelltext-Erstellung"
+msgstr "Neue Quelltexterstellung"
 
 #. i18n: ectx: whatsthis, entry (newcodegen), group (General Options)
 #: umbrello.kcfg:33
 #, kde-format
 msgid "Enables/Disables Support for the New Code Generator"
-msgstr "Aktiviert/Deaktiviert Unterstützung für die neue Quelltext-Erstellung"
+msgstr "Aktiviert/deaktiviert Unterstützung für die neue Quelltexterstellung"
 
 #. i18n: ectx: label, entry (layoutType), group (General Options)
 #: umbrello.kcfg:37
@@ -6402,13 +6404,16 @@ msgstr "Die Farbe der Rasterpunkte."
 #: umbrello.kcfg:192
 #, kde-format
 msgid "Use Alignment Guides"
-msgstr ""
+msgstr "Ausrichtungshilfen verwenden"
 
+# Widget wird hier überall als „Element“ übersetzt, deswegen auch hier
 #. i18n: ectx: whatsthis, entry (useAlignmentGuides), group (UI Options)
 #: umbrello.kcfg:193
 #, kde-format
 msgid "Enable/disable alignment guides when dragging or resizing widgets"
 msgstr ""
+"Ausrichtungshilfen beim Ziehen oder Verändern der Größe der Elemente "
+"aktivieren oder deaktivieren"
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
 #: umbrello.kcfg:198
@@ -6678,13 +6683,13 @@ msgstr "Unterstützung für C++11-Standard beim Import von Quelltext"
 #: umbrello.kcfg:361
 #, kde-format
 msgid "Auto Generate Empty Constructors"
-msgstr "Automatisch leere Konstruktoren erzeugen"
+msgstr "Automatisch leere Konstruktoren erstellen"
 
 #. i18n: ectx: whatsthis, entry (autoGenEmptyConstructors), group (Code Generation)
 #: umbrello.kcfg:362
 #, kde-format
 msgid "Enables/Disables Auto Generation of Empty Constructors"
-msgstr "Aktiviert/Deaktiviert automatische Erzeugung leerer Konstruktoren"
+msgstr "Aktiviert/deaktiviert automatische Erstellung leerer Konstruktoren"
 
 #. i18n: ectx: label, entry (commentStyle), group (Code Generation)
 #: umbrello.kcfg:366
@@ -6738,31 +6743,31 @@ msgstr "Aktiviert/Deaktiviert ausführliche Dokumentation"
 #: umbrello.kcfg:404
 #, kde-format
 msgid "Section Comment Policy"
-msgstr "Regeln für Abschnitt-Kommentare"
+msgstr "Regeln für Abschnittskommentare"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:405
 #, kde-format
 msgid "Whether section comments shall be written"
-msgstr "Ob Abschnitt-Kommentare erzeugt werden sollen"
+msgstr "Ob Abschnittskommentare erstellt werden sollen"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:414
 #, kde-format
 msgid "Headings Directory"
-msgstr "Überschriftenordner"
+msgstr "Ordner mit Vorlagendateien für Kopfzeilen"
 
 #. i18n: ectx: whatsthis, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:415
 #, kde-format
 msgid "The Path in which the headings are stored"
-msgstr "Der Pfad, in dem die Überschriften gespeichert sind."
+msgstr "Der Pfad, in dem die Vorlagendateien für Kopfzeilen gespeichert sind."
 
 #. i18n: ectx: label, entry (includeHeadings), group (Code Generation)
 #: umbrello.kcfg:419
 #, kde-format
 msgid "Include headings"
-msgstr "Überschriften einbeziehen"
+msgstr "Vorlagendateien für Kopfzeilen einbeziehen"
 
 #. i18n: ectx: whatsthis, entry (includeHeadings), group (Code Generation)
 #: umbrello.kcfg:420
@@ -6836,7 +6841,7 @@ msgstr ""
 #: umbrello.kcfg:478
 #, kde-format
 msgid "Auto Generate Accessors"
-msgstr "Zugriffsmethoden automatisch erzeugen"
+msgstr "Zugriffsmethoden automatisch erstellen"
 
 #. i18n: ectx: whatsthis, entry (autoGenAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:479
@@ -7026,7 +7031,7 @@ msgstr "Dokumentations-Tags"
 #, kde-format
 msgid "The tag used for generating doxygen documentation (\\\\, @)"
 msgstr ""
-"Das Tag, das zum Generieren der Doxygen-Dokumentation verwendet wird (\\\\, "
+"Das Tag, das zum Erstellen der Doxygen-Dokumentation verwendet wird (\\\\, "
 "@)."
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
@@ -7061,7 +7066,7 @@ msgstr ""
 #: umbrello.kcfg:575
 #, kde-format
 msgid "Build ANT Document (D)"
-msgstr "ANT-Dokument erzeugen (D)"
+msgstr "ANT-Dokument erstellen (D)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:576
@@ -7101,7 +7106,7 @@ msgstr ""
 #: umbrello.kcfg:592
 #, kde-format
 msgid "Build ANT Document (Java)"
-msgstr "ANT-Dokument erzeugen (Java)"
+msgstr "ANT-Dokument erstellen (Java)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:593
@@ -7268,17 +7273,17 @@ msgstr "&Standarddatentypen für aktive Sprache hinzufügen"
 #: umlapp.cpp:362
 #, kde-format
 msgid "Code &Importing Wizard..."
-msgstr "Assistent für Quelltext-&Import …"
+msgstr "Assistent für Quelltext&import …"
 
 #: umlapp.cpp:372
 #, kde-format
 msgid "&Code Generation Wizard..."
-msgstr "Assistent für die &Quelltext-Erstellung …"
+msgstr "Assistent für &Quelltexterstellung …"
 
 #: umlapp.cpp:377
 #, kde-format
 msgid "&Generate All Code"
-msgstr "Alle Quelltexte &generieren"
+msgstr "Alle Quelltexte &erstellen"
 
 #: umlapp.cpp:424
 #, kde-format
@@ -7360,7 +7365,7 @@ msgstr "Letzte Aktion zurücknehmen"
 #: umlapp.cpp:439
 #, kde-format
 msgid "Redo last undone action"
-msgstr "Letzte rückgängig gemachte Aktion wieder herstellen"
+msgstr "Letzte rückgängig gemachte Aktion wiederherstellen"
 
 #: umlapp.cpp:441
 #, kde-format
@@ -7661,7 +7666,7 @@ msgstr "Fertig."
 #, kde-format
 msgid "Cannot view code until you generate some first."
 msgstr ""
-"Es kann kein Quelltext anzeigt werden, wenn noch keiner generiert wurde."
+"Es kann kein Quelltext anzeigt werden, solange noch keiner erstellt wurde."
 
 #: umlapp.cpp:2162 umlapp.cpp:2165
 #, kde-format
@@ -7672,7 +7677,7 @@ msgstr "Der Quelltext kann nicht angezeigt werden."
 #, kde-format
 msgid "Cannot view code from simple code writer."
 msgstr ""
-"Der von der aktuellen Quelltext-Erstellung erzeugte Quellcode kann nicht "
+"Der von der einfachen Quelltexterstellung erstellte Quelltext kann nicht "
 "angezeigt werden."
 
 #: umlapp.cpp:2615

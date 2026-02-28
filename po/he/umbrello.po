@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-22 02:45+0000\n"
-"PO-Revision-Date: 2026-02-20 12:25+0200\n"
+"PO-Revision-Date: 2026-02-27 11:43+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -7560,7 +7560,7 @@ msgstr ""
 #: umlappprivate.h:206
 #, kde-format
 msgid "Doc&umentation"
-msgstr ""
+msgstr "&תיעוד"
 
 #: umlappprivate.h:223
 #, kde-format
@@ -7580,47 +7580,47 @@ msgstr ""
 #: umlappprivate.h:253
 #, kde-format
 msgid "&Tree View"
-msgstr ""
+msgstr "תצוגת &עץ"
 
 #: umlappprivate.h:273
 #, kde-format
 msgid "Welcome"
-msgstr ""
+msgstr "ברוך בואך"
 
 #: umldoc.cpp:180 umldoc.cpp:2351 umldoc.cpp:2379 umldoc.cpp:2462
 #, kde-format
 msgid "UML Model"
-msgstr ""
+msgstr "דגם UML"
 
 #: umldoc.cpp:218
 #, kde-format
 msgid "Logical View"
-msgstr ""
+msgstr "תצוגה לוגית"
 
 #: umldoc.cpp:219
 #, kde-format
 msgid "Use Case View"
-msgstr ""
+msgstr "תצוגת אופן שימוש"
 
 #: umldoc.cpp:220
 #, kde-format
 msgid "Component View"
-msgstr ""
+msgstr "תצוגת רכיבים"
 
 #: umldoc.cpp:221
 #, kde-format
 msgid "Deployment View"
-msgstr ""
+msgstr "תצוגת מימוש"
 
 #: umldoc.cpp:222
 #, kde-format
 msgid "Entity Relationship Model"
-msgstr ""
+msgstr "דגם קשר ישויות"
 
 #: umldoc.cpp:248
 #, kde-format
 msgid "Datatypes"
-msgstr ""
+msgstr "סוגי נתונים"
 
 #: umldoc.cpp:455
 #, kde-format
@@ -7628,75 +7628,77 @@ msgid ""
 "The current file has been modified.\n"
 "Do you want to save it?"
 msgstr ""
+"הקובץ הנוכחי השתנה.\n"
+"לשמור אותו?"
 
 #: umldoc.cpp:456
 #, kde-format
 msgctxt "warning message"
 msgid "Warning"
-msgstr ""
+msgstr "אזהרה"
 
 #: umldoc.cpp:636
 #, kde-format
 msgid "The file <%1> does not exist."
-msgstr ""
+msgstr "הקובץ <%1> לא קיים."
 
 #: umldoc.cpp:636 umldoc.cpp:657 umldoc.cpp:696 umldoc.cpp:708 umldoc.cpp:722
 #: umldoc.cpp:735 umldoc.cpp:747 umldoc.cpp:785 umlmodel/umlfolder.cpp:450
 #: umlmodel/umlfolder.cpp:454
 #, kde-format
 msgid "Load Error"
-msgstr ""
+msgstr "שגיאת טעינה"
 
 #: umldoc.cpp:657
 #, kde-format
 msgid "The file %1 seems to be corrupted."
-msgstr ""
+msgstr "הקובץ %1 נראה פגום."
 
 #: umldoc.cpp:695 umldoc.cpp:707 umldoc.cpp:734
 #, kde-format
 msgid "There was no XMI file found in the compressed file %1."
-msgstr ""
+msgstr "לא נמצא קובץ XMI בקובץ הדחוס %1."
 
 #: umldoc.cpp:721
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
-msgstr ""
+msgstr "אירעה שגיאה בטעינת הקובץ המחולץ: %1"
 
 #: umldoc.cpp:746 umldoc.cpp:782
 #, kde-format
 msgid "There was a problem loading file: %1"
-msgstr ""
+msgstr "אירעה תקלה בטעינת הקובץ: %1"
 
 #: umldoc.cpp:784
 #, kde-format
 msgid "Reason: %1"
-msgstr ""
+msgstr "סיבה: %1"
 
 #: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #, kde-format
 msgid "There was a problem saving: %1"
-msgstr ""
+msgstr "אירעה בעיה בשמירה: %1"
 
 #: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #: umldoc.cpp:975 umllistview.cpp:569
 #, kde-format
 msgid "Save Error"
-msgstr ""
+msgstr "שגיאת שמירה"
 
 #: umldoc.cpp:975
 #, kde-format
 msgid "There was a problem uploading: %1"
-msgstr ""
+msgstr "אירעה בעיה בהעלאה: %1"
 
 #: umldoc.cpp:1526
 #, kde-format
 msgid "use case diagram"
-msgstr ""
+msgstr "תרשים אופן שימוש"
 
 #: umldoc.cpp:1529
 #, kde-format
 msgid "class diagram"
-msgstr ""
+msgstr "תרשים מחלקות"
 
 #: umldoc.cpp:1532
 #, kde-format
@@ -7706,76 +7708,76 @@ msgstr "תרשים הרצף"
 #: umldoc.cpp:1535
 #, kde-format
 msgid "communication diagram"
-msgstr ""
+msgstr "תרשים תקשורת"
 
 #: umldoc.cpp:1538
 #, kde-format
 msgid "object diagram"
-msgstr ""
+msgstr "תרשים עצמים"
 
 #: umldoc.cpp:1541
 #, kde-format
 msgid "state diagram"
-msgstr ""
+msgstr "תרשים מצבים"
 
 #: umldoc.cpp:1544
 #, kde-format
 msgid "activity diagram"
-msgstr ""
+msgstr "תרשים פעילות"
 
 #: umldoc.cpp:1547
 #, kde-format
 msgid "component diagram"
-msgstr ""
+msgstr "תרשים רכיבים"
 
 #: umldoc.cpp:1550
 #, kde-format
 msgid "deployment diagram"
-msgstr ""
+msgstr "תרשים מימוש"
 
 #: umldoc.cpp:1553
 #, kde-format
 msgid "entity relationship diagram"
-msgstr ""
+msgstr "תרשים יחס בין ישויות"
 
 #: umldoc.cpp:1623
 #, kde-format
 msgctxt "diagram name"
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: umldoc.cpp:1623 umldoc.cpp:1685 umldoc.cpp:1714 umldoc.cpp:1749
 #, kde-format
 msgid "Enter name:"
-msgstr ""
+msgstr "נא למלא שם:"
 
 #: umldoc.cpp:1627 umldoc.cpp:1691
 #, kde-format
 msgid "That is an invalid name for a diagram."
-msgstr ""
+msgstr "זה שם שגוי לתרשים."
 
 #: umldoc.cpp:1629 umldoc.cpp:1698
 #, kde-format
 msgid "A diagram is already using that name."
-msgstr ""
+msgstr "כבר יש תרשים שמשתמש בשם הזה."
 
 #: umldoc.cpp:1684
 #, kde-format
 msgctxt "renaming diagram"
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: umldoc.cpp:1713
 #, kde-format
 msgctxt "renaming uml object"
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: umldoc.cpp:1748
 #, kde-format
 msgctxt "renaming child uml object"
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: umldoc.cpp:1758
 #, kde-format
@@ -7783,26 +7785,28 @@ msgid ""
 "The name you entered was not unique.\n"
 "Is this what you wanted?"
 msgstr ""
+"השם שמילאת אינו ייחודי.\n"
+"זה מה שרצית?"
 
 #: umldoc.cpp:1759
 #, kde-format
 msgid "Use Name"
-msgstr ""
+msgstr "להשתמש בשם"
 
 #: umldoc.cpp:1759
 #, kde-format
 msgid "Enter New Name"
-msgstr ""
+msgstr "למלא שם חדש"
 
 #: umldoc.cpp:2309
 #, kde-format
 msgid "Unsupported xmi file version: %1"
-msgstr ""
+msgstr "גרסת קובץ ה־xmi לא נתמכת: %1"
 
 #: umldoc.cpp:2473
 #, kde-format
 msgid "Setting up the document..."
-msgstr ""
+msgstr "המסמך מוגדר…"
 
 #: umldoc.cpp:2502
 #, kde-format
@@ -8155,7 +8159,7 @@ msgstr "הקובץ כבר קיים"
 #: umlviewimageexportermodel.cpp:237
 #, kde-format
 msgid "Empty scene"
-msgstr ""
+msgstr "סצנה ריקה"
 
 #: umlviewimageexportermodel.cpp:242
 #, kde-format
@@ -8180,12 +8184,12 @@ msgstr ""
 #: umlwidgets/associationwidget.cpp:2661
 #, kde-format
 msgid "Association Name"
-msgstr ""
+msgstr "שם שיוך"
 
 #: umlwidgets/associationwidget.cpp:2662 umlwidgets/floatingtextwidget.cpp:357
 #, kde-format
 msgid "Enter association name:"
-msgstr ""
+msgstr "נא למלא שם שיוך:"
 
 #: umlwidgets/associationwidget.cpp:2682
 #, kde-format
@@ -8217,7 +8221,7 @@ msgstr "שם התרשים"
 #: umlwidgets/objectnodewidget.cpp:324
 #, kde-format
 msgid "-"
-msgstr ""
+msgstr "-"
 
 #: umlwidgets/combinedfragmentwidget.cpp:305
 #: umlwidgets/combinedfragmentwidget.cpp:436
@@ -8268,54 +8272,54 @@ msgstr "נא למלא את החלופה:"
 #: umlwidgets/floatingtextwidget.cpp:201
 #, kde-format
 msgid "Change Text"
-msgstr ""
+msgstr "עריכת טקסט"
 
 #: umlwidgets/floatingtextwidget.cpp:202 umlwidgets/floatingtextwidget.cpp:359
 #, kde-format
 msgid "Enter new text:"
-msgstr ""
+msgstr "נא למלא טקסט חדש"
 
 #: umlwidgets/floatingtextwidget.cpp:361
 #, kde-format
 msgid "ERROR"
-msgstr ""
+msgstr "שגיאה"
 
 #: umlwidgets/floatingtextwidget.cpp:717
 #, kde-format
 msgctxt "operation name"
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: umlwidgets/floatingtextwidget.cpp:718
 #, kde-format
 msgid "Enter operation name:"
-msgstr ""
+msgstr "נא למלא שם פעולה:"
 
 #: umlwidgets/notewidget.cpp:219 umlwidgets/widgetbase.cpp:1312
 #: worktoolbar.cpp:331
 #, kde-format
 msgid "Precondition"
-msgstr ""
+msgstr "תנאי מקדים"
 
 #: umlwidgets/notewidget.cpp:220
 #, kde-format
 msgid "Postcondition"
-msgstr ""
+msgstr "תנאי מאוחר"
 
 #: umlwidgets/notewidget.cpp:221
 #, kde-format
 msgid "Transformation"
-msgstr ""
+msgstr "התמרה"
 
 #: umlwidgets/notewidget.cpp:225
 #, kde-format
 msgid "Note Type"
-msgstr ""
+msgstr "סוג הערה"
 
 #: umlwidgets/notewidget.cpp:225
 #, kde-format
 msgid "Select the Note Type"
-msgstr ""
+msgstr "נא לבחור את סוג ההערה"
 
 #: umlwidgets/objectnodewidget.cpp:220
 #, kde-format
@@ -8385,23 +8389,23 @@ msgstr ""
 #: umlwidgets/signalwidget.cpp:326
 #, kde-format
 msgid "Enter signal name"
-msgstr ""
+msgstr "נא למלא שם אות"
 
 #: umlwidgets/signalwidget.cpp:327
 #, kde-format
 msgid "Enter the signal name :"
-msgstr ""
+msgstr "נא למלא את שם האות:"
 
 #: umlwidgets/statewidget.cpp:586
 #, kde-format
 msgid "Enter Activity"
-msgstr ""
+msgstr "נא למלא פעילות"
 
 #: umlwidgets/statusbartoolbutton.cpp:108
 #, kde-format
 msgctxt "@info:tooltip of custom toolbar button"
 msgid "%1"
-msgstr ""
+msgstr "%1"
 
 #: umlwidgets/umlwidget.cpp:464
 #, kde-format
@@ -8409,31 +8413,33 @@ msgid ""
 "Hold shift or ctrl to move in X axis. Hold shift and control to move in Y "
 "axis. Right button click to cancel move."
 msgstr ""
+"יש להחזיק Shift או Ctrl כדי להזיז בציר X. החזקה של Shift ו־Ctrl תזיז בציר Y. "
+"הלחצן הימני יבטל את ההזזה."
 
 #: umlwidgets/umlwidget.cpp:562
 #, kde-format
 msgid "Move widgets"
-msgstr ""
+msgstr "הזזת וידג׳טים"
 
 #: umlwidgets/umlwidget.cpp:811
 #, kde-format
 msgid "Rename Object"
-msgstr ""
+msgstr "שינוי שם עצם"
 
 #: umlwidgets/umlwidget.cpp:812
 #, kde-format
 msgid "Enter object name:"
-msgstr ""
+msgstr "נא למלא שם לעצם:"
 
 #: umlwidgets/umlwidget.cpp:1564
 #, kde-format
 msgid "Hold shift or control to move in X axis."
-msgstr ""
+msgstr "יש להחזיק Shift או Ctrl כדי להזיז בציר X."
 
 #: umlwidgets/umlwidget.cpp:1565
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
-msgstr ""
+msgstr "יש להחזיק Shift ו־Ctrl כדי להזיז בציר Y."
 
 #: umlwidgets/widget_utils.cpp:825
 #, kde-format
@@ -8493,7 +8499,7 @@ msgstr "מונה חדש"
 #: umlwidgets/widget_utils.cpp:836
 #, kde-format
 msgid "new floating dash line"
-msgstr ""
+msgstr "קו מקווקוו צף חדש"
 
 #: umlwidgets/widget_utils.cpp:837
 #, kde-format
@@ -8603,7 +8609,7 @@ msgstr "מקטע משולב חדש"
 #: umlwidgets/widget_utils.cpp:883
 #, kde-format
 msgid "New floating dash line"
-msgstr ""
+msgstr "קו מקווקוו צף חדש"
 
 #: umlwidgets/widget_utils.cpp:884
 #, kde-format
@@ -8673,77 +8679,77 @@ msgstr "וידג׳ט חדש"
 #: umlwidgets/widget_utils.cpp:921
 #, kde-format
 msgid "Enter the name of the new box:"
-msgstr ""
+msgstr "נא למלא את שם התיבה החדשה:"
 
 #: umlwidgets/widget_utils.cpp:924
 #, kde-format
 msgid "Enter the name of the new combined fragment:"
-msgstr ""
+msgstr "נא למלא את שם המקטע המשולב החדש:"
 
 #: umlwidgets/widget_utils.cpp:929
 #, kde-format
 msgid "Enter the name of the new floating dash line:"
-msgstr ""
+msgstr "נא למלא שם לקו המקווקוו הצף החדש:"
 
 #: umlwidgets/widget_utils.cpp:930
 #, kde-format
 msgid "Enter the name of the new fork/join:"
-msgstr ""
+msgstr "נא למלא את שם הפיצול/הצטרפות החדש:"
 
 #: umlwidgets/widget_utils.cpp:933
 #, kde-format
 msgid "Enter the name of the new message:"
-msgstr ""
+msgstr "נא למלא שם להודעה החדשה:"
 
 #: umlwidgets/widget_utils.cpp:935
 #, kde-format
 msgid "Enter the name of the new note:"
-msgstr ""
+msgstr "נא למלא שם להערה החדשה:"
 
 #: umlwidgets/widget_utils.cpp:936
 #, kde-format
 msgid "Enter the name of the new object:"
-msgstr ""
+msgstr "נא למלא שם לעצם החדש:"
 
 #: umlwidgets/widget_utils.cpp:937
 #, kde-format
 msgid "Enter the name of the new object node:"
-msgstr ""
+msgstr "נא למלא שם למפרק העצם החדש:"
 
 #: umlwidgets/widget_utils.cpp:939
 #, kde-format
 msgid "Enter the name of the new pin:"
-msgstr ""
+msgstr "נא למלא את שם הנעיצה החדשה:"
 
 #: umlwidgets/widget_utils.cpp:941
 #, kde-format
 msgid "Enter the name of the new precondition:"
-msgstr ""
+msgstr "נא למלא שם לתנאי המקדים החדש:"
 
 #: umlwidgets/widget_utils.cpp:942
 #, kde-format
 msgid "Enter the name of the new region:"
-msgstr ""
+msgstr "נא למלא את שם האזור החדש:"
 
 #: umlwidgets/widget_utils.cpp:943
 #, kde-format
 msgid "Enter the name of the new signal:"
-msgstr ""
+msgstr "נא למלא את שם האות החדש:"
 
 #: umlwidgets/widget_utils.cpp:945
 #, kde-format
 msgid "Enter the name of the new text:"
-msgstr ""
+msgstr "נא למלא את שם הטקסט החדש:"
 
 #: umlwidgets/widget_utils.cpp:946
 #, kde-format
 msgid "Enter the name of the new uml widget:"
-msgstr ""
+msgstr "נא למלא שם לווידג׳ט ה־uml החדש:"
 
 #: umlwidgets/widget_utils.cpp:950
 #, kde-format
 msgid "Enter the name of the new widget:"
-msgstr ""
+msgstr "נא למלא שם של הווידג׳ט החדש:"
 
 #: umlwidgets/widget_utils.cpp:962
 #, kde-format
@@ -8758,7 +8764,7 @@ msgstr "שינוי שם תיבה"
 #: umlwidgets/widget_utils.cpp:969
 #, kde-format
 msgid "Rename combined fragment"
-msgstr ""
+msgstr "שינוי שם למקטע משולב"
 
 #: umlwidgets/widget_utils.cpp:974
 #, kde-format
@@ -8788,7 +8794,7 @@ msgstr "שינוי שם עצם"
 #: umlwidgets/widget_utils.cpp:982
 #, kde-format
 msgid "Rename object node"
-msgstr ""
+msgstr "שינוי שם מפרק עצם"
 
 #: umlwidgets/widget_utils.cpp:984
 #, kde-format
