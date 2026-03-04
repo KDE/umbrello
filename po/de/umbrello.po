@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-24 00:48+0000\n"
-"PO-Revision-Date: 2026-02-24 22:41+0100\n"
+"PO-Revision-Date: 2026-02-28 22:45+0100\n"
 "Last-Translator: Alexander Becker <alex-at-kde-l10n-de@freenet.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -690,7 +690,7 @@ msgstr "Klassenname"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:514
 #, kde-format
 msgid "<i><p align=\"center\">Include file</p></i>"
-msgstr "<i><p align=\"center\"><b>Includes</b></p></i>"
+msgstr "<i><p align=\"center\"><b>Include-Datei</b></p></i>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelHelpMethodBodyGen)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:526
@@ -2967,10 +2967,9 @@ msgstr "Unterstützung für UML2 aktivieren"
 
 #. i18n: ectx: label, entry (showDebugWindows), group (General Options)
 #: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show debug windows"
-msgstr "Dokumentationsfenster anzeigen"
+msgstr "Fehlersuchfenster anzeigen"
 
 #: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
@@ -6299,10 +6298,9 @@ msgstr "Aktiviert/Deaktiviert UML2-Notation"
 
 #. i18n: ectx: whatsthis, entry (showDebugWindows), group (General Options)
 #: umbrello.kcfg:141
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show or hide the debug window and UML objects window"
-msgstr "Dokumentationsfenster anzeigen"
+msgstr "Fehlersuchfenster und UML-Objektfenster anzeigen/ausblenden"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:148
