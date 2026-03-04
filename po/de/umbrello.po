@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-22 02:45+0000\n"
-"PO-Revision-Date: 2026-02-24 22:41+0100\n"
+"PO-Revision-Date: 2026-02-28 22:45+0100\n"
 "Last-Translator: Alexander Becker <alex-at-kde-l10n-de@freenet.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -690,7 +690,7 @@ msgstr "Klassenname"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:514
 #, kde-format
 msgid "<i><p align=\"center\">Include file</p></i>"
-msgstr "<i><p align=\"center\"><b>Includes</b></p></i>"
+msgstr "<i><p align=\"center\"><b>Include-Datei</b></p></i>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelHelpMethodBodyGen)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:526
