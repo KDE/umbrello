@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-24 00:48+0000\n"
-"PO-Revision-Date: 2026-03-01 19:17+0200\n"
+"PO-Revision-Date: 2026-03-07 08:21+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -2199,23 +2199,23 @@ msgstr ""
 #, kde-format
 msgctxt "properties group title"
 msgid "Properties"
-msgstr ""
+msgstr "מאפיינים"
 
 #: dialogs/objectnodedialog.cpp:150
 #, kde-format
 msgid "Object Node type:"
-msgstr ""
+msgstr "סוג המפרק של העצם:"
 
 #: dialogs/objectnodedialog.cpp:155
 #, kde-format
 msgid "Object Node name:"
-msgstr ""
+msgstr "שם המפרק של העצם:"
 
 #: dialogs/objectnodedialog.cpp:159
 #, kde-format
 msgctxt "enter state label"
 msgid "State :"
-msgstr ""
+msgstr "מצב:"
 
 #: dialogs/objectnodedialog.cpp:164
 #, kde-format
@@ -2235,22 +2235,22 @@ msgstr ""
 #: dialogs/overwritedialog.cpp:27
 #, kde-format
 msgid "Destination File Already Exists"
-msgstr ""
+msgstr "קובץ היעד כבר קיים"
 
 #: dialogs/overwritedialog.cpp:28 umlviewimageexporter.cpp:110
 #, kde-format
 msgid "&Overwrite"
-msgstr ""
+msgstr "ל&שכתב"
 
 #: dialogs/overwritedialog.cpp:29
 #, kde-format
 msgid "&Generate Similar File Name"
-msgstr ""
+msgstr "ליי&צר שם קובץ דומה"
 
 #: dialogs/overwritedialog.cpp:30
 #, kde-format
 msgid "&Do Not Generate File"
-msgstr ""
+msgstr "&לא לייצר קובץ"
 
 #: dialogs/overwritedialog.cpp:37
 #, kde-format
@@ -2269,49 +2269,49 @@ msgstr ""
 #: dialogs/pages/activitypage.cpp:55 dialogs/statedialog.cpp:201
 #, kde-format
 msgid "Activities"
-msgstr ""
+msgstr "פעילויות"
 
 #: dialogs/pages/activitypage.cpp:77 dialogs/pages/classifierlistpage.cpp:176
 #, kde-format
 msgid "Move selected item to the top"
-msgstr ""
+msgstr "העלאת הפריט הנבחר לראש"
 
 #: dialogs/pages/activitypage.cpp:83 dialogs/pages/classifierlistpage.cpp:182
 #, kde-format
 msgid "Move selected item up"
-msgstr ""
+msgstr "העלאת הפריט הנבחר למעלה"
 
 #: dialogs/pages/activitypage.cpp:89 dialogs/pages/classifierlistpage.cpp:188
 #, kde-format
 msgid "Move selected item down"
-msgstr ""
+msgstr "הורדת הפריט הנבחר למטה"
 
 #: dialogs/pages/activitypage.cpp:95 dialogs/pages/classifierlistpage.cpp:194
 #, kde-format
 msgid "Move selected item to the bottom"
-msgstr ""
+msgstr "הורדת הפריט הנבחר לתחתית"
 
 #: dialogs/pages/activitypage.cpp:99
 #, kde-format
 msgid "New Activity..."
-msgstr ""
+msgstr "פעילות חדשה…"
 
 #: dialogs/pages/activitypage.cpp:101 menus/listpopupmenu.cpp:171
 #: refactoring/refactoringassistant.cpp:460
 #, kde-format
 msgid "Delete"
-msgstr ""
+msgstr "מחיקה"
 
 #: dialogs/pages/activitypage.cpp:103 umlwidgets/floatingtextwidget.cpp:364
 #, kde-format
 msgid "Rename"
-msgstr ""
+msgstr "שינוי שם"
 
 #: dialogs/pages/associationgeneralpage.cpp:85
 #, kde-format
 msgctxt "name of association widget"
 msgid "Name:"
-msgstr ""
+msgstr "שם:"
 
 #: dialogs/pages/associationgeneralpage.cpp:107
 #: menus/widgetbasepopupmenu.cpp:102 menus/widgetbasepopupmenu.cpp:729
@@ -2322,17 +2322,17 @@ msgstr ""
 #: dialogs/pages/associationgeneralpage.cpp:116
 #, kde-format
 msgid "Type:"
-msgstr ""
+msgstr "סוג:"
 
 #: dialogs/pages/associationrolepage.cpp:60
 #, kde-format
 msgid "Role A Properties"
-msgstr ""
+msgstr "מאפייני תפקיד א׳"
 
 #: dialogs/pages/associationrolepage.cpp:61
 #, kde-format
 msgid "Role B Properties"
-msgstr ""
+msgstr "מאפייני תפקיד ב׳"
 
 #: dialogs/pages/associationrolepage.cpp:78
 #, kde-format
@@ -2350,7 +2350,7 @@ msgstr ""
 #: dialogs/pages/umlrolepropertiesbase.ui:36
 #, kde-format
 msgid "Rolename:"
-msgstr ""
+msgstr "שם תפקיד:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelMultiplicity)
 #: dialogs/pages/associationrolepage.cpp:112
@@ -2370,13 +2370,13 @@ msgstr ""
 #, kde-format
 msgctxt "changeability for A is frozen"
 msgid "Frozen"
-msgstr ""
+msgstr "קפוא"
 
 #: dialogs/pages/associationrolepage.cpp:138
 #, kde-format
 msgctxt "changeability for A is add only"
 msgid "Add only"
-msgstr ""
+msgstr "הוספה בלבד"
 
 #: dialogs/pages/associationrolepage.cpp:181
 #, kde-format
@@ -2388,19 +2388,19 @@ msgstr ""
 #, kde-format
 msgctxt "changeability for B is frozen"
 msgid "Frozen"
-msgstr ""
+msgstr "קפוא"
 
 #: dialogs/pages/associationrolepage.cpp:187
 #, kde-format
 msgctxt "changeability for B is add only"
 msgid "Add only"
-msgstr ""
+msgstr "הוספה בלבד"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/pages/autolayoutoptionpage.ui:17
 #, kde-format
 msgid "Layout Generator"
-msgstr ""
+msgstr "יצרן פריסות"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:24

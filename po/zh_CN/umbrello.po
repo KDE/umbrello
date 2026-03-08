@@ -3584,7 +3584,7 @@ msgstr "实体属性名称不唯一"
 #: dialogs/umlenumliteraldialog.cpp:31
 #, kde-format
 msgid "EnumLiteral Properties"
-msgstr "枚举文字属性"
+msgstr "枚举字面量属性"
 
 #: dialogs/umlenumliteraldialog.cpp:57
 #, kde-format
