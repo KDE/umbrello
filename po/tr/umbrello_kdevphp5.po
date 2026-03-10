@@ -4,13 +4,13 @@
 # Translators:
 # obsoleteman <tulliana@gmail.com>, 2009,2011.
 # Volkan Gezer <volkangezer@gmail.com>, 2015.
-# SPDX-FileCopyrightText: 2023, 2024 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2023, 2024, 2026 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: extragear-kdevelop-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 09:01+0000\n"
-"PO-Revision-Date: 2024-09-23 15:28+0300\n"
+"PO-Revision-Date: 2026-03-09 20:51+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.11.70\n"
+"X-Generator: Lokalize 25.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -82,8 +82,8 @@ msgstr ""
 "<a href=\"http://php.net\"><span style=\" text-decoration: underline; color:"
 "#0000ff;\">PHP belgelendirmesi</span></a> uzaktan kullanılır. Alternatif "
 "olarak konumu belgelendirmenin istediğiniz dilde yerel kopyasına "
-"ayarlayabilirsiniz.<span style=\" font-style:italic;\">\"Çoklu HTML dosyaları"
-"\"</span> paketini indirdiğinizden emin olun.</p></body></html>"
+"ayarlayabilirsiniz.<span style=\" font-style:italic;\">“Çoklu HTML "
+"dosyaları”</span> paketini indirdiğinizden emin olun.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, PhpDocLocationLabel)
 #: docs/phpdocsconfig.ui:57
@@ -133,7 +133,7 @@ msgstr ""
 #: docs/phpdocumentationwidget.cpp:56
 #, kde-format
 msgid "...loading documentation..."
-msgstr "...belgelendirme yükleniyor..."
+msgstr "… belgelendirme yükleniyor…"
 
 #: duchain/builders/contextbuilder.cpp:397
 #, kde-format
@@ -213,18 +213,18 @@ msgstr "Özelliklerde sabitler olamaz."
 msgid ""
 "Only booleans, ints, floats and strings are allowed for class constants."
 msgstr ""
-"Sınıf sabitleri için yalnızca Boole'lere, tamsayılara, kayan noktalılara ve "
+"Sınıf sabitleri için yalnızca Boole’lere, tamsayılara, kayan noktalılara ve "
 "dizilere izin verilir."
 
 #: duchain/builders/declarationbuilder.cpp:709
 #, kde-format
 msgid "Cannot use 'final' as method modifier"
-msgstr "Yöntem niteleyicisi olarak 'final' kullanılamaz"
+msgstr "Yöntem niteleyicisi olarak “final” kullanılamaz"
 
 #: duchain/builders/declarationbuilder.cpp:712
 #, kde-format
 msgid "Cannot use 'static' as method modifier"
-msgstr "Yöntem niteleyicisi olarak 'static' kullanılamaz"
+msgstr "Yöntem niteleyicisi olarak “static” kullanılamaz"
 
 #: duchain/builders/declarationbuilder.cpp:760
 #, kde-format
@@ -275,12 +275,12 @@ msgstr "$this yeniden atanamadı."
 #: duchain/builders/declarationbuilder.cpp:1410
 #, kde-format
 msgid "The use statement with non-compound name '%1' has no effect."
-msgstr "Bileşik olmayan adı '%1' olan use ifadesinin hiçbir etkisi yok."
+msgstr "Bileşik olmayan adı “%1” olan use ifadesinin hiçbir etkisi yok."
 
 #: duchain/builders/declarationbuilder.cpp:1434
 #, kde-format
 msgid "Cannot use '%1' as '%2' because the name is already in use."
-msgstr "Ad zaten kullanımda olduğundan '%1', '%2' olarak kullanılamaz."
+msgstr "Ad halihazırda kullanımda olduğundan “%1”, “%2” olarak kullanılamaz."
 
 #: duchain/builders/usebuilder.cpp:191
 #, kde-format
@@ -359,7 +359,7 @@ msgstr "%1/%2"
 #: parser/main.cpp:25
 #, kde-format
 msgid "php-parser"
-msgstr "php-ayrıştırıcı"
+msgstr "php-ayrıştırıcısı"
 
 #: parser/main.cpp:26
 #, kde-format
@@ -374,7 +374,7 @@ msgstr "© 2008 Niko Sams, 2009 Milian Wolff"
 #: parser/parsesession.cpp:68
 #, kde-format
 msgid "Could not open file '%1'"
-msgstr "'%1' dosyası açılamadı"
+msgstr "“%1” dosyası açılamadı"
 
 #: parser/parsesession.cpp:71
 #, kde-format
