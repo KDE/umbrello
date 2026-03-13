@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-24 00:48+0000\n"
-"PO-Revision-Date: 2026-03-07 08:21+0200\n"
+"PO-Revision-Date: 2026-03-12 15:10+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -7371,38 +7371,38 @@ msgstr ""
 #: umlapp.cpp:818 umlapp.cpp:831
 #, kde-format
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: umlapp.cpp:823
 #, kde-format
 msgid "Fit"
-msgstr ""
+msgstr "התאמה לגודל"
 
 #: umlapp.cpp:874
 #, kde-format
 msgid "Diagram Toolbar"
-msgstr ""
+msgstr "סרגל כלי תרשימים"
 
 #: umlapp.cpp:934 umlapp.cpp:1151 umlapp.cpp:1189
 #, kde-format
 msgid "Opening file..."
-msgstr ""
+msgstr "קובץ נפתח…"
 
 #: umlapp.cpp:985 umlapp.cpp:1056 umlapp.cpp:1220 umldoc.cpp:437 umldoc.cpp:460
 #: umldoc.cpp:3409
 #, kde-format
 msgid "Untitled"
-msgstr ""
+msgstr "ללא שם"
 
 #: umlapp.cpp:1133
 #, kde-format
 msgid "Creating new document..."
-msgstr ""
+msgstr "נוצר מסמך חדש…"
 
 #: umlapp.cpp:1158
 #, kde-format
 msgid "Open File"
-msgstr ""
+msgstr "פתיחת קובץ"
 
 #: umlapp.cpp:1159
 #, kde-format
@@ -7420,17 +7420,17 @@ msgstr ""
 #: umlapp.cpp:1219
 #, kde-format
 msgid "Saving file..."
-msgstr ""
+msgstr "קובץ נשמר…"
 
 #: umlapp.cpp:1236
 #, kde-format
 msgid "Saving file with a new filename..."
-msgstr ""
+msgstr "שמירת קובץ בשם חדש…"
 
 #: umlapp.cpp:1241 umlviewimageexporter.cpp:172
 #, kde-format
 msgid "Save As"
-msgstr ""
+msgstr "שמירה בשם"
 
 #: umlapp.cpp:1242
 #, kde-format
@@ -7445,26 +7445,28 @@ msgid ""
 "The file %1 exists.\n"
 "Do you wish to overwrite it?"
 msgstr ""
+"הקובץ %1 קיים.\n"
+"לשכתב אותו?"
 
 #: umlapp.cpp:1261
 #, kde-format
 msgid "Warning"
-msgstr ""
+msgstr "אזהרה"
 
 #: umlapp.cpp:1261
 #, kde-format
 msgid "Overwrite"
-msgstr ""
+msgstr "שכתוב"
 
 #: umlapp.cpp:1287
 #, kde-format
 msgid "Closing file..."
-msgstr ""
+msgstr "הקובץ נסגר…"
 
 #: umlapp.cpp:1298
 #, kde-format
 msgid "No search term entered"
-msgstr ""
+msgstr "לא מילאת ביטוי לחיפוש"
 
 #: umlapp.cpp:1304
 #, kde-format
@@ -7474,17 +7476,17 @@ msgstr ""
 #: umlapp.cpp:1360
 #, kde-format
 msgid "Print Preview..."
-msgstr ""
+msgstr "תצוגה מקדימה להדפסה…"
 
 #: umlapp.cpp:1387
 #, kde-format
 msgid "Printing..."
-msgstr ""
+msgstr "מתבצעת הדפסה…"
 
 #: umlapp.cpp:1393
 #, kde-format
 msgid "Print %1"
-msgstr ""
+msgstr "הדפסת %1"
 
 #: umlapp.cpp:1412
 #, kde-format
@@ -7494,17 +7496,17 @@ msgstr ""
 #: umlapp.cpp:1483
 #, kde-format
 msgid "Cutting selection..."
-msgstr ""
+msgstr "הבחירה נגזרת…"
 
 #: umlapp.cpp:1506
 #, kde-format
 msgid "Copying selection to clipboard..."
-msgstr ""
+msgstr "הבחירה מועתקת ללוח הגזירים…"
 
 #: umlapp.cpp:1518
 #, kde-format
 msgid "Inserting clipboard contents..."
-msgstr ""
+msgstr "תוכן לוח הגזירים נוסף…"
 
 #: umlapp.cpp:1523
 #, kde-format
@@ -7527,42 +7529,42 @@ msgstr ""
 #: umlapp.cpp:2166 umlapp.cpp:2169
 #, kde-format
 msgid "Cannot View Code"
-msgstr ""
+msgstr "לא ניתן להציג את הקוד"
 
 #: umlapp.cpp:2169
 #, kde-format
 msgid "Cannot view code from simple code writer."
-msgstr ""
+msgstr "לא ניתן להציג את הקוד מעורך הקוד הפשוט."
 
 #: umlapp.cpp:2619
 #, kde-format
 msgid "Select file(s) to import:"
-msgstr ""
+msgstr "בחירת קבצים לייבוא:"
 
 #: umlapp.cpp:2648
 #, kde-format
 msgid "Select directory to import:"
-msgstr ""
+msgstr "בחירת תיקייה לייבוא:"
 
 #: umlapp.cpp:3166
 #, kde-format
 msgid "XHTML Generation failed ."
-msgstr ""
+msgstr "יצירת XHTML נכשלה."
 
 #: umlappprivate.h:103
 #, kde-format
 msgid "Show/hide window"
-msgstr ""
+msgstr "הצגת/הסתרת חלון"
 
 #: umlappprivate.h:189
 #, kde-format
 msgid "&Bird's eye view"
-msgstr ""
+msgstr "תצוגת עין ה&ציפור"
 
 #: umlappprivate.h:197
 #, kde-format
 msgid "Co&mmand history"
-msgstr ""
+msgstr "היסטוריית &פקודות"
 
 #: umlappprivate.h:212
 #, kde-format
