@@ -4326,7 +4326,7 @@ msgstr "布局"
 #: menus/associationwidgetpopupmenu.cpp:95
 #, kde-format
 msgid "Polyline"
-msgstr "折线"
+msgstr "多段线"
 
 #: menus/associationwidgetpopupmenu.cpp:96
 #, kde-format
