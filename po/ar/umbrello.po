@@ -7682,7 +7682,7 @@ msgstr "&عرض الشّجرة"
 #: umlappprivate.h:298
 #, kde-format
 msgid "Welcome"
-msgstr "مرحباً"
+msgstr "مرحبًا"
 
 #: umldoc.cpp:180 umldoc.cpp:2351 umldoc.cpp:2379 umldoc.cpp:2462
 #, kde-format
