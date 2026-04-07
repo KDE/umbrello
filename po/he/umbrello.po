@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-24 00:48+0000\n"
-"PO-Revision-Date: 2026-03-14 17:05+0200\n"
+"PO-Revision-Date: 2026-04-06 09:47+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -3561,12 +3561,12 @@ msgstr ""
 #, kde-format
 msgctxt "literal name"
 msgid "&Name:"
-msgstr ""
+msgstr "&שם:"
 
 #: dialogs/umlenumliteraldialog.cpp:61
 #, kde-format
 msgid "&Value:"
-msgstr ""
+msgstr "&ערך:"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:54
 #, kde-format
@@ -3577,44 +3577,44 @@ msgstr ""
 #, kde-format
 msgctxt "general page title"
 msgid "General"
-msgstr ""
+msgstr "כללי"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:208
 #, kde-format
 msgctxt "general group title"
 msgid "General"
-msgstr ""
+msgstr "כללי"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:216
 #, kde-format
 msgctxt "label for entering name"
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:219
 #, kde-format
 msgid "Referenced Entity"
-msgstr ""
+msgstr "ישות מופנית"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:225
 #, kde-format
 msgid "Actions"
-msgstr ""
+msgstr "פעולות"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:232
 #, kde-format
 msgid "On Update"
-msgstr ""
+msgstr "בעדכון"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:238
 #, kde-format
 msgid "On Delete"
-msgstr ""
+msgstr "במחיקה"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "No Action"
-msgstr ""
+msgstr "ללא פעולה"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
@@ -3639,35 +3639,35 @@ msgstr ""
 #: dialogs/umlforeignkeyconstraintdialog.cpp:292
 #, kde-format
 msgid "Columns"
-msgstr ""
+msgstr "עמודות"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:299
 #, kde-format
 msgctxt "column header local"
 msgid "Local"
-msgstr ""
+msgstr "מקומי"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:299
 #, kde-format
 msgctxt "column header referenced"
 msgid "Referenced"
-msgstr ""
+msgstr "מופנה"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:306
 #, kde-format
 msgid "Local Column"
-msgstr ""
+msgstr "עמודה מקומית"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:312
 #, kde-format
 msgid "Referenced Column"
-msgstr ""
+msgstr "עמודת מופנית"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:319
 #: dialogs/umluniqueconstraintdialog.cpp:108
 #, kde-format
 msgid "&Add"
-msgstr ""
+msgstr "הוס&פה"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:394
 #, kde-format
@@ -3690,35 +3690,35 @@ msgstr ""
 #: dialogs/umlinstanceattributedialog.cpp:41
 #, kde-format
 msgid "Value Invalid"
-msgstr ""
+msgstr "הערך שגוי"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/umlinstanceattributedialog.ui:27
 #, kde-format
 msgid "Attribute Name:"
-msgstr ""
+msgstr "שם המאפיין:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/umlinstanceattributedialog.ui:37
 #, kde-format
 msgid "Value:"
-msgstr ""
+msgstr "ערך:"
 
 #: dialogs/umloperationdialog.cpp:58
 #, kde-format
 msgid "Operation Properties"
-msgstr ""
+msgstr "מאפייני פעולה"
 
 #: dialogs/umloperationdialog.cpp:96
 #, kde-format
 msgctxt "operation name"
 msgid "&Name:"
-msgstr ""
+msgstr "&שם:"
 
 #: dialogs/umloperationdialog.cpp:108
 #, kde-format
 msgid "&Abstract operation"
-msgstr ""
+msgstr "פעולה מופ&שטת"
 
 #: dialogs/umloperationdialog.cpp:115
 #, kde-format
@@ -3743,7 +3743,7 @@ msgstr ""
 #: dialogs/umloperationdialog.cpp:138
 #, kde-format
 msgid "Parameters"
-msgstr ""
+msgstr "משתנים"
 
 #: dialogs/umloperationdialog.cpp:162
 #, kde-format
@@ -7045,85 +7045,85 @@ msgstr ""
 #: umbrello.kcfg:626
 #, kde-format
 msgid "Show Export Layout"
-msgstr ""
+msgstr "הצגת פריסת ייצוא"
 
 #. i18n: ectx: whatsthis, entry (showExportLayout), group (Auto Layout)
 #: umbrello.kcfg:627
 #, kde-format
 msgid "show export layout"
-msgstr ""
+msgstr "הצגת פריסת ייצוא"
 
 #. i18n: ectx: Menu (file_export)
 #: umbrelloui.rc.cmake:5
 #, kde-format
 msgid "&Export model"
-msgstr ""
+msgstr "יי&צוא דגם"
 
 #. i18n: ectx: Menu (edit)
 #: umbrelloui.rc.cmake:11
 #, kde-format
 msgid "&Edit"
-msgstr ""
+msgstr "ע&ריכה"
 
 #. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
 #, kde-format
 msgid "&View"
-msgstr ""
+msgstr "ת&צוגה"
 
 #. i18n: ectx: Menu (view_window)
 #: umbrelloui.rc.cmake:15
 #, kde-format
 msgid "&Show/hide window"
-msgstr ""
+msgstr "הצגת/ה&סתרת חלון"
 
 #. i18n: ectx: Menu (diagram)
 #: umbrelloui.rc.cmake:26
 #, kde-format
 msgid "&Diagram"
-msgstr ""
+msgstr "&תרשים"
 
 #. i18n: ectx: Menu (new_view)
 #: umbrelloui.rc.cmake:27
 #, kde-format
 msgid "&New"
-msgstr ""
+msgstr "&חדש"
 
 #. i18n: ectx: Menu (show_view)
 #: umbrelloui.rc.cmake:43
 #, kde-format
 msgid "Sh&ow"
-msgstr ""
+msgstr "ה&צגה"
 
 #. i18n: ectx: Menu (zoom_menu)
 #: umbrelloui.rc.cmake:46
 #, kde-format
 msgid "&Zoom"
-msgstr ""
+msgstr "ת&קריב"
 
 #. i18n: ectx: Menu (align_menu)
 #: umbrelloui.rc.cmake:48
 #, kde-format
 msgid "&Align"
-msgstr ""
+msgstr "יי&שור"
 
 #. i18n: ectx: Menu (code)
 #: umbrelloui.rc.cmake:64
 #, kde-format
 msgid "&Code"
-msgstr ""
+msgstr "&קוד"
 
 #. i18n: ectx: Menu (active_lang_menu)
 #: umbrelloui.rc.cmake:70
 #, kde-format
 msgid "Active &Language"
-msgstr ""
+msgstr "השפה ה&פעילה"
 
 #. i18n: ectx: Menu (settings)
 #: umbrelloui.rc.cmake:96
 #, kde-format
 msgid "&Settings"
-msgstr ""
+msgstr "ה&גדרות"
 
 #: umlapp.cpp:343
 #, kde-format
@@ -7163,42 +7163,42 @@ msgstr ""
 #: umlapp.cpp:424
 #, kde-format
 msgid "Creates a new document"
-msgstr ""
+msgstr "יצירת מסמך חדש"
 
 #: umlapp.cpp:425
 #, kde-format
 msgid "Opens an existing document"
-msgstr ""
+msgstr "פתיחת מסמך קיים"
 
 #: umlapp.cpp:426
 #, kde-format
 msgid "Opens a recently used file"
-msgstr ""
+msgstr "פתיחת קובץ שהיה בשימוש לאחרונה"
 
 #: umlapp.cpp:427
 #, kde-format
 msgid "Saves the document"
-msgstr ""
+msgstr "שמירת המסמך"
 
 #: umlapp.cpp:428
 #, kde-format
 msgid "Saves the document as..."
-msgstr ""
+msgstr "שמירת המסמך בשם…"
 
 #: umlapp.cpp:429
 #, kde-format
 msgid "Closes the document"
-msgstr ""
+msgstr "סגירת המסמך"
 
 #: umlapp.cpp:430
 #, kde-format
 msgid "Prints out the document"
-msgstr ""
+msgstr "הדפסת המסמך"
 
 #: umlapp.cpp:431
 #, kde-format
 msgid "Print Preview of the document"
-msgstr ""
+msgstr "תצוגה מקדימה להדפסה של המסמך"
 
 #: umlapp.cpp:432
 #, kde-format
@@ -7208,58 +7208,58 @@ msgstr "יציאה מהיישום"
 #: umlapp.cpp:433
 #, kde-format
 msgid "Exports the model to the docbook format"
-msgstr ""
+msgstr "ייצוא הדגם לתסדיר docbook"
 
 #: umlapp.cpp:434
 #, kde-format
 msgid "Exports the model to the XHTML format"
-msgstr ""
+msgstr "ייצוא הדגם לתסדיר XHTML"
 
 #: umlapp.cpp:435
 #, kde-format
 msgid "Cuts the selected section and puts it to the clipboard"
-msgstr ""
+msgstr "גזירת המקטע הנבחר אל לוח הגזירים"
 
 #: umlapp.cpp:436
 #, kde-format
 msgid "Copies the selected section to the clipboard"
-msgstr ""
+msgstr "העתקת המקטע הנבחר אל לוח הגזירים"
 
 #: umlapp.cpp:437
 #, kde-format
 msgid "Pastes the contents of the clipboard"
-msgstr ""
+msgstr "הדבקת תוכן לוח הגזירים"
 
 #: umlapp.cpp:438
 #, kde-format
 msgid "Undo last action"
-msgstr ""
+msgstr "הסגת הפעולה האחרונה"
 
 #: umlapp.cpp:439
 #, kde-format
 msgid "Redo last undone action"
-msgstr ""
+msgstr "ביצוע הפעולה האחרונה מחדש"
 
 #: umlapp.cpp:441
 #, kde-format
 msgid "Set the default program preferences"
-msgstr ""
+msgstr "הגדרת העדפות תוכניות ברירת המחדל"
 
 #: umlapp.cpp:445
 #, kde-format
 msgctxt "delete selected widget"
 msgid "Delete &Selected"
-msgstr ""
+msgstr "מחיקת ה&נבחרים"
 
 #: umlapp.cpp:456
 #, kde-format
 msgid "&Class Diagram..."
-msgstr ""
+msgstr "תרשים מ&חלקות…"
 
 #: umlapp.cpp:463
 #, kde-format
 msgid "&Object Diagram..."
-msgstr ""
+msgstr "תרשים &עצמים…"
 
 #: umlapp.cpp:470
 #, kde-format
@@ -7269,7 +7269,7 @@ msgstr "תרשים ה&רצף…"
 #: umlapp.cpp:476
 #, kde-format
 msgid "C&ommunication Diagram..."
-msgstr ""
+msgstr "תרשים ת&קשורת…"
 
 #: umlapp.cpp:482
 #, kde-format
@@ -7366,7 +7366,7 @@ msgstr " &%1%"
 #, kde-format
 msgctxt "init status bar"
 msgid "Ready"
-msgstr ""
+msgstr "בהמתנה"
 
 #: umlapp.cpp:818 umlapp.cpp:831
 #, kde-format
@@ -7501,7 +7501,7 @@ msgstr "הדפסת %1"
 #: umlapp.cpp:1412
 #, kde-format
 msgid "Exiting..."
-msgstr ""
+msgstr "יציאה…"
 
 #: umlapp.cpp:1483
 #, kde-format
@@ -7529,12 +7529,12 @@ msgstr ""
 #, kde-format
 msgctxt "reset status bar"
 msgid "Ready."
-msgstr ""
+msgstr "בהמתנה."
 
 #: umlapp.cpp:2166
 #, kde-format
 msgid "Cannot view code until you generate some first."
-msgstr ""
+msgstr "לא ניתן להציג קוד עד שייווצר כזה תחילה."
 
 #: umlapp.cpp:2166 umlapp.cpp:2169
 #, kde-format
@@ -7579,7 +7579,7 @@ msgstr "היסטוריית &פקודות"
 #: umlappprivate.h:212
 #, kde-format
 msgid "&Debug"
-msgstr ""
+msgstr "&ניפוי שגיאות"
 
 #: umlappprivate.h:228
 #, kde-format
@@ -7589,7 +7589,7 @@ msgstr "&תיעוד"
 #: umlappprivate.h:245
 #, kde-format
 msgid "&Log"
-msgstr ""
+msgstr "יומ&ן"
 
 #: umlappprivate.h:257
 #, kde-format
@@ -7835,7 +7835,7 @@ msgstr "המסמך מוגדר…"
 #: umldoc.cpp:2502
 #, kde-format
 msgid "Resolving object references..."
-msgstr ""
+msgstr "הפניות העצמים נפתרות…"
 
 #: umldoc.cpp:2610
 #, kde-format
@@ -7845,7 +7845,7 @@ msgstr ""
 #: umldoc.cpp:2872
 #, kde-format
 msgid "Loading diagrams..."
-msgstr ""
+msgstr "התרשימים נטענים…"
 
 #: umldoc.cpp:3411
 #, kde-format
@@ -7860,12 +7860,12 @@ msgstr ""
 #: umllistview.cpp:550
 #, kde-format
 msgid "Folder %1 must be relative to the main model directory, %2."
-msgstr ""
+msgstr "התיקייה %1 חייבת להיות יחסית לתיקיית הדגם הראשית, %2."
 
 #: umllistview.cpp:551
 #, kde-format
 msgid "Path Error"
-msgstr ""
+msgstr "שגיאת נתיב"
 
 #: umllistview.cpp:559
 #, kde-format
@@ -7873,36 +7873,38 @@ msgid ""
 "File %1 already exists!\n"
 "The existing file will be overwritten."
 msgstr ""
+"הקובץ %1 כבר קיים!\n"
+"הקובץ הקיים ישוכתב."
 
 #: umllistview.cpp:560
 #, kde-format
 msgid "File Exists"
-msgstr ""
+msgstr "הקובץ קיים"
 
 #: umllistview.cpp:568 umlviewimageexportermodel.cpp:272
 #, kde-format
 msgid "There was a problem saving file: %1"
-msgstr ""
+msgstr "אירעה בעיה בשמירת הקובץ: %1"
 
 #: umllistview.cpp:600
 #, kde-format
 msgid "Enter Model Name"
-msgstr ""
+msgstr "נא למלא שם דגם"
 
 #: umllistview.cpp:601
 #, kde-format
 msgid "Enter the new name of the model:"
-msgstr ""
+msgstr "נא למלא שם חדש לדגם:"
 
 #: umllistview.cpp:1422
 #, kde-format
 msgid "Views"
-msgstr ""
+msgstr "תצוגות"
 
 #: umllistview.cpp:1440
 #, kde-format
 msgid "Settings"
-msgstr ""
+msgstr "הגדרות"
 
 #: umllistview.cpp:2457
 #, kde-format
