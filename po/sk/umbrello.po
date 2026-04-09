@@ -15,8 +15,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.12.3\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -402,18 +402,18 @@ msgstr "Prístupové metódy k atribútom sú verejné"
 #: codegenerators/cpp/cppcodegenerationform.cpp:60
 #, kde-format
 msgid "Create getters with 'get' prefix"
-msgstr ""
+msgstr "Vytvárať gettery s predponou 'get'"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:64
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor method names"
-msgstr ""
+msgstr "Odstrániť predponu '[a-zA-Z]_' z názvov prístupových metód"
 
 #. i18n: ectx: label, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
 #: codegenerators/cpp/cppcodegenerationform.cpp:68 umbrello.kcfg:558
 #, kde-format
 msgid "Accessor methods start with capital letters"
-msgstr ""
+msgstr "Prístupové metódy začínajú veľkými písmenami"
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:72
 #, kde-format
@@ -439,7 +439,7 @@ msgstr "Všeobecne"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:68 umbrello.kcfg:488
 #, kde-format
 msgid "Class member prefix"
-msgstr ""
+msgstr "Predpona člena triedy"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabMethodBodyGeneration)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:85
@@ -1124,10 +1124,9 @@ msgstr "&Zapísať dokumentačné komentáre aj keď nie sú zadané."
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelSectionComments)
 #: codegenwizard/codegenoptionspage.ui:262
-#, fuzzy, kde-format
-#| msgid "&Write documentation comments even if empty"
+#, kde-format
 msgid "Write section comments:"
-msgstr "&Zapísať dokumentačné komentáre aj keď nie sú zadané."
+msgstr "Zapísať komentáre sekcií:"
 
 #. i18n: ectx: property (whatsThis), widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:269
@@ -1149,13 +1148,13 @@ msgstr "Žiadne"
 #: codegenwizard/codegenoptionspage.ui:281
 #, kde-format
 msgid "When section is non empty"
-msgstr ""
+msgstr "Keď sekcia nie je prázdna"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "Vždy"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -2446,14 +2445,7 @@ msgstr "Generátor rozloženia"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:24
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>The auto layout feature depends on layout generators provided by the "
-#| "GraphViz package, which is normally installed aside Umbrello by a package "
-#| "manager.</p>\n"
-#| "<p>Umbrello has build in support for detecting the install location of  "
-#| "these layout generators. For cases where this dependency is not available "
-#| "or do not fit, a different installation path could be provided.</p>"
+#, kde-format
 msgid ""
 "<p>The auto layout feature depends on layout generators provided by the "
 "GraphViz package, which is normally installed aside Umbrello by a package "
@@ -2463,11 +2455,11 @@ msgid ""
 "do not fit, a different installation path could be provided.</p>"
 msgstr ""
 "<p>Vlastnosť automatického rozloženia závisí na generátoroch rozloženia "
-"poskytovaných balíčkom GraphViz, ktorý sa zvyčajne inštaluje bokom od "
-"Umbrella pomocou správcu balíčkov.</p>\n"
-"<p>Umbrella má vstavanú podporu pre zisťovanie umiestnenia inštalácie týchto "
+"poskytovaných balíčkom GraphViz, ktorý sa zvyčajne inštaluje spolu s "
+"Umbrello pomocou správcu balíčkov.</p>\n"
+"<p>Umbrello má vstavanú podporu pre zisťovanie umiestnenia inštalácie týchto "
 "generátorov rozloženia. Pre prípady, keď táto závislosť nie je k dispozícii "
-"alebo nie je nastavená, mohla byť určená iná cesta inštalácie.</p>"
+"alebo nevyhovuje, je možné zadať inú cestu inštalácie.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_autoDotPath)
 #: dialogs/pages/autolayoutoptionpage.ui:27
@@ -2703,22 +2695,19 @@ msgid "Attribute Signatures"
 msgstr "Signatúry atribútu"
 
 #: dialogs/pages/classoptionspage.cpp:438
-#, fuzzy, kde-format
-#| msgid "Stereotype"
+#, kde-format
 msgid "No Stereotype"
-msgstr "Stereotyp"
+msgstr "Žiadny stereotyp"
 
 #: dialogs/pages/classoptionspage.cpp:439
-#, fuzzy, kde-format
-#| msgid "Stereotype &name:"
+#, kde-format
 msgid "Stereotype Name"
-msgstr "Názov &stereotypu:"
+msgstr "Názov stereotypu"
 
 #: dialogs/pages/classoptionspage.cpp:440
-#, fuzzy, kde-format
-#| msgid "Stereotypes"
+#, kde-format
 msgid "Stereotype with Tags"
-msgstr "Stereotypy"
+msgstr "Stereotyp so značkami"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: dialogs/pages/codeimportoptionspage.ui:31
@@ -2738,10 +2727,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/pages/codeimportoptionspage.ui:56
-#, fuzzy, kde-format
-#| msgid "C++- Import"
+#, kde-format
 msgid "C++ Import"
-msgstr "C++- Import"
+msgstr "Import C++"
 
 #. i18n: ectx: property (text), widget (QCheckBox, createArtifactCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:66
@@ -2961,10 +2949,9 @@ msgstr "Povoliť podporu UML2"
 
 #. i18n: ectx: label, entry (showDebugWindows), group (General Options)
 #: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show debug windows"
-msgstr "Ukázať okno dokumentácie"
+msgstr "Zobraziť ladiace okná"
 
 #: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
@@ -3080,7 +3067,7 @@ msgstr "Používateľské rozhranie sprava doľava"
 #: dialogs/pages/uioptionspage.cpp:66
 #, kde-format
 msgid "Use alignment guides"
-msgstr ""
+msgstr "Používať vodiace čiary zarovnania"
 
 #: dialogs/pages/uioptionspage.cpp:70
 #, kde-format
@@ -3267,10 +3254,9 @@ msgid "Defa&ult"
 msgstr "Predvolené"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:203
-#, fuzzy, kde-format
-#| msgid "The Width of the Line"
+#, kde-format
 msgid "Layout of the line:"
-msgstr "Šírka čiary"
+msgstr "Rozloženie čiary:"
 
 #: dialogs/parameterpropertiesdialog.cpp:49
 #, kde-format
@@ -3308,10 +3294,9 @@ msgid "Parameter Name Invalid"
 msgstr "Názov parametra nie je platný"
 
 #: dialogs/selectdiagramdialog.cpp:18
-#, fuzzy, kde-format
-#| msgid "&Select diagrams"
+#, kde-format
 msgid "Select diagram"
-msgstr "Vy&brať diagramy"
+msgstr "Vybrať diagram"
 
 #: dialogs/selectdiagramdialog.cpp:19
 #, kde-format
@@ -3472,22 +3457,19 @@ msgid "State name:"
 msgstr "Názov stavu:"
 
 #: dialogs/statedialog.cpp:183
-#, fuzzy, kde-format
-#| msgid "Loading diagrams..."
+#, kde-format
 msgid "Linked diagram:"
-msgstr "Načítavam diagramy..."
+msgstr "Prepojený diagram:"
 
 #: dialogs/stereoattributedialog.cpp:38
-#, fuzzy, kde-format
-#| msgid "Note Properties"
+#, kde-format
 msgid "Stereotype Properties"
-msgstr "Vlastnosti poznámky"
+msgstr "Vlastnosti stereotypu"
 
 #: dialogs/stereoattributedialog.cpp:58
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Stereotype Attributes for "
-msgstr "Atribúty objektu"
+msgstr "Atribúty stereotypu pre "
 
 #: dialogs/stereoattributedialog.cpp:74 dialogs/umlattributedialog.cpp:76
 #, kde-format
@@ -3496,19 +3478,16 @@ msgid "&Name:"
 msgstr "&Názov:"
 
 #: dialogs/stereoattributedialog.cpp:77
-#, fuzzy, kde-format
-#| msgid "&Type:"
+#, kde-format
 msgctxt "attribute type"
 msgid "&Type:"
 msgstr "&Typ:"
 
 #: dialogs/stereoattributedialog.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "default line color button"
-#| msgid "&Default"
+#, kde-format
 msgctxt "default value"
 msgid "&Default:"
-msgstr "Predvolené"
+msgstr "&Predvolené:"
 
 #: dialogs/umlattributedialog.cpp:43
 #, kde-format
@@ -3977,11 +3956,9 @@ msgid "DPI"
 msgstr "DPI"
 
 #: dialogs/widgets/selectdiagramwidget.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "new container menu"
-#| msgid "New"
+#, kde-format
 msgid "New"
-msgstr "Nové"
+msgstr "Nový"
 
 #. i18n: ectx: Menu (file)
 #: dialogs/widgets/umlartifacttypewidget.cpp:24 umbrelloui.rc.cmake:4
@@ -4023,14 +4000,13 @@ msgstr "&Typ:"
 #, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr ""
+msgstr "Roky"
 
 #: dialogs/widgets/umlmessagebox.h:32
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "Žiadne"
+msgstr "Žiadna"
 
 #: dialogs/widgets/umlpackagewidget.cpp:29
 #, kde-format
@@ -4170,10 +4146,7 @@ msgid "Umbrello UML Modeller autonomous code generator"
 msgstr "Autonomný generátor kódu Umbrello UML Modeller"
 
 #: docgenerators/main.cpp:48
-#, fuzzy, kde-format
-#| msgid ""
-#| "(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML "
-#| "Modeller Authors"
+#, kde-format
 msgid ""
 "(c) 2006 Gael de Chalendar (aka Kleag), (c) 2002-2006 Umbrello UML Modeller "
 "Authors"
@@ -4267,16 +4240,13 @@ msgstr ""
 "href=’http://www.omg.org/spec/’>http://www.omg.org/spec/</a>."
 
 #: main.cpp:123
-#, fuzzy, kde-format
-#| msgid ""
-#| "Copyright © 2001 Paul Hensgen,\n"
-#| "Copyright © 2002-2018 Umbrello UML Modeller Authors"
+#, kde-format
 msgid ""
 "Copyright © 2001 Paul Hensgen,\n"
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
 msgstr ""
 "Copyright © 2001 Paul Hensgen,\n"
-"Copyright © 2002-2018 Autori programu Umbrello UML Modeller"
+"Copyright © 2002-2022 Autori programu Umbrello UML Modeller"
 
 #: main.cpp:127
 #, kde-format
@@ -4346,10 +4316,9 @@ msgid "import files from directory <dir>"
 msgstr "importovať súbory z adresára <dir>"
 
 #: main.cpp:168
-#, fuzzy, kde-format
-#| msgid "set active language"
+#, kde-format
 msgid "set language"
-msgstr "nastaviť aktívny jazyk"
+msgstr "nastaviť jazyk"
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
@@ -4484,11 +4453,10 @@ msgid "Collapse All"
 msgstr "Zbaliť všetko"
 
 #: menus/listpopupmenu.cpp:162
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgctxt "add new combined state"
 msgid "Combined state..."
-msgstr "Zložený fragment"
+msgstr "Zložený stav..."
 
 #: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1264
 #: worktoolbar.cpp:356
@@ -4515,10 +4483,9 @@ msgid "Deep History"
 msgstr "Hlboká história"
 
 #: menus/listpopupmenu.cpp:174
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "Edit combined state"
-msgstr "Zložený fragment"
+msgstr "Upraviť zložený stav"
 
 #: menus/listpopupmenu.cpp:175 worktoolbar.cpp:379
 #, kde-format
@@ -4598,16 +4565,14 @@ msgid "Fork"
 msgstr "Vetviť"
 
 #: menus/listpopupmenu.cpp:195
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Go to state diagram"
-msgstr "stavový diagram"
+msgstr "Prejsť na stavový diagram"
 
 #: menus/listpopupmenu.cpp:196
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "Hide destruction box"
-msgstr "Zobraziť dekonštrukciu"
+msgstr "Skryť pole deštrukcie"
 
 #: menus/listpopupmenu.cpp:197
 #, kde-format
@@ -4677,16 +4642,14 @@ msgid "Asynchronous Message"
 msgstr "Asynchrónna správa"
 
 #: menus/listpopupmenu.cpp:213
-#, fuzzy, kde-format
-#| msgid "Collaboration Self Message"
+#, kde-format
 msgid "Creation Message"
-msgstr "Správa o spolupráci samému sebe"
+msgstr "Správa o vytvorení"
 
 #: menus/listpopupmenu.cpp:214
-#, fuzzy, kde-format
-#| msgid "Lost Message"
+#, kde-format
 msgid "Destroy Message"
-msgstr "Stratená správa"
+msgstr "Správa o zničení"
 
 #: menus/listpopupmenu.cpp:215 worktoolbar.cpp:328
 #, kde-format
@@ -4786,10 +4749,9 @@ msgid "Remove"
 msgstr "Odstrániť"
 
 #: menus/listpopupmenu.cpp:245
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Remove state diagram"
-msgstr "stavový diagram"
+msgstr "Odstrániť stavový diagram"
 
 #: menus/listpopupmenu.cpp:246 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
@@ -4802,16 +4764,14 @@ msgid "Rename Object..."
 msgstr "Premenovať objekt..."
 
 #: menus/listpopupmenu.cpp:248
-#, fuzzy, kde-format
-#| msgid "Combined Fragment"
+#, kde-format
 msgid "Return to combined state"
-msgstr "Zložený fragment"
+msgstr "Návrat na zložený stav"
 
 #: menus/listpopupmenu.cpp:249
-#, fuzzy, kde-format
-#| msgid "Rename Class..."
+#, kde-format
 msgid "Return to class"
-msgstr "Premenovať triedu..."
+msgstr "Návrat na triedu"
 
 #: menus/listpopupmenu.cpp:250
 #, kde-format
@@ -4824,10 +4784,9 @@ msgid "Resize"
 msgstr "Zmeniť veľkosť"
 
 #: menus/listpopupmenu.cpp:252
-#, fuzzy, kde-format
-#| msgid "state diagram"
+#, kde-format
 msgid "Select state diagram"
-msgstr "stavový diagram"
+msgstr "Vybrať stavový diagram"
 
 #: menus/listpopupmenu.cpp:253
 #, kde-format
@@ -4840,10 +4799,9 @@ msgid "Shallow History"
 msgstr "Plytká história"
 
 #: menus/listpopupmenu.cpp:256
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "Show destruction box"
-msgstr "Zobraziť dekonštrukciu"
+msgstr "Zobraziť pole deštrukcie"
 
 #: menus/listpopupmenu.cpp:257
 #, kde-format
@@ -5206,16 +5164,14 @@ msgid "new_entity"
 msgstr "nový_objekt"
 
 #: model_utils.cpp:571
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "new_entity_attribute"
-msgstr "nový atribút"
+msgstr "nový_atribút_entity"
 
 #: model_utils.cpp:572
-#, fuzzy, kde-format
-#| msgid "new_fkey_constraint"
+#, kde-format
 msgid "new_entity_constraint"
-msgstr "new_fkey_constraint"
+msgstr "nové_obmedzenie_entity"
 
 #: model_utils.cpp:573
 #, kde-format
@@ -5223,10 +5179,9 @@ msgid "new_enum"
 msgstr "nový_enumeračný_typ"
 
 #: model_utils.cpp:574
-#, fuzzy, kde-format
-#| msgid "new_literal"
+#, kde-format
 msgid "new_enum_literal"
-msgstr "nový_literál"
+msgstr "nový_literál_enumerácie"
 
 #: model_utils.cpp:575
 #, kde-format
@@ -5234,22 +5189,19 @@ msgid "new_folder"
 msgstr "nový_priečinok"
 
 #: model_utils.cpp:576
-#, fuzzy, kde-format
-#| msgid "new_fkey_constraint"
+#, kde-format
 msgid "new_foreign_key_constraint"
-msgstr "new_fkey_constraint"
+msgstr "nové_obmedzenie_cudzieho_kľúča"
 
 #: model_utils.cpp:577
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "new_instance"
-msgstr "nové_rozhranie"
+msgstr "nová_inštancia"
 
 #: model_utils.cpp:578
-#, fuzzy, kde-format
-#| msgid "Instance Attribute"
+#, kde-format
 msgid "new_instance_attribute"
-msgstr "Atribút inštancie"
+msgstr "nový_atribút_inštancie"
 
 #: model_utils.cpp:579
 #, kde-format
@@ -5277,16 +5229,14 @@ msgid "new_port"
 msgstr "nový_port"
 
 #: model_utils.cpp:584
-#, fuzzy, kde-format
-#| msgid "new_folder"
+#, kde-format
 msgid "new_role"
-msgstr "nový_priečinok"
+msgstr "nová_rola"
 
 #: model_utils.cpp:585
-#, fuzzy, kde-format
-#| msgid "New Stereotype"
+#, kde-format
 msgid "new_stereotype"
-msgstr "Nový stereotyp"
+msgstr "nový_stereotyp"
 
 #: model_utils.cpp:586 umlmodel/umlcanvasobject.cpp:194
 #, kde-format
@@ -5299,8 +5249,7 @@ msgid "new_unique_constraint"
 msgstr "new_unique_constraint"
 
 #: model_utils.cpp:588
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "new_use_case"
 msgstr "nový_prípad_použitia"
 
@@ -5310,28 +5259,24 @@ msgid "new_object"
 msgstr "nový_objekt"
 
 #: model_utils.cpp:610 umlwidgets/widget_utils.cpp:872
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "New actor"
-msgstr "nový_aktér"
+msgstr "Nový aktér"
 
 #: model_utils.cpp:611 umlwidgets/widget_utils.cpp:873
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "New artifact"
-msgstr "nový_artefakt"
+msgstr "Nový artefakt"
 
 #: model_utils.cpp:612 umlwidgets/widget_utils.cpp:874
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "New association"
-msgstr "nová_asociácia"
+msgstr "Nová asociácia"
 
 #: model_utils.cpp:613
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "New attribute"
-msgstr "Nový atribút..."
+msgstr "Nový atribút"
 
 #: model_utils.cpp:614 umlwidgets/widget_utils.cpp:876
 #, kde-format
@@ -5339,58 +5284,49 @@ msgid "New category"
 msgstr "Nová kategória"
 
 #: model_utils.cpp:615
-#, fuzzy, kde-format
-#| msgid "new_check_constraint"
+#, kde-format
 msgid "New check constraint"
-msgstr "new_check_constraint"
+msgstr "Nové kontrolné obmedzenie"
 
 #: model_utils.cpp:616 umlwidgets/widget_utils.cpp:877
-#, fuzzy, kde-format
-#| msgid "New Class"
+#, kde-format
 msgid "New class"
 msgstr "Nová trieda"
 
 #: model_utils.cpp:617 umlwidgets/widget_utils.cpp:879
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "New component"
-msgstr "nový_komponent"
+msgstr "Nový komponent"
 
 #: model_utils.cpp:618 umlwidgets/widget_utils.cpp:880
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "New datatype"
-msgstr "nový_údajový_typ"
+msgstr "Nový údajový typ"
 
 #: model_utils.cpp:619 umlwidgets/widget_utils.cpp:881
-#, fuzzy, kde-format
-#| msgid "new_entity"
+#, kde-format
 msgid "New entity"
-msgstr "nový_objekt"
+msgstr "Nová entita"
 
 #: model_utils.cpp:620
-#, fuzzy, kde-format
-#| msgid "New Entity Attribute..."
+#, kde-format
 msgid "New entity attribute"
-msgstr "Nový atribút objektu..."
+msgstr "Nový atribút entity"
 
 #: model_utils.cpp:621
-#, fuzzy, kde-format
-#| msgid "Entity Constraints"
+#, kde-format
 msgid "New entity constraint"
-msgstr "Obmedzenia objektu"
+msgstr "Nové obmedzenie entity"
 
 #: model_utils.cpp:622 umlwidgets/widget_utils.cpp:882
-#, fuzzy, kde-format
-#| msgid "new_enum"
+#, kde-format
 msgid "New enum"
-msgstr "nový_enumeračný_typ"
+msgstr "Nový enumeračný typ"
 
 #: model_utils.cpp:623
-#, fuzzy, kde-format
-#| msgid "N&ew Enum Literal..."
+#, kde-format
 msgid "New enum literal"
-msgstr "Nový &literál enumeračného typu..."
+msgstr "Nový literál enumeračného typu"
 
 #: model_utils.cpp:624
 #, kde-format
@@ -5398,10 +5334,9 @@ msgid "New folder"
 msgstr "Nový priečinok"
 
 #: model_utils.cpp:625
-#, fuzzy, kde-format
-#| msgid "Foreign Key Constraint..."
+#, kde-format
 msgid "New foreign key constraint"
-msgstr "Obmedzenie cudzieho kľúča..."
+msgstr "Nové obmedzenie cudzieho kľúča"
 
 #: model_utils.cpp:626 umlwidgets/widget_utils.cpp:885
 #, kde-format
@@ -5409,50 +5344,42 @@ msgid "New instance"
 msgstr "Nová inštancia"
 
 #: model_utils.cpp:627
-#, fuzzy, kde-format
-#| msgid "N&ew Instance Attribute..."
+#, kde-format
 msgid "New instance attribute"
-msgstr "Nový &atribút inštancie..."
+msgstr "Nový atribút inštancie"
 
 #: model_utils.cpp:628 umlwidgets/widget_utils.cpp:886
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "New interface"
-msgstr "nové_rozhranie"
+msgstr "Nové rozhranie"
 
 #: model_utils.cpp:629 umlwidgets/widget_utils.cpp:888
-#, fuzzy, kde-format
-#| msgid "new_node"
+#, kde-format
 msgid "New node"
-msgstr "nový_uzol"
+msgstr "Nový uzol"
 
 #: model_utils.cpp:630
-#, fuzzy, kde-format
-#| msgid "new_operation"
+#, kde-format
 msgid "New operation"
-msgstr "Nová operácia..."
+msgstr "Nová operácia"
 
 #: model_utils.cpp:631 umlwidgets/widget_utils.cpp:892
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "New package"
-msgstr "nový_balík"
+msgstr "Nový balík"
 
 #: model_utils.cpp:632 umlwidgets/widget_utils.cpp:894
-#, fuzzy, kde-format
-#| msgid "new port"
+#, kde-format
 msgid "New port"
-msgstr "nový port"
+msgstr "Nový port"
 
 #: model_utils.cpp:633
-#, fuzzy, kde-format
-#| msgid "New Stereotype"
+#, kde-format
 msgid "New role"
-msgstr "Nový stereotyp"
+msgstr "Nová rola"
 
 #: model_utils.cpp:634
-#, fuzzy, kde-format
-#| msgid "New Stereotype"
+#, kde-format
 msgid "New stereotype"
 msgstr "Nový stereotyp"
 
@@ -5462,280 +5389,234 @@ msgid "New template"
 msgstr "Nová šablóna"
 
 #: model_utils.cpp:636
-#, fuzzy, kde-format
-#| msgid "new_unique_constraint"
+#, kde-format
 msgid "New unique constraint"
-msgstr "new_unique_constraint"
+msgstr "Nové obmedzenie jedinečnosti"
 
 #: model_utils.cpp:637 umlwidgets/widget_utils.cpp:901
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "New use case"
-msgstr "nový_prípad_použitia"
+msgstr "Nový prípad použitia"
 
 #: model_utils.cpp:640
-#, fuzzy, kde-format
-#| msgid "&UML Objects"
+#, kde-format
 msgid "New UML object"
-msgstr "UML objekty"
+msgstr "Nový UML objekt"
 
 #: model_utils.cpp:652 umlwidgets/widget_utils.cpp:918
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new actor:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového aktéra:"
 
 #: model_utils.cpp:653 umlwidgets/widget_utils.cpp:919
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new artifact:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového artefaktu:"
 
 #: model_utils.cpp:654 umlwidgets/widget_utils.cpp:920
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new association:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov novej asociácie:"
 
 #: model_utils.cpp:655
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new attribute:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového atribútu:"
 
 #: model_utils.cpp:656 umlwidgets/widget_utils.cpp:922
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new category:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov novej kategórie:"
 
 #: model_utils.cpp:657
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new check constraint:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového kontrolného obmedzenia:"
 
 #: model_utils.cpp:658 umlwidgets/widget_utils.cpp:923
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new class:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov novej triedy:"
 
 #: model_utils.cpp:659 umlwidgets/widget_utils.cpp:925
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new component:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového komponentu:"
 
 #: model_utils.cpp:660 umlwidgets/widget_utils.cpp:926
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new datatype:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového dátového typu:"
 
 #: model_utils.cpp:661 umlwidgets/widget_utils.cpp:927
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new entity:"
-msgstr "Zadajte názov novej aktivity:"
+msgstr "Zadajte názov novej entity:"
 
 #: model_utils.cpp:662
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new entity attribute:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového atribútu entity:"
 
 #: model_utils.cpp:663
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new entity constraint:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového obmedzenia entity:"
 
 #: model_utils.cpp:664 umlwidgets/widget_utils.cpp:928
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new enum:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového výčtu:"
 
 #: model_utils.cpp:665
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new enum literal:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového literálu výčtu:"
 
 #: model_utils.cpp:666
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new folder:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového priečinka:"
 
 #: model_utils.cpp:667
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new foreign key constraint:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového obmedzenia cudzieho kľúča:"
 
 #: model_utils.cpp:668 umlwidgets/widget_utils.cpp:931
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new instance:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov novej inštancie:"
 
 #: model_utils.cpp:669
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new instance attribute:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového atribútu inštancie:"
 
 #: model_utils.cpp:670 umlwidgets/widget_utils.cpp:932
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new interface:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového rozhrania:"
 
 #: model_utils.cpp:671 umlwidgets/widget_utils.cpp:934
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new node:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového uzla:"
 
 #: model_utils.cpp:672
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new operation:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov novej operácie:"
 
 #: model_utils.cpp:673 umlwidgets/widget_utils.cpp:938
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new package:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového balíka:"
 
 #: model_utils.cpp:674 umlwidgets/widget_utils.cpp:940
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new port:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového portu:"
 
 #: model_utils.cpp:675
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new role:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov novej roly:"
 
 #: model_utils.cpp:676
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new stereotype:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového stereotypu:"
 
 #: model_utils.cpp:677
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new template:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov novej šablóny:"
 
 #: model_utils.cpp:678
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new unique constraint:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového jedinečného obmedzenia:"
 
 #: model_utils.cpp:679 umlwidgets/widget_utils.cpp:947
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new use case:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového prípadu použitia:"
 
 #: model_utils.cpp:682
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object flow"
+#, kde-format
 msgid "Enter the name of the new UML object"
-msgstr "Zadajte názov toku objektu"
+msgstr "Zadajte názov nového objektu UML"
 
 #: model_utils.cpp:694 umlwidgets/widget_utils.cpp:963
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename actor"
-msgstr "Premenovať objekt"
+msgstr "Premenovať aktéra"
 
 #: model_utils.cpp:695 umlwidgets/widget_utils.cpp:964
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "Rename artifact"
-msgstr "nový_artefakt"
+msgstr "Premenovať artefakt"
 
 #: model_utils.cpp:696 umlwidgets/widget_utils.cpp:965
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "Rename association"
-msgstr "nová_asociácia"
+msgstr "Premenovať asociáciu"
 
 #: model_utils.cpp:697
-#, fuzzy, kde-format
-#| msgid "new_attribute"
+#, kde-format
 msgid "Rename attribute"
-msgstr "nový atribút"
+msgstr "Premenovať atribút"
 
 #: model_utils.cpp:698 umlwidgets/widget_utils.cpp:967
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "Rename category"
-msgstr "nová kategória"
+msgstr "Premenovať kategóriu"
 
 #: model_utils.cpp:699
-#, fuzzy, kde-format
-#| msgid "new_check_constraint"
+#, kde-format
 msgid "Rename check constraint"
-msgstr "new_check_constraint"
+msgstr "Premenovať kontrolné obmedzenie"
 
 #: model_utils.cpp:700 umlwidgets/widget_utils.cpp:968
-#, fuzzy, kde-format
-#| msgid "Rename Class..."
+#, kde-format
 msgid "Rename class"
-msgstr "Premenovať triedu..."
+msgstr "Premenovať triedu"
 
 #: model_utils.cpp:701 umlwidgets/widget_utils.cpp:970
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "Rename component"
-msgstr "nový_komponent"
+msgstr "Premenovať komponent"
 
 #: model_utils.cpp:702 umlwidgets/widget_utils.cpp:971
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "Rename datatype"
-msgstr "nový_údajový_typ"
+msgstr "Premenovať údajový typ"
 
 #: model_utils.cpp:703 umlwidgets/widget_utils.cpp:972
-#, fuzzy, kde-format
-#| msgid "Rename Activity"
+#, kde-format
 msgid "Rename entity"
-msgstr "Premenovať aktivitu"
+msgstr "Premenovať entitu"
 
 #: model_utils.cpp:704
-#, fuzzy, kde-format
-#| msgid "Entity Attributes"
+#, kde-format
 msgid "Rename entity attribute"
-msgstr "Atribúty objektu"
+msgstr "Premenovať atribút entity"
 
 #: model_utils.cpp:705
-#, fuzzy, kde-format
-#| msgid "Entity Constraints"
+#, kde-format
 msgid "Rename entity constraint"
-msgstr "Obmedzenia objektu"
+msgstr "Premenovať obmedzenie entity"
 
 #: model_utils.cpp:706 umlwidgets/widget_utils.cpp:973
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename enum"
-msgstr "Premenovať"
+msgstr "Premenovať enumeráciu"
 
 #: model_utils.cpp:707
-#, fuzzy, kde-format
-#| msgid "Enum Literals"
+#, kde-format
 msgid "Rename enum literal"
-msgstr "Literály enumeračného typu"
+msgstr "Premenovať literál enumerácie"
 
 #: model_utils.cpp:708
 #, kde-format
@@ -5743,262 +5624,219 @@ msgid "Rename folder"
 msgstr "Premenovať priečinok"
 
 #: model_utils.cpp:709
-#, fuzzy, kde-format
-#| msgid "Foreign Key Constraint..."
+#, kde-format
 msgid "Rename foreign key constraint"
-msgstr "Obmedzenie cudzieho kľúča..."
+msgstr "Premenovať obmedzenie cudzieho kľúča"
 
 #: model_utils.cpp:710 umlwidgets/widget_utils.cpp:976
-#, fuzzy, kde-format
-#| msgid "Rename canceled"
+#, kde-format
 msgid "Rename instance"
-msgstr "Premenovanie zrušené"
+msgstr "Premenovať inštanciu"
 
 #: model_utils.cpp:711
-#, fuzzy, kde-format
-#| msgid "Instance Attribute"
+#, kde-format
 msgid "Rename instance attribute"
-msgstr "Atribút inštancie"
+msgstr "Premenovať atribút inštancie"
 
 #: model_utils.cpp:712 umlwidgets/widget_utils.cpp:977
-#, fuzzy, kde-format
-#| msgid "Required interface"
+#, kde-format
 msgid "Rename interface"
-msgstr "Vyžadované rozhranie"
+msgstr "Premenovať rozhranie"
 
 #: model_utils.cpp:713 umlwidgets/widget_utils.cpp:979
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename node"
-msgstr "Premenovať"
+msgstr "Premenovať uzol"
 
 #: model_utils.cpp:714
-#, fuzzy, kde-format
-#| msgid "new_operation"
+#, kde-format
 msgid "Rename operation"
-msgstr "nová_operácia"
+msgstr "Premenovať operáciu"
 
 #: model_utils.cpp:715 umlwidgets/widget_utils.cpp:983
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "Rename package"
-msgstr "nový_balík"
+msgstr "Premenovať balík"
 
 #: model_utils.cpp:716 umlwidgets/widget_utils.cpp:985
-#, fuzzy, kde-format
-#| msgid "new port"
+#, kde-format
 msgid "Rename port"
-msgstr "nový port"
+msgstr "Premenovať port"
 
 #: model_utils.cpp:717
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename role"
-msgstr "Premenovať"
+msgstr "Premenovať rolu"
 
 #: model_utils.cpp:718
-#, fuzzy, kde-format
-#| msgid "New Stereotype"
+#, kde-format
 msgid "Rename stereotype"
-msgstr "Nový stereotyp"
+msgstr "Premenovať stereotyp"
 
 #: model_utils.cpp:719
-#, fuzzy, kde-format
-#| msgid "new_template"
+#, kde-format
 msgid "Rename template"
-msgstr "nová_šablóna"
+msgstr "Premenovať šablónu"
 
 #: model_utils.cpp:720
-#, fuzzy, kde-format
-#| msgid "new_unique_constraint"
+#, kde-format
 msgid "Rename unique constraint"
-msgstr "new_unique_constraint"
+msgstr "Premenovať jedinečné obmedzenie"
 
 #: model_utils.cpp:721 umlwidgets/widget_utils.cpp:992
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "Rename use case"
-msgstr "nový_prípad_použitia"
+msgstr "Premenovať prípad použitia"
 
 #: model_utils.cpp:724
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename UML object"
-msgstr "Premenovať objekt"
+msgstr "Premenovať UML objekt"
 
 #: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1009
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the actor:"
-msgstr "Zadajte nový názov aktivity:"
+msgstr "Zadajte nový názov aktéra:"
 
 #: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1010
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the artifact:"
-msgstr "Zadajte nový názov aktivity:"
+msgstr "Zadajte nový názov artefaktu:"
 
 #: model_utils.cpp:738 umlwidgets/widget_utils.cpp:1011
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the association:"
-msgstr "Zadajte nový názov aktivity:"
+msgstr "Zadajte nový názov asociácie:"
 
 #: model_utils.cpp:739
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the attribute:"
-msgstr "Zadajte nový názov aktivity:"
+msgstr "Zadajte nový názov atribútu:"
 
 #: model_utils.cpp:740 umlwidgets/widget_utils.cpp:1013
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the category:"
-msgstr "Zadajte nový názov diagramu:"
+msgstr "Zadajte nový názov kategórie:"
 
 #: model_utils.cpp:741
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the check constraint:"
-msgstr "Zadajte nový názov aktivity:"
+msgstr "Zadajte nový názov kontrolného obmedzenia:"
 
 #: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1014
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the class:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov triedy:"
 
 #: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1016
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the component:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov komponentu:"
 
 #: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1017
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the datatype:"
-msgstr "Zadajte nový názov aktivity:"
+msgstr "Zadajte nový názov dátového typu:"
 
 #: model_utils.cpp:745 umlwidgets/widget_utils.cpp:1018
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity:"
-msgstr "Zadajte nový názov aktivity:"
+msgstr "Zadajte nový názov entity:"
 
 #: model_utils.cpp:746
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity attribute:"
-msgstr "Zadajte nový názov aktivity:"
+msgstr "Zadajte nový názov atribútu entity:"
 
 #: model_utils.cpp:747
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the entity constraint:"
-msgstr "Zadajte nový názov aktivity:"
+msgstr "Zadajte nový názov obmedzenia entity:"
 
 #: model_utils.cpp:748 umlwidgets/widget_utils.cpp:1019
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the enum:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov enumerácie:"
 
 #: model_utils.cpp:749
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the enum literal:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov literálu enumerácie:"
 
 #: model_utils.cpp:750
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the folder:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov priečinka:"
 
 #: model_utils.cpp:751
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the foreign key constraint:"
-msgstr "Zadajte nový názov diagramu:"
+msgstr "Zadajte nový názov obmedzenia cudzieho kľúča:"
 
 #: model_utils.cpp:752 umlwidgets/widget_utils.cpp:1022
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the instance:"
-msgstr "Zadajte nový názov diagramu:"
+msgstr "Zadajte nový názov inštancie:"
 
 #: model_utils.cpp:753
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the instance attribute:"
-msgstr "Zadajte nový názov aktivity:"
+msgstr "Zadajte nový názov atribútu inštancie:"
 
 #: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1023
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the interface:"
-msgstr "Zadajte nový názov diagramu:"
+msgstr "Zadajte nový názov rozhrania:"
 
 #: model_utils.cpp:755 umlwidgets/widget_utils.cpp:1025
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the node:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov uzla:"
 
 #: model_utils.cpp:756
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the operation:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov operácie:"
 
 #: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1029
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the package:"
-msgstr "Zadajte nový názov diagramu:"
+msgstr "Zadajte nový názov balíka:"
 
 #: model_utils.cpp:758 umlwidgets/widget_utils.cpp:1031
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the port:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov portu:"
 
 #: model_utils.cpp:759
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the role:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov roly:"
 
 #: model_utils.cpp:760
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the stereotype:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov stereotypu:"
 
 #: model_utils.cpp:761
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the template:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov šablóny:"
 
 #: model_utils.cpp:762
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the new name of the unique constraint:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte nový názov jedinečného obmedzenia:"
 
 #: model_utils.cpp:763 umlwidgets/widget_utils.cpp:1038
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the use case:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov prípadu použitia:"
 
 #: model_utils.cpp:766
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the UML object"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov UML objektu"
 
 #: model_utils.cpp:1207
 #, kde-format
@@ -6183,7 +6021,7 @@ msgstr "Chyba asociácie"
 #: toolbarstatemessages.cpp:340
 #, kde-format
 msgid "destroy"
-msgstr ""
+msgstr "zničiť"
 
 #: toolbarstateother.cpp:277
 #, kde-format
@@ -6427,10 +6265,9 @@ msgstr "Povolí/Zakáže notáciu UML2"
 
 #. i18n: ectx: whatsthis, entry (showDebugWindows), group (General Options)
 #: umbrello.kcfg:141
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show or hide the debug window and UML objects window"
-msgstr "Ukázať okno dokumentácie"
+msgstr "Zobraziť alebo skryť okno ladenia a okno UML objektov"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:148
@@ -6518,17 +6355,15 @@ msgstr "Farba pozadia diagramu"
 
 #. i18n: ectx: label, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:187
-#, fuzzy, kde-format
-#| msgid "Custom background color"
+#, kde-format
 msgid "Use background color"
-msgstr "Vlastná farba pozadia"
+msgstr "Použiť farbu pozadia"
 
 #. i18n: ectx: whatsthis, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:188
-#, fuzzy, kde-format
-#| msgid "Enables/Disables usage of fill color"
+#, kde-format
 msgid "Enables/Disables the usage of a custom background color"
-msgstr "Povolí/zakáže použitie farby výplne"
+msgstr "Povolí/zakáže použitie vlastnej farby pozadia"
 
 #. i18n: ectx: label, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:192
@@ -6546,13 +6381,15 @@ msgstr "Farba bodiek mriežky"
 #: umbrello.kcfg:197
 #, kde-format
 msgid "Use Alignment Guides"
-msgstr ""
+msgstr "Používať vodiace čiary zarovnania"
 
 #. i18n: ectx: whatsthis, entry (useAlignmentGuides), group (UI Options)
 #: umbrello.kcfg:198
 #, kde-format
 msgid "Enable/disable alignment guides when dragging or resizing widgets"
 msgstr ""
+"Povoliť/zakázať vodiace čiary zarovnania pri presúvaní alebo zmene veľkosti "
+"prvkov"
 
 #. i18n: ectx: whatsthis, entry (rightToLeftUI), group (UI Options)
 #: umbrello.kcfg:203
@@ -6881,13 +6718,13 @@ msgstr "Povolí/Zakáže podrobnú dokumentáciu"
 #: umbrello.kcfg:409
 #, kde-format
 msgid "Section Comment Policy"
-msgstr ""
+msgstr "Pravidlá komentárov sekcií"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:410
 #, kde-format
 msgid "Whether section comments shall be written"
-msgstr ""
+msgstr "Či sa majú zapisovať komentáre sekcií"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:419
@@ -6990,7 +6827,7 @@ msgstr "Povolí/Zakáže automatické generovanie prístupových metód"
 #: umbrello.kcfg:489
 #, kde-format
 msgid "The prefix for class members"
-msgstr ""
+msgstr "Predpona pre členy triedy"
 
 #. i18n: ectx: label, entry (inlineAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:493
@@ -7090,8 +6927,7 @@ msgstr "Názov vektorovej triedy"
 
 #. i18n: ectx: label, entry (vectorClassNameInclude), group (CPP Code Generation)
 #: umbrello.kcfg:533
-#, fuzzy, kde-format
-#| msgid "Vector Class Name Include "
+#, kde-format
 msgid "Vector Class Name Include"
 msgstr "Názov vektorovej triedy, ktorá sa má vložiť"
 
@@ -7129,31 +6965,31 @@ msgstr "Povolí/Zakáže virtuálne deštruktory"
 #: umbrello.kcfg:548
 #, kde-format
 msgid "Getters with 'get' prefix"
-msgstr ""
+msgstr "Gettery s predponou 'get'"
 
 #. i18n: ectx: whatsthis, entry (getterWithGetPrefix), group (CPP Code Generation)
 #: umbrello.kcfg:549
 #, kde-format
 msgid "If enabled, create getters with 'get' prefix"
-msgstr ""
+msgstr "Ak je povolené, vytvárať gettery s predponou 'get'"
 
 #. i18n: ectx: label, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
 #: umbrello.kcfg:553
 #, kde-format
 msgid "Remove prefix '[a-zA-Z]_' from accessor methods"
-msgstr ""
+msgstr "Odstrániť predponu '[a-zA-Z]_' z prístupových metód"
 
 #. i18n: ectx: whatsthis, entry (removePrefixFromAccessorMethods), group (CPP Code Generation)
 #: umbrello.kcfg:554
 #, kde-format
 msgid "If enabled, remove prefix '[a-zA-Z]_' from accessor methods"
-msgstr ""
+msgstr "Ak je povolené, odstrániť predponu '[a-zA-Z]_' z prístupových metód"
 
 #. i18n: ectx: whatsthis, entry (accessorMethodsStartWithUpperCase), group (CPP Code Generation)
 #: umbrello.kcfg:559
 #, kde-format
 msgid "If enabled, accessor methods start with capital letters"
-msgstr ""
+msgstr "Ak je povolené, prístupové metódy začínajú veľkými písmenami"
 
 #. i18n: ectx: label, entry (docToolTag), group (CPP Code Generation)
 #: umbrello.kcfg:563
@@ -7169,8 +7005,7 @@ msgstr "Tag použitý pre generovanie doxygen dokumentácie (\\\\, @)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:570
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors ( D ) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
 msgstr "Automaticky generovať prístupové metódy atribútu ( D )"
 
@@ -7196,15 +7031,13 @@ msgstr ""
 
 #. i18n: ectx: label, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:580
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (D) "
+#, kde-format
 msgid "Build ANT Document (D)"
 msgstr "Zostaviť dokument ANT (D) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:581
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (D) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (D)"
 msgstr "Povolí/Zakáže zostavovanie dokumentu ANT (D) "
 
@@ -7223,37 +7056,32 @@ msgstr ""
 
 #. i18n: ectx: label, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:592
-#, fuzzy, kde-format
-#| msgid "Auto Generate Assoc Accessors (Java) "
+#, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
 msgstr "Automaticky generovať prístupové metódy asociácie (Java) "
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:593
-#, fuzzy, kde-format
-#| msgid "Enables/Disables auto generation of association accessors (Java) "
+#, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr ""
 "Povolí/Zakáže automatické generovanie prístupových metód asociácie (Java) "
 
 #. i18n: ectx: label, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:597
-#, fuzzy, kde-format
-#| msgid "Build ANT Document (Java) "
+#, kde-format
 msgid "Build ANT Document (Java)"
 msgstr "Zostaviť ANT dokument (Java) "
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:598
-#, fuzzy, kde-format
-#| msgid "Enables/Disables building of ANT Document (Java) "
+#, kde-format
 msgid "Enables/Disables building of ANT Document (Java)"
 msgstr "Povolí/Zakáže zostavovanie dokumentu ANT (Java) "
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:604
-#, fuzzy, kde-format
-#| msgid "Auto Generate Attribute Accessors (Ruby) "
+#, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
 msgstr "Automaticky generovať prístupové metódy atribútu (Ruby)"
 
@@ -7327,17 +7155,15 @@ msgstr "&Upraviť"
 
 #. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
-#, fuzzy, kde-format
-#| msgid "Views"
+#, kde-format
 msgid "&View"
-msgstr "Pohľady"
+msgstr "P&ohľad"
 
 #. i18n: ectx: Menu (view_window)
 #: umbrelloui.rc.cmake:15
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "&Show/hide window"
-msgstr "Ukázať okno dokumentácie"
+msgstr "&Zobraziť/skryť okno"
 
 #. i18n: ectx: Menu (diagram)
 #: umbrelloui.rc.cmake:26
@@ -7493,15 +7319,14 @@ msgid "Pastes the contents of the clipboard"
 msgstr "Vlepí obsah schránky"
 
 #: umlapp.cpp:438
-#, fuzzy, kde-format
-#| msgid "Invoke action"
+#, kde-format
 msgid "Undo last action"
-msgstr "Vyvolať akciu"
+msgstr "Vrátiť späť poslednú akciu"
 
 #: umlapp.cpp:439
 #, kde-format
 msgid "Redo last undone action"
-msgstr ""
+msgstr "Zopakovať poslednú vrátenú akciu"
 
 #: umlapp.cpp:441
 #, kde-format
@@ -7668,15 +7493,7 @@ msgid "Open File"
 msgstr "Otvoriť súbor"
 
 #: umlapp.cpp:1159
-#, fuzzy, kde-format
-#| msgid ""
-#| "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|All Supported Files (*.xmi, *."
-#| "xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
-#| "*.xmi|Uncompressed XMI Files (*.xmi)\n"
-#| "*.xmi.tgz|Gzip Compressed XMI Files (*.xmi.tgz)\n"
-#| "*.xmi.tar.bz2|Bzip2 Compressed XMI Files (*.xmi.tar.bz2)\n"
-#| "*.mdl|Rose model files (*.mdl)\n"
-#| "*.zargo|Compressed argo Files(*.zargo)\n"
+#, kde-format
 msgid ""
 "*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|All Supported Files (*."
 "xmi, *.xmi.tgz, *.xmi.tar.bz2, *.uml, *.mdl, *.zargo)\n"
@@ -7687,13 +7504,14 @@ msgid ""
 "*.mdl|Rose model files (*.mdl)\n"
 "*.zargo|Compressed argo Files(*.zargo)\n"
 msgstr ""
-"*.xmi *.xmi.tgz *.xmi.tar.bz2 *.mdl *.zargo|Všetky podporované formáty (*."
-"xmi, *.xmi.tgz, *.xmi.tar.bz2, *.mdl, *.zargo)\n"
+"*.xmi *.xmi.tgz *.xmi.tar.bz2 *.uml *.mdl *.zargo|Všetky podporované formáty "
+"(*.xmi, *.xmi.tgz, *.xmi.tar.bz2, *.uml, *.mdl, *.zargo)\n"
 "*.xmi|Nekomprimované XMI súbory (*.xmi)\n"
 "*.xmi.tgz|Gzip komprimované XMI súbory (*.xmi.tgz)\n"
 "*.xmi.tar.bz2|Bzip2 komprimované XMI súbory (*.xmi.tar.bz2)\n"
+"*.uml|Súbory Eclipse PapyrusUML (*.uml)\n"
 "*.mdl|Modelové súbory Rose (*.mdl)\n"
-"*.zargo|Komprimované argo súbory (*.zargo)\n"
+"*.zargo|Komprimované súbory argo (*.zargo)\n"
 
 #: umlapp.cpp:1219
 #, kde-format
@@ -7835,10 +7653,9 @@ msgid "XHTML Generation failed ."
 msgstr "Generovanie XHTML zlyhalo."
 
 #: umlappprivate.h:103
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show/hide window"
-msgstr "Ukázať okno dokumentácie"
+msgstr "Zobraziť/skryť okno"
 
 #: umlappprivate.h:189
 #, kde-format
@@ -7968,9 +7785,9 @@ msgid "There was a problem loading file: %1"
 msgstr "Pri načítavaní súboru %1 došlo k chybe"
 
 #: umldoc.cpp:784
-#, fuzzy, kde-format
+#, kde-format
 msgid "Reason: %1"
-msgstr "Dôvod %1:"
+msgstr "Dôvod: %1"
 
 #: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #, kde-format
@@ -8099,7 +7916,7 @@ msgstr "Zadajte nové meno"
 #: umldoc.cpp:2309
 #, kde-format
 msgid "Unsupported xmi file version: %1"
-msgstr ""
+msgstr "Nepodporovaná verzia súboru xmi: %1"
 
 #: umldoc.cpp:2473
 #, kde-format
@@ -8151,8 +7968,7 @@ msgstr ""
 "Existujúci súbor bude prepísaný."
 
 #: umllistview.cpp:560
-#, fuzzy, kde-format
-#| msgid "File Exist"
+#, kde-format
 msgid "File Exists"
 msgstr "Súbor existuje"
 
@@ -8187,28 +8003,24 @@ msgid "Loading listview..."
 msgstr "Načítavam listview..."
 
 #: umllistview.cpp:2826
-#, fuzzy, kde-format
-#| msgid "The folder must be emptied before it can be deleted."
+#, kde-format
 msgid "The class must be emptied before it can be deleted."
-msgstr "Priečinok treba vyprázdniť pred vymazaním."
+msgstr "Trieda musí byť vyprázdnená pred tým, než ju bude možné odstrániť."
 
 #: umllistview.cpp:2827
-#, fuzzy, kde-format
-#| msgid "Folder Not Empty"
+#, kde-format
 msgid "Class Not Empty"
-msgstr "Priečinok nie je prázdny"
+msgstr "Trieda nie je prázdna"
 
 #: umllistview.cpp:2831
-#, fuzzy, kde-format
-#| msgid "The folder must be emptied before it can be deleted."
+#, kde-format
 msgid "The package must be emptied before it can be deleted."
-msgstr "Priečinok treba vyprázdniť pred vymazaním."
+msgstr "Balík musí byť vyprázdnený pred tým, než ho bude možné odstrániť."
 
 #: umllistview.cpp:2832
-#, fuzzy, kde-format
-#| msgid "Folder Not Empty"
+#, kde-format
 msgid "Package Not Empty"
-msgstr "Priečinok nie je prázdny"
+msgstr "Balík nie je prázdny"
 
 #: umllistview.cpp:2836
 #, kde-format
@@ -8757,128 +8569,107 @@ msgid "Hold shift and control to move in Y axis."
 msgstr "Podržte Shift a Ctrl na pohyb v osi Y."
 
 #: umlwidgets/widget_utils.cpp:825
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new actor"
-msgstr "nový_aktér"
+msgstr "nový aktér"
 
 #: umlwidgets/widget_utils.cpp:826
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "new artifact"
-msgstr "nový_artefakt"
+msgstr "nový artefakt"
 
 #: umlwidgets/widget_utils.cpp:827
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "new association"
-msgstr "nová_asociácia"
+msgstr "nová asociácia"
 
 #: umlwidgets/widget_utils.cpp:828
-#, fuzzy, kde-format
-#| msgid "new port"
+#, kde-format
 msgid "new box"
-msgstr "nový port"
+msgstr "nový box"
 
 #: umlwidgets/widget_utils.cpp:829
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "new category"
-msgstr "Nová kategória"
+msgstr "nová kategória"
 
 #: umlwidgets/widget_utils.cpp:830
-#, fuzzy, kde-format
-#| msgid "new_class"
+#, kde-format
 msgid "new class"
-msgstr "Nová trieda"
+msgstr "nová trieda"
 
 #: umlwidgets/widget_utils.cpp:831
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "new combined fragment"
-msgstr "nový Zložený fragment"
+msgstr "nový zložený fragment"
 
 #: umlwidgets/widget_utils.cpp:832
-#, fuzzy, kde-format
-#| msgid "new_component"
+#, kde-format
 msgid "new component"
 msgstr "nový_komponent"
 
 #: umlwidgets/widget_utils.cpp:833
-#, fuzzy, kde-format
-#| msgid "new_datatype"
+#, kde-format
 msgid "new datatype"
 msgstr "nový_údajový_typ"
 
 #: umlwidgets/widget_utils.cpp:834
-#, fuzzy, kde-format
-#| msgid "new_entity"
+#, kde-format
 msgid "new entity"
-msgstr "nový_objekt"
+msgstr "nová_entita"
 
 #: umlwidgets/widget_utils.cpp:835
-#, fuzzy, kde-format
-#| msgid "new_enum"
+#, kde-format
 msgid "new enum"
 msgstr "nový_enumeračný_typ"
 
 #: umlwidgets/widget_utils.cpp:836
-#, fuzzy, kde-format
-#| msgid "FloatingDashLine"
+#, kde-format
 msgid "new floating dash line"
-msgstr "Plávajúca čiarkovaná čiara"
+msgstr "nová plávajúca čiarkovaná čiara"
 
 #: umlwidgets/widget_utils.cpp:837
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "new fork/join"
-msgstr "Rozdeliť/spojiť"
+msgstr "nové rozdelenie/spojenie"
 
 #: umlwidgets/widget_utils.cpp:838
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "new instance"
 msgstr "Nová inštancia"
 
 #: umlwidgets/widget_utils.cpp:839
-#, fuzzy, kde-format
-#| msgid "new_interface"
+#, kde-format
 msgid "new interface"
 msgstr "nové_rozhranie"
 
 #: umlwidgets/widget_utils.cpp:840
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "new message"
 msgstr "Nová správa"
 
 #: umlwidgets/widget_utils.cpp:841
-#, fuzzy, kde-format
-#| msgid "new_node"
+#, kde-format
 msgid "new node"
 msgstr "nový_uzol"
 
 #: umlwidgets/widget_utils.cpp:842
-#, fuzzy, kde-format
-#| msgid "new port"
+#, kde-format
 msgid "new note"
 msgstr "Nová poznámka"
 
 #: umlwidgets/widget_utils.cpp:843
-#, fuzzy, kde-format
-#| msgid "new_object"
+#, kde-format
 msgid "new object"
 msgstr "nový_objekt"
 
 #: umlwidgets/widget_utils.cpp:844
-#, fuzzy, kde-format
-#| msgid "Enter object name:"
+#, kde-format
 msgid "new object node"
-msgstr "Zadajte názov objektu:"
+msgstr "nový uzol objektu"
 
 #: umlwidgets/widget_utils.cpp:845
-#, fuzzy, kde-format
-#| msgid "new_package"
+#, kde-format
 msgid "new package"
 msgstr "nový_balík"
 
@@ -8898,69 +8689,59 @@ msgid "new precondition"
 msgstr "nová predpodmienka"
 
 #: umlwidgets/widget_utils.cpp:849
-#, fuzzy, kde-format
-#| msgid "new pin"
+#, kde-format
 msgid "new region"
-msgstr "nový pin"
+msgstr "nový región"
 
 #: umlwidgets/widget_utils.cpp:850
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "new signal"
 msgstr "nový signál"
 
 #: umlwidgets/widget_utils.cpp:852
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "new text"
 msgstr "Nový text"
 
 #: umlwidgets/widget_utils.cpp:853
-#, fuzzy, kde-format
-#| msgid "Move widgets"
+#, kde-format
 msgid "new UML widget"
-msgstr "Presunúť widgety"
+msgstr "nový UML widget"
 
 #: umlwidgets/widget_utils.cpp:854
-#, fuzzy, kde-format
-#| msgid "new_usecase"
+#, kde-format
 msgid "new use case"
 msgstr "nový_prípad_použitia"
 
 #: umlwidgets/widget_utils.cpp:858
-#, fuzzy, kde-format
-#| msgid "Move widgets"
+#, kde-format
 msgid "new widget"
-msgstr "Presunúť widgety"
+msgstr "nový widget"
 
 #: umlwidgets/widget_utils.cpp:871
-#, fuzzy, kde-format
-#| msgid "new activity"
+#, kde-format
 msgid "New activity"
-msgstr "Nová aktivita..."
+msgstr "Nová aktivita"
 
 #: umlwidgets/widget_utils.cpp:875
 #, kde-format
 msgid "New box"
-msgstr ""
+msgstr "Nový rámček"
 
 #: umlwidgets/widget_utils.cpp:878
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "New combined fragment"
-msgstr "nový Zložený fragment"
+msgstr "Nový zložený fragment"
 
 #: umlwidgets/widget_utils.cpp:883
-#, fuzzy, kde-format
-#| msgid "FloatingDashLine"
+#, kde-format
 msgid "New floating dash line"
-msgstr "Plávajúca čiarkovaná čiara"
+msgstr "Nová plávajúca čiarkovaná čiara"
 
 #: umlwidgets/widget_utils.cpp:884
-#, fuzzy, kde-format
-#| msgid "Fork/Join"
+#, kde-format
 msgid "New fork/join"
-msgstr "Rozdeliť/spojiť"
+msgstr "Nové rozdelenie/spojenie"
 
 #: umlwidgets/widget_utils.cpp:887
 #, kde-format
@@ -8968,195 +8749,164 @@ msgid "New message"
 msgstr "Nová správa"
 
 #: umlwidgets/widget_utils.cpp:889
-#, fuzzy, kde-format
-#| msgid "New Stereotype"
+#, kde-format
 msgid "New note"
 msgstr "Nová poznámka"
 
 #: umlwidgets/widget_utils.cpp:890
-#, fuzzy, kde-format
-#| msgid "new_object"
+#, kde-format
 msgid "New object"
-msgstr "nový_objekt"
+msgstr "Nový objekt"
 
 #: umlwidgets/widget_utils.cpp:891
-#, fuzzy, kde-format
-#| msgid "Object Node"
+#, kde-format
 msgid "New object node"
-msgstr "Uzol objektu"
+msgstr "Nový uzol objektu"
 
 #: umlwidgets/widget_utils.cpp:893
-#, fuzzy, kde-format
-#| msgid "new pin"
+#, kde-format
 msgid "New pin"
-msgstr "nový pin"
+msgstr "Nový pin"
 
 #: umlwidgets/widget_utils.cpp:895
-#, fuzzy, kde-format
-#| msgid "new precondition"
+#, kde-format
 msgid "New precondition"
-msgstr "nová predpodmienka"
+msgstr "Nová predpodmienka"
 
 #: umlwidgets/widget_utils.cpp:896
-#, fuzzy, kde-format
-#| msgid "Region"
+#, kde-format
 msgid "New region"
-msgstr "Región"
+msgstr "Nový región"
 
 #: umlwidgets/widget_utils.cpp:897
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "New signal"
-msgstr "nový signál"
+msgstr "Nový signál"
 
 #: umlwidgets/widget_utils.cpp:898
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "New state"
-msgstr "nový stav"
+msgstr "Nový stav"
 
 #: umlwidgets/widget_utils.cpp:899
-#, fuzzy, kde-format
-#| msgid "New Stereotype"
+#, kde-format
 msgid "New text"
 msgstr "Nový text"
 
 #: umlwidgets/widget_utils.cpp:900
-#, fuzzy, kde-format
-#| msgid "Move widgets"
+#, kde-format
 msgid "New UML widget"
-msgstr "Presunúť widgety"
+msgstr "Nový UML widget"
 
 #: umlwidgets/widget_utils.cpp:905
-#, fuzzy, kde-format
-#| msgid "Move widgets"
+#, kde-format
 msgid "New widget"
-msgstr "Presunúť widgety"
+msgstr "Nový widget"
 
 #: umlwidgets/widget_utils.cpp:921
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new box:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového rámčeka:"
 
 #: umlwidgets/widget_utils.cpp:924
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new combined fragment:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového zloženého fragmentu:"
 
 #: umlwidgets/widget_utils.cpp:929
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new floating dash line:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov novej plávajúcej čiarkovanej čiary:"
 
 #: umlwidgets/widget_utils.cpp:930
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new fork/join:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového rozdelenia/spojenia:"
 
 #: umlwidgets/widget_utils.cpp:933
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new message:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov novej správy:"
 
 #: umlwidgets/widget_utils.cpp:935
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new note:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov novej poznámky:"
 
 #: umlwidgets/widget_utils.cpp:936
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new object:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového objektu:"
 
 #: umlwidgets/widget_utils.cpp:937
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object node :"
+#, kde-format
 msgid "Enter the name of the new object node:"
 msgstr "Zadajte názov uzlu objektu:"
 
 #: umlwidgets/widget_utils.cpp:939
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new pin:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového pinu:"
 
 #: umlwidgets/widget_utils.cpp:941
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new activity:"
+#, kde-format
 msgid "Enter the name of the new precondition:"
-msgstr "Zadajte názov novej aktivity:"
+msgstr "Zadajte názov novej predpodmienky:"
 
 #: umlwidgets/widget_utils.cpp:942
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new region:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov novej oblasti:"
 
 #: umlwidgets/widget_utils.cpp:943
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new signal:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového signálu:"
 
 #: umlwidgets/widget_utils.cpp:945
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new text:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového textu:"
 
 #: umlwidgets/widget_utils.cpp:946
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new uml widget:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového UML widgetu:"
 
 #: umlwidgets/widget_utils.cpp:950
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new widget:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte názov nového widgetu:"
 
 #: umlwidgets/widget_utils.cpp:962
-#, fuzzy, kde-format
-#| msgid "Rename Activity"
+#, kde-format
 msgid "Rename activity"
 msgstr "Premenovať aktivitu"
 
 #: umlwidgets/widget_utils.cpp:966
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename box"
-msgstr "Premenovať"
+msgstr "Premenovať rámček"
 
 #: umlwidgets/widget_utils.cpp:969
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "Rename combined fragment"
-msgstr "nový Zložený fragment"
+msgstr "Premenovať zložený fragment"
 
 #: umlwidgets/widget_utils.cpp:974
-#, fuzzy, kde-format
-#| msgid "FloatingDashLine"
+#, kde-format
 msgid "Rename floating dash line"
-msgstr "Plávajúca čiarkovaná čiara"
+msgstr "Premenovať plávajúcu čiarkovanú čiaru"
 
 #: umlwidgets/widget_utils.cpp:975
 #, kde-format
 msgid "Rename fork/join"
-msgstr ""
+msgstr "Premenovať rozvetviť/spojiť"
 
 #: umlwidgets/widget_utils.cpp:978
-#, fuzzy, kde-format
-#| msgid "Enable all messages"
+#, kde-format
 msgid "Rename message"
-msgstr "Povoliť všetky správy"
+msgstr "Premenovať správu"
 
 #: umlwidgets/widget_utils.cpp:980
 #, kde-format
@@ -9169,58 +8919,49 @@ msgid "Rename object"
 msgstr "Premenovať objekt"
 
 #: umlwidgets/widget_utils.cpp:982
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename object node"
-msgstr "Premenovať objekt"
+msgstr "Premenovať uzol objektu"
 
 #: umlwidgets/widget_utils.cpp:984
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename pin"
-msgstr "Premenovať"
+msgstr "Premenovať pin"
 
 #: umlwidgets/widget_utils.cpp:986
-#, fuzzy, kde-format
-#| msgid "new precondition"
+#, kde-format
 msgid "Rename precondition"
-msgstr "nová predpodmienka"
+msgstr "Premenovať predpodmienku"
 
 #: umlwidgets/widget_utils.cpp:987
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename region"
-msgstr "Premenovať"
+msgstr "Premenovať oblasť"
 
 #: umlwidgets/widget_utils.cpp:988
-#, fuzzy, kde-format
-#| msgid "Send signal"
+#, kde-format
 msgid "Rename signal"
-msgstr "Poslať signál"
+msgstr "Premenovať signál"
 
 #: umlwidgets/widget_utils.cpp:989
-#, fuzzy, kde-format
-#| msgid "new state"
+#, kde-format
 msgid "Rename state"
-msgstr "nový stav"
+msgstr "Premenovať stav"
 
 #: umlwidgets/widget_utils.cpp:990
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename text"
-msgstr "Premenovať objekt"
+msgstr "Premenovať text"
 
 #: umlwidgets/widget_utils.cpp:991
-#, fuzzy, kde-format
-#| msgid "Resize widgets"
+#, kde-format
 msgid "Rename UML widget"
-msgstr "Zmeniť veľkosť widgetov"
+msgstr "Premenovať UML widget"
 
 #: umlwidgets/widget_utils.cpp:996
-#, fuzzy, kde-format
-#| msgid "Resize widgets"
+#, kde-format
 msgid "Rename widget"
-msgstr "Zmeniť veľkosť widgetov"
+msgstr "Premenovať widget"
 
 #: umlwidgets/widget_utils.cpp:1008
 #, kde-format
@@ -9228,100 +8969,84 @@ msgid "Enter the new name of the activity:"
 msgstr "Zadajte nový názov aktivity:"
 
 #: umlwidgets/widget_utils.cpp:1012
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the box:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov rámčeka:"
 
 #: umlwidgets/widget_utils.cpp:1015
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the combined fragment:"
-msgstr "Zadajte nový názov diagramu:"
+msgstr "Zadajte nový názov kombinovaného fragmentu:"
 
 #: umlwidgets/widget_utils.cpp:1020
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the floating dash line:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov plávajúcej čiarkovanej čiary:"
 
 #: umlwidgets/widget_utils.cpp:1021
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the fork/join widget:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov widgetu rozvetviť/spojiť:"
 
 #: umlwidgets/widget_utils.cpp:1024
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the message:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov správy:"
 
 #: umlwidgets/widget_utils.cpp:1026
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the note:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov poznámky:"
 
 #: umlwidgets/widget_utils.cpp:1027
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the object:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov objektu:"
 
 #: umlwidgets/widget_utils.cpp:1028
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object node :"
+#, kde-format
 msgid "Enter the new name of the object node:"
 msgstr "Zadajte názov uzlu objektu:"
 
 #: umlwidgets/widget_utils.cpp:1030
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the pin:"
-msgstr "Zadajte nový názov diagramu:"
+msgstr "Zadajte nový názov pinu:"
 
 #: umlwidgets/widget_utils.cpp:1032
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the precondition:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov predpodmienky:"
 
 #: umlwidgets/widget_utils.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the region:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov oblasti:"
 
 #: umlwidgets/widget_utils.cpp:1034
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the signal:"
-msgstr "Zadajte nový názov diagramu:"
+msgstr "Zadajte nový názov signálu:"
 
 #: umlwidgets/widget_utils.cpp:1035
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the new name of the state:"
-msgstr "Zadajte názov nového stavu:"
+msgstr "Zadajte nový názov stavu:"
 
 #: umlwidgets/widget_utils.cpp:1036
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the text:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov textu:"
 
 #: umlwidgets/widget_utils.cpp:1037
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the uml widget:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov UML widgetu:"
 
 #: umlwidgets/widget_utils.cpp:1041
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the widget:"
-msgstr "Zadajte nový názov modelu:"
+msgstr "Zadajte nový názov widgetu:"
 
 #: umlwidgets/widgetbase.cpp:1255 worktoolbar.cpp:337
 #, kde-format
@@ -9412,7 +9137,7 @@ msgstr "Vytvorenie"
 #: worktoolbar.cpp:325
 #, kde-format
 msgid "Destroy"
-msgstr ""
+msgstr "Zničiť"
 
 #: worktoolbar.cpp:330
 #, kde-format
@@ -9456,16 +9181,14 @@ msgid "Fork/Join"
 msgstr "Rozdeliť/spojiť"
 
 #: worktoolbar.cpp:360
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interface Provider"
-msgstr "Rozhranie"
+msgstr "Poskytovateľ rozhrania"
 
 #: worktoolbar.cpp:361
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interface required"
-msgstr "Rozhranie"
+msgstr "Vyžadované rozhranie"
 
 #: worktoolbar.cpp:367
 #, kde-format
@@ -9497,37 +9220,30 @@ msgid "Pre/Post condition"
 msgstr "Pred/po podmienka"
 
 #, fuzzy
-#~| msgid "Show Attributes"
 #~ msgid "Show tree view"
 #~ msgstr "Zobraziť atribúty"
 
 #, fuzzy
-#~| msgid "Show Documentation Indicator"
 #~ msgid "Show documentation window"
 #~ msgstr "Ukázať ukazovateľ dokumentácie"
 
 #, fuzzy
-#~| msgid "&Command history"
 #~ msgid "Show command history"
 #~ msgstr "História príkazov"
 
 #, fuzzy
-#~| msgid "&Bird's eye view"
 #~ msgid "Show bird's eye view"
 #~ msgstr "Pohľad vtáčieho oka"
 
 #, fuzzy
-#~| msgid "Show Doc Window"
 #~ msgid "Show diagrams window"
 #~ msgstr "Ukázať okno dokumentácie"
 
 #, fuzzy
-#~| msgid "Show Stereotypes"
 #~ msgid "Show stereotypes window"
 #~ msgstr "Ukázať stereotypy"
 
 #, fuzzy
-#~| msgid "Show Doc Window"
 #~ msgid "Show welcome window"
 #~ msgstr "Ukázať okno dokumentácie"
 
@@ -9657,12 +9373,10 @@ msgstr "Pred/po podmienka"
 #~ msgstr "Zadajte nový port"
 
 #, fuzzy
-#~| msgid "Enter State Name"
 #~ msgid "Enter Subsystem Name"
 #~ msgstr "Zadajte názov stavu"
 
 #, fuzzy
-#~| msgid "Enter the name of the new state:"
 #~ msgid "Enter the name of the new subsystem"
 #~ msgstr "Zadajte názov nového stavu:"
 
