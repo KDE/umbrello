@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-02-24 00:48+0000\n"
-"PO-Revision-Date: 2026-04-06 09:47+0300\n"
+"PO-Revision-Date: 2026-04-18 15:31+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -8096,6 +8096,9 @@ msgid ""
 "already exists in the package %2.\n"
 "Please enter a new name:"
 msgstr ""
+"כבר קיים עצם בשם %1\n"
+"בחבילה %2.\n"
+"נא למלא שם חדש:"
 
 #: umlscene.cpp:726
 #, kde-format
@@ -8170,7 +8173,7 @@ msgstr "התצוגה מיוצאת…"
 #: umlviewimageexporter.cpp:78
 #, kde-format
 msgid "An error happened when exporting the image:\n"
-msgstr ""
+msgstr "אירעה שגיאה בייצוא התמונה:\n"
 
 #: umlviewimageexporter.cpp:109
 #, kde-format
@@ -8199,7 +8202,7 @@ msgstr "לא ניתן ליצור תיקייה: %1"
 #: umlviewimageexportermodel.cpp:259
 #, kde-format
 msgid "A problem occurred while saving diagram in %1"
-msgstr ""
+msgstr "אירעה תקלה בעת שמירת תרשים תחת %1"
 
 #: umlwidgets/associationwidget.cpp:2642
 #, kde-format
@@ -8379,7 +8382,7 @@ msgstr ""
 #: umlwidgets/objectnodewidget.cpp:304
 #, kde-format
 msgid "data store name"
-msgstr ""
+msgstr "שם אחסון נתונים"
 
 #: umlwidgets/objectnodewidget.cpp:306
 #, kde-format
@@ -8974,12 +8977,12 @@ msgstr "מונה"
 #: umlwidgets/widgetbase.cpp:1279
 #, kde-format
 msgid "FloatingDashLine"
-msgstr ""
+msgstr "קו מקווקוו צף"
 
 #: umlwidgets/widgetbase.cpp:1282
 #, kde-format
 msgid "ForkJoin"
-msgstr ""
+msgstr "צירוף פיצולים"
 
 #: umlwidgets/widgetbase.cpp:1288
 #, kde-format
@@ -8999,7 +9002,7 @@ msgstr "עצם"
 #: umlwidgets/widgetbase.cpp:1300
 #, kde-format
 msgid "ObjectNode"
-msgstr ""
+msgstr "מפרק עצם"
 
 #: umlwidgets/widgetbase.cpp:1318
 #, kde-format

@@ -2170,7 +2170,7 @@ msgstr "საერთო"
 #: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
-msgstr "შრიფტი"
+msgstr "ფონტი"
 
 #: dialogs/multipagedialogbase.cpp:338
 #, kde-format
