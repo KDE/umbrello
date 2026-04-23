@@ -2215,7 +2215,6 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
             pAssoc->widgetIDForRole(Uml::RoleType::B) == assocwidget->widgetIDForRole(Uml::RoleType::B)) {
             return (isPasteOperation ? true : false);
         }
-        }
         if (*pAssoc == *assocwidget)
             // this is nuts. Paste operation wants to know if 'true'
             // for duplicate, but loadFromXMI needs 'false' value
