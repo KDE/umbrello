@@ -2203,9 +2203,19 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
         return false;
     }
 
-    //make sure there isn't already the same assoc
-
+    // make sure there isn't already the same assoc
+    // For model-backed associations, use the UML object id/pointer as the
+    // primary duplicate key. This avoids duplicate lines during load when
+    // transient widget state (e.g. floating name text) differs.
     for(AssociationWidget *assocwidget : associationList()) {
+        if (pAssoc->id() != Uml::ID::None &&
+            pAssoc->id() == assocwidget->id()) {
+            return (isPasteOperation ? true : false);
+        }
+        if (pAssoc->umlObject() != nullptr &&
+            pAssoc->umlObject() == assocwidget->umlObject()) {
+            return (isPasteOperation ? true : false);
+        }
         if (*pAssoc == *assocwidget)
             // this is nuts. Paste operation wants to know if 'true'
             // for duplicate, but loadFromXMI needs 'false' value
