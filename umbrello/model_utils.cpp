@@ -2266,6 +2266,7 @@ bool typeIsAllowedInDiagram(UMLObject* o, UMLScene *scene)
     case Uml::DiagramType::Sequence:
         if (ot != UMLObject::ot_Class &&
             ot != UMLObject::ot_Interface &&
+            ot != UMLObject::ot_Instance &&
             ot != UMLObject::ot_Actor)
             bAccept = false;
         break;
