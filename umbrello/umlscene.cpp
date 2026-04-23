@@ -2204,16 +2204,15 @@ bool UMLScene::addAssociation(AssociationWidget* pAssoc, bool isPasteOperation)
     }
 
     // make sure there isn't already the same assoc
-    // For model-backed associations, use the UML object id/pointer as the
-    // primary duplicate key. This avoids duplicate lines during load when
-    // transient widget state (e.g. floating name text) differs.
+    // For model-backed associations, compare full edge identity (model
+    // association + type + endpoints) but intentionally do not compare the
+    // display name, because it may be temporarily out of sync while loading.
     for(AssociationWidget *assocwidget : associationList()) {
-        if (pAssoc->id() != Uml::ID::None &&
-            pAssoc->id() == assocwidget->id()) {
-            return (isPasteOperation ? true : false);
-        }
-        if (pAssoc->umlObject() != nullptr &&
-            pAssoc->umlObject() == assocwidget->umlObject()) {
+        if (pAssoc->association() != nullptr &&
+            pAssoc->association() == assocwidget->association() &&
+            pAssoc->associationType() == assocwidget->associationType() &&
+            pAssoc->widgetIDForRole(Uml::RoleType::A) == assocwidget->widgetIDForRole(Uml::RoleType::A) &&
+            pAssoc->widgetIDForRole(Uml::RoleType::B) == assocwidget->widgetIDForRole(Uml::RoleType::B)) {
             return (isPasteOperation ? true : false);
         }
         if (*pAssoc == *assocwidget)
