@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-24 00:48+0000\n"
+"POT-Creation-Date: 2026-04-24 00:46+0000\n"
 "PO-Revision-Date: 2026-02-24 07:25+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -8247,17 +8247,17 @@ msgstr "Izbriši gradnike"
 msgid "Resize widgets"
 msgstr "Spremeni velikost gradnikov"
 
-#: umlscene.cpp:3359
+#: umlscene.cpp:3368
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Vnesite ime diagrama"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3369
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Vnesite novo ime diagrama:"
 
-#: umlscene.cpp:3376
+#: umlscene.cpp:3385
 #, kde-format
 msgid "Failed to import from file."
 msgstr "Uvažanje iz datoteke ni uspelo."

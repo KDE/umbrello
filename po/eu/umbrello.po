@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-24 00:48+0000\n"
+"POT-Creation-Date: 2026-04-24 00:46+0000\n"
 "PO-Revision-Date: 2020-08-17 20:55+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -8476,17 +8476,17 @@ msgstr "Hautatu"
 msgid "Resize widgets"
 msgstr "Sortu karpeta"
 
-#: umlscene.cpp:3359
+#: umlscene.cpp:3368
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Sartu diagramaren izena"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3369
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Sartu diagrama berriaren izena:"
 
-#: umlscene.cpp:3376
+#: umlscene.cpp:3385
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

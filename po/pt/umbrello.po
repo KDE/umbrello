@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-24 00:48+0000\n"
+"POT-Creation-Date: 2026-04-24 00:46+0000\n"
 "PO-Revision-Date: 2023-01-06 03:12+0000\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -8298,17 +8298,17 @@ msgstr "Remover os itens"
 msgid "Resize widgets"
 msgstr "Dimensionar os itens"
 
-#: umlscene.cpp:3359
+#: umlscene.cpp:3368
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Indicar o Nome do Diagrama"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3369
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Insira o novo nome do diagrama:"
 
-#: umlscene.cpp:3376
+#: umlscene.cpp:3385
 #, kde-format
 msgid "Failed to import from file."
 msgstr "Não foi possível importar do ficheiro."

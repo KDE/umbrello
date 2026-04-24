@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-24 00:48+0000\n"
+"POT-Creation-Date: 2026-04-24 00:46+0000\n"
 "PO-Revision-Date: 2019-09-29 12:21+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -8702,17 +8702,17 @@ msgstr "Интихоб кардан"
 msgid "Resize widgets"
 msgstr "Натавонистам каталог бунёд созам"
 
-#: umlscene.cpp:3359
+#: umlscene.cpp:3368
 #, fuzzy, kde-format
 msgid "Enter Diagram Name"
 msgstr "Номи ҳолатро гузоред"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3369
 #, fuzzy, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Номи нави фаъолиятро гузоред:"
 
-#: umlscene.cpp:3376
+#: umlscene.cpp:3385
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

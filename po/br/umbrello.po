@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdesdk/umbrello.pot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-24 00:48+0000\n"
+"POT-Creation-Date: 2026-04-24 00:46+0000\n"
 "PO-Revision-Date: 2004-09-20 15:44+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: br <LL@li.org>\n"
@@ -8712,17 +8712,17 @@ msgstr "Dilemel"
 msgid "Resize widgets"
 msgstr "Krouiñ ur renkell"
 
-#: umlscene.cpp:3359
+#: umlscene.cpp:3368
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Roit anv ar skeudenn"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3369
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Roit anv nevez ar skeudenn :"
 
-#: umlscene.cpp:3376
+#: umlscene.cpp:3385
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""
