@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-24 00:48+0000\n"
+"POT-Creation-Date: 2026-04-24 02:43+0000\n"
 "PO-Revision-Date: 2021-01-18 19:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -8691,17 +8691,17 @@ msgstr "தேர்வு"
 msgid "Resize widgets"
 msgstr "அடைவினை உருவாக்க முடியவில்லை"
 
-#: umlscene.cpp:3359
+#: umlscene.cpp:3368
 #, fuzzy, kde-format
 msgid "Enter Diagram Name"
 msgstr "மாநிலத்தின் பெயர்"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3369
 #, fuzzy, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "செயற்பாட்டிற்கான்  புதிய பெயரை உள்ளிடுக."
 
-#: umlscene.cpp:3376
+#: umlscene.cpp:3385
 #, kde-format
 msgid "Failed to import from file."
 msgstr ""

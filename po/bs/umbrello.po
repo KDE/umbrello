@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-02-24 00:48+0000\n"
+"POT-Creation-Date: 2026-04-24 02:43+0000\n"
 "PO-Revision-Date: 2015-02-25 21:00+0100\n"
 "Last-Translator: Samir Ribić <megaribi@epn.ba>\n"
 "Language-Team:  <bs@li.org>\n"
@@ -8519,17 +8519,17 @@ msgstr "Obriši grafičke animacije"
 msgid "Resize widgets"
 msgstr "Promijeni veličinu grafičkim animacijama"
 
-#: umlscene.cpp:3359
+#: umlscene.cpp:3368
 #, kde-format
 msgid "Enter Diagram Name"
 msgstr "Unesite ime dijagrama"
 
-#: umlscene.cpp:3360
+#: umlscene.cpp:3369
 #, kde-format
 msgid "Enter the new name of the diagram:"
 msgstr "Unesite novo ime za dijagram:"
 
-#: umlscene.cpp:3376
+#: umlscene.cpp:3385
 #, fuzzy, kde-format
 #| msgid "No code importer for file: %1"
 msgid "Failed to import from file."
