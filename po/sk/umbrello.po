@@ -1606,7 +1606,7 @@ msgstr "Počiatočná aktivita"
 #: dialogs/activitydialog.cpp:139
 #, kde-format
 msgid "End activity"
-msgstr "Konečná aktivita"
+msgstr "Ukončená aktivita"
 
 #: dialogs/activitydialog.cpp:139
 #, kde-format
@@ -1674,7 +1674,7 @@ msgstr "Normálna aktivita"
 #: dialogs/activitydialog.cpp:181
 #, kde-format
 msgid "&Invoke action "
-msgstr "Vyvolať akciu"
+msgstr "&Vyvolať akciu"
 
 #: dialogs/activitydialog.cpp:184
 #, kde-format
@@ -2262,7 +2262,7 @@ msgstr "Centrálna vyrovnávacia pamäť"
 #: dialogs/objectnodedialog.cpp:167
 #, kde-format
 msgid "&Data Store "
-msgstr "Úložisko dát"
+msgstr "&Úložisko dát"
 
 #: dialogs/objectnodedialog.cpp:170
 #, kde-format
@@ -2341,7 +2341,7 @@ msgstr "Nová aktivita..."
 #: refactoring/refactoringassistant.cpp:460
 #, kde-format
 msgid "Delete"
-msgstr "Odstrániť"
+msgstr "Zmazať"
 
 #: dialogs/pages/activitypage.cpp:103 umlwidgets/floatingtextwidget.cpp:364
 #, kde-format
@@ -3209,7 +3209,7 @@ msgstr "Predvolené"
 #: dialogs/pages/umlwidgetstylepage.cpp:139
 #, kde-format
 msgid "&Use fill"
-msgstr "P&oužiť farbu výplne"
+msgstr "P&oužiť výplň"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:149
 #, kde-format
@@ -3420,7 +3420,7 @@ msgstr "Pripojiť"
 #, kde-format
 msgctxt "junction state in statechart"
 msgid "Junction"
-msgstr "Uzol"
+msgstr "Spojovací uzol"
 
 #: dialogs/statedialog.cpp:151
 #, kde-format
@@ -3546,7 +3546,7 @@ msgstr "Skontrolovať podmienku :"
 #: dialogs/umlentityattributedialog.cpp:43
 #, kde-format
 msgid "Entity Attribute Properties"
-msgstr "Vlastnosti atribútu objektu"
+msgstr "Vlastnosti atribútu entity"
 
 #: dialogs/umlentityattributedialog.cpp:71
 #, kde-format
@@ -3754,7 +3754,7 @@ msgstr "Vlastnosti atribútu objektu"
 #: dialogs/umlinstanceattributedialog.cpp:40
 #, kde-format
 msgid "You have entered an invalid attribute value."
-msgstr "Zadali ste neplatný názov atribútu."
+msgstr "Zadali ste neplatnú hodnotu atribútu."
 
 #: dialogs/umlinstanceattributedialog.cpp:41
 #, kde-format
@@ -3807,7 +3807,7 @@ msgstr "&inline"
 #: dialogs/umloperationdialog.cpp:127
 #, kde-format
 msgid "&Override"
-msgstr "Prepísať"
+msgstr "&Predefinovať"
 
 #: dialogs/umloperationdialog.cpp:138
 #, kde-format
@@ -3891,7 +3891,7 @@ msgstr "Názov parametra ktorý ste zvolili sa už v tejto operácii používa."
 #: dialogs/umltemplatedialog.cpp:99
 #, kde-format
 msgid "Template Name Not Unique"
-msgstr "Názov parametra nie je jednoznačný"
+msgstr "Názov šablóny nie je jednoznačný"
 
 #: dialogs/umluniqueconstraintdialog.cpp:45
 #, kde-format
@@ -4103,7 +4103,7 @@ msgstr "Implementácia"
 #: dialogs/widgets/visibilityenumwidget.cpp:51
 #, kde-format
 msgid "Role B Visibility"
-msgstr "Vlastnosti role B"
+msgstr "Viditeľnosť role B"
 
 #: docgenerators/docbook2xhtmlgeneratorjob.cpp:59
 #, kde-format
@@ -4490,7 +4490,7 @@ msgstr "Upraviť zložený stav"
 #: menus/listpopupmenu.cpp:175 worktoolbar.cpp:379
 #, kde-format
 msgid "End Activity"
-msgstr "Konečná aktivita"
+msgstr "Ukončená aktivita"
 
 #: menus/listpopupmenu.cpp:176 worktoolbar.cpp:349
 #, kde-format
@@ -4501,7 +4501,7 @@ msgstr "Konečný stav"
 #: worktoolbar.cpp:364
 #, kde-format
 msgid "Entity"
-msgstr "Objekt"
+msgstr "Entita"
 
 #. i18n("Entity...")); break;
 #: menus/listpopupmenu.cpp:179
@@ -5141,7 +5141,7 @@ msgstr "nový atribút"
 #: model_utils.cpp:565
 #, kde-format
 msgid "new_category"
-msgstr "nová kategória"
+msgstr "nová_kategória"
 
 #: model_utils.cpp:566 umlmodel/umlcanvasobject.cpp:212
 #, kde-format
@@ -5161,7 +5161,7 @@ msgstr "nový_údajový_typ"
 #: model_utils.cpp:570
 #, kde-format
 msgid "new_entity"
-msgstr "nový_objekt"
+msgstr "nová_entita"
 
 #: model_utils.cpp:571
 #, kde-format
@@ -7777,7 +7777,7 @@ msgstr "Žiaden XMI súbor nebol nájdený v komprimovanom súbore %1."
 #: umldoc.cpp:721
 #, kde-format
 msgid "There was a problem loading the extracted file: %1"
-msgstr "Pri načítavaní súboru %1 došlo k chybe"
+msgstr "Pri načítavaní extrahovaného súboru %1 došlo k chybe"
 
 #: umldoc.cpp:746 umldoc.cpp:782
 #, kde-format
@@ -7792,7 +7792,7 @@ msgstr "Dôvod: %1"
 #: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #, kde-format
 msgid "There was a problem saving: %1"
-msgstr "Počas ukladania súboru %1 došlo k chybe"
+msgstr "Počas ukladania %1 došlo k chybe"
 
 #: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #: umldoc.cpp:975 umllistview.cpp:569
@@ -8606,12 +8606,12 @@ msgstr "nový zložený fragment"
 #: umlwidgets/widget_utils.cpp:832
 #, kde-format
 msgid "new component"
-msgstr "nový_komponent"
+msgstr "nový komponent"
 
 #: umlwidgets/widget_utils.cpp:833
 #, kde-format
 msgid "new datatype"
-msgstr "nový_údajový_typ"
+msgstr "nový údajový typ"
 
 #: umlwidgets/widget_utils.cpp:834
 #, kde-format
@@ -8621,7 +8621,7 @@ msgstr "nová_entita"
 #: umlwidgets/widget_utils.cpp:835
 #, kde-format
 msgid "new enum"
-msgstr "nový_enumeračný_typ"
+msgstr "nový enumeračný typ"
 
 #: umlwidgets/widget_utils.cpp:836
 #, kde-format
@@ -8641,7 +8641,7 @@ msgstr "Nová inštancia"
 #: umlwidgets/widget_utils.cpp:839
 #, kde-format
 msgid "new interface"
-msgstr "nové_rozhranie"
+msgstr "nové rozhranie"
 
 #: umlwidgets/widget_utils.cpp:840
 #, kde-format
@@ -8651,7 +8651,7 @@ msgstr "Nová správa"
 #: umlwidgets/widget_utils.cpp:841
 #, kde-format
 msgid "new node"
-msgstr "nový_uzol"
+msgstr "nový uzol"
 
 #: umlwidgets/widget_utils.cpp:842
 #, kde-format
@@ -8671,7 +8671,7 @@ msgstr "nový uzol objektu"
 #: umlwidgets/widget_utils.cpp:845
 #, kde-format
 msgid "new package"
-msgstr "nový_balík"
+msgstr "nový balík"
 
 #: umlwidgets/widget_utils.cpp:846
 #, kde-format
@@ -8711,7 +8711,7 @@ msgstr "nový UML widget"
 #: umlwidgets/widget_utils.cpp:854
 #, kde-format
 msgid "new use case"
-msgstr "nový_prípad_použitia"
+msgstr "nový prípad použitia"
 
 #: umlwidgets/widget_utils.cpp:858
 #, kde-format
@@ -8841,7 +8841,7 @@ msgstr "Zadajte názov nového objektu:"
 #: umlwidgets/widget_utils.cpp:937
 #, kde-format
 msgid "Enter the name of the new object node:"
-msgstr "Zadajte názov uzlu objektu:"
+msgstr "Zadajte názov nového uzlu objektu:"
 
 #: umlwidgets/widget_utils.cpp:939
 #, kde-format
@@ -9006,7 +9006,7 @@ msgstr "Zadajte nový názov objektu:"
 #: umlwidgets/widget_utils.cpp:1028
 #, kde-format
 msgid "Enter the new name of the object node:"
-msgstr "Zadajte názov uzlu objektu:"
+msgstr "Zadajte nový názov uzlu objektu:"
 
 #: umlwidgets/widget_utils.cpp:1030
 #, kde-format
