@@ -21,7 +21,7 @@ macro(generate_icons icons size)
             add_custom_command(
                 OUTPUT ${DESTINATION_FILE}
                 DEPENDS ${SOURCE_FILE} svg2png
-                COMMAND $<TARGET_FILE:svg2png> ${SOURCE_FILE} ${DESTINATION_FILE} ${size} ${size}
+                COMMAND $<TARGET_FILE:svg2png> -platform offscreen ${SOURCE_FILE} ${DESTINATION_FILE} ${size} ${size}
                 COMMENT "creating '${DESTINATION_FILE}' from '${SOURCE_FILE}'"
             )
             list(APPEND icons_file_list ${DESTINATION_FILE})
@@ -57,7 +57,7 @@ macro(generate_cursor_icons cursor_icons size)
             add_custom_command(
                 OUTPUT ${DESTINATION_FILE}
                 DEPENDS ${SOURCE_FILE} ${TEMPLATE_FILE} svg2png
-                COMMAND $<TARGET_FILE:svg2png> ${SOURCE_FILE} ${DESTINATION_FILE} ${size} ${size} ${TEMPLATE_FILE}
+                COMMAND $<TARGET_FILE:svg2png> -platform offscreen ${SOURCE_FILE} ${DESTINATION_FILE} ${size} ${size} ${TEMPLATE_FILE}
                 COMMENT "creating '${DESTINATION_FILE}' from '${SOURCE_FILE}'"
             )
             list(APPEND cursor_file_list ${DESTINATION_FILE})

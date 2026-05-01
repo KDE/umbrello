@@ -4,7 +4,7 @@
     SPDX-FileCopyrightText: 2016 Ralf Habacker <ralf.habacker@freenet.de>
 
 */
-#include <QCoreApplication>
+#include <QGuiApplication>
 #include <QtSvg>
 #include <QPainter>
 #include <QImage>
@@ -22,7 +22,7 @@ void usage()
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QGuiApplication a(argc, argv);
 
     if (a.arguments().count() < 5) {
         std::cerr << "invalid number of arguments" << std::endl;
