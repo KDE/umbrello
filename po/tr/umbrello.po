@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-24 00:46+0000\n"
-"PO-Revision-Date: 2026-03-09 20:48+0300\n"
+"PO-Revision-Date: 2026-05-02 18:56+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.12.2\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -210,7 +210,7 @@ msgid ""
 "At least one of the items in the clipboard could not be pasted because an "
 "item of the same name already exists.  Any other items have been pasted."
 msgstr ""
-"Aynı adda bir öge halihazırda var olduğundan panodaki ögelerden en az biri "
+"Aynı adda bir öge hâlihazırda var olduğundan panodaki ögelerden en az biri "
 "yapıştırılamadı. Diğer ögeler yapıştırıldı."
 
 #: clipboard/umlclipboard.cpp:757 umlapp.cpp:1525
@@ -1056,7 +1056,7 @@ msgid ""
 "generator wants to use as output file already exists:"
 msgstr ""
 "Ad kodu üreteciyle aynı ada sahip bir dosya \n"
-"halihazırda çıktı dosyası olarak kullanmak istiyorsa:"
+"hâlihazırda çıktı dosyası olarak kullanmak istiyorsa:"
 
 #. i18n: ectx: property (whatsThis), widget (QRadioButton, ui_radioButtonOverwrite)
 #: codegenwizard/codegenoptionspage.ui:167
@@ -1074,7 +1074,7 @@ msgstr "Ü&zerine yaz"
 #: codegenwizard/codegenoptionspage.ui:177
 #, kde-format
 msgid "If a file with the same name already exists, ask what to do"
-msgstr "Aynı adda bir dosya halihazırda varsa ne yapmak gerektiğini sor"
+msgstr "Aynı adda bir dosya hâlihazırda varsa ne yapmak gerektiğini sor"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_radioButtonAsk)
 #: codegenwizard/codegenoptionspage.ui:180
@@ -1089,7 +1089,7 @@ msgid ""
 "If a file already exists in the destination folder, select a different name "
 "to use by adding a suffix to the file name"
 msgstr ""
-"Hedef klasörde bir dosya halihazırda varsa dosya adına bir sonek ekleyerek "
+"Hedef klasörde bir dosya hâlihazırda varsa dosya adına bir sonek ekleyerek "
 "kullanılacak farklı bir ad seç"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_radioButtonChangeName)
@@ -2297,7 +2297,7 @@ msgid ""
 "Umbrello can overwrite the file, generate a similar\n"
 "file name or not generate this file."
 msgstr ""
-"%1 dosyası halihazırda %2 içinde var.\n"
+"%1 dosyası hâlihazırda %2 içinde var.\n"
 "\n"
 "Umbrello dosyanın üzerine yazabilir, benzer bir\n"
 "dosya adı üretebilir veya bu dosyayı üretmeyebilir."
@@ -2544,7 +2544,7 @@ msgid ""
 "The name has been reset."
 msgstr ""
 "Seçtiğiniz ad\n"
-"halihazırda kullanılıyor.\n"
+"hâlihazırda kullanılıyor.\n"
 "Ad sıfırlandı."
 
 #: dialogs/pages/classgeneralpage.cpp:341
@@ -3521,7 +3521,7 @@ msgstr "Geçersiz Öznitelik Adı"
 #, kde-format
 msgid ""
 "The attribute name you have chosen is already being used in this operation."
-msgstr "Seçtiğiniz öznitelik adı bu işlemde halihazırda kullanılıyor."
+msgstr "Seçtiğiniz öznitelik adı bu işlemde hâlihazırda kullanılıyor."
 
 #: dialogs/umlattributedialog.cpp:132 dialogs/umlenumliteraldialog.cpp:98
 #, kde-format
@@ -3612,7 +3612,7 @@ msgstr "Geçersiz Varlık Özniteliği Adı"
 msgid ""
 "The entity attribute name you have chosen is already being used in this "
 "operation."
-msgstr "Seçtiğiniz varlık özniteliği adı bu işlemde halihazırda kullanılıyor."
+msgstr "Seçtiğiniz varlık özniteliği adı bu işlemde hâlihazırda kullanılıyor."
 
 #: dialogs/umlentityattributedialog.cpp:172
 #, kde-format
@@ -3828,7 +3828,7 @@ msgid ""
 "is already being used in this operation."
 msgstr ""
 "Seçitiğiniz parametre adı bu\n"
-"işlemde halihazırda kullanılıyor."
+"işlemde hâlihazırda kullanılıyor."
 
 #: dialogs/umloperationdialog.cpp:281 dialogs/umloperationdialog.cpp:328
 #, kde-format
@@ -3839,7 +3839,7 @@ msgstr "Benzersiz Olmayan Parametre Adı"
 #, kde-format
 msgid ""
 "The parameter name you have chosen is already being used in this operation."
-msgstr "Seçtiğiniz parametre adı bu işlemde halihazırda kullanılıyor."
+msgstr "Seçtiğiniz parametre adı bu işlemde hâlihazırda kullanılıyor."
 
 #: dialogs/umloperationdialog.cpp:412
 #, kde-format
@@ -3855,7 +3855,7 @@ msgstr "Geçersiz İşlem Adı"
 #: dialogs/umloperationdialog.cpp:422 refactoring/refactoringassistant.cpp:821
 #, kde-format
 msgid "An operation with that signature already exists in %1.\n"
-msgstr "%1 içinde bu imzaya sahip bir işlem halihazırda var.\n"
+msgstr "%1 içinde bu imzaya sahip bir işlem hâlihazırda var.\n"
 
 #: dialogs/umloperationdialog.cpp:424 refactoring/refactoringassistant.cpp:823
 #, kde-format
@@ -3888,7 +3888,7 @@ msgstr "Geçersiz Şablon Adı"
 msgid ""
 "The template parameter name you have chosen is already being used in this "
 "operation."
-msgstr "Seçtiğiniz şablon parametresi adı bu işlemde halihazırda kullanılıyor."
+msgstr "Seçtiğiniz şablon parametresi adı bu işlemde hâlihazırda kullanılıyor."
 
 #: dialogs/umltemplatedialog.cpp:99
 #, kde-format
@@ -5946,7 +5946,7 @@ msgstr "Ayrılmış Anahtar Sözcükler"
 #: umlmodel/umlentity.cpp:227 umlmodel/umlentity.cpp:276
 #, kde-format
 msgid "That name is already being used."
-msgstr "Bu ad halihazırda kullanılıyor."
+msgstr "Bu ad hâlihazırda kullanılıyor."
 
 #: object_factory.cpp:268 umldoc.cpp:1629 umldoc.cpp:1698 umldoc.cpp:1726
 #: umldoc.cpp:1764 umlmodel/umlclassifier.cpp:412
@@ -6006,7 +6006,7 @@ msgstr "Türetilmiş Sınıflayıcılar"
 #: refactoring/refactoringassistant.cpp:842
 #, kde-format
 msgid "An attribute with that name already exists in %1.\n"
-msgstr "%1 içinde aynı adlı bir öznitelik halihazırda var.\n"
+msgstr "%1 içinde aynı adlı bir öznitelik hâlihazırda var.\n"
 
 #: refactoring/refactoringassistant.cpp:844
 #, kde-format
@@ -7896,7 +7896,7 @@ msgstr "Bu, bir diyagram için geçersiz bir ad."
 #: umldoc.cpp:1629 umldoc.cpp:1698
 #, kde-format
 msgid "A diagram is already using that name."
-msgstr "Bu adı başka bir diyagram halihazırda kullanıyor."
+msgstr "Bu adı başka bir diyagram hâlihazırda kullanıyor."
 
 #: umldoc.cpp:1684
 #, kde-format
@@ -7986,7 +7986,7 @@ msgid ""
 "File %1 already exists!\n"
 "The existing file will be overwritten."
 msgstr ""
-"%1 dosyası halihazırda var!\n"
+"%1 dosyası hâlihazırda var!\n"
 "Var olan dosyanın üzerine yazılacak."
 
 #: umllistview.cpp:560
@@ -8109,7 +8109,7 @@ msgid ""
 msgstr ""
 "Girdiğiniz ad geçersizdi.\n"
 "Yeniden adlandırma işlemi iptal edildi. Aynı ada ve imzaya sahip bir işlem "
-"halihazırda var. Yeniden ekleyemezsiniz."
+"hâlihazırda var. Yeniden ekleyemezsiniz."
 
 #: umlmodel/umlfolder.cpp:450
 #, kde-format
@@ -8215,7 +8215,7 @@ msgid ""
 "Please enter a new name:"
 msgstr ""
 "%2 paketinde %1\n"
-"adında bir nesne halihazırda var.\n"
+"adında bir nesne hâlihazırda var.\n"
 "Lütfen yeni bir ad girin:"
 
 #: umlscene.cpp:726
@@ -8305,7 +8305,7 @@ msgstr ""
 #: umlviewimageexporter.cpp:110
 #, kde-format
 msgid "File Already Exists"
-msgstr "Dosya Halihazırda Var"
+msgstr "Dosya Hâlihazırda Var"
 
 #: umlviewimageexportermodel.cpp:237
 #, kde-format
