@@ -141,7 +141,7 @@ void XhtmlGenerator::slotHtmlGenerated(const QString& tmpFileName)
     m_umlDoc->writeToStatusBar(i18n("Copying CSS..."));
 
     QString cssBaseName = QStringLiteral("xmi.css");
-    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello5/") + cssBaseName));
+    QString cssFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello%1/").arg(QT_VERSION_MAJOR) + cssBaseName));
     if (cssFileName.isEmpty())
         cssFileName = QStringLiteral(DOCGENERATORS_DIR) + QLatin1Char('/') + cssBaseName;
 
@@ -188,7 +188,7 @@ void XhtmlGenerator::threadFinished()
 QString XhtmlGenerator::customXslFile()
 {
   QString xslBaseName = QStringLiteral("docbook2xhtml.xsl");
-    QString xsltFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello5/") + xslBaseName));
+    QString xsltFileName(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello%1/").arg(QT_VERSION_MAJOR) + xslBaseName));
   if (xsltFileName.isEmpty())
       xsltFileName = QStringLiteral(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
 

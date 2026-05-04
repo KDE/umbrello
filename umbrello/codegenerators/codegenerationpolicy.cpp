@@ -476,7 +476,7 @@ void CodeGenerationPolicy::setDefaults(bool emitUpdateSignal)
     path = UmbrelloSettings::headingsDirectory();
     if (path.isEmpty()) {
         path =  QStandardPaths::locateAll(QStandardPaths::GenericDataLocation,
-                                          QStringLiteral("umbrello5/headings"),
+                                          QStringLiteral("umbrello%1/headings").arg(QT_VERSION_MAJOR),
                                           QStandardPaths::LocateDirectory).first();
     }
     setHeadingFileDir (path);

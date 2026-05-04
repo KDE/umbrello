@@ -238,7 +238,7 @@ void DotGenerator::setUseFullNodeLabels(bool state)
 bool DotGenerator::availableConfigFiles(UMLScene *scene, QHash<QString, QString> &configFiles)
 {
     QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
-    QStringList fileNames = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello5/layouts/%1*.desktop").arg(diagramType));
+    QStringList fileNames = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello%1/layouts/%2*.desktop").arg(QT_VERSION_MAJOR).arg(diagramType));
     for(const QString &fileName : fileNames) {
         QFileInfo fi(fileName);
         QString baseName;
@@ -272,7 +272,7 @@ bool DotGenerator::readConfigFile(QString diagramType, const QString &variant)
 
     QString configFileName;
     for(const QString &fileName : fileNames) {
-        configFileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello5/layouts/%1").arg(fileName));
+        configFileName = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString::fromLatin1("umbrello%1/layouts/%2").arg(QT_VERSION_MAJOR).arg(fileName));
         if (!configFileName.isEmpty())
             break;
     }

@@ -301,7 +301,7 @@ bool LayoutGenerator::apply(UMLScene *scene)
 bool LayoutGenerator::availableConfigFiles(UMLScene *scene, QHash<QString,QString> &configFiles)
 {
     QString diagramType = Uml::DiagramType::toString(scene->type()).toLower();
-    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello5/layouts"), QStandardPaths::LocateDirectory);
+    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello%1/layouts").arg(QT_VERSION_MAJOR), QStandardPaths::LocateDirectory);
     QStringList fileNames;
     for(const QString& dir : dirs) {
         const QStringList entries = QDir(dir).entryList(QStringList() << QString::fromLatin1("%1*.desktop").arg(diagramType));

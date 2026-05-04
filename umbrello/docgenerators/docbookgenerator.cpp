@@ -145,7 +145,7 @@ QString DocbookGenerator::customXslFile()
     } else {
         xslBaseName = QStringLiteral("xmi1docbook.xsl");
     }
-    QString xsltFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello5/") + xslBaseName));
+    QString xsltFile(QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("umbrello%1/").arg(QT_VERSION_MAJOR) + xslBaseName));
     if (xsltFile.isEmpty())
         xsltFile = QStringLiteral(DOCGENERATORS_DIR) + QLatin1Char('/') + xslBaseName;
 
