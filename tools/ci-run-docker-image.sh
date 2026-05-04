@@ -49,7 +49,13 @@ if [ "$1" == "--use-host-display" ]; then
     shopts+=" export DISPLAY=$DISPLAY;"
 fi
 
+# allow access to display
+xhost +local:docker
+
+# pull image
 sudo docker pull $ci_image
+
+# run container
 sudo docker run \
     -v $PWD:/mnt \
     $options \
