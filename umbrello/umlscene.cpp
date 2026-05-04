@@ -3943,8 +3943,7 @@ bool UMLScene::loadFromXMI(QDomElement & qElement)
     QString localid = qElement.attribute(QStringLiteral("localid"), QStringLiteral("0"));
     // option state
     m_Options.loadFromXMI(qElement);
-    if (m_Options.uiState.useBackgroundColor)
-        setBackgroundBrush(m_Options.uiState.backgroundColor);
+    setBackgroundBrush(m_Options.uiState.backgroundColor);
     setGridDotColor(m_Options.uiState.gridDotColor);
     //misc
     QString showgrid = qElement.attribute(QStringLiteral("showgrid"), QStringLiteral("0"));
