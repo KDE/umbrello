@@ -4237,7 +4237,7 @@ msgid ""
 msgstr ""
 "Umbrello – vizuálne vývojové prostredie pre softvér, založené na "
 "priemyselnom štandarde Unified Modelling Language (UML). <br/>Pozrite aj <a "
-"href=’http://www.omg.org/spec/’>http://www.omg.org/spec/</a>."
+"href=\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 
 #: main.cpp:123
 #, kde-format
