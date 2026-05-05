@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
             std::cerr << cursorSvg.defaultSize().width() << "x" << cursorSvg.defaultSize().height()  << std::endl;
 
         QSvgRenderer templateSvg(templateFile);
-        if (!cursorSvg.isValid()) {
+        if (!templateSvg.isValid()) {
             std::cerr << "could not open template file '" << qPrintable(templateFile) << std::endl;
             return -3;
         }
