@@ -292,7 +292,7 @@ if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(umbrello)
     add_subdirectory(doc)
     add_subdirectory(tools)
-endif(LIBXSLT_FOUND AND LIBXML2_FOUND)
+endif()
 
 add_subdirectory(maintainer)
 
