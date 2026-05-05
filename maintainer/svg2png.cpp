@@ -41,6 +41,11 @@ int main(int argc, char *argv[])
         useTemplate = true;
     }
 
+    // Compose cursor:
+    // - Base: 32x32 cursor-template.svg with crosshair (hotspot at center)
+    // - Overlay: ~21x21 operation icon
+    // - Placement: (11,11) → bottom-right quadrant
+    //   ensuring overlay does not obscure hotspot
     if (useTemplate) {
         QSvgRenderer cursorSvg(svgFile);
         if (!cursorSvg.isValid()) {
