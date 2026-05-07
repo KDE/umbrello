@@ -27,6 +27,8 @@ option(BUILD_QCH "Build with QCH support" ON)
 
 option(BUILD_TESTING "Build unit tests" ON)
 
+option(BUILD_DOC "Whether to build the documentation" ON)
+
 # where to look first for cmake modules, before ${CMAKE_ROOT}/Modules/ is checked
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules)
 include(Macros)
@@ -92,6 +94,10 @@ find_package(Qt${QT_MAJOR_VERSION} ${QT${QT_MAJOR_VERSION}_MIN_VERSION} REQUIRED
 
 message(STATUS "Found Qt version '${Qt${QT_MAJOR_VERSION}_VERSION}'")
 
+if(BUILD_DOC)
+    set(KF_OPTIONAL_COMPONENTS DocTools)
+endif()
+
 # search packages used by KDE
 find_package(KF${QT_MAJOR_VERSION} REQUIRED COMPONENTS
     Archive
@@ -99,7 +105,6 @@ find_package(KF${QT_MAJOR_VERSION} REQUIRED COMPONENTS
     Config
     CoreAddons
     Crash
-    DocTools
     I18n
     IconThemes
     KIO
@@ -107,7 +112,15 @@ find_package(KF${QT_MAJOR_VERSION} REQUIRED COMPONENTS
     WidgetsAddons
     WindowSystem
     XmlGui
+    ${KF_OPTIONAL_COMPONENTS}
 )
+
+if(BUILD_DOC)
+    set_package_properties(KF${QT_MAJOR_VERSION}DocTools PROPERTIES
+        DESCRIPTION "Tools to generate documentation"
+        TYPE REQUIRED
+    )
+endif()
 
 message(STATUS "Found KDE framework version ${KF${QT_MAJOR_VERSION}_VERSION}")
 
@@ -156,7 +169,9 @@ endif()
 set(UMBRELLO_DATA_INSTALL_DIR ${KDE_INSTALL_DATADIR}/umbrello${APP_SUFFIX})
 
 ki18n_install(po)
-kdoctools_install(po)
+if(BUILD_DOC)
+    kdoctools_install(po)
+endif()
 
 if(POLICY CMP0071)
   cmake_policy(SET CMP0071 NEW)
@@ -290,7 +305,9 @@ endif()
 
 if(LIBXSLT_FOUND AND LIBXML2_FOUND)
     add_subdirectory(umbrello)
-    add_subdirectory(doc)
+    if(BUILD_DOC)
+        add_subdirectory(doc)
+    endif()
     add_subdirectory(tools)
 endif()
 
