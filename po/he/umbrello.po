@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-24 02:43+0000\n"
-"PO-Revision-Date: 2026-04-18 15:31+0300\n"
+"PO-Revision-Date: 2026-05-24 22:34+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -5761,49 +5761,49 @@ msgstr ""
 #: model_utils.cpp:1207
 #, kde-format
 msgid "OK"
-msgstr ""
+msgstr "אישור"
 
 #: model_utils.cpp:1207
 #, kde-format
 msgctxt "parse status"
 msgid "Empty"
-msgstr ""
+msgstr "ריק"
 
 #: model_utils.cpp:1207
 #, kde-format
 msgid "Malformed argument"
-msgstr ""
+msgstr "ארגומנט שגוי"
 
 #: model_utils.cpp:1208
 #, kde-format
 msgid "Unknown argument type"
-msgstr ""
+msgstr "סוג ארגומנט לא ידוע"
 
 #: model_utils.cpp:1208
 #, kde-format
 msgid "Illegal method name"
-msgstr ""
+msgstr "שם מתודה לא חוקי"
 
 #: model_utils.cpp:1209
 #, kde-format
 msgid "Unknown return type"
-msgstr ""
+msgstr "סוג החזרה לא ידוע"
 
 #: model_utils.cpp:1209
 #, kde-format
 msgid "Unspecified error"
-msgstr ""
+msgstr "שגיאה לא צוינה"
 
 #: models/diagramsmodel.cpp:52 models/objectsmodel.cpp:76
 #: models/stereotypesmodel.cpp:51 refactoring/refactoringassistant.cpp:48
 #, kde-format
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:78
 #, kde-format
 msgid "Type"
-msgstr ""
+msgstr "סוג"
 
 #: models/diagramsmodel.cpp:58
 #, kde-format
@@ -5813,7 +5813,7 @@ msgstr ""
 #: models/objectsmodel.cpp:82
 #, kde-format
 msgid "ID"
-msgstr ""
+msgstr "מזהה"
 
 #: models/objectsmodel.cpp:84
 #, kde-format
@@ -5828,12 +5828,12 @@ msgstr ""
 #: models/objectsmodel.cpp:88
 #, kde-format
 msgid "Pointer"
-msgstr ""
+msgstr "מצביע"
 
 #: models/stereotypesmodel.cpp:53
 #, kde-format
 msgid "Usage"
-msgstr ""
+msgstr "שימוש"
 
 #: object_factory.cpp:254 umldoc.cpp:1720 umldoc.cpp:1755
 #: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
@@ -5842,18 +5842,18 @@ msgstr ""
 #: umlmodel/umlenum.cpp:105 umlmodel/umlpackage.cpp:179
 #, kde-format
 msgid "That is an invalid name."
-msgstr ""
+msgstr "זה שם שגוי."
 
 #: object_factory.cpp:261
 #, kde-format
 msgid ""
 "This is a reserved keyword for the language of the configured code generator."
-msgstr ""
+msgstr "זאת מילת מפתח שמורה לשפה של מייצר הקוד המוגדר."
 
 #: object_factory.cpp:262
 #, kde-format
 msgid "Reserved Keyword"
-msgstr ""
+msgstr "מילת מפתח שמורה"
 
 #: object_factory.cpp:267 umldoc.cpp:1726 umldoc.cpp:1764
 #: umlmodel/umlclassifier.cpp:412 umlmodel/umlclassifier.cpp:784
@@ -5861,7 +5861,7 @@ msgstr ""
 #: umlmodel/umlentity.cpp:227 umlmodel/umlentity.cpp:276
 #, kde-format
 msgid "That name is already being used."
-msgstr ""
+msgstr "השם הזה כבר נמצא בשימוש."
 
 #: object_factory.cpp:268 umldoc.cpp:1629 umldoc.cpp:1698 umldoc.cpp:1726
 #: umldoc.cpp:1764 umlmodel/umlclassifier.cpp:412
@@ -5870,17 +5870,17 @@ msgstr ""
 #: umlmodel/umlentity.cpp:276
 #, kde-format
 msgid "Not a Unique Name"
-msgstr ""
+msgstr "לא שם ייחודי"
 
 #: refactoring/refactoringassistant.cpp:443
 #, kde-format
 msgid "Add Base Class"
-msgstr ""
+msgstr "הוספת מחלקת בסיס"
 
 #: refactoring/refactoringassistant.cpp:444
 #, kde-format
 msgid "Add Derived Class"
-msgstr ""
+msgstr "הוספת מחלקה נגזרת"
 
 #. i18n("Add Interface Implementation"), SLOT(addInterfaceImplementation()), Icon_Utils::it_Implementation));
 #: refactoring/refactoringassistant.cpp:446
@@ -5888,107 +5888,107 @@ msgstr ""
 #: refactoring/refactoringassistant.cpp:464
 #, kde-format
 msgid "Add Operation"
-msgstr ""
+msgstr "הוספת פעולה"
 
 #: refactoring/refactoringassistant.cpp:447
 #: refactoring/refactoringassistant.cpp:467
 #, kde-format
 msgid "Add Attribute"
-msgstr ""
+msgstr "הוספת מאפיין"
 
 #: refactoring/refactoringassistant.cpp:450
 #, kde-format
 msgid "Add Base Interface"
-msgstr ""
+msgstr "הוספת ממשק בסיסי"
 
 #: refactoring/refactoringassistant.cpp:451
 #, kde-format
 msgid "Add Derived Interface"
-msgstr ""
+msgstr "הוספת ממשק נגזר"
 
 #: refactoring/refactoringassistant.cpp:510
 #: refactoring/refactoringassistant.cpp:691
 #, kde-format
 msgid "Base Classifiers"
-msgstr ""
+msgstr "מסווגי בסיס"
 
 #: refactoring/refactoringassistant.cpp:555
 #: refactoring/refactoringassistant.cpp:710
 #, kde-format
 msgid "Derived Classifiers"
-msgstr ""
+msgstr "מסווגים נגזרים"
 
 #: refactoring/refactoringassistant.cpp:842
 #, kde-format
 msgid "An attribute with that name already exists in %1.\n"
-msgstr ""
+msgstr "כבר קיים מאפיין בשם הזה תחת %1.\n"
 
 #: refactoring/refactoringassistant.cpp:844
 #, kde-format
 msgid "Choose a different name."
-msgstr ""
+msgstr "נא לבחור שם אחר."
 
 #: toolbarstateassociation.cpp:182 toolbarstateassociation.cpp:280
 #, kde-format
 msgid "Incorrect use of associations."
-msgstr ""
+msgstr "שימוש שגוי בשיוכים."
 
 #: toolbarstateassociation.cpp:182 toolbarstateassociation.cpp:280
 #, kde-format
 msgid "Association Error"
-msgstr ""
+msgstr "שגיאת שיוך"
 
 #: toolbarstatemessages.cpp:340
 #, kde-format
 msgid "destroy"
-msgstr ""
+msgstr "השמדה"
 
 #: toolbarstateother.cpp:277
 #, kde-format
 msgid "Enter Activity Name"
-msgstr ""
+msgstr "נא למלא שם פעילות"
 
 #: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:585
 #: umlwidgets/widget_utils.cpp:824
 #, kde-format
 msgid "new activity"
-msgstr ""
+msgstr "פעילות חדשה"
 
 #: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:587
 #: umlwidgets/widget_utils.cpp:917
 #, kde-format
 msgid "Enter the name of the new activity:"
-msgstr ""
+msgstr "נא למלא את שם הפעילות החדשה:"
 
 #: toolbarstateother.cpp:285
 #, kde-format
 msgid "Enter Signal Name"
-msgstr ""
+msgstr "נא למלא שם אות"
 
 #: toolbarstateother.cpp:286
 #, kde-format
 msgid "Enter Signal"
-msgstr ""
+msgstr "נא למלא אות"
 
 #: toolbarstateother.cpp:286
 #, kde-format
 msgid "new Signal"
-msgstr ""
+msgstr "אות חדש"
 
 #: toolbarstateother.cpp:292
 #, kde-format
 msgid "Enter Time Event Name"
-msgstr ""
+msgstr "נא למלא שם אירוע זמן"
 
 #: toolbarstateother.cpp:293
 #, kde-format
 msgid "Enter Time Event"
-msgstr ""
+msgstr "נא למלא אירוע זמן"
 
 #: toolbarstateother.cpp:293
 #, kde-format
 msgid "new time event"
-msgstr ""
+msgstr "אירוע זמן חדש"
 
 #: toolbarstateother.cpp:299
 #, kde-format
@@ -6079,37 +6079,37 @@ msgstr ""
 #: umbrello.kcfg:37
 #, kde-format
 msgid "Layout Type"
-msgstr ""
+msgstr "סוג פריסה"
 
 #. i18n: ectx: whatsthis, entry (layoutType), group (General Options)
 #: umbrello.kcfg:38
 #, kde-format
 msgid "The layout type to use for new lines"
-msgstr ""
+msgstr "סוג הפריסה לשימוש לקווים חדשים"
 
 #. i18n: ectx: label, entry (footerPrinting), group (General Options)
 #: umbrello.kcfg:50
 #, kde-format
 msgid "Footer Printing"
-msgstr ""
+msgstr "הדפסת כותרת תחתונה"
 
 #. i18n: ectx: whatsthis, entry (footerPrinting), group (General Options)
 #: umbrello.kcfg:51
 #, kde-format
 msgid "Enables/Disables Support for footer printing"
-msgstr ""
+msgstr "הפעלת/השבתת תמיכה בהדפסת כותרת תחתונה"
 
 #. i18n: ectx: label, entry (autosave), group (General Options)
 #: umbrello.kcfg:55
 #, kde-format
 msgid "Auto Save"
-msgstr ""
+msgstr "שמירה אוטומטית"
 
 #. i18n: ectx: whatsthis, entry (autosave), group (General Options)
 #: umbrello.kcfg:56
 #, kde-format
 msgid "Enables/Disables Auto Saving at Regular Intervals"
-msgstr ""
+msgstr "הפעלת/השבתת שמירה אוטומטית במרווחי זמן קבועים"
 
 #. i18n: ectx: label, entry (time), group (General Options)
 #: umbrello.kcfg:60
@@ -6127,61 +6127,61 @@ msgstr ""
 #: umbrello.kcfg:74
 #, kde-format
 msgid "Auto Save Suffix"
-msgstr ""
+msgstr "סיומת שמירה אוטומטית"
 
 #. i18n: ectx: whatsthis, entry (autosavesuffix), group (General Options)
 #: umbrello.kcfg:75
 #, kde-format
 msgid "The Suffix for the auto save file"
-msgstr ""
+msgstr "הסיומת של קובץ השמירה האוטומטית"
 
 #. i18n: ectx: label, entry (loadlast), group (General Options)
 #: umbrello.kcfg:79
 #, kde-format
 msgid "Load Last"
-msgstr ""
+msgstr "טעינת האחרון"
 
 #. i18n: ectx: whatsthis, entry (loadlast), group (General Options)
 #: umbrello.kcfg:80
 #, kde-format
 msgid "Enables/Disables Loading of the last open file"
-msgstr ""
+msgstr "הפעלת/השבתת טעינת הקובץ האחרון שהיה פתוח"
 
 #. i18n: ectx: label, entry (diagram), group (General Options)
 #: umbrello.kcfg:84
 #, kde-format
 msgid "Diagram To Load at Startup"
-msgstr ""
+msgstr "תרשים לטעינה בעלייה"
 
 #. i18n: ectx: whatsthis, entry (diagram), group (General Options)
 #: umbrello.kcfg:85
 #, kde-format
 msgid "The Diagram to load at startup"
-msgstr ""
+msgstr "התרשים שיש לטעון עם העלייה"
 
 #. i18n: ectx: label, entry (defaultLanguage), group (General Options)
 #: umbrello.kcfg:102
 #, kde-format
 msgid "Default Language at Startup"
-msgstr ""
+msgstr "שפת ברירת מחדל עם העלייה"
 
 #. i18n: ectx: whatsthis, entry (defaultLanguage), group (General Options)
 #: umbrello.kcfg:103
 #, kde-format
 msgid "The Language that Umbrello should start with by default"
-msgstr ""
+msgstr "השפה שאיתה Umrello צריך לעלות כברירת מחדל"
 
 #. i18n: ectx: label, entry (uml2), group (General Options)
 #: umbrello.kcfg:135
 #, kde-format
 msgid "Use UML-2.x Notation"
-msgstr ""
+msgstr "להשתמש בסימון UML-2.x"
 
 #. i18n: ectx: whatsthis, entry (uml2), group (General Options)
 #: umbrello.kcfg:136
 #, kde-format
 msgid "Enables/Disables UML2 notation"
-msgstr ""
+msgstr "הפעלת/השבתת סימון UML2"
 
 #. i18n: ectx: whatsthis, entry (showDebugWindows), group (General Options)
 #: umbrello.kcfg:141
@@ -6193,55 +6193,55 @@ msgstr ""
 #: umbrello.kcfg:148
 #, kde-format
 msgid "Enables/Disables usage of fill color"
-msgstr ""
+msgstr "הפעלת/השבתת שימוש בצבע מילוי"
 
 #. i18n: ectx: label, entry (fillColor), group (UI Options)
 #: umbrello.kcfg:152
 #, kde-format
 msgid "Fill Color"
-msgstr ""
+msgstr "צבע מילוי"
 
 #. i18n: ectx: whatsthis, entry (fillColor), group (UI Options)
 #: umbrello.kcfg:153
 #, kde-format
 msgid "The Fill Color to be used"
-msgstr ""
+msgstr "צבע המילוי לשימוש"
 
 #. i18n: ectx: label, entry (lineColor), group (UI Options)
 #: umbrello.kcfg:157
 #, kde-format
 msgid "Line Color"
-msgstr ""
+msgstr "צבע קו"
 
 #. i18n: ectx: whatsthis, entry (lineColor), group (UI Options)
 #: umbrello.kcfg:158
 #, kde-format
 msgid "The Color of the Lines"
-msgstr ""
+msgstr "הצבע של הקווים"
 
 #. i18n: ectx: label, entry (lineWidth), group (UI Options)
 #: umbrello.kcfg:162
 #, kde-format
 msgid "Line Width"
-msgstr ""
+msgstr "עובי קו"
 
 #. i18n: ectx: whatsthis, entry (lineWidth), group (UI Options)
 #: umbrello.kcfg:163
 #, kde-format
 msgid "The Width of the Line"
-msgstr ""
+msgstr "העובי של הקו"
 
 #. i18n: ectx: label, entry (textColor), group (UI Options)
 #: umbrello.kcfg:167
 #, kde-format
 msgid "Text Color"
-msgstr ""
+msgstr "צבע טקסט"
 
 #. i18n: ectx: whatsthis, entry (textColor), group (UI Options)
 #: umbrello.kcfg:168
 #, kde-format
 msgid "The Color of the Text"
-msgstr ""
+msgstr "הצבע של הטקסט"
 
 #. i18n: ectx: label, entry (showDocWindow), group (UI Options)
 #: umbrello.kcfg:172
@@ -6319,44 +6319,44 @@ msgstr ""
 #: umbrello.kcfg:209
 #, kde-format
 msgid "Show Visibility"
-msgstr ""
+msgstr "הצגת נראות"
 
 #. i18n: ectx: whatsthis, entry (showVisibility), group (Class Options)
 #: umbrello.kcfg:210
 #, kde-format
 msgid "Show the Visibility of the Attributes ( eg: private, public, protected)"
-msgstr ""
+msgstr "הצגת מצב הנראות של המאפיינים (למשל: פרטי, ציבורי, מוגן)"
 
 #. i18n: ectx: label, entry (showAtts), group (Class Options)
 #: umbrello.kcfg:214
 #, kde-format
 msgid "Show Attributes"
-msgstr ""
+msgstr "הצגת מאפיינים"
 
 #. i18n: ectx: whatsthis, entry (showAtts), group (Class Options)
 #: umbrello.kcfg:215
 #, kde-format
 msgid "Show attributes of the class"
-msgstr ""
+msgstr "הצגת המאפיינים של המחלקה"
 
 #. i18n: ectx: label, entry (showOps), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showOps), group (Class Options)
 #: umbrello.kcfg:219 umbrello.kcfg:220
 #, kde-format
 msgid "Show Operations"
-msgstr ""
+msgstr "הצגת פעולות"
 
 #. i18n: ectx: label, entry (showPackage), group (Class Options)
 #: umbrello.kcfg:224
 #, kde-format
 msgid "Show Package"
-msgstr ""
+msgstr "הצגת חבילה"
 
 #. i18n: ectx: whatsthis, entry (showPackage), group (Class Options)
 #: umbrello.kcfg:225
 #, kde-format
 msgid "Enables/Disables showing of packages"
-msgstr ""
+msgstr "הפעלה/השבתת הצגת חבילות"
 
 #. i18n: ectx: label, entry (showStereoType), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showStereoType), group (Class Options)
@@ -6470,107 +6470,107 @@ msgstr ""
 #: umbrello.kcfg:312
 #, kde-format
 msgid "Paper Color"
-msgstr ""
+msgstr "צבע הנייר"
 
 #. i18n: ectx: whatsthis, entry (paperColor), group (Code Viewer Options)
 #: umbrello.kcfg:313
 #, kde-format
 msgid "Color of the Paper"
-msgstr ""
+msgstr "הצבע של הנייר"
 
 #. i18n: ectx: label, entry (fontColor), group (Code Viewer Options)
 #: umbrello.kcfg:317
 #, kde-format
 msgid "Font Color"
-msgstr ""
+msgstr "צבע הגופן"
 
 #. i18n: ectx: whatsthis, entry (fontColor), group (Code Viewer Options)
 #: umbrello.kcfg:318
 #, kde-format
 msgid "Color of the Font"
-msgstr ""
+msgstr "הצבע של הגופן"
 
 #. i18n: ectx: label, entry (selectedColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (selectedColor), group (Code Viewer Options)
 #: umbrello.kcfg:322 umbrello.kcfg:323
 #, kde-format
 msgid "Selected Color"
-msgstr ""
+msgstr "צבע נבחר"
 
 #. i18n: ectx: label, entry (editBlockColor), group (Code Viewer Options)
 #: umbrello.kcfg:327
 #, kde-format
 msgctxt "Color of the Edit Block"
 msgid "Edit Block Color"
-msgstr ""
+msgstr "צבע מקטע עריכה"
 
 #. i18n: ectx: whatsthis, entry (editBlockColor), group (Code Viewer Options)
 #: umbrello.kcfg:328
 #, kde-format
 msgid "Color of the Edit Block"
-msgstr ""
+msgstr "הצבע של מקטע עריכה"
 
 #. i18n: ectx: label, entry (nonEditBlockColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (nonEditBlockColor), group (Code Viewer Options)
 #: umbrello.kcfg:332 umbrello.kcfg:333
 #, kde-format
 msgid "Non Edit Block Color"
-msgstr ""
+msgstr "צבע של מקטע שלא לעריכה"
 
 #. i18n: ectx: label, entry (umlObjectColor), group (Code Viewer Options)
 #: umbrello.kcfg:337
 #, kde-format
 msgid "UML Object Color"
-msgstr ""
+msgstr "צבע עצם UML"
 
 #. i18n: ectx: whatsthis, entry (umlObjectColor), group (Code Viewer Options)
 #: umbrello.kcfg:338
 #, kde-format
 msgid "Color of the UML Object"
-msgstr ""
+msgstr "הצבע של עצם ה־UML"
 
 #. i18n: ectx: label, entry (hiddenColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (hiddenColor), group (Code Viewer Options)
 #: umbrello.kcfg:342 umbrello.kcfg:343
 #, kde-format
 msgid "Hidden Color"
-msgstr ""
+msgstr "צבע נסתר"
 
 #. i18n: ectx: label, entry (createArtifacts), group (Code Importer)
 #: umbrello.kcfg:349
 #, kde-format
 msgid "Create Artifacts for imported files"
-msgstr ""
+msgstr "יצירת תוצאים לקבצים מיובאים"
 
 #. i18n: ectx: whatsthis, entry (createArtifacts), group (Code Importer)
 #: umbrello.kcfg:350
 #, kde-format
 msgid "Create an artifact in the component view for each imported file"
-msgstr ""
+msgstr "יצירת תוצר בתצוגת הרכיבים לכל קובץ שיובא"
 
 #. i18n: ectx: label, entry (resolveDependencies), group (Code Importer)
 #: umbrello.kcfg:354
 #, kde-format
 msgid "Resolve dependencies"
-msgstr ""
+msgstr "פתרון תלויות"
 
 #. i18n: ectx: whatsthis, entry (resolveDependencies), group (Code Importer)
 #: umbrello.kcfg:355
 #, kde-format
 msgid "Resolve dependencies when importing file"
-msgstr ""
+msgstr "פתרון תלויות בעת ייבוא קובץ"
 
 #. i18n: ectx: label, entry (supportCPP11), group (Code Importer)
 #: umbrello.kcfg:359
 #, kde-format
 msgid "Support C++11 standard"
-msgstr ""
+msgstr "תמיכה בתקן C++11"
 
 #. i18n: ectx: whatsthis, entry (supportCPP11), group (Code Importer)
 #: umbrello.kcfg:360
 #, kde-format
 msgid "Support C++11 standard on code import"
-msgstr ""
+msgstr "תמיכה בתקן C++11 בייבוא קוד"
 
 #. i18n: ectx: label, entry (autoGenEmptyConstructors), group (Code Generation)
 #: umbrello.kcfg:366
@@ -6588,13 +6588,13 @@ msgstr ""
 #: umbrello.kcfg:371
 #, kde-format
 msgid "Comment Style"
-msgstr ""
+msgstr "סגנון הערות"
 
 #. i18n: ectx: whatsthis, entry (commentStyle), group (Code Generation)
 #: umbrello.kcfg:372
 #, kde-format
 msgid "Sets the Style of Comments to be used"
-msgstr ""
+msgstr "הגדרת סגנון ההערות לשימוש"
 
 #. i18n: ectx: label, entry (defaultAssocFieldScope), group (Code Generation)
 #: umbrello.kcfg:380
@@ -7021,25 +7021,25 @@ msgstr ""
 #: umbrello.kcfg:616
 #, kde-format
 msgid "Automatic Dot Path"
-msgstr ""
+msgstr "נתיב אוטומטי ל־Dot"
 
 #. i18n: ectx: whatsthis, entry (autoDotPath), group (Auto Layout)
 #: umbrello.kcfg:617
 #, kde-format
 msgid "determine automatically the path of dot executable"
-msgstr ""
+msgstr "איתור נתיב קובץ ההפעלה של dot אוטומטית"
 
 #. i18n: ectx: label, entry (dotPath), group (Auto Layout)
 #: umbrello.kcfg:621
 #, kde-format
 msgid "Dot Path"
-msgstr ""
+msgstr "הנתיב של Dot"
 
 #. i18n: ectx: whatsthis, entry (dotPath), group (Auto Layout)
 #: umbrello.kcfg:622
 #, kde-format
 msgid "set path to dot executable (optional)"
-msgstr ""
+msgstr "הגדרת נתיב לקובץ ההפעלה של dot (רשות)"
 
 #. i18n: ectx: label, entry (showExportLayout), group (Auto Layout)
 #: umbrello.kcfg:626
@@ -7128,12 +7128,12 @@ msgstr "ה&גדרות"
 #: umlapp.cpp:343
 #, kde-format
 msgid "&Export model to DocBook"
-msgstr ""
+msgstr "יי&צוא הדגם ל־DocBook"
 
 #: umlapp.cpp:347
 #, kde-format
 msgid "&Export model to XHTML"
-msgstr ""
+msgstr "יי&צוא הדגם ל־XHTML"
 
 #: umlapp.cpp:351
 #, kde-format
@@ -7153,12 +7153,12 @@ msgstr ""
 #: umlapp.cpp:372
 #, kde-format
 msgid "&Code Generation Wizard..."
-msgstr ""
+msgstr "&אשף יצירת קוד…"
 
 #: umlapp.cpp:377
 #, kde-format
 msgid "&Generate All Code"
-msgstr ""
+msgstr "יצירת &כל הקוד"
 
 #: umlapp.cpp:424
 #, kde-format
@@ -7840,7 +7840,7 @@ msgstr "הפניות העצמים נפתרות…"
 #: umldoc.cpp:2610
 #, kde-format
 msgid "Loading UML elements..."
-msgstr ""
+msgstr "רכיבי UML נטענים…"
 
 #: umldoc.cpp:2872
 #, kde-format
@@ -7909,32 +7909,32 @@ msgstr "הגדרות"
 #: umllistview.cpp:2457
 #, kde-format
 msgid "Loading listview..."
-msgstr ""
+msgstr "תצוגת רשימה נטענת…"
 
 #: umllistview.cpp:2826
 #, kde-format
 msgid "The class must be emptied before it can be deleted."
-msgstr ""
+msgstr "חובה לרוקן את המחלקה לפני שאפשר יהיה למחוק אותה."
 
 #: umllistview.cpp:2827
 #, kde-format
 msgid "Class Not Empty"
-msgstr ""
+msgstr "המחלקה לא ריקה"
 
 #: umllistview.cpp:2831
 #, kde-format
 msgid "The package must be emptied before it can be deleted."
-msgstr ""
+msgstr "חובה לרוקן את החבילה לפני שאפשר יהיה למחוק אותה."
 
 #: umllistview.cpp:2832
 #, kde-format
 msgid "Package Not Empty"
-msgstr ""
+msgstr "החבילה לא ריקה"
 
 #: umllistview.cpp:2836
 #, kde-format
 msgid "The folder must be emptied before it can be deleted."
-msgstr ""
+msgstr "חובה לרוקן את התיקייה לפני שאפשר יהיה למחוק אותה."
 
 #: umllistview.cpp:2837
 #, kde-format
@@ -7945,7 +7945,7 @@ msgstr "התיקייה לא ריקה"
 #: umllistviewitem.cpp:684
 #, kde-format
 msgid "Rename canceled"
-msgstr ""
+msgstr "שינוי השם בוטל"
 
 #: umllistviewitem.cpp:719
 #, kde-format
@@ -7969,7 +7969,7 @@ msgstr ""
 #: umllistviewitem.cpp:735
 #, kde-format
 msgid "Name Not Valid"
-msgstr ""
+msgstr "שם לא תקף"
 
 #: umlmodel/umlcanvasobject.cpp:200
 #, kde-format
@@ -7996,12 +7996,12 @@ msgstr ""
 #: umlmodel/umlfolder.cpp:450
 #, kde-format
 msgid "The folderfile %1 does not exist."
-msgstr ""
+msgstr "קובץ התיקייה %1 לא קיים."
 
 #: umlmodel/umlfolder.cpp:454
 #, kde-format
 msgid "The folderfile %1 cannot be opened."
-msgstr ""
+msgstr "לא ניתן לפתוח את קובץ התיקייה %1."
 
 #: umlmodel/umlobject.cpp:1230
 #, kde-format
