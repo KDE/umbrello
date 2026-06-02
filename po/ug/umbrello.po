@@ -8,24 +8,25 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-24 00:46+0000\n"
-"PO-Revision-Date: 2013-09-08 07:05+0900\n"
-"Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
+"PO-Revision-Date: 2026-06-01 18:56-0400\n"
+"Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.9\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "ئابدۇقادىر ئابلىز, غەيرەت كەنجى"
+msgstr "ئابدۇقادىر ئابلىز، غەيرەت كەنجى"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "sahran.ug@gmail.com,  gheyret@gmail.com"
+msgstr "sahranbay@gmail.com, gheyret@gmail.com"
 
 #: basictypes.cpp:190
 #, kde-format
@@ -73,10 +74,9 @@ msgid "Entity Relationship Diagram"
 msgstr ""
 
 #: basictypes.cpp:208
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "Object Diagram"
-msgstr "ئۆچۈر(&D)"
+msgstr ""
 
 #: basictypes.cpp:210
 #, kde-format
@@ -192,7 +192,7 @@ msgstr "مۇناسىۋىتى"
 #: basictypes.cpp:368
 #, kde-format
 msgid "Unknown"
-msgstr "نامەلۇم"
+msgstr "يوچۇن"
 
 #: basictypes.cpp:370
 #, kde-format
@@ -267,10 +267,9 @@ msgid "Change line color : %1"
 msgstr ""
 
 #: cmds/widget/cmdchangelinewidth.cpp:22
-#, fuzzy, kde-format
-#| msgid "Line width:  "
+#, kde-format
 msgid "Change line width : %1"
-msgstr "قۇر كەڭلىكى:  "
+msgstr ""
 
 #: cmds/widget/cmdchangemultiplicity.cpp:21
 #, kde-format
@@ -288,10 +287,9 @@ msgid "Use fill color : %1"
 msgstr ""
 
 #: cmds/widget/cmdchangeusefillcolor.cpp:23
-#, fuzzy, kde-format
-#| msgid "Fill Color"
+#, kde-format
 msgid "No fill color : %1"
-msgstr "تولدۇرغان رەڭ"
+msgstr ""
 
 #: cmds/widget/cmdchangevisualproperty.cpp:28
 #, kde-format
@@ -309,10 +307,9 @@ msgid "Move widget : %1"
 msgstr ""
 
 #: cmds/widget/cmdremovewidget.cpp:26 cmds/widget/cmdremovewidget.cpp:77
-#, fuzzy, kde-format
-#| msgid "Line width:  "
+#, kde-format
 msgid "Remove widget : %1"
-msgstr "قۇر كەڭلىكى:  "
+msgstr ""
 
 #: cmds/widget/cmdresizewidget.cpp:21
 #, kde-format
@@ -364,7 +361,7 @@ msgstr ""
 #: codegenerators/cpp/cppcodegenerationform.cpp:32
 #, kde-format
 msgid "Package is a namespace"
-msgstr "Package is a namespace"
+msgstr ""
 
 #: codegenerators/cpp/cppcodegenerationform.cpp:36
 #, kde-format
@@ -701,7 +698,7 @@ msgstr ""
 #: dialogs/widgets/documentationwidget.cpp:87 menus/widgetbasepopupmenu.cpp:77
 #, kde-format
 msgid "Documentation"
-msgstr "قوللانمىلار"
+msgstr "قوللانما"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelStyle)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:558
@@ -988,7 +985,7 @@ msgstr "تىل"
 #: codegenwizard/codegenoptionspage.ui:71
 #, kde-format
 msgid "Folders"
-msgstr "قىسقۇچلار"
+msgstr "قىسقۇچ"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelFolder)
 #: codegenwizard/codegenoptionspage.ui:77
@@ -1122,7 +1119,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:276
 #, kde-format
 msgid "None"
-msgstr ""
+msgstr "يوق"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_writeSectionComments)
 #: codegenwizard/codegenoptionspage.ui:281
@@ -1134,7 +1131,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "ھەمىشە"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
@@ -1281,7 +1278,7 @@ msgstr ""
 #: codegenwizard/codegenstatuspage.cpp:179
 #, kde-format
 msgid "Skipped"
-msgstr ""
+msgstr "ئاتلاپ ئۆتتى"
 
 #: codegenwizard/codegenstatuspage.cpp:204
 #: codegenwizard/codegenstatuspage.cpp:234
@@ -1558,7 +1555,7 @@ msgstr ""
 #: debug/debug_utils.cpp:336 dialogs/finddialog.ui:82
 #, kde-format
 msgid "All"
-msgstr ""
+msgstr "ھەممىسى"
 
 #: dialogs/activitydialog.cpp:37 dialogs/activitydialog.cpp:149
 #: dialogs/classpropertiesdialog.cpp:119 dialogs/objectnodedialog.cpp:39
@@ -1595,7 +1592,7 @@ msgstr ""
 #: dialogs/activitydialog.cpp:139
 #, kde-format
 msgid "Invoke action"
-msgstr ""
+msgstr "چاقىرىش مەشغۇلاتى"
 
 #: dialogs/activitydialog.cpp:139
 #, kde-format
@@ -1688,7 +1685,7 @@ msgstr "كۆرسىتىش تاللانمىسى"
 #: menus/widgetbasepopupmenu.cpp:115 refactoring/refactoringassistant.cpp:665
 #, kde-format
 msgid "Attributes"
-msgstr "خاسلىقلار"
+msgstr "خاسلىق"
 
 #: dialogs/classpropertiesdialog.cpp:277
 #, kde-format
@@ -1711,7 +1708,7 @@ msgstr ""
 #: dialogs/pages/classifierlistpage.cpp:120
 #, kde-format
 msgid "Templates"
-msgstr "قېلىپلار"
+msgstr "قېلىپ"
 
 #: dialogs/classpropertiesdialog.cpp:297
 #, kde-format
@@ -1754,7 +1751,7 @@ msgstr ""
 #, kde-format
 msgctxt "contents settings page name"
 msgid "Contents"
-msgstr "مەزمۇنلار"
+msgstr "مەزمۇن"
 
 #: dialogs/classpropertiesdialog.cpp:337
 #, kde-format
@@ -1899,7 +1896,7 @@ msgstr ""
 #: dialogs/codevieweroptionsbase.ui:32
 #, kde-format
 msgid "Colors"
-msgstr "رەڭلەر"
+msgstr "رەڭ"
 
 #. i18n: ectx: property (text), widget (QLabel, fontLabel)
 #: dialogs/codevieweroptionsbase.ui:46
@@ -1964,10 +1961,9 @@ msgid "You are about to delete an association. Do you really want to continue?"
 msgstr ""
 
 #: dialogs/dialog_utils.cpp:216
-#, fuzzy, kde-format
-#| msgid "Association"
+#, kde-format
 msgid "Delete Association"
-msgstr "باغلاش"
+msgstr ""
 
 #: dialogs/dialog_utils.cpp:230
 #, kde-format
@@ -1994,10 +1990,9 @@ msgid "&Delete"
 msgstr "ئۆچۈر(&D)"
 
 #: dialogs/dontaskagain.cpp:59
-#, fuzzy, kde-format
-#| msgid "No Action"
+#, kde-format
 msgid "Notifications"
-msgstr "مەشغۇلات يوق"
+msgstr "ئۇقتۇرۇش"
 
 #: dialogs/exportallviewsdialog.cpp:61 dialogs/widgets/imagetypewidget.cpp:29
 #, kde-format
@@ -2052,7 +2047,7 @@ msgstr ""
 #: dialogs/finddialog.cpp:17
 #, kde-format
 msgid "Find"
-msgstr ""
+msgstr "ئىزدە"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: dialogs/finddialog.ui:25 dialogs/pages/diagramprintpage.cpp:44
@@ -2064,7 +2059,7 @@ msgstr "سۈزگۈچ"
 #: dialogs/finddialog.ui:33
 #, kde-format
 msgid "Tree View"
-msgstr ""
+msgstr "شاخسىمان كۆرۈنۈش"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_CurrentDiagram)
 #: dialogs/finddialog.ui:43 dialogs/pages/diagramprintpage.cpp:51
@@ -2120,11 +2115,9 @@ msgid "Search Term:"
 msgstr ""
 
 #: dialogs/multipagedialogbase.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "default line color button"
-#| msgid "&Default"
+#, kde-format
 msgid "Default"
-msgstr "كۆڭۈلدىكى(&D)"
+msgstr "كۆڭۈلدىكى"
 
 #: dialogs/multipagedialogbase.cpp:299 dialogs/multipagedialogbase.cpp:313
 #: dialogs/multipagedialogbase.cpp:323
@@ -2164,10 +2157,9 @@ msgid "Style"
 msgstr "ئۇسلۇب"
 
 #: dialogs/multipagedialogbase.cpp:424
-#, fuzzy, kde-format
-#| msgid "Widget Style"
+#, kde-format
 msgid "Line Style"
-msgstr "ۋىجېت ئۇسلۇبى"
+msgstr ""
 
 #: dialogs/multipagedialogbase.cpp:444
 #, kde-format
@@ -2181,10 +2173,9 @@ msgid "Role Settings"
 msgstr ""
 
 #: dialogs/notedialog.cpp:20
-#, fuzzy, kde-format
-#| msgid "Properties"
+#, kde-format
 msgid "Note Properties"
-msgstr "خاسلىق"
+msgstr ""
 
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
@@ -2194,7 +2185,7 @@ msgstr ""
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
 msgid "Data Store"
-msgstr "سانلىق-مەلۇمات دۇكىنى"
+msgstr "سانلىق مەلۇمات دۇكىنى"
 
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
@@ -2275,7 +2266,7 @@ msgstr ""
 #: dialogs/pages/activitypage.cpp:55 dialogs/statedialog.cpp:201
 #, kde-format
 msgid "Activities"
-msgstr "پائالىيەتلەر"
+msgstr "پائالىيەت"
 
 #: dialogs/pages/activitypage.cpp:77 dialogs/pages/classifierlistpage.cpp:176
 #, kde-format
@@ -2328,7 +2319,7 @@ msgstr ""
 #: dialogs/pages/associationgeneralpage.cpp:116
 #, kde-format
 msgid "Type:"
-msgstr "تىپى:"
+msgstr "تۈرى:"
 
 #: dialogs/pages/associationrolepage.cpp:60
 #, kde-format
@@ -2436,7 +2427,7 @@ msgstr ""
 #: dialogs/pages/autolayoutoptionpage.ui:82
 #, kde-format
 msgid "Miscellaneous"
-msgstr "باشقىلار"
+msgstr "باشقا"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_showExportLayout)
 #: dialogs/pages/autolayoutoptionpage.ui:88
@@ -2456,7 +2447,7 @@ msgstr ""
 #: dialogs/pages/classgeneralpage.cpp:126
 #, kde-format
 msgid "Reference:"
-msgstr ""
+msgstr "نەقىل:"
 
 #: dialogs/pages/classgeneralpage.cpp:143
 #, kde-format
@@ -2542,10 +2533,9 @@ msgid "N&ew Constraint..."
 msgstr ""
 
 #: dialogs/pages/classifierlistpage.cpp:136
-#, fuzzy, kde-format
-#| msgid "Attribute"
+#, kde-format
 msgid "Instance Attribute"
-msgstr "خاسلىق"
+msgstr ""
 
 #: dialogs/pages/classifierlistpage.cpp:137
 #, kde-format
@@ -2645,28 +2635,24 @@ msgid "Default operation scope:"
 msgstr ""
 
 #: dialogs/pages/classoptionspage.cpp:333
-#, fuzzy, kde-format
-#| msgid "Attributes:"
+#, kde-format
 msgid "Attribute Signatures"
-msgstr "خاسلىقلىرى:"
+msgstr ""
 
 #: dialogs/pages/classoptionspage.cpp:438
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "No Stereotype"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: dialogs/pages/classoptionspage.cpp:439
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "Stereotype Name"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: dialogs/pages/classoptionspage.cpp:440
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "Stereotype with Tags"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: dialogs/pages/codeimportoptionspage.ui:31
@@ -2798,7 +2784,7 @@ msgstr "ئاتى:"
 #: dialogs/pages/diagrampropertiespage.ui:56
 #, kde-format
 msgid "Zoom:"
-msgstr "كېڭەيت-تارايت:"
+msgstr "نىسبەت:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelZoomUnit)
 #: dialogs/pages/diagrampropertiespage.ui:82
@@ -2808,17 +2794,15 @@ msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelWidth)
 #: dialogs/pages/diagrampropertiespage.ui:105
-#, fuzzy, kde-format
-#| msgid "Width"
+#, kde-format
 msgid "Width:"
-msgstr "كەڭلىك"
+msgstr "كەڭلىك:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelHeight)
 #: dialogs/pages/diagrampropertiespage.ui:144
-#, fuzzy, kde-format
-#| msgid "Height"
+#, kde-format
 msgid "Height:"
-msgstr "ئېگىزلىك"
+msgstr "ئېگىزلىك:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_checkBoxShowGrid)
 #: dialogs/pages/diagrampropertiespage.ui:189
@@ -2857,7 +2841,7 @@ msgstr "سېتكا ئارىلىقى:  "
 #: dialogs/pages/diagrampropertiespage.ui:247
 #, kde-format
 msgid "X"
-msgstr "X"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelY)
 #: dialogs/pages/diagrampropertiespage.ui:283
@@ -2876,7 +2860,7 @@ msgstr ""
 #, kde-format
 msgctxt "miscellaneous group box"
 msgid "Miscellaneous"
-msgstr "باشقىلار"
+msgstr "باشقا"
 
 #: dialogs/pages/generaloptionpage.cpp:48
 #, kde-format
@@ -2905,10 +2889,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (showDebugWindows), group (General Options)
 #: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
-#, fuzzy, kde-format
-#| msgid "Show &grid"
+#, kde-format
 msgid "Show debug windows"
-msgstr "سېتكا كۆرسەت(&G)"
+msgstr ""
 
 #: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
@@ -3004,8 +2987,7 @@ msgid "Custom operation:"
 msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:56
-#, fuzzy, kde-format
-#| msgid "General"
+#, kde-format
 msgctxt "General options"
 msgid "General"
 msgstr "ئادەتتىكى"
@@ -3022,11 +3004,10 @@ msgid "Use alignment guides"
 msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:70
-#, fuzzy, kde-format
-#| msgid "Association"
+#, kde-format
 msgctxt "Association options"
 msgid "Associations"
-msgstr "باغلاش"
+msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:75
 #, kde-format
@@ -3045,36 +3026,31 @@ msgid "Custom text color"
 msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:93
-#, fuzzy, kde-format
-#| msgid "Change Line Color"
+#, kde-format
 msgid "Custom line color"
-msgstr "سىزىق رەڭگىنى ئۆزگەرت"
+msgstr ""
 
 #. i18n("D&efault Color"), m_colorGB);
 #. colorLayout->addWidget(m_lineDefaultB, 0, 2);
 #: dialogs/pages/uioptionspage.cpp:103
-#, fuzzy, kde-format
-#| msgid "Fill Color"
+#, kde-format
 msgid "Custom fill color"
-msgstr "تولدۇرغان رەڭ"
+msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:109
-#, fuzzy, kde-format
-#| msgid "Fill Color"
+#, kde-format
 msgid "Custom grid color"
-msgstr "تولدۇرغان رەڭ"
+msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:115
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Custom background color"
-msgstr "تەگلىك رەڭگى"
+msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:122
-#, fuzzy, kde-format
-#| msgid "Change Line Color"
+#, kde-format
 msgid "Custom line width"
-msgstr "سىزىق رەڭگىنى ئۆزگەرت"
+msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:132
 #, kde-format
@@ -3250,16 +3226,14 @@ msgid "Parameter Name Invalid"
 msgstr ""
 
 #: dialogs/selectdiagramdialog.cpp:18
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "Select diagram"
-msgstr "ئۆچۈر(&D)"
+msgstr ""
 
 #: dialogs/selectdiagramdialog.cpp:19
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "Diagram"
-msgstr "ئۆچۈر(&D)"
+msgstr "رەسىملىك چۈشەندۈرۈش"
 
 #: dialogs/settingsdialog.cpp:35
 #, kde-format
@@ -3336,7 +3310,7 @@ msgstr ""
 #: dialogs/singlepagedialogbase.cpp:35 dialogs/singlepagedialogbase.cpp:49
 #, kde-format
 msgid "Search"
-msgstr ""
+msgstr "ئىزدە"
 
 #: dialogs/statedialog.cpp:120
 #, kde-format
@@ -3399,11 +3373,10 @@ msgid "Choice"
 msgstr "تاللاش"
 
 #: dialogs/statedialog.cpp:160
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgctxt "combined state in statechart"
 msgid "Combined"
-msgstr "ئىزاھات"
+msgstr ""
 
 #: dialogs/statedialog.cpp:168
 #, kde-format
@@ -3416,16 +3389,14 @@ msgid "State name:"
 msgstr ""
 
 #: dialogs/statedialog.cpp:183
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "Linked diagram:"
-msgstr "ئۆچۈر(&D)"
+msgstr ""
 
 #: dialogs/stereoattributedialog.cpp:38
-#, fuzzy, kde-format
-#| msgid "Properties"
+#, kde-format
 msgid "Stereotype Properties"
-msgstr "خاسلىق"
+msgstr ""
 
 #: dialogs/stereoattributedialog.cpp:58
 #, kde-format
@@ -3439,19 +3410,16 @@ msgid "&Name:"
 msgstr "ئاتى(&N):"
 
 #: dialogs/stereoattributedialog.cpp:77
-#, fuzzy, kde-format
-#| msgid "&Type:"
+#, kde-format
 msgctxt "attribute type"
 msgid "&Type:"
-msgstr "تىپى(&T):"
+msgstr "تۈرى(&T):"
 
 #: dialogs/stereoattributedialog.cpp:87
-#, fuzzy, kde-format
-#| msgctxt "default line color button"
-#| msgid "&Default"
+#, kde-format
 msgctxt "default value"
 msgid "&Default:"
-msgstr "كۆڭۈلدىكى(&D)"
+msgstr ""
 
 #: dialogs/umlattributedialog.cpp:43
 #, kde-format
@@ -3524,10 +3492,9 @@ msgid "Length/Values:"
 msgstr ""
 
 #: dialogs/umlentityattributedialog.cpp:85
-#, fuzzy, kde-format
-#| msgid "Autosave"
+#, kde-format
 msgid "&Auto increment"
-msgstr "ئاپتوماتىك ساقلاش"
+msgstr ""
 
 #: dialogs/umlentityattributedialog.cpp:89
 #, kde-format
@@ -3545,10 +3512,9 @@ msgid "Indexing"
 msgstr "ئىندېكسلاۋاتىدۇ"
 
 #: dialogs/umlentityattributedialog.cpp:114
-#, fuzzy, kde-format
-#| msgid "Indexing"
+#, kde-format
 msgid "&Not Indexed"
-msgstr "ئىندېكسلاۋاتىدۇ"
+msgstr ""
 
 #. i18n("&Primary"), m_pScopeGB);
 #. scopeLayout->addWidget(m_pPublicRB);
@@ -3557,10 +3523,9 @@ msgstr "ئىندېكسلاۋاتىدۇ"
 #. scopeLayout->addWidget(m_pProtectedRB);
 #.
 #: dialogs/umlentityattributedialog.cpp:125
-#, fuzzy, kde-format
-#| msgid "Indexing"
+#, kde-format
 msgid "&Indexed"
-msgstr "ئىندېكسلاۋاتىدۇ"
+msgstr ""
 
 #: dialogs/umlentityattributedialog.cpp:163
 #, kde-format
@@ -3585,15 +3550,12 @@ msgid "Entity Attribute Name Not Unique"
 msgstr ""
 
 #: dialogs/umlenumliteraldialog.cpp:31
-#, fuzzy, kde-format
-#| msgid "General Properties"
+#, kde-format
 msgid "EnumLiteral Properties"
-msgstr "ئادەتتىكى خاسلىقلار"
+msgstr ""
 
 #: dialogs/umlenumliteraldialog.cpp:57
-#, fuzzy, kde-format
-#| msgctxt "property name"
-#| msgid "&Name:"
+#, kde-format
 msgctxt "literal name"
 msgid "&Name:"
 msgstr "ئاتى(&N):"
@@ -3601,7 +3563,7 @@ msgstr "ئاتى(&N):"
 #: dialogs/umlenumliteraldialog.cpp:61
 #, kde-format
 msgid "&Value:"
-msgstr ""
+msgstr "قىممىتى(&V):"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:54
 #, kde-format
@@ -3634,7 +3596,7 @@ msgstr ""
 #: dialogs/umlforeignkeyconstraintdialog.cpp:225
 #, kde-format
 msgid "Actions"
-msgstr "مەشغۇلاتلار"
+msgstr "مەشغۇلات"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:232
 #, kde-format
@@ -3674,7 +3636,7 @@ msgstr "كۆڭۈلدىكىگە تەڭشە"
 #: dialogs/umlforeignkeyconstraintdialog.cpp:292
 #, kde-format
 msgid "Columns"
-msgstr "ئىستونلار"
+msgstr "رەت"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:299
 #, kde-format
@@ -3729,16 +3691,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/umlinstanceattributedialog.ui:27
-#, fuzzy, kde-format
-#| msgid "Attributes:"
+#, kde-format
 msgid "Attribute Name:"
-msgstr "خاسلىقلىرى:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/umlinstanceattributedialog.ui:37
 #, kde-format
 msgid "Value:"
-msgstr ""
+msgstr "قىممىتى:"
 
 #: dialogs/umloperationdialog.cpp:58
 #, kde-format
@@ -3752,10 +3713,9 @@ msgid "&Name:"
 msgstr "ئاتى(&N):"
 
 #: dialogs/umloperationdialog.cpp:108
-#, fuzzy, kde-format
-#| msgid "Operation"
+#, kde-format
 msgid "&Abstract operation"
-msgstr "مەشغۇلات"
+msgstr ""
 
 #: dialogs/umloperationdialog.cpp:115
 #, kde-format
@@ -3773,21 +3733,19 @@ msgid "&inline"
 msgstr ""
 
 #: dialogs/umloperationdialog.cpp:127
-#, fuzzy, kde-format
-#| msgid "&Overwrite"
+#, kde-format
 msgid "&Override"
-msgstr "قاپلا(&O)"
+msgstr ""
 
 #: dialogs/umloperationdialog.cpp:138
 #, kde-format
 msgid "Parameters"
-msgstr "پارامېتىرلار"
+msgstr "پارامېتىر"
 
 #: dialogs/umloperationdialog.cpp:162
-#, fuzzy, kde-format
-#| msgid "Parameters"
+#, kde-format
 msgid "Ne&w Parameter..."
-msgstr "پارامېتىرلار"
+msgstr ""
 
 #: dialogs/umloperationdialog.cpp:280
 #, kde-format
@@ -3904,10 +3862,9 @@ msgid "Diagram Style"
 msgstr ""
 
 #: dialogs/widgets/defaultvaluewidget.cpp:36
-#, fuzzy, kde-format
-#| msgid "&Default value:"
+#, kde-format
 msgid "&Default value:"
-msgstr "كۆڭۈلدىكى قىممەت(&D)"
+msgstr ""
 
 #: dialogs/widgets/imagetypewidget.cpp:28
 #, kde-format
@@ -3917,7 +3874,7 @@ msgstr ""
 #: dialogs/widgets/resolutionwidget.cpp:25
 #, kde-format
 msgid "&Resolution:"
-msgstr ""
+msgstr "ئېنىقلىق دەرىجىسى(&R):"
 
 #: dialogs/widgets/resolutionwidget.cpp:25
 #, kde-format
@@ -3925,9 +3882,7 @@ msgid "DPI"
 msgstr ""
 
 #: dialogs/widgets/selectdiagramwidget.cpp:51
-#, fuzzy, kde-format
-#| msgctxt "new container menu"
-#| msgid "New"
+#, kde-format
 msgid "New"
 msgstr "يېڭى"
 
@@ -3965,20 +3920,19 @@ msgstr ""
 #: dialogs/widgets/umldatatypewidget.cpp:84
 #, kde-format
 msgid "&Type:"
-msgstr "تىپى(&T):"
+msgstr "تۈرى(&T):"
 
 #: dialogs/widgets/umlmessagebox.h:27
 #, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr ""
+msgstr "ھەئە"
 
 #: dialogs/widgets/umlmessagebox.h:32
-#, fuzzy, kde-format
-#| msgid "Node"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "تۈگۈن"
+msgstr "ياق"
 
 #: dialogs/widgets/umlpackagewidget.cpp:29
 #, kde-format
@@ -3986,10 +3940,9 @@ msgid "Package path:"
 msgstr ""
 
 #: dialogs/widgets/umlstereotypewidget.cpp:22 umlmodel/umlobject.cpp:1269
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "Stereotype &name:"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: dialogs/widgets/visibilityenumwidget.cpp:26
 #, kde-format
@@ -4178,10 +4131,9 @@ msgid ""
 msgstr ""
 
 #: docwindow.cpp:81
-#, fuzzy, kde-format
-#| msgid "Documentation"
+#, kde-format
 msgid "Documentation type"
-msgstr "قوللانمىلار"
+msgstr ""
 
 #: docwindow.cpp:88
 #, kde-format
@@ -4259,16 +4211,14 @@ msgid "the local directory to save the exported diagrams in"
 msgstr ""
 
 #: main.cpp:160
-#, fuzzy, kde-format
-#| msgid "Import Failed"
+#, kde-format
 msgid "import files"
-msgstr "ئەكىرەلمىدى"
+msgstr ""
 
 #: main.cpp:162
-#, fuzzy, kde-format
-#| msgid "All Supported Files"
+#, kde-format
 msgid "list supported languages"
-msgstr "قوللايدىغان ھەممە ھۆججەتلەر"
+msgstr ""
 
 #: main.cpp:164
 #, kde-format
@@ -4283,10 +4233,9 @@ msgid "import files from directory <dir>"
 msgstr ""
 
 #: main.cpp:168
-#, fuzzy, kde-format
-#| msgid "All Supported Files"
+#, kde-format
 msgid "set language"
-msgstr "قوللايدىغان ھەممە ھۆججەتلەر"
+msgstr ""
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
@@ -4413,19 +4362,18 @@ msgstr ""
 #, kde-format
 msgctxt "duplicate action"
 msgid "Duplicate"
-msgstr "كۆچۈر"
+msgstr "كۆپەيت"
 
 #: menus/listpopupmenu.cpp:161
 #, kde-format
 msgid "Collapse All"
-msgstr "ھەممىنى قاتلا"
+msgstr "ھەممىنى يىغ"
 
 #: menus/listpopupmenu.cpp:162
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgctxt "add new combined state"
 msgid "Combined state..."
-msgstr "ئىزاھات"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:163 umlwidgets/widgetbase.cpp:1264
 #: worktoolbar.cpp:356
@@ -4452,10 +4400,9 @@ msgid "Deep History"
 msgstr ""
 
 #: menus/listpopupmenu.cpp:174
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Edit combined state"
-msgstr "ئىزاھات"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:175 worktoolbar.cpp:379
 #, kde-format
@@ -4517,12 +4464,12 @@ msgstr ""
 #: menus/listpopupmenu.cpp:190
 #, kde-format
 msgid "Flip Horizontal"
-msgstr "توغرا يۆنىلىشتە چۆرگىلىتىش"
+msgstr "توغرىسىغا چۆرگىلىتىش"
 
 #: menus/listpopupmenu.cpp:191
 #, kde-format
 msgid "Flip Vertical"
-msgstr "تىك يۆنىلىشتە چۆرگىلىتىش"
+msgstr "بويىغا چۆرگىلىتىش"
 
 #: menus/listpopupmenu.cpp:192
 #, kde-format
@@ -4535,10 +4482,9 @@ msgid "Fork"
 msgstr "ۋىلكا"
 
 #: menus/listpopupmenu.cpp:195
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "Go to state diagram"
-msgstr "ئۆچۈر(&D)"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:196
 #, kde-format
@@ -4546,10 +4492,9 @@ msgid "Hide destruction box"
 msgstr ""
 
 #: menus/listpopupmenu.cpp:197
-#, fuzzy, kde-format
-#| msgid "Import Failed"
+#, kde-format
 msgid "Import File(s)..."
-msgstr "ئەكىرەلمىدى"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:198 umlapp.cpp:367
 #, kde-format
@@ -4557,10 +4502,9 @@ msgid "Import from Directory..."
 msgstr ""
 
 #: menus/listpopupmenu.cpp:199
-#, fuzzy, kde-format
-#| msgid "Closing file..."
+#, kde-format
 msgid "from file..."
-msgstr "ھۆججەتنى يېپىۋاتىدۇ…"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:200 worktoolbar.cpp:383
 #, kde-format
@@ -4573,11 +4517,10 @@ msgid "Initial State"
 msgstr ""
 
 #: menus/listpopupmenu.cpp:202
-#, fuzzy, kde-format
-#| msgid "Rename..."
+#, kde-format
 msgctxt "new instance menu item"
 msgid "Instance..."
-msgstr "ئات ئۆزگەرت…"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:203 menus/listpopupmenu.cpp:219
 #: menus/listpopupmenu.cpp:222
@@ -4586,16 +4529,14 @@ msgid "New Attribute..."
 msgstr ""
 
 #: menus/listpopupmenu.cpp:206
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "Provided interface"
-msgstr "كۆرۈنمەيۈز"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:207
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "Required interface"
-msgstr "كۆرۈنمەيۈز"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:208
 #, kde-format
@@ -4618,16 +4559,14 @@ msgid "Asynchronous Message"
 msgstr ""
 
 #: menus/listpopupmenu.cpp:213
-#, fuzzy, kde-format
-#| msgid "Message"
+#, kde-format
 msgid "Creation Message"
-msgstr "ئۇچۇر"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:214
-#, fuzzy, kde-format
-#| msgid "Message"
+#, kde-format
 msgid "Destroy Message"
-msgstr "ئۇچۇر"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:215 worktoolbar.cpp:328
 #, kde-format
@@ -4667,10 +4606,9 @@ msgstr "تۈگۈن"
 
 #. i18n("Node...")); break;
 #: menus/listpopupmenu.cpp:228
-#, fuzzy, kde-format
-#| msgid "Note"
+#, kde-format
 msgid "Note..."
-msgstr "ئىزاھات"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:229
 #, kde-format
@@ -4683,8 +4621,7 @@ msgid "Object Node"
 msgstr ""
 
 #: menus/listpopupmenu.cpp:231
-#, fuzzy, kde-format
-#| msgid "Open File"
+#, kde-format
 msgid "Open file"
 msgstr "ھۆججەت ئاچ"
 
@@ -4704,7 +4641,7 @@ msgstr "مۇقىم"
 #: worktoolbar.cpp:382
 #, kde-format
 msgid "Port"
-msgstr ""
+msgstr "ئېغىز"
 
 #. i18n("Port...")); break;
 #: menus/listpopupmenu.cpp:239
@@ -4724,16 +4661,14 @@ msgid "Region"
 msgstr "رايون"
 
 #: menus/listpopupmenu.cpp:244
-#, fuzzy, kde-format
-#| msgid "<< Remove"
+#, kde-format
 msgid "Remove"
-msgstr "<< چىقىرىۋەت"
+msgstr "چىقىرىۋەت"
 
 #: menus/listpopupmenu.cpp:245
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "Remove state diagram"
-msgstr "ئۆچۈر(&D)"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:246 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
@@ -4746,16 +4681,14 @@ msgid "Rename Object..."
 msgstr ""
 
 #: menus/listpopupmenu.cpp:248
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Return to combined state"
-msgstr "ئىزاھات"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:249
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Return to class"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:250
 #, kde-format
@@ -4768,15 +4701,14 @@ msgid "Resize"
 msgstr "چوڭلۇقىنى ئۆزگەرت"
 
 #: menus/listpopupmenu.cpp:252
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "Select state diagram"
-msgstr "ئۆچۈر(&D)"
+msgstr ""
 
 #: menus/listpopupmenu.cpp:253
 #, kde-format
 msgid "Send Signal"
-msgstr ""
+msgstr "سىگنال ئەۋەت"
 
 #: menus/listpopupmenu.cpp:254 worktoolbar.cpp:366
 #, kde-format
@@ -4834,8 +4766,7 @@ msgid "New"
 msgstr "يېڭى"
 
 #: menus/listpopupmenu.cpp:511
-#, fuzzy, kde-format
-#| msgid "Category Type"
+#, kde-format
 msgctxt "category type sub menu"
 msgid "Category Type"
 msgstr "كاتېگورىيە تىپى"
@@ -4862,10 +4793,9 @@ msgid "Change into Class"
 msgstr ""
 
 #: menus/umllistviewpopupmenu.cpp:160 menus/widgetbasepopupmenu.cpp:201
-#, fuzzy, kde-format
-#| msgid "Change Line Color"
+#, kde-format
 msgid "Change into Package"
-msgstr "سىزىق رەڭگىنى ئۆزگەرت"
+msgstr ""
 
 #: menus/umlscenepopupmenu.cpp:53
 #, kde-format
@@ -4878,15 +4808,14 @@ msgid "Snap to Grid"
 msgstr "سېتكىغا توغرىلا"
 
 #: menus/umlscenepopupmenu.cpp:59
-#, fuzzy, kde-format
-#| msgid "Snap to Grid"
+#, kde-format
 msgid "Snap Component Size to Grid"
-msgstr "سېتكىغا توغرىلا"
+msgstr ""
 
 #: menus/umlscenepopupmenu.cpp:61
 #, kde-format
 msgid "Show Grid"
-msgstr "سېتكا كۆرسەت"
+msgstr "شادا كۆرسەت"
 
 #: menus/umlscenepopupmenu.cpp:63
 #, kde-format
@@ -4934,10 +4863,9 @@ msgid "Show Non-public members"
 msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:138
-#, fuzzy, kde-format
-#| msgid "Package"
+#, kde-format
 msgid "Packages"
-msgstr "بوغچا"
+msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:144
 #, kde-format
@@ -4982,7 +4910,7 @@ msgstr "ئۈستىگە"
 #: menus/widgetbasepopupmenu.cpp:297
 #, kde-format
 msgid "Move Down"
-msgstr "پەسكە"
+msgstr "ئاستىغا"
 
 #: menus/widgetbasepopupmenu.cpp:330
 #, kde-format
@@ -4997,10 +4925,9 @@ msgid "Change Text..."
 msgstr "تېكىستنى ئۆزگەرت…"
 
 #: menus/widgetbasepopupmenu.cpp:334 menus/widgetbasepopupmenu.cpp:585
-#, fuzzy, kde-format
-#| msgid "Autosave"
+#, kde-format
 msgid "Auto resize"
-msgstr "ئاپتوماتىك ساقلاش"
+msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:367
 #, kde-format
@@ -5058,17 +4985,15 @@ msgid "Use Fill Color"
 msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:537
-#, fuzzy, kde-format
-#| msgid "Fill Color"
+#, kde-format
 msgid "No Fill Color"
-msgstr "تولدۇرغان رەڭ"
+msgstr ""
 
 #: menus/widgetbasepopupmenu.cpp:593
-#, fuzzy, kde-format
-#| msgid "&Align"
+#, kde-format
 msgctxt "align menu"
 msgid "Align"
-msgstr "توغرىلا(&A)"
+msgstr "توغرىلا"
 
 #: menus/widgetbasepopupmenu.cpp:594 umlapp.cpp:565
 #, kde-format
@@ -5186,16 +5111,14 @@ msgid "new_foreign_key_constraint"
 msgstr ""
 
 #: model_utils.cpp:577
-#, fuzzy, kde-format
-#| msgid "Rename..."
+#, kde-format
 msgid "new_instance"
-msgstr "ئات ئۆزگەرت…"
+msgstr ""
 
 #: model_utils.cpp:578
-#, fuzzy, kde-format
-#| msgid "Attribute"
+#, kde-format
 msgid "new_instance_attribute"
-msgstr "خاسلىق"
+msgstr ""
 
 #: model_utils.cpp:579
 #, kde-format
@@ -5228,10 +5151,9 @@ msgid "new_role"
 msgstr ""
 
 #: model_utils.cpp:585
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "new_stereotype"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: model_utils.cpp:586 umlmodel/umlcanvasobject.cpp:194
 #, kde-format
@@ -5244,10 +5166,9 @@ msgid "new_unique_constraint"
 msgstr ""
 
 #: model_utils.cpp:588
-#, fuzzy, kde-format
-#| msgid "Subsystem"
+#, kde-format
 msgid "new_use_case"
-msgstr "تارماق سىستېما"
+msgstr ""
 
 #: model_utils.cpp:590 umlmodel/umlcanvasobject.cpp:215
 #, kde-format
@@ -5255,10 +5176,9 @@ msgid "new_object"
 msgstr ""
 
 #: model_utils.cpp:610 umlwidgets/widget_utils.cpp:872
-#, fuzzy, kde-format
-#| msgid "vector"
+#, kde-format
 msgid "New actor"
-msgstr "ۋېكتور"
+msgstr ""
 
 #: model_utils.cpp:611 umlwidgets/widget_utils.cpp:873
 #, kde-format
@@ -5266,22 +5186,19 @@ msgid "New artifact"
 msgstr ""
 
 #: model_utils.cpp:612 umlwidgets/widget_utils.cpp:874
-#, fuzzy, kde-format
-#| msgid "Association"
+#, kde-format
 msgid "New association"
-msgstr "باغلاش"
+msgstr ""
 
 #: model_utils.cpp:613
-#, fuzzy, kde-format
-#| msgid "Attribute"
+#, kde-format
 msgid "New attribute"
-msgstr "خاسلىق"
+msgstr ""
 
 #: model_utils.cpp:614 umlwidgets/widget_utils.cpp:876
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "New category"
-msgstr "كاتېگورىيە"
+msgstr "يېڭى كاتېگورىيە"
 
 #: model_utils.cpp:615
 #, kde-format
@@ -5289,28 +5206,24 @@ msgid "New check constraint"
 msgstr ""
 
 #: model_utils.cpp:616 umlwidgets/widget_utils.cpp:877
-#, fuzzy, kde-format
-#| msgid "New Class"
+#, kde-format
 msgid "New class"
-msgstr "يېڭى تىپ(Class)"
+msgstr ""
 
 #: model_utils.cpp:617 umlwidgets/widget_utils.cpp:879
-#, fuzzy, kde-format
-#| msgid "Component"
+#, kde-format
 msgid "New component"
-msgstr "بۆلەك"
+msgstr ""
 
 #: model_utils.cpp:618 umlwidgets/widget_utils.cpp:880
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "New datatype"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: model_utils.cpp:619 umlwidgets/widget_utils.cpp:881
-#, fuzzy, kde-format
-#| msgid "New Activity"
+#, kde-format
 msgid "New entity"
-msgstr "يېڭى پائالىيەت"
+msgstr ""
 
 #: model_utils.cpp:620
 #, kde-format
@@ -5333,10 +5246,9 @@ msgid "New enum literal"
 msgstr ""
 
 #: model_utils.cpp:624
-#, fuzzy, kde-format
-#| msgid "Folder"
+#, kde-format
 msgid "New folder"
-msgstr "قىسقۇچ"
+msgstr "يېڭى مۇندەرىجە"
 
 #: model_utils.cpp:625
 #, kde-format
@@ -5344,22 +5256,19 @@ msgid "New foreign key constraint"
 msgstr ""
 
 #: model_utils.cpp:626 umlwidgets/widget_utils.cpp:885
-#, fuzzy, kde-format
-#| msgid "Rename..."
+#, kde-format
 msgid "New instance"
-msgstr "ئات ئۆزگەرت…"
+msgstr ""
 
 #: model_utils.cpp:627
-#, fuzzy, kde-format
-#| msgid "Attribute"
+#, kde-format
 msgid "New instance attribute"
-msgstr "خاسلىق"
+msgstr ""
 
 #: model_utils.cpp:628 umlwidgets/widget_utils.cpp:886
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "New interface"
-msgstr "كۆرۈنمەيۈز"
+msgstr ""
 
 #: model_utils.cpp:629 umlwidgets/widget_utils.cpp:888
 #, kde-format
@@ -5367,16 +5276,14 @@ msgid "New node"
 msgstr ""
 
 #: model_utils.cpp:630
-#, fuzzy, kde-format
-#| msgid "Operation"
+#, kde-format
 msgid "New operation"
-msgstr "مەشغۇلات"
+msgstr ""
 
 #: model_utils.cpp:631 umlwidgets/widget_utils.cpp:892
-#, fuzzy, kde-format
-#| msgid "Package"
+#, kde-format
 msgid "New package"
-msgstr "بوغچا"
+msgstr ""
 
 #: model_utils.cpp:632 umlwidgets/widget_utils.cpp:894
 #, kde-format
@@ -5384,22 +5291,19 @@ msgid "New port"
 msgstr ""
 
 #: model_utils.cpp:633
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "New role"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: model_utils.cpp:634
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "New stereotype"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: model_utils.cpp:635
-#, fuzzy, kde-format
-#| msgid "Template"
+#, kde-format
 msgid "New template"
-msgstr "قېلىپ"
+msgstr ""
 
 #: model_utils.cpp:636
 #, kde-format
@@ -5412,40 +5316,34 @@ msgid "New use case"
 msgstr ""
 
 #: model_utils.cpp:640
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "New UML object"
-msgstr "نەڭ"
+msgstr ""
 
 #: model_utils.cpp:652 umlwidgets/widget_utils.cpp:918
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new actor:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:653 umlwidgets/widget_utils.cpp:919
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new artifact:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:654 umlwidgets/widget_utils.cpp:920
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new association:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:655
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new attribute:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:656 umlwidgets/widget_utils.cpp:922
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new category:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:657
 #, kde-format
@@ -5453,10 +5351,9 @@ msgid "Enter the name of the new check constraint:"
 msgstr ""
 
 #: model_utils.cpp:658 umlwidgets/widget_utils.cpp:923
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new class:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:659 umlwidgets/widget_utils.cpp:925
 #, kde-format
@@ -5464,16 +5361,14 @@ msgid "Enter the name of the new component:"
 msgstr ""
 
 #: model_utils.cpp:660 umlwidgets/widget_utils.cpp:926
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new datatype:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:661 umlwidgets/widget_utils.cpp:927
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new entity:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:662
 #, kde-format
@@ -5486,10 +5381,9 @@ msgid "Enter the name of the new entity constraint:"
 msgstr ""
 
 #: model_utils.cpp:664 umlwidgets/widget_utils.cpp:928
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new enum:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:665
 #, kde-format
@@ -5497,10 +5391,9 @@ msgid "Enter the name of the new enum literal:"
 msgstr ""
 
 #: model_utils.cpp:666
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new folder:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:667
 #, kde-format
@@ -5508,10 +5401,9 @@ msgid "Enter the name of the new foreign key constraint:"
 msgstr ""
 
 #: model_utils.cpp:668 umlwidgets/widget_utils.cpp:931
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new instance:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:669
 #, kde-format
@@ -5524,34 +5416,29 @@ msgid "Enter the name of the new interface:"
 msgstr ""
 
 #: model_utils.cpp:671 umlwidgets/widget_utils.cpp:934
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new node:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:672
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new operation:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:673 umlwidgets/widget_utils.cpp:938
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new package:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:674 umlwidgets/widget_utils.cpp:940
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new port:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:675
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new role:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:676
 #, kde-format
@@ -5559,10 +5446,9 @@ msgid "Enter the name of the new stereotype:"
 msgstr ""
 
 #: model_utils.cpp:677
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new template:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:678
 #, kde-format
@@ -5570,10 +5456,9 @@ msgid "Enter the name of the new unique constraint:"
 msgstr ""
 
 #: model_utils.cpp:679 umlwidgets/widget_utils.cpp:947
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new use case:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:682
 #, kde-format
@@ -5581,10 +5466,9 @@ msgid "Enter the name of the new UML object"
 msgstr ""
 
 #: model_utils.cpp:694 umlwidgets/widget_utils.cpp:963
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename actor"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: model_utils.cpp:695 umlwidgets/widget_utils.cpp:964
 #, kde-format
@@ -5592,22 +5476,19 @@ msgid "Rename artifact"
 msgstr ""
 
 #: model_utils.cpp:696 umlwidgets/widget_utils.cpp:965
-#, fuzzy, kde-format
-#| msgid "Association"
+#, kde-format
 msgid "Rename association"
-msgstr "باغلاش"
+msgstr ""
 
 #: model_utils.cpp:697
-#, fuzzy, kde-format
-#| msgid "Attribute"
+#, kde-format
 msgid "Rename attribute"
-msgstr "خاسلىق"
+msgstr ""
 
 #: model_utils.cpp:698 umlwidgets/widget_utils.cpp:967
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "Rename category"
-msgstr "كاتېگورىيە"
+msgstr ""
 
 #: model_utils.cpp:699
 #, kde-format
@@ -5615,16 +5496,14 @@ msgid "Rename check constraint"
 msgstr ""
 
 #: model_utils.cpp:700 umlwidgets/widget_utils.cpp:968
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename class"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: model_utils.cpp:701 umlwidgets/widget_utils.cpp:970
-#, fuzzy, kde-format
-#| msgid "Component"
+#, kde-format
 msgid "Rename component"
-msgstr "بۆلەك"
+msgstr ""
 
 #: model_utils.cpp:702 umlwidgets/widget_utils.cpp:971
 #, kde-format
@@ -5632,10 +5511,9 @@ msgid "Rename datatype"
 msgstr ""
 
 #: model_utils.cpp:703 umlwidgets/widget_utils.cpp:972
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename entity"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: model_utils.cpp:704
 #, kde-format
@@ -5648,10 +5526,9 @@ msgid "Rename entity constraint"
 msgstr ""
 
 #: model_utils.cpp:706 umlwidgets/widget_utils.cpp:973
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename enum"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: model_utils.cpp:707
 #, kde-format
@@ -5659,10 +5536,9 @@ msgid "Rename enum literal"
 msgstr ""
 
 #: model_utils.cpp:708
-#, fuzzy, kde-format
-#| msgid "Create Folder"
+#, kde-format
 msgid "Rename folder"
-msgstr "قىسقۇچ قۇر"
+msgstr ""
 
 #: model_utils.cpp:709
 #, kde-format
@@ -5675,58 +5551,49 @@ msgid "Rename instance"
 msgstr ""
 
 #: model_utils.cpp:711
-#, fuzzy, kde-format
-#| msgid "Attribute"
+#, kde-format
 msgid "Rename instance attribute"
-msgstr "خاسلىق"
+msgstr ""
 
 #: model_utils.cpp:712 umlwidgets/widget_utils.cpp:977
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "Rename interface"
-msgstr "كۆرۈنمەيۈز"
+msgstr ""
 
 #: model_utils.cpp:713 umlwidgets/widget_utils.cpp:979
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename node"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: model_utils.cpp:714
-#, fuzzy, kde-format
-#| msgid "Operation"
+#, kde-format
 msgid "Rename operation"
-msgstr "مەشغۇلات"
+msgstr ""
 
 #: model_utils.cpp:715 umlwidgets/widget_utils.cpp:983
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename package"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: model_utils.cpp:716 umlwidgets/widget_utils.cpp:985
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename port"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: model_utils.cpp:717
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename role"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: model_utils.cpp:718
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "Rename stereotype"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: model_utils.cpp:719
-#, fuzzy, kde-format
-#| msgid "Template"
+#, kde-format
 msgid "Rename template"
-msgstr "قېلىپ"
+msgstr ""
 
 #: model_utils.cpp:720
 #, kde-format
@@ -5739,22 +5606,19 @@ msgid "Rename use case"
 msgstr ""
 
 #: model_utils.cpp:724
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "Rename UML object"
-msgstr "نەڭ"
+msgstr ""
 
 #: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1009
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the actor:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1010
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the artifact:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:738 umlwidgets/widget_utils.cpp:1011
 #, kde-format
@@ -5762,16 +5626,14 @@ msgid "Enter the new name of the association:"
 msgstr ""
 
 #: model_utils.cpp:739
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the attribute:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:740 umlwidgets/widget_utils.cpp:1013
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the category:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:741
 #, kde-format
@@ -5779,10 +5641,9 @@ msgid "Enter the new name of the check constraint:"
 msgstr ""
 
 #: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1014
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the class:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1016
 #, kde-format
@@ -5790,16 +5651,14 @@ msgid "Enter the new name of the component:"
 msgstr ""
 
 #: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1017
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the datatype:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:745 umlwidgets/widget_utils.cpp:1018
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the entity:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:746
 #, kde-format
@@ -5812,10 +5671,9 @@ msgid "Enter the new name of the entity constraint:"
 msgstr ""
 
 #: model_utils.cpp:748 umlwidgets/widget_utils.cpp:1019
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the enum:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:749
 #, kde-format
@@ -5823,10 +5681,9 @@ msgid "Enter the new name of the enum literal:"
 msgstr ""
 
 #: model_utils.cpp:750
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the folder:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:751
 #, kde-format
@@ -5834,10 +5691,9 @@ msgid "Enter the new name of the foreign key constraint:"
 msgstr ""
 
 #: model_utils.cpp:752 umlwidgets/widget_utils.cpp:1022
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the instance:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:753
 #, kde-format
@@ -5850,34 +5706,29 @@ msgid "Enter the new name of the interface:"
 msgstr ""
 
 #: model_utils.cpp:755 umlwidgets/widget_utils.cpp:1025
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the node:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:756
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the operation:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1029
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the package:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:758 umlwidgets/widget_utils.cpp:1031
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the port:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:759
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the role:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:760
 #, kde-format
@@ -5885,10 +5736,9 @@ msgid "Enter the new name of the stereotype:"
 msgstr ""
 
 #: model_utils.cpp:761
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the template:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:762
 #, kde-format
@@ -5896,10 +5746,9 @@ msgid "Enter the new name of the unique constraint:"
 msgstr ""
 
 #: model_utils.cpp:763 umlwidgets/widget_utils.cpp:1038
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the use case:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: model_utils.cpp:766
 #, kde-format
@@ -5909,7 +5758,7 @@ msgstr ""
 #: model_utils.cpp:1207
 #, kde-format
 msgid "OK"
-msgstr "تامام"
+msgstr "جەزملە"
 
 #: model_utils.cpp:1207
 #, kde-format
@@ -5949,44 +5798,39 @@ msgid "Name"
 msgstr "ئاتى"
 
 #: models/diagramsmodel.cpp:54 models/objectsmodel.cpp:78
-#, fuzzy, kde-format
-#| msgid "Type:"
+#, kde-format
 msgid "Type"
-msgstr "تىپى:"
+msgstr "تۈرى"
 
 #: models/diagramsmodel.cpp:58
-#, fuzzy, kde-format
-#| msgid "Association"
+#, kde-format
 msgid "Widgets/Associations"
-msgstr "باغلاش"
+msgstr ""
 
 #: models/objectsmodel.cpp:82
 #, kde-format
 msgid "ID"
-msgstr ""
+msgstr "كىملىك"
 
 #: models/objectsmodel.cpp:84
-#, fuzzy, kde-format
-#| msgid "Save As"
+#, kde-format
 msgid "Saved"
-msgstr "باشقا ئاتتا ساقلا"
+msgstr "ساقلاندى"
 
 #: models/objectsmodel.cpp:86
 #, kde-format
 msgid "Parent"
-msgstr ""
+msgstr "ئاتا"
 
 #: models/objectsmodel.cpp:88
-#, fuzzy, kde-format
-#| msgid "Add Point"
+#, kde-format
 msgid "Pointer"
-msgstr "نۇقتا قوش"
+msgstr "قەلەم"
 
 #: models/stereotypesmodel.cpp:53
-#, fuzzy, kde-format
-#| msgid "Message"
+#, kde-format
 msgid "Usage"
-msgstr "ئۇچۇر"
+msgstr "ئىشلىتىلىشى"
 
 #: object_factory.cpp:254 umldoc.cpp:1720 umldoc.cpp:1755
 #: umlmodel/umlclassifier.cpp:409 umlmodel/umlclassifier.cpp:782
@@ -6230,11 +6074,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (layoutType), group (General Options)
 #: umbrello.kcfg:37
-#, fuzzy, kde-format
-#| msgctxt "Layout menu"
-#| msgid "Layout"
+#, kde-format
 msgid "Layout Type"
-msgstr "جايلاشتۇرۇش"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (layoutType), group (General Options)
 #: umbrello.kcfg:38
@@ -6340,10 +6182,9 @@ msgstr ""
 
 #. i18n: ectx: whatsthis, entry (showDebugWindows), group (General Options)
 #: umbrello.kcfg:141
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "Show or hide the debug window and UML objects window"
-msgstr "نەڭ"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:148
@@ -6431,10 +6272,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:187
-#, fuzzy, kde-format
-#| msgid "Background Color"
+#, kde-format
 msgid "Use background color"
-msgstr "تەگلىك رەڭگى"
+msgstr ""
 
 #. i18n: ectx: whatsthis, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:188
@@ -7212,10 +7052,9 @@ msgstr ""
 
 #. i18n: ectx: Menu (file_export)
 #: umbrelloui.rc.cmake:5
-#, fuzzy, kde-format
-#| msgid "&Export"
+#, kde-format
 msgid "&Export model"
-msgstr "چىقار(&E)"
+msgstr ""
 
 #. i18n: ectx: Menu (edit)
 #: umbrelloui.rc.cmake:11
@@ -7227,21 +7066,19 @@ msgstr "تەھرىر(&E)"
 #: umbrelloui.rc.cmake:14
 #, kde-format
 msgid "&View"
-msgstr "كۆرۈنۈش"
+msgstr "كۆرۈنۈش(&V)"
 
 #. i18n: ectx: Menu (view_window)
 #: umbrelloui.rc.cmake:15
-#, fuzzy, kde-format
-#| msgid "Show &grid"
+#, kde-format
 msgid "&Show/hide window"
-msgstr "سېتكا كۆرسەت(&G)"
+msgstr ""
 
 #. i18n: ectx: Menu (diagram)
 #: umbrelloui.rc.cmake:26
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "&Diagram"
-msgstr "ئۆچۈر(&D)"
+msgstr ""
 
 #. i18n: ectx: Menu (new_view)
 #: umbrelloui.rc.cmake:27
@@ -7259,7 +7096,7 @@ msgstr ""
 #: umbrelloui.rc.cmake:46
 #, kde-format
 msgid "&Zoom"
-msgstr "كېڭەيت تارايت(&Z)"
+msgstr "نىسبەت(&Z)"
 
 #. i18n: ectx: Menu (align_menu)
 #: umbrelloui.rc.cmake:48
@@ -7275,10 +7112,9 @@ msgstr "كود(&C)"
 
 #. i18n: ectx: Menu (active_lang_menu)
 #: umbrelloui.rc.cmake:70
-#, fuzzy, kde-format
-#| msgid "All Supported Files"
+#, kde-format
 msgid "Active &Language"
-msgstr "قوللايدىغان ھەممە ھۆججەتلەر"
+msgstr ""
 
 #. i18n: ectx: Menu (settings)
 #: umbrelloui.rc.cmake:96
@@ -7364,7 +7200,7 @@ msgstr ""
 #: umlapp.cpp:432
 #, kde-format
 msgid "Quits the application"
-msgstr "پروگراممىنى ئاخىرلاشتۇرىدۇ"
+msgstr "پىروگراممىنى ئاخىرلاشتۇرىدۇ"
 
 #: umlapp.cpp:433
 #, kde-format
@@ -7394,12 +7230,12 @@ msgstr ""
 #: umlapp.cpp:438
 #, kde-format
 msgid "Undo last action"
-msgstr ""
+msgstr "ئەڭ ئاخىرقى مەشغۇلاتتىن يېنىۋالىدۇ"
 
 #: umlapp.cpp:439
 #, kde-format
 msgid "Redo last undone action"
-msgstr ""
+msgstr "ئاخىرقى يېنىۋالغان مەشغۇلاتنى قايتىلايدۇ"
 
 #: umlapp.cpp:441
 #, kde-format
@@ -7418,10 +7254,9 @@ msgid "&Class Diagram..."
 msgstr ""
 
 #: umlapp.cpp:463
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "&Object Diagram..."
-msgstr "ئۆچۈر(&D)"
+msgstr ""
 
 #: umlapp.cpp:470
 #, kde-format
@@ -7479,10 +7314,9 @@ msgid "S&how Grid"
 msgstr ""
 
 #: umlapp.cpp:531
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "&Delete Diagram"
-msgstr "ئۆچۈر(&D)"
+msgstr ""
 
 #: umlapp.cpp:536
 #, kde-format
@@ -7534,13 +7368,12 @@ msgstr "تەييار"
 #: umlapp.cpp:818 umlapp.cpp:831
 #, kde-format
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: umlapp.cpp:823
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Fit"
-msgstr "سۈزگۈچ"
+msgstr "لايىق"
 
 #: umlapp.cpp:874
 #, kde-format
@@ -7663,7 +7496,7 @@ msgstr "تاللانغاننى كېسىۋاتىدۇ…"
 #: umlapp.cpp:1506
 #, kde-format
 msgid "Copying selection to clipboard..."
-msgstr "تاللانغاننى چاپلاش تاختىسىغا كۆچۈرۈۋاتىدۇ"
+msgstr "تاللانغاننى چاپلاش تاختىسىغا كۆچۈرۈۋاتىدۇ…"
 
 #: umlapp.cpp:1518
 #, kde-format
@@ -7714,10 +7547,9 @@ msgid "XHTML Generation failed ."
 msgstr ""
 
 #: umlappprivate.h:103
-#, fuzzy, kde-format
-#| msgid "Show &grid"
+#, kde-format
 msgid "Show/hide window"
-msgstr "سېتكا كۆرسەت(&G)"
+msgstr ""
 
 #: umlappprivate.h:189
 #, kde-format
@@ -7732,7 +7564,7 @@ msgstr ""
 #: umlappprivate.h:212
 #, kde-format
 msgid "&Debug"
-msgstr ""
+msgstr "سازلا(&D)"
 
 #: umlappprivate.h:228
 #, kde-format
@@ -7745,16 +7577,14 @@ msgid "&Log"
 msgstr ""
 
 #: umlappprivate.h:257
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "&UML Objects"
-msgstr "نەڭ"
+msgstr ""
 
 #: umlappprivate.h:271
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "&Stereotypes"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: umlappprivate.h:278
 #, kde-format
@@ -7764,7 +7594,7 @@ msgstr ""
 #: umlappprivate.h:298
 #, kde-format
 msgid "Welcome"
-msgstr ""
+msgstr "مەرھابا"
 
 #: umldoc.cpp:180 umldoc.cpp:2351 umldoc.cpp:2379 umldoc.cpp:2462
 #, kde-format
@@ -7817,10 +7647,9 @@ msgid "Warning"
 msgstr "ئاگاھلاندۇرۇش"
 
 #: umldoc.cpp:636
-#, fuzzy, kde-format
-#| msgid "The file %1 does not exist."
+#, kde-format
 msgid "The file <%1> does not exist."
-msgstr "ھۆججەت %1 مەۋجۇت ئەمەس."
+msgstr ""
 
 #: umldoc.cpp:636 umldoc.cpp:657 umldoc.cpp:696 umldoc.cpp:708 umldoc.cpp:722
 #: umldoc.cpp:735 umldoc.cpp:747 umldoc.cpp:785 umlmodel/umlfolder.cpp:450
@@ -7852,7 +7681,7 @@ msgstr ""
 #: umldoc.cpp:784
 #, kde-format
 msgid "Reason: %1"
-msgstr ""
+msgstr "سەۋەب:%1"
 
 #: umldoc.cpp:855 umldoc.cpp:866 umldoc.cpp:884 umldoc.cpp:929 umldoc.cpp:968
 #, kde-format
@@ -7891,10 +7720,9 @@ msgid "communication diagram"
 msgstr ""
 
 #: umldoc.cpp:1538
-#, fuzzy, kde-format
-#| msgid "&Delete"
+#, kde-format
 msgid "object diagram"
-msgstr "ئۆچۈر(&D)"
+msgstr ""
 
 #: umldoc.cpp:1541
 #, kde-format
@@ -7930,7 +7758,7 @@ msgstr "ئاتى"
 #: umldoc.cpp:1623 umldoc.cpp:1685 umldoc.cpp:1714 umldoc.cpp:1749
 #, kde-format
 msgid "Enter name:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr "ئات كىرگۈزۈلىدۇ:"
 
 #: umldoc.cpp:1627 umldoc.cpp:1691
 #, kde-format
@@ -8030,8 +7858,7 @@ msgid ""
 msgstr ""
 
 #: umllistview.cpp:560
-#, fuzzy, kde-format
-#| msgid "File Already Exists"
+#, kde-format
 msgid "File Exists"
 msgstr "ھۆججەت مەۋجۇت"
 
@@ -8053,13 +7880,12 @@ msgstr ""
 #: umllistview.cpp:1422
 #, kde-format
 msgid "Views"
-msgstr "كۆرۈنۈشلەر"
+msgstr "كۆرۈنۈش"
 
 #: umllistview.cpp:1440
-#, fuzzy, kde-format
-#| msgid "&Settings"
+#, kde-format
 msgid "Settings"
-msgstr "تەڭشەك(&S)"
+msgstr "تەڭشەك"
 
 #: umllistview.cpp:2457
 #, kde-format
@@ -8167,10 +7993,9 @@ msgid "Artifact &name:"
 msgstr ""
 
 #: umlmodel/umlobject.cpp:1236
-#, fuzzy, kde-format
-#| msgid "Association"
+#, kde-format
 msgid "Association &name:"
-msgstr "باغلاش"
+msgstr ""
 
 #: umlmodel/umlobject.cpp:1239
 #, kde-format
@@ -8198,10 +8023,9 @@ msgid "Enum &name:"
 msgstr ""
 
 #: umlmodel/umlobject.cpp:1254
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "Folder &name:"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: umlmodel/umlobject.cpp:1257
 #, kde-format
@@ -8219,10 +8043,9 @@ msgid "Package &name:"
 msgstr ""
 
 #: umlmodel/umlobject.cpp:1266
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "Port &name:"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: umlmodel/umlobject.cpp:1272
 #, kde-format
@@ -8259,58 +8082,49 @@ msgid "Diagram: %2 Page %1"
 msgstr ""
 
 #: umlscene.cpp:1526
-#, fuzzy, kde-format
-#| msgid "Fill Color"
+#, kde-format
 msgid "Use fill color"
-msgstr "تولدۇرغان رەڭ"
+msgstr ""
 
 #: umlscene.cpp:1528
-#, fuzzy, kde-format
-#| msgid "Fill Color"
+#, kde-format
 msgid "No fill color"
-msgstr "تولدۇرغان رەڭ"
+msgstr ""
 
 #: umlscene.cpp:1543
-#, fuzzy, kde-format
-#| msgid "Change Text"
+#, kde-format
 msgid "Change font"
-msgstr "تېكىست ئۆزگەرت"
+msgstr "خەت نۇسخا ئۆزگەرت"
 
 #: umlscene.cpp:1557
-#, fuzzy, kde-format
-#| msgid "Change Line Color"
+#, kde-format
 msgid "Change line color"
-msgstr "سىزىق رەڭگىنى ئۆزگەرت"
+msgstr ""
 
 #: umlscene.cpp:1575
-#, fuzzy, kde-format
-#| msgid "Change Line Color"
+#, kde-format
 msgid "Change line width"
-msgstr "سىزىق رەڭگىنى ئۆزگەرت"
+msgstr ""
 
 #: umlscene.cpp:1595
-#, fuzzy, kde-format
-#| msgid "Change Fill Color"
+#, kde-format
 msgid "Change fill color"
-msgstr "تولدۇرغان رەڭنى ئۆزگەرت"
+msgstr ""
 
 #: umlscene.cpp:1610
-#, fuzzy, kde-format
-#| msgid "Change Fill Color"
+#, kde-format
 msgid "Change visual property"
-msgstr "تولدۇرغان رەڭنى ئۆزگەرت"
+msgstr ""
 
 #: umlscene.cpp:1661
-#, fuzzy, kde-format
-#| msgid "Delete Point"
+#, kde-format
 msgid "Delete widgets"
-msgstr "نۇقتا ئۆچۈر"
+msgstr ""
 
 #: umlscene.cpp:1707
-#, fuzzy, kde-format
-#| msgid "Resize"
+#, kde-format
 msgid "Resize widgets"
-msgstr "چوڭلۇقىنى ئۆزگەرت"
+msgstr ""
 
 #: umlscene.cpp:3368
 #, kde-format
@@ -8458,10 +8272,9 @@ msgid "Enter alternative Name"
 msgstr ""
 
 #: umlwidgets/floatingdashlinewidget.cpp:103
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the alternative:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/floatingtextwidget.cpp:201
 #, kde-format
@@ -8476,7 +8289,7 @@ msgstr ""
 #: umlwidgets/floatingtextwidget.cpp:361
 #, kde-format
 msgid "ERROR"
-msgstr "ERROR"
+msgstr ""
 
 #: umlwidgets/floatingtextwidget.cpp:717
 #, kde-format
@@ -8634,10 +8447,9 @@ msgid "Hold shift and control to move in Y axis."
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:825
-#, fuzzy, kde-format
-#| msgid "vector"
+#, kde-format
 msgid "new actor"
-msgstr "ۋېكتور"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:826
 #, kde-format
@@ -8645,10 +8457,9 @@ msgid "new artifact"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:827
-#, fuzzy, kde-format
-#| msgid "Association"
+#, kde-format
 msgid "new association"
-msgstr "باغلاش"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:828
 #, kde-format
@@ -8656,40 +8467,34 @@ msgid "new box"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:829
-#, fuzzy, kde-format
-#| msgid "Category"
+#, kde-format
 msgid "new category"
-msgstr "كاتېگورىيە"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:830
-#, fuzzy, kde-format
-#| msgid "New Class"
+#, kde-format
 msgid "new class"
-msgstr "يېڭى تىپ(Class)"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:831
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "new combined fragment"
-msgstr "ئىزاھات"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:832
-#, fuzzy, kde-format
-#| msgid "Component"
+#, kde-format
 msgid "new component"
-msgstr "بۆلەك"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:833
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "new datatype"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:834
-#, fuzzy, kde-format
-#| msgid "Entity"
+#, kde-format
 msgid "new entity"
-msgstr "ئەمەلىي گەۋدە"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:835
 #, kde-format
@@ -8707,22 +8512,19 @@ msgid "new fork/join"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:838
-#, fuzzy, kde-format
-#| msgid "Rename..."
+#, kde-format
 msgid "new instance"
-msgstr "ئات ئۆزگەرت…"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:839
-#, fuzzy, kde-format
-#| msgid "User Interface"
+#, kde-format
 msgid "new interface"
-msgstr "كۆرۈنمەيۈز"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:840
-#, fuzzy, kde-format
-#| msgid "Message"
+#, kde-format
 msgid "new message"
-msgstr "ئۇچۇر"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:841
 #, kde-format
@@ -8730,28 +8532,24 @@ msgid "new node"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:842
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "new note"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:843
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "new object"
-msgstr "نەڭ"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:844
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "new object node"
-msgstr "نەڭ"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:845
-#, fuzzy, kde-format
-#| msgid "Package"
+#, kde-format
 msgid "new package"
-msgstr "بوغچا"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:846
 #, kde-format
@@ -8759,10 +8557,9 @@ msgid "new pin"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:847
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "new port"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:848
 #, kde-format
@@ -8770,10 +8567,9 @@ msgid "new precondition"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:849
-#, fuzzy, kde-format
-#| msgid "Region"
+#, kde-format
 msgid "new region"
-msgstr "رايون"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:850
 #, kde-format
@@ -8796,16 +8592,14 @@ msgid "new use case"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:858
-#, fuzzy, kde-format
-#| msgid "Delete Point"
+#, kde-format
 msgid "new widget"
-msgstr "نۇقتا ئۆچۈر"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:871
-#, fuzzy, kde-format
-#| msgid "New Activity"
+#, kde-format
 msgid "New activity"
-msgstr "يېڭى پائالىيەت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:875
 #, kde-format
@@ -8813,10 +8607,9 @@ msgid "New box"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:878
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "New combined fragment"
-msgstr "ئىزاھات"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:883
 #, kde-format
@@ -8829,28 +8622,24 @@ msgid "New fork/join"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:887
-#, fuzzy, kde-format
-#| msgid "Message"
+#, kde-format
 msgid "New message"
-msgstr "ئۇچۇر"
+msgstr "يېڭى ئۇچۇر"
 
 #: umlwidgets/widget_utils.cpp:889
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "New note"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:890
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "New object"
-msgstr "نەڭ"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:891
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "New object node"
-msgstr "نەڭ"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:893
 #, kde-format
@@ -8863,10 +8652,9 @@ msgid "New precondition"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:896
-#, fuzzy, kde-format
-#| msgid "Region"
+#, kde-format
 msgid "New region"
-msgstr "رايون"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:897
 #, kde-format
@@ -8874,16 +8662,14 @@ msgid "New signal"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:898
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "New state"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:899
-#, fuzzy, kde-format
-#| msgid "Node &name:"
+#, kde-format
 msgid "New text"
-msgstr "نۇقتا ئاتى(&N):"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:900
 #, kde-format
@@ -8891,16 +8677,14 @@ msgid "New UML widget"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:905
-#, fuzzy, kde-format
-#| msgid "Delete Point"
+#, kde-format
 msgid "New widget"
-msgstr "نۇقتا ئۆچۈر"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:921
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new box:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:924
 #, kde-format
@@ -8908,10 +8692,9 @@ msgid "Enter the name of the new combined fragment:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:929
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new floating dash line:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:930
 #, kde-format
@@ -8919,22 +8702,19 @@ msgid "Enter the name of the new fork/join:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:933
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new message:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:935
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new note:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:936
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new object:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:937
 #, kde-format
@@ -8942,10 +8722,9 @@ msgid "Enter the name of the new object node:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:939
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new pin:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:941
 #, kde-format
@@ -8953,22 +8732,19 @@ msgid "Enter the name of the new precondition:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:942
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new region:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:943
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new signal:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:945
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new text:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:946
 #, kde-format
@@ -8976,28 +8752,24 @@ msgid "Enter the name of the new uml widget:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:950
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the name of the new widget:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:962
-#, fuzzy, kde-format
-#| msgid "New Activity"
+#, kde-format
 msgid "Rename activity"
-msgstr "يېڭى پائالىيەت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:966
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename box"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:969
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "Rename combined fragment"
-msgstr "ئىزاھات"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:974
 #, kde-format
@@ -9010,22 +8782,19 @@ msgid "Rename fork/join"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:978
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename message"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:980
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename note"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:981
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename object"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:982
 #, kde-format
@@ -9033,10 +8802,9 @@ msgid "Rename object node"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:984
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename pin"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:986
 #, kde-format
@@ -9044,40 +8812,34 @@ msgid "Rename precondition"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:987
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename region"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:988
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename signal"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:989
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename state"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:990
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename text"
-msgstr "ئات ئۆزگەرت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:991
-#, fuzzy, kde-format
-#| msgid "Resize"
+#, kde-format
 msgid "Rename UML widget"
-msgstr "چوڭلۇقىنى ئۆزگەرت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:996
-#, fuzzy, kde-format
-#| msgid "Resize"
+#, kde-format
 msgid "Rename widget"
-msgstr "چوڭلۇقىنى ئۆزگەرت"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1008
 #, kde-format
@@ -9085,10 +8847,9 @@ msgid "Enter the new name of the activity:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1012
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the box:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1015
 #, kde-format
@@ -9096,10 +8857,9 @@ msgid "Enter the new name of the combined fragment:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1020
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the floating dash line:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1021
 #, kde-format
@@ -9107,22 +8867,19 @@ msgid "Enter the new name of the fork/join widget:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1024
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the message:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1026
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the note:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1027
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the object:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1028
 #, kde-format
@@ -9130,10 +8887,9 @@ msgid "Enter the new name of the object node:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1030
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the pin:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1032
 #, kde-format
@@ -9141,28 +8897,24 @@ msgid "Enter the new name of the precondition:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the region:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1034
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the signal:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1035
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the state:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1036
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the text:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1037
 #, kde-format
@@ -9170,10 +8922,9 @@ msgid "Enter the new name of the uml widget:"
 msgstr ""
 
 #: umlwidgets/widget_utils.cpp:1041
-#, fuzzy, kde-format
-#| msgid "Enter name:"
+#, kde-format
 msgid "Enter the new name of the widget:"
-msgstr "ئاتىنى كىرگۈزۈڭ:"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1255 worktoolbar.cpp:337
 #, kde-format
@@ -9181,10 +8932,9 @@ msgid "Box"
 msgstr "كۆزنەكچە"
 
 #: umlwidgets/widgetbase.cpp:1261
-#, fuzzy, kde-format
-#| msgid "Comment"
+#, kde-format
 msgid "CombinedFragment"
-msgstr "ئىزاھات"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1270 worktoolbar.cpp:362
 #, kde-format
@@ -9194,7 +8944,7 @@ msgstr ""
 #: umlwidgets/widgetbase.cpp:1276 worktoolbar.cpp:363
 #, kde-format
 msgid "Enum"
-msgstr "Enum"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1279
 #, kde-format
@@ -9202,10 +8952,9 @@ msgid "FloatingDashLine"
 msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1282
-#, fuzzy, kde-format
-#| msgid "Fork"
+#, kde-format
 msgid "ForkJoin"
-msgstr "ۋىلكا"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1288
 #, kde-format
@@ -9223,10 +8972,9 @@ msgid "Object"
 msgstr "نەڭ"
 
 #: umlwidgets/widgetbase.cpp:1300
-#, fuzzy, kde-format
-#| msgid "Object"
+#, kde-format
 msgid "ObjectNode"
-msgstr "نەڭ"
+msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1318
 #, kde-format
@@ -9234,18 +8982,14 @@ msgid "Signal"
 msgstr ""
 
 #: umlwidgets/widgetbase.cpp:1321
-#, fuzzy, kde-format
-#| msgctxt "state in statechart"
-#| msgid "State"
+#, kde-format
 msgid "State"
 msgstr "ھالەت"
 
 #: umlwidgets/widgetbase.cpp:1324
-#, fuzzy, kde-format
-#| msgctxt "text color"
-#| msgid "&Text:"
+#, kde-format
 msgid "Text"
-msgstr "تېكىست(&T):"
+msgstr "تېكىست"
 
 #: umlwidgets/widgetbase.cpp:1327
 #, kde-format
@@ -9264,15 +9008,14 @@ msgid "Select"
 msgstr "تاللا"
 
 #: worktoolbar.cpp:324
-#, fuzzy, kde-format
-#| msgid "Operation"
+#, kde-format
 msgid "Creation"
-msgstr "مەشغۇلات"
+msgstr ""
 
 #: worktoolbar.cpp:325
 #, kde-format
 msgid "Destroy"
-msgstr ""
+msgstr "يوقات"
 
 #: worktoolbar.cpp:330
 #, kde-format
@@ -9282,7 +9025,7 @@ msgstr ""
 #: worktoolbar.cpp:335
 #, kde-format
 msgid "Label"
-msgstr "ئەن"
+msgstr "بەلگە"
 
 #: worktoolbar.cpp:342
 #, kde-format
@@ -9316,16 +9059,14 @@ msgid "Fork/Join"
 msgstr ""
 
 #: worktoolbar.cpp:360
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interface Provider"
-msgstr "ئارايۈز"
+msgstr ""
 
 #: worktoolbar.cpp:361
-#, fuzzy, kde-format
-#| msgid "Interface"
+#, kde-format
 msgid "Interface required"
-msgstr "ئارايۈز"
+msgstr ""
 
 #: worktoolbar.cpp:367
 #, kde-format
@@ -9356,22 +9097,18 @@ msgstr "ھالەت"
 msgid "Pre/Post condition"
 msgstr ""
 
-#, fuzzy
 #~| msgid "Show Grid"
 #~ msgid "Show tree view"
 #~ msgstr "سېتكا كۆرسەت"
 
-#, fuzzy
 #~| msgid "Documentation"
 #~ msgid "Show documentation window"
 #~ msgstr "قوللانمىلار"
 
-#, fuzzy
 #~| msgid "Show &grid"
 #~ msgid "Show diagrams window"
 #~ msgstr "سېتكا كۆرسەت(&G)"
 
-#, fuzzy
 #~| msgid "Node &name:"
 #~ msgid "Show stereotypes window"
 #~ msgstr "نۇقتا ئاتى(&N):"
@@ -9379,7 +9116,6 @@ msgstr ""
 #~ msgid "All Supported Files"
 #~ msgstr "قوللايدىغان ھەممە ھۆججەتلەر"
 
-#, fuzzy
 #~| msgid "All Supported Files"
 #~ msgid "set active language"
 #~ msgstr "قوللايدىغان ھەممە ھۆججەتلەر"
@@ -9394,17 +9130,14 @@ msgstr ""
 #~ msgid "Name"
 #~ msgstr "ئاتى"
 
-#, fuzzy
 #~| msgid "Enter name:"
 #~ msgid "Enter Port Name"
 #~ msgstr "ئاتىنى كىرگۈزۈڭ:"
 
-#, fuzzy
 #~| msgid "Enter name:"
 #~ msgid "Enter the Pin"
 #~ msgstr "ئاتىنى كىرگۈزۈڭ:"
 
-#, fuzzy
 #~| msgid "Enter name:"
 #~ msgid "Enter Subsystem Name"
 #~ msgstr "ئاتىنى كىرگۈزۈڭ:"
@@ -9413,7 +9146,6 @@ msgstr ""
 #~ msgid "Class"
 #~ msgstr "تىپ"
 
-#, fuzzy
 #~| msgid "Export..."
 #~ msgid "Port..."
 #~ msgstr "چىقار…"
@@ -9422,63 +9154,51 @@ msgstr ""
 #~ msgid "New"
 #~ msgstr "يېڭى"
 
-#, fuzzy
 #~| msgid "Node &name:"
 #~ msgid "&Stereotype name:"
 #~ msgstr "نۇقتا ئاتى(&N):"
 
-#, fuzzy
 #~| msgid "Private"
 #~ msgid "Pri&vate"
 #~ msgstr "شەخسىي"
 
-#, fuzzy
 #~| msgid "Implementation"
 #~ msgid "I&mplementation"
 #~ msgstr "ئەمەلگە ئاشۇرۇش"
 
-#, fuzzy
 #~| msgid "File to open"
 #~ msgid "File to open with path."
 #~ msgstr "ئاچىدىغان ھۆججەت"
 
-#, fuzzy
 #~| msgid "Import Failed"
 #~ msgid "Import files."
 #~ msgstr "ئەكىرەلمىدى"
 
-#, fuzzy
 #~| msgctxt "initial state in statechart"
 #~| msgid "Initial state"
 #~ msgid "Initial Value:"
 #~ msgstr "دەسلەپكى ھالەت"
 
-#, fuzzy
 #~| msgid "&Table"
 #~ msgid "&Mutable"
 #~ msgstr "جەدۋەل(&T)"
 
-#, fuzzy
 #~| msgid "Constraints"
 #~ msgid "Const"
 #~ msgstr "چەكلىمىلەر"
 
-#, fuzzy
 #~| msgid "Protected"
 #~ msgid "Prote&cted"
 #~ msgstr "قوغدالغان"
 
-#, fuzzy
 #~| msgid "Object"
 #~ msgid "Object name:"
 #~ msgstr "نەڭ"
 
-#, fuzzy
 #~| msgid "Class"
 #~ msgid "Class &name"
 #~ msgstr "تىپ"
 
-#, fuzzy
 #~| msgid "Object"
 #~ msgctxt "UML object"
 #~ msgid "Object"
@@ -9488,12 +9208,10 @@ msgstr ""
 #~ msgid "Name"
 #~ msgstr "ئاتى"
 
-#, fuzzy
 #~| msgid "Filter"
 #~ msgid "Filter:"
 #~ msgstr "سۈزگۈچ"
 
-#, fuzzy
 #~| msgid "Change Text"
 #~ msgid "Changing note"
 #~ msgstr "تېكىست ئۆزگەرت"
@@ -9545,7 +9263,6 @@ msgstr ""
 #~ msgid "Identifier expected"
 #~ msgstr "پەرقلەندۈرۈش بەلگە تەلىپى"
 
-#, fuzzy
 #~| msgid "Flip Horizontal"
 #~ msgid "Align Hortizontal Distribute"
 #~ msgstr "توغرا يۆنىلىشتە چۆرگىلىتىش"
