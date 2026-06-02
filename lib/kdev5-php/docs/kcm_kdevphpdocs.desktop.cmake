@@ -41,6 +41,7 @@ Name[sk]=Dokumentácia PHP
 Name[sl]=Dokumentacija za PHP
 Name[sv]=PHP-dokumentation
 Name[tr]=PHPUnit Belgelendirmesi
+Name[ug]=PHP پۈتۈكى
 Name[uk]=Документація з PHP
 Name[zh_CN]=PHP 文档
 Name[zh_TW]=PHP 說明文件
