@@ -34,6 +34,7 @@
                 "Name[sl]": "Milian Wolff",
                 "Name[sv]": "Milian Wolff",
                 "Name[tr]": "Milian Wolff",
+                "Name[ug]": "Milian Wolff",
                 "Name[uk]": "Milian Wolff",
                 "Name[zh_CN]": "Milian Wolff",
                 "Name[zh_TW]": "Milian Wolff"
@@ -71,6 +72,7 @@
         "Description[sl]": "Ta vstavek vključuje spletno dokumentacijo za PHP.",
         "Description[sv]": "Insticksprogrammet integrerar Internet-dokumentationen från PHP.net.",
         "Description[tr]": "Bu eklenti, PHP.net çevrim içi belgelendirmesini tümleştirir.",
+        "Description[ug]": "بۇ قىستۇرما PHP.net نىڭ توردىكى پۈتۈكلىرىنى يۈرۈشلەشتۈرىدۇ.",
         "Description[uk]": "За допомогою цього додатка можна інтегрувати документацію PHP.net.",
         "Description[zh_CN]": "此插件集成了 PHP.net 的在线文档。",
         "Description[zh_TW]": "此外掛程式將 PHP.net 線上文件整合至此軟體。",
@@ -108,6 +110,7 @@
         "Name[sl]": "Dokumentacija za PHP",
         "Name[sv]": "PHP-dokumentation",
         "Name[tr]": "PHP Belgelendirmesi",
+        "Name[ug]": "PHP پۈتۈكى",
         "Name[uk]": "Документація з PHP",
         "Name[zh_CN]": "PHP 文档",
         "Name[zh_TW]": "PHP 文件",
