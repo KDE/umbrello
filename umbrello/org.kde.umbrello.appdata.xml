@@ -143,6 +143,7 @@
     <p xml:lang="sl">Zmožnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>
+    <p xml:lang="ug">ئىقتىدار:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="zh-CN">功能：</p>
     <p xml:lang="zh-TW">功能：</p>
@@ -178,6 +179,7 @@
       <li xml:lang="sl">Podprte vrste: XMI</li>
       <li xml:lang="sv">Format som stöds: XMI</li>
       <li xml:lang="tr">Desteklenen biçimler: XMI</li>
+      <li xml:lang="ug">قوللايدىغان پىچىم: XMI</li>
       <li xml:lang="uk">Підтримувані формати: XMI</li>
       <li xml:lang="zh-CN">支持格式：XMI</li>
       <li xml:lang="zh-TW">支援的格式：XMI</li>
