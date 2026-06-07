@@ -1,56 +1,56 @@
 <chapter id="code-import-generation">
 <title
->Quelltextimport und Quelltexterzeugung</title>
+>Quelltextimport und Quelltexterstellung</title>
 <para
->&umbrello; ist ein &UML; Modellierungswerkzeug und sein Schwerpunkt liegt deshalb auf der <emphasis
->Analyse und des Designs</emphasis
-> ihres Systems. Um den Übergang zwischen Design und <emphasis
+>&umbrello; ist ein &UML;-Modellierungswerkzeug und sein Schwerpunkt liegt deshalb auf <emphasis
+>der Analyse und dem Design</emphasis
+> Ihrer Systeme. Um Ihnen den Übergang zwischen Design und <emphasis
 >Implementierung</emphasis
-> zu erleichtern, kann &umbrello; Quelltext in verschiedenen Programmiersprachen erzeugen. Möchte man hingegen die &UML; in einem bereits existierendem C++ Projekt einsetzen, unterstützt &umbrello; einem bei der Erstellung eines Modells des vorhandenen Systems, indem es den Quelltext einliest und die gefundenen Klassen erstellt. </para>
+> zu erleichtern, kann &umbrello; Quelltext für verschiedene Programmiersprachen erstellen. Möchten Sie hingegen &UML; in einem bereits existierenden C++-Projekt einsetzen, unterstützt &umbrello; Sie bei der Erstellung eines Modells Ihres Systems, indem es den Quelltext analysiert und die gefundenen Klassen importiert. </para>
 <sect1 id="code-generation">
 <title
->Quelltexterzeugung</title>
+>Quelltexterstellung</title>
 <para
->&umbrello; kann Quelltext in verschiedenen Programmiersprachen auf Basis ihres &UML; Modells erzeugen und hilft dabei einen Anfang für die Implementierung zu schaffen. Der erzeugte Quelltext besteht aus den Klassendeklarationen, den Methoden und den Attributen. Man muss diese Hüllen <quote
->lediglich ausfüllen</quote
+>&umbrello; kann Quelltext für verschiedene Programmiersprachen auf Basis Ihres &UML;-Modells erstellen und hilft Ihnen dabei, mit der Implementierung Ihres Projekts zu starten. Der erstellte Quelltext besteht aus den Klassendeklarationen mit ihren Methoden und den Attributen. Sie müssen anschließend <quote
+>diese Vorlagen ausfüllen</quote
 >, um die Klassenoperationen mit Funktionalität zu füllen. </para>
 <para
->&umbrello; 2 bietet Quelltexterzeugung für ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala, und XMLSchema. </para>
+>&umbrello; 2 bietet Unterstützung für Quelltexterstellung für ActionScript, Ada, C++, C#, D, IDL, &Java;, JavaScript, MySQL, Pascal, Perl, PHP, PHP5, PostgreSQL, Python, Ruby, Tcl, Vala, und XMLSchema. </para>
 <sect2 id="generate-code">
 <title
->Quelltext erzeugen</title>
+>Quelltexterstellung</title>
 <para
->Um Quelltext mit &umbrello; zu erzeugen, muss man zuerst ein Modell laden, das mindestens eine Klasse enthält. Wenn man Quelltext erzeugen will, muss man den <guimenuitem
->Assistent für Quelltext-Erstellung ...</guimenuitem
+>Um Quelltext mit &umbrello; zu erstellen, muss man zuerst ein Modell erstellen oder laden, das mindestens eine Klasse enthält. Wenn man Quelltext erstellen möchte, muss man <guimenuitem
+>Assistent für Quelltexterstellung …</guimenuitem
 > aus dem Menü <guimenu
 >Quelltext</guimenu
-> auswählen. Dadurch wird der Assistent gestartet, der dann durch den Prozess zur Quelltexterzeugung führt. </para>
+> auswählen. Dadurch wird der Assistent gestartet, der dann durch den Prozess zur Quelltexterstellung führt. </para>
 <para
->Im ersten Schritt muss man die Klassen auswählen, für die Quelltext erzeugt werden soll. Am Anfang sind alle Klassen des Modells ausgewählt und man kann nun einzelne entfernen. Dazu muss man sie aus der rechten Liste in die linke Liste verschieben. </para>
+>Im ersten Schritt muss man die Klassen auswählen, für die Quelltext erstellt werden soll. Standardmäßig sind alle Klassen des Modells ausgewählt und man kann nun einzelne entfernen. Dazu muss man sie aus der rechten Liste in die linke Liste verschieben. </para>
 <para
 >Im folgenden Schritt des Assistenten kann man die Parameter des Quelltextgenerators verändern. Folgende Parameter sind verfügbar: </para>
 <para>
 <screenshot>
 <screeninfo
->Parameter Quelltexterzeugung</screeninfo>
+>Einstellungen für Quelltexterstellung</screeninfo>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="generation-options.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
 	    <phrase
->Parameter für die Quelltexterzeugung in &umbrello;</phrase>
+>Einstellungen für die Quelltexterstellung in &umbrello;</phrase>
 	  </textobject>
 	  <caption>
 	    <para
->Parameter für die Quelltexterzeugung in &umbrello; </para>
+>Einstellungen für die Quelltexterstellung in &umbrello; </para>
 	  </caption>
 	</mediaobject>
 </screenshot>
 </para>
 <sect3 id="generation-options">
 <title
->Generierungsoptionen</title>
+>Einstellungen für Quelltexterstellung</title>
 <!-- LW; to rearrange -->
 
 <sect4>
@@ -58,18 +58,18 @@
 >Umfang Quelltextkommentare</title>
 <para
 >Der Parameter <guilabel
->Erzeugt Dokumentations-Kommentare, selbst wenn diese leer sind.</guilabel
-> weist den Quelltextgenerator an, Kommentare der Form /** bla */ einzufügen, selbst wenn diese leer sind. Hat man die Klassen, Methoden und Attribute im Modell dokumentiert, fügt die Quelltexterzeugung diese Kommentare im <application
+>Dokumentations-Kommentare erstellen, selbst wenn diese leer sind</guilabel
+> weist die Quelltexterstellung an, Kommentare der Form /** bla */ einzufügen, selbst wenn diese leer sind. Hat man die Klassen, Methoden und Attribute im Modell dokumentiert, fügt die Quelltexterstellung diese Kommentare im <application
 >Doxygen</application
-> Format mit ein, egal was an dieser Stelle ausgewählt wurde. Ist dieser Parameter aktiviert, werden im Unterschied allerdings für alle Klassen, Methoden und Attribute Platzhalter eingefügt, selbst wenn diese nicht im Modell dokumentiert wurden. Man sollte diese dann direkt im Quelltext in den bereits vorhandenen Platzhaltern dokumentieren. </para>
+>-Format ein, unabhängig davon, was an dieser Stelle ausgewählt wurde. Ist dieser Parameter aktiviert, werden im Unterschied allerdings für alle Klassen, Methoden und Attribute Platzhalter eingefügt, selbst wenn diese nicht im Modell dokumentiert wurden. Man sollte diese dann direkt im Quelltext in den bereits vorhandenen Platzhaltern dokumentieren. </para>
 <para
 ><guilabel
->Erzeugt Kommentare für Abschnitte, selbst wenn diese leer sind.</guilabel
->: &umbrello; schreibt Kommentare in den Quelltext um die verschiedenen Bereiche einer Klasse zu trennen. So würde zum Beispiel <quote
+>Kommentare für Abschnitte erstellen, selbst wenn diese leer sind</guilabel
+>: &umbrello; schreibt Kommentare in den Quelltext, um die verschiedenen Bereiche einer Klasse zu trennen. So würde zum Beispiel <quote
 >public methods</quote
 > oder <quote
 >Attributes</quote
-> vor den entsprechenden Abschnitten eingefügt werden. Wurde dieser Parameter aktiviert, wird für jeden Abschnitt ein entsprechendes Kommentar eingefügt, selbst dann, wenn der Abschnitt leer ist. So würde zum Beispiel das Kommentar <quote
+> vor den entsprechenden Abschnitten eingefügt werden. Wenn Sie diese Einstellung aktivieren, fügt &umbrello; für jeden Abschnitt einen entsprechenden Kommentar ein, selbst dann, wenn der Abschnitt leer ist. So würde zum Beispiel der Kommentar <quote
 >protected methods </quote
 > eingefügt werden, selbst wenn keine geschützten Methoden in der Klasse existieren. </para>
 </sect4>
@@ -78,51 +78,51 @@
 >Ordner</title>
 <para
 ><guilabel
->Verzeichnis für alle zu erzeugenden Dateien</guilabel
->: Hier wählt man das Verzeichnis aus, in dem der erzeugte Quelltext abgelegt werden soll. </para>
+>Ordner zum Schreiben aller erstellten Dateien</guilabel
+>: Wählen Sie hier den Ordner aus, in dem &umbrello; den erstellten Quelltext ablegen soll. </para>
 <para
 >Der Parameter <guilabel
->Einbeziehung der Header-Dateien aus Verzeichnis</guilabel
-> erlaubt es einen Kopf an den Anfang jeder erzeugten Datei einzufügen. Diese Dateiköpfe können zum Beispiel Urheberhinweise oder Lizenzinformationen enthalten, sowie Variablen, die während der Quelltexterzeugung entsprechend ersetzt werden. Man sollte einen Blick auf die Vorlagedateien für Dateiköpfe werfen, die mit &umbrello; ausgeliefert werden. Dort kann man sehen, wie man zum Beispiel mit den Variablen das aktuelle Datum oder einen Namen einfügen kann. </para>
+>Einbeziehen der Vorlagendateien für Kopfzeilen aus Ordner</guilabel
+> erlaubt es, Kopfzeilen am Anfang jeder erstellten Datei einzufügen. Vorlagendateien für Kopfzeilen können zum Beispiel Urheberhinweise oder Lizenzinformationen enthalten, sowie Variablen, die während der Quelltexterstellung entsprechend ersetzt werden. Man sollte einen Blick in die Vorlagendateien für Kopfzeilen werfen, die mit &umbrello; ausgeliefert werden. Dort kann man sehen, wie man zum Beispiel mittels Variablen das aktuelle Datum oder einen Namen einfügen kann. </para>
 </sect4>
 <sect4>
 <title
 >Vorgaben für Überschreibung</title>
 <!-- FIXME update for Umbrello 1.2's new C++ and Java code generators -->
 <para
->Dieser Parameter legt das Verhalten von &umbrello; fest, wenn es eine Datei während der Quelltexterzeugung anlegen will, die im Zielverzeichnis bereits existiert. &umbrello; kann vorhandene Dateien <emphasis
+>Dieser Parameter legt das Verhalten von &umbrello; fest, wenn es eine Datei während der Quelltexterstellung anlegen will, die im Zielordner bereits existiert. &umbrello; kann vorhandene Dateien <emphasis
 >nicht modifizieren</emphasis
->. Man kann wählen zwischen dem Überschreiben der existierenden Datei, dem Nachfragen, was passieren soll, und der Auswahl eines anderen Dateinamens durch &umbrello;. Soll &umbrello; einen anderen Dateinamen finden, dann hängt &umbrello; ein Suffix an die entsprechende Datei an. </para>
+>. Man muss zwischen dem Überschreiben der existierenden Datei oder der Nachfrage, was passieren soll oder der Auswahl eines anderen Dateinamens durch &umbrello; wählen. Soll &umbrello; einen anderen Dateinamen verwenden, dann hängt &umbrello; ein Suffix an die entsprechende Datei an. </para>
 </sect4>
 <sect4>
 <title
 >Sprache</title>
 <para
->&umbrello; wählt als Sprache für die Quelltexterzeugung die momentan als aktive Sprache gewählte aus. Man kann allerdings im Quelltextassistenten eine andere Sprache auswählen. </para>
+>&umbrello; wählt standardmäßig die von Ihnen gewählte aktive Sprache für die Quelltexterstellung aus. Sie können allerdings im Assistenten für Quelltexterstellung eine andere Sprache auswählen. </para>
 </sect4>
 </sect3
 ><!--generation-options-->
 <sect3 id="generation-wizard-generation">
 <title
->Quelltexterzeugung</title>
+>Assistent für Quelltexterstellung</title>
 <para
->Der dritte und letzte Schritt des Assistenten zeigt den Status der eigentlichen Quelltexterzeugung. Man muss lediglich auf die Schaltfläche Erzeugen klicken, damit die entsprechenden Dateien mit den Klassen angelegt werden. </para>
+>Der dritte und letzte Schritt des Assistenten zeigt den Status der eigentlichen Quelltexterstellung. Man muss lediglich auf den „Erstellen“-Knopf klicken, damit die entsprechenden Dateien mit den Klassen erstellt werden. </para>
 <para
->Es ist zu beachten, dass die gesetzten Parameter nur für die aktuelle Quelltexterzeugung gültig sind. Beim nächsten Aufruf des Assistenten muss man alle Parameter, wie Header-Datei Verzeichnis und Vorgaben für Überschreibung, neu einstellen. Man kann allerdings die Voreinstellungen dauerhaft über den <guilabel
->Quelltexterzeugung</guilabel
-> Abschnitt in den &umbrello; Einstellungen verändern. Diese Einstellungen erreicht man über <menuchoice
+>Es ist zu beachten, dass die gesetzten Parameter nur für die aktuelle Quelltexterstellung gültig sind. Beim nächsten Aufruf des Assistenten muss man alle Parameter, wie z. B. Ordner mit Vorlagendateien für Kopfzeilen, Vorgaben für Überschreibung usw., neu einstellen. Man kann allerdings die Voreinstellungen dauerhaft über den <guilabel
+>Quelltexterstellung</guilabel
+>-Abschnitt in den &umbrello;-Einstellungen festlegen. Diese Einstellungen erreicht man über <menuchoice
 ><guimenu
 >Einstellungen</guimenu
 > <guimenuitem
->&umbrello; einrichten ...</guimenuitem
+>&umbrello; einrichten …</guimenuitem
 ></menuchoice
 >. </para>
 <para
->Hat man die Standardeinstellungen für die Quelltexterzeugung bereits richtig eingestellt, kann man die Quelltexterzeugung ohne den entsprechenden Assistenten direkt starten. Dazu wählt man <guimenuitem
->Erzeuge alle Quelltexte</guimenuitem
+>Hat man die Standardeinstellungen für die Quelltexterstellung bereits richtig eingestellt, kann man die Quelltexterstellung ohne den entsprechenden Assistenten direkt starten. Dazu wählt man <guimenuitem
+>Alle Quelltexte erstellen</guimenuitem
 > aus dem Menü <guimenu
 >Quelltext</guimenu
->. Dies erzeugt den Quelltext aller Klassen des Modells mit den aktuellen Einstellungen wie Ausgabeverzeichnis und Vorgaben für Überschreiben. Man sollte deshalb vorsichtig damit umgehen. </para>
+>. Dies erstellt den Quelltext aller Klassen des Modells mit den aktuellen Einstellungen wie Ausgabeverzeichnis und Vorgaben für Überschreiben. Man sollte deshalb vorsichtig damit umgehen. </para>
 </sect3>
 </sect2
 ><!--generate-code-->
@@ -135,7 +135,7 @@
 >&umbrello; kann bereits vorhandenen Quelltext eines bestehenden Projektes einlesen, um Sie beim Aufbau des Systemmodells zu unterstützen. &umbrello; 2 unterstützt Quelltext von ActionScript, Ada, C++, C#, D, IDL, &Java;, Javascript, MySQL, Pascal, PHP und Vala. </para>
 <para
 >Um Klassen in das aktuelle Modell zu importieren, muss man <guimenuitem
->Assistent für Quelltext-Import ...</guimenuitem
+>Assistent für Quelltextimport …</guimenuitem
 > aus dem Menü<guimenu
 >Quelltext</guimenu
 > auswählen. Im erscheinenden Dateidialog sind die Dateien auszuwählen, die die Deklarationen der Klassen enthalten und dann muss <guibutton
