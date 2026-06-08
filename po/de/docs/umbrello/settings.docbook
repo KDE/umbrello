@@ -208,6 +208,10 @@
     <title
 >Assoziationen</title>
     <para
+>Mit <guilabel
+>Eckige Assoziationslinien verwenden</guilabel
+> können diese Linien beliebige Winkel haben. </para>
+    <para
 ><guilabel
 >Neue Assoziationslinien erstellen als</guilabel
 > ermöglicht die Auswahl von Linienstilen für Assoziationen. </para>
@@ -447,8 +451,8 @@
 >: Kommentare für Klassen und Funktionen werden generiert.</para>
         <para
 ><guilabel
->Abschnitt-Kommentare erzeugen</guilabel
-> erlaubt den Benutzern auszuwählen, ob Abschnitt-Kommentare geschrieben werden. Auswahlmöglichkeiten sind: „Keine“, „Wenn Abschnitt nicht leer ist“ und „Immer“.</para>
+>Erzeugt Kommentare für Abschnitte, selbst wenn diese leer sind</guilabel
+>: Kommentare für die Abschnitte „private“,„protected“ und „public“ werden generiert.</para>
 </sect3
 >    <!-- code-gen-formatting-comment-verbosity -->
 
