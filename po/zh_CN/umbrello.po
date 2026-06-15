@@ -2448,7 +2448,7 @@ msgstr "生成器可执行文件路径："
 #: dialogs/pages/autolayoutoptionpage.ui:82
 #, kde-format
 msgid "Miscellaneous"
-msgstr "杂项"
+msgstr "其他"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_showExportLayout)
 #: dialogs/pages/autolayoutoptionpage.ui:88
@@ -2888,7 +2888,7 @@ msgstr "自动增值序列 "
 #, kde-format
 msgctxt "miscellaneous group box"
 msgid "Miscellaneous"
-msgstr "杂项"
+msgstr "其他"
 
 #: dialogs/pages/generaloptionpage.cpp:48
 #, kde-format
