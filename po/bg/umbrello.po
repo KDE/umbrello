@@ -9110,27 +9110,3 @@ msgstr "Състояние"
 #, kde-format
 msgid "Pre/Post condition"
 msgstr ""
-
-#, fuzzy
-#~| msgid "Show Attributes"
-#~ msgid "Show tree view"
-#~ msgstr "Показване на свойствата"
-
-#, fuzzy
-#~ msgid "Show documentation window"
-#~ msgstr "Задължителна документация"
-
-#, fuzzy
-#~| msgid "Show Comment"
-#~ msgid "Show command history"
-#~ msgstr "Показване на коментар"
-
-#, fuzzy
-#~| msgid "Show &grid"
-#~ msgid "Show diagrams window"
-#~ msgstr "Показване на &мрежа"
-
-#, fuzzy
-#~| msgid "Show Stereotypes"
-#~ msgid "Show stereotypes window"
-#~ msgstr "Показване на стереотипи"
