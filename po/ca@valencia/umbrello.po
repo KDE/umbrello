@@ -1102,7 +1102,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:193
 #, kde-format
 msgid "&Use a different name"
-msgstr "Utilit&za un nom diferent"
+msgstr "&Utilitza un nom diferent"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabFormatting)
 #: codegenwizard/codegenoptionspage.ui:208
@@ -1325,7 +1325,7 @@ msgstr "No s'ha pogut obrir el fitxer!"
 #: codegenwizard/codegenstatuspage.cpp:224
 #, kde-format
 msgid "Umbrello Code Generation - Logger Export"
-msgstr "Generació de codi d'Umbrello - Exporteu el registrador"
+msgstr "Generació de codi d'Umbrello – Exportació del registrador"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_statusTab)
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
@@ -1542,7 +1542,7 @@ msgstr "No s'ha importat"
 #: codeimpwizard/codeimpstatuspage.cpp:325
 #, kde-format
 msgid "Umbrello Code Import - Logger Export"
-msgstr "Importació de codi d'Umbrello - Exporteu el registrador"
+msgstr "Importació de codi d'Umbrello – Exportació del registrador"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabStatus)
 #: codeimpwizard/codeimpstatuspage.ui:33
@@ -1910,7 +1910,7 @@ msgstr "Retalla"
 #: dialogs/codeviewerdialog.cpp:95
 #, kde-format
 msgid "Code Viewer - %1"
-msgstr "Visor de codi - %1"
+msgstr "Visor de codi – %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_showHiddenCodeCB)
 #: dialogs/codeviewerdialogbase.ui:20
@@ -3132,7 +3132,7 @@ msgstr "Amplària de línia personalitzada"
 #: dialogs/pages/uioptionspage.cpp:132
 #, kde-format
 msgid "&Use fill color"
-msgstr "Utilit&za el color de farciment"
+msgstr "&Utilitza el color de farciment"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_propsGroupBox)
 #: dialogs/pages/umlrolepropertiesbase.ui:16 dialogs/umlroledialog.cpp:19
@@ -3220,7 +3220,7 @@ msgstr "Pr&edeterminat"
 #: dialogs/pages/umlwidgetstylepage.cpp:139
 #, kde-format
 msgid "&Use fill"
-msgstr "Utilit&za el farciment"
+msgstr "&Utilitza el farciment"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:149
 #, kde-format
