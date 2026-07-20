@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-24 00:46+0000\n"
-"PO-Revision-Date: 2026-06-04 08:38+0300\n"
+"PO-Revision-Date: 2026-07-19 09:08+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -1899,25 +1899,25 @@ msgstr ""
 #: dialogs/codevieweroptionsbase.ui:32
 #, kde-format
 msgid "Colors"
-msgstr ""
+msgstr "צבעים"
 
 #. i18n: ectx: property (text), widget (QLabel, fontLabel)
 #: dialogs/codevieweroptionsbase.ui:46
 #, kde-format
 msgid "Font:"
-msgstr ""
+msgstr "גופן:"
 
 #. i18n: ectx: property (text), widget (QLabel, paperLabel)
 #: dialogs/codevieweroptionsbase.ui:76
 #, kde-format
 msgid "Paper:"
-msgstr ""
+msgstr "נייר:"
 
 #. i18n: ectx: property (text), widget (QLabel, selectedLabel)
 #: dialogs/codevieweroptionsbase.ui:106
 #, kde-format
 msgid "Selected:"
-msgstr ""
+msgstr "נבחרו:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: dialogs/codevieweroptionsbase.ui:208
@@ -1946,7 +1946,7 @@ msgstr ""
 #: dialogs/dialog_utils.cpp:36
 #, kde-format
 msgid "Enable all messages"
-msgstr ""
+msgstr "הפעלת כל ההודעות"
 
 #: dialogs/dialog_utils.cpp:37
 #, kde-format
@@ -1966,7 +1966,7 @@ msgstr ""
 #: dialogs/dialog_utils.cpp:216
 #, kde-format
 msgid "Delete Association"
-msgstr ""
+msgstr "מחיקת שיוך"
 
 #: dialogs/dialog_utils.cpp:230
 #, kde-format
@@ -1978,24 +1978,24 @@ msgstr ""
 #: dialogs/dialog_utils.cpp:231
 #, kde-format
 msgid "Are you sure you want to delete diagram %1?"
-msgstr ""
+msgstr "למחוק את התרשים %1?"
 
 #: dialogs/dialog_utils.cpp:236
 #, kde-format
 msgid "Delete Diagram?"
-msgstr ""
+msgstr "למחוק את התרשים?"
 
 #: dialogs/dialog_utils.cpp:237 dialogs/pages/classifierlistpage.cpp:208
 #: dialogs/umlforeignkeyconstraintdialog.cpp:321
 #: dialogs/umloperationdialog.cpp:164 dialogs/umluniqueconstraintdialog.cpp:110
 #, kde-format
 msgid "&Delete"
-msgstr ""
+msgstr "מ&חיקה"
 
 #: dialogs/dontaskagain.cpp:59
 #, kde-format
 msgid "Notifications"
-msgstr ""
+msgstr "התראות"
 
 #: dialogs/exportallviewsdialog.cpp:61 dialogs/widgets/imagetypewidget.cpp:29
 #, kde-format
@@ -2006,7 +2006,7 @@ msgstr ""
 #: dialogs/exportallviewsdialogbase.ui:14
 #, kde-format
 msgid "Export All Views"
-msgstr ""
+msgstr "ייצוא כל התצוגות"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, kURLRequesterLabel)
 #. i18n: ectx: property (toolTip), widget (KUrlRequester, m_kURL)
@@ -2014,7 +2014,7 @@ msgstr ""
 #: dialogs/exportallviewsdialogbase.ui:41
 #, kde-format
 msgid "The base directory used to save the images"
-msgstr ""
+msgstr "תיקיית הבסיס שמשמשת לשמירת התמונות"
 
 #. i18n: ectx: property (text), widget (QLabel, kURLRequesterLabel)
 #: dialogs/exportallviewsdialogbase.ui:28
@@ -2045,50 +2045,50 @@ msgstr ""
 #: dialogs/exportallviewsdialogbase.ui:64
 #, kde-format
 msgid "Use &folders"
-msgstr ""
+msgstr "להשתמש ב&תיקיות"
 
 #: dialogs/finddialog.cpp:17
 #, kde-format
 msgid "Find"
-msgstr ""
+msgstr "איתור"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: dialogs/finddialog.ui:25 dialogs/pages/diagramprintpage.cpp:44
 #, kde-format
 msgid "Filter"
-msgstr ""
+msgstr "סינון"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_treeView)
 #: dialogs/finddialog.ui:33
 #, kde-format
 msgid "Tree View"
-msgstr ""
+msgstr "תצוגת עץ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_CurrentDiagram)
 #: dialogs/finddialog.ui:43 dialogs/pages/diagramprintpage.cpp:51
 #, kde-format
 msgid "&Current diagram"
-msgstr ""
+msgstr "התרשים ה&נוכחי"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_Diagrams)
 #: dialogs/finddialog.ui:53 dialogs/pages/diagramprintpage.cpp:55
 #, kde-format
 msgid "&All diagrams"
-msgstr ""
+msgstr "&כל התרשימים"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: dialogs/finddialog.ui:74 menus/listpopupmenu.cpp:154
 #: umlwidgets/widgetbase.cpp:1258 worktoolbar.cpp:389
 #, kde-format
 msgid "Category"
-msgstr ""
+msgstr "קטגוריה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryPackage)
 #: dialogs/finddialog.ui:96 menus/widgetbasepopupmenu.cpp:100
 #: umlwidgets/widgetbase.cpp:1303 worktoolbar.cpp:355
 #, kde-format
 msgid "Package"
-msgstr ""
+msgstr "חבילה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryInterface)
 #: dialogs/finddialog.ui:103 menus/listpopupmenu.cpp:204
@@ -2096,38 +2096,38 @@ msgstr ""
 #: worktoolbar.cpp:359
 #, kde-format
 msgid "Interface"
-msgstr ""
+msgstr "ממשק"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryOperation)
 #: dialogs/finddialog.ui:110 menus/listpopupmenu.cpp:232
 #, kde-format
 msgid "Operation"
-msgstr ""
+msgstr "פעולה"
 
 #. i18n("Artifact...")); break;
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAttribute)
 #: dialogs/finddialog.ui:117 menus/listpopupmenu.cpp:151
 #, kde-format
 msgid "Attribute"
-msgstr ""
+msgstr "מאפיין"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/finddialog.ui:131
 #, kde-format
 msgid "Search Term:"
-msgstr ""
+msgstr "ביטוי לחיפוש:"
 
 #: dialogs/multipagedialogbase.cpp:67
 #, kde-format
 msgid "Default"
-msgstr ""
+msgstr "ברירת מחדל"
 
 #: dialogs/multipagedialogbase.cpp:299 dialogs/multipagedialogbase.cpp:313
 #: dialogs/multipagedialogbase.cpp:323
 #, kde-format
 msgctxt "general settings"
 msgid "General"
-msgstr ""
+msgstr "כללי"
 
 #. i18n: ectx: label, entry (uiFont), group (UI Options)
 #. i18n: ectx: label, entry (codeViewerFont), group (Code Viewer Options)
@@ -2135,60 +2135,60 @@ msgstr ""
 #: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
-msgstr ""
+msgstr "גופן"
 
 #: dialogs/multipagedialogbase.cpp:338
 #, kde-format
 msgid "Font Settings"
-msgstr ""
+msgstr "הגדרות גופן"
 
 #: dialogs/multipagedialogbase.cpp:413
 #, kde-format
 msgctxt "widget style page"
 msgid "Style"
-msgstr ""
+msgstr "סגנון"
 
 #: dialogs/multipagedialogbase.cpp:413
 #, kde-format
 msgid "Widget Style"
-msgstr ""
+msgstr "סגנון וידג׳ט"
 
 #: dialogs/multipagedialogbase.cpp:424
 #, kde-format
 msgctxt "style page name"
 msgid "Style"
-msgstr ""
+msgstr "סגנון"
 
 #: dialogs/multipagedialogbase.cpp:424
 #, kde-format
 msgid "Line Style"
-msgstr ""
+msgstr "סגנון קו"
 
 #: dialogs/multipagedialogbase.cpp:444
 #, kde-format
 msgctxt "role page name"
 msgid "Roles"
-msgstr ""
+msgstr "תפקידים"
 
 #: dialogs/multipagedialogbase.cpp:444
 #, kde-format
 msgid "Role Settings"
-msgstr ""
+msgstr "הגדרות תפקידים"
 
 #: dialogs/notedialog.cpp:20
 #, kde-format
 msgid "Note Properties"
-msgstr ""
+msgstr "מאפייני הערה"
 
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
 msgid "Central Buffer"
-msgstr ""
+msgstr "חוצץ מרכזי"
 
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
 msgid "Data Store"
-msgstr ""
+msgstr "אחסון נתונים"
 
 #: dialogs/objectnodedialog.cpp:126
 #, kde-format
@@ -2364,7 +2364,7 @@ msgstr ""
 #, kde-format
 msgctxt "changeability for A is changeable"
 msgid "Changeable"
-msgstr ""
+msgstr "גמיש"
 
 #: dialogs/pages/associationrolepage.cpp:135
 #, kde-format
@@ -2382,7 +2382,7 @@ msgstr "הוספה בלבד"
 #, kde-format
 msgctxt "changeability for B is changeable"
 msgid "Changeable"
-msgstr ""
+msgstr "גמיש"
 
 #: dialogs/pages/associationrolepage.cpp:184
 #, kde-format
@@ -2430,7 +2430,7 @@ msgstr ""
 #: dialogs/pages/autolayoutoptionpage.ui:82
 #, kde-format
 msgid "Miscellaneous"
-msgstr ""
+msgstr "שונות"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_showExportLayout)
 #: dialogs/pages/autolayoutoptionpage.ui:88
@@ -2450,7 +2450,7 @@ msgstr ""
 #: dialogs/pages/classgeneralpage.cpp:126
 #, kde-format
 msgid "Reference:"
-msgstr ""
+msgstr "סימוכין:"
 
 #: dialogs/pages/classgeneralpage.cpp:143
 #, kde-format
@@ -2675,7 +2675,7 @@ msgstr ""
 #: dialogs/pages/codeimportoptionspage.ui:56
 #, kde-format
 msgid "C++ Import"
-msgstr ""
+msgstr "ייבוא C++‎"
 
 #. i18n: ectx: property (text), widget (QCheckBox, createArtifactCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:66
@@ -2693,7 +2693,7 @@ msgstr ""
 #: dialogs/pages/codeimportoptionspage.ui:80
 #, kde-format
 msgid "Enable C++11 standard (experimental)"
-msgstr ""
+msgstr "הפעלת תקן C++11 (ניסיוני)"
 
 #: dialogs/pages/constraintlistpage.cpp:65 menus/listpopupmenu.cpp:267
 #, kde-format
@@ -2718,38 +2718,38 @@ msgstr ""
 #: dialogs/pages/defaultcodegenpolicypage.cpp:24
 #, kde-format
 msgid "<p align=\"center\">No Options Available.</p>"
-msgstr ""
+msgstr "<p align=\"center\">אין אפשרויות זמינות.</p>"
 
 #: dialogs/pages/diagramprintpage.cpp:39 umlappprivate.h:221
 #, kde-format
 msgid "&Diagrams"
-msgstr ""
+msgstr "&תרשימים"
 
 #: dialogs/pages/diagramprintpage.cpp:58
 #, kde-format
 msgid "&Select diagrams"
-msgstr ""
+msgstr "&בחירת תרשימים"
 
 #: dialogs/pages/diagramprintpage.cpp:61
 #, kde-format
 msgid "&Type of diagram"
-msgstr ""
+msgstr "&סוג התרשים"
 
 #: dialogs/pages/diagramprintpage.cpp:64
 #, kde-format
 msgctxt "diagram selection for printing"
 msgid "Selection"
-msgstr ""
+msgstr "בחירה"
 
 #: dialogs/pages/diagramprintpage.cpp:155
 #, kde-format
 msgid "No diagrams selected."
-msgstr ""
+msgstr "לא נבחרו תרשימים."
 
 #: dialogs/pages/diagrampropertiespage.cpp:72
 #, kde-format
 msgid "The name you have entered is invalid."
-msgstr ""
+msgstr "השם שמילאת שגוי."
 
 #: dialogs/pages/diagrampropertiespage.cpp:73 object_factory.cpp:255
 #: umldoc.cpp:1627 umldoc.cpp:1691 umldoc.cpp:1720 umldoc.cpp:1755
@@ -2759,65 +2759,65 @@ msgstr ""
 #: umlmodel/umlenum.cpp:105 umlmodel/umlpackage.cpp:180
 #, kde-format
 msgid "Invalid Name"
-msgstr ""
+msgstr "שם שגוי"
 
 #: dialogs/pages/diagrampropertiespage.cpp:82
 #, kde-format
 msgid "The name you have entered is not unique."
-msgstr ""
+msgstr "השם שמילאת לא ייחודי."
 
 #: dialogs/pages/diagrampropertiespage.cpp:83 umldoc.cpp:1759
 #, kde-format
 msgid "Name Not Unique"
-msgstr ""
+msgstr "שם לא ייחודי"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxDiagramProperties)
 #: dialogs/pages/diagrampropertiespage.ui:17
 #, kde-format
 msgid "Diagram Properties"
-msgstr ""
+msgstr "מאפייני תרשים"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelDiagramName)
 #: dialogs/pages/diagrampropertiespage.ui:31
 #, kde-format
 msgid "Name:"
-msgstr ""
+msgstr "שם:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelZoom)
 #: dialogs/pages/diagrampropertiespage.ui:56
 #, kde-format
 msgid "Zoom:"
-msgstr ""
+msgstr "תקריב:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelZoomUnit)
 #: dialogs/pages/diagrampropertiespage.ui:82
 #, no-c-format, kde-format
 msgid "%"
-msgstr ""
+msgstr "%"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelWidth)
 #: dialogs/pages/diagrampropertiespage.ui:105
 #, kde-format
 msgid "Width:"
-msgstr ""
+msgstr "רוחב:"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelHeight)
 #: dialogs/pages/diagrampropertiespage.ui:144
 #, kde-format
 msgid "Height:"
-msgstr ""
+msgstr "גובה:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_checkBoxShowGrid)
 #: dialogs/pages/diagrampropertiespage.ui:189
 #, kde-format
 msgid "Show &grid"
-msgstr ""
+msgstr "הצגת ר&שת"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_snapToGrid)
 #: dialogs/pages/diagrampropertiespage.ui:196
 #, kde-format
 msgid "Snap &to grid"
-msgstr ""
+msgstr "ה&צמדה לרשת"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ui_snapComponentSizeToGrid)
 #: dialogs/pages/diagrampropertiespage.ui:204
@@ -2888,23 +2888,23 @@ msgstr ""
 #: dialogs/pages/generaloptionpage.cpp:64
 #, kde-format
 msgid "Enable UML2 support"
-msgstr ""
+msgstr "הפעלת תמיכה ב־UML2"
 
 #. i18n: ectx: label, entry (showDebugWindows), group (General Options)
 #: dialogs/pages/generaloptionpage.cpp:68 umbrello.kcfg:140
 #, kde-format
 msgid "Show debug windows"
-msgstr ""
+msgstr "הצגת חלונות ניפוי תקלות"
 
 #: dialogs/pages/generaloptionpage.cpp:73
 #, kde-format
 msgid "Autosave"
-msgstr ""
+msgstr "שמירה אוטומטית"
 
 #: dialogs/pages/generaloptionpage.cpp:80
 #, kde-format
 msgid "E&nable autosave"
-msgstr ""
+msgstr "ה&פעלת שמירה אוטומטית"
 
 #: dialogs/pages/generaloptionpage.cpp:84
 #, kde-format
@@ -2914,7 +2914,7 @@ msgstr ""
 #: dialogs/pages/generaloptionpage.cpp:96
 #, kde-format
 msgid "Set autosave suffix:"
-msgstr ""
+msgstr "בחירת סיומת שמירה אוטומטית:"
 
 #: dialogs/pages/generaloptionpage.cpp:98
 #, kde-format
@@ -2930,33 +2930,33 @@ msgstr ""
 #: dialogs/pages/generaloptionpage.cpp:109
 #, kde-format
 msgid "Startup"
-msgstr ""
+msgstr "עלייה"
 
 #: dialogs/pages/generaloptionpage.cpp:115
 #, kde-format
 msgid "&Load last project"
-msgstr ""
+msgstr "ל&טעון את המיזם האחרון"
 
 #: dialogs/pages/generaloptionpage.cpp:119
 #, kde-format
 msgid "Start new project with:"
-msgstr ""
+msgstr "התחלת מיזם חדש עם:"
 
 #: dialogs/pages/generaloptionpage.cpp:136
 #, kde-format
 msgid "Default Language :"
-msgstr ""
+msgstr "שפת ברירת המחדל :"
 
 #: dialogs/pages/packagecontentspage.cpp:40
 #, kde-format
 msgid "Contained Items"
-msgstr ""
+msgstr "פריטים מוכלים"
 
 #: dialogs/pages/selectoperationpage.cpp:59
 #: dialogs/selectoperationdialog.cpp:58 dialogs/selectoperationdialog.cpp:65
 #, kde-format
 msgid "Select Operation"
-msgstr ""
+msgstr "בחירת פעולה"
 
 #: dialogs/pages/selectoperationpage.cpp:65
 #: dialogs/selectoperationdialog.cpp:70
@@ -2968,103 +2968,103 @@ msgstr "מספר רצף:"
 #: dialogs/selectoperationdialog.cpp:73
 #, kde-format
 msgid "Auto increment:"
-msgstr ""
+msgstr "הגדלה אוטומטית:"
 
 #: dialogs/pages/selectoperationpage.cpp:73
 #: dialogs/selectoperationdialog.cpp:78
 #, kde-format
 msgid "Class operation:"
-msgstr ""
+msgstr "פעולת מחלקה:"
 
 #: dialogs/pages/selectoperationpage.cpp:81
 #: dialogs/selectoperationdialog.cpp:86 menus/listpopupmenu.cpp:223
 #: menus/widgetbasepopupmenu.cpp:507
 #, kde-format
 msgid "New Operation..."
-msgstr ""
+msgstr "פעולה חדשה…"
 
 #: dialogs/pages/selectoperationpage.cpp:85
 #: dialogs/selectoperationdialog.cpp:90
 #, kde-format
 msgid "Custom operation:"
-msgstr ""
+msgstr "פעולה מותאמת אישית:"
 
 #: dialogs/pages/uioptionspage.cpp:56
 #, kde-format
 msgctxt "General options"
 msgid "General"
-msgstr ""
+msgstr "כללי"
 
 #. i18n: ectx: label, entry (rightToLeftUI), group (UI Options)
 #: dialogs/pages/uioptionspage.cpp:62 umbrello.kcfg:202
 #, kde-format
 msgid "Right to left user interface"
-msgstr ""
+msgstr "ממשק משתמש מימין לשמאל"
 
 #: dialogs/pages/uioptionspage.cpp:66
 #, kde-format
 msgid "Use alignment guides"
-msgstr ""
+msgstr "להשתמש בקווים מנחים ליישור"
 
 #: dialogs/pages/uioptionspage.cpp:70
 #, kde-format
 msgctxt "Association options"
 msgid "Associations"
-msgstr ""
+msgstr "שיוכים"
 
 #: dialogs/pages/uioptionspage.cpp:75
 #, kde-format
 msgid "Create new association lines as:"
-msgstr ""
+msgstr "יצירת קווי שיוך חדשים בתור:"
 
 #: dialogs/pages/uioptionspage.cpp:78
 #, kde-format
 msgctxt "color group box"
 msgid "Color"
-msgstr ""
+msgstr "צבע"
 
 #: dialogs/pages/uioptionspage.cpp:86
 #, kde-format
 msgid "Custom text color"
-msgstr ""
+msgstr "צבע טקסט מותאם אישית"
 
 #: dialogs/pages/uioptionspage.cpp:93
 #, kde-format
 msgid "Custom line color"
-msgstr ""
+msgstr "צבע קו מותאם אישית"
 
 #. i18n("D&efault Color"), m_colorGB);
 #. colorLayout->addWidget(m_lineDefaultB, 0, 2);
 #: dialogs/pages/uioptionspage.cpp:103
 #, kde-format
 msgid "Custom fill color"
-msgstr ""
+msgstr "צבע מילוי מותאם אישית"
 
 #: dialogs/pages/uioptionspage.cpp:109
 #, kde-format
 msgid "Custom grid color"
-msgstr ""
+msgstr "צבע רשת מותאם אישית"
 
 #: dialogs/pages/uioptionspage.cpp:115
 #, kde-format
 msgid "Custom background color"
-msgstr ""
+msgstr "צבע רקע מותאם אישית"
 
 #: dialogs/pages/uioptionspage.cpp:122
 #, kde-format
 msgid "Custom line width"
-msgstr ""
+msgstr "עובי קו מותאם אישית"
 
 #: dialogs/pages/uioptionspage.cpp:132
 #, kde-format
 msgid "&Use fill color"
-msgstr ""
+msgstr "&להשתמש בצבע מילוי"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_propsGroupBox)
 #: dialogs/pages/umlrolepropertiesbase.ui:16 dialogs/umlroledialog.cpp:19
 #, kde-format
 msgid "Role Properties"
-msgstr ""
+msgstr "מאפייני תפקידים"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_visibilityButtonGroup)
 #: dialogs/pages/umlrolepropertiesbase.ui:67
@@ -3076,89 +3076,89 @@ msgstr ""
 #: dialogs/pages/umlrolepropertiesbase.ui:97
 #, kde-format
 msgid "Implementation"
-msgstr ""
+msgstr "מימוש"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_changeabilityButtonGroup)
 #: dialogs/pages/umlrolepropertiesbase.ui:107
 #, kde-format
 msgid "Role Changeability"
-msgstr ""
+msgstr "החלפת תפקידים"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_pChangeableRB)
 #: dialogs/pages/umlrolepropertiesbase.ui:113
 #, kde-format
 msgid "Changeable"
-msgstr ""
+msgstr "גמיש"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_pFrozenRB)
 #: dialogs/pages/umlrolepropertiesbase.ui:123
 #, kde-format
 msgid "Frozen"
-msgstr ""
+msgstr "קפוא"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_pAddOnlyRB)
 #: dialogs/pages/umlrolepropertiesbase.ui:130
 #, kde-format
 msgid "Add only"
-msgstr ""
+msgstr "הוספה בלבד"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:104
 #, kde-format
 msgctxt "title of color group"
 msgid "Color"
-msgstr ""
+msgstr "צבע"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:109
 #, kde-format
 msgctxt "text color"
 msgid "&Text:"
-msgstr ""
+msgstr "&טקסט:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:116
 #, kde-format
 msgctxt "default text color button"
 msgid "Defaul&t"
-msgstr ""
+msgstr "&ברירת מחדל"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:119
 #, kde-format
 msgctxt "line color"
 msgid "&Line:"
-msgstr ""
+msgstr "&קו:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:126
 #, kde-format
 msgctxt "default line color button"
 msgid "&Default"
-msgstr ""
+msgstr "&ברירת מחדל"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:129
 #, kde-format
 msgid "&Fill:"
-msgstr ""
+msgstr "&מילוי:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:136
 #, kde-format
 msgctxt "default fill color button"
 msgid "D&efault"
-msgstr ""
+msgstr "&ברירת מחדל"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:139
 #, kde-format
 msgid "&Use fill"
-msgstr ""
+msgstr "להשתמש &במילוי"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:149
 #, kde-format
 msgctxt "background color"
 msgid "&Background:"
-msgstr ""
+msgstr "&רקע:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:156
 #, kde-format
 msgctxt "default background color button"
 msgid "De&fault"
-msgstr ""
+msgstr "&ברירת מחדל"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:159
 #, kde-format
@@ -3170,46 +3170,46 @@ msgstr ""
 #, kde-format
 msgctxt "default grid dot color button"
 msgid "Def&ault"
-msgstr ""
+msgstr "&ברירת מחדל"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:174
 #, kde-format
 msgctxt "title of width group"
 msgid "Width"
-msgstr ""
+msgstr "עובי"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:179
 #, kde-format
 msgctxt "line width"
 msgid "Line &width:"
-msgstr ""
+msgstr "&עובי קו:"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:189
 #, kde-format
 msgctxt "default line width button"
 msgid "Defa&ult"
-msgstr ""
+msgstr "&ברירת מחדל"
 
 #: dialogs/pages/umlwidgetstylepage.cpp:203
 #, kde-format
 msgid "Layout of the line:"
-msgstr ""
+msgstr "פריסת הקו:"
 
 #: dialogs/parameterpropertiesdialog.cpp:49
 #, kde-format
 msgid "Parameter Properties"
-msgstr ""
+msgstr "מאפייני משתנה"
 
 #: dialogs/parameterpropertiesdialog.cpp:72
 #, kde-format
 msgctxt "property name"
 msgid "&Name:"
-msgstr ""
+msgstr "&שם:"
 
 #: dialogs/parameterpropertiesdialog.cpp:82
 #, kde-format
 msgid "Passing Direction"
-msgstr ""
+msgstr "כיוון העברה"
 
 #: dialogs/parameterpropertiesdialog.cpp:83
 #, kde-format
@@ -3221,141 +3221,141 @@ msgstr ""
 #: dialogs/parameterpropertiesdialog.cpp:161
 #, kde-format
 msgid "You have entered an invalid parameter name."
-msgstr ""
+msgstr "מילאת שם שגוי למשתנה."
 
 #: dialogs/parameterpropertiesdialog.cpp:162
 #, kde-format
 msgid "Parameter Name Invalid"
-msgstr ""
+msgstr "שם המשתנה שגוי"
 
 #: dialogs/selectdiagramdialog.cpp:18
 #, kde-format
 msgid "Select diagram"
-msgstr ""
+msgstr "בחירת תרשים"
 
 #: dialogs/selectdiagramdialog.cpp:19
 #, kde-format
 msgid "Diagram"
-msgstr ""
+msgstr "תרשים"
 
 #: dialogs/settingsdialog.cpp:35
 #, kde-format
 msgid "Umbrello Setup"
-msgstr ""
+msgstr "הגדרות Umbrello"
 
 #: dialogs/settingsdialog.cpp:100 umllistview.cpp:1451
 #, kde-format
 msgid "User Interface"
-msgstr ""
+msgstr "ממשק משתמש"
 
 #: dialogs/settingsdialog.cpp:100
 #, kde-format
 msgid "User Interface Settings"
-msgstr ""
+msgstr "הגדרות ממשק משתמש"
 
 #: dialogs/settingsdialog.cpp:107 dialogs/umlviewdialog.cpp:87
 #, kde-format
 msgctxt "general settings page"
 msgid "General"
-msgstr ""
+msgstr "כללי"
 
 #: dialogs/settingsdialog.cpp:116
 #, kde-format
 msgctxt "class settings page"
 msgid "Class"
-msgstr ""
+msgstr "מחלקה"
 
 #: dialogs/settingsdialog.cpp:116
 #, kde-format
 msgid "Class Settings"
-msgstr ""
+msgstr "הגדרות מחלקה"
 
 #: dialogs/settingsdialog.cpp:123 umllistview.cpp:1446
 #, kde-format
 msgid "Code Importer"
-msgstr ""
+msgstr "מייבא קוד"
 
 #: dialogs/settingsdialog.cpp:123
 #, kde-format
 msgid "Code Import Settings"
-msgstr ""
+msgstr "הגדרות ייבוא קוד"
 
 #: dialogs/settingsdialog.cpp:132 umllistview.cpp:1447
 #, kde-format
 msgid "Code Generation"
-msgstr ""
+msgstr "יצירת קוד"
 
 #: dialogs/settingsdialog.cpp:132
 #, kde-format
 msgid "Code Generation Settings"
-msgstr ""
+msgstr "הגדרות יצירת קוד"
 
 #: dialogs/settingsdialog.cpp:140 umllistview.cpp:1448
 #, kde-format
 msgid "Code Viewer"
-msgstr ""
+msgstr "מציג קוד"
 
 #: dialogs/settingsdialog.cpp:140
 #, kde-format
 msgid "Code Viewer Settings"
-msgstr ""
+msgstr "הגדרות מציג קוד"
 
 #: dialogs/settingsdialog.cpp:147 umllistview.cpp:1444
 #, kde-format
 msgid "Auto Layout"
-msgstr ""
+msgstr "פריסה אוטומטית"
 
 #: dialogs/settingsdialog.cpp:147
 #, kde-format
 msgid "Auto Layout Settings"
-msgstr ""
+msgstr "הגדרות פריסה אוטומטית"
 
 #: dialogs/singlepagedialogbase.cpp:35 dialogs/singlepagedialogbase.cpp:49
 #, kde-format
 msgid "Search"
-msgstr ""
+msgstr "חיפוש"
 
 #: dialogs/statedialog.cpp:120
 #, kde-format
 msgctxt "general page"
 msgid "General"
-msgstr ""
+msgstr "כללי"
 
 #: dialogs/statedialog.cpp:133
 #, kde-format
 msgctxt "initial state in statechart"
 msgid "Initial state"
-msgstr ""
+msgstr "מצב התחלתי"
 
 #: dialogs/statedialog.cpp:136
 #, kde-format
 msgctxt "state in statechart"
 msgid "State"
-msgstr ""
+msgstr "מצב"
 
 #: dialogs/statedialog.cpp:139
 #, kde-format
 msgctxt "end state in statechart"
 msgid "End state"
-msgstr ""
+msgstr "מצב סופי"
 
 #: dialogs/statedialog.cpp:142
 #, kde-format
 msgctxt "fork state in statechart"
 msgid "Fork"
-msgstr ""
+msgstr "התפצלות"
 
 #: dialogs/statedialog.cpp:145
 #, kde-format
 msgctxt "join state in statechart"
 msgid "Join"
-msgstr ""
+msgstr "הצטרפות"
 
 #: dialogs/statedialog.cpp:148
 #, kde-format
 msgctxt "junction state in statechart"
 msgid "Junction"
-msgstr ""
+msgstr "צומת"
 
 #: dialogs/statedialog.cpp:151
 #, kde-format
@@ -3373,28 +3373,28 @@ msgstr ""
 #, kde-format
 msgctxt "choice state in statechart"
 msgid "Choice"
-msgstr ""
+msgstr "בחירה"
 
 #: dialogs/statedialog.cpp:160
 #, kde-format
 msgctxt "combined state in statechart"
 msgid "Combined"
-msgstr ""
+msgstr "משולב"
 
 #: dialogs/statedialog.cpp:168
 #, kde-format
 msgid "State type:"
-msgstr ""
+msgstr "סוג מצב:"
 
 #: dialogs/statedialog.cpp:173
 #, kde-format
 msgid "State name:"
-msgstr ""
+msgstr "שם מצב:"
 
 #: dialogs/statedialog.cpp:183
 #, kde-format
 msgid "Linked diagram:"
-msgstr ""
+msgstr "תרשים מקושר:"
 
 #: dialogs/stereoattributedialog.cpp:38
 #, kde-format
@@ -3471,12 +3471,12 @@ msgstr ""
 #, kde-format
 msgctxt "name label"
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: dialogs/umlcheckconstraintdialog.cpp:61
 #, kde-format
 msgid "Check Condition :"
-msgstr ""
+msgstr "בדיקת תנאי :"
 
 #: dialogs/umlentityattributedialog.cpp:43
 #, kde-format
@@ -3487,37 +3487,37 @@ msgstr ""
 #, kde-format
 msgctxt "name of entity attribute"
 msgid "&Name:"
-msgstr ""
+msgstr "&שם:"
 
 #: dialogs/umlentityattributedialog.cpp:82
 #, kde-format
 msgid "Length/Values:"
-msgstr ""
+msgstr "אורך/ערך:"
 
 #: dialogs/umlentityattributedialog.cpp:85
 #, kde-format
 msgid "&Auto increment"
-msgstr ""
+msgstr "&הגדלה אוטומטית"
 
 #: dialogs/umlentityattributedialog.cpp:89
 #, kde-format
 msgid "Allow &null"
-msgstr ""
+msgstr "לאפשר &ריק (null)"
 
 #: dialogs/umlentityattributedialog.cpp:96
 #, kde-format
 msgid "Attributes:"
-msgstr ""
+msgstr "מאפיינים:"
 
 #: dialogs/umlentityattributedialog.cpp:110
 #, kde-format
 msgid "Indexing"
-msgstr ""
+msgstr "סידור במפתח"
 
 #: dialogs/umlentityattributedialog.cpp:114
 #, kde-format
 msgid "&Not Indexed"
-msgstr ""
+msgstr "&לא במפתח"
 
 #. i18n("&Primary"), m_pScopeGB);
 #. scopeLayout->addWidget(m_pPublicRB);
@@ -3528,17 +3528,17 @@ msgstr ""
 #: dialogs/umlentityattributedialog.cpp:125
 #, kde-format
 msgid "&Indexed"
-msgstr ""
+msgstr "&במפתח"
 
 #: dialogs/umlentityattributedialog.cpp:163
 #, kde-format
 msgid "You have entered an invalid entity attribute name."
-msgstr ""
+msgstr "מילאת שם מאפיין יישות שגוי."
 
 #: dialogs/umlentityattributedialog.cpp:164
 #, kde-format
 msgid "Entity Attribute Name Invalid"
-msgstr ""
+msgstr "שם מאפיין יישות שגוי"
 
 #: dialogs/umlentityattributedialog.cpp:171
 #, kde-format
@@ -3619,22 +3619,22 @@ msgstr "ללא פעולה"
 #: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "Restrict"
-msgstr ""
+msgstr "הגבלה"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "Cascade"
-msgstr ""
+msgstr "דירוג"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:270
 #, kde-format
 msgid "Set Null"
-msgstr ""
+msgstr "הגדרה לריק/Null"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:271
 #, kde-format
 msgid "Set Default"
-msgstr ""
+msgstr "הגדרת ברירת מחדל"
 
 #: dialogs/umlforeignkeyconstraintdialog.cpp:292
 #, kde-format
@@ -8402,22 +8402,22 @@ msgstr "חוצץ מרכזי"
 #: umlwidgets/objectnodewidget.cpp:308
 #, kde-format
 msgid "Enter the name of the object flow"
-msgstr ""
+msgstr "נא למלא שם לזרימת הפריט"
 
 #: umlwidgets/objectnodewidget.cpp:308
 #, kde-format
 msgid "object flow"
-msgstr ""
+msgstr "זרימת פריט"
 
 #: umlwidgets/objectnodewidget.cpp:325
 #, kde-format
 msgid "Enter Object Flow State"
-msgstr ""
+msgstr "נא למלא את מצב זרימת הפריט"
 
 #: umlwidgets/objectnodewidget.cpp:326
 #, kde-format
 msgid "Enter State (keep '-' if there is no state for the object) "
-msgstr ""
+msgstr "נא למלא מצב (להשאיר ‚-’ אם לפריט אין מצב) "
 
 #: umlwidgets/signalwidget.cpp:326
 #, kde-format
