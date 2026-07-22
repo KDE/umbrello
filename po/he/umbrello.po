@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-24 00:46+0000\n"
-"PO-Revision-Date: 2026-07-19 09:08+0300\n"
+"PO-Revision-Date: 2026-07-21 09:13+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -426,7 +426,7 @@ msgstr ""
 #: umllistview.cpp:1450
 #, kde-format
 msgid "General"
-msgstr ""
+msgstr "כללי"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: label, entry (classMemberPrefix), group (CPP Code Generation)
@@ -979,13 +979,13 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:53
 #, kde-format
 msgid "Language"
-msgstr ""
+msgstr "שפה"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxFolders)
 #: codegenwizard/codegenoptionspage.ui:71
 #, kde-format
 msgid "Folders"
-msgstr ""
+msgstr "תיקיות"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelFolder)
 #: codegenwizard/codegenoptionspage.ui:77
@@ -1298,7 +1298,7 @@ msgstr ""
 #: codeimpwizard/codeimpstatuspage.ui:59
 #, kde-format
 msgid "Status"
-msgstr ""
+msgstr "מצב"
 
 #. i18n: ectx: property (text), widget (QTableWidget, ui_tableWidgetStatus)
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryClass)
@@ -1306,94 +1306,94 @@ msgstr ""
 #: dialogs/finddialog.ui:89 umllistview.cpp:1445 umlwidgets/widgetbase.cpp:1267
 #, kde-format
 msgid "Class"
-msgstr ""
+msgstr "מחלקה"
 
 #. i18n: ectx: attribute (title), widget (QWidget, ui_loggerTab)
 #. i18n: ectx: attribute (title), widget (QWidget, ui_tabLogger)
 #: codegenwizard/codegenstatuspage.ui:59 codeimpwizard/codeimpstatuspage.ui:117
 #, kde-format
 msgid "Logger"
-msgstr ""
+msgstr "מתעד"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonClear)
 #: codegenwizard/codegenstatuspage.ui:78 codeimpwizard/codeimpstatuspage.ui:143
 #, kde-format
 msgid "Clear"
-msgstr ""
+msgstr "איפוס"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonExport)
 #: codegenwizard/codegenstatuspage.ui:91 codeimpwizard/codeimpstatuspage.ui:156
 #, kde-format
 msgid "Export..."
-msgstr ""
+msgstr "ייצוא…"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonGenerate)
 #: codegenwizard/codegenstatuspage.ui:114
 #, kde-format
 msgid "Generate"
-msgstr ""
+msgstr "יצירה"
 
 #: codeimport/classimport.cpp:101
 #, kde-format
 msgid "Importing file: %1 Progress: %2/%3"
-msgstr ""
+msgstr "קובץ מיובא: %1 התקדמות: %2/%3"
 
 #: codeimport/classimport.cpp:109
 #, kde-format
 msgctxt "ready to status bar"
 msgid "Ready."
-msgstr ""
+msgstr "מוכן."
 
 #: codeimport/classimport.cpp:109
 #, kde-format
 msgctxt "failed to status bar"
 msgid "Failed."
-msgstr ""
+msgstr "נכשל."
 
 #: codeimpwizard/codeimportingwizard.cpp:34
 #, kde-format
 msgid "Code Importing Wizard"
-msgstr ""
+msgstr "אשף ייבוא קוד"
 
 #: codeimpwizard/codeimpselectpage.cpp:36
 #, kde-format
 msgid "Code Importing Path"
-msgstr ""
+msgstr "נתיב ייבוא קוד"
 
 #: codeimpwizard/codeimpselectpage.cpp:37
 #, kde-format
 msgid "Select the code importing path."
-msgstr ""
+msgstr "נא לבחור את הנתיב לייבוא קוד."
 
 #: codeimpwizard/codeimpselectpage.cpp:109
 #, kde-format
 msgid "File System Model"
-msgstr ""
+msgstr "דגם מערכת קבצים"
 
 #: codeimpwizard/codeimpselectpage.cpp:136
 #, kde-format
 msgid "Select the desired language to filter files."
-msgstr ""
+msgstr "נא לבחור את השפה הרצויה כדי לסנן קבצים."
 
 #: codeimpwizard/codeimpselectpage.cpp:137
 #, kde-format
 msgid "Select also all the files in the subdirectories."
-msgstr ""
+msgstr "לבחור גם את כל הקבצים בתת־התיקיות."
 
 #: codeimpwizard/codeimpselectpage.cpp:138
 #, kde-format
 msgid "Select all the files below the current directory."
-msgstr ""
+msgstr "לבחור את כל הקבצים מתחת לתיקייה הנוכחית."
 
 #: codeimpwizard/codeimpselectpage.cpp:139
 #, kde-format
 msgid "Clear all selections."
-msgstr ""
+msgstr "איפוס כל הבחירות."
 
 #: codeimpwizard/codeimpselectpage.cpp:140
 #, kde-format
 msgid "Add file extensions like e.g. '*.h *.hpp'."
-msgstr ""
+msgstr "הוספת סיומות קבצים כגון ‚‎*.h ‏‎*.hpp’."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ui_languageLabel)
 #: codeimpwizard/codeimpselectpage.ui:37
@@ -1411,7 +1411,7 @@ msgstr "שפת תכנות:"
 #: codeimpwizard/codeimpselectpage.ui:66
 #, kde-format
 msgid "Include Subdirectories."
-msgstr ""
+msgstr "כולל תת־תיקיות."
 
 #. i18n: ectx: property (text), widget (QLabel, ui_fileExtLabel)
 #: codeimpwizard/codeimpselectpage.ui:77
@@ -1467,42 +1467,42 @@ msgstr[3] ""
 #: codeimpwizard/codeimpstatuspage.cpp:151
 #, kde-format
 msgid "importing file ... DONE<br>"
-msgstr ""
+msgstr "קובץ מיובא … בוצע<br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:152
 #, kde-format
 msgid "Import Done"
-msgstr ""
+msgstr "הייבוא בוצע"
 
 #: codeimpwizard/codeimpstatuspage.cpp:155
 #, kde-format
 msgid "importing file ... FAILED<br>"
-msgstr ""
+msgstr "קובץ מיובא … נכשל<br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:156
 #, kde-format
 msgid "Import Failed"
-msgstr ""
+msgstr "הייבוא נכשל"
 
 #: codeimpwizard/codeimpstatuspage.cpp:167
 #, kde-format
 msgid "importing file ..."
-msgstr ""
+msgstr "קובץ מיובא …"
 
 #: codeimpwizard/codeimpstatuspage.cpp:230
 #, kde-format
 msgid "importing file ... stopped<br>"
-msgstr ""
+msgstr "קובץ מיובא … נעצר<br>"
 
 #: codeimpwizard/codeimpstatuspage.cpp:231
 #, kde-format
 msgid "Import stopped"
-msgstr ""
+msgstr "הייבוא נעצר"
 
 #: codeimpwizard/codeimpstatuspage.cpp:298
 #, kde-format
 msgid "Not Imported"
-msgstr ""
+msgstr "לא יובא"
 
 #: codeimpwizard/codeimpstatuspage.cpp:325
 #, kde-format
@@ -1513,52 +1513,52 @@ msgstr ""
 #: codeimpwizard/codeimpstatuspage.ui:33
 #, kde-format
 msgid "Import Status"
-msgstr ""
+msgstr "מצב ייבוא"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonStart)
 #: codeimpwizard/codeimpstatuspage.ui:80
 #, kde-format
 msgid "Start import"
-msgstr ""
+msgstr "התחלת ייבוא"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_pushButtonStop)
 #: codeimpwizard/codeimpstatuspage.ui:99
 #, kde-format
 msgid "Stop"
-msgstr ""
+msgstr "עצירה"
 
 #: codeimpwizard/codeimpthread.cpp:47
 #, kde-format
 msgid "Importing file: %1"
-msgstr ""
+msgstr "קובץ מיובא: %1"
 
 #: codeimpwizard/codeimpthread.cpp:51
 #, kde-format
 msgctxt "show failed on status bar"
 msgid "Failed."
-msgstr ""
+msgstr "נכשל."
 
 #: codeimpwizard/codeimpthread.cpp:57
 #, kde-format
 msgctxt "show Ready on status bar"
 msgid "Ready."
-msgstr ""
+msgstr "מוכן."
 
 #: codeimpwizard/codeimpthread.cpp:66
 #, kde-format
 msgid "No code importer for file: %1"
-msgstr ""
+msgstr "אין מייבא קוד לקובץ: %1"
 
 #: debug/debug_utils.cpp:144
 #, kde-format
 msgid "Class Name"
-msgstr ""
+msgstr "שם מחלקה"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
 #: debug/debug_utils.cpp:336 dialogs/finddialog.ui:82
 #, kde-format
 msgid "All"
-msgstr ""
+msgstr "הכול"
 
 #: dialogs/activitydialog.cpp:37 dialogs/activitydialog.cpp:149
 #: dialogs/classpropertiesdialog.cpp:119 dialogs/objectnodedialog.cpp:39
@@ -1568,39 +1568,39 @@ msgstr ""
 #: menus/listpopupmenu.cpp:241 refactoring/refactoringassistant.cpp:459
 #, kde-format
 msgid "Properties"
-msgstr ""
+msgstr "מאפיינים"
 
 #: dialogs/activitydialog.cpp:139
 #, kde-format
 msgid "Initial activity"
-msgstr ""
+msgstr "פעילות התחלתית"
 
 #: dialogs/activitydialog.cpp:139
 #, kde-format
 msgid "End activity"
-msgstr ""
+msgstr "פעילות סיום"
 
 #: dialogs/activitydialog.cpp:139
 #, kde-format
 msgid "Final activity"
-msgstr ""
+msgstr "פעילות סופית"
 
 #. i18n("Attribute...")); break;
 #: dialogs/activitydialog.cpp:139 menus/listpopupmenu.cpp:153
 #: worktoolbar.cpp:350
 #, kde-format
 msgid "Branch/Merge"
-msgstr ""
+msgstr "פיצול/מיזוג"
 
 #: dialogs/activitydialog.cpp:139
 #, kde-format
 msgid "Invoke action"
-msgstr ""
+msgstr "לעורר פעולה"
 
 #: dialogs/activitydialog.cpp:139
 #, kde-format
 msgid "Parameter activity"
-msgstr ""
+msgstr "פעילות משתנה"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/activitydialog.cpp:146 dialogs/objectnodedialog.cpp:132
@@ -1610,7 +1610,7 @@ msgstr ""
 #: dialogs/umltemplatedialog.cpp:56
 #, kde-format
 msgid "General Properties"
-msgstr ""
+msgstr "מאפיינים כלליים"
 
 #: dialogs/activitydialog.cpp:146
 #, kde-format
@@ -1786,44 +1786,44 @@ msgstr ""
 #: dialogs/classwizard.cpp:54
 #, kde-format
 msgid "Class Wizard"
-msgstr ""
+msgstr "אשף המחלקות"
 
 #: dialogs/classwizard.cpp:77
 #, kde-format
 msgid "New Class"
-msgstr ""
+msgstr "מחלקה חדשה"
 
 #: dialogs/classwizard.cpp:78
 #, kde-format
 msgid "Add general info about the new class."
-msgstr ""
+msgstr "הוספת מידע כללי על המחלקה החדשה."
 
 #: dialogs/classwizard.cpp:95
 #, kde-format
 msgid "Class Attributes"
-msgstr ""
+msgstr "מאפייני מחלקה"
 
 #: dialogs/classwizard.cpp:96
 #, kde-format
 msgid "Add attributes to the new class."
-msgstr ""
+msgstr "הוספת מאפיינים למחלקה החדשה."
 
 #: dialogs/classwizard.cpp:113
 #, kde-format
 msgid "Class Operations"
-msgstr ""
+msgstr "פעולות מחלקה"
 
 #: dialogs/classwizard.cpp:114
 #, kde-format
 msgid "Add operations to the new class."
-msgstr ""
+msgstr "הוספת פעולות למחלקה החדשה."
 
 #: dialogs/codeeditor.cpp:750 menus/widgetbasepopupmenu.cpp:118
 #: menus/widgetbasepopupmenu.cpp:126 menus/widgetbasepopupmenu.cpp:133
 #: menus/widgetbasepopupmenu.cpp:140 menus/widgetbasepopupmenu.cpp:146
 #, kde-format
 msgid "Hide"
-msgstr ""
+msgstr "הסתרה"
 
 #: dialogs/codeeditor.cpp:756 dialogs/pages/classoptionspage.cpp:144
 #: dialogs/pages/classoptionspage.cpp:217
@@ -1835,65 +1835,65 @@ msgstr ""
 #: menus/widgetbasepopupmenu.cpp:145 menus/widgetbasepopupmenu.cpp:723
 #, kde-format
 msgid "Show"
-msgstr ""
+msgstr "הצגה"
 
 #: dialogs/codeeditor.cpp:765
 #, kde-format
 msgid "Hide Comment"
-msgstr ""
+msgstr "הסתרת הערה"
 
 #: dialogs/codeeditor.cpp:771
 #, kde-format
 msgid "Show Comment"
-msgstr ""
+msgstr "הצגת הערה"
 
 #: dialogs/codeeditor.cpp:779
 #, kde-format
 msgid "Insert Code Block Before"
-msgstr ""
+msgstr "הוספת מקטע קוד לפני"
 
 #: dialogs/codeeditor.cpp:784
 #, kde-format
 msgid "Insert Code Block After"
-msgstr ""
+msgstr "הוספת מקטע קוד אחרי"
 
 #: dialogs/codeeditor.cpp:791 menus/listpopupmenu.cpp:167
 #, kde-format
 msgid "Copy"
-msgstr ""
+msgstr "העתקה"
 
 #: dialogs/codeeditor.cpp:796 menus/listpopupmenu.cpp:235
 #, kde-format
 msgid "Paste"
-msgstr ""
+msgstr "הדבקה"
 
 #: dialogs/codeeditor.cpp:801 menus/listpopupmenu.cpp:168
 #, kde-format
 msgid "Cut"
-msgstr ""
+msgstr "גזירה"
 
 #: dialogs/codeviewerdialog.cpp:95
 #, kde-format
 msgid "Code Viewer - %1"
-msgstr ""
+msgstr "מציג קוד - %1"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_showHiddenCodeCB)
 #: dialogs/codeviewerdialogbase.ui:20
 #, kde-format
 msgid "Show hidden blocks"
-msgstr ""
+msgstr "הצגת מקטעים נסתרים"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_componentLabel)
 #: dialogs/codeviewerdialogbase.ui:33
 #, kde-format
 msgid "<p align=\"center\">component name here</p>"
-msgstr ""
+msgstr "<p align=\"center\">שם הרכיב כאן</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_highlightCheckBox)
 #: dialogs/codeviewerdialogbase.ui:46
 #, kde-format
 msgid "Show block type"
-msgstr ""
+msgstr "הצגת סוג מקטע"
 
 #. i18n: ectx: property (title), widget (QGroupBox, colorGroupBox)
 #: dialogs/codevieweroptionsbase.ui:32
@@ -1974,6 +1974,8 @@ msgid ""
 "You are about to delete the entire diagram.\n"
 "Are you sure?"
 msgstr ""
+"הפעולה הזאת תמחק את כל התרשים.\n"
+"להמשיך?"
 
 #: dialogs/dialog_utils.cpp:231
 #, kde-format
@@ -2000,7 +2002,7 @@ msgstr "התראות"
 #: dialogs/exportallviewsdialog.cpp:61 dialogs/widgets/imagetypewidget.cpp:29
 #, kde-format
 msgid "The format that the images will be exported to"
-msgstr ""
+msgstr "התסדיר שאליו תומרנה התמונות"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, ExportAllViewsDialogBase)
 #: dialogs/exportallviewsdialogbase.ui:14
@@ -2020,7 +2022,7 @@ msgstr "תיקיית הבסיס שמשמשת לשמירת התמונות"
 #: dialogs/exportallviewsdialogbase.ui:28
 #, kde-format
 msgid "&Directory to save the diagrams in:"
-msgstr ""
+msgstr "&תיקייה לשמירת התרשימים:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_useFolders)
 #: dialogs/exportallviewsdialogbase.ui:57
@@ -2220,12 +2222,12 @@ msgstr "מצב:"
 #: dialogs/objectnodedialog.cpp:164
 #, kde-format
 msgid "&Central Buffer"
-msgstr ""
+msgstr "&חוצץ מרכזי"
 
 #: dialogs/objectnodedialog.cpp:167
 #, kde-format
 msgid "&Data Store "
-msgstr ""
+msgstr "&אחסון נתונים"
 
 #: dialogs/objectnodedialog.cpp:170
 #, kde-format
@@ -4599,52 +4601,52 @@ msgstr ""
 #: menus/listpopupmenu.cpp:224
 #, kde-format
 msgid "New Parameter..."
-msgstr ""
+msgstr "משתנה חדש…"
 
 #: menus/listpopupmenu.cpp:226 umlwidgets/widgetbase.cpp:1291
 #: worktoolbar.cpp:357
 #, kde-format
 msgid "Node"
-msgstr ""
+msgstr "מפרק"
 
 #. i18n("Node...")); break;
 #: menus/listpopupmenu.cpp:228
 #, kde-format
 msgid "Note..."
-msgstr ""
+msgstr "הערה…"
 
 #: menus/listpopupmenu.cpp:229
 #, kde-format
 msgid "Object..."
-msgstr ""
+msgstr "פריט…"
 
 #: menus/listpopupmenu.cpp:230 worktoolbar.cpp:387
 #, kde-format
 msgid "Object Node"
-msgstr ""
+msgstr "מפרק פריט"
 
 #: menus/listpopupmenu.cpp:231
 #, kde-format
 msgid "Open file"
-msgstr ""
+msgstr "פתיחת קובץ"
 
 #. i18n("Operation...")); break;
 #: menus/listpopupmenu.cpp:234
 #, kde-format
 msgid "Package..."
-msgstr ""
+msgstr "חבילה…"
 
 #: menus/listpopupmenu.cpp:236 umlwidgets/widgetbase.cpp:1306
 #: worktoolbar.cpp:381
 #, kde-format
 msgid "Pin"
-msgstr ""
+msgstr "נעיצה"
 
 #: menus/listpopupmenu.cpp:237 umlwidgets/widgetbase.cpp:1309
 #: worktoolbar.cpp:382
 #, kde-format
 msgid "Port"
-msgstr ""
+msgstr "פתחה"
 
 #. i18n("Port...")); break;
 #: menus/listpopupmenu.cpp:239
@@ -4655,68 +4657,68 @@ msgstr ""
 #: menus/listpopupmenu.cpp:242
 #, kde-format
 msgid "Redo"
-msgstr ""
+msgstr "ביצוע מחדש"
 
 #: menus/listpopupmenu.cpp:243 umlwidgets/widgetbase.cpp:1315
 #: worktoolbar.cpp:348
 #, kde-format
 msgid "Region"
-msgstr ""
+msgstr "אזור"
 
 #: menus/listpopupmenu.cpp:244
 #, kde-format
 msgid "Remove"
-msgstr ""
+msgstr "הסרה"
 
 #: menus/listpopupmenu.cpp:245
 #, kde-format
 msgid "Remove state diagram"
-msgstr ""
+msgstr "הסרת תרשים מצב"
 
 #: menus/listpopupmenu.cpp:246 menus/umllistviewpopupmenu.cpp:277
 #, kde-format
 msgid "Rename..."
-msgstr ""
+msgstr "שינוי שם…"
 
 #: menus/listpopupmenu.cpp:247
 #, kde-format
 msgid "Rename Object..."
-msgstr ""
+msgstr "שינוי שם פריט…"
 
 #: menus/listpopupmenu.cpp:248
 #, kde-format
 msgid "Return to combined state"
-msgstr ""
+msgstr "חזרה למצב המשולב"
 
 #: menus/listpopupmenu.cpp:249
 #, kde-format
 msgid "Return to class"
-msgstr ""
+msgstr "חזרה למחלקה"
 
 #: menus/listpopupmenu.cpp:250
 #, kde-format
 msgid "Reset Label Positions"
-msgstr ""
+msgstr "איפוס מקומות תוויות"
 
 #: menus/listpopupmenu.cpp:251
 #, kde-format
 msgid "Resize"
-msgstr ""
+msgstr "שינוי גודל"
 
 #: menus/listpopupmenu.cpp:252
 #, kde-format
 msgid "Select state diagram"
-msgstr ""
+msgstr "בחירת תרשים מצב"
 
 #: menus/listpopupmenu.cpp:253
 #, kde-format
 msgid "Send Signal"
-msgstr ""
+msgstr "שליחת אות"
 
 #: menus/listpopupmenu.cpp:254 worktoolbar.cpp:366
 #, kde-format
 msgid "Shallow History"
-msgstr ""
+msgstr "היסטוריה שטחית"
 
 #: menus/listpopupmenu.cpp:256
 #, kde-format
@@ -4727,23 +4729,23 @@ msgstr ""
 #, kde-format
 msgctxt "add new state"
 msgid "State..."
-msgstr ""
+msgstr "מצב…"
 
 #: menus/listpopupmenu.cpp:259
 #, kde-format
 msgid "Join"
-msgstr ""
+msgstr "צירוף"
 
 #: menus/listpopupmenu.cpp:262 worktoolbar.cpp:369
 #, kde-format
 msgid "Subsystem"
-msgstr ""
+msgstr "תת־מערכת"
 
 #. i18n("Subsystem...")); break;
 #: menus/listpopupmenu.cpp:264
 #, kde-format
 msgid "Template"
-msgstr ""
+msgstr "תבנית"
 
 #. i18n("Template...")); break;
 #: menus/listpopupmenu.cpp:266
@@ -4760,13 +4762,13 @@ msgstr ""
 #, kde-format
 msgctxt "new container menu"
 msgid "New"
-msgstr ""
+msgstr "חדשה"
 
 #: menus/listpopupmenu.cpp:500
 #, kde-format
 msgctxt "new sub menu"
 msgid "New"
-msgstr ""
+msgstr "חדש"
 
 #: menus/listpopupmenu.cpp:511
 #, kde-format
@@ -4787,28 +4789,28 @@ msgstr ""
 #: menus/listpopupmenu.cpp:514
 #, kde-format
 msgid "Union"
-msgstr ""
+msgstr "איחוד"
 
 #: menus/umllistviewpopupmenu.cpp:159 menus/widgetbasepopupmenu.cpp:200
 #: menus/widgetbasepopupmenu.cpp:226
 #, kde-format
 msgid "Change into Class"
-msgstr ""
+msgstr "שינוי למחלקה"
 
 #: menus/umllistviewpopupmenu.cpp:160 menus/widgetbasepopupmenu.cpp:201
 #, kde-format
 msgid "Change into Package"
-msgstr ""
+msgstr "שינוי לחבילה"
 
 #: menus/umlscenepopupmenu.cpp:53
 #, kde-format
 msgid "Clear Diagram"
-msgstr ""
+msgstr "איפוס התרשים"
 
 #: menus/umlscenepopupmenu.cpp:57
 #, kde-format
 msgid "Snap to Grid"
-msgstr ""
+msgstr "הצמדה לרשת"
 
 #: menus/umlscenepopupmenu.cpp:59
 #, kde-format
@@ -4818,42 +4820,42 @@ msgstr ""
 #: menus/umlscenepopupmenu.cpp:61
 #, kde-format
 msgid "Show Grid"
-msgstr ""
+msgstr "הצגת רשת"
 
 #: menus/umlscenepopupmenu.cpp:63
 #, kde-format
 msgid "Show Documentation Indicator"
-msgstr ""
+msgstr "הצגת מחוון תיעוד"
 
 #: menus/umlscenepopupmenu.cpp:105
 #, kde-format
 msgid "apply '%1'"
-msgstr ""
+msgstr "החלת ‚%1’"
 
 #: menus/widgetbasepopupmenu.cpp:86
 #, kde-format
 msgid "Public Only"
-msgstr ""
+msgstr "ציבורי בלבד"
 
 #: menus/widgetbasepopupmenu.cpp:90
 #, kde-format
 msgid "Operation Signature"
-msgstr ""
+msgstr "חתימת פעולה"
 
 #: menus/widgetbasepopupmenu.cpp:95 menus/widgetbasepopupmenu.cpp:726
 #, kde-format
 msgid "Attribute Signature"
-msgstr ""
+msgstr "חתימת מאפיין"
 
 #: menus/widgetbasepopupmenu.cpp:119 menus/widgetbasepopupmenu.cpp:127
 #, kde-format
 msgid "Show Signatures"
-msgstr ""
+msgstr "הצגת חתימות"
 
 #: menus/widgetbasepopupmenu.cpp:120 menus/widgetbasepopupmenu.cpp:128
 #, kde-format
 msgid "Hide Signatures"
-msgstr ""
+msgstr "הסתרת חתימות"
 
 #: menus/widgetbasepopupmenu.cpp:134
 #, kde-format
@@ -4868,7 +4870,7 @@ msgstr ""
 #: menus/widgetbasepopupmenu.cpp:138
 #, kde-format
 msgid "Packages"
-msgstr ""
+msgstr "חבילות"
 
 #: menus/widgetbasepopupmenu.cpp:144
 #, kde-format
@@ -4883,64 +4885,64 @@ msgstr ""
 #: menus/widgetbasepopupmenu.cpp:204
 #, kde-format
 msgid "View Code"
-msgstr ""
+msgstr "הצגת קוד"
 
 #: menus/widgetbasepopupmenu.cpp:207
 #, kde-format
 msgid "Change into Interface"
-msgstr ""
+msgstr "החלפה לממשק"
 
 #: menus/widgetbasepopupmenu.cpp:224
 #, kde-format
 msgid "Draw as Circle"
-msgstr ""
+msgstr "ציור כעיגול"
 
 #: menus/widgetbasepopupmenu.cpp:235 menus/widgetbasepopupmenu.cpp:304
 #, kde-format
 msgid "Rename Class..."
-msgstr ""
+msgstr "שינוי שם מחלקה…"
 
 #: menus/widgetbasepopupmenu.cpp:277 menus/widgetbasepopupmenu.cpp:444
 #, kde-format
 msgid "Name as Tooltip"
-msgstr ""
+msgstr "שם כחלונית עצה"
 
 #: menus/widgetbasepopupmenu.cpp:296
 #, kde-format
 msgid "Move Up"
-msgstr ""
+msgstr "העלאה למעלה"
 
 #: menus/widgetbasepopupmenu.cpp:297
 #, kde-format
 msgid "Move Down"
-msgstr ""
+msgstr "הורדה למטה"
 
 #: menus/widgetbasepopupmenu.cpp:330
 #, kde-format
 msgctxt "clear note"
 msgid "Clear"
-msgstr ""
+msgstr "פינוי"
 
 #: menus/widgetbasepopupmenu.cpp:332 menus/widgetbasepopupmenu.cpp:442
 #: menus/widgetbasepopupmenu.cpp:471 menus/widgetbasepopupmenu.cpp:514
 #, kde-format
 msgid "Change Text..."
-msgstr ""
+msgstr "עריכת טקסט…"
 
 #: menus/widgetbasepopupmenu.cpp:334 menus/widgetbasepopupmenu.cpp:585
 #, kde-format
 msgid "Auto resize"
-msgstr ""
+msgstr "שינוי גודל אוטומטי"
 
 #: menus/widgetbasepopupmenu.cpp:367
 #, kde-format
 msgid "Change State Name..."
-msgstr ""
+msgstr "שינוי שם מצב…"
 
 #: menus/widgetbasepopupmenu.cpp:403
 #, kde-format
 msgid "Change Activity Name..."
-msgstr ""
+msgstr "שינוי שם פעילות…"
 
 #: menus/widgetbasepopupmenu.cpp:423
 #, kde-format
@@ -4951,7 +4953,7 @@ msgstr ""
 #, kde-format
 msgctxt "clear precondition"
 msgid "Clear"
-msgstr ""
+msgstr "איפוס"
 
 #: menus/widgetbasepopupmenu.cpp:461
 #, kde-format
@@ -4962,7 +4964,7 @@ msgstr ""
 #, kde-format
 msgctxt "clear combined fragment"
 msgid "Clear"
-msgstr ""
+msgstr "איפוס"
 
 #: menus/widgetbasepopupmenu.cpp:481 menus/widgetbasepopupmenu.cpp:484
 #, kde-format
@@ -4972,71 +4974,71 @@ msgstr ""
 #: menus/widgetbasepopupmenu.cpp:487
 #, kde-format
 msgid "Change Name"
-msgstr ""
+msgstr "שינוי שם"
 
 #: menus/widgetbasepopupmenu.cpp:533 menus/widgetbasepopupmenu.cpp:614
 #, kde-format
 msgctxt "color menu"
 msgid "Color"
-msgstr ""
+msgstr "צבע"
 
 #. i18n: ectx: label, entry (useFillColor), group (UI Options)
 #: menus/widgetbasepopupmenu.cpp:536 menus/widgetbasepopupmenu.cpp:617
 #: umbrello.kcfg:147
 #, kde-format
 msgid "Use Fill Color"
-msgstr ""
+msgstr "להשתמש בצבע מילוי"
 
 #: menus/widgetbasepopupmenu.cpp:537
 #, kde-format
 msgid "No Fill Color"
-msgstr ""
+msgstr "ללא צבע מילוי"
 
 #: menus/widgetbasepopupmenu.cpp:593
 #, kde-format
 msgctxt "align menu"
 msgid "Align"
-msgstr ""
+msgstr "יישור"
 
 #: menus/widgetbasepopupmenu.cpp:594 umlapp.cpp:565
 #, kde-format
 msgid "Align Right"
-msgstr ""
+msgstr "יישור לימין"
 
 #: menus/widgetbasepopupmenu.cpp:595 umlapp.cpp:570
 #, kde-format
 msgid "Align Left"
-msgstr ""
+msgstr "יישור לשמאל"
 
 #: menus/widgetbasepopupmenu.cpp:596 umlapp.cpp:575
 #, kde-format
 msgid "Align Top"
-msgstr ""
+msgstr "יישור למעלה"
 
 #: menus/widgetbasepopupmenu.cpp:597 umlapp.cpp:580
 #, kde-format
 msgid "Align Bottom"
-msgstr ""
+msgstr "יישור למטה"
 
 #: menus/widgetbasepopupmenu.cpp:599 umlapp.cpp:585
 #, kde-format
 msgid "Align Vertical Middle"
-msgstr ""
+msgstr "יישור למרכז האנכי"
 
 #: menus/widgetbasepopupmenu.cpp:600 umlapp.cpp:590
 #, kde-format
 msgid "Align Horizontal Middle"
-msgstr ""
+msgstr "יישור למרכז האופקי"
 
 #: menus/widgetbasepopupmenu.cpp:601 umlapp.cpp:595
 #, kde-format
 msgid "Align Vertical Distribute"
-msgstr ""
+msgstr "יישור לפי פיזור אנכי"
 
 #: menus/widgetbasepopupmenu.cpp:602 umlapp.cpp:600
 #, kde-format
 msgid "Align Horizontal Distribute"
-msgstr ""
+msgstr "יישור לפי פיזור אופקי"
 
 #: model_utils.cpp:561
 #, kde-format
@@ -5131,7 +5133,7 @@ msgstr ""
 #: model_utils.cpp:580
 #, kde-format
 msgid "new_node"
-msgstr ""
+msgstr "מפרק_חדש"
 
 #: model_utils.cpp:581 umlmodel/umlcanvasobject.cpp:197
 #, kde-format
@@ -5276,7 +5278,7 @@ msgstr ""
 #: model_utils.cpp:629 umlwidgets/widget_utils.cpp:888
 #, kde-format
 msgid "New node"
-msgstr ""
+msgstr "מפרק חדש"
 
 #: model_utils.cpp:630
 #, kde-format
@@ -5421,7 +5423,7 @@ msgstr ""
 #: model_utils.cpp:671 umlwidgets/widget_utils.cpp:934
 #, kde-format
 msgid "Enter the name of the new node:"
-msgstr ""
+msgstr "נא למלא שם למפרק החדש:"
 
 #: model_utils.cpp:672
 #, kde-format
@@ -5566,7 +5568,7 @@ msgstr ""
 #: model_utils.cpp:713 umlwidgets/widget_utils.cpp:979
 #, kde-format
 msgid "Rename node"
-msgstr ""
+msgstr "שינוי שם מפרק"
 
 #: model_utils.cpp:714
 #, kde-format
@@ -5711,7 +5713,7 @@ msgstr ""
 #: model_utils.cpp:755 umlwidgets/widget_utils.cpp:1025
 #, kde-format
 msgid "Enter the new name of the node:"
-msgstr ""
+msgstr "נא למלא את השם החדש של המפרק:"
 
 #: model_utils.cpp:756
 #, kde-format
@@ -6913,7 +6915,7 @@ msgstr ""
 #: umbrello.kcfg:563
 #, kde-format
 msgid "Documentation tags"
-msgstr ""
+msgstr "תגיות תיעוד"
 
 #. i18n: ectx: whatsthis, entry (docToolTag), group (CPP Code Generation)
 #: umbrello.kcfg:564
@@ -6949,7 +6951,7 @@ msgstr ""
 #: umbrello.kcfg:580
 #, kde-format
 msgid "Build ANT Document (D)"
-msgstr ""
+msgstr "בניית מסמך ANT‏ (D)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentD), group (D Code Generation)
 #: umbrello.kcfg:581
@@ -6985,7 +6987,7 @@ msgstr ""
 #: umbrello.kcfg:597
 #, kde-format
 msgid "Build ANT Document (Java)"
-msgstr ""
+msgstr "בניית מסמך ANT‏ (Java)"
 
 #. i18n: ectx: whatsthis, entry (buildANTDocumentJava), group (Java Code Generation)
 #: umbrello.kcfg:598
@@ -7991,7 +7993,7 @@ msgstr ""
 msgid ""
 "An operation with the same name and signature already exists. You cannot add "
 "it again."
-msgstr ""
+msgstr "כבר קיימת פעולה באותו השם והחתימה. אי אפשר להוסיף אותה שוב."
 
 #: umlmodel/umlfolder.cpp:450
 #, kde-format
@@ -8011,7 +8013,7 @@ msgstr ""
 #: umlmodel/umlobject.cpp:1233
 #, kde-format
 msgid "Artifact &name:"
-msgstr ""
+msgstr "שם &חפץ:"
 
 #: umlmodel/umlobject.cpp:1236
 #, kde-format
@@ -8081,7 +8083,7 @@ msgstr "שם עותק:"
 #: umlmodel/umloperation.cpp:290
 #, kde-format
 msgid "new_parameter"
-msgstr ""
+msgstr "משתנה_חדש"
 
 #: umlmodel/umlpackage.cpp:171
 #, kde-format
