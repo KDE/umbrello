@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-24 00:46+0000\n"
-"PO-Revision-Date: 2026-07-21 16:50+0300\n"
+"PO-Revision-Date: 2026-07-28 08:38+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 26.04.1\n"
+"X-Generator: Lokalize 26.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6626,85 +6626,85 @@ msgstr ""
 #: umbrello.kcfg:404
 #, kde-format
 msgid "Force Documentation"
-msgstr ""
+msgstr "אילוץ תיעוד"
 
 #. i18n: ectx: whatsthis, entry (forceDoc), group (Code Generation)
 #: umbrello.kcfg:405
 #, kde-format
 msgid "Enables/Disables Verbose Documentation"
-msgstr ""
+msgstr "הפעלת/כיבוי תיעוד מפורט"
 
 #. i18n: ectx: label, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:409
 #, kde-format
 msgid "Section Comment Policy"
-msgstr ""
+msgstr "מדיניות מקטע ההערות"
 
 #. i18n: ectx: whatsthis, entry (writeSectionComments), group (Code Generation)
 #: umbrello.kcfg:410
 #, kde-format
 msgid "Whether section comments shall be written"
-msgstr ""
+msgstr "האם לכתוב מקטעי הערות"
 
 #. i18n: ectx: label, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:419
 #, kde-format
 msgid "Headings Directory"
-msgstr ""
+msgstr "תיקיית כותרות"
 
 #. i18n: ectx: whatsthis, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:420
 #, kde-format
 msgid "The Path in which the headings are stored"
-msgstr ""
+msgstr "הנתיב לאחסון הכותרות"
 
 #. i18n: ectx: label, entry (includeHeadings), group (Code Generation)
 #: umbrello.kcfg:424
 #, kde-format
 msgid "Include headings"
-msgstr ""
+msgstr "לכלול כותרות"
 
 #. i18n: ectx: whatsthis, entry (includeHeadings), group (Code Generation)
 #: umbrello.kcfg:425
 #, kde-format
 msgid "Enables/Disables inclusion of headings"
-msgstr ""
+msgstr "הפעלת/כיבוי הכללת כותרות"
 
 #. i18n: ectx: label, entry (indentationAmount), group (Code Generation)
 #: umbrello.kcfg:429
 #, kde-format
 msgid "Indentation Amount"
-msgstr ""
+msgstr "כמות הזחה"
 
 #. i18n: ectx: whatsthis, entry (indentationAmount), group (Code Generation)
 #: umbrello.kcfg:430
 #, kde-format
 msgid "The amount of indentation"
-msgstr ""
+msgstr "כמות ההזחה"
 
 #. i18n: ectx: label, entry (indentationType), group (Code Generation)
 #: umbrello.kcfg:435
 #, kde-format
 msgid "Indentation Type"
-msgstr ""
+msgstr "סוג ההזחה"
 
 #. i18n: ectx: whatsthis, entry (indentationType), group (Code Generation)
 #: umbrello.kcfg:436
 #, kde-format
 msgid "The Type of Indentation"
-msgstr ""
+msgstr "הסוג של ההזחה"
 
 #. i18n: ectx: label, entry (lineEndingType), group (Code Generation)
 #: umbrello.kcfg:445
 #, kde-format
 msgid "Line Ending Type"
-msgstr ""
+msgstr "סוג סיומת שורה"
 
 #. i18n: ectx: whatsthis, entry (lineEndingType), group (Code Generation)
 #: umbrello.kcfg:446
 #, kde-format
 msgid "The type of line ending ( or new line type )"
-msgstr ""
+msgstr "הסוג של סיומת השורה ( או סוג שורה חדשה )"
 
 #. i18n: ectx: label, entry (modnamePolicy), group (Code Generation)
 #. i18n: ectx: whatsthis, entry (modnamePolicy), group (Code Generation)
