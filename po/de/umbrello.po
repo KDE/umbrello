@@ -1433,7 +1433,7 @@ msgstr "Alle Markierungen aufheben."
 #: codeimpwizard/codeimpselectpage.cpp:140
 #, kde-format
 msgid "Add file extensions like e.g. '*.h *.hpp'."
-msgstr "Dateierweiterungen wie z. B. '*.h *.hpp' hinzufügen."
+msgstr "Dateierweiterungen wie z. B. '*.h *.hpp' hinzufügen."
 
 #. i18n: ectx: property (toolTip), widget (QLabel, ui_languageLabel)
 #: codeimpwizard/codeimpselectpage.ui:37
@@ -6443,7 +6443,7 @@ msgstr "Sichtbarkeit anzeigen"
 #: umbrello.kcfg:210
 #, kde-format
 msgid "Show the Visibility of the Attributes ( eg: private, public, protected)"
-msgstr "Sichtbarkeit der Attribute (z. B. private, public, protected) anzeigen"
+msgstr "Sichtbarkeit der Attribute (z. B. private, public, protected) anzeigen"
 
 #. i18n: ectx: label, entry (showAtts), group (Class Options)
 #: umbrello.kcfg:214

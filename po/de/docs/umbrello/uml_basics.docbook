@@ -8,7 +8,7 @@
 >Dieses Kapitel gibt einen kurzen Überblick über die &UML;-Grundlagen. Man sollte sich aber bewusst sein, dass es keine vollständige &UML;-Anleitung ist. Wenn man mehr über die Unified Modelling Language, oder allgemein über Software Analyse und Design, lernen will, dann sollte man eines der vielen zu diesem Thema publizierten Bücher lesen. Man kann natürlich die vielen Einführungen im Internet zum Thema als Ausgangspunkt wählen. </para>
 
 <para
->Die Unified Modelling Language (&UML;) ist eine Diagrammnotation zum spezifizieren, visualisieren und dokumentieren von Modellen objektorientierter Softwaresysteme. &UML; ist kein Vorgehensmodell, d.h. es sagt nichts über die einzelnen Schritte aus, die nötig sind, um ein System zu gestalten. Aber &UML; hilft ihnen ihr Design zu visualisieren und mit anderen zu kommunizieren. Der &UML;-Standard wird von der Object Management Group (<acronym
+>Die Unified Modelling Language (&UML;) ist eine Diagrammnotation zum spezifizieren, visualisieren und dokumentieren von Modellen objektorientierter Softwaresysteme. &UML; ist kein Vorgehensmodell, d. h. es sagt nichts über die einzelnen Schritte aus, die nötig sind, um ein System zu gestalten. Aber &UML; hilft ihnen ihr Design zu visualisieren und mit anderen zu kommunizieren. Der &UML;-Standard wird von der Object Management Group (<acronym
 >OMG</acronym
 >) gepflegt und ist der Industriestandard zur Beschreibung von Softwaremodellen. </para>
 <para
@@ -821,7 +821,7 @@
 <para
 ><emphasis
 >Hinweis</emphasis
->: Es gibt keine Standard-Schreibweise zur Darstellung von ER-Diagrammen. In der Literatur werden verschiedene System verwendet. Die in Umbrello benutzen Konzepte und Schreibweisen orientieren sich an folgendem Buch: <emphasis
+>: Es gibt keine Standard-Schreibweise zur Darstellung von ER-Diagrammen. In der Literatur werden verschiedene System verwendet. Die in Umbrello verwenden Konzepte und Schreibweisen orientieren sich an folgendem Buch: <emphasis
 >Elmasri R. and Navathe S. (2004). Fundamentals of Database Systems 4th edn. Addison Wesley.</emphasis
 > </para>
 <para

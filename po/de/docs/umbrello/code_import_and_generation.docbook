@@ -108,7 +108,7 @@
 <para
 >Der dritte und letzte Schritt des Assistenten zeigt den Status der eigentlichen Quelltexterstellung. Man muss lediglich auf den „Erstellen“-Knopf klicken, damit die entsprechenden Dateien mit den Klassen erstellt werden. </para>
 <para
->Es ist zu beachten, dass die gesetzten Parameter nur für die aktuelle Quelltexterstellung gültig sind. Beim nächsten Aufruf des Assistenten muss man alle Parameter, wie z. B. Ordner mit Vorlagendateien für Kopfzeilen, Vorgaben für Überschreibung usw., neu einstellen. Man kann allerdings die Voreinstellungen dauerhaft über den <guilabel
+>Es ist zu beachten, dass die gesetzten Parameter nur für die aktuelle Quelltexterstellung gültig sind. Beim nächsten Aufruf des Assistenten muss man alle Parameter, wie z. B. Ordner mit Vorlagendateien für Kopfzeilen, Vorgaben für Überschreibung usw., neu einstellen. Man kann allerdings die Voreinstellungen dauerhaft über den <guilabel
 >Quelltexterstellung</guilabel
 >-Abschnitt in den &umbrello;-Einstellungen festlegen. Diese Einstellungen erreicht man über <menuchoice
 ><guimenu
