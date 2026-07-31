@@ -232,7 +232,7 @@
 <para
 >Um ein im Modell bereits existierendes Element in das aktuelle Diagramm einzufügen, muss man es lediglich von der Baumansicht in das Diagramm an die gewünschte Stelle ziehen. Man kann das Element jederzeit mit dem Auswahlwerkzeug im Diagramm verschieben. </para>
 <para
->Die zweite Möglichkeit Elemente hinzuzufügen ist es, eines der Werkzeuge aus der vertikalen Werkzeugleiste am rechten Bildschirmrand zu benutzen. Dabei wird das Element ebenfalls dem Modell hinzugefügt. </para>
+>Die zweite Möglichkeit Elemente hinzuzufügen ist es, eines der Werkzeuge aus der vertikalen Werkzeugleiste am rechten Bildschirmrand zu verwenden. Dabei wird das Element ebenfalls dem Modell hinzugefügt. </para>
 <para
 >Die Diagramm-Werkzeugleiste befindet sich standardmäßig am oberen Fenster des Anwendungsfensters, man kann sie allerdings an andere Stellen verschieben oder sie über allen anderen Bereichen schwebend positionieren. Die in dieser Werkzeugleiste verfügbaren Werkzeuge, dargestellt durch die verschiedenen Knöpfe, ändern sich je nach momentan bearbeiteten Diagrammtyp. Das momentan gewählte Werkzeug wird hervorgehoben in der Werkzeugleiste dargestellt. Über die Taste &Esc; kann man das Auswahl-Werkzeug auswählen. </para>
 <para
@@ -299,7 +299,7 @@
 >Operationseigenschaften</emphasis
 >. Um einen neuen Parameter zu einer Operation hinzuzufügen, muss man den Knopf <guibutton
 >Neuer Parameter</guibutton
-> benutzen, der den Dialog <emphasis
+> verwenden, der den Dialog <emphasis
 >Parametereigenschaften</emphasis
 > aufruft. Diese Seite ist immer verfügbar. </para>
 </sect3>
