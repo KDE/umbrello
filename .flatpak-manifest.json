@@ -7,17 +7,28 @@
     "runtime-version": "5.15-24.08",
     "sdk": "org.kde.Sdk",
     "command": "umbrello5",
-    "tags": ["nightly"],
+    "tags": [
+        "nightly"
+    ],
     "desktop-file-name-suffix": " (Nightly)",
-    "finish-args": ["--share=ipc", "--socket=x11", "--socket=wayland" ],
-
+    "finish-args": [
+        "--share=ipc",
+        "--socket=x11",
+        "--socket=wayland"
+    ],
     "modules": [
         {
             "name": "umbrello",
             "buildsystem": "cmake-ninja",
-            "config-opts": ["-DBUILD_KF5=ON", "-DENABLE_TESTING=OFF"],
+            "config-opts": [
+                "-DBUILD_KF5=ON",
+                "-DENABLE_TESTING=OFF"
+            ],
             "sources": [
-                { "type": "dir", "path": "." }
+                {
+                    "type": "dir",
+                    "path": "."
+                }
             ]
         }
     ]
