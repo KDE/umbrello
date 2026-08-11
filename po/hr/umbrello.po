@@ -2637,7 +2637,8 @@ msgstr "Pogledaj  kod"
 
 #: dialogs/pages/classoptionspage.cpp:152
 #: dialogs/pages/classoptionspage.cpp:246
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Documentation"
 msgid "&Documentation"
 msgstr "&Dokumentacija"
 
@@ -3834,8 +3835,7 @@ msgid "&Name:"
 msgstr "&Ime:"
 
 #: dialogs/umloperationdialog.cpp:108
-#, fuzzy, kde-format
-#| msgid "&Abstract operation"
+#, kde-format
 msgid "&Abstract operation"
 msgstr "&Apstraktna operacija"
 
@@ -7318,8 +7318,7 @@ msgstr "&Kod"
 
 #. i18n: ectx: Menu (active_lang_menu)
 #: umbrelloui.rc.cmake:70
-#, fuzzy, kde-format
-#| msgid "Active &Language"
+#, kde-format
 msgid "Active &Language"
 msgstr "Aktivni &jezik"
 
