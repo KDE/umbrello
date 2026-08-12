@@ -78,7 +78,7 @@ msgstr ""
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\">بشكل مبدئي، يُستخدَم <a href="
 "\"http://php.net\"><span style=\" text-decoration: underline; color:#0000ff;"
-"\">دليل PHP</span></a> المتاح على الإنترنت عن بُعد. بدلاً من ذلك، اضبط الموقع "
+"\">دليل PHP</span></a> المتاح على الإنترنت عن بُعد. بدلًا من ذلك، اضبط الموقع "
 "لنسخة محلية من الدليل بلغتك المفضّلة. تأكّد من تنزيل حزمة <span style=\" font-"
 "style:italic;\">\"ملفات HTML المتعددة\"</span>.</p></body></html>"
 
@@ -240,7 +240,7 @@ msgid ""
 "in traits instead."
 msgstr ""
 "يُعرِّف كل من %1 و %2 الخاصية نفسها (%3) في تكوين %1. قد يكون هذا غير متوافق، "
-"لتحسين القابلية للصيانة، فكّر في استخدام توابع الوصول في السِمات بدلاً من ذلك."
+"لتحسين القابلية للصيانة، فكّر في استخدام توابع الوصول في السِمات بدلًا من ذلك."
 
 #: duchain/builders/declarationbuilder.cpp:881
 #, kde-format

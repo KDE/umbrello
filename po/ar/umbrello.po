@@ -4135,7 +4135,7 @@ msgstr "تصدير إلى DocBook..."
 #: docgenerators/main.cpp:33 docgenerators/main.cpp:46
 #, kde-format
 msgid "Umbrello UML Modeller autonomous code generator"
-msgstr "مُنشئ الشيفرة آلياً لأمبريلو UML Modeller"
+msgstr "مُنشئ الشيفرة آليًا لأمبريلو UML Modeller"
 
 #: docgenerators/main.cpp:48
 #, kde-format
@@ -4226,7 +4226,7 @@ msgid ""
 "\"http://www.omg.org/spec/\">http://www.omg.org/spec/</a>."
 msgstr ""
 "أمبريلو – بيئة تطوير مرئية للبرمجيات، ترتكز على لغة النمذجة الموحدة (UML) "
-"القياسية في الصناعة.<br/>انظر أيضاً <a href=\"http://www.omg.org/spec/"
+"القياسية في الصناعة.<br/>انظر أيضًا <a href=\"http://www.omg.org/spec/"
 "\">http://www.omg.org/spec/</a>."
 
 #: main.cpp:123
@@ -4329,7 +4329,7 @@ msgstr "احذف النقطة"
 #: menus/associationwidgetpopupmenu.cpp:52
 #, kde-format
 msgid "Choose Spline points automatically"
-msgstr "اختر نقاط الشق آلياً"
+msgstr "اختر نقاط الشق آليًا"
 
 #: menus/associationwidgetpopupmenu.cpp:67
 #, kde-format
@@ -4523,7 +4523,7 @@ msgstr "صدّر كصورة..."
 #: menus/listpopupmenu.cpp:187
 #, kde-format
 msgid "Externalize Folder..."
-msgstr "اجعل المجلد خارجياً..."
+msgstr "اجعل المجلد خارجيًا..."
 
 #: menus/listpopupmenu.cpp:188 menus/widgetbasepopupmenu.cpp:535
 #, kde-format
@@ -4538,7 +4538,7 @@ msgstr "النشاط النهائي"
 #: menus/listpopupmenu.cpp:190
 #, kde-format
 msgid "Flip Horizontal"
-msgstr "اقلب أفقياً"
+msgstr "اقلب أفقيًا"
 
 #: menus/listpopupmenu.cpp:191
 #, kde-format
@@ -4615,7 +4615,7 @@ msgstr "الواجهة المطلوبة"
 #: menus/listpopupmenu.cpp:208
 #, kde-format
 msgid "Internalize Folder"
-msgstr "اجعل المجلد داخلياً"
+msgstr "اجعل المجلد داخليًا"
 
 #: menus/listpopupmenu.cpp:209 worktoolbar.cpp:370
 #, kde-format
@@ -5092,22 +5092,22 @@ msgstr "حاذ لأسفل"
 #: menus/widgetbasepopupmenu.cpp:599 umlapp.cpp:585
 #, kde-format
 msgid "Align Vertical Middle"
-msgstr "حاذِ الوسط عمودياً"
+msgstr "حاذِ الوسط عموديًا"
 
 #: menus/widgetbasepopupmenu.cpp:600 umlapp.cpp:590
 #, kde-format
 msgid "Align Horizontal Middle"
-msgstr "حاذِ الوسط أفقياً"
+msgstr "حاذِ الوسط أفقيًا"
 
 #: menus/widgetbasepopupmenu.cpp:601 umlapp.cpp:595
 #, kde-format
 msgid "Align Vertical Distribute"
-msgstr "حاذِ التوزيع عمودياً"
+msgstr "حاذِ التوزيع عموديًا"
 
 #: menus/widgetbasepopupmenu.cpp:602 umlapp.cpp:600
 #, kde-format
 msgid "Align Horizontal Distribute"
-msgstr "حاذِ التوزيع أفقياً"
+msgstr "حاذِ التوزيع أفقيًا"
 
 #: model_utils.cpp:561
 #, kde-format
@@ -5941,7 +5941,7 @@ msgstr "ذلك الاسم قيد الاستخدام بالفعل."
 #: umlmodel/umlentity.cpp:276
 #, kde-format
 msgid "Not a Unique Name"
-msgstr "ليس اسماً فريداً"
+msgstr "ليس اسمًا فريدًا"
 
 #: refactoring/refactoringassistant.cpp:443
 #, kde-format
@@ -5997,7 +5997,7 @@ msgstr "سمة بذلك الاسم موجودة بالفعل في %1.\n"
 #: refactoring/refactoringassistant.cpp:844
 #, kde-format
 msgid "Choose a different name."
-msgstr "اختر اسماً مختلفاً."
+msgstr "اختر اسمًا مختلفًا."
 
 #: toolbarstateassociation.cpp:182 toolbarstateassociation.cpp:280
 #, kde-format
@@ -6120,7 +6120,7 @@ msgstr "دعم التراجع"
 #: umbrello.kcfg:23
 #, kde-format
 msgid "Undo Support is enabled when this is true"
-msgstr "مكّن دعم التراجع عندما يكون هذا صحيحاً"
+msgstr "مكّن دعم التراجع عندما يكون هذا صحيحًا"
 
 #. i18n: ectx: label, entry (tabdiagrams), group (General Options)
 #: umbrello.kcfg:27
@@ -6240,7 +6240,7 @@ msgstr "اللغة المبدئية عند البدء"
 #: umbrello.kcfg:103
 #, kde-format
 msgid "The Language that Umbrello should start with by default"
-msgstr "اللغة التي يجب أن يبدأ بها أمبريلو مبدئياً"
+msgstr "اللغة التي يجب أن يبدأ بها أمبريلو مبدئيًا"
 
 #. i18n: ectx: label, entry (uml2), group (General Options)
 #: umbrello.kcfg:135
@@ -6617,7 +6617,7 @@ msgstr "أنشئ مصنوعات للملفات المستوردة"
 #: umbrello.kcfg:350
 #, kde-format
 msgid "Create an artifact in the component view for each imported file"
-msgstr "أنشئ مصنوعاً في عرض المركّبات لكل ملف مستورد"
+msgstr "أنشئ مصنوعًا في عرض المركّبات لكل ملف مستورد"
 
 #. i18n: ectx: label, entry (resolveDependencies), group (Code Importer)
 #: umbrello.kcfg:354
@@ -6647,7 +6647,7 @@ msgstr "ادعم معيار C++11 عند استيراد الشيفرة"
 #: umbrello.kcfg:366
 #, kde-format
 msgid "Auto Generate Empty Constructors"
-msgstr "ولّد منشئات فارغة آلياً"
+msgstr "ولّد منشئات فارغة آليًا"
 
 #. i18n: ectx: whatsthis, entry (autoGenEmptyConstructors), group (Code Generation)
 #: umbrello.kcfg:367
@@ -6695,7 +6695,7 @@ msgstr "اضبط نطاق وصول السمة المبدئي"
 #: umbrello.kcfg:404
 #, kde-format
 msgid "Force Documentation"
-msgstr "اجعل التوثيق إلزامياً"
+msgstr "اجعل التوثيق إلزاميًا"
 
 #. i18n: ectx: whatsthis, entry (forceDoc), group (Code Generation)
 #: umbrello.kcfg:405
@@ -6804,7 +6804,7 @@ msgstr "السياسة التي يجب اتباعها عندما تحدث تعا
 #: umbrello.kcfg:483
 #, kde-format
 msgid "Auto Generate Accessors"
-msgstr "ولّد الوُصَلات آلياً"
+msgstr "ولّد الوُصَلات آليًا"
 
 #. i18n: ectx: whatsthis, entry (autoGenAccessors), group (CPP Code Generation)
 #: umbrello.kcfg:484
@@ -6996,7 +6996,7 @@ msgstr "الوَسم المستخدَم لتوليد توثيق دوكسجين (
 #: umbrello.kcfg:570
 #, kde-format
 msgid "Auto Generate Attribute Accessors ( D )"
-msgstr "ولّد وُصَلات السمة آلياً (D)"
+msgstr "ولّد وُصَلات السمة آليًا (D)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:571
@@ -7008,7 +7008,7 @@ msgstr "مكّن/عطّل التوليد الآلي لوُصَلات السمة 
 #: umbrello.kcfg:575
 #, kde-format
 msgid "Auto Generate Assoc Accessors ( D )"
-msgstr "ولّد وُصَلات الارتباط آلياً (D)"
+msgstr "ولّد وُصَلات الارتباط آليًا (D)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsD), group (D Code Generation)
 #: umbrello.kcfg:576
@@ -7032,7 +7032,7 @@ msgstr "مكّن/عطّل بناء مستند ANT (D)"
 #: umbrello.kcfg:587
 #, kde-format
 msgid "Auto Generate Attribute Accessors (Java)"
-msgstr "ولّد وُصَلات السمة آلياً (Java)"
+msgstr "ولّد وُصَلات السمة آليًا (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:588
@@ -7044,7 +7044,7 @@ msgstr "مكّن/عطّل التوليد الآلي لوُصَلات السمة 
 #: umbrello.kcfg:592
 #, kde-format
 msgid "Auto Generate Assoc Accessors (Java)"
-msgstr "ولّد وُصَلات الارتباط آلياً (Java)"
+msgstr "ولّد وُصَلات الارتباط آليًا (Java)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:593
@@ -7068,7 +7068,7 @@ msgstr "مكّن/عطّل بناء مستند ANT (Java)"
 #: umbrello.kcfg:604
 #, kde-format
 msgid "Auto Generate Attribute Accessors (Ruby)"
-msgstr "ولّد وُصَلات السمة آلياً (Ruby)"
+msgstr "ولّد وُصَلات السمة آليًا (Ruby)"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:605
