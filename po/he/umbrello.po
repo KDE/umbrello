@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-24 00:46+0000\n"
-"PO-Revision-Date: 2026-07-28 08:38+0300\n"
+"PO-Revision-Date: 2026-08-13 09:42+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -6033,49 +6033,49 @@ msgstr ""
 #: umbrello.kcfg:17
 #, kde-format
 msgid "Image Mime Type"
-msgstr ""
+msgstr "סוג תוכן תמונה"
 
 #. i18n: ectx: whatsthis, entry (imageMimeType), group (General Options)
 #: umbrello.kcfg:18
 #, kde-format
 msgid "The Mime Type of the Images"
-msgstr ""
+msgstr "סוג התוכן של התמונות"
 
 #. i18n: ectx: label, entry (undo), group (General Options)
 #: umbrello.kcfg:22
 #, kde-format
 msgid "Undo Support"
-msgstr ""
+msgstr "תמיכה בהסגה"
 
 #. i18n: ectx: whatsthis, entry (undo), group (General Options)
 #: umbrello.kcfg:23
 #, kde-format
 msgid "Undo Support is enabled when this is true"
-msgstr ""
+msgstr "הסגה נתמכת כשזה מוגדר לחיובי (true)"
 
 #. i18n: ectx: label, entry (tabdiagrams), group (General Options)
 #: umbrello.kcfg:27
 #, kde-format
 msgid "Tabbed Diagrams"
-msgstr ""
+msgstr "תרשימים מחולקים ללשוניות"
 
 #. i18n: ectx: whatsthis, entry (tabdiagrams), group (General Options)
 #: umbrello.kcfg:28
 #, kde-format
 msgid "Enables/Disables Tabbed View of Diagrams in the view area"
-msgstr ""
+msgstr "הפעלת/כיבוי תצוגה בלשוניות של תרשימים באזור התצוגה"
 
 #. i18n: ectx: label, entry (newcodegen), group (General Options)
 #: umbrello.kcfg:32
 #, kde-format
 msgid "New Code Generator"
-msgstr ""
+msgstr "יצרן קוד חדש"
 
 #. i18n: ectx: whatsthis, entry (newcodegen), group (General Options)
 #: umbrello.kcfg:33
 #, kde-format
 msgid "Enables/Disables Support for the New Code Generator"
-msgstr ""
+msgstr "הפעלת/כיבוי תמיכה ביצרן הקוד החדש"
 
 #. i18n: ectx: label, entry (layoutType), group (General Options)
 #: umbrello.kcfg:37
@@ -6117,13 +6117,13 @@ msgstr "הפעלת/השבתת שמירה אוטומטית במרווחי זמן 
 #: umbrello.kcfg:60
 #, kde-format
 msgid "Auto Save Time ( Old )"
-msgstr ""
+msgstr "זמן שמירה אוטומטית ( ישן )"
 
 #. i18n: ectx: whatsthis, entry (time), group (General Options)
 #: umbrello.kcfg:61
 #, kde-format
 msgid "Auto Save Time Interval ( Old )"
-msgstr ""
+msgstr "זמן הפרש בין שמירות אוטומטיות ( ישן )"
 
 #. i18n: ectx: label, entry (autosavesuffix), group (General Options)
 #: umbrello.kcfg:74
@@ -6189,7 +6189,7 @@ msgstr "הפעלת/השבתת סימון UML2"
 #: umbrello.kcfg:141
 #, kde-format
 msgid "Show or hide the debug window and UML objects window"
-msgstr ""
+msgstr "הצגת או הסתרת חלון ניפוי השגיאות וחלון עצמי ה־UML"
 
 #. i18n: ectx: whatsthis, entry (useFillColor), group (UI Options)
 #: umbrello.kcfg:148
@@ -6249,13 +6249,13 @@ msgstr "הצבע של הטקסט"
 #: umbrello.kcfg:172
 #, kde-format
 msgid "Show Doc Window"
-msgstr ""
+msgstr "הצגת חלון תיעוד"
 
 #. i18n: ectx: whatsthis, entry (showDocWindow), group (UI Options)
 #: umbrello.kcfg:173
 #, kde-format
 msgid "Enables/Disables showing of the doc window"
-msgstr ""
+msgstr "הפעלת/כיבוי הצגת חלון התיעוד"
 
 #. i18n: ectx: whatsthis, entry (uiFont), group (UI Options)
 #: umbrello.kcfg:178
@@ -8244,7 +8244,7 @@ msgstr "לחיצה עם Ctrl ולחצן העכבר השמאלי מוחקת נק�
 #: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
 msgid "Enter the name of the diagram referenced"
-msgstr ""
+msgstr "נא למלא את שם התרשים בהפניה"
 
 #: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
@@ -8262,12 +8262,12 @@ msgstr "-"
 #: umlwidgets/combinedfragmentwidget.cpp:436
 #, kde-format
 msgid "Enter the guard of the loop"
-msgstr ""
+msgstr "נא למלא הגנה ללולאה"
 
 #: umlwidgets/combinedfragmentwidget.cpp:307
 #, kde-format
 msgid "Enter the first alternative name"
-msgstr ""
+msgstr "נא למלא את השם החלופי הראשון"
 
 #: umlwidgets/combinedfragmentwidget.cpp:426
 #, kde-format
@@ -8292,7 +8292,7 @@ msgstr "נא למלא שם תרשים מופנה:"
 #: umlwidgets/combinedfragmentwidget.cpp:437
 #, kde-format
 msgid "Enter the guard of the loop:"
-msgstr ""
+msgstr "נא למלא הגנה ללולאה:"
 
 #: umlwidgets/floatingdashlinewidget.cpp:102
 #, kde-format
@@ -8359,27 +8359,27 @@ msgstr "נא לבחור את סוג ההערה"
 #: umlwidgets/objectnodewidget.cpp:220
 #, kde-format
 msgid "Enter Object Node Name"
-msgstr ""
+msgstr "נא למלא שם לעצם מפרק"
 
 #: umlwidgets/objectnodewidget.cpp:221
 #, kde-format
 msgid "Enter the name of the object node :"
-msgstr ""
+msgstr "נא למלא שם למפרק העצם:"
 
 #: umlwidgets/objectnodewidget.cpp:298
 #, kde-format
 msgid "Select Object node type"
-msgstr ""
+msgstr "בחירת סוג מפרק עצם"
 
 #: umlwidgets/objectnodewidget.cpp:298
 #, kde-format
 msgid "Select the object node type"
-msgstr ""
+msgstr "בחירת סוג מפרק העצם"
 
 #: umlwidgets/objectnodewidget.cpp:304
 #, kde-format
 msgid "Enter the name of the data store node"
-msgstr ""
+msgstr "נא למלא את שם מפרק אחסון הנתונים"
 
 #: umlwidgets/objectnodewidget.cpp:304
 #, kde-format
