@@ -6,7 +6,6 @@ include:
     file:
       # qt5 support will be discontinued
       #- /gitlab-templates/linux.yml
-      - /gitlab-templates/flatpak.yml
       - /gitlab-templates/linux-qt6-lts.yml
 
 distro_kf5_leap:
