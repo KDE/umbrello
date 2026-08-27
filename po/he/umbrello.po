@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-24 00:46+0000\n"
-"PO-Revision-Date: 2026-08-13 09:42+0300\n"
+"PO-Revision-Date: 2026-08-26 12:59+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -7140,7 +7140,7 @@ msgstr "יי&צוא הדגם ל־XHTML"
 #: umlapp.cpp:351
 #, kde-format
 msgid "&New Class Wizard..."
-msgstr ""
+msgstr "&אשף מחלקה חדשה…"
 
 #: umlapp.cpp:355
 #, kde-format
@@ -7150,7 +7150,7 @@ msgstr ""
 #: umlapp.cpp:362
 #, kde-format
 msgid "Code &Importing Wizard..."
-msgstr ""
+msgstr "אשף ייבוא &קוד…"
 
 #: umlapp.cpp:372
 #, kde-format
@@ -7483,7 +7483,7 @@ msgstr "לא מילאת ביטוי לחיפוש"
 #: umlapp.cpp:1304
 #, kde-format
 msgid "'%1': %2 found"
-msgstr ""
+msgstr "‚%1’: %2 נמצא"
 
 #: umlapp.cpp:1360
 #, kde-format
@@ -7526,6 +7526,8 @@ msgid ""
 "Umbrello could not paste the clipboard contents.  The objects in the "
 "clipboard may be of the wrong type to be pasted here."
 msgstr ""
+"Umbrello לא הצליח להדביק את תוכן לוח הגזירים. העצמים בלוח הגזירים עלולים "
+"להיות מסוג שגוי בהתאם להדבקה לכאן."
 
 #: umlapp.cpp:1549 umlviewimageexporter.cpp:80 umlviewimageexporterall.cpp:103
 #, kde-format
@@ -7596,7 +7598,7 @@ msgstr "יומ&ן"
 #: umlappprivate.h:257
 #, kde-format
 msgid "&UML Objects"
-msgstr ""
+msgstr "&עצמי UML"
 
 #: umlappprivate.h:271
 #, kde-format
@@ -7852,12 +7854,12 @@ msgstr "התרשימים נטענים…"
 #: umldoc.cpp:3411
 #, kde-format
 msgid "/autosave%1"
-msgstr ""
+msgstr "/שמירה_אוטומטית%1"
 
 #: umllistview.cpp:530
 #, kde-format
 msgid "Externalize Folder"
-msgstr ""
+msgstr "החצנת תיקייה"
 
 #: umllistview.cpp:550
 #, kde-format
@@ -7952,7 +7954,7 @@ msgstr "שינוי השם בוטל"
 #: umllistviewitem.cpp:719
 #, kde-format
 msgid "Renaming an item of listview type %1 is not yet implemented."
-msgstr ""
+msgstr "שינוי שם של סוג תצוגת רשימה %1 עדיין לא מומש."
 
 #: umllistviewitem.cpp:720
 #, kde-format
@@ -8008,7 +8010,7 @@ msgstr "לא ניתן לפתוח את קובץ התיקייה %1."
 #: umlmodel/umlobject.cpp:1230
 #, kde-format
 msgid "Actor &name:"
-msgstr ""
+msgstr "&שם שחקן:"
 
 #: umlmodel/umlobject.cpp:1233
 #, kde-format
@@ -8068,7 +8070,7 @@ msgstr "שם &חבילה:"
 #: umlmodel/umlobject.cpp:1266
 #, kde-format
 msgid "Port &name:"
-msgstr ""
+msgstr "שם &פתחה:"
 
 #: umlmodel/umlobject.cpp:1272
 #, kde-format
