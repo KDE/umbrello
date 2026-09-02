@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-24 00:46+0000\n"
-"PO-Revision-Date: 2026-08-26 12:59+0300\n"
+"PO-Revision-Date: 2026-09-01 21:25+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4054,17 +4054,17 @@ msgstr ""
 #: docgenerators/docbookgenerator.cpp:89
 #, kde-format
 msgid "Generating Docbook..."
-msgstr ""
+msgstr "Docbook נוצר…"
 
 #: docgenerators/docbookgenerator.cpp:113
 #, kde-format
 msgid "Docbook Generation Complete..."
-msgstr ""
+msgstr "יצירת Docbook הושלמה…"
 
 #: docgenerators/docbookgenerator.cpp:116
 #, kde-format
 msgid "Docbook Generation Failed..."
-msgstr ""
+msgstr "יצירת Docbook נכשלה…"
 
 #: docgenerators/docbookgeneratorjob.cpp:191
 #, kde-format
@@ -4086,7 +4086,7 @@ msgstr ""
 #: docgenerators/main.cpp:50
 #, kde-format
 msgid "Gael de Chalendar (aka Kleag)"
-msgstr ""
+msgstr "גאל דה שלנדה (ידוע גם בתור Kleag)"
 
 #: docgenerators/main.cpp:51 main.cpp:128
 #, kde-format
@@ -4096,37 +4096,37 @@ msgstr ""
 #: docgenerators/main.cpp:55
 #, kde-format
 msgid "File to transform"
-msgstr ""
+msgstr "קובץ להתמרה"
 
 #: docgenerators/main.cpp:56
 #, kde-format
 msgid "The XSLT file to use"
-msgstr ""
+msgstr "קובץ ה־XSLT לשימוש"
 
 #: docgenerators/xhtmlgenerator.cpp:105
 #, kde-format
 msgid "Generating XHTML..."
-msgstr ""
+msgstr "XHTML נוצר…"
 
 #: docgenerators/xhtmlgenerator.cpp:135
 #, kde-format
 msgid "XHTML Generation Complete..."
-msgstr ""
+msgstr "יצירת XHTML הושלמה…"
 
 #: docgenerators/xhtmlgenerator.cpp:141
 #, kde-format
 msgid "Copying CSS..."
-msgstr ""
+msgstr "CSS מועתק…"
 
 #: docgenerators/xhtmlgenerator.cpp:158
 #, kde-format
 msgid "Finished Copying CSS..."
-msgstr ""
+msgstr "העתקת CSS הסתיימה…"
 
 #: docgenerators/xhtmlgenerator.cpp:161
 #, kde-format
 msgid "Failed Copying CSS..."
-msgstr ""
+msgstr "העתקת CSS נכשלה…"
 
 #: docwindow.cpp:44
 #, kde-format
@@ -4138,7 +4138,7 @@ msgstr ""
 #: docwindow.cpp:81
 #, kde-format
 msgid "Documentation type"
-msgstr ""
+msgstr "סוג תיעוד"
 
 #: docwindow.cpp:88
 #, kde-format
@@ -4148,7 +4148,7 @@ msgstr ""
 #: layoutgenerator.cpp:261
 #, kde-format
 msgid "Apply layout"
-msgstr ""
+msgstr "החלת פריסה"
 
 #: main.cpp:117
 #, kde-format
@@ -5183,67 +5183,67 @@ msgstr ""
 #: model_utils.cpp:610 umlwidgets/widget_utils.cpp:872
 #, kde-format
 msgid "New actor"
-msgstr ""
+msgstr "שחקן חדש"
 
 #: model_utils.cpp:611 umlwidgets/widget_utils.cpp:873
 #, kde-format
 msgid "New artifact"
-msgstr ""
+msgstr "תוצר חדש"
 
 #: model_utils.cpp:612 umlwidgets/widget_utils.cpp:874
 #, kde-format
 msgid "New association"
-msgstr ""
+msgstr "שיוך חדש"
 
 #: model_utils.cpp:613
 #, kde-format
 msgid "New attribute"
-msgstr ""
+msgstr "מאפיין חדש"
 
 #: model_utils.cpp:614 umlwidgets/widget_utils.cpp:876
 #, kde-format
 msgid "New category"
-msgstr ""
+msgstr "קטגוריה חדשה"
 
 #: model_utils.cpp:615
 #, kde-format
 msgid "New check constraint"
-msgstr ""
+msgstr "אילוץ בדיקה חדש"
 
 #: model_utils.cpp:616 umlwidgets/widget_utils.cpp:877
 #, kde-format
 msgid "New class"
-msgstr ""
+msgstr "מחלקה חדשה"
 
 #: model_utils.cpp:617 umlwidgets/widget_utils.cpp:879
 #, kde-format
 msgid "New component"
-msgstr ""
+msgstr "רכיב חדש"
 
 #: model_utils.cpp:618 umlwidgets/widget_utils.cpp:880
 #, kde-format
 msgid "New datatype"
-msgstr ""
+msgstr "סוג נתונים חדש"
 
 #: model_utils.cpp:619 umlwidgets/widget_utils.cpp:881
 #, kde-format
 msgid "New entity"
-msgstr ""
+msgstr "יישות חדשה"
 
 #: model_utils.cpp:620
 #, kde-format
 msgid "New entity attribute"
-msgstr ""
+msgstr "מאפיין יישות חדש"
 
 #: model_utils.cpp:621
 #, kde-format
 msgid "New entity constraint"
-msgstr ""
+msgstr "אילוץ יישות חדש"
 
 #: model_utils.cpp:622 umlwidgets/widget_utils.cpp:882
 #, kde-format
 msgid "New enum"
-msgstr ""
+msgstr "מונה חדש"
 
 #: model_utils.cpp:623
 #, kde-format
@@ -5253,7 +5253,7 @@ msgstr ""
 #: model_utils.cpp:624
 #, kde-format
 msgid "New folder"
-msgstr ""
+msgstr "תיקייה חדשה"
 
 #: model_utils.cpp:625
 #, kde-format
@@ -5263,17 +5263,17 @@ msgstr ""
 #: model_utils.cpp:626 umlwidgets/widget_utils.cpp:885
 #, kde-format
 msgid "New instance"
-msgstr ""
+msgstr "מופע חדש"
 
 #: model_utils.cpp:627
 #, kde-format
 msgid "New instance attribute"
-msgstr ""
+msgstr "מאפיין מופע חדש"
 
 #: model_utils.cpp:628 umlwidgets/widget_utils.cpp:886
 #, kde-format
 msgid "New interface"
-msgstr ""
+msgstr "ממשק חדש"
 
 #: model_utils.cpp:629 umlwidgets/widget_utils.cpp:888
 #, kde-format
@@ -5283,22 +5283,22 @@ msgstr "מפרק חדש"
 #: model_utils.cpp:630
 #, kde-format
 msgid "New operation"
-msgstr ""
+msgstr "פעולה חדשה"
 
 #: model_utils.cpp:631 umlwidgets/widget_utils.cpp:892
 #, kde-format
 msgid "New package"
-msgstr ""
+msgstr "חבילה חדשה"
 
 #: model_utils.cpp:632 umlwidgets/widget_utils.cpp:894
 #, kde-format
 msgid "New port"
-msgstr ""
+msgstr "פתחה חדשה"
 
 #: model_utils.cpp:633
 #, kde-format
 msgid "New role"
-msgstr ""
+msgstr "תפקיד חדש"
 
 #: model_utils.cpp:634
 #, kde-format
@@ -5308,87 +5308,87 @@ msgstr ""
 #: model_utils.cpp:635
 #, kde-format
 msgid "New template"
-msgstr ""
+msgstr "תבנית חדשה"
 
 #: model_utils.cpp:636
 #, kde-format
 msgid "New unique constraint"
-msgstr ""
+msgstr "אילוץ ייחודי חדש"
 
 #: model_utils.cpp:637 umlwidgets/widget_utils.cpp:901
 #, kde-format
 msgid "New use case"
-msgstr ""
+msgstr "אופן שימוש חדש"
 
 #: model_utils.cpp:640
 #, kde-format
 msgid "New UML object"
-msgstr ""
+msgstr "עצם UML חדש"
 
 #: model_utils.cpp:652 umlwidgets/widget_utils.cpp:918
 #, kde-format
 msgid "Enter the name of the new actor:"
-msgstr ""
+msgstr "נא למלא את השם לשחקן החדש:"
 
 #: model_utils.cpp:653 umlwidgets/widget_utils.cpp:919
 #, kde-format
 msgid "Enter the name of the new artifact:"
-msgstr ""
+msgstr "נא למלא את השם של התוצר החדש:"
 
 #: model_utils.cpp:654 umlwidgets/widget_utils.cpp:920
 #, kde-format
 msgid "Enter the name of the new association:"
-msgstr ""
+msgstr "נא למלא את השם של השיוך החדש:"
 
 #: model_utils.cpp:655
 #, kde-format
 msgid "Enter the name of the new attribute:"
-msgstr ""
+msgstr "נא למלא את השם של המאפיין החדש:"
 
 #: model_utils.cpp:656 umlwidgets/widget_utils.cpp:922
 #, kde-format
 msgid "Enter the name of the new category:"
-msgstr ""
+msgstr "נא למלא את השם של הקטגוריה החדשה:"
 
 #: model_utils.cpp:657
 #, kde-format
 msgid "Enter the name of the new check constraint:"
-msgstr ""
+msgstr "נא למלא את השם של אילוץ הבדיקה החדש:"
 
 #: model_utils.cpp:658 umlwidgets/widget_utils.cpp:923
 #, kde-format
 msgid "Enter the name of the new class:"
-msgstr ""
+msgstr "נא למלא את השם של המחלקה החדשה:"
 
 #: model_utils.cpp:659 umlwidgets/widget_utils.cpp:925
 #, kde-format
 msgid "Enter the name of the new component:"
-msgstr ""
+msgstr "נא למלא את השם של הרכיב החדש:"
 
 #: model_utils.cpp:660 umlwidgets/widget_utils.cpp:926
 #, kde-format
 msgid "Enter the name of the new datatype:"
-msgstr ""
+msgstr "נא למלא את השם של סוג הנתונים החדש:"
 
 #: model_utils.cpp:661 umlwidgets/widget_utils.cpp:927
 #, kde-format
 msgid "Enter the name of the new entity:"
-msgstr ""
+msgstr "נא למלא את השם של היישות החדשה:"
 
 #: model_utils.cpp:662
 #, kde-format
 msgid "Enter the name of the new entity attribute:"
-msgstr ""
+msgstr "נא למלא את השם של מאפיין היישות החדש:"
 
 #: model_utils.cpp:663
 #, kde-format
 msgid "Enter the name of the new entity constraint:"
-msgstr ""
+msgstr "נא למלא את השם של אילוץ היישות החדש:"
 
 #: model_utils.cpp:664 umlwidgets/widget_utils.cpp:928
 #, kde-format
 msgid "Enter the name of the new enum:"
-msgstr ""
+msgstr "נא למלא את שם המונה החדש:"
 
 #: model_utils.cpp:665
 #, kde-format
@@ -5398,7 +5398,7 @@ msgstr ""
 #: model_utils.cpp:666
 #, kde-format
 msgid "Enter the name of the new folder:"
-msgstr ""
+msgstr "נא למלא את השם של התיקייה החדשה:"
 
 #: model_utils.cpp:667
 #, kde-format
@@ -5618,62 +5618,62 @@ msgstr ""
 #: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1009
 #, kde-format
 msgid "Enter the new name of the actor:"
-msgstr ""
+msgstr "נא למלא את השם החדש של השחקן:"
 
 #: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1010
 #, kde-format
 msgid "Enter the new name of the artifact:"
-msgstr ""
+msgstr "נא למלא את השם החדש של התוצר:"
 
 #: model_utils.cpp:738 umlwidgets/widget_utils.cpp:1011
 #, kde-format
 msgid "Enter the new name of the association:"
-msgstr ""
+msgstr "נא למלא את השם החדש של השיוך:"
 
 #: model_utils.cpp:739
 #, kde-format
 msgid "Enter the new name of the attribute:"
-msgstr ""
+msgstr "נא למלא את השם החדש של המאפיין:"
 
 #: model_utils.cpp:740 umlwidgets/widget_utils.cpp:1013
 #, kde-format
 msgid "Enter the new name of the category:"
-msgstr ""
+msgstr "נא למלא את השם החדש של הקטגוריה:"
 
 #: model_utils.cpp:741
 #, kde-format
 msgid "Enter the new name of the check constraint:"
-msgstr ""
+msgstr "נא למלא את השם החדש של אילוץ הבדיקה:"
 
 #: model_utils.cpp:742 umlwidgets/widget_utils.cpp:1014
 #, kde-format
 msgid "Enter the new name of the class:"
-msgstr ""
+msgstr "נא למלא את השם החדש של המחלקה:"
 
 #: model_utils.cpp:743 umlwidgets/widget_utils.cpp:1016
 #, kde-format
 msgid "Enter the new name of the component:"
-msgstr ""
+msgstr "נא למלא את השם החדש של הרכיב:"
 
 #: model_utils.cpp:744 umlwidgets/widget_utils.cpp:1017
 #, kde-format
 msgid "Enter the new name of the datatype:"
-msgstr ""
+msgstr "נא למלא את השם החדש של סוג הנתונים:"
 
 #: model_utils.cpp:745 umlwidgets/widget_utils.cpp:1018
 #, kde-format
 msgid "Enter the new name of the entity:"
-msgstr ""
+msgstr "נא למלא את השם החדש של היישות:"
 
 #: model_utils.cpp:746
 #, kde-format
 msgid "Enter the new name of the entity attribute:"
-msgstr ""
+msgstr "נא למלא את השם החדש של מאפיין היישות:"
 
 #: model_utils.cpp:747
 #, kde-format
 msgid "Enter the new name of the entity constraint:"
-msgstr ""
+msgstr "נא למלא את השם החדש של מגבלת היישות:"
 
 #: model_utils.cpp:748 umlwidgets/widget_utils.cpp:1019
 #, kde-format
@@ -5688,7 +5688,7 @@ msgstr ""
 #: model_utils.cpp:750
 #, kde-format
 msgid "Enter the new name of the folder:"
-msgstr ""
+msgstr "נא למלא את השם החדש של התיקייה:"
 
 #: model_utils.cpp:751
 #, kde-format
@@ -5698,17 +5698,17 @@ msgstr ""
 #: model_utils.cpp:752 umlwidgets/widget_utils.cpp:1022
 #, kde-format
 msgid "Enter the new name of the instance:"
-msgstr ""
+msgstr "נא למלא את השם החדש של המופע:"
 
 #: model_utils.cpp:753
 #, kde-format
 msgid "Enter the new name of the instance attribute:"
-msgstr ""
+msgstr "נא למלא את השם החדש של מאפיין המופע:"
 
 #: model_utils.cpp:754 umlwidgets/widget_utils.cpp:1023
 #, kde-format
 msgid "Enter the new name of the interface:"
-msgstr ""
+msgstr "נא למלא את השם החדש של הממשק:"
 
 #: model_utils.cpp:755 umlwidgets/widget_utils.cpp:1025
 #, kde-format
@@ -5718,22 +5718,22 @@ msgstr "נא למלא את השם החדש של המפרק:"
 #: model_utils.cpp:756
 #, kde-format
 msgid "Enter the new name of the operation:"
-msgstr ""
+msgstr "נא למלא את השם החדש של הפעולה:"
 
 #: model_utils.cpp:757 umlwidgets/widget_utils.cpp:1029
 #, kde-format
 msgid "Enter the new name of the package:"
-msgstr ""
+msgstr "נא למלא את השם החדש של החבילה:"
 
 #: model_utils.cpp:758 umlwidgets/widget_utils.cpp:1031
 #, kde-format
 msgid "Enter the new name of the port:"
-msgstr ""
+msgstr "נא למלא את השם החדש של הפתחה:"
 
 #: model_utils.cpp:759
 #, kde-format
 msgid "Enter the new name of the role:"
-msgstr ""
+msgstr "נא למלא את השם החדש של התפקיד:"
 
 #: model_utils.cpp:760
 #, kde-format
@@ -5743,22 +5743,22 @@ msgstr ""
 #: model_utils.cpp:761
 #, kde-format
 msgid "Enter the new name of the template:"
-msgstr ""
+msgstr "נא למלא את השם החדש של התבנית:"
 
 #: model_utils.cpp:762
 #, kde-format
 msgid "Enter the new name of the unique constraint:"
-msgstr ""
+msgstr "נא למלא את השם החדש של האילוץ הייחודי:"
 
 #: model_utils.cpp:763 umlwidgets/widget_utils.cpp:1038
 #, kde-format
 msgid "Enter the new name of the use case:"
-msgstr ""
+msgstr "נא למלא את השם החדש מקרה השימוש:"
 
 #: model_utils.cpp:766
 #, kde-format
 msgid "Enter the new name of the UML object"
-msgstr ""
+msgstr "נא למלא את השם החדש של עצם ה־UML"
 
 #: model_utils.cpp:1207
 #, kde-format
@@ -6993,7 +6993,7 @@ msgstr "בניית מסמך ANT‏ (Java)"
 #: umbrello.kcfg:598
 #, kde-format
 msgid "Enables/Disables building of ANT Document (Java)"
-msgstr ""
+msgstr "הפעלת/כיבוי בניית מסמכי ANT‏ (Java)"
 
 #. i18n: ectx: label, entry (autoGenerateAttributeAccessorsRuby), group (Ruby Code Generation)
 #: umbrello.kcfg:604
@@ -7276,7 +7276,7 @@ msgstr "תרשים ת&קשורת…"
 #: umlapp.cpp:482
 #, kde-format
 msgid "&Use Case Diagram..."
-msgstr ""
+msgstr "להשתמש ב&תרשים אופן שימוש…"
 
 #: umlapp.cpp:488
 #, kde-format
