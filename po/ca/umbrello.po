@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-24 00:46+0000\n"
-"PO-Revision-Date: 2026-02-24 09:43+0100\n"
+"PO-Revision-Date: 2026-09-06 16:39+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -2870,7 +2870,7 @@ msgstr "Amplada:"
 #: dialogs/pages/diagrampropertiespage.ui:144
 #, kde-format
 msgid "Height:"
-msgstr "Alçada:"
+msgstr "Altura:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_checkBoxShowGrid)
 #: dialogs/pages/diagrampropertiespage.ui:189
@@ -6527,13 +6527,13 @@ msgstr "Àmbit predeterminat de les operacions"
 #: umbrello.kcfg:285
 #, kde-format
 msgid "Height"
-msgstr "Alçada"
+msgstr "Altura"
 
 #. i18n: ectx: whatsthis, entry (height), group (Code Viewer Options)
 #: umbrello.kcfg:286
 #, kde-format
 msgid "Height of the code viewer"
-msgstr "Alçada del visualitzador de codi"
+msgstr "Altura del visualitzador de codi"
 
 #. i18n: ectx: label, entry (width), group (Code Viewer Options)
 #: umbrello.kcfg:291
