@@ -9149,7 +9149,7 @@ msgstr "Saisissez le nouveau nom du composant graphique :"
 #: umlwidgets/widgetbase.cpp:1255 worktoolbar.cpp:337
 #, kde-format
 msgid "Box"
-msgstr "Boîte"
+msgstr "Boite"
 
 #: umlwidgets/widgetbase.cpp:1261
 #, kde-format
