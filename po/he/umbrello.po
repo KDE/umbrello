@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-04-24 00:46+0000\n"
-"PO-Revision-Date: 2026-09-02 09:29+0300\n"
+"PO-Revision-Date: 2026-09-08 09:05+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -877,7 +877,7 @@ msgstr ""
 #: codegenerators/ruby/rubycodegenerationformbase.ui:69
 #, kde-format
 msgid "Hash (#)"
-msgstr ""
+msgstr "סולמית (#)"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_SelectCommentStyle)
 #: codegenerators/ruby/rubycodegenerationformbase.ui:74
@@ -912,7 +912,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.cpp:191
 #, kde-format
 msgid "Language Options"
-msgstr ""
+msgstr "אפשרויות שפה"
 
 #: codegenwizard/codegenoptionspage.cpp:253
 #, kde-format
@@ -1131,13 +1131,13 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:286
 #, kde-format
 msgid "Always"
-msgstr ""
+msgstr "תמיד"
 
 #. i18n: ectx: property (title), widget (QGroupBox, ui_groupBoxLines)
 #: codegenwizard/codegenoptionspage.ui:314
 #, kde-format
 msgid "Lines"
-msgstr ""
+msgstr "שורות"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelType)
 #: codegenwizard/codegenoptionspage.ui:322
@@ -1209,7 +1209,7 @@ msgstr ""
 #: codegenwizard/codegenselectpage.ui:20
 #, kde-format
 msgid "Code Generation Selection"
-msgstr ""
+msgstr "בחירת יצירת קוד"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelListAvailable)
 #: codegenwizard/codegenselectpage.ui:33
@@ -1263,29 +1263,29 @@ msgstr ""
 #: codeimpwizard/codeimpstatuspage.cpp:97
 #, kde-format
 msgid "Not Yet Generated"
-msgstr ""
+msgstr "לא נוצר עדיין"
 
 #: codegenwizard/codegenstatuspage.cpp:170
 #, kde-format
 msgid "Code Generated"
-msgstr ""
+msgstr "נוצר קוד"
 
 #: codegenwizard/codegenstatuspage.cpp:174
 #, kde-format
 msgid "Not Generated"
-msgstr ""
+msgstr "לא נוצר"
 
 #: codegenwizard/codegenstatuspage.cpp:179
 #, kde-format
 msgid "Skipped"
-msgstr ""
+msgstr "נפסח"
 
 #: codegenwizard/codegenstatuspage.cpp:204
 #: codegenwizard/codegenstatuspage.cpp:234
 #: codeimpwizard/codeimpstatuspage.cpp:335
 #, kde-format
 msgid "Cannot open file!"
-msgstr ""
+msgstr "לא ניתן לפתוח קובץ!"
 
 #: codegenwizard/codegenstatuspage.cpp:224
 #, kde-format
@@ -5485,37 +5485,37 @@ msgstr "שינוי שם תוצר"
 #: model_utils.cpp:696 umlwidgets/widget_utils.cpp:965
 #, kde-format
 msgid "Rename association"
-msgstr ""
+msgstr "שינוי שם שיוך"
 
 #: model_utils.cpp:697
 #, kde-format
 msgid "Rename attribute"
-msgstr ""
+msgstr "שינוי שם מאפיין"
 
 #: model_utils.cpp:698 umlwidgets/widget_utils.cpp:967
 #, kde-format
 msgid "Rename category"
-msgstr ""
+msgstr "שינוי שם קטגוריה"
 
 #: model_utils.cpp:699
 #, kde-format
 msgid "Rename check constraint"
-msgstr ""
+msgstr "שינוי שם בדיקת אילוץ"
 
 #: model_utils.cpp:700 umlwidgets/widget_utils.cpp:968
 #, kde-format
 msgid "Rename class"
-msgstr ""
+msgstr "שינוי שם מחלקה"
 
 #: model_utils.cpp:701 umlwidgets/widget_utils.cpp:970
 #, kde-format
 msgid "Rename component"
-msgstr ""
+msgstr "שינוי שם רכיב"
 
 #: model_utils.cpp:702 umlwidgets/widget_utils.cpp:971
 #, kde-format
 msgid "Rename datatype"
-msgstr ""
+msgstr "שינוי שם סוג נתונים"
 
 #: model_utils.cpp:703 umlwidgets/widget_utils.cpp:972
 #, kde-format
@@ -5530,7 +5530,7 @@ msgstr "שינוי שם מאפיין יישות"
 #: model_utils.cpp:705
 #, kde-format
 msgid "Rename entity constraint"
-msgstr ""
+msgstr "שינוי שם אילוץ יישות"
 
 #: model_utils.cpp:706 umlwidgets/widget_utils.cpp:973
 #, kde-format
@@ -5550,7 +5550,7 @@ msgstr "שינוי שם תיקייה"
 #: model_utils.cpp:709
 #, kde-format
 msgid "Rename foreign key constraint"
-msgstr ""
+msgstr "שינוי שם אילוץ מפתח זר"
 
 #: model_utils.cpp:710 umlwidgets/widget_utils.cpp:976
 #, kde-format
@@ -5615,7 +5615,7 @@ msgstr "שינוי שם אופן שימוש"
 #: model_utils.cpp:724
 #, kde-format
 msgid "Rename UML object"
-msgstr ""
+msgstr "שינוי שם פריט UML"
 
 #: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1009
 #, kde-format
@@ -5680,7 +5680,7 @@ msgstr "נא למלא את השם החדש של אילוץ היישות:"
 #: model_utils.cpp:748 umlwidgets/widget_utils.cpp:1019
 #, kde-format
 msgid "Enter the new name of the enum:"
-msgstr ""
+msgstr "נא למלא את השם החדש של המונה:"
 
 #: model_utils.cpp:749
 #, kde-format
@@ -5695,7 +5695,7 @@ msgstr "נא למלא את השם החדש של התיקייה:"
 #: model_utils.cpp:751
 #, kde-format
 msgid "Enter the new name of the foreign key constraint:"
-msgstr ""
+msgstr "נא למלא את השם החדש של אילוץ המפתח הזר:"
 
 #: model_utils.cpp:752 umlwidgets/widget_utils.cpp:1022
 #, kde-format
@@ -5822,12 +5822,12 @@ msgstr "מזהה"
 #: models/objectsmodel.cpp:84
 #, kde-format
 msgid "Saved"
-msgstr ""
+msgstr "נשמר"
 
 #: models/objectsmodel.cpp:86
 #, kde-format
 msgid "Parent"
-msgstr ""
+msgstr "הורה"
 
 #: models/objectsmodel.cpp:88
 #, kde-format
@@ -6263,31 +6263,31 @@ msgstr "הפעלת/כיבוי הצגת חלון התיעוד"
 #: umbrello.kcfg:178
 #, kde-format
 msgid "The Font to be used"
-msgstr ""
+msgstr "הגופן לשימוש"
 
 #. i18n: ectx: label, entry (backgroundColor), group (UI Options)
 #: umbrello.kcfg:182
 #, kde-format
 msgid "Background Color"
-msgstr ""
+msgstr "צבע רקע"
 
 #. i18n: ectx: whatsthis, entry (backgroundColor), group (UI Options)
 #: umbrello.kcfg:183
 #, kde-format
 msgid "The Color of the diagram background"
-msgstr ""
+msgstr "צבע רקע התרשים"
 
 #. i18n: ectx: label, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:187
 #, kde-format
 msgid "Use background color"
-msgstr ""
+msgstr "להשתמש בצבע הרקע"
 
 #. i18n: ectx: whatsthis, entry (useBackgroundColor), group (UI Options)
 #: umbrello.kcfg:188
 #, kde-format
 msgid "Enables/Disables the usage of a custom background color"
-msgstr ""
+msgstr "הפעלת/כיבוי שימוש בצבע רקע מותאם אישית"
 
 #. i18n: ectx: label, entry (gridDotColor), group (UI Options)
 #: umbrello.kcfg:192
@@ -6305,7 +6305,7 @@ msgstr ""
 #: umbrello.kcfg:197
 #, kde-format
 msgid "Use Alignment Guides"
-msgstr ""
+msgstr "להשתמש בקווים מנחים ליישור"
 
 #. i18n: ectx: whatsthis, entry (useAlignmentGuides), group (UI Options)
 #: umbrello.kcfg:198
