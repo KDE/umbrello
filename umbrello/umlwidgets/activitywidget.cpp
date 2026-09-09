@@ -194,8 +194,8 @@ void ActivityWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *op
             const QFontMetrics &fm = getFontMetrics(FT_NORMAL);
             const int fontHeight  = fm.lineSpacing();
             int textStartY = (h / 2) - (fontHeight / 2);
-            qreal xRatio = qreal((h * 60.0) / w) / 100.0;
-            qreal yRatio = 0.6;
+            qreal xRatio = qreal((h * 60.0) / w);
+            qreal yRatio = 60;
             painter->drawRoundedRect(QRectF(0, 0, w, h), xRatio, yRatio, Qt::RelativeSize);
             painter->setPen(textColor());
             painter->setFont(UMLWidget::font());
