@@ -26,6 +26,13 @@ namespace Uml
         void undo();
         UMLView *view() { return m_pUMLView; }
 
+        // Set a pointer to a variable into which the generated scene id is returned
+        // The pointer must remain valid until the command's redo() has completed.
+        void setSceneIdOutput(Uml::ID::Type* output)
+        {
+            m_sceneIdOutput = output;
+        }
+
     private:
         QString                 m_name;
         Uml::DiagramType::Enum  m_type;
@@ -33,6 +40,7 @@ namespace Uml
         UMLView*                m_pUMLView;
         Uml::ID::Type           m_sceneId;
         UMLFolder*              m_parent;
+        ID::Type*               m_sceneIdOutput = nullptr;
     };
 }
 
