@@ -45,6 +45,8 @@ namespace Uml
         // not change after undo/redo because other commands may try to
         // lookup the diagram later.
         m_sceneId = m_pUMLView->umlScene()->ID();
+        if (m_sceneIdOutput)
+            *m_sceneIdOutput = m_sceneId;
     }
 
     void CmdCreateDiagram::undo()

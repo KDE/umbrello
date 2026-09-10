@@ -377,9 +377,11 @@ void DiagramProxyWidget::slotMenuSelection(QAction* action)
     case ListPopupMenu::mt_CombinedState:
         {
             QString diagramName = UMLApp::app()->document()->createDiagramName(Uml::DiagramType::State);
+            Uml::ID::Type sceneID;
             Uml::CmdCreateDiagram* d = new Uml::CmdCreateDiagram(UMLApp::app()->document(), Uml::DiagramType::State, diagramName);
+            d->setSceneIdOutput(&sceneID);
             UMLApp::app()->executeCommand(d);
-            setDiagramLink(d->view()->umlScene()->ID());
+            setDiagramLink(sceneID);
             m_widget->asStateWidget()->setStateType(StateWidget::Combined);
         }
         break;
