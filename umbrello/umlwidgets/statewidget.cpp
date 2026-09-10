@@ -45,6 +45,13 @@ StateWidget::StateWidget(UMLScene * scene, StateType stateType, Uml::ID::Type id
     // We cannot call the reimplemented method minimumSize() in the constructor
     // because the vtable is not yet finalized (i.e. dynamic dispatch does not work).
     setSize(15, 15);
+
+    // Defer the final size until the complete object exists so that
+    // minimumSize() uses StateWidget's implementation.
+    QMetaObject::invokeMethod(this, [this]() {
+        setSize(minimumSize());
+        updateGeometry();
+    }, Qt::QueuedConnection);
 }
 
 /**
