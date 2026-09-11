@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>pics/accept_signal.png</file>
         <file>pics/accept_time_event.png</file>
+        <file>pics/activity.png</file>
         <file>pics/activity-fork.png</file>
         <file>pics/actor.png</file>
         <file>pics/aggregation.png</file>
@@ -32,6 +33,7 @@
         <file>pics/containment.png</file>
         <file>pics/cursor-accept_signal.png</file>
         <file>pics/cursor-accept_time_event.png</file>
+        <file>pics/cursor-activity.png</file>
         <file>pics/cursor-activity-fork.png</file>
         <file>pics/cursor-actor.png</file>
         <file>pics/cursor-aggregation.png</file>
@@ -93,6 +95,7 @@
         <file>pics/CVimplementation_signal.png</file>
         <file>pics/CVimplementation_slot.png</file>
         <file>pics/CVimplementation_var.png</file>
+        <file>pics/CVnamespace.png</file>
         <file>pics/CVprivate_meth.png</file>
         <file>pics/CVprivate_signal.png</file>
         <file>pics/CVprivate_slot.png</file>
