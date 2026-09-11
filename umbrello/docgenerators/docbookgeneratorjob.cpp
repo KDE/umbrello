@@ -30,8 +30,6 @@
 #include <QStandardPaths>
 #include <QTemporaryFile>
 
-extern int xmlLoadExtDtdDefaultValue;
-
 #ifdef USE_SDOCBOOK_LOCAL_COPY
 #define MAX_PATHS 64
 static xmlExternalEntityLoader defaultEntityLoader = NULL;
@@ -111,6 +109,40 @@ static xmlParserInputPtr xsltprocExternalEntityLoader(const char *_URL, const ch
 }
 #endif
 
+static xsltStylesheetPtr parseStylesheet(const QString &xsltFile)
+{
+    QByteArray filename = xsltFile.toLocal8Bit();
+
+    xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
+    if (ctxt == nullptr) {
+        return nullptr;
+    }
+
+    // The DocBook stylesheet needs entity substitution and its external DTD.
+    // NONET prevents fetching DTDs/entities over the network while still
+    // allowing local catalog resolution.
+    const int options = XML_PARSE_NOENT |
+                        XML_PARSE_DTDLOAD |
+                        XML_PARSE_NONET;
+
+    xmlCtxtUseOptions(ctxt, options);
+
+    xmlDocPtr doc = xmlCtxtReadFile(ctxt, filename.constData(), nullptr, options);
+
+    xmlFreeParserCtxt(ctxt);
+
+    if (doc == nullptr) {
+        return nullptr;
+    }
+
+    xsltStylesheetPtr stylesheet = xsltParseStylesheetDoc(doc);
+    if (stylesheet == nullptr) {
+        xmlFreeDoc(doc);
+    }
+
+    return stylesheet;
+}
+
 DocbookGeneratorJob::DocbookGeneratorJob(QObject* parent):
         QThread(parent)
 {
@@ -159,10 +191,7 @@ void DocbookGeneratorJob::run()
     }
 #endif
 
-    xmlSubstituteEntitiesDefault(1);
-    xmlLoadExtDtdDefaultValue = 1;
-    QByteArray byteArrXslFnam = xsltFile.toLatin1();
-    cur = xsltParseStylesheetFile((const xmlChar*)byteArrXslFnam.constData());
+    cur = parseStylesheet(xsltFile);
     if (cur == nullptr) {
         logError1("DocbookGeneratorJob::run: There was a problem parsing stylesheet %1", xsltFile);
         return;
