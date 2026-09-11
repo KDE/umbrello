@@ -33,8 +33,6 @@
 
 DEBUG_REGISTER(Docbook2XhtmlGeneratorJob)
 
-extern int xmlLoadExtDtdDefaultValue;
-
 /**
  * Constructor
  * @param docBookUrl The Url of the Docbook that is to be converted to XHtml
@@ -44,6 +42,40 @@ extern int xmlLoadExtDtdDefaultValue;
 Docbook2XhtmlGeneratorJob::Docbook2XhtmlGeneratorJob(QUrl& docBookUrl, QObject* parent)
     :QThread(parent), m_docbookUrl(docBookUrl)
 {
+}
+
+static xsltStylesheetPtr parseStylesheet(const QString &xsltFile)
+{
+    QByteArray filename = xsltFile.toLocal8Bit();
+
+    xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
+    if (ctxt == nullptr) {
+        return nullptr;
+    }
+
+    // The DocBook stylesheet needs entity substitution and its external DTD.
+    // NONET prevents fetching DTDs/entities over the network while still
+    // allowing local catalog resolution.
+    const int options = XML_PARSE_NOENT |
+                        XML_PARSE_DTDLOAD |
+                        XML_PARSE_NONET;
+
+    xmlCtxtUseOptions(ctxt, options);
+
+    xmlDocPtr doc = xmlCtxtReadFile(ctxt, filename.constData(), nullptr, options);
+
+    xmlFreeParserCtxt(ctxt);
+
+    if (doc == nullptr) {
+        return nullptr;
+    }
+
+    xsltStylesheetPtr stylesheet = xsltParseStylesheetDoc(doc);
+    if (stylesheet == nullptr) {
+        xmlFreeDoc(doc);
+    }
+
+    return stylesheet;
 }
 
 void Docbook2XhtmlGeneratorJob::run()
@@ -62,10 +94,8 @@ void Docbook2XhtmlGeneratorJob::run()
   // use public xml catalogs
   xmlLoadCatalogs(File_Utils::xmlCatalogFilePath().toLocal8Bit().constData());
 
-  xmlSubstituteEntitiesDefault(1);
-  xmlLoadExtDtdDefaultValue = 1;
   logDebug1("Docbook2XhtmlGeneratorJob::run: Parsing stylesheet %1", xsltFileName);
-  cur = xsltParseStylesheetFile((const xmlChar *)xsltFileName.toLatin1().constData());
+  cur = parseStylesheet(xsltFileName);
   logDebug1("Docbook2XhtmlGeneratorJob::run: Parsing file %1", m_docbookUrl.path());
   doc = xmlParseFile((const char*)(m_docbookUrl.path().toUtf8().constData()));
   logDebug0("Docbook2XhtmlGeneratorJob::run: Applying stylesheet");
