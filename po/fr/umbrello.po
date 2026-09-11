@@ -623,7 +623,7 @@ msgstr "chaine"
 #: codegenerators/cpp/cppcodegenerationformbase.ui:295
 #, kde-format
 msgid "<p align=\"center\">String</p>"
-msgstr "<p align=\"center\">Chaîne</p>"
+msgstr "<p align=\"center\">Chaine</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, ui_textLabelListClass)
 #: codegenerators/cpp/cppcodegenerationformbase.ui:311
