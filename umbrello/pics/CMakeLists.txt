@@ -190,3 +190,11 @@ if(BUILD_CURSOR_ICONS)
     generate_cursor_icons("${CURSOR_ICONS}" 32)
 endif()
 
+add_test(
+    NAME check_icons
+    COMMAND
+        ${CMAKE_COMMAND}
+        "-DICONS=${ICONS}"
+        "-DICONS_QRC=${CMAKE_SOURCE_DIR}/umbrello/icons.qrc"
+        -P "${CMAKE_CURRENT_SOURCE_DIR}/CheckIcons.cmake"
+)
