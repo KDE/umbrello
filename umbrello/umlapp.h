@@ -186,6 +186,9 @@ public:
 
     void deleteBirdView();
 
+    /// Used by modal dialogs as parent widget
+    static QWidget *activeWindow();
+
 protected:
     virtual void keyPressEvent(QKeyEvent* e);
     virtual void keyReleaseEvent(QKeyEvent* e);

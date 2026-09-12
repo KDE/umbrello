@@ -29,7 +29,7 @@
  */
 UMLViewImageExporterAll::UMLViewImageExporterAll()
 {
-    m_dialog = new ExportAllViewsDialog(nullptr, "exportAllViewsDialog");
+    m_dialog = new ExportAllViewsDialog(UMLApp::activeWindow(), "exportAllViewsDialog");
 }
 
 /**
