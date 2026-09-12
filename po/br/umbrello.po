@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdesdk/umbrello.pot\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-24 00:46+0000\n"
+"POT-Creation-Date: 2026-09-12 00:48+0000\n"
 "PO-Revision-Date: 2004-09-20 15:44+0200\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: br <LL@li.org>\n"
@@ -4283,7 +4283,7 @@ msgstr "T&euliadur"
 msgid "Role B Visibility"
 msgstr "Gwelusted"
 
-#: docgenerators/docbook2xhtmlgeneratorjob.cpp:59
+#: docgenerators/docbook2xhtmlgeneratorjob.cpp:91
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "Exporting to XHTML..."
@@ -4315,7 +4315,7 @@ msgstr ""
 msgid "Docbook Generation Failed..."
 msgstr "Ne krouit &ket ar restr"
 
-#: docgenerators/docbookgeneratorjob.cpp:191
+#: docgenerators/docbookgeneratorjob.cpp:220
 #, fuzzy, kde-format
 #| msgid "Exporting view..."
 msgid "Exporting to DocBook..."
@@ -6381,13 +6381,13 @@ msgstr ""
 msgid "Enter Activity Name"
 msgstr ""
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:585
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:592
 #: umlwidgets/widget_utils.cpp:824
 #, kde-format
 msgid "new activity"
 msgstr ""
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:587
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:594
 #: umlwidgets/widget_utils.cpp:917
 #, kde-format
 msgid "Enter the name of the new activity:"
@@ -8993,7 +8993,7 @@ msgstr "Roit anv ar skeudenn"
 msgid "Enter the signal name :"
 msgstr "Roit anv nevez ar gobari :"
 
-#: umlwidgets/statewidget.cpp:586
+#: umlwidgets/statewidget.cpp:593
 #, kde-format
 msgid "Enter Activity"
 msgstr ""

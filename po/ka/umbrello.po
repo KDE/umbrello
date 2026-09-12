@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-24 00:46+0000\n"
+"POT-Creation-Date: 2026-09-12 00:48+0000\n"
 "PO-Revision-Date: 2026-02-24 04:43+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -4106,7 +4106,7 @@ msgstr "განხორციელება"
 msgid "Role B Visibility"
 msgstr "B როლის ხილვადობა"
 
-#: docgenerators/docbook2xhtmlgeneratorjob.cpp:59
+#: docgenerators/docbook2xhtmlgeneratorjob.cpp:91
 #, kde-format
 msgid "Exporting to XHTML..."
 msgstr "XHTML-ში გატანა..."
@@ -4136,7 +4136,7 @@ msgstr "Docbook-ის გენერაცია დასრულდა..."
 msgid "Docbook Generation Failed..."
 msgstr "Docbook-ის გენერაცია ჩავარდა..."
 
-#: docgenerators/docbookgeneratorjob.cpp:191
+#: docgenerators/docbookgeneratorjob.cpp:220
 #, kde-format
 msgid "Exporting to DocBook..."
 msgstr "გატანა DocBook-ში..."
@@ -6032,13 +6032,13 @@ msgstr "განადგურება"
 msgid "Enter Activity Name"
 msgstr "შეიყვანეთ აქტივობის სახელი"
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:585
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:592
 #: umlwidgets/widget_utils.cpp:824
 #, kde-format
 msgid "new activity"
 msgstr "ახალი აქტივობა"
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:587
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:594
 #: umlwidgets/widget_utils.cpp:917
 #, kde-format
 msgid "Enter the name of the new activity:"
@@ -8526,7 +8526,7 @@ msgstr "შეიყვანეთ სიგნალის სახელი"
 msgid "Enter the signal name :"
 msgstr "შეიყვანეთ სიგნალის სახელი :"
 
-#: umlwidgets/statewidget.cpp:586
+#: umlwidgets/statewidget.cpp:593
 #, kde-format
 msgid "Enter Activity"
 msgstr "შეიყვანეთ აქტივობა"
