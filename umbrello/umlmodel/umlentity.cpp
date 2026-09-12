@@ -114,7 +114,7 @@ UMLAttribute *UMLEntity::createAttribute(const QString &name /*= QString()*/, UM
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
     while (button == QDialog::Accepted && !goodName && name.isNull()) {
-        QPointer<UMLEntityAttributeDialog> dialog = new UMLEntityAttributeDialog(nullptr, newAttribute);
+        QPointer<UMLEntityAttributeDialog> dialog = new UMLEntityAttributeDialog(UMLApp::activeWindow(), newAttribute);
         button = dialog->exec();
         QString name = newAttribute->name();
 
@@ -167,7 +167,7 @@ UMLUniqueConstraint* UMLEntity::createUniqueConstraint(const QString &name)
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
     while (button == QDialog::Accepted && !goodName && name.isNull()) {
-        QPointer<UMLUniqueConstraintDialog> dialog = new UMLUniqueConstraintDialog(nullptr, newUniqueConstraint);
+        QPointer<UMLUniqueConstraintDialog> dialog = new UMLUniqueConstraintDialog(UMLApp::activeWindow(), newUniqueConstraint);
         button = dialog->exec();
         QString name = newUniqueConstraint->name();
 
@@ -217,7 +217,7 @@ UMLForeignKeyConstraint* UMLEntity::createForeignKeyConstraint(const QString &na
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
     while (button == QDialog::Accepted && !goodName && name.isNull()) {
-        QPointer<UMLForeignKeyConstraintDialog> dialog = new UMLForeignKeyConstraintDialog(nullptr, newForeignKeyConstraint);
+        QPointer<UMLForeignKeyConstraintDialog> dialog = new UMLForeignKeyConstraintDialog(UMLApp::activeWindow(), newForeignKeyConstraint);
         button = dialog->exec();
         QString name = newForeignKeyConstraint->name();
 
@@ -266,7 +266,7 @@ UMLCheckConstraint* UMLEntity::createCheckConstraint(const QString &name)
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
     while (button == QDialog::Accepted && !goodName && name.isNull()) {
-        QPointer<UMLCheckConstraintDialog> dialog = new UMLCheckConstraintDialog(nullptr, newCheckConstraint);
+        QPointer<UMLCheckConstraintDialog> dialog = new UMLCheckConstraintDialog(UMLApp::activeWindow(), newCheckConstraint);
         button = dialog->exec();
         QString name = newCheckConstraint->name();
 

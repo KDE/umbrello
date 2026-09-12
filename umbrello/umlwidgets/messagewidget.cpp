@@ -1391,7 +1391,7 @@ bool MessageWidget::showPropertiesDialog()
     }
     bool result = false;
     UMLApp::app()->docWindow()->updateDocumentation(false);
-    QPointer<MessageWidgetPropertiesDialog> dlg = new MessageWidgetPropertiesDialog(nullptr, this);
+    QPointer<MessageWidgetPropertiesDialog> dlg = new MessageWidgetPropertiesDialog(UMLApp::activeWindow(), this);
     if (dlg->exec()) {
         m_pFText->setMessageText();
         UMLApp::app()->docWindow()->showDocumentation(this, true);

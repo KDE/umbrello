@@ -271,7 +271,7 @@ UMLOperation* UMLClassifier::createOperation(
         op->setName(uniqChildName(UMLObject::ot_Operation));
 
         while (true) {
-            QPointer<UMLOperationDialog> operationDialog = new UMLOperationDialog(nullptr, op);
+            QPointer<UMLOperationDialog> operationDialog = new UMLOperationDialog(UMLApp::activeWindow(), op);
             if(operationDialog->exec() != QDialog::Accepted) {
                 delete op;
                 delete operationDialog;
@@ -401,7 +401,7 @@ UMLObject* UMLClassifier::createTemplate(const QString& currentName /*= QString(
     int button = QDialog::Accepted;
 
     while (button == QDialog::Accepted && !goodName) {
-        QPointer<UMLTemplateDialog> templateDialog = new UMLTemplateDialog(nullptr, newTemplate);
+        QPointer<UMLTemplateDialog> templateDialog = new UMLTemplateDialog(UMLApp::activeWindow(), newTemplate);
         button = templateDialog->exec();
         name = newTemplate->name();
 
@@ -774,7 +774,7 @@ UMLAttribute* UMLClassifier::createAttribute(const QString &name,
     //check for name.isNull() stops dialog being shown
     //when creating attribute via list view
     while (button == QDialog::Accepted && !goodName && name.isNull()) {
-        QPointer<UMLAttributeDialog> attributeDialog = new UMLAttributeDialog(nullptr, newAttribute);
+        QPointer<UMLAttributeDialog> attributeDialog = new UMLAttributeDialog(UMLApp::activeWindow(), newAttribute);
         button = attributeDialog->exec();
         QString name = newAttribute->name();
 

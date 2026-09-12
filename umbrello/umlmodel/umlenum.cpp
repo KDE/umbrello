@@ -98,7 +98,7 @@ UMLObject* UMLEnum::createEnumLiteral(const QString& name)
     //check for name.isNull() stops dialog being shown
     //when creating enum literal via list view
     while (ok && !goodName && name.isNull()) {
-        ok = newEnumLiteral->showPropertiesDialog(UMLApp::app());
+        ok = newEnumLiteral->showPropertiesDialog(UMLApp::activeWindow());
         QString name = newEnumLiteral->name();
 
         if(name.length() == 0) {

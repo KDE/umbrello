@@ -2511,7 +2511,7 @@ void UMLApp::slotViewsExportImages()
     //delete m_printSettings;
     m_printSettings = new DiagramPrintPage(nullptr, m_doc);
 
-    DiagramSelectionDialog dlg(m_printSettings);
+    DiagramSelectionDialog dlg(m_printSettings, UMLApp::activeWindow());
     if (dlg.exec() == QDialog::Accepted)
         m_imageExporterAll->exportViews(m_printSettings);
 }
@@ -2950,6 +2950,11 @@ void UMLApp::createBirdView(UMLView *view)
 void UMLApp::deleteBirdView()
 {
     m_d->deleteBirdView();
+}
+
+QWidget *UMLApp::activeWindow()
+{
+    return QApplication::activeWindow();
 }
 
 /**
