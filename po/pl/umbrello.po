@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-24 00:46+0000\n"
+"POT-Creation-Date: 2026-09-12 02:42+0000\n"
 "PO-Revision-Date: 2023-03-25 09:24+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -4106,7 +4106,7 @@ msgstr "Implementacja"
 msgid "Role B Visibility"
 msgstr "Widoczność roli B"
 
-#: docgenerators/docbook2xhtmlgeneratorjob.cpp:59
+#: docgenerators/docbook2xhtmlgeneratorjob.cpp:91
 #, kde-format
 msgid "Exporting to XHTML..."
 msgstr "Eksport do formatu XHTML..."
@@ -4136,7 +4136,7 @@ msgstr "Generacja plików Docbook zakończona..."
 msgid "Docbook Generation Failed..."
 msgstr "Generacja plików Docbook nie powiodła się..."
 
-#: docgenerators/docbookgeneratorjob.cpp:191
+#: docgenerators/docbookgeneratorjob.cpp:220
 #, kde-format
 msgid "Exporting to DocBook..."
 msgstr "Eksportowanie do formatu DocBook..."
@@ -6031,13 +6031,13 @@ msgstr "zniszcz"
 msgid "Enter Activity Name"
 msgstr "Wpisz nazwę czynności"
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:585
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:592
 #: umlwidgets/widget_utils.cpp:824
 #, kde-format
 msgid "new activity"
 msgstr "nowa czynność"
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:587
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:594
 #: umlwidgets/widget_utils.cpp:917
 #, kde-format
 msgid "Enter the name of the new activity:"
@@ -8527,7 +8527,7 @@ msgstr "Wpisz nazwę sygnału"
 msgid "Enter the signal name :"
 msgstr "Wpisz nazwę sygnału :"
 
-#: umlwidgets/statewidget.cpp:586
+#: umlwidgets/statewidget.cpp:593
 #, kde-format
 msgid "Enter Activity"
 msgstr "Wprowadź czynność"

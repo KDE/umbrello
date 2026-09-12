@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-24 00:46+0000\n"
+"POT-Creation-Date: 2026-09-12 02:42+0000\n"
 "PO-Revision-Date: 2007-10-28 14:03+0200\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@licei2.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -4069,7 +4069,7 @@ msgstr "Рэалізацыя"
 msgid "Role B Visibility"
 msgstr "Бачнасць ролі B"
 
-#: docgenerators/docbook2xhtmlgeneratorjob.cpp:59
+#: docgenerators/docbook2xhtmlgeneratorjob.cpp:91
 #, fuzzy, kde-format
 msgid "Exporting to XHTML..."
 msgstr "Выхад..."
@@ -4099,7 +4099,7 @@ msgstr ""
 msgid "Docbook Generation Failed..."
 msgstr "Майстар генеравання кода..."
 
-#: docgenerators/docbookgeneratorjob.cpp:191
+#: docgenerators/docbookgeneratorjob.cpp:220
 #, fuzzy, kde-format
 msgid "Exporting to DocBook..."
 msgstr "Выхад..."
@@ -5983,13 +5983,13 @@ msgstr ""
 msgid "Enter Activity Name"
 msgstr "Увядзіце імя дзейнасці"
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:585
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:592
 #: umlwidgets/widget_utils.cpp:824
 #, fuzzy, kde-format
 msgid "new activity"
 msgstr "новая дзейнасць"
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:587
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:594
 #: umlwidgets/widget_utils.cpp:917
 #, fuzzy, kde-format
 msgid "Enter the name of the new activity:"
@@ -8461,7 +8461,7 @@ msgstr "Увядзіце імя дыяграмы"
 msgid "Enter the signal name :"
 msgstr "Увядзіце імя аперацыі:"
 
-#: umlwidgets/statewidget.cpp:586
+#: umlwidgets/statewidget.cpp:593
 #, fuzzy, kde-format
 msgid "Enter Activity"
 msgstr "Увядзіце дзейнасць"

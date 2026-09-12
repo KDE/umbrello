@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-24 00:46+0000\n"
+"POT-Creation-Date: 2026-09-12 02:42+0000\n"
 "PO-Revision-Date: 2007-02-25 15:47+0730\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: KDE <kde-i18n-doc@kde.org>\n"
@@ -4087,7 +4087,7 @@ msgstr "Tiada padanan"
 msgid "Role B Visibility"
 msgstr "Papar penanda"
 
-#: docgenerators/docbook2xhtmlgeneratorjob.cpp:59
+#: docgenerators/docbook2xhtmlgeneratorjob.cpp:91
 #, fuzzy, kde-format
 msgid "Exporting to XHTML..."
 msgstr "Kuncupkan Semua Blok"
@@ -4117,7 +4117,7 @@ msgstr ""
 msgid "Docbook Generation Failed..."
 msgstr "Tidak dapat membuka '%1'. Fail tidak wujud."
 
-#: docgenerators/docbookgeneratorjob.cpp:191
+#: docgenerators/docbookgeneratorjob.cpp:220
 #, fuzzy, kde-format
 msgid "Exporting to DocBook..."
 msgstr "Kuncupkan Semua Blok"
@@ -6010,13 +6010,13 @@ msgstr ""
 msgid "Enter Activity Name"
 msgstr "Name=KDevelop: KDE/C++"
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:585
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:592
 #: umlwidgets/widget_utils.cpp:824
 #, fuzzy, kde-format
 msgid "new activity"
 msgstr "Teks baru"
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:587
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:594
 #: umlwidgets/widget_utils.cpp:917
 #, kde-format
 msgid "Enter the name of the new activity:"
@@ -8480,7 +8480,7 @@ msgstr "Name=KDevelop: KDE/C++"
 msgid "Enter the signal name :"
 msgstr "Name=KDevelop: KDE/C++"
 
-#: umlwidgets/statewidget.cpp:586
+#: umlwidgets/statewidget.cpp:593
 #, kde-format
 msgid "Enter Activity"
 msgstr ""

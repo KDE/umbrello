@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-24 00:46+0000\n"
+"POT-Creation-Date: 2026-09-12 02:42+0000\n"
 "PO-Revision-Date: 2009-03-01 11:33+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -4196,7 +4196,7 @@ msgstr "इम्प्लीमेंटेसन"
 msgid "Role B Visibility"
 msgstr "भूमिका बी दृस्यता"
 
-#: docgenerators/docbook2xhtmlgeneratorjob.cpp:59
+#: docgenerators/docbook2xhtmlgeneratorjob.cpp:91
 #, kde-format
 msgid "Exporting to XHTML..."
 msgstr "एक्सएचटीएमएल मं निर्यात करत हे..."
@@ -4226,7 +4226,7 @@ msgstr "डाकबुक बनाना पूरा..."
 msgid "Docbook Generation Failed..."
 msgstr "डाकबुग बनाना फेल..."
 
-#: docgenerators/docbookgeneratorjob.cpp:191
+#: docgenerators/docbookgeneratorjob.cpp:220
 #, kde-format
 msgid "Exporting to DocBook..."
 msgstr "डाकबुक मं निर्यात करत हे..."
@@ -6295,13 +6295,13 @@ msgstr ""
 msgid "Enter Activity Name"
 msgstr "गतिविधि नाम भरव"
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:585
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:592
 #: umlwidgets/widget_utils.cpp:824
 #, kde-format
 msgid "new activity"
 msgstr "नवा काम"
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:587
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:594
 #: umlwidgets/widget_utils.cpp:917
 #, kde-format
 msgid "Enter the name of the new activity:"
@@ -8850,7 +8850,7 @@ msgstr "सिग्नल नाम भरव"
 msgid "Enter the signal name :"
 msgstr "सिग्नल नाम भरव :"
 
-#: umlwidgets/statewidget.cpp:586
+#: umlwidgets/statewidget.cpp:593
 #, kde-format
 msgid "Enter Activity"
 msgstr "काम भरव"

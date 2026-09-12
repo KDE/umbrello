@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-04-24 00:46+0000\n"
+"POT-Creation-Date: 2026-09-12 02:42+0000\n"
 "PO-Revision-Date: 2021-01-18 19:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -4255,7 +4255,7 @@ msgstr "ஆவணமாக்கம் "
 msgid "Role B Visibility"
 msgstr "பங்குb தெரியும் அளவு"
 
-#: docgenerators/docbook2xhtmlgeneratorjob.cpp:59
+#: docgenerators/docbook2xhtmlgeneratorjob.cpp:91
 #, fuzzy, kde-format
 msgid "Exporting to XHTML..."
 msgstr "வெளியேறுகிறது"
@@ -4286,7 +4286,7 @@ msgstr ""
 msgid "Docbook Generation Failed..."
 msgstr "குறிமுறை உருவாக்கல் வழிகாட்டி "
 
-#: docgenerators/docbookgeneratorjob.cpp:191
+#: docgenerators/docbookgeneratorjob.cpp:220
 #, fuzzy, kde-format
 msgid "Exporting to DocBook..."
 msgstr "வெளியேறுகிறது"
@@ -6318,13 +6318,13 @@ msgstr ""
 msgid "Enter Activity Name"
 msgstr "செயல்பாட்டின் பெயரை உள்ளிடு"
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:585
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:592
 #: umlwidgets/widget_utils.cpp:824
 #, kde-format
 msgid "new activity"
 msgstr "புதிய செயற்பாடு"
 
-#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:587
+#: toolbarstateother.cpp:278 umlwidgets/statewidget.cpp:594
 #: umlwidgets/widget_utils.cpp:917
 #, kde-format
 msgid "Enter the name of the new activity:"
@@ -8984,7 +8984,7 @@ msgstr "மாநிலத்தின் பெயர்"
 msgid "Enter the signal name :"
 msgstr "செயல்பாடு பெயரை உள்ளிடு: "
 
-#: umlwidgets/statewidget.cpp:586
+#: umlwidgets/statewidget.cpp:593
 #, kde-format
 msgid "Enter Activity"
 msgstr "செயல்பாட்டை இடு"
