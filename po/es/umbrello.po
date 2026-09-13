@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 02:42+0000\n"
+"POT-Creation-Date: 2026-09-13 02:39+0000\n"
 "PO-Revision-Date: 2026-02-24 12:23+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -7681,7 +7681,7 @@ msgstr "Seleccione archivo(s) a importar."
 msgid "Select directory to import:"
 msgstr "Seleccione directorio a importar:"
 
-#: umlapp.cpp:3166
+#: umlapp.cpp:3171
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Generación XHTML fallida."
