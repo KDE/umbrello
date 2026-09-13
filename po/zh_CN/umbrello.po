@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 00:48+0000\n"
+"POT-Creation-Date: 2026-09-13 00:48+0000\n"
 "PO-Revision-Date: 2024-04-22 16:05\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -7587,7 +7587,7 @@ msgstr "选择要导入的文件："
 msgid "Select directory to import:"
 msgstr "选择要导入的文件："
 
-#: umlapp.cpp:3166
+#: umlapp.cpp:3171
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "XHTML 生成失败。"

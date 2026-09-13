@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 00:48+0000\n"
+"POT-Creation-Date: 2026-09-13 00:48+0000\n"
 "PO-Revision-Date: 2023-07-29 17:38+0300\n"
 "Last-Translator: Theofilos Intzoglou <int.teo@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -7706,7 +7706,7 @@ msgstr "Επιλογή αρχείου(ων) για εισαγωγή:"
 msgid "Select directory to import:"
 msgstr "Επιλογή καταλόγου για εισαγωγή:"
 
-#: umlapp.cpp:3166
+#: umlapp.cpp:3171
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr "Αποτυχία δημιουργίας XHTML."

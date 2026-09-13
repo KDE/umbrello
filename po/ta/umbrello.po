@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-12 00:48+0000\n"
+"POT-Creation-Date: 2026-09-13 00:48+0000\n"
 "PO-Revision-Date: 2021-01-18 19:24+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -8066,7 +8066,7 @@ msgstr "ஏற்றுமதி செய்ய வேண்டிய வகு
 msgid "Select directory to import:"
 msgstr "ஏற்றுமதி செய்ய வேண்டிய வகுப்புகளை தேர்வு செய்"
 
-#: umlapp.cpp:3166
+#: umlapp.cpp:3171
 #, kde-format
 msgid "XHTML Generation failed ."
 msgstr ""
