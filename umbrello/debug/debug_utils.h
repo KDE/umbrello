@@ -197,4 +197,5 @@ QString toString(const T& value)
 #define logDebug6(s, a, b, c, d, e, f) if (UMLApp::app()->logToConsole() || Tracer::instance()->isEnabled(DBG_SRC)) \
         do { QString fmt = QString(QStringLiteral(s)).arg(a).arg(b).arg(c).arg(d).arg(e).arg(f); UMLApp::app()->logDebug(fmt); } while (0)
 
+void debugDialogState(const char *label, QDialog *dialog);
 #endif

@@ -11,8 +11,11 @@
 
 #include <KLocalizedString>
 
+#include <QApplication>
+#include <QDialog>
 #include <QDir>
 #include <QFileInfo>
+#include <QWindow>
 
 #include <atomic>
 
@@ -445,5 +448,43 @@ void Tracer::slotItemClicked(QTreeWidgetItem* item, int column)
     }
     default:
         break;
+    }
+}
+
+void debugDialogState(const char *label, QDialog *dialog)
+{
+    qDebug().noquote()
+            << "\n========== " << label << " ==========";
+
+    qDebug() << "dialog             =" << dialog;
+    qDebug() << "parentWidget       =" << dialog->parentWidget();
+    qDebug() << "parent QObject      =" << dialog->parent();
+    qDebug() << "window              =" << dialog->window();
+    qDebug() << "flags               =" << dialog->windowFlags();
+    qDebug() << "modality            =" << dialog->windowModality();
+    qDebug() << "isModal             =" << dialog->isModal();
+    qDebug() << "isVisible           =" << dialog->isVisible();
+    qDebug() << "isActiveWindow      =" << dialog->isActiveWindow();
+
+    QWidget *parent = dialog->parentWidget();
+    if (parent) {
+        qDebug() << "parent->window()    =" << parent->window();
+        qDebug() << "parent isWindow     =" << parent->isWindow();
+        qDebug() << "parent active       =" << parent->isActiveWindow();
+        qDebug() << "parent windowHandle =" << parent->windowHandle();
+    }
+
+    qDebug() << "QApp activeWindow   =" << QApplication::activeWindow();
+
+    QWindow *window = dialog->windowHandle();
+
+    qDebug() << "dialog windowHandle =" << window;
+
+    if (window) {
+        qDebug() << "QWindow active      =" << window->isActive();
+        qDebug() << "QWindow visible     =" << window->isVisible();
+        qDebug() << "transientParent     =" << window->transientParent();
+        qDebug() << "QWindow parent      =" << window->parent();
+        qDebug() << "visibility          =" << window->visibility();
     }
 }
