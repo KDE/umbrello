@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 00:48+0000\n"
+"POT-Creation-Date: 2026-09-16 00:48+0000\n"
 "PO-Revision-Date: 2023-06-02 20:37+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -1585,13 +1585,13 @@ msgstr "Valmis."
 msgid "No code importer for file: %1"
 msgstr "Ei koodintuontia tiedostolle: %1"
 
-#: debug/debug_utils.cpp:144
+#: debug/debug_utils.cpp:147
 #, kde-format
 msgid "Class Name"
 msgstr "Luokan nimi"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
-#: debug/debug_utils.cpp:336 dialogs/finddialog.ui:82
+#: debug/debug_utils.cpp:339 dialogs/finddialog.ui:82
 #, kde-format
 msgid "All"
 msgstr "Kaikki"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 00:48+0000\n"
+"POT-Creation-Date: 2026-09-16 00:48+0000\n"
 "PO-Revision-Date: 2026-02-24 12:23+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -1585,13 +1585,13 @@ msgstr "Preparado."
 msgid "No code importer for file: %1"
 msgstr "No hay ningún importador de código para el archivo: %1"
 
-#: debug/debug_utils.cpp:144
+#: debug/debug_utils.cpp:147
 #, kde-format
 msgid "Class Name"
 msgstr "Nombre de la clase"
 
 #. i18n: ectx: property (text), widget (QRadioButton, ui_categoryAll)
-#: debug/debug_utils.cpp:336 dialogs/finddialog.ui:82
+#: debug/debug_utils.cpp:339 dialogs/finddialog.ui:82
 #, kde-format
 msgid "All"
 msgstr "Todo"
