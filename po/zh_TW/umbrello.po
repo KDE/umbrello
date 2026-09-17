@@ -10,19 +10,20 @@
 # Franklin Weng <franklin@goodhorse.idv.tw>, 2012, 2013, 2014, 2015.
 # Jeff Huang <s8321414@gmail.com>, 2016.
 # pan93412 <pan93412@gmail.com>, 2018, 2019.
+# SPDX-FileCopyrightText: 2026 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-16 00:48+0000\n"
-"PO-Revision-Date: 2024-06-10 23:11+0900\n"
-"Last-Translator: pan93412 <pan93412@gmail.com>\n"
-"Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
+"PO-Revision-Date: 2026-09-17 02:32+0900\n"
+"Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
+"Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.07.90\n"
+"X-Generator: Lokalize 26.11.70\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
@@ -2515,7 +2516,7 @@ msgstr "可執行(&E)"
 #: dialogs/pages/classgeneralpage.cpp:223
 #, kde-format
 msgid "Draw as actor"
-msgstr "繪製成主角"
+msgstr "繪製成參與者"
 
 #: dialogs/pages/classgeneralpage.cpp:228
 #, kde-format
@@ -2731,7 +2732,7 @@ msgstr "C++ - 匯入"
 #: dialogs/pages/codeimportoptionspage.ui:66
 #, kde-format
 msgid "For each imported file create an artifact in the component view"
-msgstr "在組件檢視中對每個匯入的檔案建立產出 "
+msgstr "在組件檢視中對每個匯入的檔案建立產物"
 
 #. i18n: ectx: property (text), widget (QCheckBox, resolveDependenciesCheckBox)
 #: dialogs/pages/codeimportoptionspage.ui:73
@@ -3066,8 +3067,7 @@ msgid "Use alignment guides"
 msgstr ""
 
 #: dialogs/pages/uioptionspage.cpp:70
-#, fuzzy, kde-format
-#| msgid "Associations"
+#, kde-format
 msgctxt "Association options"
 msgid "Associations"
 msgstr "關聯"
@@ -3439,11 +3439,10 @@ msgid "Choice"
 msgstr "選擇"
 
 #: dialogs/statedialog.cpp:160
-#, fuzzy, kde-format
-#| msgid "CombinedFragment"
+#, kde-format
 msgctxt "combined state in statechart"
 msgid "Combined"
-msgstr "已組合片段"
+msgstr "組合"
 
 #: dialogs/statedialog.cpp:168
 #, kde-format
@@ -4320,10 +4319,9 @@ msgid "import files from directory <dir>"
 msgstr "從目錄匯入 <dir>"
 
 #: main.cpp:168
-#, fuzzy, kde-format
-#| msgid "set active language"
+#, kde-format
 msgid "set language"
-msgstr "設定使用中的語言"
+msgstr "設定語言"
 
 #: menus/associationwidgetpopupmenu.cpp:41
 #, kde-format
@@ -4399,7 +4397,7 @@ msgstr "新增樣本..."
 #: menus/listpopupmenu.cpp:143
 #, kde-format
 msgid "Accept Signal"
-msgstr "接受信號"
+msgstr "接受訊號"
 
 #: menus/listpopupmenu.cpp:144
 #, kde-format
@@ -4420,14 +4418,14 @@ msgstr "活動轉移"
 #: worktoolbar.cpp:338
 #, kde-format
 msgid "Actor"
-msgstr "主角"
+msgstr "參與者"
 
 #. i18n("Actor...")); break;
 #: menus/listpopupmenu.cpp:149 umlwidgets/widgetbase.cpp:1249
 #: worktoolbar.cpp:358
 #, kde-format
 msgid "Artifact"
-msgstr "產出"
+msgstr "產物"
 
 #. i18n("Category...")); break;
 #: menus/listpopupmenu.cpp:156 menus/widgetbasepopupmenu.cpp:557
@@ -4578,10 +4576,9 @@ msgid "Go to state diagram"
 msgstr "狀態圖"
 
 #: menus/listpopupmenu.cpp:196
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "Hide destruction box"
-msgstr "顯示解構"
+msgstr "隱藏解構方框"
 
 #: menus/listpopupmenu.cpp:197
 #, kde-format
@@ -4807,7 +4804,7 @@ msgstr "狀態圖"
 #: menus/listpopupmenu.cpp:253
 #, kde-format
 msgid "Send Signal"
-msgstr "送出信號"
+msgstr "送出訊號"
 
 #: menus/listpopupmenu.cpp:254 worktoolbar.cpp:366
 #, kde-format
@@ -4815,10 +4812,9 @@ msgid "Shallow History"
 msgstr "淺歷史"
 
 #: menus/listpopupmenu.cpp:256
-#, fuzzy, kde-format
-#| msgid "Show destruction"
+#, kde-format
 msgid "Show destruction box"
-msgstr "顯示解構"
+msgstr "顯示解構方框"
 
 #: menus/listpopupmenu.cpp:257
 #, kde-format
@@ -5138,12 +5134,12 @@ msgstr "水平分散對齊"
 #: model_utils.cpp:561
 #, kde-format
 msgid "new_actor"
-msgstr "新主角"
+msgstr "新參與者"
 
 #: model_utils.cpp:562
 #, kde-format
 msgid "new_artifact"
-msgstr "新產出"
+msgstr "新產物"
 
 #: model_utils.cpp:563 umlmodel/umlcanvasobject.cpp:188
 #, kde-format
@@ -5285,20 +5281,17 @@ msgid "new_object"
 msgstr "新物件"
 
 #: model_utils.cpp:610 umlwidgets/widget_utils.cpp:872
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "New actor"
-msgstr "新主角"
+msgstr "新參與者"
 
 #: model_utils.cpp:611 umlwidgets/widget_utils.cpp:873
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "New artifact"
-msgstr "新產出"
+msgstr "新產物"
 
 #: model_utils.cpp:612 umlwidgets/widget_utils.cpp:874
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "New association"
 msgstr "新關聯"
 
@@ -5309,8 +5302,7 @@ msgid "New attribute"
 msgstr "新屬性"
 
 #: model_utils.cpp:614 umlwidgets/widget_utils.cpp:876
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "New category"
 msgstr "新類別"
 
@@ -5459,22 +5451,19 @@ msgid "New UML object"
 msgstr "UML 物件(&U)"
 
 #: model_utils.cpp:652 umlwidgets/widget_utils.cpp:918
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new actor:"
-msgstr "輸入新狀態的名稱："
+msgstr "輸入新參與者的名稱："
 
 #: model_utils.cpp:653 umlwidgets/widget_utils.cpp:919
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new artifact:"
-msgstr "輸入新狀態的名稱："
+msgstr "輸入新產物的名稱："
 
 #: model_utils.cpp:654 umlwidgets/widget_utils.cpp:920
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new association:"
-msgstr "輸入新狀態的名稱："
+msgstr "輸入新關聯的名稱："
 
 #: model_utils.cpp:655
 #, fuzzy, kde-format
@@ -5483,10 +5472,9 @@ msgid "Enter the name of the new attribute:"
 msgstr "輸入新狀態的名稱："
 
 #: model_utils.cpp:656 umlwidgets/widget_utils.cpp:922
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new category:"
-msgstr "輸入新狀態的名稱："
+msgstr "輸入新類別的名稱："
 
 #: model_utils.cpp:657
 #, fuzzy, kde-format
@@ -5627,28 +5615,24 @@ msgid "Enter the name of the new use case:"
 msgstr "輸入新狀態的名稱："
 
 #: model_utils.cpp:682
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object flow"
+#, kde-format
 msgid "Enter the name of the new UML object"
-msgstr "輸入物件流名稱"
+msgstr "輸入新 UML 物件的名稱"
 
 #: model_utils.cpp:694 umlwidgets/widget_utils.cpp:963
-#, fuzzy, kde-format
-#| msgid "Rename Object"
+#, kde-format
 msgid "Rename actor"
-msgstr "重新命名物件"
+msgstr "重新命名參與者"
 
 #: model_utils.cpp:695 umlwidgets/widget_utils.cpp:964
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "Rename artifact"
-msgstr "新產出"
+msgstr "重新命名產物"
 
 #: model_utils.cpp:696 umlwidgets/widget_utils.cpp:965
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "Rename association"
-msgstr "新關聯"
+msgstr "重新命名關聯"
 
 #: model_utils.cpp:697
 #, fuzzy, kde-format
@@ -5657,10 +5641,9 @@ msgid "Rename attribute"
 msgstr "新屬性"
 
 #: model_utils.cpp:698 umlwidgets/widget_utils.cpp:967
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "Rename category"
-msgstr "新類別"
+msgstr "重新命名類別"
 
 #: model_utils.cpp:699
 #, fuzzy, kde-format
@@ -5807,22 +5790,19 @@ msgid "Rename UML object"
 msgstr "重新命名物件"
 
 #: model_utils.cpp:736 umlwidgets/widget_utils.cpp:1009
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the actor:"
-msgstr "輸入新活動的名稱："
+msgstr "輸入參與者的新名稱："
 
 #: model_utils.cpp:737 umlwidgets/widget_utils.cpp:1010
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the artifact:"
-msgstr "輸入新活動的名稱："
+msgstr "輸入產物的新名稱："
 
 #: model_utils.cpp:738 umlwidgets/widget_utils.cpp:1011
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the activity:"
+#, kde-format
 msgid "Enter the new name of the association:"
-msgstr "輸入新活動的名稱："
+msgstr "輸入關聯的新名稱："
 
 #: model_utils.cpp:739
 #, fuzzy, kde-format
@@ -5831,10 +5811,9 @@ msgid "Enter the new name of the attribute:"
 msgstr "輸入新活動的名稱："
 
 #: model_utils.cpp:740 umlwidgets/widget_utils.cpp:1013
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the category:"
-msgstr "輸入圖表的新名稱："
+msgstr "輸入類別的新名稱："
 
 #: model_utils.cpp:741
 #, fuzzy, kde-format
@@ -5975,10 +5954,9 @@ msgid "Enter the new name of the use case:"
 msgstr "輸入模型的新名稱："
 
 #: model_utils.cpp:766
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the UML object"
-msgstr "輸入模型的新名稱："
+msgstr "輸入 UML 物件的新名稱"
 
 #: model_utils.cpp:1207
 #, kde-format
@@ -6185,17 +6163,17 @@ msgstr "輸入新活動的名稱："
 #: toolbarstateother.cpp:285
 #, kde-format
 msgid "Enter Signal Name"
-msgstr "輸入信號名稱"
+msgstr "輸入訊號名稱"
 
 #: toolbarstateother.cpp:286
 #, kde-format
 msgid "Enter Signal"
-msgstr "輸入信號"
+msgstr "輸入訊號"
 
 #: toolbarstateother.cpp:286
 #, kde-format
 msgid "new Signal"
-msgstr "新信號"
+msgstr "新訊號"
 
 #: toolbarstateother.cpp:292
 #, kde-format
@@ -6215,17 +6193,17 @@ msgstr "新時間事件"
 #: toolbarstateother.cpp:299
 #, kde-format
 msgid "Enter Combined Fragment Name"
-msgstr "輸入組合分段名稱"
+msgstr "輸入組合片段名稱"
 
 #: toolbarstateother.cpp:300
 #, kde-format
 msgid "Enter the Combined Fragment"
-msgstr "輸入組合分段"
+msgstr "輸入組合片段"
 
 #: toolbarstateother.cpp:300
 #, kde-format
 msgid "new Combined Fragment"
-msgstr "新組合分段"
+msgstr "新組合片段"
 
 #: toolbarstateother.cpp:306
 #, kde-format
@@ -6765,13 +6743,13 @@ msgstr "隱藏顏色"
 #: umbrello.kcfg:349
 #, kde-format
 msgid "Create Artifacts for imported files"
-msgstr "對匯入的檔案建立產出"
+msgstr "對匯入的檔案建立產物"
 
 #. i18n: ectx: whatsthis, entry (createArtifacts), group (Code Importer)
 #: umbrello.kcfg:350
 #, kde-format
 msgid "Create an artifact in the component view for each imported file"
-msgstr "在組件檢視中對每個匯入的檔案建立產出"
+msgstr "在組件檢視中對每個匯入的檔案建立產物"
 
 #. i18n: ectx: label, entry (resolveDependencies), group (Code Importer)
 #: umbrello.kcfg:354
@@ -7207,8 +7185,7 @@ msgstr "自動產生關聯存取者（Java）"
 
 #. i18n: ectx: whatsthis, entry (autoGenerateAssocAccessorsJava), group (Java Code Generation)
 #: umbrello.kcfg:593
-#, fuzzy, kde-format
-#| msgid "Enables/Disables auto generation of association accessors (Java) "
+#, kde-format
 msgid "Enables/Disables auto generation of association accessors (Java)"
 msgstr "開啟或關閉自動產生關聯存取者（Java）的功能"
 
@@ -7467,15 +7444,14 @@ msgid "Pastes the contents of the clipboard"
 msgstr "貼上剪貼簿內容"
 
 #: umlapp.cpp:438
-#, fuzzy, kde-format
-#| msgid "Invoke action"
+#, kde-format
 msgid "Undo last action"
-msgstr "請求活動"
+msgstr "復原上一次動作"
 
 #: umlapp.cpp:439
 #, kde-format
 msgid "Redo last undone action"
-msgstr ""
+msgstr "重做上次復原的操作"
 
 #: umlapp.cpp:441
 #, kde-format
@@ -7806,10 +7782,9 @@ msgid "XHTML Generation failed ."
 msgstr "XHTML 產生失敗。"
 
 #: umlappprivate.h:103
-#, fuzzy, kde-format
-#| msgid "Show Doc Window"
+#, kde-format
 msgid "Show/hide window"
-msgstr "顯示文件視窗"
+msgstr "顯示或隱藏視窗"
 
 #: umlappprivate.h:189
 #, kde-format
@@ -8256,12 +8231,12 @@ msgstr "資料夾檔案 %1 無法開啟。"
 #: umlmodel/umlobject.cpp:1230
 #, kde-format
 msgid "Actor &name:"
-msgstr "主角名稱(&N)："
+msgstr "參與者名稱(&N)："
 
 #: umlmodel/umlobject.cpp:1233
 #, kde-format
 msgid "Artifact &name:"
-msgstr "產出名稱(&N):"
+msgstr "產物名稱(&N):"
 
 #: umlmodel/umlobject.cpp:1236
 #, kde-format
@@ -8489,7 +8464,7 @@ msgstr "按下 Ctrl 並點擊滑鼠左鍵可以刪除點"
 #: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
 msgid "Enter the name of the diagram referenced"
-msgstr "輸入圖表參考的名稱"
+msgstr "輸入參考圖表的名稱"
 
 #: umlwidgets/combinedfragmentwidget.cpp:303
 #, kde-format
@@ -8512,17 +8487,17 @@ msgstr "輸入迴圈護衛"
 #: umlwidgets/combinedfragmentwidget.cpp:307
 #, kde-format
 msgid "Enter the first alternative name"
-msgstr "輸入第一個變更名稱"
+msgstr "輸入第一個替代名稱"
 
 #: umlwidgets/combinedfragmentwidget.cpp:426
 #, kde-format
 msgid "Enter first alternative"
-msgstr "輸入第一變更"
+msgstr "輸入第一替代"
 
 #: umlwidgets/combinedfragmentwidget.cpp:427
 #, kde-format
 msgid "Enter first alternative :"
-msgstr "輸入第一變更："
+msgstr "輸入第一替代："
 
 #: umlwidgets/combinedfragmentwidget.cpp:431
 #, kde-format
@@ -8542,12 +8517,12 @@ msgstr "輸入迴圈護衛："
 #: umlwidgets/floatingdashlinewidget.cpp:102
 #, kde-format
 msgid "Enter alternative Name"
-msgstr "輸入變更名稱"
+msgstr "輸入替代名稱"
 
 #: umlwidgets/floatingdashlinewidget.cpp:103
 #, kde-format
 msgid "Enter the alternative:"
-msgstr "輸入變更名稱："
+msgstr "輸入替代："
 
 #: umlwidgets/floatingtextwidget.cpp:201
 #, kde-format
@@ -8669,12 +8644,12 @@ msgstr "輸入狀態（如果沒有狀態則保持為 '-'）"
 #: umlwidgets/signalwidget.cpp:326
 #, kde-format
 msgid "Enter signal name"
-msgstr "輸入信號名稱"
+msgstr "輸入訊號名稱"
 
 #: umlwidgets/signalwidget.cpp:327
 #, kde-format
 msgid "Enter the signal name :"
-msgstr "請輸入信號名稱："
+msgstr "請輸入訊號名稱："
 
 #: umlwidgets/statewidget.cpp:593
 #, kde-format
@@ -8722,31 +8697,27 @@ msgid "Hold shift and control to move in Y axis."
 msgstr "長按 Shift 及 Control 以在 Y 軸移動。"
 
 #: umlwidgets/widget_utils.cpp:825
-#, fuzzy, kde-format
-#| msgid "new_actor"
+#, kde-format
 msgid "new actor"
-msgstr "新主角"
+msgstr "新參與者"
 
 #: umlwidgets/widget_utils.cpp:826
-#, fuzzy, kde-format
-#| msgid "new_artifact"
+#, kde-format
 msgid "new artifact"
-msgstr "新產出"
+msgstr "新產物"
 
 #: umlwidgets/widget_utils.cpp:827
-#, fuzzy, kde-format
-#| msgid "new_association"
+#, kde-format
 msgid "new association"
 msgstr "新關聯"
 
 #: umlwidgets/widget_utils.cpp:828
 #, kde-format
 msgid "new box"
-msgstr ""
+msgstr "新方框"
 
 #: umlwidgets/widget_utils.cpp:829
-#, fuzzy, kde-format
-#| msgid "new_category"
+#, kde-format
 msgid "new category"
 msgstr "新類別"
 
@@ -8757,10 +8728,9 @@ msgid "new class"
 msgstr "新類別"
 
 #: umlwidgets/widget_utils.cpp:831
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "new combined fragment"
-msgstr "新組合分段"
+msgstr "新組合片段"
 
 #: umlwidgets/widget_utils.cpp:832
 #, fuzzy, kde-format
@@ -8869,10 +8839,9 @@ msgid "new region"
 msgstr "新 pin"
 
 #: umlwidgets/widget_utils.cpp:850
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "new signal"
-msgstr "新信號"
+msgstr "新訊號"
 
 #: umlwidgets/widget_utils.cpp:852
 #, fuzzy, kde-format
@@ -8907,13 +8876,12 @@ msgstr "新活動"
 #: umlwidgets/widget_utils.cpp:875
 #, kde-format
 msgid "New box"
-msgstr ""
+msgstr "新方框"
 
 #: umlwidgets/widget_utils.cpp:878
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "New combined fragment"
-msgstr "新組合分段"
+msgstr "新組合片段"
 
 #: umlwidgets/widget_utils.cpp:883
 #, fuzzy, kde-format
@@ -8970,10 +8938,9 @@ msgid "New region"
 msgstr "區域"
 
 #: umlwidgets/widget_utils.cpp:897
-#, fuzzy, kde-format
-#| msgid "new Signal"
+#, kde-format
 msgid "New signal"
-msgstr "新信號"
+msgstr "新訊號"
 
 #: umlwidgets/widget_utils.cpp:898
 #, fuzzy, kde-format
@@ -9000,16 +8967,14 @@ msgid "New widget"
 msgstr "移動元件"
 
 #: umlwidgets/widget_utils.cpp:921
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new box:"
-msgstr "輸入新狀態的名稱："
+msgstr "輸入新方框的名稱："
 
 #: umlwidgets/widget_utils.cpp:924
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new combined fragment:"
-msgstr "輸入新狀態的名稱："
+msgstr "輸入新組合片段的名稱："
 
 #: umlwidgets/widget_utils.cpp:929
 #, fuzzy, kde-format
@@ -9036,16 +9001,14 @@ msgid "Enter the name of the new note:"
 msgstr "輸入新狀態的名稱："
 
 #: umlwidgets/widget_utils.cpp:936
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new object:"
-msgstr "輸入新狀態的名稱："
+msgstr "輸入新物件的名稱："
 
 #: umlwidgets/widget_utils.cpp:937
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object node :"
+#, kde-format
 msgid "Enter the name of the new object node:"
-msgstr "請輸入物件節點的名稱："
+msgstr "輸入新物件節點的名稱："
 
 #: umlwidgets/widget_utils.cpp:939
 #, fuzzy, kde-format
@@ -9066,10 +9029,9 @@ msgid "Enter the name of the new region:"
 msgstr "輸入新狀態的名稱："
 
 #: umlwidgets/widget_utils.cpp:943
-#, fuzzy, kde-format
-#| msgid "Enter the name of the new state:"
+#, kde-format
 msgid "Enter the name of the new signal:"
-msgstr "輸入新狀態的名稱："
+msgstr "輸入新訊號的名稱："
 
 #: umlwidgets/widget_utils.cpp:945
 #, fuzzy, kde-format
@@ -9096,16 +9058,14 @@ msgid "Rename activity"
 msgstr "重新命名活動"
 
 #: umlwidgets/widget_utils.cpp:966
-#, fuzzy, kde-format
-#| msgid "Rename"
+#, kde-format
 msgid "Rename box"
-msgstr "重新命名"
+msgstr "重新命名方框"
 
 #: umlwidgets/widget_utils.cpp:969
-#, fuzzy, kde-format
-#| msgid "new Combined Fragment"
+#, kde-format
 msgid "Rename combined fragment"
-msgstr "新組合分段"
+msgstr "重新命名組合片段"
 
 #: umlwidgets/widget_utils.cpp:974
 #, fuzzy, kde-format
@@ -9161,10 +9121,9 @@ msgid "Rename region"
 msgstr "重新命名"
 
 #: umlwidgets/widget_utils.cpp:988
-#, fuzzy, kde-format
-#| msgid "Send signal"
+#, kde-format
 msgid "Rename signal"
-msgstr "送出信號"
+msgstr "重新命名訊號"
 
 #: umlwidgets/widget_utils.cpp:989
 #, fuzzy, kde-format
@@ -9193,19 +9152,17 @@ msgstr "改變元件大小"
 #: umlwidgets/widget_utils.cpp:1008
 #, kde-format
 msgid "Enter the new name of the activity:"
-msgstr "輸入新活動的名稱："
+msgstr "輸入活動的新名稱："
 
 #: umlwidgets/widget_utils.cpp:1012
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the box:"
-msgstr "輸入模型的新名稱："
+msgstr "輸入方框的新名稱："
 
 #: umlwidgets/widget_utils.cpp:1015
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the combined fragment:"
-msgstr "輸入圖表的新名稱："
+msgstr "輸入組合片段的新名稱："
 
 #: umlwidgets/widget_utils.cpp:1020
 #, fuzzy, kde-format
@@ -9232,16 +9189,14 @@ msgid "Enter the new name of the note:"
 msgstr "輸入模型的新名稱："
 
 #: umlwidgets/widget_utils.cpp:1027
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the model:"
+#, kde-format
 msgid "Enter the new name of the object:"
-msgstr "輸入模型的新名稱："
+msgstr "輸入物件的新名稱："
 
 #: umlwidgets/widget_utils.cpp:1028
-#, fuzzy, kde-format
-#| msgid "Enter the name of the object node :"
+#, kde-format
 msgid "Enter the new name of the object node:"
-msgstr "請輸入物件節點的名稱："
+msgstr "輸入物件節點的新名稱："
 
 #: umlwidgets/widget_utils.cpp:1030
 #, fuzzy, kde-format
@@ -9262,10 +9217,9 @@ msgid "Enter the new name of the region:"
 msgstr "輸入模型的新名稱："
 
 #: umlwidgets/widget_utils.cpp:1034
-#, fuzzy, kde-format
-#| msgid "Enter the new name of the diagram:"
+#, kde-format
 msgid "Enter the new name of the signal:"
-msgstr "輸入圖表的新名稱："
+msgstr "輸入訊號的新名稱："
 
 #: umlwidgets/widget_utils.cpp:1035
 #, fuzzy, kde-format
@@ -9299,7 +9253,7 @@ msgstr "方框"
 #: umlwidgets/widgetbase.cpp:1261
 #, kde-format
 msgid "CombinedFragment"
-msgstr "已組合片段"
+msgstr "組合片段"
 
 #: umlwidgets/widgetbase.cpp:1270 worktoolbar.cpp:362
 #, kde-format
@@ -9344,7 +9298,7 @@ msgstr "物件節點"
 #: umlwidgets/widgetbase.cpp:1318
 #, kde-format
 msgid "Signal"
-msgstr "信號"
+msgstr "訊號"
 
 #: umlwidgets/widgetbase.cpp:1321
 #, kde-format
@@ -9386,7 +9340,7 @@ msgstr ""
 #: worktoolbar.cpp:330
 #, kde-format
 msgid "Combined Fragment"
-msgstr "已組合片段"
+msgstr "組合片段"
 
 #: worktoolbar.cpp:335
 #, kde-format
@@ -9407,12 +9361,12 @@ msgstr "類別"
 #: worktoolbar.cpp:351
 #, kde-format
 msgid "Send signal"
-msgstr "送出信號"
+msgstr "送出訊號"
 
 #: worktoolbar.cpp:352
 #, kde-format
 msgid "Accept signal"
-msgstr "接受信號"
+msgstr "接受訊號"
 
 #: worktoolbar.cpp:353
 #, kde-format
