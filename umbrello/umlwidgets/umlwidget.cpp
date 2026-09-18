@@ -399,19 +399,15 @@ void UMLWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     int count = m_scene->selectedCount();
     if (event->button() == Qt::LeftButton) {
-        if (isSelected() && count > 1) {
-            // single selection is made in release event if the widget wasn't moved
-            m_inMoveArea = true;
-            m_oldPos = pos();
-            return;
-        }
-
         if (isInResizeArea(event)) {
             m_inResizeArea = true;
             m_oldW = width();
             m_oldH = height();
-        } else {
+        } else if (isSelected() && count > 1) {
+            // single selection is made in release event if the widget wasn't moved
             m_inMoveArea = true;
+            m_oldPos = pos();
+            return;
         }
     }
 
