@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-16 00:48+0000\n"
-"PO-Revision-Date: 2026-09-08 09:05+0300\n"
+"PO-Revision-Date: 2026-09-15 08:07+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -6380,32 +6380,32 @@ msgstr ""
 #: umbrello.kcfg:244
 #, kde-format
 msgid "Show Public Only"
-msgstr ""
+msgstr "הצגת ציבוריים בלבד"
 
 #. i18n: ectx: whatsthis, entry (showPublicOnly), group (Class Options)
 #: umbrello.kcfg:245
 #, kde-format
 msgid "Enables/Disables showing of public attributes/methods"
-msgstr ""
+msgstr "הפעלת/השבתת הצכת מתודות/מאפיינים ציבוריים"
 
 #. i18n: ectx: label, entry (showAttSig), group (Class Options)
 #. i18n: ectx: whatsthis, entry (showAttSig), group (Class Options)
 #: umbrello.kcfg:249 umbrello.kcfg:250
 #, kde-format
 msgid "Show Attribute Signature"
-msgstr ""
+msgstr "הצגת חתימת מאפיין"
 
 #. i18n: ectx: label, entry (showOpSig), group (Class Options)
 #: umbrello.kcfg:254
 #, kde-format
 msgid "Show Operation Signature"
-msgstr ""
+msgstr "הצגת חתימת פעולה"
 
 #. i18n: ectx: whatsthis, entry (showOpSig), group (Class Options)
 #: umbrello.kcfg:255
 #, kde-format
 msgid "Show operation signature"
-msgstr ""
+msgstr "הצגת חתימת פעולה"
 
 #. i18n: ectx: label, entry (defaultAttributeScope), group (Class Options)
 #. i18n: ectx: whatsthis, entry (defaultAttributeScope), group (Class Options)
@@ -6425,25 +6425,25 @@ msgstr ""
 #: umbrello.kcfg:285
 #, kde-format
 msgid "Height"
-msgstr ""
+msgstr "גובה"
 
 #. i18n: ectx: whatsthis, entry (height), group (Code Viewer Options)
 #: umbrello.kcfg:286
 #, kde-format
 msgid "Height of the code viewer"
-msgstr ""
+msgstr "גובה מציג הקוד"
 
 #. i18n: ectx: label, entry (width), group (Code Viewer Options)
 #: umbrello.kcfg:291
 #, kde-format
 msgid "Width"
-msgstr ""
+msgstr "רוחב"
 
 #. i18n: ectx: whatsthis, entry (width), group (Code Viewer Options)
 #: umbrello.kcfg:292
 #, kde-format
 msgid "Width of the Code Viewer"
-msgstr ""
+msgstr "רוחב מציג הקוד"
 
 #. i18n: ectx: label, entry (showHiddenBlocks), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (showHiddenBlocks), group (Code Viewer Options)
@@ -6468,7 +6468,7 @@ msgstr ""
 #: umbrello.kcfg:308
 #, kde-format
 msgid "Font to be used in the Code Viewer"
-msgstr ""
+msgstr "גופן למציג הקוד"
 
 #. i18n: ectx: label, entry (paperColor), group (Code Viewer Options)
 #: umbrello.kcfg:312
