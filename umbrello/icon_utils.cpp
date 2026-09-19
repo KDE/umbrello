@@ -336,7 +336,7 @@ QString toString(IconType type)
     case it_Properties_Class:             return QStringLiteral("document-properties");
     case it_Properties_CodeGeneration:    return QStringLiteral("document-export");
     case it_Properties_CodeImport:        return QStringLiteral("document-import");
-    case it_Properties_CodeViewer:        return QStringLiteral("package_graphics_viewer");
+    case it_Properties_CodeViewer:        return QStringLiteral("code-context");
     case it_Properties_Color:             return QStringLiteral("preferences-desktop-color");
     case it_Properties_Columns:           return QStringLiteral("preferences-other");
     case it_Properties_Contents:          return QStringLiteral("preferences-other");
