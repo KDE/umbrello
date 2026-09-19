@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 02:39+0000\n"
+"POT-Creation-Date: 2026-09-19 02:42+0000\n"
 "PO-Revision-Date: 2026-02-24 04:43+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -8537,7 +8537,7 @@ msgctxt "@info:tooltip of custom toolbar button"
 msgid "%1"
 msgstr "%1"
 
-#: umlwidgets/umlwidget.cpp:464
+#: umlwidgets/umlwidget.cpp:460
 #, kde-format
 msgid ""
 "Hold shift or ctrl to move in X axis. Hold shift and control to move in Y "
@@ -8547,27 +8547,27 @@ msgstr ""
 "და Ctrl-ზე Y ღერძზე გადასაადგილებლად. თაგუნას მარჯვენა ღილაკი გადაადგილების "
 "გასაუქმებლად."
 
-#: umlwidgets/umlwidget.cpp:562
+#: umlwidgets/umlwidget.cpp:558
 #, kde-format
 msgid "Move widgets"
 msgstr "ვიჯეტების გადატანა"
 
-#: umlwidgets/umlwidget.cpp:811
+#: umlwidgets/umlwidget.cpp:807
 #, kde-format
 msgid "Rename Object"
 msgstr "ობიექტის გადარქმევა"
 
-#: umlwidgets/umlwidget.cpp:812
+#: umlwidgets/umlwidget.cpp:808
 #, kde-format
 msgid "Enter object name:"
 msgstr "შეიყვანეთ ობიექტის სახელი:"
 
-#: umlwidgets/umlwidget.cpp:1564
+#: umlwidgets/umlwidget.cpp:1560
 #, kde-format
 msgid "Hold shift or control to move in X axis."
 msgstr "გეჭიროთ Shift-ზე, ან Ctrl-ზე X ღერძზე სამოძრაოდ."
 
-#: umlwidgets/umlwidget.cpp:1565
+#: umlwidgets/umlwidget.cpp:1561
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
 msgstr "გეჭიროთ Shift-ზე და Ctrl-ზე X ღერძზე სამოძრაოდ."

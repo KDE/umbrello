@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-13 02:39+0000\n"
+"POT-Creation-Date: 2026-09-19 02:42+0000\n"
 "PO-Revision-Date: 2006-09-30 17:38+0200\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team: Macedonian <mkde-l10n@lists.sourceforge.net>\n"
@@ -9140,35 +9140,35 @@ msgctxt "@info:tooltip of custom toolbar button"
 msgid "%1"
 msgstr "%"
 
-#: umlwidgets/umlwidget.cpp:464
+#: umlwidgets/umlwidget.cpp:460
 #, kde-format
 msgid ""
 "Hold shift or ctrl to move in X axis. Hold shift and control to move in Y "
 "axis. Right button click to cancel move."
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:562
+#: umlwidgets/umlwidget.cpp:558
 #, fuzzy, kde-format
 #| msgid "Create Folder"
 msgid "Move widgets"
 msgstr "Креирај папка"
 
-#: umlwidgets/umlwidget.cpp:811
+#: umlwidgets/umlwidget.cpp:807
 #, kde-format
 msgid "Rename Object"
 msgstr "Преименување на објект"
 
-#: umlwidgets/umlwidget.cpp:812
+#: umlwidgets/umlwidget.cpp:808
 #, kde-format
 msgid "Enter object name:"
 msgstr "Внесете ново име на објектот:"
 
-#: umlwidgets/umlwidget.cpp:1564
+#: umlwidgets/umlwidget.cpp:1560
 #, kde-format
 msgid "Hold shift or control to move in X axis."
 msgstr ""
 
-#: umlwidgets/umlwidget.cpp:1565
+#: umlwidgets/umlwidget.cpp:1561
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
 msgstr ""
