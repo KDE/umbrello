@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-16 00:48+0000\n"
+"POT-Creation-Date: 2026-09-19 00:48+0000\n"
 "PO-Revision-Date: 2026-02-24 08:48-0300\n"
 "Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -8553,7 +8553,7 @@ msgctxt "@info:tooltip of custom toolbar button"
 msgid "%1"
 msgstr "%1"
 
-#: umlwidgets/umlwidget.cpp:464
+#: umlwidgets/umlwidget.cpp:460
 #, kde-format
 msgid ""
 "Hold shift or ctrl to move in X axis. Hold shift and control to move in Y "
@@ -8563,27 +8563,27 @@ msgstr ""
 "Ctrl ao mesmo tempo para se mover no eixo dos Y. Clique com o botão direito "
 "para cancelar o movimento."
 
-#: umlwidgets/umlwidget.cpp:562
+#: umlwidgets/umlwidget.cpp:558
 #, kde-format
 msgid "Move widgets"
 msgstr "Mover widgets"
 
-#: umlwidgets/umlwidget.cpp:811
+#: umlwidgets/umlwidget.cpp:807
 #, kde-format
 msgid "Rename Object"
 msgstr "Renomear objeto"
 
-#: umlwidgets/umlwidget.cpp:812
+#: umlwidgets/umlwidget.cpp:808
 #, kde-format
 msgid "Enter object name:"
 msgstr "Insira o nome do objeto:"
 
-#: umlwidgets/umlwidget.cpp:1564
+#: umlwidgets/umlwidget.cpp:1560
 #, kde-format
 msgid "Hold shift or control to move in X axis."
 msgstr "Segure Shift ou Ctrl para mover no eixo X."
 
-#: umlwidgets/umlwidget.cpp:1565
+#: umlwidgets/umlwidget.cpp:1561
 #, kde-format
 msgid "Hold shift and control to move in Y axis."
 msgstr "Segure Shift e Ctrl para mover no eixo Y."
