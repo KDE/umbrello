@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-19 00:48+0000\n"
-"PO-Revision-Date: 2026-06-01 18:56-0400\n"
+"PO-Revision-Date: 2026-09-22 18:03+0900\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
-"Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
+"Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -197,7 +197,7 @@ msgstr "يوچۇن"
 #: basictypes.cpp:370
 #, kde-format
 msgid "? AssociationType ?"
-msgstr ""
+msgstr "؟ AssociationType ?"
 
 #: clipboard/umlclipboard.cpp:753
 #, kde-format
@@ -1155,7 +1155,7 @@ msgstr ""
 #: codegenwizard/codegenoptionspage.ui:338
 #, kde-format
 msgid "Tab"
-msgstr "Tab"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectIndentationTypeBox)
 #: codegenwizard/codegenoptionspage.ui:343
@@ -1441,7 +1441,7 @@ msgstr "ھۆججەت سانى:"
 #: codeimpwizard/codeimpselectpage.ui:143
 #, kde-format
 msgid "0"
-msgstr "0"
+msgstr ""
 
 #: codeimpwizard/codeimpstatuspage.cpp:48
 #, kde-format
@@ -2790,7 +2790,7 @@ msgstr "نىسبەت:"
 #: dialogs/pages/diagrampropertiespage.ui:82
 #, no-c-format, kde-format
 msgid "%"
-msgstr "%"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, ui_labelWidth)
 #: dialogs/pages/diagrampropertiespage.ui:105
@@ -2847,7 +2847,7 @@ msgstr ""
 #: dialogs/pages/diagrampropertiespage.ui:283
 #, kde-format
 msgid "Y"
-msgstr "Y"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, ui_autoIncrementSequence)
 #: dialogs/pages/diagrampropertiespage.ui:312
@@ -7368,7 +7368,7 @@ msgstr "تەييار"
 #: umlapp.cpp:818 umlapp.cpp:831
 #, kde-format
 msgid "100%"
-msgstr "100%"
+msgstr ""
 
 #: umlapp.cpp:823
 #, kde-format
@@ -7637,8 +7637,6 @@ msgid ""
 "The current file has been modified.\n"
 "Do you want to save it?"
 msgstr ""
-"نۆۋەتتىكى ھۆججەت ئۆزگەرتىلگەن.\n"
-"ساقلامسىز؟"
 
 #: umldoc.cpp:456
 #, kde-format
@@ -8228,7 +8226,7 @@ msgstr ""
 #: umlwidgets/objectnodewidget.cpp:324
 #, kde-format
 msgid "-"
-msgstr "-"
+msgstr ""
 
 #: umlwidgets/combinedfragmentwidget.cpp:305
 #: umlwidgets/combinedfragmentwidget.cpp:436
@@ -8412,7 +8410,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip of custom toolbar button"
 msgid "%1"
-msgstr "%1"
+msgstr ""
 
 #: umlwidgets/umlwidget.cpp:460
 #, kde-format
