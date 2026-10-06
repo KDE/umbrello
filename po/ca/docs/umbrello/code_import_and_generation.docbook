@@ -18,7 +18,7 @@
 <title
 >Generant el codi</title>
 <para
->Per tal de poder generar codi amb l'&umbrello; primer necessiteu crear o carregar un model que contingui almenys una classe. Quan esteu llest per a començar a escriure codi, seleccioneu l'entrada <guimenuitem
+>Per a generar codi amb l'&umbrello; primer necessiteu crear o carregar un model que contingui almenys una classe. Quan estigueu preparat/da per a començar a escriure codi, seleccioneu l'entrada <guimenuitem
 >Assistent de generació de codi...</guimenuitem
 > del menú <guimenuitem
 >Codi</guimenuitem
