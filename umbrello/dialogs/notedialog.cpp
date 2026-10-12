@@ -50,12 +50,12 @@ bool NoteDialog::apply()
         applyFontPage(m_widget);
         QString key = QStringLiteral("Diagram:");
         QString str = m_widget->documentation();
-        if (!str.startsWith(key)) {
+        if (str.startsWith(key)) {
+            QString diagramName = str.remove(key).trimmed();
+            m_widget->setDiagramLink(diagramName);
+        } else {
             m_widget->setDiagramLink(QString());
-            return false;
         }
-        QString diagramName = str.remove(key).trimmed();
-        m_widget->setDiagramLink(diagramName);
     }
     return true;
 }
