@@ -32,15 +32,15 @@ void NoteDialog::setupPages()
 
 void NoteDialog::slotOk()
 {
-    slotApply();
+    if (apply())
+        accept();
+      else
+        reject();
 }
 
 void NoteDialog::slotApply()
 {
-    if (!apply())
-        reject();
-    else
-        accept();
+    apply();
 }
 
 bool NoteDialog::apply()
