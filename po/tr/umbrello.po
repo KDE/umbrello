@@ -7,13 +7,13 @@
 # Serdar Soytetir <tulliana@gmail.com>, 2008, 2009, 2012.
 # H. İbrahim Güngör <ibrahim@pardus.org.tr>, 2011.
 # Volkan Gezer <volkangezer@gmail.com>, 2013, 2014, 2017, 2019.
-# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025, 2026 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022-2026 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-19 00:48+0000\n"
-"PO-Revision-Date: 2026-05-02 18:56+0300\n"
+"PO-Revision-Date: 2026-10-12 12:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 25.12.3\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1025,7 +1025,7 @@ msgstr "&Göz At…"
 #: codegenwizard/codegenoptionspage.ui:105
 #, kde-format
 msgid "&Include heading files from folder:"
-msgstr "Klasördeki üstbilgi dosyalarını &içer:"
+msgstr "Klasördeki üst bilgi dosyalarını &içer:"
 
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, ui_headingsDir)
 #: codegenwizard/codegenoptionspage.ui:117
@@ -1033,7 +1033,7 @@ msgstr "Klasördeki üstbilgi dosyalarını &içer:"
 msgid ""
 "Files in this folder will be used as heading files in the generated code"
 msgstr ""
-"Bu klasördeki dosyalar üretilen kodda üstbilgi dosyaları olarak kullanılır"
+"Bu klasördeki dosyalar üretilen kodda üst bilgi dosyaları olarak kullanılır"
 
 #. i18n: ectx: property (text), widget (QPushButton, ui_browseHeadings)
 #: codegenwizard/codegenoptionspage.ui:124
@@ -2941,7 +2941,7 @@ msgstr "Yeni C++/Java/Ruby üreteçlerini kullan"
 #: dialogs/pages/generaloptionpage.cpp:60
 #, kde-format
 msgid "Turn on footer and page numbers when printing"
-msgstr "Yazdırırken altbilgi ve sayfa sayısını aç"
+msgstr "Yazdırırken alt bilgi ve sayfa sayısını aç"
 
 #: dialogs/pages/generaloptionpage.cpp:64
 #, kde-format
@@ -6178,13 +6178,13 @@ msgstr "Yeni çizgiler için kullanılacak yerleşim türü"
 #: umbrello.kcfg:50
 #, kde-format
 msgid "Footer Printing"
-msgstr "Altbilgi Yazdırma"
+msgstr "Alt Bilgi Yazdırma"
 
 #. i18n: ectx: whatsthis, entry (footerPrinting), group (General Options)
 #: umbrello.kcfg:51
 #, kde-format
 msgid "Enables/Disables Support for footer printing"
-msgstr "Albilgi yazdırma için desteği etkinleştirir/devre dışı bırakır"
+msgstr "Alt bilgi yazdırma için desteği etkinleştirir/devre dışı bırakır"
 
 #. i18n: ectx: label, entry (autosave), group (General Options)
 #: umbrello.kcfg:55
@@ -6742,25 +6742,25 @@ msgstr "Bölüm yorumlarının yazılıp yazılmaması gerektiği"
 #: umbrello.kcfg:419
 #, kde-format
 msgid "Headings Directory"
-msgstr "Üstbilgiler Dizini"
+msgstr "Üst Bilgiler Dizini"
 
 #. i18n: ectx: whatsthis, entry (headingsDirectory), group (Code Generation)
 #: umbrello.kcfg:420
 #, kde-format
 msgid "The Path in which the headings are stored"
-msgstr "Üstbilgilerin depolandığı yol"
+msgstr "Üst bilgilerin depolandığı yol"
 
 #. i18n: ectx: label, entry (includeHeadings), group (Code Generation)
 #: umbrello.kcfg:424
 #, kde-format
 msgid "Include headings"
-msgstr "Üstbilgileri içer"
+msgstr "Üst bilgileri içer"
 
 #. i18n: ectx: whatsthis, entry (includeHeadings), group (Code Generation)
 #: umbrello.kcfg:425
 #, kde-format
 msgid "Enables/Disables inclusion of headings"
-msgstr "Üstbilgilerin içerilmesini etkinleştirir/devre dışı bırakır"
+msgstr "Üst bilgilerin içerilmesini etkinleştirir/devre dışı bırakır"
 
 #. i18n: ectx: label, entry (indentationAmount), group (Code Generation)
 #: umbrello.kcfg:429
