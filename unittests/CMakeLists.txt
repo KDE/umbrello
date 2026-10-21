@@ -147,6 +147,14 @@ ecm_add_test(
     ${ENVIRONMENT}
 )
 
+ecm_add_test(
+    testmessagewidget.cpp
+    testbase.cpp
+    LINK_LIBRARIES ${LIBS}
+    TEST_NAME testmessagewidget
+    ${ENVIRONMENT}
+)
+
 set(testumlroledialog_SRCS
     testumlroledialog.cpp
 )
