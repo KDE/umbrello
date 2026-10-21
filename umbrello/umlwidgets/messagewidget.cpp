@@ -218,7 +218,7 @@ bool MessageWidget::isInResizeArea(QGraphicsSceneMouseEvent *me)
 
     int x1 = m_pOw[Uml::RoleType::A]->x();
     int x2 = m_pOw[Uml::RoleType::B]->x();
-    if ((x1 < x2 && me->scenePos().x() >= x() + w - m) ||
+    if ((x1 <= x2 && me->scenePos().x() >= x() + w - m) ||
         (x1 > x2 && me->scenePos().x() >= x() - m)) {
         m_scene->activeView()->setCursor(Qt::SizeVerCursor);
         DEBUG() << "X condition is satisfied";
