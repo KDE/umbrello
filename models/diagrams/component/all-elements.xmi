@@ -13,9 +13,9 @@
    <UML:Namespace.ownedElement>
     <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="folder" name="folder"/>
     <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="interface" name="interface"/>
-    <UML:Model visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Logical View" name="Logical View">
+    <UML:Model visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Logical_View" name="Logical View">
      <UML:Namespace.ownedElement>
-      <UML:Package stereotype="folder" visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Datatypes" name="Datatypes">
+      <UML:Package stereotype="folder" visibility="public" isSpecification="false" namespace="Logical_View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Datatypes" name="Datatypes">
        <UML:Namespace.ownedElement>
         <UML:DataType visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="us0Tr9FQ7X04g" name="char"/>
         <UML:DataType visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uzywY7nU0mOVr" name="int"/>
@@ -37,7 +37,7 @@
         <UML:DataType visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="ubGxuPbhrPu3Z" name="wchar_t"/>
        </UML:Namespace.ownedElement>
       </UML:Package>
-      <UML:Interface stereotype="interface" visibility="public" isSpecification="false" namespace="Logical View" isAbstract="true" isLeaf="false" isRoot="false" xmi.id="u1AMmy5OXMLPl" name="interface"/>
+      <UML:Interface stereotype="interface" visibility="public" isSpecification="false" namespace="Logical_View" isAbstract="true" isLeaf="false" isRoot="false" xmi.id="u1AMmy5OXMLPl" name="interface"/>
      </UML:Namespace.ownedElement>
      <XMI.extension xmi.extender="umbrello">
       <diagrams resolution="91">
@@ -49,37 +49,37 @@
       </diagrams>
      </XMI.extension>
     </UML:Model>
-    <UML:Model visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Use Case View" name="Use Case View">
+    <UML:Model visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Use_Case_View" name="Use Case View">
      <UML:Namespace.ownedElement/>
     </UML:Model>
-    <UML:Model visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Component View" name="Component View">
+    <UML:Model visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Component_View" name="Component View">
      <UML:Namespace.ownedElement>
-      <UML:Component visibility="public" isSpecification="false" namespace="Component View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="upzKyxEgtSGtr" name="component" executable="0">
+      <UML:Component visibility="public" isSpecification="false" namespace="Component_View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="upzKyxEgtSGtr" name="component" executable="0">
        <UML:Namespace.ownedElement>
         <UML:Port visibility="public" isSpecification="false" namespace="upzKyxEgtSGtr" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uCRcidjDQhWOc" comment="with port as text label" name="port"/>
        </UML:Namespace.ownedElement>
       </UML:Component>
-      <UML:Artifact visibility="public" isSpecification="false" namespace="Component View" drawas="0" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uevjbgXQtx2ba" name="artifact"/>
-      <UML:Association visibility="public" isSpecification="false" namespace="Component View" xmi.id="upAbBQmv2fedK" name="">
+      <UML:Artifact visibility="public" isSpecification="false" namespace="Component_View" drawas="0" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uevjbgXQtx2ba" name="artifact"/>
+      <UML:Association visibility="public" isSpecification="false" namespace="Component_View" xmi.id="upAbBQmv2fedK" name="">
        <UML:Association.connection>
         <UML:AssociationEnd changeability="changeable" visibility="public" isNavigable="true" isSpecification="false" xmi.id="uA1B71mfiXb5q" type="upzKyxEgtSGtr" name="" aggregation="none"/>
         <UML:AssociationEnd changeability="changeable" visibility="public" isNavigable="true" isSpecification="false" xmi.id="uv3rHT2wGDVQb" type="u1AMmy5OXMLPl" name="" aggregation="none"/>
        </UML:Association.connection>
       </UML:Association>
-      <UML:Association visibility="public" isSpecification="false" namespace="Component View" xmi.id="uFLdv0ED8FODE" name="">
+      <UML:Association visibility="public" isSpecification="false" namespace="Component_View" xmi.id="uFLdv0ED8FODE" name="">
        <UML:Association.connection>
         <UML:AssociationEnd changeability="changeable" visibility="public" isNavigable="true" isSpecification="false" xmi.id="u8swgTzWM3OdU" type="uCRcidjDQhWOc" name="" aggregation="none"/>
         <UML:AssociationEnd changeability="changeable" visibility="public" isNavigable="true" isSpecification="false" xmi.id="uOalZ5BALWnEU" type="u1AMmy5OXMLPl" name="" aggregation="none"/>
        </UML:Association.connection>
       </UML:Association>
-      <UML:Component visibility="public" isSpecification="false" namespace="Component View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uoG16c5actRJj" name="component_1" executable="0">
+      <UML:Component visibility="public" isSpecification="false" namespace="Component_View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uoG16c5actRJj" name="component_1" executable="0">
        <UML:Namespace.ownedElement>
         <UML:Port visibility="public" isSpecification="false" namespace="uoG16c5actRJj" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uzXyDyk6m05ra" comment="with port name as tooltip" name="port"/>
        </UML:Namespace.ownedElement>
       </UML:Component>
-      <UML:Artifact visibility="public" isSpecification="false" namespace="Component View" drawas="1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uEhxPYAxa5AqX" name="artifact_1"/>
-      <UML:Artifact visibility="public" isSpecification="false" namespace="Component View" drawas="2" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uotV5Hv7Uv4ve" name="artifact_2"/>
-      <UML:Artifact visibility="public" isSpecification="false" namespace="Component View" drawas="3" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="utdvZrOedF9iU" name="artifact_3"/>
+      <UML:Artifact visibility="public" isSpecification="false" namespace="Component_View" drawas="1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uEhxPYAxa5AqX" name="artifact_1"/>
+      <UML:Artifact visibility="public" isSpecification="false" namespace="Component_View" drawas="2" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="uotV5Hv7Uv4ve" name="artifact_2"/>
+      <UML:Artifact visibility="public" isSpecification="false" namespace="Component_View" drawas="3" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="utdvZrOedF9iU" name="artifact_3"/>
      </UML:Namespace.ownedElement>
      <XMI.extension xmi.extender="umbrello">
       <diagrams resolution="91">
@@ -108,10 +108,10 @@
       </diagrams>
      </XMI.extension>
     </UML:Model>
-    <UML:Model visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Deployment View" name="Deployment View">
+    <UML:Model visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Deployment_View" name="Deployment View">
      <UML:Namespace.ownedElement/>
     </UML:Model>
-    <UML:Model visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Entity Relationship Model" name="Entity Relationship Model">
+    <UML:Model visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Entity_Relationship_Model" name="Entity Relationship Model">
      <UML:Namespace.ownedElement/>
     </UML:Model>
    </UML:Namespace.ownedElement>
@@ -121,9 +121,9 @@
   <docsettings viewid="uqZ76Z1Mr3Bs6" uniqueid="u3nwyssarM9OL" documentation=""/>
   <listview>
    <listitem open="1" type="800" id="Views">
-    <listitem open="1" type="802" id="Use Case View"/>
-    <listitem open="1" type="836" id="Entity Relationship Model"/>
-    <listitem open="1" type="821" id="Component View">
+    <listitem open="1" type="802" id="Use_Case_View"/>
+    <listitem open="1" type="836" id="Entity_Relationship_Model"/>
+    <listitem open="1" type="821" id="Component_View">
      <listitem open="1" type="824" id="uevjbgXQtx2ba"/>
      <listitem open="1" type="824" id="uEhxPYAxa5AqX"/>
      <listitem open="1" type="824" id="uotV5Hv7Uv4ve"/>
@@ -136,7 +136,7 @@
      </listitem>
      <listitem open="0" type="819" id="uqZ76Z1Mr3Bs6" label="Komponentendiagramm"/>
     </listitem>
-    <listitem open="1" type="801" id="Logical View">
+    <listitem open="1" type="801" id="Logical_View">
      <listitem open="0" type="830" id="Datatypes">
       <listitem open="0" type="829" id="u9clv0GmWDo7n"/>
       <listitem open="0" type="829" id="us0Tr9FQ7X04g"/>
@@ -160,7 +160,7 @@
      <listitem open="1" type="817" id="u1AMmy5OXMLPl"/>
      <listitem open="0" type="807" id="us1wX7AUA6dQy" label="Klassendiagramm"/>
     </listitem>
-    <listitem open="1" type="827" id="Deployment View"/>
+    <listitem open="1" type="827" id="Deployment_View"/>
    </listitem>
   </listview>
   <codegeneration>

@@ -25,9 +25,9 @@
     <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="plugin" name="plugin"/>
     <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="exception" name="exception"/>
     <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="final" name="final"/>
-    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Logical View" name="Logical View">
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Logical_View" name="Logical View">
      <UML:Namespace.ownedElement>
-      <UML:Package stereotype="folder" visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Datatypes" name="Datatypes">
+      <UML:Package stereotype="folder" visibility="public" isSpecification="false" namespace="Logical_View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Datatypes" name="Datatypes">
        <UML:Namespace.ownedElement>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="BLrutNQI8hAR" name="int"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="GI5Vnd61Fq12" name="char"/>
@@ -52,7 +52,7 @@
        </diagram>
        <diagram showopsig="1" linecolor="#ff0000" snapx="10" showattribassocs="1" snapy="10" linewidth="0" showattsig="1" textcolor="#000000" isopen="1" showpackage="1" showpubliconly="0" showstereotype="1" name="state diagram" font="Arial,9,-1,5,50,0,0,0,0,0" canvasheight="733" canvaswidth="726" localid="-1" snapcsgrid="0" showgrid="0" showops="1" griddotcolor="#000000" backgroundcolor="#ffffff" usefillcolor="1" fillcolor="#ffffc0" zoom="92" xmi.id="ncbdz4I0t6Am" documentation="" showscope="1" snapgrid="0" showatts="1" type="5">
         <widgets>
-         <statewidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="212" showstereotype="1" y="224" font="Arial,9,-1,5,50,0,0,0,0,0" statename="This is state 1" statetype="1" width="108" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="6SVGzm8Iy8U7" documentation="" height="27">
+         <statewidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="212" showstereotype="1" y="224" font="Arial,9,-1,5,50,0,0,0,0,0" statename="This is state 1" statetype="1" width="108" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="u6SVGzm8Iy8U7" documentation="" height="27">
           <Activities/>
          </statewidget>
          <statewidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="394" showstereotype="1" y="224" font="Arial,9,-1,5,50,0,0,0,0,0" statename="This is state 2" statetype="1" width="108" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="cdSK6U2nSYh3" documentation="" height="27">
@@ -79,7 +79,7 @@
          <statewidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="455" showstereotype="1" y="637" font="Arial,9,-1,5,50,0,0,0,0,0" statename="state 5" statetype="1" width="57" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="xYnxwJBUJAbs" documentation="" height="27">
           <Activities/>
          </statewidget>
-         <statewidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="493" showstereotype="1" y="698" font="Arial,9,-1,5,50,0,0,0,0,0" statename="state 6" statetype="1" width="57" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="8Nbe0ShQiAAY" documentation="" height="27">
+         <statewidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="493" showstereotype="1" y="698" font="Arial,9,-1,5,50,0,0,0,0,0" statename="state 6" statetype="1" width="57" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="u8Nbe0ShQiAAY" documentation="" height="27">
           <Activities/>
          </statewidget>
          <statewidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="470" showstereotype="1" y="381" font="Arial,9,-1,5,50,0,0,0,0,0" statename="State" statetype="8" width="35" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="WfEyw3KGbG8Y" documentation="" height="35">
@@ -219,16 +219,16 @@
       </diagrams>
      </XMI.extension>
     </UML:Model>
-    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Use Case View" name="Use Case View">
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Use_Case_View" name="Use Case View">
      <UML:Namespace.ownedElement/>
     </UML:Model>
-    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Component View" name="Component View">
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Component_View" name="Component View">
      <UML:Namespace.ownedElement/>
     </UML:Model>
-    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Deployment View" name="Deployment View">
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Deployment_View" name="Deployment View">
      <UML:Namespace.ownedElement/>
     </UML:Model>
-    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Entity Relationship Model" name="Entity Relationship Model">
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Entity_Relationship_Model" name="Entity Relationship Model">
      <UML:Namespace.ownedElement/>
     </UML:Model>
    </UML:Namespace.ownedElement>
@@ -238,10 +238,10 @@
   <docsettings viewid="ncbdz4I0t6Am" uniqueid="K1DrVl2AAdad" documentation=""/>
   <listview>
    <listitem open="1" type="800" id="Views">
-    <listitem open="1" type="802" id="Use Case View"/>
-    <listitem open="1" type="836" id="Entity Relationship Model"/>
-    <listitem open="1" type="821" id="Component View"/>
-    <listitem open="1" type="801" id="Logical View">
+    <listitem open="1" type="802" id="Use_Case_View"/>
+    <listitem open="1" type="836" id="Entity_Relationship_Model"/>
+    <listitem open="1" type="821" id="Component_View"/>
+    <listitem open="1" type="801" id="Logical_View">
      <listitem open="0" type="807" id="pOkGvx5bLC6H" label="class diagram"/>
      <listitem open="0" type="830" id="Datatypes">
       <listitem open="1" type="829" id="zqNKRcMGmjUG"/>
@@ -258,7 +258,7 @@
      </listitem>
      <listitem open="0" type="808" id="ncbdz4I0t6Am" label="state diagram"/>
     </listitem>
-    <listitem open="1" type="827" id="Deployment View"/>
+    <listitem open="1" type="827" id="Deployment_View"/>
    </listitem>
   </listview>
   <codegeneration>
