@@ -430,7 +430,7 @@ void MessageWidget::paintSynchronous(QPainter *painter, const QStyleOptionGraphi
         offsetX += wr;
         w -= wr;
         offsetY += 3;
-        const int lowerLineY = offsetY + h - 6;
+        const int lowerLineY = offsetY + 13;
         // draw upper line segment (leaving the life line)
         painter->drawLine(offsetX, offsetY, offsetX + w, offsetY);
         // draw line segment parallel to (and at the right of) the life line
