@@ -13,9 +13,9 @@
    <UML:Namespace.ownedElement>
     <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="folder" name="folder"/>
     <UML:Stereotype visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="datatype" name="datatype"/>
-    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Logical View" name="Logical View">
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Logical_View" name="Logical View">
      <UML:Namespace.ownedElement>
-      <UML:Package stereotype="folder" visibility="public" isSpecification="false" namespace="Logical View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Datatypes" name="Datatypes">
+      <UML:Package stereotype="folder" visibility="public" isSpecification="false" namespace="Logical_View" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Datatypes" name="Datatypes">
        <UML:Namespace.ownedElement>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="jLLN1W7FcwtA" name="int"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="xAHFU8ETwD48" name="char"/>
@@ -25,7 +25,7 @@
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="ICtLdK7OMOt5" name="short"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Hd1I41gSo5qZ" name="long"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="jpQoliMdU6sP" name="unsigned int"/>
-        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="1AagXB7TjO8j" name="unsigned short"/>
+        <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="u1AagXB7TjO8j" name="unsigned short"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="L1SHsRWXyOGq" name="unsigned long"/>
         <UML:DataType stereotype="datatype" visibility="public" isSpecification="false" namespace="Datatypes" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="oChJUey7ToPB" name="string"/>
        </UML:Namespace.ownedElement>
@@ -37,15 +37,15 @@
         <widgets>
          <notewidget width="95" showstereotype="1" x="721" noteType="0" usesdiagramusefillcolor="1" y="216" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="52" linecolor="none" xmi.id="YDydXuPYO3Uv" textcolor="none" usefillcolor="1" linewidth="none" font="Arial,9,-1,5,50,0,0,0,0,0" text="saddasd"/>
          <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="481" showstereotype="1" y="93" text="text" font="Arial,9,-1,5,50,0,0,0,0,0" pretext="" role="700" width="26" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="jm25UYtrabwF" height="19"/>
-         <boxwidget width="144" showstereotype="1" x="578" usesdiagramusefillcolor="1" y="65" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="93" linecolor="#000000" xmi.id="5SN6Sr0K5kbs" textcolor="none" usefillcolor="1" linewidth="none" font="Arial,9,-1,5,50,0,0,0,0,0"/>
+         <boxwidget width="144" showstereotype="1" x="578" usesdiagramusefillcolor="1" y="65" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="93" linecolor="#000000" xmi.id="u5SN6Sr0K5kbs" textcolor="none" usefillcolor="1" linewidth="none" font="Arial,9,-1,5,50,0,0,0,0,0"/>
          <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="219" showstereotype="1" y="703" font="Arial,9,-1,5,50,0,0,0,0,0" width="15" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="iCRpNDqNt1tt" postcondition="" documentation="" activitytype="0" height="15" precondition=""/>
          <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="440" showstereotype="1" y="562" font="Arial,9,-1,5,50,0,0,0,0,0" width="81" isinstance="0" usefillcolor="1" fillcolor="none" activityname="new activity" xmi.id="fgZXD2gKMXdi" postcondition="" documentation="" activitytype="1" height="25" precondition=""/>
          <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="66" showstereotype="1" y="616" font="Arial,9,-1,5,50,0,0,0,0,0" width="15" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="PMxtwGC4gAYr" postcondition="" documentation="" activitytype="2" height="15" precondition=""/>
-         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="323" showstereotype="1" y="537" font="Arial,9,-1,5,50,0,0,0,0,0" width="15" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="84slKYutFwIf" postcondition="" documentation="" activitytype="3" height="15" precondition=""/>
+         <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="323" showstereotype="1" y="537" font="Arial,9,-1,5,50,0,0,0,0,0" width="15" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="u84slKYutFwIf" postcondition="" documentation="" activitytype="3" height="15" precondition=""/>
          <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="185" showstereotype="1" y="477" font="Arial,9,-1,5,50,0,0,0,0,0" width="20" isinstance="0" usefillcolor="1" fillcolor="none" activityname="" xmi.id="kjOn5XxRDXNy" postcondition="" documentation="" activitytype="4" height="20" precondition=""/>
          <forkjoin width="10" showstereotype="1" x="246" usesdiagramusefillcolor="1" y="269" drawvertical="1" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="40" linecolor="#000000" xmi.id="NHpYWDkoGMMP" textcolor="none" usefillcolor="1" linewidth="none" font="Arial,9,-1,5,50,0,0,0,0,0"/>
          <notewidget width="112" showstereotype="1" x="637" noteType="1" usesdiagramusefillcolor="1" y="667" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="30" linecolor="none" xmi.id="m3Yms1C2KLhv" textcolor="none" usefillcolor="1" linewidth="none" font="Arial,9,-1,5,50,0,0,0,0,0" text=""/>
-         <notewidget width="118" showstereotype="1" x="360" noteType="2" usesdiagramusefillcolor="1" y="682" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="30" linecolor="none" xmi.id="4csIYA96x8a6" textcolor="none" usefillcolor="1" linewidth="none" font="Arial,9,-1,5,50,0,0,0,0,0" text=""/>
+         <notewidget width="118" showstereotype="1" x="360" noteType="2" usesdiagramusefillcolor="1" y="682" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="30" linecolor="none" xmi.id="u4csIYA96x8a6" textcolor="none" usefillcolor="1" linewidth="none" font="Arial,9,-1,5,50,0,0,0,0,0" text=""/>
          <notewidget width="124" showstereotype="1" x="492" noteType="3" usesdiagramusefillcolor="1" y="689" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="30" linecolor="none" xmi.id="UJEYEiZ3lK5P" textcolor="none" usefillcolor="1" linewidth="none" font="Arial,9,-1,5,50,0,0,0,0,0" text=""/>
          <signalwidget linecolor="none" usesdiagramfillcolor="1" signaltype="0" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="511" showstereotype="1" y="284" font="Arial,9,-1,5,75,0,0,0,0,0" width="72" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="Pqwj8zf0KRCf" signalname="new Signal" documentation="" height="25"/>
          <signalwidget linecolor="none" usesdiagramfillcolor="1" signaltype="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="290" showstereotype="1" y="274" font="Arial,9,-1,5,75,0,0,0,0,0" width="90" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="WuS9zeWvSZg0" signalname="new Signal" documentation="" height="25"/>
@@ -53,17 +53,17 @@
          <signalwidget linecolor="none" usesdiagramfillcolor="1" textid="uthV1h5RY3yN" signaltype="2" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="51" showstereotype="1" y="308" font="Arial,9,-1,5,75,0,0,0,0,0" width="55" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="ZqJKEWKrwv8v" signalname="new time event" documentation="" height="25">
           <floatingtext linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="742" showstereotype="1" y="276" text="new time event" font="Arial,9,-1,5,50,0,0,0,0,0" pretext="" role="700" width="90" isinstance="0" posttext="" usefillcolor="1" fillcolor="none" xmi.id="uthV1h5RY3yN" height="19"/>
          </signalwidget>
-         <regionwidget width="156" showstereotype="1" x="777" usesdiagramusefillcolor="1" y="50" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="108" linecolor="none" regionname="" xmi.id="K7Upn0TpiUrg" textcolor="none" usefillcolor="1" documentation="sadasdsadsa&#xa;asd&#xa;sad&#xa;asd&#xa;asd&#xa;" linewidth="none" font="Arial,9,-1,5,50,0,0,0,0,0"/>
+         <regionwidget width="156" showstereotype="1" x="777" usesdiagramusefillcolor="1" y="50" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="108" linecolor="none" regionname="" xmi.id="K7Upn0TpiUrg" textcolor="none" usefillcolor="1" documentation="sadasdsadsa&#10;asd&#10;sad&#10;asd&#10;asd&#10;" linewidth="none" font="Arial,9,-1,5,50,0,0,0,0,0"/>
          <floatingtext linecolor="none" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" x="798" showstereotype="1" y="51" text="" font="Arial,9,-1,5,50,0,0,0,0,0" pretext="" role="700" width="8" isinstance="0" posttext="" usefillcolor="1" fillcolor="#ffffc0" xmi.id="dUz1WaY8YCIx" height="19"/>
          <pinwidget width="10" showstereotype="1" x="855" widgetaid="K7Upn0TpiUrg" usesdiagramusefillcolor="1" y="45" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="10" linecolor="none" xmi.id="EAJyl2lQaLw2" textcolor="none" usefillcolor="1" linewidth="none" font="Arial,9,-1,5,50,0,0,0,0,0"/>
          <objectnodewidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" objectnodetype="2" x="396" showstereotype="1" y="410" font="Arial,9,-1,5,50,0,0,0,0,0" objectnodestate="" width="113" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="W6ONgsIjK2L7" objectnodename="centralBuffer" documentation="" height="45"/>
          <objectnodewidget linecolor="#ff0000" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" objectnodetype="1" x="777" showstereotype="1" y="572" font="Arial,9,-1,5,50,0,0,0,0,0" objectnodestate="" width="100" isinstance="0" usefillcolor="1" fillcolor="#ffffc0" xmi.id="usT0e1RTJn9N" objectnodename="data store name" documentation="" height="45"/>
-         <objectnodewidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" objectnodetype="3" x="803" showstereotype="1" y="338" font="Arial,9,-1,5,50,0,0,0,0,0" objectnodestate="-" width="68" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="909o8QemsgdE" objectnodename="object flow" documentation="" height="50"/>
+         <objectnodewidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" objectnodetype="3" x="803" showstereotype="1" y="338" font="Arial,9,-1,5,50,0,0,0,0,0" objectnodestate="-" width="68" isinstance="0" usefillcolor="1" fillcolor="none" xmi.id="u909o8QemsgdE" objectnodename="object flow" documentation="" height="50"/>
          <forkjoin width="10" showstereotype="1" x="474" usesdiagramusefillcolor="1" y="280" drawvertical="1" usesdiagramfillcolor="1" isinstance="0" fillcolor="none" height="40" linecolor="#000000" xmi.id="Y1l6sNnvcdhA" textcolor="none" usefillcolor="1" linewidth="none" font="Arial,9,-1,5,50,0,0,0,0,0"/>
          <activitywidget linecolor="none" usesdiagramfillcolor="1" linewidth="none" textcolor="none" usesdiagramusefillcolor="1" x="629" showstereotype="1" y="398" font="Arial,9,-1,5,50,0,0,0,0,0" width="91" isinstance="0" usefillcolor="1" fillcolor="none" activityname="new activity 2" xmi.id="x17QpJ17t5IZ" postcondition="" documentation="" activitytype="1" height="25" precondition=""/>
          <floatingtext linecolor="none" usesdiagramfillcolor="0" linewidth="0" textcolor="#000000" usesdiagramusefillcolor="0" x="798" showstereotype="1" y="51" text="" font="Arial,9,-1,5,50,0,0,0,0,0" pretext="" role="700" width="8" isinstance="0" posttext="" usefillcolor="1" fillcolor="#ffffc0" xmi.id="q6DIvmNlFS9B" height="19"/>
          <pinwidget width="10" showstereotype="1" x="855" widgetaid="K7Upn0TpiUrg" usesdiagramusefillcolor="0" y="45" usesdiagramfillcolor="0" isinstance="0" fillcolor="#ffffc0" height="10" linecolor="none" xmi.id="FB3go73B1oOX" textcolor="#000000" usefillcolor="1" linewidth="0" font="Arial,9,-1,5,50,0,0,0,0,0"/>
-         <notewidget width="239" showstereotype="1" x="500" noteType="0" usesdiagramusefillcolor="0" y="488" usesdiagramfillcolor="0" isinstance="0" fillcolor="#fb04ff" height="41" linecolor="#f303ff" xmi.id="OI8fJoJmTLKK" textcolor="#000000" usefillcolor="1" linewidth="0" font="Arial,9,-1,5,50,0,0,0,0,0" text="could not be connected !!!&#xa;error is &quot;incorrect use of association&quot;"/>
+         <notewidget width="239" showstereotype="1" x="500" noteType="0" usesdiagramusefillcolor="0" y="488" usesdiagramfillcolor="0" isinstance="0" fillcolor="#fb04ff" height="41" linecolor="#f303ff" xmi.id="OI8fJoJmTLKK" textcolor="#000000" usefillcolor="1" linewidth="0" font="Arial,9,-1,5,50,0,0,0,0,0" text="could not be connected !!!&#10;error is &quot;incorrect use of association&quot;"/>
         </widgets>
         <messages/>
         <associations>
@@ -200,16 +200,16 @@
       </diagrams>
      </XMI.extension>
     </UML:Model>
-    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Use Case View" name="Use Case View">
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Use_Case_View" name="Use Case View">
      <UML:Namespace.ownedElement/>
     </UML:Model>
-    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Component View" name="Component View">
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Component_View" name="Component View">
      <UML:Namespace.ownedElement/>
     </UML:Model>
-    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Deployment View" name="Deployment View">
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Deployment_View" name="Deployment View">
      <UML:Namespace.ownedElement/>
     </UML:Model>
-    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Entity Relationship Model" name="Entity Relationship Model">
+    <UML:Model stereotype="folder" visibility="public" isSpecification="false" namespace="m1" isAbstract="false" isLeaf="false" isRoot="false" xmi.id="Entity_Relationship_Model" name="Entity Relationship Model">
      <UML:Namespace.ownedElement/>
     </UML:Model>
    </UML:Namespace.ownedElement>
@@ -219,10 +219,10 @@
   <docsettings viewid="jBQx5FOXFWAh" uniqueid="OI8fJoJmTLKK" documentation=""/>
   <listview>
    <listitem open="1" type="800" id="Views">
-    <listitem open="1" type="821" id="Component View"/>
-    <listitem open="1" type="827" id="Deployment View"/>
-    <listitem open="1" type="836" id="Entity Relationship Model"/>
-    <listitem open="1" type="801" id="Logical View">
+    <listitem open="1" type="821" id="Component_View"/>
+    <listitem open="1" type="827" id="Deployment_View"/>
+    <listitem open="1" type="836" id="Entity_Relationship_Model"/>
+    <listitem open="1" type="801" id="Logical_View">
      <listitem open="0" type="830" id="Datatypes">
       <listitem open="1" type="829" id="HG0TIW6aD6vm"/>
       <listitem open="1" type="829" id="xAHFU8ETwD48"/>
@@ -234,11 +234,11 @@
       <listitem open="1" type="829" id="oChJUey7ToPB"/>
       <listitem open="1" type="829" id="jpQoliMdU6sP"/>
       <listitem open="1" type="829" id="L1SHsRWXyOGq"/>
-      <listitem open="1" type="829" id="1AagXB7TjO8j"/>
+      <listitem open="1" type="829" id="u1AagXB7TjO8j"/>
      </listitem>
      <listitem open="0" type="809" id="jBQx5FOXFWAh" label="activity diagram"/>
     </listitem>
-    <listitem open="1" type="802" id="Use Case View"/>
+    <listitem open="1" type="802" id="Use_Case_View"/>
    </listitem>
   </listview>
   <codegeneration>
