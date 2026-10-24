@@ -415,7 +415,8 @@
 <!-- ========= UML:DataType ========= -->
 <!ENTITY % UML.DataTypeFeatures '%UML.ClassifierFeatures;'>
 <!ENTITY % UML.DataTypeAtts '%UML.ClassifierAtts;
-                            elementReference CDATA #IMPLIED'>
+                            elementReference CDATA #IMPLIED
+                            isActive CDATA #IMPLIED'>
 <!ELEMENT UML:DataType (%UML.DataTypeFeatures;)*>
 <!ATTLIST UML:DataType %UML.DataTypeAtts;>
 

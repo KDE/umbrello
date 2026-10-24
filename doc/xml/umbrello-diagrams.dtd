@@ -32,9 +32,11 @@
 <!ELEMENT diagrams ANY >
 <!ATTLIST diagrams
           resolution CDATA #IMPLIED
+          usealignmentguides CDATA #IMPLIED
 >
 <!ELEMENT diagram ANY >
 <!ATTLIST diagram
+          autoincrementsequence CDATA #IMPLIED
           backgroundcolor CDATA #IMPLIED
           canvasheight CDATA #IMPLIED
           canvaswidth CDATA #IMPLIED
@@ -50,6 +52,7 @@
           showattribassocs CDATA #IMPLIED
           showatts CDATA #IMPLIED
           showattsig CDATA #IMPLIED
+          showdocumentation CDATA #IMPLIED
           showgrid CDATA #IMPLIED
           showops CDATA #IMPLIED
           showopsig CDATA #IMPLIED
@@ -63,12 +66,11 @@
           snapy CDATA #IMPLIED
           textcolor CDATA #IMPLIED
           type CDATA #IMPLIED
+          usealignmentguides CDATA #IMPLIED
           usebackgroundcolor CDATA #IMPLIED
           usefillcolor CDATA #IMPLIED
           xmi.id CDATA #IMPLIED
           zoom CDATA #IMPLIED
-          showdocumentation CDATA #IMPLIED
-          autoincrementsequence CDATA #IMPLIED
 >
 <!ELEMENT associations ANY >
 <!ATTLIST associations
@@ -127,6 +129,7 @@
           documentation CDATA #IMPLIED
           indexa CDATA #IMPLIED
           indexb CDATA #IMPLIED
+          localid CDATA #IMPLIED
           roleAdoc CDATA #IMPLIED
           roleBdoc CDATA #IMPLIED
           totalcounta CDATA #IMPLIED
@@ -160,6 +163,7 @@
 <!ATTLIST classwidget
           %UMLWidgetAtts;
           %ClassifierWidgetAtts;
+          showdocumentation CDATA #IMPLIED
 >
 <!ELEMENT combinedFragmentwidget ANY >
 <!ATTLIST combinedFragmentwidget
@@ -266,6 +270,7 @@
 <!ELEMENT packagewidget ANY >
 <!ATTLIST packagewidget
           %UMLWidgetAtts;
+          showdocumentation CDATA #IMPLIED
           xclicked CDATA #IMPLIED
           yclicked CDATA #IMPLIED
 >
