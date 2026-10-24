@@ -316,7 +316,7 @@ void UMLWidget::toForeground()
             UMLWidget* w = dynamic_cast<UMLWidget*>(i);
             if (w) {
                 logDebug2("- item=%1 with zValue=%2", w->name(), w->zValue());
-                if (w->name() != name()) {
+                if (w != this) {
                     if (w->zValue() >= zValue()) {
                         setZValue(w->zValue() + 1.0);
                         logDebug1("-- bring to foreground with zValue: %1", zValue());
