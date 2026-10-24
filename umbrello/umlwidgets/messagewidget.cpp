@@ -436,7 +436,8 @@ void MessageWidget::paintSynchronous(QPainter *painter, const QStyleOptionGraphi
         // draw line segment parallel to (and at the right of) the life line
         painter->drawLine(offsetX + w, offsetY, offsetX + w, lowerLineY);
         // draw lower line segment (back to the life line)
-        paintArrow(painter, offsetX, lowerLineY, w, Qt::LeftArrow);
+        painter->drawLine(offsetX + arrowWidth, lowerLineY, offsetX + w, lowerLineY);
+        paintSolidArrowhead(painter, offsetX, lowerLineY, Qt::LeftArrow);
         offsetX -= wr;
         offsetY -= 3;
     } else if(x1 < x2) {
