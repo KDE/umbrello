@@ -960,12 +960,14 @@ QPainterPath ClassifierWidget::shape() const
     QSizeF mainSize = rect().size();
     QSize templatesBoxSize = calculateTemplatesBoxSize();
     qreal mainY = 0.0;
+    qreal mainWidth = mainSize.width();
     if (templatesBoxSize.height() > 0) {
         mainY += templatesBoxSize.height() - defaultMargin;
-        path.addRect(QRectF(mainSize.width() - templatesBoxSize.width() / 2, 0.0,
+        path.addRect(QRectF(mainSize.width() - templatesBoxSize.width(), 0.0,
                             templatesBoxSize.width(), templatesBoxSize.height()));
+        mainWidth -= templatesBoxSize.width() / 2;
     }
-    path.addRect(QRectF(0.0, mainY, mainSize.width(), mainSize.height()));
+    path.addRect(QRectF(0.0, mainY, mainWidth, mainSize.height() - mainY));
     return path;
 }
 
