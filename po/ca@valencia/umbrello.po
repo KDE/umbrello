@@ -4261,8 +4261,8 @@ msgid ""
 "Copyright © 2001 Paul Hensgen,\n"
 "Copyright © 2002-2022 Umbrello UML Modeller Authors"
 msgstr ""
-"Copyright © 2001 Paul Hensgen,\n"
-"Copyright © 2002-2022 Umbrello UML Modeller Authors"
+"Drets d'autoria © 2001 Paul Hensgen,\n"
+"Drets d'autoria © 2002-2022 Umbrello UML Modeller Authors"
 
 #: main.cpp:127
 #, kde-format
@@ -7449,7 +7449,7 @@ msgstr "Exporta els &diagrames com a imatges…"
 #: umlapp.cpp:561
 #, kde-format
 msgid "Z&oom to 100%"
-msgstr "A&mplia al 100%"
+msgstr "A&mplia al 100 %"
 
 #: umlapp.cpp:604
 #, kde-format
@@ -7486,7 +7486,7 @@ msgstr "Llest"
 #: umlapp.cpp:818 umlapp.cpp:831
 #, kde-format
 msgid "100%"
-msgstr "100%"
+msgstr "100 %"
 
 #: umlapp.cpp:823
 #, kde-format
