@@ -7177,7 +7177,8 @@ msgstr "&Editar"
 
 #. i18n: ectx: Menu (view)
 #: umbrelloui.rc.cmake:14
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&View"
 msgid "&View"
 msgstr "&Vista"
 
