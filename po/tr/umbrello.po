@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 03:00+0000\n"
-"PO-Revision-Date: 2026-10-12 12:02+0300\n"
+"PO-Revision-Date: 2026-11-10 21:39+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -718,7 +718,7 @@ msgstr "Belgelendirme"
 #: codegenerators/ruby/rubycodegenerationformbase.ui:58
 #, kde-format
 msgid "Style:"
-msgstr "Biçem:"
+msgstr "Stil:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, ui_selectCommentStyle)
 #. i18n: ectx: property (text), item, widget (KComboBox, m_SelectCommentStyle)
@@ -1196,7 +1196,7 @@ msgstr "Girintileme miktarı:"
 #: codegenwizard/codegenoptionspage.ui:378
 #, kde-format
 msgid "Line ending style:"
-msgstr "Satır sonu biçemi:"
+msgstr "Satır sonu stili:"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, ui_SelectEndLineCharsBox)
 #: codegenwizard/codegenoptionspage.ui:389
@@ -2183,23 +2183,23 @@ msgstr "Yazıtipi Ayarları"
 #, kde-format
 msgctxt "widget style page"
 msgid "Style"
-msgstr "Biçem"
+msgstr "Stil"
 
 #: dialogs/multipagedialogbase.cpp:413
 #, kde-format
 msgid "Widget Style"
-msgstr "Araç Takımı Biçemi"
+msgstr "Araç Takımı Stili"
 
 #: dialogs/multipagedialogbase.cpp:424
 #, kde-format
 msgctxt "style page name"
 msgid "Style"
-msgstr "Biçem"
+msgstr "Stil"
 
 #: dialogs/multipagedialogbase.cpp:424
 #, kde-format
 msgid "Line Style"
-msgstr "Çizgi Biçemi"
+msgstr "Çizgi Stili"
 
 #: dialogs/multipagedialogbase.cpp:444
 #, kde-format
@@ -3930,12 +3930,12 @@ msgstr "Sınıf Görüntüleme Seçenekleri"
 #, kde-format
 msgctxt "diagram style page"
 msgid "Style"
-msgstr "Biçem"
+msgstr "Stil"
 
 #: dialogs/umlviewdialog.cpp:115
 #, kde-format
 msgid "Diagram Style"
-msgstr "Diyagram Biçemi"
+msgstr "Diyagram Stili"
 
 #: dialogs/widgets/defaultvaluewidget.cpp:36
 #, kde-format
@@ -6682,13 +6682,13 @@ msgstr ""
 #: umbrello.kcfg:371
 #, kde-format
 msgid "Comment Style"
-msgstr "Yorum biçemi"
+msgstr "Yorum stili"
 
 #. i18n: ectx: whatsthis, entry (commentStyle), group (Code Generation)
 #: umbrello.kcfg:372
 #, kde-format
 msgid "Sets the Style of Comments to be used"
-msgstr "Kullanılacak yorumların biçemini ayarlar"
+msgstr "Kullanılacak yorumların stilini ayarlar"
 
 #. i18n: ectx: label, entry (defaultAssocFieldScope), group (Code Generation)
 #: umbrello.kcfg:380

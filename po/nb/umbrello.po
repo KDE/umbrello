@@ -6298,7 +6298,7 @@ msgstr ""
 #: umbrello.kcfg:148
 #, kde-format
 msgid "Enables/Disables usage of fill color"
-msgstr "Slår bruk av fyllfarge av/på"
+msgstr "Slår bruk av fyllfarge på/av"
 
 #. i18n: ectx: label, entry (fillColor), group (UI Options)
 #: umbrello.kcfg:152
@@ -6771,7 +6771,7 @@ msgstr "Ta med deklarasjonsfiler"
 #: umbrello.kcfg:425
 #, kde-format
 msgid "Enables/Disables inclusion of headings"
-msgstr "Skru av/på inkludering av deklarasjonsfiler"
+msgstr "Skru på/av inkludering av deklarasjonsfiler"
 
 #. i18n: ectx: label, entry (indentationAmount), group (Code Generation)
 #: umbrello.kcfg:429
@@ -6874,7 +6874,7 @@ msgstr "Innebygde operasjoner"
 #: umbrello.kcfg:499
 #, kde-format
 msgid "Enables/Disables Inline Operations"
-msgstr "Slå av/på innebygde operasjoner"
+msgstr "Slå på/av innebygde operasjoner"
 
 #. i18n: ectx: label, entry (packageIsNamespace), group (CPP Code Generation)
 #: umbrello.kcfg:503
