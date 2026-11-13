@@ -1,0 +1,84 @@
+<chapter id="other-features">
+<title
+>ميزات أخرى</title>
+<sect1
+> 
+<title
+>ميزات أمبريلو الأخرى</title>
+<para
+>سيشرح هذا الفصل بإيجاز بعض الميزات الأخرى التي يقدمها لك أمبريلو.</para>
+<sect2 id="copying-as-png">
+<title
+>نسخ الكائنات كصور PNG</title>
+<para
+>بالإضافة إلى تقديم وظائف النسخ والقص واللصق العادية التي تتوقعها لنسخ الكائنات بين المخططات المختلفة، يمكن لـ أمبريلو نسخ الكائنات كصور PNG بحيث يمكنك إدراجها في أي نوع آخر من المستندات. لا تحتاج إلى فعل أي شيء خاص لاستخدام هذه الميزة، فقط حدد كائنًا من مخطط (صنف، ممثل، إلخ) وانسخه (<keycombo
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+>، أو باستخدام القائمة)، ثم افتح مستند <application
+>Calligra Words</application
+> (أو أي برنامج يمكنك لصق الصور فيه) واختر <guimenuitem
+>لصق</guimenuitem
+>. هذه ميزة رائعة لتصدير أجزاء من مخططك كصور بسيطة. </para>
+</sect2>
+<sect2 id="export-as-png">
+<title
+>التصدير إلى صورة</title>
+<para
+>يمكنك أيضًا تصدير مخطط كامل كصورة. كل ما عليك فعله هو تحديد المخطط الذي تريد تصديره، ثم الخيار <guimenuitem
+>تصدير كصورة...</guimenuitem
+> من قائمة <guimenu
+>مخطط</guimenu
+>. </para>
+<para
+>يمكنك تصدير مخططات متعددة دفعة واحدة باستخدام الخيار <guimenuitem
+>تصدير المخططات كصور...</guimenuitem
+> من قائمة <guimenu
+>ملف</guimenu
+>. بهذا، يمكنك أيضًا ضبط دقة الصورة، بحيث لا تكون الصور ضبابية. </para>
+</sect2>
+<sect2 id="printing">
+<title
+>الطباعة</title>
+<para
+>يتيح لك أمبريلو طباعة مخططات فردية. الضغط على زر <guiicon
+>طباعة</guiicon
+> في شريط أدوات التطبيق أو اختيار الخيار <guimenuitem
+>طباعة</guimenuitem
+> من قائمة <guimenu
+>ملف</guimenu
+> سيعطيك حوار طباعة قياسيًا لـ &kde; حيث يمكنك طباعة مخططاتك. </para>
+</sect2>
+<sect2 id="logical-folders">
+<title
+>المجلدات المنطقية</title>
+<para
+>لتنظيم نموذجك بشكل أفضل، خاصة للمشاريع الأكبر، يمكنك إنشاء مجلدات منطقية في عرض الشجرة. فقط اختر الخيار <menuchoice
+><guimenu
+>جديد</guimenu
+><guimenuitem
+>مجلد</guimenuitem
+></menuchoice
+> من قائمة السياق للمجلدات المبدئية في عرض الشجرة لإنشائها. يمكن تداخل المجلدات، ويمكنك نقل الكائنات عن طريق سحبها من مجلد وإفلاتها في آخر. </para>
+
+<screenshot>
+<screeninfo
+>تنظيم نموذجك باستخدام المجلدات</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>تنظيم نموذج باستخدام مجلدات منطقية في أمبريلو</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>تنظيم نموذج باستخدام مجلدات منطقية في أمبريلو </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2>
+</sect1>
+</chapter>

@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE article PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
+ "dtd/kdedbx45.dtd" [
+ <!ENTITY umbrello "<application
+>Umbrello &UML; Modeller</application
+>">
+ <!ENTITY kappname "&umbrello;">
+ <!ENTITY UML "<acronym
+>UML</acronym
+>">
+ <!ENTITY % addindex "IGNORE">
+ <!ENTITY % Arabic "INCLUDE"
+><!-- change language only here -->
+  <!-- Do not define any other entities; instead, use the entities
+       from kde-genent.entities and $LANG/user.entities. -->
+]>
+
+<article id="Welcome" lang="&language;">
+<articleinfo>
+<title
+>مرحبًا</title>
+</articleinfo>
+
+<para
+>مرحبًا بك في أمبريلو، أداة رسوم &UML; التي تدعمك في عملية تطوير البرمجيات. خاصة خلال مرحلتي التحليل والتصميم من هذه العملية، سيساعدك أمبريلو في الحصول على منتج عالي الجودة. يمكن أيضًا استخدام &UML; لتوثيق تصاميم برمجياتك لمساعدتك أنت وزملائك المطورين. </para>
+<para
+>لبدء العمل مع UML، يمكنك إنشاء رسم بياني جديد من أحد أنواع الرسوم البيانية التالية: </para>
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><ulink url="use-case-diagram"
+>رسم حالات الاستخدام</ulink
+></emphasis
+> - يعرض الفاعلين (أشخاص أو مستخدمين آخرين للنظام)، حالات الاستخدام (السيناريوهات عند استخدامهم للنظام)، وعلاقاتهم</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="class-diagram"
+>رسم الطبقات</ulink
+></emphasis
+> - يعرض الطبقات والعلاقات بينها</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="sequence-diagram"
+>رسم التسلسل</ulink
+></emphasis
+> - يعرض الكائنات وتسلسل استدعاءات الطرق التي تجريها لكائنات أخرى.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="collaboration-diagram"
+>رسم التعاون</ulink
+></emphasis
+> - يعرض الكائنات وعلاقاتها، مع التركيز على الكائنات التي تشارك في تبادل الرسائل</para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="state-diagram"
+>رسم الحالات</ulink
+></emphasis
+> - يعرض الحالات وتغيرات الحالات والأحداث في كائن أو جزء من النظام</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="activity-diagram"
+>رسم الأنشطة</ulink
+></emphasis
+> - يعرض الأنشطة والتغيرات من نشاط إلى آخر مع الأحداث التي تحدث في جزء ما من النظام</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="component-diagram"
+>رسم المكونات</ulink
+></emphasis
+> - يعرض مكونات البرمجة عالية المستوى (مثل KParts أو Java Beans).</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="deployment-diagram"
+>رسم النشر</ulink
+></emphasis
+> - يعرض مثيلات المكونات وعلاقاتها.</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><ulink url="entity-relationship-diagram"
+>رسم علاقات الكيانات</ulink
+></emphasis
+> - يعرض البيانات والعلاقات والقيود بين البيانات.</para
+></listitem>
+
+</itemizedlist>
+</article>

@@ -1,0 +1,746 @@
+<chapter id="settings">
+<title
+>إعدادات</title>
+
+<sect1 id="general-settings">
+<title
+>الإعدادات العامة</title>
+<para>
+    <screenshot>
+        <screeninfo
+>الإعدادات العامة</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="general-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>خيارات الإعدادات العامة في أمبريلو</phrase>
+            </textobject>
+            <caption>
+                <para
+>خيارات الإعدادات العامة في أمبريلو </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<sect2 id= "misc-settings">
+<title
+>متنوّع</title>
+<itemizedlist>
+    <listitem>
+        <para
+>الخيار <guilabel
+>تمكين التراجع</guilabel
+> يسمح بالتراجع عن إجراء سابق.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>استخدام مولّدات C++/Java/Ruby الجديدة</guilabel
+> يتيح للمستخدم اختيار إما مولّدات الشيفرة القديمة أو الجديدة</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>تشغيل التذييل وأرقام الصفحات عند الطباعة</guilabel
+> عند اختياره، يُطبع معلومات المخطط للمخطط الجاري طباعته ورقم الصفحة.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>استخدام مخططات مبوبة</guilabel
+> يعطي خيار فتح نوافذ مخططات متعددة مبوبة في وقت واحد.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- misc-settings -->
+
+
+<sect2 id= "autosave-settings">
+<title
+>حفظ آلي</title>
+<itemizedlist>
+    <listitem
+><para
+><guilabel
+>تمكين الحفظ الآلي</guilabel
+> يعطي خيار حفظ الملف آليًا.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>اختر الفاصل الزمني للحفظ الآلي (بالدقائق):</guilabel
+> يسمح بتعيين الوقت قبل حفظ الملف آليًا.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>تعيين لاحقة الحفظ الآلي:</guilabel
+> المبدئي هو .xmi لكنه يسمح بتعيين امتداد ملف مختلف.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>   <!-- autosave-settings -->
+
+
+<sect2 id= "startup-settings">
+    <title
+>بدء التشغيل</title>
+    <itemizedlist>
+        <listitem
+><para
+><guilabel
+>تحميل آخر مشروع</guilabel
+> إذا ضُبط، يُحمّل دائمًا آخر مشروع عمل عند بدء تشغيل البرنامج.</para>
+        </listitem>
+        <listitem
+><para
+><guilabel
+>بدء مشروع جديد بـ:</guilabel
+> يعطي خيار أي نوع مخطط UML للبدء به في مشروع جديد.</para>
+        </listitem>
+        <listitem
+><para
+><guilabel
+>اللغة المبدئية:</guilabel
+> هو إعداد للغة البرمجة المبدئية المستخدمة.</para>
+        </listitem>
+    </itemizedlist>
+</sect2
+>    <!-- startup-settings -->
+
+<sect2 id= "notifications-settings">
+<title
+>الإشعارات</title>
+<itemizedlist>
+    <listitem
+><para
+><guilabel
+>تمكين جميع الرسائل</guilabel
+> هو خيار إما رؤية جميع الإشعارات أو مجموعة مخفّضة من الإشعارات.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>تمكين الرسائل المتعلقة بـ 'حذف الارتباط'</guilabel
+> يضمن استلام جميع رسائل هذا النوع إذا فُعّل.</para>
+    </listitem>
+    <listitem
+><para
+><guilabel
+>تمكين الرسائل المتعلقة بـ 'حذف المخطط'</guilabel
+> سيفعّل جميع رسائل هذا النوع إذا فُعّل.</para>
+    </listitem>
+</itemizedlist>
+</sect2
+>    <!-- notifications-settings -->
+
+</sect1
+>    <!-- general-settings -->
+
+<!-- Font Settings -->
+<sect1 id="font-settings">
+<title
+>إعدادات الخطّ</title>
+<para>
+    <screenshot>
+        <screeninfo
+>إعدادات الخطّ</screeninfo>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="font-settings.png" format="PNG"/>
+            </imageobject>
+            <textobject>
+                <phrase
+>خيارات إعدادات خط المخطط في أمبريلو</phrase>
+            </textobject>
+            <caption>
+                <para
+>خيارات إعدادات خط المخطط في أمبريلو </para>
+            </caption>
+        </mediaobject>
+    </screenshot>
+</para>
+
+<para
+>إعدادات الخط هذه تضبط خصائص النص في المخططات. نمط الخط وحجمه هما الخياران الوحيدان القابلان للاختيار.</para>
+
+</sect1
+>    <!-- font-settings -->
+
+<sect1 id="ui-settings">
+    <title
+>إعدادات واجهة المستخدم</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>إعدادات واجهة المستخدم</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="user-interface-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>خيارات إعدادات واجهة المستخدم في أمبريلو</phrase>
+                </textobject>
+                <caption>
+                    <para
+>خيارات إعدادات واجهة المستخدم في أمبريلو </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="ui-general">
+    <title
+>عامّ</title>
+    <para
+><guilabel
+>واجهة مستخدم من اليمين إلى اليسار</guilabel
+> يضبط الواجهة للغات التي تُكتب من اليمين إلى اليسار. </para>
+</sect2
+>    <!-- ui-general-settings -->
+
+<sect2 id="ui-associations">
+    <title
+>الارتباطات</title>
+    <para
+><guilabel
+>أنشئ خطوط ارتباط جديدة كـ:</guilabel
+> يمنح القدرة على تغيير نمط خط الارتباط. </para>
+</sect2
+>    <!-- ui-associations-settings -->
+
+<sect2 id="ui-color">
+    <title
+>اللون</title>
+    <para
+>يقدم قسم الألوان عدة خيارات لتغيير ألوان النص والخط والتعبئة والشبكة والخلفية بالإضافة إلى عرض الخط.</para>
+</sect2
+>    <!-- ui-Color-settings -->
+
+</sect1
+>    <!-- ui-settings -->
+
+<sect1 id="class-settings">
+    <title
+>إعدادات التصنيف</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>إعدادات التصنيف</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="class-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>خيارات إعدادات الصنف في أمبريلو</phrase>
+                </textobject>
+                <caption>
+                    <para
+>خيارات إعدادات الصنف في أمبريلو </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="show-class-settings">
+        <title
+>أظهر</title>
+        <para
+>يحتوي قسم الإظهار على إعدادات عديدة تحدد خصائص الصنف التي تُعرض في مخطط الصنف.</para>
+</sect2
+>    <!-- show-class-settings -->
+
+<sect2 id="starting-scope-class-settings">
+        <title
+>نطاق البدء</title>
+        <para
+>خيارات للإعدادات المبدئية للسمة والعملية: عامة أو خاصة أو محمية.</para>
+</sect2
+>    <!-- starting-scope-class-settings -->
+
+</sect1
+>    <!-- class-settings -->
+
+<sect1 id="code-importer-settings">
+    <title
+>إعدادات استيراد الشفرة</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>إعدادات استيراد الشفرة</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-import-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>خيارات إعدادات استيراد الشيفرة في أمبريلو</phrase>
+                </textobject>
+                <caption>
+                    <para
+>خيارات إعدادات استيراد الشيفرة في أمبريلو </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+<sect2 id="include-search-paths-settings">
+    <title
+>ضمّن مسارات البحث</title>
+    <para
+>تُقدم توصية عامة لتحسين البحث بتضمين UMBRELLO INCPATH كمتغير بيئة.</para>
+</sect2
+>    <!-- include-search-paths-settings -->
+
+<sect2 id="cpp-import-settings">
+    <title
+>استيراد ++C</title>
+    <itemizedlist>
+    <listitem>
+    <para
+><guilabel
+>لكل ملف مستورد أنشئ قطعة أثرية في عرض المكون</guilabel
+> يمكن بعد ذلك سحب القطعة الأثرية المنشأة إلى عرض مخطط الصنف حيث تُرى التبعيات بسهولة مع السمات والدوال لكل ملف.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>حل التبعيات (يقلل سرعة الاستيراد)</guilabel
+> يضمن حل جميع تبعيات الملفات مما يظهر بعد ذلك في تبعيات الأصناف في مخطط الصنف.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>فعّل معيار C++11 (تجريبي)</guilabel
+> ميزة تجريبية للتوافق مع C++11، عطّلها إن لم تكن بحاجة إليها.</para>
+    </listitem>
+</itemizedlist>
+
+</sect2
+>    <!-- c++-import-settings -->
+
+</sect1
+>    <!-- code-importer-settings -->
+
+<sect1 id="code-generation-settings">
+    <title
+>إعدادات توليد الشفرة</title>
+
+    <sect2 id="code-gen-settings-general-tab">
+    <title
+>التبويب العام لإعدادات توليد الشيفرة</title>
+
+    <para>
+        <screenshot>
+            <screeninfo
+>الإعدادات العامة لتوليد الشيفرة</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-general-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>خيارات الإعدادات العامة لتوليد الشيفرة في أمبريلو</phrase>
+                </textobject>
+                <caption>
+                    <para
+>خيارات الإعدادات العامة لتوليد الشيفرة في أمبريلو </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <para
+>يمكن لمصمم UML أمبريلو توليد شيفرة مصدرية للغات برمجة متنوعة بناءً على نموذج UML الخاص بك لمساعدتك في البدء بتنفيذ مشروعك. تتكون الشيفرة المولدة من تصريحات الأصناف مع دوالها وسماتها لتتمكن من "ملء الفراغات" بتوفير وظائف عمليات أصنافك.</para>
+
+    <sect3 id="code-gen-language-settings">
+        <title
+>اللغة</title>
+        <para
+>اختر لغة البرمجة لاستخدامها في المشاريع. الخيارات المتاحة هي: ActionScript وAda وC++ وC# وD وIDL وJava وJavaScript وMYSQL وPascal وPerl وPHP وPHP5 وPastgreSQL وPython وRuby وSQL وTcl وVala وXMLSchema</para>
+    </sect3
+>    <!-- code-gen-language-settings -->
+
+    <sect3 id="code-generation-folders-settings">
+    <title
+>المجلّدات</title>
+    <para
+><guilabel
+>اكتب جميع الملفات المولدة إلى مجلد:</guilabel
+> يحتوي على حقل قابل للتحرير للمسار المطلوب للملفات المولدة أو اختياريًا زر تصفح لاختيار المسار.</para>
+    <para
+><guilabel
+>ضمّن ملفات الترويسة من المجلد:</guilabel
+> عند التفعيل، يُتيح للمستخدم تحديد مسار في حقل قابل للتحرير أو اختياره بزر التصفح.</para>
+    </sect3
+>    <!-- code-generation-folders-settings -->
+
+
+<sect3 id="code-generation-overwrite-settings">
+<title
+>سياسة الكتابة فوق</title>
+    <para
+>عند توليد الشيفرة في المجلد المحدد، يُحدد هذا الإعداد ما يحدث إذا وُجد ملف بنفس الاسم. </para>
+<itemizedlist>
+        <listitem>
+        <para
+><guilabel
+>استبدل</guilabel
+> الملف دون تحذير أو خيار.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>اسأل</guilabel
+> عما إذا كان سيُستبدل الملف أو يُعادتسميته.</para>
+    </listitem>
+    <listitem>
+        <para
+><guilabel
+>استخدم اسمًا مختلفًا</guilabel
+> عند وجود ملف مسبقًا بإعادة تسميته باستخدام لاحقة.</para>
+    </listitem>
+</itemizedlist>
+
+</sect3
+>    <!-- code-generation-overwrite-settings -->
+
+</sect2
+>    <!-- code-generation-settings-general-tab -->
+
+
+<sect2 id="code-gen-settings-format-tab">
+    <title
+>لسان إعدادات تنسيق توليد الشيفرة</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>إعدادات تنسيق توليد الشيفرة</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-formatting-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>خيارات إعدادات تنسيق توليد الشيفرة في أمبريلو</phrase>
+                </textobject>
+                <caption>
+                    <para
+>خيارات إعدادات تنسيق توليد الشيفرة في أمبريلو </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+
+    <sect3 id="code-gen-formatting-comment-verbosity">
+        <title
+>إسهاب التعليق</title>
+        <para
+><guilabel
+>اكتب تعليقات التوثيق حتى لو فارغة</guilabel
+> يُولّد تعليقات للصنوف والدوال حتى لو كانت فارغة.</para>
+        <para
+><guilabel
+>اكتب تعليقات الأقسام</guilabel
+> يُتيح للمستخدمين اختيار كتابة تعليقات الأقسام. القيم الممكنة هي: لا شيء، عندما يكون القسم غير فارغ، دائمًا.</para>
+</sect3
+>    <!-- code-gen-formatting-comment-verbosity -->
+
+<sect3 id="code-gen-formatting-lines">
+    <title
+>الخطوط</title>
+    <para
+><guilabel
+>نوع الإزاحة:</guilabel
+> يُقدّم خيارًا بين عدم الإزاحة، أو الجدولة، أو المسافة.</para>
+    <para
+><guilabel
+>مقدار الإزاحة:</guilabel
+> يُتيح للمستخدم تحديد عدد المسافات لخيار إزاحة الجدولة أو المسافة.</para>
+    <para
+><guilabel
+>نمط نهاية السطر:</guilabel
+> هو خيار بين أنماط نهاية السطر لـ *NIX وويندوز وماك.</para>
+</sect3
+>    <!-- code-gen-formatting-lines -->
+
+</sect2
+>    <!-- code-gen-settings-format-tab -->
+
+<sect2 id="code-gen-settings-language-options">
+    <title
+>خيارات اللغة</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>خيارات لغة توليد الشيفرة</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-generation-language-general.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>خيارات إعدادات لغة توليد الشيفرة في أمبريلو</phrase>
+                </textobject>
+                <caption>
+                    <para
+>خيارات إعدادات لغة توليد الشيفرة في أمبريلو </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>تتغير هذه الصفحة لكل لغة برمجة مُختارة تحت اللسان العام. حاليًا، الخيارات المتاحة الوحيدة هي للغة C++.</para>
+
+<sect3 id="code-gen-settings-language-options-cpp">
+    <title
+>توليد شيفرة C++</title>
+    <para
+></para>
+
+    <sect4 id="code-gen-settings-language-options-documentation">
+        <title
+>التّوثيق</title>
+        <para
+><guilabel
+>النمط:</guilabel
+> يُعطي خيارًا لاستخدام إما "/** */" أو "//" كنمط توثيق</para>
+    </sect4
+>    <!-- code-gen-settings-language-options-documentation -->
+
+    <sect4 id="language-general-tab">
+        <title
+>عامّ</title>
+        <para
+>تحت لسان <guilabel
+>عام</guilabel
+> من لسان <guilabel
+>خيارات اللغة</guilabel
+>، تُدرج عدة خيارات لتوليد الشيفرة.</para>
+        <itemizedlist>
+            <listitem>
+                <para
+><guilabel
+>بادئة عضو الفئة</guilabel
+></para>
+                <para
+>خيار يسمح بإضافة بادئة يحددها المستخدم إلى أعضاء الصنف عند توليد الشيفرة.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>الحزمة هي فضاء اسم</guilabel
+></para>
+                <para
+>توفر النطاقات اسمية طريقة لمنع تعارض الأسماء في المشاريع الكبيرة. توضع الرموز المصرّح بها داخل كتلة نطاق اسمي في نطاق مسمى يمنع الخلط بينها وبين رموز تحمل الاسم نفسه في نطاقات أخرى.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>مهدمات افتراضية</guilabel
+></para>
+                <para
+>رغم أن المدمرات لا تُورث، إذا صرّح صنف أساسي بمدمره كظاهري، فإن المدمر المشتق يتجاوزه دائمًا. يتيح هذا حذف الكائنات المخصصة ديناميكيًا من النوع متعدد الأشكال عبر مؤشرات إلى الأساس.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>وَلِّد مُنشِئات فارغة</guilabel
+></para>
+                <para
+>سيُولّد هذا بناة بأقواس فارغة.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>وَلِّد وسائل الكسب</guilabel
+></para>
+                <para
+>سيُولّد دوال للوصول إلى أنواع البيانات.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>العمليات مدمجة (inline)</guilabel
+></para>
+                <para
+>يُولّد الدوال كدوال مضمنة، لكن للمترجمات حرية اختيار عدم تضمين الدالة.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>الكاسبات مدمجة (inline)</guilabel
+></para>
+                <para
+>تُولّد الدوال التي تصل إلى بيانات الصنف كدوال مضمنة، لكن للمترجمات حرية اختيار عدم تضمين الدالة.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>الكاسبات عامة (public)</guilabel
+></para>
+                <para
+>الدوال التي تُولّد كعامة ستكون متاحة لأي نسخة من الصنف.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>أنشئ حاصِلات ذات بادئة 'get'</guilabel
+></para>
+                <para
+>سيضع هذا البادئة "get" على الدوال التي تحصل/تُرجع بيانات الصنف.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>أزل البادئة '[a-zA-Z]_' من أسماء وسائل الكسب</guilabel
+></para>
+                <para
+>إذا أُدخلت بادئة في <guilabel
+>بادئة عضو الصنف</guilabel
+>، فسيُزيلها هذا.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>تبدأ وسائل الكسب بحروف كبيرة</guilabel
+></para>
+                <para
+>يكبّر هذا الحرف الأول من اسم الدالة.</para>
+            </listitem>
+            <listitem>
+                <para
+><guilabel
+>استخدم '\' كوسم توثيق بدلًا من '@</guilabel
+></para>
+                <para
+>اختيار وسم لاستخدامه عند توثيق معاملات دالة.</para>
+            </listitem>
+        </itemizedlist>
+    </sect4
+>    <!-- language-general-tab -->
+
+    <sect4 id="language-method-body-tab">
+        <title
+>توليد جسم الوسيلة</title>
+        <para>
+            <screenshot>
+                <screeninfo
+>خيارات جسم دالة لغة توليد الشيفرة</screeninfo>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="code-generation-language-method-settings.png" format="PNG"/>
+                    </imageobject>
+                    <textobject>
+                        <phrase
+>خيارات إعدادات جسم دالة لغة توليد الشيفرة في أمبريلو</phrase>
+                    </textobject>
+                    <caption>
+                        <para
+>خيارات إعدادات جسم دالة لغة توليد الشيفرة في أمبريلو </para>
+                    </caption>
+                </mediaobject>
+            </screenshot>
+        </para>
+        <para
+><guilabel
+>قائمة</guilabel
+></para>
+        <para
+>يتضمن خيارات QPtrList وvector وstd::vector لنوع القائمة. يتبعه حقل قابل للتحرير أو التحديد لتحديد ملف التضمين مع زر تصفح لإيجاد واختيار ملف التضمين. يوجد أيضًا خيار لجعل القائمة عامة.</para>
+        <para
+><guilabel
+>سلسلة نصية</guilabel
+></para>
+            <para
+>خيارات string أو QString لنوع السلسلة النصية. يتبعه حقل قابل للتحرير أو التحديد لتحديد ملف التضمين مع زر تصفح لإيجاد واختيار ملف التضمين. يوجد أيضًا خيار لجعل السلسلة النصية عامة. </para>
+
+    </sect4
+>    <!-- language-method-body-tab -->
+
+</sect3
+>    <!-- code-gen-settings-language-options-cpp -->
+
+</sect2
+> <!-- code-gen-settings-language-options -->
+
+</sect1
+>    <!-- code-generation-settings-general-tab -->
+
+<sect1 id="code-viewer-settings">
+    <title
+>إعدادات عارض الشفرة</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>إعدادات عارض الشفرة</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="code-viewer-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>خيارات إعدادات عارض الشيفرة في أمبريلو</phrase>
+                </textobject>
+                <caption>
+                    <para
+>خيارات إعدادات عارض الشيفرة في أمبريلو </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+>يسمح بتخصيص عارض الشيفرة. يسمح قسم <guilabel
+>الخط المطلوب</guilabel
+> باختيار الخط ونمط الخط وحجم الخط. يُعرض تمثيل لاختياراتك أسفل الخيارات. </para>
+    <para
+>في قسم <guilabel
+>الألوان</guilabel
+>، يمكن إجراء تغييرات على الورق، الخط، المحدد، كتلة كائن UML، الكتلة المخفية، النص القابل للتحرير، والنص غير القابل للتحرير. تُجرى تغييرات الألوان بالنقر على مربع اللون بجانب اللصيقة المعنية. </para>
+</sect1
+>    <!-- code-viewer-settings -->
+
+<sect1 id="auto-layout-settings">
+    <title
+>إعدادات التخطيط الآلي</title>
+    <para>
+        <screenshot>
+            <screeninfo
+>إعدادات التخطيط الآلي</screeninfo>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="auto-layout-settings.png" format="PNG"/>
+                </imageobject>
+                <textobject>
+                    <phrase
+>خيارات إعدادات التخطيط الآلي في أمبريلو</phrase>
+                </textobject>
+                <caption>
+                    <para
+>خيارات إعدادات التخطيط الآلي في أمبريلو </para>
+                </caption>
+            </mediaobject>
+        </screenshot>
+    </para>
+    <para
+><guilabel
+>اكشف آليًا عن مولّد التخطيط</guilabel
+></para>
+    <para
+>تعتمد ميزة التخطيط الآلي على مولدات التخطيط المقدمة من حزمة GraphViz، والتي تُثبَّت عادةً إلى جانب Umbrello بواسطة مدير حزم. يدعم Umbrello مدمجًا كشف موقع التثبيت لهذه المولدات. للحالات التي لا تتوفر فيها هذه التبعية أو لا تناسب، يمكن اختيار مسار تثبيت مختلف. </para>
+    <para
+><guilabel
+>اعرض تخطيط التصدير في قائمة سياق المخطط</guilabel
+></para>
+    <para
+>يُجرى تصدير ملف Dot باستخدام تخطيط التصدير.عند تحديد هذا الخيار، يضاف تخطيط التصدير إلى قائمة تخطيطات المخطط المتاحة ويفعّل معاينة تصدير Dot سريعة. </para>
+</sect1
+>    <!-- auto-layout-settings -->
+
+</chapter>
