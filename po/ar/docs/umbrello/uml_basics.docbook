@@ -1,0 +1,995 @@
+<chapter id="uml-basics">
+<title
+>أساسيات &UML;</title>
+<sect1 id="about-uml">
+<title
+>حول &UML;</title>
+<para
+>سيمنحك هذا الفصل نظرة سريعة على أساسيات &UML;. ضع في اعتبارك أن هذا ليس برنامجًا تعليميًا شاملًا عن &UML; بل هو مقدمة موجزة لـ &UML; يمكن قراءتها كبرنامج تعليمي لـ &UML;. إذا كنت ترغب في معرفة المزيد عن لغة النمذجة الموحدة، أو بشكل عام عن تحليل وتصميم البرمجيات، فراجع أحد الكتب العديدة المتاحة حول هذا الموضوع. هناك أيضًا العديد من البرامج التعليمية على الإنترنت يمكنك اتخاذها كنقطة انطلاق. </para>
+
+<para
+>لغة النمذجة الموحدة (&UML;) هي لغة رسم بياني أو تدوين لتحديد وتصور وتوثيق نماذج أنظمة البرمجيات الموجهة بالكائنات. &UML; ليست طريقة تطوير، وهذا يعني أنها لا تخبرك بما تفعله أولًا وما تفعله بعد ذلك أو كيف تصمم نظامك، ولكنها تساعدك على تصور تصميمك والتواصل مع الآخرين. &UML; تخضع لسيطرة مجموعة إدارة الكائنات (<acronym
+>OMG</acronym
+>) وهي المعيار الصناعي لوصف البرمجيات بيانيًا. </para>
+<para
+>صُممت &UML; لتصميم البرمجيات الموجهة بالكائنات ولها استخدام محدود لنماذج البرمجة الأخرى. </para>
+<para
+>تتكون &UML; من العديد من عناصر النموذج التي تمثل الأجزاء المختلفة لنظام برمجي. تُستخدم عناصر &UML; لإنشاء رسوم بيانية، تمثل جزءًا معينًا، أو وجهة نظر للنظام. أنواع الرسوم البيانية التالية مدعومة من أمبريلو: </para>
+
+<itemizedlist>
+
+<listitem
+><para
+><emphasis
+><link linkend="use-case-diagram"
+>رسوم حالات الاستخدام</link
+></emphasis
+> تُظهر الفاعلين (أشخاص أو مستخدمين آخرين للنظام)، حالات الاستخدام (السيناريوهات عند استخدامهم للنظام)، وعلاقاتهم</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="class-diagram"
+>رسوم الفئات</link
+></emphasis
+> تُظهر الفئات والعلاقات بينها</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="sequence-diagram"
+>رسوم التسلسل</link
+></emphasis
+> تُظهر الكائنات وتسلسل استدعاءات الأساليب التي يقومون بها لكائنات أخرى.</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="collaboration-diagram"
+>رسوم التعاون</link
+></emphasis
+> تُظهر الكائنات وعلاقتها، مع التركيز على الكائنات التي تشارك في تبادل الرسائل</para>
+</listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="state-diagram"
+>رسوم الحالات</link
+></emphasis
+> تُظهر الحالات، تغييرات الحالة والأحداث في كائن أو جزء من النظام</para
+> </listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="activity-diagram"
+>رسوم الأنشطة</link
+></emphasis
+> تُظهر الأنشطة والتغييرات من نشاط إلى آخر مع الأحداث التي تحدث في جزء ما من النظام</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="component-diagram"
+>رسوم المكونات</link
+></emphasis
+> تُظهر مكونات البرمجة عالية المستوى (مثل KParts أو Java Beans).</para
+></listitem>
+
+<listitem
+><para
+><emphasis
+><link linkend="deployment-diagram"
+>رسوم النشر</link
+></emphasis
+> تُظهر مثيلات المكونات وعلاقاتها.</para
+></listitem
+> 
+
+<listitem
+><para
+><emphasis
+><link linkend="entity-relationship-diagram"
+>رسوم علاقات الكيانات</link
+></emphasis
+> تُظهر البيانات والعلاقات والقيود بين البيانات.</para
+></listitem
+> 
+
+</itemizedlist>
+
+</sect1
+>   <!-- about-uml -->
+
+<sect1 id="uml-elements"
+>  
+<title
+>عناصر &UML;</title>
+<sect2 id="use-case-diagram">
+<title
+>مخطط حالة الاستعمال</title>
+<para
+>تصف رسوم حالات الاستخدام العلاقات والتبعيات بين مجموعة من <emphasis
+>حالات الاستخدام</emphasis
+> والفاعلين المشاركين في العملية.</para>
+<para
+>من المهم ملاحظة أن رسوم حالات الاستخدام ليست مناسبة لتمثيل التصميم، ولا يمكنها وصف دواخل النظام. رسوم حالات الاستخدام تهدف إلى تسهيل التواصل مع المستخدمين المستقبليين للنظام، ومع العميل، وهي مفيدة بشكل خاص لتحديد الميزات المطلوبة التي يجب أن يمتلكها النظام. رسوم حالات الاستخدام تخبر <emphasis
+>ماذا</emphasis
+> يجب أن يفعل النظام ولكنها لا &mdash; ولا يمكنها &mdash; تحديد <emphasis
+>كيف</emphasis
+> سيتم تحقيق ذلك.</para>
+<para>
+<screenshot>
+<screeninfo
+>مثال على رسم حالة استخدام.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="use-case-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>أمبريلو يعرض رسم حالة استخدام</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>أمبريلو يعرض مخطط حالة استخدام </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="use-case">
+<title
+>حالة الاستخدام</title>
+<para
+>تصف <emphasis
+>حالة الاستخدام</emphasis
+> &mdash; من وجهة نظر الفاعلين &mdash; مجموعة أنشطة في نظام تُنتج نتيجة ملموسة وحقيقية.</para>
+<para
+>حالات الاستخدام هي أوصاف للتفاعلات النمطية بين مستخدمي النظام والنظام نفسه. تمثل الواجهة الخارجية للنظام وتحدد شكلًا من المتطلبات لما يجب على النظام فعله (تذكر، فقط ماذا، وليس كيف). </para>
+<para
+>عند العمل مع حالات الاستخدام، من المهم تذكر بعض القواعد البسيطة: <itemizedlist>
+ <listitem
+><para
+>كل حالة استخدام مرتبطة بفاعل واحد على الأقل</para
+></listitem>
+ <listitem
+><para
+>كل حالة استخدام لها بادئ (أي فاعل)</para
+></listitem>
+ <listitem
+><para
+>كل حالة استخدام تؤدي إلى نتيجة ذات صلة (نتيجة ذات <quote
+>قيمة تجارية</quote
+>)</para>
+ </listitem>
+ </itemizedlist>
+</para>
+<para
+>يمكن أن يكون لحالات الاستخدام أيضًا علاقات مع حالات استخدام أخرى. أكثر ثلاثة أنواع نموذجية من العلاقات بين حالات الاستخدام هي:</para>
+<itemizedlist>
+<listitem
+><para
+><emphasis
+>&lt;&lt;include&gt;&gt;</emphasis
+> الذي يحدد أن حالة استخدام تحدث <emphasis
+>داخل</emphasis
+> حالة استخدام أخرى</para
+></listitem>
+<listitem
+><para
+><emphasis
+>&lt;&lt;extends&gt;&gt;</emphasis
+> الذي يحدد أنه في مواقف معينة، أو عند نقطة ما (تُسمى نقطة تمديد) سيتم تمديد حالة استخدام بأخرى.</para
+></listitem>
+<listitem
+><para
+><emphasis
+>التعميم</emphasis
+> يحدد أن حالة استخدام ترث خصائص حالة الاستخدام <quote
+>الفائقة</quote
+>، ويمكنها تجاوز بعضها أو إضافة خصائص جديدة بطريقة مشابهة للوراثة بين الصفوف. </para>
+</listitem>
+</itemizedlist>
+</sect3>
+<sect3 id="actor">
+<title
+>الممثّل</title>
+<para
+>الفاعل هو كيان خارجي (خارج النظام) يتفاعل مع النظام بالمشاركة (وغالبًا بدء) حالة استخدام. يمكن أن يكون الفاعلون في الحياة الواقعية أشخاصًا (مثل مستخدمي النظام)، أو أنظمة حاسوبية أخرى، أو أحداثًا خارجية. </para>
+<para
+>لا يمثل الفاعلون الأشخاص أو الأنظمة <emphasis
+>المادية</emphasis
+>، بل <emphasis
+>دورهم</emphasis
+>. هذا يعني أنه عندما يتفاعل شخص مع النظام بطرق مختلفة (بافتراض أدوار مختلفة) سيتم تمثيله بعدة فاعلين. على سبيل المثال، الشخص الذي يقدم دعمًا للعملاء عبر الهاتف ويأخذ الطلبات من العميل إلى النظام سيتم تمثيله بفاعل <quote
+>موظف دعم</quote
+> وفاعل <quote
+>مندوب مبيعات</quote
+> </para>
+</sect3>
+<sect3 id="use-case-description">
+<title
+>وصف حالة الاستخدام</title>
+<para
+>أوصاف حالة الاستخدام هي سرد نصي لحالة الاستخدام. عادةً ما تأخذ شكل ملاحظة أو مستند مرتبط بطريقة ما بحالة الاستخدام، وتشرح العمليات أو الأنشطة التي تحدث في حالة الاستخدام. </para>
+</sect3>
+</sect2
+> <!-- use-case-diagram -->
+
+<sect2 id="class-diagram">
+<title
+>مخطط الفئة</title>
+<para
+>تُظهر مخططات الصفوف الصفوف المختلفة التي تشكل النظام وكيفية ارتباطها ببعضها البعض. يُقال إن مخططات الصفوف هي مخططات <quote
+>ثابتة</quote
+> لأنها تُظهر الصفوف، إلى جانب طرقها وسماتها بالإضافة إلى العلاقات الثابتة بينها: أي الصفوف <quote
+>تعرف</quote
+> عن أي الصفوف أو أي الصفوف <quote
+>جزء من</quote
+> صف آخر، لكنها لا تُظهر استدعاءات الطرق بينها. </para>
+<para>
+<screenshot>
+<screeninfo
+>مثال على مخطط صفوف</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="class-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>أمبريلو يعرض مخطط صفوف</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>أمبريلو يعرض مخطط صفوف </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="class">
+<title
+>الفئة</title>
+<para
+>يُعرّف الصف السمات والطرق لمجموعة من الكائنات. جميع كائنات هذا الصف (نسخ هذا الصف) تشترك في نفس السلوك، ولها نفس مجموعة السمات (لكل كائن مجموعته الخاصة). يُستخدم المصطلح <quote
+>نوع</quote
+> أحيانًا بدلًا من الصف، لكن من المهم ذكر أن هذين ليسا متماثلين، والنوع هو مصطلح أكثر عمومية. </para>
+<para
+>في &UML;، تُصوَّر الصفوف بمستطيلات، مع اسم الصف، ويمكنها أيضًا إظهار الخصائص والعمليات في <quote
+>حجرتين</quote
+> أخريين داخل المستطيل. </para>
+<para>
+<screenshot>
+<screeninfo
+>صف في &UML;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="class.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>تمثيل مرئي لصف في &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>تمثيل مرئي لصف في &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect4 id="attribute">
+<title
+>صفات</title>
+<para
+>في &UML;، تُظهر الخصائص بأسمائها على الأقل، ويمكنها أيضًا إظهار نوعها وقيمتها الابتدائية وخصائص أخرى. يمكن أيضًا عرض الخصائص مع رؤيتها: </para>
+<itemizedlist>
+<listitem
+><para
+><literal
+>+</literal
+> يرمز إلى الخصائص <emphasis
+>العامة</emphasis
+></para
+></listitem>
+<listitem
+><para
+><literal
+>#</literal
+> يرمز إلى الخصائص <emphasis
+>المحمية</emphasis
+></para
+></listitem>
+<listitem
+><para
+><literal
+>-</literal
+> يرمز إلى الخصائص <emphasis
+>الخاصة</emphasis
+></para
+></listitem>
+</itemizedlist>
+</sect4>
+<sect4 id="operation">
+<title
+>العمليات</title>
+<para
+>العمليات (الطرائق) تُعرض أيضًا بأسمائها على الأقل، ويمكنها إظهار وسائطها وأنواع الإرجاع. يمكن للعمليات، مثل الخصائص، عرض رؤيتها: <itemizedlist>
+<listitem
+><para
+><literal
+>+</literal
+> يرمز إلى العمليات <emphasis
+>العامة</emphasis
+></para
+></listitem>
+<listitem
+><para
+><literal
+>#</literal
+> يرمز إلى العمليات <emphasis
+>المحمية</emphasis
+></para
+></listitem>
+<listitem
+><para
+><literal
+>-</literal
+> يرمز إلى العمليات <emphasis
+>الخاصة</emphasis
+></para
+></listitem>
+</itemizedlist>
+</para>
+</sect4>
+
+<sect4 id="templates">
+<title
+>القوالب</title>
+<para
+>يمكن للصفوف أن تحتوي على قوالب، وهي قيمة تُستخدم لصف أو نوع غير محدد. يُحدد نوع القالب عند إنشاء صف (أي عند إنشاء كائن). توجد القوالب في C++ الحديثة وسيُقدم في Java 1.5 حيث ستُسمى Generics. </para>
+</sect4>
+</sect3>
+
+<sect3 id="class-associations">
+<title
+>ترابطات الفئة</title>
+<para
+>يمكن للصفوف أن ترتبط (تترابط) ببعضها بطرق مختلفة:</para>
+<sect4 id="generalization">
+<title
+>تعميم</title>
+<para
+>الوراثة هي أحد المفاهيم الأساسية للبرمجة كائنية التوجه، حيث <quote
+>يكتسب</quote
+> الصف جميع الخصائص والعمليات من الصف الذي يرث منه، ويمكنه تجاوز/تعديل بعضها، بالإضافة إلى إضافة خصائص وعمليات خاصة به.</para>
+<para
+>في &UML;، يضع ارتباط <emphasis
+>التعميم</emphasis
+> بين صفين في تسلسل هرمي يمثل مفهوم وراثة صف مشتق من صف أساسي. في &UML;، تُصوَّر التعميمات بخط يربط بين الصفين، مع سهم على جانب الصف الأساسي. <screenshot>
+<screeninfo
+>تعميم</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="generalization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>تمثيل مرئي لتعميم في &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>تمثيل مرئي لتعميم في &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+
+<sect4 id="uml-associations">
+<title
+>الارتباطات</title>
+<para
+>يمثل الارتباط علاقة بين الصفوف، ويعطي الدلالات والبنية المشتركة لأنواع عديدة من <quote
+>الوصلات</quote
+> بين الكائنات.</para>
+<para
+>الارتباطات هي الآلية التي تسمح للكائنات بالتواصل مع بعضها. تصف الوصلة بين الصفوف المختلفة (الوصلة بين الكائنات الفعلية تُسمى وصلة كائن، أو <emphasis
+>رابط</emphasis
+>. </para>
+<para
+>يمكن أن يكون للارتباطات دور يحدد غرض الارتباط ويمكن أن تكون أحادية أو ثنائية الاتجاه (تشير إلى ما إذا كان الكائنان المشاركان في العلاقة يمكنهما إرسال رسائل إلى الآخر، أم أن واحدًا منهما فقط يعرف الآخر). لكل نهاية من الارتباط أيضًا قيمة تعدد، تحدد عدد الكائنات في هذا الجانب من الارتباط التي يمكن أن ترتبط بكائن واحد في الجانب الآخر. </para>
+<para
+>في &UML;، تُمثل الارتباطات بخطوط تربط بين الصفوف المشاركة في العلاقة، ويمكنها أيضًا إظهار الدور والتعدد لكل مشارك. يُعرض التعدد كنطاق [min..max] من القيم غير السالبة، مع نجمة (<literal
+>*</literal
+>) في جانب الحد الأقصى لتمثيل اللانهاية. <screenshot>
+<screeninfo
+>ارتباط &UML;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="association.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>تمثيل مرئي لارتباط في &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>تمثيل مرئي لارتباط في &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+
+<sect4 id="aggregation">
+<title
+>التّجميع</title>
+<para
+>التجميعات هي نوع خاص من الارتباطات حيث لا يكون للصفين المشاركين وضع متساوٍ، بل يشكلان علاقة <quote
+>كل-جزء</quote
+>. يصف التجميع كيف يتكون الصف الذي يأخذ دور الكل من صفوف أخرى تأخذ دور الأجزاء. بالنسبة للتجميعات، يكون للصف الذي يعمل ككل دائمًا تعدد يساوي واحدًا. </para>
+<para
+>في &UML;، تُمثل التجميعات بارتباط يظهر معينًا على جانب الكل. <screenshot>
+<screeninfo
+>التّجميع</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="aggregation.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>تمثيل مرئي لعلاقة تجميع في &UML;</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>تمثيل مرئي لعلاقة تجميع في &UML; </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+</sect4>
+<sect4 id="composition">
+<title
+>التّراكب</title>
+<para
+>التركيبات هي ارتباطات تمثل تجميعات <emphasis
+>قوية جدًا</emphasis
+>. هذا يعني أن التركيبات تشكل علاقات كل-جزء أيضًا، لكن العلاقة قوية جدًا لدرجة أن الأجزاء لا يمكن أن توجد بمفردها. إنها توجد فقط داخل الكل، وإذا دُمّر الكل تموت الأجزاء أيضًا.</para>
+<para
+>في &UML;، تُمثل التركيبات بمعين مصمت على جانب الكل. </para>
+<para
+><screenshot>
+<screeninfo
+>التّراكب</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="composition.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>تمثيل مرئي لعلاقة تركيب في &UML;</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot
+></para>
+</sect4>
+</sect3
+> <!--class-associations-->
+
+<sect3 id="other-class-diagram-items">
+<title
+>عناصر أخرى لمخطط الصف</title>
+<para
+>يمكن لمخططات الصف أن تحتوي على عدة عناصر أخرى بالإضافة إلى الصفوف.</para>
+<sect4 id="interfaces">
+<title
+>الواجهات</title>
+<para
+>الواجهات هي صفوف مجردة مما يعني أنه لا يمكن إنشاء نسخ منها مباشرة. يمكنها احتواء عمليات ولكن لا سمات. يمكن للصفوف أن ترث من الواجهات (من خلال ارتباط تحقيق) ويمكن بعد ذلك إنشاء نسخ من هذه الصفوف.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="datatype">
+<title
+>أنواع البيانات</title>
+<para
+>أنواع البيانات هي بدائيات مدمجة عادة في لغة برمجة. الأمثلة الشائعة تشمل الأعداد الصحيحة والقيم المنطقية. لا يمكن أن يكون لها علاقات بالصفوف ولكن يمكن للصفوف أن تكون لها علاقات بها.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="enum">
+<title
+>التعدادات</title>
+<para
+>التعدادات هي قائمة بسيطة من القيم. مثال نموذجي هو تعداد لأيام الأسبوع. تُسمى خيارات التعداد بالثوابت التعدادية. مثل أنواع البيانات، لا يمكن أن يكون لها علاقات بالصفوف ولكن يمكن للصفوف أن تكون لها علاقات بها.</para>
+<!-- FIXME screenshot -->
+</sect4>
+<sect4 id="package">
+<title
+>الحزم</title>
+<para
+>الحزم تمثل نطاق أسماء في لغة برمجة. في المخطط، تُستخدم لتمثيل أجزاء من نظام تحتوي على أكثر من صف واحد، ربما مئات الصفوف.</para>
+<!-- FIXME screenshot -->
+</sect4>
+</sect3>
+
+</sect2
+> <!-- class diagram -->
+
+<sect2 id="sequence-diagram">
+<title
+>مخططات التسلسل</title>
+
+<para
+>تُظهر مخططات التسلسل تبادل الرسائل (أي استدعاء الأسلوب) بين عدة كائنات في موقف محدد زمنيًا. الكائنات هي مثيلات للفئات. تركز مخططات التسلسل بشكل خاص على الترتيب والأوقات التي تُرسل فيها الرسائل إلى الكائنات.</para>
+
+<para
+>في مخططات التسلسل، تُُمثَّل الكائنات بخطوط عمودية متقطعة، مع اسم الكائن في الأعلى. محور الزمن عمودي أيضًا، ويزداد نحو الأسفل، بحيث تُرسل الرسائل من كائن إلى آخر على شكل أسهم تحمل اسم العملية والوسائط. </para>
+
+<!-- FIXME update screenshot to show synchronous messages -->
+<screenshot>
+<screeninfo
+>مخطط التتابع</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="sequence-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>أمبريلو يعرض مخطط تسلسل</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>أمبريلو يعرض مخطط تسلسل </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+<para
+>يمكن أن تكون الرسائل إما متزامنة، وهي النوع العادي من استدعاء الرسائل حيث يُمرَّر التحكم إلى الكائن المُستدعَى حتى ينتهي تشغيل ذلك الأسلوب، أو غير متزامنة حيث يُعاد التحكم مباشرة إلى الكائن المُستدعِي. تحتوي الرسائل المتزامنة على صندوق عمودي على جانب الكائن المُستدعَى لإظهار تدفق التحكم في البرنامج.</para>
+</sect2
+> <!-- sequence diagrams -->
+
+<sect2 id="collaboration-diagram">
+<title
+>مخططات التعاون</title>
+
+<para
+>تُظهر مخططات التعاون التفاعلات التي تحدث بين الكائنات المشاركة في موقف محدد. هذه هي نفس المعلومات التي تُظهرها مخططات التسلسل تقريبًا، ولكن هناك يُركَّز على كيفية حدوث التفاعلات زمنيًا بينما تضع مخططات التعاون العلاقات بين الكائنات وطوبولوجيتها في المقدمة.</para>
+
+<para
+>في مخططات التعاون، تُُمثَّل الرسائل المُرسلة من كائن إلى آخر بأسهم، تُظهر اسم الرسالة والوسائط وتسلسل الرسالة. مخططات التعاون مناسبة بشكل خاص لعرض تدفق برنامج محدد أو موقف معين، وهي واحدة من أفضل أنواع المخططات لعرض أو شرح عملية واحدة في منطق البرنامج بسرعة. </para>
+
+<screenshot>
+<screeninfo
+>تضافر</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="collaboration-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>أمبريلو يعرض مخطط تعاون</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>أمبريلو يعرض مخطط تعاون </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+
+</sect2
+> <!-- collaboration diagrams -->
+
+<sect2 id="state-diagram">
+<title
+>مخطط الحالة</title>
+<para
+>تُظهر مخططات الحالات الحالات المختلفة لكائن خلال حياته والمُحفِّزات التي تسبب تغيير الكائن لحالته. </para
+>                              
+<para
+>تنظر مخططات الحالات إلى الكائنات كـ <emphasis
+>آلات حالة</emphasis
+> أو أتمتة محدودة يمكن أن تكون في إحدى مجموعة محدودة من الحالات ويمكنها تغيير حالتها عبر إحدى مجموعة محدودة من المُحفِّزات. على سبيل المثال، يمكن لكائن من النوع <emphasis
+>NetServer</emphasis
+> أن يكون في إحدى الحالات التالية خلال حياته: </para>
+<itemizedlist>
+<listitem
+><para
+>جاهز</para
+></listitem>
+<listitem
+><para
+>يستمع</para
+></listitem>
+<listitem
+><para
+>يعمل</para
+></listitem>
+<listitem
+><para
+>موقوف</para
+></listitem>
+</itemizedlist>
+<para
+>والأحداث التي يمكن أن تسبب تغيير الكائن للحالات هي</para>
+<itemizedlist>
+<listitem
+><para
+>الكائن يُنشَأ</para
+></listitem>
+<listitem
+><para
+>الكائن يستقبل رسالة استماع</para
+></listitem>
+<listitem
+><para
+>عميل يطلب اتصالًا عبر الشبكة</para
+></listitem>
+<listitem
+><para
+>عميل ينهي طلبًا</para
+></listitem>
+<listitem
+><para
+>الطلب يُنفَّذ ويُنهى</para
+></listitem>
+<listitem
+><para
+>الكائن يستقبل رسالة إيقاف</para
+></listitem>
+<listitem
+><para
+>وغيرها</para
+></listitem>
+</itemizedlist>
+<para>
+<screenshot>
+<screeninfo
+>مخطط الحالة</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="state-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>أمبريلو يعرض مخطط حالة</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>أمبريلو يعرض مخطط حالة </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="state">
+<title
+>الحالة</title>
+<para
+>الحالات هي اللبنة الأساسية لمخططات الحالة. تنتمي الحالة إلى صنف واحد بالضبط وتمثل ملخصًا للقيم التي يمكن أن تأخذها سمات الصنف. تصف حالة &UML; الحالة الداخلية لكائن من صنف معين </para
+>                       
+<para
+>لاحظ أنه لا ينبغي تمثيل كل تغيير في إحدى سمات الكائن بحالة، بل فقط تلك التغييرات التي يمكن أن تؤثر بشكل كبير على عمل الكائن</para>
+<para
+>يوجد نوعان خاصان من الحالات: البدء والانتهاء. هما خاصان من حيث أنه لا يوجد حدث يمكن أن يتسبب في عودة الكائن إلى حالة البدء، تمامًا كما لا يوجد حدث يمكن أن يُخرج الكائن من حالة الانتهاء بعد وصوله إليها. </para>
+</sect3>
+
+</sect2
+> <!-- state diagrams -->
+
+<sect2 id="activity-diagram">
+<title
+>مخطط النشاط</title>
+<para
+>تصف مخططات النشاط تسلسل الأنشطة في نظام بمساعدة الأنشطة. مخططات النشاط هي شكل خاص من مخططات الحالة، تحتوي فقط (أو في الغالب) على أنشطة. </para>
+<para>
+<screenshot>
+<screeninfo
+>مثال على مخطط نشاط.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="activity-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>أمبريلو يعرض مخطط نشاط</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>أمبريلو يعرض مخطط نشاط </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<para
+>مخططات النشاط مشابهة لمخططات التدفق الإجرائية، مع الفارق أن جميع الأنشطة مرتبطة بوضوح بالكائنات.</para>
+
+<para
+>ترتبط مخططات النشاط دائمًا بـ <emphasis
+>صنف</emphasis
+> أو <emphasis
+>عملية</emphasis
+> أو <emphasis
+>حالة استخدام</emphasis
+>.</para>
+
+<para
+>تدعم مخططات النشاط الأنشطة التسلسلية والمتوازية. يُستخدم رمزا التفرع/الانتظار لتمثيل التنفيذ المتوازي، وبالنسبة للأنشطة التي تُنفذ بالتوازي، ليس من المهم الترتيب الذي تُنفذ به (يمكن تنفيذها في الوقت نفسه أو واحدة تلو الأخرى)</para>
+<sect3 id="activity">
+<title
+>النّشاط</title>
+<para
+>النشاط هو خطوة واحدة في عملية. النشاط الواحد هو حالة واحدة في النظام ذات نشاط داخلي وانتقال خارج واحد على الأقل. يمكن أن تحتوي الأنشطة أيضًا على أكثر من انتقال خارج إذا كانت لها شروط مختلفة. </para
+> 
+<para
+>يمكن أن تشكل الأنشطة تسلسلات هرمية، وهذا يعني أن النشاط يمكن أن يتكون من عدة أنشطة <quote
+>تفصيلية</quote
+>، وفي هذه الحالة يجب أن تتطابق الانتقالات الواردة والصادرة مع الانتقالات الواردة والصادرة للمخطط التفصيلي. </para>
+
+</sect3>
+</sect2
+> <!-- activity diagram -->
+
+<sect2 id="helper-elements">
+<title
+>العناصر المساعدة</title>
+<para
+>توجد بعض العناصر في &UML; ليس لها قيمة دلالية حقيقية للنموذج، ولكنها تساعد في توضيح أجزاء من المخطط. هذه العناصر هي </para>
+<itemizedlist>
+<listitem
+><para
+>أسطر النصّ</para
+></listitem>
+<listitem
+><para
+>الملاحظات النصية والمراسي</para
+></listitem>
+<listitem
+><para
+>صناديق</para
+></listitem>
+</itemizedlist
+>   
+<para
+>أسطر النص مفيدة لإضافة معلومات نصية قصيرة إلى المخطط. إنه نص قائم بذاته وليس له معنى للنموذج نفسه. </para
+>           
+
+<para
+>الملاحظات مفيدة لإضافة معلومات أكثر تفصيلًا عن كائن أو موقف معين. لها ميزة كبيرة وهي أنه يمكن تثبيت الملاحظات بعناصر &UML; لإظهار أن الملاحظة <quote
+>تنتمي</quote
+> إلى كائن أو موقف معين. </para>
+
+<para
+>المربعات هي مستطيلات قائمة بذاتها يمكن استخدامها لتجميع العناصر معًا لجعل المخططات أكثر قابلية للقراءة. ليس لها معنى منطقي في النموذج.</para>
+
+<!-- FIXME, screenshot -->
+</sect2
+> <!-- helper elements -->
+
+<sect2 id="component-diagram">
+<title
+>مخططات المكونات</title>
+<para
+>تُظهر مخططات المكونات مكونات البرمجيات (سواءً كانت تقنيات مكونات مثل أجزاء كيدي، مكونات كوربا أو جافا بينز، أو مجرد أقسام من النظام يمكن تمييزها بوضوح) والقطع الأثرية التي صُنعت منها مثل ملفات الشيفرة المصدرية، مكتبات البرمجة أو جداول قواعد البيانات العلائقية.</para>
+
+<para
+>يمكن أن تحتوي المكونات على واجهات (أي أصناف مجردة ذات عمليات) تسمح بالارتباطات بين المكونات.</para>
+</sect2>
+
+<sect2 id="deployment-diagram">
+<title
+>مخططات النشر</title>
+
+<para
+>تُظهر مخططات النشر مثيلات المكونات وقت التشغيل وارتباطاتها. تتضمن عُقدًا تمثل موارد مادية، عادةً حاسوب واحد. كما تُظهر الواجهات والكائنات (مثيلات الأصناف).</para>
+
+</sect2>
+
+<sect2 id="entity-relationship-diagram">
+<title
+>مخططات العلاقات بين الكيانات</title>
+
+<para
+>تُظهر مخططات العلاقات بين الكيانات (مخططات ER) التصميم المفاهيمي لتطبيقات قواعد البيانات. تصوّر الكيانات المختلفة (المفاهيم) في نظام المعلومات والعلاقات والقيود القائمة بينها. يُستخدم امتداد لمخططات العلاقات بين الكيانات يُسمى 'مخططات العلاقات بين الكيانات الموسعة' أو 'مخططات العلاقات بين الكيانات المحسّنة' (EER) لدمج تقنيات التصميم كائنية التوجه في مخططات ER. </para
+> 
+<para>
+<screenshot>
+<screeninfo
+>مثال على مخطط علاقات بين كيانات.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="entity-relationship-diagram.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>أمبريلو يعرض مخطط علاقات بين كيانات</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>أمبريلو يعرض مخطط علاقات بين كيانات </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect3 id="entity">
+<title
+>كيان</title>
+<para
+><emphasis
+>الكيان</emphasis
+> هو أي مفهوم في العالم الحقيقي له وجود مستقل. قد يكون كائنًا ذا وجود مادي (مثال: حاسوب، إنسان آلي) أو قد يكون كائنًا ذا وجود مفاهيمي (مثل: مقرر جامعي). لكل كيان مجموعة من الخصائص التي تصف سمات الكيان.</para>
+<para
+><emphasis
+>ملاحظة:</emphasis
+> لا توجد رموز قياسية لتصوير مخططات ER. تستخدم نصوص مختلفة في هذا الموضوع رموزًا مختلفة. المفاهيم والرموز لمخططات EER المستخدمة في أمبريلو مأخوذة من الكتاب التالي: <emphasis
+>إلماسري ر. ونافاثي س. (2004). أساسيات أنظمة قواعد البيانات الطبعة الرابعة. أديسون ويسلي</emphasis
+> </para>
+<para
+>في مخطط ER، تُصوَّر الكيانات بمستطيلات، مع اسم الكيان في الأعلى، ويمكنها أيضًا إظهار خصائص الكيان في <quote
+>حجرة</quote
+> أخرى داخل المستطيل. </para>
+<para>
+<screenshot>
+<screeninfo
+>كيان في مخطط ER؛</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="entity.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>تمثيل مرئي لكيان في مخطط ER</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>تمثيل مرئي لكيان في مخطط ER </para>
+	  </caption>
+	</mediaobject>
+</screenshot>
+</para>
+<sect4 id="entity-attribute">
+<title
+>سمات الكيان</title>
+<para
+>في مخططات ER، تُظهر خصائص الكيان بأسمائها في حجرة مختلفة من الكيان الذي تنتمي إليه. </para>
+</sect4>
+<sect4 id="constraint">
+<title
+>القيود</title>
+<para
+>تحدد القيود في مخططات ER القيود على البيانات في مخطط المعلومات. </para>
+<para
+>هناك أربعة أنواع من القيود المدعومة في أمبريلو: <itemizedlist>
+ <listitem>
+    <para
+><emphasis
+>مفتاح رئيس:</emphasis
+> مجموعة الخصائص المُعلنة كـ <emphasis
+>مفتاح رئيس</emphasis
+> فريدة للكيان. يمكن أن يكون هناك مفتاح رئيس واحد فقط في الكيان ولا يمكن أن تكون أي من خصائصه المكونة فارغة. </para>
+</listitem>
+ <listitem>
+    <para
+><emphasis
+>مفتاح فريد:</emphasis
+> مجموعة الخصائص المُعلنة كـ <emphasis
+>فريدة</emphasis
+> فريدة للكيان. يمكن أن يكون هناك العديد من القيود الفريدة على الكيان. يمكن أن تكون خصائصه المكونة فارغة. تحدد المفاتيح الفريدة والمفاتيح الرئيسة بشكل فريد صفًا في جدول (كيان).</para>
+ </listitem>
+ <listitem>
+    <para
+><emphasis
+>المفتاح الأجنبي:</emphasis
+> المفتاح الأجنبي هو قيد مرجعي بين جدولين. يُحدد المفتاح الأجنبي عمودًا أو مجموعة أعمدة في جدول (المرجع) يُشير إلى عمود أو مجموعة أعمدة في جدول آخر (المرجع إليه). يجب أن تشكل الأعمدة في الجدول المرجع إليه مفتاحًا رئيسيًا أو مفتاحًا فريدًا. </para>
+ </listitem>
+ <listitem>
+     <para
+><emphasis
+>قيد الفحص:</emphasis
+> قيد الفحص (المعروف أيضًا بقيد فحص الجدول) هو شرط يُحدد البيانات الصالحة عند إضافة أو تحديث إدخال في جدول بقاعدة بيانات علائقية. يُطبق قيد الفحص على كل صف في الجدول. يجب أن يكون القيد مُسندًا. يمكن أن يُشير إلى عمود واحد أو عدة أعمدة من الجدول. </para>
+     <para
+>مثال: السعر 
+>= 0 </para>
+ </listitem>
+ </itemizedlist>
+</para>
+</sect4>
+</sect3>
+</sect2>
+<sect2 id="extended-entity-relationship-concepts">
+<title
+>مفاهيم مخطط علاقة الكيان الموسعة (EER)</title>
+<sect3 id="specialization">
+<title
+>التخصص</title>
+<para
+>التخصص هو طريقة لتشكيل كيانات جديدة باستخدام كيانات سبق تعريفها. الكيانات الجديدة، المعروفة بالكيانات المشتقة، تستولي (أو ترث) سمات الكيانات الموجودة مسبقًا، والتي يُشار إليها بالكيانات الأساسية. يُقصد به المساعدة في إعادة استخدام البيانات الموجودة مع تعديل ضئيل أو بدون تعديل.</para>
+<para
+>في أمبريلو، يمكن تحديد تخصص منفصل ومتداخل</para>
+ <sect4 id="disjoint-specialization">
+   <title
+>التخصص المنفصل</title>
+   <para
+>يُحدد التخصص المنفصل أن الفئات الفرعية للتخصص يجب أن تكون منفصلة. هذا يعني أن الكيان يمكن أن يكون عضوًا في واحدة على الأكثر من الكيانات المشتقة للتخصص</para>
+   <para>
+   <screenshot>
+    <screeninfo
+>الكيانات المشاركة في التخصص المنفصل</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="disjoint-specialization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>تمثيل مرئي للتخصص المنفصل في مخطط EER</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>تمثيل مرئي للتخصص المنفصل في مخطط EER </para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+    </para>
+ </sect4>
+ <sect4 id="overlapping-specialization">
+   <title
+>التخصص المتداخل</title>
+   <para
+>عندما لا تكون الكيانات المشتقة مقيدة بأن تكون منفصلة، يُقال إن مجموعة كياناتها في تخصص متداخل. هذا يعني أن نفس الكيان في العالم الحقيقي قد يكون عضوًا في أكثر من كيان مشتق واحد من التخصص</para>
+   <para>
+   <screenshot>
+    <screeninfo
+>الكيانات المشاركة في التخصص المتداخل</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="overlapping-specialization.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>تمثيل مرئي للتخصص المتداخل في مخطط EER</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>تمثيل مرئي للتخصص المتداخل في مخطط EER </para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+  </para>
+ </sect4>
+ <sect4 id="category">
+
+ <title
+>الفئة</title>
+ <para
+>يُقال إن الكيان المشتق هو <emphasis
+>فئة</emphasis
+> عندما يمثل مجموعة من الكائنات التي هي مجموعة جزئية من اتحاد أنواع الكيانات المتميزة. تُنمذج الفئة عندما تنشأ الحاجة لعلاقة صنف رئيسي/صنف فرعي واحدة مع أكثر من صنف رئيسي واحد، حيث تمثل الأصناف الرئيسية أنواع كيانات مختلفة. (يشبه إلى حد كبير الوراثة المتعددة في البرمجة كائنية التوجه). </para>
+   <para>
+   <screenshot>
+    <screeninfo
+>الكيانات المشاركة في علاقة فئة</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="category.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>تمثيل مرئي لفئة في مخطط EER</phrase>
+	  </textobject>
+	  <caption>
+	    <para
+>تمثيل مرئي لصنف في مخطط EER</para>
+	  </caption>
+	</mediaobject>
+   </screenshot>
+  </para>
+ </sect4>
+
+</sect3>
+</sect2>
+
+</sect1
+> 
+</chapter>
