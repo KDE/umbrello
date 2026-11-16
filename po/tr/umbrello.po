@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 03:00+0000\n"
-"PO-Revision-Date: 2026-11-10 21:39+0300\n"
+"PO-Revision-Date: 2026-11-15 20:19+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -266,7 +266,7 @@ msgstr "Dolgu rengini değiştir: %1"
 #: cmds/widget/cmdchangefont.cpp:19
 #, kde-format
 msgid "Change font : %1"
-msgstr "Yazıtipini değiştir: %1"
+msgstr "Yazı tipini değiştir: %1"
 
 #: cmds/widget/cmdchangelinecolor.cpp:21
 #, kde-format
@@ -1932,7 +1932,7 @@ msgstr "Renkler"
 #: dialogs/codevieweroptionsbase.ui:46
 #, kde-format
 msgid "Font:"
-msgstr "Yazıtipi:"
+msgstr "Yazı tipi:"
 
 #. i18n: ectx: property (text), widget (QLabel, paperLabel)
 #: dialogs/codevieweroptionsbase.ui:76
@@ -2172,12 +2172,12 @@ msgstr "Genel"
 #: umllistview.cpp:1449
 #, kde-format
 msgid "Font"
-msgstr "Yazıtipi"
+msgstr "Yazı tipi"
 
 #: dialogs/multipagedialogbase.cpp:338
 #, kde-format
 msgid "Font Settings"
-msgstr "Yazıtipi Ayarları"
+msgstr "Yazı Tipi Ayarları"
 
 #: dialogs/multipagedialogbase.cpp:413
 #, kde-format
@@ -4432,7 +4432,7 @@ msgstr "Kalıntı"
 #: menus/listpopupmenu.cpp:156 menus/widgetbasepopupmenu.cpp:557
 #, kde-format
 msgid "Change Font..."
-msgstr "Yazıtipini Değiştir…"
+msgstr "Yazı Tipini Değiştir…"
 
 #: menus/listpopupmenu.cpp:158
 #, kde-format
@@ -6347,7 +6347,7 @@ msgstr "Belge penceresinin gösterilmesini etkinleştirir/devre dışı bırakı
 #: umbrello.kcfg:178
 #, kde-format
 msgid "The Font to be used"
-msgstr "Kullanılacak yazıtipi"
+msgstr "Kullanılacak yazı tipi"
 
 #. i18n: ectx: label, entry (backgroundColor), group (UI Options)
 #: umbrello.kcfg:182
@@ -6556,7 +6556,7 @@ msgstr "Blokların vurgulanmasını etkinleştir/devre dışı bırak"
 #: umbrello.kcfg:308
 #, kde-format
 msgid "Font to be used in the Code Viewer"
-msgstr "Kod görüntüleyicisinde kullanılacak yazıtipi"
+msgstr "Kod görüntüleyicisinde kullanılacak yazı tipi"
 
 #. i18n: ectx: label, entry (paperColor), group (Code Viewer Options)
 #: umbrello.kcfg:312
@@ -6574,13 +6574,13 @@ msgstr "Kağıdın rengi"
 #: umbrello.kcfg:317
 #, kde-format
 msgid "Font Color"
-msgstr "Yazıtipi rengi"
+msgstr "Yazı tipi rengi"
 
 #. i18n: ectx: whatsthis, entry (fontColor), group (Code Viewer Options)
 #: umbrello.kcfg:318
 #, kde-format
 msgid "Color of the Font"
-msgstr "Yazıtipinin rengi"
+msgstr "Yazı tipinin rengi"
 
 #. i18n: ectx: label, entry (selectedColor), group (Code Viewer Options)
 #. i18n: ectx: whatsthis, entry (selectedColor), group (Code Viewer Options)
@@ -8236,7 +8236,7 @@ msgstr "Dolgu rengi yok"
 #: umlscene.cpp:1543
 #, kde-format
 msgid "Change font"
-msgstr "Yazıtipini değiştir"
+msgstr "Yazı Tipini değiştir"
 
 #: umlscene.cpp:1557
 #, kde-format
