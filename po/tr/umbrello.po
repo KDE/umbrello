@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: umbrello\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 03:00+0000\n"
-"PO-Revision-Date: 2026-11-15 20:19+0300\n"
+"PO-Revision-Date: 2026-11-16 18:49+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2490,7 +2490,7 @@ msgstr ""
 "<p>Nokta dosyası dışa aktarması, dışa aktarma yerleşimi kullanılarak "
 "gerçekleştirilir.</p><p>Bu seçenek işaretlendiğinde, dışa aktarma yerleşimi, "
 "kullanılabilir diyagram yerleşimleri listesine eklenir ve hızlı bir nokta "
-"dışa aktarma önizlemesine olanak tanır.</p>"
+"dışa aktarma ön izlemesine olanak tanır.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_showExportLayout)
 #: dialogs/pages/autolayoutoptionpage.ui:91
@@ -7308,7 +7308,7 @@ msgstr "Belgeyi yazdırır"
 #: umlapp.cpp:431
 #, kde-format
 msgid "Print Preview of the document"
-msgstr "Belgenin yazdırma önizlemesi"
+msgstr "Belgenin yazdırma ön izlemesi"
 
 #: umlapp.cpp:432
 #, kde-format
@@ -7597,7 +7597,7 @@ msgstr "“%1”: %2 bulundu"
 #: umlapp.cpp:1360
 #, kde-format
 msgid "Print Preview..."
-msgstr "Yazdırma Önizlemesi…"
+msgstr "Yazdırma Ön İzlemesi…"
 
 #: umlapp.cpp:1387
 #, kde-format
